@@ -6,18 +6,18 @@ namespace VueApp;
 
 public class ImageLicenseStoreController : BaseController
 {
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
     public ImageLicenseStoreController(SessionUser sessionUser,
-        ImageMetaDataRepo imageMetaDataRepo ) : base(sessionUser)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo ) : base(sessionUser)
     {
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
     [HttpGet]
     public JsonResult GetLicenseInfo(int id)
     {
 
-        var imageFrontendData = new ImageFrontendData(_imageMetaDataRepo.GetById(id));
+        var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo.GetById(id));
         try
         {
             var imageUrl = imageFrontendData.GetImageUrl(1000, false, false, imageFrontendData.ImageMetaData.Type);

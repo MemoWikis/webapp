@@ -20,8 +20,8 @@ public class ImageFrontendData
     public string AttributionHtmlString;
     public ImageParsingNotifications ImageParsingNotifications;
 
-    public ImageFrontendData(int typeId, ImageType imageType, ImageMetaDataRepo imageMetaDataRepo) :
-        this(PrepareConstructorArguments(typeId, imageType, imageMetaDataRepo))
+    public ImageFrontendData(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo) :
+        this(PrepareConstructorArguments(typeId, imageType, imageMetaDataReadingRepo))
     {
     }
         
@@ -253,8 +253,8 @@ public class ImageFrontendData
 
     }
 
-    private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType, ImageMetaDataRepo imageMetaDataRepo)
+    private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-        return imageMetaDataRepo.GetBy(typeId, imageType);
+        return imageMetaDataReadingRepo.GetBy(typeId, imageType);
     }
 }

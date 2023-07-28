@@ -11,13 +11,13 @@ public class TopicLearningQuestionListController: Controller
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
     public TopicLearningQuestionListController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
         LearningSessionCache learningSessionCache,
         CategoryValuationReadingRepo categoryValuationReadingRepo, 
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo) 
     {
@@ -27,7 +27,7 @@ public class TopicLearningQuestionListController: Controller
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
     [HttpPost]
     public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
@@ -42,7 +42,7 @@ public class TopicLearningQuestionListController: Controller
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationReadingRepo, _imageMetaDataRepo, _userReadingRepo, _questionValuationRepo)
+        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo)
             .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 
@@ -62,7 +62,7 @@ public class TopicLearningQuestionListController: Controller
             Id = question.Id,
             Title = question.Text,
             LinkToQuestion = Links.GetUrl(question),
-            ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(40, true).Url,
+            ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question)).GetImageUrl(40, true).Url,
             LearningSessionStepCount = steps.Count,
             LinkToQuestionVersions = Links.QuestionHistory(question.Id),
             LinkToComment = Links.GetUrl(question) + "#JumpLabel",

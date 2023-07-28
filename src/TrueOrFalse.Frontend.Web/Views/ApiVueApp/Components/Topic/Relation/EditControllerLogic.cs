@@ -10,7 +10,7 @@ namespace VueApp;
 public class EditControllerLogic :IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
     private readonly IGlobalSearch _search;
@@ -24,7 +24,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         PermissionCheck permissionCheck,
         SessionUser sessionUser,
         CategoryRepository categoryRepository, 
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo)
     {
@@ -34,7 +34,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _categoryRepository = categoryRepository;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
     }
@@ -107,7 +107,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         return new
         {
@@ -122,7 +122,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();

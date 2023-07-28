@@ -9,21 +9,21 @@ public class QuestionController : Controller
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionController(SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -36,7 +36,7 @@ public class QuestionController : Controller
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";

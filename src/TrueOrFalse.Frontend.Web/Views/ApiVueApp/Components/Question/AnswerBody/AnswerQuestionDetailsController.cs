@@ -10,21 +10,21 @@ public class AnswerQuestionDetailsController: Controller
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -68,7 +68,7 @@ public class AnswerQuestionDetailsController: Controller
                 QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
                 ImageUrl = new CategoryImageSettings(t.Id).GetUrl_128px(asSquare: true).Url,
                 IconHtml = CategoryCachedData.GetIconHtml(t),
-                MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(t.Id, ImageType.Category))
+                MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category))
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
                 Visibility = (int)t.Visibility,
                 IsSpoiler = IsSpoilerCategory.Yes(t.Name, question)

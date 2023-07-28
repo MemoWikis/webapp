@@ -14,7 +14,7 @@ public class HistoryTopicDetailController : Controller
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
@@ -25,7 +25,7 @@ public class HistoryTopicDetailController : Controller
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
@@ -36,7 +36,7 @@ public class HistoryTopicDetailController : Controller
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -67,7 +67,7 @@ public class HistoryTopicDetailController : Controller
             _categoryChangeRepo,
             _categoryValuationReadingRepo,
             _categoryRepository,
-            _imageMetaDataRepo,
+            _imageMetaDataReadingRepo,
             _userReadingRepo,
             _questionValuationRepo);
 
@@ -168,7 +168,7 @@ public class HistoryTopicDetailController : Controller
             _categoryChangeRepo,
             _categoryValuationReadingRepo,
             _categoryRepository,
-            _imageMetaDataRepo,
+            _imageMetaDataReadingRepo,
             _userReadingRepo,
             _questionValuationRepo);
     }

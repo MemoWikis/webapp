@@ -15,7 +15,7 @@ public class VueQuestionController : Controller
     private readonly RestoreQuestion _restoreQuestion;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
@@ -25,7 +25,7 @@ public class VueQuestionController : Controller
         RestoreQuestion restoreQuestion,
         LearningSessionCache learningSessionCache,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         QuestionReadingRepo questionReadingRepo) 
@@ -35,7 +35,7 @@ public class VueQuestionController : Controller
         _restoreQuestion = restoreQuestion;
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionReadingRepo = questionReadingRepo;
@@ -103,7 +103,7 @@ public class VueQuestionController : Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 
@@ -119,7 +119,7 @@ public class VueQuestionController : Controller
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question))
+        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question))
             .GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);

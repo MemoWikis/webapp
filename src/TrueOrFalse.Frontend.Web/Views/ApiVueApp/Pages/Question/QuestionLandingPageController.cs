@@ -12,20 +12,20 @@ public class QuestionLandingPageController :Controller
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo, 
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo){
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -74,7 +74,7 @@ public class QuestionLandingPageController :Controller
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
-                imgUrl = GetQuestionImageFrontendData.Run(q, _imageMetaDataRepo).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url
+                imgUrl = GetQuestionImageFrontendData.Run(q, _imageMetaDataReadingRepo).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url
             },
             solutionData = new
             {
@@ -90,7 +90,7 @@ public class QuestionLandingPageController :Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

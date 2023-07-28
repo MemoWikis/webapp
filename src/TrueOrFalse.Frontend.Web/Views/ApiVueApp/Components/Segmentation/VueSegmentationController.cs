@@ -7,20 +7,20 @@ public class VueSegmentationController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly SegmentationLogic _segmentationLogic;
 
     public VueSegmentationController(PermissionCheck permissionCheck,
         SessionUser sessionUser,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         SegmentationLogic segmentationLogic) :base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _segmentationLogic = segmentationLogic;
         _sessionUser = sessionUser;
     }

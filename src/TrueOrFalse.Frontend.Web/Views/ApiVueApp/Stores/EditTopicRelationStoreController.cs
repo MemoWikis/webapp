@@ -9,11 +9,11 @@ namespace VueApp;
 
 public class EditTopicRelationStoreController : BaseController
 {
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
-    public EditTopicRelationStoreController( SessionUser sessionUser, ImageMetaDataRepo imageMetaDataRepo) : base(sessionUser)
+    public EditTopicRelationStoreController( SessionUser sessionUser, ImageMetaDataReadingRepo imageMetaDataReadingRepo) : base(sessionUser)
     {
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -27,7 +27,7 @@ public class EditTopicRelationStoreController : BaseController
             });
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
-        var personalWikiItem = new SearchHelper(_imageMetaDataRepo).FillSearchCategoryItem(personalWiki,UserId);
+        var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(personalWiki,UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
 
         if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
@@ -35,7 +35,7 @@ public class EditTopicRelationStoreController : BaseController
             foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
-                recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataRepo).FillSearchCategoryItem(topicCacheItem, UserId));
+                recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(topicCacheItem, UserId));
             }
         }
 

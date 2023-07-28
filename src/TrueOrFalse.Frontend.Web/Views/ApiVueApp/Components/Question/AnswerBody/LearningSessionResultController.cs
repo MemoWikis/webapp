@@ -6,13 +6,13 @@ using TrueOrFalse.Web;
 public class VueLearningSessionResultController: Controller
 {
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
     public VueLearningSessionResultController(LearningSessionCache learningSessionCache,
-        ImageMetaDataRepo imageMetaDataRepo)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
         _learningSessionCache = learningSessionCache;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
 
     [HttpGet]
@@ -27,7 +27,7 @@ public class VueLearningSessionResultController: Controller
             return new {
                     correctAnswerHtml = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
                     id = question.Id,
-                    imgUrl = GetQuestionImageFrontendData.Run(question, _imageMetaDataRepo).GetImageUrl(128, true,
+                    imgUrl = GetQuestionImageFrontendData.Run(question, _imageMetaDataReadingRepo).GetImageUrl(128, true,
                         false, ImageType.Question).Url,
                     title = question.GetShortTitle(),
                     steps = g.Select(s => new {

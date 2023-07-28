@@ -15,7 +15,7 @@ public class CategoryHistoryDetailModel
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     public int CategoryId;
@@ -65,7 +65,7 @@ public class CategoryHistoryDetailModel
         CategoryChangeRepo categoryChangeRepo,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
@@ -74,7 +74,7 @@ public class CategoryHistoryDetailModel
         _categoryChangeRepo = categoryChangeRepo;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         ChangeType = currentRevision.Type;
@@ -121,7 +121,7 @@ public class CategoryHistoryDetailModel
         if (currentRevision.DataVersion == 2)
         {
             ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
-            var imageMetaData = _imageMetaDataRepo.GetBy(CategoryId, ImageType.Category);
+            var imageMetaData = _imageMetaDataReadingRepo.GetBy(CategoryId, ImageType.Category);
             ImageFrontendData = new ImageFrontendData(imageMetaData);
         }
 

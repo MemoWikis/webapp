@@ -281,6 +281,7 @@
     <Compile Include="Domain\Category\History\AllTopicsHistory.cs" />
     <Compile Include="Domain\Category\SearchTopicItem.cs" />
     <Compile Include="Domain\LimitCheck.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataWritingRepo.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionReadingRepo.cs" />
     <Compile Include="Domain\Question\Question.Persistence\QuestionWritingRepo.cs" />
     <Compile Include="Domain\User\Persistence\UserReadingRepo.cs" />
@@ -588,7 +589,7 @@
     <Compile Include="Domain\Media\Image\TmpImage\TmpImage.cs" />
     <Compile Include="Domain\Media\Image\TmpImage\TmpImageStore.cs" />
     <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataMap.cs" />
-    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataRepo.cs" />
+    <Compile Include="Domain\Media\Image\Persistence\ImageMetaDataReadingRepo.cs" />
     <Compile Include="Domain\Media\Sound\StoreSound.cs" />
     <Compile Include="Domain\Media\Image\ImageTypes\Question\QuestionImageSettings.cs" />
     <Compile Include="Domain\Media\Image\Wikimedia\WikiImageMetaLoader.cs" />

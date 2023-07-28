@@ -8,32 +8,31 @@ namespace VueApp;
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class SegmentationLogic : IRegisterAsInstancePerLifetime
 {
-    private ControllerContext _controllerContext;
+    
     private readonly PermissionCheck _permissionCheck;
     private readonly int _sessionUserId;
     private readonly SessionUser _sessionUser;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
-    public SegmentationLogic(ControllerContext controllerContext,
+    public SegmentationLogic(
         PermissionCheck permissionCheck, 
         SessionUser sessionUser,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        ImageMetaDataRepo imageMetaDataRepo, 
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
-        _controllerContext = controllerContext;
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -102,7 +101,7 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
 
         var linkToCategory = Links.CategoryDetail(categoryCacheItem);
 
-        var imageMetaData = _imageMetaDataRepo.GetBy(categoryId, ImageType.Category);
+        var imageMetaData = _imageMetaDataReadingRepo.GetBy(categoryId, ImageType.Category);
         var imageFrontendData = new ImageFrontendData(imageMetaData);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;

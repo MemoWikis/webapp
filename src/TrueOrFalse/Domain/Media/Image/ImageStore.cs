@@ -4,14 +4,14 @@ using TrueOrFalse;
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
     private readonly WikiImageMetaLoader _metaLoader;
-    private readonly ImageMetaDataRepo _imgMetaRepo;
+    private readonly ImageMetaDataWritingRepo _imgMetaDataWritingRepo;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
-        ImageMetaDataRepo imgMetaRepo)
+        ImageMetaDataWritingRepo imgMetaDataWritingRepo)
     {
         _metaLoader = metaLoader;
-        _imgMetaRepo = imgMetaRepo;
+        _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
     }
 
     public void RunWikimedia(
@@ -32,7 +32,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             SaveImageToFile.Run(stream, imageSettings);
         }
 
-        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
+        _imgMetaDataWritingRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
     }
 
     public void RunWikimedia<T>(
@@ -68,7 +68,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         }
 
 
-        _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
 
     public void RunUploaded<T>(HttpPostedFileBase imagefile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
@@ -79,6 +79,6 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         SaveImageToFile.Run(imagefile.InputStream, imageSettings);
 
-        _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
 }

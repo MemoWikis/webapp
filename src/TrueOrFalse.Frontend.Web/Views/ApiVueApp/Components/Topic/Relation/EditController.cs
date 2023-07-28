@@ -13,7 +13,7 @@ public class TopicRelationEditController : Controller
         SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         EditControllerLogic editControllerLogic) 
     {
         _sessionUser = sessionUser;

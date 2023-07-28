@@ -8,7 +8,7 @@ public class QuestionListModel
     private SessionUser _sessionUser { get; }
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     public int CategoryId;
@@ -16,14 +16,14 @@ public class QuestionListModel
     public QuestionListModel(LearningSessionCache learningSessionCache,
         SessionUser sessionUser,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
     }
@@ -52,7 +52,7 @@ public class QuestionListModel
                 Id = q.Id,
                 Title = q.Text,
                 LinkToQuestion = Links.GetUrl(q),
-                ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url,
+                ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url,
                 LearningSessionStepCount = steps.Count,
                 LinkToQuestionVersions = Links.QuestionHistory(q.Id),
                 LinkToComment = Links.GetUrl(q) + "#JumpLabel",

@@ -41,8 +41,8 @@ public class ImageMaintenanceInfo
     public ImageMaintenanceInfo(int typeId,
         ImageType imageType,
         QuestionReadingRepo questionReadingRepo,
-        ImageMetaDataRepo imageMetaDataRepo, CategoryRepository categoryRepository)
-        : this(imageMetaDataRepo.GetBy(typeId, imageType), questionReadingRepo, categoryRepository)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo, CategoryRepository categoryRepository)
+        : this(imageMetaDataReadingRepo.GetBy(typeId, imageType), questionReadingRepo, categoryRepository)
     {
     }
 

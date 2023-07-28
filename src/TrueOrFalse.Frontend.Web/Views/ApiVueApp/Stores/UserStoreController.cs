@@ -16,13 +16,14 @@ public class UserStoreController : Controller
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly PasswordRecovery _passwordRecovery;
     private readonly SegmentationLogic _segmentationLogic;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly TopicControllerLogic _topicControllerLogic;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -35,13 +36,14 @@ public class UserStoreController : Controller
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
         GetUnreadMessageCount getUnreadMessageCount,
         PasswordRecovery passwordRecovery,
         SegmentationLogic segmentationLogic,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo,
+        TopicControllerLogic topicControllerLogic)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -53,13 +55,14 @@ public class UserStoreController : Controller
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _persistentLoginRepo = persistentLoginRepo;
         _userReadingRepo = userReadingRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
         _passwordRecovery = passwordRecovery;
         _segmentationLogic = segmentationLogic;
         _userWritingRepo = userWritingRepo;
+        _topicControllerLogic = topicControllerLogic;
     }
 
     [HttpPost]
@@ -195,7 +198,7 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, _knowledgeSummaryLoader, _categoryValuationReadingRepo, _categoryViewRepo, _imageMetaDataRepo, _segmentationLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = _topicControllerLogic.GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

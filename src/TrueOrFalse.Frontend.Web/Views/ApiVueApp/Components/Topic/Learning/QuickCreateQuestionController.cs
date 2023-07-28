@@ -15,7 +15,7 @@ public class QuickCreateQuestionController : Controller
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
@@ -26,7 +26,7 @@ public class QuickCreateQuestionController : Controller
         LearningSessionCache learningSessionCache,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo, 
         QuestionValuationRepo questionValuationRepo,
         QuestionWritingRepo questionWritingRepo)
@@ -37,7 +37,7 @@ public class QuickCreateQuestionController : Controller
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
@@ -98,7 +98,7 @@ public class QuickCreateQuestionController : Controller
         var questionController = new QuestionController(_sessionUser,
             _learningSessionCache, 
             _categoryValuationReadingRepo,
-            _imageMetaDataRepo, 
+            _imageMetaDataReadingRepo, 
             _userReadingRepo, 
             _questionValuationRepo); 
 

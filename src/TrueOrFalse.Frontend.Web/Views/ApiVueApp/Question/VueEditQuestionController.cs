@@ -20,7 +20,7 @@ public class VueEditQuestionController : Controller
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly ImageStore _imageStore;
     private readonly SessionUiData _sessionUiData;
     private readonly UserReadingRepo _userReadingRepo;
@@ -36,7 +36,7 @@ public class VueEditQuestionController : Controller
         QuestionInKnowledge questionInKnowledge,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         ImageStore imageStore,
         SessionUiData sessionUiData,
         UserReadingRepo userReadingRepo,
@@ -52,7 +52,7 @@ public class VueEditQuestionController : Controller
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _imageStore = imageStore;
         _sessionUiData = sessionUiData;
         _userReadingRepo = userReadingRepo;
@@ -250,7 +250,7 @@ public class VueEditQuestionController : Controller
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
+        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
         question.LinkToQuestion = Links.GetUrl(q);
         question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
         question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";

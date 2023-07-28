@@ -12,16 +12,16 @@ public class SearchController : BaseController
 
     private readonly IGlobalSearch _search;
     private readonly PermissionCheck _permissionCheck;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
     public SearchController(IGlobalSearch search,
         SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        ImageMetaDataRepo imageMetaDataRepo) :base(sessionUser)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo) :base(sessionUser)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
         _permissionCheck = permissionCheck;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
 
     [HttpGet]
@@ -33,7 +33,7 @@ public class SearchController : BaseController
         var elements = await _search.Go(term, type);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataRepo).AddTopicItems(topicItems, elements, _permissionCheck, UserId);
+            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(topicItems, elements, _permissionCheck, UserId);
 
         if (elements.Questions.Any())
             SearchHelper.AddQuestionItems(questionItems, elements,_permissionCheck);
@@ -60,7 +60,7 @@ public class SearchController : BaseController
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataRepo).AddTopicItems(items, elements,_permissionCheck, UserId);
+            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(items, elements,_permissionCheck, UserId);
 
         return Json(new
         {
@@ -86,7 +86,7 @@ public class SearchController : BaseController
             foreach (var categoryId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
-                recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(_imageMetaDataRepo).FillSearchCategoryItem(c, UserId));
+                recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(c, UserId));
             }
         }
 
@@ -95,7 +95,7 @@ public class SearchController : BaseController
         return Json(new
         {
             success = true,
-            personalWiki = new SearchHelper(_imageMetaDataRepo).FillSearchCategoryItem(personalWiki, UserId),
+            personalWiki = new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(personalWiki, UserId),
             addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
         });
     }

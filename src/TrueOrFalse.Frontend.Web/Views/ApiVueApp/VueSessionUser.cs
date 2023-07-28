@@ -9,7 +9,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
 
@@ -18,7 +18,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
-        ImageMetaDataRepo imageMetaDataRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         TopicControllerLogic topicControllerLogic,
         GetUnreadMessageCount getUnreadMessageCount)
     {
@@ -27,7 +27,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _topicControllerLogic = topicControllerLogic;
         _getUnreadMessageCount = getUnreadMessageCount;
     }

@@ -6,11 +6,11 @@ using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchHelper
 {
-    private readonly ImageMetaDataRepo _imageMetaDataRepo;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
-    public SearchHelper(ImageMetaDataRepo imageMetaDataRepo)
+    public SearchHelper(ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-        _imageMetaDataRepo = imageMetaDataRepo;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
     public void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck, int userId)
     {
@@ -27,7 +27,7 @@ public class SearchHelper
             Url = Links.CategoryDetail(topic.Name, topic.Id),
             QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(topic.Id, ImageType.Category))
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };
@@ -42,7 +42,7 @@ public class SearchHelper
             QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(c.Id).GetUrl_128px(asSquare: true).Url,
             IconHtml = GetIconHtml(c),
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataRepo.GetBy(c.Id, ImageType.Category))
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(c.Id, ImageType.Category))
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)c.Visibility
         };
