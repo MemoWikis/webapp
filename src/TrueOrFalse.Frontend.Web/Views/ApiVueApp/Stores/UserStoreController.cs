@@ -9,19 +9,13 @@ public class UserStoreController : Controller
     private readonly VueSessionUser _vueSessionUser;
     private readonly SessionUser _sessionUser;
     private readonly CredentialsAreValid _credentialsAreValid;
-    private readonly PermissionCheck _permissionCheck;
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly RegisterUser _registerUser;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly PasswordRecovery _passwordRecovery;
-    private readonly SegmentationLogic _segmentationLogic;
     private readonly UserWritingRepo _userWritingRepo;
     private readonly TopicControllerLogic _topicControllerLogic;
 
@@ -29,38 +23,26 @@ public class UserStoreController : Controller
         VueSessionUser vueSessionUser,
         SessionUser sessionUser,
         CredentialsAreValid credentialsAreValid,
-        PermissionCheck permissionCheck,
         ActivityPointsRepo activityPointsRepo,
         RegisterUser registerUser,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
-        CategoryViewRepo categoryViewRepo,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
         GetUnreadMessageCount getUnreadMessageCount,
         PasswordRecovery passwordRecovery,
-        SegmentationLogic segmentationLogic,
         UserWritingRepo userWritingRepo,
         TopicControllerLogic topicControllerLogic)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
         _credentialsAreValid = credentialsAreValid;
-        _permissionCheck = permissionCheck;
         _activityPointsRepo = activityPointsRepo;
         _registerUser = registerUser;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
-        _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _persistentLoginRepo = persistentLoginRepo;
         _userReadingRepo = userReadingRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
         _passwordRecovery = passwordRecovery;
-        _segmentationLogic = segmentationLogic;
         _userWritingRepo = userWritingRepo;
         _topicControllerLogic = topicControllerLogic;
     }
