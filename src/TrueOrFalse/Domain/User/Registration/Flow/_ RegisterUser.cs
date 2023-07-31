@@ -9,25 +9,29 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     private readonly UserReadingRepo _userReadingRepo;
     private readonly MessageRepo _messageRepo;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly SessionUser _sessionUser;
+    private readonly CategoryRepository _categoryRepository;
 
     public RegisterUser(ISession session,
         JobQueueRepo jobQueueRepo,
         UserReadingRepo userReadingRepo, 
         MessageRepo messageRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo,
+        SessionUser sessionUser,
+        CategoryRepository categoryRepository)
     {
         _session = session;
         _jobQueueRepo = jobQueueRepo;
         _userReadingRepo = userReadingRepo;
         _messageRepo = messageRepo;
         _userWritingRepo = userWritingRepo;
+        _sessionUser = sessionUser;
+        _categoryRepository = categoryRepository;
     }
 
-    public void Run(User user)
+    public void RegisterAndLogin(User user)
     {
         InitializeReputation(user);
-
-     
 
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
@@ -44,6 +48,14 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
         SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
         WelcomeMsg.Send(user, _messageRepo);
+        _sessionUser.Login(user);
+
+        var category = PersonalTopic.GetPersonalCategory(user);
+        category.Visibility = CategoryVisibility.Owner;
+        _categoryRepository.Create(category);
+        user.StartTopicId = category.Id;
+
+        _userWritingRepo.Update(user);
     }
 
     public UserCreateResult Run(FacebookUserCreateParameter facebookUser)

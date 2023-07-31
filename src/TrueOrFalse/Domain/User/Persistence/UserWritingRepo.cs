@@ -16,6 +16,8 @@ public class UserWritingRepo
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly ReputationCalc _reputationCalc;
+    private readonly GetWishQuestionCount _getWishQuestionCount;
     private readonly RepositoryDb<User> _repo;
 
 
@@ -26,7 +28,9 @@ public class UserWritingRepo
         ReputationUpdate reputationUpdate,
         UserActivityRepo userActivityRepo,
         QuestionValuationRepo questionValuationRepo,
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        ReputationCalc reputationCalc,
+        GetWishQuestionCount getWishQuestionCount)
     {
         _repo = new RepositoryDb<User>(session);
         _sessionUser = sessionUser;
@@ -36,6 +40,8 @@ public class UserWritingRepo
         _userActivityRepo = userActivityRepo;
         _questionValuationRepo = questionValuationRepo;
         _userReadingRepo = userReadingRepo;
+        _reputationCalc = reputationCalc;
+        _getWishQuestionCount = getWishQuestionCount;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -191,5 +197,48 @@ public class UserWritingRepo
         user.ActivityPoints = totalPointCount;
         user.ActivityLevel = userLevel;
         Update(user);
+    }
+
+    public void ReputationUpdate(User userToUpdate)
+    {
+        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id);
+
+        var oldReputation = userToUpdate.Reputation;
+        var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;
+
+        var users = _userReadingRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
+        foreach (User user in users)
+        {
+            userToUpdate.ReputationPos = user.ReputationPos;
+            if (newReputation < oldReputation)
+                user.ReputationPos--;
+            else
+                user.ReputationPos++;
+
+            Update(user);
+        }
+
+        Update(userToUpdate);
+    }
+
+    public void ReputationUpdateForAll()
+    {
+        var allUsers = UserCacheItem.ToCacheUsers(_userReadingRepo.GetAll());
+
+        var results = allUsers
+            .Select(user => _reputationCalc.Run(user))
+            .OrderByDescending(r => r.TotalReputation);
+
+        var i = 0;
+        foreach (var result in results)
+        {
+            i++;
+            result.User.User.ReputationPos = i;
+            result.User.User.Reputation = result.TotalReputation;
+            result.User.User.WishCountQuestions = _getWishQuestionCount.Run(result.User.Id);
+            //result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
+
+            Update(result.User.User);
+        }
     }
 }

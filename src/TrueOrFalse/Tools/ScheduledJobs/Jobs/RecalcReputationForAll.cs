@@ -12,7 +12,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 scope.Resolve<JobQueueRepo>().DeleteAllJobs(JobQueueType.UpdateReputationForUser);
-                scope.Resolve<ReputationUpdate>().RunForAll();
+                scope.Resolve<UserWritingRepo>().ReputationUpdateForAll();
             }, "RecalcReputationForAll");
         }
 

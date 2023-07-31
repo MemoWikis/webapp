@@ -1,6 +1,7 @@
 ﻿using System.Web.Mvc;
 using Quartz;
 using Quartz.Impl;
+using TrueOrFalse.Domain.User;
 
 namespace VueApp;
 
@@ -8,63 +9,43 @@ public class UserStoreController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
     private readonly SessionUser _sessionUser;
-    private readonly CredentialsAreValid _credentialsAreValid;
-    private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly RegisterUser _registerUser;
-    private readonly CategoryRepository _categoryRepository;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly PasswordRecovery _passwordRecovery;
-    private readonly UserWritingRepo _userWritingRepo;
     private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly Login _login;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
         SessionUser sessionUser,
-        CredentialsAreValid credentialsAreValid,
-        ActivityPointsRepo activityPointsRepo,
         RegisterUser registerUser,
-        CategoryRepository categoryRepository,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
         GetUnreadMessageCount getUnreadMessageCount,
         PasswordRecovery passwordRecovery,
-        UserWritingRepo userWritingRepo,
-        TopicControllerLogic topicControllerLogic)
+        TopicControllerLogic topicControllerLogic,
+        Login login)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
-        _credentialsAreValid = credentialsAreValid;
-        _activityPointsRepo = activityPointsRepo;
         _registerUser = registerUser;
-        _categoryRepository = categoryRepository;
         _persistentLoginRepo = persistentLoginRepo;
         _userReadingRepo = userReadingRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
         _passwordRecovery = passwordRecovery;
-        _userWritingRepo = userWritingRepo;
         _topicControllerLogic = topicControllerLogic;
+        _login = login;
     }
 
     [HttpPost]
     public JsonResult Login(LoginJson loginJson)
     {
-        var credentialsAreValid = _credentialsAreValid;
+        var isLoginErfolgreich = _login.UserLogin(loginJson);
 
-        if (credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))
+        if (isLoginErfolgreich)
         {
-
-            if (loginJson.PersistentLogin)
-            {
-                WritePersistentLoginToCookie.Run(credentialsAreValid.User.Id, _persistentLoginRepo);
-            }
-
-            _sessionUser.Login(credentialsAreValid.User);
-
-            TransferActivityPoints.FromSessionToUser(_sessionUser,_activityPointsRepo);
-            _userWritingRepo.UpdateActivityPointsData();
-
             return Json(new
             {
                 Success = true,
@@ -72,7 +53,6 @@ public class UserStoreController : Controller
                 CurrentUser = _vueSessionUser.GetCurrentUserData()
             });
         }
-
         return Json(new
         {
             Success = false,
@@ -87,7 +67,7 @@ public class UserStoreController : Controller
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo);
         _sessionUser.Logout();
 
-        if (!_sessionUser.IsLoggedIn) 
+        if (!_sessionUser.IsLoggedIn)
             return Json(new RequestResult
             {
                 success = true,
@@ -113,7 +93,7 @@ public class UserStoreController : Controller
         var result = _passwordRecovery.RunForNuxt(email);
         //Don't reveal if email exists 
         return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
-    } 
+    }
 
     [HttpPost]
     public JsonResult Register(RegisterJson json)
@@ -128,7 +108,7 @@ public class UserStoreController : Controller
                 }
             });
 
-        if (!global::IsUserNameAvailable.Yes(json.Name, _userReadingRepo))
+        if (!IsUserNameAvailable.Yes(json.Name, _userReadingRepo))
             return Json(new
             {
                 Data = new
@@ -140,18 +120,7 @@ public class UserStoreController : Controller
 
         var user = SetUser(json);
 
-        _registerUser.Run(user);
-        ISchedulerFactory schedFact = new StdSchedulerFactory();
-        var x = schedFact.AllSchedulers;
-
-        _sessionUser.Login(user);
-
-        var category = PersonalTopic.GetPersonalCategory(user);
-        category.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Create(category);
-        user.StartTopicId = category.Id;
-
-        _userWritingRepo.Update(user);
+        _registerUser.RegisterAndLogin(user);
 
         var type = UserType.Anonymous;
         if (_sessionUser.IsLoggedIn)
@@ -210,17 +179,3 @@ public class RegisterJson
     public string Password { get; set; }
 }
 
-
-public class StateModel
-{
-    public bool IsLoggedIn { get; set; }
-    public int? UserId { get; set; } = null;
-
-}
-
-public class LoginJson
-{
-    public string EmailAddress { get; set; }
-    public string Password { get; set; }
-    public bool PersistentLogin { get; set; }
-}

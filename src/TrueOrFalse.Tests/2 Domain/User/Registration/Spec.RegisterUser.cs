@@ -31,7 +31,7 @@ public class User_creation_spec : BaseTest
         user.EmailAddress = _emailAddress;
         SetUserPassword.Run(_password, user);
 
-        Resolve<RegisterUser>().Run(user);
+        Resolve<RegisterUser>().RegisterAndLogin(user);
     });
 
     private readonly Action an_email_should_be_send = () => Assert.That(OneEmailWasSend.IsTrue(), Is.True);

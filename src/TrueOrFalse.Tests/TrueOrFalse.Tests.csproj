@@ -320,7 +320,6 @@
     <Compile Include="2 Domain\Question\History\History_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\Setup\ContextQuestion.cs" />
     <Compile Include="2 Domain\Category\Setup\ContextCategory.cs" />
-    <Compile Include="2 Domain\Import\Import_version_0_1_tests.cs" />
     <Compile Include="2 Domain\Category\Category_persistence_tests.cs" />
     <Compile Include="2 Domain\Question\Spec_changing_question_categories.cs" />
     <Compile Include="2 Domain\User\Setup\ContextRegisteredUser.cs" />

@@ -19,7 +19,6 @@ public class VueMaintenanceController : Controller
     private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
     private readonly UpdateQuestionAnswerCounts _updateQuestionAnswerCounts;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly ReputationUpdate _reputationUpdate;
     private readonly UpdateWishcount _updateWishcount;
     private readonly MeiliSearchReIndexCategories _meiliSearchReIndexCategories;
     private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
@@ -33,7 +32,6 @@ public class VueMaintenanceController : Controller
         ProbabilityUpdate_Question probabilityUpdateQuestion,
         MeiliSearchReIndexAllQuestions meiliSearchReIndexAllQuestions,
         UpdateQuestionAnswerCounts updateQuestionAnswerCounts,
-        ReputationUpdate reputationUpdate,
         UpdateWishcount updateWishcount,
         MeiliSearchReIndexCategories meiliSearchReIndexCategories,
         MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
@@ -46,7 +44,6 @@ public class VueMaintenanceController : Controller
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
         _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
         _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
-        _reputationUpdate = reputationUpdate;
         _updateWishcount = updateWishcount;
         _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
         _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
@@ -122,7 +119,7 @@ public class VueMaintenanceController : Controller
     [HttpPost]
     public JsonResult UpdateUserReputationAndRankings()
     {
-        _reputationUpdate.RunForAll();
+        _userWritingRepo.ReputationUpdateForAll();
 
         return Json(new
         {
