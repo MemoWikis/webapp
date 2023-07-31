@@ -15,19 +15,23 @@ public class QuestionLandingPageController :Controller
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
 
     public QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo){
+        QuestionValuationRepo questionValuationRepo,
+        TotalsPersUserLoader totalsPersUserLoader)
+    {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _totalsPersUserLoader = totalsPersUserLoader;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -90,7 +94,7 @@ public class QuestionLandingPageController :Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo, _totalsPersUserLoader).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

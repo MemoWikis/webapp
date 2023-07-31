@@ -13,13 +13,15 @@ public class AnswerQuestionDetailsController: Controller
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        TotalsPersUserLoader totalsPersUserLoader)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -27,6 +29,7 @@ public class AnswerQuestionDetailsController: Controller
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _totalsPersUserLoader = totalsPersUserLoader;
     }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
@@ -39,7 +42,11 @@ public class AnswerQuestionDetailsController: Controller
             return Json(null);
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        var answerQuestionModel = new AnswerQuestionModel(question, true);
+        var answerQuestionModel = new AnswerQuestionModel(question, 
+            _sessionUser.UserId,
+            _totalsPersUserLoader,
+            _questionValuationRepo);
+
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 

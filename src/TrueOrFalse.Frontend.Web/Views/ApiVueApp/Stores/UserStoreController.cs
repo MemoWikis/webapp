@@ -98,38 +98,17 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult Register(RegisterJson json)
     {
-        if (!IsEmailAddressAvailable.Yes(json.Email, _userReadingRepo))
-            return Json(new
-            {
-                Data = new
-                {
-                    Success = false,
-                    Message = "emailInUse",
-                }
-            });
-
-        if (!IsUserNameAvailable.Yes(json.Name, _userReadingRepo))
-            return Json(new
-            {
-                Data = new
-                {
-                    Success = false,
-                    Message = "userNameInUse",
-                }
-            });
-
-        var user = SetUser(json);
-
-        _registerUser.RegisterAndLogin(user);
-
-        var type = UserType.Anonymous;
-        if (_sessionUser.IsLoggedIn)
-        {
-            if (_sessionUser.User.IsGoogleUser)
-                type = UserType.Google;
-            else if (_sessionUser.User.IsFacebookUser)
-                type = UserType.Facebook;
-            else type = UserType.Normal;
+        var result =  _registerUser.SetUser(json);
+       if (result.success == false)
+       {
+           return Json(new
+           {
+               Data = new
+               {
+                   Success = false,
+                   Message = result.message,
+               }
+           });
         }
 
         return Json(new
@@ -143,7 +122,7 @@ public class UserStoreController : Controller
                 Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
-                Type = type,
+                Type = UserType.Normal,
                 ImgUrl = _sessionUser.IsLoggedIn
                     ? new UserImageSettings(_sessionUser.UserId).GetUrl_20px(_sessionUser.User).Url
                     : "",
@@ -154,28 +133,13 @@ public class UserStoreController : Controller
         });
     }
 
-    private static User SetUser(RegisterJson json)
-    {
-        var user = new User();
-        user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
-        user.Name = json.Name.TrimAndReplaceWhitespacesWithSingleSpace();
-        SetUserPassword.Run(json.Password.Trim(), user);
-        return user;
-    }
+  
 
     private enum UserType
     {
-        Normal,
-        Google,
-        Facebook,
-        Anonymous
+        Normal
     }
 }
 
-public class RegisterJson
-{
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
-}
+
 

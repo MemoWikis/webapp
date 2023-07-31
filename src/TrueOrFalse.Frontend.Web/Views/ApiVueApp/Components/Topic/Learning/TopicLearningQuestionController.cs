@@ -9,17 +9,20 @@ public class TopicLearningQuestionController: BaseController
     private readonly CommentRepository _commentRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
 
     public TopicLearningQuestionController(SessionUser sessionUser,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CommentRepository commentRepository, 
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo) : base(sessionUser)
+        QuestionValuationRepo questionValuationRepo,
+        TotalsPersUserLoader totalsPersUserLoader) : base(sessionUser)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _commentRepository = commentRepository;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _totalsPersUserLoader = totalsPersUserLoader;
     }
     [HttpPost]
     public JsonResult LoadQuestionData(int questionId)
@@ -28,7 +31,10 @@ public class TopicLearningQuestionController: BaseController
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
-        var answerQuestionModel = new AnswerQuestionModel(question, true);
+        var answerQuestionModel = new AnswerQuestionModel(question,
+            _sessionUser.UserId,
+            _totalsPersUserLoader,
+            _questionValuationRepo);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var json = Json(new RequestResult

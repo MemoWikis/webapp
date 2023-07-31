@@ -80,19 +80,10 @@ public class FacebookUsersController : Controller
             });
         }
 
-        var registerResult = _registerUser.Run(facebookUser);
+        var isSuccess = _registerUser.SetFacebookUser(facebookUser);
 
-        if (registerResult.Success)
+        if (isSuccess)
         {
-            var user = _userReadingRepo.UserGetByFacebookId(facebookUser.id);
-            SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
-            WelcomeMsg.Send(user, _messageRepo);
-            _sessionUser.Login(user);
-            var category = PersonalTopic.GetPersonalCategory(user);
-            _categoryRepository.Create(category);
-            user.StartTopicId = category.Id;
-            _sessionUser.User.StartTopicId = category.Id;
-
             return Json(new RequestResult
             {
                 success = true,

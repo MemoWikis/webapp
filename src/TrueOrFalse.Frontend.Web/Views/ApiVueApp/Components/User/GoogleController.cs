@@ -76,32 +76,21 @@ public class GoogleController : Controller
     [HttpPost]
     public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var registerResult = _registerUser.Run(googleUser);
+        var isSucces = _registerUser.SetGoogleUser(googleUser);
 
-        if (registerResult.Success)
-        {
-            var user = _userReadingRepo.UserGetByGoogleId(googleUser.GoogleId);
-            SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
-            WelcomeMsg.Send(user, _messageRepo);
-            _sessionUser.Login(user);
-            var category = PersonalTopic.GetPersonalCategory(user);
-            _categoryRepository.Create(category);
-            user.StartTopicId = category.Id;
-            _sessionUser.User.StartTopicId = category.Id;
-        }
-        else
+        if (isSucces)
         {
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                success = true,
+                data = _vueSessionUser.GetCurrentUserData()
             });
         }
 
         return Json(new RequestResult
         {
-            success = true,
-            data = _vueSessionUser.GetCurrentUserData()
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.EmailInUse
         });
     }
 

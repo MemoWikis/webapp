@@ -19,6 +19,7 @@ public class VueQuestionController : Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
 
     public VueQuestionController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -28,7 +29,8 @@ public class VueQuestionController : Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
-        QuestionReadingRepo questionReadingRepo) 
+        QuestionReadingRepo questionReadingRepo,
+        TotalsPersUserLoader totalsPersUserLoader) 
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -39,6 +41,7 @@ public class VueQuestionController : Controller
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionReadingRepo = questionReadingRepo;
+        _totalsPersUserLoader = totalsPersUserLoader;
     }
 
     [HttpGet]
@@ -103,7 +106,7 @@ public class VueQuestionController : Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo, _totalsPersUserLoader).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 

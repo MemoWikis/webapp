@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Web.Helpers;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -29,17 +30,18 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         _categoryRepository = categoryRepository;
     }
 
-    public void RegisterAndLogin(User user)
+    private (bool success, string message) RegisterAndLogin(User user)
     {
         InitializeReputation(user);
-
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
-                throw new Exception("There is already a user with that email address.");
+                return (false, "emailInUse");
 
-            if (!IsUserNameAvailable.Yes(user.Name, _userReadingRepo))
-                throw new Exception("There is already a user with that name.");
+            if (!user.IsFacebookUser &&
+                !user.IsGoogleUser &&
+                !IsUserNameAvailable.Yes(user.Name, _userReadingRepo))
+                return (false, "userNameInUse");
 
             _userWritingRepo.Create(user);
                 
@@ -56,9 +58,10 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         user.StartTopicId = category.Id;
 
         _userWritingRepo.Update(user);
+        return (true, ""); 
     }
 
-    public UserCreateResult Run(FacebookUserCreateParameter facebookUser)
+    public bool SetFacebookUser(FacebookUserCreateParameter facebookUser)
     {
         var user = new User
         {
@@ -67,10 +70,10 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             FacebookId = facebookUser.id
         };
 
-        return Register(user);
+        return RegisterAndLogin(user).success;
     }
 
-    public UserCreateResult Run(GoogleUserCreateParameter googleUser)
+    public bool SetGoogleUser(GoogleUserCreateParameter googleUser)
     {
         var user = new User
         {
@@ -79,7 +82,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             GoogleId = googleUser.GoogleId
         };
 
-        return Register(user);
+        return RegisterAndLogin(user).success;
     }
 
     private UserCreateResult Register(User user)
@@ -106,10 +109,26 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
     }
+    public (bool success, string message) SetUser(RegisterJson json)
+    {
+        var user = new User();
+        user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
+        user.Name = json.Name.TrimAndReplaceWhitespacesWithSingleSpace();
+        SetUserPassword.Run(json.Password.Trim(), user);
+
+        return RegisterAndLogin(user);
+    }
 }
 
 public class UserCreateResult
 {
     public bool Success = false;
     public bool EmailAlreadyInUse;
+}
+
+public class RegisterJson
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+    public string Password { get; set; }
 }
