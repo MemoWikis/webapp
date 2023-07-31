@@ -44,35 +44,33 @@ const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
-function startUpdateBreadcrumb() {
-	updateBreadcrumb()
-}
-
 function handleResize() {
 	windowInnerWidth.value = window.innerWidth
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 }
 
 function handleScroll() {
 	if (userStore.isLoggedIn || window?.pageYOffset > 105)
 		return
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
 const isUpdating = ref(false)
 async function updateBreadcrumb() {
 	isUpdating.value = true
+
 	await nextTick()
-	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null) {
+	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
 
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight + 200
+		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - (document.getElementById('BreadCrumb')!.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
+
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 
 		if (document.getElementById('BreadCrumb')!.clientHeight > 30) {
 			shiftToStackedBreadcrumbItems()
-		} else if (document.getElementById('BreadCrumb')!.clientHeight == 30) {
+		} else if (document.getElementById('BreadCrumb')!.clientHeight <= 30) {
 			insertToBreadcrumbItems()
 			await nextTick()
 			if (breadcrumbEl.value && document.getElementById('BreadCrumb')!.clientHeight > 30) {
@@ -82,7 +80,6 @@ async function updateBreadcrumb() {
 	}
 	await nextTick()
 	isUpdating.value = false
-
 }
 
 const rootWikiIsStacked = ref(false)
@@ -116,7 +113,7 @@ onBeforeMount(async () => {
 		window.addEventListener('scroll', handleScroll)
 	}
 	await nextTick()
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 	getBreadcrumb()
 })
 
@@ -141,7 +138,6 @@ async function getBreadcrumb() {
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
 
-	await nextTick()
 	await nextTick()
 
 	var sessionStorage = window.sessionStorage
@@ -218,15 +214,17 @@ function setPageTitle() {
 
 watch(() => props.showSearch, (val) => {
 	if (!val)
-		startUpdateBreadcrumb()
+		updateBreadcrumb()
 })
 
 const { isMobile } = useDevice()
 const windowInnerWidth = ref(0)
 onMounted(async () => {
+	await nextTick()
+
 	windowInnerWidth.value = window.innerWidth
 	await nextTick()
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 })
 
 const shrinkBreadcrumb = ref(false)
@@ -237,11 +235,16 @@ watch(() => props.showSearch, (val) => {
 		shrinkBreadcrumb.value = true
 	} else
 		shrinkBreadcrumb.value = false
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 })
 
 watch(() => userStore.isLoggedIn, async () => {
+
+	windowInnerWidth.value = window.innerWidth
 	await nextTick()
+	updateBreadcrumb()
+	await nextTick()
+
 	getBreadcrumb()
 })
 
