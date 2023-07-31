@@ -8,7 +8,6 @@ import {
 } from "../../relation/editTopicRelationStore";
 import { CategoryCardData } from "./CategoryCardData";
 import { usePublishTopicStore } from "../../publish/publishTopicStore";
-import { handleNewLine } from "~/components/shared/utils";
 
 export default defineNuxtComponent({
 	props: ['title', 'categoryId', 'childCategoryIds', 'editMode', 'isHistoric', 'parentId', 'childTopics', 'segmentData'],
@@ -71,6 +70,17 @@ export default defineNuxtComponent({
 		selectedCategoryIds(val) {
 			this.disabled = val.length <= 0;
 		},
+		segmentData(val) {
+			this.setSegmentData(val);
+		},
+		childCategoryIds(val) {
+			if (val != null) {
+				this.categories = []
+				this.currentChildCategoryIds = []
+				this.childTopics?.forEach((c: any) => this.categories.push(c));
+				this.currentChildCategoryIds = this.childCategoryIds;
+			}
+		}
 	},
 	methods: {
 		addCategoryCardEvent(e: any) {

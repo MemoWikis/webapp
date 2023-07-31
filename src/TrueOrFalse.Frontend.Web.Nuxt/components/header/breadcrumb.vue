@@ -59,8 +59,9 @@ function handleScroll() {
 	startUpdateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
-
+const isUpdating = ref(false)
 async function updateBreadcrumb() {
+	isUpdating.value = true
 	await nextTick()
 	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null) {
 
@@ -79,6 +80,9 @@ async function updateBreadcrumb() {
 			}
 		}
 	}
+	await nextTick()
+	isUpdating.value = false
+
 }
 
 const rootWikiIsStacked = ref(false)
@@ -107,7 +111,6 @@ function insertToBreadcrumbItems() {
 const pageTitle = ref('')
 
 onBeforeMount(async () => {
-
 	if (typeof window !== 'undefined') {
 		window.addEventListener('resize', handleResize)
 		window.addEventListener('scroll', handleScroll)
@@ -115,14 +118,6 @@ onBeforeMount(async () => {
 	await nextTick()
 	startUpdateBreadcrumb()
 	getBreadcrumb()
-
-})
-
-onBeforeUnmount(() => {
-	if (typeof window !== 'undefined') {
-		window.removeEventListener('resize', handleResize)
-		window.removeEventListener('scroll', handleScroll)
-	}
 })
 
 const route = useRoute()
@@ -145,6 +140,9 @@ const rootTopicChipStore = useRootTopicChipStore()
 async function getBreadcrumb() {
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
+
+	await nextTick()
+	await nextTick()
 
 	var sessionStorage = window.sessionStorage
 
@@ -242,7 +240,8 @@ watch(() => props.showSearch, (val) => {
 	startUpdateBreadcrumb()
 })
 
-watch(() => userStore.isLoggedIn, () => {
+watch(() => userStore.isLoggedIn, async () => {
+	await nextTick()
 	getBreadcrumb()
 })
 
@@ -251,7 +250,8 @@ const { $urlHelper } = useNuxtApp()
 
 <template>
 	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
-		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768 }" v-show="!shrinkBreadcrumb">
+		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': isUpdating }"
+		v-show="!shrinkBreadcrumb">
 
 		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.Name, breadcrumb.personalWiki.Id)"
 			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki"
@@ -436,6 +436,17 @@ const { $urlHelper } = useNuxtApp()
 		max-width: 1px;
 		border-radius: 4px;
 		min-width: 1px;
+	}
+}
+</style>
+
+<style lang="less">
+.pseudo-white {
+
+	.breadcrumb-item,
+	.fa-chevron-right {
+		color: white !important;
+
 	}
 }
 </style>

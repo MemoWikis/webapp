@@ -57,14 +57,8 @@ export default defineNuxtComponent({
 		const topicStore = useTopicStore();
 		this.categoryId = topicStore.id;
 
-		if (this.segmentation?.childCategoryIds != null && this.segmentation?.childCategoryIds.length > 0 && this.segmentation?.childTopics != null) {
-			this.segmentation?.childTopics.forEach((c: any) => this.categories.push(c));
-			this.currentChildCategoryIds = JSON.parse(this.segmentation?.childCategoryIds);
-		}
-		if (this.segmentation?.segments != null && this.segmentation?.segments.length > 0) {
-			this.segments = this.segmentation.segments;
-			this.hasCustomSegment = true;
-		}
+		this.initSegmentationContent();
+
 		const editTopicRelationStore = useEditTopicRelationStore()
 		const self = this;
 		editTopicRelationStore.$onAction(({
@@ -87,13 +81,31 @@ export default defineNuxtComponent({
 		hover(val) {
 			this.showHover = !!val;
 		},
-		'userStore.isLoggedIn': function () {
+		segmentation() {
 			this.segments = []
 			this.categories = []
-			this.initSegments()
+			console.log('ehh')
+			this.initSegmentationContent()
 		}
+		// 'userStore.isLoggedIn': async function () {
+		// 	this.segments = []
+		// 	this.categories = []
+		// 	await nextTick()
+
+		// 	this.initSegments()
+		// }
 	},
 	methods: {
+		initSegmentationContent() {
+			if (this.segmentation?.childCategoryIds != null && this.segmentation?.childCategoryIds.length > 0 && this.segmentation?.childTopics != null) {
+				this.segmentation?.childTopics.forEach((c: any) => this.categories.push(c));
+				this.currentChildCategoryIds = JSON.parse(this.segmentation?.childCategoryIds);
+			}
+			if (this.segmentation?.segments != null && this.segmentation?.segments.length > 0) {
+				this.segments = this.segmentation.segments;
+				this.hasCustomSegment = true;
+			}
+		},
 		async initSegments() {
 			var data = {
 				id: this.topicStore.id,

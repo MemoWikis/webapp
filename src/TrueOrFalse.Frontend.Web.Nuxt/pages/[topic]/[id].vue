@@ -114,8 +114,6 @@ onMounted(() => setTab())
 watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
     if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
         navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
-    else
-        await refresh()
 })
 
 useHead(() => ({
@@ -168,7 +166,7 @@ useHead(() => ({
 
                         <TopicContentSegmentation
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :segmentation="segmentation" />
+                            :segmentation="topic.Segmentation" />
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         <TopicTabsAnalytics

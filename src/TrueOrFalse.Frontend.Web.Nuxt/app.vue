@@ -3,11 +3,9 @@ import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Topic, useTopicStore, FooterTopics } from '~/components/topic/topicStore'
 import { Page } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
-import { useRootTopicChipStore } from './components/header/rootTopicChipStore'
 import { Visibility } from './components/shared/visibilityEnum'
 
 const userStore = useUserStore()
-const rootTopicChipStore = useRootTopicChipStore()
 const config = useRuntimeConfig()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -82,14 +80,11 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loggedOut) => {
 			if (loggedOut) {
 				userStore.reset()
+				refreshNuxtData()
 
 				if (page.value == Page.Topic && topicStore.visibility != Visibility.All) {
-					const url = $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)
-					navigateTo(url)
-					refreshUser()
-					refreshFooterTopics()
-				} else {
-					refreshNuxtData()
+					await nextTick()
+					navigateTo('/')
 				}
 			}
 		})
