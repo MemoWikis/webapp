@@ -5,6 +5,7 @@ using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
@@ -13,26 +14,26 @@ public class FacebookUsersController : Controller
     private readonly VueSessionUser _vueSessionUser;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly SessionUser _sessionUser;
+    private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly MessageRepo _messageRepo;
-    private readonly UserWritingRepo _userWritingRepo;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
         UserReadingRepo userReadingRepo,
         SessionUser sessionUser,
+        RegisterUser registerUser,
         CategoryRepository categoryRepository,
         JobQueueRepo jobQueueRepo,
-        MessageRepo messageRepo,
-        UserWritingRepo userWritingRepo)
+        MessageRepo messageRepo)
     {
         _vueSessionUser = vueSessionUser;
         _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
+        _registerUser = registerUser;
         _categoryRepository = categoryRepository;
         _jobQueueRepo = jobQueueRepo;
         _messageRepo = messageRepo;
-        _userWritingRepo = userWritingRepo;
     }
 
     [HttpPost]
@@ -79,7 +80,7 @@ public class FacebookUsersController : Controller
             });
         }
 
-        var registerResult = _userWritingRepo.Register(facebookUser);
+        var registerResult = _registerUser.Run(facebookUser);
 
         if (registerResult.Success)
         {

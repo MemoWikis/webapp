@@ -4,11 +4,11 @@ namespace TrueOrFalse
 {
     public class SampleData : IRegisterAsInstancePerLifetime
     {
-        private readonly UserWritingRepo _userWritingRepo;
+        private readonly RegisterUser _registerUser;
 
-        public SampleData(UserWritingRepo userWritingRepo)
+        public SampleData(RegisterUser registerUser)
         {
-            _userWritingRepo = userWritingRepo;
+            _registerUser = registerUser;
         }
 
         public List<User> CreateUsers()
@@ -17,19 +17,19 @@ namespace TrueOrFalse
             stefan.EmailAddress = "noackstefan@googlemail.com";
             stefan.Name = "Stefan Noack";
             SetUserPassword.Run("fooBar", stefan);
-            _userWritingRepo.Register(stefan);
+            _registerUser.Run(stefan);
 
             var robert = new User();
             robert.EmailAddress = "robert@robert-m.de";
             robert.Name = "Robert Mischke";
             SetUserPassword.Run("fooBar", robert);
-            _userWritingRepo.Register(robert);
+            _registerUser.Run(robert);
 
             var jule = new User();
             jule.EmailAddress = "jule@robert-m.de";
             jule.Name = "Jule";
             SetUserPassword.Run("fooBar", robert);
-            _userWritingRepo.Register(jule);
+            _registerUser.Run(jule);
 
             return new List<User> {stefan, robert, jule};
         }

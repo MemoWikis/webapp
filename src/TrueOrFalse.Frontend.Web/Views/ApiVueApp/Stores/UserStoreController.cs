@@ -10,6 +10,7 @@ public class UserStoreController : Controller
     private readonly SessionUser _sessionUser;
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly ActivityPointsRepo _activityPointsRepo;
+    private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly UserReadingRepo _userReadingRepo;
@@ -23,6 +24,7 @@ public class UserStoreController : Controller
         SessionUser sessionUser,
         CredentialsAreValid credentialsAreValid,
         ActivityPointsRepo activityPointsRepo,
+        RegisterUser registerUser,
         CategoryRepository categoryRepository,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
@@ -35,6 +37,7 @@ public class UserStoreController : Controller
         _sessionUser = sessionUser;
         _credentialsAreValid = credentialsAreValid;
         _activityPointsRepo = activityPointsRepo;
+        _registerUser = registerUser;
         _categoryRepository = categoryRepository;
         _persistentLoginRepo = persistentLoginRepo;
         _userReadingRepo = userReadingRepo;
@@ -137,7 +140,7 @@ public class UserStoreController : Controller
 
         var user = SetUser(json);
 
-        _userWritingRepo.Register(user);
+        _registerUser.Run(user);
         ISchedulerFactory schedFact = new StdSchedulerFactory();
         var x = schedFact.AllSchedulers;
 

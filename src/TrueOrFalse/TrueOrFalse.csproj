@@ -728,6 +728,7 @@
     <Compile Include="Domain\Question\SolutionType\SolutionType.cs" />
     <Compile Include="Domain\User\Registration\Login\CredentialsAreValid.cs" />
     <Compile Include="Domain\User\Registration\Confirmation\CreateConfirmationLink.cs" />
+    <Compile Include="Domain\User\Registration\Flow\_ RegisterUser.cs" />
     <Compile Include="Domain\User\Registration\Flow\1 CheckRegistrationData.cs" />
     <Compile Include="Domain\User\Registration\Flow\2 SendRegistrationEmail.cs" />
     <Compile Include="Domain\User\Persistence\UserMap.cs" />

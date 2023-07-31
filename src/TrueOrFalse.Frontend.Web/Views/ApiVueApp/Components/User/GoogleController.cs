@@ -8,26 +8,26 @@ namespace VueApp;
 public class GoogleController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
+    private readonly RegisterUser _registerUser;
     private readonly CategoryRepository _categoryRepository;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly MessageRepo _messageRepo;
-    private readonly UserWritingRepo _userWritingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly SessionUser _sessionUser;
 
     public GoogleController(SessionUser sessionUser,
         UserReadingRepo userReadingRepo,
         VueSessionUser vueSessionUser,
+        RegisterUser registerUser,
         CategoryRepository categoryRepository,
         JobQueueRepo jobQueueRepo,
-        MessageRepo messageRepo,
-        UserWritingRepo userWritingRepo)
+        MessageRepo messageRepo)
     {
         _vueSessionUser = vueSessionUser;
+        _registerUser = registerUser;
         _categoryRepository = categoryRepository;
         _jobQueueRepo = jobQueueRepo;
         _messageRepo = messageRepo;
-        _userWritingRepo = userWritingRepo;
         _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
     }
@@ -76,7 +76,7 @@ public class GoogleController : Controller
     [HttpPost]
     public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var registerResult = _userWritingRepo.Register(googleUser);
+        var registerResult = _registerUser.Run(googleUser);
 
         if (registerResult.Success)
         {
