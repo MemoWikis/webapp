@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Data;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using NHibernate;
+using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
@@ -16,6 +16,8 @@ public class UserWritingRepo
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly MessageRepo _messageRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
     private readonly RepositoryDb<User> _repo;
 
 
@@ -26,7 +28,9 @@ public class UserWritingRepo
         ReputationUpdate reputationUpdate,
         UserActivityRepo userActivityRepo,
         QuestionValuationRepo questionValuationRepo,
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        MessageRepo messageRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _repo = new RepositoryDb<User>(session);
         _sessionUser = sessionUser;
@@ -36,6 +40,8 @@ public class UserWritingRepo
         _userActivityRepo = userActivityRepo;
         _questionValuationRepo = questionValuationRepo;
         _userReadingRepo = userReadingRepo;
+        _messageRepo = messageRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -192,4 +198,81 @@ public class UserWritingRepo
         user.ActivityLevel = userLevel;
         Update(user);
     }
+
+    public void Register(User user)
+    {
+        InitializeReputation(user);
+
+
+
+        using (var transaction = _repo.Session.BeginTransaction(IsolationLevel.ReadCommitted))
+        {
+            if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
+                throw new Exception("There is already a user with that email address.");
+
+            if (!IsUserNameAvailable.Yes(user.Name, _userReadingRepo))
+                throw new Exception("There is already a user with that name.");
+
+            Create(user);
+
+            transaction.Commit();
+        }
+
+        SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
+        WelcomeMsg.Send(user, _messageRepo);
+    }
+
+    public UserCreateResult Register(FacebookUserCreateParameter facebookUser)
+    {
+        var user = new User
+        {
+            EmailAddress = facebookUser.email,
+            Name = facebookUser.name,
+            FacebookId = facebookUser.id
+        };
+
+        return Run(user);
+    }
+
+    public UserCreateResult Register(GoogleUserCreateParameter googleUser)
+    {
+        var user = new User
+        {
+            EmailAddress = googleUser.Email,
+            Name = googleUser.UserName,
+            GoogleId = googleUser.GoogleId
+        };
+
+        return Run(user);
+    }
+
+    private UserCreateResult Run(User user)
+    {
+        if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
+            return new UserCreateResult { Success = false, EmailAlreadyInUse = true };
+
+        InitializeReputation(user);
+
+        Create(user);
+
+        WelcomeMsg.Send(user, _messageRepo);
+
+        return new UserCreateResult { Success = true };
+    }
+
+    private void InitializeReputation(User user)
+    {
+        user.Reputation = 0;
+        user.ReputationPos =
+            _repo.Session.QueryOver<User>()
+                .Select(
+                    Projections.ProjectionList()
+                        .Add(Projections.Max<User>(u => u.ReputationPos)))
+                .SingleOrDefault<int>() + 1;
+    }
+}
+public class UserCreateResult
+{
+    public bool Success = false;
+    public bool EmailAlreadyInUse;
 }
