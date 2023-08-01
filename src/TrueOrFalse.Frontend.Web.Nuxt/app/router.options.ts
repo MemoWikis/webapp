@@ -54,7 +54,7 @@ export default <RouterConfig>{
         },
         {
             name: 'resetPasswordPage',
-            path: '/PasswortZuruecksetzen/:token',
+            path: '/NeuesPasswort/:token',
             component: () => import('~/pages/user/resetPassword.vue')
         },
         {
