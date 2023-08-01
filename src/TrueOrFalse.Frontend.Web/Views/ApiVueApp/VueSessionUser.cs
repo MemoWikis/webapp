@@ -111,11 +111,5 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         };
     }
 
-    private enum UserType
-    {
-        Normal,
-        Google,
-        Facebook,
-        Anonymous
-    }
+ 
 }

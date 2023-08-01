@@ -713,6 +713,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs240.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs239.cs" />
     <Compile Include="Web\Context\SessionUser.cs" />
+    <Compile Include="Web\Context\UserType.cs" />
     <Compile Include="Web\IgnoreLog.cs" />
     <Compile Include="Tools\Import\Importer.cs" />
     <Compile Include="Tools\Import\ImporterResult.cs" />

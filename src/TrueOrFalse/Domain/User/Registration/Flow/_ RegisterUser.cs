@@ -34,12 +34,15 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
-            if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
+            if (IsEmailAddressAvailable.No(user.EmailAddress, _userReadingRepo))
                 return (false, "emailInUse");
+
+            if(IsEmailAdressFormat.NotValid(user.EmailAddress))
+                return (false, "falseEmailFormat");
 
             if (!user.IsFacebookUser &&
                 !user.IsGoogleUser &&
-                !IsUserNameAvailable.Yes(user.Name, _userReadingRepo))
+                IsUserNameAvailable.No(user.Name, _userReadingRepo))
                 return (false, "userNameInUse");
 
             InitializeReputation(user);

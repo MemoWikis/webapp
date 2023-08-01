@@ -132,13 +132,6 @@ public class UserStoreController : Controller
             }
         });
     }
-
-  
-
-    private enum UserType
-    {
-        Normal
-    }
 }
 
 

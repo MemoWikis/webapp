@@ -55,6 +55,7 @@ export const messages: any = {
         user: {
             notLoggedIn: "Bitte logge dich ein.",
             emailInUse: "Die Email-Adresse ist bereits in Verwendung.",
+            falseEmailFormat: "Das Format der Emaildresse ist ungültig",
             userNameInUse: "Dieser Benutzername ist bereits vergeben.",
             passwordIsWrong: "Falsches Passwort. Gib das Passwort erneut ein.",
             samePassword: "Das neue Passwort entspricht dem alten Passwort. Bitte gebe ein neues Passwort ein.",
