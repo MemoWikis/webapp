@@ -12,7 +12,7 @@ const spinnerStore = useSpinnerStore()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const { data: currentUser, refresh: refreshUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
+const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
 	mode: 'no-cors',
@@ -31,7 +31,7 @@ if (currentUser.value != null) {
 	useState('currentuser', () => currentUser.value)
 }
 
-const { data: footerTopics, refresh: refreshFooterTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
+const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
@@ -74,8 +74,6 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
 
-const { $urlHelper } = useNuxtApp()
-
 userStore.$onAction(({ name, after }) => {
 	if (name == 'logout') {
 
@@ -83,13 +81,13 @@ userStore.$onAction(({ name, after }) => {
 			if (loggedOut) {
 				userStore.reset()
 				spinnerStore.showSpinner()
+
 				try {
 					await refreshNuxtData()
 				} finally {
 					spinnerStore.hideSpinner()
-
 					if (page.value == Page.Topic && topicStore.visibility != Visibility.All)
-						navigateTo('/')
+						await navigateTo('/')
 				}
 			}
 		})

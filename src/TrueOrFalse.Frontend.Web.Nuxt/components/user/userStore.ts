@@ -112,7 +112,6 @@ export const useUserStore = defineStore('userStore', {
             this.showLoginModal = true
         },
         async logout() {
-
             const spinnerStore = useSpinnerStore()
 
             spinnerStore.showSpinner()
@@ -120,9 +119,9 @@ export const useUserStore = defineStore('userStore', {
             const result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
+            spinnerStore.hideSpinner()
 
             if (result?.success) {
-                spinnerStore.hideSpinner()
                 return true
             } else if (result?.success == false) {
                 const alertStore = useAlertStore()
@@ -130,7 +129,6 @@ export const useUserStore = defineStore('userStore', {
                 return false
             }
 
-            spinnerStore.hideSpinner()
             return
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {
