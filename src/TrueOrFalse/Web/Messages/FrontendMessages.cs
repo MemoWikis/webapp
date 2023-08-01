@@ -79,6 +79,7 @@
             public static readonly string PasswordResetTokenIsExpired = "error_user_passwordResetTokenIsExpired";
             public static readonly string DoesNotExist = "error_user_doesNotExist";
             public static readonly string InvalidFBToken = "error_user_invalidFBToken";
+            public static readonly string PasswordTooShort = "error_user_passwordTooShort";
         }
 
         public static readonly string Default = "error_default";

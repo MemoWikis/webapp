@@ -44,13 +44,23 @@ public class ResetPasswordController : BaseController
     }
 
     [HttpPost]
-    public JsonResult SetNewPassword(string token, string newPassword)
+    public JsonResult SetNewPassword(string token, string password)
     {
         var validationResult = ValidateToken(token);
         if (validationResult.success == false)
         {
             return Json(validationResult);
         }
+
+        if (password.Trim().Length < 5)
+        {
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.PasswordTooShort
+            });
+        }
+
         var result = PasswordResetPrepare.Run(token);
 
         var userRepo = Sl.Resolve<UserRepo>();
@@ -59,7 +69,7 @@ public class ResetPasswordController : BaseController
         if (user == null)
             throw new Exception();
 
-        SetUserPassword.Run(newPassword, user);
+        SetUserPassword.Run(password.Trim(), user);
         userRepo.Update(user);
 
         _sessionUser.Login(user);

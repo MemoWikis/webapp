@@ -63,8 +63,10 @@ export const messages: any = {
             passwordResetTokenIsInvalid: "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team@memucho.de.",
             passwordResetTokenIsExpired: "Der Link ist abgelaufen.",
             doesNotExist: "Der angegebene Nutzern wurde nicht gefunden. Bitte überprüfen Sie, ob Sie den korrekten Anmeldedaten eingegeben haben.",
-            invalidFBToken: "Hoppla! Es scheint, als ob das von Ihnen eingegebene Facebook-Token nicht korrekt ist. Bitte versuchen Sie es erneut mit einer neuen Anmeldung über Facebook. Falls das Problem weiterhin besteht, kontaktieren Sie uns bitte für Unterstützung. Wir sind immer da, um Ihnen zu helfen."
-        } as { [key: string]: string },
+            invalidFBToken: "Hoppla! Es scheint, als ob das von Ihnen eingegebene Facebook-Token nicht korrekt ist. Bitte versuchen Sie es erneut mit einer neuen Anmeldung über Facebook. Falls das Problem weiterhin besteht, kontaktieren Sie uns bitte für Unterstützung. Wir sind immer da, um Ihnen zu helfen.",
+            emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
+            passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein."
+        },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
