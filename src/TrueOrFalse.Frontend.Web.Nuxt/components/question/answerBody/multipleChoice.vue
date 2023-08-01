@@ -11,10 +11,30 @@ interface Choice {
     IsCorrect: boolean
 }
 
+function shuffleChoices(choices: Choice[]) {
+    let copy = choices.slice()  // Copy the array
+    let currentIndex = copy.length, temporaryValue, randomIndex
+
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex)
+        currentIndex -= 1
+
+        // And swap it with the current element.
+        temporaryValue = copy[currentIndex]
+        copy[currentIndex] = copy[randomIndex]
+        copy[randomIndex] = temporaryValue
+    }
+
+    return copy
+}
+
 function init() {
     selected.value = []
     const json: { Choices: Choice[], isSolutionOrdered: boolean } = JSON.parse(props.solution)
-    localChoices.value = json.Choices
+    localChoices.value = json.isSolutionOrdered == true ? json.Choices : shuffleChoices(json.Choices)
 }
 onBeforeMount(() => {
     init()
