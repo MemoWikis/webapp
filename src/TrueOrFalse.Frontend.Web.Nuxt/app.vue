@@ -4,9 +4,11 @@ import { Topic, useTopicStore, FooterTopics } from '~/components/topic/topicStor
 import { Page } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
+import { useSpinnerStore } from './components/spinner/spinnerStore'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
+const spinnerStore = useSpinnerStore()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
@@ -80,11 +82,14 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loggedOut) => {
 			if (loggedOut) {
 				userStore.reset()
-				refreshNuxtData()
+				spinnerStore.showSpinner()
+				try {
+					await refreshNuxtData()
+				} finally {
+					spinnerStore.hideSpinner()
 
-				if (page.value == Page.Topic && topicStore.visibility != Visibility.All) {
-					await nextTick()
-					navigateTo('/')
+					if (page.value == Page.Topic && topicStore.visibility != Visibility.All)
+						navigateTo('/')
 				}
 			}
 		})

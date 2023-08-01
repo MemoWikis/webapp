@@ -103,7 +103,7 @@ export const useUserStore = defineStore('userStore', {
             if (!!result && result.Success) {
                 this.isLoggedIn = true
                 this.initUser(result.CurrentUser)
-                refreshNuxtData()
+                await refreshNuxtData()
                 return 'success'
             } else if (!!result && !result.Success)
                 return result.Message
