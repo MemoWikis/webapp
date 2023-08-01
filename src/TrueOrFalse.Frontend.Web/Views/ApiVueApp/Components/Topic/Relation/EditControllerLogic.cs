@@ -20,7 +20,6 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
 
     public EditControllerLogic(IGlobalSearch search,
-        bool isInstallationAdmin,
         PermissionCheck permissionCheck,
         SessionUser sessionUser,
         CategoryRepository categoryRepository, 
@@ -29,7 +28,6 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         UserWritingRepo userWritingRepo)
     {
         _search = search; 
-        _isInstallationAdmin = isInstallationAdmin;
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
@@ -37,6 +35,8 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
+        _isInstallationAdmin = _sessionUser.IsInstallationAdmin;
+
     }
 
     public dynamic ValidateName(string name)
