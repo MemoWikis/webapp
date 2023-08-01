@@ -84,16 +84,8 @@ export default defineNuxtComponent({
 		segmentation() {
 			this.segments = []
 			this.categories = []
-			console.log('ehh')
 			this.initSegmentationContent()
 		}
-		// 'userStore.isLoggedIn': async function () {
-		// 	this.segments = []
-		// 	this.categories = []
-		// 	await nextTick()
-
-		// 	this.initSegments()
-		// }
 	},
 	methods: {
 		initSegmentationContent() {
