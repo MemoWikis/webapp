@@ -73,7 +73,7 @@ public class SessionUserCache
             categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
 
-        Add_UserCacheItem_to_cache(cacheItem, userId);
+        Add_UserCacheItem_to_cache(cacheItem);
 
         var addedCacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
 
@@ -86,9 +86,9 @@ public class SessionUserCache
         return addedCacheItem;
     }
 
-    private static void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem, int userId)
+    private static void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
     {
-        Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }
 

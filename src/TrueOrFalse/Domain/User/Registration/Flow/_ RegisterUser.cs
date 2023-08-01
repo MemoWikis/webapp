@@ -32,7 +32,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
     private (bool success, string message) RegisterAndLogin(User user)
     {
-        InitializeReputation(user);
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
@@ -43,6 +42,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                 !IsUserNameAvailable.Yes(user.Name, _userReadingRepo))
                 return (false, "userNameInUse");
 
+            InitializeReputation(user);
             _userWritingRepo.Create(user);
                 
             transaction.Commit();
@@ -85,20 +85,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         return RegisterAndLogin(user).success;
     }
 
-    private UserCreateResult Register(User user)
-    {
-        if (!IsEmailAddressAvailable.Yes(user.EmailAddress, _userReadingRepo))
-            return new UserCreateResult { Success = false, EmailAlreadyInUse = true};
-
-        InitializeReputation(user);
-
-        _userWritingRepo.Create(user);
-
-        WelcomeMsg.Send(user, _messageRepo);
-
-        return new UserCreateResult { Success = true };
-    }
-
     private void InitializeReputation(User user)
     {
         user.Reputation = 0;
@@ -118,12 +104,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
         return RegisterAndLogin(user);
     }
-}
-
-public class UserCreateResult
-{
-    public bool Success = false;
-    public bool EmailAlreadyInUse;
 }
 
 public class RegisterJson
