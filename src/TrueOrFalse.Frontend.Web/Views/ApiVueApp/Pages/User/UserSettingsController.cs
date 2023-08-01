@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using System.Web.Mvc;
 
 namespace VueApp;
@@ -96,11 +97,22 @@ public class VueUserSettingsController : Controller
             return Json(null);
         }
 
-        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
-            IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
+        if(string.IsNullOrEmpty(form.email))
+            return Json(new
+                {
+                    success = false,
+                    message = "emailEmpty"
+                }
+            );
+        
+        var email = form.email.Trim();
+        if (email != _sessionUser.User.EmailAddress &&
+            IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
+            IsEmailAdressFormat.Valid(email))
         {
-            _sessionUser.User.EmailAddress = form.email.Trim();
+            _sessionUser.User.EmailAddress = email;
         }
+
         else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
         {
             return Json(new
