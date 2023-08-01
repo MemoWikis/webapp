@@ -2,7 +2,7 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const headers = useRequestHeaders(['cookie']) as HeadersInit
-    const { $config } = useNuxtApp()
+    const { $config, $urlHelper } = useNuxtApp()
     interface Result {
         name: string
         id: number
@@ -21,6 +21,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
             },
         })
-    return navigateTo(`/${result.name}/${result.id}`)
+    return navigateTo($urlHelper.getTopicUrl(result.name, result.id))
 
 })
