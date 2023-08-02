@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import { Page } from '~/components/shared/pageEnum';
+import { Page } from '~/components/shared/pageEnum'
 import { Topic } from '~/components/topic/topicStore'
 
 interface Props {
@@ -15,7 +15,11 @@ onBeforeMount(() => {
 const { $logger } = useNuxtApp()
 const route = useRoute()
 
-const { data: verificationResult, pending, error } = useFetch<boolean>(`/apiVue/ConfirmEmail/${route.params.token}`, {
+const { data: verificationResult, pending, error } = useFetch<boolean>(`/apiVue/ConfirmEmail/Run`, {
+    body: {
+        token: route.params.token
+    },
+    method: 'POST',
     mode: 'cors',
     onResponseError(context) {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
