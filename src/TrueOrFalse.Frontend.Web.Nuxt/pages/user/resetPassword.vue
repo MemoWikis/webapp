@@ -68,7 +68,6 @@ async function saveNewPassword() {
         await nextTick()
         if (userStore.isLoggedIn)
             return navigateTo('/')
-
     } else {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
     }

@@ -9,5 +9,6 @@ export enum Page {
     Messages,
     Default,
     Error,
-    ResetPassword
+    ResetPassword,
+    ConfirmEmail
 }

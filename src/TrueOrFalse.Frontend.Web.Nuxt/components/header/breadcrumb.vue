@@ -196,18 +196,39 @@ async function getBreadcrumb() {
 }
 
 function setPageTitle() {
+	pageTitle.value = ''
 	switch (props.page) {
+		case Page.Welcome:
+			pageTitle.value = 'Willkommen'
+			break
 		case Page.Topic:
 			pageTitle.value = topicStore.name
+			break
+		// case Page.Question custom breadcrumb item set in the question/[id].vue
+		// case Page.Question custom breadcrumb item set in the user/[id].vue
+		case Page.Imprint:
+			pageTitle.value = 'Impressum'
+			break
+		case Page.Terms:
+			pageTitle.value = 'Geschäftsbedingungen'
 			break
 		case Page.Register:
 			pageTitle.value = 'Registrieren'
 			break
+		case Page.Messages:
+			pageTitle.value = 'Nachrichten'
+			break
+		// case Page.Default:
+		// 	pageTitle.value = ''
+		// 	break
+		case Page.Error:
+			pageTitle.value = 'Fehler'
+			break
 		case Page.ResetPassword:
 			pageTitle.value = 'Passwort zurücksetzen'
 			break
-		case Page.Welcome:
-			pageTitle.value = 'Willkommen'
+		case Page.ConfirmEmail:
+			pageTitle.value = 'E-Mail Bestätigung'
 			break
 	}
 }
