@@ -63,7 +63,7 @@ public class EditControllerLogic
 
     public dynamic QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
-        if (!LimitCheck.CanSavePrivateTopic(sessionUser))
+        if (!LimitCheck.CanSavePrivateTopic(sessionUser, logExceedance: true))
         {
             return new
             {

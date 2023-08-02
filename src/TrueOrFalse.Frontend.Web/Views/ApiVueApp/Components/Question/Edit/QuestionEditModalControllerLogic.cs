@@ -35,7 +35,7 @@ public class QuestionEditModalControllerLogic
 
     public RequestResult Create(QuestionDataJson questionDataJson)
     {
-        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser))
+        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser, logExceedance: true))
         {
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
