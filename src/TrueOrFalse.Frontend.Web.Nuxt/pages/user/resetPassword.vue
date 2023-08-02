@@ -48,7 +48,7 @@ async function saveNewPassword() {
         return
     }
     if (newPassword.value.length < 5) {
-        errorMessage.value = 'Bitte gib mindestens 5 Zeichen'
+        errorMessage.value = messages.error.user.passwordTooShort
         return
     }
 
