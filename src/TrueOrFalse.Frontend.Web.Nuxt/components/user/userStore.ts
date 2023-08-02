@@ -128,8 +128,7 @@ export const useUserStore = defineStore('userStore', {
                 alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
                 return false
             }
-
-            return
+            return false
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
