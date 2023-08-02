@@ -25,14 +25,14 @@ public class LimitCheck
 
             return true;
         
-        var limitExceeded = sessionUser.User.WishCountQuestions < _wishCountKnowledge;
+        var withinLimit = sessionUser.User.WishCountQuestions < _wishCountKnowledge;
 
-        if (limitExceeded && logExceedance)
+        if (!withinLimit && logExceedance)
         {
             LogExceededLimit("question in wishknowledge");
         }
 
-        return limitExceeded;
+        return withinLimit;
     }
 
     public static bool CanSavePrivateQuestion(SessionUser sessionUser, bool logExceedance = false)
@@ -41,14 +41,14 @@ public class LimitCheck
 
             return true;
 
-        var limitExceeded = EntityCache.GetPrivateQuestionIdsFromUser(sessionUser.UserId).Count() < _privateQuestionsQuantity;
+        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(sessionUser.UserId).Count() < _privateQuestionsQuantity;
 
-        if (limitExceeded && logExceedance)
+        if (!withinLimit && logExceedance)
         {
             LogExceededLimit("private questions");
         }
 
-        return limitExceeded;
+        return withinLimit;
 
     }
 
@@ -58,14 +58,14 @@ public class LimitCheck
 
             return true;
         
-        var limitExceeded = EntityCache.GetPrivateCategoryIdsFromUser(sessionUser.UserId).Count() < _privateTopicsQuantity;
+        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(sessionUser.UserId).Count() < _privateTopicsQuantity;
 
-        if (limitExceeded && logExceedance)
+        if (!withinLimit && logExceedance)
         {
             LogExceededLimit("private topics");
         }
 
-        return limitExceeded;
+        return withinLimit;
     }
 
     private static bool HasActiveSubscriptionPlan(SessionUser sessionUser)
@@ -75,6 +75,6 @@ public class LimitCheck
 
     public static void LogExceededLimit(string type)
     {
-        Logg.r().Information("LimitCheck: max. number of type {type} exceeded", type);
+        Logg.r().Information("LimitCheck: max. number of type '{type}' exceeded", type);
     }
 }
