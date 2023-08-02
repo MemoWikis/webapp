@@ -83,7 +83,7 @@ onBeforeMount(() => {
 <template>
 	<div class="container">
 		<div class="question-page-container row main-page">
-			<template v-if="question && question.answerBodyModel != null">
+			<template v-if="question && question?.answerBodyModel != null">
 				<div class="col-lg-9 col-md-12 container main-content">
 					<QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
 						:landing-page-solution-data="question.solutionData" />
