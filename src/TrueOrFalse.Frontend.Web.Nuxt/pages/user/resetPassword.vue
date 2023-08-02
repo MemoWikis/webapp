@@ -15,7 +15,7 @@ onBeforeMount(() => {
     emit('setPage', Page.ResetPassword)
 
     if (userStore.isLoggedIn)
-        navigateTo('/')
+        return navigateTo('/')
 })
 
 
@@ -67,7 +67,7 @@ async function saveNewPassword() {
         userStore.initUser(result.data)
         await nextTick()
         if (userStore.isLoggedIn)
-            navigateTo('/')
+            return navigateTo('/')
 
     } else {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })

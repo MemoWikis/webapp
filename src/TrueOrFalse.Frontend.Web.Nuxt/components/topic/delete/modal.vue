@@ -11,11 +11,11 @@ watch(() => deleteTopicStore.topicDeleted, (val) => {
     else primaryBtnLabel.value = 'Thema löschen'
 })
 
-function handlePrimaryAction() {
+async function handlePrimaryAction() {
     if (deleteTopicStore.topicDeleted) {
         deleteTopicStore.showModal = false
         deleteTopicStore.topicDeleted = false
-        navigateTo(deleteTopicStore.redirectURL)
+        await navigateTo(deleteTopicStore.redirectURL)
     } else {
         deleteTopicStore.deleteTopic()
     }

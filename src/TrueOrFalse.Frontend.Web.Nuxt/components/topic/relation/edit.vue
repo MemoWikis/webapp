@@ -61,7 +61,7 @@ async function addTopic() {
         })
         if (result.success) {
             if (editTopicRelationStore.redirect)
-                navigateTo(result.url)
+                await navigateTo(result.url)
 
             topicStore.childTopicCount++
             editTopicRelationStore.showModal = false
@@ -194,7 +194,7 @@ async function addExistingTopic() {
 
     if (result.success) {
         if (editTopicRelationStore.redirect)
-            navigateTo(result.url)
+            await navigateTo(result.url)
         editTopicRelationStore.showModal = false
         editTopicRelationStore.addTopicCard(editTopicRelationStore.childId)
         spinnerStore.hideSpinner()

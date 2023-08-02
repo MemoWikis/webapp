@@ -22,8 +22,8 @@ const props = defineProps<Props>()
 
 const showSearch = ref(false)
 
-function openUrl(val: any) {
-    navigateTo(val.Url)
+async function openUrl(val: any) {
+    await navigateTo(val.Url)
 }
 const userStore = useUserStore()
 

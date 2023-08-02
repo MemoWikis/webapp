@@ -99,7 +99,7 @@ async function cancelPlan() {
     });
     if (data.value) {
         // Führen Sie die Umleitung im Browser durch.
-        navigateTo(data.value)
+        await navigateTo(data.value)
     } else {
         console.log("kein Ergebnis")
     }
