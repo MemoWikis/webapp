@@ -306,6 +306,7 @@
     <Compile Include="Views\ApiVueApp\Middleware\StartpageController.cs" />
     <Compile Include="Views\ApiVueApp\Middleware\AuthController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\ResetPasswordController.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\User\VerifyEmail\VerifyEmailController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\VueMaintenanceController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Question\Edit\QuestionEditModalControllerLogic.cs" />
     <Compile Include="Views\ApiVueApp\CancelController.cs" />

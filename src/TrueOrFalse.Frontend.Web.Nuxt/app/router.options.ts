@@ -58,6 +58,11 @@ export default <RouterConfig>{
             component: () => import('~/pages/user/resetPassword.vue')
         },
         {
+            name: 'confirmEmailPage',
+            path: '/EmailBestaetigen/:token',
+            component: () => import('~/pages/user/confirmEmail.vue')
+        },
+        {
             name: 'messagesPage',
             path: '/Nachrichten',
             component: () => import('~/pages/user/messages.vue')
