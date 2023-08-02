@@ -129,6 +129,13 @@ onMounted(() => {
 function hide() {
     showDropdown.value = false
 }
+
+const searchInput = ref()
+
+watch(() => props.showSearch, (val) => {
+    if (val && searchInput.value)
+        searchInput.value.focus()
+})
 </script>
 
 <template>
@@ -139,7 +146,7 @@ function hide() {
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
                             v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                            :placeholder="props.placeholderLabel" />
+                            :placeholder="props.placeholderLabel" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
 
