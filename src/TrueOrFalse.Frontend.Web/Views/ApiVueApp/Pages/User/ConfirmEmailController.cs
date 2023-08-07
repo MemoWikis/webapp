@@ -14,16 +14,6 @@ public class ConfirmEmailController : BaseController
         _emailConfirmationService = emailConfirmationService;
     }
 
-
-    //[HttpPost]
-    //public JsonResult Run(string token)
-    //{
-    //    var mailConfirmed = _emailConfirmationService.ConfirmUserEmailByKey(token);
-
-    //    return Json(mailConfirmed);
-    //}
-
-
     [HttpPost]
     public JsonResult Run(string token)
     {
