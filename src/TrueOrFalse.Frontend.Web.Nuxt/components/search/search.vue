@@ -71,7 +71,7 @@ const userSearchUrl = ref('')
 const topics = ref([] as TopicItem[])
 const questions = ref([] as QuestionItem[])
 const users = ref([] as UserItem[])
-const { $logger } = useNuxtApp()
+const { $urlHelper, $logger } = useNuxtApp()
 
 async function search() {
     var result = await $fetch<FullSearch>(`${searchUrl.value}?term=${encodeURIComponent(searchTerm.value)}`, {
@@ -102,7 +102,7 @@ async function search() {
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }
-const { $urlHelper } = useNuxtApp()
+
 function selectItem(item: TopicItem | QuestionItem | UserItem) {
     switch (item.Type) {
         case 'TopicItem':

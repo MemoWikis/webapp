@@ -21,11 +21,13 @@ function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
 const { isDesktopOrTablet, isMobile } = useDevice()
 
 function handleResize() {
+    if (showSearch.value)
+        return
+
     if (window.innerWidth < 480) {
         showSearch.value = false
     } else
         showSearch.value = true
-
 }
 
 onMounted(() => {
