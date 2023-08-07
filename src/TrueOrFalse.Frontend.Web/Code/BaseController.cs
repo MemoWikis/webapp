@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System;
+using System.Text;
+using System.Web;
 using System.Web.Mvc;
 
 public class BaseController : Controller
@@ -21,4 +23,16 @@ public class BaseController : Controller
     protected T Resolve<T>() => ServiceLocator.Resolve<T>();
 
     protected T R<T>() => ServiceLocator.Resolve<T>();
+
+    protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
+    {
+        return new JsonResult()
+        {
+            Data = data,
+            ContentType = contentType,
+            ContentEncoding = contentEncoding,
+            JsonRequestBehavior = behavior,
+            MaxJsonLength = Int32.MaxValue
+        };
+    }
 }
