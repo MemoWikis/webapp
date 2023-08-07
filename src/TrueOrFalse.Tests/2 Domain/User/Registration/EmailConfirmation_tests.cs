@@ -3,7 +3,7 @@ using System;
 
 public class EmailConfirmationServiceTests
 {
-    private EmailConfirmationService _emailConfirmationService;
+    private readonly EmailConfirmationService _emailConfirmationService;
 
     public EmailConfirmationServiceTests()
     {
