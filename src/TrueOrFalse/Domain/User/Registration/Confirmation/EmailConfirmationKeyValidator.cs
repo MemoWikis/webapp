@@ -13,7 +13,7 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
     public static string CreateEmailConfirmationToken(User user)
     {
         long dateTimeInMilliseconds = ((DateTimeOffset)user.DateCreated).ToUnixTimeMilliseconds();
-        string rawString = dateTimeInMilliseconds + user.PasswordHashedAndSalted;
+        string rawString = dateTimeInMilliseconds + user.PasswordHashedAndSalted.Substring(0, Math.Min(user.PasswordHashedAndSalted.Length, 3));
 
         using (SHA256 sha256Hash = SHA256.Create())
         {
