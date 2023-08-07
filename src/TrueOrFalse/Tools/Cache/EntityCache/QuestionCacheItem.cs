@@ -121,7 +121,7 @@ public class QuestionCacheItem
         return safeText.TruncateAtWord(length);
     }
 
-    public virtual QuestionSolution GetSolution()
+    public virtual QuestionSolution? GetSolution()
     {
         return GetQuestionSolution.Run(this);
     }

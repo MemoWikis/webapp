@@ -54,7 +54,7 @@ namespace TrueOrFalse.Search
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Index index)
+        private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Meilisearch.Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             index = client.Index(indexConstant);

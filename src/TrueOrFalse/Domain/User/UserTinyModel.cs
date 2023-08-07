@@ -1,4 +1,4 @@
-﻿using System.Web.Script.Serialization;
+﻿using System.Text.Json.Serialization;
 
 public interface IUserTinyModel
 {
@@ -28,10 +28,10 @@ public class UserTinyModel : IUserTinyModel
     public bool ShowWishKnowledge { get; set; }
     public bool IsMember { get; }
 
-    [ScriptIgnore]
+    [JsonIgnore]
     private readonly UserCacheItem _user;
 
-    [ScriptIgnore]
+    [JsonIgnore]
     public UserCacheItem User => _user;
 
     public bool IsMemuchoUser { get; }

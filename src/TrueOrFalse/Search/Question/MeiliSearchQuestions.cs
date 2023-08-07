@@ -28,7 +28,7 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
         return _result;
     }
 
-    private async Task<List<int>> LoadSearchResults(string searchTerm, Index index)
+    private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
     {
         var sq = new SearchQuery
         {

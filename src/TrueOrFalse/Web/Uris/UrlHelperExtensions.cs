@@ -1,5 +1,6 @@
-﻿using System.Web.Mvc;
-using System.Web.Routing;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Routing;
 
 public static class UrlHelperExtensions
 {

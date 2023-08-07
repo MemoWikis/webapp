@@ -147,7 +147,7 @@ namespace Seedworks.Lib.Persistence
 				OnItemUpdated(this, new RepositoryDbEventArgs(domainObject));
 		}
 
-    	public virtual void Merge(TDomainObject domainObject)
+        public virtual void Merge(TDomainObject domainObject)
         {
 			if (domainObject is WithDateModified)
 				(domainObject as WithDateModified).DateModified = DateTime.Now;

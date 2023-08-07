@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Web.Script.Serialization;
+﻿
+using System.Text.Json;
 
 public class QuestionSolutionSequence : QuestionSolution
 {
@@ -9,7 +7,7 @@ public class QuestionSolutionSequence : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        var values = new JavaScriptSerializer().Deserialize<string[]>(answer.Trim());
+        var values = JsonSerializer.Deserialize<string[]>(answer.Trim());
         return values.SequenceEqual(Rows.Values);
     }
 

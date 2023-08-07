@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Web.Script.Serialization;
+using System.Text.Json;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
 public class QuestionSolutionMatchList : QuestionSolution
@@ -57,10 +55,9 @@ public class QuestionSolutionMatchList : QuestionSolution
         TrimElementTexts();
     }
 
-    public static MatchListAnswerPairs DeserializeMatchListAnswer(string answerJson)
+    public static MatchListAnswerPairs? DeserializeMatchListAnswer(string answerJson)
     {
-        var serializer = new JavaScriptSerializer();
-        return serializer.Deserialize<MatchListAnswerPairs>(answerJson);
+        return JsonSerializer.Deserialize<MatchListAnswerPairs>(answerJson);
     }
 
     public override bool IsCorrect(string answer)

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web.Mvc;
+﻿
+using System.Text.Json;
 using GraphDataAsJson;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class GetCategoryGraphData
 {
@@ -22,15 +24,11 @@ public class GetCategoryGraphData
         {
             nodes.Add(new Node { CategoryId = node.Category.Id, Text = node.Category.Name });
         }
-
-        return new JsonResult
-        {
-            Data = new
-            {
-                Nodes = nodes,
-                Links = links
-            }
-        };
+        return new JsonResult(new
+         {
+             Nodes = nodes,
+             Links = links
+         });
     }
 
     public static CategoryGraphDataResult Get(Category category)

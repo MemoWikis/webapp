@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
+﻿using System.Text.Json;
 using Autofac;
+
 using Quartz;
 using RollbarSharp;
 
@@ -21,7 +18,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _sessionUser = sessionUser;
             _categoryInKnowledge = categoryInKnowledge;
         }
-        public void Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -63,8 +60,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private static CategoryUserPair GetCategoryUserPair(JobQueue jobQueueEntry)
         {
-            var serializer = new JavaScriptSerializer();
-            return serializer.Deserialize<CategoryUserPair>(jobQueueEntry.JobContent);
+        
+            return JsonSerializer.Deserialize<CategoryUserPair>(jobQueueEntry.JobContent);
         }
     }
 

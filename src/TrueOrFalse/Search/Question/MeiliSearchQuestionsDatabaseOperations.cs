@@ -49,7 +49,7 @@ namespace TrueOrFalse.Search
                  await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Index index)
+        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Meilisearch.Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             index = client.Index(indexConstant);
