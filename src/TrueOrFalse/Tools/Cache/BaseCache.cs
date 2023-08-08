@@ -1,6 +1,5 @@
 ﻿using System.Collections.Concurrent;
-using System.Web;
-using System.Web.Caching;
+
 
  public class BaseCache
     {

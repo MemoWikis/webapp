@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNetCore.Http;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CommentMsg
 {
-    public static void Send(Comment comment, QuestionReadingRepo questionReadingRepo, MessageRepo messageRepo)
+    public static void Send(Comment comment,
+        QuestionReadingRepo questionReadingRepo, 
+        MessageRepo messageRepo, 
+        IHttpContextAccessor httpContextAccessor)
     {
         if (comment.Type != CommentType.AnswerQuestion)
             throw new Exception("Other CommentType than AnswerQuestion is unknown.");
@@ -13,7 +15,7 @@ public class CommentMsg
         var question = questionReadingRepo.GetById(comment.TypeId);
 
         var questionUrl = "";
-        if(HttpContext.Current != null)
+        if(httpContextAccessor.HttpContext != null)
             questionUrl = Links.AnswerQuestion(question);
 
         string shouldImproveOrRemove = "";
@@ -35,7 +37,7 @@ public class CommentMsg
 
         if (comment.ShouldRemove)
         {
-            shouldImproveOrRemove = String.Format(@"
+            shouldImproveOrRemove = string.Format(@"
                 <p>Die Frage sollte entfernt werden!</p>
                 <div class='ReasonList'>
                     <i class='fa fa-fire show-tooltip' style='float:left' title='Die Frage sollte entfernt werden'></i>&nbsp;
@@ -49,7 +51,7 @@ public class CommentMsg
                     .Aggregate((a, b) => a + b));                
         }
 
-        string body = String.Format(@"
+        string body = string.Format(@"
 <p>Ein neuer Kommentar auf die Frage <a href='{0}'><i>{1}</i></a>:</p>
 {2}
 <p>{3}</p>", questionUrl, question.Text, shouldImproveOrRemove, comment.Text.LineBreaksToBRs());
