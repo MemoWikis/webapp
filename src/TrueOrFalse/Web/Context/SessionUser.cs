@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Web.Security;
-using System.Web;
+﻿
+using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using TrueOrFalse.Web.Context;
 
 public class SessionUser : IRegisterAsInstancePerLifetime
 {
@@ -24,28 +26,28 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
     public bool HasBetaAccess
     {
-        get => _httpContext.Session["isBetaLogin"] as bool? ?? false;
-        set => _httpContext.Session.Add("isBetaLogin", value);
+        get => _httpContext.Session.GetBool("isBetaLogin");
+        set => _httpContext.Session.SetBool("isBetaLogin", value);
     }
 
     public bool IsLoggedIn
     {
-        get => _httpContext.Session["isLoggedIn"] as bool? ?? false;
-        private set => _httpContext.Session.Add("isLoggedIn", value);
+        get => _httpContext.Session.GetBool("isLoggedIn");
+        private set => _httpContext.Session.SetBool("isLoggedIn", value);
     }
 
     public bool IsInstallationAdmin
     {
-        get => _httpContext.Session["isAdministrativeLogin"] as bool? ?? false;
-        set => _httpContext.Session.Add("isAdministrativeLogin", value);
+        get => _httpContext.Session.GetBool("isAdministrativeLogin");
+        set => _httpContext.Session.SetBool("isAdministrativeLogin", value);
     }
 
     public int UserId => _userId;
 
     private int _userId
     {
-        get => _httpContext.Session["userId"] as int? ?? 0;
-        set => _httpContext.Session.Add("userId", value);
+        get => _httpContext.Session.GetInt32("userId") ?? 0;
+        set => _httpContext.Session.SetInt32("userId", value);
     }
 
     public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
@@ -81,7 +83,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         _userId = -1;
         CurrentWikiId = 1;
 
-        if (HttpContext.Current != null)
+        if (_httpContext != null)
             FormsAuthentication.SignOut();
     }
 
@@ -114,4 +116,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
     public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
     public void SetWikiId(int id) => CurrentWikiId = id;
+
+   
 }

@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using TrueOrFalse.Web;
 using TrueOrFalse.Web.Uris;
 using static System.String;
