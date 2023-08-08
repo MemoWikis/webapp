@@ -1,8 +1,7 @@
-﻿using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
-using System.Web;
 using Autofac;
+using Microsoft.Extensions.Caching.Memory;
 using NHibernate;
 using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
@@ -13,8 +12,6 @@ namespace TrueOrFalse.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(context => HttpContext.Current).InstancePerLifetimeScope();
-
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
                                .AssignableTo<IRegisterAsInstancePerLifetime>();
 
@@ -23,7 +20,10 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
-         
+            builder.RegisterType<MemoryCache>()
+                .As<IMemoryCache>()
+                .SingleInstance();
+
 
 
             try

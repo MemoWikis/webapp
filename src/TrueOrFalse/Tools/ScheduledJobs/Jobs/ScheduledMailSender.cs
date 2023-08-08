@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
-using System.Runtime.Caching;
-using System.Web;
 using Autofac;
+using Markdig.Helpers;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
@@ -13,14 +13,19 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
     class ScheduledMailSender : IJob
     {
         private const string CacheKey = "SuccessfulMailJobs-19B1DFD8-0DA3-4B69-BFC8-08095EEEFB08";
-        ObjectCache Cache = MemoryCache.Default;
-        public void Execute(IJobExecutionContext context)
+        private readonly IMemoryCache _cache;
+
+        public ScheduledMailSender(IMemoryCache cache)
         {
-            JobExecute.Run(scope =>
+            _cache = cache;
+        }
+        public async Task Execute(IJobExecutionContext context)
+        {
+            JobExecute.Run(async scope =>
             {
                 var job = scope.Resolve<JobQueueRepo>().GetTopPriorityMailMessage();
 
-                var successfulJobIds = (List<int>)(IEnumerable)Cache.Get(CacheKey) ?? new List<int>();
+                var successfulJobIds = _cache.Get(CacheKey) as List<int> ?? new List<int>();
 
                 //increase interval when no mail job exist
                 if (job == null)
@@ -28,7 +33,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) ==
                         context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(1000))
                     {
-                        SetJobInterval(1000, context);
+                       await SetJobInterval(1000, context);
                     }
 
                     return;
@@ -38,7 +43,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                 if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) !=
                     context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(100))
                 {
-                    SetJobInterval(100, context);
+                    await SetJobInterval(100, context);
                 }
 
                 try
@@ -51,7 +56,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     {
                         smtpClient.Send(currentMailMessage);
                         successfulJobIds.Add(job.Id);
-                        Cache.Add(CacheKey, successfulJobIds, DateTimeOffset.MaxValue);
+                        _cache.Set(CacheKey, successfulJobIds, DateTimeOffset.MaxValue);
                     }
                     else
                     {
@@ -74,14 +79,14 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
             }, "ScheduledMailSender");
         }
 
-        void SetJobInterval(int interval, IJobExecutionContext context)
+        private async Task SetJobInterval(int interval, IJobExecutionContext context)
         {
             var newTrigger = TriggerBuilder.Create()
                 .WithSimpleSchedule(x => x.WithInterval(TimeSpan.FromMilliseconds(interval))
                     .RepeatForever()).Build();
             var oldTrigger = context.Trigger;
-            var scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.RescheduleJob(oldTrigger.Key, newTrigger);
+            var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+            await scheduler.RescheduleJob(oldTrigger.Key, newTrigger);
         }
     }
 }
