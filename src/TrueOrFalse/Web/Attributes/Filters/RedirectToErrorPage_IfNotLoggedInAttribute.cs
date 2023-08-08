@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using TrueOrFalse.Frontend.Web.Code;
 public class RedirectToErrorPage_IfNotLoggedInAttribute : Attribute{}
 public class RedirectToErrorPage_IfNotLoggedInFilter : ActionFilterAttribute

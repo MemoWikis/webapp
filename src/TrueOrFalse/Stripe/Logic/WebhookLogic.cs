@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Net;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using TrueOrFalse.Infrastructure.Logging;
 
@@ -10,25 +8,35 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
 {
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
     public WebhookLogic(UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo, 
+        IHttpContextAccessor httpContextAccessor)
     {
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
+        _httpContextAccessor = httpContextAccessor;
     }
-    public async Task<HttpStatusCodeResult> Create(HttpContextBase context, HttpRequestBase baseRequest)
+    //public async Task<HttpStatusCodeResult> Create(HttpContextBase context, HttpRequestBase baseRequest)
+    //{
+    //    var eventAndStatus = await GetEvent(context, baseRequest);
+    //    var stripeEvent = eventAndStatus.stripeEvent;
+    //    var status = eventAndStatus.httpStatusCode;
+    //    return Evaluate(stripeEvent, status);
+    //}
+    public async Task<IActionResult> Create()
     {
-        var eventAndStatus = await GetEvent(context, baseRequest);
+        var eventAndStatus = await GetEvent(_httpContextAccessor.HttpContext.Request);
         var stripeEvent = eventAndStatus.stripeEvent;
-        var status = eventAndStatus.httpStatusCode;
-        return Evaluate(stripeEvent, status);
-    }
 
-    public HttpStatusCodeResult Evaluate(Event stripeEvent, HttpStatusCodeResult status)
+        var c = eventAndStatus.httpResult;
+        return Evaluate(stripeEvent, eventAndStatus.httpResult);
+    }
+    public IActionResult Evaluate(Event stripeEvent, IActionResult status)
     {
-        if (stripeEvent == null)
+        if (stripeEvent.Type == null)
         {
             return status;
         }
@@ -58,7 +66,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
                 break;
         }
 
-        return new HttpStatusCodeResult(HttpStatusCode.OK);
+        return new StatusCodeResult((int)HttpStatusCode.OK);
     }
 
     private void CustomerSubscriptionDeleted(Event stripeEvent)
@@ -75,27 +83,29 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
         LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
     }
 
-    private async Task<(Event stripeEvent, HttpStatusCodeResult httpStatusCode)> GetEvent(
-        HttpContextBase context,
-        HttpRequestBase baseRequest)
+  
+    public async Task<(Event stripeEvent, IActionResult httpResult)> GetEvent(HttpRequest request)
     {
-        var json = await new StreamReader(context.Request.InputStream).ReadToEndAsync();
+        using var reader = new StreamReader(request.Body);
+        var json = await reader.ReadToEndAsync();
+
         var endpointSecret = Settings.WebhookKeyStripe;
+
         try
         {
-            var signatureHeader = baseRequest.Headers["Stripe-Signature"];
-            var stripeEvent = EventUtility.ConstructEvent(json,
-                signatureHeader, endpointSecret);
-            return (stripeEvent, new HttpStatusCodeResult(HttpStatusCode.OK));
+            var signatureHeader = request.Headers["Stripe-Signature"];
+            var stripeEvent = EventUtility.ConstructEvent(json, signatureHeader, endpointSecret);
+
+            return (stripeEvent, new StatusCodeResult((int)HttpStatusCode.OK));
         }
         catch (StripeException e)
         {
             Console.WriteLine("Error: {0}", e.Message);
-            return (null, new HttpStatusCodeResult(HttpStatusCode.BadRequest));
+            return (null, new StatusCodeResult((int)HttpStatusCode.BadRequest));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            return (null, new HttpStatusCodeResult(HttpStatusCode.InternalServerError));
+            return (null, new StatusCodeResult((int)HttpStatusCode.InternalServerError));
         }
     }
 

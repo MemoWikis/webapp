@@ -1,6 +1,4 @@
-﻿using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
-using static System.String;
+﻿using static System.String;
 
 public class SeoUtils
 {

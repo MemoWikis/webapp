@@ -1,5 +1,6 @@
-﻿using System.IO;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 /// <summary>
 /// Copied from here: http://weblog.west-wind.com/posts/2012/May/30/Rendering-ASPNET-MVC-Views-to-String

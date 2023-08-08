@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text;
 using Autofac;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using NHibernate;
 using Quartz;
@@ -14,6 +15,7 @@ namespace TrueOrFalse.Infrastructure
         {
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
                                .AssignableTo<IRegisterAsInstancePerLifetime>();
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
 
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();

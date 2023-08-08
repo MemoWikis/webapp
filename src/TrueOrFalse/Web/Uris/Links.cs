@@ -10,7 +10,7 @@ namespace TrueOrFalse.Frontend.Web.Code;
 
 public static class Links
 {
-    public const string AnswerQuestionController = "AnswerQuestion";
+    public static readonly string AnswerQuestionController = "AnswerQuestion";
     /*Category*/
     public const string CategoryController = "Category";
     /*Question*/
