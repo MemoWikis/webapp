@@ -1,11 +1,11 @@
-﻿using System.IO;
-using RazorEngine;
+﻿using RazorLight.Razor;
+using RazorLight;
 
 public class KnowledgeReportMsg
 {
     private const string UtmSource = "knowledgeReportEmail";
 
-    public static void SendHtmlMail(User user,
+    public static async void SendHtmlMail(User user,
         JobQueueRepo jobQueueRepo,
         MessageEmailRepo messageEmailRepo,
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
@@ -16,17 +16,23 @@ public class KnowledgeReportMsg
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         QuestionReadingRepo questionReadingRepo)
     {
-        var parsedTemplate = Razor.Parse(
-            File.ReadAllText(PathTo.EmailTemplate_KnowledgeReport()),
-            new KnowledgeReportMsgModel(user,
+       
+        var template = await File.ReadAllTextAsync(PathTo.EmailTemplate_KnowledgeReport());
+        var model = new KnowledgeReportMsgModel(user,
                 UtmSource,
                 getAnswerStatsInPeriod,
                 getStreaksDays,
                 userReadingRepo,
                 getUnreadMessageCount,
                 knowledgeSummaryLoader,
-                questionReadingRepo)
-        );
+                questionReadingRepo);
+
+        var project = new FileSystemRazorProject(Path.GetDirectoryName(PathTo.EmailTemplate_KnowledgeReport()));
+        var engine = new RazorLightEngineBuilder()
+            .UseProject(project)
+            .UseMemoryCachingProvider()
+            .Build();
+        var parsedTemplate = await engine.CompileRenderStringAsync("templateKey", template, model);
 
         var messageTitle = "Dein " + (user.KnowledgeReportInterval == UserSettingNotificationInterval.Never ? "" : UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval) + "er") + " Wissensbericht";
         var intervalWord = UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval);
@@ -49,10 +55,10 @@ public class KnowledgeReportMsg
             Settings.EmailFrom,
             user.EmailAddress,
             "Dein Wissensstand bei memucho",
-            parsedTemplate);
+            template);
         mailmessage2.UserName = user.Name; 
 
-        HtmlMessage.Send(mailmessage2,
+       await HtmlMessage.SendAsync(mailmessage2,
             messageTitle,
             jobQueueRepo,
             userReadingRepo,
