@@ -14,6 +14,8 @@ const userStore = useUserStore()
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
 async function openUrl(val: any) {
+    if (isMobile || window?.innerWidth < 480)
+        showSearch.value = false
     return navigateTo(val.Url)
 }
 const { isDesktopOrTablet, isMobile } = useDevice()

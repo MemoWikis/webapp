@@ -23,6 +23,8 @@ const props = defineProps<Props>()
 const showSearch = ref(false)
 
 async function openUrl(val: any) {
+    if (isMobile || window?.innerWidth < 480)
+        showSearch.value = false
     return navigateTo(val.Url)
 }
 const userStore = useUserStore()
