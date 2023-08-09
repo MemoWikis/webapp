@@ -36,7 +36,6 @@ function handleScroll() {
         showRegisterButton.value = true
     else
         showRegisterButton.value = false
-
 }
 
 function handleResize() {

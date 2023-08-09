@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
+import { SearchType } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 import { useRootTopicChipStore } from './rootTopicChipStore'
 
@@ -13,10 +13,8 @@ const userStore = useUserStore()
 
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
-function openUrl(val: TopicItem | QuestionItem | UserItem | null) {
-    if (val != null) {
-        navigateTo({ path: val.Url ? val.Url : '' }, { replace: true })
-    }
+async function openUrl(val: any) {
+    return navigateTo(val.Url)
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
 
