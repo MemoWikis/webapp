@@ -1,8 +1,7 @@
 ﻿using System.Text.Json;
 using Autofac;
-
 using Quartz;
-using RollbarSharp;
+using Rollbar;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -54,7 +53,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
 
                 Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "RemoveQuestionsInCategoryFromWishKnowledge", categoryUserPair.CategoryId);
-                new RollbarClient().SendException(e);
+                RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
             }
         }
 

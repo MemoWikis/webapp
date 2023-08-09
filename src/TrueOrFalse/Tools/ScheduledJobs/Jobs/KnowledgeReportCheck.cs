@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Quartz;
-using RollbarSharp;
+﻿using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -36,7 +31,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
             _questionReadingRepo = questionReadingRepo;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -59,6 +54,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 }
 
             }, "KnowledgeReportCheck");
+
+            return Task.CompletedTask;
         }
 
     }

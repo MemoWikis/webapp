@@ -20,7 +20,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _sessionUser = sessionUser;
             _categoryRepository = categoryRepository;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             Logg.r().Information("Job started - Update Aggregated Categories from Update Question");
 
@@ -37,6 +37,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
                 Logg.r().Information("Update Category from Update Question - {id}", category.Id);
             }
+
+            return Task.CompletedTask;
         }
     }
 }

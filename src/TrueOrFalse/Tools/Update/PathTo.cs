@@ -17,11 +17,6 @@ public class PathTo
         return GetPath("/Domain/Message/HtmlMessage/KnowledgeReportMsgStylesInlined.cshtml");
     }
 
-    public static string EmailTemplate_TrainingReminder()
-    {
-        return GetPath("/Domain/Message/HtmlMessage/TrainingReminderForDateMsgStylesInlined.cshtml");
-    }
-
     public static string Log_Ignore()
     {
         var path = GetPath("Log.ignore");
@@ -37,11 +32,6 @@ public class PathTo
     public static string Scrips(string fileName)
     {
         return "Utilities/Update/Scripts/" + fileName;
-    }
-
-    public static string SolrSchema(string fileName)
-    {
-        return GetPath("Infrastructure/SolrSchemas/" + fileName);
     }
 
     private static string GetPath(string fileName)

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Autofac;
+﻿using Autofac;
 using Quartz;
-using RollbarSharp;
+using Rollbar;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -21,7 +19,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _categoryValuationWritingRepo = categoryValuationWritingRepo;
         }
 
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
@@ -42,7 +40,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     catch (Exception e)
                     {
                         Logg.r().Error(e, "Error in job RecalcKnowledgeSummaryForCategory.");
-                        new RollbarClient().SendException(e);
+                        RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                     }
                 }
 
@@ -54,6 +52,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     successfullJobIds.Clear();
                 }
             }, "RecalcKnowledgeSummaryForCategory");
+            return Task.CompletedTask; 
         }
     }
 }

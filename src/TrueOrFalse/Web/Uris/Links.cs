@@ -37,9 +37,9 @@ public static class Links
         return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
     }
 
-    public static string AnswerQuestion(Question question)
+    public static string AnswerQuestion(Question question, IHttpContextAccessor httpContext)
     {
-        return HttpContext.Current == null
+        return httpContext.HttpContext == null
             ? ""
             : AnswerQuestion(question, -1);
     }

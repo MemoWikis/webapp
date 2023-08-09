@@ -19,7 +19,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _nhibernateSession = nhibernateSession;
             _userReadingRepo = userReadingRepo;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -44,6 +44,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             }, "RecalcTotalWishInOthersPeople");
 
+            return Task.CompletedTask;
         }
 
         private string GetReport()

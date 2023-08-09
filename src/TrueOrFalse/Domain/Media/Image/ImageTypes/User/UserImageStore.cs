@@ -1,15 +1,25 @@
 ﻿using System.Web;
+using Microsoft.AspNetCore.Http;
 
 public class UserImageStore
 {
-    public static void Run(HttpPostedFileBase imagefile, int userId)
+    public static void Run(IFormFile imageFile, int userId)
     {
-        if (imagefile == null)
+        if (imageFile == null || imageFile.Length == 0)
             return;
 
+        using var stream = imageFile.OpenReadStream();
+
         SaveImageToFile.Run(
-            imagefile.InputStream,
+            stream,
             new UserImageSettings(userId)
         );
     }
+    
+
+
+
+
+
+
 }

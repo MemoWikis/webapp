@@ -1,8 +1,10 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 using static System.String;
 
 public class ImageFrontendData
-{ 
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
     public ImageMetaData ImageMetaData;
     public bool ImageMetaDataExists;
     public MainLicenseInfo MainLicenseInfo;
@@ -20,9 +22,13 @@ public class ImageFrontendData
     public string AttributionHtmlString;
     public ImageParsingNotifications ImageParsingNotifications;
 
-    public ImageFrontendData(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo) :
+    public ImageFrontendData(int typeId,
+        ImageType imageType, 
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IHttpContextAccessor httpContextAccessor) :
         this(PrepareConstructorArguments(typeId, imageType, imageMetaDataReadingRepo))
     {
+        _httpContextAccessor = httpContextAccessor;
     }
         
     public ImageFrontendData(ImageMetaData imageMetaData)
@@ -238,7 +244,7 @@ public class ImageFrontendData
         }
         catch (Exception e)
         {
-            Logg.Error(e);
+            Logg.Error(e, _httpContextAccessor);
             return "";
         }
     }

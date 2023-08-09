@@ -1,5 +1,6 @@
-﻿using System.Web;
-using RollbarSharp;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
+using Rollbar;
 using Serilog;
 using TrueOrFalse.Infrastructure.Logging;
 using TrueOrFalse.Tools;
@@ -7,9 +8,9 @@ using TrueOrFalse.Tools;
 public class Logg
 {
     private const string _seqUrl = "http://localhost:5341";
-    private static readonly ILogger _logger;
-    private static readonly ILogger _loggerIsCrawler;
-    private static readonly ILogger _subscriptionLogger;
+    private static readonly Serilog.ILogger _logger;
+    private static readonly Serilog.ILogger _loggerIsCrawler;
+    private static readonly Serilog.ILogger _subscriptionLogger;
 
     static Logg()
     {
@@ -37,28 +38,30 @@ public class Logg
     }
 
 
-    public static void Error(Exception exception)
+    public static void Error(Exception exception, IHttpContextAccessor httpContextAccessor)
     {
         try
         {
-            if (HttpContext.Current == null)
+            if (httpContextAccessor.HttpContext == null)
             {
                 r().Error(exception, "Error");
                 return;
             }
 
-            var request = HttpContext.Current.Request;
+            var request = httpContextAccessor.HttpContext.Request;
             var header = request.Headers.ToString();
 
             if (!IgnoreLog.ContainsCrawlerInHeader(header))
             {
+                var rawUrl = $"{request.Path}{request.QueryString}";
                 r(IsCrawlerRequest.Yes(UserAgent.Get())).Error(exception, "PageError {Url} {Headers}",
-                    request.RawUrl,
+                    rawUrl,
                     header);
 
-                if (!request.IsLocal)
+                var connection = httpContextAccessor.HttpContext.Connection;
+                if (connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress))
                 {
-                    new RollbarClient().SendException(exception);
+                    RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(exception));
                 }
             }
         }
@@ -67,7 +70,7 @@ public class Logg
         }
     }
 
-    public static ILogger r(bool isCrawler = false)
+    public static Serilog.ILogger r(bool isCrawler = false)
     {
         return isCrawler ? _loggerIsCrawler : _logger;
     }

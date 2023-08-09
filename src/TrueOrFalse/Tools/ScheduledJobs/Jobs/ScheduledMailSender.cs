@@ -7,7 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
-using RollbarSharp;
+
 namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 {
     class ScheduledMailSender : IJob

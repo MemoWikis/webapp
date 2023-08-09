@@ -30,7 +30,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
             _categoryValuationWritingRepo = categoryValuationWritingRepo;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 
             {
@@ -43,6 +43,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         _knowledgeSummaryLoader);
                 }
             }, "RecalcKnowledgeStati");
+
+            return Task.CompletedTask;
         }
     }
 }

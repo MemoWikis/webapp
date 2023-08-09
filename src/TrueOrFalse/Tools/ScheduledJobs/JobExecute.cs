@@ -1,10 +1,7 @@
 ﻿using System.Data;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 using Autofac;
 using NHibernate;
-using RollbarSharp;
 
 public class JobExecute
 {
@@ -73,9 +70,6 @@ public class JobExecute
         catch (Exception e)
         {
             Logg.r().Error(e, "Job error on {JobName}" , jobName, Settings.Environment());
-
-            if (!String.IsNullOrEmpty(Settings.RollbarAccessToken))
-                new RollbarClient().SendException(e);
         }
     }
 
