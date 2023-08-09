@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using System.Web.Hosting;
+﻿using Microsoft.Extensions.Hosting.Internal;
 using Seedworks.Web.State;
 using TrueOrFalse.Infrastructure;
 
@@ -30,21 +29,14 @@ public static class AsyncExe
                 actionExec = action;
             }
 
-            if (ContextUtil.IsWebContext)
-                HostingEnvironment.QueueBackgroundWorkItem(ct =>
-                {
-                    try
-                    {
-                        actionExec();
-                    }
-                    catch(Exception e)
-                    {
-                        Logg.r().Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
-                    }
-                    
-                });
-            else //for unit tests
+            try
+            {
                 Task.Factory.StartNew(() => { actionExec(); });
+            }
+            catch (Exception e)
+            {
+                Logg.r().Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
+            }
         }
         catch (Exception e)
         {

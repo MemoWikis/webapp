@@ -1,20 +1,25 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNetCore.Http;
 
 public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly string _sessionId;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
+    private readonly HttpContext _httpContext;
 
-    public LearningSessionCache(HttpContext httpContext)
+    public LearningSessionCache(IHttpContextAccessor httpContextAccessor)
     {
-        _sessionId = httpContext.Session.SessionID;
+        _httpContextAccessor = httpContextAccessor;
+        _httpContext = _httpContextAccessor.HttpContext;
+        _sessionId = httpContextAccessor.HttpContext?.Session.Id;
     }
     public void AddOrUpdate(LearningSession learningSession)
     {
         _learningSessions.AddOrUpdate(
-            HttpContext.Current.Session.SessionID,
+            _sessionId,
             learningSession,
             (a, b) => learningSession
         );
@@ -22,15 +27,12 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
 
     public  LearningSession TryRemove()
     {
-
         _learningSessions.TryRemove(_sessionId, out var learningSession);
         return GetLearningSession();
     }
 
     public  LearningSession GetLearningSession()
     {
-        var context = HttpContext.Current.Session.SessionID;
-
         _learningSessions.TryGetValue(_sessionId, out var learningSession);
         AddOrUpdate(learningSession);
         return learningSession;
