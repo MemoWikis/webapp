@@ -22,6 +22,53 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _permissionCheck = permissionCheck;
     }
 
+    private dynamic CreateTopicDataObject(int id, CategoryCacheItem topic, ImageMetaData imageMetaData, KnowledgeSummary knowledgeSummary)
+    {
+        return new
+        {
+            CanAccess = true,
+            Id = id,
+            Name = topic.Name,
+            ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
+            Content = topic.Content,
+            ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
+            Parents = topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id).GetUrl(50, true).Url }).ToArray(),
+            ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
+            DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
+            Views = Sl.CategoryViewRepo.GetViewCount(id),
+            Visibility = topic.Visibility,
+            AuthorIds = topic.AuthorIds,
+            Authors = topic.AuthorIds.Select(id =>
+            {
+                var author = EntityCache.GetUserById(id);
+                return new
+                {
+                    Id = id,
+                    Name = author.Name,
+                    ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
+                    Reputation = author.Reputation,
+                    ReputationPos = author.ReputationPos
+                };
+            }).ToArray(),
+            IsWiki = topic.IsStartPage(),
+            CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
+            CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
+            QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
+            DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId, true),
+            ImageId = imageMetaData != null ? imageMetaData.Id : 0,
+            SearchTopicItem = FillMiniTopicItem(topic),
+            MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
+            KnowledgeSummary = new
+            {
+                notLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+                needsLearning = knowledgeSummary.NeedsLearning,
+                needsConsolidation = knowledgeSummary.NeedsConsolidation,
+                solid = knowledgeSummary.Solid
+            }
+        };
+    }
+
+
     public dynamic GetTopicData(int id)
     {
         var topic = EntityCache.GetCategory(id);
@@ -31,51 +78,12 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
-            return new
-            {
-                CanAccess = true,
-                Id = id,
-                Name = topic.Name,
-                ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
-                Content = topic.Content,
-                ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
-                ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
-                DirectChildTopicCount = topic.DirectChildrenIds.ToList().Count,
-                Views = Sl.CategoryViewRepo.GetViewCount(id),
-                Visibility = topic.Visibility,
-                AuthorIds = topic.AuthorIds,
-                Authors = topic.AuthorIds.Select(id =>
-                {
-                    var author = EntityCache.GetUserById(id);
-                    return new
-                    {
-                        Id = id,
-                        Name = author.Name,
-                        ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
-                        Reputation = author.Reputation,
-                        ReputationPos = author.ReputationPos
-                    };
-                }).ToArray(),
-                IsWiki = topic.IsStartPage(),
-                CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
-                CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
-                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
-                DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId, true),
-                ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-                SearchTopicItem = FillMiniTopicItem(topic),
-                MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
-                KnowledgeSummary = new
-                {
-                    notLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
-                    needsLearning = knowledgeSummary.NeedsLearning,
-                    needsConsolidation = knowledgeSummary.NeedsConsolidation,
-                    solid = knowledgeSummary.Solid
-                }
-            };
+            return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
 
         return new { };
     }
+
     public dynamic GetTopicDataWithSegments(int id, ControllerContext context)
     {
         var topic = EntityCache.GetCategory(id);
@@ -84,52 +92,42 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         {
             var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
             var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+
+            var topicData = CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
+
+            // Here, using a "copy" method to avoid modifying the original object 
+            // (since anonymous types are immutable).
             return new
             {
-                CanAccess = true,
-                Id = id,
-                Name = topic.Name,
-                ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
-                Content = topic.Content,
-                ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
-                ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
-                DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
-                Views = Sl.CategoryViewRepo.GetViewCount(id),
-                Visibility = topic.Visibility,
-                AuthorIds = topic.AuthorIds,
-                Authors = topic.AuthorIds.Select(id =>
-                {
-                    var author = EntityCache.GetUserById(id);
-                    return new
-                    {
-                        Id = id,
-                        Name = author.Name,
-                        ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
-                        Reputation = author.Reputation,
-                        ReputationPos = author.ReputationPos
-                    };
-                }).ToArray(),
-                IsWiki = topic.IsStartPage(),
-                CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
-                CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
-                QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
-                DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId, true),
-                ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-                SearchTopicItem = FillMiniTopicItem(topic),
-                MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
-                KnowledgeSummary = new
-                {
-                    notLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
-                    needsLearning = knowledgeSummary.NeedsLearning,
-                    needsConsolidation = knowledgeSummary.NeedsConsolidation,
-                    solid = knowledgeSummary.Solid
-                },
+                topicData.CanAccess,
+                topicData.Id,
+                topicData.Name,
+                topicData.ImageUrl,
+                topicData.Content,
+                topicData.ParentTopicCount,
+                topicData.Parents,
+                topicData.ChildTopicCount,
+                topicData.DirectChildTopicCount,
+                topicData.Views,
+                topicData.Visibility,
+                topicData.AuthorIds,
+                topicData.Authors,
+                topicData.IsWiki,
+                topicData.CurrentUserIsCreator,
+                topicData.CanBeDeleted,
+                topicData.QuestionCount,
+                topicData.DirectQuestionCount,
+                topicData.ImageId,
+                topicData.SearchTopicItem,
+                topicData.MetaDescription,
+                topicData.KnowledgeSummary,
                 Segmentation = GetSegmentation(id, context)
             };
         }
 
         return new { };
     }
+
 
     private dynamic GetSegmentation(int id, ControllerContext context)
     {

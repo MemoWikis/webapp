@@ -12,6 +12,7 @@ export class Topic {
 	ImageId: number = 0
 	Content: string = ''
 	ParentTopicCount: number = 0
+	Parents: TinyTopicModel[] = []
 	ChildTopicCount: number = 0
 	DirectChildTopicCount: number = 0
 	Views: number = 0
@@ -62,6 +63,12 @@ export interface FooterTopics {
 	Documentation: Topic
 }
 
+interface TinyTopicModel {
+	id: number
+	name: string
+	imgUrl: string
+}
+
 export const useTopicStore = defineStore('topicStore', {
 	state: () => {
 		return {
@@ -76,6 +83,7 @@ export const useTopicStore = defineStore('topicStore', {
 			initialContent: '',
 			contentHasChanged: false,
 			parentTopicCount: 0,
+			parents: [] as TinyTopicModel[],
 			childTopicCount: 0,
 			directChildTopicCount: 0,
 			views: 0,
@@ -102,6 +110,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.initialContent = topic.Content
 
 				this.parentTopicCount = topic.ParentTopicCount
+				this.parents = topic.Parents
 				this.childTopicCount = topic.ChildTopicCount
 				this.directChildTopicCount = topic.DirectChildTopicCount
 
