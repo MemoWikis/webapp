@@ -429,6 +429,10 @@ const { $urlHelper } = useNuxtApp()
 			padding-left: 0px;
 		}
 
+		@media (max-width: 479px) {
+			max-width: 260px;
+		}
+
 		&.last {
 			max-width: 300px;
 			color: @memo-grey-darker;

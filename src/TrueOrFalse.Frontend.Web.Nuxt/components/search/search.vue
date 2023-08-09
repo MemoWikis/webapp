@@ -116,6 +116,8 @@ function selectItem(item: TopicItem | QuestionItem | UserItem) {
             break;
     }
     selectedItem.value = item
+    searchTerm.value = ''
+    hide()
 }
 function openUsers() {
     return navigateTo(userSearchUrl.value)
@@ -126,8 +128,11 @@ onMounted(() => {
         window.addEventListener('scroll', () => { showDropdown.value = false })
     }
 })
+
+const inputIsFocused = ref(false)
 function hide() {
-    showDropdown.value = false
+    if (!inputIsFocused.value)
+        showDropdown.value = false
 }
 
 const searchInput = ref()
@@ -140,13 +145,14 @@ watch(() => props.showSearch, (val) => {
 
 <template>
     <LazyClientOnly>
-        <div class="search-category-component" v-click-outside="hide">
+        <div class="search-category-component">
             <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
                             v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                            :placeholder="props.placeholderLabel" ref="searchInput" />
+                            :placeholder="props.placeholderLabel" ref="searchInput" @focus="inputIsFocused = true"
+                            @blur="inputIsFocused = false" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
 
@@ -155,7 +161,7 @@ watch(() => props.showSearch, (val) => {
             </form>
 
             <VDropdown :distance="props.distance" :triggers="[]" v-model:shown="showDropdown" no-auto-focus
-                :auto-hide="false" :placement="props.placement">
+                :auto-hide="false" :placement="props.placement" v-click-outside="hide">
                 <template #popper>
                     <div class="searchDropdown">
                         <div v-if="topics.length > 0" class="searchBanner">
