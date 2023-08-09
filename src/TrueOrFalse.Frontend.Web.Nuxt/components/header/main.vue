@@ -23,7 +23,7 @@ const props = defineProps<Props>()
 const showSearch = ref(false)
 
 async function openUrl(val: any) {
-    await navigateTo(val.Url)
+    return navigateTo(val.Url)
 }
 const userStore = useUserStore()
 
