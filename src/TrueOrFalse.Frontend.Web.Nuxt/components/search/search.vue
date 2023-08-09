@@ -118,7 +118,7 @@ function selectItem(item: TopicItem | QuestionItem | UserItem) {
     selectedItem.value = item
 }
 function openUsers() {
-    navigateTo(userSearchUrl.value)
+    return navigateTo(userSearchUrl.value)
 }
 
 onMounted(() => {

@@ -39,6 +39,8 @@ function handleScroll() {
 }
 
 function handleResize() {
+    if (showSearch.value)
+        return
     if (window.innerWidth < 769) {
         showSearch.value = false
     }
