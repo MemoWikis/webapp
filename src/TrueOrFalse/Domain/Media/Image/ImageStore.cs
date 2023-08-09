@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using Microsoft.AspNetCore.Http;
+using System.Web;
 using TrueOrFalse;
 
 public class ImageStore : IRegisterAsInstancePerLifetime
@@ -71,13 +72,18 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
 
-    public void RunUploaded<T>(HttpPostedFileBase imagefile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
+    public void RunUploaded<T>(IFormFile imageFile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
     {
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
         imageSettings.DeleteFiles(); //old files..
 
-        SaveImageToFile.Run(imagefile.InputStream, imageSettings);
+        if (imageFile.Length == 0)
+            return;
+
+        using var stream = imageFile.OpenReadStream();
+
+        SaveImageToFile.Run(stream, imageSettings);
 
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }

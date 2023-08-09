@@ -1,8 +1,4 @@
-﻿using System.Net;
-using System.Web;
-using Google.Protobuf.WellKnownTypes;
-using Microsoft.AspNetCore.Http;
-using Ubiety.Dns.Core;
+﻿using Microsoft.AspNetCore.Http;
 
 public class WritePersistentLoginToCookie
 {

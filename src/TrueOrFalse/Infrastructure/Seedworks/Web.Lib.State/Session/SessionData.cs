@@ -1,5 +1,6 @@
-﻿using System.Web;
-using System.Collections.Generic;
+﻿
+using Microsoft.AspNetCore.Http;
+using TrueOrFalse.Web.Context;
 
 namespace Seedworks.Web.State
 {
@@ -10,25 +11,25 @@ namespace Seedworks.Web.State
 	[Serializable]
 	public class SessionData : IRegisterAsInstancePerLifetime
 	{
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HashSet<string> _appDomainInsertedKeys = new();
 
-        public SessionData(HttpContext httpContext)
+        public SessionData(IHttpContextAccessor httpContextAccessor)
         {
-            _httpContext = httpContext;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <summary>
         /// Returns the untyped item for the given key. May be <b>null</b>.
         /// </summary>
-		public object Get(string key)
+		public object? Get(string key)
 		{
-            if (ContextUtil.IsWebContext)
+            if (_httpContextAccessor.HttpContext != null)
 			{
-				if (_httpContext.Session == null)
+				if ( _httpContextAccessor.HttpContext.Session == null)
 					throw new NullReferenceException("Probably you access session data too late or too early in the page life cycle.");
 
-				return _httpContext.Session[key];
+				return _httpContextAccessor.HttpContext.Session.Get<object>(key);
 			}
 
             return AppDomain.CurrentDomain.GetData(key);
@@ -36,8 +37,8 @@ namespace Seedworks.Web.State
 
 		public void Set(string key, object value)
         {
-            if (ContextUtil.IsWebContext)
-                _httpContext.Session[key] = value;
+            if (_httpContextAccessor.HttpContext != null)
+                _httpContextAccessor.HttpContext.Session.Set<object>(key, value);
             else
                 AppDomain.CurrentDomain.SetData(key, value);
 
@@ -78,9 +79,9 @@ namespace Seedworks.Web.State
 
 		public void Clear()
 		{
-			if (ContextUtil.IsWebContext)
+			if (_httpContextAccessor.HttpContext != null)
 				foreach (var key in _appDomainInsertedKeys)
-					_httpContext.Session.Remove(key);
+                    _httpContextAccessor.HttpContext.Session.Remove(key);
 			else
 				foreach (var key in _appDomainInsertedKeys)
 					AppDomain.CurrentDomain.SetData(key, null);
