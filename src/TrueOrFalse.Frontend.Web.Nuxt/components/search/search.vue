@@ -117,7 +117,6 @@ function selectItem(item: TopicItem | QuestionItem | UserItem) {
     }
     selectedItem.value = item
     searchTerm.value = ''
-    hide()
 }
 function openUsers() {
     return navigateTo(userSearchUrl.value)
@@ -129,11 +128,6 @@ onMounted(() => {
     }
 })
 
-const inputIsFocused = ref(false)
-function hide() {
-    if (!inputIsFocused.value)
-        showDropdown.value = false
-}
 
 const searchInput = ref()
 
@@ -151,8 +145,7 @@ watch(() => props.showSearch, (val) => {
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
                             v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                            :placeholder="props.placeholderLabel" ref="searchInput" @focus="inputIsFocused = true"
-                            @blur="inputIsFocused = false" />
+                            :placeholder="props.placeholderLabel" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
 
@@ -160,8 +153,8 @@ watch(() => props.showSearch, (val) => {
                 </div>
             </form>
 
-            <VDropdown :distance="props.distance" :triggers="[]" v-model:shown="showDropdown" no-auto-focus
-                :auto-hide="false" :placement="props.placement" v-click-outside="hide">
+            <VDropdown :distance="props.distance" v-model:shown="showDropdown" no-auto-focus :auto-hide="true"
+                :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
                         <div v-if="topics.length > 0" class="searchBanner">
