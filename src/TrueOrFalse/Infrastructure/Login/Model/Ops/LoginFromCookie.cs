@@ -1,6 +1,11 @@
-﻿public class LoginFromCookie
+﻿using Microsoft.AspNetCore.Http;
+
+public class LoginFromCookie
 {
-    public static bool Run(SessionUser sessionUser, PersistentLoginRepo persistentLoginRepo, UserReadingRepo userReadingRepo)
+    public static bool Run(SessionUser sessionUser, 
+        PersistentLoginRepo persistentLoginRepo, 
+        UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor)
     {
         var cookieValues = GetPersistentLoginCookieValues.Run();
 
@@ -17,7 +22,9 @@
             return false;
 
         persistentLoginRepo.Delete(persistentLogin);
-        WritePersistentLoginToCookie.Run(cookieValues.UserId, persistentLoginRepo);
+        WritePersistentLoginToCookie.Run(cookieValues.UserId,
+            persistentLoginRepo, 
+            httpContextAccessor);
 
         sessionUser.Login(user);            
 

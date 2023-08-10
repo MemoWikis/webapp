@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
@@ -9,14 +10,17 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public SubscriptionLogic(SessionUser sessionUser,
         UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo,
+        IHttpContextAccessor httpContextAccessor)
     {
         _sessionUser = sessionUser;
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<string> CreateCustomer(string username, string email, int userId)
@@ -77,7 +81,7 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
         }
         catch (StripeException e)
         {
-            Logg.Error(e);
+            Logg.Error(e, _httpContextAccessor);
             return "-1";
         }
     }

@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using Microsoft.AspNetCore.Http;
+using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -6,15 +7,25 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly CategoryRepository _categoryRepository;
         private readonly QuestionReadingRepo _questionReadingRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LomExportJob(CategoryRepository categoryRepository, QuestionReadingRepo questionReadingRepo)
+        public LomExportJob(CategoryRepository categoryRepository, 
+            QuestionReadingRepo questionReadingRepo, 
+            IHttpContextAccessor httpContextAccessor)
         {
             _categoryRepository = categoryRepository;
             _questionReadingRepo = questionReadingRepo;
+            _httpContextAccessor = httpContextAccessor;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
-            JobExecute.Run(scope => LomExporter.AllToFileSystem(_categoryRepository, _questionReadingRepo), nameof(LomExportJob));
+            JobExecute.Run(scope => 
+                LomExporter.AllToFileSystem(_categoryRepository, 
+                    _questionReadingRepo, 
+                    _httpContextAccessor), 
+                nameof(LomExportJob));
+
+            return Task.CompletedTask;
         }
     }
 }

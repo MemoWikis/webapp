@@ -1,11 +1,14 @@
+using System.Data;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
+using Autofac;
+using NHibernate;
 
-/// <remarks>
 /// http://stackoverflow.com/questions/229565/what-is-a-good-pattern-for-using-a-global-mutex-in-c
 /// </remarks>
 public class MutexX : IDisposable
@@ -16,14 +19,11 @@ public class MutexX : IDisposable
     {
         string appGuid = ((GuidAttribute)Assembly
             .GetExecutingAssembly()
-            .GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value.ToString();
-        string mutexId = $"Global\\{{{appGuid}-{nameSuffix}}}";
-        _mutex = new Mutex(false, mutexId);
+            .GetCustomAttributes(typeof(GuidAttribute), false).GetValue(0)).Value;
 
-        var allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), MutexRights.FullControl, AccessControlType.Allow);
-        var securitySettings = new MutexSecurity();
-        securitySettings.AddAccessRule(allowEveryoneRule);
-        _mutex.SetAccessControl(securitySettings);
+        string mutexId = $"{{{appGuid}-{nameSuffix}}}";
+
+        _mutex = new Mutex(false, mutexId);
     }
 
     public MutexX(int timeOut, string nameSuffix)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Domain.User
 {
@@ -13,18 +14,21 @@ namespace TrueOrFalse.Domain.User
         private readonly SessionUser _sessionUser;
         private readonly ActivityPointsRepo _activityPointsRepo;
         private readonly PersistentLoginRepo _persistentLoginRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public Login(CredentialsAreValid credentialsAreValid,
             UserWritingRepo userWritingRepo,
             SessionUser sessionUser,
             ActivityPointsRepo activityPointsRepo,
-            PersistentLoginRepo persistentLoginRepo)
+            PersistentLoginRepo persistentLoginRepo,
+            IHttpContextAccessor httpContextAccessor)
         {
             _credentialsAreValid = credentialsAreValid;
             _userWritingRepo = userWritingRepo;
             _sessionUser = sessionUser;
             _activityPointsRepo = activityPointsRepo;
             _persistentLoginRepo = persistentLoginRepo;
+            _httpContextAccessor = httpContextAccessor;
         }
         public bool UserLogin(LoginJson loginJson)
         {
@@ -33,7 +37,9 @@ namespace TrueOrFalse.Domain.User
 
                 if (loginJson.PersistentLogin)
                 {
-                    WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id, _persistentLoginRepo);
+                    WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id,
+                        _persistentLoginRepo, 
+                        _httpContextAccessor);
                 }
 
                 _sessionUser.Login(_credentialsAreValid.User);

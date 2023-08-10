@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 using Autofac;
-using Markdig.Helpers;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
+using Rollbar;
 
 namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 {
@@ -62,13 +60,13 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     {
                         var e = new Exception(job.JobContent + job.Id);
                         Logg.r().Error(e, "Error in job ScheduledMailSender. MailMessage was null.");
-                        new RollbarClient().SendException(e);
+                        RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                     }
                 }
                 catch (Exception e)
                 {
                     Logg.r().Error(e, "Error in job ScheduledMailSender.");
-                    new RollbarClient().SendException(e);
+                    RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
 
                 var currentJobId = new List<int>();

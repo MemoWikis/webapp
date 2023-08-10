@@ -38,7 +38,7 @@ public class DeleteQuestion : IJob
         _userReadingRepo = userReadingRepo;
         _questionWritingRepo = questionWritingRepo;
     }
-    public void Execute(IJobExecutionContext context)
+    public Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
@@ -61,5 +61,7 @@ public class DeleteQuestion : IJob
         var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Logg.r().Information("Question {id} deleted", questionId);
+
+        return Task.CompletedTask;
     }
 }

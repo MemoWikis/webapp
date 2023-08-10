@@ -1,14 +1,18 @@
-﻿using System.Collections;
+﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 
 namespace Seedworks.Web.State
 {
-    internal class CacheAspNet : ICache
+    //todo (DaMa) überarbeiten, dieser Cache muss nicht mehr alleine existieren und kann verallgemeinert werden, mir fehlt gerade der Überblick um das zu erledigen
+    internal class CacheAspNet
     {
-        public int Count => HttpRuntime.Cache.Count;
+        private readonly IMemoryCache _cache;
+        private CancellationTokenSource _cacheResetToken;
 
-        public IDictionaryEnumerator GetEnumerator()
+        public CacheAspNet(IMemoryCache cache)
         {
-            return HttpRuntime.Cache.GetEnumerator();
+            _cache = cache;
+            _cacheResetToken = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -19,49 +23,50 @@ namespace Seedworks.Web.State
         /// <param name="obj"></param>
         /// <param name="expiration"></param>
         /// <param name="slidingExpiration"></param>
-        public void Add(string key, object obj, TimeSpan expiration, bool slidingExpiration = false)
+        public void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
         {
-
-            if (slidingExpiration)
+            var cacheEntryOptions = new MemoryCacheEntryOptions
             {
-                // The first approach removes an item from the cache if it has not been accessed for the given TimeSpan.
-                HttpRuntime.Cache.Insert(key, obj, null, System.Web.Caching.Cache.NoAbsoluteExpiration, expiration, CacheItemPriority.NotRemovable, null);
-                return;
-            }
-               
-            // The second approach removes an item from the cache at a given point in time, here after <expiration> has elapsed.
-            HttpRuntime.Cache.Insert(key, obj, null, DateTime.Now + expiration, System.Web.Caching.Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
-        }
+                ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
+            };
 
-        /// <summary>
-        /// Add an object to the Cache (overwrite if already existent).
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
-        public void Add(string key, object obj)
-        {
-            HttpRuntime.Cache.Insert(key, obj);  
+            if (expiration.HasValue)
+            {
+                if (slidingExpiration)
+                {
+                    cacheEntryOptions.SlidingExpiration = expiration.Value;
+                }
+                else
+                {
+                    cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
+                }
+            }
+
+            _cache.Set(key, obj, cacheEntryOptions);
         }
 
         public object Get(string key)
         {
-            return HttpRuntime.Cache.Get(key);
+            _cache.TryGetValue(key, out var value);
+            return value;
         }
 
         public T Get<T>(string key)
         {
-            return (T)HttpRuntime.Cache.Get(key);
+            _cache.TryGetValue(key, out var value);
+            return (T)value;
         }
 
         public void Clear()
         {
-            foreach (DictionaryEntry item in HttpRuntime.Cache)
-                HttpRuntime.Cache.Remove(item.Key.ToString());
+            _cacheResetToken.Cancel();
+            _cacheResetToken.Dispose();
+            _cacheResetToken = new CancellationTokenSource();
         }
 
         public void Remove(string key)
         {
-            HttpRuntime.Cache.Remove(key);
+            _cache.Remove(key);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _userReadingRepo = userReadingRepo;
             _questionValuationRepo = questionValuationRepo;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -27,6 +27,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"), _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
 
             }, "InitUserValuationCache");
+
+            return Task.CompletedTask;
         }
     }
 }
