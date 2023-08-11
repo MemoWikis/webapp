@@ -1,13 +1,13 @@
 ﻿using Seedworks.Web.State;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
+using ConcurrentCollections;
 using Serilog;
+using Microsoft.Extensions.Caching.Memory;
 
 public class SessionUserCache
 {
     public const int ExpirationSpanInMinutes = 600;
-
+    private static ConcurrentHashSet<string> _cacheKeys = new();
     private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
     private static string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
 
@@ -68,6 +68,7 @@ public class SessionUserCache
         if (user == null) return null;
 
         var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
+
         cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
             categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
@@ -81,6 +82,8 @@ public class SessionUserCache
                 .Select(v =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
                         QuestionValuationCacheItem.ToCacheItem(v))));
+
+        _cacheKeys.Add(GetCacheKey(userId));
 
         return addedCacheItem;
     }
@@ -143,23 +146,20 @@ public class SessionUserCache
         cacheItem?.QuestionValuations.TryRemove(questionId, out _);
     }
 
-    public static List<SessionUserCacheItem> GetAllActiveCaches(CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationRepo questionValuationRepo)
+    public static List<SessionUserCacheItem> GetAllActiveCaches(CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationRepo questionValuationRepo, IMemoryCache cache)
     {
-        var enumerator = System.Web.HttpRuntime.Cache.GetEnumerator();
-        List<string> keys = new List<string>();
         List<SessionUserCacheItem> userCacheItems = new List<SessionUserCacheItem>();
 
-        while (enumerator.MoveNext())
-        {
-            keys.Add(enumerator.Key.ToString());
-        }
-
-        foreach (var userCacheKey in keys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
+        foreach (var userCacheKey in _cacheKeys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
         {
             var startIndex = userCacheKey.IndexOf("_") + 1;
             var endIndex = userCacheKey.Length - startIndex;
-            var userId = Int32.Parse(userCacheKey.Substring(startIndex, endIndex));
-            userCacheItems.Add(GetItem(userId, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo));
+            var userId = int.Parse(userCacheKey.Substring(startIndex, endIndex));
+
+            if (cache.TryGetValue(userCacheKey, out SessionUserCacheItem item))
+            {
+                userCacheItems.Add(item);  // Hier angenommen, dass der Cache-Eintrag bereits ein SessionUserCacheItem ist.
+            }
         }
 
         return userCacheItems;
@@ -170,10 +170,11 @@ public class SessionUserCache
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryValuationWritingRepo categoryValuationWritingRepo,
         UserReadingRepo userReadingRepo, 
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        IMemoryCache memoryCache)
     {
         categoryValuationWritingRepo.DeleteCategoryValuation(categoryId);
-        foreach (var userCache in GetAllActiveCaches(categoryValuationReadingRepo, userReadingRepo, questionValuationRepo))
+        foreach (var userCache in GetAllActiveCaches(categoryValuationReadingRepo, userReadingRepo, questionValuationRepo,memoryCache))
         {
             userCache.CategoryValuations.TryRemove(categoryId, out var result);
         }
@@ -189,6 +190,7 @@ public class SessionUserCache
         if (cacheItem != null)
         {
             Cache.Remove(cacheKey);
+            _cacheKeys.TryRemove(cacheKey);
         }
     }
 }
