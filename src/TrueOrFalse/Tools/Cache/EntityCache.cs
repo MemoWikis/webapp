@@ -3,26 +3,59 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.Extensions.Caching.Memory;
 using static CategoryRepository;
 
 public class EntityCache : BaseCache
 {
+
+    public EntityCache(IMemoryCache cache) : base(cache)
+    {
+        
+    }
     public const string CacheKeyUsers = "allUsers_EntityCache";
     public const string CacheKeyQuestions = "allQuestions_EntityCache";
     public const string CacheKeyCategories = "allCategories_EntityCache";
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[CacheKeyUsers];
+    private static ConcurrentDictionary<int, UserCacheItem> Users
+    {
+        get
+        {
+            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, UserCacheItem> userCache);
+            return userCache ?? new ConcurrentDictionary<int, UserCacheItem>();
+        }
+    }
 
-    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[CacheKeyQuestions];
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[CacheKeyCategories];
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories
+    {
+        get
+        {
+            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, CategoryCacheItem> userCache);
+            return userCache ?? new ConcurrentDictionary<int, CategoryCacheItem>();
+        }
+    }
 
+    private static ConcurrentDictionary<int, QuestionCacheItem> Questions
+    {
+        get
+        {
+            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, QuestionCacheItem> questionsCache);
+            return questionsCache ?? new ConcurrentDictionary<int, QuestionCacheItem>();
+        }
+    }
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
-        (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[CacheKeyCategoryQuestionsList];
+    private static ConcurrentDictionary<int, int> CategoryQuestionsList
+    {
+        get
+        {
+            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, int> questionsCache);
+            return questionsCache ?? new ConcurrentDictionary<int, int>();
+        }
+    }
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
     public static UserCacheItem GetUserById(int userId)

@@ -1,16 +1,34 @@
-using System.Collections;
+
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Seedworks.Web.State
 {    
     public class Cache 
     {
-        private static readonly ICache _cache;
-        
-        public static int Count => _cache.Count;
+        private static CacheAspNet _cache;
+        private static readonly object _lock = new();
+        private static Cache? _instance;
 
-        static Cache()
+        private Cache()
         {
-            _cache = new CacheAspNet();
+            _cache = new CacheAspNet(new MemoryCache(new MemoryCacheOptions()));
+        }
+        public static Cache Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_lock)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = new Cache();
+                        }
+                    }
+                }
+                return _instance;
+            }
         }
 
         public static void Add(string key, object obj)
