@@ -152,7 +152,7 @@ async function saveProfileInformation() {
 
     if (result?.success) {
         userStore.name, userName.value = result.name!
-        userStore.email, email.value = result.name!
+        userStore.email, email.value = result.email!
         userStore.imgUrl = result.tinyImgUrl!
         emit('updateProfile')
 

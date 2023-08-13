@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 
-const emit = defineEmits(['selectItem'])
+const emit = defineEmits(['selectItem', 'navigateToUrl'])
 
 const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
 watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {

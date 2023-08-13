@@ -90,13 +90,16 @@ function onDrop(event: any) {
 //     }
 //     return payload
 // }
+
+const open = ref(false)
 </script>
 
 <template>
     <SharedDraggable :transfer-data="index" class="draggable">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
-            <div class="item">
+            <div class="item" @click.self="open = !open"
+                :class="{ 'open': open, 'isDroppableItemActive': isDroppableItemActive }">
                 {{ item.name }}
                 <div>
                     <TopicContentGridItem v-for="c, i in props.item.children" :item="c" :index="[...index, i]"
@@ -135,6 +138,17 @@ function onDrop(event: any) {
         border-right: none;
         margin-bottom: 10px;
         // transform: scale(1);
+
+        &.open {
+            padding-top: 50px;
+            padding-bottom: 50px;
+
+            background-color: mediumspringgreen;
+        }
+
+        &.isDroppableItemActive {
+            background-color: lightpink;
+        }
     }
 
     .is-moving {

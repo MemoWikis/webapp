@@ -180,7 +180,7 @@ const navOptions = ref()
                                 </div>
                                 <div class="StickySearch">
                                     <Search :search-type="SearchType.All" :show-search="showSearch"
-                                        v-on:select-item="openUrl" placement="bottom-end" />
+                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl" placement="bottom-end" />
                                 </div>
                             </div>
                             <div class="login-btn" @click="userStore.openLoginModal()">

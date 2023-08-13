@@ -196,10 +196,10 @@ useHead(() => ({
     padding: 0px;
     border: none;
 
-    ul,
-    pre {
-        margin-bottom: 20px;
-    }
+    // ul,
+    // pre {
+    //     margin-bottom: 20px;
+    // }
 }
 </style>
 

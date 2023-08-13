@@ -44,7 +44,8 @@ onBeforeMount(() => {
 			primaryTopicUrl: question.value.answerBodyModel?.primaryTopicUrl,
 			title: question.value.answerBodyModel.title
 		})
-	if (!question.value) emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
+	if (!question.value)
+		emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
 })
 const { $urlHelper } = useNuxtApp()
 useHead(() => ({
