@@ -9,7 +9,7 @@ public class BaseEntityCache
 
     public BaseEntityCache()
     {
-        _cache = CacheFactory.Build<object>("entityCache", settings =>
+        _cache = CacheFactory.Build<object>("EntityCache", settings =>
         {
             settings.WithSystemRuntimeCacheHandle("handleName");
         });

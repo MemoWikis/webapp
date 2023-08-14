@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using CacheManager.Core;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Primitives;
 
 namespace Seedworks.Web.State
@@ -6,12 +7,15 @@ namespace Seedworks.Web.State
     //todo (DaMa) überarbeiten, dieser Cache muss nicht mehr alleine existieren und kann verallgemeinert werden, mir fehlt gerade der Überblick um das zu erledigen
     internal class CacheAspNet
     {
-        private readonly IMemoryCache _cache;
+        private readonly ICacheManager<object> _cache;
         private CancellationTokenSource _cacheResetToken;
 
-        public CacheAspNet(IMemoryCache cache)
+        public CacheAspNet()
         {
-            _cache = cache;
+            _cache = CacheFactory.Build<object>("CacheAspNet", settings =>
+            {
+                settings.WithSystemRuntimeCacheHandle("handleName");
+            }); ;
             _cacheResetToken = new CancellationTokenSource();
         }
 
@@ -42,19 +46,18 @@ namespace Seedworks.Web.State
                 }
             }
 
-            _cache.Set(key, obj, cacheEntryOptions);
+            _cache.Add(key, obj);
         }
 
         public object Get(string key)
         {
-            _cache.TryGetValue(key, out var value);
-            return value;
+            
+            return _cache.Get<object>(key); ;
         }
 
         public T Get<T>(string key)
         {
-            _cache.TryGetValue(key, out var value);
-            return (T)value;
+            return _cache.Get<T>(key);
         }
 
         public void Clear()

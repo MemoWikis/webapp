@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Concurrent;
-using Microsoft.Extensions.Caching.Memory;
 using static CategoryRepository;
 
 public class EntityCache : BaseEntityCache
