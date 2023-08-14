@@ -1,25 +1,36 @@
-﻿using System.IO;
-using System.Web;
+﻿
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public abstract class ImageSettings
 {
+    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly HttpContext? _httpContext;
+
+    public ImageSettings(IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)
+    {
+        _contextAccessor = contextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _httpContext = _contextAccessor.HttpContext;
+    }
     public abstract int Id { get; set;  }
     public abstract string BasePath { get;  }
 
     public string ServerPathAndId()
     {
-        if (HttpContext.Current == null)
+        if (_httpContext == null)
             return "";
 
-        return HttpContext.Current.Server.MapPath(BasePath + Id);
+        return Path.Combine(_webHostEnvironment.WebRootPath, BasePath, Id.ToString());
     }
 
     public string ServerPath()
     {
-        if (HttpContext.Current == null)
+        if (_httpContext == null)
             return "";
 
-        return HttpContext.Current.Server.MapPath(BasePath);
+        return Path.Combine(_webHostEnvironment.WebRootPath, BasePath);
     }
 
     public void DeleteFiles()
