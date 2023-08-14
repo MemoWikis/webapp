@@ -48,12 +48,12 @@ public class EntityCache : BaseCache
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
-    private static ConcurrentDictionary<int, int> CategoryQuestionsList
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList
     {
         get
         {
-            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, int> questionsCache);
-            return questionsCache ?? new ConcurrentDictionary<int, int>();
+            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, ConcurrentDictionary<int, int>> questionsCache);
+            return questionsCache ?? new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         }
     }
 
@@ -85,8 +85,8 @@ public class EntityCache : BaseCache
 
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
     {
-        var questionIds = CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
-        return questionIds;
+         CategoryQuestionsList.TryGetValue(categoryId, out var questionIds);
+        return questionIds.Keys.ToList();
     }
 
     public static IList<QuestionCacheItem> GetQuestionsByIds(IList<int> questionIds)

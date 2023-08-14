@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.Extensions.Caching.Memory;
 using NHibernate;
 
 public class CategoryDeleter : IRegisterAsInstancePerLifetime
@@ -10,13 +11,13 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReading;
+    private readonly IMemoryCache _cache;
     private readonly PermissionCheck _permissionCheck;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
 
     public CategoryDeleter(
         ISession session,
-
         SessionUser sessionUser,
         UserActivityRepo userActivityRepo,
         CategoryRepository categoryRepository,
@@ -25,7 +26,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         PermissionCheck permissionCheck,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
-        CategoryValuationReadingRepo categoryValuationReading)
+        CategoryValuationReadingRepo categoryValuationReading,
+        IMemoryCache cache)
     {
         _session = session;
         _sessionUser = sessionUser;
@@ -37,6 +39,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _categoryValuationReading = categoryValuationReading;
+        _cache = cache;
     }
 
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
@@ -85,7 +88,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
             _categoryValuationReading, 
             _categoryValuationWritingRepo,
             _userReadingRepo, 
-            _questionValuationRepo); 
+            _questionValuationRepo,
+            _cache); 
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;

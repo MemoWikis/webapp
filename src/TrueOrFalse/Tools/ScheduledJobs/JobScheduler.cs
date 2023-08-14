@@ -12,15 +12,21 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         static JobScheduler()
         {
-            var container = AutofacWebInitializer.Run();
-
-            _scheduler =  StdSchedulerFactory.GetDefaultScheduler();
-            _scheduler.JobFactory = new AutofacJobFactory(container);
-            _scheduler.Start();
+            _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync).Value.Result;
         }
 
         public static void EmptyMethodToCallConstructor()
         {
+        }
+
+        public static async Task<IScheduler> InitializeAsync()
+        {
+            var container = AutofacWebInitializer.Run();
+            var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+            scheduler.JobFactory = new AutofacJobFactory(container);
+            scheduler.Start();
+
+            return scheduler;
         }
 
         public static void Shutdown()
