@@ -5,11 +5,6 @@ using static CategoryRepository;
 
 public class EntityCache : BaseCache
 {
-
-    public EntityCache() : base()
-    {
-        
-    }
     public const string CacheKeyUsers = "allUsers_EntityCache";
     public const string CacheKeyQuestions = "allQuestions_EntityCache";
     public const string CacheKeyCategories = "allCategories_EntityCache";
