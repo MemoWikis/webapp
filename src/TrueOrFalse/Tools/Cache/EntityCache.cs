@@ -1,15 +1,12 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Microsoft.Extensions.Caching.Memory;
 using static CategoryRepository;
 
 public class EntityCache : BaseCache
 {
 
-    public EntityCache(IMemoryCache cache) : base(cache)
+    public EntityCache() : base()
     {
         
     }
@@ -23,8 +20,7 @@ public class EntityCache : BaseCache
     {
         get
         {
-            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, UserCacheItem> userCache);
-            return userCache ?? new ConcurrentDictionary<int, UserCacheItem>();
+            return _cache.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers) ?? new ConcurrentDictionary<int, UserCacheItem>();
         }
     }
 
@@ -32,8 +28,8 @@ public class EntityCache : BaseCache
     {
         get
         {
-            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, CategoryCacheItem> userCache);
-            return userCache ?? new ConcurrentDictionary<int, CategoryCacheItem>();
+            return _cache.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories) ??
+                   new ConcurrentDictionary<int, CategoryCacheItem>();
         }
     }
 
@@ -41,8 +37,8 @@ public class EntityCache : BaseCache
     {
         get
         {
-            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, QuestionCacheItem> questionsCache);
-            return questionsCache ?? new ConcurrentDictionary<int, QuestionCacheItem>();
+            return _cache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions) ?? 
+                   new ConcurrentDictionary<int, QuestionCacheItem>();
         }
     }
     /// <summary>
@@ -52,8 +48,9 @@ public class EntityCache : BaseCache
     {
         get
         {
-            _cache.TryGetValue(CacheKeyUsers, out ConcurrentDictionary<int, ConcurrentDictionary<int, int>> questionsCache);
-            return questionsCache ?? new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
+            
+            return _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyUsers) ??
+                   new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         }
     }
 

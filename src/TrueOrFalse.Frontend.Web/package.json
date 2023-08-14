@@ -13,7 +13,7 @@
     "@tiptap/extension-image": "*",
     "@tiptap/extension-link": "*",
     "@tiptap/extension-mention": "*",
-    "@tiptap/extension-placeholder": "*",
+    "@tiptap/extension-placeholder": "*", 
     "@tiptap/extension-text-style": "*",
     "@tiptap/extension-underline": "*",
     "@tiptap/starter-kit": "*",
