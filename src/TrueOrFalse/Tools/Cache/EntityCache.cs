@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using Microsoft.Extensions.Caching.Memory;
 using static CategoryRepository;
 
-public class EntityCache : BaseCache
+public class EntityCache : BaseEntityCache
 {
     public const string CacheKeyUsers = "allUsers_EntityCache";
     public const string CacheKeyQuestions = "allQuestions_EntityCache";

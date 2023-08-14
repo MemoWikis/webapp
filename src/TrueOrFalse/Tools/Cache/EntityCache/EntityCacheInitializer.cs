@@ -2,7 +2,7 @@
 using System.Linq;
 
 
-public class EntityCacheInitializer : BaseCache, IRegisterAsInstancePerLifetime
+public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly UserReadingRepo _userReadingRepo;

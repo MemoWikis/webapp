@@ -3,11 +3,11 @@ using System.Collections.Concurrent;
 using CacheManager.Core;
 
 
-public class BaseCache
+public class BaseEntityCache
 {
     protected static ICacheManager<object> _cache;
 
-    public BaseCache()
+    public BaseEntityCache()
     {
         _cache = CacheFactory.Build<object>("entityCache", settings =>
         {
