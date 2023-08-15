@@ -30,7 +30,7 @@ public static class UrlHelperExtensions
         return urlHelper.Action(actionName, controllerName, mergedRouteValues);
     }
 
-    public static void RemoveRoutes(this UrlHelper urlHelper, string[] routesToRemove)
+    public static void RemoveRoutes(this IUrlHelper urlHelper, string[] routesToRemove)
     {
         RouteValueDictionary currentRouteData = urlHelper.ActionContext.RouteData.Values;
         if (routesToRemove != null && routesToRemove.Length > 0)

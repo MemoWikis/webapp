@@ -1,19 +1,32 @@
-﻿using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Drawing;
+using System.Drawing.Printing;
 
 public class ImageUrl
 {
+    private readonly HttpContextAccessor _contextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     public bool HasUploadedImage;
     public string Url;
+    private readonly HttpContext? _httpContext;
+    private readonly string _basePath;
+
+
+    public ImageUrl(HttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)
+    {
+        _contextAccessor = contextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _httpContext = _contextAccessor.HttpContext;
+        
+    }
 
     public string UrlWithoutTime()
     {
         return Url.Split('?').First();
-    }
+    } 
 
-    public static ImageUrl Get(
+    public ImageUrl Get(
         IImageSettings imageSettings,
         int requestedWidth,
         bool isSquare,
@@ -37,13 +50,19 @@ public class ImageUrl
                 return GetResult(imageSettings, requestedWidth, isSquare);
             }
 
-            if (HttpContext.Current == null)
+            if (_httpContext == null)
             {
-                return new ImageUrl {Url = getFallBackImage(requestedWidth), HasUploadedImage = false};
+                Url = getFallBackImage(requestedWidth);
+                HasUploadedImage = false;
+                return this;
             }
 
             //we search for the biggest file
-            var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(imageSettings.BasePath), $"{imageSettings.Id}_*.jpg");
+           
+            var searchPattern = $"{imageSettings.Id}_*.jpg";
+            var basePath = Path.Combine(_webHostEnvironment.WebRootPath, imageSettings.BasePath);
+            var fileNames = Directory.GetFiles(basePath, searchPattern);
+           
             if (fileNames.Any()){
                 var maxFileWidth = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
 
@@ -51,7 +70,8 @@ public class ImageUrl
                 {
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
-                        Logg.r().Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {HttpContext.Current?.Request.Url.AbsoluteUri}). ");
+                        var absoluteUri = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
+                        Logg.r().Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {absoluteUri}). ");
 
                         if (isSquare)
                         {
@@ -77,20 +97,22 @@ public class ImageUrl
             }
         }
 
-        return new ImageUrl { Url = getFallBackImage(requestedWidth), HasUploadedImage = false};
+        Url = getFallBackImage(requestedWidth);
+        HasUploadedImage = false;
+        return this;
     }
 
-    private static ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
+    private ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
     {
         var url = width ==  -1 ?
                             imageSettings.BasePath + imageSettings.Id + ".jpg" :
                             imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
-        
-        return new ImageUrl
-        {
-            Url = url + "?t=" + File.GetLastWriteTime(HttpContext.Current.Server.MapPath(url)).ToString("yyyyMMddhhmmss"),
-            HasUploadedImage = true
-        };
+
+
+        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(_webHostEnvironment.WebRootPath, url))
+            .ToString("yyyyMMddhhmmss");
+        HasUploadedImage = true;
+        return this;
     }
 
     public static string SquareSuffix(bool isSquare){
@@ -107,15 +129,15 @@ public class ImageUrl
         return this;
     }
 
-    public static string GetFallbackImageUrl(IImageSettings imageSettings, int width)
+    public string GetFallbackImageUrl(IImageSettings imageSettings, int width)
     {
-        if (File.Exists(HttpContext.Current.Server.MapPath(imageSettings.BaseDummyUrl) + width + ".png"))
+        if (File.Exists(Path.Combine(_webHostEnvironment.WebRootPath, imageSettings.BaseDummyUrl) + width + ".png"))
             return imageSettings.BaseDummyUrl + width + ".png";
 
         //Get next bigger image or maximum size image
         var fileNameTrunk = imageSettings.BaseDummyUrl.Split('/').Last();
         var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] {fileNameTrunk}, StringSplitOptions.None).First();
-        var fileNames = Directory.GetFiles(HttpContext.Current.Server.MapPath(fileDirectory), fileNameTrunk + "*.png");
+        var fileNames = Directory.GetFiles(Path.Combine(_webHostEnvironment.WebRootPath, fileDirectory), fileNameTrunk + "*.png");
         if (fileNames.Any())
         {
             var fileWidths = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('-').Last().Replace(".png", ""))).OrderByDescending(x => x).ToList();
@@ -131,7 +153,7 @@ public class ImageUrl
             {
                 fileWidth = fileWidths.Last();
             }
-            if (File.Exists(HttpContext.Current.Server.MapPath(imageSettings.BaseDummyUrl) + fileWidth + ".png"))
+            if (File.Exists(Path.Combine(_webHostEnvironment.WebRootPath, imageSettings.BaseDummyUrl) + fileWidth + ".png"))
             {
                 return imageSettings.BaseDummyUrl + fileWidth + ".png";
             }

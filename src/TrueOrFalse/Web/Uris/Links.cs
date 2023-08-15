@@ -1,16 +1,23 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using TrueOrFalse.Web;
-using TrueOrFalse.Web.Uris;
 using static System.String;
 
 namespace TrueOrFalse.Frontend.Web.Code;
 
-public static class Links
+public class Links
 {
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
     public static readonly string AnswerQuestionController = "AnswerQuestion";
+
+    private readonly HttpContext? _httpContext;
+
     /*Category*/
     public const string CategoryController = "Category";
     /*Question*/
@@ -19,7 +26,14 @@ public static class Links
     public const string UserAction = "User";
     public const string UserController = "User";
 
-    public static string AnswerQuestion(
+    public Links(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
+    {
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _httpContext = _httpContextAccessor.HttpContext;
+    }
+
+    public string AnswerQuestion(
         Question question,
         int paramElementOnPage = 1,
         string pagerKey = "",
@@ -28,7 +42,7 @@ public static class Links
         return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
     }
 
-    public static string AnswerQuestion(
+    public string AnswerQuestion(
         QuestionCacheItem question,
         int paramElementOnPage = 1,
         string pagerKey = "",
@@ -37,14 +51,14 @@ public static class Links
         return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
     }
 
-    public static string AnswerQuestion(Question question, IHttpContextAccessor httpContext)
+    public string AnswerQuestion(Question question, IHttpContextAccessor httpContext)
     {
         return httpContext.HttpContext == null
             ? ""
             : AnswerQuestion(question, -1);
     }
 
-    public static string AnswerQuestion(
+    public string AnswerQuestion(
         string questionText,
         int questionId,
         int paramElementOnPage = 1,
@@ -72,32 +86,32 @@ public static class Links
             }, null);
     }
 
-    public static string CategoryDetail(Category category)
+    public string CategoryDetail(Category category)
     {
-        return HttpContext.Current == null
+        return _httpContext == null
             ? ""
             : CategoryDetail(category.Name, category.Id);
     }
 
-    public static string CategoryDetail(CategoryCacheItem category)
+    public string CategoryDetail(CategoryCacheItem category)
     {
-        return HttpContext.Current == null
+        return _httpContext == null
             ? ""
             : CategoryDetail(category.Name, category.Id);
     }
 
-    public static string CategoryDetail(string name, int id)
+    public string CategoryDetail(string name, int id)
     {
         return GetUrlHelper().Action("Category", CategoryController,
             new { text = UriSanitizer.Run(name), id });
     }
 
-    public static string ErrorNotLoggedIn(string backTo)
+    public string ErrorNotLoggedIn(string backTo)
     {
         return GetUrlHelper().Action("_NotLoggedIn", "Error", new { backTo });
     }
 
-    public static string GetUrl(object type)
+    public string GetUrl(object type)
     {
         if (type == null)
         {
@@ -127,14 +141,15 @@ public static class Links
         throw new Exception("unexpected type");
     }
 
-    public static UrlHelper GetUrlHelper()
+    public IUrlHelper GetUrlHelper()
     {
-        var res = new UrlHelper(HttpContext.Current.Request.RequestContext);
-        res.RemoveRoutes(new[] { "version" });
-        return res;
+        var urlHelperFactory = _httpContextAccessor.HttpContext?.RequestServices.GetRequiredService<IUrlHelperFactory>();
+        var urlHelper = urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
+        urlHelper.RemoveRoutes(new[] { "version" });
+        return urlHelper;
     }
-
-    public static bool IsLinkToWikipedia(string url)
+    
+    public bool IsLinkToWikipedia(string url)
     {
         if (IsNullOrEmpty(url))
         {
@@ -144,23 +159,15 @@ public static class Links
         return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
     }
 
-    public static string QuestionHistory(int questionId)
+    public string QuestionHistory(int questionId)
     {
         return GetUrlHelper().Action("List", "QuestionHistory", new { questionId });
     }
 
-    public static string UserDetail(IUserTinyModel user)
-    {
-        return UserDetail(user.Name, user.Id);
-    }
-
-    public static string UserDetail(string userName, int userId)
-    {
-        return GetUrlHelper().Action(UserAction, UserController,
-            new { name = UriSegmentFriendlyUser.Run(userName), id = userId }, null);
-    }
+ 
     public static string UsersSearch(string searchTerm)
     {
         return "/Nutzer/Suche/" + searchTerm;
     }
 }
+

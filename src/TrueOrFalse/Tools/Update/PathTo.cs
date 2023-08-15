@@ -1,4 +1,6 @@
 ﻿using System.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class PathTo
 {
@@ -34,11 +36,11 @@ public class PathTo
         return "Utilities/Update/Scripts/" + fileName;
     }
 
-    private static string GetPath(string fileName)
+    private static string GetPath(string fileName, HttpContext? httpContext, IWebHostEnvironment environment)
     {
-        if (HttpContext.Current != null && !fileName.Equals("Log.ignore"))
+        if (httpContext != null && !fileName.Equals("Log.ignore"))
         {
-            return HttpContext.Current.Server.MapPath("~/bin/" + fileName);
+            return Path.Combine(environment.WebRootPath, "~/bin/" + fileName);
         }
 
         if (JobExecute.CodeIsRunningInsideAJob)

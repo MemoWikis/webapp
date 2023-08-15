@@ -27,7 +27,7 @@ public class EntityCache : BaseEntityCache
         }
     }
 
-    private static ConcurrentDictionary<int, QuestionCacheItem> Questions
+    public static ConcurrentDictionary<int, QuestionCacheItem> Questions
     {
         get
         {
