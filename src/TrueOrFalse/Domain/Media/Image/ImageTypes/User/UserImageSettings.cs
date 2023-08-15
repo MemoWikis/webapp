@@ -5,6 +5,8 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using static System.String;
 
@@ -20,11 +22,16 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public override string BasePath => "/Images/Users/";
     public string BaseDummyUrl => "/Images/no-profile-picture-";
 
-    public UserImageSettings(int id){
+    public UserImageSettings(int id,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment):
+        base(httpContextAccessor, webHostEnvironment){
         Id = id;
     }
 
-    public UserImageSettings()
+    public UserImageSettings(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) :
+        base(httpContextAccessor, webHostEnvironment)
     {
 
     }
@@ -42,7 +49,8 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
-        return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
+        return new ImageUrl(_contextAccessor, _webHostEnvironment)
+            .Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
     }
 
     protected string GetFallbackImage(IUserTinyModel user, int width)

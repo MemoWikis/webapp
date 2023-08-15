@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using static System.String;
 
 public class SetImageSettings : ImageSettings, IImageSettings
@@ -10,9 +12,15 @@ public class SetImageSettings : ImageSettings, IImageSettings
     public override string BasePath => "/Images/QuestionSets/";
     public string BaseDummyUrl => "/Images/no-set-";
 
-    public SetImageSettings() {}
+    public SetImageSettings(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) :
+        base(httpContextAccessor, webHostEnvironment)  {}
 
-    public SetImageSettings(int setId){
+    public SetImageSettings(int setId, 
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) :
+        base(httpContextAccessor, webHostEnvironment)
+    {
         Init(setId);
     }
 

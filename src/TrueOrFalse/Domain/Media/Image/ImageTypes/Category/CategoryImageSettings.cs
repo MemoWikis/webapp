@@ -12,7 +12,9 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public override string BasePath => "/Images/Categories/";
     public string BaseDummyUrl => "/Images/no-category-picture-";
 
-    public CategoryImageSettings(int categoryId, IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment) :
+    public CategoryImageSettings(int categoryId,
+        IHttpContextAccessor contextAccessor, 
+        IWebHostEnvironment webHostEnvironment) :
         base(contextAccessor, webHostEnvironment)
     {
         Id = categoryId;
@@ -25,7 +27,8 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_128px(bool asSquare = false) { return GetUrl(128, asSquare); }
     public ImageUrl GetUrl(int width, bool isSquare = false)
     {
-        return new ImageUrl().Get(this, width, isSquare, GetFallbackImage);
+        return new ImageUrl(_contextAccessor, _webHostEnvironment)
+            .Get(this, width, isSquare, GetFallbackImage);
     }
 
     private string GetFallbackImage(int width){

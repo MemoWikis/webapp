@@ -44,18 +44,18 @@ public abstract class ImageSettings
             File.Delete(file);
     }
 
-    public static IImageSettings InitByType(ImageMetaData imageMetaData)
+    public IImageSettings InitByType(ImageMetaData imageMetaData)
     {
         switch (imageMetaData.Type)
         {
             case ImageType.Category:
-                return new CategoryImageSettings(imageMetaData.TypeId);
+                return new CategoryImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
             case ImageType.Question:
-                return new QuestionImageSettings(imageMetaData.TypeId);
+                return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
             case ImageType.QuestionSet:
-                return new SetImageSettings(imageMetaData.TypeId);
+                return new SetImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
             case ImageType.User:
-                return new UserImageSettings(imageMetaData.TypeId);
+                return new UserImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
             default:
                 throw new Exception("invalid type");
         }

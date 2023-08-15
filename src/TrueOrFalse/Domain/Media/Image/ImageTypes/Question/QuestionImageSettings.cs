@@ -50,7 +50,8 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
             return imageUrl;
 
         if (_question.Categories.Any())
-            return new CategoryImageSettings(_question.Categories.First().Id, _).GetUrl(width, isSquare);
+            return new CategoryImageSettings(_question.Categories.First().Id,
+                _contextAccessor, _webHostEnvironment).GetUrl(width, isSquare);
 
         return imageUrl;
     }

@@ -4,24 +4,40 @@ using Microsoft.AspNetCore.Http;
 
 public class PathTo
 {
-    public static string Crawlers()
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public PathTo(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        return GetPath("/Web/Crawlers/list-of-crawlers.json");
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
+    public string Crawlers()
+    {
+        return GetPath("/Web/Crawlers/list-of-crawlers.json",
+            _httpContextAccessor.HttpContext,
+            _webHostEnvironment);
     }
 
-    public static string EmailTemplate()
+    public string EmailTemplate()
     {
-        return GetPath("/Domain/Message/HtmlMessage/HtmlMessageStylesInlined.html");
+        return GetPath("/Domain/Message/HtmlMessage/HtmlMessageStylesInlined.html",
+            _httpContextAccessor.HttpContext, 
+            _webHostEnvironment);
     }
 
-    public static string EmailTemplate_KnowledgeReport()
+    public string EmailTemplate_KnowledgeReport()
     {
-        return GetPath("/Domain/Message/HtmlMessage/KnowledgeReportMsgStylesInlined.cshtml");
+        return GetPath("/Domain/Message/HtmlMessage/KnowledgeReportMsgStylesInlined.cshtml",
+            _httpContextAccessor.HttpContext,
+            _webHostEnvironment);
     }
 
-    public static string Log_Ignore()
+    public  string Log_Ignore()
     {
-        var path = GetPath("Log.ignore");
+        var path = GetPath("Log.ignore",
+            _httpContextAccessor.HttpContext, 
+            _webHostEnvironment);
 
         if (path.Contains("Test"))
         {
