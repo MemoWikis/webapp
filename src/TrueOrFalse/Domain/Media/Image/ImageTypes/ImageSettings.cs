@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http;
 
 public abstract class ImageSettings
 {
-    private readonly IHttpContextAccessor _contextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    protected readonly IHttpContextAccessor _contextAccessor;
+    protected readonly IWebHostEnvironment _webHostEnvironment;
     private readonly HttpContext? _httpContext;
 
     public ImageSettings(IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)

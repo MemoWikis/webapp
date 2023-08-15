@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class QuestionImageSettings : ImageSettings, IImageSettings
 {
@@ -19,12 +21,17 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
         set => __question = value;
     }
 
-    public QuestionImageSettings(QuestionReadingRepo questionReadingRepo)
+    public QuestionImageSettings(QuestionReadingRepo questionReadingRepo,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment) :base(httpContextAccessor, webHostEnvironment)
     {
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public QuestionImageSettings(int questionId){
+    public QuestionImageSettings(int questionId,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) : base(httpContextAccessor, webHostEnvironment)
+    {
         Init(questionId);
     }
 
@@ -43,7 +50,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
             return imageUrl;
 
         if (_question.Categories.Any())
-            return new CategoryImageSettings(_question.Categories.First().Id).GetUrl(width, isSquare);
+            return new CategoryImageSettings(_question.Categories.First().Id, _).GetUrl(width, isSquare);
 
         return imageUrl;
     }
@@ -51,13 +58,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
     public ImageUrl GetUrl_435px() { return GetUrl(435); }
     private ImageUrl GetUrl(int width, bool isSquare = false){
-        return ImageUrl.Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
-    }
-
-    public QuestionImageSettings Create(int questionId)
-    {
-        var result = new QuestionImageSettings(_questionReadingRepo);
-        result.Init(questionId);
-        return result;
+        return new ImageUrl(_contextAccessor, _webHostEnvironment)
+            .Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
     }
 }

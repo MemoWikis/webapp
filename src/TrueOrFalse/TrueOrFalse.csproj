@@ -19,6 +19,7 @@
 		<!-- Hier kommen die NuGet-Pakete -->
 		<PackageReference Include="Antlr3.Runtime" Version="3.5.1" />
 		<PackageReference Include="Autofac" Version="7.0.1" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="BouncyCastle.Cryptography" Version="2.2.1" />
 		<PackageReference Include="CacheManager.SystemRuntimeCaching" Version="1.2.0" />
 		<PackageReference Include="Common.Logging" Version="3.4.1" />

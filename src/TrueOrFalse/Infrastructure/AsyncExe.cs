@@ -1,10 +1,16 @@
-﻿using Microsoft.Extensions.Hosting.Internal;
-using Seedworks.Web.State;
+﻿using Autofac;
 using TrueOrFalse.Infrastructure;
 
-public static class AsyncExe
+public class AsyncExe
 {
-    public static void Run(Action action, bool withAutofac = false)
+    private readonly ILifetimeScope _lifetimeScope;
+
+    public AsyncExe(ILifetimeScope lifetimeScope)
+    {
+        _lifetimeScope = lifetimeScope;
+    }
+
+    public void Run(Action action, bool withAutofac = false)
     {
         try
         {
@@ -15,10 +21,7 @@ public static class AsyncExe
                 actionExec = () =>
                 {
                     Settings.UseWebConfig = true;
-                    var container = AutofacWebInitializer.Run();
-                    ServiceLocator.Init(container);
-
-                    using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+                    using (var scope = _lifetimeScope.BeginLifetimeScope())
                     {
                         action();
                     }

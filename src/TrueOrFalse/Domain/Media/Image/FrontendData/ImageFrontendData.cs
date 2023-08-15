@@ -1,10 +1,12 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static System.String;
 
 public class ImageFrontendData
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     public ImageMetaData ImageMetaData;
     public bool ImageMetaDataExists;
     public MainLicenseInfo MainLicenseInfo;
@@ -25,19 +27,23 @@ public class ImageFrontendData
     public ImageFrontendData(int typeId,
         ImageType imageType, 
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor) :
-        this(PrepareConstructorArguments(typeId, imageType, imageMetaDataReadingRepo))
+        IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) :
+        this(PrepareConstructorArguments(typeId, imageType, imageMetaDataReadingRepo),
+            httpContextAccessor, webHostEnvironment)
     {
-        _httpContextAccessor = httpContextAccessor;
     }
         
-    public ImageFrontendData(ImageMetaData imageMetaData)
+    public ImageFrontendData(ImageMetaData imageMetaData,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         if (imageMetaData == null)
             return;
 
         ImageMetaDataExists = true;
         ImageMetaData = imageMetaData;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
         MainLicenseInfo = !IsNullOrEmpty(ImageMetaData.MainLicenseInfo)
             ? MainLicenseInfo.FromJson(ImageMetaData.MainLicenseInfo)
             : null;
@@ -171,7 +177,7 @@ public class ImageFrontendData
         switch (imageType)
         {
             case ImageType.Category:
-                imageSettings = new CategoryImageSettings(typeId);
+                imageSettings = new CategoryImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
                 break;
             case ImageType.User:
                 imageSettings = new UserImageSettings(typeId);
@@ -181,7 +187,8 @@ public class ImageFrontendData
                 break;
         }
 
-        return ImageUrl.Get(imageSettings, width, asSquare, arg => ImageUrl.GetFallbackImageUrl(imageSettings, width));
+        return new ImageUrl(_httpContextAccessor,_webHostEnvironment).Get(imageSettings, width, asSquare, arg => 
+            new ImageUrl(_httpContextAccessor, _webHostEnvironment).GetFallbackImageUrl(imageSettings, width));
     }
 
     public string RenderHtmlImageBasis(

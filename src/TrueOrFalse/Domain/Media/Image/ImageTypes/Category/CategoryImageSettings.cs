@@ -12,9 +12,6 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public override string BasePath => "/Images/Categories/";
     public string BaseDummyUrl => "/Images/no-category-picture-";
 
-    public CategoryImageSettings(IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment) : 
-        base(contextAccessor, webHostEnvironment) {}
-
     public CategoryImageSettings(int categoryId, IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment) :
         base(contextAccessor, webHostEnvironment)
     {
