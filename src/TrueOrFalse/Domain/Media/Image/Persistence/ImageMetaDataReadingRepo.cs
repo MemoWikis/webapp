@@ -39,7 +39,16 @@ public class ImageMetaDataReadingRepo : IRegisterAsInstancePerLifetime
             .List<ImageMetaData>();
     }
 
-
+    /// <summary>
+    /// Retrieves all image metadata entries for the specified image type.
+    /// </summary>
+    /// <param name="imageType">The type of images to retrieve metadata for.</param>
+    /// <returns>A dictionary of image metadata, with the ID as the key and the metadata object as the value.</returns>
+    public IDictionary<int, ImageMetaData> GetAll(ImageType imageType)
+    {
+        return _session.QueryOver<ImageMetaData>().Where(x => x.Type == imageType).List<ImageMetaData>()
+            .ToDictionary(x => x.Id, x => x);
+    } 
     public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
     {
         var query = _session.QueryOver<ImageMetaData>()
