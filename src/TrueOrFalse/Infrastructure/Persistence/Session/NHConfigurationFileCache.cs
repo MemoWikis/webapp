@@ -1,6 +1,9 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate.Cfg;
 using Seedworks.Web.State;
 
@@ -10,10 +13,10 @@ public class NHConfigurationFileCache
     private readonly string _cacheFile;
     private readonly Assembly _definitionsAssembly;
 
-    public NHConfigurationFileCache(Assembly definitionsAssembly)
+    public NHConfigurationFileCache(Assembly definitionsAssembly, HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
         _definitionsAssembly = definitionsAssembly;
-        _cacheFile = ContextUtil.GetFilePath("bin/nh.cfg");
+        _cacheFile = new ContextUtil(httpContext, webHostEnvironment).GetFilePath("bin/nh.cfg");
     }
 
     public bool IsConfigurationFileValid
@@ -35,11 +38,8 @@ public class NHConfigurationFileCache
 
     public void SaveConfigurationToFile(Configuration configuration)
     {
-        using (var file = File.Open(_cacheFile, FileMode.Create))
-        {
-            var bf = new BinaryFormatter();
-            bf.Serialize(file, configuration);
-        }
+        var json = JsonSerializer.Serialize(configuration);
+        File.WriteAllText(_cacheFile, json);
     }
 
     public Configuration LoadConfigurationFromFile()
@@ -47,10 +47,8 @@ public class NHConfigurationFileCache
         if (!IsConfigurationFileValid)
             return null;
 
-        using (var file = File.Open(_cacheFile, FileMode.Open, FileAccess.Read, FileShare.Read))
-        {
-            var bf = new BinaryFormatter();
-            return bf.Deserialize(file) as Configuration;
-        }
+        var json = File.ReadAllText(_cacheFile);
+
+        return JsonSerializer.Deserialize<Configuration>(json);
     }
 }

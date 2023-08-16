@@ -1,18 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Web;
+using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
     private readonly WikiImageMetaLoader _metaLoader;
     private readonly ImageMetaDataWritingRepo _imgMetaDataWritingRepo;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
-        ImageMetaDataWritingRepo imgMetaDataWritingRepo)
+        ImageMetaDataWritingRepo imgMetaDataWritingRepo,
+        IWebHostEnvironment webHostEnvironment)
     {
         _metaLoader = metaLoader;
         _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public void RunWikimedia(
@@ -30,7 +34,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         using (var stream = wikiMetaData.GetThumbImageStream())
         {
             //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
-            SaveImageToFile.Run(stream, imageSettings);
+            SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
         }
 
         _imgMetaDataWritingRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
@@ -57,14 +61,14 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         {
             using (var stream = tmpImage.GetStream())
             {
-                SaveImageToFile.Run(stream, imageSettings);
+                SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
             }
         }
         else
         {
             using (var stream = tmpImage.RelocateImage(relocateUrl))
             {
-                SaveImageToFile.Run(stream, imageSettings);
+                SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
             }
         }
 
@@ -83,7 +87,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         using var stream = imageFile.OpenReadStream();
 
-        SaveImageToFile.Run(stream, imageSettings);
+        SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
 
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }

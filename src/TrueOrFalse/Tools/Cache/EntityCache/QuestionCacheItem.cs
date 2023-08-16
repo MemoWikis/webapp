@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -217,9 +219,14 @@ public class QuestionCacheItem
         return questions.Select(q => ToCacheQuestion(q));
     }
 
-    public virtual string ToLomXml(CategoryRepository categoryRepository)
+    public virtual string ToLomXml(CategoryRepository categoryRepository,
+        IActionContextAccessor contextAccessor,
+        IHttpContextAccessor httContextAccessor)
     {
-        return LomXml.From(this, categoryRepository);
+        return LomXml.From(this,
+            categoryRepository,
+            httContextAccessor,
+            contextAccessor);
     }
 
     public virtual int TotalAnswers()

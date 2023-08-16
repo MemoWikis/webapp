@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -155,7 +157,10 @@ public class Category : DomainEntity, ICreator, ICloneable
         throw new Exception("Invalid type.");
     }
 
-    public virtual string ToLomXml(CategoryRepository categoryRepository) => LomXml.From(this, categoryRepository);
+    public virtual string ToLomXml(CategoryRepository categoryRepository, 
+        IActionContextAccessor actionContextAccessor, 
+        IHttpContextAccessor httpContextAccessor) => 
+        LomXml.From(this, categoryRepository, httpContextAccessor, actionContextAccessor);
 
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }

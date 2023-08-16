@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Web;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
@@ -16,21 +18,21 @@ namespace TrueOrFalse
     {
         private static Configuration _configuration;
         
-        public static ISessionFactory CreateSessionFactory()
+        public static ISessionFactory CreateSessionFactory(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
         {
-            var configuration = ReadConfigurationFromCacheOrBuildIt();
+            var configuration = ReadConfigurationFromCacheOrBuildIt(httpContext, webHostEnvironment);
             _configuration = configuration;
             _configuration.SetProperty(Environment.Hbm2ddlKeyWords, "none");
 
             return configuration.BuildSessionFactory();
         }
 
-        private static Configuration ReadConfigurationFromCacheOrBuildIt()
+        private static Configuration ReadConfigurationFromCacheOrBuildIt(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
         {
             Configuration nhConfigurationCache;
 
             var assembly = Assembly.GetAssembly(typeof (Question));  
-            if(assembly == null && !ContextUtil.IsWebContext)
+            if(assembly == null && !new ContextUtil(httpContext, webHostEnvironment).IsWebContext)
                 assembly = Assembly.LoadFile(
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
 
@@ -39,7 +41,7 @@ namespace TrueOrFalse
 
             if (cachedCfg == null)
             {
-                nhConfigurationCache = BuildConfiguration();
+                nhConfigurationCache = BuildConfiguration(httpContext, webHostEnvironment);
                 nhCfgCache.SaveConfigurationToFile(nhConfigurationCache);
             }
             else
@@ -49,7 +51,7 @@ namespace TrueOrFalse
             return nhConfigurationCache;            
         }
 
-        private static Configuration BuildConfiguration()
+        private static Configuration BuildConfiguration(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
         {
             var configuration = Fluently.Configure()
                 .Database(
@@ -61,7 +63,7 @@ namespace TrueOrFalse
                 .ExposeConfiguration(SetConfig)
                 .BuildConfiguration();
 
-            if (!ContextUtil.IsWebContext || Settings.WithNHibernateStatistics)
+            if (!new ContextUtil(httpContext, webHostEnvironment).IsWebContext || Settings.WithNHibernateStatistics)
                 configuration = configuration.SetProperty("generate_statistics", "true");
 
             return configuration;

@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 
@@ -109,9 +111,11 @@ public class Question : DomainEntity, ICreator
         return answerText;
     }
 
-    public virtual string ToLomXml(CategoryRepository categoryRepository)
+    public virtual string ToLomXml(CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor, 
+        IActionContextAccessor actionContextAccessor)
     {
-        return LomXml.From(this, categoryRepository);
+        return LomXml.From(this, categoryRepository, httpContextAccessor, actionContextAccessor);
     }
 
     public virtual int TotalAnswers()
