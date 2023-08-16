@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class CategoryImageSettings : ImageSettings, IImageSettings
 {
-    public override int Id { get; set; }
+    public int Id { get; set; }
     public ImageType ImageType => ImageType.Category;
     public IEnumerable<int> SizesSquare => new[] { 206, 50 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
-    public override string BasePath => "/Images/Categories/";
+    public string BasePath => "/Images/Categories/";
     public string BaseDummyUrl => "/Images/no-category-picture-";
 
     public CategoryImageSettings(int categoryId,

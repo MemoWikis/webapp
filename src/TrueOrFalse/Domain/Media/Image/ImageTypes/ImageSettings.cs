@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public abstract class ImageSettings
+public class ImageSettings
 {
     protected readonly IHttpContextAccessor _contextAccessor;
     protected readonly IWebHostEnvironment _webHostEnvironment;
@@ -14,8 +14,8 @@ public abstract class ImageSettings
         _webHostEnvironment = webHostEnvironment;
         _httpContext = _contextAccessor.HttpContext;
     }
-    public abstract int Id { get; set;  }
-    public abstract string BasePath { get;  }
+    public int Id { get; set;  }
+    public string BasePath { get;  }
 
     public string ServerPathAndId()
     {

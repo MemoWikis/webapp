@@ -180,10 +180,10 @@ public class ImageFrontendData
                 imageSettings = new CategoryImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
                 break;
             case ImageType.User:
-                imageSettings = new UserImageSettings(typeId);
+                imageSettings = new UserImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
                 break;
             default:
-                imageSettings = new QuestionImageSettings(typeId);
+                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
                 break;
         }
 
@@ -251,7 +251,7 @@ public class ImageFrontendData
         }
         catch (Exception e)
         {
-            Logg.Error(e, _httpContextAccessor);
+            Logg.Error(e, _httpContextAccessor, _webHostEnvironment);
             return "";
         }
     }

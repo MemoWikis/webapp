@@ -1,11 +1,21 @@
-﻿public class GetQuestionImageFrontendData
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+
+public class GetQuestionImageFrontendData
 {
-    public static ImageFrontendData Run(QuestionCacheItem question, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
+    public static ImageFrontendData Run(QuestionCacheItem question, 
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor contextAction)
     {
         var imageMetaData = imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question);
-
+        
         if (imageMetaData != null)
-            return new ImageFrontendData(imageMetaData);
+            return new ImageFrontendData(imageMetaData,
+                httpContextAccessor,
+                webHostEnvironment); ;
 
         foreach (var category in question.Categories)
         {
@@ -15,6 +25,8 @@
                 break;
         }
 
-        return new ImageFrontendData(imageMetaData);
+        return new ImageFrontendData(imageMetaData,
+            httpContextAccessor,
+            webHostEnvironment); ;
     }
 }

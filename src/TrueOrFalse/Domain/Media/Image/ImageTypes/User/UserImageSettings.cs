@@ -12,14 +12,14 @@ using static System.String;
 
 public class UserImageSettings : ImageSettings, IImageSettings
 {
-    public override int Id { get; set; }
+    public int Id { get; set; }
 
     public ImageType ImageType => ImageType.User;
 
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 85, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
 
-    public override string BasePath => "/Images/Users/";
+    public string BasePath => "/Images/Users/";
     public string BaseDummyUrl => "/Images/no-profile-picture-";
 
     public UserImageSettings(int id,
@@ -31,10 +31,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
     public UserImageSettings(IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment) :
-        base(httpContextAccessor, webHostEnvironment)
-    {
-
-    }
+        base(httpContextAccessor, webHostEnvironment) {}
 
     public void Init(int typeId)
     {

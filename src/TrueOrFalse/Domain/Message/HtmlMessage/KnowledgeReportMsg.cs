@@ -61,10 +61,9 @@ public class KnowledgeReportMsg
             template);
         mailmessage2.UserName = user.Name; 
 
-       await HtmlMessage.SendAsync(mailmessage2,
+       await new HtmlMessage(httpContextAccessor, webHostEnvironment, jobQueueRepo, userReadingRepo)
+           .SendAsync(mailmessage2,
             messageTitle,
-            jobQueueRepo,
-            userReadingRepo,
             signOutMessage,
            UtmSource);
 

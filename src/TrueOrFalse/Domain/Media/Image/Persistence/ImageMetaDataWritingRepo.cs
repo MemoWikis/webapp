@@ -1,5 +1,6 @@
-﻿using System.Web;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Maintenance;
@@ -12,6 +13,8 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IActionContextAccessor _contextAction;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly RepositoryDb<ImageMetaData> _repo;
 
     public ImageMetaDataWritingRepo(ISession session,
@@ -19,13 +22,17 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
         LoadImageMarkups loadImageMarkups,
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IActionContextAccessor contextAction,
+        IWebHostEnvironment webHostEnvironment)
     {
         _questionReadingRepo = questionReadingRepo;
         _loadImageMarkups = loadImageMarkups;
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
+        _contextAction = contextAction;
+        _webHostEnvironment = webHostEnvironment;
         _repo = new RepositoryDb<ImageMetaData>(session); 
     }
 
@@ -79,10 +86,17 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
         }
     }
 
+    //todo(DaMa) Create and Update should be combined into one function that differentiates between the two within the function.
     public void Create(ImageMetaData imageMetaData)
     {
         if(_httpContextAccessor.HttpContext != null)
-            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionReadingRepo, _categoryRepository).LicenseState;
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData,
+                _questionReadingRepo, 
+                _categoryRepository, 
+                _httpContextAccessor,
+                _webHostEnvironment,
+                _contextAction)
+                .LicenseState;
 
         _repo.Create(imageMetaData);
     }
@@ -90,7 +104,13 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
     public void Update(ImageMetaData imageMetaData)
     {
         if (_httpContextAccessor.HttpContext != null)
-            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData, _questionReadingRepo, _categoryRepository).LicenseState;
+            imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData,
+                _questionReadingRepo, 
+                _categoryRepository,
+                _httpContextAccessor,
+                _webHostEnvironment,
+                _contextAction)
+                .LicenseState;
 
         _repo.Update(imageMetaData);
     }
