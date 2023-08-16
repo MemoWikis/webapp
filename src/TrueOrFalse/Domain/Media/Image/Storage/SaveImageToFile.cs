@@ -3,32 +3,39 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Web;
+using Microsoft.AspNetCore.Hosting;
 
 public class SaveImageToFile
 {
-    public static void Run(Stream inputStream, IImageSettings imageSettings)
+    public static void Run(Stream inputStream,
+        IImageSettings imageSettings,
+        IWebHostEnvironment webHostEnvironment)
     {
         var oldImages = Directory.GetFiles(
-            HttpContext.Current.Server.MapPath(imageSettings.BasePath), 
+            webHostEnvironment.WebRootPath,
             string.Format("{0}_*", imageSettings.Id)
         );
 
-        foreach (var file in oldImages){
+        foreach (var file in oldImages)
+        {
             File.Delete(file);
         }
 
-        using (var image = Image.FromStream(inputStream)){
+        using (var image = Image.FromStream(inputStream))
+        {
 
             if (image.VerticalResolution != 96.0F || image.HorizontalResolution != 96.0F)
                 ((Bitmap)image).SetResolution(96.0F, 96.0F);
 
             SaveOriginalSize(imageSettings, image);
 
-            foreach (var size in imageSettings.SizesSquare){
+            foreach (var size in imageSettings.SizesSquare)
+            {
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);
             }
 
-            foreach (var width in imageSettings.SizesFixedWidth){//$temp: hier werden die verschiedenen Bildgroessen abgelegt
+            foreach (var width in imageSettings.SizesFixedWidth)
+            {//$temp: hier werden die verschiedenen Bildgroessen abgelegt
                 ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare: false);
             }
         }
@@ -55,23 +62,28 @@ public class SaveImageToFile
 
 
     /// <summary>store temp images</summary>
-    public static void Run(Stream inputStream, TmpImage tmpImage)
+    public static void Run(Stream inputStream,
+        TmpImage tmpImage,
+        IWebHostEnvironment webHostEnvironment)
     {
-        using (var image = Image.FromStream(inputStream)){
-
-            image.Save(HttpContext.Current.Server.MapPath(tmpImage.Path), ImageFormat.Png);
+        using (var image = Image.FromStream(inputStream))
+        {
+            var basePath = webHostEnvironment.WebRootPath;  
+                image.Save(Path.Combine(basePath, tmpImage.Path), ImageFormat.Png);
 
             var scale = (float)tmpImage.PreviewWidth / image.Width;
             var height = (int)(image.Height * scale);
-            using (var resized = new Bitmap(tmpImage.PreviewWidth, height)){
-                using (var graphics = Graphics.FromImage(resized)){
+            using (var resized = new Bitmap(tmpImage.PreviewWidth, height))
+            {
+                using (var graphics = Graphics.FromImage(resized))
+                {
                     graphics.Clear(Color.White);
                     graphics.SmoothingMode = SmoothingMode.AntiAlias;
                     graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
                     graphics.DrawImage(image, 0, 0, tmpImage.PreviewWidth, height);
                 }
-                resized.Save(HttpContext.Current.Server.MapPath(tmpImage.PathPreview), ImageFormat.Jpeg);
+                resized.Save(Path.Combine(basePath, tmpImage.PathPreview), ImageFormat.Jpeg);
             }
         }
     }

@@ -1,14 +1,16 @@
 ﻿using System.Web;
+using Microsoft.AspNetCore.Http;
 
 
 public class UserAgent
 {
-    public static string Get()
+    public static string Get(IHttpContextAccessor httpContextAccessor)
     {
-        string userAgent = "";
-        if (HttpContext.Current.Request.UserAgent != null)
-            userAgent = HttpContext.Current.Request.UserAgent.ToLower();
-
-        return userAgent;
+        return httpContextAccessor
+            .HttpContext?.
+            Request.
+            Headers["User-Agent"].
+            ToString().
+            ToLower() ?? "";
     }
 }

@@ -1,17 +1,26 @@
-﻿using System.Web;
+﻿using Microsoft.AspNetCore.Http;
+using System.Web;
 
 public class RemovePersistentLoginFromCookie
 {
-    public static void Run(PersistentLoginRepo persistentLoginRepo)
+    public static void Run(PersistentLoginRepo persistentLoginRepo, HttpContextAccessor httpContextAccessor)
     {
-        var persistentCookieValue = GetPersistentLoginCookieValues.Run();
+        var persistentCookieValue = GetPersistentLoginCookieValues.Run(httpContextAccessor);
 
         if (!persistentCookieValue.Exists())
             return;
 
         persistentLoginRepo.Delete(persistentCookieValue.UserId, persistentCookieValue.LoginGuid);
-        var cookie = HttpContext.Current.Response.Cookies.Get(Settings.MemuchoCookie);
-        cookie.Values.Set("persistentLogin", "");
-        cookie.Expires = DateTime.Now.AddDays(45);
+
+        var existingCookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Settings.MemuchoCookie];
+        if (existingCookieValue != null)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                Expires = DateTime.Now.AddDays(-1),
+            };
+
+            httpContextAccessor.HttpContext?.Response.Cookies.Append(Settings.MemuchoCookie, "", cookieOptions);
+        }
     }
 }

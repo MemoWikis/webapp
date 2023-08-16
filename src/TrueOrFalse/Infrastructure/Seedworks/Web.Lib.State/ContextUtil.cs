@@ -1,28 +1,37 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace Seedworks.Web.State
 {
-    public static class ContextUtil
+    public class ContextUtil
     {
-        public static bool UseWebConfig => Settings.UseWebConfig;
+        private readonly HttpContext? _httpContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public static bool IsWebContext => HttpContext.Current != null;    
+        public ContextUtil(HttpContext? httpContext, IWebHostEnvironment webHostEnvironment)
+        {
+            _httpContext = httpContext;
+            _webHostEnvironment = webHostEnvironment;
+        }
+        public bool UseWebConfig => Settings.UseWebConfig;
 
+        public bool IsWebContext => _httpContext != null;
 
-        public static string GetFilePath(string fileName) 
+        public string GetFilePath(string fileName)
         {
             if (IsWebContext)
-                return HttpContext.Current.Server.MapPath($@"~/{fileName}");
-            
+                return Path.Combine(_webHostEnvironment.WebRootPath, $@"~/{fileName}");
+
             if (UseWebConfig)
                 return Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.FullName, fileName);
-            
+
             return Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, fileName);
         }
 
-        private static string AssemblyDirectory
+        private string AssemblyDirectory
         {
             get
             {

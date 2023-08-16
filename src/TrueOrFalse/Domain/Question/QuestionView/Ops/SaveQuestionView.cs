@@ -1,20 +1,27 @@
 ﻿using System.Web;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using TrueOrFalse.Search;
+using ISession = NHibernate.ISession;
 
 public class SaveQuestionView : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionViewRepository _questionViewRepo;
     private readonly ISession _session;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SaveQuestionView(
         QuestionViewRepository questionViewRepo, 
-       
-        ISession session)
+        ISession session,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _questionViewRepo = questionViewRepo;
         
         _session = session;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public void Run(Guid questionViewGuid, QuestionCacheItem question, IUserTinyModel user)
@@ -27,12 +34,12 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         QuestionCacheItem question,
         int userId)
     {
-        if (HttpContext.Current == null)
+        if (_httpContextAccessor.HttpContext == null)
             return;
 
-        var userAgent = UserAgent.Get();
+        var userAgent = UserAgent.Get(_httpContextAccessor);
 
-        if (IsCrawlerRequest.Yes(userAgent))
+        if (IsCrawlerRequest.Yes(_httpContextAccessor, _webHostEnvironment))
             return;
 
         _questionViewRepo.Create(new QuestionView
