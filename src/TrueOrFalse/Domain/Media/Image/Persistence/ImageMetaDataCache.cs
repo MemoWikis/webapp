@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using CacheManager.Core;
+﻿using CacheManager.Core;
 
 public class ImageMetaDataCache
 {
