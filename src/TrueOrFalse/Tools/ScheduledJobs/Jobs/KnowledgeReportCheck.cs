@@ -1,4 +1,6 @@
-﻿using Quartz;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -12,6 +14,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private readonly GetUnreadMessageCount _getUnreadMessageCount;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
         private readonly QuestionReadingRepo _questionReadingRepo;
+        private readonly HttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public KnowledgeReportCheck(JobQueueRepo jobQueueRepo,
             UserReadingRepo userReadingRepo,
@@ -20,7 +24,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             GetStreaksDays getStreaksDays,
             GetUnreadMessageCount getUnreadMessageCount,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
-            QuestionReadingRepo questionReadingRepo)
+            QuestionReadingRepo questionReadingRepo,
+            HttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _jobQueueRepo = jobQueueRepo;
             _userReadingRepo = userReadingRepo;
@@ -30,6 +36,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _getUnreadMessageCount = getUnreadMessageCount;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
             _questionReadingRepo = questionReadingRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -49,7 +57,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             _userReadingRepo, 
                             _getUnreadMessageCount, 
                             _knowledgeSummaryLoader,
-                            _questionReadingRepo);
+                            _questionReadingRepo,
+                            _httpContextAccessor,
+                            _webHostEnvironment);
                     }
                 }
 

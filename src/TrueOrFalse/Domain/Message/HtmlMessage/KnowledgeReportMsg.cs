@@ -1,4 +1,6 @@
-﻿using RazorLight.Razor;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using RazorLight.Razor;
 using RazorLight;
 
 public class KnowledgeReportMsg
@@ -11,13 +13,14 @@ public class KnowledgeReportMsg
         GetAnswerStatsInPeriod getAnswerStatsInPeriod,
         GetStreaksDays getStreaksDays,
         UserReadingRepo userReadingRepo,
-
         GetUnreadMessageCount getUnreadMessageCount,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
        
-        var template = await File.ReadAllTextAsync(PathTo.EmailTemplate_KnowledgeReport());
+        var template = await File.ReadAllTextAsync(new PathTo(httpContextAccessor, webHostEnvironment).EmailTemplate_KnowledgeReport());
         var model = new KnowledgeReportMsgModel(user,
                 UtmSource,
                 getAnswerStatsInPeriod,
@@ -27,7 +30,7 @@ public class KnowledgeReportMsg
                 knowledgeSummaryLoader,
                 questionReadingRepo);
 
-        var project = new FileSystemRazorProject(Path.GetDirectoryName(PathTo.EmailTemplate_KnowledgeReport()));
+        var project = new FileSystemRazorProject(Path.GetDirectoryName(new PathTo(httpContextAccessor, webHostEnvironment).EmailTemplate_KnowledgeReport()));
         var engine = new RazorLightEngineBuilder()
             .UseProject(project)
             .UseMemoryCachingProvider()

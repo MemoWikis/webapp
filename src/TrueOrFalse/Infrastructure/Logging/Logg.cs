@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Rollbar;
 using Serilog;
@@ -37,8 +38,9 @@ public class Logg
         Log.Logger = _logger;
     }
 
-
-    public static void Error(Exception exception, IHttpContextAccessor httpContextAccessor)
+    public static void Error(Exception exception,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         try
         {
@@ -51,10 +53,10 @@ public class Logg
             var request = httpContextAccessor.HttpContext.Request;
             var header = request.Headers.ToString();
 
-            if (!IgnoreLog.ContainsCrawlerInHeader(header))
+            if (!IgnoreLog.ContainsCrawlerInHeader(header, httpContextAccessor, webHostEnvironment))
             {
                 var rawUrl = $"{request.Path}{request.QueryString}";
-                r(IsCrawlerRequest.Yes(UserAgent.Get())).Error(exception, "PageError {Url} {Headers}",
+                r(IsCrawlerRequest.Yes(httpContextAccessor, webHostEnvironment)).Error(exception, "PageError {Url} {Headers}",
                     rawUrl,
                     header);
 

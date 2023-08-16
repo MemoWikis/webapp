@@ -17,8 +17,8 @@ public class ImageMetaDataReadingRepo : IRegisterAsInstancePerLifetime
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
-        if (ImageMetaDataCache.IsInCache(typeId, imageType))
-            return ImageMetaDataCache.FromCache(typeId, imageType);
+        if (ImageMetaDataCache.IsInCache(typeId, imageType, this))
+            return ImageMetaDataCache.FromCache(typeId, imageType, this);
 
         var metaData = GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
         return metaData;

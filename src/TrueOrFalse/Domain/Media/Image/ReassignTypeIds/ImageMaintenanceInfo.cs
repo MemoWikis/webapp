@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class ImageMaintenanceInfo
@@ -41,33 +40,48 @@ public class ImageMaintenanceInfo
     public ImageMaintenanceInfo(int typeId,
         ImageType imageType,
         QuestionReadingRepo questionReadingRepo,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo, CategoryRepository categoryRepository)
-        : this(imageMetaDataReadingRepo.GetBy(typeId, imageType), questionReadingRepo, categoryRepository)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        CategoryRepository categoryRepository, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor)
+        : this(imageMetaDataReadingRepo.GetBy(typeId, imageType), 
+            questionReadingRepo, 
+            categoryRepository, 
+            httpContextAccessor,
+            webHostEnvironment, 
+            actionContextAccessor)
     {
     }
 
     public ImageMaintenanceInfo(ImageMetaData imageMetaData,
         QuestionReadingRepo questionReadingRepo,
-        CategoryRepository categoryRepository)
+        CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor)
     {
-        var categoryImgBasePath = new CategoryImageSettings().BasePath;
-        var questionImgBasePath = new QuestionImageSettings(questionReadingRepo).BasePath;
-        var setImgBasePath = new SetImageSettings().BasePath;
+       
 
         ImageId = imageMetaData.Id;
         MetaData = imageMetaData;
+        
         TypeId = imageMetaData.TypeId;
         TypeNotFound = false;
-        
+
+        var categoryImgBasePath = new CategoryImageSettings(httpContextAccessor, webHostEnvironment).BasePath;
+        var questionImgBasePath = new QuestionImageSettings(questionReadingRepo, httpContextAccessor, webHostEnvironment).BasePath;
+        var setImgBasePath = new SetImageSettings(httpContextAccessor, webHostEnvironment).BasePath;
+
         switch (MetaData.Type)
         {
             case ImageType.Category:
                 Type = categoryRepository.GetById(MetaData.TypeId);
-                TypeUrl = Links.GetUrl(Type);
+                TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
                 break;
             case ImageType.Question:
                 Type = questionReadingRepo.GetById(MetaData.TypeId);
-                TypeUrl = Links.GetUrl(Type);
+                TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
                 break;
             default:
                 throw new Exception("invalid type");
@@ -133,20 +147,21 @@ public class ImageMaintenanceInfo
         EvaluateImageDeployability();
         SetLicenseStateCssClass();
 
-        InCategoryFolder = File.Exists(HttpContext.Current.Server.MapPath(
+        var basePath = webHostEnvironment.WebRootPath; 
+        InCategoryFolder = File.Exists(Path.Combine(basePath,
             categoryImgBasePath + imageMetaData.TypeId + ".jpg"));
-        InQuestionFolder = File.Exists(HttpContext.Current.Server.MapPath(
+        InQuestionFolder = File.Exists(Path.Combine(basePath,
             questionImgBasePath + imageMetaData.TypeId + ".jpg"));
-        InSetFolder = File.Exists(HttpContext.Current.Server.MapPath(
+        InSetFolder = File.Exists(Path.Combine(basePath,
             setImgBasePath + imageMetaData.TypeId + ".jpg"));
 
         if (MetaData.Type == ImageType.Category)
-            Url_128 = new CategoryImageSettings(MetaData.TypeId).GetUrl_128px(asSquare: true).Url;
+            Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment).GetUrl_128px(asSquare: true).Url;
             
         if (MetaData.Type == ImageType.Question)
-            Url_128 = new QuestionImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
+            Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment).GetUrl_128px_square().Url;
 
-        FrontendData = new ImageFrontendData(MetaData);
+        FrontendData = new ImageFrontendData(MetaData, httpContextAccessor, webHostEnvironment);
     }
 
     public void EvaluateImageDeployability()

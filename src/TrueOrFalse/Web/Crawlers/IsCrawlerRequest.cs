@@ -1,14 +1,13 @@
-﻿using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class IsCrawlerRequest
 {
-    public static bool Yes(string userAgent)
+    public static bool Yes(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        if (HttpContext.Current.Request.Browser.Crawler)
-            return true;
-
-        if (CrawlerRepo.GetAll().Any(crawler => userAgent.Contains(crawler.Pattern)))
+        var userAgent = httpContextAccessor.HttpContext.Request.Headers["User-Agent"];
+        if (CrawlerRepo.GetAll(httpContextAccessor, webHostEnvironment)
+            .Any(crawler => userAgent.Contains(crawler.Pattern)))
             return true;
 
         return false;

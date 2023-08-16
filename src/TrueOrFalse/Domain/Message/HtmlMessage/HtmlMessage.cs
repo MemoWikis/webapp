@@ -1,45 +1,30 @@
-﻿using RazorLight;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using RazorLight;
 
-public static class HtmlMessage
+public class HtmlMessage
 {
 
-    private static RazorLightEngine? _engine;
+    private RazorLightEngine? _engine;
+    private JobQueueRepo _jobQueueRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
-    static HtmlMessage()
+    public HtmlMessage(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        JobQueueRepo jobQueueRepo,
+        UserReadingRepo userReadingRepo)
     {
         _engine = new RazorLightEngineBuilder()
-            .UseFileSystemProject(PathTo.EmailTemplate())
+            .UseFileSystemProject(new PathTo(httpContextAccessor, webHostEnvironment).EmailTemplate())
             .UseMemoryCachingProvider()
             .Build();
-    }
-    public static async Task Send(MailMessage2 mailMessage, 
-        string messageTitle, 
-        JobQueueRepo jobQueueRepo,
-        UserReadingRepo userReadingRepo, 
-        string signOutMessage, 
-        string utmSource)
-    {
-        string result = await _engine?.CompileRenderAsync("EmailTemplate.cshtml", new HtmlMessageModel
-        {
-            UserName = mailMessage.UserName,
-            MessageTitle = messageTitle,
-            Content = mailMessage.Body,
-            SignOutMessage = signOutMessage,
-            UtmSource = utmSource,
-            UtmCampaign = null
-        });
-
-        mailMessage.Body = result;
-        mailMessage.IsBodyHtml = true;
-
-        SendEmail.Run(mailMessage, jobQueueRepo, userReadingRepo);
+        _jobQueueRepo = jobQueueRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
-    public static async Task SendAsync(
+    public async Task SendAsync(
         MailMessage2 mailMessage,
         string messageTitle,
-        JobQueueRepo jobQueueRepo,
-        UserReadingRepo userReadingRepo,
         string signOutMessage,
         string utmSource)
     {
@@ -56,6 +41,6 @@ public static class HtmlMessage
         mailMessage.Body = result;
         mailMessage.IsBodyHtml = true;
 
-        SendEmail.Run(mailMessage, jobQueueRepo, userReadingRepo);
+        SendEmail.Run(mailMessage, _jobQueueRepo, _userReadingRepo);
     }
 }

@@ -1,27 +1,31 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 
 //https://github.com/monperrus/crawler-user-agents/blob/master/crawler-user-agents.json file for actually crawlers
 public class CrawlerRepo
 {
-    private static IList<Crawler> _crawlers;
+    private static IList<Crawler>? _crawlers;
+    private static readonly object _lockObj = new ();
 
-    public static IList<Crawler> GetAll()
+    public static IList<Crawler>? GetAll(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
         if (_crawlers != null)
             return _crawlers;
 
-        lock ("A95EC747-38AB-45BA-9212-E52B9F47193C")
-            InitCrawlers();
+        lock (_lockObj)
+        {
+            InitCrawlers(httpContextAccessor, webHostEnvironment);
 
-        return _crawlers;
+            return _crawlers;
+        }
     }
 
-    private static void InitCrawlers()
+    private static void InitCrawlers(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        var crawlers = JsonConvert.DeserializeObject<IList<Crawler>>(File.ReadAllText(PathTo.Crawlers()));
+        var fileContent = File.ReadAllText(new PathTo(httpContextAccessor, webHostEnvironment).Crawlers());
+        var crawlers = JsonConvert.DeserializeObject<IList<Crawler>>(fileContent);
         
         if (crawlers != null) 
             foreach (var crawler in crawlers) 

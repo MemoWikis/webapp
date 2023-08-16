@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
@@ -7,7 +8,8 @@ public class CommentMsg
     public static void Send(Comment comment,
         QuestionReadingRepo questionReadingRepo, 
         MessageRepo messageRepo, 
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IActionContextAccessor actionContextAccessor)
     {
         if (comment.Type != CommentType.AnswerQuestion)
             throw new Exception("Other CommentType than AnswerQuestion is unknown.");
@@ -16,7 +18,7 @@ public class CommentMsg
 
         var questionUrl = "";
         if(httpContextAccessor.HttpContext != null)
-            questionUrl = Links.AnswerQuestion(question);
+            questionUrl = new Links(actionContextAccessor, httpContextAccessor).AnswerQuestion(question);
 
         string shouldImproveOrRemove = "";
         if (comment.ShouldImprove)
