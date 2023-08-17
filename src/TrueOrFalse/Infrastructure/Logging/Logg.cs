@@ -8,59 +8,68 @@ using TrueOrFalse.Tools;
 
 public class Logg
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private const string _seqUrl = "http://localhost:5341";
-    private static readonly Serilog.ILogger _logger;
-    private static readonly Serilog.ILogger _loggerIsCrawler;
-    private static readonly Serilog.ILogger _subscriptionLogger;
-
-    static Logg()
+    private readonly Serilog.ILogger _logger;
+    private readonly Serilog.ILogger _loggerIsCrawler;
+    private readonly Serilog.ILogger _subscriptionLogger;
+    public Logg(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
-        _logger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", Settings.Environment())
-            .Enrich.WithProperty("IsCrawler", false)
-            .WriteTo.Seq(_seqUrl)
-            .CreateLogger();
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
 
-        _loggerIsCrawler = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", Settings.Environment())
-            .Enrich.WithProperty("IsCrawler", true)
-            .WriteTo.Seq(_seqUrl)
-            .CreateLogger();
+        if (_httpContextAccessor.HttpContext != null)
+        {
+            _logger = new LoggerConfiguration()
+                .Enrich.WithProperty("Environment",
+                    Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+                .Enrich.WithProperty("IsCrawler", false)
+                .WriteTo.Seq(_seqUrl)
+                .CreateLogger();
 
-        _subscriptionLogger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", Settings.Environment())
-            .Enrich.WithProperty("isSubscription", true)
-            .WriteTo.Seq(_seqUrl)
-            .CreateLogger();
+            _loggerIsCrawler = new LoggerConfiguration()
+                .Enrich.WithProperty("Environment",
+                    Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+                .Enrich.WithProperty("IsCrawler", true)
+                .WriteTo.Seq(_seqUrl)
+                .CreateLogger();
+
+            _subscriptionLogger = new LoggerConfiguration()
+                .Enrich.WithProperty("Environment",
+                    Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+                .Enrich.WithProperty("isSubscription", true)
+                .WriteTo.Seq(_seqUrl)
+                .CreateLogger();
+        }
 
 
         //configure globally shared logger
         Log.Logger = _logger;
     }
 
-    public static void Error(Exception exception,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    public void Error(Exception exception)
     {
         try
         {
-            if (httpContextAccessor.HttpContext == null)
+            if (_httpContextAccessor.HttpContext == null)
             {
                 r().Error(exception, "Error");
                 return;
             }
 
-            var request = httpContextAccessor.HttpContext.Request;
+            var request = _httpContextAccessor.HttpContext.Request;
             var header = request.Headers.ToString();
 
-            if (!IgnoreLog.ContainsCrawlerInHeader(header, httpContextAccessor, webHostEnvironment))
+            if (!IgnoreLog.ContainsCrawlerInHeader(header, _httpContextAccessor, _webHostEnvironment))
             {
                 var rawUrl = $"{request.Path}{request.QueryString}";
-                r(IsCrawlerRequest.Yes(httpContextAccessor, webHostEnvironment)).Error(exception, "PageError {Url} {Headers}",
+                r(IsCrawlerRequest.Yes(_httpContextAccessor, _webHostEnvironment)).Error(exception, "PageError {Url} {Headers}",
                     rawUrl,
                     header);
 
-                var connection = httpContextAccessor.HttpContext.Connection;
+                var connection = _httpContextAccessor.HttpContext.Connection;
                 if (connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress))
                 {
                     RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(exception));
@@ -72,7 +81,7 @@ public class Logg
         }
     }
 
-    public static Serilog.ILogger r(bool isCrawler = false)
+    public Serilog.ILogger r(bool isCrawler = false)
     {
         return isCrawler ? _loggerIsCrawler : _logger;
     }
@@ -82,7 +91,7 @@ public class Logg
     /// </summary>
     /// <param name="stripePaymentEvents"></param>
     /// <param name="userId"></param>
-    public static void SubscriptionLogger(StripePaymentEvents stripePaymentEvents, int userId)
+    public void SubscriptionLogger(StripePaymentEvents stripePaymentEvents, int userId)
     {
         if (userId == -1)
         {

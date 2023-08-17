@@ -65,7 +65,7 @@ public class LomExporter
             }
             catch (Exception e)
             {
-                Logg.Error(new Exception($"Error exporting set {category.Id}", e), _httpContextAccessor, _webHostEnvironment);
+                new Logg(_httpContextAccessor, _webHostEnvironment).Error(new Exception($"Error exporting set {category.Id}", e));
             }
         }
     }
@@ -90,10 +90,8 @@ public class LomExporter
             }
             catch (Exception e)
             {
-                Logg.Error(
-                    new Exception($"Error exporting question {question.Id}", e), 
-                    _httpContextAccessor, 
-                    _webHostEnvironment);
+                new Logg(_httpContextAccessor, _webHostEnvironment).Error(
+                    new Exception($"Error exporting question {question.Id}", e));
             }
         }
     }

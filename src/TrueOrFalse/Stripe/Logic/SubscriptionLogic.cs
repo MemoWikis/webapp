@@ -39,7 +39,7 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
 
         var user = _userReadingRepo.GetById(userId);
         user.StripeId = customer.Id;
-       _userWritingRepo.Update(user);
+        _userWritingRepo.Update(user);
 
         return customer.Id;
     }
@@ -71,8 +71,12 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
                     Quantity = 1
                 }
             },
-            SuccessUrl = CreateSiteLink("Preise"),
-            CancelUrl = CreateSiteLink("cancel"),
+            SuccessUrl = CreateSiteLink("Preise",
+                _httpContextAccessor.HttpContext,
+                _webHostEnvironment),
+            CancelUrl = CreateSiteLink("cancel", 
+                _httpContextAccessor.HttpContext, 
+                _webHostEnvironment),
             Customer = customerId
         };
 
@@ -85,7 +89,7 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
         }
         catch (StripeException e)
         {
-            Logg.Error(e, _httpContextAccessor, _webHostEnvironment);
+            new Logg(_httpContextAccessor, _webHostEnvironment).Error(e);
             return "-1";
         }
     }

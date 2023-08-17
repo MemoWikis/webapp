@@ -41,7 +41,7 @@ namespace TrueOrFalse.Infrastructure
                     var interceptor = new SqlDebugOutputInterceptor();
                     if (accessor.HttpContext == null)
                     {
-                        Logg.r().Error(new NullReferenceException(), "HttpContext is null - AutofacCoreModule/Load");
+                        new Logg(accessor, environment).r().Error(new NullReferenceException(), "HttpContext is null - AutofacCoreModule/Load");
                     }
 
                     return SessionFactory.CreateSessionFactory(accessor.HttpContext, environment).WithOptions().Interceptor(interceptor);
