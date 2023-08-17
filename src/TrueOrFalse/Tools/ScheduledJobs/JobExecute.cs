@@ -67,7 +67,7 @@ public class JobExecute
                     }
                     finally
                     {
-                        CloseJob(jobName, scope);
+                        CloseJob(jobName, scope, httpContextAccessor, webHostEnvironment);
                     }
                 }
                 finally
@@ -95,7 +95,7 @@ public class JobExecute
             using (var transaction = session.BeginTransaction(IsolationLevel.Serializable))
             {
                 transaction.Begin();
-                var runningJobRepo = new RunningJobRepo(session);
+                var runningJobRepo = new RunningJobRepo(session, httpContextAccessor, webHostEnvironment);
                 if (runningJobRepo.IsJobRunning(jobName))
                 {
                     new Logg(httpContextAccessor, webHostEnvironment)
@@ -115,11 +115,14 @@ public class JobExecute
         }
     }
 
-    private static void CloseJob(string jobName, ILifetimeScope scope)
+    private static void CloseJob(string jobName,
+        ILifetimeScope scope, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         using (var session = scope.Resolve<ISessionBuilder>().OpenSession())
         {
-            new RunningJobRepo(session).Remove(jobName);
+            new RunningJobRepo(session, httpContextAccessor, webHostEnvironment).Remove(jobName);
         }
     }
 }

@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
@@ -45,12 +44,14 @@ public class LomXml
     public static string From(QuestionCacheItem question,
         CategoryRepository categoryRepository,
         IHttpContextAccessor httpContextAccessor,
-        IActionContextAccessor actionContextAccessor)
+        IActionContextAccessor actionContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         return From(new LomXmlParams(question,
             categoryRepository,
             httpContextAccessor,
-            actionContextAccessor));
+            actionContextAccessor, 
+            webHostEnvironment));
     }
 
     public static string From(LomXmlParams objectParams)
@@ -238,7 +239,8 @@ public class LomXmlParams
     public LomXmlParams(QuestionCacheItem question,
         CategoryRepository categoryRepository,
         IHttpContextAccessor httpContextAccessor,
-        IActionContextAccessor actionContextAccessor)
+        IActionContextAccessor actionContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         GeneralIdentifier = "frage-" + question.Id;
         GeneralTitle = question.Text;
@@ -248,6 +250,6 @@ public class LomXmlParams
         LifecycleDate = question.DateCreated;
         MetaMetaCatalogEntry = "metadata.memucho-frage-" + question.Id;
         TechnicalLocation = "https://memucho.de" + new Links(actionContextAccessor, httpContextAccessor).AnswerQuestion(question);
-        RightsDescription = "CC BY, Autor: " + question.Creator.Name + " (Nutzer auf memucho.de)";
+        RightsDescription = "CC BY, Autor: " + question.Creator(httpContextAccessor, webHostEnvironment).Name + " (Nutzer auf memucho.de)";
     }
 }

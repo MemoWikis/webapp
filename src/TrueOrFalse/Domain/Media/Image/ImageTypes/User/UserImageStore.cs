@@ -13,7 +13,8 @@ public class UserImageStore
         SaveImageToFile.Run(
         stream,
         userImageSettings,
-        webHostEnvironment);
+        webHostEnvironment,
+        httpContextAccessor);
     }
 
 

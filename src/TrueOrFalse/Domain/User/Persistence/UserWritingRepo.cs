@@ -87,7 +87,7 @@ public class UserWritingRepo
 
         _repo.Delete(id);
         SessionUserCache.Remove(user);
-        EntityCache.RemoveUser(id);
+        EntityCache.RemoveUser(id, _httpContextAccessor, _webHostEnvironment);
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
     }
 
@@ -206,7 +206,7 @@ public class UserWritingRepo
 
     public void ReputationUpdate(User userToUpdate)
     {
-        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id);
+        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id, _httpContextAccessor, _webHostEnvironment);
 
         var oldReputation = userToUpdate.Reputation;
         var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;

@@ -8,15 +8,18 @@ public class ImageStore : IRegisterAsInstancePerLifetime
     private readonly WikiImageMetaLoader _metaLoader;
     private readonly ImageMetaDataWritingRepo _imgMetaDataWritingRepo;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public ImageStore(
         WikiImageMetaLoader metaLoader,
         ImageMetaDataWritingRepo imgMetaDataWritingRepo,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        IHttpContextAccessor httpContextAccessor)
     {
         _metaLoader = metaLoader;
         _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
         _webHostEnvironment = webHostEnvironment;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public void RunWikimedia(
@@ -34,7 +37,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         using (var stream = wikiMetaData.GetThumbImageStream())
         {
             //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
-            SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
+            SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment, _httpContextAccessor);
         }
 
         _imgMetaDataWritingRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
@@ -61,14 +64,14 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         {
             using (var stream = tmpImage.GetStream())
             {
-                SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
+                SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment, _httpContextAccessor);
             }
         }
         else
         {
             using (var stream = tmpImage.RelocateImage(relocateUrl))
             {
-                SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
+                SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment, _httpContextAccessor);
             }
         }
 
@@ -87,7 +90,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         using var stream = imageFile.OpenReadStream();
 
-        SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment);
+        SaveImageToFile.Run(stream, imageSettings, _webHostEnvironment, _httpContextAccessor);
 
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }

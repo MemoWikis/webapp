@@ -478,8 +478,10 @@ public class EntityCache : BaseEntityCache
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 
-    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
-        .Where(q => q.Creator.Id == userId && q.IsPrivate())
+    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment) => GetAllQuestions()
+        .Where(q => q.Creator(httpContextAccessor, webHostEnvironment).Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 
     public static QuestionCacheItem GetQuestion(int questionId)

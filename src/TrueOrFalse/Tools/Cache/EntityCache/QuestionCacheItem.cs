@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -17,7 +18,8 @@ public class QuestionCacheItem
         References = new List<ReferenceCacheItem>();
     }
 
-    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
+    public virtual UserCacheItem Creator(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+        => EntityCache.GetUserById(CreatorId, httpContextAccessor, webHostEnvironment);
 
     public virtual IList<CategoryCacheItem> Categories { get; set; }
 
@@ -221,12 +223,15 @@ public class QuestionCacheItem
 
     public virtual string ToLomXml(CategoryRepository categoryRepository,
         IActionContextAccessor contextAccessor,
-        IHttpContextAccessor httContextAccessor)
+        IHttpContextAccessor httContextAccessor,
+        IActionContextAccessor actionContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         return LomXml.From(this,
             categoryRepository,
             httContextAccessor,
-            contextAccessor);
+            actionContextAccessor,
+            webHostEnvironment);
     }
 
     public virtual int TotalAnswers()
@@ -296,8 +301,8 @@ public class QuestionCacheItem
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
     }
-    public virtual bool IsCreator(int userId)
+    public virtual bool IsCreator(int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        return userId == Creator?.Id;
+        return userId == Creator(httpContextAccessor, webHostEnvironment)?.Id;
     }
 }

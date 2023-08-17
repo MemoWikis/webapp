@@ -16,7 +16,7 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
         UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(httpContextAccessor.HttpContext, webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment) : base(httpContextAccessor, webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _userReadingRepo = userReadingRepo;
