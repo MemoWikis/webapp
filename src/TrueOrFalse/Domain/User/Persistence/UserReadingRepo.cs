@@ -1,14 +1,25 @@
-﻿using NHibernate;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using NHibernate;
 using Seedworks.Lib.Persistence;
+using ISession = NHibernate.ISession;
 
-public class UserReadingRepo : RepositoryDbBase<UserReadingRepo>
+
+public class UserReadingRepo
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly RepositoryDb<User> _repo;
-    public int Id { get; set; }
+    
 
-    public UserReadingRepo(ISession session) : base(session)
+    public UserReadingRepo(ISession session,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
+
     {
-        _repo = new RepositoryDb<User>(session); 
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _repo = new RepositoryDb<User>(session);
     }
 
     public bool FacebookUserExists(string facebookId)

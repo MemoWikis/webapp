@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Quartz.Spi;
 
@@ -7,10 +9,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class AutofacJobFactory : IJobFactory
     {
         private readonly IContainer _container;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AutofacJobFactory(IContainer container)
+        public AutofacJobFactory(IContainer container,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _container = container;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
             ServiceLocator.Init(container);
         }
 

@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using static CategoryRepository;
 
 public class EntityCache : BaseEntityCache
@@ -48,22 +50,30 @@ public class EntityCache : BaseEntityCache
         }
     }
 
-    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
-    public static UserCacheItem GetUserById(int userId)
+    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment) => 
+        ids.Select(id => GetUserById(id, httpContextAccessor, webHostEnvironment))
+            .ToList(); 
+    public static UserCacheItem GetUserById(int userId,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         if (Users.TryGetValue(userId, out var user))
             return user;
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning("UserId is not available: {userId}", userId);
+        new Logg(httpContextAccessor, webHostEnvironment).r().Warning("UserId is not available: {userId}", userId);
         return new UserCacheItem();
     }
 
-    public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
         {
-            UpdateCategoryQuestionList(categoryQuestionList, question);
+            UpdateCategoryQuestionList(categoryQuestionList, question, httpContextAccessor, webHostEnvironment);
         }
 
         return categoryQuestionList;
@@ -169,22 +179,26 @@ public class EntityCache : BaseEntityCache
 
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
-    public static QuestionCacheItem GetQuestionById(int questionId)
+    public static QuestionCacheItem GetQuestionById(int questionId,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning("QuestionId is not available");
+        new Logg(httpContextAccessor, webHostEnvironment).r().Warning("QuestionId is not available");
         return new QuestionCacheItem();
     }
     private static void UpdateCategoryQuestionList(
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
         QuestionCacheItem question,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment,
         List<int> affectedCategoryIds = null)
     {
         DeleteQuestionFromRemovedCategories(question, categoryQuestionsList, affectedCategoryIds);
 
-        AddQuestionToCategories(question, categoryQuestionsList);
+        AddQuestionToCategories(question, categoryQuestionsList, httpContextAccessor, webHostEnvironment);
     }
 
     private static void DeleteQuestionFromRemovedCategories(
@@ -204,6 +218,8 @@ public class EntityCache : BaseEntityCache
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
         IList<CategoryCacheItem> categories = null)
     {
         if (categories == null)
@@ -222,7 +238,7 @@ public class EntityCache : BaseEntityCache
             }
             catch
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Update failed in AddQuestionToCategorie");
+                new Logg(httpContextAccessor, webHostEnvironment).r().Error("Update failed in AddQuestionToCategorie");
             }
         }
     }
@@ -240,9 +256,9 @@ public class EntityCache : BaseEntityCache
         AddOrUpdate(Users, user);
     }
 
-    public static void RemoveUser(int id)
+    public static void RemoveUser(int id, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        Remove(GetUserById(id));
+        Remove(GetUserById(id, httpContextAccessor, webHostEnvironment));
     }
 
     public static void Remove(UserCacheItem user)
@@ -250,10 +266,13 @@ public class EntityCache : BaseEntityCache
         Remove(Users, user);
     }
 
-    public static void AddOrUpdate(QuestionCacheItem question, List<int> categoriesIdsToRemove = null)
+    public static void AddOrUpdate(QuestionCacheItem question,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment, 
+        List<int> categoriesIdsToRemove = null)
     {
         AddOrUpdate(Questions, question);
-        UpdateCategoryQuestionList(CategoryQuestionsList, question, categoriesIdsToRemove);
+        UpdateCategoryQuestionList(CategoryQuestionsList, question,httpContextAccessor, webHostEnvironment, categoriesIdsToRemove);
     }
 
     public static void Remove(QuestionCacheItem question)

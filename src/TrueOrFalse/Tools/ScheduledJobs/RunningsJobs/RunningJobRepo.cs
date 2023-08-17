@@ -1,10 +1,19 @@
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
+using ISession = NHibernate.ISession;
 
 public class RunningJobRepo : RepositoryDb<RunningJob>
 {
-    public RunningJobRepo(ISession session) : base(session)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public RunningJobRepo(ISession session,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) : base(session)
     {
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public bool IsJobRunning(string jobName)

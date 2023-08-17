@@ -1,18 +1,26 @@
 ﻿using System.Net.Mail;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
     private readonly PasswordRecoveryTokenRepository _tokenRepository;
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository,
         JobQueueRepo jobQueueRepo, 
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _tokenRepository = tokenRepository;
         _jobQueueRepo = jobQueueRepo;
         _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public PasswordRecoveryResult Run(string email)

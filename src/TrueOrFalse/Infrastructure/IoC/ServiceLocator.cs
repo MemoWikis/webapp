@@ -1,11 +1,13 @@
 ﻿using System.Collections.Concurrent;
-using System.Threading;
 using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 
 public class ServiceLocator
 {
     private static IContainer _container;
+    private static ThreadLocal<ILifetimeScope> _currentScope = new();
 
     private static readonly ConcurrentDictionary<int /*managed thread id*/, ILifetimeScope> _liftimeScopes = new();
 
@@ -13,7 +15,9 @@ public class ServiceLocator
     {
         if (!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope))
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Could not add lifetime scope");
+            var httpContextAccessor = lifetimeScope.Resolve<IHttpContextAccessor>();
+            var webHostEnvironment = lifetimeScope.Resolve<IWebHostEnvironment>();
+            new Logg(httpContextAccessor, webHostEnvironment).r().Error("Could not add lifetime scope");
         }
     }
 
@@ -29,9 +33,12 @@ public class ServiceLocator
 
     public static void RemoveScopeForCurrentThread()
     {
+
         if (!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out _))
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Could not remove lifetime scope");
+            var httpContextAccessor = _currentScope.Value.Resolve<HttpContextAccessor>(); 
+            var webHostEnvironment = _currentScope.Value.Resolve<IWebHostEnvironment>();
+            new Logg(httpContextAccessor, webHostEnvironment).r().Error("Could not remove lifetime scope");
         }
     }
 }

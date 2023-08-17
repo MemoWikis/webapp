@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using NHibernate;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
+using ISession = NHibernate.ISession;
 
 public class UserWritingRepo
 {
@@ -18,6 +17,8 @@ public class UserWritingRepo
     private readonly UserReadingRepo _userReadingRepo;
     private readonly ReputationCalc _reputationCalc;
     private readonly GetWishQuestionCount _getWishQuestionCount;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly RepositoryDb<User> _repo;
 
 
@@ -30,7 +31,9 @@ public class UserWritingRepo
         QuestionValuationRepo questionValuationRepo,
         UserReadingRepo userReadingRepo,
         ReputationCalc reputationCalc,
-        GetWishQuestionCount getWishQuestionCount)
+        GetWishQuestionCount getWishQuestionCount,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _repo = new RepositoryDb<User>(session);
         _sessionUser = sessionUser;
@@ -42,6 +45,8 @@ public class UserWritingRepo
         _userReadingRepo = userReadingRepo;
         _reputationCalc = reputationCalc;
         _getWishQuestionCount = getWishQuestionCount;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)

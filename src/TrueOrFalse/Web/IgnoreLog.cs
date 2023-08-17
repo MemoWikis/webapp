@@ -43,7 +43,7 @@ public class IgnoreLog
         {
             if (!File.Exists(logIgnore))
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning($"Ignore.log is not available- {logIgnore}");
+                new Logg(httpContextAccessor, webHostEnvironment).r().Warning($"Ignore.log is not available- {logIgnore}");
                 _crawlers = new List<string>();
             }
 

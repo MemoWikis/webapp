@@ -5,7 +5,7 @@ using System.Drawing.Printing;
 
 public class ImageUrl
 {
-    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     public bool HasUploadedImage;
     public string Url;
@@ -13,11 +13,11 @@ public class ImageUrl
     private readonly string _basePath;
 
 
-    public ImageUrl(IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)
+    public ImageUrl(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        _contextAccessor = contextAccessor;
+        _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _httpContext = _contextAccessor.HttpContext;
+        _httpContext = _httpContextAccessor.HttpContext;
         
     }
 

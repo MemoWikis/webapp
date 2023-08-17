@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using TrueOrFalse.Infrastructure;
@@ -8,10 +10,17 @@ namespace TrueOrFalse.Updates
     public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DbSettingsRepo _dbSettingsRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Dictionary<int, Action> _actions = new();
 
-        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo){
+        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
             _dbSettingsRepo = dbSettingsRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public UpdateStepExecuter Add(Action action)

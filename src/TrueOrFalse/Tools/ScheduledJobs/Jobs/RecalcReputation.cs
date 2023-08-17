@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Rollbar;
 
@@ -6,8 +8,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcReputation : IJob
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         public const int IntervalInSeconds = 2;
 
+        public RecalcReputation(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>

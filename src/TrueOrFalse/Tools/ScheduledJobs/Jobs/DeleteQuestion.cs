@@ -1,6 +1,8 @@
 ﻿using System.Linq;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
+using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -16,6 +18,8 @@ public class DeleteQuestion : IJob
     private readonly ISession _nhibernateSession;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public DeleteQuestion(CategoryValuationReadingRepo categoryValuationReadingRepo,
         ReferenceRepo referenceRepo,
@@ -25,7 +29,10 @@ public class DeleteQuestion : IJob
         QuestionValuationRepo questionValuationRepo,
         CommentRepository commentRepository,
         ISession nhibernateSession,
-        UserReadingRepo userReadingRepo, QuestionWritingRepo questionWritingRepo)
+        UserReadingRepo userReadingRepo, 
+        QuestionWritingRepo questionWritingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _referenceRepo = referenceRepo;
@@ -37,6 +44,8 @@ public class DeleteQuestion : IJob
         _nhibernateSession = nhibernateSession;
         _userReadingRepo = userReadingRepo;
         _questionWritingRepo = questionWritingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     public Task Execute(IJobExecutionContext context)
     {

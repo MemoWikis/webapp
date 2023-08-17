@@ -1,20 +1,23 @@
 ﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 [Serializable]
 public class CategoryCacheRelation
 {
     public virtual int CategoryId { get; set; }
-
     public virtual int RelatedCategoryId { get; set; }
 
 
     public IList<CategoryCacheRelation> ToListCategoryRelations(
-        IList<CategoryRelation> listCategoryRelations)
+        IList<CategoryRelation> listCategoryRelations,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         var result = new List<CategoryCacheRelation>();
 
         if (listCategoryRelations == null)
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("CategoryRelations cannot be null");
+            new Logg(httpContextAccessor, webHostEnvironment).r().Error("CategoryRelations cannot be null");
 
         if (listCategoryRelations.Count <= 0 || listCategoryRelations == null)
         {

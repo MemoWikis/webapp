@@ -1,11 +1,22 @@
 ﻿using Autofac;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
+using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class CleanUpWorkInProgressQuestions : IJob
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public CleanUpWorkInProgressQuestions(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>

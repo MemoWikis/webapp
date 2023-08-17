@@ -1,5 +1,7 @@
 ﻿using System.Net.Mail;
 using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Quartz;
@@ -12,10 +14,16 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
     {
         private const string CacheKey = "SuccessfulMailJobs-19B1DFD8-0DA3-4B69-BFC8-08095EEEFB08";
         private readonly IMemoryCache _cache;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ScheduledMailSender(IMemoryCache cache)
+        public ScheduledMailSender(IMemoryCache cache,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _cache = cache;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task Execute(IJobExecutionContext context)
         {

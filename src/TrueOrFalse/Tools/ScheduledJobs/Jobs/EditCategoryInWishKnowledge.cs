@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
 using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Rollbar;
 
@@ -9,13 +11,20 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly SessionUser _sessionUser;
         private readonly CategoryInKnowledge _categoryInKnowledge;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public const int IntervalInSeconds = 2;
 
-        public EditCategoryInWishKnowledge(SessionUser sessionUser, CategoryInKnowledge categoryInKnowledge )
+        public EditCategoryInWishKnowledge(SessionUser sessionUser,
+            CategoryInKnowledge categoryInKnowledge,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _sessionUser = sessionUser;
             _categoryInKnowledge = categoryInKnowledge;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task Execute(IJobExecutionContext context)
         {

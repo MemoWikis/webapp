@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 
 public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLifetime
@@ -7,14 +9,20 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
     private readonly CategoryRepository _categoryRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public EntityCacheInitializer(CategoryRepository categoryRepository,
         UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _categoryRepository = categoryRepository;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     public void Init(string customMessage = "")
     {
@@ -44,7 +52,7 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
         new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions));
+        IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions, _httpContextAccessor, _webHostEnvironment));
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {

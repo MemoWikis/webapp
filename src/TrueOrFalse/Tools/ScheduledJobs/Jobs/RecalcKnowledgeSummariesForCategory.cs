@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Rollbar;
 
@@ -9,14 +11,20 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
         private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RecalcKnowledgeSummariesForCategory(CategoryValuationReadingRepo categoryValuationReadingRepo,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
-            CategoryValuationWritingRepo categoryValuationWritingRepo)
+            CategoryValuationWritingRepo categoryValuationWritingRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _categoryValuationReadingRepo = categoryValuationReadingRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
             _categoryValuationWritingRepo = categoryValuationWritingRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public Task Execute(IJobExecutionContext context)
