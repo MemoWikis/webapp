@@ -11,7 +11,7 @@ namespace Seedworks.Web.State
 
         private Cache()
         {
-            _cache = new CacheAspNet(new MemoryCache(new MemoryCacheOptions()));
+            _cache = new CacheAspNet();
         }
         public static Cache Instance
         {

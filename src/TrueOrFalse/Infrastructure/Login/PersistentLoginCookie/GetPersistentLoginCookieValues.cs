@@ -2,7 +2,7 @@
 
 public class GetPersistentLoginCookieValues
 {
-    public static GetPersistentLoginCookieValuesResult Run(HttpContextAccessor httpContextAccessor)
+    public static GetPersistentLoginCookieValuesResult Run(IHttpContextAccessor httpContextAccessor)
     {
         var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Settings.MemuchoCookie];
 

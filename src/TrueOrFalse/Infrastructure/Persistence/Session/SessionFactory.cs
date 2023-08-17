@@ -36,7 +36,7 @@ namespace TrueOrFalse
                 assembly = Assembly.LoadFile(
                     Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
 
-            var nhCfgCache = new NHConfigurationFileCache(assembly);
+            var nhCfgCache = new NHConfigurationFileCache(assembly, httpContext, webHostEnvironment);
             var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
 
             if (cachedCfg == null)
@@ -56,7 +56,7 @@ namespace TrueOrFalse
             var configuration = Fluently.Configure()
                 .Database(
                     MySQLConfiguration.Standard
-                        .ConnectionString(Settings.ConnectionString())
+                        .ConnectionString(Settings.ConnectionString(httpContext, webHostEnvironment))
                         .Dialect<MySQL5FlexibleDialect>()
                 )
                 .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())

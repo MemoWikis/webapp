@@ -7,7 +7,7 @@ public class LoginFromCookie
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor)
     {
-        var cookieValues = GetPersistentLoginCookieValues.Run();
+        var cookieValues = GetPersistentLoginCookieValues.Run(httpContextAccessor);
 
         if (!cookieValues.Exists())
             return false;
