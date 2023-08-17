@@ -22,7 +22,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            Logg.r().Information("Job started - Update Aggregated Categories from Update Question");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Job started - Update Aggregated Categories from Update Question");
 
             var dataMap = context.JobDetail.JobDataMap;
             var categoryIds = (List<int>)dataMap["categoryIds"];
@@ -35,7 +35,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
                 _categoryRepository.Update(category);
                 KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
-                Logg.r().Information("Update Category from Update Question - {id}", category.Id);
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Update Category from Update Question - {id}", category.Id);
             }
 
             return Task.CompletedTask;

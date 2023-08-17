@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate.Util;
 
 public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
@@ -7,15 +9,21 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ProbabilityUpdate_Question(AnswerRepo ansewRepo,
         JobQueueRepo jobQueueRepo, QuestionReadingRepo questionReadingRepo,
-        QuestionWritingRepo questionWritingRepo)
+        QuestionWritingRepo questionWritingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _ansewRepo = ansewRepo;
         _jobQueueRepo = jobQueueRepo;
         _questionReadingRepo = questionReadingRepo;
         _questionWritingRepo = questionWritingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     public void Run()
     {
@@ -24,7 +32,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         foreach (var question in _questionReadingRepo.GetAll())
             Run(question);
 
-        Logg.r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
     }
 
     public void Run(Question question)

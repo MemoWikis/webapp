@@ -21,7 +21,7 @@ namespace TrueOrFalse.Search
             var taskresult = await _client.WaitForTaskAsync(taskInfo.TaskUid);
             if (taskresult.Status != TaskInfoStatus.Succeeded)
             {
-                Logg.r().Error("Cannot create question in MeiliSearch", taskresult);
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Cannot create question in MeiliSearch", taskresult);
             }
         }
     }

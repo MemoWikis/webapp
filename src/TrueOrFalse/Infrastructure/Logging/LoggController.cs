@@ -7,7 +7,7 @@ namespace TrueOrFalse.Infrastructure.Logging
         [HttpPost]
         public void SetLoggReport(string report)
         {
-            Logg.r().Error(report);
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(report);
         }
     }
 }

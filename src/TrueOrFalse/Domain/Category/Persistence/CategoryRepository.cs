@@ -1,9 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
+using ISession = NHibernate.ISession;
 
 public class CategoryRepository : RepositoryDbBase<Category>
 {
@@ -11,6 +15,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserActivityRepo _userActivityRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public enum CreateDeleteUpdate
     {
@@ -24,13 +30,17 @@ public class CategoryRepository : RepositoryDbBase<Category>
         CategoryChangeRepo categoryChangeRepo,
         UpdateQuestionCountForCategory updateQuestionCountForCategory,
         UserReadingRepo userReadingRepo,
-        UserActivityRepo userActivityRepo)
+        UserActivityRepo userActivityRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
         : base(session)
     {
         _categoryChangeRepo = categoryChangeRepo;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _userReadingRepo = userReadingRepo;
         _userActivityRepo = userActivityRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     /// <summary>
@@ -59,7 +69,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (category.ParentCategories().Count != 1)
         {
-            Logg.r().Warning("the parentcounter is != 1");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning("the parentcounter is != 1");
         }
 
         var parentCategories = category.ParentCategories();

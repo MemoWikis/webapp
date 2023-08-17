@@ -13,7 +13,7 @@ public class ServiceLocator
     {
         if (!_liftimeScopes.TryAdd(Thread.CurrentThread.ManagedThreadId, lifetimeScope))
         {
-            Logg.r().Error("Could not add lifetime scope");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Could not add lifetime scope");
         }
     }
 
@@ -31,7 +31,7 @@ public class ServiceLocator
     {
         if (!_liftimeScopes.TryRemove(Thread.CurrentThread.ManagedThreadId, out _))
         {
-            Logg.r().Error("Could not remove lifetime scope");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Could not remove lifetime scope");
         }
     }
 }

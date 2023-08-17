@@ -177,7 +177,7 @@ public class CategoryHistoryDetailModel
         }
         catch (Exception e)
         {
-            Logg.Error(e);
+            new Logg(_httpContextAccessor, _webHostEnvironment).Error(e);
         }
 
         if (category != null && relatedCategory != null)

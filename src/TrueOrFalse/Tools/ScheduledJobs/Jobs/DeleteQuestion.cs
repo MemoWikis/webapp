@@ -42,7 +42,7 @@ public class DeleteQuestion : IJob
     {
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
-        Logg.r().Information("Job started - DeleteQuestion {id}", questionId);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Job started - DeleteQuestion {id}", questionId);
 
         SessionUserCache.RemoveQuestionForAllUsers(questionId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
 
@@ -60,7 +60,7 @@ public class DeleteQuestion : IJob
 
         var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
-        Logg.r().Information("Question {id} deleted", questionId);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Question {id} deleted", questionId);
 
         return Task.CompletedTask;
     }

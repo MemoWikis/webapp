@@ -51,7 +51,7 @@ public class Global : HttpApplication
 
         if (code != 404)
         {
-            Logg.Error(exception);
+            new Logg(_httpContextAccessor, _webHostEnvironment).Error(exception);
         }
 
         if (!Request.IsLocal)
@@ -62,7 +62,7 @@ public class Global : HttpApplication
 
     protected void Application_Start()
     {
-        Logg.r().Information("=== Application Start (start) ===============================");
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("=== Application Start (start) ===============================");
         InitializeAutofac();
         var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
         using (var scope = container.BeginLifetimeScope())
@@ -99,14 +99,14 @@ public class Global : HttpApplication
             else
             {
                 var stopwatch = Stopwatch.StartNew();
-                Logg.r().Information("=== Init EntityCache (start) ===============================");
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("=== Init EntityCache (start) ===============================");
 
 
            
                 new EntityCacheInitializer(categoryRepo, userReadingRepo, questionReadingRepo).Init();
 
 
-                Logg.r().Information(
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information(
                     $"=== Init EntityCache (end, elapsed {stopwatch.Elapsed}) ===============================");
                 stopwatch.Stop();
             }
@@ -114,20 +114,20 @@ public class Global : HttpApplication
             nhibernateSession.Close();
         }
 
-        Logg.r().Information("=== Application Start (end) ===============================");
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("=== Application Start (end) ===============================");
     }
 
     protected void Application_Stop()
     {
         JobScheduler.Shutdown();
-        Logg.r().Information("=== Application Stop ===============================");
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("=== Application Stop ===============================");
     }
 
     protected void Session_Start()
     {
         var userAgent = Request.UserAgent;
         var referrer = Request.UrlReferrer?.ToString() ?? "No referrer";
-        Logg.r().Information("SessionStart - userAgent: {userAgent}, referrer: {referrer}", userAgent, referrer);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("SessionStart - userAgent: {userAgent}, referrer: {referrer}", userAgent, referrer);
         var container = AutofacWebInitializer.Run(registerForAspNet: true, assembly: Assembly.GetExecutingAssembly());
         using (var scope = container.BeginLifetimeScope())
         {

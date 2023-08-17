@@ -38,12 +38,12 @@ public class AsyncExe
             }
             catch (Exception e)
             {
-                Logg.r().Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
             }
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, "Error in AsyncRunner");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in AsyncRunner");
         }
     }
 }

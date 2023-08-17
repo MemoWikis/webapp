@@ -30,7 +30,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         }
         catch(Exception e)
         {
-            Logg.r().Error(e, $"Error while trying to reset password for email: {email}");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, $"Error while trying to reset password for email: {email}");
             return new PasswordRecoveryResult { Success = false };
         }
 
@@ -52,7 +52,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, $"Error while trying to reset password for email: {email}");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, $"Error while trying to reset password for email: {email}");
             return new PasswordRecoveryResult { Success = false };
         }
 

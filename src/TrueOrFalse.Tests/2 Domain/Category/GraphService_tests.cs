@@ -120,7 +120,7 @@ class GraphService_tests : BaseTest
             return countVariousRelations == 0;
         }
 
-        Logg.r().Error("Category or CategoryRelations have a NullReferenceException");
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Category or CategoryRelations have a NullReferenceException");
         return false;
     }
 

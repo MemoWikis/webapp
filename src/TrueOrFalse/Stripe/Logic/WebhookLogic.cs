@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
@@ -9,23 +10,20 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
     public WebhookLogic(UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo, 
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
         _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
-    //public async Task<HttpStatusCodeResult> Create(HttpContextBase context, HttpRequestBase baseRequest)
-    //{
-    //    var eventAndStatus = await GetEvent(context, baseRequest);
-    //    var stripeEvent = eventAndStatus.stripeEvent;
-    //    var status = eventAndStatus.httpStatusCode;
-    //    return Evaluate(stripeEvent, status);
-    //}
+
     public async Task<IActionResult> Create()
     {
         var eventAndStatus = await GetEvent(_httpContextAccessor.HttpContext.Request);
@@ -61,7 +59,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
 
             case Events.PaymentMethodAttached:
                 var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
-                Logg.r().Error(
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(
                     $"The user paid with an incorrect payment method,  the CustomerId is {paymentMethod.CustomerId}.");
                 break;
         }
@@ -77,7 +75,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
         {
             var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
             SetNewSubscriptionDate(user, paymentDeleted.paymentObject.CurrentPeriodEnd, log);
-            Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
+            new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
         }
 
         LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
@@ -146,7 +144,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
     {
         if (user == null)
         {
-            Logg.r().Error($"The user with the CustomerId:{customerId}  was not found");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error($"The user with the CustomerId:{customerId}  was not found");
         }
     }
 
@@ -174,12 +172,12 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
                 endDate = subscription.paymentObject.CanceledAt ?? MaxValueMysql;
-                Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
+                new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
             }
             else
             {
                 endDate = MaxValueMysql;
-                Logg.SubscriptionLogger(StripePaymentEvents.Success, user.Id);
+                new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Success, user.Id);
             }
 
             SetNewSubscriptionDate(user, endDate, log, true);
@@ -197,6 +195,6 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
 
         user.EndDate = date;
         _userWritingRepo.Update(user);
-        Logg.r().Information(log);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information(log);
     }
 }

@@ -41,12 +41,23 @@ public class KnowledgeReportMsg
         var intervalWord = UpdateKnowledgeReportInterval.GetIntervalAsString(user.KnowledgeReportInterval);
 
         string signOutMessage = "Du erhältst diese E-Mail " + intervalWord + " als Bericht über deinen Wissensstand. Du kannst diese " +
-                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Never) + "\">E-Mails abbestellen</a> " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, 
+                                 UserSettingNotificationInterval.Never, 
+                                 httpContextAccessor,
+                                 webHostEnvironment) + "\">E-Mails abbestellen</a> " +
                              "oder die Empfangshäufigkeit ändern (" +
-                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Daily) + "\">täglich</a>, " +
-                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Weekly) + "\">wöchentlich</a>, " +
-                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Monthly) + "\">monatlich</a> oder " +
-                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Quarterly) + "\">vierteljährlich</a>" +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Daily,
+                                 httpContextAccessor,
+                                 webHostEnvironment) + "\">täglich</a>, " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Weekly,
+                                 httpContextAccessor,
+                                 webHostEnvironment) + "\">wöchentlich</a>, " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Monthly,
+                                 httpContextAccessor,
+                                 webHostEnvironment) + "\">monatlich</a> oder " +
+                             "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?" + UpdateKnowledgeReportInterval.GetLinkParamsForInterval(user, UserSettingNotificationInterval.Quarterly,
+                                 httpContextAccessor,
+                                 webHostEnvironment) + "\">vierteljährlich</a>" +
                              "). " +
                              "Weitere Einstellungen zu deinen E-Mail-Benachrichtigungen sind in deinen " +
                              "<a href=\"" + Settings.CanonicalHost + "/Nutzer/Einstellungen?utm_medium=email&utm_source=" + UtmSource + "&utm_term=editKnowledgeReportSettings\">Konto-Einstellungen</a> " +
@@ -68,14 +79,17 @@ public class KnowledgeReportMsg
            UtmSource);
 
         messageEmailRepo.Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
-        Logg.r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
+        new Logg(httpContextAccessor, webHostEnvironment).r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
     }
 
 
     /// <summary>
     /// Checks if a user should now get a KnowledgeReport according to his KnowledgeReportInterval-Setting
     /// </summary>
-    public static bool ShouldSendToUser(User user, MessageEmailRepo messageEmailRepo)
+    public static bool ShouldSendToUser(User user,
+        MessageEmailRepo messageEmailRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
 
         if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)) // defines standard behaviour if setting is not set
@@ -115,7 +129,7 @@ public class KnowledgeReportMsg
                 break;
         }
 
-        Logg.r().Information("KnowledgeReportMsg.ShouldSendToUser: " + user.Name + " - " + lastSentOrRegistered + " <? " + shouldHaveSent);
+        new Logg(httpContextAccessor, webHostEnvironment).r().Information("KnowledgeReportMsg.ShouldSendToUser: " + user.Name + " - " + lastSentOrRegistered + " <? " + shouldHaveSent);
 
         return lastSentOrRegistered <= shouldHaveSent;
     }

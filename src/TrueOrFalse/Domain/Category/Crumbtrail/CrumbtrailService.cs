@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
@@ -7,16 +9,22 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public CrumbtrailService(PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo, 
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _permissionCheck = permissionCheck;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
@@ -51,7 +59,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
             return;
 
         if (category.ParentCategories().All(c => c.Id != crumbtrailItems[0].Category.Id))
-            Logg.r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
         
         for (int i = 0; i < crumbtrailItems.Count - 1; i++)
         {
@@ -59,10 +67,10 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
             var nextItemId = crumbtrailItems[i + 1].Category.Id;
 
             if (!_permissionCheck.CanView(categoryCacheItem))
-                Logg.r().Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
 
             if (categoryCacheItem.ParentCategories().All(c => c.Id != nextItemId))
-                Logg.r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
         }
     }
 

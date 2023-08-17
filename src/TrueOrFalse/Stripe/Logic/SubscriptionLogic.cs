@@ -11,20 +11,16 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SubscriptionLogic(SessionUser sessionUser,
         UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment) : base(httpContextAccessor.HttpContext, webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task<string> CreateCustomer(string username, string email, int userId)
@@ -71,12 +67,8 @@ public class SubscriptionLogic : BaseStripeLogic, IRegisterAsInstancePerLifetime
                     Quantity = 1
                 }
             },
-            SuccessUrl = CreateSiteLink("Preise",
-                _httpContextAccessor.HttpContext,
-                _webHostEnvironment),
-            CancelUrl = CreateSiteLink("cancel", 
-                _httpContextAccessor.HttpContext, 
-                _webHostEnvironment),
+            SuccessUrl = CreateSiteLink("Preise"),
+            CancelUrl = CreateSiteLink("cancel"),
             Customer = customerId
         };
 

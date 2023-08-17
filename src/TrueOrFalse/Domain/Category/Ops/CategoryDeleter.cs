@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
-using NHibernate;
+using ISession = NHibernate.ISession;
 
 public class CategoryDeleter : IRegisterAsInstancePerLifetime
 {
@@ -12,6 +14,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
     private readonly CategoryValuationReadingRepo _categoryValuationReading;
     private readonly IMemoryCache _cache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly PermissionCheck _permissionCheck;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
@@ -27,7 +31,9 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         CategoryValuationReadingRepo categoryValuationReading,
-        IMemoryCache cache)
+        IMemoryCache cache, 
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _session = session;
         _sessionUser = sessionUser;
@@ -40,6 +46,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _questionValuationRepo = questionValuationRepo;
         _categoryValuationReading = categoryValuationReading;
         _cache = cache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
@@ -49,7 +57,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
         if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
         {
-            Logg.r().Error("Category can´t deleted it has children");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Category can´t deleted it has children");
             hasDeleted.HasChildren = true;
             return hasDeleted;
         }

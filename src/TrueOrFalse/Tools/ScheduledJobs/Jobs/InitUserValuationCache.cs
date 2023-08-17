@@ -20,7 +20,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             JobExecute.Run(scope =>
             {
-                Logg.r().Information("job started");
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("job started");
 
                 var dataMap = context.JobDetail.JobDataMap;
 

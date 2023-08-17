@@ -1,15 +1,15 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using System.IO;
-using System.Web;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class SaveImageToFile
 {
     public static void Run(Stream inputStream,
         IImageSettings imageSettings,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        IHttpContextAccessor httpContextAccessor)
     {
         var oldImages = Directory.GetFiles(
             webHostEnvironment.WebRootPath,
@@ -27,7 +27,7 @@ public class SaveImageToFile
             if (image.VerticalResolution != 96.0F || image.HorizontalResolution != 96.0F)
                 ((Bitmap)image).SetResolution(96.0F, 96.0F);
 
-            SaveOriginalSize(imageSettings, image);
+            SaveOriginalSize(imageSettings, image, httpContextAccessor, webHostEnvironment);
 
             foreach (var size in imageSettings.SizesSquare)
             {
@@ -41,7 +41,10 @@ public class SaveImageToFile
         }
     }
 
-    private static void SaveOriginalSize(IImageSettings imageSettings, Image image)
+    private static void SaveOriginalSize(IImageSettings imageSettings,
+        Image image,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         using (var resized = new Bitmap(image))
         {
@@ -55,7 +58,7 @@ public class SaveImageToFile
 
             if (image.Width < 300)
             {
-                Logg.r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+                new Logg(httpContextAccessor, webHostEnvironment).r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
             }
         }
     }

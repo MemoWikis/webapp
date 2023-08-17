@@ -1,16 +1,21 @@
-﻿using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Seedworks.Lib.Settings;
 
 
 public class BaseStripeLogic
 {
-    protected static string CreateSiteLink(string targetPath,
-        HttpContext httpContext, 
+    protected readonly IHttpContextAccessor _httpContextAccessor;
+    protected readonly IWebHostEnvironment _webHostEnvironment;
+
+    public BaseStripeLogic(IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
-        var server = Settings.Environment(httpContext, webHostEnvironment);
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
+    protected string CreateSiteLink(string targetPath)
+    {
+        var server = Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment);
         var url = "";
         if (!string.IsNullOrEmpty(Settings.StripeBaseUrl))
         {

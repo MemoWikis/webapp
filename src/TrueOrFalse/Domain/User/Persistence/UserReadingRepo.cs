@@ -1,17 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using NHibernate;
+﻿using NHibernate;
 using Seedworks.Lib.Persistence;
-using TrueOrFalse.Search;
 
-public class UserReadingRepo 
+public class UserReadingRepo : RepositoryDbBase<UserReadingRepo>
 {
     private readonly RepositoryDb<User> _repo;
+    public int Id { get; set; }
 
-
-    public UserReadingRepo(ISession session)
+    public UserReadingRepo(ISession session) : base(session)
     {
         _repo = new RepositoryDb<User>(session); 
     }
@@ -69,7 +64,7 @@ public class UserReadingRepo
         if (userIds.Length != users.Count)
         {
             var missingUsersIds = userIds.Where(id => !users.Any(u => id == u.Id)).ToList();
-            Logg.r().Error(
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(
                 $"Following user ids from meilisearch not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
         }
 

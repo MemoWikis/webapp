@@ -54,7 +54,7 @@ public class EntityCache : BaseEntityCache
         if (Users.TryGetValue(userId, out var user))
             return user;
 
-        Logg.r().Warning("UserId is not available: {userId}", userId);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning("UserId is not available: {userId}", userId);
         return new UserCacheItem();
     }
 
@@ -174,7 +174,7 @@ public class EntityCache : BaseEntityCache
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        Logg.r().Warning("QuestionId is not available");
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning("QuestionId is not available");
         return new QuestionCacheItem();
     }
     private static void UpdateCategoryQuestionList(
@@ -222,7 +222,7 @@ public class EntityCache : BaseEntityCache
             }
             catch
             {
-                Logg.r().Error("Update failed in AddQuestionToCategorie");
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Update failed in AddQuestionToCategorie");
             }
         }
     }

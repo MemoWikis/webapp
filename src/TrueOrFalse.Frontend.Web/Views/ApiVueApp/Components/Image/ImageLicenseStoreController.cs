@@ -66,7 +66,7 @@ public class ImageLicenseStoreController : BaseController
         }
         catch (Exception e)
         {
-            Logg.Error(e);
+            new Logg(_httpContextAccessor, _webHostEnvironment).Error(e);
             return Json(new
             {
                 imageCanBeDisplayed = false

@@ -64,7 +64,7 @@ public class UserWritingRepo
 
     public void Create(User user)
     {
-        Logg.r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         _repo.Create(user);
         SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
@@ -155,7 +155,7 @@ public class UserWritingRepo
 
     public void Update(User user)
     {
-        Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
         _repo.Update(user);
         SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));

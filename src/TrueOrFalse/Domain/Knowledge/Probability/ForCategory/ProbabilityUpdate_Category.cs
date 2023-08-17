@@ -1,28 +1,45 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class ProbabilityUpdate_Category
 {
-    public static void Run(CategoryRepository categoryRepository, AnswerRepo answerRepo)
+    private readonly CategoryRepository _categoryRepository;
+    private readonly AnswerRepo _answerRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public ProbabilityUpdate_Category(CategoryRepository categoryRepository,
+        AnswerRepo answerRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
+    {
+        _categoryRepository = categoryRepository;
+        _answerRepo = answerRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
+    public void Run()
     {
         var sp = Stopwatch.StartNew();
 
-        foreach (var category in categoryRepository.GetAll())
-            Run(category, categoryRepository, answerRepo);
+        foreach (var category in _categoryRepository.GetAll())
+            Run(category);
 
-        Logg.r().Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
     }
 
-    public static void Run(Category category, CategoryRepository categoryRepository, AnswerRepo answerRepo)
+    public void Run(Category category)
     {
         var sp = Stopwatch.StartNew();
 
-        var answers = answerRepo.GetByCategories(category.Id);  
+        var answers = _answerRepo.GetByCategories(category.Id);  
 
         category.CorrectnessProbability = ProbabilityCalc_Category.Run(answers);
         category.CorrectnessProbabilityAnswerCount = answers.Count;
 
-        categoryRepository.Update(category);
+        _categoryRepository.Update(category);
 
-        Logg.r().Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, category.Id);
+        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, category.Id);
     }
 }

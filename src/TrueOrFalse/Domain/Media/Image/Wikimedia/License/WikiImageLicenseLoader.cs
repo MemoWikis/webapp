@@ -1,14 +1,27 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
 namespace TrueOrFalse
 {
     public class WikiImageLicenseLoader : IRegisterAsInstancePerLifetime
     {
-        public WikiImageLicenseInfo Run(string imageTitle, string apiHost)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public WikiImageLicenseLoader(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
+        public WikiImageLicenseInfo Run(string imageTitle, 
+            string apiHost)
         {
             var markup = LoadMarkupdFromWikipedia(imageTitle, apiHost);
             return WikiImageLicenseInfo.ParseMarkup(markup);
         }
 
-        private static string LoadMarkupdFromWikipedia(string imageTitle, string apiHost)
+        private string LoadMarkupdFromWikipedia(string imageTitle, string apiHost)
         {
             imageTitle = WikiApiUtils.ExtractFileNameFromUrl(imageTitle);
 
@@ -22,7 +35,7 @@ namespace TrueOrFalse
             }
             catch (Exception e)
             {
-                Logg.r().Error(e, "Could not load markup: {url}", url);
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Could not load markup: {url}", url);
             }
 
             return markup;

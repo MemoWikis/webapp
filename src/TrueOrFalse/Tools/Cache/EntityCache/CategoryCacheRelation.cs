@@ -14,7 +14,7 @@ public class CategoryCacheRelation
         var result = new List<CategoryCacheRelation>();
 
         if (listCategoryRelations == null)
-            Logg.r().Error("CategoryRelations cannot be null");
+            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("CategoryRelations cannot be null");
 
         if (listCategoryRelations.Count <= 0 || listCategoryRelations == null)
         {

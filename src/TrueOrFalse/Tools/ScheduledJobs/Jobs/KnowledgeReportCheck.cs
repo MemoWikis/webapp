@@ -46,9 +46,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 var users = _userReadingRepo.GetAll().Where(u => u.WishCountQuestions > 1);
                 foreach (var user in users)
                 {
-                    if (KnowledgeReportMsg.ShouldSendToUser(user, _messageEmailRepo))
+                    if (KnowledgeReportMsg.ShouldSendToUser(user,
+                            _messageEmailRepo, 
+                            _httpContextAccessor,
+                            _webHostEnvironment))
                     {
-                        Logg.r().Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
+                        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
                         KnowledgeReportMsg.SendHtmlMail(user,
                             _jobQueueRepo, 
                             _messageEmailRepo, 

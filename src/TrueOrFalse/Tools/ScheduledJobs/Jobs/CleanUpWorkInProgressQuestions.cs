@@ -19,7 +19,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var question in questions)
                     questionWritingRepo.Delete(question);
 
-                Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
             }, "CleanUpWorkInProgressQuestions");
 
             return Task.CompletedTask;
