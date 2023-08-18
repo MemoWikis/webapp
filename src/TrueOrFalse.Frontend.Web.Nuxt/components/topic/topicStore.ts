@@ -63,7 +63,7 @@ export interface FooterTopics {
 	Documentation: Topic
 }
 
-interface TinyTopicModel {
+export interface TinyTopicModel {
 	id: number
 	name: string
 	imgUrl: string

@@ -81,8 +81,8 @@ function onDrop(event: any) {
 
     newArr.value = moveElement(props.items, e, props.index)
     emit('setNewArr', newArr)
-}
 
+}
 // function getPayload(index: number) {
 //     const payload = {
 //         item: props.item.children![index],
@@ -102,7 +102,7 @@ const open = ref(false)
                 :class="{ 'open': open, 'isDroppableItemActive': isDroppableItemActive }">
                 {{ item.name }}
                 <div>
-                    <TopicContentGridItem v-for="c, i in props.item.children" :item="c" :index="[...index, i]"
+                    <TopicContentGridDndItem v-for="c, i in props.item.children" :item="c" :index="[...index, i]"
                         :items="props.items" @set-new-arr="emit('setNewArr', newArr)" />
                 </div>
             </div>
