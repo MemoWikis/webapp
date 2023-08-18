@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
+using ISession = NHibernate.ISession;
 
 public class QuestionWritingRepo : RepositoryDbBase<Question>
 {
@@ -15,6 +17,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly ISession _nhibernateSession;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webEnvironment;
     private readonly RepositoryDb<Question> _repo;
 
 
@@ -24,7 +28,9 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         QuestionChangeRepo questionChangeRepo,
-        ISession nhibernateSession) : base(nhibernateSession)
+        ISession nhibernateSession,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webEnvironment) : base(nhibernateSession)
     {
         _repo = new RepositoryDb<Question>(nhibernateSession);
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
@@ -34,7 +40,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         _userActivityRepo = userActivityRepo;
         _questionChangeRepo = questionChangeRepo;
         _nhibernateSession = nhibernateSession;
-       
+        _httpContextAccessor = httpContextAccessor;
+        _webEnvironment = webEnvironment;
     }
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -61,7 +68,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             _reputationUpdate.ForUser(question.Creator);
         }
 
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question),_httpContextAccessor, _webEnvironment);
 
         _questionChangeRepo.AddCreateEntry(question);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().CreateAsync(question));
@@ -120,7 +127,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .ToList();
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), _httpContextAccessor, _webEnvironment, categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         _questionChangeRepo.AddUpdateEntry(question);

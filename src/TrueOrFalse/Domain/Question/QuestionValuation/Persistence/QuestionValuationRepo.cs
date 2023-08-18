@@ -85,7 +85,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
             .ToList();
     }
 
-    public QuestionValuation GetBy(int questionId, int userId)
+    public QuestionValuation? GetBy(int questionId, int userId)
     {
         return _session.QueryOver<QuestionValuation>()
             .Where(q =>

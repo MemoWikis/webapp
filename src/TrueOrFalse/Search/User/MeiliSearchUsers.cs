@@ -2,22 +2,34 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Meilisearch;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Search
 {
+    //todo(DaMa) IRegisterAsInstancePerLifetime is needed ??
     public class MeiliSearchUsers : MeiliSearchHelper, IRegisterAsInstancePerLifetime
     {
+
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private List<UserCacheItem> _users = new();
 
         private MeiliSearchUsersResult _result;
+
+        public MeiliSearchUsers(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
 
         public async Task<ISearchUsersResult> RunAsync(
             string searchTerm)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             var index = client.Index(MeiliSearchKonstanten.Users);
-            _result = new MeiliSearchUsersResult();
+            _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment );
 
             _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));
 

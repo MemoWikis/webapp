@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class ReputationUpdate : IRegisterAsInstancePerLifetime
 {
@@ -10,8 +12,11 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         _jobQueueRepo = jobQueueRepo;
     }
 
-    public void ForQuestion(int questionId) =>
-      ScheduleUpdate(EntityCache.GetQuestionById(questionId).Creator.Id);
+    public void ForQuestion(int questionId,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) =>
+      ScheduleUpdate(EntityCache.GetQuestionById(questionId, httpContextAccessor, webHostEnvironment)
+          .Creator(httpContextAccessor, webHostEnvironment).Id);
 
 
     public void ForUser(User user) =>

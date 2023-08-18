@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Search
 {
     internal class MeiliSearchQuestionsDatabaseOperations : MeiliSearchBase
     {
+        public MeiliSearchQuestionsDatabaseOperations(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+            : base(httpContextAccessor, webHostEnvironment){ }
         /// <summary>
         /// Create MeiliSearch Question
         /// </summary>

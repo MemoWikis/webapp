@@ -1,4 +1,7 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using static System.Net.WebRequestMethods;
 
 namespace TrueOrFalse.Domain;
 
@@ -24,13 +27,18 @@ public class LimitCheck
         return sessionUser.IsInstallationAdmin ||
                HasActiveSubscriptionPlan(sessionUser) ||
                sessionUser.User.WishCountQuestions < _wishCountKnowledge;
-      }
+    }
 
-    public static bool CanSavePrivateQuestion(SessionUser sessionUser)
+    public static bool CanSavePrivateQuestion(SessionUser sessionUser, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         return sessionUser.IsInstallationAdmin ||
                HasActiveSubscriptionPlan(sessionUser) ||
-               EntityCache.GetPrivateQuestionIdsFromUser(sessionUser.UserId).Count() < _privateQuestionsQuantity;
+               EntityCache.GetPrivateQuestionIdsFromUser(sessionUser.UserId,
+                   httpContextAccessor, 
+                   webHostEnvironment)
+                   .Count() < _privateQuestionsQuantity;
     }
 
     public static bool CanSavePrivateTopic(SessionUser sessionUser)

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
@@ -7,16 +9,22 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public KnowledgeSummaryLoader(CategoryValuationReadingRepo categoryValuationReadingRepo,
         QuestionValuationRepo questionValuationRepo, 
         CategoryRepository categoryRepository,
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _categoryRepository = categoryRepository;
         _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public KnowledgeSummary RunFromDbCache(Category category, int userId)
@@ -53,7 +61,10 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
     public KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(PermissionCheck.Instance(userId), includingSelf: true);
+        
+        var aggregatedCategories = 
+            categoryCacheItem
+            .AggregatedCategories(new PermissionCheck(userId,_httpContextAccessor, _webHostEnvironment ), includingSelf: true);
 
         foreach (var currentCategory in aggregatedCategories)
         {

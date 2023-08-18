@@ -1,10 +1,19 @@
 ﻿using Meilisearch;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 
 namespace TrueOrFalse.Search
 {
     internal class MeiliSearchCategoriesDatabaseOperations : MeiliSearchBase
     {
+        public MeiliSearchCategoriesDatabaseOperations(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+            : base(httpContextAccessor, webHostEnvironment)
+        {
+            
+        }
+
         /// <summary>
         /// Create MeiliSearch Category
         /// </summary>

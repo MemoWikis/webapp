@@ -1,10 +1,19 @@
-﻿public class PermissionCheck : IRegisterAsInstancePerLifetime
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
+public class PermissionCheck
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
 
-    public PermissionCheck(SessionUser sessionUser)
+    public PermissionCheck(SessionUser sessionUser,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
     }
@@ -15,9 +24,13 @@
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
     }
 
-    public static PermissionCheck Instance(int userId)
+    public PermissionCheck(int userId,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
-        return new PermissionCheck(EntityCache.GetUserById(userId));
+        var userCacheItem = EntityCache.GetUserById(userId, httpContextAccessor, webHostEnvironment); 
+        _userId = userCacheItem.Id;
+        _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
     }
 
     //setter is for tests
@@ -129,7 +142,7 @@
         if (question == null)
             return false;
 
-        if (question.IsCreator(_userId) || _isInstallationAdmin)
+        if (question.IsCreator(_userId, _httpContextAccessor, _webHostEnvironment) || _isInstallationAdmin)
             return false;
 
         return false;

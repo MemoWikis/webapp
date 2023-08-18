@@ -12,3 +12,4 @@ public class SearchCategoryItem
     public int Visibility;
 }
 
+
