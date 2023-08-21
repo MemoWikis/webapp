@@ -24,11 +24,9 @@ public class PermissionCheck
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
     }
 
-    public PermissionCheck(int userId,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        public PermissionCheck(int userId)
     {
-        var userCacheItem = EntityCache.GetUserById(userId, httpContextAccessor, webHostEnvironment); 
+        var userCacheItem = EntityCache.GetUserById(userId); 
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
     }
@@ -97,10 +95,10 @@ public class PermissionCheck
         if (_userId == default || category == null || category.Id == 0)
             return false;
 
-        if (category.IsStartPage(_httpContextAccessor, _webHostEnvironment))
+        if (category.IsStartPage())
             return false;
 
-        if (category.Creator(_httpContextAccessor, _webHostEnvironment).Id == _userId || _isInstallationAdmin)
+        if (category.Creator.Id == _userId || _isInstallationAdmin)
             return true;
 
         return false;

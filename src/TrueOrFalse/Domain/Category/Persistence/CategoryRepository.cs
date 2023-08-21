@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Criterion;
@@ -17,6 +13,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly UserActivityRepo _userActivityRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
 
     public enum CreateDeleteUpdate
     {
@@ -32,7 +29,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg)
         : base(session)
     {
         _categoryChangeRepo = categoryChangeRepo;
@@ -41,6 +39,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _userActivityRepo = userActivityRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
     }
 
     /// <summary>
@@ -59,7 +58,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         UserActivityAdd.CreatedCategory(category, _userReadingRepo, _userActivityRepo);
 
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category, _httpContextAccessor, _webHostEnvironment);
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category, _logg);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
         _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);

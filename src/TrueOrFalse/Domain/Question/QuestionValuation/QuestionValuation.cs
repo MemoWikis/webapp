@@ -33,13 +33,12 @@ public class QuestionValuation : IPersistable, WithDateCreated
         RelevanceForAll = -1;
     }
 
-    public virtual QuestionValuationCacheItem ToCacheItem(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public virtual QuestionValuationCacheItem ToCacheItem()
     {
         return new QuestionValuationCacheItem
         {
             Id = Id,
-            User = EntityCache.GetUserById(User.Id, httpContextAccessor, webHostEnvironment),
+            User = EntityCache.GetUserById(User.Id),
             CorrectnessProbability = CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = CorrectnessProbabilityAnswerCount,
             KnowledgeStatus = KnowledgeStatus,

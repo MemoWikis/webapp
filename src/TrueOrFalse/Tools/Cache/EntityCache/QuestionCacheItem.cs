@@ -19,7 +19,7 @@ public class QuestionCacheItem
     }
 
     public virtual UserCacheItem Creator(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
-        => EntityCache.GetUserById(CreatorId, httpContextAccessor, webHostEnvironment);
+        => EntityCache.GetUserById(CreatorId);
 
     public virtual IList<CategoryCacheItem> Categories { get; set; }
 
@@ -143,9 +143,9 @@ public class QuestionCacheItem
     {
         return Categories.Where(permissionCheck.CanView);
     }
-    public virtual bool IsInWishknowledge(int userId, CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationRepo questionValuationRepo)
+    public virtual bool IsInWishknowledge(int userId, SessionUserCache sessionUserCache)
     {
-        return SessionUserCache.IsQuestionInWishknowledge(userId, Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+        return sessionUserCache.IsQuestionInWishknowledge(userId, Id);
     }
 
     public virtual bool IsMediumQuestion()

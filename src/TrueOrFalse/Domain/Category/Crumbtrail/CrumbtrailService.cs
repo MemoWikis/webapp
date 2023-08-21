@@ -6,25 +6,19 @@ using Microsoft.AspNetCore.Http;
 public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
     public CrumbtrailService(PermissionCheck permissionCheck,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo, 
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache)
     {
         _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
@@ -148,7 +142,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
 
                     if (sessionUser.IsLoggedIn)
                     {
-                        var userWikiId = SessionUserCache.GetUser(sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).StartTopicId;
+                        var userWikiId = _sessionUserCache.GetUser(sessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

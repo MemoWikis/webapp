@@ -6,7 +6,7 @@ using Serilog;
 using TrueOrFalse.Infrastructure.Logging;
 using TrueOrFalse.Tools;
 
-public class Logg
+public class Logg : IRegisterAsInstancePerLifetime
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;

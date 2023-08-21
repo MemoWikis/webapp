@@ -18,8 +18,8 @@ public class CategoryCacheItem
         Name = name;
     }
 
-    public virtual UserCacheItem Creator(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) =>
-        EntityCache.GetUserById(CreatorId, httpContextAccessor, webHostEnvironment);
+    public virtual UserCacheItem Creator =>
+        EntityCache.GetUserById(CreatorId);
     public virtual int[] AuthorIds { get; set; }
 
     public virtual CategoryCachedData CachedData { get; set; } = new();
@@ -84,8 +84,6 @@ public class CategoryCacheItem
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         bool onlyVisible = true,
         bool fullList = true,
         int categoryId = 0)
@@ -96,7 +94,7 @@ public class CategoryCacheItem
         {
 
             questions = AggregatedCategories(
-                    new PermissionCheck(userId, httpContextAccessor, webHostEnvironment))
+                    new PermissionCheck(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
                 .Distinct().ToList();
         }
@@ -108,7 +106,7 @@ public class CategoryCacheItem
 
         if (onlyVisible)
         {
-            var user = EntityCache.GetUserById(userId, httpContextAccessor, webHostEnvironment);
+            var user = EntityCache.GetUserById(userId);
             var permissionCheck = new PermissionCheck(user);
             questions = questions.Where(permissionCheck.CanView).ToList();
         }
@@ -123,25 +121,19 @@ public class CategoryCacheItem
     }
 
     public virtual int GetCountQuestionsAggregated(int userId,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        bool inCategoryOnly = false, 
+        bool inCategoryOnly = false,
         int categoryId = 0)
     {
         if (inCategoryOnly)
         {
             return GetAggregatedQuestionsFromMemoryCache(userId,
-                httpContextAccessor, 
-                webHostEnvironment, 
-                true, 
-                false, 
+                true,
+                false,
                 categoryId)
                 .Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache(userId, 
-                httpContextAccessor, 
-                webHostEnvironment)
+        return GetAggregatedQuestionsFromMemoryCache(userId)
             .Count;
     }
 
@@ -150,8 +142,7 @@ public class CategoryCacheItem
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
     }
 
-    public bool IsStartPage(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public bool IsStartPage()
     {
         if (Id == RootCategory.RootCategoryId)
         {
@@ -160,7 +151,7 @@ public class CategoryCacheItem
 
         if (Creator != null)
         {
-            return Id == Creator(httpContextAccessor, webHostEnvironment).StartTopicId;
+            return Id == Creator.StartTopicId;
         }
 
         return false;
@@ -175,24 +166,18 @@ public class CategoryCacheItem
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories, 
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories, Logg logg)
     {
-        return categories.Select(c => ToCacheCategory(c, httpContextAccessor, webHostEnvironment));
+        return categories.Select(c => ToCacheCategory(c, logg));
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, 
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, Logg logg)
     {
-        return categories.Select(c => 
-            ToCacheCategory(c, httpContextAccessor, webHostEnvironment));
+        return categories.Select(c =>
+            ToCacheCategory(c, logg));
     }
 
-    public static CategoryCacheItem ToCacheCategory(Category category,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public static CategoryCacheItem ToCacheCategory(Category category, Logg logg)
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
@@ -202,9 +187,7 @@ public class CategoryCacheItem
             Id = category.Id,
             CachedData = new CategoryCachedData(),
             CategoryRelations = userEntityCacheCategoryRelations
-                .ToListCategoryRelations(category.CategoryRelations,
-                    httpContextAccessor, 
-                    webHostEnvironment),
+                .ToListCategoryRelations(category.CategoryRelations, logg),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,
@@ -234,13 +217,9 @@ public class CategoryCacheItem
         return categoryCacheItem;
     }
 
-    public void UpdateCountQuestionsAggregated(int userId,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public void UpdateCountQuestionsAggregated(int userId)
     {
-        CountQuestionsAggregated = GetCountQuestionsAggregated(userId,
-            httpContextAccessor, 
-            webHostEnvironment);
+        CountQuestionsAggregated = GetCountQuestionsAggregated(userId);
     }
 
     private Dictionary<int, CategoryCacheItem> VisibleChildCategories(

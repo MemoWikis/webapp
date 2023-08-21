@@ -10,43 +10,40 @@ public class UserWritingRepo
     private readonly SessionUser _sessionUser;
 
     private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ReputationUpdate _reputationUpdate;
     private readonly UserActivityRepo _userActivityRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly ReputationCalc _reputationCalc;
     private readonly GetWishQuestionCount _getWishQuestionCount;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
     private readonly RepositoryDb<User> _repo;
 
 
     public UserWritingRepo(ISession session,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         ReputationUpdate reputationUpdate,
         UserActivityRepo userActivityRepo,
-        QuestionValuationRepo questionValuationRepo,
         UserReadingRepo userReadingRepo,
         ReputationCalc reputationCalc,
         GetWishQuestionCount getWishQuestionCount,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache)
     {
         _repo = new RepositoryDb<User>(session);
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _reputationUpdate = reputationUpdate;
         _userActivityRepo = userActivityRepo;
-        _questionValuationRepo = questionValuationRepo;
         _userReadingRepo = userReadingRepo;
         _reputationCalc = reputationCalc;
         _getWishQuestionCount = getWishQuestionCount;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -74,10 +71,7 @@ public class UserWritingRepo
             .Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
 
         _repo.Create(user);
-        SessionUserCache.AddOrUpdate(user,
-            _categoryValuationReadingRepo, 
-            _userReadingRepo, 
-            _questionValuationRepo);
+        _sessionUserCache.AddOrUpdate(user);
 
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor,
@@ -94,7 +88,7 @@ public class UserWritingRepo
         }
 
         _repo.Delete(id);
-        SessionUserCache.Remove(user);
+        _sessionUserCache.Remove(user);
         EntityCache.RemoveUser(id, _httpContextAccessor, _webHostEnvironment);
         Task.Run(async () => 
             await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
@@ -176,7 +170,7 @@ public class UserWritingRepo
             .Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
 
         _repo.Update(user);
-        SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        _sessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => 
             await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
@@ -222,9 +216,7 @@ public class UserWritingRepo
 
     public void ReputationUpdate(User userToUpdate)
     {
-        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id,
-            _httpContextAccessor, 
-            _webHostEnvironment);
+        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id);
 
         var oldReputation = userToUpdate.Reputation;
         var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;

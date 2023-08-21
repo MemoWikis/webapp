@@ -65,7 +65,7 @@ namespace TrueOrFalse.Search
         private void AddUsers(List<MeiliSearchUserMap> userMaps)
         {
             var ids = userMaps.Select(c => c.Id);
-            var usersTemp = EntityCache.GetUsersByIds(ids, _httpContextAccessor, _webHostEnvironment)
+            var usersTemp = EntityCache.GetUsersByIds(ids)
                 .ToList();
             _users.AddRange(usersTemp);
             _users = _users

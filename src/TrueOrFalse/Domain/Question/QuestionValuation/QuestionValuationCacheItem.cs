@@ -34,7 +34,7 @@ public class QuestionValuationCacheItem
             Question = EntityCache.
                 GetQuestionById(questionValuation.Question.Id, httpContextAccessor, webHostEnvironment),
             User = EntityCache.
-                GetUserById(questionValuation.User.Id, httpContextAccessor, webHostEnvironment)
+                GetUserById(questionValuation.User.Id)
         };
     }
 }

@@ -1,25 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Linq;
 using Seedworks.Lib.Persistence;
-using TrueOrFalse.Search;
 
 public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 {
- 
-  
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
+    private readonly SessionUserCache _sessionUserCache;
 
-    public QuestionValuationRepo(
-        ISession session,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo) : base(session)
+    public QuestionValuationRepo(ISession session, SessionUserCache sessionUserCache) : base(session)
     {
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
- 
+        _sessionUserCache = sessionUserCache;
     }
 
     public override void Create(IList<QuestionValuation> questionValuations)
@@ -28,7 +17,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
         foreach (var questionValuation in questionValuations)
         {
-            SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem(), _categoryValuationReadingRepo, _userReadingRepo, this);
+             _sessionUserCache.AddOrUpdate(questionValuation.ToCacheItem());
         }
     }
     public int HowOftenInOtherPeoplesWuwi(int userId, int questionId)
@@ -45,21 +34,21 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     public override void Create(QuestionValuation questionValuation)
     {
         base.Create(questionValuation);
-        SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem(), _categoryValuationReadingRepo, _userReadingRepo, this);
+         _sessionUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public override void CreateOrUpdate(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
-        SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem(), _categoryValuationReadingRepo, _userReadingRepo, this);
-    }
+             _sessionUserCache.AddOrUpdate(questionValuation.ToCacheItem());
+        }
 
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionvaluation WHERE QuestionId = :questionId")
             .SetParameter("questionId", questionId).ExecuteUpdate();
 
-        SessionUserCache.RemoveQuestionForAllUsers(questionId, _categoryValuationReadingRepo, _userReadingRepo, this);
+         _sessionUserCache.RemoveQuestionForAllUsers(questionId);
     }
 
     public IList<QuestionValuation> GetActiveInWishknowledge(IList<int> questionIds, int userId)
@@ -77,7 +66,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuationCacheItem> GetActiveInWishknowledgeFromCache(int questionId)
     {
-        return SessionUserCache.GetAllCacheItems(_categoryValuationReadingRepo, _userReadingRepo, this)
+        return  _sessionUserCache.GetAllCacheItems()
             .Select(c => c.QuestionValuations.Values).SelectMany(v => v)
             .Where(v =>
                 v.Question.Id == questionId &&
@@ -96,7 +85,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
     public QuestionValuationCacheItem GetByFromCache(int questionId, int userId)
     {
-        return SessionUserCache.GetItem(userId, _categoryValuationReadingRepo, _userReadingRepo, this)?.QuestionValuations
+        return  _sessionUserCache.GetItem(userId)?.QuestionValuations
             .Where(v => v.Value.Question.Id == questionId)
             .Select(v => v.Value)
             .FirstOrDefault();
@@ -113,7 +102,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuationCacheItem> GetByQuestionsFromCache(IList<QuestionCacheItem> questions)
     {
-        var questionValuations = SessionUserCache.GetAllCacheItems(_categoryValuationReadingRepo, _userReadingRepo, this).Select(c => c.QuestionValuations.Values)
+        var questionValuations =  _sessionUserCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values)
             .SelectMany(l => l);
 
         return questionValuations.Where(v => questions.GetIds().Contains(v.Question.Id)).ToList();
@@ -135,7 +124,7 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuationCacheItem> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
     {
-        var cacheItem = SessionUserCache.GetItem(userId, _categoryValuationReadingRepo, _userReadingRepo, this);
+        var cacheItem =  _sessionUserCache.GetItem(userId);
         return cacheItem.QuestionValuations.Values.ToList();
     }
 
@@ -158,6 +147,6 @@ public class QuestionValuationRepo : RepositoryDb<QuestionValuation>
     {
         base.Update(questionValuation);
 
-        SessionUserCache.AddOrUpdate(questionValuation.ToCacheItem(), _categoryValuationReadingRepo, _userReadingRepo, this);
+         _sessionUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 }

@@ -16,6 +16,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly IMemoryCache _cache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
@@ -33,7 +34,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         CategoryValuationReadingRepo categoryValuationReading,
         IMemoryCache cache, 
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache)
     {
         _session = session;
         _sessionUser = sessionUser;
@@ -48,6 +50,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _cache = cache;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
 
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
@@ -92,12 +95,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id, 
-            _categoryValuationReading, 
-            _categoryValuationWritingRepo,
-            _userReadingRepo, 
-            _questionValuationRepo,
-            _cache); 
+        _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo); 
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;

@@ -50,19 +50,14 @@ public class EntityCache : BaseEntityCache
         }
     }
 
-    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment) => 
-        ids.Select(id => GetUserById(id, httpContextAccessor, webHostEnvironment))
+    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => 
+        ids.Select(id => GetUserById(id))
             .ToList(); 
-    public static UserCacheItem GetUserById(int userId,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))
             return user;
 
-        new Logg(httpContextAccessor, webHostEnvironment).r().Warning("UserId is not available: {userId}", userId);
         return new UserCacheItem();
     }
 
@@ -215,6 +210,7 @@ public class EntityCache : BaseEntityCache
             }
         }
     }
+    //todo(DaMa) Logger entfernen!!
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
@@ -258,7 +254,7 @@ public class EntityCache : BaseEntityCache
 
     public static void RemoveUser(int id, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        Remove(GetUserById(id, httpContextAccessor, webHostEnvironment));
+        Remove(GetUserById(id));
     }
 
     public static void Remove(UserCacheItem user)
@@ -320,9 +316,7 @@ public class EntityCache : BaseEntityCache
     public static void Remove(CategoryCacheItem category,PermissionCheck permissionCheck, int userId)
     {
         Remove(Categories, category);
-        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId,
-            permissionCheck._httpContextAccessor, 
-            permissionCheck._webHostEnvironment);
+        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId);
 
         foreach (var connectedQuestion in connectedQuestions)
         {
@@ -425,10 +419,8 @@ public class EntityCache : BaseEntityCache
 
         return descendants;
     }
-    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment) => GetAllCategories()
-        .Where(c => c.Creator(httpContextAccessor, webHostEnvironment).Id == userId && c.Visibility == CategoryVisibility.Owner)
+    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategories()
+        .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
     public static List<CategoryCacheItem> ParentCategories(int categoryId,PermissionCheck permissionCheck, bool visibleOnly = false)

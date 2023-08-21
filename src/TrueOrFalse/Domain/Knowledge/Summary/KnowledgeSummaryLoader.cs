@@ -8,23 +8,17 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CategoryRepository _categoryRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
     public KnowledgeSummaryLoader(CategoryValuationReadingRepo categoryValuationReadingRepo,
         QuestionValuationRepo questionValuationRepo, 
         CategoryRepository categoryRepository,
-        UserReadingRepo userReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        SessionUserCache sessionUserCache)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _categoryRepository = categoryRepository;
-        _userReadingRepo = userReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
 
     public KnowledgeSummary RunFromDbCache(Category category, int userId)
@@ -64,7 +58,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         
         var aggregatedCategories = 
             categoryCacheItem
-            .AggregatedCategories(new PermissionCheck(userId,_httpContextAccessor, _webHostEnvironment ), includingSelf: true);
+            .AggregatedCategories(new PermissionCheck(userId), includingSelf: true);
 
         foreach (var currentCategory in aggregatedCategories)
         {
@@ -72,7 +66,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SessionUserCache.GetItem(userId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo)?.QuestionValuations;
+        var userValuations = _sessionUserCache.GetItem(userId)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 

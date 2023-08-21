@@ -1,16 +1,14 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public class LearningSessionCreator :IRegisterAsInstancePerLifetime
+public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
     public struct QuestionDetail
     {
@@ -40,35 +38,28 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
     public LearningSessionCreator(SessionUser sessionUser,
         LearningSessionCache learningSessionCache, 
         PermissionCheck permissionCheck,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId)
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, _httpContextAccessor, _webHostEnvironment)
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
             .Where(q => q.Id > 0).ToList();
 
         allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = 
-            SessionUserCache.GetQuestionValuations(_sessionUser.UserId,
-                    _categoryValuationReadingRepo, 
-                    _userReadingRepo, 
-                    _questionValuationRepo);
+            _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -124,7 +115,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         _learningSessionCache.TryRemove();
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var allQuestionValuation = _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -199,10 +190,7 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         if (learningSession != null)
         {
             var allQuestionValuation = 
-                SessionUserCache.GetQuestionValuations(config.CurrentUserId,
-                    _categoryValuationReadingRepo, 
-                    _userReadingRepo, 
-                    _questionValuationRepo);
+                _sessionUserCache.GetQuestionValuations(config.CurrentUserId);
 
             var questionDetail = BuildQuestionDetail(config, question, allQuestionValuation);
 

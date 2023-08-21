@@ -9,16 +9,19 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        SessionUserCache sessionUserCache)
     {
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
     }
 
     private IList<int> QuestionsInValuatedCategories(int userId, IList<int> questionIds, int exeptCategoryId = -1)
@@ -26,7 +29,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = SessionUserCache.GetCategoryValuations(userId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).Where(v => v.IsInWishKnowledge());
+        var valuatedCategories = _sessionUserCache.GetCategoryValuations(userId).Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)
             valuatedCategories = valuatedCategories.Where(v => v.CategoryId != exeptCategoryId);

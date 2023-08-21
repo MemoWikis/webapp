@@ -14,7 +14,7 @@ public class QuestionChange : Entity, WithDateCreated
     public virtual int AuthorId { get; set; }
 
     public virtual UserCacheItem Author(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) 
-        => _author ??= EntityCache.GetUserById(AuthorId, httpContextAccessor, webHostEnvironment);
+        => _author ??= EntityCache.GetUserById(AuthorId);
 
     private UserCacheItem? _author;
 

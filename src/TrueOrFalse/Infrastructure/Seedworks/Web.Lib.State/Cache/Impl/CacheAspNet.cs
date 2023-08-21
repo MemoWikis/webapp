@@ -7,10 +7,10 @@ namespace Seedworks.Web.State
     //todo (DaMa) überarbeiten, dieser Cache muss nicht mehr alleine existieren und kann verallgemeinert werden, mir fehlt gerade der Überblick um das zu erledigen
     internal class CacheAspNet
     {
-        private readonly ICacheManager<object> _cache;
-        private CancellationTokenSource _cacheResetToken;
+        private static readonly ICacheManager<object> _cache;
+        private static CancellationTokenSource _cacheResetToken;
 
-        public CacheAspNet()
+        static CacheAspNet()
         {
             _cache = CacheFactory.Build<object>("CacheAspNet", settings =>
             {
@@ -27,7 +27,7 @@ namespace Seedworks.Web.State
         /// <param name="obj"></param>
         /// <param name="expiration"></param>
         /// <param name="slidingExpiration"></param>
-        public void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
+        public static void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
         {
             var cacheEntryOptions = new MemoryCacheEntryOptions
             {
@@ -49,25 +49,25 @@ namespace Seedworks.Web.State
             _cache.Add(key, obj);
         }
 
-        public object Get(string key)
+        public static object Get(string key)
         {
             
             return _cache.Get<object>(key); ;
         }
 
-        public T Get<T>(string key)
+        public static  T Get<T>(string key)
         {
             return _cache.Get<T>(key);
         }
 
-        public void Clear()
+        public static void Clear()
         {
             _cacheResetToken.Cancel();
             _cacheResetToken.Dispose();
             _cacheResetToken = new CancellationTokenSource();
         }
 
-        public void Remove(string key)
+        public static void Remove(string key)
         {
             _cache.Remove(key);
         }

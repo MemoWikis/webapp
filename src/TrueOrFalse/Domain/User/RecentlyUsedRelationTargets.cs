@@ -12,7 +12,7 @@ public class RecentlyUsedRelationTargets
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
-        var userCacheItem = EntityCache.GetUserById(userId, httpContextAccessor, webHostEnvironment);
+        var userCacheItem = EntityCache.GetUserById(userId);
 
         if (userCacheItem.StartTopicId == topicId)
             return;

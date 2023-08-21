@@ -11,18 +11,21 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
 
     public EntityCacheInitializer(CategoryRepository categoryRepository,
         UserReadingRepo userReadingRepo,
         QuestionReadingRepo questionReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg)
     {
         _categoryRepository = categoryRepository;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
     }
     public void Init(string customMessage = "")
     {
@@ -38,7 +41,7 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
 
         var allCategories = _categoryRepository.GetAllEager();
         new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories, _logg).ToList();
         new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(EntityCache.CacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
