@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 [DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge}")]
 public class QuestionValuationCacheItem
@@ -16,7 +18,9 @@ public class QuestionValuationCacheItem
 
     public bool IsInWishKnowledge;
 
-    public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation)
+    public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         var val = questionValuation.IsInWishKnowledge();
         return new QuestionValuationCacheItem()
@@ -27,8 +31,10 @@ public class QuestionValuationCacheItem
             Id = questionValuation.Id,
             IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
-            Question = EntityCache.GetQuestionById(questionValuation.Question.Id),
-            User = EntityCache.GetUserById(questionValuation.User.Id)
+            Question = EntityCache.
+                GetQuestionById(questionValuation.Question.Id, httpContextAccessor, webHostEnvironment),
+            User = EntityCache.
+                GetUserById(questionValuation.User.Id, httpContextAccessor, webHostEnvironment)
         };
     }
 }

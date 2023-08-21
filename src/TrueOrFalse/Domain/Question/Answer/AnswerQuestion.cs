@@ -1,6 +1,8 @@
 ﻿using System.Linq;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using TrueOrFalse;
+using ISession = NHibernate.ISession;
 
 public class AnswerQuestion : IRegisterAsInstancePerLifetime
 {
@@ -14,6 +16,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public AnswerQuestion(QuestionReadingRepo questionReadingRepo,
         AnswerLog answerLog,
@@ -24,7 +28,9 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         UpdateQuestionAnswerCount updateQuestionAnswerCount,
         QuestionValuationRepo questionValuationRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _questionReadingRepo = questionReadingRepo;
         _answerLog = answerLog;
@@ -36,6 +42,8 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         _questionValuationRepo = questionValuationRepo;
         _probabilityCalcSimple1 = probabilityCalcSimple1;
         _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public AnswerQuestionResult Run(
@@ -161,8 +169,6 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
-
-            // Sl.AnswerRepo.Update(learningSessionStep.AnswerWithInput);
         }
         throw new Exception("neither countLastAnswerAsCorrect or countUnansweredAsCorrect true");
     }
@@ -194,7 +200,13 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         else
             _updateQuestionAnswerCount.Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
-        ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userReadingRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+        new ProbabilityUpdate_Valuation(_nhibernateSession,
+            _questionValuationRepo,
+            _probabilityCalcSimple1,
+            _answerRepo,
+            _httpContextAccessor,
+            _webHostEnvironment)
+            .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
 
         return result;
     }

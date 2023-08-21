@@ -59,7 +59,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         UserActivityAdd.CreatedCategory(category, _userReadingRepo, _userActivityRepo);
 
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category, _httpContextAccessor, _webHostEnvironment);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
         _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
@@ -80,7 +80,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                  CategoryChangeType.Relations);
         }
 
-        var result = Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
+        var result = Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
             .CreateAsync(category)
             .ConfigureAwait(false));
     }
@@ -246,7 +246,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _updateQuestionCountForCategory.Run(category);
         Task.Run(async () =>
         {
-            await new MeiliSearchCategoriesDatabaseOperations()
+            await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
                 .UpdateAsync(category)
                 .ConfigureAwait(false);
         });

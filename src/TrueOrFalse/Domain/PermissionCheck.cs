@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Http;
 
 public class PermissionCheck
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    public readonly IHttpContextAccessor _httpContextAccessor;
+    public readonly IWebHostEnvironment _webHostEnvironment;
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
 
@@ -97,10 +97,10 @@ public class PermissionCheck
         if (_userId == default || category == null || category.Id == 0)
             return false;
 
-        if (category.IsStartPage())
+        if (category.IsStartPage(_httpContextAccessor, _webHostEnvironment))
             return false;
 
-        if (category.Creator.Id == _userId || _isInstallationAdmin)
+        if (category.Creator(_httpContextAccessor, _webHostEnvironment).Id == _userId || _isInstallationAdmin)
             return true;
 
         return false;

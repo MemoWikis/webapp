@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
@@ -12,18 +15,20 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         static JobScheduler()
         {
-            _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync).Value.Result;
+            var context = AutofacWebInitializer.GetContainer().Resolve<IHttpContextAccessor>();
+            var webhostEnvironment = AutofacWebInitializer.GetContainer().Resolve<IWebHostEnvironment>();
+            _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync(context, webhostEnvironment)).Value.Result;
         }
 
         public static void EmptyMethodToCallConstructor()
         {
         }
 
-        public static async Task<IScheduler> InitializeAsync()
+        public static async Task<IScheduler> InitializeAsync(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
         {
             var container = AutofacWebInitializer.Run();
             var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.JobFactory = new AutofacJobFactory(container);
+            scheduler.JobFactory = new AutofacJobFactory(container, httpContextAccessor, webHostEnvironment);
             scheduler.Start();
 
             return scheduler;

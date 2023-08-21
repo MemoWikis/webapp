@@ -69,11 +69,19 @@ public class UserWritingRepo
 
     public void Create(User user)
     {
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        new Logg(_httpContextAccessor, _webHostEnvironment)
+            .r()
+            .Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+
         _repo.Create(user);
-        SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        SessionUserCache.AddOrUpdate(user,
+            _categoryValuationReadingRepo, 
+            _userReadingRepo, 
+            _questionValuationRepo);
+
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor,
+            _webHostEnvironment).CreateAsync(user));
     }
 
     public void Delete(int id)
@@ -88,13 +96,16 @@ public class UserWritingRepo
         _repo.Delete(id);
         SessionUserCache.Remove(user);
         EntityCache.RemoveUser(id, _httpContextAccessor, _webHostEnvironment);
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
+        Task.Run(async () => 
+            await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+                .DeleteAsync(user));
     }
 
     public void DeleteFromAllTables(int userId)
     {
         var user = _repo.Session.Get<User>(userId);
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor,
+            _webHostEnvironment).DeleteAsync(user));
 
         _repo.Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
@@ -160,11 +171,16 @@ public class UserWritingRepo
 
     public void Update(User user)
     {
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        new Logg(_httpContextAccessor, _webHostEnvironment)
+            .r()
+            .Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+
         _repo.Update(user);
         SessionUserCache.AddOrUpdate(user, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user));
+        Task.Run(async () => 
+            await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+                .UpdateAsync(user));
     }
 
     public void Update(UserCacheItem userCacheItem)
@@ -206,7 +222,9 @@ public class UserWritingRepo
 
     public void ReputationUpdate(User userToUpdate)
     {
-        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id, _httpContextAccessor, _webHostEnvironment);
+        var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id,
+            _httpContextAccessor, 
+            _webHostEnvironment);
 
         var oldReputation = userToUpdate.Reputation;
         var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;
@@ -241,7 +259,6 @@ public class UserWritingRepo
             result.User.User.ReputationPos = i;
             result.User.User.Reputation = result.TotalReputation;
             result.User.User.WishCountQuestions = _getWishQuestionCount.Run(result.User.Id);
-            //result.User.User.WishCountSets = Sl.Resolve<GetWishSetCount>().Run(result.User.Id);
 
             Update(result.User.User);
         }

@@ -71,7 +71,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question),_httpContextAccessor, _webEnvironment);
 
         _questionChangeRepo.AddCreateEntry(question);
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().CreateAsync(question));
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
+            .CreateAsync(question));
     }
 
     public List<int> Delete(int questionId)
@@ -88,7 +89,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     {
         base.Delete(question);
         _questionChangeRepo.AddDeleteEntry(question);
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().DeleteAsync(question));
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
+            .DeleteAsync(question));
     }
 
     public  void UpdateOrMerge(Question question, bool withMerge)
@@ -132,7 +134,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         _questionChangeRepo.AddUpdateEntry(question);
 
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations().UpdateAsync(question));
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
+            .UpdateAsync(question));
     }
     public void UpdateFieldsOnly(Question question)
     {

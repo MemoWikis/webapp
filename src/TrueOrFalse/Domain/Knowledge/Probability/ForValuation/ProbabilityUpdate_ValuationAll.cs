@@ -1,4 +1,6 @@
-﻿using NHibernate;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse
 {
@@ -15,13 +17,17 @@ namespace TrueOrFalse
         private readonly AnswerRepo _answerRepo;
         private readonly UserReadingRepo _userReadingRepo;
         private readonly QuestionValuationRepo _questionValuationRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ProbabilityUpdate_ValuationAll(ISession nhibernateSession,
             QuestionReadingRepo questionReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             UserReadingRepo userReadingRepo,
-            QuestionValuationRepo questionValuationRepo)
+            QuestionValuationRepo questionValuationRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _nhibernateSession = nhibernateSession;
             _questionReadingRepo = questionReadingRepo;
@@ -29,6 +35,8 @@ namespace TrueOrFalse
             _answerRepo = answerRepo;
             _userReadingRepo = userReadingRepo;
             _questionValuationRepo = questionValuationRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
         public void Run()
         {
@@ -40,14 +48,16 @@ namespace TrueOrFalse
                     .List<object[]>();
 
             foreach (var item in questionValuationRecords)
-                ProbabilityUpdate_Valuation.Run((int) item[0],
-                    (int) item[1],
-                    _nhibernateSession,
-                    _questionReadingRepo,
-                    _userReadingRepo,
+                new ProbabilityUpdate_Valuation(_nhibernateSession,
                     _questionValuationRepo,
                     _probabilityCalcSimple1,
-                    _answerRepo);   
+                    _answerRepo,
+                    _httpContextAccessor,
+                    _webHostEnvironment)
+                    .Run((int)item[0],
+                    (int)item[1],
+                    _questionReadingRepo,
+                    _userReadingRepo);
         }
     }
 }

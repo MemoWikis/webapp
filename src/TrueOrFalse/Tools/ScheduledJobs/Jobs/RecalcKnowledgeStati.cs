@@ -1,6 +1,8 @@
 ﻿using Autofac;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
+using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -13,6 +15,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private readonly AnswerRepo _answerRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
         private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RecalcKnowledgeStati(ISession nhibernateSession,
             CategoryValuationReadingRepo categoryValuationReadingRepo,
@@ -20,7 +24,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
-            CategoryValuationWritingRepo categoryValuationWritingRepo)
+            CategoryValuationWritingRepo categoryValuationWritingRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _nhibernateSession = nhibernateSession;
             _categoryValuationReadingRepo = categoryValuationReadingRepo;
@@ -29,6 +35,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _answerRepo = answerRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
             _categoryValuationWritingRepo = categoryValuationWritingRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -36,7 +44,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 foreach (var user in scope.Resolve<UserReadingRepo>().GetAll())
                 {
-                    ProbabilityUpdate_Valuation.Run(user.Id, _nhibernateSession, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+                    new ProbabilityUpdate_Valuation(_nhibernateSession,
+                        _questionValuationRepo,
+                        _probabilityCalcSimple1,
+                        _answerRepo,
+                        _httpContextAccessor,
+                        _webHostEnvironment).Run(user.Id);
                     KnowledgeSummaryUpdate.RunForUser(user.Id,
                         _categoryValuationReadingRepo,
                         _categoryValuationWritingRepo, 

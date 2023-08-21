@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge()}")]
@@ -31,12 +33,13 @@ public class QuestionValuation : IPersistable, WithDateCreated
         RelevanceForAll = -1;
     }
 
-    public virtual QuestionValuationCacheItem ToCacheItem()
+    public virtual QuestionValuationCacheItem ToCacheItem(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         return new QuestionValuationCacheItem
         {
             Id = Id,
-            User = User == null ? null : EntityCache.GetUserById(User.Id),
+            User = EntityCache.GetUserById(User.Id, httpContextAccessor, webHostEnvironment),
             CorrectnessProbability = CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = CorrectnessProbabilityAnswerCount,
             KnowledgeStatus = KnowledgeStatus,

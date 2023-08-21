@@ -1,11 +1,15 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 using TrueOrFalse;
 
 public class GetQuestionSolution
 {
-    public static QuestionSolution? Run(int questionId)
+    public static QuestionSolution? Run(int questionId,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
-        var question = EntityCache.GetQuestionById(questionId);
+        var question = EntityCache.GetQuestionById(questionId, httpContextAccessor, webHostEnvironment);
         return Run(question);
     }
 

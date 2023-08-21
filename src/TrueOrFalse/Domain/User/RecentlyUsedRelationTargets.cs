@@ -2,12 +2,17 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class RecentlyUsedRelationTargets
 {
-    public static void Add(int userId, int topicId, UserWritingRepo userWritingRepo)
+    public static void Add(int userId, int topicId,
+        UserWritingRepo userWritingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
-        var userCacheItem = EntityCache.GetUserById(userId);
+        var userCacheItem = EntityCache.GetUserById(userId, httpContextAccessor, webHostEnvironment);
 
         if (userCacheItem.StartTopicId == topicId)
             return;

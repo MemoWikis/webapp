@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meilisearch;
+﻿using Meilisearch;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
@@ -68,7 +65,7 @@ namespace TrueOrFalse.Search
         private void AddUsers(List<MeiliSearchUserMap> userMaps)
         {
             var ids = userMaps.Select(c => c.Id);
-            var usersTemp = EntityCache.GetUsersByIds(ids)
+            var usersTemp = EntityCache.GetUsersByIds(ids, _httpContextAccessor, _webHostEnvironment)
                 .ToList();
             _users.AddRange(usersTemp);
             _users = _users

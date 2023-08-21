@@ -1,11 +1,15 @@
 ﻿using System.Linq;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using ISession = NHibernate.ISession;
 
 public class ReputationCalc : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
     private readonly TotalFollowers _totalFollowers;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public const int PointsPerQuestionCreated = 1; //excluding private questions
     public const int PointsPerQuestionInOtherWishknowledge = 5;
@@ -14,11 +18,15 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
     public ReputationCalc(ISession session,
         TotalFollowers totalFollowers,
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _session = session;
         _totalFollowers = totalFollowers;
         _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public ReputationCalcResult Run(UserCacheItem user)
@@ -55,7 +63,9 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /*Calculate Reputation for Questions and Sets created */
 
         var createdQuestions = EntityCache.GetAllQuestions()
-            .Where(q => q.Creator != null && q.Creator.Id == result.User.Id && q.Visibility == QuestionVisibility.All).ToList();
+            .Where(q => q.Creator != null &&
+                        q.Creator(_httpContextAccessor, _webHostEnvironment).Id == result.User.Id &&
+                        q.Visibility == QuestionVisibility.All).ToList();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */

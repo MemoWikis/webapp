@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using TrueOrFalse;
+using ISession = NHibernate.ISession;
 
 public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 {
@@ -14,6 +16,8 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly AnswerRepo _answerRepo;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public QuestionInKnowledge(SessionUser sessionUser,
         ISession nhibernateSession,
@@ -22,7 +26,9 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         QuestionValuationRepo questionValuationRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
         AnswerRepo answerRepo,
-         UserReadingRepo userReadingRepo)
+         UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
@@ -32,6 +38,8 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _probabilityCalcSimple1 = probabilityCalcSimple1;
         _answerRepo = answerRepo;
         _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     public void Pin(int questionId, int userId)
     {
@@ -67,7 +75,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
     private void ChangeTotalInOthersWishknowledge(bool isIncrement, int userId, QuestionCacheItem question)
     {
-        if (question.Creator == null || question.Creator.Id == userId) 
+        if (question.Creator == null || question.Creator(_httpContextAccessor, _webHostEnvironment).Id == userId) 
             return; 
            
         var sign = isIncrement ? "+" : "-" ;
@@ -75,7 +83,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 _nhibernateSession
                     .CreateSQLQuery(
                 @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign + " 1 where id = " +
-                question.Creator.Id + ";")
+                question.Creator(_httpContextAccessor, _webHostEnvironment).Id + ";")
                     .ExecuteUpdate();
     }
 
@@ -89,19 +97,25 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             ChangeTotalInOthersWishknowledge(relevance==50, user.Id, question);
             _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession, _questionReadingRepo,_questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+            new ProbabilityUpdate_Valuation(_nhibernateSession,
+                    _questionValuationRepo,
+                    _probabilityCalcSimple1,
+                    _answerRepo,
+                    _httpContextAccessor,
+                    _webHostEnvironment)
+                .Run(question, user, _questionReadingRepo);
         }
         UpdateTotalRelevancePersonalInCache(questions);
         SetUserWishCountQuestions(user.Id,_sessionUser);
 
-        var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
+        var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator(_httpContextAccessor, _webHostEnvironment))).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
             _reputationUpdate.ForUser(creator.First());
     }
 
     private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
     {
-        var question = EntityCache.GetQuestionById(questionId);
+        var question = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
         ChangeTotalInOthersWishknowledge(relevance == 50, userId, question);
         CreateOrUpdateValuation(questionId, userId, relevance);
 
@@ -111,10 +125,16 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         _nhibernateSession.Flush();
 
-        _reputationUpdate.ForQuestion(questionId);
+        _reputationUpdate.ForQuestion(questionId, _httpContextAccessor, _webHostEnvironment);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession, _questionReadingRepo, _userReadingRepo, _questionValuationRepo, _probabilityCalcSimple1, _answerRepo);
+            new ProbabilityUpdate_Valuation(_nhibernateSession,
+                _questionValuationRepo,
+                _probabilityCalcSimple1,
+                _answerRepo,
+                _httpContextAccessor,
+                _webHostEnvironment)
+                .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
     }
 
     public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class LearningSessionCreator :IRegisterAsInstancePerLifetime
 {
@@ -9,6 +9,8 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public struct QuestionDetail
     {
@@ -40,7 +42,9 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         PermissionCheck permissionCheck,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
@@ -48,14 +52,23 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
-        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Where(q => q.Id > 0).ToList();
+        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId)
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, _httpContextAccessor, _webHostEnvironment)
+            .Where(q => q.Id > 0).ToList();
+
         allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = SessionUserCache.GetQuestionValuations(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var allQuestionValuation = 
+            SessionUserCache.GetQuestionValuations(_sessionUser.UserId,
+                    _categoryValuationReadingRepo, 
+                    _userReadingRepo, 
+                    _questionValuationRepo);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -71,7 +84,11 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
                     questionDetail.AddByVisibility &&
                     questionDetail.FilterByKnowledgeSummary)
                 {
-                    AddQuestionToFilteredList(filteredQuestions, questionDetail, q, knowledgeSummaryDetails);
+                    AddQuestionToFilteredList(filteredQuestions,
+                        questionDetail, 
+                        q, 
+                        knowledgeSummaryDetails);
+
                     questionCounter.Max++;
                 }
                 questionCounter = CountQuestionsForSessionConfig(questionDetail, questionCounter);
@@ -181,10 +198,15 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
 
         if (learningSession != null)
         {
-            var allQuestionValuation = SessionUserCache.GetQuestionValuations(config.CurrentUserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+            var allQuestionValuation = 
+                SessionUserCache.GetQuestionValuations(config.CurrentUserId,
+                    _categoryValuationReadingRepo, 
+                    _userReadingRepo, 
+                    _questionValuationRepo);
+
             var questionDetail = BuildQuestionDetail(config, question, allQuestionValuation);
 
-            learningSession.QuestionCounter = LearningSessionCreator.CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
+            learningSession.QuestionCounter = CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
 
             if (questionDetail.AddByWuwi &&
                 questionDetail.AddByCreator &&
@@ -201,7 +223,10 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         }
     }
 
-    private void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions, QuestionDetail questionDetail, QuestionCacheItem question, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
+    private void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions,
+        QuestionDetail questionDetail, 
+        QuestionCacheItem question, 
+        IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
 
         if (_sessionUser.IsLoggedIn)
@@ -214,7 +239,9 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         filteredQuestions.Add(question);
     }
 
-    private IList<QuestionCacheItem> SetQuestionOrder(IList<QuestionCacheItem> questions, LearningSessionConfig config, IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
+    private IList<QuestionCacheItem> SetQuestionOrder(IList<QuestionCacheItem> questions, 
+        LearningSessionConfig config, 
+        IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
         if (config.QuestionOrder == QuestionOrder.SortByEasiest)
             return questions.OrderByDescending(q => q.CorrectnessProbability).ToList();
@@ -274,9 +301,11 @@ public class LearningSessionCreator :IRegisterAsInstancePerLifetime
         return questions.Take(config.MaxQuestionCount).ToList();
     }
 
-    private static QuestionDetail FilterByCreator(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail)
+    private QuestionDetail FilterByCreator(LearningSessionConfig config, 
+        QuestionCacheItem q,
+        QuestionDetail questionDetail)
     {
-        if (q.Creator?.Id == config.CurrentUserId)
+        if (q.Creator(_httpContextAccessor, _webHostEnvironment)?.Id == config.CurrentUserId)
         {
             if (config.CreatedByCurrentUser || (!config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser))
                 questionDetail.AddByCreator = true;

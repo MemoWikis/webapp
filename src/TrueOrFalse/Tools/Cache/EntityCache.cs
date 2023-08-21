@@ -320,7 +320,10 @@ public class EntityCache : BaseEntityCache
     public static void Remove(CategoryCacheItem category,PermissionCheck permissionCheck, int userId)
     {
         Remove(Categories, category);
-        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId);
+        var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId,
+            permissionCheck._httpContextAccessor, 
+            permissionCheck._webHostEnvironment);
+
         foreach (var connectedQuestion in connectedQuestions)
         {
             var categoryInQuestion = connectedQuestion.Categories.FirstOrDefault(c => c.Id == category.Id);
@@ -422,8 +425,10 @@ public class EntityCache : BaseEntityCache
 
         return descendants;
     }
-    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategories()
-        .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
+    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId,
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment) => GetAllCategories()
+        .Where(c => c.Creator(httpContextAccessor, webHostEnvironment).Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
     public static List<CategoryCacheItem> ParentCategories(int categoryId,PermissionCheck permissionCheck, bool visibleOnly = false)
