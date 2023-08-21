@@ -8,33 +8,24 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class InitUserValuationCache : IJob
     {
-        private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-        private readonly UserReadingRepo _userReadingRepo;
-        private readonly QuestionValuationRepo _questionValuationRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly Logg _logg;
+        private readonly SessionUserCache _sessionUserCache;
 
-        public InitUserValuationCache(CategoryValuationReadingRepo categoryValuationReadingRepo,
-            UserReadingRepo userReadingRepo, 
-            QuestionValuationRepo questionValuationRepo,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+        public InitUserValuationCache(Logg logg,
+            SessionUserCache sessionUserCache)
         {
-            _categoryValuationReadingRepo = categoryValuationReadingRepo;
-            _userReadingRepo = userReadingRepo;
-            _questionValuationRepo = questionValuationRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
+            _logg = logg;
+            _sessionUserCache = sessionUserCache;
         }
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("job started");
+                _logg.r().Information("job started");
 
                 var dataMap = context.JobDetail.JobDataMap;
 
-                SessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"), _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+                _sessionUserCache.CreateItemFromDatabase(dataMap.GetInt("userId"));
 
             }, "InitUserValuationCache");
 

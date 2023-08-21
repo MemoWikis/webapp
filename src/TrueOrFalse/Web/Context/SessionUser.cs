@@ -1,28 +1,20 @@
 ﻿
 using System.Security.Claims;
-using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
 using TrueOrFalse.Web.Context;
 
 public class SessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
 
     public SessionUser(HttpContext httpContext,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        SessionUserCache sessionUserCache)
     {
-        _httpContext = httpContext;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _httpContext = httpContext; ;
+        _sessionUserCache = sessionUserCache;
     }
 
     public bool SessionIsActive () => _httpContext.Session is not null;
@@ -53,7 +45,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : SessionUserCache.GetUser(_userId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+    public SessionUserCacheItem User => _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
 
     public bool IsLoggedInUser(int userId)
     {
@@ -80,7 +72,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-        SessionUserCache.CreateItemFromDatabase(user.Id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        _sessionUserCache.CreateItemFromDatabase(user.Id);
     }
 
     public async void Logout()

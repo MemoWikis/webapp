@@ -17,6 +17,6 @@ namespace TrueOrFalse.Search
 
         public List<int> UserIds { get; set; } = new();
 
-        public IList<UserCacheItem> GetUsers() => EntityCache.GetUsersByIds(UserIds, _httpContextAccessor, _webHostEnvironment); 
+        public IList<UserCacheItem> GetUsers() => EntityCache.GetUsersByIds(UserIds); 
     }
 }

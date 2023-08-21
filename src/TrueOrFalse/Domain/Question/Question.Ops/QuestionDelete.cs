@@ -4,24 +4,21 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUser _sessionUser;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
 
     public QuestionDelete(PermissionCheck permissionCheck,
         SessionUser sessionUser,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         QuestionReadingRepo questionReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        SessionUserCache sessionUserCache)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _questionReadingRepo = questionReadingRepo;
-        _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
     }
     public void Run(int questionId)
     {
@@ -37,7 +34,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        _sessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId);
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 
