@@ -366,23 +366,22 @@ export default defineNuxtComponent({
 			<div class="segmentKnowledgeBar">
 				<div class="KnowledgeBarWrapper">
 					<div class="knowledge-bar">
-						<div v-if="$props.segmentData.knowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
-							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NeedsLearning} Fragen (${$props.segmentData.knowledgeBarData.NeedsLearningPercentage})`"
-							:style="{ 'width': $props.segmentData.knowledgeBarData.NeedsLearningPercentage + '%' }">
-						</div>
-
-						<div v-if="$props.segmentData.knowledgeBarData.NeedsConsolidationPercentage > 0"
-							class="needs-consolidation"
-							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NeedsConsolidation} Fragen (${$props.segmentData.knowledgeBarData.NeedsConsolidationPercentage})`"
-							:style="{ 'width': $props.segmentData.knowledgeBarData.NeedsConsolidationPercentage + '%' }">
-						</div>
 
 						<div v-if="$props.segmentData.knowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
-							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.Solid} Fragen (${$props.segmentData.knowledgeBarData.SolidPercentage})`"
-							:style="{ 'width': $props.segmentData.knowledgeBarData.SolidPercentage + '%' }"></div>
-
+							v-tooltip="`Sichberes Wissen: ${$props.segmentData.knowledgeBarData.Solid} Fragen (${$props.segmentData.knowledgeBarData.SolidPercentage}%)`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.SolidPercentage + '%' }">
+						</div>
+						<div v-if="$props.segmentData.knowledgeBarData.NeedsConsolidationPercentage > 0"
+							class="needs-consolidation"
+							v-tooltip="`Solltest du festigen: ${$props.segmentData.knowledgeBarData.NeedsConsolidation} Fragen (${$props.segmentData.knowledgeBarData.NeedsConsolidationPercentage}%)`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.NeedsConsolidationPercentage + '%' }">
+						</div>
+						<div v-if="$props.segmentData.knowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
+							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NeedsLearning} Fragen (${$props.segmentData.knowledgeBarData.NeedsLearningPercentage}%)`"
+							:style="{ 'width': $props.segmentData.knowledgeBarData.NeedsLearningPercentage + '%' }">
+						</div>
 						<div v-if="$props.segmentData.knowledgeBarData.NotLearnedPercentage > 0" class="not-learned"
-							v-tooltip="`Solltest du lernen: ${$props.segmentData.knowledgeBarData.NotLearned} Fragen (${$props.segmentData.knowledgeBarData.NotLearnedPercentage})`"
+							v-tooltip="`Noch nicht gelernt: ${$props.segmentData.knowledgeBarData.NotLearned} Fragen (${$props.segmentData.knowledgeBarData.NotLearnedPercentage}%)`"
 							:style="{ 'width': $props.segmentData.knowledgeBarData.NotLearnedPercentage + '%' }"></div>
 					</div>
 					<div class="KnowledgeBarLegend">Dein Wissensstand</div>

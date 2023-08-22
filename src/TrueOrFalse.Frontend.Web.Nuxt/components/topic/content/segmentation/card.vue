@@ -243,23 +243,20 @@ export default defineNuxtComponent({
 
                     <NuxtLink :href="$props.category.LinkToCategory">
                         <div class="knowledge-bar">
-                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
-                                v-tooltip="`Solltest du lernen: ${$props.category.KnowledgeBarData.NeedsLearning} Fragen (${$props.category.KnowledgeBarData.NeedsLearningPercentage})`"
-                                :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
-                            </div>
-
+                            <div v-if="$props.category.KnowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
+                                v-tooltip="`Sicheres Wissen: ${$props.category.KnowledgeBarData.Solid} Fragen (${$props.category.KnowledgeBarData.SolidPercentage}%)`"
+                                :style="{ 'width': $props.category.KnowledgeBarData.SolidPercentage + '%' }"></div>
                             <div v-if="$props.category.KnowledgeBarData.NeedsConsolidationPercentage > 0"
                                 class="needs-consolidation"
-                                v-tooltip="`Solltest du lernen: ${$props.category.KnowledgeBarData.NeedsConsolidation} Fragen (${$props.category.KnowledgeBarData.NeedsConsolidationPercentage})`"
+                                v-tooltip="`Solltest du festigen: ${$props.category.KnowledgeBarData.NeedsConsolidation} Fragen (${$props.category.KnowledgeBarData.NeedsConsolidationPercentage}%)`"
                                 :style="{ 'width': $props.category.KnowledgeBarData.NeedsConsolidationPercentage + '%' }">
                             </div>
-
-                            <div v-if="$props.category.KnowledgeBarData.SolidPercentage > 0" class="solid-knowledge"
-                                v-tooltip="`Solltest du lernen: ${$props.category.KnowledgeBarData.Solid} Fragen (${$props.category.KnowledgeBarData.SolidPercentage})`"
-                                :style="{ 'width': $props.category.KnowledgeBarData.SolidPercentage + '%' }"></div>
-
+                            <div v-if="$props.category.KnowledgeBarData.NeedsLearningPercentage > 0" class="needs-learning"
+                                v-tooltip="`Solltest du lernen: ${$props.category.KnowledgeBarData.NeedsLearning} Fragen (${$props.category.KnowledgeBarData.NeedsLearningPercentage}%)`"
+                                :style="{ 'width': $props.category.KnowledgeBarData.NeedsLearningPercentage + '%' }">
+                            </div>
                             <div v-if="$props.category.KnowledgeBarData.NotLearnedPercentage > 0" class="not-learned"
-                                v-tooltip="`Solltest du lernen: ${$props.category.KnowledgeBarData.NotLearned} Fragen (${$props.category.KnowledgeBarData.NotLearnedPercentage})`"
+                                v-tooltip="`Noch nicht gelernt: ${$props.category.KnowledgeBarData.NotLearned} Fragen (${$props.category.KnowledgeBarData.NotLearnedPercentage}%)`"
                                 :style="{ 'width': $props.category.KnowledgeBarData.NotLearnedPercentage + '%' }"></div>
                         </div>
                         <div class="KnowledgeBarLegend">Dein Wissensstand</div>
