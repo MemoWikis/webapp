@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-// import { addElementAtPath, removeElementAtPath } from 'components/shared/utils'
+// import { addElementAtPath, removeElementAtPath } from '~/components/shared/utils'
 
 interface Item {
     name: string,

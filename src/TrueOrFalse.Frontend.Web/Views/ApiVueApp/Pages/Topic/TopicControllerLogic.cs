@@ -15,7 +15,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, 
-        PermissionCheck permissionCheck)
+        PermissionCheck permissionCheck, GridItemLogic gridItemLogic)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
@@ -24,6 +24,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic CreateTopicDataObject(int id, CategoryCacheItem topic, ImageMetaData imageMetaData, KnowledgeSummary knowledgeSummary)
     {
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
         return new
         {
             CanAccess = true,
@@ -64,7 +65,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 needsLearning = knowledgeSummary.NeedsLearning,
                 needsConsolidation = knowledgeSummary.NeedsConsolidation,
                 solid = knowledgeSummary.Solid
-            }
+            },
+            gridItems = gridItemLogic.GetChildren(id)
         };
     }
 
@@ -121,6 +123,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 topicData.SearchTopicItem,
                 topicData.MetaDescription,
                 topicData.KnowledgeSummary,
+                topicData.gridItems,
                 Segmentation = GetSegmentation(id, context)
             };
         }

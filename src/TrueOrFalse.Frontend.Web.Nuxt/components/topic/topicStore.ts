@@ -3,6 +3,7 @@ import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 import { Author } from '../author/author'
 import { TopicItem } from '../search/searchHelper'
+import { GridTopicItem } from './content/grid/item/gridTopicItem'
 
 export class Topic {
 	CanAccess: boolean = false
@@ -44,6 +45,7 @@ export class Topic {
 			segmentJson: '',
 			segments: null
 		}
+	gridItems: GridTopicItem[] = []
 }
 
 export interface KnowledgeSummary {

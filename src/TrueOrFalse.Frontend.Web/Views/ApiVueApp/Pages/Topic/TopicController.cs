@@ -15,14 +15,16 @@ public class TopicController : BaseController
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck);
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic);
         return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
 
     [HttpGet]
     public JsonResult GetTopicWithSegments(int id)
     {
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck);
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
+        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic);
         return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
     }
 

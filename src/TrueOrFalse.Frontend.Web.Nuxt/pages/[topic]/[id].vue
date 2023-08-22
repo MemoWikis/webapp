@@ -161,7 +161,8 @@ useHead(() => ({
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
                         <DevOnly>
                             <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :children="topic.gridItems" />
                         </DevOnly>
 
                         <TopicContentSegmentation

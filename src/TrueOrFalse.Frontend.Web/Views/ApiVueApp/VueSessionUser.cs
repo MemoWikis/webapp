@@ -7,7 +7,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
 
-    public VueSessionUser(SessionUser sessionUser,PermissionCheck permissionCheck)
+    public VueSessionUser(SessionUser sessionUser,PermissionCheck permissionCheck, GridItemLogic gridItemLogic)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -17,6 +17,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     {
         var type = UserType.Anonymous;
         var user = _sessionUser.User;
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
 
         if (_sessionUser.IsLoggedIn)
         {
@@ -43,7 +44,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 ImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_50px(_sessionUser.User).Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck).GetTopicData(user.StartTopicId),
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -81,7 +82,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck).GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = _sessionUser.GetTotalActivityPoints(),

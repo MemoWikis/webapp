@@ -300,6 +300,8 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseResolve.cs" />
     <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Grid\Item\GridItemLogic.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Grid\Item\GridItemController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\FacebookUsersController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\Membership\UserMembershipPlansController.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
