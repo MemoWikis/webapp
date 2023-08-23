@@ -8,10 +8,12 @@ public class BaseEntityCache
     protected static ICacheManager<object> _cache;
 
     public static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
-    {
-        _cache = CacheFactory.Build<object>(key, settings =>
+    { 
+        _cache = CacheFactory.Build<object>(settings =>
         {
-            settings.WithSystemRuntimeCacheHandle("handleName");
+            settings.WithDictionaryHandle()
+                .EnablePerformanceCounters()
+                .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
         });
         _cache.Add(key, objectToCache);
     }

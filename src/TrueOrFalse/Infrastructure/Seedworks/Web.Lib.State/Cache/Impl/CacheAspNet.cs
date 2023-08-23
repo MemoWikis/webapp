@@ -12,10 +12,12 @@ namespace Seedworks.Web.State
 
         static CacheAspNet()
         {
-            _cache = CacheFactory.Build<object>("CacheAspNet", settings =>
+            _cache = CacheFactory.Build<object>(settings =>
             {
-                settings.WithSystemRuntimeCacheHandle("handleName");
-            }); ;
+                settings.WithDictionaryHandle()
+                    .EnablePerformanceCounters()
+                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
+            });
             _cacheResetToken = new CancellationTokenSource();
         }
 

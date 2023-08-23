@@ -18,7 +18,7 @@ public class QuestionCacheItem
         References = new List<ReferenceCacheItem>();
     }
 
-    public virtual UserCacheItem Creator(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public virtual UserCacheItem Creator
         => EntityCache.GetUserById(CreatorId);
 
     public virtual IList<CategoryCacheItem> Categories { get; set; }

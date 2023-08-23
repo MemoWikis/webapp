@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
+
 public class AnswerQuestionDetailsController: Controller
 {
     private readonly SessionUser _sessionUser;
@@ -14,6 +17,10 @@ public class AnswerQuestionDetailsController: Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -21,7 +28,11 @@ public class AnswerQuestionDetailsController: Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
-        TotalsPersUserLoader totalsPersUserLoader)
+        TotalsPersUserLoader totalsPersUserLoader,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache,
+        IActionContextAccessor actionContextAccessor)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -30,13 +41,18 @@ public class AnswerQuestionDetailsController: Controller
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
+        _actionContextAccessor = actionContextAccessor;
     }
     [HttpGet]
-    public JsonResult Get(int id) => Json(GetData(id), JsonRequestBehavior.AllowGet);
+    public JsonResult Get(int id) => Json(GetData(id));
 
     public dynamic GetData(int id)
     {
-        var question = EntityCache.GetQuestionById(id);
+        var question = EntityCache.GetQuestionById(id,
+            _httpContextAccessor, _webHostEnvironment );
 
         if (question.Id == 0 || !_permissionCheck.CanView(question))
             return Json(null);
@@ -51,7 +67,7 @@ public class AnswerQuestionDetailsController: Controller
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations
+            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 
@@ -71,12 +87,15 @@ public class AnswerQuestionDetailsController: Controller
             {
                 Id = t.Id,
                 Name = t.Name,
-                Url = Links.CategoryDetail(t.Name, t.Id),
+                Url = new Links(_actionContextAccessor, _httpContextAccessor ).CategoryDetail(t.Name, t.Id),
                 QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
-                ImageUrl = new CategoryImageSettings(t.Id).GetUrl_128px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(t.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
                 IconHtml = CategoryCachedData.GetIconHtml(t),
-                MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category))
+                MiniImageUrl = new ImageFrontendData(
+                        _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
+                        _httpContextAccessor, _webHostEnvironment)
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
+
                 Visibility = (int)t.Visibility,
                 IsSpoiler = IsSpoilerCategory.Yes(t.Name, question)
             }).Distinct().ToArray(),

@@ -14,11 +14,16 @@ public class ImageMetaDataCache
 
     private static void InitCache(string cacheKey, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
+       
         if (_cache == null)
         {
-            _cache = CacheFactory.Build<object>(cacheKey,
-                settings => { settings.WithSystemRuntimeCacheHandle("handleName"); });
-            _cache.Put(cacheKey, imageMetaDataReadingRepo.GetAll(imageType));
+
+            _cache = CacheFactory.Build<object>(settings =>
+            {
+                settings.WithDictionaryHandle()
+                    .EnablePerformanceCounters()
+                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
+            });
         }
     }
     public static bool IsInCache(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)

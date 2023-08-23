@@ -16,7 +16,11 @@ internal class Startup
                     .AllowAnyHeader()
                     .AllowCredentials());
         });
-      
+
+        services.AddAntiforgery(options =>
+        {
+            
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -24,9 +28,9 @@ internal class Startup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-            app.UseCors("LocalhostCorsPolicy"); 
+            app.UseCors("LocalhostCorsPolicy");
         }
-  
+
     }
 }
 

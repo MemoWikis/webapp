@@ -1,6 +1,5 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
-using TrueOrFalse.Web;
+using Microsoft.AspNetCore.Mvc;
 
 [SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class VueLearningSessionResultController: Controller

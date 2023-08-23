@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
@@ -26,6 +27,9 @@ public class VueMaintenanceController : Controller
     private readonly AnswerRepo _answerRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly IAntiforgery _antiforgery;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public VueMaintenanceController(SessionUser sessionUser,
         ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
@@ -37,7 +41,10 @@ public class VueMaintenanceController : Controller
         MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
         CategoryRepository categoryRepository,
         AnswerRepo answerRepo,
-        UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo)
+        UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo,
+        IAntiforgery antiforgery,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
@@ -51,7 +58,11 @@ public class VueMaintenanceController : Controller
         _answerRepo = answerRepo;
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
+        _antiforgery = antiforgery;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
+    [ValidateAntiForgeryToken]
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -59,16 +70,13 @@ public class VueMaintenanceController : Controller
     {
         if (_sessionUser.IsInstallationAdmin)
         {
-            AntiForgery.GetTokens(null, out string cookieToken, out string formToken);
-            HttpCookie antiForgeryCookie = new HttpCookie("__RequestVerificationToken");
-            antiForgeryCookie.Value = cookieToken;
-            antiForgeryCookie.HttpOnly = true;
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = true });
 
-            Response.Cookies.Add(antiForgeryCookie);
-            return Fetch.Success(formToken, true);
+            return new JsonResult(new { token = tokens.RequestToken, success = true });
         }
 
-        return Fetch.Error("notAllowed", true);
+        return new JsonResult(new { error = "notAllowed", success = false });
     }
 
     [ValidateAntiForgeryToken]
@@ -77,8 +85,10 @@ public class VueMaintenanceController : Controller
     {
         _probabilityUpdateValuationAll.Run();
         _probabilityUpdateQuestion.Run();
-        ProbabilityUpdate_Category.Run(_categoryRepository, _answerRepo);
-        ProbabilityUpdate_User.Run(_userReadingRepo, _userWritingRepo, _answerRepo);
+       new  ProbabilityUpdate_Category(_categoryRepository, _answerRepo, _httpContextAccessor, _webHostEnvironment).Run();
+       ProbabilityUpdate_User.Initialize(_userReadingRepo, _userWritingRepo, _answerRepo, _httpContextAccessor,
+           _webHostEnvironment);
+       ProbabilityUpdate_User.Instance.Run();
 
         return Json(new
             {
@@ -280,9 +290,9 @@ public class VueMaintenanceController : Controller
     [HttpPost]
     public JsonResult ReloadListFromIgnoreCrawlers()
     {
-        if (Request.IsLocal)
+        if (_httpContextAccessor.HttpContext.Request.IsLocal())
         {
-            IgnoreLog.LoadNewList();
+            IgnoreLog.LoadNewList(_httpContextAccessor, _webHostEnvironment);
 
             return Json(new
             {
@@ -302,12 +312,6 @@ public class VueMaintenanceController : Controller
     [HttpPost]
     public JsonResult Start100TestJobs()
     {
-        //for (var i = 0; i < 1000; i++)
-        //    JobScheduler.StartImmediately<TestJob1>();
-
-        //for (var i = 0; i < 1000; i++)
-        //    JobScheduler.StartImmediately<TestJob2>();
-
         JobScheduler.StartImmediately<TestJobCacheInitializer>();
 
         return Json(new
@@ -315,7 +319,6 @@ public class VueMaintenanceController : Controller
             success = true,
             data = "Started 100 test jobs."
         });
-
     }
 
 
