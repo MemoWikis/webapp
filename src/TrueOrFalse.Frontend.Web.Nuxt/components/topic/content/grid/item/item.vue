@@ -51,16 +51,31 @@ async function loadChildren() {
 
 const { $urlHelper } = useNuxtApp()
 
-const optionsText = computed(() => {
+const detailLabel = computed(() => {
+    const { childrenCount, questionCount } = props.topic
+
+    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterthema' : 'Unterthemen'}`
+    const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
+
+    if (childrenCount && questionCount)
+        return `${childrenLabel} und ${questionLabel}`
+
+    if (childrenCount)
+        return childrenLabel
+
+    if (questionCount)
+        return questionLabel
+
     return ''
 })
 </script>
 
 <template>
-    <div class="grid-item" @click="expanded = !expanded">
+    <div class="grid-item" @click="expanded = !expanded" :class="{ 'no-children': props.topic.childrenCount <= 0 }">
 
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" :class="{ 'expanded': expanded }" />
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret"
+                :class="{ 'expanded': expanded && props.topic.childrenCount > 0 }" />
         </div>
 
         <div class="grid-item-body-container">
@@ -75,14 +90,14 @@ const optionsText = computed(() => {
                     </NuxtLink>
                 </div>
 
-                <div class="item-data" v-if="props.topic.childrenCount > 0 || props.topic.questionCount > 0">
-                    {{ optionsText }}
-                </div>
+                <template v-if="props.topic.childrenCount > 0 || props.topic.questionCount > 0">
 
-                <div class="item-knowledgebar">
-                </div>
+                    <div class="item-detaillabel">
+                        {{ detailLabel }}
+                    </div>
+                    <TopicContentGridKnowledgebar :knowledgebar-data="props.topic.knowledgebarData" />
 
-                <TopicContentGridKnowledgebar :knowledgebar-data="props.topic.knowledgebarData" />
+                </template>
 
             </div>
         </div>
@@ -133,6 +148,10 @@ const optionsText = computed(() => {
             &.expanded {
                 transform: rotate(90deg)
             }
+
+            &.no-children {
+                color: @memo-grey-light;
+            }
         }
     }
 
@@ -150,6 +169,33 @@ const optionsText = computed(() => {
 
         .item-body {
             padding-left: 8px;
+
+            .item-detaillabel {
+                color: @memo-grey-dark;
+                font-size: 12px;
+                height: 18px;
+            }
+        }
+    }
+
+    &.no-children {
+        cursor: default;
+
+        &:hover {
+            filter: brightness(1)
+        }
+
+        &:active {
+            filter: brightness(1)
+        }
+
+        .grid-item-caret-container {
+            color: @memo-grey-light;
+            cursor: default;
+        }
+
+        .grid-item-body-container {
+            cursor: default;
         }
     }
 }
@@ -157,5 +203,13 @@ const optionsText = computed(() => {
 .grid-item-children {
     user-select: none;
     padding-left: 40px;
+}
+</style>
+
+<style lang="less">
+.open-modal {
+    .grid-item {
+        background: none;
+    }
 }
 </style>

@@ -126,6 +126,12 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 parentId: this.parentId,
                 childId: childId,
             }
+        },
+        addTopic(childId: number) {
+            return {
+                parentId: this.parentId,
+                childId: childId,
+            }
         }
 
     },

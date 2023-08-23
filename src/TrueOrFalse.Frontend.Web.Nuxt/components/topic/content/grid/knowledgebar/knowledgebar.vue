@@ -33,11 +33,12 @@ const props = defineProps<Props>()
 
 .knowledge-bar {
     display: inline-flex;
-    margin-top: 15px;
-    height: 10px;
-    min-width: 150px;
+    height: 6px;
+    min-width: 180px;
     width: 100%;
     max-width: 180px;
+    border-radius: 6px;
+    overflow: hidden;
 
     .solid-knowledge,
     .needs-learning,

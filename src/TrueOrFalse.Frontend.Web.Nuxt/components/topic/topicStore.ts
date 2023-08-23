@@ -98,6 +98,7 @@ export const useTopicStore = defineStore('topicStore', {
 			authors: [] as Author[],
 			searchTopicItem: null as null | TopicItem,
 			knowledgeSummary: {} as KnowledgeSummary,
+			gridItems: [] as GridTopicItem[]
 		}
 	},
 	actions: {
@@ -131,6 +132,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.authors = topic.Authors
 				this.searchTopicItem = topic.TopicItem
 				this.knowledgeSummary = topic.KnowledgeSummary
+				this.gridItems = topic.gridItems
 			}
 		},
 		async saveTopic() {

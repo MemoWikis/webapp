@@ -6,11 +6,13 @@ import { useAlertStore, AlertType, messages } from '~/components/alert/alertStor
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { GridTopicItem } from './gridTopicItem'
 import { ImageFormat } from '~/components/image/imageFormatEnum'
+import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 
 const userStore = useUserStore()
 const publishTopicStore = usePublishTopicStore()
 const editTopicRelationStore = useEditTopicRelationStore()
 const alertStore = useAlertStore()
+const topicToPrivateStore = useTopicToPrivateStore()
 
 interface Props {
     topic: GridTopicItem
@@ -85,7 +87,7 @@ function openAddToWikiModal() {
 
         <div class="grid-item-option">
             <VDropdown :distance="6">
-                <button v-show="props.topic.parents.length > 1" class="">
+                <button v-show="props.topic.parents.length > 1" class="" @click.stop>
                     <font-awesome-icon :icon="['fas', 'sitemap']" rotation=180 />
                 </button>
                 <template #popper>
@@ -103,40 +105,77 @@ function openAddToWikiModal() {
         </div>
 
         <div class="grid-item-option">
-            <font-awesome-icon :icon="['fas', 'lock']" v-show="props.topic.visibility != Visibility.All" />
+            <button class="" @click.stop="publishTopicStore.openModal(props.topic.id)"
+                v-show="props.topic.visibility != Visibility.All">
+                <font-awesome-icon :icon="['fas', 'lock']" />
+            </button>
         </div>
 
         <div class="grid-item-option">
             <VDropdown :distance="1">
-                <button class="">
+                <button class="" @click.stop>
                     <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                 </button>
                 <template #popper="{ hide }">
+
                     <div @click="removeParent(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
                         </div>
                         <div class="dropdown-label">Verknüpfung entfernen </div>
                     </div>
-                    <div v-if="props.topic.visibility != Visibility.All"
-                        @click="publishTopicStore.openModal(props.topic.id); hide()" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fa-solid', 'unlock']" />
-                        </div>
-                        <div class="dropdown-label">Thema veröffentlichen</div>
-                    </div>
+
                     <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
                         </div>
                         <div class="dropdown-label">Thema verschieben</div>
                     </div>
+
+                    <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'house']" />
+                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
+                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-5 down-1 right-1"
+                                    style="color: white;" />
+                            </font-awesome-layers>
+                        </div>
+                        <div class="dropdown-label">Zum Wiki hinzufügen</div>
+                    </div>
+                    <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'house']" />
+                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
+                                <font-awesome-icon :icon="['fas', 'minus']" transform="shrink-5 down-1 right-1"
+                                    style="color: white;" />
+                            </font-awesome-layers>
+                        </div>
+                        <div class="dropdown-label">Vom Wiki entfernen</div>
+                    </div>
+
+                    <div v-if="props.topic.visibility == Visibility.All"
+                        @click="topicToPrivateStore.openModal(props.topic.id); hide()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon :icon="['fa-solid', 'lock']" />
+                        </div>
+                        <div class="dropdown-label">Thema privat stellen</div>
+                    </div>
+                    <div v-else @click="publishTopicStore.openModal(props.topic.id); hide()" class="dropdown-row">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon :icon="['fa-solid', 'unlock']" />
+                        </div>
+                        <div class="dropdown-label">Thema veröffentlichen</div>
+                    </div>
+
                     <div @click="openAddToWikiModal(); hide()" data-allowed="logged-in" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fa-solid', 'plus']" />
                         </div>
                         <div class="dropdown-label">Zu meinem Wiki hinzufügen</div>
                     </div>
+
                 </template>
             </VDropdown>
 
@@ -152,15 +191,22 @@ function openAddToWikiModal() {
     justify-content: center;
     align-items: center;
     flex-wrap: nowrap;
+    height: 40px;
+    padding-right: 4px;
+    color: @memo-grey-dark;
 
     .grid-item-option {
-        width: 34px;
+        width: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: -4px;
 
         button {
             background: white;
-            width: 34px;
-            height: 34px;
-            border-radius: 36px;
+            width: 32px;
+            height: 32px;
+            border-radius: 32px;
             color: @memo-grey-dark;
 
             &:hover {
@@ -173,5 +219,17 @@ function openAddToWikiModal() {
         }
     }
 
+}
+</style>
+
+<style lang="less">
+.open-modal {
+    .grid-item-options-container {
+        .grid-item-option {
+            button {
+                background: none;
+            }
+        }
+    }
 }
 </style>

@@ -160,20 +160,27 @@ useHead(() => ({
                         <TopicTabsContent
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
                         <DevOnly>
-                            <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                :children="topic.gridItems" />
+                            <ClientOnly>
+                                <TopicContentGrid
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                    :children="topicStore.gridItems" />
+                                <template #fallback>
+                                    <TopicContentGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topic.gridItems" />
+                                </template>
+                            </ClientOnly>
                         </DevOnly>
 
-                        <TopicContentSegmentation
+                        <!-- <TopicContentSegmentation
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :segmentation="topic.Segmentation" />
+                            :segmentation="topic.Segmentation" /> -->
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         <TopicTabsAnalytics
                             v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
-                        <template v-if="userStore.isLoggedIn">
+                        <ClientOnly>
                             <TopicRelationEdit />
                             <QuestionEditModal />
                             <QuestionEditDelete />
@@ -182,7 +189,7 @@ useHead(() => ({
 
                             <TopicDeleteModal
                                 v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
-                        </template>
+                        </ClientOnly>
 
                     </template>
                 </div>
