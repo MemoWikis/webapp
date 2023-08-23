@@ -68,11 +68,19 @@ onMounted(async () => {
         window.addEventListener('resize', handleResize)
         window.addEventListener('scroll', handleScroll)
     }
-
 })
 
 const partialLeft = ref()
 const navOptions = ref()
+
+const { $vfm } = useNuxtApp()
+const { openedModals } = $vfm
+const modalIsOpen = ref(false)
+watch(() => openedModals, (val) => {
+    if (val.length > 0)
+        modalIsOpen.value = true
+    else modalIsOpen.value = false
+}, { deep: true })
 
 </script>
 
@@ -170,7 +178,7 @@ const navOptions = ref()
                         </VDropdown>
 
                         <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                            :class="{ 'hide-nav': !showRegisterButton }">
+                            :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -225,6 +233,10 @@ const navOptions = ref()
 
     &.hide-nav {
         opacity: 0;
+    }
+
+    &.login-modal-is-open {
+        position: unset;
     }
 }
 
