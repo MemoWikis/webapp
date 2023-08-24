@@ -2,34 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
+
 public class AnswerBodyController : Controller {
     private readonly AnswerQuestion _answerQuestion;
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly AnswerLog _answerLog;
-    private readonly QuestionValuationRepo _questionValuationRepo;
-    private readonly UserReadingRepo _userReadingRepo;
+    private readonly SessionUserCache _sessionUserCache;
+
 
     public AnswerBodyController(AnswerQuestion answerQuestion,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         AnswerLog answerLog,
-        QuestionValuationRepo questionValuationRepo,
-        UserReadingRepo userReadingRepo)
+        SessionUserCache sessionUserCache)
     {
         _answerQuestion = answerQuestion;
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _answerLog = answerLog;
-        _questionValuationRepo = questionValuationRepo;
-        _userReadingRepo = userReadingRepo;
+        _sessionUserCache = sessionUserCache;
     }
 
     [HttpGet]
@@ -55,12 +50,12 @@ public class AnswerBodyController : Controller {
             solution = q.Solution,
 
             isCreator = q.Creator.Id == _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
         };
-        return Json(model, JsonRequestBehavior.AllowGet);
+        return Json(model);
     }
 
     [HttpPost]

@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
+using RazorLight;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
+
 
 
 namespace VueApp;
@@ -28,6 +35,10 @@ public class VueEditQuestionController : Controller
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
     public VueEditQuestionController(SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
@@ -43,7 +54,11 @@ public class VueEditQuestionController : Controller
         QuestionValuationRepo questionValuationRepo,
         QuestionChangeRepo questionChangeRepo, 
         QuestionWritingRepo questionWritingRepo,
-        QuestionReadingRepo questionReadingRepo) 
+        QuestionReadingRepo questionReadingRepo,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor) 
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
@@ -60,6 +75,10 @@ public class VueEditQuestionController : Controller
         _questionChangeRepo = questionChangeRepo;
         _questionWritingRepo = questionWritingRepo;
         _questionReadingRepo = questionReadingRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _actionContextAccessor = actionContextAccessor;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -71,13 +90,11 @@ public class VueEditQuestionController : Controller
         
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    ErrorMsg = "Fehlender Fragetext",
-                }
-            };
+                ErrorMsg = "Fehlender Fragetext",
+            });
+           
         var question = new Question();
         var sessionUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUser;
@@ -102,14 +119,11 @@ public class VueEditQuestionController : Controller
     {
         var safeText = GetSafeText(questionDataJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    error = true,
-                    key = "missingText",
-                }
-            };
+                error = true,
+                key = "missingText",
+            });
 
         var question =_questionReadingRepo.GetById(questionDataJson.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
@@ -128,15 +142,12 @@ public class VueEditQuestionController : Controller
     {
         var safeText = GetSafeText(flashCardJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    error = true,
-                    key = "missingText",
-                }
-            };
-        var serializer = new JavaScriptSerializer();
+                error = true,
+                key = "missingText",
+            });
+        
         var question = new Question();
 
         question.TextHtml = flashCardJson.TextHtml;
@@ -147,16 +158,13 @@ public class VueEditQuestionController : Controller
         solutionModelFlashCard.Text = flashCardJson.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
-            return new JsonResult
+            return new JsonResult(new
             {
-                Data = new
-                {
-                    error = true,
-                    key = "missingAnswer",
-                }
-            };
+                error = true,
+                key = "missingAnswer",
+            });
 
-        question.Solution = serializer.Serialize(solutionModelFlashCard);
+        question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
 
         var sessionUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator =  sessionUser;
@@ -210,11 +218,9 @@ public class VueEditQuestionController : Controller
 
         if (question.SolutionType == SolutionType.FlashCard)
         {
-            var serializer = new JavaScriptSerializer();
-
             var solutionModelFlashCard = new QuestionSolutionFlashCard();
             solutionModelFlashCard.Text = questionDataJson.Solution;
-            question.Solution = serializer.Serialize(solutionModelFlashCard);
+            question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
         }
         else
             question.Solution = questionDataJson.Solution;
@@ -236,7 +242,7 @@ public class VueEditQuestionController : Controller
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        EntityCache.AddOrUpdate(questionCacheItem);
+        EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment); 
 
         return question;
     }
@@ -244,16 +250,23 @@ public class VueEditQuestionController : Controller
     public JsonResult LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations;
-        var q = EntityCache.GetQuestionById(questionId);
+        var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
+        var q = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
-        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
+
+        var links = new Links(_actionContextAccessor, _httpContextAccessor); 
+        question.LinkToQuestion = links.GetUrl(q);
+        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, 
+                    ImageType.Question),
+                _httpContextAccessor,
+                _webHostEnvironment)
+            .GetImageUrl(40, true)
+            .Url;
+        question.LinkToQuestion = links.GetUrl(q);
+        question.LinkToQuestionVersions = links.QuestionHistory(q.Id);
+        question.LinkToComment = links.GetUrl(q) + "#JumpLabel";
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
@@ -325,7 +338,7 @@ public class VueEditQuestionController : Controller
         if (questionId == -1)
         {
             question = new Question();
-            question.Text = String.IsNullOrEmpty(Request["Question"]) ? "Temporäre Frage" : Request["Question"];
+            question.Text = string.IsNullOrEmpty(Request.Query["Question"]) ? "Temporäre Frage" : Request.Query["Question"];
             question.Solution = "Temporäre Frage";
             var creator = _userReadingRepo.GetById(_sessionUser.UserId);
             question.Creator = creator;
@@ -355,16 +368,13 @@ public class VueEditQuestionController : Controller
         question = _questionReadingRepo.GetById(questionId);
         _questionChangeRepo.AddUpdateEntry(question, imageWasChanged: true);
 
-        var imageSettings = new QuestionImageSettings(questionId);
+        var imageSettings = new QuestionImageSettings(questionId, _httpContextAccessor, _webHostEnvironment);
 
-        return new JsonResult
+        return new JsonResult(new
         {
-            Data = new
-            {
-                PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
-                NewQuestionId = newQuestionId
-            }
-        };
+            PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
+            NewQuestionId = newQuestionId
+        });
     }
     //todo: (DaMa) mit Jun schauen scheint nicht benötigt zu werden 
     public ActionResult ReferencePartial(int catId)
@@ -377,11 +387,11 @@ public class VueEditQuestionController : Controller
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
             if (questionCacheItem.Creator.Id == _sessionUser.UserId)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
-                EntityCache.AddOrUpdate(questionCacheItem);
+                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
                 _questionWritingRepo.UpdateOrMerge(question, false);
@@ -393,13 +403,13 @@ public class VueEditQuestionController : Controller
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId,_sessionUserCache) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
-                EntityCache.AddOrUpdate(questionCacheItem);
+                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
                 _questionWritingRepo.UpdateOrMerge(question, false);
@@ -408,9 +418,16 @@ public class VueEditQuestionController : Controller
     }
 
     [HttpGet]
-    public string GetEditQuestionModal()
+    public async Task<IActionResult> GetEditQuestionModal()
     {
-        var html = ViewRenderer.RenderPartialView("~/Views/Questions/Edit/EditComponents/EditQuestionTemplateLoader.ascx", null, ControllerContext);
-        return html;
+        var engine = new RazorLightEngineBuilder()
+            .UseFileSystemProject(Directory.GetCurrentDirectory())
+            .UseMemoryCachingProvider()
+            .Build();
+
+        string viewPath = "~/Views/Questions/Edit/EditComponents/EditQuestionTemplateLoader.cshtml";
+        var html = await engine.CompileRenderAsync(viewPath, new { });
+
+        return Content(html, "text/html");
     }
 }

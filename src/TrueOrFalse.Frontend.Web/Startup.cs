@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using TrueOrFalse;
 
 internal class Startup
 {
@@ -31,6 +32,7 @@ internal class Startup
             app.UseCors("LocalhostCorsPolicy");
         }
 
+        app.UseEndpoints(RouteConfig.RegisterRoutes);
     }
 }
 

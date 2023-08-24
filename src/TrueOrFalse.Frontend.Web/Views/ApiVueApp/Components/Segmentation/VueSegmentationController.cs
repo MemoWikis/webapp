@@ -1,7 +1,7 @@
-﻿using System.Web.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class VueSegmentationController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;

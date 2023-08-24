@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using Seedworks.Web.State;
-using TrueOrFalse.Frontend.Web.Code;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;

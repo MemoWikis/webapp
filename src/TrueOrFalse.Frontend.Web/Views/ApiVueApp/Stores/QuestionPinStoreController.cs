@@ -1,7 +1,5 @@
-﻿using System.Web.Mvc;
-using System.Web.SessionState;
+﻿using Microsoft.AspNetCore.Mvc;
 
-[SessionState(SessionStateBehavior.ReadOnly)]
 public class QuestionPinStoreController : Controller
 {
     private readonly SessionUser _sessionUser;

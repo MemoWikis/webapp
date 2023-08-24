@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
+using Microsoft.AspNetCore.Mvc;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class LearningSessionStoreController: BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
@@ -138,13 +136,13 @@ public class LearningSessionStoreController: BaseController
                     state = AnswerState.Unanswered,
                     index = index
                 }
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
         return Json(new
         {
             success = false
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [HttpGet]
@@ -179,7 +177,7 @@ public class LearningSessionStoreController: BaseController
         return Json(new
         {
             success = false
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
         
     [HttpPost]
@@ -236,7 +234,7 @@ public class LearningSessionStoreController: BaseController
             state = s.AnswerState,
             index = index,
             isLastStep = learningSession.Steps.Last() == s
-        }).ToArray(), JsonRequestBehavior.AllowGet);
+        }).ToArray());
     }
 
     public class StepResult

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
 using TrueOrFalse;
 using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
@@ -23,6 +26,10 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
     public QuestionEditModalControllerLogic(SessionUser sessionUser,
         LearningSessionCache learningSessionCache, 
@@ -35,7 +42,11 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
         QuestionWritingRepo questionWritingRepo,
-        QuestionReadingRepo questionReadingRepo) 
+        QuestionReadingRepo questionReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache,
+        IActionContextAccessor actionContextAccessor) 
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
@@ -49,11 +60,15 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
         _questionReadingRepo = questionReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
+        _actionContextAccessor = actionContextAccessor;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
     {
-        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser))
+        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser, _httpContextAccessor, _webHostEnvironment ))
         {
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
@@ -84,16 +99,22 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private dynamic LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = SessionUserCache.GetItem(user.Id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).QuestionValuations;
-        var q = EntityCache.GetQuestionById(questionId);
+        var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
+        var q = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question)).GetImageUrl(40, true).Url;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
-        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
+        question.LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(q);
+        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+            _httpContextAccessor,
+            _webHostEnvironment)
+            .GetImageUrl(40, true)
+            .Url;
+
+        var links = new Links(_actionContextAccessor, _httpContextAccessor);
+        question.LinkToQuestion = links.GetUrl(q);
+        question.LinkToQuestionVersions = links.QuestionHistory(q.Id);
+        question.LinkToComment = links.GetUrl(q) + "#JumpLabel";
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
@@ -136,7 +157,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
 
     public dynamic GetData(int id)
     {
-        var question = EntityCache.GetQuestionById(id);
+        var question = EntityCache.GetQuestionById(id, _httpContextAccessor, _webHostEnvironment);
         var solution = question.SolutionType == SolutionType.FlashCard ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml() : question.Solution;
         var topicsVisibleToCurrentUser =
             question.Categories.Where(_permissionCheck.CanView).Distinct();
@@ -163,11 +184,14 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         {
             Id = topic.Id,
             Name = topic.Name,
-            Url = Links.CategoryDetail(topic.Name, topic.Id),
+            Url = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category))
-                .GetImageUrl(30, true, false, ImageType.Category).Url,
+            ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category), 
+                    _httpContextAccessor,
+                    _webHostEnvironment)
+                .GetImageUrl(30, true, false, ImageType.Category)
+                .Url,
             Visibility = (int)topic.Visibility
         };
 
@@ -218,11 +242,9 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
 
         if (question.SolutionType == SolutionType.FlashCard)
         {
-            var serializer = new JavaScriptSerializer();
-
             var solutionModelFlashCard = new QuestionSolutionFlashCard();
             solutionModelFlashCard.Text = questionDataJson.Solution;
-            question.Solution = serializer.Serialize(solutionModelFlashCard);
+            question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
         }
         else
             question.Solution = questionDataJson.Solution;
@@ -244,7 +266,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        EntityCache.AddOrUpdate(questionCacheItem);
+        EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
 
         return question;
     }

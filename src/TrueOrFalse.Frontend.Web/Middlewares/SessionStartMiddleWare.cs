@@ -1,4 +1,10 @@
-﻿public class SessionStartMiddleware
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+
+public class SessionStartMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IHttpContextAccessor _httpContextAccessor;

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class SegmentationLogic : IRegisterAsInstancePerLifetime
 {
     
@@ -17,6 +18,10 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SegmentationLogic(
         PermissionCheck permissionCheck, 
@@ -25,7 +30,11 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IActionContextAccessor actionContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;
@@ -35,6 +44,10 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _actionContextAccessor = actionContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     public dynamic GetSegmentation(int id)
     {
@@ -73,8 +86,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
 
         if (_sessionUser.IsLoggedIn)
         {
-            userValuation = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).CategoryValuations;
-            startTopicId = SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).StartTopicId;
+            userValuation = _sessionUserCache.GetItem(_sessionUser.UserId).CategoryValuations;
+            startTopicId = _sessionUserCache.GetUser(_sessionUser.UserId).StartTopicId;
         }
 
         var categoryDataList = categoryIds.Select(
@@ -88,8 +101,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     public dynamic GetCategoryData(int categoryId)
     {
         var categoryCardData = _sessionUser.IsLoggedIn
-            ? GetCategoryCardData(categoryId, SessionUserCache.GetItem(_sessionUserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).CategoryValuations,
-                SessionUserCache.GetUser(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo).StartTopicId)
+            ? GetCategoryCardData(categoryId, _sessionUserCache.GetItem(_sessionUserId).CategoryValuations,
+                _sessionUserCache.GetUser(_sessionUser.UserId).StartTopicId)
             : GetCategoryCardData(categoryId);
         return categoryCardData != null ? categoryCardData : "";
     }
@@ -99,10 +112,10 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         if (!_permissionCheck.CanView(categoryCacheItem)) return null;
 
-        var linkToCategory = Links.CategoryDetail(categoryCacheItem);
+        var linkToCategory = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(categoryCacheItem);
 
         var imageMetaData = _imageMetaDataReadingRepo.GetBy(categoryId, ImageType.Category);
-        var imageFrontendData = new ImageFrontendData(imageMetaData);
+        var imageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _webHostEnvironment);
         var imgHtml = imageFrontendData.RenderHtmlImageBasis(128, true, ImageType.Category);
         var imgUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url;
 
@@ -166,7 +179,7 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     public dynamic GetSegmentData(int categoryId)
     {
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
-        var linkToCategory = Links.CategoryDetail(categoryCacheItem);
+        var linkToCategory = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(categoryCacheItem);
         var knowledgeBarSummary = _knowledgeSummaryLoader.RunFromMemoryCache(categoryId, _sessionUserId);
 
         return new
