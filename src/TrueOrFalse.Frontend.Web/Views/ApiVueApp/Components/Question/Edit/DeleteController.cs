@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 public class QuestionEditDeleteController : Controller
@@ -29,7 +29,7 @@ public class QuestionEditDeleteController : Controller
             canNotBeDeleted = !canBeDeleted.Yes,
             wuwiCount = canBeDeleted.WuwiCount,
             hasRights = canBeDeleted.HasRights
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [HttpPost]

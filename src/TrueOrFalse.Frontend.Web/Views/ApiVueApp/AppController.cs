@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -15,7 +15,7 @@ public class AppController : Controller
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        return Json(_vueSessionUser.GetCurrentUserData(), JsonRequestBehavior.AllowGet);
+        return Json(_vueSessionUser.GetCurrentUserData());
     }
 
     [HttpGet]
@@ -58,6 +58,6 @@ public class AppController : Controller
                 Id = RootCategory.IntroCategoryId,
                 Name = EntityCache.GetCategory(RootCategory.IntroCategoryId).Name
             }
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }

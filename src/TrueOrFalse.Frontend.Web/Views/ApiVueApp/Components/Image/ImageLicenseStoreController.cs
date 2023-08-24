@@ -1,23 +1,32 @@
 ﻿using System;
 using System.Net;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class ImageLicenseStoreController : BaseController
 {
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ImageLicenseStoreController(SessionUser sessionUser,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo ) : base(sessionUser)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo , 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     [HttpGet]
     public JsonResult GetLicenseInfo(int id)
     {
 
-        var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo.GetById(id));
+        var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo
+            .GetById(id), _httpContextAccessor, _webHostEnvironment);
         try
         {
             var imageUrl = imageFrontendData.GetImageUrl(1000, false, false, imageFrontendData.ImageMetaData.Type);
@@ -30,7 +39,7 @@ public class ImageLicenseStoreController : BaseController
                     {
                         imageCanBeDisplayed = false,
                         attributionHtmlString = imageFrontendData.AttributionHtmlString
-                    }, JsonRequestBehavior.AllowGet);
+                    });
 
                 var dataIsYoutubeVideo = "";
                 if (imageFrontendData.ImageMetaData.IsYoutubePreviewImage)
@@ -54,7 +63,7 @@ public class ImageLicenseStoreController : BaseController
                     alt = altDescription,
                     description = imageFrontendData.Description,
                     attributionHtmlString = imageFrontendData.AttributionHtmlString
-                }, JsonRequestBehavior.AllowGet);
+                });
             }
 
             return Json(new
@@ -62,7 +71,7 @@ public class ImageLicenseStoreController : BaseController
                     imageCanBeDisplayed = false,
                     attributionHtmlString = imageFrontendData.AttributionHtmlString
 
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
         catch (Exception e)
         {
@@ -70,7 +79,7 @@ public class ImageLicenseStoreController : BaseController
             return Json(new
             {
                 imageCanBeDisplayed = false
-            }, JsonRequestBehavior.AllowGet );
+            });
         }
     }
 

@@ -1,8 +1,7 @@
-﻿using System.Web.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using TrueOrFalse.Web;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
@@ -10,14 +9,21 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
 {
     private readonly CommentRepository _commentRepository;
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public CommentHelper(CommentRepository commentRepository, UserReadingRepo userReadingRepo)
+    public CommentHelper(CommentRepository commentRepository,
+        UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _commentRepository = commentRepository;
         _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
-    public static CommentJson GetComment(Comment c, bool showSettled = false)
+    public  CommentJson GetComment(Comment c, bool showSettled = false)
     {
         var comment = new CommentJson
         {
@@ -27,7 +33,9 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
 
             creatorName = c.Creator.Name,
             creatorId = c.Creator.Id,
-            creatorImgUrl = new UserImageSettings(c.Creator.Id).GetUrl_128px_square(c.Creator).Url,
+            creatorImgUrl = new UserImageSettings(c.Creator.Id, _httpContextAccessor, _webHostEnvironment)
+                .GetUrl_128px_square(c.Creator)
+                .Url,
 
             creationDate = c.DateCreated.ToString("U"),
             creationDateNiceText = DateTimeUtils.TimeElapsedAsText(c.DateCreated),

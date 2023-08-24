@@ -293,7 +293,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         QuestionCacheItem q,
         QuestionDetail questionDetail)
     {
-        if (q.Creator(_httpContextAccessor, _webHostEnvironment)?.Id == config.CurrentUserId)
+        if (q.Creator.Id == config.CurrentUserId)
         {
             if (config.CreatedByCurrentUser || (!config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser))
                 questionDetail.AddByCreator = true;

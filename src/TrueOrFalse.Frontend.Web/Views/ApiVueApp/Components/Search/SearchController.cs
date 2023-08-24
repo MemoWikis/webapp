@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -50,7 +50,7 @@ public class SearchController : BaseController
             users = userItems,
             userCount = elements.UsersResultCount,
             userSearchUrl = Links.UsersSearch(term)
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [HttpGet]
@@ -66,7 +66,7 @@ public class SearchController : BaseController
         {
             totalCount = elements.CategoriesResultCount,
             topics = items,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [AccessOnlyAsLoggedIn]

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Infrastructure;
 
@@ -7,6 +9,15 @@ namespace VueApp;
 
 public class CancelController : Controller
 {
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public CancelController(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
+    {
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
     [HttpGet]
     public JsonResult GetHelperTopics()
     {
@@ -19,11 +30,11 @@ public class CancelController : Controller
             list.Add(new
             {
                 name = category.Name,
-                link = Links.CategoryDetail(category)
+                link = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(category)
             });
         }
 
         var standardFetch = new StandardFetchResult<List<object>>(list);
-        return Json(standardFetch, JsonRequestBehavior.AllowGet);
+        return Json(standardFetch);
     }
 }

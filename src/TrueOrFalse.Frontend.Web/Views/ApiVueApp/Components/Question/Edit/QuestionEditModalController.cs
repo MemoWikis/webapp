@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 public class QuestionEditModalController : BaseController
@@ -19,7 +19,7 @@ public class QuestionEditModalController : BaseController
         var data = _questionEditModalControllerLogic
             .Create(questionDataJson); 
 
-        return Json(data, JsonRequestBehavior.AllowGet);
+        return Json(data);
     }
 
     [AccessOnlyAsLoggedIn]
@@ -27,7 +27,7 @@ public class QuestionEditModalController : BaseController
     public JsonResult Edit(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
     {
         var data = _questionEditModalControllerLogic.Edit(questionDataJson);
-        return Json(data, JsonRequestBehavior.AllowGet);
+        return Json(data);
     }
 
 
@@ -35,7 +35,7 @@ public class QuestionEditModalController : BaseController
     public JsonResult GetData(int id)
     {
         var data = _questionEditModalControllerLogic.GetData(id);
-        return Json(data, JsonRequestBehavior.AllowGet);
+        return Json(data);
     }
 
     [HttpGet]

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 
 namespace VueApp;
@@ -48,7 +46,7 @@ public class ImageUploadModalController : BaseController
     {
         public int topicId { get; set; }
         public string licenseGiverName { get; set; }
-        public HttpPostedFileBase file { get; set; }
+        public IFormFile file { get; set; }
     }
 
     [AccessOnlyAsLoggedIn]
