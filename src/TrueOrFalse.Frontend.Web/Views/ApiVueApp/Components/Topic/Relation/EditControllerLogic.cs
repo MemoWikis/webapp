@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Hosting;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Utilities.ScheduledJobs;
@@ -13,6 +16,9 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
@@ -25,7 +31,10 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         CategoryRepository categoryRepository, 
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo,
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _search = search; 
         _permissionCheck = permissionCheck;
@@ -35,6 +44,9 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
         _isInstallationAdmin = _sessionUser.IsInstallationAdmin;
 
     }
@@ -48,7 +60,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         if (topicNameAllowed.No(dummyTopic, _categoryRepository))
         {
             var topic = EntityCache.GetCategoryByName(name).FirstOrDefault();
-            var url = topic.Visibility == CategoryVisibility.All ? Links.CategoryDetail(topic) : "";
+            var url = topic.Visibility == CategoryVisibility.All ? new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic) : "";
             return new
             {
                 categoryNameAllowed = false,
@@ -96,7 +108,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         return new
         {
             success = true,
-            url = Links.CategoryDetail(topic),
+            url = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic),
             id = topic.Id
         };
     }
@@ -107,7 +119,10 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+             new SearchHelper(_imageMetaDataReadingRepo,
+            _actionContextAccessor,
+        _httpContextAccessor,
+            _webHostEnvironment).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         return new
         {
@@ -122,7 +137,10 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment).AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
 
         var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
@@ -190,7 +208,11 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId, _userWritingRepo);
+            RecentlyUsedRelationTargets.Add(_sessionUserId, 
+                parentId, 
+                _userWritingRepo,
+                _httpContextAccessor,
+                _webHostEnvironment);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
@@ -198,18 +220,19 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         EntityCache.GetCategory(parentId).CachedData.AddChildId(childId);
         EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
 
+        var links = new Links(_actionContextAccessor, _httpContextAccessor); 
         if (redirectToParent)
             return new
             {
                 success = true,
-                url = Links.CategoryDetail(EntityCache.GetCategory(parentId)),
+                url = links.CategoryDetail(EntityCache.GetCategory(parentId)),
                 id = parentId
             };
 
         return new
         {
             success = true,
-            url = Links.CategoryDetail(child),
+            url = links.CategoryDetail(child),
             id = childId
         };
     }

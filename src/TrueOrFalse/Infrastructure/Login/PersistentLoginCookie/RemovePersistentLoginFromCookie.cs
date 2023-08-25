@@ -3,7 +3,7 @@ using System.Web;
 
 public class RemovePersistentLoginFromCookie
 {
-    public static void Run(PersistentLoginRepo persistentLoginRepo, HttpContextAccessor httpContextAccessor)
+    public static void Run(PersistentLoginRepo persistentLoginRepo, IHttpContextAccessor httpContextAccessor)
     {
         var persistentCookieValue = GetPersistentLoginCookieValues.Run(httpContextAccessor);
 

@@ -303,6 +303,6 @@ public class QuestionCacheItem
     }
     public virtual bool IsCreator(int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
-        return userId == Creator(httpContextAccessor, webHostEnvironment)?.Id;
+        return userId == Creator?.Id;
     }
 }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
@@ -16,6 +18,9 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly SegmentationLogic _segmentationLogic;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IActionContextAccessor _actionContextAccessor;
     private readonly int _sessionUserId;
 
     public TopicControllerLogic(SessionUser sessionUser, 
@@ -23,7 +28,10 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        SegmentationLogic segmentationLogic)
+        SegmentationLogic segmentationLogic,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor)
     {
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
@@ -32,6 +40,9 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _segmentationLogic = segmentationLogic;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _actionContextAccessor = actionContextAccessor;
     }
 
     public dynamic GetTopicData(int id)
@@ -48,7 +59,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 CanAccess = true,
                 Id = id,
                 Name = topic.Name,
-                ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
                 Content = topic.Content,
                 ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
                 ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
@@ -63,7 +74,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                     {
                         Id = id,
                         Name = author.Name,
-                        ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
+                        ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_20px(author).Url,
                         Reputation = author.Reputation,
                         ReputationPos = author.ReputationPos
                     };
@@ -101,7 +112,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 CanAccess = true,
                 Id = id,
                 Name = topic.Name,
-                ImageUrl = new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
                 Content = topic.Content,
                 ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
                 ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
@@ -116,7 +127,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                     {
                         Id = id,
                         Name = author.Name,
-                        ImgUrl = new UserImageSettings(author.Id).GetUrl_20px(author).Url,
+                        ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_20px(author).Url,
                         Reputation = author.Reputation,
                         ReputationPos = author.ReputationPos
                     };
@@ -181,10 +192,17 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         {
             Id = topic.Id,
             Name = topic.Name,
-            Url = Links.CategoryDetail(topic.Name, topic.Id),
+            Url = new Links(_actionContextAccessor, _httpContextAccessor)
+                .CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId),
-            ImageUrl = new CategoryImageSettings(topic.Id).GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category))
+            ImageUrl = new CategoryImageSettings(topic.Id,
+                    _httpContextAccessor, 
+                    _webHostEnvironment)
+                .GetUrl_128px(asSquare: true)
+                .Url,
+            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+                    _httpContextAccessor, 
+                    _webHostEnvironment)
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };

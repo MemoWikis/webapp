@@ -15,11 +15,9 @@ public class QuickCreateQuestionController : Controller
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -30,11 +28,9 @@ public class QuickCreateQuestionController : Controller
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
         LearningSessionCache learningSessionCache,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo, 
-        QuestionValuationRepo questionValuationRepo,
         QuestionWritingRepo questionWritingRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
@@ -45,11 +41,9 @@ public class QuickCreateQuestionController : Controller
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
         _learningSessionCache = learningSessionCache;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
@@ -107,12 +101,9 @@ public class QuickCreateQuestionController : Controller
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
         var questionController = new QuestionController(_sessionUser,
-            _learningSessionCache, 
-            _categoryValuationReadingRepo,
+            _learningSessionCache,
             _imageMetaDataReadingRepo, 
-            _userReadingRepo, 
-            _questionValuationRepo,
-            _sessionUserCache, 
+            _sessionUserCache,
             _httpContextAccessor, 
             _webHostEnvironment, 
             _actionContextAccessor); 

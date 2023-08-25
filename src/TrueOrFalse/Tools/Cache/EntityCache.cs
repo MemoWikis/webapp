@@ -478,7 +478,7 @@ public class EntityCache : BaseEntityCache
     public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId, 
         IHttpContextAccessor httpContextAccessor, 
         IWebHostEnvironment webHostEnvironment) => GetAllQuestions()
-        .Where(q => q.Creator(httpContextAccessor, webHostEnvironment).Id == userId && q.IsPrivate())
+        .Where(q => q.Creator.Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 
     public static QuestionCacheItem GetQuestion(int questionId)

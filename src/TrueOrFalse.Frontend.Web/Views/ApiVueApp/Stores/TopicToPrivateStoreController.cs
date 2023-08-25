@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using TrueOrFalse.Domain;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -15,6 +16,9 @@ public class TopicToPrivateStoreController : Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public TopicToPrivateStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck, 
@@ -23,7 +27,10 @@ public class TopicToPrivateStoreController : Controller
         QuestionReadingRepo questionReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
-        QuestionWritingRepo questionWritingRepo) 
+        QuestionWritingRepo questionWritingRepo,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) 
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -33,6 +40,9 @@ public class TopicToPrivateStoreController : Controller
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -40,14 +50,14 @@ public class TopicToPrivateStoreController : Controller
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new
             {
                 success = false,
                 key = "missingRights"
-            }, JsonRequestBehavior.AllowGet);
+            });
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
@@ -61,7 +71,7 @@ public class TopicToPrivateStoreController : Controller
                 {
                     success = false,
                     key = "rootCategoryMustBePublic"
-                }, JsonRequestBehavior.AllowGet);
+                });
 
             foreach (var c in aggregatedTopics)
             {
@@ -72,7 +82,7 @@ public class TopicToPrivateStoreController : Controller
                     {
                         success = false,
                         key = "publicChildCategories"
-                    }, JsonRequestBehavior.AllowGet);
+                    });
             }
 
             var pinnedQuestionIds = new List<int>();
@@ -89,7 +99,7 @@ public class TopicToPrivateStoreController : Controller
                     success = false,
                     key = "questionIsPinned",
                     pinnedQuestionIds
-                }, JsonRequestBehavior.AllowGet);
+                });
 
             if (pinCount >= 10)
             {
@@ -97,7 +107,7 @@ public class TopicToPrivateStoreController : Controller
                 {
                     success = false,
                     key = "tooPopular"
-                }, JsonRequestBehavior.AllowGet);
+                });
             }
         }
 
@@ -113,7 +123,7 @@ public class TopicToPrivateStoreController : Controller
             personalQuestionCount = filteredAggregatedQuestions.Count(),
             allQuestionIds = publicAggregatedQuestions.Select(q => q.Id).ToList(),
             allQuestionCount = publicAggregatedQuestions.Count()
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [HttpPost]
@@ -180,14 +190,14 @@ public class TopicToPrivateStoreController : Controller
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
                 _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
-                EntityCache.AddOrUpdate(questionCacheItem);
+                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
                 _questionWritingRepo.UpdateOrMerge(question, false);

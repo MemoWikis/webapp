@@ -1,6 +1,6 @@
-﻿using System.Web.Mvc;
-using Quartz;
-using Quartz.Impl;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain.User;
 
 namespace VueApp;
@@ -16,6 +16,8 @@ public class UserStoreController : Controller
     private readonly PasswordRecovery _passwordRecovery;
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly Login _login;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -26,7 +28,9 @@ public class UserStoreController : Controller
         GetUnreadMessageCount getUnreadMessageCount,
         PasswordRecovery passwordRecovery,
         TopicControllerLogic topicControllerLogic,
-        Login login)
+        Login login,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -37,6 +41,8 @@ public class UserStoreController : Controller
         _passwordRecovery = passwordRecovery;
         _topicControllerLogic = topicControllerLogic;
         _login = login;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpPost]
@@ -64,7 +70,7 @@ public class UserStoreController : Controller
     [AccessOnlyAsLoggedIn]
     public JsonResult LogOut()
     {
-        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo);
+        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor);
         _sessionUser.Logout();
 
         if (!_sessionUser.IsLoggedIn)
@@ -124,7 +130,11 @@ public class UserStoreController : Controller
                 PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
                 Type = UserType.Normal,
                 ImgUrl = _sessionUser.IsLoggedIn
-                    ? new UserImageSettings(_sessionUser.UserId).GetUrl_20px(_sessionUser.User).Url
+                    ? new UserImageSettings(_sessionUser.UserId,
+                            _httpContextAccessor, 
+                            _webHostEnvironment)
+                        .GetUrl_20px(_sessionUser.User)
+                        .Url
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,

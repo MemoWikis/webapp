@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using FluentNHibernate.Conventions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -11,22 +13,22 @@ public class HistoryTopicAllTopicsOverviewController : Controller
     private readonly AllTopicsHistory _allTopicsHistory;
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
         PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo, 
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo, 
-        QuestionValuationRepo questionValuationRepo)
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _allTopicsHistory = allTopicsHistory;
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -35,7 +37,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         const int revisionsToShow = 100;
         var days = GetDays(page, revisionsToShow);
 
-        return Json(days, JsonRequestBehavior.AllowGet);
+        return Json(days);
     }
 
     private Day[] GetDays(int page, int revisionsToShow)
@@ -109,7 +111,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         if (change.AuthorId < 1)
             return null;
 
-        var author = SessionUserCache.GetItem(change.AuthorId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var author = _sessionUserCache.GetItem(change.AuthorId);
 
         return new Author
         {
@@ -125,7 +127,11 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         {
             topicId = topicChange.Category.Id,
             topicName = topicChange.Category.Name,
-            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id).GetUrl(50).Url,
+            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id,
+                _httpContextAccessor, 
+                _webHostEnvironment)
+                .GetUrl(50)
+                .Url,
             author = SetAuthor(topicChange),
             timeCreated = topicChange.DateCreated.ToString("HH:mm"),
             topicChangeType = topicChange.Type,

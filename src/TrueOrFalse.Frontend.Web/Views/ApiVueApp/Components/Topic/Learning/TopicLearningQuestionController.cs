@@ -61,7 +61,7 @@ public class TopicLearningQuestionController: BaseController
                 extendedQuestion = question.TextExtendedHtml ?? "",
                 commentCount = _commentRepository.GetForDisplay(question.Id)
                     .Where(c => !c.IsSettled)
-                    .Select(c => new CommentModel(c))
+                    .Select(c => new CommentModel(c, _httpContextAccessor, _webHostEnvironment))
                     .ToList()
                     .Count(),
                 isCreator = author.Id == _sessionUser.UserId,

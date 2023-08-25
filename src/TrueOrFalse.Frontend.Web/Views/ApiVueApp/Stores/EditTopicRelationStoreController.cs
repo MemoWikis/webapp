@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using TrueOrFalse.Frontend.Web.Code;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace VueApp;
 
 public class EditTopicRelationStoreController : BaseController
 {
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public EditTopicRelationStoreController( SessionUser sessionUser, ImageMetaDataReadingRepo imageMetaDataReadingRepo) : base(sessionUser)
+    public EditTopicRelationStoreController(SessionUser sessionUser,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IActionContextAccessor actionContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _actionContextAccessor = actionContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -27,7 +37,11 @@ public class EditTopicRelationStoreController : BaseController
             });
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
-        var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(personalWiki,UserId);
+        var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment)
+            .FillSearchCategoryItem(personalWiki, UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
 
         if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
@@ -35,7 +49,11 @@ public class EditTopicRelationStoreController : BaseController
             foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
-                recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(topicCacheItem, UserId));
+                recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
+                    _actionContextAccessor,
+                    _httpContextAccessor,
+                    _webHostEnvironment)
+                    .FillSearchCategoryItem(topicCacheItem, UserId));
             }
         }
 
@@ -44,6 +62,6 @@ public class EditTopicRelationStoreController : BaseController
             success = true,
             personalWiki = personalWikiItem,
             recentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics.ToArray()
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }

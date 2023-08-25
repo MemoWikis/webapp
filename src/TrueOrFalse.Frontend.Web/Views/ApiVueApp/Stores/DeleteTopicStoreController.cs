@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Mvc;
-using TrueOrFalse.Domain;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
 public class DeleteTopicStoreController : BaseController
@@ -36,7 +35,7 @@ public class DeleteTopicStoreController : BaseController
         return Json(new {
             name = topic.Name,
             hasChildren = hasChildren,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [AccessOnlyAsLoggedIn]

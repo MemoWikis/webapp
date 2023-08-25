@@ -56,7 +56,16 @@ public class TopicLearningQuestionListController: Controller
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
         }
 
-        return Json(new QuestionListModel(_learningSessionCache,_sessionUser, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo)
+        return Json(new QuestionListModel(_learningSessionCache,
+                _sessionUser,
+                _categoryValuationReadingRepo, 
+                _imageMetaDataReadingRepo, 
+                _userReadingRepo, 
+                _questionValuationRepo,
+                _sessionUserCache,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment)
             .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
     }
 

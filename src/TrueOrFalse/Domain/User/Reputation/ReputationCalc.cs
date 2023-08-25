@@ -64,7 +64,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         var createdQuestions = EntityCache.GetAllQuestions()
             .Where(q => q.Creator != null &&
-                        q.Creator(_httpContextAccessor, _webHostEnvironment).Id == result.User.Id &&
+                        q.Creator.Id == result.User.Id &&
                         q.Visibility == QuestionVisibility.All).ToList();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 

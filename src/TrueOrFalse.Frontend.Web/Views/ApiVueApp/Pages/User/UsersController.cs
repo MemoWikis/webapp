@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 
@@ -14,14 +16,17 @@ public class VueUsersController : Controller
     private readonly GetTotalUsers _totalUsers;
     private readonly UserSummary _userSummary;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public VueUsersController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         MeiliSearchUsers meiliSearchUsers,
         GetTotalUsers totalUsers,
         UserSummary userSummary,
-        QuestionValuationRepo questionValuationRepo
-        )
+        QuestionValuationRepo questionValuationRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -29,6 +34,8 @@ public class VueUsersController : Controller
         _totalUsers = totalUsers;
         _userSummary = userSummary;
         _questionValuationRepo = questionValuationRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -48,13 +55,13 @@ public class VueUsersController : Controller
         {
             users = usersResult.ToArray(),
             totalItems = result.pager.TotalItems
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [HttpGet]
     public JsonResult GetTotalUserCount()
     {
-        return Json(_totalUsers.Run(), JsonRequestBehavior.AllowGet);
+        return Json(_totalUsers.Run());
     }
 
     public UserResult GetUserResult(UserCacheItem user)
@@ -84,7 +91,9 @@ public class VueUsersController : Controller
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,
-            imgUrl = new UserImageSettings(user.Id).GetUrl_128px_square(user).Url,
+            imgUrl = new UserImageSettings(user.Id, _httpContextAccessor, _webHostEnvironment)
+                .GetUrl_128px_square(user)
+                .Url,
             wikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
         };
     }

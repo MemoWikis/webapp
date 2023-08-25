@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class LearningSessionResultModel
 {
     public LearningSession LearningSession;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     public int NumberSteps;
     public int NumberUniqueQuestions;
     public int NumberCorrectAnswers; //answered correctly at first try
@@ -20,10 +24,15 @@ public class LearningSessionResultModel
     public bool ShowSummaryText;
     public int PercentageAverageRightAnswers;
 
-    public LearningSessionResultModel(LearningSession learningSession, bool isInTestMode = false)
+    public LearningSessionResultModel(LearningSession learningSession,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        bool isInTestMode = false)
     {
         ShowSummaryText = !isInTestMode;
         LearningSession = learningSession;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
         NumberSteps = LearningSession.Steps.Count();
         var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerState.Unanswered || s.AnswerState == AnswerState.Skipped);
         PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);
@@ -52,10 +61,10 @@ public class LearningSessionResultModel
             PercentageShares.FromAbsoluteShares(
                 new List<ValueWithResultAction>
                 {
-                    new ValueWithResultAction{AbsoluteValue = NumberCorrectAnswers, ActionForPercentage = p => NumberCorrectPercentage = p},
-                    new ValueWithResultAction{AbsoluteValue = NumberCorrectAfterRepetitionAnswers, ActionForPercentage = p => NumberCorrectAfterRepetitionPercentage = p},
-                    new ValueWithResultAction{AbsoluteValue = NumberWrongAnswers, ActionForPercentage = p => NumberWrongAnswersPercentage = p},
-                    new ValueWithResultAction{AbsoluteValue = NumberNotAnswered, ActionForPercentage = p => NumberNotAnsweredPercentage = p},
+                    new() {AbsoluteValue = NumberCorrectAnswers, ActionForPercentage = p => NumberCorrectPercentage = p},
+                    new() {AbsoluteValue = NumberCorrectAfterRepetitionAnswers, ActionForPercentage = p => NumberCorrectAfterRepetitionPercentage = p},
+                    new() {AbsoluteValue = NumberWrongAnswers, ActionForPercentage = p => NumberWrongAnswersPercentage = p},
+                    new() {AbsoluteValue = NumberNotAnswered, ActionForPercentage = p => NumberNotAnsweredPercentage = p},
                 });
         }
     }

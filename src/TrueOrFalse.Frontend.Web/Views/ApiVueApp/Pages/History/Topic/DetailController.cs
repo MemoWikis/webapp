@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Mvc;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using ISession = NHibernate.ISession;
 
 namespace VueApp;
 
@@ -17,6 +20,10 @@ public class HistoryTopicDetailController : Controller
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
     public HistoryTopicDetailController(PermissionCheck permissionCheck,
         ISession nhibernatesession,
@@ -27,7 +34,11 @@ public class HistoryTopicDetailController : Controller
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        QuestionValuationRepo questionValuationRepo,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor)
     {
         _permissionCheck = permissionCheck;
         _nhibernatesession = nhibernatesession;
@@ -39,6 +50,10 @@ public class HistoryTopicDetailController : Controller
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _actionContextAccessor = actionContextAccessor;
     }
 
     [HttpGet]
@@ -63,15 +78,15 @@ public class HistoryTopicDetailController : Controller
             nextRevision,
             isCategoryDeleted,
             _permissionCheck,
-            _nhibernatesession,
             _categoryChangeRepo,
-            _categoryValuationReadingRepo,
             _categoryRepository,
             _imageMetaDataReadingRepo,
-            _userReadingRepo,
-            _questionValuationRepo);
+            _sessionUserCache,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _actionContextAccessor);
 
-        var currentAuthor = currentRevision.Author(_categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var currentAuthor = currentRevision.Author(_sessionUserCache);
         var result = new ChangeDetailResult
         {
             topicName = topicHistoryDetailModel.CategoryName,
@@ -82,7 +97,11 @@ public class HistoryTopicDetailController : Controller
             previousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
             authorName = currentAuthor.Name,
             authorId = currentAuthor.Id,
-            authorImgUrl = new UserImageSettings(currentAuthor.Id).GetUrl_20px(currentAuthor).Url
+            authorImgUrl = new UserImageSettings(currentAuthor.Id, 
+                    _httpContextAccessor, 
+                    _webHostEnvironment)
+                .GetUrl_20px(currentAuthor)
+                .Url
         };
 
         if (topicHistoryDetailModel.CurrentName != topicHistoryDetailModel.PrevName)
@@ -121,7 +140,7 @@ public class HistoryTopicDetailController : Controller
             result.previousRelations = topicHistoryDetailModel.PrevRelations;
         }
 
-        return Json(result, JsonRequestBehavior.AllowGet);
+        return Json(result);
     }
 
     class ChangeDetailResult
@@ -164,13 +183,14 @@ public class HistoryTopicDetailController : Controller
             nextRevision,
             isCategoryDeleted,
             _permissionCheck,
-            _nhibernatesession,
             _categoryChangeRepo,
-            _categoryValuationReadingRepo,
             _categoryRepository,
             _imageMetaDataReadingRepo,
-            _userReadingRepo,
-            _questionValuationRepo);
+            _sessionUserCache,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _actionContextAccessor);
+
     }
 
     [AccessOnlyAsLoggedIn]

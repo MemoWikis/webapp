@@ -5,7 +5,7 @@ using Stripe.BillingPortal;
 
 public class BillingLogic : BaseStripeLogic
 {
-    public BillingLogic(HttpContextAccessor httpContextAccessor, 
+    public BillingLogic(IHttpContextAccessor httpContextAccessor, 
         IWebHostEnvironment webEnbEnvironment) 
         : base(httpContextAccessor, webEnbEnvironment)
     {

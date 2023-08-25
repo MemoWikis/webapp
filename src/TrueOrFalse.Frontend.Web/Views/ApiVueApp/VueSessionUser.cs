@@ -1,35 +1,28 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
 public class VueSessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public VueSessionUser(SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryViewRepo categoryViewRepo,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         TopicControllerLogic topicControllerLogic,
-        GetUnreadMessageCount getUnreadMessageCount)
+        GetUnreadMessageCount getUnreadMessageCount,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _topicControllerLogic = topicControllerLogic;
         _getUnreadMessageCount = getUnreadMessageCount;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public dynamic GetCurrentUserData()
@@ -59,7 +52,9 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = user.StartTopicId,
                 Type = type,
-                ImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_50px(_sessionUser.User).Url,
+                ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor, _webHostEnvironment)
+                    .GetUrl_50px(_sessionUser.User)
+                    .Url,
                 user.Reputation,
                 user.ReputationPos,
                 PersonalWiki = _topicControllerLogic.GetTopicData(user.StartTopicId),

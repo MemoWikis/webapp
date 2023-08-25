@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -7,17 +9,26 @@ public class StripeAdminstrationController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly SubscriptionLogic _subscriptionLogic;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public StripeAdminstrationController(SessionUser sessionUser, SubscriptionLogic subscriptionLogic)
+    public StripeAdminstrationController(SessionUser sessionUser,
+        SubscriptionLogic subscriptionLogic,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _subscriptionLogic = subscriptionLogic;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public async Task<JsonResult> CancelPlan()
     {
-        return Json(await new BillingLogic().DeletePlan(_sessionUser), JsonRequestBehavior.AllowGet);
+        return Json(await new BillingLogic(_httpContextAccessor,
+            _webHostEnvironment)
+            .DeletePlan(_sessionUser));
     }
 
     [AccessOnlyAsLoggedIn]

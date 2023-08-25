@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -36,12 +36,12 @@ public class UserMessagesController : BaseController
             {
                 messages = messages,
                 readCount = readMessagesCount   
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
         return Json(new
         {
             notLoggedIn = true,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }

@@ -30,7 +30,7 @@ public class VueLearningSessionResultController: Controller
     {
         
         var learningSession = _learningSessionCache.GetLearningSession();
-        var model = new LearningSessionResultModel(learningSession);
+        var model = new LearningSessionResultModel(learningSession, _httpContextAccessor, _webHostEnvironment);
         var questions = model.AnsweredStepsGrouped.Where(g => g.First().Question.Id != 0).Select(g =>
         {
             var question = g.First().Question;

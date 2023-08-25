@@ -1,52 +1,24 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class Fetch
 {
-    public static JsonResult Success<T>(T data, bool get = false)
+    public static JsonResult Success<T>(T data)
     {
-        if (get)
-            return new JsonResult
-            {
-                Data = new
-                {
-                    success = true,
-                    data
-                },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-
-        return new JsonResult
-        {
-            Data = new
+            return new JsonResult(new
             {
                 success = true,
                 data
-            }
-        };
+            });
     }
 
-    public static JsonResult Error(string exceptionMessage, bool get = false)
+    public static JsonResult Error(string exceptionMessage)
     {
-        if (get)
-            return new JsonResult
-            {
-                Data = new
-                {
-                    success = false,
-                    key = exceptionMessage
-                },
-                JsonRequestBehavior = JsonRequestBehavior.AllowGet
-            };
-
-        return new JsonResult
-        {
-            Data = new
+            return new JsonResult(new
             {
                 success = false,
                 key = exceptionMessage
-            }
-        };
+            });
     }
 }

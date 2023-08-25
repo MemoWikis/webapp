@@ -1,22 +1,24 @@
 ﻿using System;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using TrueOrFalse.Domain;
 
 public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
 {
     private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly SessionUserCache _sessionUserCache;
 
     public QuestionPinStoreControllerLogic(QuestionInKnowledge questionInKnowledge,
-        CategoryValuationReadingRepo categoryValuationReadingRepo, 
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        IWebHostEnvironment webHostEnvironment,
+        IHttpContextAccessor httpContextAccessor,
+        SessionUserCache sessionUserCache)
     {
         _questionInKnowledge = questionInKnowledge;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _webHostEnvironment = webHostEnvironment;
+        _httpContextAccessor = httpContextAccessor;
+        _sessionUserCache = sessionUserCache;
     }
     public dynamic Pin(int id, SessionUser sessionUser)
     {
@@ -40,7 +42,7 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
         }
 
-        var success = EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId,_categoryValuationReadingRepo, _userReadingRepo,_questionValuationRepo  );
+        var success = EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId, _sessionUserCache);
         return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 
@@ -61,7 +63,7 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
         }
 
-        var success = !EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var success = !EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId, _sessionUserCache);
         return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 }

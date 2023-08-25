@@ -75,7 +75,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
     private void ChangeTotalInOthersWishknowledge(bool isIncrement, int userId, QuestionCacheItem question)
     {
-        if (question.Creator == null || question.Creator(_httpContextAccessor, _webHostEnvironment).Id == userId) 
+        if (question.Creator == null || question.Creator.Id == userId) 
             return; 
            
         var sign = isIncrement ? "+" : "-" ;
@@ -83,7 +83,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 _nhibernateSession
                     .CreateSQLQuery(
                 @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign + " 1 where id = " +
-                question.Creator(_httpContextAccessor, _webHostEnvironment).Id + ";")
+                question.Creator.Id + ";")
                     .ExecuteUpdate();
     }
 
@@ -108,7 +108,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         UpdateTotalRelevancePersonalInCache(questions);
         SetUserWishCountQuestions(user.Id,_sessionUser);
 
-        var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator(_httpContextAccessor, _webHostEnvironment))).GroupBy(c => c.Id);
+        var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
             _reputationUpdate.ForUser(creator.First());
     }

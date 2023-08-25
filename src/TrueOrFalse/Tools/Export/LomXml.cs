@@ -250,6 +250,6 @@ public class LomXmlParams
         LifecycleDate = question.DateCreated;
         MetaMetaCatalogEntry = "metadata.memucho-frage-" + question.Id;
         TechnicalLocation = "https://memucho.de" + new Links(actionContextAccessor, httpContextAccessor).AnswerQuestion(question);
-        RightsDescription = "CC BY, Autor: " + question.Creator(httpContextAccessor, webHostEnvironment).Name + " (Nutzer auf memucho.de)";
+        RightsDescription = "CC BY, Autor: " + question.Creator.Name + " (Nutzer auf memucho.de)";
     }
 }

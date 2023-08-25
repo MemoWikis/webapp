@@ -5,13 +5,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
-builder.Services.AddHttpContextAccessor();
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
@@ -19,10 +16,6 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     });
 
 var app = builder.Build();
-
-app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
-app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<SessionStartMiddleware>(); 
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

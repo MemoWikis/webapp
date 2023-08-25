@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
@@ -7,13 +6,10 @@ namespace VueApp;
 public class StripeWebhookController : Controller
 {
     private readonly WebhookLogic _webhookLogic;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public StripeWebhookController(WebhookLogic webhookLogic,
-        IHttpContextAccessor httpContextAccessor)
+    public StripeWebhookController(WebhookLogic webhookLogic)
     {
         _webhookLogic = webhookLogic;
-        _httpContextAccessor = httpContextAccessor;
     }
     public async Task<IActionResult> Webhook()
     {

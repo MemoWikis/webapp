@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -7,38 +7,32 @@ public class TopicController : Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly SessionUserCache _sessionUserCache;
 
     public TopicController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
-        TopicControllerLogic topicControllerLogic) 
+        TopicControllerLogic topicControllerLogic,
+        SessionUserCache sessionUserCache) 
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
         _topicControllerLogic = topicControllerLogic;
+        _sessionUserCache = sessionUserCache;
     }
 
     [HttpGet]
     public JsonResult GetTopic(int id)
     {
         
-        return Json(_topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
+        return Json(_topicControllerLogic.GetTopicData(id));
     }
 
     [HttpGet]
     public JsonResult GetTopicWithSegments(int id)
     {
-        return Json(_topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
-    }
+            return Json(_topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext));
+        }
 
     [HttpGet]
     public bool CanAccess(int id)
@@ -57,16 +51,16 @@ public class TopicController : Controller
         var topicCacheItem = EntityCache.GetCategory(topicId);
         if (_permissionCheck.CanView(topicCacheItem))
         {
-            var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+            var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
             return Json(topicCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>
                     q.Creator.Id == userCacheItem.Id &&
                     q.IsPrivate() &&
                     _permissionCheck.CanEdit(q))
-                .Select(q => q.Id).ToList(), JsonRequestBehavior.AllowGet);
+                .Select(q => q.Id).ToList());
         }
-        return Json(new { }, JsonRequestBehavior.DenyGet);
+        return Json(new { });
     }
 }
 

@@ -1,5 +1,4 @@
-using System.Web.Helpers;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain;
 
 namespace VueApp;
@@ -10,7 +9,7 @@ public class UserMembershipPlansController : Controller
     public JsonResult GetBasicLimits()
     {
         var limits = LimitCheck.GetBasicLimits();
-        return Json(limits, JsonRequestBehavior.AllowGet);
+        return Json(limits);
     }
 
 }

@@ -1,5 +1,7 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -9,21 +11,24 @@ public class VueUserController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly ReputationCalc _rpReputationCalc;
     private readonly QuestionValuationRepo _questionValuationRepo;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
     public VueUserController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         ReputationCalc rpReputationCalc,
         QuestionValuationRepo questionValuationRepo,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo) :base(sessionUser)
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _rpReputationCalc = rpReputationCalc;
         _questionValuationRepo = questionValuationRepo;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
     [HttpGet]
     public JsonResult Get(int id)
@@ -46,7 +51,9 @@ public class VueUserController : BaseController
                     wikiUrl = _permissionCheck.CanView(userWiki)
                         ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId
                         : null,
-                    imageUrl = new UserImageSettings(user.Id).GetUrl_250px(user).Url,
+                    imageUrl = new UserImageSettings(user.Id, _httpContextAccessor, _webHostEnvironment)
+                        .GetUrl_250px(user)
+                        .Url,
                     reputationPoints = reputation.TotalReputation,
                     rank = user.ReputationPos,
                     showWuwi = user.ShowWishKnowledge
@@ -69,12 +76,12 @@ public class VueUserController : BaseController
                 },
                 isCurrentUser = isCurrentUser
             };
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return Json(result);
 
 
         }
 
-        return Json(null, JsonRequestBehavior.AllowGet);
+        return Json(null);
     }
 
     [HttpGet]
@@ -88,8 +95,8 @@ public class VueUserController : BaseController
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
-                .Where(question => _permissionCheck.CanView(question) 
-                    && question.IsInWishknowledge(id, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo) 
+                .Where(question => _permissionCheck.CanView(question)
+                    && question.IsInWishknowledge(id, _sessionUserCache)
                     && question.CategoriesVisibleToCurrentUser(_permissionCheck).Any());
 
             return Json(new
@@ -97,7 +104,7 @@ public class VueUserController : BaseController
                 questions = wishQuestions.Select(q => new
                 {
                     title = q.GetShortTitle(200),
-                    primaryTopicName =q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Name,
+                    primaryTopicName = q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Name,
                     primaryTopicId = q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Id,
                     id = q.Id
 
@@ -108,9 +115,9 @@ public class VueUserController : BaseController
                     id = t.CategoryCacheItem.Id,
                     questionCount = t.CategoryCacheItem.CountQuestions
                 }).ToArray()
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
-        return Json(null, JsonRequestBehavior.AllowGet);
+        return Json(null);
     }
 
 }

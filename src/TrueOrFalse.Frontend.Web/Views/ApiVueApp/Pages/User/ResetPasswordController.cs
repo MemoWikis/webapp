@@ -1,6 +1,5 @@
-﻿
-using System;
-using System.Web.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 
 namespace VueApp;
@@ -52,7 +51,7 @@ public class ResetPasswordController : BaseController
     [HttpGet]
     public JsonResult Validate(string token)
     {
-        return Json(ValidateToken(token), JsonRequestBehavior.AllowGet);
+        return Json(ValidateToken(token));
     }
 
     [HttpPost]

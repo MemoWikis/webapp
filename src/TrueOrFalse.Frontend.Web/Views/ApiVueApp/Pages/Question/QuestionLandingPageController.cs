@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -16,6 +19,10 @@ public class QuestionLandingPageController :Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -23,7 +30,11 @@ public class QuestionLandingPageController :Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
-        TotalsPersUserLoader totalsPersUserLoader)
+        TotalsPersUserLoader totalsPersUserLoader,
+        SessionUserCache sessionUserCache,
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -32,6 +43,10 @@ public class QuestionLandingPageController :Controller
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
+        _sessionUserCache = sessionUserCache;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -74,11 +89,17 @@ public class QuestionLandingPageController :Controller
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id == _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
-                imgUrl = GetQuestionImageFrontendData.Run(q, _imageMetaDataReadingRepo).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url
+                imgUrl = GetQuestionImageFrontendData.Run(q, 
+                    _imageMetaDataReadingRepo, 
+                    _httpContextAccessor, 
+                    _webHostEnvironment, 
+                    _actionContextAccessor)
+                    .GetImageUrl(435, true, imageTypeForDummy: ImageType.Question)
+                    .Url
             },
             solutionData = new
             {
@@ -94,9 +115,20 @@ public class QuestionLandingPageController :Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck, _categoryValuationReadingRepo, _imageMetaDataReadingRepo, _userReadingRepo, _questionValuationRepo, _totalsPersUserLoader).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
+                _permissionCheck, 
+                _categoryValuationReadingRepo, 
+                _imageMetaDataReadingRepo, 
+                _userReadingRepo, 
+                _questionValuationRepo, 
+                _totalsPersUserLoader,
+                _httpContextAccessor,
+                _webHostEnvironment, 
+                _sessionUserCache,
+                _actionContextAccessor)
+                .GetData(id)
 
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
 }

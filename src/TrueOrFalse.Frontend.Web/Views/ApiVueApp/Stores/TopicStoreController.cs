@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -7,15 +9,21 @@ public class TopicStoreController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public TopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
-         CategoryRepository categoryRepository) : base(sessionUser)
+        CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryRepository = categoryRepository;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -51,7 +59,7 @@ public class TopicStoreController : BaseController
     public string GetTopicImageUrl(int id)
     {
         if (_permissionCheck.CanViewCategory(id))
-            return new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url;
+            return new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url;
 
         return "";
     }
@@ -68,7 +76,7 @@ public class TopicStoreController : BaseController
             needsLearning = knowledgeSummary.NeedsLearning,
             needsConsolidation = knowledgeSummary.NeedsConsolidation,
             solid = knowledgeSummary.Solid,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }
 

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
 using FluentNHibernate.Conventions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 
 namespace VueApp;
@@ -11,22 +13,22 @@ public class HistoryTopicOverviewController : Controller
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
 
     public HistoryTopicOverviewController(PermissionCheck permissionCheck,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -49,10 +51,10 @@ public class HistoryTopicOverviewController : Controller
             {
                 topicName = topic.Name,
                 days = days
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
-        return Json(null, JsonRequestBehavior.AllowGet);
+        return Json(null);
     }
 
     public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
@@ -119,12 +121,15 @@ public class HistoryTopicOverviewController : Controller
     {
         if (change.AuthorId < 1)
             return null;
-        var author = SessionUserCache.GetItem(change.AuthorId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var author = _sessionUserCache.GetItem(change.AuthorId);
         return new Author
         {
             id = author.Id,
             name = author.Name,
-            imgUrl = new UserImageSettings(author.Id).GetUrl_50px_square(author).Url,
+            imgUrl = new UserImageSettings(author.Id,
+                _httpContextAccessor,
+                _webHostEnvironment).GetUrl_50px_square(author)
+                .Url,
         };
     }
 

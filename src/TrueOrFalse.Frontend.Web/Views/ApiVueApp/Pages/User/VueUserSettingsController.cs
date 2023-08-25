@@ -1,6 +1,6 @@
-﻿using System;
-using System.Web;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -12,13 +12,17 @@ public class VueUserSettingsController : Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly PasswordRecovery _passwordRecovery;
     private readonly UserWritingRepo _userWritingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public VueUserSettingsController(SessionUser sessionUser,
         ReputationUpdate reputationUpdate,
         CredentialsAreValid credentialsAreValid,
         UserReadingRepo userReadingRepo,
         PasswordRecovery passwordRecovery,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
@@ -26,6 +30,8 @@ public class VueUserSettingsController : Controller
         _userReadingRepo = userReadingRepo;
         _passwordRecovery = passwordRecovery;
         _userWritingRepo = userWritingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -140,20 +146,26 @@ public class VueUserSettingsController : Controller
 
         if (form.file != null)
         {
-            UserImageStore.Run(form.file, _sessionUser.UserId);
+            UserImageStore.Run(form.file, 
+                _sessionUser.UserId,
+                _httpContextAccessor,
+                _webHostEnvironment);
         }
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
 
+        var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
+            _httpContextAccessor, 
+            _webHostEnvironment);
         return Json(new
         {
             success = true,
             message = "profileUpdate",
             name = _sessionUser.User.Name,
             email = _sessionUser.User.EmailAddress,
-            imgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_250px(_sessionUser.User).Url,
-            tinyImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_20px(_sessionUser.User).Url
+            imgUrl = userImageSettings.GetUrl_250px(_sessionUser.User).Url,
+            tinyImgUrl = userImageSettings.GetUrl_20px(_sessionUser.User).Url
         });
     }
 
@@ -196,13 +208,14 @@ public class VueUserSettingsController : Controller
     [HttpGet]
     public JsonResult DeleteUserImage()
     {
-        var imageSettings = ImageSettings.InitByType(new ImageMetaData
+        var imageSettings = new ImageSettings(_httpContextAccessor, _webHostEnvironment)
+            .InitByType(new ImageMetaData
         {
             Type = ImageType.User,
             TypeId = _sessionUser.User.Id
         });
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings().GetUrl_250px(_sessionUser.User).Url, JsonRequestBehavior.AllowGet);
+        return Json(new UserImageSettings(_httpContextAccessor, _webHostEnvironment).GetUrl_250px(_sessionUser.User).Url);
     }
 
     [HttpPost]
@@ -215,7 +228,7 @@ public class VueUserSettingsController : Controller
     public class ProfileInformation
     {
         public string email { get; set; } = null;
-        public HttpPostedFileBase file { get; set; }
+        public IFormFile file { get; set; }
         public int id { get; set; }
         public string username { get; set; } = null;
     }

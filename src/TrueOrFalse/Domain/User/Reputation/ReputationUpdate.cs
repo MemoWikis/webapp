@@ -16,7 +16,7 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment) =>
       ScheduleUpdate(EntityCache.GetQuestionById(questionId, httpContextAccessor, webHostEnvironment)
-          .Creator(httpContextAccessor, webHostEnvironment).Id);
+          .Creator.Id);
 
 
     public void ForUser(User user) =>

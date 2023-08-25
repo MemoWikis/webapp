@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -13,15 +16,24 @@ public class SearchController : BaseController
     private readonly IGlobalSearch _search;
     private readonly PermissionCheck _permissionCheck;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SearchController(IGlobalSearch search,
         SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo) :base(sessionUser)
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) :base(sessionUser)
     {
         _search = search ?? throw new ArgumentNullException(nameof(search));
         _permissionCheck = permissionCheck;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -32,14 +44,19 @@ public class SearchController : BaseController
         var userItems = new List<SearchUserItem>();
         var elements = await _search.Go(term, type);
 
+        var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
+            _actionContextAccessor,
+            _httpContextAccessor,
+            _webHostEnvironment);
+
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(topicItems, elements, _permissionCheck, UserId);
+            searchHelper.AddTopicItems(topicItems, elements, _permissionCheck, UserId);
 
         if (elements.Questions.Any())
-            SearchHelper.AddQuestionItems(questionItems, elements,_permissionCheck);
+            searchHelper.AddQuestionItems(questionItems, elements,_permissionCheck);
 
         if (elements.Users.Any())
-            SearchHelper.AddUserItems(userItems, elements);
+            searchHelper.AddUserItems(userItems, elements);
 
         return Json(new
         {
@@ -60,7 +77,10 @@ public class SearchController : BaseController
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo).AddTopicItems(items, elements,_permissionCheck, UserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment).AddTopicItems(items, elements,_permissionCheck, UserId);
 
         return Json(new
         {
@@ -86,7 +106,10 @@ public class SearchController : BaseController
             foreach (var categoryId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var c = EntityCache.GetCategory(categoryId);
-                recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(c, UserId));
+                recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(_imageMetaDataReadingRepo,
+                    _actionContextAccessor,
+                    _httpContextAccessor,
+                    _webHostEnvironment).FillSearchCategoryItem(c, UserId));
             }
         }
 
@@ -95,7 +118,11 @@ public class SearchController : BaseController
         return Json(new
         {
             success = true,
-            personalWiki = new SearchHelper(_imageMetaDataReadingRepo).FillSearchCategoryItem(personalWiki, UserId),
+            personalWiki = new SearchHelper(_imageMetaDataReadingRepo,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment)
+                .FillSearchCategoryItem(personalWiki, UserId),
             addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
         });
     }

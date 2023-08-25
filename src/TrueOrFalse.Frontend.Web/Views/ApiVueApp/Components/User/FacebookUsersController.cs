@@ -2,10 +2,9 @@ using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
@@ -101,7 +100,7 @@ public class FacebookUsersController : Controller
     [HttpGet]
     public JsonResult UserExists(string facebookId)
     {
-        return Json(_userReadingRepo.FacebookUserExists(facebookId), JsonRequestBehavior.AllowGet);
+        return Json(_userReadingRepo.FacebookUserExists(facebookId));
     }
 
     [HttpPost]

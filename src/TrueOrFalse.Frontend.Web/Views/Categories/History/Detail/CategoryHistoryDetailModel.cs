@@ -5,19 +5,22 @@ using System.Linq;
 using AngleSharp.Html;
 using AngleSharp.Html.Parser;
 using FluentNHibernate.Conventions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using NHibernate;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CategoryHistoryDetailModel
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly ISession _nhibernateSession;
+    private readonly PermissionCheck _permissionCheck; 
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IActionContextAccessor _actionContextAccessor;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -61,22 +64,23 @@ public class CategoryHistoryDetailModel
         CategoryChange nextRevision,
         bool isCategoryDeleted,
         PermissionCheck permissionCheck,
-        ISession nhibernateSession,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo)
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor
+        )
     {
         _permissionCheck = permissionCheck;
-        _nhibernateSession = nhibernateSession;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _actionContextAccessor = actionContextAccessor;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete;
 
@@ -99,14 +103,15 @@ public class CategoryHistoryDetailModel
             CategoryName = currentRevision.Category.Name;
 
         var author =
-            new UserTinyModel(currentRevision.Author(_categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo));
+            new UserTinyModel(currentRevision.Author(_sessionUserCache));
 
         Author = author;
         AuthorName = author.Name;
-        AuthorImageUrl = new UserImageSettings(author.Id)
+        AuthorImageUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment)
             .GetUrl_85px_square(author).Url;
 
-        CategoryUrl = isCategoryDeleted ? "" : Links.CategoryDetail(CategoryName, CategoryId);
+        CategoryUrl = isCategoryDeleted ? "" : new Links(_actionContextAccessor, _httpContextAccessor)
+            .CategoryDetail(CategoryName, CategoryId);
 
         CurrentId = currentRevision.Id;
         CurrentDateCreated = currentRevision.DateCreated;
@@ -122,7 +127,7 @@ public class CategoryHistoryDetailModel
         {
             ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(CategoryId, ImageType.Category);
-            ImageFrontendData = new ImageFrontendData(imageMetaData);
+            ImageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _webHostEnvironment);
         }
 
         if (PrevRevExists)

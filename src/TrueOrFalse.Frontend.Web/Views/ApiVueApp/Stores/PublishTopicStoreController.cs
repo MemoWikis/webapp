@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -14,6 +16,9 @@ public class PublishTopicStoreController : Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public PublishTopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -22,7 +27,10 @@ public class PublishTopicStoreController : Controller
         QuestionReadingRepo questionReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationRepo questionValuationRepo,
-        QuestionWritingRepo questionWritingRepo)
+        QuestionWritingRepo questionWritingRepo,
+        SessionUserCache sessionUserCache,
+        IWebHostEnvironment webHostEnvironment,
+        IHttpContextAccessor httpContextAccessor)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -32,6 +40,9 @@ public class PublishTopicStoreController : Controller
         _userReadingRepo = userReadingRepo;
         _questionValuationRepo = questionValuationRepo;
         _questionWritingRepo = questionWritingRepo;
+        _sessionUserCache = sessionUserCache;
+        _webHostEnvironment = webHostEnvironment;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost]
@@ -75,11 +86,11 @@ public class PublishTopicStoreController : Controller
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
             if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
-                EntityCache.AddOrUpdate(questionCacheItem);
+                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
                 _questionWritingRepo.UpdateOrMerge(question, false);
@@ -92,13 +103,13 @@ public class PublishTopicStoreController : Controller
     public JsonResult Get(int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(_sessionUser.UserId, _categoryValuationReadingRepo, _userReadingRepo, _questionValuationRepo);
+        var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
 
         if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
             return Json(new
             {
                 success = false,
-            }, JsonRequestBehavior.AllowGet);
+            });
 
         var filteredAggregatedQuestions = topicCacheItem
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
@@ -115,6 +126,6 @@ public class PublishTopicStoreController : Controller
             name = topicCacheItem.Name,
             questionIds = filteredAggregatedQuestions,
             questionCount = filteredAggregatedQuestions.Count()
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }
