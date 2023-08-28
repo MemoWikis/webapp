@@ -10,10 +10,10 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     private readonly HttpContext _httpContext;
     private readonly SessionUserCache _sessionUserCache;
 
-    public SessionUser(HttpContext httpContext,
+    public SessionUser(IHttpContextAccessor httpContextAccessor,
         SessionUserCache sessionUserCache)
     {
-        _httpContext = httpContext; ;
+        _httpContext = httpContextAccessor.HttpContext; ;
         _sessionUserCache = sessionUserCache;
     }
 

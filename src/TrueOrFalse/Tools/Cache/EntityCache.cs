@@ -12,43 +12,17 @@ public class EntityCache : BaseEntityCache
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserCacheItem> Users
-    {
-        get
-        {
-            return _cache.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers) ?? new ConcurrentDictionary<int, UserCacheItem>();
-        }
-    }
+    private static ConcurrentDictionary<int, UserCacheItem> Users => _cache.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories
-    {
-        get
-        {
-            return _cache.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories) ??
-                   new ConcurrentDictionary<int, CategoryCacheItem>();
-        }
-    }
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => _cache.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
 
-    public static ConcurrentDictionary<int, QuestionCacheItem> Questions
-    {
-        get
-        {
-            return _cache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions) ?? 
-                   new ConcurrentDictionary<int, QuestionCacheItem>();
-        }
-    }
+    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => _cache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
+
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
-    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList
-    {
-        get
-        {
-            
-            return _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyUsers) ??
-                   new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
-        }
-    }
+    private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
+        _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyUsers);
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => 
         ids.Select(id => GetUserById(id))

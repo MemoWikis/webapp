@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
-using System.Text;
 using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using NHibernate;
+using NHibernate.Cfg;
 using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
 
@@ -14,6 +14,19 @@ namespace TrueOrFalse.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            builder.Register(c =>
+            {
+                var sessionFactory = new Configuration()
+                    .Configure("hibernate.cfg.xml") 
+                    .BuildSessionFactory();
+                return sessionFactory;
+            }).As<ISessionFactory>().SingleInstance();
+
+            builder.Register(context =>
+                new SessionManager(context.Resolve<ISessionFactory>().OpenSession())
+            ).InstancePerLifetimeScope();
+
 
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
                 .AssignableTo<IRegisterAsInstancePerLifetime>();
@@ -30,61 +43,8 @@ namespace TrueOrFalse.Infrastructure
                 .As<IMemoryCache>()
                 .SingleInstance();
 
-            builder.Register(c =>
-            {
-                try
-                {
-                    var accessor = c.Resolve<IHttpContextAccessor>();
-                    var environment = c.Resolve<IWebHostEnvironment>();
+     
 
-#if DEBUG
-                    var interceptor = new SqlDebugOutputInterceptor();
-                    if (accessor.HttpContext == null)
-                    {
-                        new Logg(accessor, environment).r().Error(new NullReferenceException(), "HttpContext is null - AutofacCoreModule/Load");
-                    }
-
-                    return SessionFactory.CreateSessionFactory(accessor.HttpContext, environment).WithOptions().Interceptor(interceptor);
-#else
-        return SessionFactory.CreateSessionFactory().WithOptions().NoInterceptor();
-#endif
-                }
-                catch (Exception ex)
-                {
-                    var sb = new StringBuilder();
-                    var innerException = ex.InnerException;
-
-                    while (innerException != null)
-                    {
-                        if (innerException is ReflectionTypeLoadException)
-                            break;
-                        innerException = innerException.InnerException;
-                    }
-
-                    if (innerException == null)
-                        throw;
-
-                    foreach (Exception exSub in ((ReflectionTypeLoadException)innerException).LoaderExceptions)
-                    {
-                        sb.AppendLine(exSub.Message);
-                        if (exSub is FileNotFoundException exFileNotFound)
-                        {
-                            if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
-                            {
-                                sb.AppendLine("Fusion Log:");
-                                sb.AppendLine(exFileNotFound.FusionLog);
-                            }
-                        }
-                        sb.AppendLine();
-                    }
-
-                    throw new Exception(sb.ToString());
-                }
-
-            }).As<ISessionFactory>().SingleInstance();
-
-
-            builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
             builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
         }

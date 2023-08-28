@@ -11,9 +11,7 @@ public class BaseEntityCache
     { 
         _cache = CacheFactory.Build<object>(settings =>
         {
-            settings.WithDictionaryHandle()
-                .EnablePerformanceCounters()
-                .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
+            settings.WithDictionaryHandle();
         });
         _cache.Add(key, objectToCache);
     }

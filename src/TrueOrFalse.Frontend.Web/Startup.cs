@@ -30,17 +30,29 @@ internal class Startup
         {
             
         });
+
+        services.AddAuthorizationCore();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        if (!env.IsDevelopment())
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
             app.UseCors("LocalhostCorsPolicy");
         }
 
-        app.UseEndpoints(RouteConfig.RegisterRoutes);
         app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
         app.UseMiddleware<ErrorHandlerMiddleware>();
         app.UseMiddleware<SessionStartMiddleware>();
