@@ -12,19 +12,27 @@ GERMAN
 
 ### 1:) Nichtkommerzielle Nutzung
 
-Der Quelltext, dessen Kompilate u. dem Quelltext beigelegte Artefakte fuer die Anwendung memucho (Referenz: https://github.com/memucho/webapp), soweit Sie nicht den Rechten Dritter unterliegen, duerfen fuer nichtkommerzielle Zwecke uneingeschraenkt eingesetzt werden.
+Der Quelltext, dessen Kompilate und dem Quelltext beigelegte Artefakte für die Anwendung "memucho" (Referenz: https://github.com/memucho/webapp), soweit sie nicht den Rechten Dritter unterliegen, dürfen für nichtkommerzielle Zwecke uneingeschränkt eingesetzt werden.
 
 ### 2:) Kommerzielle Nutzung
 
-Fuer eine kommerzielle Nutzung ist eine Lizensierung noetig. Bitte kontaktieren Sie das memucho Tean (zum Beispiel unter: https://memucho.de/kontakt) fuer weitere Informationen. 
+Für eine kommerzielle Nutzung ist eine Lizenzierung notwendig. Bitte kontaktieren Sie das memucho Team (zum Beispiel unter: https://memucho.de/kontakt) für weitere Informationen. 
+
+### 3:) Gewährleistungsausschluss
+Die Software wird "wie sie ist" ohne jegliche Garantien bereitgestellt. Der Lizenzgeber haftet nicht für Schäden, die durch die Nutzung entstehen.
 
 ENGLISH: 
 ---------------------
 
-### 1:) Non-commercial use
+### 1:) Non-commercial Use
 
-The sources, corresponding builds and artifacts of the application TrueOrFalse (Reference: https://github.com/memucho/webapp), as far as they do not fall under the rights of third parties, are available for non-commercial use without restrictions.
+The source code, its compilations, and any artifacts associated with the source code for the "memucho" application (Reference: https://github.com/memucho/webapp), as long as they are not subject to third-party rights, may be used unrestrictedly for non-commercial purposes.
 
-### 2:) Commercial use
+### 2:) Commercial Use
 
-For commercial use a license is required. Please contact the memucho team (https://memucho.de/kontakt) for further information.
+Licensing is required for commercial use. Please contact the memucho team (for example, at: https://memucho.de/kontakt) for more information.
+
+### 3:) Disclaimer of Warranty
+The software is provided "as is" without any warranties. The licensor is not liable for damages resulting from its use.
+
+---
