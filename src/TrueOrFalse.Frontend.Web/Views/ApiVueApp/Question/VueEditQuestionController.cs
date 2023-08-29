@@ -31,7 +31,7 @@ public class VueEditQuestionController : Controller
     private readonly ImageStore _imageStore;
     private readonly SessionUiData _sessionUiData;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
@@ -51,7 +51,7 @@ public class VueEditQuestionController : Controller
         ImageStore imageStore,
         SessionUiData sessionUiData,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         QuestionChangeRepo questionChangeRepo, 
         QuestionWritingRepo questionWritingRepo,
         QuestionReadingRepo questionReadingRepo,
@@ -71,7 +71,7 @@ public class VueEditQuestionController : Controller
         _imageStore = imageStore;
         _sessionUiData = sessionUiData;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _questionChangeRepo = questionChangeRepo;
         _questionWritingRepo = questionWritingRepo;
         _questionReadingRepo = questionReadingRepo;

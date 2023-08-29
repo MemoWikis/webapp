@@ -9,7 +9,7 @@ public class TopicLearningQuestionController: BaseController
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CommentRepository _commentRepository;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -19,7 +19,7 @@ public class TopicLearningQuestionController: BaseController
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         CommentRepository commentRepository, 
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
@@ -28,7 +28,7 @@ public class TopicLearningQuestionController: BaseController
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _commentRepository = commentRepository;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -45,7 +45,7 @@ public class TopicLearningQuestionController: BaseController
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            _questionValuationRepo);
+            _sessionUserCache);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var json = Json(new RequestResult

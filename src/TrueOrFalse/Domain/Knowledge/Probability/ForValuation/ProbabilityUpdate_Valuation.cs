@@ -8,21 +8,21 @@ namespace TrueOrFalse
     public class ProbabilityUpdate_Valuation
     {
         private readonly ISession _session;
-        private readonly QuestionValuationRepo _questionValuationRepo;
+        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ProbabilityUpdate_Valuation(ISession session,
-            QuestionValuationRepo questionValuationRepo,
+            QuestionValuationReadingRepo questionValuationReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo, 
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment)
         {
             _session = session;
-            _questionValuationRepo = questionValuationRepo;
+            _questionValuationReadingRepo = questionValuationReadingRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
             _httpContextAccessor = httpContextAccessor;
@@ -31,7 +31,7 @@ namespace TrueOrFalse
 
         public void Run(int userId)
         {
-           _questionValuationRepo
+           _questionValuationReadingRepo
                 .GetByUser(userId, onlyActiveKnowledge: false)
                 .ForEach(qv=> Run(qv));
         }
@@ -40,7 +40,7 @@ namespace TrueOrFalse
         {
             UpdateValuationProbabilitys(questionValuation);
 
-            _questionValuationRepo.CreateOrUpdate(questionValuation);
+            _questionValuationReadingRepo.CreateOrUpdate(questionValuation);
         }
 
         public void Run(int questionId, 
@@ -64,7 +64,7 @@ namespace TrueOrFalse
             QuestionReadingRepo questionReadingRepo)
         {
             var questionValuation =
-                _questionValuationRepo.GetBy(question.Id, user.Id) ??
+                _questionValuationReadingRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
                         Question = questionReadingRepo.GetById(question.Id),

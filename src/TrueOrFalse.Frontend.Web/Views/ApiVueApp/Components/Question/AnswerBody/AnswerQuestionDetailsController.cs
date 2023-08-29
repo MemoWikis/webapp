@@ -15,7 +15,7 @@ public class AnswerQuestionDetailsController: Controller
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -27,7 +27,7 @@ public class AnswerQuestionDetailsController: Controller
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
@@ -39,7 +39,7 @@ public class AnswerQuestionDetailsController: Controller
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -61,7 +61,7 @@ public class AnswerQuestionDetailsController: Controller
         var answerQuestionModel = new AnswerQuestionModel(question, 
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            _questionValuationRepo);
+            _sessionUserCache);
 
         var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;

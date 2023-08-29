@@ -13,7 +13,7 @@ public class QuestionListModel
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -25,7 +25,7 @@ public class QuestionListModel
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         SessionUserCache sessionUserCache,
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
@@ -36,7 +36,7 @@ public class QuestionListModel
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _sessionUserCache = sessionUserCache;
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;

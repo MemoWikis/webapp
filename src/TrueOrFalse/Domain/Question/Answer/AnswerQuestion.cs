@@ -13,7 +13,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
     private readonly AnswerRepo _answerRepo;
     private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
     private readonly UpdateQuestionAnswerCount _updateQuestionAnswerCount;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,7 +26,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         AnswerRepo answerRepo,
         ProbabilityUpdate_Question probabilityUpdateQuestion,
         UpdateQuestionAnswerCount updateQuestionAnswerCount,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor,
@@ -39,7 +39,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
         _answerRepo = answerRepo;
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
         _updateQuestionAnswerCount = updateQuestionAnswerCount;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _probabilityCalcSimple1 = probabilityCalcSimple1;
         _userReadingRepo = userReadingRepo;
         _httpContextAccessor = httpContextAccessor;
@@ -201,7 +201,7 @@ public class AnswerQuestion : IRegisterAsInstancePerLifetime
             _updateQuestionAnswerCount.Run(questionId, countUnansweredAsCorrect || result.IsCorrect);
 
         new ProbabilityUpdate_Valuation(_nhibernateSession,
-            _questionValuationRepo,
+            _questionValuationReadingRepo,
             _probabilityCalcSimple1,
             _answerRepo,
             _httpContextAccessor,

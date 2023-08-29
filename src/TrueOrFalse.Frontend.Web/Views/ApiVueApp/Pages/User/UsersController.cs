@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Seedworks.Lib.Persistence;
+using TrueOrFalse.Domain.Question.QuestionValuation;
 using TrueOrFalse.Search;
 
 namespace VueApp;
@@ -15,27 +16,30 @@ public class VueUsersController : Controller
     private readonly MeiliSearchUsers _meiliSearchUsers;
     private readonly GetTotalUsers _totalUsers;
     private readonly UserSummary _userSummary;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
     public VueUsersController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         MeiliSearchUsers meiliSearchUsers,
         GetTotalUsers totalUsers,
         UserSummary userSummary,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _meiliSearchUsers = meiliSearchUsers;
         _totalUsers = totalUsers;
         _userSummary = userSummary;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
 
     [HttpGet]
@@ -71,7 +75,7 @@ public class VueUsersController : Controller
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = _questionValuationRepo
+            var valuations = new QuestionValuationCache(_sessionUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);

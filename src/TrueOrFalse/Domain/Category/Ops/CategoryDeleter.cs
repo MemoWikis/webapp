@@ -19,7 +19,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly SessionUserCache _sessionUserCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
 
     public CategoryDeleter(
         ISession session,
@@ -30,7 +30,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         CategoryValuationWritingRepo categoryValuationWritingRepo,
         PermissionCheck permissionCheck,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         CategoryValuationReadingRepo categoryValuationReading,
         IMemoryCache cache, 
         IHttpContextAccessor httpContextAccessor,
@@ -45,7 +45,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _categoryValuationWritingRepo = categoryValuationWritingRepo;
         _permissionCheck = permissionCheck;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _categoryValuationReading = categoryValuationReading;
         _cache = cache;
         _httpContextAccessor = httpContextAccessor;

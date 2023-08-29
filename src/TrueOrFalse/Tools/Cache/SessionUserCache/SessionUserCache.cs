@@ -9,7 +9,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     public const int ExpirationSpanInMinutes = 600;
@@ -20,13 +20,13 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     public SessionUserCache(CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
@@ -52,7 +52,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
             //recheck if the cache item exists
             Log.Information("GetUserCacheItem: {userId}", userId);
             cacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-            return cacheItem ?? CreateItemFromDatabase(userId);
+            return cacheItem ?? CreateSessionUserItemFromDatabase(userId);
         }
     }
 
@@ -79,38 +79,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         return cacheItem.QuestionValuations[questionId].IsInWishKnowledge;
     }
 
-    public SessionUserCacheItem CreateItemFromDatabase(int userId)
-    {
-        var user = _userReadingRepo.GetById(userId);
 
-        if (user == null) return null;
-
-        var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
-
-        cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
-          _categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
-            .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
-
-        Add_UserCacheItem_to_cache(cacheItem);
-
-        var addedCacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-
-        addedCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
-          _questionValuationRepo.GetByUserWithQuestion(userId)
-            .Select(v =>
-              new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
-                QuestionValuationCacheItem.ToCacheItem(v, _httpContextAccessor, _webHostEnvironment))));
-
-        _cacheKeys.Add(GetCacheKey(userId));
-
-        return addedCacheItem;
-    }
-
-    private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
-    {
-        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
-          slidingExpiration: true);
-    }
 
     public IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
       GetItem(userId)?.QuestionValuations.Values.ToList() ?? new List<QuestionValuationCacheItem>();
@@ -167,9 +136,6 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
         foreach (var userCacheKey in _cacheKeys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
         {
-            var startIndex = userCacheKey.IndexOf("_") + 1;
-            var endIndex = userCacheKey.Length - startIndex;
-            var userId = int.Parse(userCacheKey.Substring(startIndex, endIndex));
             var item = Cache.Get<SessionUserCacheItem>(userCacheKey);
             if ( item != null)
             {
@@ -203,5 +169,39 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
             Cache.Remove(cacheKey);
             _cacheKeys.TryRemove(cacheKey);
         }
+    }
+
+
+    public  SessionUserCacheItem CreateSessionUserItemFromDatabase(int userId)
+    {
+        var user = _userReadingRepo.GetById(userId);
+
+        if (user == null) return null;
+
+        var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
+
+        cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
+            _categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
+
+        Add_UserCacheItem_to_cache(cacheItem);
+
+        var addedCacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
+
+        addedCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
+            _questionValuationReadingRepo.GetByUserWithQuestion(userId)
+                .Select(v =>
+                    new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
+                        QuestionValuationCacheItem.ToCacheItem(v, _httpContextAccessor, _webHostEnvironment))));
+
+        _cacheKeys.Add(GetCacheKey(userId));
+
+        return addedCacheItem;
+    }
+
+    private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
+    {
+        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+            slidingExpiration: true);
     }
 }

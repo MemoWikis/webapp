@@ -16,7 +16,7 @@ namespace TrueOrFalse
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
         private readonly UserReadingRepo _userReadingRepo;
-        private readonly QuestionValuationRepo _questionValuationRepo;
+        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
@@ -25,7 +25,7 @@ namespace TrueOrFalse
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             UserReadingRepo userReadingRepo,
-            QuestionValuationRepo questionValuationRepo,
+            QuestionValuationReadingRepo questionValuationReadingRepo,
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment)
         {
@@ -34,7 +34,7 @@ namespace TrueOrFalse
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
             _userReadingRepo = userReadingRepo;
-            _questionValuationRepo = questionValuationRepo;
+            _questionValuationReadingRepo = questionValuationReadingRepo;
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
         }
@@ -49,7 +49,7 @@ namespace TrueOrFalse
 
             foreach (var item in questionValuationRecords)
                 new ProbabilityUpdate_Valuation(_nhibernateSession,
-                    _questionValuationRepo,
+                    _questionValuationReadingRepo,
                     _probabilityCalcSimple1,
                     _answerRepo,
                     _httpContextAccessor,

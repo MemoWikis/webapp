@@ -1,4 +1,5 @@
 ﻿using TrueOrFalse;
+using TrueOrFalse.Domain.Question.QuestionValuation;
 
 public class AnswerQuestionModel
 {
@@ -11,10 +12,10 @@ public class AnswerQuestionModel
     public AnswerQuestionModel(QuestionCacheItem question,
         int sessionUserId,
         TotalsPersUserLoader totalsPersUserLoader,
-        QuestionValuationRepo questionValuationRepo)
+        SessionUserCache sessionUserCache)
     {
         var valuationForUser = totalsPersUserLoader.Run(sessionUserId, question.Id);
-        var questionValuationForUser = NotNull.Run(questionValuationRepo.GetByFromCache(question.Id, sessionUserId));
+        var questionValuationForUser = NotNull.Run(new QuestionValuationCache(sessionUserCache).GetByFromCache(question.Id, sessionUserId));
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

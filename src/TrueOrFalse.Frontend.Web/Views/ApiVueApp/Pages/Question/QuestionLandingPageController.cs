@@ -17,7 +17,7 @@ public class QuestionLandingPageController :Controller
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IActionContextAccessor _actionContextAccessor;
@@ -29,7 +29,7 @@ public class QuestionLandingPageController :Controller
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         SessionUserCache sessionUserCache,
         IActionContextAccessor actionContextAccessor,
@@ -41,7 +41,7 @@ public class QuestionLandingPageController :Controller
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _sessionUserCache = sessionUserCache;
         _actionContextAccessor = actionContextAccessor;
@@ -120,7 +120,7 @@ public class QuestionLandingPageController :Controller
                 _categoryValuationReadingRepo, 
                 _imageMetaDataReadingRepo, 
                 _userReadingRepo, 
-                _questionValuationRepo, 
+                _questionValuationReadingRepo, 
                 _totalsPersUserLoader,
                 _httpContextAccessor,
                 _webHostEnvironment, 

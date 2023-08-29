@@ -12,7 +12,7 @@ public class TopicLearningQuestionListController: Controller
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -25,7 +25,7 @@ public class TopicLearningQuestionListController: Controller
         CategoryValuationReadingRepo categoryValuationReadingRepo, 
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
@@ -36,7 +36,7 @@ public class TopicLearningQuestionListController: Controller
         _learningSessionCache = learningSessionCache;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -61,7 +61,7 @@ public class TopicLearningQuestionListController: Controller
                 _categoryValuationReadingRepo, 
                 _imageMetaDataReadingRepo, 
                 _userReadingRepo, 
-                _questionValuationRepo,
+                _questionValuationReadingRepo,
                 _sessionUserCache,
                 _actionContextAccessor,
                 _httpContextAccessor,

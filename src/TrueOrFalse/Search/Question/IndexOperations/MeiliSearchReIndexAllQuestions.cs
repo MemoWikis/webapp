@@ -7,14 +7,14 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchReIndexAllQuestions : IRegisterAsInstancePerLifetime
     {
-        private readonly QuestionValuationRepo _questionValuationRepo;
+        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly QuestionReadingRepo _questionReadingRepo;
         private readonly MeilisearchClient _client;
 
-        public MeiliSearchReIndexAllQuestions(QuestionValuationRepo questionValuationRepo,
+        public MeiliSearchReIndexAllQuestions(QuestionValuationReadingRepo questionValuationReadingRepo,
             QuestionReadingRepo questionReadingRepo)
         {
-            _questionValuationRepo = questionValuationRepo;
+            _questionValuationReadingRepo = questionValuationReadingRepo;
             _questionReadingRepo = questionReadingRepo;
         }
 
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Search
             await _client.WaitForTaskAsync(taskId);
 
             var allQuestionsFromDb = _questionReadingRepo.GetAll().Where(q => !q.IsWorkInProgress);
-            var allValuations = _questionValuationRepo.GetAll();
+            var allValuations = _questionValuationReadingRepo.GetAll();
             var meiliSearchQuestions = new List<MeiliSearchQuestionMap>();
 
             foreach (var question in allQuestionsFromDb)

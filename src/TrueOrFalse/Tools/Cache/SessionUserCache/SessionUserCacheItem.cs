@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Linq;
+using Seedworks.Web.State;
 
 public class SessionUserCacheItem : UserCacheItem
 {

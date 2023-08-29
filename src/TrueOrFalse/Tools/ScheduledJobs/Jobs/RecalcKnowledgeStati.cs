@@ -10,7 +10,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly ISession _nhibernateSession;
         private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-        private readonly QuestionValuationRepo _questionValuationRepo;
+        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
@@ -20,7 +20,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         public RecalcKnowledgeStati(ISession nhibernateSession,
             CategoryValuationReadingRepo categoryValuationReadingRepo,
-            QuestionValuationRepo questionValuationRepo,
+            QuestionValuationReadingRepo questionValuationReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
@@ -30,7 +30,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _nhibernateSession = nhibernateSession;
             _categoryValuationReadingRepo = categoryValuationReadingRepo;
-            _questionValuationRepo = questionValuationRepo;
+            _questionValuationReadingRepo = questionValuationReadingRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
@@ -45,7 +45,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 foreach (var user in scope.Resolve<UserReadingRepo>().GetAll())
                 {
                     new ProbabilityUpdate_Valuation(_nhibernateSession,
-                        _questionValuationRepo,
+                        _questionValuationReadingRepo,
                         _probabilityCalcSimple1,
                         _answerRepo,
                         _httpContextAccessor,

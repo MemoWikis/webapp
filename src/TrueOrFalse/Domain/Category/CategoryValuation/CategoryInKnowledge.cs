@@ -8,19 +8,19 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         SessionUserCache sessionUserCache)
     {
         _questionInKnowledge = questionInKnowledge;
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _sessionUserCache = sessionUserCache;
     }
 

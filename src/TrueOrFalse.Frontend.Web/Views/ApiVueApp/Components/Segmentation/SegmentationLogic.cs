@@ -13,11 +13,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly int _sessionUserId;
     private readonly SessionUser _sessionUser;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IActionContextAccessor _actionContextAccessor;
@@ -26,11 +23,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
     public SegmentationLogic(
         PermissionCheck permissionCheck, 
         SessionUser sessionUser,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
-        UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
@@ -39,11 +33,8 @@ public class SegmentationLogic : IRegisterAsInstancePerLifetime
         _permissionCheck = permissionCheck;
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
         _actionContextAccessor = actionContextAccessor;

@@ -19,7 +19,7 @@ public class HistoryTopicDetailController : Controller
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -34,7 +34,7 @@ public class HistoryTopicDetailController : Controller
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
@@ -49,7 +49,7 @@ public class HistoryTopicDetailController : Controller
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;

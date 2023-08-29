@@ -23,7 +23,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -40,7 +40,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         QuestionWritingRepo questionWritingRepo,
         QuestionReadingRepo questionReadingRepo,
         IHttpContextAccessor httpContextAccessor,
@@ -57,7 +57,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _questionWritingRepo = questionWritingRepo;
         _questionReadingRepo = questionReadingRepo;
         _httpContextAccessor = httpContextAccessor;

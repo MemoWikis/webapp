@@ -72,7 +72,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-        _sessionUserCache.CreateItemFromDatabase(user.Id);
+        _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
     }
 
     public async void Logout()

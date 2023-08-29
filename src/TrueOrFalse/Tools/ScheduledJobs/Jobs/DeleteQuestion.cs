@@ -11,39 +11,39 @@ public class DeleteQuestion : IJob
     private readonly AnswerRepo _answerRepo;
     private readonly QuestionViewRepository _questionViewRepository;
     private readonly UserActivityRepo _userActivityRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
     private readonly CommentRepository _commentRepository;
     private readonly ISession _nhibernateSession;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly Logg _logg;
+
 
     public DeleteQuestion(ReferenceRepo referenceRepo,
         AnswerRepo answerRepo,
         QuestionViewRepository questionViewRepository,
         UserActivityRepo userActivityRepo,
-        QuestionValuationRepo questionValuationRepo,
         CommentRepository commentRepository,
         ISession nhibernateSession,
         QuestionWritingRepo questionWritingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        SessionUserCache sessionUserCache,
-        Logg logg)
+        Logg logg,
+        QuestionValuationWritingRepo questionValuationWritingRepo)
     {
         _referenceRepo = referenceRepo;
         _answerRepo = answerRepo;
         _questionViewRepository = questionViewRepository;
         _userActivityRepo = userActivityRepo;
-        _questionValuationRepo = questionValuationRepo;
         _commentRepository = commentRepository;
         _nhibernateSession = nhibernateSession;
         _questionWritingRepo = questionWritingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _sessionUserCache = sessionUserCache;
+        _questionValuationWritingRepo = questionValuationWritingRepo;
+        _sessionUserCache = _questionValuationWritingRepo.SessionUserCache;
         _logg = logg;
     }
     public Task Execute(IJobExecutionContext context)
@@ -60,7 +60,7 @@ public class DeleteQuestion : IJob
         _questionViewRepository.DeleteForQuestion(questionId);
         _userActivityRepo.DeleteForQuestion(questionId);
         _questionViewRepository.DeleteForQuestion(questionId);
-        _questionValuationRepo.DeleteForQuestion(questionId);
+        _questionValuationWritingRepo.DeleteForQuestion(questionId);
         _commentRepository.DeleteForQuestion(questionId);
         _nhibernateSession
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)

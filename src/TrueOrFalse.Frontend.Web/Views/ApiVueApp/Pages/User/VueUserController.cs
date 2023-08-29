@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TrueOrFalse.Domain.Question.QuestionValuation;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -10,7 +11,7 @@ public class VueUserController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly ReputationCalc _rpReputationCalc;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
@@ -18,14 +19,14 @@ public class VueUserController : BaseController
     public VueUserController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         ReputationCalc rpReputationCalc,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _rpReputationCalc = rpReputationCalc;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
@@ -91,7 +92,7 @@ public class VueUserController : BaseController
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = _questionValuationRepo
+            var valuations = new QuestionValuationCache(_sessionUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)

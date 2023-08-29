@@ -2,21 +2,22 @@
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using TrueOrFalse.Domain.Question.QuestionValuation;
 
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly SessionUserCache _sessionUserCache;
 
     public KnowledgeSummaryLoader(CategoryValuationReadingRepo categoryValuationReadingRepo,
-        QuestionValuationRepo questionValuationRepo, 
+        QuestionValuationReadingRepo questionValuationReadingRepo, 
         CategoryRepository categoryRepository,
         SessionUserCache sessionUserCache)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _sessionUserCache = sessionUserCache;
     }
@@ -111,7 +112,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
-        var questionValuations = _questionValuationRepo.GetByUserFromCache(userId);
+        var questionValuations = new QuestionValuationCache(_sessionUserCache).GetByUserFromCache(userId);
         if (onlyValuated)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)

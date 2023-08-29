@@ -14,7 +14,7 @@ public class TopicToPrivateStoreController : Controller
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationRepo _questionValuationRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -26,7 +26,7 @@ public class TopicToPrivateStoreController : Controller
         CategoryRepository categoryRepository,
         QuestionReadingRepo questionReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
         QuestionWritingRepo questionWritingRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
@@ -38,7 +38,7 @@ public class TopicToPrivateStoreController : Controller
         _categoryRepository = categoryRepository;
         _questionReadingRepo = questionReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationRepo = questionValuationRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
         _questionWritingRepo = questionWritingRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
