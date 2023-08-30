@@ -7,12 +7,12 @@ namespace VueApp;
 public class GridItemLogic : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly int _sessionUserId;
+    private readonly SessionUser _sessionUser;
 
     public GridItemLogic(PermissionCheck permissionCheck, SessionUser sessionUser)
     {
         _permissionCheck = permissionCheck;
-        _sessionUserId = sessionUser.UserId;
+        _sessionUser = sessionUser;
     }
 
     public class GridTopicItem
@@ -25,6 +25,10 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
         public CategoryVisibility visibility { get; set; }
         public TinyTopicModel[] parents { get; set; }
         public KnowledgebarData knowledgebarData { get; set; }
+        public bool isChildOfPersonalWiki { get; set; }
+        public int creatorId { get; set; }
+        public bool canDelete { get; set; }
+
     }
 
     public class TinyTopicModel
@@ -55,7 +59,7 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
             .ToArray();
     }
 
-    private GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
+    public GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
     {
         var imageMetaData = Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category);
         var imageFrontendData = new ImageFrontendData(imageMetaData);
@@ -70,13 +74,16 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
             imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
             visibility = topic.Visibility,
             parents = GetParents(topic),
-            knowledgebarData = GetKnowledgebarData(topic)
+            knowledgebarData = GetKnowledgebarData(topic),
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetChildren(_sessionUser.User.StartTopicId).Any(c => c.Id == topic.Id),
+            creatorId = topic.CreatorId,
+            canDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
         };
     }
 
     private KnowledgebarData GetKnowledgebarData(CategoryCacheItem topic)
     {
-        var knowledgeBarSummary = new CategoryKnowledgeBarModel(topic, _sessionUserId).CategoryKnowledgeSummary;
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(topic, _sessionUser.UserId).CategoryKnowledgeSummary;
 
         return new KnowledgebarData
         {

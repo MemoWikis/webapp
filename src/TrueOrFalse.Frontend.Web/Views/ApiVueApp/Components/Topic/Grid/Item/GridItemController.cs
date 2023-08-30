@@ -25,6 +25,18 @@ public class GridItemController : BaseController
         var children = _gridItemLogic.GetChildren(id);
         return Json(new RequestResult { success = true, data = children }, JsonRequestBehavior.AllowGet);
     }
+
+    [HttpGet]
+    public JsonResult GetItem(int id)
+    {
+        var topic = EntityCache.GetCategory(id);
+        if (!_permissionCheck.CanView(topic))
+            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights }, JsonRequestBehavior.AllowGet);
+
+
+        var gridItem = _gridItemLogic.BuildGridTopicItem(topic);
+        return Json(new RequestResult { success = true, data = gridItem }, JsonRequestBehavior.AllowGet);
+    }
 }
 
 
