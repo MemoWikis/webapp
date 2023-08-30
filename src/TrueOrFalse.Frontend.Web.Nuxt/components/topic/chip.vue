@@ -6,6 +6,7 @@ interface Props {
     removableChip?: boolean
     index?: number
     isSpoiler?: boolean
+    hideLabel?: boolean
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['removeTopic'])
@@ -26,26 +27,26 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-    <div class="category-chip-component">
-        <div class="category-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
+    <div class="topic-chip-component">
+        <div class="topic-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
             <NuxtLink :to="$urlHelper.getTopicUrl(topic.Name, topic.Id)" v-if="showName">
-                <div class="category-chip" :v-tooltip="topic.Name">
+                <div class="topic-chip" :v-tooltip="topic.Name" :class="{ 'label-hidden': props.hideLabel }">
 
                     <img v-if="showImage" :src="topic.MiniImageUrl" />
 
-                    <div class="category-chip-label">
+                    <div class="topic-chip-label" v-if="!props.hideLabel">
                         {{ name }}
                     </div>
                     <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
             </NuxtLink>
-            <div class="category-chip spoiler" v-else @click="showName = true">
-                <div class="category-chip-label">
+            <div class="topic-chip spoiler" v-else @click="showName = true">
+                <div class="topic-chip-label">
                     Spoiler anzeigen
                 </div>
             </div>
         </div>
-        <div class="category-chip-deleteBtn" v-if="props.removableChip"
+        <div class="topic-chip-deleteBtn" v-if="props.removableChip"
             @click="emit('removeTopic', { index: props.index, topicId: props.topic.Id })">
             <font-awesome-icon icon="fa-solid fa-xmark" />
         </div>
@@ -55,18 +56,18 @@ const { $urlHelper } = useNuxtApp()
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.category-chip-component {
+.topic-chip-component {
     display: flex;
     align-items: center;
     margin-right: 15px;
     overflow: hidden;
 
-    .category-chip-container {
+    .topic-chip-container {
         padding: 4px 8px 4px 0;
         font-size: 13px;
         max-width: 100%;
 
-        .category-chip {
+        .topic-chip {
             max-width: 100%;
             height: 32px;
             display: inline-flex;
@@ -82,12 +83,22 @@ const { $urlHelper } = useNuxtApp()
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            min-width: 32px;
 
             img {
                 margin-left: -8px;
                 margin-right: 4px;
                 border-radius: 50%;
                 height: 26px
+            }
+
+            &.label-hidden {
+                padding: 0px;
+
+                img {
+                    margin-left: 0px;
+                    margin-right: 0px;
+                }
             }
 
             &:hover {
@@ -98,7 +109,7 @@ const { $urlHelper } = useNuxtApp()
                 filter: brightness(0.85)
             }
 
-            .category-chip-label {
+            .topic-chip-label {
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
@@ -109,11 +120,11 @@ const { $urlHelper } = useNuxtApp()
         }
     }
 
-    .category-chip-container {
+    .topic-chip-container {
         padding: 4px 0;
     }
 
-    .category-chip-deleteBtn {
+    .topic-chip-deleteBtn {
         display: flex;
         justify-content: center;
         align-items: center;

@@ -34,17 +34,6 @@ export class Topic {
 		needsLearning: 0,
 		notLearned: 0,
 	}
-	Segmentation: {
-		childTopics: any,
-		childCategoryIds: string,
-		segmentJson: string
-		segments: any
-	} = {
-			childTopics: null,
-			childCategoryIds: '',
-			segmentJson: '',
-			segments: null
-		}
 	gridItems: GridTopicItem[] = []
 }
 

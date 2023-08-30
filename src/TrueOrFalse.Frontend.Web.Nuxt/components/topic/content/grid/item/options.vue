@@ -7,16 +7,19 @@ import { Visibility } from '~/components/shared/visibilityEnum'
 import { GridTopicItem } from './gridTopicItem'
 import { ImageFormat } from '~/components/image/imageFormatEnum'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
+import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
 
 const userStore = useUserStore()
 const publishTopicStore = usePublishTopicStore()
 const editTopicRelationStore = useEditTopicRelationStore()
 const alertStore = useAlertStore()
 const topicToPrivateStore = useTopicToPrivateStore()
+const deleteTopicStore = useDeleteTopicStore()
 
 interface Props {
     topic: GridTopicItem
     parentId: number
+    parentName: string
 }
 
 const props = defineProps<Props>()
@@ -34,19 +37,21 @@ async function removeParent() {
         childId: props.topic.id,
     }
 
-    const result = await $fetch<any>('/apiVue/TopicRelationEdit/RemoveParent', {
+    const result = await $fetch<FetchResult<null>>('/apiVue/TopicRelationEdit/RemoveParent', {
         method: 'POST',
         body: data
     })
     if (result) {
         if (result.success == true) {
             alertStore.openAlert(AlertType.Success, {
-                text: messages.success.category[result.key]
+                text: messages.getByCompositeKey(result.messageKey)
             })
+
+            editTopicRelationStore.removeTopic(data.childId, data.parentIdToRemove)
         }
         else {
             alertStore.openAlert(AlertType.Error, {
-                text: messages.error.category[result.key]
+                text: messages.getByCompositeKey(result.messageKey)
             })
         }
     }
@@ -62,35 +67,29 @@ function openMoveTopicModal() {
         topicIdToRemove: props.parentId,
         childId: props.topic.id,
         editCategoryRelation: EditTopicRelationType.Move,
+        categoriesToFilter: [props.parentId, props.topic.id]
     } as EditRelationData
 
     editTopicRelationStore.openModal(data)
 }
 
-function openAddToWikiModal() {
-    if (!userStore.isLoggedIn) {
-        userStore.openLoginModal()
-        return
-    }
-    const data = {
-        parentId: props.topic.id,
-        editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
-    } as EditRelationData
-
-    editTopicRelationStore.openModal(data)
-}
-
+const emit = defineEmits(['addTopic'])
+const showAllLinkOptions = ref<boolean>(false)
 </script>
 
 <template>
     <div class="grid-item-options-container">
 
-        <div class="grid-item-option">
+        <div class="grid-item-option" v-if="props.topic.parents.length > 1">
             <VDropdown :distance="6">
                 <button v-show="props.topic.parents.length > 1" class="" @click.stop>
                     <font-awesome-icon :icon="['fas', 'sitemap']" rotation=180 />
                 </button>
                 <template #popper>
+                    <div class="dropdown-row">
+                        <div class="overline-s no-line"> Übergeordnete Themen</div>
+
+                    </div>
                     <template v-for="parent in props.topic.parents">
                         <LazyNuxtLink class="dropdown-row" v-if="parent.id > 0"
                             :to="$urlHelper.getTopicUrl(parent.name, parent.id)">
@@ -104,9 +103,8 @@ function openAddToWikiModal() {
             </VDropdown>
         </div>
 
-        <div class="grid-item-option">
-            <button class="" @click.stop="publishTopicStore.openModal(props.topic.id)"
-                v-show="props.topic.visibility != Visibility.All">
+        <div class="grid-item-option" v-if="props.topic.visibility != Visibility.All">
+            <button class="" @click.stop="publishTopicStore.openModal(props.topic.id)">
                 <font-awesome-icon :icon="['fas', 'lock']" />
             </button>
         </div>
@@ -118,63 +116,110 @@ function openAddToWikiModal() {
                 </button>
                 <template #popper="{ hide }">
 
-                    <div @click="removeParent(); hide()" class="dropdown-row">
+                    <div @click="emit('addTopic', true); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
+                            <font-awesome-icon :icon="['fas', 'plus']" />
                         </div>
-                        <div class="dropdown-label">Verknüpfung entfernen </div>
+                        <div class="dropdown-label">Unterthema erstellen</div>
+                    </div>
+                    <div class="divider"></div>
+                    <div @click="showAllLinkOptions = !showAllLinkOptions" class="dropdown-row"
+                        :class="{ 'extended': showAllLinkOptions }">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon icon="fa-solid fa-link" />
+                        </div>
+                        <div class="dropdown-label">
+                            Verknüpfungen bearbeiten
+                        </div>
+                        <div class="dropdown-icon collapse">
+                            <font-awesome-icon :icon="['fas', 'chevron-up']" v-if="showAllLinkOptions" />
+                            <font-awesome-icon :icon="['fas', 'chevron-down']" v-else />
+                        </div>
                     </div>
 
-                    <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
+                    <div v-if="showAllLinkOptions" class="link-options">
+                        <div @click="editTopicRelationStore.addParent(props.topic.id); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-link" />
+                            </div>
+                            <div class="dropdown-label">
+                                Oberthema verknüpfen
+                            </div>
                         </div>
-                        <div class="dropdown-label">Thema verschieben</div>
-                    </div>
 
-                    <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
+                        <div @click="emit('addTopic', false); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'link']" />
+                            </div>
+                            <div class="dropdown-label">Unterthema verknüpfen</div>
+                        </div>
+
+                        <div @click="removeParent(); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
+                            </div>
+                            <div class="dropdown-label">Verknüpfung zu '{{ props.parentName }}' entfernen </div>
+                        </div>
+
+                        <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
+                            </div>
+                            <div class="dropdown-label">Thema verschieben</div>
+                        </div>
+                        <!-- <div @click="editTopicRelationStore.removeFromPersonalWiki(props.topic.id); hide()" class="dropdown-row"
+                        v-if="props.topic.isChildOfPersonalWiki">
                         <div class="dropdown-icon">
                             <font-awesome-layers>
                                 <font-awesome-icon :icon="['fas', 'house']" />
                                 <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
-                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-5 down-1 right-1"
+                                <font-awesome-icon :icon="['fas', 'minus']" transform="shrink-6 down-1 right-1"
+                                    style="color: white;" />
+                                <font-awesome-icon :icon="['fas', 'minus']" transform="shrink-6 down-2 right-1"
                                     style="color: white;" />
                             </font-awesome-layers>
                         </div>
-                        <div class="dropdown-label">Zum Wiki hinzufügen</div>
-                    </div>
-                    <div @click="openMoveTopicModal(); hide()" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-layers>
-                                <font-awesome-icon :icon="['fas', 'house']" />
-                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
-                                <font-awesome-icon :icon="['fas', 'minus']" transform="shrink-5 down-1 right-1"
-                                    style="color: white;" />
-                            </font-awesome-layers>
+                        <div class="dropdown-label">Aus deinem Wiki entfernen</div>
+                    </div> -->
+                        <div @click="editTopicRelationStore.addToPersonalWiki(props.topic.id); hide()" class="dropdown-row"
+                            v-if="!props.topic.isChildOfPersonalWiki">
+                            <div class="dropdown-icon">
+                                <font-awesome-layers>
+                                    <font-awesome-icon :icon="['fas', 'house']" />
+                                    <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
+                                    <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1"
+                                        style="color: white;" />
+                                </font-awesome-layers>
+                            </div>
+                            <div class="dropdown-label">Zu deinem Wiki hinzufügen</div>
                         </div>
-                        <div class="dropdown-label">Vom Wiki entfernen</div>
                     </div>
 
-                    <div v-if="props.topic.visibility == Visibility.All"
-                        @click="topicToPrivateStore.openModal(props.topic.id); hide()" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fa-solid', 'lock']" />
-                        </div>
-                        <div class="dropdown-label">Thema privat stellen</div>
-                    </div>
-                    <div v-else @click="publishTopicStore.openModal(props.topic.id); hide()" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fa-solid', 'unlock']" />
-                        </div>
-                        <div class="dropdown-label">Thema veröffentlichen</div>
-                    </div>
+                    <template v-if="userStore.id == props.topic.creatorId || userStore.isAdmin">
+                        <div class="divider"></div>
 
-                    <div @click="openAddToWikiModal(); hide()" data-allowed="logged-in" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon :icon="['fa-solid', 'plus']" />
+                        <div v-if="props.topic.visibility == Visibility.All"
+                            @click="topicToPrivateStore.openModal(props.topic.id); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fa-solid', 'lock']" />
+                            </div>
+                            <div class="dropdown-label">Thema privat stellen</div>
                         </div>
-                        <div class="dropdown-label">Zu meinem Wiki hinzufügen</div>
-                    </div>
+                        <div v-else @click="publishTopicStore.openModal(props.topic.id); hide()" class="dropdown-row">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fa-solid', 'unlock']" />
+                            </div>
+                            <div class="dropdown-label">Thema veröffentlichen</div>
+                        </div>
+
+                        <div @click="deleteTopicStore.openModal(props.topic.id); hide()" data-allowed="logged-in"
+                            class="dropdown-row" v-if="props.topic.canDelete">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'trash']" />
+                            </div>
+                            <div class="dropdown-label">Thema löschen</div>
+                        </div>
+                    </template>
 
                 </template>
             </VDropdown>
@@ -185,6 +230,22 @@ function openAddToWikiModal() {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.dropdown-row {
+    &.extended {
+        margin-bottom: 8px;
+    }
+
+    .dropdown-icon {
+        &.collapse {
+            margin-left: 8px;
+        }
+    }
+}
+
+.link-options {
+    padding-left: 24px;
+}
 
 .grid-item-options-container {
     display: flex;
