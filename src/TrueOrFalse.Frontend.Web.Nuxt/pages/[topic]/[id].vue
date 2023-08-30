@@ -22,8 +22,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-// GetTopic w/o Segments - GetTopicWithSegments with segments
-const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWithSegments/${route.params.id}`,
+const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -40,7 +39,6 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
         retry: 3
     })
 
-const segmentation = ref()
 const tabSwitched = ref(false)
 
 const router = useRouter()
@@ -51,8 +49,6 @@ function setTopic() {
             topicStore.setTopic(topic.value)
 
             const spinnerStore = useSpinnerStore()
-            //preset segmentation
-            segmentation.value = topic.value.Segmentation
             watch(() => topicStore.id, (val) => {
                 if (val != 0)
                     spinnerStore.showSpinner()
@@ -172,9 +168,6 @@ useHead(() => ({
                             </ClientOnly>
                         </DevOnly>
 
-                        <!-- <TopicContentSegmentation
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :segmentation="topic.Segmentation" /> -->
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         <TopicTabsAnalytics
