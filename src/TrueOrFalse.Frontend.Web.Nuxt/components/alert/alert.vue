@@ -94,7 +94,7 @@ function shuffleSuccessImage(): void {
 }
 
 .error {
-    color: @memo-salmon;
+    color: @memo-wuwi-red;
 }
 
 .cancel-alert {
