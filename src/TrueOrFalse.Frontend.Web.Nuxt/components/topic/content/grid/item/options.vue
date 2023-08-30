@@ -244,7 +244,9 @@ const showAllLinkOptions = ref<boolean>(false)
 }
 
 .link-options {
-    padding-left: 24px;
+    .dropdown-row {
+        padding-left: 24px;
+    }
 }
 
 .grid-item-options-container {
