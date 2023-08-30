@@ -245,7 +245,7 @@ const showAllLinkOptions = ref<boolean>(false)
 
 .link-options {
     .dropdown-row {
-        padding-left: 24px;
+        padding-left: 44px;
     }
 }
 
