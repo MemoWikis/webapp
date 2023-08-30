@@ -1,5 +1,4 @@
-﻿using FluentNHibernate.Conventions.Inspections;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
 public class CategoryChangeMap : ClassMap<CategoryChange>
 {

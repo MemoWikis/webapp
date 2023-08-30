@@ -5,26 +5,26 @@ using Seedworks.Lib.Persistence;
 using ISession = NHibernate.ISession;
 
 
-public class UserReadingRepo
+public class UserReadingRepo : RepositoryDb<User>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly RepositoryDb<User> _repo;
+   
     
 
     public UserReadingRepo(ISession session,
         IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment) : base(session)
 
     {
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _repo = new RepositoryDb<User>(session);
+      
     }
 
     public bool FacebookUserExists(string facebookId)
     {
-        return _repo.Session
+        return Session
             .QueryOver<User>()
             .Where(u => u.FacebookId == facebookId)
             .RowCount() == 1;
@@ -32,35 +32,35 @@ public class UserReadingRepo
 
     public IList<User> GetAll()
     {
-        return _repo.GetAll(); 
+        return base.GetAll(); 
     }
 
     public IList<int> GetAllIds()
     {
-        return _repo.GetAllIds(); 
+        return base.GetAllIds(); 
     }
 
     public User GetByEmail(string emailAddress)
     {
-        return _repo.Session.QueryOver<User>()
+        return Session.QueryOver<User>()
             .Where(k => k.EmailAddress == emailAddress)
             .SingleOrDefault<User>();
     }
 
     public User GetByEmailEager(string email)
     {
-        var user = _repo.Session
+        var user = Session
             .QueryOver<User>()
             .Where(u => u.EmailAddress == email)
             .SingleOrDefault();
 
-        _repo.Session
+        Session
             .QueryOver<User>()
             .Where(u => u.EmailAddress == email)
             .Fetch(SelectMode.Fetch, u => u.Followers)
             .SingleOrDefault();
 
-        _repo.Session
+        Session
             .QueryOver<User>()
             .Where(u => u.EmailAddress == email)
             .Fetch(SelectMode.Fetch, u => u.Following)
@@ -70,7 +70,7 @@ public class UserReadingRepo
 
     public IList<User> GetByIds(params int[] userIds)
     {
-        var users = _repo.GetByIds(userIds);
+        var users = base.GetByIds(userIds);
 
         if (userIds.Length != users.Count)
         {
@@ -84,14 +84,14 @@ public class UserReadingRepo
 
     public User GetByName(string name)
     {
-        return _repo.Session.QueryOver<User>()
+        return Session.QueryOver<User>()
             .Where(k => k.Name == name)
             .SingleOrDefault<User>();
     }
 
     public User GetById(int id)
     {
-        return _repo.GetById(id); 
+        return base.GetById(id); 
     }
 
     public User GetByStripeId(string stripId)
@@ -101,14 +101,14 @@ public class UserReadingRepo
             return null;
         }
 
-        return _repo.Session.QueryOver<User>()
+        return Session.QueryOver<User>()
             .Where(u => u.StripeId == stripId)
             .SingleOrDefault();
     }
 
     public IList<User> GetWhereReputationIsBetween(int newReputation, int oldRepution)
     {
-        var query = _repo.Session.QueryOver<User>();
+        var query = Session.QueryOver<User>();
 
         if (newReputation < oldRepution)
         {
@@ -124,7 +124,7 @@ public class UserReadingRepo
 
     public bool GoogleUserExists(string googleId)
     {
-        return _repo.Session
+        return Session
             .QueryOver<User>()
             .Where(u => u.GoogleId == googleId)
             .RowCount() == 1;
@@ -132,7 +132,7 @@ public class UserReadingRepo
 
     public User UserGetByFacebookId(string facebookId)
     {
-        return _repo.Session
+        return Session
             .QueryOver<User>()
             .Where(u => u.FacebookId == facebookId)
             .SingleOrDefault();
@@ -140,7 +140,7 @@ public class UserReadingRepo
 
     public User UserGetByGoogleId(string googleId)
     {
-        return _repo.Session
+        return Session
             .QueryOver<User>()
             .Where(u => u.GoogleId == googleId)
             .SingleOrDefault();

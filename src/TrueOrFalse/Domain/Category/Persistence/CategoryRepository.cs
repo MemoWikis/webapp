@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Criterion;
+using Serilog;
 using TrueOrFalse.Search;
-using ISession = NHibernate.ISession;
 
-public class CategoryRepository : RepositoryDbBase<Category>
+
+public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
@@ -13,7 +14,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly UserActivityRepo _userActivityRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly Logg _logg;
+    private readonly ILogger _logg;
 
     public enum CreateDeleteUpdate
     {
@@ -23,7 +24,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
     }
 
     public CategoryRepository(
-        ISession session,
+        NHibernate.ISession session,
         CategoryChangeRepo categoryChangeRepo,
         UpdateQuestionCountForCategory updateQuestionCountForCategory,
         UserReadingRepo userReadingRepo,
@@ -39,7 +40,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _userActivityRepo = userActivityRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _logg = logg;
+        _logg = logg.r();
     }
 
     /// <summary>

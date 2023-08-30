@@ -99,7 +99,7 @@ public class EntityCache : BaseEntityCache
         if (createDeleteUpdate == CreateDeleteUpdate.Create)
         {
             //Update EntityCache
-            var parents = EntityCache.GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
+            var parents = GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
             foreach (var parent in parents)
             {
                 parent.CachedData.AddChildId(categoryCacheItem.Id);
@@ -161,13 +161,11 @@ public class EntityCache : BaseEntityCache
     private static void UpdateCategoryQuestionList(
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
         QuestionCacheItem question,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment,
         List<int> affectedCategoryIds = null)
     {
         DeleteQuestionFromRemovedCategories(question, categoryQuestionsList, affectedCategoryIds);
 
-        AddQuestionToCategories(question, categoryQuestionsList, httpContextAccessor, webHostEnvironment);
+        AddQuestionToCategories(question, categoryQuestionsList);
     }
 
     private static void DeleteQuestionFromRemovedCategories(
@@ -184,12 +182,10 @@ public class EntityCache : BaseEntityCache
             }
         }
     }
-    //todo(DaMa) Logger entfernen!!
+
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IList<CategoryCacheItem> categories = null)
     {
         if (categories == null)
@@ -199,17 +195,10 @@ public class EntityCache : BaseEntityCache
 
         foreach (var category in categories)
         {
-            try
-            {
-                categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
+            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
                     (k, existingList) => existingList);
 
                 categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
-            }
-            catch
-            {
-                new Logg(httpContextAccessor, webHostEnvironment).r().Error("Update failed in AddQuestionToCategorie");
-            }
         }
     }
 
@@ -341,8 +330,12 @@ public class EntityCache : BaseEntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    public static IEnumerable<CategoryCacheItem> GetCategories(IEnumerable<int> getIds) =>
-        getIds.Select(categoryId => GetCategory(categoryId));
+    public static IEnumerable<CategoryCacheItem> GetCategories(IEnumerable<int> getIds)
+    {
+       var c =  getIds.Select(categoryId => GetCategory(categoryId)).ToList();
+       return c;
+    }
+        
 
     public static CategoryCacheItem GetCategory(Category category) => GetCategory(category.Id);
 

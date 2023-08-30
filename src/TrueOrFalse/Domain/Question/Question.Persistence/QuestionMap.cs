@@ -1,4 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
+using TrueOrFalse;
 
 public class QuestionMap : ClassMap<Question>
 {
@@ -12,7 +13,7 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.Description).Length(Constants.VarCharMaxLength);
         Map(x => x.DescriptionHtml);
         Map(x => x.LicenseId).Column("License");
-        Map(x => x.Visibility);
+        Map(x => x.Visibility).CustomType<QuestionVisibility>();
         References(x => x.Creator);
 
         Map(x => x.TotalTrueAnswers);
@@ -32,7 +33,7 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.CorrectnessProbabilityAnswerCount);
 
         Map(x => x.Solution);
-        Map(x => x.SolutionType);
+        Map(x => x.SolutionType).CustomType<SolutionType>();
         Map(x => x.SolutionMetadataJson);
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();

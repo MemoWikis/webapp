@@ -20,29 +20,27 @@ public class Logg : IRegisterAsInstancePerLifetime
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
 
-        if (_httpContextAccessor.HttpContext != null)
-        {
-            _logger = new LoggerConfiguration()
-                .Enrich.WithProperty("Environment",
-                    Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
-                .Enrich.WithProperty("IsCrawler", false)
-                .WriteTo.Seq(_seqUrl)
-                .CreateLogger();
+        _logger = new LoggerConfiguration()
+            .Enrich.WithProperty("Environment",
+                Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+            .Enrich.WithProperty("IsCrawler", false)
+            .WriteTo.Seq(_seqUrl)
+            .CreateLogger();
 
-            _loggerIsCrawler = new LoggerConfiguration()
-                .Enrich.WithProperty("Environment",
-                    Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
-                .Enrich.WithProperty("IsCrawler", true)
-                .WriteTo.Seq(_seqUrl)
-                .CreateLogger();
+        _loggerIsCrawler = new LoggerConfiguration()
+            .Enrich.WithProperty("Environment",
+                Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+            .Enrich.WithProperty("IsCrawler", true)
+            .WriteTo.Seq(_seqUrl)
+            .CreateLogger();
 
-            _subscriptionLogger = new LoggerConfiguration()
-                .Enrich.WithProperty("Environment",
-                    Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
-                .Enrich.WithProperty("isSubscription", true)
-                .WriteTo.Seq(_seqUrl)
-                .CreateLogger();
-        }
+        _subscriptionLogger = new LoggerConfiguration()
+            .Enrich.WithProperty("Environment",
+                Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+            .Enrich.WithProperty("isSubscription", true)
+            .WriteTo.Seq(_seqUrl)
+            .CreateLogger();
+
 
 
         //configure globally shared logger

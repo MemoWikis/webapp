@@ -1,4 +1,6 @@
-﻿[Serializable]
+﻿using Serilog;
+
+[Serializable]
 public class CategoryCacheRelation
 {
     public virtual int CategoryId { get; set; }
@@ -6,12 +8,12 @@ public class CategoryCacheRelation
 
 
     public IList<CategoryCacheRelation> ToListCategoryRelations(
-        IList<CategoryRelation> listCategoryRelations, Logg logg)
+        IList<CategoryRelation> listCategoryRelations, ILogger logg)
     {
         var result = new List<CategoryCacheRelation>();
 
         if (listCategoryRelations == null)
-            logg.r().Error("CategoryRelations cannot be null");
+            logg.Error("CategoryRelations cannot be null");
 
         if (listCategoryRelations.Count <= 0 || listCategoryRelations == null)
         {

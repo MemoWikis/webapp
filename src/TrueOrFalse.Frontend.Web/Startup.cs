@@ -1,11 +1,7 @@
-﻿using Autofac.Extensions.DependencyInjection;
-using Autofac;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TrueOrFalse;
-using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 
 internal class Startup

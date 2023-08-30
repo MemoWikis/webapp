@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TrueOrFalse.Infrastructure;
@@ -14,10 +15,10 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     });
 
 
-
 startUp.ConfigureServices(builder.Services);
 var app = builder.Build();
 startUp.Configure(app, app.Environment);
-var myRepo = app.Services.GetRequiredService<CategoryRepository>();
 
+var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();
+entityCacheInitilizer.Init();
 app.Run();

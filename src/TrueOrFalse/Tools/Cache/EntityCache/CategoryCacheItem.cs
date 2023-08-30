@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -166,18 +167,18 @@ public class CategoryCacheItem
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories, Logg logg)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories, ILogger logg)
     {
         return categories.Select(c => ToCacheCategory(c, logg));
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, Logg logg)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, ILogger logg)
     {
         return categories.Select(c =>
             ToCacheCategory(c, logg));
     }
 
-    public static CategoryCacheItem ToCacheCategory(Category category, Logg logg)
+    public static CategoryCacheItem ToCacheCategory(Category category, ILogger logg)
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
