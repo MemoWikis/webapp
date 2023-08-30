@@ -155,18 +155,16 @@ useHead(() => ({
 
                         <TopicTabsContent
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-                        <DevOnly>
-                            <ClientOnly>
+                        <ClientOnly>
+                            <TopicContentGrid
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :children="topicStore.gridItems" />
+                            <template #fallback>
                                 <TopicContentGrid
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topicStore.gridItems" />
-                                <template #fallback>
-                                    <TopicContentGrid
-                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                        :children="topic.gridItems" />
-                                </template>
-                            </ClientOnly>
-                        </DevOnly>
+                                    :children="topic.gridItems" />
+                            </template>
+                        </ClientOnly>
 
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
