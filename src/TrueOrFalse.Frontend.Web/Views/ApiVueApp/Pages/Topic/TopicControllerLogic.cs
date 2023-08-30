@@ -67,6 +67,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 solid = knowledgeSummary.Solid
             },
             gridItems = gridItemLogic.GetChildren(id),
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).DirectChildrenIds.Any(id => id == topic.Id)
         };
     }
 

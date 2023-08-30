@@ -35,6 +35,7 @@ export class Topic {
 		notLearned: 0,
 	}
 	gridItems: GridTopicItem[] = []
+	isChildOfPersonalWiki: boolean = false
 }
 
 export interface KnowledgeSummary {
@@ -87,7 +88,8 @@ export const useTopicStore = defineStore('topicStore', {
 			authors: [] as Author[],
 			searchTopicItem: null as null | TopicItem,
 			knowledgeSummary: {} as KnowledgeSummary,
-			gridItems: [] as GridTopicItem[]
+			gridItems: [] as GridTopicItem[],
+			isChildOfPersonalWiki: false
 		}
 	},
 	actions: {
