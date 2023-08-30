@@ -154,11 +154,9 @@ public class EditControllerLogic
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
-        var children = EntityCache.GetAllChildren(parentId, true);
-
         var parent = EntityCache.GetCategory(parentId);
 
-        if (parent.DirectChildrenIds.Any(id => id == childId) && children.All(c => c.Id != parentIdToRemove))
+        if (parent.DirectChildrenIds.Any(id => id == childId))
             return new RequestResult
             {
                 success = false,
