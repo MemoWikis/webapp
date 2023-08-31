@@ -4,16 +4,16 @@ using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class SubscriptionLogic : BaseStripeLogic
+public class Subscription : StripeBase
 {
     private readonly SessionUser _sessionUser;
 
-    public SubscriptionLogic(SessionUser sessionUser)
+    public Subscription(SessionUser sessionUser)
     {
         _sessionUser = sessionUser;
     }
 
-    public async Task<string> CreateCustomer(string username, string email, int userId)
+    private async Task<string> CreateStripeCustomer(string username, string email, int userId)
     {
         var optionsUser = new CustomerCreateOptions
         {
@@ -30,20 +30,19 @@ public class SubscriptionLogic : BaseStripeLogic
         return customer.Id;
     }
 
-    public async Task<string> CreateStripeSession(string priceId)
+    public async Task<string> CreateStripeSubscriptionSession(string priceId)
     {
         var sessionUser = _sessionUser.User;
 
-        var customerId = "";
+        string customerId;
         if (sessionUser.StripeId == null)
         {
-            customerId = await CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
+            customerId = await CreateStripeCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
         }
         else
         {
             customerId = sessionUser.StripeId;
         }
-
 
         var options = new SessionCreateOptions
         {

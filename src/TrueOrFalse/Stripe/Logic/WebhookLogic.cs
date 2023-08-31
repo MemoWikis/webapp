@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Stripe;
 using TrueOrFalse.Infrastructure.Logging;
 
-public class WebhookLogic
+public class Webhook
 {
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
@@ -55,7 +55,7 @@ public class WebhookLogic
 
     private void CustomerSubscriptionDeleted(Event stripeEvent)
     {
-        var paymentDeleted = GetPaymentObjectAndUser<Subscription>(stripeEvent);
+        var paymentDeleted = GetPaymentObjectAndUser<Stripe.Subscription>(stripeEvent);
         var user = paymentDeleted.user;
         if (user != null)
         {
@@ -147,7 +147,7 @@ public class WebhookLogic
 
     private void PaymentUpdate(Event stripeEvent)
     {
-        var subscription = GetPaymentObjectAndUser<Subscription>(stripeEvent);
+        var subscription = GetPaymentObjectAndUser<Stripe.Subscription>(stripeEvent);
         var user = subscription.user;
         if (user != null)
         {
@@ -170,9 +170,9 @@ public class WebhookLogic
         LogErrorWhenUserNull(subscription.paymentObject.CustomerId, user);
     }
 
-    private void SetNewSubscriptionDate(User user, DateTime date, string log, bool isIntentSucceeded = false)
+    private void SetNewSubscriptionDate(User user, DateTime date, string log, bool intentSucceeded = false)
     {
-        if (user.SubscriptionStartDate == null && isIntentSucceeded)
+        if (user.SubscriptionStartDate == null && intentSucceeded)
         {
             user.SubscriptionStartDate = DateTime.Now;
         }

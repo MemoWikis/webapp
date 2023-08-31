@@ -2,9 +2,9 @@
 using Stripe.BillingPortal;
 
 
-public class BillingLogic : BaseStripeLogic
+public class CancelPlan : StripeBase
 {
-    public async Task<string> DeletePlan(SessionUser sessionUser)
+    public async Task<string> GetCancelPlanSessionUrl(SessionUser sessionUser)
     {
         var stripeId = sessionUser.User.StripeId;
         var options = new SessionCreateOptions

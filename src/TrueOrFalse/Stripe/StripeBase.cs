@@ -2,7 +2,7 @@
 using Seedworks.Lib.Settings;
 
 
-public class BaseStripeLogic
+public class StripeBase
 {
     protected static string CreateSiteLink(string targetPath)
     {
