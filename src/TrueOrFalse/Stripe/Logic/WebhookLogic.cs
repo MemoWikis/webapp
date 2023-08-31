@@ -27,6 +27,7 @@ public class Webhook
 
         switch (stripeEvent.Type)
         {
+            //We use this event instead of CustomerSubscriptionCreated to register the user as member:
             case Events.PaymentIntentSucceeded:
                 PaymentIntentSucceeded(stripeEvent);
                 break;
@@ -113,12 +114,11 @@ public class Webhook
         var user = paymentFailed.user;
         if (user != null)
         {
-            var subscriptionDate = paymentFailed.paymentObject.BillingReason == "subscription_create"
-                ? DateTime.Now
-                : MaxValueMysql;
+            var currentSubscriptionDate = user.EndDate;
+            var newSubscriptionDate = DateTime.Now;
 
-            var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
-            SetNewSubscriptionDate(user, subscriptionDate, log);
+            var log = $"Invoice payment for user with userId: {user.Id} failed. BillingReason: {paymentFailed.paymentObject.BillingReason }. Old SubscriptionEndDate was: {currentSubscriptionDate}, New SubscriptionEndDate is {newSubscriptionDate}.";
+            SetNewSubscriptionDate(user, newSubscriptionDate, log);
         }
 
         LogErrorWhenUserNull(paymentFailed.paymentObject.CustomerId, user);

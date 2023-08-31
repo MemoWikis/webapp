@@ -57,7 +57,7 @@ public class Subscription : StripeBase
                 }
             },
             SuccessUrl = CreateSiteLink("Preise"),
-            CancelUrl = CreateSiteLink("cancel"),
+            CancelUrl = CreateSiteLink("Preise"),
             Customer = customerId
         };
 
