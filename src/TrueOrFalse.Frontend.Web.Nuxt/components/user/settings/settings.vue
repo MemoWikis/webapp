@@ -97,6 +97,7 @@ async function cancelPlan() {
 
         },
     });
+    console.log("Stripe CancelPlan Url: ", data, data?.value)
     if (data.value) {
         // Führen Sie die Umleitung im Browser durch.
         await navigateTo(data.value)

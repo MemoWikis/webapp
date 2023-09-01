@@ -25,6 +25,8 @@ public class Webhook
             return status;
         }
 
+        Logg.r().Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
+
         switch (stripeEvent.Type)
         {
             //We use this event instead of CustomerSubscriptionCreated to register the user as member:
