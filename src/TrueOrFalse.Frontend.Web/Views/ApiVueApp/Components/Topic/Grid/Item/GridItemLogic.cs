@@ -68,7 +68,7 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
         {
             id = topic.Id,
             name = topic.Name,
-            questionCount = topic.CountQuestionsAggregated,
+            questionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
             childrenCount =
                 EntityCache.GetChildren(topic.Id).Count(c => _permissionCheck.CanView((CategoryCacheItem)c)),
             imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
