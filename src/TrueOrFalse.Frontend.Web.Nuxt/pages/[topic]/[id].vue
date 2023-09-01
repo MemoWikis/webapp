@@ -178,8 +178,7 @@ useHead(() => ({
                             <TopicPublishModal />
                             <TopicToPrivateModal />
 
-                            <TopicDeleteModal
-                                v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
+                            <TopicDeleteModal />
                         </ClientOnly>
 
                     </template>
