@@ -66,7 +66,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 needsConsolidation = knowledgeSummary.NeedsConsolidation,
                 solid = knowledgeSummary.Solid
             },
-            gridItems = gridItemLogic.GetChildren(id)
+            gridItems = gridItemLogic.GetChildren(id),
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).DirectChildrenIds.Any(id => id == topic.Id)
         };
     }
 
@@ -84,84 +85,6 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         }
 
         return new { };
-    }
-
-    public dynamic GetTopicDataWithSegments(int id, ControllerContext context)
-    {
-        var topic = EntityCache.GetCategory(id);
-
-        if (_permissionCheck.CanView(_sessionUser.UserId, topic))
-        {
-            var imageMetaData = Sl.ImageMetaDataRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
-
-            var topicData = CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
-
-            // Here, using a "copy" method to avoid modifying the original object 
-            // (since anonymous types are immutable).
-            return new
-            {
-                topicData.CanAccess,
-                topicData.Id,
-                topicData.Name,
-                topicData.ImageUrl,
-                topicData.Content,
-                topicData.ParentTopicCount,
-                topicData.Parents,
-                topicData.ChildTopicCount,
-                topicData.DirectChildTopicCount,
-                topicData.Views,
-                topicData.Visibility,
-                topicData.AuthorIds,
-                topicData.Authors,
-                topicData.IsWiki,
-                topicData.CurrentUserIsCreator,
-                topicData.CanBeDeleted,
-                topicData.QuestionCount,
-                topicData.DirectQuestionCount,
-                topicData.ImageId,
-                topicData.SearchTopicItem,
-                topicData.MetaDescription,
-                topicData.KnowledgeSummary,
-                topicData.gridItems,
-                Segmentation = GetSegmentation(id, context)
-            };
-        }
-
-        return new { };
-    }
-
-
-    private dynamic GetSegmentation(int id, ControllerContext context)
-    {
-        var segmentationLogic = new SegmentationLogic(context,_permissionCheck,_sessionUser);
-
-        var category = EntityCache.GetCategory(id);
-        var s = new SegmentationModel(category,_permissionCheck);
-        var childTopics = segmentationLogic.GetCategoriesData(s.NotInSegmentCategoryList.GetIds().ToArray());
-        var segments = new List<dynamic>();
-        if (s.Segments != null && s.Segments.Count > 0)
-        {
-            foreach (var segment in s.Segments)
-            {
-                var segmentChildrenIds = segment.ChildCategories.GetIds().ToArray();
-                segments.Add(new
-                {
-                    Title = segment.Title,
-                    CategoryId = segment.Item.Id,
-                    ChildCategoryIds = segmentChildrenIds,
-                    childTopics = segmentationLogic.GetCategoriesData(segmentChildrenIds),
-                    segmentData = segmentationLogic.GetSegmentData(segment.Item.Id)
-                });
-            }
-        }
-        return new
-        {
-            childCategoryIds = s.NotInSegmentCategoryIds,
-            segmentJson = s.SegmentJson,
-            childTopics = childTopics,
-            segments = segments
-        };
     }
 
     private SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)

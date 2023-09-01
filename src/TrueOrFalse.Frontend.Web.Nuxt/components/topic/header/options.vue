@@ -27,7 +27,7 @@ const hoverLock = ref(false)
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
-                <template #popper>
+                <template #popper="{ hide }">
 
                     <NuxtLink :to="`/Historie/Thema/${topicStore.id}`" class="dropdown-row">
                         <div class="dropdown-icon">
@@ -36,21 +36,21 @@ const hoverLock = ref(false)
                         <div class="dropdown-label">Bearbeitungshistorie</div>
                     </NuxtLink>
 
-                    <div @click="editQuestionStore.create()" class="dropdown-row">
+                    <div @click="editQuestionStore.create(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
                         <div class="dropdown-label">Frage hinzufügen</div>
                     </div>
 
-                    <div @click="editTopicRelationStore.createTopic()" class="dropdown-row">
+                    <div @click="editTopicRelationStore.createTopic(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
                         <div class="dropdown-label">Thema erstellen</div>
                     </div>
 
-                    <div @click="editTopicRelationStore.addParent(topicStore.id)" class="dropdown-row">
+                    <div @click="editTopicRelationStore.addParent(topicStore.id); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
@@ -59,7 +59,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
 
-                    <div @click="editTopicRelationStore.addChild(topicStore.id)" class="dropdown-row">
+                    <div @click="editTopicRelationStore.addChild(topicStore.id); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
@@ -68,10 +68,15 @@ const hoverLock = ref(false)
                         </div>
                     </div>
 
-                    <div v-if="userStore.isLoggedIn && userStore.personalWiki && topicStore.id != userStore.personalWiki.Id"
-                        class="dropdown-row" @click="editTopicRelationStore.addToPersonalWiki(topicStore.id)">
+                    <div v-if="!topicStore.isChildOfPersonalWiki && topicStore.id != userStore.personalWiki?.Id"
+                        class="dropdown-row" @click="editTopicRelationStore.addToPersonalWiki(topicStore.id); hide()">
                         <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-square-plus" />
+                            <font-awesome-layers>
+                                <font-awesome-icon :icon="['fas', 'house']" />
+                                <font-awesome-icon :icon="['fas', 'square']" transform="shrink-2 down-2 right-1" />
+                                <font-awesome-icon :icon="['fas', 'plus']" transform="shrink-3 down-1 right-1"
+                                    style="color: white;" />
+                            </font-awesome-layers>
                         </div>
                         <div class="dropdown-label">
                             Zu meinem Wiki hinzufügen
@@ -79,7 +84,7 @@ const hoverLock = ref(false)
                     </div>
 
                     <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All" class="dropdown-row"
-                        @click="topicToPrivateStore.openModal(topicStore.id)">
+                        @click="topicToPrivateStore.openModal(topicStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
@@ -88,7 +93,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
                     <div v-else-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
-                        class="dropdown-row" @click="publishTopicStore.openModal(topicStore.id)">
+                        class="dropdown-row" @click="publishTopicStore.openModal(topicStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-unlock" />
                         </div>
@@ -97,7 +102,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
                     <div v-if="topicStore.canBeDeleted" class="dropdown-row"
-                        @click="deleteTopicStore.openModal(topicStore.id)">
+                        @click="deleteTopicStore.openModal(topicStore.id); hide()">
 
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-trash" />

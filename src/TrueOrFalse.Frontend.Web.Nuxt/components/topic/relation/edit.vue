@@ -65,7 +65,7 @@ async function addTopic() {
 
             topicStore.childTopicCount++
             editTopicRelationStore.showModal = false
-            editTopicRelationStore.addTopicCard(result.id)
+            editTopicRelationStore.addTopic(result.id)
             spinnerStore.hideSpinner()
         }
     } else {
@@ -111,15 +111,10 @@ function selectTopic(t: any) {
 
 const selectedParentInWikiId = ref(0)
 
-const hideSearch = ref(true)
 const topics = reactive({ value: [] as TopicItem[] })
 const totalCount = ref(0)
 
 const forbiddenTopicName = ref('')
-
-const redirect = ref(true)
-
-const addTopicBtnId = ref(null)
 
 async function moveTopicToNewParent() {
     spinnerStore.showSpinner()
@@ -131,13 +126,13 @@ async function moveTopicToNewParent() {
         return
     }
 
-    var topicData = {
+    const topicData = {
         childId: editTopicRelationStore.childId,
         parentIdToRemove: editTopicRelationStore.topicIdToRemove,
         parentIdToAdd: selectedTopic.value?.Id
     }
 
-    var data = await $fetch<any>('/apiVue/TopicRelationEdit/MoveChild', {
+    const result = await $fetch<FetchResult<any>>('/apiVue/TopicRelationEdit/MoveChild', {
         body: topicData,
         method: 'POST',
         onResponseError(context) {
@@ -145,27 +140,26 @@ async function moveTopicToNewParent() {
         },
     })
 
-    if (data.success) {
-        if (redirect.value)
-            navigateTo(data.url)
+    if (result.success == true) {
+        editTopicRelationStore.parentId = selectedTopic.value?.Id!
+        editTopicRelationStore.addTopic(editTopicRelationStore.childId)
+        editTopicRelationStore.removeTopic(editTopicRelationStore.childId, editTopicRelationStore.topicIdToRemove)
+        editTopicRelationStore.showModal = false
+        if (editTopicRelationStore.parentId == topicStore.id)
+            topicStore.childTopicCount++
+        if (editTopicRelationStore.topicIdToRemove == topicStore.id)
+            topicStore.childTopicCount--
 
-        if (addTopicBtnId.value != null) {
-            editTopicRelationStore.parentId = selectedTopic.value?.Id!
-            editTopicRelationStore.addTopicCard(editTopicRelationStore.childId)
-
-        }
-        else
-            editTopicRelationStore.showModal = false
-
-        topicStore.childTopicCount++
         spinnerStore.hideSpinner()
     } else {
-        errorMsg.value = messages.error.category[data.key]
+        errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
     }
 
 }
+
+const { $urlHelper } = useNuxtApp()
 
 async function addExistingTopic() {
     spinnerStore.showSpinner()
@@ -178,12 +172,12 @@ async function addExistingTopic() {
         return
     }
 
-    var data = {
+    const data = {
         childId: editTopicRelationStore.childId,
         parentId: editTopicRelationStore.parentId,
     }
 
-    var result = await $fetch<any>('/apiVue/TopicRelationEdit/AddChild', {
+    const result = await $fetch<FetchResult<{ name: string, id: number }>>('/apiVue/TopicRelationEdit/AddChild', {
         mode: 'cors',
         method: 'POST',
         body: data,
@@ -194,12 +188,12 @@ async function addExistingTopic() {
 
     if (result.success) {
         if (editTopicRelationStore.redirect)
-            await navigateTo(result.url)
+            await navigateTo($urlHelper.getTopicUrl(result.data.name, result.data.id))
         editTopicRelationStore.showModal = false
-        editTopicRelationStore.addTopicCard(editTopicRelationStore.childId)
+        editTopicRelationStore.addTopic(editTopicRelationStore.childId)
         spinnerStore.hideSpinner()
     } else {
-        errorMsg.value = messages.error.category[result.key]
+        errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
     }
@@ -224,15 +218,16 @@ const debounceSearch = debounce(() => {
 
 async function search() {
     showDropdown.value = true
-    var data = {
+    const data = {
         term: searchTerm.value,
+        topicsIdToFilter: editTopicRelationStore.categoriesToFilter
     }
 
-    var url = editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki
+    const url = editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki
         ? '/apiVue/TopicRelationEdit/SearchTopicInPersonalWiki'
         : '/apiVue/TopicRelationEdit/SearchTopic'
 
-    var result = await $fetch<FullSearch>(url, {
+    const result = await $fetch<FullSearch>(url, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -266,13 +261,12 @@ watch(() => editTopicRelationStore.type, (type) => {
             primaryBtnLabel.value = 'Thema verschieben'
             break
         case EditTopicRelationType.AddChild:
-            primaryBtnLabel.value = 'Thema verknüpfen'
-            break
         case EditTopicRelationType.AddParent:
             primaryBtnLabel.value = 'Thema verknüpfen'
             break
         case EditTopicRelationType.AddToPersonalWiki:
             primaryBtnLabel.value = 'Thema verknüpfen'
+            editTopicRelationStore.initWikiData()
             break
     }
 })
@@ -289,8 +283,6 @@ function handleMainBtn() {
             addExistingTopic()
             break
         case EditTopicRelationType.AddParent:
-            addNewParentToTopic()
-            break
         case EditTopicRelationType.AddToPersonalWiki:
             addNewParentToTopic()
             break
@@ -313,11 +305,9 @@ function handleMainBtn() {
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" class="modal-title">
                 Bestehendes
                 Thema verknüpfen</h4>
-            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent" class="modal-title">Neues
+            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent || editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki"
+                class="modal-title">Neues
                 Oberthema verknüpfen</h4>
-            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki" class="modal-title">
-                Thema zu
-                meinem Wiki hinzufügen</h4>
         </template>
         <template v-slot:body>
             <template v-if="editTopicRelationStore.type == EditTopicRelationType.Create">
@@ -392,12 +382,9 @@ function handleMainBtn() {
                         </template>
                     </div>
                     <div class="mb-125">
-                        <button v-if="hideSearch" @click="hideSearch = false" class="btn-link">Anderes Thema
-                            auswählen</button>
-                        <span v-else>Anderes Thema auswählen</span>
+                        <p>Anderes Thema auswählen</p>
                     </div>
-                    <div v-if="!hideSearch" class="form-group dropdown categorySearchAutocomplete"
-                        :class="{ 'open': showDropdown }">
+                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.Id }"
                             @click="selectedParentInWikiId = selectedTopic?.Id ?? 0" data-toggle="tooltip"
@@ -416,11 +403,64 @@ function handleMainBtn() {
                                 </div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic" />
+                        <Search :search-type="SearchType.TopicInWiki" :show-search="true" v-on:select-item="selectTopic"
+                            :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
+
+                        <div class="swap-type-target">
+                            <button @click="editTopicRelationStore.type = EditTopicRelationType.AddParent">
+                                <label>
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" name="addToParent" class="hidden" />
+                                        <font-awesome-icon icon="fa-solid fa-square-check" class="checkbox-icon active" />
+                                        <span class="checkbox-label">
+                                            Nur im eigenen Wiki suchen
+                                        </span>
+                                    </div>
+                                </label>
+                            </button>
+                        </div>
 
                     </div>
 
 
+                </div>
+                <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    {{ errorMsg }}
+                </div>
+            </template>
+            <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent">
+                <div class="mb-250">
+                    <p>Wo soll das Thema hinzugefügt werden?</p>
+                </div>
+                <div>
+                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                        <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
+                            data-toggle="tooltip" data-placement="top" :title="selectedTopic.Name">
+                            <img :src="selectedTopic.ImageUrl" />
+                            <div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
+                                    Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
+                            </div>
+                        </div>
+                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic"
+                            :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
+
+                        <div class="swap-type-target">
+                            <button @click="editTopicRelationStore.type = EditTopicRelationType.AddToPersonalWiki">
+                                <label>
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" name="addToWiki" class="hidden" />
+                                        <font-awesome-icon icon="fa-regular fa-square" class="checkbox-icon" />
+                                        <span class="checkbox-label">
+                                            Nur im eigenen Wiki suchen
+                                        </span>
+                                    </div>
+                                </label>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
                     <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
@@ -439,7 +479,8 @@ function handleMainBtn() {
                                     Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic" />
+                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic"
+                            :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
@@ -447,7 +488,6 @@ function handleMainBtn() {
                     {{ errorMsg }}
                 </div>
             </template>
-
 
         </template>
 
@@ -457,6 +497,56 @@ function handleMainBtn() {
 <style lang="less" scoped>
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
+
+.categorySearchAutocomplete {
+    .swap-type-target {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        width: 100%;
+        padding-top: 4px;
+
+        button {
+            background: white;
+            padding: 4px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            cursor: pointer;
+
+            &:hover {
+                filter: brightness(0.975)
+            }
+
+            &:active {
+                filter: brightness(0.95)
+            }
+
+            label {
+                margin-bottom: 0px;
+            }
+
+            .checkbox-container {
+                padding: 0px;
+                cursor: pointer;
+
+                .checkbox-icon {
+                    margin-right: 4px;
+
+                    &.active {
+                        color: @memo-blue-link;
+                    }
+                }
+
+                .checkbox-label {
+                    cursor: pointer;
+
+                }
+            }
+        }
+    }
+}
 
 .create-input {
     border-radius: 0px;

@@ -11,4 +11,7 @@ export interface GridTopicItem {
     visibility: Visibility
     parents: TinyTopicModel[]
     knowledgebarData: KnowledgebarData
+    isChildOfPersonalWiki: boolean
+    creatorId: number
+    canDelete: boolean
 }

@@ -3,16 +3,33 @@ import { useAlertStore, AlertType, messages } from '~/components/alert/alertStor
 import { ImageFormat } from '~/components/image/imageFormatEnum'
 import { ToggleState } from '../toggleStateEnum'
 import { GridTopicItem } from './gridTopicItem'
+import { useUserStore } from '~/components/user/userStore'
+import { EditRelationData, EditTopicRelationType, useEditTopicRelationStore } from '~/components/topic/relation/editTopicRelationStore'
+import { useSpinnerStore } from '~/components/spinner/spinnerStore'
+import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
+import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 
+const userStore = useUserStore()
 const alertStore = useAlertStore()
+const editTopicRelationStore = useEditTopicRelationStore()
+const spinnerStore = useSpinnerStore()
+const publishTopicStore = usePublishTopicStore()
+const topicToPrivateStore = useTopicToPrivateStore()
 
 interface Props {
     topic: GridTopicItem
     toggleState: ToggleState
     parentId: number
+    parentName: string
 }
 
 const props = defineProps<Props>()
+
+watch(() => props.topic.id, async () => {
+    children.value = []
+    if (childrenLoaded.value)
+        await loadChildren(true)
+})
 
 watch(() => props.toggleState, (state) => {
     if (state == ToggleState.Collapsed)
@@ -22,18 +39,19 @@ watch(() => props.toggleState, (state) => {
 })
 
 const expanded = ref<boolean>(false)
-watch(expanded, (val) => {
-    if (val && !childrenLoaded.value)
-        loadChildren()
+watch(expanded, async (val) => {
+    if (val && !childrenLoaded.value && props.topic.childrenCount > 0)
+        await loadChildren()
 })
 const children = ref<GridTopicItem[]>([])
 const childrenLoaded = ref<boolean>(false)
 
-async function loadChildren() {
+async function loadChildren(force: boolean = false) {
 
-    if (childrenLoaded.value)
+    if (childrenLoaded.value && !force)
         return
 
+    spinnerStore.showSpinner()
     const result = await $fetch<FetchResult<GridTopicItem[]>>(`/apiVue/GridItem/GetChildren?id=${props.topic.id}`, {
         method: 'GET',
         mode: 'cors',
@@ -47,35 +65,150 @@ async function loadChildren() {
     }
 
     childrenLoaded.value = true
+    spinnerStore.hideSpinner()
 }
 
 const { $urlHelper } = useNuxtApp()
+const computedChildrenCount = computed(() => {
+    const { childrenCount } = props.topic
 
+    return childrenLoaded.value ? children.value.length : childrenCount
+
+})
 const detailLabel = computed(() => {
-    const { childrenCount, questionCount } = props.topic
+    const { questionCount } = props.topic
 
-    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterthema' : 'Unterthemen'}`
+    const childrenLabel = `${computedChildrenCount.value} ${computedChildrenCount.value === 1 ? 'Unterthema' : 'Unterthemen'}`
     const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
 
-    if (childrenCount && questionCount)
+    if (computedChildrenCount.value > 0 && questionCount > 0)
         return `${childrenLabel} und ${questionLabel}`
 
-    if (childrenCount)
+    if (computedChildrenCount.value > 0)
         return childrenLabel
 
-    if (questionCount)
+    if (questionCount > 0)
         return questionLabel
 
     return ''
 })
+
+const topicsToFilter = computed(async () => {
+    if (!childrenLoaded.value)
+        await loadChildren()
+
+    let topicsToFilter = children.value.map(c => c.id)
+    topicsToFilter.push(props.topic.id)
+
+    return topicsToFilter
+})
+
+async function addTopic(newTopic: boolean) {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+
+    const parent: EditRelationData = {
+        parentId: props.topic.id,
+        editCategoryRelation: newTopic
+            ? EditTopicRelationType.Create
+            : EditTopicRelationType.AddChild,
+        categoriesToFilter: await topicsToFilter.value,
+    }
+    editTopicRelationStore.openModal(parent)
+}
+
+editTopicRelationStore.$onAction(({ after, name }) => {
+    if (name == 'addTopic') {
+        after((result) => {
+            if (result.parentId == props.topic.id) {
+                addGridItem(result.childId)
+            }
+        })
+    }
+    if (name == 'removeTopic') {
+        after((result) => {
+            if (result.parentId == props.topic.id) {
+                removeGridItem(result.childId)
+            }
+        })
+    }
+    if (name == 'addToPersonalWiki' || name == 'removeFromPersonalWiki') {
+        after((result) => {
+            if (result?.success && result.id && children.value.some(c => c.id == result.id))
+                reloadGridItem(result.id)
+        })
+    }
+})
+
+publishTopicStore.$onAction(({ after, name }) => {
+    if (name == 'publish') {
+        after((result) => {
+            if (result?.success && result.id && children.value.some(c => c.id == result.id))
+                reloadGridItem(result.id)
+        })
+    }
+})
+
+topicToPrivateStore.$onAction(({ after, name }) => {
+    if (name == 'setToPrivate') {
+        after((result) => {
+            if (result?.success && result.id && children.value.some(c => c.id == result.id))
+                reloadGridItem(result.id)
+        })
+    }
+})
+
+function removeGridItem(id: number) {
+    const filteredGridItems = children.value.filter(i => i.id != id)
+    children.value = filteredGridItems
+}
+
+async function addGridItem(id: number) {
+
+    if (!childrenLoaded.value) {
+        await loadChildren()
+    }
+    await nextTick()
+    if (children.value.findIndex(c => c.id == id) > 0)
+        return
+
+    const result = await loadGridItem(id)
+
+    if (result.success == true) {
+        children.value.push(result.data)
+    } else if (result.success == false)
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+
+}
+
+async function loadGridItem(id: number) {
+    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/GridItem/GetItem?id=${id}`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include'
+    })
+    return result
+}
+async function reloadGridItem(id: number) {
+    const result = await loadGridItem(id)
+
+    if (result.success == true) {
+        children.value = children.value.map(i => i.id === result.data.id ? result.data : i)
+    } else if (result.success == false)
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+}
+
 </script>
 
 <template>
-    <div class="grid-item" @click="expanded = !expanded" :class="{ 'no-children': props.topic.childrenCount <= 0 }">
+    <div class="grid-item" @click="expanded = !expanded"
+        :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret"
-                :class="{ 'expanded': expanded && props.topic.childrenCount > 0 }" />
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="computedChildrenCount > 0"
+                :class="{ 'expanded': expanded }" />
         </div>
 
         <div class="grid-item-body-container">
@@ -90,24 +223,26 @@ const detailLabel = computed(() => {
                     </NuxtLink>
                 </div>
 
-                <template v-if="props.topic.childrenCount > 0 || props.topic.questionCount > 0">
+                <template v-if="detailLabel.length > 0">
 
                     <div class="item-detaillabel">
                         {{ detailLabel }}
                     </div>
-                    <TopicContentGridKnowledgebar :knowledgebar-data="props.topic.knowledgebarData" />
+                    <TopicContentGridKnowledgebar :knowledgebar-data="props.topic.knowledgebarData"
+                        v-if="props.topic.questionCount > 0" />
 
                 </template>
 
             </div>
         </div>
 
-        <TopicContentGridItemOptions :topic="props.topic" :parent-id="props.parentId" />
+        <TopicContentGridItemOptions :topic="props.topic" :parent-id="props.parentId" @add-topic="addTopic"
+            :parent-name="props.parentName" />
     </div>
 
-    <div v-if="props.topic.childrenCount > 0" v-show="expanded && children.length > 0" class="grid-item-children">
+    <div v-if="computedChildrenCount > 0 && expanded" class="grid-item-children">
         <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-            :parent-id="props.topic.id" />
+            :parent-id="props.topic.id" :parent-name="props.topic.name" />
     </div>
 </template>
 
@@ -133,9 +268,10 @@ const detailLabel = computed(() => {
 
     .grid-item-caret-container {
         cursor: pointer;
-        width: 40px;
+        width: 32px;
         height: 100%;
         min-height: 40px;
+        min-width: 32px;
 
         display: flex;
         justify-content: center;
@@ -165,15 +301,17 @@ const detailLabel = computed(() => {
         .item-img-container {
             width: 40px;
             height: 40px;
+            min-width: 40px;
         }
 
         .item-body {
             padding-left: 8px;
+            width: 100%;
 
             .item-detaillabel {
                 color: @memo-grey-dark;
                 font-size: 12px;
-                height: 18px;
+                min-height: 18px;
             }
         }
     }
@@ -202,7 +340,7 @@ const detailLabel = computed(() => {
 
 .grid-item-children {
     user-select: none;
-    padding-left: 40px;
+    padding-left: 16px;
 }
 </style>
 

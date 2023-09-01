@@ -34,18 +34,8 @@ export class Topic {
 		needsLearning: 0,
 		notLearned: 0,
 	}
-	Segmentation: {
-		childTopics: any,
-		childCategoryIds: string,
-		segmentJson: string
-		segments: any
-	} = {
-			childTopics: null,
-			childCategoryIds: '',
-			segmentJson: '',
-			segments: null
-		}
 	gridItems: GridTopicItem[] = []
+	isChildOfPersonalWiki: boolean = false
 }
 
 export interface KnowledgeSummary {
@@ -98,7 +88,8 @@ export const useTopicStore = defineStore('topicStore', {
 			authors: [] as Author[],
 			searchTopicItem: null as null | TopicItem,
 			knowledgeSummary: {} as KnowledgeSummary,
-			gridItems: [] as GridTopicItem[]
+			gridItems: [] as GridTopicItem[],
+			isChildOfPersonalWiki: false
 		}
 	},
 	actions: {

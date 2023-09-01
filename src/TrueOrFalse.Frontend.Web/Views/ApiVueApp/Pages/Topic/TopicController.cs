@@ -21,14 +21,6 @@ public class TopicController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetTopicWithSegments(int id)
-    {
-        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic);
-        return Json(topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext), JsonRequestBehavior.AllowGet);
-    }
-
-    [HttpGet]
     public bool CanAccess(int id)
     {
         var c = EntityCache.GetCategory(id);
