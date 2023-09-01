@@ -1,8 +1,8 @@
 Boards
 ====================
-- [Development](https://github.com/memucho/webapp/projects/1) 
-- [UX/UI](https://github.com/memucho/webapp/projects/2)
-- [Ideen](https://github.com/memucho/webapp/projects/3) 
+- [Development](https://github.com/memowikis/webapp/projects/1) 
+- [UX/UI](https://github.com/memowikis/webapp/projects/2)
+- [Ideen](https://github.com/memowikis/webapp/projects/3) 
 
 LIZENZ / LICENCE:
 ====================
@@ -12,7 +12,7 @@ GERMAN
 
 ### 1:) Nichtkommerzielle Nutzung
 
-Der Quelltext, dessen Kompilate und dem Quelltext beigelegte Artefakte für die Anwendung "memucho" (Referenz: https://github.com/memucho/webapp), soweit sie nicht den Rechten Dritter unterliegen, dürfen für nichtkommerzielle Zwecke uneingeschränkt eingesetzt werden.
+Der Quelltext, dessen Kompilate und dem Quelltext beigelegte Artefakte für die Anwendung "memucho" (Referenz: https://github.com/memowikis/webapp), soweit sie nicht den Rechten Dritter unterliegen, dürfen für nichtkommerzielle Zwecke uneingeschränkt eingesetzt werden.
 
 ### 2:) Kommerzielle Nutzung
 
@@ -26,7 +26,7 @@ ENGLISH:
 
 ### 1:) Non-commercial Use
 
-The source code, its compilations, and any artifacts associated with the source code for the "memucho" application (Reference: https://github.com/memucho/webapp), as long as they are not subject to third-party rights, may be used unrestrictedly for non-commercial purposes.
+The source code, its compilations, and any artifacts associated with the source code for the "memucho" application (Reference: https://github.com/memowikis/webapp), as long as they are not subject to third-party rights, may be used unrestrictedly for non-commercial purposes.
 
 ### 2:) Commercial Use
 
