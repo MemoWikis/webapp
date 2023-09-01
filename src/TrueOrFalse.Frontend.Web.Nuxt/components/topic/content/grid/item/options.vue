@@ -158,7 +158,7 @@ const showAllLinkOptions = ref<boolean>(false)
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
                             </div>
-                            <div class="dropdown-label">Verknüpfung entfernen </div>
+                            <div class="dropdown-label">'{{ props.parentName }}' <br /> als Oberthema entfernen </div>
                         </div>
 
                         <div @click="openMoveTopicModal(); hide()" class="dropdown-row">

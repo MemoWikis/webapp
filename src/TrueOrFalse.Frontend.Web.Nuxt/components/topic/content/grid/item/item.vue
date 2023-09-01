@@ -8,6 +8,7 @@ import { EditRelationData, EditTopicRelationType, useEditTopicRelationStore } fr
 import { useSpinnerStore } from '~/components/spinner/spinnerStore'
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
+import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -15,6 +16,7 @@ const editTopicRelationStore = useEditTopicRelationStore()
 const spinnerStore = useSpinnerStore()
 const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
+const deleteTopicStore = useDeleteTopicStore()
 
 interface Props {
     topic: GridTopicItem
@@ -156,6 +158,16 @@ topicToPrivateStore.$onAction(({ after, name }) => {
         after((result) => {
             if (result?.success && result.id && children.value.some(c => c.id == result.id))
                 reloadGridItem(result.id)
+        })
+    }
+})
+
+deleteTopicStore.$onAction(({ after, name }) => {
+    if (name == 'deleteTopic') {
+        after((result) => {
+            if (result && result.id && children.value.some(c => c.id == result.id)) {
+                removeGridItem(result.id)
+            }
         })
     }
 })

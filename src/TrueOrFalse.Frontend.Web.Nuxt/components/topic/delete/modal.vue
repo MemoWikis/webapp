@@ -29,18 +29,21 @@ async function handlePrimaryAction() {
         @close="deleteTopicStore.showModal = false">
         <template v-slot:header>
             <template v-if="deleteTopicStore.topicDeleted">
-                '{{ deleteTopicStore.name }}' wurde gelöscht
+                Thema gelöscht
             </template>
             <template v-else>
                 Thema '{{ deleteTopicStore.name }}' löschen
             </template>
         </template>
         <template v-slot:body>
-            <template v-if="deleteTopicStore.topicDeleted">
-                Beim schliessen dieses Fensters wirst Du zum nächsten übergeordnetem Thema weitergeleitet
+            <template v-if="deleteTopicStore.topicDeleted && deleteTopicStore.redirect">
+                Beim schliessen dieses Fensters wirst Du zum nächsten übergeordnetem Thema weitergeleitet.
+            </template>
+            <template v-else-if="deleteTopicStore.topicDeleted && !deleteTopicStore.redirect">
+                Das Thema '<strong>{{ deleteTopicStore.name }}</strong>' wurde erfolgreich gelöscht.
             </template>
             <template v-else>
-                <div class="body-m">Möchtest Du "<strong>{{ deleteTopicStore.name }}</strong>" unwiderruflich löschen?</div>
+                <div class="body-m">Möchtest Du '<strong>{{ deleteTopicStore.name }}</strong>' unwiderruflich löschen?</div>
                 <div class="body-s">Fragen werden nicht gelöscht.</div>
             </template>
 

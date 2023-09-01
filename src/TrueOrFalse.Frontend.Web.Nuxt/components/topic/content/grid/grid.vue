@@ -9,6 +9,7 @@ import { useUserStore } from '~/components/user/userStore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
+import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -17,6 +18,7 @@ const userStore = useUserStore()
 const alertStore = useAlertStore()
 const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
+const deleteTopicStore = useDeleteTopicStore()
 
 interface Props {
     children: GridTopicItem[]
@@ -107,6 +109,16 @@ topicToPrivateStore.$onAction(({ after, name }) => {
     }
 })
 
+deleteTopicStore.$onAction(({ after, name }) => {
+    if (name == 'deleteTopic') {
+        after((result) => {
+            if (result && result.id && topicStore.gridItems.some(c => c.id == result.id)) {
+                removeGridItem(result.id)
+            }
+        })
+    }
+})
+
 async function addGridItem(id: number) {
     const result = await loadGridItem(id)
 
@@ -143,7 +155,7 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-    <div class="row grid-row">
+    <div class="row grid-row" id="TopicGrid">
         <div class="col-xs-12">
             <div class="grid-container">
                 <div class="grid-header ">
@@ -208,7 +220,9 @@ const { isMobile } = useDevice()
 @import (reference) '~~/assets/includes/imports.less';
 
 .grid-row {
+    margin-top: 45px;
     max-width: calc(100vw - 20px);
+    margin-bottom: 45px;
 
     .grid-container {
         margin-bottom: 45px;

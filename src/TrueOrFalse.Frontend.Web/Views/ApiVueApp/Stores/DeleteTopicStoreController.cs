@@ -34,7 +34,7 @@ public class DeleteTopicStoreController : BaseController
     [HttpPost]
     public JsonResult Delete(int id)
     {
-        var redirectURL = GetRedirectTopic(id);
+        var redirectParent = GetRedirectTopic(id);
         var topic = Sl.CategoryRepo.GetById(id);
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
@@ -55,16 +55,20 @@ public class DeleteTopicStoreController : BaseController
             hasChildren = hasDeleted.HasChildren,
             isNotCreatorOrAdmin = hasDeleted.IsNotCreatorOrAdmin,
             success = hasDeleted.DeletedSuccessful,
-            redirectURL = redirectURL
+            redirectParent = redirectParent
         });
     }
 
-    private string GetRedirectTopic(int id)
+    private dynamic GetRedirectTopic(int id)
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
         var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
-        return "/" + UriSanitizer.Run(lastBreadcrumbItem.Text) + "/" + lastBreadcrumbItem.Category.Id;
+        return new
+        {
+            name = lastBreadcrumbItem.Category.Name,
+            id = lastBreadcrumbItem.Category.Id
+        };
     }
 }

@@ -102,7 +102,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
                     <div v-if="topicStore.canBeDeleted" class="dropdown-row"
-                        @click="deleteTopicStore.openModal(topicStore.id); hide()">
+                        @click="deleteTopicStore.openModal(topicStore.id, true); hide()">
 
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-trash" />
