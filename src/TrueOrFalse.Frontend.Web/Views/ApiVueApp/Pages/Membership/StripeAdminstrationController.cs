@@ -16,14 +16,14 @@ public class StripeAdminstrationController : Controller
     [HttpGet]
     public async Task<JsonResult> CancelPlan()
     {
-        return Json(await new CancelPlan().GetCancelPlanSessionUrl(_sessionUser), JsonRequestBehavior.AllowGet);
+        return Json(await StripeSubscriptionHelper.GetCancelPlanSessionUrl(_sessionUser), JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public async Task<JsonResult> CompletedSubscription(string priceId)
     {
-        var sessionId = await new Subscription(_sessionUser).CreateStripeSubscriptionSession(priceId);
+        var sessionId = await new StripeSubscriptionHelper(_sessionUser).CreateStripeSubscriptionSession(priceId);
         if (sessionId.Equals("-1"))
         {
             return Json(new { success = false });

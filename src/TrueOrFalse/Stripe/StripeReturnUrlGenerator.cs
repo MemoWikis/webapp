@@ -2,9 +2,9 @@
 using Seedworks.Lib.Settings;
 
 
-public class StripeBase
+public class StripeReturnUrlGenerator
 {
-    protected static string CreateSiteLink(string targetPath)
+    public static string Create(string targetPath)
     {
         var server = Settings.Environment();
         var url = "";

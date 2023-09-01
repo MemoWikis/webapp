@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class Subscription : StripeBase
+public class StripeSubscriptionHelper
 {
     private readonly SessionUser _sessionUser;
 
-    public Subscription(SessionUser sessionUser)
+    public StripeSubscriptionHelper(SessionUser sessionUser)
     {
         _sessionUser = sessionUser;
     }
@@ -56,8 +56,8 @@ public class Subscription : StripeBase
                     Quantity = 1
                 }
             },
-            SuccessUrl = CreateSiteLink("Preise"),
-            CancelUrl = CreateSiteLink("Preise"),
+            SuccessUrl = StripeReturnUrlGenerator.Create("Preise"),
+            CancelUrl = StripeReturnUrlGenerator.Create("Preise"),
             Customer = customerId
         };
 
@@ -73,6 +73,20 @@ public class Subscription : StripeBase
             Logg.Error(e);
             return "-1";
         }
+    }
+
+    public static async Task<string> GetCancelPlanSessionUrl(SessionUser sessionUser)
+    {
+        var stripeId = sessionUser.User.StripeId;
+        var options = new Stripe.BillingPortal.SessionCreateOptions
+        {
+            Customer = stripeId,
+            ReturnUrl = StripeReturnUrlGenerator.Create("")
+        };
+        var service = new Stripe.BillingPortal.SessionService();
+        var session = await service.CreateAsync(options);
+
+        return session.Url;
     }
 
     public class SubscriptionItemOption

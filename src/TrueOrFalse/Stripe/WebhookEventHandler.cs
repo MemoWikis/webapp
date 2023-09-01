@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Stripe;
 using TrueOrFalse.Infrastructure.Logging;
 
-public class Webhook
+public class WebhookEventHandler
 {
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
