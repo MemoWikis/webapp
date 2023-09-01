@@ -157,7 +157,7 @@ public class Webhook
             DateTime endDate;
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
-                endDate = subscription.paymentObject.CanceledAt ?? MaxValueMysql;
+                endDate = subscription.paymentObject.CurrentPeriodEnd;
                 Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
             }
             else
