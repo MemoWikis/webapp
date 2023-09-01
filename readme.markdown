@@ -1,14 +1,3 @@
 
-LICENCE:
-====================
 
-### 1:) Non-commercial Use
-
-The source code, its compilations, and any artifacts associated with the source code for the "memucho" application (Reference: https://github.com/memowikis/webapp), as long as they are not subject to third-party rights, may be used unrestrictedly for non-commercial purposes.
-
-### 2:) Commercial Use
-
-Licensing is required for commercial use. Please contact the memucho team (for example, at: https://memucho.de/kontakt) for more information.
-
-### 3:) Disclaimer of Warranty
-The software is provided "as is" without any warranties. The licensor is not liable for damages resulting from its use.
+Licence: https://github.com/MemoWikis/webapp/blob/master/licence.txt
