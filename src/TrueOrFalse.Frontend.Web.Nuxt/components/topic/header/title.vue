@@ -55,7 +55,7 @@ async function scrollToChildTopics() {
         await nextTick()
         await nextTick()
     }
-    const s = document.getElementById('Segmentation')
+    const s = document.getElementById('TopicGrid')
     if (s)
         s.scrollIntoView({ behavior: 'smooth' })
 }
