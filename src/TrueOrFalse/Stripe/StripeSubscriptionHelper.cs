@@ -4,16 +4,16 @@ using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class SubscriptionLogic : BaseStripeLogic
+public class StripeSubscriptionHelper
 {
     private readonly SessionUser _sessionUser;
 
-    public SubscriptionLogic(SessionUser sessionUser)
+    public StripeSubscriptionHelper(SessionUser sessionUser)
     {
         _sessionUser = sessionUser;
     }
 
-    public async Task<string> CreateCustomer(string username, string email, int userId)
+    private async Task<string> CreateStripeCustomer(string username, string email, int userId)
     {
         var optionsUser = new CustomerCreateOptions
         {
@@ -30,20 +30,19 @@ public class SubscriptionLogic : BaseStripeLogic
         return customer.Id;
     }
 
-    public async Task<string> CreateStripeSession(string priceId)
+    public async Task<string> CreateStripeSubscriptionSession(string priceId)
     {
         var sessionUser = _sessionUser.User;
 
-        var customerId = "";
+        string customerId;
         if (sessionUser.StripeId == null)
         {
-            customerId = await CreateCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
+            customerId = await CreateStripeCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
         }
         else
         {
             customerId = sessionUser.StripeId;
         }
-
 
         var options = new SessionCreateOptions
         {
@@ -57,8 +56,8 @@ public class SubscriptionLogic : BaseStripeLogic
                     Quantity = 1
                 }
             },
-            SuccessUrl = CreateSiteLink("Preise"),
-            CancelUrl = CreateSiteLink("cancel"),
+            SuccessUrl = StripeReturnUrlGenerator.Create("Preise"),
+            CancelUrl = StripeReturnUrlGenerator.Create("Preise"),
             Customer = customerId
         };
 
@@ -74,6 +73,20 @@ public class SubscriptionLogic : BaseStripeLogic
             Logg.Error(e);
             return "-1";
         }
+    }
+
+    public static async Task<string> GetCancelPlanSessionUrl(SessionUser sessionUser)
+    {
+        var stripeId = sessionUser.User.StripeId;
+        var options = new Stripe.BillingPortal.SessionCreateOptions
+        {
+            Customer = stripeId,
+            ReturnUrl = StripeReturnUrlGenerator.Create("")
+        };
+        var service = new Stripe.BillingPortal.SessionService();
+        var session = await service.CreateAsync(options);
+
+        return session.Url;
     }
 
     public class SubscriptionItemOption
