@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 
-public class ImageMetaDataReadingRepo : IRegisterAsInstancePerLifetime
+public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
 {
     private readonly ISession _session;
-    private readonly RepositoryDb<ImageMetaData> _repo;
+   
 
-    public ImageMetaDataReadingRepo(ISession session)
+    public ImageMetaDataReadingRepo(ISession session) : base(session)
     {
         _session = session;
-        _repo = new RepositoryDb<ImageMetaData>(session);
     }
 
     public ImageMetaData GetBy(int typeId, ImageType imageType)
@@ -44,10 +41,11 @@ public class ImageMetaDataReadingRepo : IRegisterAsInstancePerLifetime
     /// </summary>
     /// <param name="imageType">The type of images to retrieve metadata for.</param>
     /// <returns>A dictionary of image metadata, with the ID as the key and the metadata object as the value.</returns>
-    public IDictionary<int, ImageMetaData> GetAll(ImageType imageType)
+    public IEnumerable<ImageMetaData> GetAll(ImageType imageType)
     {
-        return _session.QueryOver<ImageMetaData>().Where(x => x.Type == imageType).List<ImageMetaData>()
-            .ToDictionary(x => x.Id, x => x);
+        return _session.QueryOver<ImageMetaData>()
+            .Where(x => x.Type == imageType)
+            .List<ImageMetaData>();
     } 
     public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
     {
@@ -63,10 +61,5 @@ public class ImageMetaDataReadingRepo : IRegisterAsInstancePerLifetime
         searchSpec.TotalItems = query.RowCount();
 
         return result;
-    }
-
-    public ImageMetaData GetById(int id)
-    {
-        return _repo.GetById(id);
     }
 }

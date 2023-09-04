@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using VueApp;
 
-namespace VueApp;
 
 public class AppController : Controller
 {
@@ -12,7 +12,6 @@ public class AppController : Controller
         _vueSessionUser = vueSessionUser;
     }
 
-    [HttpGet]
     public JsonResult GetCurrentUser()
     {
         return Json(_vueSessionUser.GetCurrentUserData());

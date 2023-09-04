@@ -1,31 +1,17 @@
-﻿using CacheManager.Core;
+﻿using System.Collections.Concurrent;
 
-public class ImageMetaDataCache
+public class ImageMetaDataCache : BaseEntityCache
 {
 
     private static readonly string _imageMetaDatasQuestionsKey = "imageMetaDatasQuestion"; 
-    private static readonly string _imageMetaDatasCategoriesKey = "imageMetaDatasQuestion";
-    private static ICacheManager<object>? _cache;
+    private static readonly string _imageMetaDatasCategoriesKey = "imageMetaDatasCategories";
+    
     public static IDictionary<int, ImageMetaData> RequestCache_Questions(ImageMetaDataReadingRepo imageMetaDataReadingRepo) => 
-        GetRequestItemsCache(_imageMetaDatasQuestionsKey, ImageType.Question, imageMetaDataReadingRepo);
+        GetRequestItemsCache(_imageMetaDatasQuestionsKey, imageMetaDataReadingRepo);
     public static IDictionary<int, ImageMetaData> RequestCache_Categories(ImageMetaDataReadingRepo imageMetaDataReadingRepo) => 
-        GetRequestItemsCache(_imageMetaDatasCategoriesKey, ImageType.Category, imageMetaDataReadingRepo);
+        GetRequestItemsCache(_imageMetaDatasCategoriesKey, imageMetaDataReadingRepo);
 
 
-    private static void InitCache(string cacheKey, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
-    {
-       
-        if (_cache == null)
-        {
-
-            _cache = CacheFactory.Build<object>(settings =>
-            {
-                settings.WithDictionaryHandle()
-                    .EnablePerformanceCounters()
-                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
-            });
-        }
-    }
     public static bool IsInCache(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
         if (imageType == ImageType.Question)
@@ -51,11 +37,28 @@ public class ImageMetaDataCache
         return null;
     }
 
-    private static IDictionary<int, ImageMetaData> GetRequestItemsCache(string cacheKey,
-        ImageType imageType, 
+    private static IDictionary<int, ImageMetaData> GetRequestItemsCache(string cacheKey, 
         ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-        InitCache(cacheKey, imageType, imageMetaDataReadingRepo);
+        
+        var cache = (ConcurrentDictionary<int, ImageMetaData>)_cache.Get(cacheKey);
+        if (cache == null || cache.Any() == false)
+        {
+            var metadata = imageMetaDataReadingRepo.GetAll();
+            
+            IntoForeverCache(cacheKey, metadata.ToConcurrentDictionary()); 
+        }
+     
         return _cache.Get<IDictionary<int, ImageMetaData>>(cacheKey);
+    }
+
+    private static ImageType GetImageType(string key)
+    {
+        if(key.Equals(_imageMetaDatasQuestionsKey))
+            return ImageType.Question;
+        else if(key.Equals(_imageMetaDatasCategoriesKey))
+            return ImageType.Category;
+
+        throw new InvalidOperationException("Type not found"); 
     }
 }

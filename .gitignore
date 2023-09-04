@@ -40,3 +40,4 @@ docs/Mockups/Fragensätze/Wissen.Fragen.3 Fragensätze.bmml
 !**/npm/tiptap-build/*.js
 solrdata/
 src/NDependOut/
+/src/TrueOrFalse.Frontend.Web/Properties/launchSettings.json

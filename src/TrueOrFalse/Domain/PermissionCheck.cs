@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public class PermissionCheck
+public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
     public readonly IHttpContextAccessor _httpContextAccessor;
     public readonly IWebHostEnvironment _webHostEnvironment;

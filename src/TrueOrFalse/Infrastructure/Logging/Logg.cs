@@ -20,23 +20,21 @@ public class Logg : IRegisterAsInstancePerLifetime
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
 
+      
         _logger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment",
-                Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+            .Enrich.WithProperty("Environment",_webHostEnvironment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", false)
             .WriteTo.Seq(_seqUrl)
             .CreateLogger();
 
         _loggerIsCrawler = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment",
-                Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+            .Enrich.WithProperty("Environment", _webHostEnvironment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", true)
             .WriteTo.Seq(_seqUrl)
             .CreateLogger();
 
         _subscriptionLogger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment",
-                Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment))
+            .Enrich.WithProperty("Environment", _webHostEnvironment.EnvironmentName)
             .Enrich.WithProperty("isSubscription", true)
             .WriteTo.Seq(_seqUrl)
             .CreateLogger();

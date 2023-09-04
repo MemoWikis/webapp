@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace VueApp;
-
+[Route("apiVue/Author")]
+[ApiController]
 public class AuthorController : Controller
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -14,7 +14,9 @@ public class AuthorController : Controller
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
+
     [HttpPost]
+    [Route("GetAuthor")]
     public JsonResult GetAuthor(int id)
     {
         var author = EntityCache.GetUserById(id);

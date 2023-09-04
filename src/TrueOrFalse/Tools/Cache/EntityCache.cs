@@ -42,7 +42,7 @@ public class EntityCache : BaseEntityCache
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
         {
-            UpdateCategoryQuestionList(categoryQuestionList, question, httpContextAccessor, webHostEnvironment);
+            UpdateCategoryQuestionList(categoryQuestionList, question);
         }
 
         return categoryQuestionList;
@@ -231,7 +231,7 @@ public class EntityCache : BaseEntityCache
         List<int> categoriesIdsToRemove = null)
     {
         AddOrUpdate(Questions, question);
-        UpdateCategoryQuestionList(CategoryQuestionsList, question,httpContextAccessor, webHostEnvironment, categoriesIdsToRemove);
+        UpdateCategoryQuestionList(CategoryQuestionsList, question, categoriesIdsToRemove);
     }
 
     public static void Remove(QuestionCacheItem question)

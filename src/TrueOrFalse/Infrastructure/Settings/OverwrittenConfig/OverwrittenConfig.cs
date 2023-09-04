@@ -7,18 +7,10 @@ using Seedworks.Web.State;
 
 public class OverwrittenConfig
 {
-    private readonly HttpContext _httpContext;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly Dictionary<string, string> _stringValues = new Dictionary<string, string>();
-    private readonly Dictionary<string, bool> _booleanValues = new Dictionary<string, bool>();
+    private readonly Dictionary<string, string> _stringValues = new();
+    private readonly Dictionary<string, bool> _booleanValues = new();
     private XDocument _xDoc;
 
-    public OverwrittenConfig(HttpContext httpContext,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        _httpContext = httpContext;
-        _webHostEnvironment = webHostEnvironment;
-    }
     public string ValueString(string itemName)
     {
         if (_stringValues.ContainsKey(itemName))
@@ -47,10 +39,8 @@ public class OverwrittenConfig
     {
         if (_xDoc == null)
         {
-            var contextUtil = new ContextUtil(_httpContext, _webHostEnvironment);
-            string filePath = contextUtil.GetFilePath(
-              contextUtil.IsWebContext || contextUtil.UseWebConfig ? "Web.overwritten.config" : "App.overwritten.config"
-            );
+            string filePath = Path.Combine(System.AppContext.BaseDirectory, "Web.overwritten.config");
+            
 
             if (!File.Exists(filePath))
                 return new OverwrittenConfigValueResult(false, null);

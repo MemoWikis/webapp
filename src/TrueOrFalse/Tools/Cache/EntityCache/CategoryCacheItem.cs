@@ -3,11 +3,12 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Seedworks.Lib.Persistence;
 using Serilog;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class CategoryCacheItem
+public class CategoryCacheItem : IPersistable
 {
     public int CreatorId;
     public CategoryCacheItem()

@@ -13,6 +13,7 @@ using FluentNHibernate.Cfg.Db;
 using FluentNHibernate.Automapping;
 using FluentNHibernate.Data;
 using FluentNHibernate.Mapping;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Infrastructure
@@ -22,6 +23,8 @@ namespace TrueOrFalse.Infrastructure
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+
             builder.Register(context => context.Resolve<SessionManager>().Session);
             builder.Register(c =>
             {

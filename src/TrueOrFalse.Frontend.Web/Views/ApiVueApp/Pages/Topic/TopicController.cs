@@ -21,21 +21,19 @@ public class TopicController : Controller
         _sessionUserCache = sessionUserCache;
     }
 
-    [HttpGet]
-    public JsonResult GetTopic(int id)
+    public JsonResult GetTopic([FromQuery] int id)
     {
         
         return Json(_topicControllerLogic.GetTopicData(id));
     }
 
-    [HttpGet]
+  
     public JsonResult GetTopicWithSegments(int id)
     {
             return Json(_topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext));
         }
 
-    [HttpGet]
-    public bool CanAccess(int id)
+    public bool CanAccess([FromQuery] int id)
     {
         var c = EntityCache.GetCategory(id);
 
@@ -45,8 +43,7 @@ public class TopicController : Controller
         return false;
     }
 
-    [HttpGet]
-    public JsonResult LoadQuestionIds(int topicId)
+    public JsonResult LoadQuestionIds([FromQuery] int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
         if (_permissionCheck.CanView(topicCacheItem))

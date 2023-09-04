@@ -43,29 +43,24 @@ public class Settings
 
     public static bool InitEntityCacheViaJobScheduler(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
-        var result = new OverwrittenConfig(httpContext, webHostEnvironment).Value("initEntityCacheViaJobScheduler");
+        var result = new OverwrittenConfig().Value("initEntityCacheViaJobScheduler");
 
         return result.HasValue && Boolean.Parse(result.Value);
     }
 
     /// <summary>Develop / Stage / Live</summary>
     public static string Environment(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => new OverwrittenConfig(httpContext, webHostEnvironment).ValueString("environment");
+        => new OverwrittenConfig().ValueString("environment");
     public static string UpdateUserSettingsKey(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => new OverwrittenConfig(httpContext, webHostEnvironment).ValueString("updateUserSettingsKey");
-    public static bool DebugEnableMiniProfiler(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-    => new OverwrittenConfig(httpContext, webHostEnvironment).ValueBool("debugEnableMiniProfiler");
-
+        => new OverwrittenConfig().ValueString("updateUserSettingsKey");
     public static bool DisableAllJobs(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => new OverwrittenConfig(httpContext, webHostEnvironment).ValueBool("disableAllJobs");
-
+        => new OverwrittenConfig().ValueBool("disableAllJobs");
     public static string RollbarAccessToken => Get<string>("Rollbar.AccessToken");
     public static string RollbarEnvironment => Get<string>("Rollbar.Environment");
- 
 
     public static string ConnectionString(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
-        var result = new OverwrittenConfig(httpContext, webHostEnvironment).Value("connectionString");
+        var result = new OverwrittenConfig().Value("connectionString");
         return result.HasValue ? result.Value : ConfigurationManager.ConnectionStrings["main"].ConnectionString;
     }
 
@@ -77,20 +72,20 @@ public class Settings
         return Get<string>(configKey);
     }
 
-    private static T Get<T>(string settingKey){
+    private static T? Get<T>(string settingKey){
         try
         {
             return (T)_settingReader.GetValue(settingKey, typeof(T));
         }
         catch
         {
-            return default(T);
+            return default;
         }
     }
 
     public Settings(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
-        var overwrittenConfig = new OverwrittenConfig(httpContext, webHostEnvironment);
+        var overwrittenConfig = new OverwrittenConfig();
         var environment = Environment(httpContext, webHostEnvironment); 
 
         GoogleApiKey = GetValue(overwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");

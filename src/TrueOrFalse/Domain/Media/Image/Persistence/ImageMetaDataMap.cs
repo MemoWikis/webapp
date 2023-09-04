@@ -6,12 +6,12 @@ public class ImageMetaDataMap : ClassMap<ImageMetaData>
     {
         Id(x => x.Id);
 
-        Map(x => x.Type);
+        Map(x => x.Type).CustomType<ImageType>(); 
         Map(x => x.TypeId);
 
         Map(x => x.UserId);
             
-        Map(x => x.Source);
+        Map(x => x.Source).CustomType<ImageSource>();
         Map(x => x.SourceUrl);
 
         Map(x => x.ApiResult).Length(Constants.VarCharMaxLength);
@@ -27,7 +27,7 @@ public class ImageMetaDataMap : ClassMap<ImageMetaData>
         Map(x => x.AllRegisteredLicenses);
 
         Map(x => x.Notifications);
-        Map(x => x.LicenseState);
+        Map(x => x.LicenseState).CustomType<ImageLicenseState>(); ;
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);

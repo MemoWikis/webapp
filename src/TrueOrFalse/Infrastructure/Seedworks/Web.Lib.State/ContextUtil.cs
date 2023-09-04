@@ -22,24 +22,7 @@ namespace Seedworks.Web.State
 
         public string GetFilePath(string fileName)
         {
-            if (IsWebContext)
-                return Path.Combine(_webHostEnvironment.WebRootPath, $@"~/{fileName}");
-
-            if (UseWebConfig)
-                return Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.FullName, fileName);
-
-            return Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, fileName);
-        }
-
-        private string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
+            return Path.Combine(AppContext.BaseDirectory, $@"~/{fileName}");
         }
     }
 

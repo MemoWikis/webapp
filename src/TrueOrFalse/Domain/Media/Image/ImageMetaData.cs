@@ -5,7 +5,6 @@ using Seedworks.Lib.Persistence;
 public class ImageMetaData : DomainEntity
 {
     public virtual ImageType Type { get; set; }
-    /// <summary>E.g questionId, questionSetId, ... </summary>
     public virtual int TypeId { get; set; }
     public virtual ImageSource Source { get; set; }
     public virtual string SourceUrl { get; set; }
