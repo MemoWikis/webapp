@@ -2,16 +2,13 @@
 import { ref } from 'vue'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useUserStore } from '../user/userStore'
-import { useTopicStore } from '../topic/topicStore'
 
 const alertStore = useAlertStore()
 const userStore = useUserStore()
-const topicStore = useTopicStore()
 
 const eMail = ref('')
 const password = ref('')
 const persistentLogin = ref(false)
-const { $urlHelper } = useNuxtApp()
 async function login() {
 
     errorMessage.value = ''

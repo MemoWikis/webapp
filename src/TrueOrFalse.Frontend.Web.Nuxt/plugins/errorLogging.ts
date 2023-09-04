@@ -24,11 +24,11 @@ function getKeyFromValue(value: string): string | undefined {
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.config.errorHandler = (error, context, info) => {
         const logger = new CustomPino()
-        if (error instanceof SyntaxError || error instanceof TypeError) {
+        if (error && error instanceof Error) {
             const errorObject = {
-                name: error.name,
-                message: error.message,
-                stack: error.stack,
+                name: error.name ?? "unknown name",
+                message: error.message ?? "unknown message",
+                stack: error.stack ?? "no stack",
             }
 
             logger.error(`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])

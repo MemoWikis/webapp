@@ -88,7 +88,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
 
     public dynamic QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
-        if (!LimitCheck.CanSavePrivateTopic(sessionUser))
+        if (!LimitCheck.CanSavePrivateTopic(sessionUser, logExceedance: true))
         {
             return new
             {
@@ -152,47 +152,46 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         };
     }
 
-    public dynamic MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
+    public RequestResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
     {
         if (childId == parentIdToRemove || childId == parentIdToAdd)
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "loopLink"
+                messageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
         if (parentIdToRemove == RootCategory.RootCategoryId && !_isInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId && !_isInstallationAdmin)
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "parentIsRoot"
+                messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
         var json = AddChild(childId, parentIdToAdd, parentIdToRemove);
         RemoveParent(parentIdToRemove, childId, new int[] { parentIdToAdd, parentIdToRemove });
         return json;
     }
 
-    public dynamic AddChild(int childId, int parentId, int parentIdToRemove = -1, bool redirectToParent = false, bool addIdToWikiHistory = false)
+    public RequestResult AddChild(int childId, int parentId, int parentIdToRemove = -1, bool addIdToWikiHistory = false)
     {
         if (childId == parentId)
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "loopLink"
+                messageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
         if (parentId == RootCategory.RootCategoryId && !_isInstallationAdmin)
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "parentIsRoot"
+                messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
-        var children = EntityCache.GetAllChildren(parentId, true);
-        var isChildrenLinked = children.Any(c => c.Id == childId) && children.All(c => c.Id != parentIdToRemove);
+        var parent = EntityCache.GetCategory(parentId);
 
-        if (isChildrenLinked)
-            return new
+        if (parent.DirectChildrenIds.Any(id => id == childId))
+            return new RequestResult
             {
                 success = false,
-                key = "isAlreadyLinkedAsChild"
+                messageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
             };
         var selectedTopicIsParent = GraphService.GetAllParentsFromEntityCache(parentId)
             .Any(c => c.Id == childId);
@@ -200,10 +199,10 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         if (selectedTopicIsParent)
         {
             new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Child is Parent ");
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "childIsParent"
+                messageKey = FrontendMessageKeys.Error.Category.ChildIsParent
             };
         }
 
@@ -220,31 +219,25 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         EntityCache.GetCategory(parentId).CachedData.AddChildId(childId);
         EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
 
-        var links = new Links(_actionContextAccessor, _httpContextAccessor); 
-        if (redirectToParent)
-            return new
-            {
-                success = true,
-                url = links.CategoryDetail(EntityCache.GetCategory(parentId)),
-                id = parentId
-            };
-
-        return new
+        return new RequestResult
         {
             success = true,
-            url = links.CategoryDetail(child),
-            id = childId
+            data = new
+            {
+                name = EntityCache.GetCategory(parentId).Name,
+                id = childId
+            }
         };
     }
 
-    public dynamic RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
+    public RequestResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
         var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId,_permissionCheck);
         if (!parentHasBeenRemoved)
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "noRemainingParents",
+                messageKey = FrontendMessageKeys.Error.Category.NoRemainingParents
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
@@ -256,10 +249,10 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
             _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
-        return new
+        return new RequestResult
         {
             success = true,
-            key = "unlinked"
+            messageKey = FrontendMessageKeys.Success.Category.Unlinked
         };
     }
 }

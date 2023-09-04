@@ -3,6 +3,8 @@ import { TopicItem } from '../../search/searchHelper'
 import { useTopicStore } from '../topicStore'
 import { useUserStore } from '../../user/userStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
+import { isEqual } from 'underscore'
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -67,18 +69,17 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         },
         async initWikiData() {
             type personalWikiDataResult = {
-                success: boolean,
                 personalWiki: TopicItem,
                 recentlyUsedRelationTargetTopics: TopicItem[]
             }
-            var result = await $fetch<personalWikiDataResult>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            var result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
-                this.personalWiki = result.personalWiki
+                this.personalWiki = result.data.personalWiki
                 this.categoriesToFilter = []
                 this.categoriesToFilter.push(this.personalWiki.Id)
 
-                this.recentlyUsedRelationTargetTopics = result.recentlyUsedRelationTargetTopics?.reverse()
+                this.recentlyUsedRelationTargetTopics = result.data.recentlyUsedRelationTargetTopics?.reverse()
                 this.recentlyUsedRelationTargetTopics?.forEach((el) => {
                     this.categoriesToFilter.push(el.Id)
                 })
@@ -112,22 +113,109 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
 
             this.openModal(editTopicRelationData)
         },
-        addToPersonalWiki(id: number) {
-            const editTopicRelationData: EditRelationData = {
-                childId: id,
-                redirect: true,
-                editCategoryRelation: EditTopicRelationType.AddToPersonalWiki
+        async addToPersonalWiki(id: number) {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
             }
 
-            this.openModal(editTopicRelationData)
+            const data = {
+                id: id,
+            }
+
+            const result = await $fetch<any>("/apiVue/EditTopicRelationStore/AddToPersonalWiki", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            })
+
+            if (result.success == true) {
+                return {
+                    success: true,
+                    id: id
+                }
+            } else if (result.success == false) {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, { text: messages.error.topic[result.key] })
+            }
         },
-        addTopicCard(childId: number) {
+        async removeFromPersonalWiki(id: number) {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
+
+            const data = {
+                id: id,
+            }
+
+            const result = await $fetch<any>("/apiVue/EditTopicRelationStore/RemoveFromPersonalWiki", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            })
+
+            if (result.success == true) {
+                return {
+                    success: true,
+                    id: id
+                }
+            } else if (result.success == false) {
+                const alertStore = useAlertStore()
+                alertStore.openAlert(AlertType.Error, { text: messages.error.topic[result.key] })
+            }
+        },
+        addTopic(childId: number) {
             return {
                 parentId: this.parentId,
                 childId: childId,
             }
-        }
+        },
+        removeTopic(childId: number, parentIdToRemove: number) {
+            return {
+                parentId: parentIdToRemove,
+                childId: childId
+            }
+        },
+        async removeChild(parentId: number, childId: number) {
+            const result = await this.removeChildren(parentId, [childId])
+            if (result && isEqual(result.removedChildIds, [childId]))
+                return {
+                    parentId: this.parentId,
+                    childId: childId,
+                }
+        },
+        async removeChildren(parentId: number, childIds: number[]) {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
 
+            const data = {
+                parentId: parentId,
+                childIds: childIds,
+            }
+
+            var result = await $fetch<FetchResult<number[]>>("/apiVue/EditTopicRelationStore/RemoveChildren", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            })
+
+            if (result.success == true) {
+                return {
+                    parentId: parentId,
+                    removedChildIds: result.data
+                }
+            }
+
+        },
     },
 })
 

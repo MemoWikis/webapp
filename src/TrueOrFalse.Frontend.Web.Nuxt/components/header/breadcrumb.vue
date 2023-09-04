@@ -44,34 +44,33 @@ const stackedBreadcrumbItems = ref<BreadcrumbItem[]>([])
 const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
-function startUpdateBreadcrumb() {
-	updateBreadcrumb()
-}
-
 function handleResize() {
 	windowInnerWidth.value = window.innerWidth
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 }
 
 function handleScroll() {
 	if (userStore.isLoggedIn || window?.pageYOffset > 105)
 		return
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
-
+const isUpdating = ref(false)
 async function updateBreadcrumb() {
+	isUpdating.value = true
+
 	await nextTick()
-	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null) {
+	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
 
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight + 200
+		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - (document.getElementById('BreadCrumb')!.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
+
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 
 		if (document.getElementById('BreadCrumb')!.clientHeight > 30) {
 			shiftToStackedBreadcrumbItems()
-		} else if (document.getElementById('BreadCrumb')!.clientHeight == 30) {
+		} else if (document.getElementById('BreadCrumb')!.clientHeight <= 30) {
 			insertToBreadcrumbItems()
 			await nextTick()
 			if (breadcrumbEl.value && document.getElementById('BreadCrumb')!.clientHeight > 30) {
@@ -79,6 +78,8 @@ async function updateBreadcrumb() {
 			}
 		}
 	}
+	await nextTick()
+	isUpdating.value = false
 }
 
 const rootWikiIsStacked = ref(false)
@@ -107,22 +108,13 @@ function insertToBreadcrumbItems() {
 const pageTitle = ref('')
 
 onBeforeMount(async () => {
-
 	if (typeof window !== 'undefined') {
 		window.addEventListener('resize', handleResize)
 		window.addEventListener('scroll', handleScroll)
 	}
 	await nextTick()
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 	getBreadcrumb()
-
-})
-
-onBeforeUnmount(() => {
-	if (typeof window !== 'undefined') {
-		window.removeEventListener('resize', handleResize)
-		window.removeEventListener('scroll', handleScroll)
-	}
 })
 
 const route = useRoute()
@@ -145,6 +137,8 @@ const rootTopicChipStore = useRootTopicChipStore()
 async function getBreadcrumb() {
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
+
+	await nextTick()
 
 	var sessionStorage = window.sessionStorage
 
@@ -202,33 +196,56 @@ async function getBreadcrumb() {
 }
 
 function setPageTitle() {
+	pageTitle.value = ''
 	switch (props.page) {
+		case Page.Welcome:
+			pageTitle.value = 'Willkommen'
+			break
 		case Page.Topic:
 			pageTitle.value = topicStore.name
+			break
+		// case Page.Question custom breadcrumb item set in the question/[id].vue
+		// case Page.Question custom breadcrumb item set in the user/[id].vue
+		case Page.Imprint:
+			pageTitle.value = 'Impressum'
+			break
+		case Page.Terms:
+			pageTitle.value = 'Geschäftsbedingungen'
 			break
 		case Page.Register:
 			pageTitle.value = 'Registrieren'
 			break
+		case Page.Messages:
+			pageTitle.value = 'Nachrichten'
+			break
+		// case Page.Default:
+		// 	pageTitle.value = ''
+		// 	break
+		case Page.Error:
+			pageTitle.value = 'Fehler'
+			break
 		case Page.ResetPassword:
 			pageTitle.value = 'Passwort zurücksetzen'
 			break
-		case Page.Welcome:
-			pageTitle.value = 'Willkommen'
+		case Page.ConfirmEmail:
+			pageTitle.value = 'E-Mail Bestätigung'
 			break
 	}
 }
 
 watch(() => props.showSearch, (val) => {
 	if (!val)
-		startUpdateBreadcrumb()
+		updateBreadcrumb()
 })
 
 const { isMobile } = useDevice()
 const windowInnerWidth = ref(0)
 onMounted(async () => {
+	await nextTick()
+
 	windowInnerWidth.value = window.innerWidth
 	await nextTick()
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 })
 
 const shrinkBreadcrumb = ref(false)
@@ -239,10 +256,16 @@ watch(() => props.showSearch, (val) => {
 		shrinkBreadcrumb.value = true
 	} else
 		shrinkBreadcrumb.value = false
-	startUpdateBreadcrumb()
+	updateBreadcrumb()
 })
 
-watch(() => userStore.isLoggedIn, () => {
+watch(() => userStore.isLoggedIn, async () => {
+
+	windowInnerWidth.value = window.innerWidth
+	await nextTick()
+	updateBreadcrumb()
+	await nextTick()
+
 	getBreadcrumb()
 })
 
@@ -251,7 +274,8 @@ const { $urlHelper } = useNuxtApp()
 
 <template>
 	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
-		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768 }" v-show="!shrinkBreadcrumb">
+		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': isUpdating }"
+		v-show="!shrinkBreadcrumb">
 
 		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.Name, breadcrumb.personalWiki.Id)"
 			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki"
@@ -405,6 +429,10 @@ const { $urlHelper } = useNuxtApp()
 			padding-left: 0px;
 		}
 
+		@media (max-width: 479px) {
+			max-width: 260px;
+		}
+
 		&.last {
 			max-width: 300px;
 			color: @memo-grey-darker;
@@ -436,6 +464,17 @@ const { $urlHelper } = useNuxtApp()
 		max-width: 1px;
 		border-radius: 4px;
 		min-width: 1px;
+	}
+}
+</style>
+
+<style lang="less">
+.pseudo-white {
+
+	.breadcrumb-item,
+	.fa-chevron-right {
+		color: white !important;
+
 	}
 }
 </style>

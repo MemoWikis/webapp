@@ -184,6 +184,17 @@ useHead(() => ({
     ]
 }))
 
+userStore.$onAction(({ name, after }) => {
+    if (name == 'logout') {
+
+        after(async (loggedOut) => {
+            if (loggedOut && tab.value == Tab.Settings) {
+                tab.value = Tab.Overview
+            }
+        })
+    }
+})
+
 </script>
 
 <template>

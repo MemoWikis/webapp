@@ -13,6 +13,8 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     private readonly IWebHostEnvironment _webHostEnvironment;
 
     public VueSessionUser(SessionUser sessionUser,
+    	PermissionCheck permissionCheck, 
+    	GridItemLogic gridItemLogic)
         TopicControllerLogic topicControllerLogic,
         GetUnreadMessageCount getUnreadMessageCount,
         IHttpContextAccessor httpContextAccessor,
@@ -29,6 +31,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     {
         var type = UserType.Anonymous;
         var user = _sessionUser.User;
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
 
         if (_sessionUser.IsLoggedIn)
         {
@@ -57,7 +60,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                     .Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki = _topicControllerLogic.GetTopicData(user.StartTopicId),
+                PersonalWiki =_topicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -95,7 +98,10 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = _topicControllerLogic.GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = _topicControllerLogic(_sessionUser,
+             _permissionCheck, 
+             gridItemLogic)
+             .GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = _sessionUser.GetTotalActivityPoints(),

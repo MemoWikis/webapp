@@ -22,11 +22,12 @@ public class StripeAdminstrationController : Controller
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
+
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public async Task<JsonResult> CancelPlan()
     {
-        return Json(await new BillingLogic(_httpContextAccessor,
+        return Json(await StripeSubscriptionHelper.GetCancelPlanSessionUrl(_sessionUser), JsonRequestBehavior.AllowGet);
             _webHostEnvironment)
             .DeletePlan(_sessionUser));
     }
@@ -35,7 +36,7 @@ public class StripeAdminstrationController : Controller
     [HttpPost]
     public async Task<JsonResult> CompletedSubscription(string priceId)
     {
-        var sessionId = await _subscriptionLogic.CreateStripeSession(priceId);
+        var sessionId = await new StripeSubscriptionHelper(_sessionUser).CreateStripeSubscriptionSession(priceId);
         if (sessionId.Equals("-1"))
         {
             return Json(new { success = false });

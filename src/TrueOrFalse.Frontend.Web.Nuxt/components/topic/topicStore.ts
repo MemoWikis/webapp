@@ -3,6 +3,7 @@ import { useUserStore } from '../user/userStore'
 import { Visibility } from '../shared/visibilityEnum'
 import { Author } from '../author/author'
 import { TopicItem } from '../search/searchHelper'
+import { GridTopicItem } from './content/grid/item/gridTopicItem'
 
 export class Topic {
 	CanAccess: boolean = false
@@ -12,6 +13,7 @@ export class Topic {
 	ImageId: number = 0
 	Content: string = ''
 	ParentTopicCount: number = 0
+	Parents: TinyTopicModel[] = []
 	ChildTopicCount: number = 0
 	DirectChildTopicCount: number = 0
 	Views: number = 0
@@ -32,17 +34,8 @@ export class Topic {
 		needsLearning: 0,
 		notLearned: 0,
 	}
-	Segmentation: {
-		childTopics: any,
-		childCategoryIds: string,
-		segmentJson: string
-		segments: any
-	} = {
-			childTopics: null,
-			childCategoryIds: '',
-			segmentJson: '',
-			segments: null
-		}
+	gridItems: GridTopicItem[] = []
+	isChildOfPersonalWiki: boolean = false
 }
 
 export interface KnowledgeSummary {
@@ -62,6 +55,12 @@ export interface FooterTopics {
 	Documentation: Topic
 }
 
+export interface TinyTopicModel {
+	id: number
+	name: string
+	imgUrl: string
+}
+
 export const useTopicStore = defineStore('topicStore', {
 	state: () => {
 		return {
@@ -76,6 +75,7 @@ export const useTopicStore = defineStore('topicStore', {
 			initialContent: '',
 			contentHasChanged: false,
 			parentTopicCount: 0,
+			parents: [] as TinyTopicModel[],
 			childTopicCount: 0,
 			directChildTopicCount: 0,
 			views: 0,
@@ -88,6 +88,8 @@ export const useTopicStore = defineStore('topicStore', {
 			authors: [] as Author[],
 			searchTopicItem: null as null | TopicItem,
 			knowledgeSummary: {} as KnowledgeSummary,
+			gridItems: [] as GridTopicItem[],
+			isChildOfPersonalWiki: false
 		}
 	},
 	actions: {
@@ -102,6 +104,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.initialContent = topic.Content
 
 				this.parentTopicCount = topic.ParentTopicCount
+				this.parents = topic.Parents
 				this.childTopicCount = topic.ChildTopicCount
 				this.directChildTopicCount = topic.DirectChildTopicCount
 
@@ -120,6 +123,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.authors = topic.Authors
 				this.searchTopicItem = topic.TopicItem
 				this.knowledgeSummary = topic.KnowledgeSummary
+				this.gridItems = topic.gridItems
 			}
 		},
 		async saveTopic() {

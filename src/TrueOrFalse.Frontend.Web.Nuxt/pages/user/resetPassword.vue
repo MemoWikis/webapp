@@ -15,18 +15,18 @@ onBeforeMount(() => {
     emit('setPage', Page.ResetPassword)
 
     if (userStore.isLoggedIn)
-        navigateTo('/')
+        return navigateTo('/')
 })
 
 
 const { $logger } = useNuxtApp()
 const route = useRoute()
-const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVue/ResetPassword/Validate/${route.params.token}`, {
+const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVue/ResetPassword/Validate?token=${route.params.token}`, {
     method: 'GET',
     credentials: 'include',
     onResponseError(context) {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-    },
+    }
 })
 const errorMessage = ref<string>('')
 
@@ -48,7 +48,7 @@ async function saveNewPassword() {
         return
     }
     if (newPassword.value.length < 5) {
-        errorMessage.value = 'Bitte gib mindestens 5 Zeichen'
+        errorMessage.value = messages.error.user.passwordTooShort
         return
     }
 
@@ -67,8 +67,7 @@ async function saveNewPassword() {
         userStore.initUser(result.data)
         await nextTick()
         if (userStore.isLoggedIn)
-            navigateTo('/')
-
+            return navigateTo('/')
     } else {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
     }

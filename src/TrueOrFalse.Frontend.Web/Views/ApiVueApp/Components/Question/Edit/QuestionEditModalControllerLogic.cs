@@ -68,7 +68,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
 
     public RequestResult Create(QuestionDataJson questionDataJson)
     {
-        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser, _httpContextAccessor, _webHostEnvironment ))
+        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser, logExceedance: true, _httpContextAccessor, _webHostEnvironment ))
         {
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }

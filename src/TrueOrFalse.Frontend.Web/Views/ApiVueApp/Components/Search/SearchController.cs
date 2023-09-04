@@ -71,10 +71,12 @@ public class SearchController : BaseController
     }
 
     [HttpGet]
-    public async Task<JsonResult> Topic(string term, int[] topicIdsToFilter = null)
+    public async Task<JsonResult> Topic(string term, string topicIdsToFilter)
     {
         var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
+        var idArray = topicIdsToFilter.Split(',').Select(int.Parse).ToArray();
+
+        var elements = await _search.GoAllCategories(term, idArray);
 
         if (elements.Categories.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
@@ -87,6 +89,27 @@ public class SearchController : BaseController
             totalCount = elements.CategoriesResultCount,
             topics = items,
         });
+    }
+
+    [HttpGet]
+    public async Task<JsonResult> TopicInPersonalWiki(string term, string topicIdsToFilter)
+    {
+        var items = new List<SearchTopicItem>();
+        var idArray = topicIdsToFilter.Split(',').Select(int.Parse).ToArray();
+
+        var elements = await _search.GoAllCategories(term, idArray);
+
+        if (elements.Categories.Any())
+            SearchHelper.AddTopicItems(items, elements, _permissionCheck, UserId);
+
+        var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
+        items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
+
+        return Json(new
+        {
+            totalCount = elements.CategoriesResultCount,
+            topics = items,
+        }, JsonRequestBehavior.AllowGet);
     }
 
     [AccessOnlyAsLoggedIn]

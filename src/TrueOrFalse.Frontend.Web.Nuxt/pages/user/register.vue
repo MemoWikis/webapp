@@ -7,6 +7,7 @@ import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Topic } from '~~/components/topic/topicStore'
+import { isValidEmail } from '~/components/shared/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -25,7 +26,7 @@ onBeforeMount(() => {
 
 watch(() => userStore.isLoggedIn, (isLoggedIn) => {
     if (isLoggedIn)
-        navigateTo('/')
+        return navigateTo('/')
 })
 
 
@@ -127,6 +128,11 @@ const passwordInputType = ref('password')
 
 const { $urlHelper } = useNuxtApp()
 async function register() {
+    errorMessage.value = ''
+
+    if (!isValidEmail(eMail.value))
+        errorMessage.value = messages.error.user.emailIsInvalid(eMail.value)
+
     spinnerStore.showSpinner()
 
     const registerData = {
@@ -137,7 +143,7 @@ async function register() {
     let result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
     if (result == 'success' && userStore.personalWiki)
-        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+        return navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
     else if (result)
         errorMessage.value = messages.error.user[result]
 }

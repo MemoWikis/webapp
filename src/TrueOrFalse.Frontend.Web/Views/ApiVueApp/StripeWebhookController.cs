@@ -13,7 +13,7 @@ public class StripeWebhookController : Controller
     }
     public async Task<IActionResult> Webhook()
     {
-        var httpStatusCode = await _webhookLogic.Create();
+        var httpStatusCode = await _webhookEventHandler.Create();
         return httpStatusCode;
     }
 }

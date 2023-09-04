@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using TrueOrFalse.Infrastructure.Logging;
 
-public class WebhookLogic : IRegisterAsInstancePerLifetime
+public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 {
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
@@ -39,8 +39,11 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
             return status;
         }
 
+        Logg.r().Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
+
         switch (stripeEvent.Type)
         {
+            //We use this event instead of CustomerSubscriptionCreated to register the user as member:
             case Events.PaymentIntentSucceeded:
                 PaymentIntentSucceeded(stripeEvent);
                 break;
@@ -69,7 +72,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
 
     private void CustomerSubscriptionDeleted(Event stripeEvent)
     {
-        var paymentDeleted = GetPaymentObjectAndUser<Subscription>(stripeEvent);
+        var paymentDeleted = GetPaymentObjectAndUser<Stripe.Subscription>(stripeEvent);
         var user = paymentDeleted.user;
         if (user != null)
         {
@@ -129,12 +132,11 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
         var user = paymentFailed.user;
         if (user != null)
         {
-            var subscriptionDate = paymentFailed.paymentObject.BillingReason == "subscription_create"
-                ? DateTime.Now
-                : MaxValueMysql;
+            var currentSubscriptionDate = user.EndDate;
+            var newSubscriptionDate = DateTime.Now;
 
-            var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
-            SetNewSubscriptionDate(user, subscriptionDate, log);
+            var log = $"Invoice payment for user with userId: {user.Id} failed. BillingReason: {paymentFailed.paymentObject.BillingReason }. Old SubscriptionEndDate was: {currentSubscriptionDate}, New SubscriptionEndDate is {newSubscriptionDate}.";
+            SetNewSubscriptionDate(user, newSubscriptionDate, log);
         }
 
         LogErrorWhenUserNull(paymentFailed.paymentObject.CustomerId, user);
@@ -163,7 +165,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
 
     private void PaymentUpdate(Event stripeEvent)
     {
-        var subscription = GetPaymentObjectAndUser<Subscription>(stripeEvent);
+        var subscription = GetPaymentObjectAndUser<Stripe.Subscription>(stripeEvent);
         var user = subscription.user;
         if (user != null)
         {
@@ -171,7 +173,7 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
             DateTime endDate;
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
-                endDate = subscription.paymentObject.CanceledAt ?? MaxValueMysql;
+                endDate = subscription.paymentObject.CurrentPeriodEnd;
                 new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
             }
             else
@@ -186,9 +188,9 @@ public class WebhookLogic : IRegisterAsInstancePerLifetime
         LogErrorWhenUserNull(subscription.paymentObject.CustomerId, user);
     }
 
-    private void SetNewSubscriptionDate(User user, DateTime date, string log, bool isIntentSucceeded = false)
+    private void SetNewSubscriptionDate(User user, DateTime date, string log, bool intentSucceeded = false)
     {
-        if (user.SubscriptionStartDate == null && isIntentSucceeded)
+        if (user.SubscriptionStartDate == null && intentSucceeded)
         {
             user.SubscriptionStartDate = DateTime.Now;
         }

@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 
-const emit = defineEmits(['selectItem'])
+const emit = defineEmits(['selectItem', 'navigateToUrl'])
 
 const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
 watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {
@@ -71,14 +71,21 @@ const userSearchUrl = ref('')
 const topics = ref([] as TopicItem[])
 const questions = ref([] as QuestionItem[])
 const users = ref([] as UserItem[])
-const { $logger } = useNuxtApp()
+const { $urlHelper, $logger } = useNuxtApp()
+
+const computedSearchUrl = computed(() => {
+    let url = `${searchUrl.value}?term=${encodeURIComponent(searchTerm.value)}`
+    if (props.searchType == SearchType.Category || props.searchType == SearchType.CategoryInWiki)
+        url += `&topicIdsToFilter=${props.topicIdsToFilter.join(',')}`
+    return url
+})
 
 async function search() {
-    var result = await $fetch<FullSearch>(`${searchUrl.value}?term=${encodeURIComponent(searchTerm.value)}`, {
+    const result = await $fetch<FullSearch>(computedSearchUrl.value, {
         mode: 'no-cors',
         credentials: 'include',
         onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
         }
     })
     if (result != null) {
@@ -102,7 +109,7 @@ async function search() {
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }
-const { $urlHelper } = useNuxtApp()
+
 function selectItem(item: TopicItem | QuestionItem | UserItem) {
     switch (item.Type) {
         case 'TopicItem':
@@ -116,9 +123,10 @@ function selectItem(item: TopicItem | QuestionItem | UserItem) {
             break;
     }
     selectedItem.value = item
+    searchTerm.value = ''
 }
 function openUsers() {
-    navigateTo(userSearchUrl.value)
+    return navigateTo(userSearchUrl.value)
 }
 
 onMounted(() => {
@@ -126,20 +134,25 @@ onMounted(() => {
         window.addEventListener('scroll', () => { showDropdown.value = false })
     }
 })
-function hide() {
-    showDropdown.value = false
-}
+
+
+const searchInput = ref()
+
+watch(() => props.showSearch, (val) => {
+    if (val && searchInput.value)
+        searchInput.value.focus()
+})
 </script>
 
 <template>
     <LazyClientOnly>
-        <div class="search-category-component" v-click-outside="hide">
+        <div class="search-category-component">
             <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
                             v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                            :placeholder="props.placeholderLabel" />
+                            :placeholder="props.placeholderLabel" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
 
@@ -147,8 +160,8 @@ function hide() {
                 </div>
             </form>
 
-            <VDropdown :distance="props.distance" :triggers="[]" v-model:shown="showDropdown" no-auto-focus
-                :auto-hide="false" :placement="props.placement">
+            <VDropdown :distance="props.distance" v-model:shown="showDropdown" no-auto-focus :auto-hide="true"
+                :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
                         <div v-if="topics.length > 0" class="searchBanner">

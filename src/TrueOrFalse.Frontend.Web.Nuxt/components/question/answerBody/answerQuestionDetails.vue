@@ -1252,7 +1252,6 @@ watch(() => userStore.isLoggedIn, () => {
         @media(max-width:767px) {
             display: flex;
             flex-wrap: wrap;
-            flex-flow: column-reverse;
         }
 
         .sectionLabel {

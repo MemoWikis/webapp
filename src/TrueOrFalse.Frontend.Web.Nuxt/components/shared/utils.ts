@@ -77,3 +77,8 @@ export function moveElement<T>(arr: NestedArray<T>, fromIndexPath: IndexPath, to
         addElementAtPath(removed.array, toIndexPath, removed.element)
     }
 }
+
+export function isValidEmail(email: string): boolean {
+    const regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/
+    return regex.test(email)
+}

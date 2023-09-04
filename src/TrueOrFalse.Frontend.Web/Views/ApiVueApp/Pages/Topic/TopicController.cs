@@ -23,15 +23,9 @@ public class TopicController : Controller
 
     public JsonResult GetTopic([FromQuery] int id)
     {
-        
-        return Json(_topicControllerLogic.GetTopicData(id));
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
+        return Json(_topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
     }
-
-  
-    public JsonResult GetTopicWithSegments(int id)
-    {
-            return Json(_topicControllerLogic.GetTopicDataWithSegments(id, ControllerContext));
-        }
 
     public bool CanAccess([FromQuery] int id)
     {

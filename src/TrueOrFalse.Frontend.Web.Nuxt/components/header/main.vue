@@ -22,8 +22,10 @@ const props = defineProps<Props>()
 
 const showSearch = ref(false)
 
-function openUrl(val: any) {
-    navigateTo(val.Url)
+async function openUrl(val: any) {
+    if (isMobile || window?.innerWidth < 480)
+        showSearch.value = false
+    return navigateTo(val.Url)
 }
 const userStore = useUserStore()
 
@@ -36,10 +38,11 @@ function handleScroll() {
         showRegisterButton.value = true
     else
         showRegisterButton.value = false
-
 }
 
 function handleResize() {
+    if (showSearch.value)
+        return
     if (window.innerWidth < 769) {
         showSearch.value = false
     }
@@ -65,11 +68,19 @@ onMounted(async () => {
         window.addEventListener('resize', handleResize)
         window.addEventListener('scroll', handleScroll)
     }
-
 })
 
 const partialLeft = ref()
 const navOptions = ref()
+
+const { $vfm } = useNuxtApp()
+const { openedModals } = $vfm
+const modalIsOpen = ref(false)
+watch(() => openedModals, (val) => {
+    if (val.length > 0)
+        modalIsOpen.value = true
+    else modalIsOpen.value = false
+}, { deep: true })
 
 </script>
 
@@ -167,7 +178,7 @@ const navOptions = ref()
                         </VDropdown>
 
                         <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                            :class="{ 'hide-nav': !showRegisterButton }">
+                            :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
                             <div class="StickySearchContainer"
                                 :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -177,7 +188,7 @@ const navOptions = ref()
                                 </div>
                                 <div class="StickySearch">
                                     <Search :search-type="SearchType.All" :show-search="showSearch"
-                                        v-on:select-item="openUrl" placement="bottom-end" />
+                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl" placement="bottom-end" />
                                 </div>
                             </div>
                             <div class="login-btn" @click="userStore.openLoginModal()">
@@ -222,6 +233,10 @@ const navOptions = ref()
 
     &.hide-nav {
         opacity: 0;
+    }
+
+    &.login-modal-is-open {
+        position: unset;
     }
 }
 

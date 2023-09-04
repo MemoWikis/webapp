@@ -117,6 +117,7 @@ public class UserStoreController : Controller
            });
         }
 
+        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
         return Json(new
         {
             Success = true,
@@ -138,7 +139,8 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = _topicControllerLogic.GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = _topicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic)
+                	.GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

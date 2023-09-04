@@ -130,7 +130,7 @@ async function removeAdminRights() {
     if (result.success) {
         userStore.isAdmin = false
         antiForgeryToken.value = undefined
-        navigateTo('/')
+        await navigateTo('/')
     }
 }
 </script>

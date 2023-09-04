@@ -671,17 +671,17 @@ textarea,
     display: flex;
     flex-wrap: wrap;
 
-    .category-chip-component {
+    .topic-chip-component {
         display: flex;
         align-items: center;
         margin-right: 15px;
         overflow: hidden;
 
-        .category-chip-container {
+        .topic-chip-container {
             padding: 4px 0;
         }
 
-        .category-chip-deleteBtn {
+        .topic-chip-deleteBtn {
             display: flex;
             justify-content: center;
             align-items: center;

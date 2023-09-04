@@ -34,6 +34,9 @@ const emit = defineEmits(['set-wuwi-state'])
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
         after((result: FetchResult<PinData>) => {
+                    // const alertStore = useAlertStore()
+                    // alertStore.openAlert(AlertType.Success, { text: "Success" })
+                    // alertStore.openAlert(AlertType.Error, { text: "Error" })
             if(result.data?.id != props.questionId) return
             if (result.success) {
                 pinState.value = result.data?.state

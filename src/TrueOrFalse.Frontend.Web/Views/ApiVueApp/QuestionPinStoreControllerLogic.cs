@@ -27,7 +27,7 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
         }
 
-        if (!LimitCheck.CanAddNewKnowledge(sessionUser))
+        if (!LimitCheck.CanAddNewKnowledge(sessionUser, logExceedance: true))
         {
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
         }

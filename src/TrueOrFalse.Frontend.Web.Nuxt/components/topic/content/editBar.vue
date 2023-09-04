@@ -15,7 +15,7 @@ function footerCheck() {
     if (topicContentElement) {
         var contentWidth = topicContentElement.clientWidth
         var windowWidth = window.innerWidth;
-        const elFooter = document.getElementById('Segmentation')
+        const elFooter = document.getElementById('TopicGrid')
 
         if (elFooter) {
             var rect = elFooter.getBoundingClientRect();
@@ -98,8 +98,7 @@ const userStore = useUserStore()
                             </div>
 
                             <div class="btn-right" v-show="topicStore.contentHasChanged" v-else>
-                                <div class="button" @click.prevent="topicStore.saveTopic()"
-                                    :class="{ expanded: editMode }">
+                                <div class="button" @click.prevent="topicStore.saveTopic()" :class="{ expanded: editMode }">
                                     <div class="icon">
                                         <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                                     </div>

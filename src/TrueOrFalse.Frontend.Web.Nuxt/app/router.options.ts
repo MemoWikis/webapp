@@ -54,8 +54,13 @@ export default <RouterConfig>{
         },
         {
             name: 'resetPasswordPage',
-            path: '/PasswortZuruecksetzen/:token',
+            path: '/NeuesPasswort/:token',
             component: () => import('~/pages/user/resetPassword.vue')
+        },
+        {
+            name: 'confirmEmailPage',
+            path: '/EmailBestaetigen/:token',
+            component: () => import('~/pages/user/confirmEmail.vue')
         },
         {
             name: 'messagesPage',
@@ -87,55 +92,82 @@ export default <RouterConfig>{
             name: 'userSettingsPage',
             path: '/Nutzer/:name/:id/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings }
+            props: { tab: UserTab.Settings },
+            meta: {
+                key: route => `/${route.params.name}/${route.params.id}`
+            },
         },
         {
             name: 'userWuwiPage',
             path: '/Nutzer/:name/:id/Wunschwissen',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Wishknowledge }
+            props: { tab: UserTab.Wishknowledge },
+            meta: {
+                key: route => `/${route.params.name}/${route.params.id}`
+            },
         },
         {
             name: 'directUserSettingsPage',
             path: '/Nutzer/Einstellungen',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings }
+            props: { tab: UserTab.Settings },
+            meta: {
+                key: route => `/${route.params.name}/${route.params.id}`
+            },
         },
         {
             name: 'userSubscriptionPage',
             path: '/Nutzer/Einstellungen/Mitgliedschaft',
             component: () => import('~/pages/user/[name]/[id].vue'),
-            props: { tab: UserTab.Settings, content: Content.Membership }
+            props: { tab: UserTab.Settings, content: Content.Membership },
+            meta: {
+                key: route => `/${route.params.name}/${route.params.id}`
+            },
         },
         {
             name: 'topicContentPage',
             path: '/:topic/:id(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Topic }
+            props: { tab: TopicTab.Topic },
+            meta: {
+                key: route => `/${route.params.topic}/${route.params.id}`
+            },
         },
         {
             name: 'topicLearningPage',
             path: '/:topic/:id(\\d+)/Lernen',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Learning }
+            props: { tab: TopicTab.Learning },
+            meta: {
+                key: route => `/${route.params.topic}/${route.params.id}`
+            },
         },
         {
             name: 'topicLearningPageWithQuestion',
             path: '/:topic/:id(\\d+)/Lernen/:questionId(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Learning }
+            props: { tab: TopicTab.Learning },
+            meta: {
+                key: route => `/${route.params.topic}/${route.params.id}`
+            },
         },
         {
             name: 'topicFeedPage',
             path: '/:topic/:id(\\d+)/Feed',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Feed }
+            props: { tab: TopicTab.Feed },
+            meta: {
+                key: route => `/${route.params.topic}/${route.params.id}`
+            },
         },
         {
             name: 'topicAnalyticsPage',
             path: '/:topic/:id(\\d+)/Analytics',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Analytics }
+            props: { tab: TopicTab.Analytics },
+            meta: {
+                key: route => `/${route.params.topic}/${route.params.id}`
+            },
         },
         {
             name: 'allTopicHistoryOverview',

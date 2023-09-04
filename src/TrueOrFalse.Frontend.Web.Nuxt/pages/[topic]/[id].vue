@@ -4,7 +4,6 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-import { Visibility } from '~/components/shared/visibilityEnum'
 import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
@@ -23,8 +22,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-// GetTopic w/o Segments - GetTopicWithSegments with segments
-const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWithSegments/${route.params.id}`,
+const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -41,14 +39,7 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
         retry: 3
     })
 
-const segmentation = ref()
 const tabSwitched = ref(false)
-const currentState = ref()
-
-onMounted(() => {
-    if (window != null)
-        currentState.value = window.history.state
-})
 
 const router = useRouter()
 function setTopic() {
@@ -58,8 +49,6 @@ function setTopic() {
             topicStore.setTopic(topic.value)
 
             const spinnerStore = useSpinnerStore()
-            //preset segmentation
-            segmentation.value = topic.value.Segmentation
             watch(() => topicStore.id, (val) => {
                 if (val != 0)
                     spinnerStore.showSpinner()
@@ -120,9 +109,7 @@ function setTab() {
 onMounted(() => setTab())
 watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
     if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
-        navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
-    else
-        await refresh()
+        await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
 })
 
 useHead(() => ({
@@ -168,29 +155,31 @@ useHead(() => ({
 
                         <TopicTabsContent
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-                        <DevOnly>
+                        <ClientOnly>
                             <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-                        </DevOnly>
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :children="topicStore.gridItems" />
+                            <template #fallback>
+                                <TopicContentGrid
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                    :children="topic.gridItems" />
+                            </template>
+                        </ClientOnly>
 
-                        <TopicContentSegmentation
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :segmentation="segmentation" />
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         <TopicTabsAnalytics
                             v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
-                        <template v-if="userStore.isLoggedIn">
+                        <ClientOnly>
                             <TopicRelationEdit />
                             <QuestionEditModal />
                             <QuestionEditDelete />
                             <TopicPublishModal />
                             <TopicToPrivateModal />
 
-                            <TopicDeleteModal
-                                v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
-                        </template>
+                            <TopicDeleteModal />
+                        </ClientOnly>
 
                     </template>
                 </div>
@@ -205,10 +194,10 @@ useHead(() => ({
     padding: 0px;
     border: none;
 
-    ul,
-    pre {
-        margin-bottom: 20px;
-    }
+    // ul,
+    // pre {
+    //     margin-bottom: 20px;
+    // }
 }
 </style>
 

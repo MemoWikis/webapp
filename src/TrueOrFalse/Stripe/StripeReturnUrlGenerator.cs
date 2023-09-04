@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 
 
-public class BaseStripeLogic
+public class StripeReturnUrlGenerator
 {
     protected readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly IWebHostEnvironment _webHostEnvironment;

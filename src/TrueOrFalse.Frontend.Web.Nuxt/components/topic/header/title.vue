@@ -55,7 +55,7 @@ async function scrollToChildTopics() {
         await nextTick()
         await nextTick()
     }
-    const s = document.getElementById('Segmentation')
+    const s = document.getElementById('TopicGrid')
     if (s)
         s.scrollIntoView({ behavior: 'smooth' })
 }
@@ -84,10 +84,33 @@ const topic = useState<Topic>('topic')
             <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
             </div>
 
-            <div v-if="topicStore.parentTopicCount > 0" class="topic-detail ">
+            <!-- <div v-if="topicStore.parentTopicCount > 0" class="topic-detail ">
                 <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
                 <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
-            </div>
+            </div> -->
+            <VDropdown :distance="6">
+                <button v-show="topicStore.parentTopicCount > 0" class="parent-tree-btn">
+
+                    <div class="topic-detail">
+                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
+                        <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
+                    </div>
+
+                </button>
+                <template #popper>
+                    <template v-for="parent in topicStore.parents">
+                        <LazyNuxtLink class="dropdown-row" v-if="parent.id > 0"
+                            :to="$urlHelper.getTopicUrl(parent.name, parent.id)">
+                            <div class="dropdown-icon">
+                                <Image :src="parent.imgUrl" :format="ImageFormat.Topic" class="header-topic-icon" />
+                            </div>
+                            <div class="dropdown-label">{{ parent.name }}</div>
+                        </LazyNuxtLink>
+                    </template>
+
+
+                </template>
+            </VDropdown>
 
             <div class="topic-detail-spacer"
                 v-if="topicStore.views > 0 && (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)">
@@ -101,8 +124,8 @@ const topic = useState<Topic>('topic')
             <div v-if="isDesktopOrTablet" class="topic-detail-spacer"></div>
 
             <template v-for="author in firstAuthors">
-                <LazyNuxtLink v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`" v-tooltip="author.Name"
-                    class="header-author-icon-link">
+                <LazyNuxtLink v-if="author.Id > 0" :to="$urlHelper.getUserUrl(author.Name, author.Id)"
+                    v-tooltip="author.Name" class="header-author-icon-link">
                     <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon"
                         :alt="`${author.Name}'s profile picture'`" />
                 </LazyNuxtLink>
@@ -117,15 +140,14 @@ const topic = useState<Topic>('topic')
                 </button>
                 <template #popper>
                     <template v-for="author in lastAuthors">
-                        <LazyNuxtLink class="dropdown-row" v-if="author.Id > 0" :to="`/Nutzer/${author.Name}/${author.Id}`">
+                        <LazyNuxtLink class="dropdown-row" v-if="author.Id > 0"
+                            :to="$urlHelper.getUserUrl(author.Name, author.Id)">
                             <div class="dropdown-icon">
                                 <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
                             </div>
                             <div class="dropdown-label">{{ author.Name }}</div>
                         </LazyNuxtLink>
                     </template>
-
-
                 </template>
             </VDropdown>
 
@@ -158,6 +180,10 @@ const topic = useState<Topic>('topic')
             height: 54px;
             overflow: hidden;
         }
+    }
+
+    .parent-tree-btn {
+        background: none;
     }
 
     .additional-authors-btn {
@@ -211,7 +237,8 @@ const topic = useState<Topic>('topic')
             margin-right: 8px;
         }
 
-        .header-author-icon {
+        .header-author-icon,
+        .header-topic-icon {
             height: 20px;
             width: 20px;
             min-height: 20px;

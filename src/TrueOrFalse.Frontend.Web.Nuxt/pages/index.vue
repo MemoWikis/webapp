@@ -4,9 +4,9 @@ import { useUserStore } from '~~/components/user/userStore'
 const userStore = useUserStore()
 
 if (userStore.isLoggedIn) {
-    navigateTo(`${userStore.personalWiki?.Name}/${userStore.personalWiki?.Id}`)
+    await navigateTo(`${userStore.personalWiki?.Name}/${userStore.personalWiki?.Id}`)
 } else {
-    navigateTo(`/Globales-Wiki/1`)
+    await navigateTo(`/Globales-Wiki/1`)
 }
 
 const emit = defineEmits(['setPage'])

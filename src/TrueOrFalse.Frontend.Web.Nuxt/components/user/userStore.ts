@@ -103,7 +103,7 @@ export const useUserStore = defineStore('userStore', {
             if (!!result && result.Success) {
                 this.isLoggedIn = true
                 this.initUser(result.CurrentUser)
-                refreshNuxtData()
+                await refreshNuxtData()
                 return 'success'
             } else if (!!result && !result.Success)
                 return result.Message
@@ -112,7 +112,6 @@ export const useUserStore = defineStore('userStore', {
             this.showLoginModal = true
         },
         async logout() {
-
             const spinnerStore = useSpinnerStore()
 
             spinnerStore.showSpinner()
@@ -120,16 +119,16 @@ export const useUserStore = defineStore('userStore', {
             const result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
+            spinnerStore.hideSpinner()
 
             if (result?.success) {
-                spinnerStore.hideSpinner()
-                this.reset()
+                return true
             } else if (result?.success == false) {
                 const alertStore = useAlertStore()
                 alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
+                return false
             }
-
-            spinnerStore.hideSpinner()
+            return false
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
@@ -148,7 +147,6 @@ export const useUserStore = defineStore('userStore', {
             })
         },
         reset() {
-            refreshNuxtData()
             this.$reset()
         }
     }

@@ -3,12 +3,12 @@ import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Topic, useTopicStore, FooterTopics } from '~/components/topic/topicStore'
 import { Page } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
-import { useRootTopicChipStore } from './components/header/rootTopicChipStore'
 import { Visibility } from './components/shared/visibilityEnum'
+import { useSpinnerStore } from './components/spinner/spinnerStore'
 
 const userStore = useUserStore()
-const rootTopicChipStore = useRootTopicChipStore()
 const config = useRuntimeConfig()
+const spinnerStore = useSpinnerStore()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
@@ -74,14 +74,34 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
 
-const { $urlHelper } = useNuxtApp()
-watch(() => userStore.isLoggedIn, (isLoggedIn) => {
-	if (!isLoggedIn && page.value == Page.Topic && topicStore.visibility != Visibility.All) {
-		const url = $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)
-		navigateTo(url)
+userStore.$onAction(({ name, after }) => {
+	if (name == 'logout') {
+
+		after(async (loggedOut) => {
+			if (loggedOut) {
+				userStore.reset()
+				spinnerStore.showSpinner()
+
+				try {
+					await refreshNuxtData()
+				} finally {
+					spinnerStore.hideSpinner()
+					if (page.value == Page.Topic && topicStore.visibility != Visibility.All)
+						await navigateTo('/')
+				}
+			}
+		})
 	}
 })
 
+const { $vfm } = useNuxtApp()
+const { openedModals } = $vfm
+const modalIsOpen = ref(false)
+watch(() => openedModals, (val) => {
+	if (val.length > 0)
+		modalIsOpen.value = true
+	else modalIsOpen.value = false
+}, { deep: true })
 </script>
 
 <template>
@@ -94,7 +114,7 @@ watch(() => userStore.isLoggedIn, (isLoggedIn) => {
 		<BannerInfo v-if="footerTopics" :documentation="footerTopics?.Documentation" />
 	</ClientOnly>
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.Documentation" />
+		:documentation="footerTopics?.Documentation" :class="{ 'open-modal': modalIsOpen }" />
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

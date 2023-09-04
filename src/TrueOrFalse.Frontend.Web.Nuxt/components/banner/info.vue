@@ -80,7 +80,6 @@ const { $urlHelper } = useNuxtApp()
 }
 
 #BannerRedirectBtn {
-    justify-content: flex-end;
 
     .close-banner {
         margin-left: 34px;

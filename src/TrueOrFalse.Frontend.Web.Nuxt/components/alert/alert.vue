@@ -1,7 +1,43 @@
 <script lang="ts" setup>
 import { useAlertStore, AlertType } from './alertStore'
 
+import successImage1 from '~/assets/images/illustrations/hummingbird_flipped 500 x 500.png';
+import successImage2 from '~/assets/images/illustrations/parrot_flipped 500 x 500.png';
+import successImage3 from '~/assets/images/illustrations/girl_success2.png';
+import successImage4 from '~/assets/images/illustrations/bird_success 500 x 500.png';
+import neutralImage from '~/assets/images/illustrations/butterfly 500 x 500.png';
+import errorImage from '~/assets/images/illustrations/owl_error3 500 x 500.png';
+
 const alertStore = useAlertStore()
+
+const randomImageSuccess = ref('')
+const successImages = [
+    successImage1,
+    // successImage2,
+    successImage3,
+    successImage4,
+]
+
+onMounted(() => {
+    shuffleSuccessImage();
+})
+
+watch(() => alertStore.show, (show) => {
+    if(!show) return
+
+    shuffleSuccessImage();
+})
+
+function shuffleSuccessImage(): void {
+    const randomIdx = Math.floor(Math.random() * successImages.length)
+    var newImage = successImages[randomIdx]
+    if(successImages.length < 2 || newImage != randomImageSuccess.value){
+        randomImageSuccess.value = newImage
+    } else {
+        shuffleSuccessImage()
+    }
+}
+
 </script>
 
 <template>
@@ -20,8 +56,8 @@ const alertStore = useAlertStore()
                     </h3>
                     <div class="alert-msg-container">
                         <template v-if="alertStore.title == null || alertStore.title.length == 0">
-                            <img v-if="alertStore.type == AlertType.Error" width="200" src="~/assets/images/illustrations/owl_error3.png"/>
-                            <img v-else-if="alertStore.type == AlertType.Success" width="200" src="~/assets/images/illustrations/butterfly.png"/>
+                            <img v-if="alertStore.type == AlertType.Error" width="200" :src="errorImage"/>
+                            <img v-else-if="alertStore.type == AlertType.Success" width="200" :src="randomImageSuccess"/>
                         </template>
                         <div class="alert-msg">
                             {{ alertStore.text }}
@@ -58,7 +94,7 @@ const alertStore = useAlertStore()
 }
 
 .error {
-    color: @memo-salmon;
+    color: @memo-wuwi-red;
 }
 
 .cancel-alert {

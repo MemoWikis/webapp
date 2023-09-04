@@ -7,7 +7,8 @@ export enum SearchType {
     Users = 3,
     CategoryInWiki = 4,
 
-    Topic = Category
+    Topic = Category,
+    TopicInWiki = CategoryInWiki
 }
 
 export interface TopicItem {
