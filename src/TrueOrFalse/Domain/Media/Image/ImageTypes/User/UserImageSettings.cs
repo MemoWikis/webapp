@@ -17,8 +17,8 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 85, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
 
-    public override string BasePath => "/Images/Users/";
-    public string BaseDummyUrl => "/Images/no-profile-picture-";
+    public override string BasePath => Path.Combine("Images", "Users");
+    public string BaseDummyUrl => Path.Combine("Images", "no-profile-picture-");
 
     public UserImageSettings(int id){
         Id = id;
