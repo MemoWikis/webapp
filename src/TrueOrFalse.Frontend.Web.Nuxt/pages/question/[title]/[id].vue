@@ -2,6 +2,11 @@
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { Page } from '~~/components/shared/pageEnum'
 import { Topic } from '~~/components/topic/topicStore'
+import { SolutionType } from '~~/components/question/solutionTypeEnum'
+import { useUserStore } from '~/components/user/userStore'
+import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
+
+const userStore = useUserStore()
 
 interface Props {
 	documentation: Topic
@@ -33,7 +38,15 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 			throw createError({ statusMessage: context.error?.message })
 		},
 	})
+function highlightCode(id: string) {
 
+	const el = document.getElementById(id)
+	if (el != null)
+		el.querySelectorAll('code').forEach(block => {
+			if (block.textContent != null)
+				block.innerHTML = getHighlightedCode(block.textContent)
+		})
+}
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
 	emit('setPage', Page.Question)
@@ -41,11 +54,22 @@ onBeforeMount(() => {
 	if (question.value?.answerBodyModel != null)
 		emit('setQuestionPageData', {
 			primaryTopicName: question.value.answerBodyModel?.primaryTopicName,
-			primaryTopicUrl: question.value.answerBodyModel?.primaryTopicUrl,
+			primaryTopicUrl: $urlHelper.getTopicUrlWithQuestionId(question.value.answerBodyModel.primaryTopicName, question.value.answerBodyModel.primaryTopicId, question.value.answerBodyModel.id),
 			title: question.value.answerBodyModel.title
 		})
 	if (!question.value)
 		emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
+
+	highlightCode('AnswerBody')
+	highlightCode('SolutionContent')
+
+	if (question.value) {
+		if (question.value.answerBodyModel.solutionType != SolutionType.FlashCard && question.value.answerBodyModel.renderedQuestionTextExtended.length > 0)
+			highlightCode('ExtendedQuestionContainer')
+		if (question.value.solutionData.answerDescription?.trim().length > 0)
+			highlightCode('ExtendedSolutionContent')
+	}
+
 })
 const { $urlHelper } = useNuxtApp()
 useHead(() => ({
@@ -86,8 +110,106 @@ onBeforeMount(() => {
 		<div class="question-page-container row main-page">
 			<template v-if="question && question?.answerBodyModel != null">
 				<div class="col-lg-9 col-md-12 container main-content">
-					<QuestionAnswerBody :is-landing-page="true" :landing-page-model="question.answerBodyModel"
-						:landing-page-solution-data="question.solutionData" />
+
+					<div id="AnswerBody" class="col-xs-12">
+						<div class="answerbody-header">
+
+							<div class="answerbody-text">
+								<h3 v-if="question.answerBodyModel.solutionType != SolutionType.FlashCard"
+									class="QuestionText">
+									{{ question.answerBodyModel.text }}
+								</h3>
+							</div>
+						</div>
+
+						<div class="row">
+
+							<div id="MarkdownCol"
+								v-if="question.answerBodyModel.solutionType != SolutionType.FlashCard && question.answerBodyModel.renderedQuestionTextExtended.length > 0">
+
+								<div id="ExtendedQuestionContainer" class="RenderedMarkdown"
+									v-html="handleNewLine(question.answerBodyModel.renderedQuestionTextExtended)">
+								</div>
+							</div>
+
+
+							<div id="AnswerAndSolutionCol">
+								<div id="AnswerAndSolution">
+									<div class="row"
+										:class="{ 'hasFlashCard': question.answerBodyModel.solutionType == SolutionType.FlashCard }">
+										<div id="AnswerInputSection">
+
+											<QuestionAnswerBodyFlashcard :key="question.answerBodyModel.id + 'flashcard'"
+												v-if="question.answerBodyModel.solutionType == SolutionType.FlashCard"
+												ref="flashcard" :solution="question.answerBodyModel.solution"
+												:text="question.answerBodyModel.text" :marked-as-correct="true" />
+											<QuestionAnswerBodyMatchlist :key="question.answerBodyModel.id + 'matchlist'"
+												v-else-if="question.answerBodyModel.solutionType == SolutionType.MatchList"
+												ref="matchList" :solution="question.answerBodyModel.solution"
+												:show-answer="true" />
+											<QuestionAnswerBodyMultipleChoice
+												:key="question.answerBodyModel.id + 'multiplechoice'"
+												v-else-if="question.answerBodyModel.solutionType == SolutionType.MultipleChoice"
+												:solution="question.answerBodyModel.solution" :show-answer="true"
+												ref="multipleChoice" />
+											<QuestionAnswerBodyText :key="question.answerBodyModel.id + 'text'"
+												v-else-if="question.answerBodyModel.solutionType == SolutionType.Text"
+												ref="text" :show-answer="true" />
+
+										</div>
+										<div id="ButtonsAndSolutionCol">
+											<div id="ButtonsAndSolution" class="Clearfix">
+												<div id="Buttons">
+													<div id="btnGoToTestSession">
+
+														<NuxtLink v-if="question.answerBodyModel.hasTopics"
+															:to="$urlHelper.getTopicUrlWithQuestionId(question.answerBodyModel.primaryTopicName, question.answerBodyModel.primaryTopicId, question.answerBodyModel.id)"
+															id="btnStartTestSession" class="btn btn-primary show-tooltip"
+															rel="nofollow"
+															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + question.answerBodyModel.primaryTopicName">
+															<b>Weiterlernen</b>
+														</NuxtLink>
+													</div>
+												</div>
+
+												<div id="AnswerFeedbackAndSolutionDetails">
+													<div v-if="question.answerBodyModel.solutionType != SolutionType.FlashCard"
+														id="AnswerFeedback">
+
+														<div id="Solution">
+															<div class="solution-label">
+																Richtige Antwort:
+															</div>
+
+															<div class="Content body-m" id="SolutionContent"
+																v-html="handleNewLine(question.solutionData.answerAsHTML)">
+															</div>
+
+														</div>
+													</div>
+
+
+													<div id="SolutionDetails"
+														v-if="question.solutionData.answerDescription?.trim().length > 0">
+														<div id="Description">
+															<div class="solution-label">
+																Ergänzungen zur Antwort:
+															</div>
+
+															<div class="Content body-m" id="ExtendedSolutionContent"
+																v-html="handleNewLine(question.solutionData.answerDescription)">
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
 				</div>
 				<Sidebar :documentation="props.documentation" />
 			</template>
@@ -98,5 +220,100 @@ onBeforeMount(() => {
 <style scoped lang="less">
 .question-page-container {
 	padding-bottom: 45px;
+}
+</style>
+
+<style lang="less">
+@import '~~/assets/views/answerQuestion.less';
+
+#ButtonsAndSolution {
+	.btn-primary {
+		margin-right: 22px;
+	}
+}
+
+.ButtonGroup {
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
+
+#AnswerBody {
+	transition: all 1s ease-in-out;
+}
+
+.answerbody-header {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+
+	.answerbody-text {
+		margin-right: 8px;
+
+		h3 {
+			margin-top: 0;
+			margin-bottom: 34px;
+		}
+	}
+
+	.answerbody-btn {
+		font-size: 18px;
+
+		.answerbody-btn-inner {
+			cursor: pointer;
+			background: white;
+			height: 32px;
+			width: 32px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border-radius: 15px;
+
+			.fa-ellipsis-vertical {
+				color: @memo-grey-dark;
+			}
+
+			&:hover {
+				filter: brightness(0.95)
+			}
+
+			&:active {
+				filter: brightness(0.85)
+			}
+		}
+	}
+}
+
+.activity-points-icon {
+	font-size: 14px;
+}
+
+#ActivityPointsDisplay {
+	.activitypoints-display-detail {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+
+		#ActivityPoints {
+			margin-right: 8px;
+		}
+	}
+}
+
+#ulAnswerHistory {
+	padding-top: 5px;
+}
+
+.solution-label {
+	font-weight: bold;
+	padding-right: 5px;
+}
+
+.correct-answer-label {
+	color: @memo-green-correct;
+}
+
+.wrong-answer-label {
+	color: @memo-red-wrong;
 }
 </style>

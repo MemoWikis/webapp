@@ -12,6 +12,7 @@ const tabsStore = useTabsStore()
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
+const spinnerStore = useSpinnerStore()
 
 interface Props {
     tab?: Tab,
@@ -48,7 +49,6 @@ function setTopic() {
 
             topicStore.setTopic(topic.value)
 
-            const spinnerStore = useSpinnerStore()
             watch(() => topicStore.id, (val) => {
                 if (val != 0)
                     spinnerStore.showSpinner()
@@ -150,11 +150,13 @@ useHead(() => ({
         <div class="row topic-container main-page">
             <template v-if="topic?.CanAccess">
                 <div class="col-lg-9 col-md-12 container">
-                    <template v-if="topicStore.id != 0">
-                        <TopicHeader />
+                    <TopicHeader />
 
-                        <TopicTabsContent
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                    <TopicTabsContent
+                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+
+                    <template v-if="topicStore.id != 0">
+
                         <ClientOnly>
                             <TopicContentGrid
                                 v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
@@ -177,7 +179,6 @@ useHead(() => ({
                             <QuestionEditDelete />
                             <TopicPublishModal />
                             <TopicToPrivateModal />
-
                             <TopicDeleteModal />
                         </ClientOnly>
 

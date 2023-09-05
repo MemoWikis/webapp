@@ -35,7 +35,7 @@ public class AnswerBodyController : BaseController
             renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
             description = q.Description,
             hasTopics = q.Categories.Any(),
-            primaryTopicUrl = "/" + UriSanitizer.Run(primaryTopic?.Name) + "/" + primaryTopic?.Id,
+            primaryTopicId = primaryTopic?.Id,
             primaryTopicName = primaryTopic?.Name,
             solution = q.Solution,
 

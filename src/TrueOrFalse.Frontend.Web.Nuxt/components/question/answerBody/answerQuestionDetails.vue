@@ -999,7 +999,7 @@ watch(() => userStore.isLoggedIn, () => {
                 <div id="LicenseQuestion">
                     <VTooltip v-if="license.isDefault">
                         <div class="TextLinkWithIcon">
-                            <Image src="/Images/Licenses/cc-by 88x31.png" width="60" />
+                            <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" />
                             <div class="TextDiv">
                                 <span class="TextSpan">
                                     {{ license.shortText }}
