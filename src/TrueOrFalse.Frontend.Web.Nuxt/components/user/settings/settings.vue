@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useUserStore } from '../userStore'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
-import { messages } from '~~/components/alert/messages'
 import * as Subscription from '~~/components/user/membership/subscription'
 import { Content } from './contentEnum'
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore';
+
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
@@ -99,13 +100,12 @@ async function cancelPlan() {
     });
     if (data.value) {
         // Führen Sie die Umleitung im Browser durch.
-        await navigateTo(data.value)
+        await navigateTo(data.value, { external: true })
     } else {
-        console.log("kein Ergebnis")
+        const alertStore = useAlertStore()
+        alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memucho.de." })
     }
 }
-
-
 
 const showAlert = ref(false)
 const msg = ref('')

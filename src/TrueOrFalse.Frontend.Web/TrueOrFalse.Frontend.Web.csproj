@@ -299,7 +299,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\BaseResolve.cs" />
-    <Compile Include="Views\ApiVueApp\Components\Segmentation\VueSegmentationController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Grid\GridController.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Grid\GridLogic.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Grid\Item\GridItemLogic.cs" />
+    <Compile Include="Views\ApiVueApp\Components\Topic\Grid\Item\GridItemController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\FacebookUsersController.cs" />
     <Compile Include="Views\ApiVueApp\Components\User\Membership\UserMembershipPlansController.cs" />
     <Compile Include="Views\ApiVueApp\FetchHelper.cs" />
@@ -327,7 +330,7 @@
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\AllTopicsOverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\History\Topic\OverviewController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\Question\QuestionLandingPageController.cs" />
-    <Compile Include="Views\ApiVueApp\Pages\Membership\StripeAdminstration.cs" />
+    <Compile Include="Views\ApiVueApp\Pages\Membership\StripeAdminstrationController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UserSettingsController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\UsersController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\DeleteTopicStoreController.cs" />
@@ -346,11 +349,9 @@
     <Compile Include="Views\ApiVueApp\AppController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Relation\EditController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Topic\Learning\TopicLearningQuestionListController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\Segmentation\CardController.cs" />
     <Compile Include="Views\ApiVueApp\Pages\User\VueUserController.cs" />
     <Compile Include="Views\ApiVueApp\Topic\LearningController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Header\BreadcrumbController.cs" />
-    <Compile Include="Views\ApiVueApp\Components\Segmentation\SegmentationLogic.cs" />
     <Compile Include="Views\ApiVueApp\AuthorController.cs" />
     <Compile Include="Views\ApiVueApp\Stores\UserStoreController.cs" />
     <Compile Include="Views\ApiVueApp\Components\Footer\FooterController.cs" />
@@ -721,6 +722,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Views\ApiVueApp\Components\Segmentation\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

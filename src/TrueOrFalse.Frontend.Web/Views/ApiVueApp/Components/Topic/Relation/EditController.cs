@@ -63,9 +63,9 @@ public class TopicRelationEditController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddChild(int childId, int parentId, int parentIdToRemove = -1, bool redirectToParent = false, bool addIdToWikiHistory = false)
+    public JsonResult AddChild(int childId, int parentId, int parentIdToRemove = -1, bool addIdToWikiHistory = false)
     {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).AddChild(childId,parentId,parentIdToRemove,redirectToParent,addIdToWikiHistory);
+        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).AddChild(childId,parentId,parentIdToRemove,addIdToWikiHistory);
         return Json(data, JsonRequestBehavior.AllowGet);
     }
 

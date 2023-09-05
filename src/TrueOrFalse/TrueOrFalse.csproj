@@ -315,10 +315,9 @@
     <Compile Include="Search\User\Model\MeiliSearchUserMap.cs" />
     <Compile Include="Search\User\MeiliSearchUsers.cs" />
     <Compile Include="Search\User\MeiliSearchUsersResult .cs" />
-    <Compile Include="Stripe\Logic\BaseStripeLogic.cs" />
-    <Compile Include="Stripe\Logic\BillingLogic.cs" />
-    <Compile Include="Stripe\Logic\SubscriptionLogic.cs" />
-    <Compile Include="Stripe\Logic\WebhookLogic.cs" />
+    <Compile Include="Stripe\StripeReturnUrlGenerator.cs" />
+    <Compile Include="Stripe\StripeSubscriptionHelper.cs" />
+    <Compile Include="Stripe\WebhookEventHandler.cs" />
     <Compile Include="Stripe\SubscriptionType.cs" />
     <Compile Include="Tools\Cache\EntityCache\CategoryCachedData.cs" />
     <Compile Include="Domain\Category\Crumbtrail\Crumbtrail.cs" />

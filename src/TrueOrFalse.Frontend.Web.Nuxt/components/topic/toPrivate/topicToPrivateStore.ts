@@ -2,6 +2,8 @@ import { defineStore } from "pinia"
 import { useAlertStore, AlertType, messages } from "~~/components/alert/alertStore"
 import { Visibility } from "~~/components/shared/visibilityEnum"
 import { useTopicStore } from "../topicStore"
+import { useUserStore } from "~~/components/user/userStore"
+
 interface TopicToPrivateData {
     success: boolean
     name?: string
@@ -29,6 +31,13 @@ export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
     },
     actions: {
         async openModal(id: number) {
+            const userStore = useUserStore()
+
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
+
             this.confirmedLicense = false
             this.showModal = false
             this.questionsToPrivate = false
@@ -71,9 +80,18 @@ export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
                 if (topicStore.id == this.id)
                     topicStore.visibility = Visibility.Owner
 
+                return {
+                    success: true,
+                    id: data.topicId
+                }
+
             } else {
                 this.showModal = false
                 alertStore.openAlert(AlertType.Error, { text: messages.error.category[result.key] })
+
+                return {
+                    success: false
+                }
             }
         },
         setQuestionsToPrivate() {

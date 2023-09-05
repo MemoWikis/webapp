@@ -1,204 +1,328 @@
 <script lang="ts" setup>
-// import { addElementAtPath, removeElementAtPath } from 'components/shared/utils'
+import { useTopicStore } from '~/components/topic/topicStore'
+import { ToggleState } from './toggleStateEnum'
+import { GridTopicItem } from './item/gridTopicItem'
+import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
+import { TopicItem } from '~/components/search/searchHelper'
+import { EditRelationData, EditTopicRelationType, useEditTopicRelationStore } from '~/components/topic/relation/editTopicRelationStore'
+import { useUserStore } from '~/components/user/userStore'
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
+import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
+import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
 
-interface Item {
-    name: string,
-    id: number,
-    isMoving: boolean,
-    children?: Item[]
+const topicStore = useTopicStore()
+const rootTopicChipStore = useRootTopicChipStore()
+const editTopicRelationStore = useEditTopicRelationStore()
+const userStore = useUserStore()
+const alertStore = useAlertStore()
+const publishTopicStore = usePublishTopicStore()
+const topicToPrivateStore = useTopicToPrivateStore()
+const deleteTopicStore = useDeleteTopicStore()
+
+interface Props {
+    children: GridTopicItem[]
 }
+const props = defineProps<Props>()
 
-const items = ref<Item[]>([{
-    name: 'test1',
-    isMoving: false,
-    id: 1,
-}, {
-    name: 'test2',
-    isMoving: false,
-    id: 2,
-    children: [{
-        name: 'test2-1',
-        isMoving: false,
-        id: 21,
-    },
-    {
-        name: 'test2-2',
-        isMoving: false,
-        id: 22,
-    }]
-}, {
-    name: 'test3',
-    isMoving: false,
-    id: 3,
-}, {
-    name: 'test4',
-    isMoving: false,
-    id: 4,
-}, {
-    name: 'test5',
-    isMoving: false,
-    id: 5,
-    children: [{
-        name: 'test5-1',
-        isMoving: false,
-        id: 51,
-    },
-    {
-        name: 'test5-2',
-        isMoving: false,
-        id: 52,
-    }]
-},])
+const toggleState = ref(ToggleState.Collapsed)
+const { $urlHelper } = useNuxtApp()
 
-const isDroppableItemActive = ref(false)
-function onDragOver() {
-    isDroppableItemActive.value = true
-}
-function onDragLeave() {
-    isDroppableItemActive.value = false
-}
+const rootTopicItem = ref<TopicItem>()
 
-
-function removeElementAtPath(arr: Item[], indexPath: IndexPath): { element: Item, array: Item[] } | undefined {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
-
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            return undefined;
-        }
+onMounted(() => {
+    rootTopicItem.value = {
+        Type: 'TopicItem',
+        Id: rootTopicChipStore.id,
+        Name: rootTopicChipStore.name,
+        Url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
+        QuestionCount: 0,
+        ImageUrl: rootTopicChipStore.imgUrl,
+        MiniImageUrl: rootTopicChipStore.imgUrl,
+        Visibility: 0,
     }
+})
 
-    if (targetIndex !== undefined && targetIndex < targetArray.length) {
-        let removedElement = targetArray.splice(targetIndex, 1);
-        return { element: removedElement[0], array: arr };
-    } else {
-        return undefined;
-    }
-}
+const topicsToFilter = computed<number[]>(() => {
 
-function addElementAtPath(arr: Item[], indexPath: IndexPath, element: Item): void {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
+    let topicsToFilter = process.server ? props.children.map(c => c.id) : topicStore.gridItems.map(c => c.id)
+    topicsToFilter.push(topicStore.id)
 
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            throw new Error("Invalid index path: encountered non-array element before reaching target location");
-        }
-    }
+    return topicsToFilter
+})
 
-    if (targetIndex !== undefined) {
-        targetArray.splice(targetIndex, 0, element);
-    } else {
-        throw new Error("Invalid index path: did not resolve to array element");
-    }
-}
-
-function moveElement(arr: Item[], fromIndexPath: IndexPath, toIndexPath: IndexPath): Item[] {
-    let removed = removeElementAtPath(arr, fromIndexPath);
-    if (removed) {
-        addElementAtPath(removed.array, toIndexPath, removed.element);
-        return removed.array;
-    } else {
-        return arr;
-    }
-}
-
-function onDrop(event: any) {
-    console.log('target')
-    const e = event.dataTransfer.getData('value')
-    console.log(e)
-
-    moveElement(items.value, e, [0])
-}
-
-const isUpdatingArray = ref(false)
-
-async function onDndDrop({ event, targetPath }: { event: any, targetPath: IndexPath }) {
-    if (isUpdatingArray.value)
+function addTopic(newTopic: boolean) {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
         return
-    isUpdatingArray.value = true
-    const oldItems = [...items.value];
-    items.value = moveElement(items.value, event.payload.index, targetPath)
-    console.log(items.value)
-    // Wait for child events to possibly update the items
-    await nextTick()
-    isUpdatingArray.value = false
-    // If the items are the same as before, a child event has updated the items, so don't do anything
-    if (oldItems === items.value) {
-        return;
-    }
-    // console.log(event.payload.item)
-    // const newarray = moveElement(items.value, event.payload.index, targetPath)
-    // console.log('newarray', newarray)
-    // applyDrag(event)
-}
-
-function applyDrag(dragResult: any) {
-    const { removedIndex, addedIndex, payload } = dragResult
-    if (removedIndex === null && addedIndex === null) return
-
-    const result = [...items.value]
-    let itemToAdd = payload
-
-    if (removedIndex !== null) {
-        itemToAdd = result.splice(removedIndex, 1)[0]
     }
 
-    if (addedIndex !== null) {
-        result.splice(addedIndex, 0, itemToAdd)
+    const parent: EditRelationData = {
+        parentId: topicStore.id,
+        editCategoryRelation: newTopic
+            ? EditTopicRelationType.Create
+            : EditTopicRelationType.AddChild,
+        categoriesToFilter: topicsToFilter.value,
     }
-
-    items.value = result
+    editTopicRelationStore.openModal(parent)
 }
 
-function getPayload(index: number) {
-    const payload = {
-        item: items.value[index],
-        index: [index]
+editTopicRelationStore.$onAction(({ after, name }) => {
+    if (name == 'addTopic') {
+        after((result) => {
+            if (result.parentId == topicStore.id) {
+                addGridItem(result.childId)
+            }
+        })
     }
-    return payload
+    if (name == 'removeTopic') {
+        after((result) => {
+            if (result.parentId == topicStore.id) {
+                removeGridItem(result.childId)
+            }
+        })
+    }
+    if (name == 'addToPersonalWiki' || name == 'removeFromPersonalWiki') {
+        after((result) => {
+            if (result) {
+                reloadGridItem(result.id)
+            }
+        })
+    }
+})
+
+publishTopicStore.$onAction(({ after, name }) => {
+    if (name == 'publish') {
+        after((result) => {
+            if (result?.success && result.id && topicStore.gridItems.some(c => c.id == result.id))
+                reloadGridItem(result.id)
+        })
+    }
+})
+
+topicToPrivateStore.$onAction(({ after, name }) => {
+    if (name == 'setToPrivate') {
+        after((result) => {
+            if (result?.success && result.id && topicStore.gridItems.some(c => c.id == result.id))
+                reloadGridItem(result.id)
+        })
+    }
+})
+
+deleteTopicStore.$onAction(({ after, name }) => {
+    if (name == 'deleteTopic') {
+        after((result) => {
+            if (result && result.id && topicStore.gridItems.some(c => c.id == result.id)) {
+                removeGridItem(result.id)
+            }
+        })
+    }
+})
+
+async function addGridItem(id: number) {
+    const result = await loadGridItem(id)
+
+    if (result.success == true) {
+        topicStore.gridItems.push(result.data)
+    } else if (result.success == false)
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
-function setNewArr(e: Item[]) {
-    console.log('newarr', e)
-    // items.value = e
+async function loadGridItem(id: number) {
+    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/Grid/GetItem?id=${id}`, {
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include'
+    })
+    return result
 }
+
+async function reloadGridItem(id: number) {
+    const result = await loadGridItem(id)
+
+    if (result.success == true) {
+        topicStore.gridItems = topicStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
+    } else if (result.success == false)
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+}
+
+function removeGridItem(id: number) {
+    const filteredGridItems = topicStore.gridItems.filter(i => i.id != id)
+    topicStore.gridItems = filteredGridItems
+}
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
-    <div class="row">
+    <div class="row grid-row" id="TopicGrid">
         <div class="col-xs-12">
-            <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
-                <div class="grid-container" v-if="items">
-                    <TopicContentGridItem v-for="item, i in items" :item="item" :index="[i]" :items="items"
-                        @set-new-arr="setNewArr" />
+            <div class="grid-container">
+                <div class="grid-header ">
+                    <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
+                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Themen' }} ({{ topicStore.directChildTopicCount }})
+                    </div>
 
+                    <div class="grid-options">
+                        <div class="grid-divider"></div>
+                        <div class="grid-option">
+                            <button @click="addTopic(true)">
+                                <font-awesome-icon :icon="['fas', 'plus']" />
+                            </button>
+                        </div>
+                        <!-- <div class="grid-divider"></div> -->
+                        <div class="grid-option">
+                            <button @click="addTopic(false)">
+                                <font-awesome-icon :icon="['fas', 'link']" />
+                            </button>
+                        </div>
+
+                        <template v-if="rootTopicChipStore.showRootTopicChip && rootTopicItem">
+                            <div class="grid-divider"></div>
+                            <div class="root-chip grid-option">
+                                <TopicChip :topic="rootTopicItem" class="no-margin" :hide-label="isMobile" />
+                            </div>
+                        </template>
+
+                    </div>
                 </div>
-            </SharedDroppable>
-        </div>
 
-        <!-- <div class="grid-container">
-            <Container @drop="onDndDrop({ event: $event, targetPath: [0] })" :get-child-payload="getPayload"
-                group-name="test">
-                <TopicContentGridItem v-for="item, i in items" :item="item" :index="[i]" @on-dnd-drop="onDndDrop"
-                    :base-items="items" />
-            </Container>
-        </div> -->
+                <div class="grid-items">
+                    <TopicContentGridItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                        :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                </div>
+
+                <div class="grid-footer">
+                    <div class="grid-option overline-m no-line no-margin">
+                        <button @click="addTopic(true)">
+                            <font-awesome-icon :icon="['fas', 'plus']" />
+                            <span class="button-label" :class="{ 'is-mobile': isMobile }">
+                                {{ isMobile ? 'Thema erstellen' : 'Unterthema erstellen' }}
+                            </span>
+                        </button>
+                    </div>
+                    <div class="grid-divider" :class="{ 'is-mobile': isMobile }"></div>
+                    <div class="grid-option overline-m no-line no-margin">
+                        <button @click="addTopic(false)">
+                            <font-awesome-icon :icon="['fas', 'link']" />
+                            <span class="button-label" :class="{ 'is-mobile': isMobile }">
+                                {{ isMobile ? 'Thema verknüpfen' : 'Unterthema verknüpfen' }}
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <style lang="less" scoped>
-.grid-container {
-    margin-left: 10px;
-    padding: 10px;
-    border: solid 1px silver;
-    width: 100%;
+@import (reference) '~~/assets/includes/imports.less';
+
+.grid-row {
+    margin-top: 45px;
+    max-width: calc(100vw - 20px);
+    margin-bottom: 45px;
+
+    .grid-container {
+        margin-bottom: 45px;
+    }
+
+    .no-margin {
+        margin-right: 0px;
+        margin-left: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    .grid-header {
+        justify-content: space-between;
+
+        .grid-options {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            .root-chip {
+                align-items: center;
+                color: @memo-grey-darker;
+
+            }
+        }
+
+        .grid-title {
+            margin-bottom: 0px;
+        }
+    }
+
+    .grid-header,
+    .grid-footer {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+
+        button {
+            color: @memo-grey-darker;
+            background: white;
+            height: 32px;
+            border-radius: 32px;
+            min-width: 32px;
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: center;
+
+            .button-label {
+                color: @memo-grey-dark;
+                padding: 0 4px;
+                text-wrap: nowrap;
+
+                &.is-mobile {
+                    // font-size: 12px;
+                }
+            }
+
+            &:hover {
+                filter: brightness(0.95)
+            }
+
+            &:active {
+                filter: brightness(0.85)
+            }
+        }
+
+        .grid-divider {
+            margin: 0 8px;
+            height: 22px;
+            border-left: solid 1px @memo-grey-light;
+        }
+    }
+
+    .grid-footer {
+        border-top: solid 1px @memo-grey-light;
+        padding-top: 4px;
+
+        .grid-divider {
+            &.is-mobile {
+                margin: 0 4px;
+
+            }
+        }
+    }
+}
+</style>
+
+<style lang="less">
+.open-modal {
+
+    .grid-container,
+    .grid-header {
+        .grid-option {
+            button {
+                background: none;
+            }
+        }
+
+    }
 }
 </style>

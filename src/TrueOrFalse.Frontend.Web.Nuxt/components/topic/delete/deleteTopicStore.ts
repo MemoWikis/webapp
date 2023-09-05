@@ -9,16 +9,18 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             showModal: false,
             errorMsg: '',
             topicDeleted: false,
-            redirectURL: ''
+            redirectURL: '',
+            redirect: false
         }
     },
     actions: {
-        async openModal(id: number) {
+        async openModal(id: number, redirect: boolean = false) {
             this.topicDeleted = false
             this.name = ''
             this.errorMsg = ''
             this.id = id
             this.redirectURL = ''
+            this.redirect = redirect
             if (await this.initDeleteData())
                 this.showModal = true
         },
@@ -45,12 +47,20 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 success: boolean
                 hasChildren: boolean
                 isNotCreatorOrAdmin: boolean
-                redirectURL: string
+                redirectParent: {
+                    name: string
+                    id: number
+                }
             }
             var result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
             if (!!result && result.success) {
-                this.redirectURL = result.redirectURL
+                const { $urlHelper } = useNuxtApp()
+                this.redirectURL = $urlHelper.getTopicUrl(result.redirectParent.name, result.redirectParent.id)
                 this.topicDeleted = true
+
+                return {
+                    id: this.id
+                }
             }
         }
     }

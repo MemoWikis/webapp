@@ -1,7 +1,8 @@
 import { defineStore } from "pinia"
-import { useAlertStore, AlertType, AlertMsg, messages } from "~~/components/alert/alertStore"
+import { useAlertStore, AlertType, messages } from "~~/components/alert/alertStore"
 import { Visibility } from "~~/components/shared/visibilityEnum"
 import { useTopicStore } from "../topicStore"
+import { useUserStore } from "~~/components/user/userStore"
 
 interface PublishTopicData {
     success: boolean,
@@ -40,6 +41,12 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             }
         },
         async publish() {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
+
             const alertStore = useAlertStore()
             const data = {
                 topicId: this.id

@@ -1,6 +1,6 @@
 import { CustomPino } from "~~/logs/logger"
 
-export default eventHandler((event) => {
+export default eventHandler((event: any) => {
     const config = useRuntimeConfig()
 
     const log = new CustomPino()

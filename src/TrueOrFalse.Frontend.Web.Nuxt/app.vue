@@ -93,6 +93,15 @@ userStore.$onAction(({ name, after }) => {
 		})
 	}
 })
+
+const { $vfm } = useNuxtApp()
+const { openedModals } = $vfm
+const modalIsOpen = ref(false)
+watch(() => openedModals, (val) => {
+	if (val.length > 0)
+		modalIsOpen.value = true
+	else modalIsOpen.value = false
+}, { deep: true })
 </script>
 
 <template>
@@ -105,7 +114,7 @@ userStore.$onAction(({ name, after }) => {
 		<BannerInfo v-if="footerTopics" :documentation="footerTopics?.Documentation" />
 	</ClientOnly>
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.Documentation" />
+		:documentation="footerTopics?.Documentation" :class="{ 'open-modal': modalIsOpen }" />
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

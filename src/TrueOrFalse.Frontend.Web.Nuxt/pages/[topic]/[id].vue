@@ -12,6 +12,7 @@ const tabsStore = useTabsStore()
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
+const spinnerStore = useSpinnerStore()
 
 interface Props {
     tab?: Tab,
@@ -22,8 +23,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-// GetTopic w/o Segments - GetTopicWithSegments with segments
-const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWithSegments/${route.params.id}`,
+const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -40,7 +40,6 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopicWi
         retry: 3
     })
 
-const segmentation = ref()
 const tabSwitched = ref(false)
 
 const router = useRouter()
@@ -50,9 +49,6 @@ function setTopic() {
 
             topicStore.setTopic(topic.value)
 
-            const spinnerStore = useSpinnerStore()
-            //preset segmentation
-            segmentation.value = topic.value.Segmentation
             watch(() => topicStore.id, (val) => {
                 if (val != 0)
                     spinnerStore.showSpinner()
@@ -154,34 +150,37 @@ useHead(() => ({
         <div class="row topic-container main-page">
             <template v-if="topic?.CanAccess">
                 <div class="col-lg-9 col-md-12 container">
+                    <TopicHeader />
+
+                    <TopicTabsContent
+                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+
                     <template v-if="topicStore.id != 0">
-                        <TopicHeader />
 
-                        <TopicTabsContent
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-                        <DevOnly>
+                        <ClientOnly>
                             <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-                        </DevOnly>
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :children="topicStore.gridItems" />
+                            <template #fallback>
+                                <TopicContentGrid
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                    :children="topic.gridItems" />
+                            </template>
+                        </ClientOnly>
 
-                        <TopicContentSegmentation
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :segmentation="topic.Segmentation" />
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         <TopicTabsAnalytics
                             v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
-                        <template v-if="userStore.isLoggedIn">
+                        <ClientOnly>
                             <TopicRelationEdit />
                             <QuestionEditModal />
                             <QuestionEditDelete />
                             <TopicPublishModal />
                             <TopicToPrivateModal />
-
-                            <TopicDeleteModal
-                                v-if="topic?.CanBeDeleted && (topic.CurrentUserIsCreator || userStore.isAdmin)" />
-                        </template>
+                            <TopicDeleteModal />
+                        </ClientOnly>
 
                     </template>
                 </div>

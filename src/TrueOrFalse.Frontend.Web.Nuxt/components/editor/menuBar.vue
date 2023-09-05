@@ -42,18 +42,32 @@ async function command(commandString: string, e: Event) {
             props.editor.commands.toggleCodeBlock()
             break
         case 'setLink':
-            const linkUrl = window.prompt('Link URL')
-            if (linkUrl) {
-                props.editor.chain().extendMarkRange('link').setLink({ href: linkUrl })
-                if (props.editor.view.state.selection.empty) {
-                    var transaction = props.editor.state.tr.insertText(linkUrl)
-                    props.editor.view.dispatch(transaction)
-                }
+            const previousUrl = props.editor.getAttributes('link').href
+            const linkUrl = window.prompt('URL', previousUrl)
+
+            if (linkUrl === null)
+                return
+
+            if (linkUrl === '') {
+                props.editor
+                    .chain()
+                    .focus()
+                    .extendMarkRange('link')
+                    .unsetLink()
+                    .run()
+
+                return
+            }
+
+            props.editor.chain().focus().extendMarkRange('link').setLink({ href: linkUrl }).run()
+            if (props.editor.view.state.selection.empty) {
+                var transaction = props.editor.state.tr.insertText(linkUrl)
+                props.editor.view.dispatch(transaction)
             }
 
             break;
         case 'unsetLink':
-            props.editor.chain().unsetLink().focus()
+            props.editor.chain().unsetLink().focus().run()
             break
         case 'addImage':
             const imgUrl = window.prompt('Bild URL')

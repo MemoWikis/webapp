@@ -8,7 +8,7 @@ export interface AnswerBodyModel {
     renderedQuestionTextExtended: string
     description: string
     hasTopics: boolean
-    primaryTopicUrl: string
+    primaryTopicId: number
     primaryTopicName: string
     solution: string
 
