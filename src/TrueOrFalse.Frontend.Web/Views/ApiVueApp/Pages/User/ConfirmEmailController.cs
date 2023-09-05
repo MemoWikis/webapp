@@ -1,16 +1,16 @@
 ﻿
-using System.Web.Mvc;
+
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class ConfirmEmailController : BaseController
 {
-    private readonly UserRepo _userRepo;
+ 
     private readonly EmailConfirmationService _emailConfirmationService;
 
-    public ConfirmEmailController(SessionUser sessionUser, UserRepo userRepo, EmailConfirmationService emailConfirmationService) :base(sessionUser)
+    public ConfirmEmailController(SessionUser sessionUser, EmailConfirmationService emailConfirmationService) :base(sessionUser)
     {
-        _userRepo = userRepo;
         _emailConfirmationService = emailConfirmationService;
     }
 

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 
 public class UserImageStore
 {
-    public static void Run(IFormFile imageFile, int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public static void Run(IFormFile imageFile, int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment, Logg logg)
     {
         if (imageFile == null || imageFile.Length == 0)
             return;
@@ -13,8 +13,8 @@ public class UserImageStore
         SaveImageToFile.Run(
         stream,
         userImageSettings,
-        webHostEnvironment,
-        httpContextAccessor);
+        logg
+        );
     }
 
 

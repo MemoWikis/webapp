@@ -3,11 +3,11 @@ using System.Text;
 
 public class EmailConfirmationService: IRegisterAsInstancePerLifetime
 {
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
-    public EmailConfirmationService(UserRepo userRepo)
+    public EmailConfirmationService(UserReadingRepo userReadingRepo)
     {
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
     public static string CreateEmailConfirmationToken(User user)
@@ -32,7 +32,7 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
     public bool TryConfirmEmail(string token)
     {
         int userId = ExtractUserIdFromToken(token);
-        User user = _userRepo.GetById(userId);
+        User user = _userReadingRepo.GetById(userId);
         if (user != null || userId < 1)
         {
             string recreatedToken = CreateEmailConfirmationToken(user);

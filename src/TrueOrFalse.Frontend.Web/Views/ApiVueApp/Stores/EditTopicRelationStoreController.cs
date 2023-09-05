@@ -15,6 +15,7 @@ public class EditTopicRelationStoreController : BaseController
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IGlobalSearch _search;
     private readonly PermissionCheck _permissionCheck;
+    private readonly EditControllerLogic _editControllerLogic;
     private readonly SessionUser _sessionUser;
 
 
@@ -24,10 +25,12 @@ public class EditTopicRelationStoreController : BaseController
         IWebHostEnvironment webHostEnvironment,
         IHttpContextAccessor httpContextAccessor,
         IGlobalSearch search,
-        PermissionCheck permissionCheck): base(sessionUser) 
+        PermissionCheck permissionCheck,
+        EditControllerLogic editControllerLogic): base(sessionUser) 
     {
         _search = search;
         _permissionCheck = permissionCheck;
+        _editControllerLogic = editControllerLogic;
         _sessionUser = sessionUser;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _actionContextAccessor = actionContextAccessor;
@@ -100,10 +103,7 @@ public class EditTopicRelationStoreController : BaseController
             });
         }
 
-        var editTopicLogic =
-            new EditControllerLogic(_search, _sessionUser.IsInstallationAdmin, _permissionCheck, _sessionUser);
-
-        return Json(editTopicLogic.AddChild(id, personalWiki.Id));
+        return Json(_editControllerLogic.AddChild(id, personalWiki.Id));
     }
 
     [AccessOnlyAsLoggedIn]
@@ -121,9 +121,6 @@ public class EditTopicRelationStoreController : BaseController
             });
         }
 
-        var editTopicLogic =
-            new EditControllerLogic(_search, _sessionUser.IsInstallationAdmin, _permissionCheck, _sessionUser);
-
-        return Json(editTopicLogic.RemoveParent(personalWiki.Id, id));
+        return Json(_editControllerLogic.RemoveParent(personalWiki.Id, id));
     }
 }

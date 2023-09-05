@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Text;
 
 public class BaseController : Controller
@@ -15,15 +16,15 @@ public class BaseController : Controller
     public bool IsInstallationAdmin => _sessionUser.IsInstallationAdmin;
     /// <summary>The user fresh from the db</summary>
 
-    protected override JsonResult Json(object data, string contentType, Encoding contentEncoding, JsonRequestBehavior behavior)
+    protected JsonResult Json(object data, string contentType, Encoding contentEncoding)
     {
-        return new JsonResult()
-        {
-            Data = data,
-            ContentType = contentType,
-            ContentEncoding = contentEncoding,
-            JsonRequestBehavior = behavior,
-            MaxJsonLength = Int32.MaxValue
-        };
+        return new JsonResult(
+            new {
+                Data = data,
+                ContentType = contentType,
+                ContentEncoding = contentEncoding,
+                MaxJsonLength = Int32.MaxValue
+            });
+
     }
 }

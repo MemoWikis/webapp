@@ -56,7 +56,7 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
         _logg.Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions, _httpContextAccessor, _webHostEnvironment));
+        IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions));
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {

@@ -100,7 +100,14 @@ public class SearchController : BaseController
         var elements = await _search.GoAllCategories(term, idArray);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements, _permissionCheck, UserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+                    _actionContextAccessor, 
+                    _httpContextAccessor, 
+                    _webHostEnvironment )
+                .AddTopicItems(items,
+                    elements, 
+                    _permissionCheck, 
+                    UserId);
 
         var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
@@ -109,7 +116,7 @@ public class SearchController : BaseController
         {
             totalCount = elements.CategoriesResultCount,
             topics = items,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [AccessOnlyAsLoggedIn]

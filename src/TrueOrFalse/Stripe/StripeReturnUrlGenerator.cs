@@ -7,13 +7,13 @@ public class StripeReturnUrlGenerator
     protected readonly IHttpContextAccessor _httpContextAccessor;
     protected readonly IWebHostEnvironment _webHostEnvironment;
 
-    public BaseStripeLogic(IHttpContextAccessor httpContextAccessor,
+    public StripeReturnUrlGenerator(IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
-    protected string CreateSiteLink(string targetPath)
+    public string Create(string targetPath)
     {
         var server = Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment);
         var url = "";

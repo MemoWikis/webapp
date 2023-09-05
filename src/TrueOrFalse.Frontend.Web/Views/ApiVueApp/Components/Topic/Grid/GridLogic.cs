@@ -1,9 +1,5 @@
 ﻿
-using System.Linq;
-using System.Web.Mvc;
-
 namespace VueApp;
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class GridLogic : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;

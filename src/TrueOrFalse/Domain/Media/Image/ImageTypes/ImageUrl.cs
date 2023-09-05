@@ -60,7 +60,7 @@ public class ImageUrl
             //we search for the biggest file
            
             var searchPattern = $"{imageSettings.Id}_*.jpg";
-            var basePath = Path.Combine(_webHostEnvironment.WebRootPath, imageSettings.BasePath);
+            var basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imageSettings.BasePath);
             var fileNames = Directory.GetFiles(basePath, searchPattern);
            
             if (fileNames.Any()){
@@ -109,7 +109,7 @@ public class ImageUrl
                             imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
 
 
-        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(_webHostEnvironment.WebRootPath, url))
+        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, url))
             .ToString("yyyyMMddhhmmss");
         HasUploadedImage = true;
         return this;
@@ -131,13 +131,13 @@ public class ImageUrl
 
     public string GetFallbackImageUrl(IImageSettings imageSettings, int width)
     {
-        if (File.Exists(Path.Combine(_webHostEnvironment.WebRootPath, imageSettings.BaseDummyUrl) + width + ".png"))
+        if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imageSettings.BaseDummyUrl) + width + ".png"))
             return imageSettings.BaseDummyUrl + width + ".png";
 
         //Get next bigger image or maximum size image
         var fileNameTrunk = imageSettings.BaseDummyUrl.Split('/').Last();
         var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] {fileNameTrunk}, StringSplitOptions.None).First();
-        var fileNames = Directory.GetFiles(Path.Combine(_webHostEnvironment.WebRootPath, fileDirectory), fileNameTrunk + "*.png");
+        var fileNames = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileDirectory), fileNameTrunk + "*.png");
         if (fileNames.Any())
         {
             var fileWidths = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('-').Last().Replace(".png", ""))).OrderByDescending(x => x).ToList();
@@ -153,7 +153,7 @@ public class ImageUrl
             {
                 fileWidth = fileWidths.Last();
             }
-            if (File.Exists(Path.Combine(_webHostEnvironment.WebRootPath, imageSettings.BaseDummyUrl) + fileWidth + ".png"))
+            if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imageSettings.BaseDummyUrl) + fileWidth + ".png"))
             {
                 return imageSettings.BaseDummyUrl + fileWidth + ".png";
             }

@@ -18,6 +18,7 @@ public class UserStoreController : Controller
     private readonly Login _login;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly PermissionCheck _permissionCheck;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -30,7 +31,8 @@ public class UserStoreController : Controller
         TopicControllerLogic topicControllerLogic,
         Login login,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        PermissionCheck permissionCheck)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -43,6 +45,7 @@ public class UserStoreController : Controller
         _login = login;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _permissionCheck = permissionCheck;
     }
 
     [HttpPost]
@@ -117,7 +120,7 @@ public class UserStoreController : Controller
            });
         }
 
-        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
+      
         return Json(new
         {
             Success = true,
@@ -139,8 +142,8 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = _topicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic)
-                	.GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = _topicControllerLogic
+                    .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
     }

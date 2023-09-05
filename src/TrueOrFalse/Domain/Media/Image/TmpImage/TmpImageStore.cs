@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Hosting;
 [Serializable]
 public class TmpImageStore
 {
-    private readonly List<TmpImage> _tmpImages = new List<TmpImage>(); 
+    private readonly List<TmpImage> _tmpImages = new(); 
 
-    public TmpImage Add(Stream inputStream, int previewWidth, IWebHostEnvironment webHostEnvironment)
+    public TmpImage Add(Stream inputStream, int previewWidth, IWebHostEnvironment webHostEnvironment, Logg logg)
     {
         var tmpImage = new TmpImage(previewWidth, webHostEnvironment);
-        SaveImageToFile.Run(inputStream, tmpImage,webHostEnvironment);
+        SaveImageToFile.Run(inputStream, tmpImage);
 
         _tmpImages.Add(tmpImage);
 

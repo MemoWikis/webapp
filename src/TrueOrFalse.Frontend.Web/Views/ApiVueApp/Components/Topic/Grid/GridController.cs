@@ -1,7 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class GridController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
@@ -19,11 +18,11 @@ public class GridController : BaseController
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights }, JsonRequestBehavior.AllowGet);
+            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights });
 
 
         var gridItem = _gridItemLogic.BuildGridTopicItem(topic);
-        return Json(new RequestResult { success = true, data = gridItem }, JsonRequestBehavior.AllowGet);
+        return Json(new RequestResult { success = true, data = gridItem });
     }
 }
 

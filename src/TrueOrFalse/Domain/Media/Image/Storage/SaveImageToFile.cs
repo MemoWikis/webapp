@@ -1,18 +1,15 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 public class SaveImageToFile
 {
     public static void Run(Stream inputStream,
         IImageSettings imageSettings,
-        IWebHostEnvironment webHostEnvironment,
-        IHttpContextAccessor httpContextAccessor)
+        Logg logg)
     {
         var oldImages = Directory.GetFiles(
-            webHostEnvironment.WebRootPath,
+            AppDomain.CurrentDomain.BaseDirectory,
             string.Format("{0}_*", imageSettings.Id)
         );
 
@@ -27,7 +24,7 @@ public class SaveImageToFile
             if (image.VerticalResolution != 96.0F || image.HorizontalResolution != 96.0F)
                 ((Bitmap)image).SetResolution(96.0F, 96.0F);
 
-            SaveOriginalSize(imageSettings, image, httpContextAccessor, webHostEnvironment);
+            SaveOriginalSize(imageSettings, image, logg);
 
             foreach (var size in imageSettings.SizesSquare)
             {
@@ -43,8 +40,7 @@ public class SaveImageToFile
 
     private static void SaveOriginalSize(IImageSettings imageSettings,
         Image image,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        Logg logg)
     {
         using (var resized = new Bitmap(image))
         {
@@ -58,7 +54,7 @@ public class SaveImageToFile
 
             if (image.Width < 300)
             {
-                new Logg(httpContextAccessor, webHostEnvironment).r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+                logg.r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
             }
         }
     }
@@ -66,12 +62,11 @@ public class SaveImageToFile
 
     /// <summary>store temp images</summary>
     public static void Run(Stream inputStream,
-        TmpImage tmpImage,
-        IWebHostEnvironment webHostEnvironment)
+        TmpImage tmpImage)
     {
         using (var image = Image.FromStream(inputStream))
         {
-            var basePath = webHostEnvironment.WebRootPath;  
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;  
                 image.Save(Path.Combine(basePath, tmpImage.Path), ImageFormat.Png);
 
             var scale = (float)tmpImage.PreviewWidth / image.Width;

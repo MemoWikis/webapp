@@ -11,17 +11,20 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
     private readonly UserWritingRepo _userWritingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
-    public WebhookLogic(UserReadingRepo userReadingRepo,
+    public WebhookEventHandler(UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo, 
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg)
     {
         _userReadingRepo = userReadingRepo;
         _userWritingRepo = userWritingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
     }
 
     public async Task<IActionResult> Create()
@@ -39,7 +42,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
             return status;
         }
 
-        Logg.r().Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
+        _logg.r().Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
 
         switch (stripeEvent.Type)
         {

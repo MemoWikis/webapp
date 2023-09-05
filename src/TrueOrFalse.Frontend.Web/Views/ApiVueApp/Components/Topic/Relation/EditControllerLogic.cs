@@ -19,6 +19,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
     private readonly IGlobalSearch _search;
     private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
@@ -34,7 +35,8 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         UserWritingRepo userWritingRepo,
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg)
     {
         _search = search; 
         _permissionCheck = permissionCheck;
@@ -47,6 +49,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
         _isInstallationAdmin = _sessionUser.IsInstallationAdmin;
 
     }
@@ -88,7 +91,10 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
 
     public dynamic QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
-        if (!LimitCheck.CanSavePrivateTopic(sessionUser, logExceedance: true))
+        if (!new LimitCheck(_httpContextAccessor,
+                _webHostEnvironment, 
+                _logg, 
+                sessionUser).CanSavePrivateTopic(true))
         {
             return new
             {

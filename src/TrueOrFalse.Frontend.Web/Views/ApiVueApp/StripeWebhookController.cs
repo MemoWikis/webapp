@@ -5,11 +5,11 @@ namespace VueApp;
 
 public class StripeWebhookController : Controller
 {
-    private readonly WebhookLogic _webhookLogic;
+    private readonly WebhookEventHandler _webhookEventHandler;
 
-    public StripeWebhookController(WebhookLogic webhookLogic)
+    public StripeWebhookController(WebhookEventHandler webhookLogic)
     {
-        _webhookLogic = webhookLogic;
+        _webhookEventHandler = webhookLogic;
     }
     public async Task<IActionResult> Webhook()
     {

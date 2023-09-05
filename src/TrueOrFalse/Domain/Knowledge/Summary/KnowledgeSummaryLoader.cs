@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using TrueOrFalse.Domain.Question.QuestionValuation;
+﻿using TrueOrFalse.Domain.Question.QuestionValuation;
 
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {

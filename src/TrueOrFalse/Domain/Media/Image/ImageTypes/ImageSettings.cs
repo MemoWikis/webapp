@@ -15,14 +15,14 @@ public class ImageSettings
         _httpContext = _contextAccessor.HttpContext;
     }
     public int Id { get; set;  }
-    public string BasePath { get;  }
+   
 
     public string ServerPathAndId()
     {
         if (_httpContext == null)
             return "";
 
-        return Path.Combine(_webHostEnvironment.WebRootPath, BasePath, Id.ToString());
+        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Id.ToString());
     }
 
     public string ServerPath()
@@ -30,7 +30,7 @@ public class ImageSettings
         if (_httpContext == null)
             return "";
 
-        return Path.Combine(_webHostEnvironment.WebRootPath, BasePath);
+        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
     }
 
     public void DeleteFiles()

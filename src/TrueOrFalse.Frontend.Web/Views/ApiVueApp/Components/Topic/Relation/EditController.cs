@@ -10,9 +10,6 @@ public class TopicRelationEditController : Controller
 
     public TopicRelationEditController(IGlobalSearch search,
         SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        CategoryRepository categoryRepository,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         EditControllerLogic editControllerLogic) 
     {
         _sessionUser = sessionUser;
@@ -64,7 +61,7 @@ public class TopicRelationEditController : Controller
     [HttpPost]
     public JsonResult AddChild(int childId, int parentId, int parentIdToRemove = -1, bool addIdToWikiHistory = false)
     {
-        var data = _editControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).AddChild(childId, parentId, parentIdToRemove, addIdToWikiHistory);
+        var data = _editControllerLogic.AddChild(childId, parentId, parentIdToRemove, addIdToWikiHistory);
         return Json(data);
     }
 

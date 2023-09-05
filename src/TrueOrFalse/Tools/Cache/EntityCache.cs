@@ -22,7 +22,7 @@ public class EntityCache : BaseEntityCache
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
-        _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyUsers);
+        _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyCategoryQuestionsList);
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => 
         ids.Select(id => GetUserById(id))
@@ -35,9 +35,7 @@ public class EntityCache : BaseEntityCache
         return new UserCacheItem();
     }
 
-    public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions, 
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
@@ -56,7 +54,8 @@ public class EntityCache : BaseEntityCache
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
     {
          CategoryQuestionsList.TryGetValue(categoryId, out var questionIds);
-        return questionIds.Keys.ToList();
+
+        return questionIds?.Keys.ToList() ?? new List<int>();
     }
 
     public static IList<QuestionCacheItem> GetQuestionsByIds(IList<int> questionIds)

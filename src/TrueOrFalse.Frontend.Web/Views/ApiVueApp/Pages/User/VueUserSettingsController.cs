@@ -14,6 +14,7 @@ public class VueUserSettingsController : Controller
     private readonly UserWritingRepo _userWritingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
 
     public VueUserSettingsController(SessionUser sessionUser,
         ReputationUpdate reputationUpdate,
@@ -22,7 +23,8 @@ public class VueUserSettingsController : Controller
         PasswordRecovery passwordRecovery,
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg)
     {
         _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
@@ -32,6 +34,7 @@ public class VueUserSettingsController : Controller
         _userWritingRepo = userWritingRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -149,7 +152,8 @@ public class VueUserSettingsController : Controller
             UserImageStore.Run(form.file, 
                 _sessionUser.UserId,
                 _httpContextAccessor,
-                _webHostEnvironment);
+                _webHostEnvironment,
+                _logg);
         }
 
         EntityCache.AddOrUpdate(_sessionUser.User);

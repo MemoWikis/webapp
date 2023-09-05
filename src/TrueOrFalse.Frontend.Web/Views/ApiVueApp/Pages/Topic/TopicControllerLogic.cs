@@ -14,10 +14,10 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
+    private readonly GridItemLogic _gridItemLogic;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly SegmentationLogic _segmentationLogic;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
@@ -30,7 +30,6 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        SegmentationLogic segmentationLogic,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor)
@@ -38,19 +37,20 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
+        _gridItemLogic = gridItemLogic;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _segmentationLogic = segmentationLogic;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+
         _actionContextAccessor = actionContextAccessor;
         _permissionCheck = permissionCheck;
     }
 
     private dynamic CreateTopicDataObject(int id, CategoryCacheItem topic, ImageMetaData imageMetaData, KnowledgeSummary knowledgeSummary)
     {
-        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
+        
         return new
         {
             CanAccess = true,
@@ -59,7 +59,12 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 ImageUrl = new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
             Content = topic.Content,
             ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
-            Parents = topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id).GetUrl(50, true).Url }).ToArray(),
+            Parents = topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => 
+                new { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor, _webHostEnvironment)
+                    .GetUrl(50, true)
+                    .Url })
+                .ToArray(),
+
             ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
             DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
                 Views = _categoryViewRepo.GetViewCount(id),
@@ -92,7 +97,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 needsConsolidation = knowledgeSummary.NeedsConsolidation,
                 solid = knowledgeSummary.Solid
             },
-            gridItems = gridItemLogic.GetChildren(id),
+            gridItems = _gridItemLogic.GetChildren(id),
             isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).DirectChildrenIds.Any(id => id == topic.Id)
         };
     }

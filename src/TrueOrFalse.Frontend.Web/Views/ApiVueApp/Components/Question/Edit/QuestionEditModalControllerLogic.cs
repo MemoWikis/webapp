@@ -30,6 +30,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly Logg _logg;
 
     public QuestionEditModalControllerLogic(SessionUser sessionUser,
         LearningSessionCache learningSessionCache, 
@@ -46,7 +47,8 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache,
-        IActionContextAccessor actionContextAccessor) 
+        IActionContextAccessor actionContextAccessor,
+        Logg logg) 
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
@@ -64,11 +66,12 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
         _actionContextAccessor = actionContextAccessor;
+        _logg = logg;
     }
 
     public RequestResult Create(QuestionDataJson questionDataJson)
     {
-        if (!LimitCheck.CanSavePrivateQuestion(_sessionUser, logExceedance: true, _httpContextAccessor, _webHostEnvironment ))
+        if (!new LimitCheck(_httpContextAccessor, _webHostEnvironment, _logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true ))
         {
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
