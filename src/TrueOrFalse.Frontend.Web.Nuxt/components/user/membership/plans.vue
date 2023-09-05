@@ -1,21 +1,23 @@
 <script lang="ts" setup>
+import { AlertType, useAlertStore } from '~/components/alert/alertStore';
 import { useUserStore } from '../userStore'
 import * as Subscription from '~~/components/user/membership/subscription'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
-
-const sessionId = ref<string>('');
+const alertStore = useAlertStore()
+const selectedPriceId = ref<string>('')
+const redirectingDialogTitle = 'Weiterleitung zu Stripe'
 
 interface CheckoutSessionResult {
     success: boolean
     id?: string
 }
 const { $logger } = useNuxtApp()
-const createOrUpdateSubscription = async (id: string): Promise<string> => {
+const getStripeSessionId = async (priceId: string): Promise<string> => {
     const result = await $fetch<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
         method: 'POST',
-        body: { priceId: id },
+        body: { priceId: priceId },
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -26,7 +28,29 @@ const createOrUpdateSubscription = async (id: string): Promise<string> => {
     else return ''
 }
 
-const redirectToCheckout = async (sessionId: string): Promise<void> => {
+onMounted(() => {
+    alertStore.$onAction(({ name, after }) => {
+        if (name == 'closeAlert')
+            after((result) => {
+                handleConsentDialogClosing(result.cancelled)
+            })
+    })
+})
+
+const consentForStripeGiven = ref(userStore.hasStripeCustomerId)
+
+const redirectToCheckout = async (): Promise<void> => {
+
+    console.error("redirectToCheckout")
+
+    if(!consentForStripeGiven) return
+
+    const sessionId = await getStripeSessionId(selectedPriceId.value);
+    
+    if (!sessionId || sessionId == '') {
+        return
+    }
+
     const { loadStripe } = await import('@stripe/stripe-js');
 
     const stripe = await loadStripe(config.public.stripeKey);
@@ -42,21 +66,31 @@ const redirectToCheckout = async (sessionId: string): Promise<void> => {
     }
 }
 
-const handleCheckout = async (type: Subscription.Type): Promise<void> => {
+const initStripeCheckout = (type: Subscription.Type) => {
+
     if (!userStore.isLoggedIn) {
         userStore.openLoginModal()
         return
     }
-    let priceId = '';
 
     if (type == Subscription.Type.Plus)
-        priceId = config.public.stripePlusPriceId
+        selectedPriceId.value = config.public.stripePlusPriceId
     else if (type == Subscription.Type.Team)
-        priceId = config.public.stripeTeamPriceId
+        selectedPriceId.value = config.public.stripeTeamPriceId
 
-    sessionId.value = await createOrUpdateSubscription(priceId);
-    if (sessionId.value)
-        await redirectToCheckout(sessionId.value);
+    if(consentForStripeGiven.value){
+        redirectToCheckout()
+    } else {
+        alertStore.openAlert(AlertType.Default, { text: 'Du wirst nun zu unserem Zahlungsdienstleister Stripe weitergeleitet, der auch deine Emailadresse bei sich hinterlegen wird.' }, 'Einverstanden', true, redirectingDialogTitle)
+    }
+}
+
+const handleConsentDialogClosing = async (cancelled: boolean): Promise<void> => {
+    
+    if(!cancelled){
+        consentForStripeGiven.value = true
+        redirectToCheckout()
+    }    
 }
 
 function contact() {
@@ -121,12 +155,12 @@ onBeforeMount(() => {
                     </button>
                     <button class="memo-button btn-primary btn"
                         v-if="userStore.isLoggedIn && userStore.isAdmin && userStore.subscriptionType != Subscription.Type.Plus"
-                        @click="handleCheckout(Subscription.Type.Plus)">
+                        @click="initStripeCheckout(Subscription.Type.Plus)">
                         Auswählen
                     </button>
                     <button class="memo-button btn-primary btn"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus">
-                        <!-- @click="handleCheckout(Subscription.Type.Plus) -->
+                        <!-- @click="prepareStripeCheckout(Subscription.Type.Plus) -->
                         <!-- Auswählen -->
                         Coming soon...
                     </button>
