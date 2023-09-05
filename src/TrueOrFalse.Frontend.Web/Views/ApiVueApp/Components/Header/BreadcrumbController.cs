@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-[ApiController]
-[Route("apiVue/Breadcrumb")]
 public class BreadcrumbController : BaseController
 {
     private readonly CrumbtrailService _crumbtrailService;
@@ -14,7 +12,6 @@ public class BreadcrumbController : BaseController
     {
         _crumbtrailService = crumbtrailService;
     }
-    [HttpPost("GetBreadcrumb")]
     public JsonResult GetBreadcrumb([FromQuery]int wikiId, int currentCategoryId) 
     {
         var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
@@ -70,9 +67,6 @@ public class BreadcrumbController : BaseController
         });
     }
 
-
-    [HttpPost("GetPersonalWiki")]
-    
     public JsonResult GetPersonalWiki()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;

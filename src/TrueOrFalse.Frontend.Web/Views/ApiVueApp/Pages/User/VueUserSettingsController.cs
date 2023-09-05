@@ -212,7 +212,7 @@ public class VueUserSettingsController : Controller
     [HttpGet]
     public JsonResult DeleteUserImage()
     {
-        var imageSettings = new ImageSettings(_httpContextAccessor, _webHostEnvironment)
+        var imageSettings = new UserImageSettings(_httpContextAccessor, _webHostEnvironment)
             .InitByType(new ImageMetaData
         {
             Type = ImageType.User,

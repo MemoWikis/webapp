@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Drawing;
-using System.Drawing.Printing;
 
 public class ImageUrl
 {
@@ -10,10 +9,11 @@ public class ImageUrl
     public bool HasUploadedImage;
     public string Url;
     private readonly HttpContext? _httpContext;
-    private readonly string _basePath;
+  
 
 
-    public ImageUrl(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public ImageUrl(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -34,7 +34,7 @@ public class ImageUrl
     {
         var requestedImagePath = imageSettings.ServerPathAndId() + "_" + requestedWidth + SquareSuffix(isSquare) + ".jpg";
 
-        if (imageSettings.Id != -1)
+        if (imageSettings.Id > 0)
         {
             if (File.Exists(requestedImagePath))
                 return GetResult(imageSettings, requestedWidth, isSquare);
@@ -60,7 +60,14 @@ public class ImageUrl
             //we search for the biggest file
            
             var searchPattern = $"{imageSettings.Id}_*.jpg";
-            var basePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imageSettings.BasePath);
+            var t = AppDomain.CurrentDomain.BaseDirectory; 
+            
+            var basePath = Path.Combine(imageSettings.ImageFolderPath(), imageSettings.BasePath);
+            if (Directory.Exists(basePath) == false)
+            {
+                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Directory is not available");
+            }
+
             var fileNames = Directory.GetFiles(basePath, searchPattern);
            
             if (fileNames.Any()){

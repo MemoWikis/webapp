@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 
 public class CategoryImageSettings : ImageSettings, IImageSettings
 {
-    public int Id { get; set; }
+    public override int Id { get; set; }
     public ImageType ImageType => ImageType.Category;
     public IEnumerable<int> SizesSquare => new[] { 206, 50 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
-    public string BasePath => "/Images/Categories/";
-    public string BaseDummyUrl => "/Images/no-category-picture-";
+    public override string BasePath => Path.Combine(ImageFolderPath(), "Categories");  
+    public string BaseDummyUrl => Path.Combine(ImageFolderPath(), "no-category-picture-");
 
     public CategoryImageSettings(int categoryId,
         IHttpContextAccessor contextAccessor, 

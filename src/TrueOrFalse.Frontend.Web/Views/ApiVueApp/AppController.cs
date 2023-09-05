@@ -14,13 +14,14 @@ public class AppController : Controller
 
     public JsonResult GetCurrentUser()
     {
-        return Json(_vueSessionUser.GetCurrentUserData());
+        var currentUser = _vueSessionUser.GetCurrentUserData();
+        return Json(currentUser);
     }
 
     [HttpGet]
     public JsonResult GetFooterTopics()
     {
-        return Json(new
+        var json = new
         {
             RootWiki = new
             {
@@ -57,6 +58,7 @@ public class AppController : Controller
                 Id = RootCategory.IntroCategoryId,
                 Name = EntityCache.GetCategory(RootCategory.IntroCategoryId).Name
             }
-        });
+        }; 
+        return Json(json);
     }
 }

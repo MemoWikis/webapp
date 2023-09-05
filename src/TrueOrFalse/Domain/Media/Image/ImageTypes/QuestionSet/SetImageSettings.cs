@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using static System.String;
 
 public class SetImageSettings : ImageSettings, IImageSettings
 {
-    public int Id { get; set; }
+    public override int Id { get; set; }
     public ImageType ImageType => ImageType.QuestionSet;
     public IEnumerable<int> SizesSquare => new[] { 206, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
-    public string BasePath => "/Images/QuestionSets/";
-    public string BaseDummyUrl => "/Images/no-set-";
+    public override string  BasePath => Path.Combine(ImageFolderPath(), "QuestionSets");
+    public string BaseDummyUrl => Path.Combine(ImageFolderPath(), "no-set-");
 
     public SetImageSettings(IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment) :

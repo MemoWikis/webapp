@@ -71,7 +71,7 @@ export default defineNuxtConfig({
 
 
     // devServer: {
-    //     host: 'memucho.local'
+    //     host: 'localhost:5069'
     // }
     // devServer: {
     //     https: {

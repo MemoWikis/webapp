@@ -9,6 +9,7 @@ public interface IImageSettings
     string BasePath { get; }
     string BaseDummyUrl { get; }
     string ServerPathAndId();
+    string ImageFolderPath(); 
 
     void Init(int typeId);
 

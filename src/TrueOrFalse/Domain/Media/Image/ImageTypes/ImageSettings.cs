@@ -2,40 +2,32 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public class ImageSettings
+public abstract class ImageSettings
 {
     protected readonly IHttpContextAccessor _contextAccessor;
     protected readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly HttpContext? _httpContext;
 
     public ImageSettings(IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)
     {
         _contextAccessor = contextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _httpContext = _contextAccessor.HttpContext;
     }
-    public int Id { get; set;  }
-   
+    public abstract int Id { get; set;  }
+    public abstract string BasePath { get; }
 
     public string ServerPathAndId()
     {
-        if (_httpContext == null)
-            return "";
-
-        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Id.ToString());
+        return Path.Combine(ImageFolderPath(), Id.ToString());
     }
 
-    public string ServerPath()
+    public string ImageFolderPath()
     {
-        if (_httpContext == null)
-            return "";
-
-        return Path.Combine(AppDomain.CurrentDomain.BaseDirectory);
+        return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "TrueOrFalse.Frontend.Web", "Images");
     }
 
     public void DeleteFiles()
     {
-        var filesToDelete = Directory.GetFiles(ServerPath(), Id + "_*");
+        var filesToDelete = Directory.GetFiles(ImageFolderPath(), Id + "_*");
 
         if (filesToDelete.Length > 33)
             throw new Exception("unexpected high amount of files");

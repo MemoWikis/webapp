@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Http;
 public class QuestionImageSettings : ImageSettings, IImageSettings
 {
     private readonly QuestionReadingRepo _questionReadingRepo;
-    public int Id { get; set; }
+    public override int Id { get; set; }
     public ImageType ImageType => ImageType.Question;
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500, 435, 100 };
 
-    public string BasePath => "/Images/Questions/";
-    public string BaseDummyUrl => "/Images/no-question-";
+    public override string BasePath => Path.Combine(ImageFolderPath(), "Questions");
+    public string BaseDummyUrl => Path.Combine(ImageFolderPath(), "no -question-");
 
-    private Question __question;
+    private Question? __question;
     private Question _question
     {
         get => __question ??= _questionReadingRepo.GetById(Id);

@@ -22,10 +22,6 @@ public class ImageMetaData : DomainEntity
     public virtual ImageLicenseState LicenseState { get; set; }
         
     public virtual ManualImageData ManualEntriesFromJson() => ManualImageData.FromJson(ManualEntries);
-    public virtual ImageParsingNotifications NotificationsFromJson() => ImageParsingNotifications.FromJson(Notifications);
-
-    public virtual IImageSettings GetSettings(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) =>
-        new ImageSettings(httpContextAccessor, webHostEnvironment).InitByType(this);
 
     public virtual bool IsYoutubePreviewImage { get; set; }
     public virtual string YoutubeKey { get; set; }
