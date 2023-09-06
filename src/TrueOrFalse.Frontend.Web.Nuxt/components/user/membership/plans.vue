@@ -32,7 +32,10 @@ onMounted(() => {
     alertStore.$onAction(({ name, after }) => {
         if (name == 'closeAlert')
             after((result) => {
-                handleConsentDialogClosing(result.cancelled)
+                if(result.id == redirectingDialogTitle && !result.cancelled){
+                    consentForStripeGiven.value = true
+                    redirectToCheckout()
+                }
             })
     })
 })
@@ -41,13 +44,13 @@ const consentForStripeGiven = ref(userStore.hasStripeCustomerId)
 
 const redirectToCheckout = async (): Promise<void> => {
 
-    console.error("redirectToCheckout")
-
     if(!consentForStripeGiven) return
 
     const sessionId = await getStripeSessionId(selectedPriceId.value);
     
+
     if (!sessionId || sessionId == '') {
+        alertStore.openAlert(AlertType.Error, { text: "Es konnte leider keine Verbindung zum Zahlungsdienstleister Stripe hergestellt werden."})
         return
     }
 
@@ -81,16 +84,16 @@ const initStripeCheckout = (type: Subscription.Type) => {
     if(consentForStripeGiven.value){
         redirectToCheckout()
     } else {
-        alertStore.openAlert(AlertType.Default, { text: 'Du wirst nun zu unserem Zahlungsdienstleister Stripe weitergeleitet, der auch deine Emailadresse bei sich hinterlegen wird.' }, 'Einverstanden', true, redirectingDialogTitle)
+        //Is handled as close event:
+        alertStore.openAlert(
+            AlertType.Default,
+            { text: 'Du wirst nun zu unserem Zahlungsdienstleister Stripe weitergeleitet, der auch deine Emailadresse bei sich hinterlegen wird.' },
+            'Einverstanden',
+            true,
+            redirectingDialogTitle,
+            redirectingDialogTitle
+        )
     }
-}
-
-const handleConsentDialogClosing = async (cancelled: boolean): Promise<void> => {
-    
-    if(!cancelled){
-        consentForStripeGiven.value = true
-        redirectToCheckout()
-    }    
 }
 
 function contact() {
