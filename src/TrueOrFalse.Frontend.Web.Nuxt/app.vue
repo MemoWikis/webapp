@@ -102,6 +102,16 @@ watch(() => openedModals, (val) => {
 		modalIsOpen.value = true
 	else modalIsOpen.value = false
 }, { deep: true })
+
+useHead(() => ({
+	meta: [
+		{
+			name: 'theme-color',
+			content: 'white',
+			media: '(prefers-color-scheme: light)'
+		}
+	]
+}))
 </script>
 
 <template>

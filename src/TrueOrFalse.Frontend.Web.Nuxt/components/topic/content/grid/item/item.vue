@@ -320,6 +320,10 @@ async function reloadGridItem(id: number) {
             padding-left: 8px;
             width: 100%;
 
+            .item-name {
+                font-size: 18px;
+            }
+
             .item-detaillabel {
                 color: @memo-grey-dark;
                 font-size: 12px;
