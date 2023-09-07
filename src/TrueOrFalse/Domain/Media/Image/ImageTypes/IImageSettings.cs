@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 public interface IImageSettings
 {
     int Id { get; }
@@ -9,7 +8,6 @@ public interface IImageSettings
     string BasePath { get; }
     string BaseDummyUrl { get; }
     string ServerPathAndId();
-    string ImageFolderPath(); 
 
     void Init(int typeId);
 

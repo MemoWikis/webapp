@@ -35,14 +35,8 @@ public class TopicController : Controller
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
     }
 
-    public JsonResult GetTopic([FromQuery] int id)
+    public JsonResult GetTopic([FromRoute] int id)
     {
-        var gridItemLogic = new GridItemLogic(_permissionCheck, 
-            _sessionUser, 
-            _imageMetaDataReadingRepo, 
-            _httpContextAccessor, 
-            _webHostEnvironment,
-            _knowledgeSummaryLoader);
         return Json(_topicControllerLogic.GetTopicData(id));
     }
 

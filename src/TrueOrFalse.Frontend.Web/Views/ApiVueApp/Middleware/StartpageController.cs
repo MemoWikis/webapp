@@ -1,20 +1,16 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc;
 
-using Microsoft.AspNetCore.Mvc;
 
-namespace VueApp;
-
-[Route("apiVue/MiddlewareStartpage")]
-[ApiController]
-public class MiddlewareStartpageController : BaseController
+public class MiddlewareStartpageController : Controller
 {
-    public MiddlewareStartpageController(SessionUser sessionUser) :base(sessionUser)
+    private readonly SessionUser _sessionUser;
+
+    public MiddlewareStartpageController(SessionUser sessionUser)
     {
-        
+        _sessionUser = sessionUser;
     }
 
     [HttpGet]
-    [Route("Get")]
     public JsonResult Get()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;

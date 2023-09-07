@@ -20,7 +20,7 @@ public abstract class ImageSettings
         return Path.Combine(ImageFolderPath(), Id.ToString());
     }
 
-    public string ImageFolderPath()
+    public static string ImageFolderPath()
     {
         return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "TrueOrFalse.Frontend.Web", "Images");
     }

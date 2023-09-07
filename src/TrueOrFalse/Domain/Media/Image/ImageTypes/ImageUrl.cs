@@ -62,7 +62,7 @@ public class ImageUrl
             var searchPattern = $"{imageSettings.Id}_*.jpg";
             var t = AppDomain.CurrentDomain.BaseDirectory; 
             
-            var basePath = Path.Combine(imageSettings.ImageFolderPath(), imageSettings.BasePath);
+            var basePath = Path.Combine(ImageSettings.ImageFolderPath(), imageSettings.BasePath);
             if (Directory.Exists(basePath) == false)
             {
                 new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Directory is not available");
