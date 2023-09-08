@@ -23,27 +23,19 @@ public class ImageFrontendData
     public string LicenseShortDescriptionLink;
     public string AttributionHtmlString;
     public ImageParsingNotifications ImageParsingNotifications;
-
-    public ImageFrontendData(int typeId,
-        ImageType imageType, 
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) :
-        this(PrepareConstructorArguments(typeId, imageType, imageMetaDataReadingRepo),
-            httpContextAccessor, webHostEnvironment)
-    {
-    }
         
     public ImageFrontendData(ImageMetaData imageMetaData,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
         if (imageMetaData == null)
             return;
 
         ImageMetaDataExists = true;
         ImageMetaData = imageMetaData;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
+     
         MainLicenseInfo = !IsNullOrEmpty(ImageMetaData.MainLicenseInfo)
             ? MainLicenseInfo.FromJson(ImageMetaData.MainLicenseInfo)
             : null;
@@ -264,10 +256,5 @@ public class ImageFrontendData
         var noFollowString = noFollow ? " rel='nofollow'" : "";
         return $"<a href='{link}'{noFollowString}>{html}</a>";
 
-    }
-
-    private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
-    {
-        return imageMetaDataReadingRepo.GetBy(typeId, imageType);
     }
 }
