@@ -22,9 +22,8 @@ public class Links
     public const string CategoryController = "Category";
     /*Question*/
     public const string Questions = "Questions";
-    /*Users*/
-    public const string UserAction = "User";
-    public const string UserController = "User";
+
+
 
     public Links(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
     {
@@ -49,13 +48,6 @@ public class Links
         string categoryFilter = "")
     {
         return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
-    }
-
-    public string AnswerQuestion(Question question, IHttpContextAccessor httpContext)
-    {
-        return httpContext.HttpContext == null
-            ? ""
-            : AnswerQuestion(question, -1);
     }
 
     public string AnswerQuestion(
@@ -102,13 +94,13 @@ public class Links
 
     public string CategoryDetail(string name, int id)
     {
-        return GetUrlHelper().Action("Category", CategoryController,
-            new { text = UriSanitizer.Run(name), id });
+        var url = GetUrlHelper().UrlAction("Category", CategoryController, new { text = UriSanitizer.Run(name), id });
+        return url;
     }
 
     public string ErrorNotLoggedIn(string backTo)
     {
-        return GetUrlHelper().Action("_NotLoggedIn", "Error", new { backTo });
+        return GetUrlHelper().UrlAction("_NotLoggedIn", "Error", new { backTo });
     }
 
     public string GetUrl(object type)
@@ -148,20 +140,10 @@ public class Links
         urlHelper.RemoveRoutes(new[] { "version" });
         return urlHelper;
     }
-    
-    public bool IsLinkToWikipedia(string url)
-    {
-        if (IsNullOrEmpty(url))
-        {
-            return false;
-        }
-
-        return Regex.IsMatch(url, "https?://.{0,3}wikipedia.");
-    }
 
     public string QuestionHistory(int questionId)
     {
-        return GetUrlHelper().Action("List", "QuestionHistory", new { questionId });
+        return GetUrlHelper().UrlAction("List", "QuestionHistory", new { questionId });
     }
 
  

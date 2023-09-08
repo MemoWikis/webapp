@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Routing;
 
 public static class UrlHelperExtensions
 {
-    public static string Action(
+    public static string UrlAction(
         this IUrlHelper urlHelper,
         string actionName,
         string controllerName,
@@ -33,7 +33,7 @@ public static class UrlHelperExtensions
     public static void RemoveRoutes(this IUrlHelper urlHelper, string[] routesToRemove)
     {
         RouteValueDictionary currentRouteData = urlHelper.ActionContext.RouteData.Values;
-        if (routesToRemove != null && routesToRemove.Length > 0)
+        if (routesToRemove.Length > 0)
         {
             foreach (string route in routesToRemove)
             {
