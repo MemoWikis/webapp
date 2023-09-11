@@ -99,6 +99,9 @@
 	  <None Update="hibernate.cfg.xml">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Log.ignore">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Web.overwritten.config">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>
