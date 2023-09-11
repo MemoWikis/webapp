@@ -5,20 +5,24 @@ interface FaqItem {
 }
 const faqItems = ref<FaqItem[]>([
     {
-        question: 'Wie kann ich bezahlen?',
-        answer: 'Kreditkarte und Vorabüberweisung'
+        "question": "Was passiert, wenn mein Abo ausläuft?",
+        "answer": "Wenn dein Abo ausläuft, kannst du keine weiteren privaten Inhalte über die Basislimits hinaus mehr anlegen. Allerdings werden deine bestehenden Inhalte nicht gelöscht."
     },
     {
-        question: 'Kann ich jederzeit kündigen?',
-        answer: 'Ja du kannst jederzeit kündigen, dein Abo endet dann automatisch zum nächsten Abrechnungstermin'
+        "question": "Werden private Inhalte gelöscht, wenn mein Abo ausläuft?",
+        "answer": "Nein, deine privaten Inhalte werden nicht gelöscht, es sei denn, du möchtest das. Du kannst weiterhin auf sie zugreifen, auch wenn dein Abo ausgelaufen ist."
     },
     {
-        question: 'Wie uneingeschränkt sind uneingeschränkte Inhalte?',
-        answer: 'Genauso wie wir es sagen: Uneingeschränkt'
+        "question": "Was bedeutet “uneingeschränkte Inhalte”, gibt es keine Limits?",
+        "answer": "Bislang haben wir keine Limits vorgesehen. Wenn jedoch technische Grenzen erreicht werden, informieren wir dich. Bei normaler Nutzung solltest du keine technischen Limits erreichen. Limits für Bilder und Videos werden noch festgelegt."
     },
     {
-        question: 'Verlängert sich mein Abonnement automatisch?',
-        answer: 'Um es mit Goethes Faust, Teil 2, Vorspiel auf dem Theater, Vers 1265 zu sagen: Ja!'
+        "question": "Wie erfolgt die Bezahlung?",
+        "answer": "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform (https://stripe.com/at/privacy). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
+    },
+    {
+        "question": "Meine Kreditkarte wurde abgelehnt und ich möchte auf meine privaten Inhalte zugreifen. Wie gehe ich vor?",
+        "answer": "Auch wenn dein Abo abgelaufen ist oder deine Kreditkarte bei der Verlängerung abgelehnt wurde, kannst du weiterhin auf deine privaten Inhalte zugreifen."
     },
 ])
 
@@ -36,11 +40,13 @@ onBeforeMount(() => {
             <div class="main-content">
                 <div class="col-md-12 header">
                     <div class="top-label">MITGLIED WERDEN UND FREIE BILDUNG UNTERSTÜTZEN!</div>
-                    <div class="title">Öffentlich ist kostenlos – für immer und alle!</div>
+                    <!-- <div class="top-label"></div> -->
+                    <div class="title">Mitgliedschaft</div>
+                    <!-- <div class="title">Öffentlich ist kostenlos – für immer und alle!</div> -->
                     <div class="bottom-label">
-                        Öffentliche Inhalte sind auf memucho uneingeschränkt nutzbar – freie Daten!
-                        Freie Software! (open data open access)<br />
-                        Du möchtest memucho privat nutzen? Hier findest unsere Pläne:
+                        Öffentliche Inhalte sind auf memucho uneingeschränkt nutzbar. Freie Daten –
+                        freie Software (open data open access)! <br /><br />
+                        Du möchtest memucho für private Inhalte nutzen? Hier findest unsere Preise:
                     </div>
                 </div>
                 <div class="col-xs-12">
@@ -52,8 +58,8 @@ onBeforeMount(() => {
     </div>
     <div class="full-width-row">
         <div id="FaqHeaderOuter">
-            <div class="faq-top-label">Häufig gestellte</div>
-            <div>Fragen</div>
+            <div class="faq-top-label">Häufig gestellte Fragen</div>
+            <!-- <div>Fragen</div> -->
         </div>
 
         <div id="QuestionsOuter">
@@ -112,6 +118,9 @@ onBeforeMount(() => {
     display: flex;
     align-items: center;
     flex-direction: column;
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .full-width-row {

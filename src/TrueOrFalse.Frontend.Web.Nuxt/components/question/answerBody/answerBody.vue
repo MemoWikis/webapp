@@ -5,9 +5,8 @@ import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from '../edit/editQuestionStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
-import { getHighlightedCode } from '~~/components/shared/utils'
+import { getHighlightedCode, random } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
-import { random, handleNewLine } from '~/components/shared/utils'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
@@ -20,13 +19,6 @@ const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const editQuestionStore = useEditQuestionStore()
 const commentsStore = useCommentsStore()
-
-interface Props {
-    isLandingPage?: boolean
-    landingPageModel?: AnswerBodyModel
-    landingPageSolutionData?: SolutionData
-}
-const props = defineProps<Props>()
 
 const answerIsCorrect = ref(false)
 const answerIsCorrectPopUp = ref(false)
@@ -249,7 +241,7 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 function handleUrl() {
-    if (!props.isLandingPage && tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
+    if (tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
         const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
         router.push(newPath)
     }
@@ -353,18 +345,6 @@ function startNewSession() {
     learningSessionStore.showResult = false
     learningSessionStore.startNewSession()
 }
-if (props.isLandingPage && props.landingPageModel && props.landingPageSolutionData) {
-    answerBodyModel.value = props.landingPageModel
-    solutionData.value = props.landingPageSolutionData
-    showAnswer.value = true
-}
-onBeforeMount(() => {
-    if (props.isLandingPage && props.landingPageModel && props.landingPageSolutionData) {
-        answerBodyModel.value = props.landingPageModel
-        solutionData.value = props.landingPageSolutionData
-        showAnswer.value = true
-    }
-})
 
 const allMultipleChoiceCombinationTried = computed(() => {
     if (answerBodyModel.value?.solutionType == SolutionType.MultipleChoice) {
@@ -382,8 +362,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
 </script>
 
 <template>
-    <div id="AnswerBody" v-if="answerBodyModel && (!learningSessionStore.showResult || props.isLandingPage)"
-        class="col-xs-12">
+    <div id="AnswerBody" v-if="answerBodyModel && !learningSessionStore.showResult" class="col-xs-12">
         <div class="answerbody-header">
 
             <div class="answerbody-text">
@@ -402,7 +381,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                         </ClientOnly>
                     </div>
                 </div>
-                <div class="Button dropdown answerbody-btn" v-if="!isLandingPage">
+                <div class="Button dropdown answerbody-btn">
                     <div class="answerbody-btn-inner">
                         <VDropdown :distance="0">
                             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
@@ -508,18 +487,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
                         </div>
                         <div id="ButtonsAndSolutionCol">
                             <div id="ButtonsAndSolution" class="Clearfix">
-                                <div id="Buttons" v-if="props.isLandingPage">
-                                    <div id="btnGoToTestSession">
-
-                                        <NuxtLink v-if="answerBodyModel.hasTopics"
-                                            :to="`${answerBodyModel.primaryTopicUrl}/Lernen`" id="btnStartTestSession"
-                                            class="btn btn-primary show-tooltip" rel="nofollow"
-                                            v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + answerBodyModel.primaryTopicName">
-                                            <b>Weiterlernen</b>
-                                        </NuxtLink>
-                                    </div>
-                                </div>
-                                <div id="Buttons" v-else>
+                                <div id="Buttons">
 
                                     <template
                                         v-if="answerBodyModel.solutionType == SolutionType.FlashCard && !flashCardAnswered">
@@ -653,15 +621,13 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
 
                                     <div id="SolutionDetails"
-                                        v-if="answerBodyModel.description?.trim().length > 0 && showAnswer">
+                                        v-if="solutionData && solutionData.answerDescription?.trim().length > 0 && showAnswer">
                                         <div id="Description">
                                             <div class="solution-label">
                                                 Ergänzungen zur Antwort:
                                             </div>
 
-                                            <SharedRawHtml v-if="solutionData" class="Content body-m"
-                                                :html="solutionData.answerDescription" />
-
+                                            <SharedRawHtml class="Content body-m" :html="solutionData.answerDescription" />
                                         </div>
                                     </div>
                                 </div>

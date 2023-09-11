@@ -73,6 +73,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 SubscriptionType = user.EndDate > DateTime.Now
                     ? SubscriptionType.Plus
                     : SubscriptionType.Basic,
+                HasStripeCustomerId = !string.IsNullOrEmpty(user.StripeId),
                 EndDate = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 SubscriptionStartDate = user.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 IsSubscriptionCanceled = subscriptionDate is
