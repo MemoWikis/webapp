@@ -39,7 +39,7 @@ public class OverwrittenConfig
     {
         if (_xDoc == null)
         {
-            string filePath = Path.Combine(System.AppContext.BaseDirectory, "Web.overwritten.config");
+            string filePath = Path.Combine(AppContext.BaseDirectory, "Web.overwritten.config");
             
 
             if (!File.Exists(filePath))
