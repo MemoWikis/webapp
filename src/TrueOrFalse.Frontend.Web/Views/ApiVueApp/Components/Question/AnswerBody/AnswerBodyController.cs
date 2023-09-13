@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
@@ -59,17 +60,16 @@ public class AnswerBodyController : Controller {
     }
 
     [HttpPost]
-    public JsonResult SendAnswerToLearningSession(
-        int id,
-        Guid questionViewGuid = new Guid(),
-        string answer = "",
-        bool inTestMode = false)
+    public JsonResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSession sendAnswerToLearningSession)
     {
+        var answer = sendAnswerToLearningSession.Answer;
+        var id = sendAnswerToLearningSession.Id;
+
         var learningSession =  _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
-        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, questionViewGuid, 0,
-            0, 0, new Guid(), inTestMode);
+        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, sendAnswerToLearningSession.QuestionViewGuid, 0,
+            0, 0, new Guid(), sendAnswerToLearningSession.InTestMode);
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
 
@@ -152,5 +152,17 @@ public class AnswerBodyController : Controller {
                 }).ToArray()
             }
         );
+    }
+}
+
+namespace HelperClassesControllers
+{
+    public class SendAnswerToLearningSession
+    {
+        public int Id { get; set; }
+        public Guid QuestionViewGuid { get; set; }
+        public string Answer { get; set; }
+        public bool InTestMode { get; set; }
+
     }
 }

@@ -18,7 +18,6 @@ public class UserStoreController : Controller
     private readonly Login _login;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly PermissionCheck _permissionCheck;
 
     public UserStoreController(
         VueSessionUser vueSessionUser,
@@ -31,8 +30,7 @@ public class UserStoreController : Controller
         TopicControllerLogic topicControllerLogic,
         Login login,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        PermissionCheck permissionCheck)
+        IWebHostEnvironment webHostEnvironment)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -45,11 +43,10 @@ public class UserStoreController : Controller
         _login = login;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _permissionCheck = permissionCheck;
     }
 
     [HttpPost]
-    public JsonResult Login(LoginJson loginJson)
+    public JsonResult Login([FromBody] LoginJson loginJson)
     {
         var isLoginErfolgreich = _login.UserLogin(loginJson);
 

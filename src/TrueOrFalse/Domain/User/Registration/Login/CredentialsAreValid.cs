@@ -15,7 +15,7 @@ public class CredentialsAreValid : IRegisterAsInstancePerLifetime
             return false;
 
         User = null;
-        var user = _userReadingRepo.GetByEmailEager(emailAdress.Trim());
+        var user = _userReadingRepo.GetByEmail(emailAdress.Trim());
 
         if (user == null)
             return false;

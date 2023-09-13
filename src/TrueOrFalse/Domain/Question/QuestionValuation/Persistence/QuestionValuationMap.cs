@@ -15,7 +15,7 @@ public class QuestionValuationMap : ClassMap<QuestionValuation>
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
 
-        Map(x => x.KnowledgeStatus);
+        Map(x => x.KnowledgeStatus).CustomType<KnowledgeStatus>();
 
         Map(x => x.DateCreated);
     }

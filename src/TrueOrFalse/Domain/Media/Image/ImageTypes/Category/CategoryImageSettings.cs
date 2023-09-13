@@ -39,6 +39,6 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     }
 
     private string GetFallbackImage(int width){
-        return Path.Combine(ImageFolderPath(), BaseDummyUrl + width + ".png");
+        return  "/Images/" + BaseDummyUrl + width + ".png";
     }
 }

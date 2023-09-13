@@ -29,7 +29,7 @@ namespace TrueOrFalse.Infrastructure
             builder.Register(c =>
             {
                 var sessionFactory = Fluently.Configure()
-                    .Database(MySQLConfiguration.Standard.ConnectionString("Server=localhost;Database=memucho1;User ID=root;Password=Tassen12;"))
+                    .Database(MySQLConfiguration.Standard.ConnectionString(new OverwrittenConfig().ValueString("connectionString")))
                     .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
                     .BuildSessionFactory();
                 return sessionFactory;

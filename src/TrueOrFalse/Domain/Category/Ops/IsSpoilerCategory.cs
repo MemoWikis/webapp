@@ -11,6 +11,9 @@ public class IsSpoilerCategory
 
     private static string NormalizeString(string input)
     {
-        return input.ToLower().Replace(" ","");
+        if (input == null)
+            return null; 
+
+        return  input.ToLower().Replace(" ","");
     }
 }

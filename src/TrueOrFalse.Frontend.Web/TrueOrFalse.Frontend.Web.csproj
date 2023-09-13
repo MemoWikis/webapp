@@ -96,9 +96,6 @@
 		<ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="hibernate.cfg.xml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 	  <None Update="Log.ignore">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </None>

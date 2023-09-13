@@ -71,7 +71,12 @@ public class ImageUrl
             var fileNames = Directory.GetFiles(basePath, searchPattern);
            
             if (fileNames.Any()){
-                var maxFileWidth = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('_').Last().Replace(".jpg", ""))).OrderByDescending(x => x).First();
+                var maxFileWidth = fileNames
+                    .Where(x => !x.Contains("s.jpg"))
+                    .Select(x => Convert.ToInt32(x.Split('_').Last()
+                        .Replace(".jpg", "")))
+                    .OrderByDescending(x => x)
+                    .First();
 
                 using (var biggestAvailableImage = Image.FromFile($"{imageSettings.ServerPathAndId()}_{maxFileWidth}.jpg"))
                 {
@@ -114,9 +119,7 @@ public class ImageUrl
         var url = width ==  -1 ?
                             imageSettings.BasePath + imageSettings.Id + ".jpg" :
                             imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
-
-
-        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, url))
+        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(ImageSettings.ImageFolderPath(), url))
             .ToString("yyyyMMddhhmmss");
         HasUploadedImage = true;
         return this;

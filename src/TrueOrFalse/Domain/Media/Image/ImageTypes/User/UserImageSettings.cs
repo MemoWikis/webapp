@@ -45,7 +45,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
     protected string GetFallbackImage(IUserTinyModel user, int width)
     {
         //Removed Google, Facebook and Gravatar urls for the time being, to be reintroduced with images fetched server side
-        return Path.Combine(ImageSettings.ImageFolderPath(), BaseDummyUrl + width + ".png");
+        return Path.Combine( "/Images/" + BaseDummyUrl + width + ".png");
     }
 }
 

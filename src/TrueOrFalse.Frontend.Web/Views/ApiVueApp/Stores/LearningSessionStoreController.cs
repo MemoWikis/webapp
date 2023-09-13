@@ -16,7 +16,7 @@ public class LearningSessionStoreController: BaseController
         _learningSessionCache = learningSessionCache;
     }
     [HttpPost]
-    public JsonResult NewSession(LearningSessionConfig config)
+    public JsonResult NewSession([FromBody]LearningSessionConfig config)
     {
         var newSession = _learningSessionCreator.BuildLearningSession(config);
         _learningSessionCache.AddOrUpdate(newSession);

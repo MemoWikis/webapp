@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,13 +45,13 @@ public class TopicLearningQuestionListController: Controller
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
     [HttpPost]
-    public JsonResult LoadQuestions(int itemCountPerPage, int pageNumber, int topicId)
+    public JsonResult LoadQuestions([FromBody] LoadQuestion loadQuestion)
     {
-        if (_learningSessionCache.GetLearningSession() == null || topicId != _learningSessionCache.GetLearningSession().Config.CategoryId)
+        if (_learningSessionCache.GetLearningSession() == null || loadQuestion.TopicId != _learningSessionCache.GetLearningSession().Config.CategoryId)
         {
             var config = new LearningSessionConfig
             {
-                CategoryId = topicId,
+                CategoryId = loadQuestion.TopicId,
                 CurrentUserId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default
             };
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
@@ -66,7 +67,7 @@ public class TopicLearningQuestionListController: Controller
                 _actionContextAccessor,
                 _httpContextAccessor,
                 _webHostEnvironment)
-            .PopulateQuestionsOnPage(pageNumber, itemCountPerPage));
+            .PopulateQuestionsOnPage(loadQuestion.PageNumber, loadQuestion.ItemCountPerPage));
     }
 
     [HttpGet]
@@ -100,5 +101,15 @@ public class TopicLearningQuestionListController: Controller
             IsInWishknowledge = hasUserValuation && userQuestionValuation[question.Id].IsInWishKnowledge,
             HasPersonalAnswer = false
         });
+    }
+}
+
+namespace HelperClassesControllers
+{
+    public class LoadQuestion
+    {
+        public int ItemCountPerPage { get; set; }
+        public int PageNumber { get; set; }
+        public int TopicId { get; set; }
     }
 }

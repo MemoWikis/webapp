@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-
-[Serializable]
-public class LearningSessionConfig
+﻿public class LearningSessionConfig
 {
     public int CategoryId { get; set; }
     public CategoryCacheItem Category { get; set; }

@@ -2,8 +2,11 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 
@@ -14,7 +17,13 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
         containerBuilder.RegisterModule<AutofacCoreModule>();
     });
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+}); 
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();
 
@@ -27,13 +36,17 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowCredentials());
 });
-
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    })
+    .AddCookie();
 builder.Services.AddAntiforgery(options =>
 {
 
 });
-
-builder.Services.AddAuthorizationCore();
 
 /* ----------------------------------------------------APP ----------------------------------------------*/
 var app = builder.Build();
@@ -55,14 +68,19 @@ if (env.IsDevelopment())
 
 if (string.IsNullOrEmpty(env.WebRootPath))
 {
-    env.WebRootPath = System.IO.Path.Combine(System.AppContext.BaseDirectory, "wwwroot");
+    env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
 app.UseStaticFiles();
+var imagesPath = ImageSettings.ImageFolderPath();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(imagesPath),
+    RequestPath = "/Images"
+});
 app.UseRouting();
 app.UseSession();
 
-//app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(

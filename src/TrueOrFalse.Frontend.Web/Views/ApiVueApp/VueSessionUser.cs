@@ -84,7 +84,6 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         }
 
         var userLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
-        var test = _topicControllerLogic.GetTopicData(RootCategory.RootCategoryId); 
         return new
         {
             IsLoggedIn = false,

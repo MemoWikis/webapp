@@ -12,8 +12,12 @@ public class BreadcrumbController : BaseController
     {
         _crumbtrailService = crumbtrailService;
     }
-    public JsonResult GetBreadcrumb([FromQuery]int wikiId, int currentCategoryId) 
+    [HttpPost]
+    public JsonResult GetBreadcrumb([FromBody] BreadcrumbRequest breadcrumbRequest)
     {
+        var wikiId = breadcrumbRequest.WikiId;
+        int currentCategoryId= breadcrumbRequest.CurrentCategoryId;
+
         var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
@@ -92,5 +96,11 @@ public class BreadcrumbController : BaseController
     {
         public string Name { get; set; }
         public int Id { get; set; }
+    }
+
+    public class BreadcrumbRequest
+    {
+        public int WikiId { get; set; }
+        public int CurrentCategoryId { get; set; }
     }
 }

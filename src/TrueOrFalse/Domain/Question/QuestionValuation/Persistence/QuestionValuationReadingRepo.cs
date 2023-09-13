@@ -55,9 +55,6 @@ public class QuestionValuationReadingRepo : RepositoryDb<QuestionValuation>
 
     public IList<QuestionValuation> GetByUserWithQuestion(int userId)
     {
-        var r = _session
-            .Query<QuestionValuation>().Where(qv => qv.User.Id == userId).Fetch(qv => qv.Question).ToList();
-
         var result = _session
             .Query<QuestionValuation>()
             .Where(qv => qv.User.Id == userId)
