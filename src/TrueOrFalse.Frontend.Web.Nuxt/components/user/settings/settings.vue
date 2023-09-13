@@ -654,7 +654,7 @@ const getSelectedSettingsPageLabel = computed(() => {
                         <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled == false"
                             @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Abo Kündigen
+                            Abo verwalten oder kündigen
                         </button>
                         <button class="memo-button btn btn-primary"
                             v-else-if="userStore.isSubscriptionCanceled == true && userStore.subscriptionType == Subscription.Type.Plus"

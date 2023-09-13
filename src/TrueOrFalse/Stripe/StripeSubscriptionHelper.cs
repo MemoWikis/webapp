@@ -46,7 +46,7 @@ public class StripeSubscriptionHelper
 
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string> { "card" },
+            PaymentMethodTypes = new List<string> { "card", "paypal", "sofort" },
             Mode = "subscription",
             LineItems = new List<SessionLineItemOptions>
             {
@@ -58,7 +58,11 @@ public class StripeSubscriptionHelper
             },
             SuccessUrl = StripeReturnUrlGenerator.Create("Preise"),
             CancelUrl = StripeReturnUrlGenerator.Create("Preise"),
-            Customer = customerId
+            Customer = customerId,
+            AutomaticTax = new SessionAutomaticTaxOptions
+            {
+                Enabled = true
+            }
         };
 
         try
