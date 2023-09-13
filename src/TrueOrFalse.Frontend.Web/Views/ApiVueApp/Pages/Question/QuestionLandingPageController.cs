@@ -76,7 +76,7 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser, _permissionCheck).GetData(id)
 
         }, JsonRequestBehavior.AllowGet);
     }

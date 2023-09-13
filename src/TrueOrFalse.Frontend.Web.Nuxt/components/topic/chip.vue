@@ -17,12 +17,18 @@ const name = ref('')
 const showImage = ref(false)
 const showName = ref(true)
 
-onBeforeMount(() => {
-    showImage.value = !props.topic.MiniImageUrl.includes('no-category-picture')
-    name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name
-    if (props.isSpoiler)
-        showName.value = false
-})
+// onBeforeMount(() => {
+//     showImage.value = !props.topic.MiniImageUrl.includes('no-category-picture')
+//     name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name
+//     if (props.isSpoiler)
+//         showName.value = false
+// })
+
+showImage.value = !props.topic.MiniImageUrl.includes('no-category-picture')
+name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name
+if (props.isSpoiler)
+    showName.value = false
+
 const { $urlHelper } = useNuxtApp()
 </script>
 

@@ -67,7 +67,7 @@ public class VueQuestionController : BaseController
                 hasTopics = q.Categories.Any(),
                 primaryTopicId = primaryTopic?.Id,
                 primaryTopicName = primaryTopic?.Name,
-                solution = q.Solution,
+                solution = q.Solution,  
 
                 isCreator = q.Creator.Id == _sessionUser.UserId,
                 isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
@@ -76,7 +76,7 @@ public class VueQuestionController : BaseController
                 isLastStep = true
             },
             solutionData = new
-            {
+            {   
                 answerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 answer = solution.CorrectAnswer(),
                 answerDescription = q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
@@ -89,7 +89,7 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,_permissionCheck).GetData(id)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser, _permissionCheck).GetData(id)
         }, JsonRequestBehavior.AllowGet);
     }
 

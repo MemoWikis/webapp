@@ -23,7 +23,7 @@ const hoverLock = ref(false)
     <div id="TopicHeaderOptions">
         <div>
             <VDropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']" :arrow-padding="300"
-                placement="bottom-end">
+                placement="auto">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>

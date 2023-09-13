@@ -1,5 +1,5 @@
-import { Visibility } from 'components/shared/visibilityEnum'
-import { TinyTopicModel } from 'components/topic/topicStore'
+import { Visibility } from '~~/components/shared/visibilityEnum'
+import { TinyTopicModel } from '~~/components/topic/topicStore'
 import { KnowledgebarData } from '../knowledgebar/knowledgebarData'
 
 export interface GridTopicItem {
