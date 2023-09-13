@@ -46,7 +46,7 @@ public class StripeSubscriptionHelper
 
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string> { "card" },
+            PaymentMethodTypes = new List<string> { "card", "paypal", "sofort" },
             Mode = "subscription",
             LineItems = new List<SessionLineItemOptions>
             {
