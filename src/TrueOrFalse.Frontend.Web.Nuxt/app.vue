@@ -92,6 +92,13 @@ userStore.$onAction(({ name, after }) => {
 			}
 		})
 	}
+	if (name == 'login') {
+		after(async (loginResult) => {
+			if (loginResult.success == true) {
+				await refreshNuxtData()
+			}
+		})
+	}
 })
 
 const { $vfm } = useNuxtApp()
