@@ -183,7 +183,6 @@ async function getBreadcrumb() {
 					throw createError({ statusMessage: context.error?.message })
 				}
 			})
-
 		personalWiki.value = result
 
 	}

@@ -11,7 +11,6 @@ const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
@@ -24,8 +23,9 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 	},
 	onResponseError(context) {
 		throw createError({ statusMessage: context.error?.message })
-	},
+	}
 })
+
 if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)

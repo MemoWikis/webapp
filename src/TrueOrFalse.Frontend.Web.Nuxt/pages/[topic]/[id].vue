@@ -28,6 +28,7 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/$
         credentials: 'include',
         mode: 'cors',
         onRequest({ options }) {
+            console.log('Anfrage startet /apiVue/Topic/GetTopic/ .... ');
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
@@ -38,7 +39,7 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/$
         },
         server: true,
         retry: 3
-    })
+        })
 
 const tabSwitched = ref(false)
 

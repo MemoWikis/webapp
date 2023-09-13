@@ -101,7 +101,6 @@ export const messages: any = {
                 return undefined; // Key part not found in the messages structure
             }
         }
-        console.log(`MessageKey: ${messageKey}, Message: ${currentLevel}`)
         return currentLevel as string;
     }
 }

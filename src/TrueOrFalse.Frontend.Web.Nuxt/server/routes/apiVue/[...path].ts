@@ -5,6 +5,6 @@ export default eventHandler((event: any) => {
 
     const log = new CustomPino()
     log.info(`REQUEST ApiProxy: ${event.context.params!.path}`, [{ url: event.node.req.url }])
-
-    return proxyRequest(event, `${config.public.serverBase}/${event.node.req.url}`)
+    console.log( "Proxy log", `${config.public.serverBase}${event.node.req.url}`);
+    return proxyRequest(event, `${config.public.serverBase}${event.node.req.url}`)
 })

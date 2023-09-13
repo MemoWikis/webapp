@@ -77,7 +77,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
-
+            console.log(config)
             const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSession/', {
                 method: 'POST',
                 body: config,
