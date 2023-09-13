@@ -58,7 +58,11 @@ public class StripeSubscriptionHelper
             },
             SuccessUrl = StripeReturnUrlGenerator.Create("Preise"),
             CancelUrl = StripeReturnUrlGenerator.Create("Preise"),
-            Customer = customerId
+            Customer = customerId,
+            AutomaticTax = new SessionAutomaticTaxOptions
+            {
+                Enabled = true
+            }
         };
 
         try
