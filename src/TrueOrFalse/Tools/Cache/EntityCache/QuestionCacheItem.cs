@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
-[DebuggerDisplay("Id={Id} Name={Name}")]
+[DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
 public class QuestionCacheItem
 {
