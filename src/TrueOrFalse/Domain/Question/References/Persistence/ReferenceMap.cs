@@ -9,7 +9,7 @@ public class ReferenceMap : ClassMap<Reference>
         References(x => x.Question).Cascade.None();
         References(x => x.Category);
 
-        Map(x => x.ReferenceType);
+        Map(x => x.ReferenceType).CustomType<ReferenceType>();
         Map(x => x.AdditionalInfo);
         Map(x => x.ReferenceText);
 
