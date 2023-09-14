@@ -18,7 +18,12 @@ public class StripeSubscriptionHelper
         var optionsUser = new CustomerCreateOptions
         {
             Email = email,
-            Name = username
+            Name = username,
+            Address = new AddressOptions
+            {
+                //So far, we only allow for subscriptions from Germany and set the location for the customer ourselves:
+                Country = "DE",
+            }
         };
         var serviceUser = new CustomerService();
         var customer = await serviceUser.CreateAsync(optionsUser);
