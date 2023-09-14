@@ -25,7 +25,7 @@ builder.Services.AddControllersWithViews()
 }); 
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession();
+builder.Services.AddSession(options => { options.Cookie.IsEssential = true; });
 
 builder.Services.AddCors(options =>
 {

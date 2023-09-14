@@ -1,25 +1,19 @@
 ﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Web;
 using Microsoft.AspNetCore.Http;
 
 public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly string _sessionId;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
-    private readonly HttpContext _httpContext;
 
     public LearningSessionCache(IHttpContextAccessor httpContextAccessor)
     {
         _httpContextAccessor = httpContextAccessor;
-        _httpContext = _httpContextAccessor.HttpContext;
-        _sessionId = httpContextAccessor.HttpContext?.Session.Id;
     }
     public void AddOrUpdate(LearningSession learningSession)
     {
         _learningSessions.AddOrUpdate(
-            _sessionId,
+            _httpContextAccessor.HttpContext.Session.Id,
             learningSession,
             (a, b) => learningSession
         );
@@ -27,15 +21,25 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
 
     public  LearningSession TryRemove()
     {
-        _learningSessions.TryRemove(_sessionId, out var learningSession);
+        _learningSessions.TryRemove(_httpContextAccessor.HttpContext.Session.Id, out var learningSession);
         return GetLearningSession();
     }
 
     public  LearningSession GetLearningSession()
     {
-        _learningSessions.TryGetValue(_sessionId, out var learningSession);
-        AddOrUpdate(learningSession);
-        return learningSession;
+        _learningSessions.TryGetValue(_httpContextAccessor.HttpContext.Session.Id, out var learningSession);
+
+        if (learningSession != null)
+        {
+            AddOrUpdate(learningSession);
+            return learningSession;
+        }
+        else
+        {
+
+        }
+
+        throw new NullReferenceException("learningSession is null"); 
     }
 
     public void EditQuestionInLearningSession(QuestionCacheItem question)

@@ -29,7 +29,7 @@ public class LearningController : BaseController
     }
 
     [HttpPost]
-    public JsonResult GetCount(LearningSessionConfig config)
+    public JsonResult GetCount([FromBody] LearningSessionConfig config)
     {
         if (config.CurrentUserId == 0 && _sessionUser.IsLoggedIn)
             config.CurrentUserId = _sessionUser.UserId;

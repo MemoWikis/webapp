@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 public class LearningSessionStoreController: BaseController
@@ -6,18 +7,23 @@ public class LearningSessionStoreController: BaseController
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public LearningSessionStoreController(LearningSessionCreator learningSessionCreator,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser, LearningSessionCache learningSessionCache) : base(sessionUser)
+        SessionUser sessionUser, 
+        LearningSessionCache learningSessionCache,
+        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _permissionCheck = permissionCheck;
         _learningSessionCache = learningSessionCache;
+        _httpContextAccessor = httpContextAccessor;
     }
     [HttpPost]
     public JsonResult NewSession([FromBody]LearningSessionConfig config)
     {
+        _httpContextAccessor.HttpContext.Session.SetString("ForceInit", "true"); 
         var newSession = _learningSessionCreator.BuildLearningSession(config);
         _learningSessionCache.AddOrUpdate(newSession);
 
@@ -56,7 +62,8 @@ public class LearningSessionStoreController: BaseController
     [HttpPost]
     public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
     {
-        var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
+        var category = EntityCache.GetCategory(config.CategoryId); 
+        var allQuestions = category.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
         if (allQuestions.IndexOf(q => q.Id == id) < 0)
             return Json(new
