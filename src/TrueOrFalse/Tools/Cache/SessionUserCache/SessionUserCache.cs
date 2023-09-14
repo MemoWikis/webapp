@@ -56,17 +56,6 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         }
     }
 
-    public bool IsInWishknowledge(int userId, int categoryId)
-    {
-        var cacheItem = GetItem(userId);
-        var hasCategoryValuation = cacheItem.CategoryValuations.ContainsKey(categoryId);
-
-        if (!hasCategoryValuation)
-            return false;
-
-        return cacheItem.CategoryValuations[categoryId].IsInWishKnowledge();
-    }
-
     public bool IsQuestionInWishknowledge(int userId, int questionId)
     {
         var cacheItem = GetItem(userId);
@@ -79,10 +68,9 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         return cacheItem.QuestionValuations[questionId].IsInWishKnowledge;
     }
 
-
-
     public IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
-      GetItem(userId)?.QuestionValuations.Values.ToList() ?? new List<QuestionValuationCacheItem>();
+      GetItem(userId)?.QuestionValuations.Values
+          .ToList() ?? new List<QuestionValuationCacheItem>();
 
     public IList<CategoryValuation> GetCategoryValuations(int userId) =>
       GetItem(userId).CategoryValuations.Values.ToList();

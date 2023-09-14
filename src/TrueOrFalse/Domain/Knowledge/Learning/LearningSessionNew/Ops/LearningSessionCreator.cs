@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using NHibernate.Criterion;
 
 public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 {
@@ -54,15 +55,14 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     {
         IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId)
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
-            .Where(q => q.Id > 0).ToList();
+            .Where(q => q.Id > 0)
+            .Where(_permissionCheck.CanView).ToList();
 
-        allQuestions = allQuestions.Where(_permissionCheck.CanView).ToList();
-        var questionCounter = new QuestionCounter();
         var allQuestionValuation = 
             _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
-
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
+        var questionCounter = new QuestionCounter();
 
         if (_sessionUser.IsLoggedIn)
         {

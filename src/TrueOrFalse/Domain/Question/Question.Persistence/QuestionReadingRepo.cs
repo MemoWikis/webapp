@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 public class QuestionReadingRepo
@@ -40,8 +41,7 @@ public class QuestionReadingRepo
 
     public IList<Question> GetAllEager()
     {
-        var questions = _session.QueryOver<Question>()
-            .Future();
+        var questions = _session.QueryOver<Question>().Future().ToList();
 
         _session.QueryOver<Question>()
             .Fetch(SelectMode.Fetch, x => x.Categories)
@@ -50,8 +50,6 @@ public class QuestionReadingRepo
         _session.QueryOver<Question>()
             .Fetch(SelectMode.Fetch, x => x.References)
             .Future();
-
-
         var result = questions;
 
         foreach (var question in result)
