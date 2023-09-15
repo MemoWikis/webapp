@@ -34,11 +34,7 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
             AddOrUpdate(learningSession);
             return learningSession;
         }
-        else
-        {
-
-        }
-
+        
         throw new NullReferenceException("learningSession is null"); 
     }
 
