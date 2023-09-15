@@ -62,7 +62,7 @@ public class ImageUrl
             var searchPattern = $"{imageSettings.Id}_*.jpg";
             var t = AppDomain.CurrentDomain.BaseDirectory; 
             
-            var basePath = Path.Combine(ImageSettings.ImageFolderPath(), imageSettings.BasePath);
+            var basePath = Path.Combine(ImageSettings.SolutionPath(), imageSettings.BasePath);
             if (Directory.Exists(basePath) == false)
             {
                 new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Directory is not available");
@@ -119,7 +119,7 @@ public class ImageUrl
         var url = width ==  -1 ?
                             imageSettings.BasePath + imageSettings.Id + ".jpg" :
                             imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
-        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(ImageSettings.ImageFolderPath(), url))
+        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(ImageSettings.SolutionPath(), url))
             .ToString("yyyyMMddhhmmss");
         HasUploadedImage = true;
         return this;
@@ -145,9 +145,9 @@ public class ImageUrl
             return imageSettings.BaseDummyUrl + width + ".png";
 
         //Get next bigger image or maximum size image
-        var fileNameTrunk = imageSettings.BaseDummyUrl.Split('/').Last();
+        var fileNameTrunk = imageSettings.BaseDummyUrl;
         var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] {fileNameTrunk}, StringSplitOptions.None).First();
-        var fileNames = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileDirectory), fileNameTrunk + "*.png");
+        var fileNames = Directory.GetFiles(Path.Combine(ImageSettings.SolutionPath(), fileDirectory), fileNameTrunk + "*.png");
         if (fileNames.Any())
         {
             var fileWidths = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('-').Last().Replace(".png", ""))).OrderByDescending(x => x).ToList();

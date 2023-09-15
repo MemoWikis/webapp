@@ -25,6 +25,11 @@ public abstract class ImageSettings
         return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "TrueOrFalse.Frontend.Web", "Images");
     }
 
+    public static string SolutionPath()
+    {
+        return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "TrueOrFalse.Frontend.Web"); 
+    }
+
     public void DeleteFiles()
     {
         var filesToDelete = Directory.GetFiles(ImageFolderPath(), Id + "_*");
