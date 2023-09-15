@@ -113,6 +113,11 @@ watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
         await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
 })
 
+watch(topic, (oldTopic, newTopic) => {
+    if (oldTopic?.Id == newTopic?.Id)
+        setTopic()
+}, { deep: true })
+
 useHead(() => ({
     link: [
         {

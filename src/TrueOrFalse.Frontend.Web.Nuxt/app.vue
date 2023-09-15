@@ -92,6 +92,13 @@ userStore.$onAction(({ name, after }) => {
 			}
 		})
 	}
+	if (name == 'login') {
+		after(async (loginResult) => {
+			if (loginResult.success == true) {
+				await refreshNuxtData()
+			}
+		})
+	}
 })
 
 const { $vfm } = useNuxtApp()
@@ -102,6 +109,16 @@ watch(() => openedModals, (val) => {
 		modalIsOpen.value = true
 	else modalIsOpen.value = false
 }, { deep: true })
+
+useHead(() => ({
+	meta: [
+		{
+			name: 'theme-color',
+			content: 'white',
+			media: '(prefers-color-scheme: light)'
+		}
+	]
+}))
 </script>
 
 <template>

@@ -1,51 +1,31 @@
 <script lang="ts" setup>
-import { TopicItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '~~/components/user/userStore'
 import * as d3 from 'd3'
-import { Tab, useTabsStore } from '~~/components/topic/tabs/tabsStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
-import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
-import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
 
-const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
-const commentsStore = useCommentsStore()
-const deleteQuestionStore = useDeleteQuestionStore()
+// const commentsStore = useCommentsStore()
 
 interface Props {
-    id: number,
-    landingPage?: boolean
-    model?: any
+    model: AnswerQuestionDetailsResult
 }
 const props = defineProps<Props>()
 
-const visibility = ref<Visibility>(Visibility.All)
-const personalProbability = ref(0)
+onMounted(() => {
+    //dom.watch() is used to display font awesome svgs which are appended by d3
+    dom.watch()
+    initData(props.model)
+})
 const personalProbabilityText = ref('Nicht im Wunschwissen')
-const personalColor = ref('#DDDDDD')
-const avgProbability = ref(0)
-const personalAnswerCount = ref(0)
-const personalAnsweredCorrectly = ref(0)
-const personalAnsweredWrongly = ref(0)
-const answerCount = ref('0')
-const correctAnswers = ref('0')
-const wrongAnswers = ref('0')
-const overallAnswerCount = ref(0)
-const overallAnsweredCorrectly = ref(0)
-const overallAnsweredWrongly = ref(0)
-const allAnswerCount = ref('0')
-const allCorrectAnswers = ref('0')
-const allWrongAnswers = ref('0')
-const isInWishknowledge = ref(false)
+
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
 const overallCounterSvg = ref<any>({})
-const knowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
 
 const baseArcData = ref({
     startAngle: -0.55 * Math.PI,
@@ -67,16 +47,16 @@ interface ArcData {
 
 const personalArcData = ref<ArcData>({
     startAngle: -0.55 * Math.PI,
-    endAngle: (-0.55 + personalProbability.value / 100 * 1.1) * Math.PI,
+    endAngle: (-0.55 + props.model.personalProbability / 100 * 1.1) * Math.PI,
     innerRadius: 40,
     outerRadius: 55,
-    fill: personalColor.value,
+    fill: props.model.personalColor,
     class: "personalArc",
 })
 
 const avgArcData = ref<ArcData>({
-    startAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI - 0.01,
-    endAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI + 0.01,
+    startAngle: (-0.55 + props.model.avgProbability / 100 * 1.1) * Math.PI - 0.01,
+    endAngle: (-0.55 + props.model.avgProbability / 100 * 1.1) * Math.PI + 0.01,
     innerRadius: 37.5,
     outerRadius: 57.5,
     fill: "#707070",
@@ -136,13 +116,8 @@ const overallCorrectAnswerCountData = ref<ArcData>({
     class: "overallCorrectAnswerCounter",
 })
 
-const tabsStore = useTabsStore()
-const questionIdHasChanged = ref(false)
-
-const topics = ref<TopicItem[]>([])
-
 function setPersonalProbability() {
-    switch (knowledgeStatus.value) {
+    switch (props.model.knowledgeStatus) {
         case KnowledgeStatus.Solid:
             personalProbabilityText.value = "Sicheres Wissen"
             break
@@ -160,10 +135,10 @@ function setPersonalProbability() {
 function setPersonalArcData() {
     personalArcData.value = {
         startAngle: -0.55 * Math.PI,
-        endAngle: (-0.55 + personalProbability.value / 100 * 1.1) * Math.PI,
+        endAngle: (-0.55 + props.model.personalProbability / 100 * 1.1) * Math.PI,
         innerRadius: 40,
         outerRadius: 55,
-        fill: personalColor.value,
+        fill: props.model.personalColor,
         class: "personalArc",
     }
 }
@@ -172,21 +147,21 @@ function setAvgArcData() {
     var avgInnerRadius = 37.5
     var avgOuterRadius = 57.5
 
-    if (personalProbability.value < avgProbability.value) {
+    if (props.model.personalProbability < props.model.avgProbability) {
         avgInnerRadius = 42.5
         avgOuterRadius = 52.5
     }
 
     avgArcData.value = {
-        startAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI - 0.01,
-        endAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI + 0.01,
+        startAngle: (-0.55 + props.model.avgProbability / 100 * 1.1) * Math.PI - 0.01,
+        endAngle: (-0.55 + props.model.avgProbability / 100 * 1.1) * Math.PI + 0.01,
         innerRadius: avgInnerRadius,
         outerRadius: avgOuterRadius,
         fill: "#707070",
         class: "avgArc"
     }
 
-    avgAngle.value = (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI
+    avgAngle.value = (-0.55 + props.model.avgProbability / 100 * 1.1) * Math.PI
 }
 
 function setPersonalCounterData() {
@@ -232,7 +207,7 @@ function setOverallCounterData() {
 
 function calculateLabelWidth() {
     let probabilityLabelWidth = 0
-    var probabilityAsText = [personalProbability.value]
+    var probabilityAsText = [props.model.personalProbability]
 
     arcSvg.value.append('g')
         .selectAll('.dummyProbability')
@@ -242,7 +217,7 @@ function calculateLabelWidth() {
         .attr("font-family", "font-family:'Open Sans'")
         .attr("font-weight", "bold")
         .attr("font-size", "30px")
-        .text(personalProbability.value)
+        .text(props.model.personalProbability)
         .each(function (this: any) {
             let thisWidth = this.getComputedTextLength()
             probabilityLabelWidth = thisWidth
@@ -265,130 +240,6 @@ function calculateLabelWidth() {
         })
 
     return probabilityLabelWidth + percentageLabelWidth.value + 1
-}
-
-function arcTween(d: any, newStartAngle: number = 0, newEndAngle: number = 0, newInnerRadius: number = 0, newOuterRadius: number = 0) {
-    if (d == null || isNaN(newStartAngle) || isNaN(newEndAngle) || isNaN(newInnerRadius) || isNaN(newOuterRadius))
-        return
-    var arc = d3.arc()
-    var interpolateStart = d3.interpolate(d.startAngle, newStartAngle)
-    var interpolateRadiusStart = d3.interpolate(d.innerRadius, newInnerRadius)
-    var interpolateEnd = d3.interpolate(d.endAngle, newEndAngle)
-    var interpolateRadiusEnd = d3.interpolate(d.outerRadius, newOuterRadius)
-    return (t: any) => {
-        d.innerRadius = interpolateRadiusStart(t)
-        d.outerRadius = interpolateRadiusEnd(t)
-        d.startAngle = interpolateStart(t)
-        d.endAngle = interpolateEnd(t)
-        return arc(d)
-    }
-}
-
-function updateArc() {
-
-    const labelWidth = calculateLabelWidth()
-    arcSvg.value.selectAll(".personalProbabilityLabel")
-        .transition()
-        .duration(800)
-        .attr("dx", -(labelWidth / 2) - 5 + "px")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
-        .tween("text", function (this: any) {
-            const selection = d3.select(this)
-            const start = d3.select(this).text()
-            const end = personalProbability.value
-            const interpolator = d3.interpolateNumber(parseInt(start), end)
-
-            return (t: any) => {
-                selection.text(Math.round(interpolator(t)))
-            }
-        })
-
-    var pos = d3.arc()
-        .innerRadius(55)
-        .outerRadius(55)
-        .startAngle(avgAngle.value)
-        .endAngle(avgAngle.value)
-    arcSvg.value.select(".avgProbabilityLabel")
-        .transition()
-        .duration(400)
-        .style("opacity", 0.0)
-
-    arcSvg.value.select(".avgProbabilityLabel")
-        .transition()
-        .delay(400)
-        .duration(400)
-        .style("opacity", 1.0)
-        .attr("transform", (d: any) => {
-            return "translate(" + pos.centroid(d) + ")";
-        })
-        .attr("dx", dxAvgLabel.value)
-        .attr("dy", dyAvgLabel.value)
-        .attr("text-anchor", avgLabelAnchor.value)
-        .tween("text", function (this: any) {
-            var selection = d3.select(this);
-            var text = d3.select(this).text();
-            var numbers = text.match(/(\d+)/);
-            var end = avgProbability.value
-            var interpolator = d3.interpolateNumber(parseInt(numbers![0]), end)
-
-            return function (t: any) {
-                selection.text("∅ " + Math.round(interpolator(t)) + "%")
-            }
-        })
-
-    arcSvg.value.selectAll(".percentageLabel").transition()
-        .duration(800)
-        .attr("dx", (labelWidth / 2) - percentageLabelWidth.value - 5 + "px")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
-
-    arcSvg.value.selectAll(".personalArc")
-        .transition()
-        .duration(800)
-        .style("fill", personalColor.value)
-        .style("visibility", () => {
-            return showPersonalArc.value ? "visible" : "hidden";
-        })
-        .attrTween("d", (d: any) => {
-            return arcTween(d,
-                personalArcData.value.startAngle,
-                personalArcData.value.endAngle,
-                personalArcData.value.innerRadius,
-                personalArcData.value.outerRadius)
-        })
-
-    arcSvg.value.selectAll(".avgArc")
-        .transition()
-        .duration(800)
-        .attrTween("d", (d: any) => {
-            return arcTween(d,
-                avgArcData.value.startAngle,
-                avgArcData.value.endAngle,
-                avgArcData.value.innerRadius,
-                avgArcData.value.outerRadius)
-        })
-
-    var probabilityTextWidth
-    arcSvg.value.selectAll(".personalProbabilityText")
-        .text(personalProbabilityText.value)
-        .each(function (this: any) {
-            probabilityTextWidth = this.getComputedTextLength()
-        })
-        .transition()
-        .delay(200)
-        .duration(200)
-        .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555");
-
-    if (probabilityTextWidth != null)
-        arcSvg.value.selectAll(".personalProbabilityChip")
-            .transition()
-            .duration(400)
-            .style("fill", personalColor.value)
-            .attr("x", - probabilityTextWidth / 2 - 11)
-            .attr("width", probabilityTextWidth + 22);
-
-    arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
-        .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
-
 }
 
 const personalCounter = ref<SVGSVGElement | null>(null)
@@ -421,7 +272,7 @@ function drawCounterArcs() {
         .attr("d", arc);
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
-        .style("visibility", () => personalAnswerCount.value > 0 ? "visible" : "hidden");
+        .style("visibility", () => props.model.personalAnswerCount > 0 ? "visible" : "hidden");
 
     personalCounterSvg.value
         .append('svg:foreignObject')
@@ -430,7 +281,7 @@ function drawCounterArcs() {
         .attr('x', -7)
         .attr('y', -8)
         .html(() => {
-            var fontColor = personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
+            var fontColor = props.model.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
             return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
         });
 
@@ -452,105 +303,27 @@ function drawCounterArcs() {
         .attr("d", arc)
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
-        .style("visibility", () => overallAnswerCount.value > 0 ? "visible" : "hidden")
+        .style("visibility", () => props.model.overallAnswerCount > 0 ? "visible" : "hidden")
 
     overallCounterSvg.value.selectAll("i")
         .style("color", () => {
-            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            return props.model.overallAnswerCount > 0 ? "#999999" : "#DDDDDD"
         })
 
     overallCounterSvg.value
         .append('svg:foreignObject')
         .attr('height', '16px')
-        .attr('width', visibility.value == Visibility.Owner ? '14px' : '20px')
-        .attr('x', visibility.value == Visibility.Owner ? -7 : -10)
+        .attr('width', props.model.visibility == Visibility.Owner ? '14px' : '20px')
+        .attr('x', props.model.visibility == Visibility.Owner ? -7 : -10)
         .attr('y', -8)
         .html(() => {
-            var fontColor = overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
-            if (visibility.value == Visibility.Owner)
+            var fontColor = props.model.overallAnswerCount > 0 ? "#999999" : "#DDDDDD"
+            if (props.model.visibility == Visibility.Owner)
                 return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
                 return "<i class='fa-solid fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"
 
         })
-}
-
-function updateCounters() {
-
-    personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
-        .style("visibility", () => {
-            return personalAnswerCount.value > 0 ? "visible" : "hidden"
-        })
-
-    personalCounterSvg.value.selectAll("i")
-        .style("color", () => {
-            return personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
-        })
-
-    personalCounterSvg.value.selectAll(".personalWrongAnswerCounter")
-        .transition()
-        .duration(800)
-        .attrTween("d", (d: any) => {
-            return arcTween(d,
-                personalWrongAnswerCountData.value.startAngle,
-                personalWrongAnswerCountData.value.endAngle,
-                20,
-                25)
-        })
-
-    personalCounterSvg.value.selectAll(".personalCorrectAnswerCounter")
-        .transition()
-        .duration(800)
-        .attrTween("d", (d: any) => {
-            return arcTween(d,
-                personalCorrectAnswerCountData.value.startAngle,
-                personalCorrectAnswerCountData.value.endAngle,
-                20,
-                25)
-        })
-
-    personalCounterSvg.value.selectAll("text")
-        .transition()
-        .duration(800)
-        .style("fill", () => personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD");
-
-
-    overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
-        .style("visibility", () => {
-            return overallAnswerCount.value > 0 ? "visible" : "hidden";
-        })
-
-    overallCounterSvg.value.selectAll("i")
-        .style("color", () => {
-            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
-        })
-
-    overallCounterSvg.value.selectAll(".overallWrongAnswerCounter")
-        .transition()
-        .duration(800)
-        .attrTween("d", (d: any) => {
-            return arcTween(d,
-                overallWrongAnswerCountData.value.startAngle,
-                overallWrongAnswerCountData.value.endAngle,
-                20,
-                25)
-        })
-
-    overallCounterSvg.value.selectAll(".overallCorrectAnswerCounter")
-        .transition()
-        .duration(800)
-        .attrTween("d", (d: any) => {
-            return arcTween(d,
-                overallCorrectAnswerCountData.value.startAngle,
-                overallCorrectAnswerCountData.value.endAngle,
-                20,
-                25)
-        })
-
-    overallCounterSvg.value.selectAll("text")
-        .transition()
-        .duration(800)
-        .style("fill", () => overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD")
 }
 
 function drawProbabilityLabel() {
@@ -563,9 +336,9 @@ function drawProbabilityLabel() {
         .attr("style", "font-family:'Open Sans'")
         .attr("font-size", "30")
         .attr("font-weight", "bold")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .style("fill", () => showPersonalArc.value ? props.model.personalColor : "#DDDDDD")
         .attr("class", "personalProbabilityLabel")
-        .text(() => personalAnswerCount.value > 0 ? personalProbability.value : avgProbability.value);
+        .text(() => props.model.personalAnswerCount > 0 ? props.model.personalProbability : props.model.avgProbability);
 
     arcSvg.value.append("svg:text")
         .attr("dy", "-.35em")
@@ -575,7 +348,7 @@ function drawProbabilityLabel() {
         .attr("font-size", "18")
         .attr("font-weight", "medium")
         .attr("class", "percentageLabel")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .style("fill", () => showPersonalArc.value ? props.model.personalColor : "#DDDDDD")
         .text("%");
 
     arcSvg.value.append("svg:rect")
@@ -584,7 +357,7 @@ function drawProbabilityLabel() {
         .attr("ry", 10)
         .attr("y", 20)
         .attr("height", 20)
-        .style("fill", personalColor.value)
+        .style("fill", props.model.personalColor)
         .style("visibility", () => {
             return userStore.isLoggedIn ? "visible" : "hidden";
         })
@@ -599,7 +372,7 @@ function drawProbabilityLabel() {
         .attr("font-size", "10")
         .attr("font-weight", "medium")
         .attr("class", "personalProbabilityText")
-        .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555")
+        .style("fill", () => props.model.personalColor == "#999999" ? "white" : "#555555")
         .attr("transform", "translate(0,0)")
         .text(personalProbabilityText.value)
         .each(function (this: any) {
@@ -611,12 +384,12 @@ function drawProbabilityLabel() {
         .attr("width", textWidth + 22);
 
     arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
-        .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
+        .style("visibility", () => (userStore.isLoggedIn && props.model.overallAnswerCount > 0) ? "visible" : "hidden");
 
 }
 
 function setAvgLabelPos() {
-    var probabilityData = [avgProbability.value]
+    var probabilityData = [props.model.avgProbability]
 
     arcSvg.value.append('g')
         .selectAll('.dummyAvgProbability')
@@ -633,26 +406,26 @@ function setAvgLabelPos() {
             this.remove()
         });
 
-    var el = (avgProbability.value - 50) / 10
+    var el = (props.model.avgProbability - 50) / 10
     dyAvgLabel.value = (0.20 * Math.pow(el, 2) - 5) * 2 + .25 * (Math.pow(el, 2))
 
     dxAvgLabel.value = 0
 
-    if (avgProbability.value > 50) {
-        if (avgProbability.value < 80)
-            dxAvgLabel.value = -(80 - avgProbability.value) / 100 * avgProbabilityLabelWidth.value
+    if (props.model.avgProbability > 50) {
+        if (props.model.avgProbability < 80)
+            dxAvgLabel.value = -(80 - props.model.avgProbability) / 100 * avgProbabilityLabelWidth.value
         else
-            dxAvgLabel.value = - (20 - avgProbability.value) * 6 / 100;
+            dxAvgLabel.value = - (20 - props.model.avgProbability) * 6 / 100;
         avgLabelAnchor.value = "start"
     }
-    else if (avgProbability.value < 50) {
-        if (avgProbability.value > 20)
-            dxAvgLabel.value = (avgProbability.value - 20) / 100 * avgProbabilityLabelWidth.value
+    else if (props.model.avgProbability < 50) {
+        if (props.model.avgProbability > 20)
+            dxAvgLabel.value = (props.model.avgProbability - 20) / 100 * avgProbabilityLabelWidth.value
         else
-            dxAvgLabel.value = (avgProbability.value - 80) * 6 / 100;
+            dxAvgLabel.value = (props.model.avgProbability - 80) * 6 / 100;
         avgLabelAnchor.value = "end";
     }
-    else if (avgProbability.value == 50) {
+    else if (props.model.avgProbability == 50) {
         avgLabelAnchor.value = "middle";
     }
 }
@@ -678,7 +451,7 @@ function setAvgLabel() {
         .style("fill", "#555555")
         .style("opacity", 1.0)
         .attr("class", "avgProbabilityLabel")
-        .text("∅ " + avgProbability.value + "%")
+        .text("∅ " + props.model.avgProbability + "%")
 }
 
 const semiPie = ref()
@@ -714,39 +487,7 @@ function drawArc() {
     arcLoaded.value = true
 }
 
-watch(() => props.id, (o, n) => {
-    if (o != n)
-        questionIdHasChanged.value = true
-    else questionIdHasChanged.value = false
-})
-
-async function initData(e: AnswerQuestionDetailsResult) {
-    personalProbability.value = e.personalProbability
-    isInWishknowledge.value = e.isInWishknowledge
-    avgProbability.value = e.avgProbability
-
-    personalAnswerCount.value = e.personalAnswerCount
-    personalAnsweredCorrectly.value = e.personalAnsweredCorrectly
-    personalAnsweredWrongly.value = e.personalAnsweredWrongly
-
-    visibility.value = e.visibility
-
-    overallAnswerCount.value = e.overallAnswerCount
-    overallAnsweredCorrectly.value = e.overallAnsweredCorrectly
-    overallAnsweredWrongly.value = e.overallAnsweredWrongly
-
-    personalColor.value = e.personalColor
-
-    creator.value = e.creator
-    creationDate.value = e.creationDate
-    totalViewCount.value = e.totalViewCount
-    wishknowledgeCount.value = e.wishknowledgeCount
-    license.value = e.license
-    knowledgeStatus.value = e.knowledgeStatus
-
-    if (!learningSessionStore.isInTestMode)
-        topics.value = e.topics
-
+function initData(e: AnswerQuestionDetailsResult) {
     setPersonalProbability()
     setPersonalArcData()
 
@@ -754,115 +495,16 @@ async function initData(e: AnswerQuestionDetailsResult) {
 
     setPersonalCounterData()
     setOverallCounterData()
-    await nextTick()
-    if (arcLoaded.value) {
-        updateArc()
-        if (questionIdHasChanged.value)
-            drawCounterArcs()
-        else
-            updateCounters()
-    } else {
-        drawArc()
-        drawCounterArcs()
-    }
 
-    questionIdHasChanged.value = false
-}
-
-const { $logger } = useNuxtApp()
-
-async function loadData() {
-    if (props.id == deleteQuestionStore.deletedQuestionId)
-        return
-    const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get?id=${props.id}`, {
-        credentials: 'include',
-        mode: 'cors',
-        onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-        }
-    })
-    if (result)
-        initData(result)
-}
-
-onMounted(async () => {
-    dom.watch()
-    await nextTick()
-    props.landingPage ? initData(props.model) : loadData()
-})
-
-watch(() => props.id, () => loadData())
-watch(() => learningSessionStore.currentStep?.state, () => {
-    loadData()
-}, { deep: true })
-
-watch(personalAnswerCount, (val) => {
-    if (val > 0)
+    if (props.model.personalAnswerCount > 0)
         showPersonalArc.value = true
-    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    answerCount.value = abbreviateNumberToM(val)
-})
 
-watch(personalAnsweredCorrectly, (val) => {
-    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    correctAnswers.value = abbreviateNumberToM(val)
-})
+    personalStartAngle.value = 100 - (100 / props.model.personalAnswerCount * props.model.personalAnsweredCorrectly)
+    overallStartAngle.value = 100 - (100 / props.model.overallAnswerCount * props.model.overallAnsweredCorrectly)
 
-watch(personalAnsweredWrongly, (val) => {
-    personalStartAngle.value = 100 - (100 / personalAnswerCount.value * personalAnsweredCorrectly.value)
-    wrongAnswers.value = abbreviateNumberToM(val)
-})
-
-watch(overallAnswerCount, (val) => {
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
-    allAnswerCount.value = abbreviateNumberToM(val);
-})
-
-watch(overallAnsweredCorrectly, (val) => {
-    allCorrectAnswers.value = abbreviateNumberToM(val);
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
-})
-
-watch(overallAnsweredWrongly, (val) => {
-    allWrongAnswers.value = abbreviateNumberToM(val);
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
-})
-
-const creator = ref({
-    name: '',
-    id: 0
-})
-const creationDate = ref('')
-const wishknowledgeCount = ref(0)
-const totalViewCount = ref(0)
-const license = ref({
-    isDefault: true,
-    shortText: '',
-    fullText: ''
-})
-
-function openCommentModal() {
-    commentsStore.openModal(props.id)
+    drawArc()
+    drawCounterArcs()
 }
-const unsettledCommentCount = ref(0)
-
-onMounted(() => {
-    learningSessionStore.$onAction(({ after, name }) => {
-        if (name == 'markCurrentStep') {
-            after(() => {
-                loadData()
-            })
-        }
-    })
-    watch(() => tabsStore.activeTab, (val) => {
-        if (val == Tab.Learning)
-            loadData()
-    })
-})
-
-watch(() => userStore.isLoggedIn, () => {
-    loadData()
-})
 
 </script>
 
@@ -877,8 +519,8 @@ watch(() => userStore.isLoggedIn, () => {
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
-                            <TopicChip v-for="(t, index) in topics" :key="t.Id + index" :topic="t" :index="index"
-                                :is-spoiler="learningSessionStore.isInTestMode && t.IsSpoiler && !$props.landingPage" />
+                            <TopicChip v-for="(t, index) in model.topics" :key="t.Id + index" :topic="t" :index="index"
+                                :is-spoiler="false" />
                         </div>
                     </div>
                 </div>
@@ -888,17 +530,19 @@ watch(() => userStore.isLoggedIn, () => {
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
                                 <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
-                                    :class="{ 'isInWishknowledge': isInWishknowledge }">
+                                    :class="{ 'isInWishknowledge': model.isInWishknowledge }">
                                 </svg>
                             </div>
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
-                                    <strong>{{ personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass du
+                                    <strong>{{ model.personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass
+                                    du
                                     die Frage richtig beantwortest. Durchschnitt aller memucho-Nutzer:
-                                    <strong>{{ avgProbability }}%</strong>
+                                    <strong>{{ model.avgProbability }}%</strong>
                                 </div>
                                 <div v-else style="">
-                                    <strong>{{ personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass du
+                                    <strong>{{ model.personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass
+                                    du
                                     die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle
                                     Wahrscheinlichkeit berechnen können.
                                 </div>
@@ -912,10 +556,13 @@ watch(() => userStore.isLoggedIn, () => {
                         <div class="counterBody">
                             <div class="counterHalf">
                                 <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
-                                <div v-if="personalAnswerCount > 0" class="counterLabel">
+                                <div v-if="model.personalAnswerCount > 0" class="counterLabel">
                                     Von Dir: <br />
-                                    <strong>{{ answerCount }}</strong> mal beantwortet <br />
-                                    <strong>{{ correctAnswers }}</strong> richtig / <strong>{{ wrongAnswers }}</strong>
+                                    <strong>{{ abbreviateNumberToM(model.personalAnswerCount) }}</strong> mal beantwortet
+                                    <br />
+                                    <strong>{{ abbreviateNumberToM(model.personalAnsweredCorrectly) }}</strong> richtig /
+                                    <strong>{{
+                                        abbreviateNumberToM(model.personalAnsweredWrongly) }}</strong>
                                     falsch
                                 </div>
                                 <div v-else-if="userStore.isLoggedIn" class="counterLabel">
@@ -928,14 +575,15 @@ watch(() => userStore.isLoggedIn, () => {
                             </div>
                             <div class="counterHalf">
                                 <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
-                                <div v-if="overallAnswerCount > 0" class="counterLabel">
+                                <div v-if="model.overallAnswerCount > 0" class="counterLabel">
                                     Von allen Nutzern: <br />
-                                    <strong>{{ allAnswerCount }}</strong> mal beantwortet <br />
-                                    <strong>{{ allCorrectAnswers }}</strong> richtig /
-                                    <strong>{{ allWrongAnswers }}</strong> falsch
+                                    <strong>{{ abbreviateNumberToM(model.overallAnswerCount) }}</strong> mal beantwortet
+                                    <br />
+                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredCorrectly) }}</strong> richtig /
+                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredWrongly) }}</strong> falsch
                                 </div>
                                 <div v-else class="counterLabel">
-                                    <template v-if="visibility == 1">
+                                    <template v-if="model.visibility == 1">
                                         Diese Frage ist <br />
                                         privat und nur für <br />
                                         dich sichtbar
@@ -955,12 +603,12 @@ watch(() => userStore.isLoggedIn, () => {
             <div class="questionDetailsFooterPartialLeft">
 
                 <div id="LicenseQuestion">
-                    <VTooltip v-if="license.isDefault">
+                    <VTooltip v-if="model.license.isDefault">
                         <div class="TextLinkWithIcon">
-                            <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" />
+                            <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" :alt="'Lizenzbild'" />
                             <div class="TextDiv">
                                 <span class="TextSpan">
-                                    {{ license.shortText }}
+                                    {{ model.license.shortText }}
                                 </span>
                             </div>
                         </div>
@@ -968,11 +616,12 @@ watch(() => userStore.isLoggedIn, () => {
 
                         <template #popper>
                             <div class="tooltip-header">
-                                Infos zur Lizenz: {{ license.shortText }}
+                                Infos zur Lizenz: {{ model.license.shortText }}
                             </div>
-                            Autor: <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
-                                {{ creator.name }} </NuxtLink>
-                            <div v-html="license.fullText"></div>
+                            Autor: <NuxtLink v-if="model.creator.id > 0"
+                                :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
+                                {{ model.creator.name }} </NuxtLink>
+                            <div v-html="model.license.fullText"></div>
                         </template>
                     </VTooltip>
 
@@ -980,22 +629,22 @@ watch(() => userStore.isLoggedIn, () => {
                         <div class="TextLinkWithIcon">
                             <div class="TextDiv">
                                 <span class="TextSpan">
-                                    {{ license.shortText }}
+                                    {{ model.license.shortText }}
                                 </span>
                                 <font-awesome-icon icon="fa-solid fa-circle-info" class="license-info" />
                             </div>
                         </div>
 
                         <template #popper>
-                            {{ license.fullText }}
+                            {{ model.license.fullText }}
                         </template>
                     </VTooltip>
                 </div>
                 <div class="created"> Erstellt von:
-                    <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
-                        &nbsp;{{ creator.name }}&nbsp;
+                    <NuxtLink v-if="model.creator.id > 0" :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
+                        &nbsp;{{ model.creator.name }}&nbsp;
                     </NuxtLink>
-                    vor {{ creationDate }}
+                    vor {{ model.creationDate }}
                 </div>
             </div>
 
@@ -1004,22 +653,22 @@ watch(() => userStore.isLoggedIn, () => {
                 <div class="wishknowledgeCount">
                     <font-awesome-icon icon="fa-solid fa-heart" />
                     <span class="detail-label">
-                        {{ wishknowledgeCount }}
+                        {{ model.wishknowledgeCount }}
                     </span>
                 </div>
 
                 <div class="viewCount">
                     <font-awesome-icon icon="fa-solid fa-eye" />
                     <span class="detail-label">
-                        {{ totalViewCount }}
+                        {{ model.totalViewCount }}
                     </span>
                 </div>
-                <div class="commentCount pointer" @click="openCommentModal()">
+                <!-- <div class="commentCount pointer" @click="openCommentModal()">
                     <font-awesome-icon icon="fa-solid fa-comment" />
                     <span id="commentCountAnswerBody" class="detail-label">
                         {{ unsettledCommentCount }}
                     </span>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

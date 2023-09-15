@@ -99,14 +99,14 @@ public class VueQuestionController : Controller
                 hasTopics = q.Categories.Any(),
                 primaryTopicId = primaryTopic?.Id,
                 primaryTopicName = primaryTopic?.Name,
-                solution = q.Solution,
+                solution = q.Solution,  
                 isCreator = q.Creator.Id == _sessionUser.UserId,
                 isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
             },
             solutionData = new
-            {
+            {   
                 answerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 answer = solution.CorrectAnswer(),
                 answerDescription = q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",

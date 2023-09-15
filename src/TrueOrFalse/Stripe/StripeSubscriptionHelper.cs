@@ -33,7 +33,12 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         var optionsUser = new CustomerCreateOptions
         {
             Email = email,
-            Name = username
+            Name = username,
+            Address = new AddressOptions
+            {
+                //So far, we only allow for subscriptions from Germany and set the location for the customer ourselves:
+                Country = "DE",
+            }
         };
         var serviceUser = new CustomerService();
         var customer = await serviceUser.CreateAsync(optionsUser);
@@ -62,7 +67,7 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         var stripeReturnUrlGenerator = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment);
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string> { "card" },
+            PaymentMethodTypes = new List<string> { "card", "paypal", "sofort" },
             Mode = "subscription",
             LineItems = new List<SessionLineItemOptions>
             {
@@ -74,7 +79,11 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
             },
             SuccessUrl = stripeReturnUrlGenerator.Create("Preise"),
             CancelUrl = stripeReturnUrlGenerator.Create("Preise"),
-            Customer = customerId
+            Customer = customerId,
+            AutomaticTax = new SessionAutomaticTaxOptions
+            {
+                Enabled = true
+            }
         };
 
         try

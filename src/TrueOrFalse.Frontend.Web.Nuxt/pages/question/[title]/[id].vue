@@ -5,6 +5,7 @@ import { Topic } from '~~/components/topic/topicStore'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
+import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 
 const userStore = useUserStore()
 
@@ -21,7 +22,7 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 interface Question {
 	answerBodyModel: AnswerBodyModel
 	solutionData: SolutionData
-	answerQuestionDetailsModel: any
+	answerQuestionDetailsModel: AnswerQuestionDetailsResult
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
@@ -81,6 +82,10 @@ useHead(() => ({
 	],
 	meta: [
 		{
+			name: 'description',
+			content: question.value?.answerBodyModel.description
+		},
+		{
 			property: 'og:title',
 			content: $urlHelper.sanitizeUri(question.value?.answerBodyModel.title)
 		},
@@ -103,15 +108,19 @@ onBeforeMount(() => {
 	if (question.value == null || question.value.answerBodyModel == null)
 		throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
+
 </script>
 
 <template>
+	<title v-if="question && question?.answerBodyModel != null">
+		{{ question.answerBodyModel.description }}
+	</title>
 	<div class="container">
 		<div class="question-page-container row main-page">
 			<template v-if="question && question?.answerBodyModel != null">
 				<div class="col-lg-9 col-md-12 container main-content">
 
-					<div id="AnswerBody" class="col-xs-12">
+					<div id="AnswerBody" class="col-xs-12 landing-page">
 						<div class="answerbody-header">
 
 							<div class="answerbody-text">
@@ -209,6 +218,8 @@ onBeforeMount(() => {
 							</div>
 						</div>
 
+						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage :model="question.answerQuestionDetailsModel" />
+
 					</div>
 				</div>
 				<Sidebar :documentation="props.documentation" />
@@ -218,6 +229,12 @@ onBeforeMount(() => {
 </template>
 
 <style scoped lang="less">
+#AnswerBody {
+	&.landing-page {
+		margin-top: 60px;
+	}
+}
+
 .question-page-container {
 	padding-bottom: 45px;
 }
