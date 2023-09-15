@@ -1,4 +1,5 @@
 ﻿using System;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 
 public class ActivityPointsStoreController : Controller
@@ -15,13 +16,14 @@ public class ActivityPointsStoreController : Controller
         _activityPointsRepo = activityPointsRepo;
         _userWritingRepo = userWritingRepo;
     }
+
     [HttpPost]
-    public JsonResult Add(string activityTypeString, int points)
+    public JsonResult Add([FromBody] ActivityPointsData activityPointsData)
     {
-        var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityTypeString);
+        var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints
         {
-            Amount = points,
+            Amount = activityPointsData.Points,
             ActionType = activityType,
             DateEarned = DateTime.Now
         };
@@ -62,5 +64,13 @@ public class ActivityPointsStoreController : Controller
                 });
         }
     }
+}
 
+namespace HelperClassesControllers
+{
+    public class ActivityPointsData
+    {
+        public string ActivityTypeString { get; set; }
+        public int Points { get; set; }
+    }
 }
