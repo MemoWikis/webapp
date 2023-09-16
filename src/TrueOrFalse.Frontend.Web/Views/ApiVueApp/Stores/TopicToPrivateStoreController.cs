@@ -197,7 +197,7 @@ public class TopicToPrivateStoreController : Controller
                 _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
-                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
+                EntityCache.AddOrUpdate(questionCacheItem);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
                 _questionWritingRepo.UpdateOrMerge(question, false);

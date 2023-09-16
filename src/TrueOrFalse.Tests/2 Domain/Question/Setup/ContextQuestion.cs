@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using NHibernate;
 
 namespace TrueOrFalse.Tests;
 
@@ -194,7 +192,7 @@ public class ContextQuestion
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationRepo,
         CategoryRepository categoryRepository,
         QuestionWritingRepo questionWritingRepo,
         UserWritingRepo userWritingRepo)

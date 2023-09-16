@@ -242,7 +242,7 @@ public class VueEditQuestionController : Controller
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment); 
+        EntityCache.AddOrUpdate(questionCacheItem); 
 
         return question;
     }
@@ -391,7 +391,7 @@ public class VueEditQuestionController : Controller
             if (questionCacheItem.Creator.Id == _sessionUser.UserId)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
-                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
+                EntityCache.AddOrUpdate(questionCacheItem);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
                 _questionWritingRepo.UpdateOrMerge(question, false);
@@ -409,7 +409,7 @@ public class VueEditQuestionController : Controller
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
-                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
+                EntityCache.AddOrUpdate(questionCacheItem);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
                 _questionWritingRepo.UpdateOrMerge(question, false);

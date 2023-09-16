@@ -89,7 +89,7 @@ public class UserWritingRepo
 
         _repo.Delete(id);
         _sessionUserCache.Remove(user);
-        EntityCache.RemoveUser(id, _httpContextAccessor, _webHostEnvironment);
+        EntityCache.RemoveUser(id);
         Task.Run(async () => 
             await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
                 .DeleteAsync(user));

@@ -68,7 +68,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             _reputationUpdate.ForUser(question.Creator);
         }
 
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question),_httpContextAccessor, _webEnvironment);
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         _questionChangeRepo.AddCreateEntry(question);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
@@ -129,7 +129,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .ToList();
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), _httpContextAccessor, _webEnvironment, categoriesToUpdateIds);
+        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         _questionChangeRepo.AddUpdateEntry(question);

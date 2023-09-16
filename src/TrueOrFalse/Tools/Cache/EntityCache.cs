@@ -214,7 +214,7 @@ public class EntityCache : BaseEntityCache
         AddOrUpdate(Users, user);
     }
 
-    public static void RemoveUser(int id, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public static void RemoveUser(int id)
     {
         Remove(GetUserById(id));
     }
@@ -224,10 +224,7 @@ public class EntityCache : BaseEntityCache
         Remove(Users, user);
     }
 
-    public static void AddOrUpdate(QuestionCacheItem question,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment, 
-        List<int> categoriesIdsToRemove = null)
+    public static void AddOrUpdate(QuestionCacheItem question, List<int> categoriesIdsToRemove = null)
     {
         AddOrUpdate(Questions, question);
         UpdateCategoryQuestionList(CategoryQuestionsList, question, categoriesIdsToRemove);
