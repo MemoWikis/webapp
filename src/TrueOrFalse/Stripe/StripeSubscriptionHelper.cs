@@ -95,7 +95,7 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         }
         catch (StripeException e)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).Error(e);
+            Logg.Error(e);
             return "-1";
         }
     }

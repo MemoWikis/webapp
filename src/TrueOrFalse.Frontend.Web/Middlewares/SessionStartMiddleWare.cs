@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,21 +7,18 @@ public class SessionStartMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public SessionStartMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public SessionStartMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor)
     {
         _next = next;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
     {
-        // Ihre Logik für Session_Start
         var userAgent = context.Request.Headers["User-Agent"].ToString();
         var referrer = context.Request.Headers["Referer"].ToString() ?? "No referrer";
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("SessionStart - userAgent: {userAgent}, referrer: {referrer}", userAgent, referrer);
+        Logg.r.Information("SessionStart - userAgent: {userAgent}, referrer: {referrer}", userAgent, referrer);
 
         // Autofac
         using (var scope = serviceProvider.CreateScope())

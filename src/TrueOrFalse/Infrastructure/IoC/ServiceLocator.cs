@@ -17,7 +17,7 @@ public class ServiceLocator
         {
             var httpContextAccessor = lifetimeScope.Resolve<IHttpContextAccessor>();
             var webHostEnvironment = lifetimeScope.Resolve<IWebHostEnvironment>();
-            new Logg(httpContextAccessor, webHostEnvironment).r().Error("Could not add lifetime scope");
+            Logg.r.Error("Could not add lifetime scope");
         }
     }
 
@@ -38,7 +38,7 @@ public class ServiceLocator
         {
             var httpContextAccessor = _currentScope.Value.Resolve<HttpContextAccessor>(); 
             var webHostEnvironment = _currentScope.Value.Resolve<IWebHostEnvironment>();
-            new Logg(httpContextAccessor, webHostEnvironment).r().Error("Could not remove lifetime scope");
+            Logg.r.Error("Could not remove lifetime scope");
         }
     }
 }

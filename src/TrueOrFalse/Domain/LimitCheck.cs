@@ -92,6 +92,6 @@ public class LimitCheck
 
     public static void LogExceededLimit(string type, Logg logg)
     {
-        logg.r().Information("LimitCheck: max. number of type '{type}' exceeded", type);
+        Logg.r.Information("LimitCheck: max. number of type '{type}' exceeded", type);
     }
 }

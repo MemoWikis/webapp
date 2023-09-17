@@ -47,7 +47,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
                     catch (Exception e)
                     {
-                        new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in job RecalcKnowledgeSummaryForCategory.");
+                        Logg.r.Error(e, "Error in job RecalcKnowledgeSummaryForCategory.");
                         RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                     }
                 }
@@ -56,7 +56,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (successfullJobIds.Count > 0)
                 {
                     scope.Resolve<JobQueueRepo>().DeleteById(successfullJobIds);
-                    new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Job RecalcKnowledgeSummaryForCategory recalculated knowledge summary for " + successfullJobIds.Count + " jobs.");
+                    Logg.r.Information("Job RecalcKnowledgeSummaryForCategory recalculated knowledge summary for " + successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }
             }, "RecalcKnowledgeSummaryForCategory");

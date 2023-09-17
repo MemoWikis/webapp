@@ -4,7 +4,6 @@ using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using NHibernate;
-using Serilog;
 
 public class JobExecute
 {
@@ -39,29 +38,27 @@ public class JobExecute
 
                     try
                     {
-                        var logg = new Logg(httpContextAccessor, webHostEnvironment);
-
                         var stopwatch = Stopwatch.StartNew();
 
                         var threadId = Thread.CurrentThread.ManagedThreadId;
                         var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 
                         if (writeLog)
-                            logg.r()
-                                 .Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
-                                 jobName,
-                                 appDomainName.GetHashCode().ToString("x"),
-                                 threadId);
+                            Logg.r.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}", 
+                                jobName,
+                                appDomainName.GetHashCode().ToString("x"),
+                                threadId
+                            );
 
                         action(scope);
 
                         if (writeLog)
-                            logg.r()
-                                .Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
-                                    jobName,
-                                    appDomainName.GetHashCode().ToString("x"),
-                                    threadId,
-                                    stopwatch.Elapsed);
+                            Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}", 
+                                jobName,
+                                appDomainName.GetHashCode().ToString("x"),
+                                threadId,
+                                stopwatch.Elapsed
+                            );
 
                         stopwatch.Stop();
                     }
@@ -79,7 +76,7 @@ public class JobExecute
             }
             catch (Exception e)
             {
-                new Logg(httpContextAccessor, webHostEnvironment).r().Error(e, "Job error on {JobName}", jobName);
+                Logg.r.Error(e, "Job error on {JobName}", jobName);
             }
         }
     }
@@ -98,9 +95,7 @@ public class JobExecute
                 var runningJobRepo = new RunningJobRepo(session, httpContextAccessor, webHostEnvironment);
                 if (runningJobRepo.IsJobRunning(jobName))
                 {
-                    new Logg(httpContextAccessor, webHostEnvironment)
-                        .r()
-                        .Information("Job is already running: {jobName}, {Environment}", 
+                    Logg.r.Information("Job is already running: {jobName}, {Environment}", 
                         jobName,
                         Settings.Environment(httpContextAccessor.HttpContext, webHostEnvironment));
 

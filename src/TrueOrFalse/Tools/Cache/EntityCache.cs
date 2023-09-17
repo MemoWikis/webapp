@@ -154,7 +154,7 @@ public class EntityCache : BaseEntityCache
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        new Logg(httpContextAccessor, webHostEnvironment).r().Warning("QuestionId is not available");
+        Logg.r.Warning("QuestionId is not available");
         return new QuestionCacheItem();
     }
     private static void UpdateCategoryQuestionList(

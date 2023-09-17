@@ -30,13 +30,13 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             if (jobCount == 1)
                 return true;
 
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
+            Logg.r.Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
 
             return true;
         }
         catch (Exception e)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in IsJobRunning.");
+            Logg.r.Error(e, "Error in IsJobRunning.");
             return true;
         }
     }
@@ -57,10 +57,10 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             .List();
 
         if(jobs.Count == 0)
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("No job for removal found {Jobname}", jobName);
+            Logg.r.Error("No job for removal found {Jobname}", jobName);
 
         else if(jobs.Count > 1)
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("More than one job for remove found: {Jobname} {JobCount}", jobName, jobs.Count);
+            Logg.r.Error("More than one job for remove found: {Jobname} {JobCount}", jobName, jobs.Count);
 
         foreach (var job in jobs)
             Delete(job);

@@ -1,21 +1,16 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using RazorLight;
+﻿using RazorLight;
 
 public class HtmlMessage
 {
 
-    private RazorLightEngine? _engine;
-    private JobQueueRepo _jobQueueRepo;
+    private readonly RazorLightEngine? _engine;
+    private readonly JobQueueRepo _jobQueueRepo;
     private readonly UserReadingRepo _userReadingRepo;
 
-    public HtmlMessage(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        JobQueueRepo jobQueueRepo,
-        UserReadingRepo userReadingRepo)
+    public HtmlMessage(JobQueueRepo jobQueueRepo, UserReadingRepo userReadingRepo)
     {
         _engine = new RazorLightEngineBuilder()
-            .UseFileSystemProject(new PathTo(httpContextAccessor, webHostEnvironment).EmailTemplate())
+            .UseFileSystemProject(PathTo.EmailTemplate())
             .UseMemoryCachingProvider()
             .Build();
         _jobQueueRepo = jobQueueRepo;

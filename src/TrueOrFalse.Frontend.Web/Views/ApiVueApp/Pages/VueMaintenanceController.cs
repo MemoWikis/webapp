@@ -292,7 +292,7 @@ public class VueMaintenanceController : Controller
     {
         if (_httpContextAccessor.HttpContext.Request.IsLocal())
         {
-            IgnoreLog.LoadNewList(_httpContextAccessor, _webHostEnvironment);
+            IgnoreLog.LoadNewList();
 
             return Json(new
             {

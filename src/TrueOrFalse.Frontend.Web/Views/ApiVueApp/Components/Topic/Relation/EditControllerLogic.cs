@@ -204,7 +204,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
 
         if (selectedTopicIsParent)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Child is Parent ");
+            Logg.r.Error("Child is Parent ");
             return new RequestResult
             {
                 success = false,

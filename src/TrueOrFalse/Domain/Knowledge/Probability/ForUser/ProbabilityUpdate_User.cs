@@ -41,7 +41,7 @@ public class ProbabilityUpdate_User
         foreach (var user in _userReadingRepo.GetAll())
             Run(user);
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
+        Logg.r.Information("Calculated all user probabilities in {elapsed} ", sp.Elapsed);
     }
 
     public void Run(User user)
@@ -55,6 +55,6 @@ public class ProbabilityUpdate_User
 
         _userWritingRepo.Update(user);
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated probability in {elapsed} for user {user}", sp.Elapsed, user.Id);
+        Logg.r.Information("Calculated probability in {elapsed} for user {user}", sp.Elapsed, user.Id);
     }
 }

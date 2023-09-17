@@ -1,23 +1,12 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-
-public class CrumbtrailService : IRegisterAsInstancePerLifetime
+﻿public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
 
     public CrumbtrailService(PermissionCheck permissionCheck,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache)
     {
         _permissionCheck = permissionCheck;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
     }
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
@@ -53,7 +42,7 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
             return;
 
         if (category.ParentCategories().All(c => c.Id != crumbtrailItems[0].Category.Id))
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
+            Logg.r.Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
         
         for (int i = 0; i < crumbtrailItems.Count - 1; i++)
         {
@@ -61,10 +50,10 @@ public class CrumbtrailService : IRegisterAsInstancePerLifetime
             var nextItemId = crumbtrailItems[i + 1].Category.Id;
 
             if (!_permissionCheck.CanView(categoryCacheItem))
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
+                Logg.r.Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
 
             if (categoryCacheItem.ParentCategories().All(c => c.Id != nextItemId))
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
+                Logg.r.Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
         }
     }
 

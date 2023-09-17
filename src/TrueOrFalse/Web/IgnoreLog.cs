@@ -1,53 +1,47 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using static System.String;
+﻿using static System.String;
 
 namespace TrueOrFalse.Tools;
 
 public class IgnoreLog
 {
-    private static IEnumerable<string> _crawlers;
+    private static IEnumerable<string>? _crawlers;
 
-    public static bool ContainsCrawlerInHeader(string header, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public static bool ContainsCrawlerInHeader(string header)
     {
         if (IsNullOrEmpty(header))
         {
             return false;
         }
 
-        foreach (var crawlerName in GetCrawlers(httpContextAccessor, webHostEnvironment))
+        foreach (var crawlerName in GetCrawlers())
         {
             if (header.ToLower().IndexOf(crawlerName.Trim()) != -1)
-            {
                 return true;
-            }
         }
 
         return false;
     }
 
-    public static IEnumerable<string> GetCrawlers(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public static IEnumerable<string>? GetCrawlers()
     {
-        if (_crawlers == null)
-        {
-            Initialize(httpContextAccessor, webHostEnvironment);
-        }   
+        if (_crawlers == null) 
+            Initialize();
 
         return _crawlers;
     }
 
-    public static void Initialize(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public static void Initialize()
     {
-        var logIgnore = new PathTo(httpContextAccessor, webHostEnvironment).Log_Ignore(); 
+        var logIgnorePath = PathTo.Log_Ignore(); 
         lock ("3fb23623-caed-48fc-6e86-c595b4c0820c")
         {
-            if (!File.Exists(logIgnore))
+            if (!File.Exists(logIgnorePath))
             {
-                new Logg(httpContextAccessor, webHostEnvironment).r().Warning($"Ignore.log is not available- {logIgnore}");
+                Logg.r.Warning($"Ignore.log is not available- {logIgnorePath}");
                 _crawlers = new List<string>();
             }
 
-            var lines = File.ReadAllLines(logIgnore);
+            var lines = File.ReadAllLines(logIgnorePath);
 
             _crawlers = lines
                 .Select(line => line.Trim())
@@ -66,9 +60,9 @@ public class IgnoreLog
         }
     }
 
-    public static void LoadNewList(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public static void LoadNewList()
     {
         _crawlers = null;
-        Initialize(httpContextAccessor, webHostEnvironment);
+        Initialize();
     }
 }

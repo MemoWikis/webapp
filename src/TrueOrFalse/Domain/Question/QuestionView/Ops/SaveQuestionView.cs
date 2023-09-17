@@ -37,9 +37,9 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         if (_httpContextAccessor.HttpContext == null)
             return;
 
-        var userAgent = UserAgent.Get(_httpContextAccessor);
+        var userAgent = UserAgent.Get(_httpContextAccessor.HttpContext);
 
-        if (IsCrawlerRequest.Yes(_httpContextAccessor, _webHostEnvironment))
+        if (IsCrawlerRequest.Yes(_httpContextAccessor.HttpContext))
             return;
 
         _questionViewRepo.Create(new QuestionView

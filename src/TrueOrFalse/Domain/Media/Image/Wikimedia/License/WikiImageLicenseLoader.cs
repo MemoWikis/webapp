@@ -35,7 +35,7 @@ namespace TrueOrFalse
             }
             catch (Exception e)
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Could not load markup: {url}", url);
+                Logg.r.Error(e, "Could not load markup: {url}", url);
             }
 
             return markup;

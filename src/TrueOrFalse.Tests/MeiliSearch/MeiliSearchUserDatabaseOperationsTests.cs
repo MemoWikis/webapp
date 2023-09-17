@@ -25,7 +25,7 @@ internal class  MeiliSearchUserDatabaseOperationsTests : MeiliSearchBaseTests
 
         //Execution
         await new MeiliSearchUsersDatabaseOperations().CreateAsync(user, UsersTest).ConfigureAwait(false);
-        var index = client.Index(MeiliSearchTestConstants.UsersTest);
+        var index = client.Index(UsersTest);
         var result = (await index.SearchAsync<MeiliSearchUserMap>(user.Name).ConfigureAwait(false)).Hits.ToList();
         var userMap = result.First();
 

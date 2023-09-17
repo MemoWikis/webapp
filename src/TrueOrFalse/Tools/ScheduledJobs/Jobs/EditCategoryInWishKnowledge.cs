@@ -56,12 +56,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 _categoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId, sessionUser);
                 
                 scope.Resolve<JobQueueRepo>().Delete(job.Id);
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
+                Logg.r.Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
             }
             catch (Exception e)
             {
 
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "RemoveQuestionsInCategoryFromWishKnowledge", categoryUserPair.CategoryId);
+                Logg.r.Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "RemoveQuestionsInCategoryFromWishKnowledge", categoryUserPair.CategoryId);
                 RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
             }
         }

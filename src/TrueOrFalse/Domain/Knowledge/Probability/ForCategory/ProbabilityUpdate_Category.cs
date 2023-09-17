@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Serilog;
 
 public class ProbabilityUpdate_Category
 {
@@ -26,7 +27,7 @@ public class ProbabilityUpdate_Category
         foreach (var category in _categoryRepository.GetAll())
             Run(category);
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
+        Log.Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
     }
 
     public void Run(Category category)
@@ -40,6 +41,6 @@ public class ProbabilityUpdate_Category
 
         _categoryRepository.Update(category);
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, category.Id);
+        Logg.r.Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, category.Id);
     }
 }

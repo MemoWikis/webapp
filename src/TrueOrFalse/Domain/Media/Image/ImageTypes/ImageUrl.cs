@@ -65,7 +65,7 @@ public class ImageUrl
             var basePath = Path.Combine(ImageSettings.SolutionPath(), imageSettings.BasePath);
             if (Directory.Exists(basePath) == false)
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Directory is not available");
+                Logg.r.Error("Directory is not available");
             }
 
             var fileNames = Directory.GetFiles(basePath, searchPattern);
@@ -83,7 +83,7 @@ public class ImageUrl
                     if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
                         var absoluteUri = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
-                        new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {absoluteUri}). ");
+                        Logg.r.Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {absoluteUri}). ");
 
                         if (isSquare)
                         {

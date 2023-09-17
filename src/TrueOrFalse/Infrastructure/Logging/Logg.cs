@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Rollbar;
 using Serilog;
@@ -8,64 +7,50 @@ using TrueOrFalse.Tools;
 
 public class Logg : IRegisterAsInstancePerLifetime
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private const string _seqUrl = "http://localhost:5341";
-    private readonly Serilog.ILogger _logger;
-    private readonly Serilog.ILogger _loggerIsCrawler;
-    private readonly Serilog.ILogger _subscriptionLogger;
-    public Logg(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    private const string SeqUrl = "http://localhost:5341";
+    private static readonly Serilog.ILogger _logger;
+    private static readonly Serilog.ILogger _loggerIsCrawler;
+    private static readonly Serilog.ILogger _subscriptionLogger;
+    
+    static Logg()
     {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-
-      
         _logger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment",_webHostEnvironment.EnvironmentName)
+            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", false)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(SeqUrl)
             .CreateLogger();
 
         _loggerIsCrawler = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", _webHostEnvironment.EnvironmentName)
+            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", true)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(SeqUrl)
             .CreateLogger();
 
         _subscriptionLogger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", _webHostEnvironment.EnvironmentName)
+            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("isSubscription", true)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(SeqUrl)
             .CreateLogger();
-
-
 
         //configure globally shared logger
         Log.Logger = _logger;
     }
 
-    public void Error(Exception exception)
+    public static void Error(Exception exception) => r.Error(exception, "Error");
+
+    public static void Error(Exception exception, HttpContext httpContext)
     {
         try
         {
-            if (_httpContextAccessor.HttpContext == null)
-            {
-                r().Error(exception, "Error");
-                return;
-            }
-
-            var request = _httpContextAccessor.HttpContext.Request;
+            var request = httpContext.Request;
             var header = request.Headers.ToString();
+            var rawUrl = $"{request.Path}{request.QueryString}";
 
-            if (!IgnoreLog.ContainsCrawlerInHeader(header, _httpContextAccessor, _webHostEnvironment))
+            r.Error(exception, "PageError {Url} {Headers}", rawUrl, header);
+
+            if (!IgnoreLog.ContainsCrawlerInHeader(header))
             {
-                var rawUrl = $"{request.Path}{request.QueryString}";
-                r(IsCrawlerRequest.Yes(_httpContextAccessor, _webHostEnvironment)).Error(exception, "PageError {Url} {Headers}",
-                    rawUrl,
-                    header);
-
-                var connection = _httpContextAccessor.HttpContext.Connection;
+                var connection = httpContext.Connection;
                 if (connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress))
                 {
                     RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(exception));
@@ -77,17 +62,15 @@ public class Logg : IRegisterAsInstancePerLifetime
         }
     }
 
-    public Serilog.ILogger r(bool isCrawler = false)
-    {
-        return isCrawler ? _loggerIsCrawler : _logger;
-    }
+    // ReSharper disable once InconsistentNaming
+    public static Serilog.ILogger r => _logger;
 
     /// <summary>
-    ///     Log subscription events
+    /// Log subscription events
     /// </summary>
     /// <param name="stripePaymentEvents"></param>
     /// <param name="userId"></param>
-    public void SubscriptionLogger(StripePaymentEvents stripePaymentEvents, int userId)
+    public static void SubscriptionLogger(StripePaymentEvents stripePaymentEvents, int userId)
     {
         if (userId == -1)
         {

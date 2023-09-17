@@ -1,8 +1,5 @@
 ﻿using Meilisearch;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -11,8 +8,7 @@ namespace TrueOrFalse.Search
 {
     internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
     {
-        public MeiliSearchUsersDatabaseOperations(IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+        public MeiliSearchUsersDatabaseOperations(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
             : base(httpContextAccessor, webHostEnvironment)
         {
             
@@ -27,8 +23,10 @@ namespace TrueOrFalse.Search
         {
 
             var userMap = CreateUserMap(user, indexConstant, out var index);
-            var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
-            .ConfigureAwait(false);
+            var taskInfo = await index
+                .AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
+                .ConfigureAwait(false);
+
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
@@ -42,8 +40,10 @@ namespace TrueOrFalse.Search
         {
 
             var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
-            var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
+            var taskInfo = await index
+                .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
                 .ConfigureAwait(false);
+
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
@@ -59,6 +59,7 @@ namespace TrueOrFalse.Search
             var taskInfo = await index
                  .DeleteOneDocumentAsync(userMapAndIndex.Id.ToString())
                  .ConfigureAwait(false);
+            
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 

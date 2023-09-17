@@ -67,13 +67,13 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     else
                     {
                         var e = new Exception(job.JobContent + job.Id);
-                        new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in job ScheduledMailSender. MailMessage was null.");
+                        Logg.r.Error(e, "Error in job ScheduledMailSender. MailMessage was null.");
                         RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                     }
                 }
                 catch (Exception e)
                 {
-                    new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in job ScheduledMailSender.");
+                    Logg.r.Error(e, "Error in job ScheduledMailSender.");
                     RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
 

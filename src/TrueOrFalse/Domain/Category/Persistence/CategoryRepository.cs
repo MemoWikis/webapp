@@ -5,7 +5,6 @@ using NHibernate.Criterion;
 using Serilog;
 using TrueOrFalse.Search;
 
-
 public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstancePerLifetime
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
@@ -14,7 +13,6 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     private readonly UserActivityRepo _userActivityRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly ILogger _logg;
 
     public enum CreateDeleteUpdate
     {
@@ -30,8 +28,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        Logg logg)
+        IWebHostEnvironment webHostEnvironment)
         : base(session)
     {
         _categoryChangeRepo = categoryChangeRepo;
@@ -40,7 +37,6 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         _userActivityRepo = userActivityRepo;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
-        _logg = logg.r();
     }
 
     /// <summary>
@@ -59,7 +55,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
 
         UserActivityAdd.CreatedCategory(category, _userReadingRepo, _userActivityRepo);
 
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category, _logg);
+        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
         _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
@@ -69,7 +65,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
 
         if (category.ParentCategories().Count != 1)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Warning("the parentcounter is != 1");
+            Logg.r.Warning("the parentcounter is != 1");
         }
 
         var parentCategories = category.ParentCategories();
@@ -80,7 +76,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
                  CategoryChangeType.Relations);
         }
 
-        var result = Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+        Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
             .CreateAsync(category)
             .ConfigureAwait(false));
     }

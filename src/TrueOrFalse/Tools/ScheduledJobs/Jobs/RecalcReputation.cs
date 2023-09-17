@@ -41,7 +41,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     }
                     catch (Exception e)
                     {
-                        new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error in job RecalcReputation.");
+                        Logg.r.Error(e, "Error in job RecalcReputation.");
                         RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                     }
                 }
@@ -50,7 +50,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 if (successfullJobIds.Count > 0)
                 {
                     scope.Resolve<JobQueueRepo>().DeleteById(successfullJobIds);
-                    new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Job RecalcReputation recalculated reputation for " + successfullJobIds.Count + " jobs.");
+                    Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }
 

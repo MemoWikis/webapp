@@ -24,7 +24,7 @@ public class SaveImageToFile
             if (image.VerticalResolution != 96.0F || image.HorizontalResolution != 96.0F)
                 ((Bitmap)image).SetResolution(96.0F, 96.0F);
 
-            SaveOriginalSize(imageSettings, image, logg);
+            SaveOriginalSize(imageSettings, image);
 
             foreach (var size in imageSettings.SizesSquare)
             {
@@ -38,9 +38,7 @@ public class SaveImageToFile
         }
     }
 
-    private static void SaveOriginalSize(IImageSettings imageSettings,
-        Image image,
-        Logg logg)
+    private static void SaveOriginalSize(IImageSettings imageSettings, Image image)
     {
         using (var resized = new Bitmap(image))
         {
@@ -54,7 +52,7 @@ public class SaveImageToFile
 
             if (image.Width < 300)
             {
-                logg.r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+                Logg.r.Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
             }
         }
     }
