@@ -47,7 +47,6 @@ const redirectToCheckout = async (): Promise<void> => {
     if(!consentForStripeGiven) return
 
     const sessionId = await getStripeSessionId(selectedPriceId.value);
-    
 
     if (!sessionId || sessionId == '') {
         alertStore.openAlert(AlertType.Error, { text: "Es konnte leider keine Verbindung zum Zahlungsdienstleister Stripe hergestellt werden."})
@@ -58,14 +57,18 @@ const redirectToCheckout = async (): Promise<void> => {
 
     const stripe = await loadStripe(config.public.stripeKey);
 
+    const { $logger } = useNuxtApp()
+
     if (stripe) {
         const { error } = await stripe.redirectToCheckout({
             sessionId,
         });
 
         if (error) {
-            console.log('Fehler beim Weiterleiten zur Checkout-Seite:', error);
+            $logger.error('Error when forwarding to the checkout page', error)
         }
+    } else {
+        $logger.error('Error while loading stripe')
     }
 }
 
