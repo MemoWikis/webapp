@@ -14,7 +14,6 @@ public class AnswerBodyController : Controller {
     private readonly AnswerLog _answerLog;
     private readonly SessionUserCache _sessionUserCache;
 
-
     public AnswerBodyController(AnswerQuestion answerQuestion,
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
@@ -86,11 +85,14 @@ public class AnswerBodyController : Controller {
     }
 
     [HttpPost]
-    public JsonResult MarkAsCorrect(int id, Guid questionViewGuid, int amountOfTries)
+    public JsonResult MarkAsCorrect([FromBody] MarkAsCorrectData markAsCorrectData)
     {
-        var result = amountOfTries == 0
+        var id = markAsCorrectData.Id;
+        var questionViewGuid = markAsCorrectData.QuestionViewGuid;
+
+        var result = markAsCorrectData.AmountOfTries == 0
             ? _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, amountOfTries, true);
+            : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, markAsCorrectData.AmountOfTries, true);
         if (result != null)
         {
             return Json(true);
@@ -126,14 +128,15 @@ public class AnswerBodyController : Controller {
 
 
     [HttpPost]
-    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber,
-        int millisecondsSinceQuestionView = -1, bool unanswered = false)
+    public JsonResult GetSolution([FromBody] GetSolutionData getSolutionData)
     {
-        var question = EntityCache.GetQuestion(id);
+        var question = EntityCache.GetQuestion(getSolutionData.Id);
         var solution = GetQuestionSolution.Run(question);
-        if (!unanswered)
-            _answerLog.LogAnswerView(question, _sessionUser.UserId, questionViewGuid, interactionNumber,
-                millisecondsSinceQuestionView);
+        if (!getSolutionData.Unanswered)
+            _answerLog.LogAnswerView(question, _sessionUser.UserId,
+                getSolutionData.QuestionViewGuid, 
+                getSolutionData.InteractionNumber,
+                getSolutionData.MillisecondsSinceQuestionView);
 
         EscapeReferencesText(question.References);
 
@@ -164,5 +167,21 @@ namespace HelperClassesControllers
         public string Answer { get; set; }
         public bool InTestMode { get; set; }
 
+    }
+
+    public class GetSolutionData
+    {
+        public int Id { get; set; }
+        public Guid QuestionViewGuid { get; set; }
+        public int InteractionNumber { get; set; }
+        public int MillisecondsSinceQuestionView { get; set; } = -1;
+        public bool Unanswered { get; set; } = false;
+    }
+
+    public class MarkAsCorrectData
+    {
+        public int Id { get; set; }
+        public Guid QuestionViewGuid { get; set; }
+        public int AmountOfTries { get; set; }
     }
 }
