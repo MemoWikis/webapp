@@ -12,10 +12,7 @@ public class AnswerQuestionDetailsController: Controller
 {
     private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -24,10 +21,7 @@ public class AnswerQuestionDetailsController: Controller
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
@@ -36,10 +30,7 @@ public class AnswerQuestionDetailsController: Controller
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -70,8 +61,8 @@ public class AnswerQuestionDetailsController: Controller
             ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
-
-        return new {
+        var result = new
+        {
             knowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
             personalProbability = correctnessProbability.CPPersonal,
             personalColor = correctnessProbability.CPPColor,
@@ -87,7 +78,7 @@ public class AnswerQuestionDetailsController: Controller
             {
                 Id = t.Id,
                 Name = t.Name,
-                Url = new Links(_actionContextAccessor, _httpContextAccessor ).CategoryDetail(t.Name, t.Id),
+                Url = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(t.Name, t.Id),
                 QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
                 ImageUrl = new CategoryImageSettings(t.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
                 IconHtml = CategoryCachedData.GetIconHtml(t),
@@ -118,5 +109,6 @@ public class AnswerQuestionDetailsController: Controller
                 fullText = question.License.DisplayTextFull
             }
         };
+        return result; 
     }
 }

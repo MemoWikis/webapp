@@ -17,10 +17,8 @@ public class VueQuestionController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly RestoreQuestion _restoreQuestion;
     private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly SessionUserCache _sessionUserCache;
@@ -32,10 +30,8 @@ public class VueQuestionController : Controller
         PermissionCheck permissionCheck,
         RestoreQuestion restoreQuestion,
         LearningSessionCache learningSessionCache,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
         QuestionReadingRepo questionReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         SessionUserCache sessionUserCache,
@@ -47,10 +43,8 @@ public class VueQuestionController : Controller
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
         _learningSessionCache = learningSessionCache;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _questionReadingRepo = questionReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _sessionUserCache = sessionUserCache;
@@ -120,16 +114,13 @@ public class VueQuestionController : Controller
                 }).ToArray()
             },
             answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
-                _permissionCheck, 
-                _categoryValuationReadingRepo, 
-                _imageMetaDataReadingRepo, 
-                _userReadingRepo, 
-                _questionValuationReadingRepo, 
-                _totalsPersUserLoader,
-                _httpContextAccessor,
-                _webHostEnvironment,
-                _sessionUserCache,
-                _actionContextAccessor)
+                    _permissionCheck,
+                    _imageMetaDataReadingRepo,
+                    _totalsPersUserLoader,
+                    _httpContextAccessor,
+                    _webHostEnvironment,
+                    _sessionUserCache,
+                    _actionContextAccessor)
                 .GetData(id)
         });
     }
