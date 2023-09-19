@@ -60,7 +60,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
         if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Category can´t deleted it has children");
+            Logg.r.Error("Category can´t deleted it has children");
             hasDeleted.HasChildren = true;
             return hasDeleted;
         }

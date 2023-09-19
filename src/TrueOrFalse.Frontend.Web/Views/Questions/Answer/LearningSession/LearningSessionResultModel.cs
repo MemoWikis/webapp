@@ -56,7 +56,7 @@ public class LearningSessionResultModel
             NumberWrongAnswers = NumberUniqueQuestions - NumberNotAnswered - NumberCorrectAnswers - NumberCorrectAfterRepetitionAnswers;
             
             if (NumberWrongAnswers < 0)
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession");
+                Logg.r.Error("Answered questions (wrong+skipped+...) don't add up at LearningSessionResult for LearningSession");
 
             PercentageShares.FromAbsoluteShares(
                 new List<ValueWithResultAction>

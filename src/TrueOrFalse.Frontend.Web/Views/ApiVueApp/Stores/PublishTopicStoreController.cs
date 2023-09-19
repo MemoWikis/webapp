@@ -90,7 +90,7 @@ public class PublishTopicStoreController : Controller
             if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
-                EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
+                EntityCache.AddOrUpdate(questionCacheItem);
                 var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.All;
                 _questionWritingRepo.UpdateOrMerge(question, false);

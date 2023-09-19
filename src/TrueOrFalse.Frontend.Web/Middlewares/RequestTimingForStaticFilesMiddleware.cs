@@ -27,8 +27,7 @@ public class RequestTimingForStaticFilesMiddleware
         if (!_contextAccessor.HttpContext.Request.Path.Value.Contains("."))
         {
             context.Items.Add("requestStopwatch", Stopwatch.StartNew());
-            new Logg(_contextAccessor, _webHostEnvironment).r()
-                .Information("=== Start Request: {pathAndQuery} ==", context.Request.Path.Value);
+            Logg.r.Information("=== Start Request: {pathAndQuery} ==", context.Request.Path.Value);
         }
 #endif
 
@@ -40,7 +39,7 @@ public class RequestTimingForStaticFilesMiddleware
             stopwatch = _contextAccessor.HttpContext.Items["requestStopwatch"] as Stopwatch;
             stopwatch.Stop();
             var elapsed = stopwatch.Elapsed;
-            new Logg(_contextAccessor, _webHostEnvironment).r().Information("=== End Request: {pathAndQuery} {elapsed}==", _contextAccessor.HttpContext.Request.Path + _contextAccessor.HttpContext.Request.QueryString, elapsed);
+            Logg.r.Information("=== End Request: {pathAndQuery} {elapsed}==", _contextAccessor.HttpContext.Request.Path + _contextAccessor.HttpContext.Request.QueryString, elapsed);
         }
 #endif
     }

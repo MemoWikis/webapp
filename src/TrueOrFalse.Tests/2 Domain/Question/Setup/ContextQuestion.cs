@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using NHibernate;
 
 namespace TrueOrFalse.Tests;
 
@@ -194,7 +192,7 @@ public class ContextQuestion
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserReadingRepo userReadingRepo,
-        QuestionValuationRepo questionValuationRepo,
+        QuestionValuationReadingRepo questionValuationRepo,
         CategoryRepository categoryRepository,
         QuestionWritingRepo questionWritingRepo,
         UserWritingRepo userWritingRepo)
@@ -207,14 +205,17 @@ public class ContextQuestion
         var questions = New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository)
             .AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => userWritingRepo.Create(u));
-        SessionUserCache.AddOrUpdate(users.FirstOrDefault(), categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+
+        //SessionUserCache.AddOrUpdate(users.FirstOrDefault());
 
         PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
 
-        return SessionUserCache.GetAllCacheItems(categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+        //return SessionUserCache.GetAllCacheItems();
+
+        throw new NotImplementedException();
     }
 
-    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationRepo questionValuationRepo)
+    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationReadingRepo questionValuationRepo)
     {
         var rand = new Random();
         for (var i = 0; i < questions.Count; i++)
@@ -233,8 +234,10 @@ public class ContextQuestion
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
 
-            questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
-            SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+            //questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+            //SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+
+            throw new NotImplementedException();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 Thread.Sleep(1);
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("HttpContext {0}", _httpContextAccessor.HttpContext);
+                Logg.r.Information("HttpContext {0}", _httpContextAccessor.HttpContext);
             }, "TestJob1");
 
             return Task.CompletedTask;
@@ -62,7 +62,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             JobExecute.Run(scope =>
             {
                 Thread.Sleep(1);
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("HttpContext {0}", _httpContextAccessor);
+                Logg.r.Information("HttpContext {0}", _httpContextAccessor);
             }, "TestJob2");
 
             return Task.CompletedTask;

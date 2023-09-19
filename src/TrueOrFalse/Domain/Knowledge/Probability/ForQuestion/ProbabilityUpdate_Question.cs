@@ -32,7 +32,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         foreach (var question in _questionReadingRepo.GetAll())
             Run(question);
 
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
+        Logg.r.Information("Calculated all question probabilities in {elapsed} ", sp.Elapsed);
     }
 
     public void Run(Question question)

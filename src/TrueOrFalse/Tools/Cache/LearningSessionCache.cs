@@ -1,19 +1,23 @@
 ﻿using System.Collections.Concurrent;
+using System.Net.Http;
 using Microsoft.AspNetCore.Http;
+using TrueOrFalse.Web.Context;
 
 public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly HttpContext _httpContext;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
 
     public LearningSessionCache(IHttpContextAccessor httpContextAccessor)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _httpContext = httpContextAccessor.HttpContext!;
     }
     public void AddOrUpdate(LearningSession learningSession)
     {
+        _httpContext.Session.ForceInit();
+
         _learningSessions.AddOrUpdate(
-            _httpContextAccessor.HttpContext.Session.Id,
+            _httpContext.Session.Id,
             learningSession,
             (a, b) => learningSession
         );
@@ -21,13 +25,13 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
 
     public  LearningSession TryRemove()
     {
-        _learningSessions.TryRemove(_httpContextAccessor.HttpContext.Session.Id, out var learningSession);
+        _learningSessions.TryRemove(_httpContext.Session.Id, out _);
         return GetLearningSession();
     }
 
     public  LearningSession GetLearningSession()
     {
-        _learningSessions.TryGetValue(_httpContextAccessor.HttpContext.Session.Id, out var learningSession);
+        _learningSessions.TryGetValue(_httpContext.Session.Id, out var learningSession);
 
         if (learningSession != null)
         {
@@ -73,7 +77,9 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
         return new RemovalResult
         {
             reloadAnswerBody = reloadAnswerBody,
-            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ? learningSession.CurrentIndex : learningSession.Steps.Count - 1
+            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ? 
+                learningSession.CurrentIndex : 
+                learningSession.Steps.Count - 1
         };
     }
 }

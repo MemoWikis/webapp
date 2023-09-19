@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Frontend.Web1.Middlewares
@@ -8,14 +7,10 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ErrorHandlerMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+        public ErrorHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task InvokeAsync(HttpContext httpContext)
@@ -24,16 +19,15 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
 
             if (httpContext.Response.StatusCode == 404)
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).Error(new NotFoundException("Ressource Not Found"));
+                Logg.Error(new NotFoundException("Ressource Not Found"));
             }
             else if (httpContext.Response.StatusCode == 500)
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).Error(new NotFoundException("Internal Error"));
-
+                Logg.Error(new NotFoundException("Internal Error"));
             }
             else if (httpContext.Response.StatusCode == 503)
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).Error(new NotFoundException("Server unavailable"));
+                Logg.Error(new NotFoundException("Server unavailable"));
             }
 
         }

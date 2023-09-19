@@ -269,7 +269,7 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
             ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        EntityCache.AddOrUpdate(questionCacheItem, _httpContextAccessor, _webHostEnvironment);
+        EntityCache.AddOrUpdate(questionCacheItem);
 
         return question;
     }

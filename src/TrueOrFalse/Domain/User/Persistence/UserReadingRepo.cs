@@ -75,7 +75,7 @@ public class UserReadingRepo : RepositoryDb<User>
         if (userIds.Length != users.Count)
         {
             var missingUsersIds = userIds.Where(id => !users.Any(u => id == u.Id)).ToList();
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(
+            Logg.r.Error(
                 $"Following user ids from meilisearch not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
         }
 

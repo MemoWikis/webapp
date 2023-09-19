@@ -42,7 +42,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
             return status;
         }
 
-        _logg.r().Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
+        Logg.r.Information($"StripeEvent: {stripeEvent.Type}, {stripeEvent.Data.Object}, liveMode: {stripeEvent.Livemode}");
 
         switch (stripeEvent.Type)
         {
@@ -65,7 +65,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
             case Events.PaymentMethodAttached:
                 var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(
+                Logg.r.Error(
                     $"The user paid with an incorrect payment method,  the CustomerId is {paymentMethod.CustomerId}.");
                 break;
         }
@@ -81,7 +81,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         {
             var log = $"{user.Name} with userId: {user.Id}  has deleted the plan.";
             SetNewSubscriptionDate(user, paymentDeleted.paymentObject.CurrentPeriodEnd, log);
-            new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
+            Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
         }
 
         LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
@@ -149,7 +149,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
     {
         if (user == null)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Error($"The user with the CustomerId:{customerId}  was not found");
+            Logg.r.Error($"The user with the CustomerId:{customerId}  was not found");
         }
     }
 
@@ -177,12 +177,12 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
             if (subscription.paymentObject.CancelAtPeriodEnd)
             {
                 endDate = subscription.paymentObject.CurrentPeriodEnd;
-                new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
+                Logg.SubscriptionLogger(StripePaymentEvents.Cancelled, user.Id);
             }
             else
             {
                 endDate = MaxValueMysql;
-                new Logg(_httpContextAccessor, _webHostEnvironment).SubscriptionLogger(StripePaymentEvents.Success, user.Id);
+                Logg.SubscriptionLogger(StripePaymentEvents.Success, user.Id);
             }
 
             SetNewSubscriptionDate(user, endDate, log, true);
@@ -200,6 +200,6 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
         user.EndDate = date;
         _userWritingRepo.Update(user);
-        new Logg(_httpContextAccessor, _webHostEnvironment).r().Information(log);
+        Logg.r.Information(log);
     }
 }

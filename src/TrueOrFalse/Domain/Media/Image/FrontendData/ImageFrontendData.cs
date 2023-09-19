@@ -243,7 +243,7 @@ public class ImageFrontendData
         }
         catch (Exception e)
         {
-            new Logg(_httpContextAccessor, _webHostEnvironment).Error(e);
+            Logg.Error(e);
             return "";
         }
     }

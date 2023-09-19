@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Cookies;using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 
@@ -33,33 +33,27 @@ builder.Services.AddSession(options =>
 
 });
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("LocalhostCorsPolicy",
-        builder => builder
-            .WithOrigins("http://localhost:3000")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());
-});
-builder.Services.AddAuthentication(options =>
-    {
+builder.Services.AddCors(options => {
+        options.AddPolicy("LocalhostCorsPolicy",
+            builder => builder
+                .WithOrigins("http://localhost:3000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+    });
+
+builder.Services.AddAuthentication(options => {
         options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     })
     .AddCookie();
-builder.Services.AddAntiforgery(options =>
-{
 
-});
+builder.Services.AddAntiforgery(_ => { });
 
-/* ----------------------------------------------------APP ----------------------------------------------*/
 var app = builder.Build();
-
-
-
 var env = app.Environment;
+App.Environment = env;
 
 if (!env.IsDevelopment())
 {
@@ -87,13 +81,9 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseRouting();
 app.UseSession();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "apiVue/{controller}/{action}/{id?}");
-});
-
+app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
+    name: "default",
+    pattern: "apiVue/{controller}/{action}/{id?}"));
 
 
 app.UseDeveloperExceptionPage();
@@ -105,4 +95,3 @@ app.Urls.Add("http://localhost:5069");
 var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitilizer.Init();
 app.Run();
-

@@ -27,9 +27,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var dataMap = context.JobDetail.JobDataMap;
             var childCategoryId = dataMap.GetInt("childCategoryId");
             var parentCategoryId = dataMap.GetInt("parentCategoryId");
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Job started - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
+            Logg.r.Information("Job started - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
             await Run(childCategoryId, parentCategoryId);
-            new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("Job ended - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
+            Logg.r.Information("Job ended - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
         }
 
         private Task Run(int childCategoryId, int parentCategoryId)

@@ -66,9 +66,7 @@ public class UserWritingRepo
 
     public void Create(User user)
     {
-        new Logg(_httpContextAccessor, _webHostEnvironment)
-            .r()
-            .Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        Logg.r.Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
 
         _repo.Create(user);
         _sessionUserCache.AddOrUpdate(user);
@@ -89,7 +87,7 @@ public class UserWritingRepo
 
         _repo.Delete(id);
         _sessionUserCache.Remove(user);
-        EntityCache.RemoveUser(id, _httpContextAccessor, _webHostEnvironment);
+        EntityCache.RemoveUser(id);
         Task.Run(async () => 
             await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
                 .DeleteAsync(user));
@@ -165,9 +163,7 @@ public class UserWritingRepo
 
     public void Update(User user)
     {
-        new Logg(_httpContextAccessor, _webHostEnvironment)
-            .r()
-            .Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
 
         _repo.Update(user);
         _sessionUserCache.AddOrUpdate(user);

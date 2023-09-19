@@ -30,7 +30,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
             catch (Exception e)
             {
-                new Logg(_httpContextAccessor, _webHostEnvironment).r().Error(e, "Error starting Job");
+                Logg.r.Error(e, "Error starting Job");
                 throw;
             }
         }

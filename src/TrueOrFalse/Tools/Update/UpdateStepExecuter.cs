@@ -52,9 +52,9 @@ namespace TrueOrFalse.Updates
             foreach (var dictionaryItem in _actions)
                 if (appVersion < dictionaryItem.Key)
                 {
-                    new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("update to {0} - START", dictionaryItem.Key);
+                    Logg.r.Information("update to {0} - START", dictionaryItem.Key);
                     dictionaryItem.Value();
-                    new Logg(_httpContextAccessor, _webHostEnvironment).r().Information("update to {0} - END", dictionaryItem.Key);
+                    Logg.r.Information("update to {0} - END", dictionaryItem.Key);
                     _dbSettingsRepo.UpdateAppVersion(dictionaryItem.Key);
                 }   
         }

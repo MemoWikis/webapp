@@ -164,18 +164,17 @@ public class CategoryCacheItem : IPersistable
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories, ILogger logg)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories)
     {
-        return categories.Select(c => ToCacheCategory(c, logg));
+        return categories.Select(c => ToCacheCategory(c));
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, ILogger logg)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories)
     {
-        return categories.Select(c =>
-            ToCacheCategory(c, logg));
+        return categories.Select(c => ToCacheCategory(c));
     }
 
-    public static CategoryCacheItem ToCacheCategory(Category category, ILogger logg)
+    public static CategoryCacheItem ToCacheCategory(Category category)
     {
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
@@ -184,8 +183,7 @@ public class CategoryCacheItem : IPersistable
         {
             Id = category.Id,
             CachedData = new CategoryCachedData(),
-            CategoryRelations = userEntityCacheCategoryRelations
-                .ToListCategoryRelations(category.CategoryRelations, logg),
+            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,

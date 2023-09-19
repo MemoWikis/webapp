@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
@@ -17,11 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrueOrFalse", "TrueOrFalse\TrueOrFalse.csproj", "{0AA2472F-E001-45C0-AD00-2E49B1566739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Tests", "TrueOrFalse.Tests\TrueOrFalse.Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.Web1", "TrueOrFalse.Frontend.Web1\TrueOrFalse.Frontend.Web1.csproj", "{EB430B20-689B-4DA2-B143-F3714F0C44F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrueOrFalse.Tests", "TrueOrFalse.Tests\TrueOrFalse.Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -189,72 +187,12 @@ Global
 		{1C9D8C0C-800E-4BBB-82B1-89E111004596}.Release|Windows-ARM.ActiveCfg = Release|Any CPU
 		{1C9D8C0C-800E-4BBB-82B1-89E111004596}.Release|Windows-x64.ActiveCfg = Release|Any CPU
 		{1C9D8C0C-800E-4BBB-82B1-89E111004596}.Release|Windows-x86.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Android.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Android.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|iOS.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|iOS.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows Phone (Universal).Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows Phone 8.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows Phone 8.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-AnyCPU.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-AnyCPU.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-ARM.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-ARM.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-x64.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-x64.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-x86.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Debug|Windows-x86.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Android.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Android.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Any CPU.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Any CPU.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|iOS.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|iOS.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Mixed Platforms.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows Phone (Universal).ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows Phone (Universal).Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows Phone 8.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows Phone 8.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-AnyCPU.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-AnyCPU.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-ARM.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-ARM.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-x64.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-x64.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-x86.ActiveCfg = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Distribution|Windows-x86.Build.0 = Debug|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Android.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Android.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|iOS.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|iOS.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows Phone (Universal).ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows Phone (Universal).Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows Phone 8.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows Phone 8.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-AnyCPU.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-AnyCPU.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-ARM.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-ARM.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-x64.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-x64.Build.0 = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-x86.ActiveCfg = Release|Any CPU
-		{EB430B20-689B-4DA2-B143-F3714F0C44F0}.Release|Windows-x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2B260D44-0E30-4A6F-ADCA-05D837A591D4}
 		LessCompiler = c936ea17-2c3f-4c2b-ac7b-66e991542ec8
+		SolutionGuid = {2B260D44-0E30-4A6F-ADCA-05D837A591D4}
 	EndGlobalSection
 EndGlobal

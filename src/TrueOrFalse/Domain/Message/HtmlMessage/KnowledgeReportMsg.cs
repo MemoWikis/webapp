@@ -20,7 +20,7 @@ public class KnowledgeReportMsg
         IWebHostEnvironment webHostEnvironment)
     {
        
-        var template = await File.ReadAllTextAsync(new PathTo(httpContextAccessor, webHostEnvironment).EmailTemplate_KnowledgeReport());
+        var template = await File.ReadAllTextAsync(PathTo.EmailTemplate_KnowledgeReport());
         var model = new KnowledgeReportMsgModel(user,
                 UtmSource,
                 getAnswerStatsInPeriod,
@@ -30,7 +30,7 @@ public class KnowledgeReportMsg
                 knowledgeSummaryLoader,
                 questionReadingRepo);
 
-        var project = new FileSystemRazorProject(Path.GetDirectoryName(new PathTo(httpContextAccessor, webHostEnvironment).EmailTemplate_KnowledgeReport()));
+        var project = new FileSystemRazorProject(Path.GetDirectoryName(PathTo.EmailTemplate_KnowledgeReport()));
         var engine = new RazorLightEngineBuilder()
             .UseProject(project)
             .UseMemoryCachingProvider()
@@ -72,39 +72,35 @@ public class KnowledgeReportMsg
             template);
         mailmessage2.UserName = user.Name; 
 
-       await new HtmlMessage(httpContextAccessor, webHostEnvironment, jobQueueRepo, userReadingRepo)
+       await new HtmlMessage(jobQueueRepo, userReadingRepo)
            .SendAsync(mailmessage2,
             messageTitle,
             signOutMessage,
            UtmSource);
 
         messageEmailRepo.Create(new MessageEmail(user, MessageEmailTypes.KnowledgeReport));
-        new Logg(httpContextAccessor, webHostEnvironment).r().Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
+        Logg.r.Information("Successfully SENT Knowledge-Report to user " + user.Name + " (" + user.Id + ")");
     }
 
 
     /// <summary>
     /// Checks if a user should now get a KnowledgeReport according to his KnowledgeReportInterval-Setting
     /// </summary>
-    public static bool ShouldSendToUser(User user,
-        MessageEmailRepo messageEmailRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public static bool ShouldSendToUser(User user, MessageEmailRepo messageEmailRepo)
     {
-
-        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday)) // defines standard behaviour if setting is not set
+        if (user.KnowledgeReportInterval == UserSettingNotificationInterval.NotSet && DateTime.Now.DayOfWeek != DayOfWeek.Sunday) // defines standard behaviour if setting is not set
             return false;
 
-        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday))
+        if (user.KnowledgeReportInterval == UserSettingNotificationInterval.Weekly && DateTime.Now.DayOfWeek != DayOfWeek.Sunday)
             return false;
 
-        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Monthly) && (DateTime.Now.Day != 1))
+        if (user.KnowledgeReportInterval == UserSettingNotificationInterval.Monthly && DateTime.Now.Day != 1)
             return false;
 
         DateTime today = DateTime.Now;
         int quarterNumber = (today.Month - 1) / 3 + 1;
         DateTime firstDayOfQuarter = new DateTime(today.Year, (quarterNumber - 1) * 3 + 1, 1);
-        if ((user.KnowledgeReportInterval == UserSettingNotificationInterval.Quarterly) && (DateTime.Now.Date != firstDayOfQuarter.Date))
+        if (user.KnowledgeReportInterval == UserSettingNotificationInterval.Quarterly && DateTime.Now.Date != firstDayOfQuarter.Date)
             return false;
 
         var lastMessageSent = messageEmailRepo.GetMostRecentForUserAndType(user.Id, MessageEmailTypes.KnowledgeReport);
@@ -129,7 +125,7 @@ public class KnowledgeReportMsg
                 break;
         }
 
-        new Logg(httpContextAccessor, webHostEnvironment).r().Information("KnowledgeReportMsg.ShouldSendToUser: " + user.Name + " - " + lastSentOrRegistered + " <? " + shouldHaveSent);
+        Logg.r.Information("KnowledgeReportMsg.ShouldSendToUser: " + user.Name + " - " + lastSentOrRegistered + " <? " + shouldHaveSent);
 
         return lastSentOrRegistered <= shouldHaveSent;
     }
