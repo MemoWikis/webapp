@@ -1,6 +1,12 @@
 ﻿using System.Linq;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+//using Newtonsoft.Json;
 
 public class LearningSessionStoreController: BaseController
 {
@@ -32,7 +38,7 @@ public class LearningSessionStoreController: BaseController
         if (learningSession is { Steps: { Count: > 0 } })
         {
             var firstStep = learningSession.Steps.First();
-            return Json(new
+            var result = new
             {
                 success = true,
                 steps = learningSession.Steps.Select((s, index) => new
@@ -50,7 +56,8 @@ public class LearningSessionStoreController: BaseController
                 },
                 answerHelp = learningSession.Config.AnswerHelp,
                 isInTestMode = learningSession.Config.IsInTestMode
-            });
+            };
+            return Json(result);
         }
 
         return Json(new
@@ -60,8 +67,11 @@ public class LearningSessionStoreController: BaseController
     }
 
     [HttpPost]
-    public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
+    public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionData data)
     {
+        var config = data.Config; 
+        var id = data.Id;
+
         var category = EntityCache.GetCategory(config.CategoryId); 
         var allQuestions = category.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
@@ -232,19 +242,23 @@ public class LearningSessionStoreController: BaseController
     }
 
     [HttpGet]
-    public JsonResult LoadSteps()
+    public IActionResult LoadSteps()
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        return Json(learningSession.Steps.Select((s, index) => new StepResult
+        var result = learningSession.Steps.Select((s, index) => new StepResult
         {
             id = s.Question.Id,
             state = s.AnswerState,
             index = index,
             isLastStep = learningSession.Steps.Last() == s
-        }).ToArray());
-    }
+        }).ToArray();
 
-    public class StepResult
+        var serializedResult = JsonConvert.SerializeObject(result);
+
+        return Content(serializedResult, "application/json");
+    }
+}
+public class StepResult
     {
         public AnswerState state;
         public int id;
@@ -252,4 +266,12 @@ public class LearningSessionStoreController: BaseController
         public bool isLastStep;
     }
 
+
+namespace HelperClassesControllers
+{
+    public class NewSessionWithJumpToQuestionData
+    {
+        public LearningSessionConfig Config { get; set; } 
+        public int Id { get; set; }
+    }
 }
