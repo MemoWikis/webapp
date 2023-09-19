@@ -22,10 +22,16 @@ builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never; 
 }); 
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddSession(options => { options.Cookie.IsEssential = true; });
+builder.Services.AddSession(options =>
+{
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(480);
+
+});
 
 builder.Services.AddCors(options =>
 {
