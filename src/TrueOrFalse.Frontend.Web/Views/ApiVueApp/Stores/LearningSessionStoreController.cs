@@ -29,7 +29,6 @@ public class LearningSessionStoreController: BaseController
     [HttpPost]
     public JsonResult NewSession([FromBody]LearningSessionConfig config)
     {
-        _httpContextAccessor.HttpContext.Session.SetString("ForceInit", "true"); 
         var newSession = _learningSessionCreator.BuildLearningSession(config);
         _learningSessionCache.AddOrUpdate(newSession);
 
@@ -198,12 +197,12 @@ public class LearningSessionStoreController: BaseController
     }
         
     [HttpPost]
-    public JsonResult LoadSpecificQuestion(int index)
+    public IActionResult LoadSpecificQuestion(int index)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.LoadSpecificQuestion(index);
 
-        return Json(new
+        var json = JsonConvert.SerializeObject(new
         {
             steps = learningSession.Steps.Select((s, index) => new StepResult
             {
@@ -220,6 +219,8 @@ public class LearningSessionStoreController: BaseController
                 isLastStep = learningSession.TestIsLastStep()
             },
         });
+
+        return Content(json, "application/json"); 
     }
 
     [HttpPost]
