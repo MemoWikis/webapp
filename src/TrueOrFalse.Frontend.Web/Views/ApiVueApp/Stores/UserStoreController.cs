@@ -102,7 +102,7 @@ public class UserStoreController : Controller
     }
 
     [HttpPost]
-    public JsonResult Register(RegisterJson json)
+    public JsonResult Register([FromBody] RegisterJson json)
     {
         var result =  _registerUser.SetUser(json);
        if (result.success == false)
