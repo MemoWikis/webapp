@@ -3,7 +3,6 @@ import { useUserStore } from '../../user/userStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import _ from 'underscore'
-import { AlertType, messages, useAlertStore } from '~~/components/alert/alertStore'
 
 export interface QustionCounter {
     CreatedByCurrentUser: number
@@ -115,7 +114,6 @@ export interface StoredSessionConfig {
 
 export const useLearningSessionConfigurationStore = defineStore('learningSessionConfigurationStore', {
     state: () => {
-        const userStore = useUserStore()
         let sessionConfig = new SessionConfig()
 
         return {

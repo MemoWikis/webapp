@@ -70,36 +70,42 @@ watch(() => topicStore.questionCount, (count) => {
 </script>
 
 <template>
-    <div class="col-xs-12" v-if="learningSessionConfigurationStore.showFilter">
-        <TopicLearningSessionConfiguration :open-filter="openFilter" cookie-name="show-top-dropdown">
-            <slot>
-                <div class="session-progress-bar">
-                    <div class="session-progress">
-                        <!-- <div v-for="step in learningSessionStore.steps" class="step" :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }"></div> -->
-                        <div class="step answered" :style="answeredWidth"></div>
-                        <div class="step" :style="unansweredWidth"></div>
+    <div class="row">
+        <div class="col-xs-12" v-if="learningSessionConfigurationStore?.showFilter">
+            <TopicLearningSessionConfiguration :open-filter="openFilter" cookie-name="show-top-dropdown">
+                <slot>
+                    <div class="session-progress-bar">
+                        <div class="session-progress">
+                            <DevOnly>
+                                <div v-for="step in learningSessionStore.steps" class="step"
+                                    :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
+                                </div>
+                            </DevOnly>
+                            <div class="step answered" :style="answeredWidth"></div>
+                            <div class="step" :style="unansweredWidth"></div>
 
+                        </div>
+
+                        <div class="step-count">
+                            <template v-if="learningSessionStore.currentStep">
+                                {{ learningSessionStore.currentStep?.index + 1 }} / {{
+                                    learningSessionStore.steps.length
+                                }}
+                            </template>
+                        </div>
+                        <div class="progress-percentage">{{ progressPercentage }}%</div>
                     </div>
+                </slot>
+            </TopicLearningSessionConfiguration>
+        </div>
 
-                    <div class="step-count">
-                        <template v-if="learningSessionStore.currentStep">
-                            {{ learningSessionStore.currentStep?.index + 1 }} / {{
-                                learningSessionStore.steps.length
-                            }}
-                        </template>
-                    </div>
-                    <div class="progress-percentage">{{ progressPercentage }}%</div>
-                </div>
-            </slot>
-        </TopicLearningSessionConfiguration>
-    </div>
+        <div class="col-xs-12">
+            <QuestionAnswerBody />
+        </div>
 
-    <div class="col-xs-12">
-        <QuestionAnswerBody />
-    </div>
-
-    <div class="col-xs-12" id="QuestionListContainer">
-        <TopicLearningQuestionsSection />
+        <div class="col-xs-12" id="QuestionListContainer">
+            <TopicLearningQuestionsSection />
+        </div>
     </div>
 </template>
 

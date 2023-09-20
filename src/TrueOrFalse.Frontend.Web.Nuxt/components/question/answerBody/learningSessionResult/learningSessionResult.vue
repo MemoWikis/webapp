@@ -4,7 +4,6 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { useUserStore } from '~~/components/user/userStore'
 
 const userStore = useUserStore()
-const learningSessionResult = ref<LearningSessionResult | null>(null)
 const emit = defineEmits(['startNewSession'])
 
 interface Step {
@@ -43,7 +42,9 @@ interface LearningSessionResult {
 }
 const { $logger } = useNuxtApp()
 
-onBeforeMount(async () => {
+const learningSessionResult = ref<LearningSessionResult>()
+
+onMounted(async () => {
     learningSessionResult.value = await $fetch<LearningSessionResult>('/apiVue/VueLearningSessionResult/Get', {
         credentials: 'include',
         mode: 'cors',
