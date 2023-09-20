@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Web.Context
 {
-    internal static class SessionExtensions
+    public static class SessionExtensions
     {
         public static void SetBool(this ISession session, string key, bool value)
         {
