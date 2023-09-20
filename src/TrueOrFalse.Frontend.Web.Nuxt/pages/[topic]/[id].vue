@@ -107,10 +107,6 @@ function setTab() {
 }
 
 onMounted(() => setTab())
-watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
-    if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
-        await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
-})
 
 watch(topic, (oldTopic, newTopic) => {
     if (oldTopic?.Id == newTopic?.Id)
@@ -157,21 +153,39 @@ useHead(() => ({
                 <div class="col-lg-9 col-md-12 container">
                     <TopicHeader />
 
-                    <TopicTabsContent
-                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                    <template v-if="topicStore?.id != 0">
+                        <TopicTabsContent
+                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
 
-                    <template v-if="topicStore.id != 0">
-
-                        <ClientOnly>
-                            <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                :children="topicStore.gridItems" />
-                            <template #fallback>
-                                <TopicContentGrid
+                        <DevOnly>
+                            <ClientOnly>
+                                <div>
+                                    DevGrid
+                                </div>
+                                <TopicContentGridDndGrid
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topic.gridItems" />
+                                    :children="topicStore.gridItems" />
+                                <template #fallback>
+                                    <TopicContentGridDndGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topic.gridItems" />
+                                </template>
+                            </ClientOnly>
+
+                            <template #fallback>
+                                <ClientOnly>
+                                    <TopicContentGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topicStore.gridItems" />
+                                    <template #fallback>
+                                        <TopicContentGrid
+                                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                            :children="topic.gridItems" />
+                                    </template>
+                                </ClientOnly>
                             </template>
-                        </ClientOnly>
+
+                        </DevOnly>
 
                         <TopicTabsQuestions
                             v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
