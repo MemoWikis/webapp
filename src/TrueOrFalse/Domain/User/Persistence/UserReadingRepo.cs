@@ -47,27 +47,6 @@ public class UserReadingRepo : RepositoryDb<User>
             .SingleOrDefault<User>();
     }
 
-    public User GetByEmailEager(string email)
-    {
-        var user = Session
-            .QueryOver<User>()
-            .Where(u => u.EmailAddress == email)
-            .SingleOrDefault();
-
-        Session
-            .QueryOver<User>()
-            .Where(u => u.EmailAddress == email)
-            .Fetch(SelectMode.Fetch, u => u.Followers)
-            .SingleOrDefault();
-
-        Session
-            .QueryOver<User>()
-            .Where(u => u.EmailAddress == email)
-            .Fetch(SelectMode.Fetch, u => u.Following)
-            .SingleOrDefault();
-        return user;
-    }
-
     public IList<User> GetByIds(params int[] userIds)
     {
         var users = base.GetByIds(userIds);
