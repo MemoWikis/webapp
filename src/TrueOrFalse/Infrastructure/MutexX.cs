@@ -1,13 +1,6 @@
-using System.Data;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
-using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
-using Autofac;
-using NHibernate;
 
 /// http://stackoverflow.com/questions/229565/what-is-a-good-pattern-for-using-a-global-mutex-in-c
 /// </remarks>

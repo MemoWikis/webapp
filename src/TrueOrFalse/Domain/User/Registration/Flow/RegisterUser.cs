@@ -14,7 +14,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
     public RegisterUser(ISession session,
         JobQueueRepo jobQueueRepo,
-        UserReadingRepo userReadingRepo, 
+        UserReadingRepo userReadingRepo,
         MessageRepo messageRepo,
         UserWritingRepo userWritingRepo,
         SessionUser sessionUser,
@@ -36,7 +36,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             if (IsEmailAddressAvailable.No(user.EmailAddress, _userReadingRepo))
                 return (false, "emailInUse");
 
-            if(IsEmailAdressFormat.NotValid(user.EmailAddress))
+            if (IsEmailAdressFormat.NotValid(user.EmailAddress))
                 return (false, "falseEmailFormat");
 
             if (!user.IsFacebookUser &&
@@ -46,7 +46,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
             InitializeReputation(user);
             _userWritingRepo.Create(user);
-                
+
             transaction.Commit();
         }
 
@@ -60,7 +60,8 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         user.StartTopicId = category.Id;
 
         _userWritingRepo.Update(user);
-        return (true, ""); 
+
+        return (true, "");
     }
 
     public bool SetFacebookUser(FacebookUserCreateParameter facebookUser)
