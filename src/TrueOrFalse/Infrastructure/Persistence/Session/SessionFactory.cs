@@ -10,7 +10,7 @@ using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using Seedworks.Web.State;
 using TrueOrFalse.Infrastructure.Persistence;
-using Environment = NHibernate.Cfg.Environment;
+
 
 namespace TrueOrFalse
 {
@@ -18,37 +18,13 @@ namespace TrueOrFalse
     {
         private static Configuration _configuration;
         
-        public static ISessionFactory CreateSessionFactory(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
+        public static ISessionFactory CreateSessionFactory()
         {
-            var configuration = ReadConfigurationFromCacheOrBuildIt(httpContext, webHostEnvironment);
-            _configuration = configuration;
-            _configuration.SetProperty(Environment.Hbm2ddlKeyWords, "none");
-
-            return configuration.BuildSessionFactory();
-        }
-
-        private static Configuration ReadConfigurationFromCacheOrBuildIt(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        {
-            Configuration nhConfigurationCache;
-
-            var assembly = Assembly.GetAssembly(typeof (Question));  
-            if(assembly == null && !new ContextUtil(httpContext, webHostEnvironment).IsWebContext)
-                assembly = Assembly.LoadFile(
-                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
-
-            var nhCfgCache = new NHConfigurationFileCache(assembly, httpContext, webHostEnvironment);
-            var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
-
-            if (cachedCfg == null)
-            {
-                nhConfigurationCache = BuildConfiguration(httpContext, webHostEnvironment);
-                nhCfgCache.SaveConfigurationToFile(nhConfigurationCache);
-            }
-            else
-            {
-                nhConfigurationCache = cachedCfg;
-            }
-            return nhConfigurationCache;            
+            var sessionFactory = Fluently.Configure()
+                .Database(MySQLConfiguration.Standard.ConnectionString(new OverwrittenConfig().ValueString("connectionString")))
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
+                .BuildSessionFactory();
+            return sessionFactory;
         }
 
         private static Configuration BuildConfiguration(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)

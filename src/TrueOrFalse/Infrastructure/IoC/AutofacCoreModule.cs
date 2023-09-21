@@ -1,20 +1,12 @@
 ﻿using System.Reflection;
 using Autofac;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using NHibernate;
-
-
-using FluentNHibernate.Cfg; 
 using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
-using FluentNHibernate.Cfg.Db;
-using FluentNHibernate.Automapping;
-using FluentNHibernate.Data;
-using FluentNHibernate.Mapping;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Seedworks.Lib.Persistence;
+using System.Text;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -25,19 +17,53 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
-            builder.Register(context => context.Resolve<SessionManager>().Session);
-            builder.Register(c =>
+            builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
+            try
             {
-                var sessionFactory = Fluently.Configure()
-                    .Database(MySQLConfiguration.Standard.ConnectionString(new OverwrittenConfig().ValueString("connectionString")))
-                    .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
-                    .BuildSessionFactory();
-                return sessionFactory;
-            }).As<ISessionFactory>().SingleInstance();
+#if DEBUG
+                var interceptor = new SqlDebugOutputInterceptor();
+                var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().Interceptor(interceptor);
+#else
+                var sessionBuilder = SessionFactory.CreateSessionFactory().WithOptions().NoInterceptor();
+#endif 
 
-            builder.Register(context =>
-                new SessionManager(context.Resolve<ISessionFactory>().OpenSession())
-            ).InstancePerLifetimeScope();
+                builder.RegisterInstance(sessionBuilder);
+            }
+            catch (Exception ex)
+            {
+                var sb = new StringBuilder();
+
+                var innerException = ex.InnerException;
+                while (innerException != null)
+                {
+                    if (innerException is ReflectionTypeLoadException)
+                        break;
+
+                    innerException = innerException.InnerException;
+                }
+
+                if (innerException == null)
+                    throw;
+
+                foreach (Exception exSub in ((ReflectionTypeLoadException)innerException).LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    if (exSub is FileNotFoundException)
+                    {
+                        var exFileNotFound = exSub as FileNotFoundException;
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+
+                throw new Exception(sb.ToString());
+            }
+
+            builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
 
 
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
