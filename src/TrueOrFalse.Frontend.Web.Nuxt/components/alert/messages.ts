@@ -65,7 +65,8 @@ export const messages: any = {
             doesNotExist: "Der angegebene Nutzern wurde nicht gefunden. Bitte überprüfen Sie, ob Sie den korrekten Anmeldedaten eingegeben haben.",
             invalidFBToken: "Hoppla! Es scheint, als ob das von Ihnen eingegebene Facebook-Token nicht korrekt ist. Bitte versuchen Sie es erneut mit einer neuen Anmeldung über Facebook. Falls das Problem weiterhin besteht, kontaktieren Sie uns bitte für Unterstützung. Wir sind immer da, um Ihnen zu helfen.",
             emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
-            passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein."
+            passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein.",
+            loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
         },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         image: {
@@ -100,7 +101,7 @@ export const messages: any = {
                 return undefined; // Key part not found in the messages structure
             }
         }
-        console.log(`MessageKey: ${messageKey}, Message: ${currentLevel}`)
+        // console.log(`MessageKey: ${messageKey}, Message: ${currentLevel}`)
         return currentLevel as string;
     }
 }
