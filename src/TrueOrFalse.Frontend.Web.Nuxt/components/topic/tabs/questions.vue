@@ -2,7 +2,5 @@
 </script>
 
 <template>
-	<ClientOnly>
-		<TopicLearning />
-	</ClientOnly>
+	<TopicLearning />
 </template>

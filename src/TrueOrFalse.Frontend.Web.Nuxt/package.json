@@ -11,11 +11,7 @@
   "devDependencies": {
     "@nuxtjs/device": "^3.0.0",
     "@types/jquery": "^3.5.14",
-    "nuxt": "^3.5.1"
-  },
-  "overrides": {
-    "h3": "npm:h3@1.8.0-rc.2",
-    "nitropack": "npm:nitropack-edge@latest"
+    "nuxt": "^3.7.0"
   },
   "dependencies": {
     "@datalust/winston-seq": "^2.0.0",

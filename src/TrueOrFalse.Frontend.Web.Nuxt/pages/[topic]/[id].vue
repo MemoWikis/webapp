@@ -140,7 +140,12 @@ useHead(() => ({
 }))
 
 const { isMobile } = useDevice()
-
+onBeforeMount(() => {
+    $logger.info(`tabCheck onBeforeMount: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
+})
+onMounted(() => {
+    $logger.info(`tabCheck mounted: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
+})
 </script>
 
 <template>
@@ -165,10 +170,48 @@ const { isMobile } = useDevice()
                             </template>
                         </ClientOnly>
 
+                        <!-- <DevOnly>
+                            <ClientOnly>
+                                <div>
+                                    DevGrid
+                                </div>
+                                <TopicContentGridDndGrid
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                    :children="topicStore.gridItems" />
+                                <template #fallback>
+                                    <TopicContentGridDndGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topic.gridItems" />
+                                </template>
+                            </ClientOnly>
+
+                            <template #fallback>
+                                <ClientOnly>
+                                    <TopicContentGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topicStore.gridItems" />
+                                    <template #fallback>
+                                        <TopicContentGrid
+                                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                            :children="topic.gridItems" />
+                                    </template>
+                                </ClientOnly>
+                            </template>
+
+                        </DevOnly> -->
                         <TopicContentGrid
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                             :children="topicStore.gridItems" />
-
+                        <!-- <ClientOnly>
+                            <TopicContentGrid
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :children="topicStore.gridItems" />
+                            <template #fallback>
+                                <TopicContentGrid
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                    :children="topic.gridItems" />
+                            </template>
+                        </ClientOnly> -->
                         <ClientOnly>
                             <TopicTabsQuestions
                                 v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
