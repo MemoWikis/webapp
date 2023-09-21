@@ -9,7 +9,7 @@ namespace Seedworks.Lib.Persistence
     {
         protected readonly ISession _session;
 		private List<TDomainObject> _allItemsCached;
-		protected event EventHandler<RepositoryDbEventArgs> OnItemMutated;
+		//protected event EventHandler<RepositoryDbEventArgs> OnItemMutated;
     	protected event EventHandler<RepositoryDbEventArgs> OnItemCreated;
 		protected event EventHandler<RepositoryDbEventArgs> OnItemDeleted;
 		protected event EventHandler<RepositoryDbEventArgs> OnItemUpdated;
@@ -38,8 +38,8 @@ namespace Seedworks.Lib.Persistence
 
     	private void ItemMutated(object sender, RepositoryDbEventArgs e)
     	{
-			if (OnItemMutated != null)
-				OnItemMutated(this, e);
+			//if (OnItemMutated != null)
+			//	OnItemMutated(this, e);
     	}
 
     	public DetachedCriteria GetDetachedCriteria()

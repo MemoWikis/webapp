@@ -53,7 +53,7 @@ public class QuickCreateQuestionController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public ActionResult<object> CreateFlashcard(FlashCardLoader flashCardJson)
+    public ActionResult<object> CreateFlashcard([FromBody] FlashCardLoader flashCardJson)
     {
         
         var safeText = GetSafeText(flashCardJson.TextHtml);
