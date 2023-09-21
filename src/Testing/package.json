@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "axios": "^0.26.0",
-    "cypress": "^9.5.1",
+    "cypress": "^13.2.0",
     "cypress-wait-until": "^1.7.1"
   }
 }
