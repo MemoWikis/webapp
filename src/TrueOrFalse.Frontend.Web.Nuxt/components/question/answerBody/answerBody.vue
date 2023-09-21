@@ -375,10 +375,8 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
                 <div class="Pin answerbody-btn" :data-question-id="answerBodyModel.id">
                     <div class="answerbody-btn-inner">
-                        <ClientOnly>
-                            <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
-                                :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
-                        </ClientOnly>
+                        <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
+                            :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                     </div>
                 </div>
                 <div class="Button dropdown answerbody-btn">
@@ -652,10 +650,10 @@ const allMultipleChoiceCombinationTried = computed(() => {
             </div>
 
         </div>
-        <LazyQuestionAnswerBodyAnswerQuestionDetails :id="answerBodyModel.id" />
+        <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyModel.id" />
     </div>
-    <div v-else-if="learningSessionStore.showResult">
-        <LazyQuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
+    <div v-else-if="learningSessionStore.showResult == true">
+        <QuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
     </div>
 </template>
 

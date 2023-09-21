@@ -5,10 +5,12 @@ import { Page } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
+import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
+const rootTopicChipStore = useRootTopicChipStore()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
@@ -73,7 +75,8 @@ const breadcrumbItems = ref<BreadcrumbItem[]>()
 function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
-
+const route = useRoute()
+const { $urlHelper } = useNuxtApp()
 userStore.$onAction(({ name, after }) => {
 	if (name == 'logout') {
 
@@ -95,7 +98,11 @@ userStore.$onAction(({ name, after }) => {
 	if (name == 'login') {
 		after(async (loginResult) => {
 			if (loginResult.success == true) {
-				await refreshNuxtData()
+
+				if (page.value == Page.Topic && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
+					await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+				else
+					await refreshNuxtData()
 			}
 		})
 	}

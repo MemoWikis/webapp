@@ -136,7 +136,7 @@ async function loadNewQuestion(index: number) {
                 first-page-content="Erste" last-page-content="Letzte" />
         </div>
 
-        <LazyCommentModal />
+        <CommentModal />
     </div>
 </template>
 

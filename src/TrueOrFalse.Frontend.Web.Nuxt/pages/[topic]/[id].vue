@@ -3,15 +3,10 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
-import { useUserStore } from '~~/components/user/userStore'
-import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
-
 const { $logger, $urlHelper } = useNuxtApp()
 
 const tabsStore = useTabsStore()
-const userStore = useUserStore()
 const topicStore = useTopicStore()
-const rootTopicChipStore = useRootTopicChipStore()
 const spinnerStore = useSpinnerStore()
 
 interface Props {
@@ -107,10 +102,6 @@ function setTab() {
 }
 
 onMounted(() => setTab())
-watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
-    if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
-        await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
-})
 
 watch(topic, (oldTopic, newTopic) => {
     if (oldTopic?.Id == newTopic?.Id)
@@ -148,6 +139,8 @@ useHead(() => ({
     ]
 }))
 
+const { isMobile } = useDevice()
+
 </script>
 
 <template>
@@ -157,24 +150,29 @@ useHead(() => ({
                 <div class="col-lg-9 col-md-12 container">
                     <TopicHeader />
 
-                    <TopicTabsContent
-                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-
-                    <template v-if="topicStore.id != 0">
-
+                    <template v-if="topicStore?.id != 0">
                         <ClientOnly>
-                            <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                :children="topicStore.gridItems" />
+                            <TopicTabsContent
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
                             <template #fallback>
-                                <TopicContentGrid
-                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topic.gridItems" />
+                                <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }">
+                                    <div class="col-xs-12">
+                                        <div class="ProseMirror content-placeholder" v-html="topicStore.content"
+                                            id="TopicContentPlaceholder">
+                                        </div>
+                                    </div>
+                                </div>
                             </template>
                         </ClientOnly>
 
-                        <TopicTabsQuestions
-                            v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                        <TopicContentGrid
+                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                            :children="topicStore.gridItems" />
+
+                        <ClientOnly>
+                            <TopicTabsQuestions
+                                v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                        </ClientOnly>
                         <TopicTabsAnalytics
                             v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
@@ -199,13 +197,22 @@ useHead(() => ({
 #InlineEdit {
     padding: 0px;
     border: none;
+}
 
-    // ul,
-    // pre {
-    //     margin-bottom: 20px;
-    // }
+#TopicContentPlaceholder {
+    padding: 0px;
+
+    p {
+        min-height: 30px;
+    }
+
+    ul,
+    pre {
+        margin-bottom: 20px;
+    }
 }
 </style>
+
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
