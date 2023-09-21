@@ -10,9 +10,6 @@ services:
       - SERVER_PORT=${SERVER_PORT:-error}
       - HOST_VAR=${BACKEND_BASE_URL:-error}
       - PORT_NUXT=${PORT_NUXT:-error}
-    volumes:
-      - ./nginx.conf.template:/etc/nginx/templates/nginx.conf.template
-      - ./robots.${MEM_ENVIRONMENT:-test}.txt:/etc/nginx/html/robots.txt
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
