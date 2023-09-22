@@ -140,12 +140,12 @@ async function register() {
         Email: eMail.value,
         Password: password.value
     }
-    let result = await userStore.register(registerData)
+    const result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
     if (result == 'success' && userStore.personalWiki)
         return navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
     else if (result)
-        errorMessage.value = messages.error.user[result]
+        errorMessage.value = result
 }
 
 </script>

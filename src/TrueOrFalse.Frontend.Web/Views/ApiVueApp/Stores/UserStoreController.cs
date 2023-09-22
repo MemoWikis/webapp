@@ -50,18 +50,17 @@ public class UserStoreController : Controller
             TransferActivityPoints.FromSessionToUser(_sessionUser,_activityPointsRepo);
             _userRepo.UpdateActivityPointsData();
 
-            return Json(new
+            return Json(new RequestResult
             {
-                Success = true,
-                Message = "",
-                CurrentUser = _vueSessionUser.GetCurrentUserData()
+                success = true,
+                data = _vueSessionUser.GetCurrentUserData()
             });
-        }
 
-        return Json(new
+        }
+        return Json(new RequestResult
         {
-            Success = false,
-            Message = "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.LoginFailed
         });
     }
 
@@ -104,23 +103,17 @@ public class UserStoreController : Controller
     public JsonResult Register(RegisterJson json)
     {
         if (!IsEmailAddressAvailable.Yes(json.Email))
-            return Json(new
+            return Json(new RequestResult
             {
-                Data = new
-                {
-                    Success = false,
-                    Message = "emailInUse",
-                }
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.EmailInUse
             });
 
         if (!global::IsUserNameAvailable.Yes(json.Name))
-            return Json(new
+            return Json(new RequestResult
             {
-                Data = new
-                {
-                    Success = false,
-                    Message = "userNameInUse",
-                }
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.UserNameInUse
             });
 
         var user = SetUser(json);
@@ -149,11 +142,10 @@ public class UserStoreController : Controller
         }
 
         var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
-        return Json(new
+        return Json(new RequestResult
         {
-            Success = true,
-            Message = "",
-            CurrentUser = new
+            success = true,
+            data = new
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
@@ -166,8 +158,9 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
+
         });
     }
 
