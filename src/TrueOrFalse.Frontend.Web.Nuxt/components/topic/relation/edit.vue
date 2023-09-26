@@ -44,7 +44,7 @@ async function addTopic() {
     if (nameValidationResult.categoryNameAllowed) {
         type QuickCreateResult = {
             success: boolean
-            url: string
+            name: string
             id: number
         }
 
@@ -60,13 +60,14 @@ async function addTopic() {
             },
         })
         if (result.success) {
-            if (editTopicRelationStore.redirect)
-                await navigateTo(result.url)
-
+            spinnerStore.hideSpinner()
             topicStore.childTopicCount++
             editTopicRelationStore.showModal = false
             editTopicRelationStore.addTopic(result.id)
-            spinnerStore.hideSpinner()
+
+            // await nextTick()
+            if (editTopicRelationStore.redirect)
+                await navigateTo($urlHelper.getTopicUrl(result.name, result.id))
         }
     } else {
         showErrorMsg.value = messages.error.category[nameValidationResult.key]

@@ -83,7 +83,7 @@ public class EditControllerLogic
         return new
         {
             success = true,
-            url = Links.CategoryDetail(topic),
+            name = topic.Name,
             id = topic.Id
         };
     }
