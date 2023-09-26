@@ -70,7 +70,7 @@ async function addTopic() {
                 await navigateTo($urlHelper.getTopicUrl(result.name, result.id))
         }
     } else {
-        showErrorMsg.value = messages.error.category[nameValidationResult.key]
+        errorMsg.value = messages.error.category[nameValidationResult.key]
         forbbidenTopicName.value = nameValidationResult.name
         existingTopicUrl.value = nameValidationResult.url
         showErrorMsg.value = true
@@ -289,6 +289,13 @@ function handleMainBtn() {
             break
     }
 }
+
+watch(() => editTopicRelationStore.showModal, (val) => {
+    if (val == false) {
+        name.value = ''
+        showErrorMsg.value = false
+    }
+})
 
 </script>
 
