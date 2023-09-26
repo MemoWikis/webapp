@@ -3,8 +3,10 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
+import { useUserStore } from '~~/components/user/userStore'
 const { $logger, $urlHelper } = useNuxtApp()
 
+const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
 const spinnerStore = useSpinnerStore()
@@ -102,10 +104,15 @@ function setTab() {
 }
 
 onMounted(() => setTab())
-
-watch(topic, (oldTopic, newTopic) => {
-    if (oldTopic?.Id == newTopic?.Id)
+const loginStateHasChanged = ref(false)
+watch(() => userStore.isLoggedIn, () => loginStateHasChanged.value = true)
+watch(topic, async (oldTopic, newTopic) => {
+    if (oldTopic?.Id == newTopic?.Id && loginStateHasChanged.value && process.client) {
+        await nextTick()
         setTopic()
+        loginStateHasChanged.value = false
+    }
+
 }, { deep: true })
 
 useHead(() => ({

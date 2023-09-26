@@ -49,6 +49,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             this.categoriesToFilter = data.categoriesToFilter ?? []
             this.childId = data.childId ?? 0
             this.topicIdToRemove = data.topicIdToRemove ?? 0
+            this.redirect = data.redirect ?? false
 
             if (data.editCategoryRelation == EditTopicRelationType.AddToPersonalWiki)
                 this.initWikiData()
