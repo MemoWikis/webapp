@@ -3,8 +3,10 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
+import { useUserStore } from '~~/components/user/userStore'
 const { $logger, $urlHelper } = useNuxtApp()
 
+const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
 const spinnerStore = useSpinnerStore()
@@ -18,7 +20,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -38,6 +40,7 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/$
 const tabSwitched = ref(false)
 
 const router = useRouter()
+
 function setTopic() {
     if (topic.value != null) {
         if (topic.value?.CanAccess) {
@@ -81,6 +84,7 @@ function setTopic() {
     }
 }
 setTopic()
+
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 
@@ -100,12 +104,17 @@ function setTab() {
         }
     }
 }
-
 onMounted(() => setTab())
 
-watch(topic, (oldTopic, newTopic) => {
-    if (oldTopic?.Id == newTopic?.Id)
+// loginStateHasChanged and watch topic is used to handle refreshNuxtData() on login/logouts
+const loginStateHasChanged = ref<boolean>(false)
+watch(() => userStore.isLoggedIn, () => loginStateHasChanged.value = true)
+watch(topic, async (oldTopic, newTopic) => {
+    if (oldTopic?.Id == newTopic?.Id && loginStateHasChanged.value && process.client) {
+        await nextTick()
         setTopic()
+    }
+    loginStateHasChanged.value = false
 }, { deep: true })
 
 useHead(() => ({
