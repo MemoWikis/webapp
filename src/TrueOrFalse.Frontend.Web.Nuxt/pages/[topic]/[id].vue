@@ -5,7 +5,6 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 const { $logger, $urlHelper } = useNuxtApp()
-
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
@@ -56,6 +55,7 @@ function setTopic() {
                 title: topic.value.Name,
             })
             watch(() => tabsStore.activeTab, (t) => {
+                console.log('switchtab')
                 tabSwitched.value = true
                 if (topic.value == null)
                     return
@@ -70,8 +70,11 @@ function setTopic() {
 
                 else if (t == Tab.Analytics)
                     router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
-
             })
+
+            watch(() => route, (val) => {
+                console.log(val)
+            }, { deep: true, immediate: true })
 
             watch(() => topicStore.name, () => {
                 useHead({
@@ -79,6 +82,7 @@ function setTopic() {
                 })
             })
         } else {
+            $logger.error(`Topic: NoAccess - routeId: ${route.params.id}`)
             throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         }
     }
@@ -155,6 +159,17 @@ onBeforeMount(() => {
 onMounted(() => {
     $logger.info(`tabCheck mounted: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
 })
+
+watch(() => props.tab, (t) => {
+    if (process.client) {
+        tabSwitched.value = false
+        console.log('props', t)
+        if (t) {
+            tabsStore.activeTab = t
+        }
+    }
+
+}, { immediate: true })
 </script>
 
 <template>
@@ -208,6 +223,7 @@ onMounted(() => {
                             </template>
 
                         </DevOnly> -->
+                        <div id="EditBarAnchor"></div>
                         <TopicContentGrid
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                             :children="topicStore.gridItems" />
