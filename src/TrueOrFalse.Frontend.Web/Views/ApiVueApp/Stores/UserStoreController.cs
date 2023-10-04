@@ -1,61 +1,40 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Domain.User;
 
 namespace VueApp;
 
-public class UserStoreController : Controller
-{
-    private readonly VueSessionUser _vueSessionUser;
-    private readonly SessionUser _sessionUser;
-    private readonly RegisterUser _registerUser;
-    private readonly PersistentLoginRepo _persistentLoginRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly GetUnreadMessageCount _getUnreadMessageCount;
-    private readonly PasswordRecovery _passwordRecovery;
-    private readonly TopicControllerLogic _topicControllerLogic;
-    private readonly Login _login;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public UserStoreController(
-        VueSessionUser vueSessionUser,
+public class UserStoreController(VueSessionUser vueSessionUser,
         SessionUser sessionUser,
         RegisterUser registerUser,
         PersistentLoginRepo persistentLoginRepo,
-        UserReadingRepo userReadingRepo,
         GetUnreadMessageCount getUnreadMessageCount,
         PasswordRecovery passwordRecovery,
-        TopicControllerLogic topicControllerLogic,
         Login login,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        _vueSessionUser = vueSessionUser;
-        _sessionUser = sessionUser;
-        _registerUser = registerUser;
-        _persistentLoginRepo = persistentLoginRepo;
-        _userReadingRepo = userReadingRepo;
-        _getUnreadMessageCount = getUnreadMessageCount;
-        _passwordRecovery = passwordRecovery;
-        _topicControllerLogic = topicControllerLogic;
-        _login = login;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
-
+        IWebHostEnvironment webHostEnvironment,
+        PermissionCheck permissionCheck,
+        GridItemLogic gridItemLogic,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        CategoryViewRepo categoryViewRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IActionContextAccessor actionContextAccessor,
+        UserReadingRepo userReadingRepo)
+    : Controller
+{
     [HttpPost]
     public JsonResult Login([FromBody] LoginJson loginJson)
     {
-        var isLoginErfolgreich = _login.UserLogin(loginJson);
+        var isLoginSuccessfull = login.UserLogin(loginJson);
 
-        if (isLoginErfolgreich)
+        if (isLoginSuccessfull)
         {
             return Json(new RequestResult
             {
                 success = true,
-                data = _vueSessionUser.GetCurrentUserData()
+                data = vueSessionUser.GetCurrentUserData()
             });
         }
         return Json(new RequestResult
@@ -69,10 +48,10 @@ public class UserStoreController : Controller
     [AccessOnlyAsLoggedIn]
     public JsonResult LogOut()
     {
-        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor);
-        _sessionUser.Logout();
+        RemovePersistentLoginFromCookie.Run(persistentLoginRepo, httpContextAccessor);
+        sessionUser.Logout();
 
-        if (!_sessionUser.IsLoggedIn)
+        if (!sessionUser.IsLoggedIn)
             return Json(new RequestResult
             {
                 success = true,
@@ -89,13 +68,13 @@ public class UserStoreController : Controller
     [AccessOnlyAsLoggedIn]
     public int GetUnreadMessagesCount()
     {
-        return _getUnreadMessageCount.Run(_sessionUser.UserId);
+        return getUnreadMessageCount.Run(sessionUser.UserId);
     }
 
     [HttpPost]
     public JsonResult ResetPassword(string email)
     {
-        var result = _passwordRecovery.RunForNuxt(email);
+        var result = passwordRecovery.RunForNuxt(email);
         //Don't reveal if email exists 
         return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
     }
@@ -103,41 +82,54 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult Register([FromBody] RegisterJson json)
     {
-        var result =  _registerUser.SetUser(json);
-            return Json(new RequestResult
-            {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.EmailInUse
-            return Json(new RequestResult
-           {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.UserNameInUse
-           });
-        }
+       
 
-      
+        if (!IsEmailAddressAvailable.Yes(json.Email, userReadingRepo))
+            return Json(new RequestResult
+        {
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.EmailInUse
+        });
+
+        if (!IsUserNameAvailable.Yes(json.Email, userReadingRepo))
+            return Json(new RequestResult
+        {
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.UserNameInUse
+        });
+
+        registerUser.SetUser(json);
+
         return Json(new RequestResult
         {
             success = true,
             data = new
             {
-                IsLoggedIn = _sessionUser.IsLoggedIn,
-                Id = _sessionUser.UserId,
-                Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
-                IsAdmin = _sessionUser.IsInstallationAdmin,
-                PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
+                IsLoggedIn = sessionUser.IsLoggedIn,
+                Id = sessionUser.UserId,
+                Name = sessionUser.IsLoggedIn? sessionUser.User.Name : "",
+                IsAdmin = sessionUser.IsInstallationAdmin,
+                PersonalWikiId = sessionUser.IsLoggedIn ? sessionUser.User.StartTopicId : 1,
                 Type = UserType.Normal,
-                ImgUrl = _sessionUser.IsLoggedIn
-                    ? new UserImageSettings(_sessionUser.UserId,
-                            _httpContextAccessor, 
-                            _webHostEnvironment)
-                        .GetUrl_20px(_sessionUser.User)
+                ImgUrl = sessionUser.IsLoggedIn
+                    ? new UserImageSettings(sessionUser.UserId,
+                            httpContextAccessor,
+                            webHostEnvironment)
+                        .GetUrl_20px(sessionUser.User)
                         .Url
                     : "",
-                Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
-                ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
-                    .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                Reputation = sessionUser.IsLoggedIn ? sessionUser.User.Reputation : 0,
+                ReputationPos = sessionUser.IsLoggedIn ? sessionUser.User.ReputationPos : 0,
+                PersonalWiki = new TopicControllerLogic(sessionUser,
+                        permissionCheck, 
+                        gridItemLogic, 
+                        knowledgeSummaryLoader, 
+                        categoryViewRepo, 
+                        imageMetaDataReadingRepo, 
+                        httpContextAccessor,
+                        webHostEnvironment, 
+                        actionContextAccessor)
+                    .GetTopicData(sessionUser.IsLoggedIn ? sessionUser.User.StartTopicId : 1)
             }
 
         });
