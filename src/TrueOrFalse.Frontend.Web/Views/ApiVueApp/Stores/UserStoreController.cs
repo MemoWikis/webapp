@@ -21,7 +21,8 @@ public class UserStoreController(VueSessionUser vueSessionUser,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IActionContextAccessor actionContextAccessor,
-        UserReadingRepo userReadingRepo)
+        UserReadingRepo userReadingRepo,
+        QuestionReadingRepo questionReadingRepo)
     : Controller
 {
     [HttpPost]
@@ -128,7 +129,8 @@ public class UserStoreController(VueSessionUser vueSessionUser,
                         imageMetaDataReadingRepo, 
                         httpContextAccessor,
                         webHostEnvironment, 
-                        actionContextAccessor)
+                        actionContextAccessor,
+                        questionReadingRepo)
                     .GetTopicData(sessionUser.IsLoggedIn ? sessionUser.User.StartTopicId : 1)
             }
 

@@ -7,7 +7,8 @@ public abstract class ImageSettings
     protected readonly IHttpContextAccessor _contextAccessor;
     protected readonly IWebHostEnvironment _webHostEnvironment;
 
-    public ImageSettings(IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)
+    public ImageSettings(IHttpContextAccessor contextAccessor, 
+        IWebHostEnvironment webHostEnvironment)
     {
         _contextAccessor = contextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -41,14 +42,14 @@ public abstract class ImageSettings
             File.Delete(file);
     }
 
-    public IImageSettings InitByType(ImageMetaData imageMetaData)
+    public IImageSettings InitByType(ImageMetaData imageMetaData, QuestionReadingRepo questionReadingRepo)
     {
         switch (imageMetaData.Type)
         {
             case ImageType.Category:
                 return new CategoryImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
             case ImageType.Question:
-                return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
+                return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment, questionReadingRepo);
             case ImageType.QuestionSet:
                 return new SetImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
             case ImageType.User:

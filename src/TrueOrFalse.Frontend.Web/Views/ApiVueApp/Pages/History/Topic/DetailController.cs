@@ -24,6 +24,7 @@ public class HistoryTopicDetailController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
     public HistoryTopicDetailController(PermissionCheck permissionCheck,
         ISession nhibernatesession,
@@ -38,7 +39,8 @@ public class HistoryTopicDetailController : Controller
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor)
+        IActionContextAccessor actionContextAccessor,
+        QuestionReadingRepo questionReadingRepo)
     {
         _permissionCheck = permissionCheck;
         _nhibernatesession = nhibernatesession;
@@ -54,6 +56,7 @@ public class HistoryTopicDetailController : Controller
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _actionContextAccessor = actionContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     [HttpGet]
@@ -84,7 +87,8 @@ public class HistoryTopicDetailController : Controller
             _sessionUserCache,
             _httpContextAccessor,
             _webHostEnvironment,
-            _actionContextAccessor);
+            _actionContextAccessor,
+            _questionReadingRepo);
 
         var currentAuthor = currentRevision.Author(_sessionUserCache);
         var result = new ChangeDetailResult
@@ -189,8 +193,8 @@ public class HistoryTopicDetailController : Controller
             _sessionUserCache,
             _httpContextAccessor,
             _webHostEnvironment,
-            _actionContextAccessor);
-
+            _actionContextAccessor,
+            _questionReadingRepo);
     }
 
     [AccessOnlyAsLoggedIn]

@@ -110,7 +110,8 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         question.LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(q);
         question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
             _httpContextAccessor,
-            _webHostEnvironment)
+            _webHostEnvironment,
+            _questionReadingRepo)
             .GetImageUrl(40, true)
             .Url;
 
@@ -192,7 +193,8 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
             ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category), 
                     _httpContextAccessor,
-                    _webHostEnvironment)
+                    _webHostEnvironment,
+                    _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category)
                 .Url,
             Visibility = (int)topic.Visibility

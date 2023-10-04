@@ -18,6 +18,7 @@ public class QuestionListModel
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public int CategoryId;
 
     public QuestionListModel(LearningSessionCache learningSessionCache,
@@ -29,7 +30,8 @@ public class QuestionListModel
         SessionUserCache sessionUserCache,
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
@@ -41,6 +43,7 @@ public class QuestionListModel
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public List<QuestionListJson.Question> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
@@ -68,7 +71,10 @@ public class QuestionListModel
                 Id = q.Id,
                 Title = q.Text,
                 LinkToQuestion = links.GetUrl(q),
-                ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),_httpContextAccessor, _webHostEnvironment)
+                ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+                        _httpContextAccessor, 
+                        _webHostEnvironment,
+                        _questionReadingRepo)
                     .GetImageUrl(40, true)
                     .Url,
                 LearningSessionStepCount = steps.Count,

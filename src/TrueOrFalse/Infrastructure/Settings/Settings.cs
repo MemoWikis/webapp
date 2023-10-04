@@ -9,58 +9,29 @@ public class Settings
 
     [ThreadStatic]
     public static bool UseWebConfig;
-    public static string SecurityKeyStripe { get; set; }
-    public static string WebhookKeyStripe { get; set; }
-
-    public static string CanonicalHost;
-
-   // public static bool GoogleKeyIsSet = false;
-
-   // public static string GoogleAnalyticsKey;
-    public static string GoogleApiKey;
-
-    public static bool AdvertisementTurnedOn;
-
+    public static string WebhookKeyStripe => OverwrittenConfig.ValueString("WebhookKeyStripe");
+    public static string CanonicalHost => GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
     public static string EmailFrom = "team@memucho.de";
     public static string EmailToMemucho = "team@memucho.de";
-    
     public static string MemuchoCookie = "memucho";
     public static int MemuchoUserId = 26;
     public static bool WithNHibernateStatistics = true;
-
-    public static int TestSessionQuestionCount = 5;
-
-    public static string LomExportPath;
-
+    public static string LomExportPath => GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
     public static bool ShowAdvertisment; 
-
-    private static bool? _developOffline;
-
-    public static string MeiliSearchUrl;
-    public static string MeiliSearcMasterKey;
-
-    public static string StripeBaseUrl;
-
-    public static bool InitEntityCacheViaJobScheduler(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-    {
-        var result = new OverwrittenConfig().Value("initEntityCacheViaJobScheduler");
-
-        return result.HasValue && Boolean.Parse(result.Value);
-    }
+    public static string MeiliSearchUrl => OverwrittenConfig.ValueString("MeiliSearchUrl");
+    public static string MeiliSearcMasterKey => OverwrittenConfig.ValueString("MeiliSearchMasterKey");
+    public static string StripeBaseUrl => OverwrittenConfig.ValueString("StripeBaseUrl");
 
     /// <summary>Develop / Stage / Live</summary>
     public static string Environment(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => new OverwrittenConfig().ValueString("environment");
+        => OverwrittenConfig.ValueString("environment");
     public static string UpdateUserSettingsKey(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => new OverwrittenConfig().ValueString("updateUserSettingsKey");
+        => OverwrittenConfig.ValueString("updateUserSettingsKey");
     public static bool DisableAllJobs(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => new OverwrittenConfig().ValueBool("disableAllJobs");
-    public static string RollbarAccessToken => Get<string>("Rollbar.AccessToken");
-    public static string RollbarEnvironment => Get<string>("Rollbar.Environment");
-
+        => OverwrittenConfig.ValueBool("disableAllJobs");
     public static string ConnectionString(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
-        var result = new OverwrittenConfig().Value("connectionString");
+        var result = OverwrittenConfig.Value("connectionString");
         return result.HasValue ? result.Value : ConfigurationManager.ConnectionStrings["main"].ConnectionString;
     }
 
@@ -85,18 +56,7 @@ public class Settings
 
     public Settings(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
-        var overwrittenConfig = new OverwrittenConfig();
-        var environment = Environment(httpContext, webHostEnvironment); 
-
-        GoogleApiKey = GetValue(overwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
-        MeiliSearchUrl = overwrittenConfig.ValueString("MeiliSearchUrl");
-        MeiliSearcMasterKey = overwrittenConfig.ValueString("MeiliSearchMasterKey");
-        CanonicalHost = GetValue(overwrittenConfig.Value("canonicalHost"), "CanonicalHost");
-        AdvertisementTurnedOn = bool.Parse(GetValue(overwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
-        LomExportPath = GetValue(overwrittenConfig.Value("lomExportPath"), "LomExportPath");
-        SecurityKeyStripe = overwrittenConfig.ValueString("SecurityKeyStripe");
-        WebhookKeyStripe = overwrittenConfig.ValueString("WebhookKeyStripe");
+        var environment = Environment(httpContext, webHostEnvironment);
         ShowAdvertisment = environment != "Live" || environment != "Stage";
-        StripeBaseUrl = overwrittenConfig.ValueString("StripeBaseUrl");
     }
 }

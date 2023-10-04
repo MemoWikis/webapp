@@ -10,44 +10,17 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Web;
 
 namespace VueApp;
-public class QuestionLandingPageController :Controller
-{
-    private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly TotalsPersUserLoader _totalsPersUserLoader;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public QuestionLandingPageController(SessionUser sessionUser,
+public class QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo, 
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         SessionUserCache sessionUserCache,
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _totalsPersUserLoader = totalsPersUserLoader;
-        _sessionUserCache = sessionUserCache;
-        _actionContextAccessor = actionContextAccessor;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo)
+    : Controller
+{
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
         foreach (var reference in references)
@@ -64,7 +37,7 @@ public class QuestionLandingPageController :Controller
     {
         var q = EntityCache.GetQuestion(id);
 
-        if (!_permissionCheck.CanView(q))
+        if (!permissionCheck.CanView(q))
         {
             throw new SecurityException("Not allowed to view question");
         }
@@ -88,16 +61,16 @@ public class QuestionLandingPageController :Controller
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,
 
-                isCreator = q.Creator.Id == _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
+                isCreator = q.Creator.Id == sessionUser.UserId,
+                isInWishknowledge = sessionUser.IsLoggedIn && q.IsInWishknowledge(sessionUser.UserId, sessionUserCache),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
                 imgUrl = GetQuestionImageFrontendData.Run(q, 
-                    _imageMetaDataReadingRepo, 
-                    _httpContextAccessor, 
-                    _webHostEnvironment, 
-                    _actionContextAccessor)
+                    imageMetaDataReadingRepo, 
+                    httpContextAccessor, 
+                    webHostEnvironment, 
+                   questionReadingRepo)
                     .GetImageUrl(435, true, imageTypeForDummy: ImageType.Question)
                     .Url
             },
@@ -115,14 +88,15 @@ public class QuestionLandingPageController :Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
-                _permissionCheck, 
-                _imageMetaDataReadingRepo, 
-                _totalsPersUserLoader,
-                _httpContextAccessor,
-                _webHostEnvironment, 
-                _sessionUserCache,
-                _actionContextAccessor)
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(sessionUser,
+                permissionCheck, 
+                imageMetaDataReadingRepo, 
+                totalsPersUserLoader,
+                httpContextAccessor,
+                webHostEnvironment, 
+                sessionUserCache,
+                actionContextAccessor,
+                questionReadingRepo)
                 .GetData(id)
 
         });

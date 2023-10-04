@@ -7,6 +7,7 @@ public class ImageFrontendData
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public ImageMetaData ImageMetaData;
     public bool ImageMetaDataExists;
     public MainLicenseInfo MainLicenseInfo;
@@ -26,10 +27,12 @@ public class ImageFrontendData
         
     public ImageFrontendData(ImageMetaData imageMetaData,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo)
     {
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _questionReadingRepo = questionReadingRepo;
         if (imageMetaData == null)
             return;
 
@@ -175,7 +178,7 @@ public class ImageFrontendData
                 imageSettings = new UserImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
                 break;
             default:
-                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
+                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _webHostEnvironment, _questionReadingRepo);
                 break;
         }
 

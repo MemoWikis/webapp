@@ -3,30 +3,15 @@ using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public class GridItemLogic : IRegisterAsInstancePerLifetime
-{
-    private readonly PermissionCheck _permissionCheck;
-    private readonly SessionUser _sessionUser;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReading;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly KnowledgeSummaryLoader _lkKnowledgeSummaryLoader;
-
-    public GridItemLogic(PermissionCheck permissionCheck,
+public class GridItemLogic(PermissionCheck permissionCheck,
         SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReading,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        KnowledgeSummaryLoader lkKnowledgeSummaryLoader)
-    {
-        _permissionCheck = permissionCheck;
-        _sessionUser = sessionUser;
-        _imageMetaDataReading = imageMetaDataReading;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _lkKnowledgeSummaryLoader = lkKnowledgeSummaryLoader;
-    }
-
+        KnowledgeSummaryLoader lkKnowledgeSummaryLoader,
+        QuestionReadingRepo questionReadingRepo)
+    : IRegisterAsInstancePerLifetime
+{
     public class GridTopicItem
     {
         public int id { get; set; }
@@ -66,36 +51,36 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
     public GridTopicItem[] GetChildren(int id)
     {
         return EntityCache.GetChildren(id)
-            .Where(c => _permissionCheck.CanView(c))
+            .Where(c => permissionCheck.CanView(c))
             .Select(BuildGridTopicItem)
             .ToArray();
     }
 
     public GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
     {
-        var imageMetaData = _imageMetaDataReading.GetBy(topic.Id, ImageType.Category);
-        var imageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _webHostEnvironment);
+        var imageMetaData = imageMetaDataReading.GetBy(topic.Id, ImageType.Category);
+        var imageFrontendData = new ImageFrontendData(imageMetaData, httpContextAccessor, webHostEnvironment, questionReadingRepo);
 
         return new GridTopicItem
         {
             id = topic.Id,
             name = topic.Name,
-            questionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
+            questionCount = topic.GetAggregatedQuestionsFromMemoryCache(sessionUser.UserId).Count,
             childrenCount =
-                EntityCache.GetChildren(topic.Id).Count(c => _permissionCheck.CanView((CategoryCacheItem)c)),
+                EntityCache.GetChildren(topic.Id).Count(c => permissionCheck.CanView((CategoryCacheItem)c)),
             imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
             visibility = topic.Visibility,
             parents = GetParents(topic),
             knowledgebarData = GetKnowledgebarData(topic),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetChildren(_sessionUser.User.StartTopicId).Any(c => c.Id == topic.Id),
+            isChildOfPersonalWiki = sessionUser.IsLoggedIn && EntityCache.GetChildren(sessionUser.User.StartTopicId).Any(c => c.Id == topic.Id),
             creatorId = topic.CreatorId,
-            canDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
+            canDelete = sessionUser.IsLoggedIn && (topic.CreatorId == sessionUser.User.Id || sessionUser.IsInstallationAdmin)
         };
     }
 
     private KnowledgebarData GetKnowledgebarData(CategoryCacheItem topic)
     {
-        var knowledgeBarSummary = new CategoryKnowledgeBarModel(topic, _sessionUser.UserId, _lkKnowledgeSummaryLoader).CategoryKnowledgeSummary;
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(topic, sessionUser.UserId, lkKnowledgeSummaryLoader).CategoryKnowledgeSummary;
 
         return new KnowledgebarData
         {
@@ -113,8 +98,8 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
 
     private TinyTopicModel[] GetParents(CategoryCacheItem topic)
     {
-        return topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
-            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor, _webHostEnvironment)
+        return topic.ParentCategories().Where(permissionCheck.CanView).Select(p => new TinyTopicModel
+            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, httpContextAccessor, webHostEnvironment)
                 .GetUrl(50, true).Url })
             .ToArray();
     }

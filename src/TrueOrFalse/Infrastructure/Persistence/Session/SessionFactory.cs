@@ -21,7 +21,7 @@ namespace TrueOrFalse
         public static ISessionFactory CreateSessionFactory()
         {
             var sessionFactory = Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(new OverwrittenConfig().ValueString("connectionString")))
+                .Database(MySQLConfiguration.Standard.ConnectionString(OverwrittenConfig.ValueString("connectionString")))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
                 .BuildSessionFactory();
             return sessionFactory;

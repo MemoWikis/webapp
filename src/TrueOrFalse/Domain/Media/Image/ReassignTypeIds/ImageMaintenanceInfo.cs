@@ -159,9 +159,9 @@ public class ImageMaintenanceInfo
             Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment).GetUrl_128px(asSquare: true).Url;
             
         if (MetaData.Type == ImageType.Question)
-            Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment).GetUrl_128px_square().Url;
+            Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment, questionReadingRepo).GetUrl_128px_square().Url;
 
-        FrontendData = new ImageFrontendData(MetaData, httpContextAccessor, webHostEnvironment);
+        FrontendData = new ImageFrontendData(MetaData, httpContextAccessor, webHostEnvironment, questionReadingRepo);
     }
 
     public void EvaluateImageDeployability()

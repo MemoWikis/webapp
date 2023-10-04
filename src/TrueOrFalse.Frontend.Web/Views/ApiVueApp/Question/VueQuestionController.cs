@@ -120,7 +120,8 @@ public class VueQuestionController : Controller
                     _httpContextAccessor,
                     _webHostEnvironment,
                     _sessionUserCache,
-                    _actionContextAccessor)
+                    _actionContextAccessor,
+                    _questionReadingRepo)
                 .GetData(id)
         });
     }
@@ -140,7 +141,8 @@ public class VueQuestionController : Controller
         question.LinkToQuestion = links.GetUrl(q);
         question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                 _httpContextAccessor, 
-                _webHostEnvironment)
+                _webHostEnvironment, 
+                _questionReadingRepo)
             .GetImageUrl(40, true).Url;
         question.LinkToQuestion = links.GetUrl(q);
         question.LinkToQuestionVersions = links.QuestionHistory(q.Id);

@@ -18,6 +18,7 @@ public class TopicLearningQuestionListController: Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
 
     public TopicLearningQuestionListController(SessionUser sessionUser,
@@ -30,7 +31,8 @@ public class TopicLearningQuestionListController: Controller
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor) 
+        IActionContextAccessor actionContextAccessor,
+        QuestionReadingRepo questionReadingRepo) 
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
@@ -42,6 +44,7 @@ public class TopicLearningQuestionListController: Controller
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _actionContextAccessor = actionContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
     [HttpPost]
@@ -66,7 +69,8 @@ public class TopicLearningQuestionListController: Controller
                 _sessionUserCache,
                 _actionContextAccessor,
                 _httpContextAccessor,
-                _webHostEnvironment)
+                _webHostEnvironment,
+                _questionReadingRepo)
             .PopulateQuestionsOnPage(loadQuestion.PageNumber, loadQuestion.ItemCountPerPage));
     }
 
@@ -88,7 +92,8 @@ public class TopicLearningQuestionListController: Controller
             LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(question),
             ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question),
                 _httpContextAccessor,
-                _webHostEnvironment)
+                _webHostEnvironment,
+                _questionReadingRepo)
                 .GetImageUrl(40, true)
                 .Url,
             LearningSessionStepCount = steps.Count,

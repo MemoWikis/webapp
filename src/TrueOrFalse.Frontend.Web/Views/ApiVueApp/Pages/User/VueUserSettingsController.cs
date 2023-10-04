@@ -15,6 +15,7 @@ public class VueUserSettingsController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly Logg _logg;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
     public VueUserSettingsController(SessionUser sessionUser,
         ReputationUpdate reputationUpdate,
@@ -24,7 +25,8 @@ public class VueUserSettingsController : Controller
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        Logg logg)
+        Logg logg,
+        QuestionReadingRepo questionReadingRepo)
     {
         _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
@@ -35,6 +37,7 @@ public class VueUserSettingsController : Controller
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _logg = logg;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -217,7 +220,7 @@ public class VueUserSettingsController : Controller
         {
             Type = ImageType.User,
             TypeId = _sessionUser.User.Id
-        });
+        },_questionReadingRepo);
         imageSettings.DeleteFiles();
         return Json(new UserImageSettings(_httpContextAccessor, _webHostEnvironment).GetUrl_250px(_sessionUser.User).Url);
     }

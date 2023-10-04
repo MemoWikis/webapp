@@ -21,6 +21,7 @@ public class CategoryHistoryDetailModel
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -70,7 +71,8 @@ public class CategoryHistoryDetailModel
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor
+        IActionContextAccessor actionContextAccessor,
+        QuestionReadingRepo questionReadingRepo
         )
     {
         _permissionCheck = permissionCheck;
@@ -81,6 +83,7 @@ public class CategoryHistoryDetailModel
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _actionContextAccessor = actionContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
         ChangeType = currentRevision.Type;
         var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete;
 
@@ -127,7 +130,10 @@ public class CategoryHistoryDetailModel
         {
             ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(CategoryId, ImageType.Category);
-            ImageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _webHostEnvironment);
+            ImageFrontendData = new ImageFrontendData(imageMetaData,
+                _httpContextAccessor, 
+                _webHostEnvironment, 
+                questionReadingRepo);
         }
 
         if (PrevRevExists)

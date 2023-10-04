@@ -28,13 +28,15 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
 
     public QuestionImageSettings(int questionId,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(httpContextAccessor, webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo) : base(httpContextAccessor, webHostEnvironment)
     {
         Init(questionId);
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public void Init(int questionId){
-        Id = questionId; //$temp: wenn id = questionId, was ist dann bei mehreren Bildern
+        Id = questionId;
     }
 
     public ImageUrl GetUrl_50px_square() => 

@@ -15,6 +15,7 @@ public class QuestionController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private IActionContextAccessor _actionAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
     public QuestionController(SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
@@ -22,7 +23,8 @@ public class QuestionController : Controller
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionAccessor)
+        IActionContextAccessor actionAccessor,
+        QuestionReadingRepo questionReadingRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
@@ -31,6 +33,7 @@ public class QuestionController : Controller
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _actionAccessor = actionAccessor;
+        _questionReadingRepo = questionReadingRepo;
     }
     public JsonResult LoadQuestion(int questionId)
     {
@@ -45,7 +48,8 @@ public class QuestionController : Controller
         question.LinkToQuestion = links.GetUrl(q);
         question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                 _httpContextAccessor, 
-                _webHostEnvironment)
+                _webHostEnvironment,
+                _questionReadingRepo)
             .GetImageUrl(40, true)
             .Url;
         question.LinkToQuestion = links.GetUrl(q);

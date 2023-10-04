@@ -7,15 +7,16 @@ public class GetQuestionImageFrontendData
     public static ImageFrontendData Run(QuestionCacheItem question, 
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor contextAction)
+        IWebHostEnvironment webHostEnvironment, 
+        QuestionReadingRepo questionReadingRepo)
     {
         var imageMetaData = imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question);
         
         if (imageMetaData != null)
             return new ImageFrontendData(imageMetaData,
                 httpContextAccessor,
-                webHostEnvironment); ;
+                webHostEnvironment,
+                questionReadingRepo); ;
 
         foreach (var category in question.Categories)
         {
@@ -27,6 +28,7 @@ public class GetQuestionImageFrontendData
 
         return new ImageFrontendData(imageMetaData,
             httpContextAccessor,
-            webHostEnvironment); ;
+            webHostEnvironment,
+            questionReadingRepo); ;
     }
 }

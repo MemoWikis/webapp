@@ -17,7 +17,7 @@ public class MeiliGlobalSearch : IGlobalSearch
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
-    public async Task<GlobalSearchResult> Go(string term, string type)
+    public async Task<GlobalSearchResult> Go(string term)
     {
         var result = new GlobalSearchResult();
         result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck).RunAsync(term);

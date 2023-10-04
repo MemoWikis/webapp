@@ -10,43 +10,17 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class TopicControllerLogic : IRegisterAsInstancePerLifetime
+public class TopicControllerLogic(SessionUser sessionUser,
+    PermissionCheck permissionCheck,
+    GridItemLogic gridItemLogic,
+    KnowledgeSummaryLoader knowledgeSummaryLoader,
+    CategoryViewRepo categoryViewRepo,
+    ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+    IHttpContextAccessor httpContextAccessor,
+    IWebHostEnvironment webHostEnvironment,
+    IActionContextAccessor actionContextAccessor,
+    QuestionReadingRepo questionReadingRepo) : IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly GridItemLogic _gridItemLogic;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly int _sessionUserId;
-   
-
-    public TopicControllerLogic(SessionUser sessionUser, 
-        PermissionCheck permissionCheck,
-        GridItemLogic gridItemLogic,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryViewRepo categoryViewRepo,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor)
-    {
-        _sessionUserId = sessionUser.UserId;
-        _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        _gridItemLogic = gridItemLogic;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-
-        _actionContextAccessor = actionContextAccessor;
-        _permissionCheck = permissionCheck;
-    }
 
     private dynamic CreateTopicDataObject(int id, CategoryCacheItem topic, ImageMetaData imageMetaData, KnowledgeSummary knowledgeSummary)
     {
@@ -56,18 +30,18 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             CanAccess = true,
             Id = id,
             Name = topic.Name,
-                ImageUrl = new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(id, httpContextAccessor, webHostEnvironment).GetUrl_128px(asSquare: true).Url,
             Content = topic.Content,
-            ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
-            Parents = topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => 
-                new { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor, _webHostEnvironment)
+            ParentTopicCount = topic.ParentCategories().Where(permissionCheck.CanView).ToList().Count,
+            Parents = topic.ParentCategories().Where(permissionCheck.CanView).Select(p => 
+                new { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, httpContextAccessor, webHostEnvironment)
                     .GetUrl(50, true)
                     .Url })
                 .ToArray(),
 
-            ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
-            DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
-                Views = _categoryViewRepo.GetViewCount(id),
+            ChildTopicCount = topic.AggregatedCategories(permissionCheck, false).Count,
+            DirectChildTopicCount = topic.DirectChildrenIds.Where(permissionCheck.CanViewCategory).ToList().Count,
+                Views = categoryViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
             AuthorIds = topic.AuthorIds,
             Authors = topic.AuthorIds.Select(id =>
@@ -77,16 +51,16 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 {
                     Id = id,
                     Name = author.Name,
-                        ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_20px(author).Url,
+                        ImgUrl = new UserImageSettings(author.Id, httpContextAccessor, webHostEnvironment).GetUrl_20px(author).Url,
                     Reputation = author.Reputation,
                     ReputationPos = author.ReputationPos
                 };
             }).ToArray(),
             IsWiki = topic.IsStartPage(),
-            CurrentUserIsCreator = _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
-            CanBeDeleted = _sessionUser.User != null && _permissionCheck.CanDelete(topic),
-            QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUserId).Count,
-            DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId, true),
+            CurrentUserIsCreator = sessionUser.User != null && sessionUser.UserId == topic.Creator?.Id,
+            CanBeDeleted = sessionUser.User != null && permissionCheck.CanDelete(topic),
+            QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(sessionUser.UserId).Count,
+            DirectQuestionCount = topic.GetCountQuestionsAggregated(sessionUser.UserId, true),
             ImageId = imageMetaData != null ? imageMetaData.Id : 0,
             SearchTopicItem = FillMiniTopicItem(topic),
             MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", "")).Truncate(250, true),
@@ -97,8 +71,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 needsConsolidation = knowledgeSummary.NeedsConsolidation,
                 solid = knowledgeSummary.Solid
             },
-            gridItems = _gridItemLogic.GetChildren(id),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).DirectChildrenIds.Any(id => id == topic.Id)
+            gridItems = gridItemLogic.GetChildren(id),
+            isChildOfPersonalWiki = sessionUser.IsLoggedIn && EntityCache.GetCategory(sessionUser.User.StartTopicId).DirectChildrenIds.Any(id => id == topic.Id)
         };
     }
 
@@ -107,10 +81,10 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     {
         var topic = EntityCache.GetCategory(id);
 
-        if (_permissionCheck.CanView(_sessionUser.UserId, topic))
+        if (permissionCheck.CanView(sessionUser.UserId, topic))
         {
-            var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+            var imageMetaData = imageMetaDataReadingRepo.GetBy(id, ImageType.Category);
+            var knowledgeSummary = knowledgeSummaryLoader.RunFromMemoryCache(id, sessionUser.UserId);
 
             return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
@@ -124,17 +98,18 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         {
             Id = topic.Id,
             Name = topic.Name,
-            Url = new Links(_actionContextAccessor, _httpContextAccessor)
+            Url = new Links(actionContextAccessor, httpContextAccessor)
                 .CategoryDetail(topic.Name, topic.Id),
-            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUserId),
+            QuestionCount = topic.GetCountQuestionsAggregated(sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id,
-                    _httpContextAccessor, 
-                    _webHostEnvironment)
+                    httpContextAccessor, 
+                    webHostEnvironment)
                 .GetUrl_128px(asSquare: true)
                 .Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
-                    _httpContextAccessor, 
-                    _webHostEnvironment)
+            MiniImageUrl = new ImageFrontendData(imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+                    httpContextAccessor, 
+                    webHostEnvironment,
+                    questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };

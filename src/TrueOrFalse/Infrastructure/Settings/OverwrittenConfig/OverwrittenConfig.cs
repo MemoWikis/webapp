@@ -7,11 +7,11 @@ using Seedworks.Web.State;
 
 public class OverwrittenConfig
 {
-    private readonly Dictionary<string, string> _stringValues = new();
-    private readonly Dictionary<string, bool> _booleanValues = new();
-    private XDocument _xDoc;
+    private static readonly Dictionary<string, string> _stringValues = new();
+    private static Dictionary<string, bool> _booleanValues = new();
+    private static XDocument _xDoc;
 
-    public string ValueString(string itemName)
+    public static string ValueString(string itemName)
     {
         if (_stringValues.ContainsKey(itemName))
             return _stringValues[itemName];
@@ -23,7 +23,7 @@ public class OverwrittenConfig
         return resultValue;
     }
 
-    public bool ValueBool(string itemName)
+    public static bool ValueBool(string itemName)
     {
         if (_booleanValues.ContainsKey(itemName))
             return _booleanValues[itemName];
@@ -35,7 +35,7 @@ public class OverwrittenConfig
         return resultValue;
     }
 
-    public OverwrittenConfigValueResult Value(string itemName)
+    public static OverwrittenConfigValueResult Value(string itemName)
     {
         if (_xDoc == null)
         {

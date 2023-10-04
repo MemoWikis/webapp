@@ -23,6 +23,7 @@ public class QuickCreateQuestionController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
@@ -35,7 +36,8 @@ public class QuickCreateQuestionController : Controller
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
@@ -49,6 +51,7 @@ public class QuickCreateQuestionController : Controller
         _httpContextAccessor = httpContextAccessor;
         _actionContextAccessor = actionContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -106,7 +109,8 @@ public class QuickCreateQuestionController : Controller
             _sessionUserCache,
             _httpContextAccessor, 
             _webHostEnvironment, 
-            _actionContextAccessor); 
+            _actionContextAccessor, 
+            _questionReadingRepo); 
 
         return questionController.LoadQuestion(question.Id);
     }

@@ -18,6 +18,7 @@ public class AnswerQuestionDetailsController: Controller
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
     public AnswerQuestionDetailsController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -26,7 +27,8 @@ public class AnswerQuestionDetailsController: Controller
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache,
-        IActionContextAccessor actionContextAccessor)
+        IActionContextAccessor actionContextAccessor,
+        QuestionReadingRepo questionReadingRepo)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -36,6 +38,7 @@ public class AnswerQuestionDetailsController: Controller
         _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
         _actionContextAccessor = actionContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
     }
     [HttpGet]
     public JsonResult Get(int id) => Json(GetData(id));
@@ -84,7 +87,8 @@ public class AnswerQuestionDetailsController: Controller
                 IconHtml = CategoryCachedData.GetIconHtml(t),
                 MiniImageUrl = new ImageFrontendData(
                         _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
-                        _httpContextAccessor, _webHostEnvironment)
+                        _httpContextAccessor, _webHostEnvironment,
+                        _questionReadingRepo)
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
 
                 Visibility = (int)t.Visibility,
