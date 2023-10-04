@@ -6,12 +6,6 @@ import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import * as Subscription from '~~/components/user/membership/subscription'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 
-export interface UserLoginResult {
-    Success: boolean
-    Message: string
-    CurrentUser: CurrentUser
-}
-
 export interface CurrentUser {
     IsLoggedIn: boolean
     Id: number
@@ -88,28 +82,28 @@ export const useUserStore = defineStore('userStore', {
             Password: string,
             PersistentLogin: boolean
         }) {
-            const result = await $fetch<UserLoginResult>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
+            const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
 
-            if (!!result && result.Success) {
+            if (!!result && result.success) {
                 this.showLoginModal = false
-                this.initUser(result.CurrentUser)
+                this.initUser(result.data)
                 return { success: true }
-            } else return { success: false, msg: result.Message }
+            } else return { success: false, msg: messages.getByCompositeKey(result.messageKey) }
         },
         async register(registerData: {
             Name: string,
             Email: string,
             Password: string
         }) {
-            const result = await $fetch<UserLoginResult>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
+            const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
-            if (!!result && result.Success) {
+            if (!!result && result.success) {
                 this.isLoggedIn = true
-                this.initUser(result.CurrentUser)
+                this.initUser(result.data)
                 await refreshNuxtData()
                 return 'success'
-            } else if (!!result && !result.Success)
-                return result.Message
+            } else if (!!result && !result.success)
+                return messages.getByCompositeKey(result.messageKey)
         },
         openLoginModal() {
             this.showLoginModal = true

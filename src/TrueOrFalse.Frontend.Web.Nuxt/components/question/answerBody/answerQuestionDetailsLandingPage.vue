@@ -872,8 +872,6 @@ function initData(e: AnswerQuestionDetailsResult) {
         #categoryList {
             padding-bottom: 30px;
 
-            &.isLandingPage {}
-
             .categoryListChips {
                 @media(max-width:479px) {
                     padding-top: 10px;

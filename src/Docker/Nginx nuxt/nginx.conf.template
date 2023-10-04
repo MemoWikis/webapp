@@ -7,10 +7,6 @@ server {
     proxy_pass $HOST_VAR/images/;
   }
 
-  location = /robots.txt {
-    root /etc/nginx/html;
-  }
-
   location /apiVue/ {
     proxy_pass $HOST_VAR/apivue/;
     proxy_ssl_server_name on;

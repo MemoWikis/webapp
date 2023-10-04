@@ -114,7 +114,7 @@ public class EditControllerLogic :IRegisterAsInstancePerLifetime
         return new
         {
             success = true,
-            url = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic),
+            name = topic.Name,
             id = topic.Id
         };
     }

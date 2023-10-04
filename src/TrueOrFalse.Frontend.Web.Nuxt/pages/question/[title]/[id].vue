@@ -238,6 +238,10 @@ onBeforeMount(() => {
 .question-page-container {
 	padding-bottom: 45px;
 }
+
+#AnswerAndSolutionCol {
+	margin-bottom: 45px;
+}
 </style>
 
 <style lang="less">

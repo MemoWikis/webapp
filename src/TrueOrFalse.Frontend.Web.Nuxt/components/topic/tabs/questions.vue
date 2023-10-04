@@ -1,10 +1,6 @@
-<script setup>
+<script setup lang="ts">
 </script>
 
 <template>
-	<div class="row">
-		<ClientOnly>
-			<TopicLearning />
-		</ClientOnly>
-	</div>
+	<TopicLearning />
 </template>

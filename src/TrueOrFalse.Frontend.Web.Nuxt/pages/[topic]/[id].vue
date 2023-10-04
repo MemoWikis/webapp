@@ -4,14 +4,11 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
-
 const { $logger, $urlHelper } = useNuxtApp()
 
-const tabsStore = useTabsStore()
 const userStore = useUserStore()
+const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
-const rootTopicChipStore = useRootTopicChipStore()
 const spinnerStore = useSpinnerStore()
 
 interface Props {
@@ -23,7 +20,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -44,6 +41,7 @@ const { data: topic, refresh } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/$
 const tabSwitched = ref(false)
 
 const router = useRouter()
+
 function setTopic() {
     if (topic.value != null) {
         if (topic.value?.CanAccess) {
@@ -87,6 +85,7 @@ function setTopic() {
     }
 }
 setTopic()
+
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 
@@ -106,16 +105,17 @@ function setTab() {
         }
     }
 }
-
 onMounted(() => setTab())
-watch(() => userStore.isLoggedIn, async (isLoggedIn) => {
-    if (isLoggedIn && topic.value?.Id == rootTopicChipStore.id && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
-        await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
-})
 
-watch(topic, (oldTopic, newTopic) => {
-    if (oldTopic?.Id == newTopic?.Id)
+// loginStateHasChanged and watch topic is used to handle refreshNuxtData() on login/logouts
+const loginStateHasChanged = ref<boolean>(false)
+watch(() => userStore.isLoggedIn, () => loginStateHasChanged.value = true)
+watch(topic, async (oldTopic, newTopic) => {
+    if (oldTopic?.Id == newTopic?.Id && loginStateHasChanged.value && process.client) {
+        await nextTick()
         setTopic()
+    }
+    loginStateHasChanged.value = false
 }, { deep: true })
 
 useHead(() => ({
@@ -149,6 +149,13 @@ useHead(() => ({
     ]
 }))
 
+const { isMobile } = useDevice()
+onBeforeMount(() => {
+    $logger.info(`tabCheck onBeforeMount: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
+})
+onMounted(() => {
+    $logger.info(`tabCheck mounted: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
+})
 </script>
 
 <template>
@@ -158,12 +165,54 @@ useHead(() => ({
                 <div class="col-lg-9 col-md-12 container">
                     <TopicHeader />
 
-                    <TopicTabsContent
-                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
-
-                    <template v-if="topicStore.id != 0">
-
+                    <template v-if="topicStore?.id != 0">
                         <ClientOnly>
+                            <TopicTabsContent
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                            <template #fallback>
+                                <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }">
+                                    <div class="col-xs-12">
+                                        <div class="ProseMirror content-placeholder" v-html="topicStore.content"
+                                            id="TopicContentPlaceholder">
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </ClientOnly>
+
+                        <!-- <DevOnly>
+                            <ClientOnly>
+                                <div>
+                                    DevGrid
+                                </div>
+                                <TopicContentGridDndGrid
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                    :children="topicStore.gridItems" />
+                                <template #fallback>
+                                    <TopicContentGridDndGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topic.gridItems" />
+                                </template>
+                            </ClientOnly>
+
+                            <template #fallback>
+                                <ClientOnly>
+                                    <TopicContentGrid
+                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                        :children="topicStore.gridItems" />
+                                    <template #fallback>
+                                        <TopicContentGrid
+                                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                            :children="topic.gridItems" />
+                                    </template>
+                                </ClientOnly>
+                            </template>
+
+                        </DevOnly> -->
+                        <TopicContentGrid
+                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                            :children="topicStore.gridItems" />
+                        <!-- <ClientOnly>
                             <TopicContentGrid
                                 v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                                 :children="topicStore.gridItems" />
@@ -172,10 +221,11 @@ useHead(() => ({
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                                     :children="topic.gridItems" />
                             </template>
+                        </ClientOnly> -->
+                        <ClientOnly>
+                            <TopicTabsQuestions
+                                v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         </ClientOnly>
-
-                        <TopicTabsQuestions
-                            v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                         <TopicTabsAnalytics
                             v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
@@ -200,13 +250,22 @@ useHead(() => ({
 #InlineEdit {
     padding: 0px;
     border: none;
+}
 
-    // ul,
-    // pre {
-    //     margin-bottom: 20px;
-    // }
+#TopicContentPlaceholder {
+    padding: 0px;
+
+    p {
+        min-height: 30px;
+    }
+
+    ul,
+    pre {
+        margin-bottom: 20px;
+    }
 }
 </style>
+
 
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';

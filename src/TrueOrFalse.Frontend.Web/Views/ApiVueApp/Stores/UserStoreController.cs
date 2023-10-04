@@ -52,17 +52,16 @@ public class UserStoreController : Controller
 
         if (isLoginErfolgreich)
         {
-            return Json(new
+            return Json(new RequestResult
             {
-                Success = true,
-                Message = "",
-                CurrentUser = _vueSessionUser.GetCurrentUserData()
+                success = true,
+                data = _vueSessionUser.GetCurrentUserData()
             });
         }
-        return Json(new
+        return Json(new RequestResult
         {
-            Success = false,
-            Message = "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.LoginFailed
         });
     }
 
@@ -105,24 +104,22 @@ public class UserStoreController : Controller
     public JsonResult Register([FromBody] RegisterJson json)
     {
         var result =  _registerUser.SetUser(json);
-       if (result.success == false)
-       {
-           return Json(new
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.EmailInUse
+            return Json(new RequestResult
            {
-               Data = new
-               {
-                   Success = false,
-                   Message = result.message,
-               }
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.UserNameInUse
            });
         }
 
       
-        return Json(new
+        return Json(new RequestResult
         {
-            Success = true,
-            Message = "",
-            CurrentUser = new
+            success = true,
+            data = new
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
@@ -139,9 +136,10 @@ public class UserStoreController : Controller
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = _topicControllerLogic
+                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
                     .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
+
         });
     }
 }
