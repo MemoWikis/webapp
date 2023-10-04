@@ -12,6 +12,7 @@ public class AppController : Controller
         _vueSessionUser = vueSessionUser;
     }
 
+    [HttpGet]
     public JsonResult GetCurrentUser()
     {
         var currentUser = _vueSessionUser.GetCurrentUserData();
