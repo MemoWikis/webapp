@@ -31,6 +31,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         },
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+            throw createError({ statusMessage: context.error?.message })
         },
         server: true,
         retry: 3

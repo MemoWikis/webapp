@@ -1,7 +1,7 @@
 import { useUserStore } from "~/components/user/userStore"
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-    if (process.client){
+    if (process.client) {
         const userStore = useUserStore()
         if (!userStore.isLoggedIn) {
             throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
