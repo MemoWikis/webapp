@@ -22,7 +22,7 @@ builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
-    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never; 
+    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
 }); 
 
 builder.Services.AddHttpContextAccessor();

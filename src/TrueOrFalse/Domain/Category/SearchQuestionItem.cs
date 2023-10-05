@@ -1,10 +1,9 @@
 ﻿public class SearchQuestionItem
 {
-    public int Id;
-    public string Name;
-    public string Url;
-    public string ImageUrl;
-    public int Visibility;
-    public string PrimaryTopicName;
-    public int PrimaryTopicId;
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string ImageUrl { get; set; }
+    public int Visibility { get; set; }
+    public string PrimaryTopicName { get; set; }
+    public int PrimaryTopicId { get; set; }
 }

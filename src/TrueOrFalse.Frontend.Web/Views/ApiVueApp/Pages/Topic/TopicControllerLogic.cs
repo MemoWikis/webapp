@@ -98,8 +98,6 @@ public class TopicControllerLogic(SessionUser sessionUser,
         {
             Id = topic.Id,
             Name = topic.Name,
-            Url = new Links(actionContextAccessor, httpContextAccessor)
-                .CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id,
                     httpContextAccessor, 

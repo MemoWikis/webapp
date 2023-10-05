@@ -188,7 +188,6 @@ public class QuestionEditModalControllerLogic : IRegisterAsInstancePerLifetime
         {
             Id = topic.Id,
             Name = topic.Name,
-            Url = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic.Name, topic.Id),
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category), 

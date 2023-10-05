@@ -24,7 +24,6 @@ public class SearchHelper(ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         {
             Id = topic.Id,
             Name = topic.Name,
-            Url = new Links(actionContextAccessor, httpContextAccessor).CategoryDetail(topic.Name, topic.Id),
             QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(topic.Id,
                     httpContextAccessor,
