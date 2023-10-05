@@ -175,8 +175,7 @@ public class UserStoreController : BaseController
     [HttpPost]
     public JsonResult RequestVerificationMail()
     {
-        var user = Sl.UserRepo.GetById(_sessionUser.UserId);
-        SendConfirmationEmail.Run(user);
+        SendConfirmationEmail.Run(_sessionUser.User.Id);
         return Json(new RequestResult
         {
             success = true,

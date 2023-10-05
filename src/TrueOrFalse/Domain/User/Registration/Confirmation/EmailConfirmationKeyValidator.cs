@@ -13,9 +13,6 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
 
     public static string CreateEmailConfirmationToken(User user)
     {
-
-        DateTime roundedDate = new DateTime(user.DateCreated.Year, user.DateCreated.Month, user.DateCreated.Day, user.DateCreated.Hour, user.DateCreated.Minute, user.DateCreated.Second);
-
         DateTime formattedDateTime = DateTime.Parse(user.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
         long dateTimeInMilliseconds = ((DateTimeOffset)formattedDateTime).ToUnixTimeMilliseconds();
         string rawString = dateTimeInMilliseconds + user.PasswordHashedAndSalted.Substring(0, Math.Min(user.PasswordHashedAndSalted.Length, 3)) + "|" + user.EmailAddress;

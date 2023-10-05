@@ -3,6 +3,15 @@ using System.Text;
 
 public class SendConfirmationEmail
 {
+    public static void Run(int userId)
+    {
+        var userRepo = Sl.UserRepo;
+        userRepo.Flush();
+        var user = Sl.UserRepo.GetById(userId);
+        userRepo.Refresh(user);
+
+        Run(user);
+    }
     public static void Run(User user)
     {
         var mail = new MailMessage();
@@ -12,7 +21,7 @@ public class SendConfirmationEmail
         var emailBody = new StringBuilder();
         emailBody.AppendLine("Hallo " + user.Name + ",");
         emailBody.AppendLine("");
-        emailBody.AppendLine("Wie gewünscht ist hier der neue Link zur E-Mail-Bestätigung:");
+        emailBody.AppendLine("Wie gewünscht ist hier dein Link zur E-Mail-Bestätigung:");
         emailBody.AppendLine("");
         emailBody.AppendLine(CreateEmailConfirmationLink.Run(user));
         emailBody.AppendLine("");
