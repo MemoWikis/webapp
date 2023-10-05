@@ -14,25 +14,20 @@ public class FacebookUsersController : Controller
     private readonly UserReadingRepo _userReadingRepo;
     private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
-    private readonly CategoryRepository _categoryRepository;
+   
     private readonly JobQueueRepo _jobQueueRepo;
-    private readonly MessageRepo _messageRepo;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
         UserReadingRepo userReadingRepo,
         SessionUser sessionUser,
         RegisterUser registerUser,
-        CategoryRepository categoryRepository,
-        JobQueueRepo jobQueueRepo,
-        MessageRepo messageRepo)
+        JobQueueRepo jobQueueRepo)
     {
         _vueSessionUser = vueSessionUser;
         _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
         _registerUser = registerUser;
-        _categoryRepository = categoryRepository;
         _jobQueueRepo = jobQueueRepo;
-        _messageRepo = messageRepo;
     }
 
     [HttpPost]

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Newtonsoft.Json;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp
@@ -26,7 +27,7 @@ namespace VueApp
         private readonly IGlobalSearch _search = search ?? throw new ArgumentNullException(nameof(search));
 
         [HttpGet]
-        public async Task<JsonResult> All(string term)
+        public async Task<string> All(string term)
         {
             var topicItems = new List<SearchTopicItem>();
             var questionItems = new List<SearchQuestionItem>();
@@ -48,7 +49,7 @@ namespace VueApp
             if (elements.Users.Any())
                 searchHelper.AddUserItems(userItems, elements);
 
-            return Json(new
+            return JsonConvert.SerializeObject(new
             {
                 topics = topicItems,
                 topicCount = elements.CategoriesResultCount,
