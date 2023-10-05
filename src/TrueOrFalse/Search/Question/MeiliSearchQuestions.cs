@@ -6,16 +6,11 @@ using Meilisearch;
 
 namespace TrueOrFalse.Search;
 
-public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLifetime
+public class MeiliSearchQuestions(PermissionCheck permissionCheck) : MeiliSearchHelper, IRegisterAsInstancePerLifetime
 {
-    private readonly PermissionCheck _permissionCheck;
     private List<QuestionCacheItem> _questions = new();
     private MeiliSearchQuestionsResult _result;
 
-    public MeiliSearchQuestions(PermissionCheck permissionCheck)
-    {
-        _permissionCheck = permissionCheck;
-    }
     public async Task<ISearchQuestionsResult> RunAsync(
              string searchTerm)
     {
@@ -61,7 +56,7 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
     {
         var questionsTemp = EntityCache.GetQuestionsByIds(
                 questionMaps.Select(c => c.Id))
-            .Where(_permissionCheck.CanView)
+            .Where(permissionCheck.CanView)
             .ToList();
         _questions.AddRange(questionsTemp);
         _questions = _questions
