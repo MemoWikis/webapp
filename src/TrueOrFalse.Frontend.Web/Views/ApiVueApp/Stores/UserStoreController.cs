@@ -4,10 +4,9 @@ using Quartz.Impl;
 
 namespace VueApp;
 
-public class UserStoreController : Controller
+public class UserStoreController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
-    private readonly SessionUser _sessionUser;
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly PermissionCheck _permissionCheck;
     private readonly ActivityPointsRepo _activityPointsRepo;
@@ -21,10 +20,9 @@ public class UserStoreController : Controller
         PermissionCheck permissionCheck,
         ActivityPointsRepo activityPointsRepo,
         RegisterUser registerUser,
-        UserRepo userRepo)
+        UserRepo userRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
-        _sessionUser = sessionUser;
         _credentialsAreValid = credentialsAreValid;
         _permissionCheck = permissionCheck;
         _activityPointsRepo = activityPointsRepo;
@@ -109,27 +107,19 @@ public class UserStoreController : Controller
                 messageKey = FrontendMessageKeys.Error.User.EmailInUse
             });
 
-        if (!global::IsUserNameAvailable.Yes(json.Name))
+        if (!IsUserNameAvailable.Yes(json.Name))
             return Json(new RequestResult
             {
                 success = false,
                 messageKey = FrontendMessageKeys.Error.User.UserNameInUse
             });
 
-        var user = SetUser(json);
+        var user = CreateUserFromJson(json);
 
         _registerUser.Run(user);
-        ISchedulerFactory schedFact = new StdSchedulerFactory();
-        var x = schedFact.AllSchedulers;
-
         _sessionUser.Login(user);
-
-        var category = PersonalTopic.GetPersonalCategory(user);
-        category.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Create(category);
-        user.StartTopicId = category.Id;
-
-        Sl.UserRepo.Update(user);
+        _registerUser.CreateStartTopicAndSetToUser(user);
+        _registerUser.SendWelcomeAndRegistrationEmails(user);
 
         var type = UserType.Anonymous;
         if (_sessionUser.IsLoggedIn)
@@ -164,7 +154,7 @@ public class UserStoreController : Controller
         });
     }
 
-    private static User SetUser(RegisterJson json)
+    private static User CreateUserFromJson(RegisterJson json)
     {
         var user = new User();
         user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
@@ -179,6 +169,19 @@ public class UserStoreController : Controller
         Google,
         Facebook,
         Anonymous
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult RequestVerificationMail()
+    {
+        var user = Sl.UserRepo.GetById(_sessionUser.UserId);
+        SendConfirmationEmail.Run(user);
+        return Json(new RequestResult
+        {
+            success = true,
+            messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
+        });
     }
 }
 

@@ -130,8 +130,10 @@ const { $urlHelper } = useNuxtApp()
 async function register() {
     errorMessage.value = ''
 
-    if (!isValidEmail(eMail.value))
+    if (!isValidEmail(eMail.value)) {
         errorMessage.value = messages.error.user.emailIsInvalid(eMail.value)
+        return
+    }
 
     spinnerStore.showSpinner()
 

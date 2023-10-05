@@ -29,9 +29,16 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                 
             transaction.Commit();
         }
+    }
 
-        SendRegistrationEmail.Run(user);
-        WelcomeMsg.Send(user);
+    public void CreateStartTopicAndSetToUser(User user)
+    {
+        var topic = PersonalTopic.GetPersonalCategory(user);
+        topic.Visibility = CategoryVisibility.Owner;
+        Sl.CategoryRepo.Create(topic);
+        user.StartTopicId = topic.Id;
+
+        Sl.UserRepo.Update(user);
     }
 
     public UserCreateResult Run(FacebookUserCreateParameter facebookUser)
@@ -81,6 +88,16 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                     Projections.ProjectionList()
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
+    }
+
+    public void SendWelcomeAndRegistrationEmails(User user)
+    {
+        var userRepo = Sl.R<UserRepo>();
+        userRepo.Flush();
+        userRepo.Refresh(user);
+
+        SendRegistrationEmail.Run(user);
+        WelcomeMsg.Send(user);
     }
 }
 

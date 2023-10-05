@@ -15,14 +15,15 @@ export const messages: any = {
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
             passwordChanged: "Dein Passwort wurde erfolgreich geändert.",
-            passwordReset: "Dein Passwort wurde zurückgesetzt."
+            passwordReset: "Dein Passwort wurde zurückgesetzt.",
+            passwordVerificationMailSent: "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
         }
     },
     error: {
         subscription: {
-            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenztes Wunschwissen zu erhalten.",
-            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenzt private Fragen zu erstellen.",
-            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenzt private Themen zu erstellen."
+            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
+            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
+            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
         },
         category: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
@@ -89,7 +90,6 @@ export const messages: any = {
     getByCompositeKey(messageKey: string): string | undefined {
         const keyParts = messageKey?.split('_');
         let currentLevel = messages;
-
         for (const part of (keyParts ?? ["WillReturnUndefined"])) {
             if (currentLevel.hasOwnProperty(part)) {
                 currentLevel = currentLevel[part];

@@ -84,6 +84,7 @@ public class VueUserSettingsController : BaseController
             IsEmailAddressAvailable.Yes(form.email))
         {
             _sessionUser.User.EmailAddress = form.email.Trim();
+            _sessionUser.User.IsEmailConfirmed = false;
         }
         else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email))
         {

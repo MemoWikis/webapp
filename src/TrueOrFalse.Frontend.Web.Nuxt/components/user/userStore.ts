@@ -31,6 +31,7 @@ export interface CurrentUser {
     EndDate?: Date
     SubscriptionStartDate?: Date
     IsSubscriptionCanceled: boolean
+    IsEmailConfirmed: boolean
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -52,7 +53,8 @@ export const useUserStore = defineStore('userStore', {
             hasStripeCustomerId: false,
             EndDate: null as Date | null,
             isSubscriptionCanceled: false,
-            subscriptionStartDate: null as Date | null
+            subscriptionStartDate: null as Date | null,
+            isEmailConfirmed: false
         }
     },
     actions: {
@@ -75,6 +77,7 @@ export const useUserStore = defineStore('userStore', {
             this.subscriptionStartDate = currentUser.SubscriptionStartDate != null ? new Date(currentUser.SubscriptionStartDate) : null
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.ActivityPoints)
+            this.isEmailConfirmed = currentUser.IsEmailConfirmed
             return
         },
         async login(loginData: {
@@ -142,6 +145,15 @@ export const useUserStore = defineStore('userStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+        },
+        async requestVerificationMail() {
+            const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/RequestVerificationMail', {
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include'
+            })
+
+            return result
         },
         reset() {
             this.$reset()
