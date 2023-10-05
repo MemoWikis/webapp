@@ -131,13 +131,19 @@ export const useUserStore = defineStore('userStore', {
             return false
         },
         async resetPassword(email: string): Promise<FetchResult<void>> {
+            const { $logger } = useNuxtApp()
+            const alertStore = useAlertStore()
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
                 mode: 'cors',
                 method: 'POST',
                 body: { email: email },
-                credentials: 'include'
+                credentials: 'include',
+                onResponseError(context) {
+                    $logger.error(`resetpassword: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+                    alertStore.openAlert(AlertType.Error, messages.errror.default)
+                }
             })
-            return result;
+            return result
         },
         async getUnreadMessagesCount() {
             this.unreadMessagesCount = await $fetch<number>('/apiVue/UserStore/GetUnreadMessagesCount', {
@@ -147,12 +153,17 @@ export const useUserStore = defineStore('userStore', {
             })
         },
         async requestVerificationMail() {
+            const { $logger } = useNuxtApp()
+            const alertStore = useAlertStore()
             const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/RequestVerificationMail', {
                 method: 'POST',
                 mode: 'cors',
-                credentials: 'include'
+                credentials: 'include',
+                onResponseError(context) {
+                    $logger.error(`requestVerificationMail: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+                    alertStore.openAlert(AlertType.Error, messages.errror.default)
+                }
             })
-
             return result
         },
         reset() {

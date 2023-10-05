@@ -21,11 +21,11 @@ public class SendConfirmationEmail
         var emailBody = new StringBuilder();
         emailBody.AppendLine("Hallo " + user.Name + ",");
         emailBody.AppendLine("");
-        emailBody.AppendLine("Wie gewünscht ist hier dein Link zur E-Mail-Bestätigung:");
+        emailBody.AppendLine("Wie gewünscht ist hier Dein Link zur E-Mail-Bestätigung:");
         emailBody.AppendLine("");
         emailBody.AppendLine(CreateEmailConfirmationLink.Run(user));
         emailBody.AppendLine("");
-        emailBody.AppendLine("Klicke einfach darauf, um deine E-Mail-Adresse zu bestätigen. Falls Du weitere Fragen hast, lass es uns wissen!");
+        emailBody.AppendLine("Klicke einfach darauf, um Deine E-Mail-Adresse zu bestätigen. Falls Du weitere Fragen hast, lass es uns wissen!");
 
         mail.Subject = "memucho - Bestätigungslink für deine E-Mail-Adresse";
         mail.Body = emailBody.ToString();

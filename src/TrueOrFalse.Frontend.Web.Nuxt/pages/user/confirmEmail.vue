@@ -28,8 +28,12 @@ const { data: verificationResult, pending, error } = useFetch<boolean>(`/apiVue/
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     }
 })
-
 const success = computed(() => verificationResult.value == true && !error.value)
+
+watch(success, async (val) => {
+    if (val)
+        await refreshNuxtData()
+})
 
 onMounted(async () => {
     if (!route.params.token) {
@@ -47,7 +51,6 @@ async function requestVerificationMail() {
     newVerificationMailSent.value = true
     msg.value = messages.getByCompositeKey(result.messageKey)
 }
-
 </script>
   
 
@@ -80,6 +83,16 @@ async function requestVerificationMail() {
                                 <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
                                     Hey, super! Deine E-Mail-Adresse wurde erfolgreich bestätigt. Jetzt kannst du alle
                                     unsere coolen Features nutzen. Viel Spaß!
+                                </div>
+                                <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
+                                    <div class="confirmEmail-divider">
+                                        <div class="confirmEmail-divider-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
+                                    <NuxtLink to="/" class="memo-button btn-primary">
+                                        Weiter zu deinem Wiki
+                                    </NuxtLink>
                                 </div>
                             </div>
                             <div v-else>
@@ -120,11 +133,6 @@ async function requestVerificationMail() {
                                     <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
                                         <div class="confirmEmail-divider">
                                             <div class="confirmEmail-divider-line"></div>
-                                        </div>
-                                        <div class="confirmEmail-divider-label-container">
-                                            <div class="confirmEmail-divider-label">
-                                                oder
-                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
