@@ -76,14 +76,13 @@ public class VueUserSettingsController : BaseController
     public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
         if (form.id != _sessionUser.User.Id)
-        {
             return Json(null);
-        }
 
         if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
             IsEmailAddressAvailable.Yes(form.email))
         {
             _sessionUser.User.EmailAddress = form.email.Trim();
+            _sessionUser.User.IsEmailConfirmed = false;
         }
         else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email))
         {
@@ -111,12 +110,14 @@ public class VueUserSettingsController : BaseController
         }
 
         if (form.file != null)
-        {
             UserImageStore.Run(form.file, _sessionUser.UserId);
-        }
 
         EntityCache.AddOrUpdate(_sessionUser.User);
-        Sl.UserRepo.Update(_sessionUser.User);
+        var userRepo = Sl.UserRepo;
+        userRepo.Update(_sessionUser.User);
+
+        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress)
+            SendConfirmationEmail.Run(_sessionUser.User.Id);
 
         return Json(new
         {

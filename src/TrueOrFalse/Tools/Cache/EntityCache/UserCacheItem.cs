@@ -47,6 +47,7 @@ public class UserCacheItem : IUserTinyModel
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
     public bool IsInstallationAdmin { get; set;  }
+    public bool IsEmailConfirmed { get; set; }
 
     public void AssignValues(User user)
     {
@@ -74,6 +75,7 @@ public class UserCacheItem : IUserTinyModel
         StripeId = user.StripeId;
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;
+        IsEmailConfirmed = user.IsEmailConfirmed;
     }
 
     public static UserCacheItem ToCacheUser(User user)

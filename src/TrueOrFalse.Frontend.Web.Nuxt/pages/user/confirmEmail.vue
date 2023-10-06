@@ -1,7 +1,10 @@
 <script  lang="ts" setup>
+import { messages } from '~/components/alert/alertStore'
 import { Page } from '~/components/shared/pageEnum'
 import { Topic } from '~/components/topic/topicStore'
+import { useUserStore } from '~/components/user/userStore'
 
+const userStore = useUserStore()
 interface Props {
     documentation: Topic
 }
@@ -25,15 +28,29 @@ const { data: verificationResult, pending, error } = useFetch<boolean>(`/apiVue/
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     }
 })
-
 const success = computed(() => verificationResult.value == true && !error.value)
+
+watch(success, async (val) => {
+    if (val)
+        await refreshNuxtData()
+})
 
 onMounted(async () => {
     if (!route.params.token) {
         return navigateTo('/Fehler')// Redirect the user to an error page if the code isn't present.
     }
 })
-
+const newVerificationMailSent = ref(false)
+const msg = ref('')
+async function requestVerificationMail() {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+    const result = await userStore.requestVerificationMail()
+    newVerificationMailSent.value = true
+    msg.value = messages.getByCompositeKey(result.messageKey)
+}
 </script>
   
 
@@ -51,7 +68,7 @@ onMounted(async () => {
                                 </h1>
                             </div>
                             <div class="alert alert-info col-sm-offset-2 col-sm-8 ">
-                                Hallo! Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Nur einen kleinen
+                                Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Einen 
                                 Augenblick Geduld bitte.
                             </div>
                         </template>
@@ -64,32 +81,65 @@ onMounted(async () => {
                                     </h1>
                                 </div>
                                 <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
-                                    Hey, super! Deine E-Mail-Adresse wurde erfolgreich bestätigt. Jetzt kannst du alle
-                                    unsere coolen Features nutzen. Viel Spaß!
+                                    Deine E-Mail-Adresse wurde erfolgreich bestätigt.
+                                </div>
+                                <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
+                                    <div class="confirmEmail-divider">
+                                        <div class="confirmEmail-divider-line"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
+                                    <NuxtLink to="/" class="memo-button btn-primary">
+                                        Weiter {{ userStore.isLoggedIn ? "zu deinem Wiki" : "zur Startseite" }}"
+                                    </NuxtLink>
                                 </div>
                             </div>
                             <div v-else>
 
-                                <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
-                                    <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                        Ups! <br />
-                                        Bestätigung fehlgeschlagen
-                                    </h1>
-                                </div>
+                                <template v-if="newVerificationMailSent">
+                                    <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                                        <h1 class="col-sm-offset-2 col-sm-8 reset-title">
+                                            Neue Verifizierungs-E-Mail angefordert!
+                                        </h1>
+                                    </div>
 
-                                <div class="alert alert-danger col-sm-offset-2 col-sm-8 ">
-                                    Oh nein, etwas hat mit der Bestätigung deiner E-Mail-Adresse nicht geklappt.
-                                    <br />
+                                    <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
+                                        {{ msg }}
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                                        <h1 class="col-sm-offset-2 col-sm-8 reset-title">
+                                            Bestätigung fehlgeschlagen
+                                        </h1>
+                                    </div>
 
-                                    Es könnte sein, dass der Bestätigungslink nicht korrekt oder abgelaufen ist.
-                                    <br />
+                                    <div class="alert alert-danger col-sm-offset-2 col-sm-8 ">
+                                        Es tut uns leid, die Bestätigung deiner E-Mail-Adresse ist fehlgeschlagen.
+                                        <br />
 
-                                    Keine Sorge, probier es einfach nochmal oder wende dich an <b>team@memucho.de</b>,
-                                    falls das Problem weiterhin besteht.
+                                        Es könnte sein, dass der Bestätigungslink nicht korrekt oder abgelaufen ist.
+                                        <br />
 
-                                    <br />
-                                    Wir helfen dir gerne weiter!
-                                </div>
+                                        Versuche es bitte noch einmal oder wende dich an <b>team@memucho.de</b>,
+                                        falls das Problem weiterhin besteht.
+
+                                        <br />
+                                        Wir helfen dir gerne weiter!
+                                    </div>
+
+                                    <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
+                                        <div class="confirmEmail-divider">
+                                            <div class="confirmEmail-divider-line"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
+                                        <button class="memo-button btn-primary" @click="requestVerificationMail()">
+                                            neue Verifizierungs-Email senden
+                                        </button>
+                                    </div>
+                                </template>
+
                             </div>
                         </template>
 
@@ -105,3 +155,46 @@ onMounted(async () => {
 
     </div>
 </template>
+
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
+.confirmEmail-container {
+    margin-top: 24px;
+
+    .confirmEmail-divider-label-container,
+    .confirmEmail-divider {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding: 0 10px;
+        margin: 0 -10px;
+        height: 100%;
+
+        .confirmEmail-divider-label {
+            background: white;
+            height: 53px;
+            width: 53px;
+            border-radius: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirmEmail-divider-line {
+            height: 1px;
+            background: @memo-grey-light;
+            width: 100%;
+        }
+    }
+}
+
+.request-verification-mail-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 48px;
+}
+</style>
