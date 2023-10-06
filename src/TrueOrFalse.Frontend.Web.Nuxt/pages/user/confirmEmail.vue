@@ -90,7 +90,7 @@ async function requestVerificationMail() {
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-8 request-verification-mail-container">
                                     <NuxtLink to="/" class="memo-button btn-primary">
-                                        Weiter {{ userStore.isLoggedIn ? "zu deinem Wiki" : "zur Startseite" }}"
+                                        Weiter {{ userStore.isLoggedIn ? "zu deinem Wiki" : "zur Startseite" }}
                                     </NuxtLink>
                                 </div>
                             </div>
