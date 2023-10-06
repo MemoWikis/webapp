@@ -72,12 +72,12 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 @"SELECT 
                     Id, JobQueueType, JobContent
                 FROM
-                    memucho.jobqueue
+                    jobqueue
                 WHERE
                     Priority = (SELECT 
                     MAX(Priority)
                 FROM
-                    memucho.jobqueue)
+                    jobqueue)
                 LIMIT 1;"
                 );
 
