@@ -68,7 +68,7 @@ async function requestVerificationMail() {
                                 </h1>
                             </div>
                             <div class="alert alert-info col-sm-offset-2 col-sm-8 ">
-                                Hallo! Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Nur einen kleinen
+                                Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Einen 
                                 Augenblick Geduld bitte.
                             </div>
                         </template>
@@ -81,8 +81,7 @@ async function requestVerificationMail() {
                                     </h1>
                                 </div>
                                 <div class="alert alert-success col-sm-offset-2 col-sm-8 ">
-                                    Hey, super! Deine E-Mail-Adresse wurde erfolgreich bestätigt. Jetzt kannst du alle
-                                    unsere coolen Features nutzen. Viel Spaß!
+                                    Deine E-Mail-Adresse wurde erfolgreich bestätigt.
                                 </div>
                                 <div class="confirmEmail-container col-sm-offset-2 col-sm-8">
                                     <div class="confirmEmail-divider">
@@ -111,19 +110,18 @@ async function requestVerificationMail() {
                                 <template v-else>
                                     <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                         <h1 class="col-sm-offset-2 col-sm-8 reset-title">
-                                            Ups! <br />
                                             Bestätigung fehlgeschlagen
                                         </h1>
                                     </div>
 
                                     <div class="alert alert-danger col-sm-offset-2 col-sm-8 ">
-                                        Oh nein, etwas hat mit der Bestätigung deiner E-Mail-Adresse nicht geklappt.
+                                        Es tut uns leid, die Bestätigung deiner E-Mail-Adresse ist fehlgeschlagen.
                                         <br />
 
                                         Es könnte sein, dass der Bestätigungslink nicht korrekt oder abgelaufen ist.
                                         <br />
 
-                                        Keine Sorge, probier es einfach nochmal oder wende dich an <b>team@memucho.de</b>,
+                                        Versuche es bitte noch einmal oder wende dich an <b>team@memucho.de</b>,
                                         falls das Problem weiterhin besteht.
 
                                         <br />
