@@ -15,7 +15,12 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
     {
         DateTime formattedDateTime = DateTime.Parse(user.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
         long dateTimeInMilliseconds = ((DateTimeOffset)formattedDateTime).ToUnixTimeMilliseconds();
-        string rawString = dateTimeInMilliseconds + user.PasswordHashedAndSalted.Substring(0, Math.Min(user.PasswordHashedAndSalted.Length, 3)) + "|" + user.EmailAddress;
+
+        var userIdentifier = user.IsGoogleUser ? user.GoogleId :
+            user.IsFacebookUser ? user.FacebookId :
+            user.PasswordHashedAndSalted;
+        
+        string rawString = dateTimeInMilliseconds + userIdentifier.Substring(0, Math.Min(userIdentifier.Length, 3)) + "|" + user.EmailAddress;
 
         using (SHA256 sha256Hash = SHA256.Create())
         {

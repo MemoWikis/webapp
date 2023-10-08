@@ -74,8 +74,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
         Sl.UserRepo.Create(user);
 
-        WelcomeMsg.Send(user);
-
         return new UserCreateResult { Success = true };
     }
 

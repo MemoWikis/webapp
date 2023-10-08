@@ -64,7 +64,16 @@ public class FacebookUsersController : Controller
     [HttpPost]
     public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
     {
-        if (_userRepo.FacebookUserExists(facebookUser.id))
+        var registerResult = _registerUser.Run(facebookUser);
+
+        if (registerResult.Success)
+        {
+            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
+            _sessionUser.Login(user);
+            _registerUser.CreateStartTopicAndSetToUser(user);
+            _registerUser.SendWelcomeAndRegistrationEmails(user);
+
+        } else if (registerResult.EmailAlreadyInUse)
         {
             return Json(new RequestResult
             {
@@ -72,31 +81,10 @@ public class FacebookUsersController : Controller
                 messageKey = FrontendMessageKeys.Error.User.EmailInUse
             });
         }
-
-        var registerResult = _registerUser.Run(facebookUser);
-
-        if (registerResult.Success)
-        {
-            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
-            SendRegistrationEmail.Run(user);
-            WelcomeMsg.Send(user);
-            _sessionUser.Login(user);
-            var category = PersonalTopic.GetPersonalCategory(user);
-            user.StartTopicId = category.Id;
-            _categoryRepository.Create(category);
-            _sessionUser.User.StartTopicId = category.Id;
-
-            return Json(new RequestResult
-            {
-                success = true,
-                data = _vueSessionUser.GetCurrentUserData(),
-            });
-        }
-
         return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.Default
+            success = true,
+            data = _vueSessionUser.GetCurrentUserData(),
         });
     }
     
