@@ -117,9 +117,10 @@ public class UserStoreController : BaseController
         var user = CreateUserFromJson(json);
 
         _registerUser.Run(user);
-        _sessionUser.Login(user);
         _registerUser.CreateStartTopicAndSetToUser(user);
         _registerUser.SendWelcomeAndRegistrationEmails(user);
+
+        _sessionUser.Login(user);
 
         var type = UserType.Anonymous;
         if (_sessionUser.IsLoggedIn)

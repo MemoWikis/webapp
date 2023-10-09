@@ -168,6 +168,9 @@ export const useUserStore = defineStore('userStore', {
         },
         reset() {
             this.$reset()
+        },
+        apiLogin(result: boolean) {
+            return result
         }
     }
 })
