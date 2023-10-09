@@ -26,7 +26,7 @@ public class EditControllerLogic
         _sessionUser = sessionUser;
     }
 
-    public dynamic ValidateName(string name)
+    public RequestResult ValidateName(string name)
     {
         var dummyTopic = new Category();
         dummyTopic.Name = name;
@@ -36,39 +36,51 @@ public class EditControllerLogic
         {
             var topic = EntityCache.GetCategoryByName(name).FirstOrDefault();
             var url = topic.Visibility == CategoryVisibility.All ? Links.CategoryDetail(topic) : "";
-            return new
+            return new RequestResult
             {
-                categoryNameAllowed = false,
-                name,
-                url,
-                key = "nameIsTaken"
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.NameIsTaken,
+                data = new
+                {
+                    categoryNameAllowed = false,
+                    name,
+                    url
+                }
             };
         }
 
         if (topicNameAllowed.ForbiddenWords(name))
         {
-            return new
+            return new RequestResult
             {
-                categoryNameAllowed = false,
-                name,
-                key = "nameIsForbidden"
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.NameIsForbidden,
+                data = new
+                {
+                    categoryNameAllowed = false,
+                    name,
+                }
             };
         }
 
-        return new
+        return new RequestResult
         {
-            categoryNameAllowed = true
+            success = true
         };
     }
 
-    public dynamic QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
+    public RequestResult QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
         if (!LimitCheck.CanSavePrivateTopic(sessionUser, logExceedance: true))
         {
-            return new
+            return new RequestResult
             {
                 success = false,
-                key = "cantSavePrivateTopic"
+                messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
+                data =
+                {
+                    cantSavePrivateTopic = true
+                }
             }; 
         }
 
@@ -80,11 +92,14 @@ public class EditControllerLogic
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
 
-        return new
+        return new RequestResult
         {
             success = true,
-            name = topic.Name,
-            id = topic.Id
+            data = new
+            {
+                name = topic.Name,
+                id = topic.Id
+            }
         };
     }
 
