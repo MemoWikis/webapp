@@ -138,7 +138,7 @@ const showAllLinkOptions = ref<boolean>(false)
                     </div>
 
                     <div v-if="showAllLinkOptions" class="link-options">
-                        <div @click="editTopicRelationStore.addParent(props.topic.id); hide()" class="dropdown-row">
+                        <div @click="editTopicRelationStore.addParent(props.topic.id, false); hide()" class="dropdown-row">
                             <div class="dropdown-icon">
                                 <font-awesome-icon icon="fa-solid fa-link" />
                             </div>
