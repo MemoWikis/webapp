@@ -75,9 +75,10 @@ public class GoogleController : Controller
         if (registerResult.Success)
         {
             var user = _userRepo.UserGetByGoogleId(googleUser.GoogleId);
-            _sessionUser.Login(user);
             _registerUser.CreateStartTopicAndSetToUser(user);
             _registerUser.SendWelcomeAndRegistrationEmails(user);
+
+            _sessionUser.Login(user);
         }
         else if (registerResult.EmailAlreadyInUse)
         {

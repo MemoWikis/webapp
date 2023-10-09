@@ -69,11 +69,12 @@ public class FacebookUsersController : Controller
         if (registerResult.Success)
         {
             var user = _userRepo.UserGetByFacebookId(facebookUser.id);
-            _sessionUser.Login(user);
             _registerUser.CreateStartTopicAndSetToUser(user);
             _registerUser.SendWelcomeAndRegistrationEmails(user);
 
-        } else if (registerResult.EmailAlreadyInUse)
+            _sessionUser.Login(user);
+        }
+        else if (registerResult.EmailAlreadyInUse)
         {
             return Json(new RequestResult
             {

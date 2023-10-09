@@ -51,8 +51,7 @@ export class Google {
         if (result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)
-            if (window.location.pathname == '/Registrieren')
-                navigateTo('/')
+            userStore.apiLogin(userStore.isLoggedIn)
         } else if (result?.success == false) {
             const alertStore = useAlertStore()
             alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) ?? messages.error.default })
