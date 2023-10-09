@@ -36,7 +36,8 @@ public class TopicController : Controller
 
     public JsonResult GetTopic([FromRoute] int id)
     {
-        return Json(_topicControllerLogic.GetTopicData(id));
+        var topic = Json(_topicControllerLogic.GetTopicData(id));
+        return topic; 
     }
 
     public bool CanAccess([FromQuery] int id)

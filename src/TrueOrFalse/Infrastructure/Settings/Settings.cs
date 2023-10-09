@@ -22,6 +22,8 @@ public class Settings
     public static string MeiliSearcMasterKey => OverwrittenConfig.ValueString("MeiliSearchMasterKey");
     public static string StripeBaseUrl => OverwrittenConfig.ValueString("StripeBaseUrl");
 
+    public static string ImagePath => OverwrittenConfig.ValueString("imagePath"); 
+
     /// <summary>Develop / Stage / Live</summary>
     public static string Environment(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
         => OverwrittenConfig.ValueString("environment");

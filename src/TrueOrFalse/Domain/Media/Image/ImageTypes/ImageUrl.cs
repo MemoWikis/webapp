@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Drawing;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Drawing;
+using Microsoft.AspNetCore.Mvc.Routing;
+
 
 public class ImageUrl
 {
@@ -9,6 +11,9 @@ public class ImageUrl
     public bool HasUploadedImage;
     public string Url;
     private readonly HttpContext? _httpContext;
+    private static string ImagePath => Settings.ImagePath;
+    private static string ImageFolder = "/Images"; 
+
   
 
 
@@ -32,7 +37,7 @@ public class ImageUrl
         bool isSquare,
         Func<int, string> getFallBackImage)
     {
-        var requestedImagePath = imageSettings.ServerPathAndId() + "_" + requestedWidth + SquareSuffix(isSquare) + ".jpg";
+        var requestedImagePath =  Path.Combine(ImagePath, "_" + requestedWidth + SquareSuffix(isSquare) + ".jpg").NormalizePathSeparators();
 
         if (imageSettings.Id > 0)
         {
@@ -40,7 +45,7 @@ public class ImageUrl
                 return GetResult(imageSettings, requestedWidth, isSquare);
 
             //we guess the biggest file has a width of 512
-            var image512 = $"{imageSettings.ServerPathAndId()}_512.jpg";
+            var image512 = Path.Combine(ImagePath, "_512.jpg");
             if (File.Exists(image512))
             {
                 using (var image = Image.FromFile(image512))
@@ -60,9 +65,8 @@ public class ImageUrl
             //we search for the biggest file
            
             var searchPattern = $"{imageSettings.Id}_*.jpg";
-            var t = AppDomain.CurrentDomain.BaseDirectory; 
             
-            var basePath = Path.Combine(ImageSettings.SolutionPath(), imageSettings.BasePath);
+            var basePath = Path.Combine(ImagePath, imageSettings.BasePath).NormalizePathSeparators();
             if (Directory.Exists(basePath) == false)
             {
                 Logg.r.Error("Directory is not available");
@@ -109,16 +113,18 @@ public class ImageUrl
             }
         }
 
-        Url = getFallBackImage(requestedWidth);
+        var url = "/" + Path.Combine(ImageFolder, getFallBackImage(requestedWidth));
+        Url =  url.NormalizePathSeparators();
         HasUploadedImage = false;
         return this;
     }
 
     private ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
     {
+        var basePath = ImageFolder + "/" + imageSettings.BasePath + imageSettings.Id; 
         var url = width ==  -1 ?
-                            imageSettings.BasePath + imageSettings.Id + ".jpg" :
-                            imageSettings.BasePath + imageSettings.Id + "_" + width + SquareSuffix(isSquare) + ".jpg";
+                             basePath + ".jpg" :
+                            basePath + "_" + width + SquareSuffix(isSquare) + ".jpg";
         Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(ImageSettings.SolutionPath(), url))
             .ToString("yyyyMMddhhmmss");
         HasUploadedImage = true;
@@ -129,45 +135,51 @@ public class ImageUrl
         return isSquare ?  "s" : "";
     }
 
-    public ImageUrl SetSuffix(ImageMetaData imageMeta)
-    {
-        var urlSuffix = "";
-        if (imageMeta != null && !imageMeta.IsYoutubePreviewImage)
-            urlSuffix = "?" + imageMeta.DateModified.ToString("yyyyMMdd-HHMMss");
-
-        Url += urlSuffix ;
-        return this;
-    }
-
     public string GetFallbackImageUrl(IImageSettings imageSettings, int width)
     {
-        if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imageSettings.BaseDummyUrl) + width + ".png"))
+        var filePath =
+            Path.Combine(Settings.ImagePath, imageSettings.BaseDummyUrl);
+        
+        if (File.Exists(filePath + width + ".png"))
             return imageSettings.BaseDummyUrl + width + ".png";
 
         //Get next bigger image or maximum size image
+        return GetNextBiggerOrMaxSizeImage(imageSettings, width, filePath);
+    }
+
+    private static string GetNextBiggerOrMaxSizeImage(IImageSettings imageSettings, int width, string filePath)
+    {
         var fileNameTrunk = imageSettings.BaseDummyUrl;
-        var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] {fileNameTrunk}, StringSplitOptions.None).First();
-        var fileNames = Directory.GetFiles(Path.Combine(ImageSettings.SolutionPath(), fileDirectory), fileNameTrunk + "*.png");
+        var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] { fileNameTrunk }, StringSplitOptions.None)
+            .First();
+        var fileNames =
+            Directory.GetFiles(Path.Combine(ImageSettings.SolutionPath(), fileDirectory), fileNameTrunk + "*.png");
         if (fileNames.Any())
         {
-            var fileWidths = fileNames.Where(x => !x.Contains("s.jpg")).Select(x => Convert.ToInt32(x.Split('-').Last().Replace(".png", ""))).OrderByDescending(x => x).ToList();
+            var fileWidths = fileNames.Where(x => !x.Contains("s.jpg"))
+                .Select(x => Convert.ToInt32(x.Split('-').Last().Replace(".png", ""))).OrderByDescending(x => x).ToList();
             var fileWidth = 0;
             for (var i = 0; i < fileWidths.Count(); i++)
             {
-                if (fileWidths[i] < width) {
+                if (fileWidths[i] < width)
+                {
                     fileWidth = i == 0 ? fileWidths[0] : fileWidths[i - 1];
                     break;
                 }
             }
+
             if (fileWidth == 0)
             {
                 fileWidth = fileWidths.Last();
             }
-            if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, imageSettings.BaseDummyUrl) + fileWidth + ".png"))
+
+            if (File.Exists(filePath + fileWidth + ".png"))
             {
-                return imageSettings.BaseDummyUrl + fileWidth + ".png";
+                return ImageFolder + "/" + imageSettings.BaseDummyUrl + fileWidth + ".png";
             }
         }
+
+        Logg.r.Error("Image page not available");
         return "";
     }
 }

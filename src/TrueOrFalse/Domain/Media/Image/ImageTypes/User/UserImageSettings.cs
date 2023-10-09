@@ -11,8 +11,8 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 85, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
 
-    public override string BasePath => "Images/Users";
-    public string BaseDummyUrl => "Images/no-profile-picture-";
+    public override string BasePath => "Users";
+    public string BaseDummyUrl => "no-profile-picture-";
 
     public UserImageSettings(int id,
         IHttpContextAccessor httpContextAccessor, 
@@ -45,7 +45,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
     protected string GetFallbackImage(IUserTinyModel user, int width)
     {
         //Removed Google, Facebook and Gravatar urls for the time being, to be reintroduced with images fetched server side
-        return Path.Combine( "/Images/" + BaseDummyUrl + width + ".png");
+        return Path.Combine(BaseDummyUrl + width + ".png");
     }
 }
 

@@ -182,8 +182,10 @@ public class ImageFrontendData
                 break;
         }
 
-        return new ImageUrl(_httpContextAccessor,_webHostEnvironment).Get(imageSettings, width, asSquare, arg => 
+        var result = new ImageUrl(_httpContextAccessor, _webHostEnvironment).Get(imageSettings, width, asSquare, arg =>
             new ImageUrl(_httpContextAccessor, _webHostEnvironment).GetFallbackImageUrl(imageSettings, width));
+
+        return result;
     }
 
     public string RenderHtmlImageBasis(

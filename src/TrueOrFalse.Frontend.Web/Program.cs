@@ -17,7 +17,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
         containerBuilder.RegisterModule<AutofacCoreModule>();
     });
 builder.Services.AddDistributedMemoryCache();
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
 {
@@ -64,6 +64,8 @@ if (env.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseCors("LocalhostCorsPolicy");
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 if (string.IsNullOrEmpty(env.WebRootPath))
@@ -71,8 +73,7 @@ if (string.IsNullOrEmpty(env.WebRootPath))
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
-app.UseStaticFiles();
-var imagesPath = ImageSettings.ImageFolderPath();
+var imagesPath = Settings.ImagePath;
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(imagesPath),
