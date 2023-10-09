@@ -162,12 +162,8 @@ onMounted(() => {
 })
 
 watch(() => props.tab, (t) => {
-    if (process.client) {
-        tabSwitched.value = false
-        console.log('props', t)
-        if (t) {
-            tabsStore.activeTab = t
-        }
+    if (t != null) {
+        tabsStore.activeTab = t
     }
 
 }, { immediate: true })
