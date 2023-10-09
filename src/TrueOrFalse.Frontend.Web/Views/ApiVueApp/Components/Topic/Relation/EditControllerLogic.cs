@@ -77,7 +77,7 @@ public class EditControllerLogic
             {
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                data =
+                data = new
                 {
                     cantSavePrivateTopic = true
                 }
