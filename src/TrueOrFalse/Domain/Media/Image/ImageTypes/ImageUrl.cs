@@ -113,8 +113,9 @@ public class ImageUrl
             }
         }
 
-        var url = "/" + Path.Combine(ImageFolder, getFallBackImage(requestedWidth));
+        var url = Path.Combine(ImageFolder, getFallBackImage(requestedWidth));
         Url =  url.NormalizePathSeparators();
+        Console.WriteLine(url);
         HasUploadedImage = false;
         return this;
     }
