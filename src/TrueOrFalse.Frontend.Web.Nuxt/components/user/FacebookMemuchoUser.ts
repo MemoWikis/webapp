@@ -29,7 +29,7 @@ export class FacebookMemuchoUser {
 
         var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/CreateAndLogin', {
             method: 'POST',
-            body: { facebookUser: user },
+            body: { facebookUser: user, facebookAccessToken },
             credentials: 'include',
             cache: 'no-cache'
         })
