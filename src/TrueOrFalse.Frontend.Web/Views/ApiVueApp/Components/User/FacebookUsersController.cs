@@ -2,6 +2,7 @@ using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -30,7 +31,7 @@ public class FacebookUsersController : Controller
     }
 
     [HttpPost]
-    public JsonResult Login(string facebookUserId, string facebookAccessToken)
+    public async Task<JsonResult> Login(string facebookUserId, string facebookAccessToken)
     {
         var user = _userRepo.UserGetByFacebookId(facebookUserId);
 
@@ -43,7 +44,7 @@ public class FacebookUsersController : Controller
             });
         }
 
-        if (IsFacebookAccessToken.Valid(facebookAccessToken, facebookUserId))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUserId))
         {
             _sessionUser.Login(user);
 
