@@ -16,6 +16,7 @@ public class Settings
    // public static string GoogleAnalyticsKey;
     public static string GoogleApiKey;
     public static string FacebookAppId;
+    public static string FacebookAppSecret;
 
     public static bool AdvertisementTurnedOn;
 
@@ -86,6 +87,7 @@ public class Settings
     {
         GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
         FacebookAppId = OverwrittenConfig.ValueString("FacebookAppId");
+        FacebookAppSecret = OverwrittenConfig.ValueString("FacebookAppSecret");
         MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
         MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
         CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
