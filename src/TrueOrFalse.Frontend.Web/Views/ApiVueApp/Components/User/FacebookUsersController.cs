@@ -50,7 +50,7 @@ public class FacebookUsersController : Controller
 
             return Json(new RequestResult
             {
-                success = false,
+                success = true,
                 data = _vueSessionUser.GetCurrentUserData()
             });
         }
@@ -63,30 +63,51 @@ public class FacebookUsersController : Controller
     }
 
     [HttpPost]
-    public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
+    public async Task<JsonResult> CreateAndLogin(FacebookUserCreateParameter facebookUser, string facebookAccessToken)
     {
-        var registerResult = _registerUser.Run(facebookUser);
-
-        if (registerResult.Success)
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUser.id))
         {
             var user = _userRepo.UserGetByFacebookId(facebookUser.id);
-            _registerUser.CreateStartTopicAndSetToUser(user);
-            _registerUser.SendWelcomeAndRegistrationEmails(user);
-
-            _sessionUser.Login(user);
-        }
-        else if (registerResult.EmailAlreadyInUse)
-        {
-            return Json(new RequestResult
+            if (user != null)
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.EmailInUse
-            });
+                _sessionUser.Login(user);
+
+                return Json(new RequestResult
+                {
+                    success = true,
+                    data = _vueSessionUser.GetCurrentUserData()
+                });
+            }
+            var registerResult = _registerUser.Run(facebookUser);
+
+            if (registerResult.Success)
+            {
+                var newUser = _userRepo.UserGetByFacebookId(facebookUser.id);
+                _registerUser.CreateStartTopicAndSetToUser(user);
+                _registerUser.SendWelcomeAndRegistrationEmails(user);
+
+                _sessionUser.Login(newUser);
+
+                return Json(new RequestResult
+                {
+                    success = true,
+                    data = _vueSessionUser.GetCurrentUserData(),
+                });
+            }
+            if (registerResult.EmailAlreadyInUse)
+            {
+                return Json(new RequestResult
+                {
+                    success = false,
+                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                });
+            }
         }
+
         return Json(new RequestResult
         {
-            success = true,
-            data = _vueSessionUser.GetCurrentUserData(),
+            success = false,
+            messageKey = FrontendMessageKeys.Error.User.InvalidFBToken
         });
     }
     
