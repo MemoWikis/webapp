@@ -56,7 +56,6 @@ function setTopic() {
                 title: topic.value.Name,
             })
             watch(() => tabsStore.activeTab, (t) => {
-                console.log('switchtab')
                 tabSwitched.value = true
                 if (topic.value == null)
                     return
@@ -74,7 +73,6 @@ function setTopic() {
             })
 
             watch(() => route, (val) => {
-                console.log(val)
             }, { deep: true, immediate: true })
 
             watch(() => topicStore.name, () => {

@@ -71,6 +71,7 @@ export class FacebookMemuchoUser {
                 // Rollbar.error("Something went wrong", error.data)
             })
 
+        spinnerStore.hideSpinner()
         if (result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)

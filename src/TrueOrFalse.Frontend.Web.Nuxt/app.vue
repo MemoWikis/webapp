@@ -97,14 +97,19 @@ userStore.$onAction(({ name, after }) => {
 	}
 	if (name == 'login') {
 		after(async (loginResult) => {
-			if (loginResult.success == true)
+			if (loginResult.success == true) {
+				await nextTick()
 				handleLogin()
+			}
 		})
 	}
 	if (name == 'apiLogin') {
-		after((loggedIn) => {
-			if (loggedIn == true)
+		after(async (loggedIn) => {
+			if (loggedIn == true) {
+				await nextTick()
 				handleLogin()
+			}
+
 		})
 	}
 })
