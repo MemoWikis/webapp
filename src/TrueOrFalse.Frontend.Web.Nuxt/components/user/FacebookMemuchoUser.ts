@@ -43,8 +43,7 @@ export class FacebookMemuchoUser {
         if (result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)
-            if (window.location.pathname == '/Registrieren')
-                navigateTo('/')
+            userStore.apiLogin(userStore.isLoggedIn)
         }
         else if (result?.success == false) {
             Facebook.RevokeUserAuthorization(user.id, facebookAccessToken)
@@ -96,9 +95,6 @@ export class FacebookMemuchoUser {
         disallowRegistration = false) {
         if (response.status === 'connected') {
             FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
-            if (window.location.pathname == '/Registrieren')
-                navigateTo('/')
-
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
             FB.login((response) => {
