@@ -14,5 +14,10 @@ public class BaseEntityCache
     {
         _cache.Add(key, objectToCache);
     }
+
+    public static void IntoForeverCache<T>(string key, ConcurrentDictionary<(int, int), T> objectToCache)
+    {
+        _cache.Add(key, objectToCache);
+    }
 }
 

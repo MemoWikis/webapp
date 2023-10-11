@@ -58,13 +58,13 @@ public static class ListExtensions
             list.Select(item => new KeyValuePair<int, TElement>(item.Id, item))
         );
     }
-
-    //public static ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(this IList<CategoryCacheItem> list)
-    //{
-    //    return new ConcurrentDictionary<int, CategoryCacheItem>(list.Select(UserCacheCategory => new KeyValuePair<int, CategoryCacheItem>(UserCacheCategory.Id, UserCacheCategory)));
-    //}
     public static ConcurrentDictionary<int, QuestionCacheItem> ToConcurrentDictionary(this IList<QuestionCacheItem> list)
     {
         return new ConcurrentDictionary<int, QuestionCacheItem>(list.Select(UserCacheQuestion => new KeyValuePair<int, QuestionCacheItem>(UserCacheQuestion.Id, UserCacheQuestion)));
+    }
+
+    public static ConcurrentDictionary<(int, int), ImageMetaData> ToConcurrentDictionary(this IList<ImageMetaData> list)
+    {
+        return new ConcurrentDictionary<(int, int), ImageMetaData>(list.Select(imageMetaData => new KeyValuePair<(int, int), ImageMetaData>((imageMetaData.TypeId, (int)imageMetaData.Type), imageMetaData)));
     }
 }

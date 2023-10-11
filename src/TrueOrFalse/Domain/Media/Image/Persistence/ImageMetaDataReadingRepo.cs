@@ -5,7 +5,7 @@ using Seedworks.Lib.Persistence;
 public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
 {
     private readonly ISession _session;
-   
+
 
     public ImageMetaDataReadingRepo(ISession session) : base(session)
     {
@@ -15,9 +15,12 @@ public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
     public ImageMetaData GetBy(int typeId, ImageType imageType)
     {
         if (ImageMetaDataCache.IsInCache(typeId, imageType, this))
-            return ImageMetaDataCache.FromCache(typeId, imageType, this);
+        {
+            var result = ImageMetaDataCache.FromCache(typeId, imageType, this);
+            return result;
+        }
 
-        var metaData = GetBy(new List<int> {typeId}, imageType).FirstOrDefault();
+        var metaData = GetBy(new List<int> { typeId }, imageType).FirstOrDefault();
         return metaData;
     }
 
@@ -46,7 +49,7 @@ public class ImageMetaDataReadingRepo : RepositoryDb<ImageMetaData>
         return _session.QueryOver<ImageMetaData>()
             .Where(x => x.Type == imageType)
             .List<ImageMetaData>();
-    } 
+    }
     public IList<ImageMetaData> GetBy(ImageMetaDataSearchSpec searchSpec)
     {
         var query = _session.QueryOver<ImageMetaData>()
