@@ -44,7 +44,11 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
         if (user != null || userId < 1)
         {
             string recreatedToken = CreateEmailConfirmationToken(user);
-            return recreatedToken == token;
+            if (recreatedToken == token)
+            {
+                _userRepo.Update(user);
+                return true;
+            }
         }
 
         return false;
