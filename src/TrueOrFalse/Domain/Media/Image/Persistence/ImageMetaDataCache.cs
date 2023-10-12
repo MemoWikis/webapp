@@ -16,17 +16,12 @@ public class ImageMetaDataCache : BaseEntityCache
     {
         ICollection<ImageMetaData> questionImageMetaDataCache = null;
         if (imageType == ImageType.Question)
-        {
-            questionImageMetaDataCache = RequestCache_Questions(imageMetaDataReadingRepo).Values;
+            if (RequestCache_Questions(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
+                return true;
 
-        }
         if (imageType == ImageType.Category)
             if (RequestCache_Categories(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
                 return true;
-
-        var imagemetaData = questionImageMetaDataCache.FirstOrDefault(qimd => qimd.Type == imageType && qimd.TypeId == typeId);
-        if (imagemetaData != null)
-            return true;
 
         return false;
     }
@@ -42,7 +37,7 @@ public class ImageMetaDataCache : BaseEntityCache
 
         if (imageType == ImageType.Category)
         {
-            return RequestCache_Questions(imageMetaDataReadingRepo)[(typeId,(int)imageType)];
+            return RequestCache_Questions(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
         }
 
         return null;
