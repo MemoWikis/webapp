@@ -83,8 +83,8 @@ public class FacebookUsersController : Controller
             if (registerResult.Success)
             {
                 var newUser = _userRepo.UserGetByFacebookId(facebookUser.id);
-                _registerUser.CreateStartTopicAndSetToUser(user);
-                _registerUser.SendWelcomeAndRegistrationEmails(user);
+                _registerUser.CreateStartTopicAndSetToUser(newUser);
+                _registerUser.SendWelcomeAndRegistrationEmails(newUser);
 
                 _sessionUser.Login(newUser);
 
