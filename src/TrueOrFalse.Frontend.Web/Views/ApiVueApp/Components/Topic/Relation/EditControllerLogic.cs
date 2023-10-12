@@ -10,20 +10,47 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class EditControllerLogic(IGlobalSearch search,
-    PermissionCheck permissionCheck,
-    SessionUser sessionUser,
-    CategoryRepository categoryRepository,
-    ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-    UserReadingRepo userReadingRepo,
-    UserWritingRepo userWritingRepo,
-    IActionContextAccessor actionContextAccessor,
-    IHttpContextAccessor httpContextAccessor,
-    IWebHostEnvironment webHostEnvironment,
-    Logg logg,
-    QuestionReadingRepo questionReadingRepo) : IRegisterAsInstancePerLifetime
+public class EditControllerLogic : IRegisterAsInstancePerLifetime
 {
-  
+    private readonly IGlobalSearch _search;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly SessionUser _sessionUser;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+
+    public EditControllerLogic(IGlobalSearch search,
+        PermissionCheck permissionCheck,
+        SessionUser sessionUser,
+        CategoryRepository categoryRepository,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo,
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg,
+        QuestionReadingRepo questionReadingRepo)
+    {
+        _search = search;
+        _permissionCheck = permissionCheck;
+        _sessionUser = sessionUser;
+        _categoryRepository = categoryRepository;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
+        _questionReadingRepo = questionReadingRepo;
+    }
 
 
     public dynamic ValidateName(string name)
@@ -32,10 +59,10 @@ public class EditControllerLogic(IGlobalSearch search,
         dummyTopic.Name = name;
         dummyTopic.Type = CategoryType.Standard;
         var topicNameAllowed = new CategoryNameAllowed();
-        if (topicNameAllowed.No(dummyTopic, categoryRepository))
+        if (topicNameAllowed.No(dummyTopic, _categoryRepository))
         {
             var topic = EntityCache.GetCategoryByName(name).FirstOrDefault();
-            var url = topic.Visibility == CategoryVisibility.All ? new Links(actionContextAccessor, httpContextAccessor).CategoryDetail(topic) : "";
+            var url = topic.Visibility == CategoryVisibility.All ? new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic) : "";
             return new
             {
                 categoryNameAllowed = false,
@@ -63,25 +90,25 @@ public class EditControllerLogic(IGlobalSearch search,
 
     public dynamic QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
-        if (!new LimitCheck(httpContextAccessor,
-                webHostEnvironment, 
-                logg, 
+        if (!new LimitCheck(_httpContextAccessor,
+                _webHostEnvironment,
+                _logg,
                 sessionUser).CanSavePrivateTopic(true))
         {
             return new
             {
                 success = false,
                 key = "cantSavePrivateTopic"
-            }; 
+            };
         }
 
         var topic = new Category(name, sessionUser.UserId);
-        new ModifyRelationsForCategory(categoryRepository).AddParentCategory(topic, parentTopicId);
+        new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
 
-        topic.Creator = userReadingRepo.GetById(sessionUser.UserId);
+        topic.Creator = _userReadingRepo.GetById(sessionUser.UserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
-        categoryRepository.Create(topic);
+        _categoryRepository.Create(topic);
 
         return new
         {
@@ -94,15 +121,15 @@ public class EditControllerLogic(IGlobalSearch search,
     public async Task<dynamic> SearchTopic(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = await search.GoAllCategories(term, topicIdsToFilter);
+        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-             new SearchHelper(imageMetaDataReadingRepo,
-            actionContextAccessor,
-        httpContextAccessor,
-            webHostEnvironment,
-            questionReadingRepo)
-                 .AddTopicItems(items, elements, permissionCheck, sessionUser.UserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+           _actionContextAccessor,
+           _httpContextAccessor,
+           _webHostEnvironment,
+           _questionReadingRepo)
+                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
         return new
         {
@@ -114,17 +141,17 @@ public class EditControllerLogic(IGlobalSearch search,
     public async Task<dynamic> SearchTopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = await search.GoAllCategories(term, topicIdsToFilter);
+        var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(imageMetaDataReadingRepo,
-                actionContextAccessor,
-                httpContextAccessor,
-                webHostEnvironment,
-                questionReadingRepo)
-                .AddTopicItems(items, elements, permissionCheck, sessionUser.UserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment,
+                _questionReadingRepo)
+                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
-        var wikiChildren = EntityCache.GetAllChildren(sessionUser.User.StartTopicId);
+        var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new
@@ -142,7 +169,7 @@ public class EditControllerLogic(IGlobalSearch search,
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
-        if (parentIdToRemove == RootCategory.RootCategoryId && !sessionUser.IsInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId && !sessionUser.IsInstallationAdmin)
+        if (parentIdToRemove == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new RequestResult
             {
                 success = false,
@@ -161,7 +188,7 @@ public class EditControllerLogic(IGlobalSearch search,
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
-        if (parentId == RootCategory.RootCategoryId && !sessionUser.IsInstallationAdmin)
+        if (parentId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new RequestResult
             {
                 success = false,
@@ -189,11 +216,11 @@ public class EditControllerLogic(IGlobalSearch search,
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(sessionUser.UserId, 
-                parentId, 
-                userWritingRepo,
-                httpContextAccessor,
-                webHostEnvironment);
+            RecentlyUsedRelationTargets.Add(_sessionUser.UserId,
+                parentId,
+                _userWritingRepo,
+                _httpContextAccessor,
+                _webHostEnvironment);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
@@ -214,7 +241,7 @@ public class EditControllerLogic(IGlobalSearch search,
 
     public RequestResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
-        var parentHasBeenRemoved = new ModifyRelationsForCategory(categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId,permissionCheck);
+        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
         if (!parentHasBeenRemoved)
             return new RequestResult
             {
@@ -222,13 +249,13 @@ public class EditControllerLogic(IGlobalSearch search,
                 messageKey = FrontendMessageKeys.Error.Category.NoRemainingParents
             };
 
-        var parent = categoryRepository.GetById(parentIdToRemove);
-        categoryRepository.Update(parent, sessionUser.User, type: CategoryChangeType.Relations);
-        var child = categoryRepository.GetById(childId);
+        var parent = _categoryRepository.GetById(parentIdToRemove);
+        _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
+        var child = _categoryRepository.GetById(childId);
         if (affectedParentIdsByMove != null)
-            categoryRepository.Update(child, sessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
-            categoryRepository.Update(child, sessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new RequestResult

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
 		<OutputType>Exe</OutputType>
 		<AssemblyTitle>TrueOrFalse.View.Web</AssemblyTitle>
 		<AssemblyCompany>TrueOrFalse.View.Web</AssemblyCompany>
@@ -29,7 +30,7 @@
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DebugType>pdbonly</DebugType>
 		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\net6.0</OutputPath>
+		<OutputPath>bin\Release\net7.0</OutputPath>
 		<DefineConstants>TRACE;RELEASE</DefineConstants>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>

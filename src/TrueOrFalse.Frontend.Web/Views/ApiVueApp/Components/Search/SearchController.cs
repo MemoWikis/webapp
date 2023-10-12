@@ -10,19 +10,35 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp
 {
+    public class SearchController : BaseController
+    {
+        private readonly PermissionCheck _permissionCheck;
+        private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+        private readonly IActionContextAccessor _actionContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly QuestionReadingRepo _questionReadingRepo;
+        private readonly IGlobalSearch _search;
 
-    public class SearchController(IGlobalSearch search,
+        public SearchController(IGlobalSearch search,
             SessionUser sessionUser,
             PermissionCheck permissionCheck,
             ImageMetaDataReadingRepo imageMetaDataReadingRepo,
             IActionContextAccessor actionContextAccessor,
             IHttpContextAccessor httpContextAccessor,
             IWebHostEnvironment webHostEnvironment,
-            QuestionReadingRepo questionReadingRepo)
-        : BaseController(sessionUser)
-    {
+            QuestionReadingRepo questionReadingRepo) :base(sessionUser)
+        {
+            _search = search;
+            _permissionCheck = permissionCheck;
+            _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+            _actionContextAccessor = actionContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+            _questionReadingRepo = questionReadingRepo;
+        }
 
-        private readonly IGlobalSearch _search = search ?? throw new ArgumentNullException(nameof(search));
+      
 
         [HttpGet]
         public async Task<JsonResult> All(string term)
@@ -32,17 +48,17 @@ namespace VueApp
             var userItems = new List<SearchUserItem>();
             var elements = await _search.Go(term);
 
-            var searchHelper = new SearchHelper(imageMetaDataReadingRepo,
-                actionContextAccessor,
-                httpContextAccessor,
-                webHostEnvironment,
-                questionReadingRepo);
+            var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
+                _actionContextAccessor,
+                _httpContextAccessor,
+                _webHostEnvironment,
+                _questionReadingRepo);
 
             if (elements.Categories.Any())
-                searchHelper.AddTopicItems(topicItems, elements, permissionCheck, UserId);
+                searchHelper.AddTopicItems(topicItems, elements, _permissionCheck, UserId);
 
             if (elements.Questions.Any())
-                searchHelper.AddQuestionItems(questionItems, elements, permissionCheck, questionReadingRepo);
+                searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck, _questionReadingRepo);
 
             if (elements.Users.Any())
                 searchHelper.AddUserItems(userItems, elements);
@@ -69,11 +85,11 @@ namespace VueApp
             var elements = await _search.GoAllCategories(term, idArray);
 
             if (elements.Categories.Any())
-                new SearchHelper(imageMetaDataReadingRepo,
-                    actionContextAccessor,
-                    httpContextAccessor,
-                    webHostEnvironment,
-                    questionReadingRepo).AddTopicItems(items, elements, permissionCheck, UserId);
+                new SearchHelper(_imageMetaDataReadingRepo,
+                    _actionContextAccessor,
+                    _httpContextAccessor,
+                    _webHostEnvironment,
+                    _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck, UserId);
 
             return Json(new
             {
@@ -91,14 +107,14 @@ namespace VueApp
             var elements = await _search.GoAllCategories(term, idArray);
 
             if (elements.Categories.Any())
-                new SearchHelper(imageMetaDataReadingRepo,
-                        actionContextAccessor,
-                        httpContextAccessor,
-                        webHostEnvironment,
-                        questionReadingRepo)
+                new SearchHelper(_imageMetaDataReadingRepo,
+                        _actionContextAccessor,
+                        _httpContextAccessor,
+                        _webHostEnvironment,
+                        _questionReadingRepo)
                     .AddTopicItems(items,
                         elements,
-                        permissionCheck,
+                        _permissionCheck,
                         UserId);
 
             var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
@@ -129,11 +145,11 @@ namespace VueApp
                 foreach (var categoryId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
                 {
                     var c = EntityCache.GetCategory(categoryId);
-                    recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(imageMetaDataReadingRepo,
-                        actionContextAccessor,
-                        httpContextAccessor,
-                        webHostEnvironment,
-                        questionReadingRepo).FillSearchCategoryItem(c, UserId));
+                    recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(_imageMetaDataReadingRepo,
+                        _actionContextAccessor,
+                        _httpContextAccessor,
+                        _webHostEnvironment,
+                        _questionReadingRepo).FillSearchCategoryItem(c, UserId));
                 }
             }
 
@@ -142,11 +158,11 @@ namespace VueApp
             return Json(new
             {
                 success = true,
-                personalWiki = new SearchHelper(imageMetaDataReadingRepo,
-                        actionContextAccessor,
-                        httpContextAccessor,
-                        webHostEnvironment,
-                        questionReadingRepo)
+                personalWiki = new SearchHelper(_imageMetaDataReadingRepo,
+                        _actionContextAccessor,
+                        _httpContextAccessor,
+                        _webHostEnvironment,
+                        _questionReadingRepo)
                     .FillSearchCategoryItem(personalWiki, UserId),
                 addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
             });

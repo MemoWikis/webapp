@@ -69,7 +69,7 @@ public class ImageMaintenanceInfo
         TypeId = imageMetaData.TypeId;
         TypeNotFound = false;
 
-        var categoryImgBasePath = new CategoryImageSettings(httpContextAccessor, webHostEnvironment).BasePath;
+        var categoryImgBasePath = new CategoryImageSettings(0, httpContextAccessor, webHostEnvironment).BasePath;
         var questionImgBasePath = new QuestionImageSettings(questionReadingRepo, httpContextAccessor, webHostEnvironment).BasePath;
         var setImgBasePath = new SetImageSettings(httpContextAccessor, webHostEnvironment).BasePath;
 

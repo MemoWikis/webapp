@@ -4,19 +4,26 @@ using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
-public class VueSessionUser(SessionUser sessionUser,
+public class VueSessionUser : IRegisterAsInstancePerLifetime
+{
+    private readonly SessionUser _sessionUser;
+    private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly GetUnreadMessageCount _getUnreadMessageCount;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public VueSessionUser(SessionUser sessionUser,
         TopicControllerLogic topicControllerLogic,
         GetUnreadMessageCount getUnreadMessageCount,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
-    : IRegisterAsInstancePerLifetime
-{
-    private readonly SessionUser _sessionUser = sessionUser;
-    private readonly TopicControllerLogic _topicControllerLogic = topicControllerLogic;
-    private readonly GetUnreadMessageCount _getUnreadMessageCount = getUnreadMessageCount;
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
-
+    {
+        _sessionUser = sessionUser;
+        _topicControllerLogic = topicControllerLogic;
+        _getUnreadMessageCount = getUnreadMessageCount;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
     public dynamic GetCurrentUserData()
     {
         var type = UserType.Anonymous;

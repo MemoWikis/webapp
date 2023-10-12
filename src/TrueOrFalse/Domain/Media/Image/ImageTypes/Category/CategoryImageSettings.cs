@@ -19,14 +19,6 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
         Id = categoryId;
     }
 
-    public CategoryImageSettings(
-        IHttpContextAccessor contextAccessor,
-        IWebHostEnvironment webHostEnvironment) :
-        base(contextAccessor, webHostEnvironment)
-    {
-     
-    }
-
     public void Init(int categoryId){
         Id = categoryId;
     }

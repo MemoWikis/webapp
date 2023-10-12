@@ -4,26 +4,23 @@ using TrueOrFalse;
 
 namespace VueApp;
 
-public class ImageUploadModalController : BaseController
+public class ImageUploadModalController
+    : BaseController
 {
-    private readonly ImageStore _imagestore;
-    private readonly WikiImageMetaLoader _wikiImageMetaLoader;
     private readonly PermissionCheck _permissionCheck;
+    private readonly ImageStore _imagestore;
 
     public ImageUploadModalController(SessionUser sessionUser,
-        ImageStore imagestore,
-        WikiImageMetaLoader wikiImageMetaLoader,
         PermissionCheck permissionCheck) : base(sessionUser)
     {
-        _imagestore = imagestore;
-        _wikiImageMetaLoader = wikiImageMetaLoader;
         _permissionCheck = permissionCheck;
     }
+
 
     [HttpPost]
     public JsonResult GetWikimediaPreview(string url)
     {
-        var result = _wikiImageMetaLoader.Run(url, 200);
+        var result = WikiImageMetaLoader.Run(url, 200);
         return Json(new
         {
             imageFound = !result.ImageNotFound,
@@ -49,10 +46,10 @@ public class ImageUploadModalController : BaseController
         public IFormFile file { get; set; }
     }
 
-    [AccessOnlyAsLoggedIn]
+    //[AccessOnlyAsLoggedIn]
 
-    [HttpPost]
-    public bool SaveCustomImage(CustomImageFormdata form)
+    //[HttpPost]
+    public bool SaveCustomImage([FromBody] CustomImageFormdata form)
     {
         if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
             return false;

@@ -5,18 +5,25 @@ using TrueOrFalse;
 
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
-    private readonly WikiImageMetaLoader _metaLoader;
     private readonly ImageMetaDataWritingRepo _imgMetaDataWritingRepo;
     private readonly Logg _logg;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ImageStore(
-        WikiImageMetaLoader metaLoader,
         ImageMetaDataWritingRepo imgMetaDataWritingRepo,
-        Logg logg)
+        Logg logg,
+        HttpContextAccessor httpContextAccessor,
+        QuestionReadingRepo questionReadingRepo,
+        IWebHostEnvironment webHostEnvironment)
     {
-        _metaLoader = metaLoader;
+       
         _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
         _logg = logg;
+        _httpContextAccessor = httpContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public void RunWikimedia(
@@ -26,7 +33,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         int userId, 
         IImageSettings imageSettings)
     {
-        var wikiMetaData = _metaLoader.Run(imageWikiFileName, 1024);
+        var wikiMetaData = WikiImageMetaLoader.Run(imageWikiFileName, 1024);
 
         imageSettings.Init(typeId);
         imageSettings.DeleteFiles(); //old files..
@@ -78,7 +85,9 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
     public void RunUploaded<T>(IFormFile imageFile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
     {
-        var imageSettings = Activator.CreateInstance<T>();
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _webHostEnvironment, _questionReadingRepo)
+            .Create<T>(typeId);
+
         imageSettings.Init(typeId);
         imageSettings.DeleteFiles(); //old files..
 

@@ -4,20 +4,36 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-public class VueLearningSessionResultController(LearningSessionCache learningSessionCache,
+public class VueLearningSessionResultController
+    : Controller
+{
+    private readonly LearningSessionCache _learningSessionCache;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+
+    public VueLearningSessionResultController(LearningSessionCache learningSessionCache,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment, 
+        IWebHostEnvironment webHostEnvironment,
         QuestionReadingRepo questionReadingRepo)
-    : Controller
-{
+    {
+        _learningSessionCache = learningSessionCache;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _questionReadingRepo = questionReadingRepo;
+    }
     [HttpGet]
     public JsonResult Get()
     {
         
-        var learningSession = learningSessionCache.GetLearningSession();
-        var model = new LearningSessionResultModel(learningSession, httpContextAccessor, webHostEnvironment);
+        var learningSession = _learningSessionCache.GetLearningSession();
+        var model = new LearningSessionResultModel(learningSession, _httpContextAccessor, _webHostEnvironment);
         var questions = model.AnsweredStepsGrouped.Where(g => g.First().Question.Id != 0).Select(g =>
         {
             var question = g.First().Question;
@@ -25,10 +41,10 @@ public class VueLearningSessionResultController(LearningSessionCache learningSes
                     correctAnswerHtml = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
                     id = question.Id,
                     imgUrl = GetQuestionImageFrontendData.Run(question,
-                        imageMetaDataReadingRepo, 
-                        httpContextAccessor, 
-                        webHostEnvironment,
-                        questionReadingRepo)
+                        _imageMetaDataReadingRepo, 
+                        _httpContextAccessor, 
+                        _webHostEnvironment,
+                        _questionReadingRepo)
                         .GetImageUrl(128, true).Url,
                     title = question.GetShortTitle(),
                     steps = g.Select(s => new {

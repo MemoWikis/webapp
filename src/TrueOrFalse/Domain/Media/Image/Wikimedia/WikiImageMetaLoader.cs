@@ -4,9 +4,9 @@ using Newtonsoft.Json.Linq;
 
 namespace TrueOrFalse
 {
-    public class WikiImageMetaLoader : IRegisterAsInstancePerLifetime
+    public class WikiImageMetaLoader
     {
-        public WikiImageMeta Run(string fileNameOrUrl, int imgWidth = 1024, string host = "commons.wikimedia.org")
+        public static WikiImageMeta Run(string fileNameOrUrl, int imgWidth = 1024, string host = "commons.wikimedia.org")
         {
             fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
 
