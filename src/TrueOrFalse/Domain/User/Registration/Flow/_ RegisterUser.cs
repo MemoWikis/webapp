@@ -34,7 +34,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     public void CreateStartTopicAndSetToUser(User user)
     {
         var topic = PersonalTopic.GetPersonalCategory(user);
-        topic.Visibility = CategoryVisibility.Owner;
         Sl.CategoryRepo.Create(topic);
         user.StartTopicId = topic.Id;
 
