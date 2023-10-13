@@ -12,7 +12,7 @@ function loadPlugin(toLogin = false) {
 
         window.fbAsyncInit = function () {
             FB.init({
-                appId: config.public.fbAppId,
+                appId: config.public.facebookAppId,
                 autoLogAppEvents: true,
                 xfbml: true,
                 version: 'v17.0'
@@ -46,7 +46,7 @@ function loadFbSdk(toLogin = false) {
         fbsdkScript.onload = () => {
             window.fbAsyncInit = function () {
                 FB.init({
-                    appId: config.public.fbAppId,
+                    appId: config.public.facebookAppId,
                     autoLogAppEvents: true,
                     xfbml: true,
                     version: 'v17.0'
