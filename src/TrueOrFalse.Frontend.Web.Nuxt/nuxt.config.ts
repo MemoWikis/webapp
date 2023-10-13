@@ -19,7 +19,7 @@ export default defineNuxtConfig({
             seqServerPort: undefined,
             seqServerUrl: undefined,
             seqClientApiKey: "",
-            fbAppId: ""
+            facebookAppId: ""
         },
     },
     ssr: true,
