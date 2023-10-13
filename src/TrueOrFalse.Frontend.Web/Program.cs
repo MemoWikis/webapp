@@ -9,8 +9,17 @@ using System.IO;
 using Microsoft.AspNetCore.Authentication.Cookies;using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = 1073741824; 
+});
+
+
+
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
@@ -23,7 +32,9 @@ builder.Services.AddControllersWithViews()
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
-}); 
+});
+
+
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(options =>
@@ -32,6 +43,13 @@ builder.Services.AddSession(options =>
     options.IdleTimeout = TimeSpan.FromMinutes(480);
 
 });
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MemoryBufferThreshold = Int32.MaxValue;
+    options.ValueLengthLimit = int.MaxValue;
+    options.MultipartBodyLengthLimit = long.MaxValue;
+    options.BufferBodyLengthLimit = int.MaxValue;
+}); 
 
 builder.Services.AddCors(options => {
         options.AddPolicy("LocalhostCorsPolicy",

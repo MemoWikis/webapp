@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-public class QuestionReadingRepo
+public class QuestionReadingRepo : RepositoryDbBase<Question>
 {
     private readonly ISession _session;
     private readonly RepositoryDb<Question> _repo;
 
-    public QuestionReadingRepo(ISession session) 
+    public QuestionReadingRepo(ISession session) : base(session)
     {
        _repo =  new RepositoryDbBase<Question>(session); 
        _session = session;

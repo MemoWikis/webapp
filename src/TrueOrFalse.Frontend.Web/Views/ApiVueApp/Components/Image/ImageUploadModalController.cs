@@ -8,12 +8,14 @@ public class ImageUploadModalController
     : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly ImageStore _imagestore;
+    private readonly ImageStore _imageStore;
 
     public ImageUploadModalController(SessionUser sessionUser,
-        PermissionCheck permissionCheck) : base(sessionUser)
+        PermissionCheck permissionCheck,
+        ImageStore imageStore) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _imageStore = imageStore;
     }
 
 
@@ -35,7 +37,7 @@ public class ImageUploadModalController
         if (url == null || !_permissionCheck.CanEditCategory(topicId))
             return false;
 
-        _imagestore.RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, _sessionUser.UserId);
+        _imageStore.RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, _sessionUser.UserId);
         return true;
     }
 
@@ -49,12 +51,12 @@ public class ImageUploadModalController
     //[AccessOnlyAsLoggedIn]
 
     //[HttpPost]
-    public bool SaveCustomImage([FromBody] CustomImageFormdata form)
+    public bool SaveCustomImage([FromForm] CustomImageFormdata form)
     {
         if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
             return false;
 
-        _imagestore.RunUploaded<CategoryImageSettings>(form.file, form.topicId, _sessionUser.UserId, form.licenseGiverName);
+        _imageStore.RunUploaded<CategoryImageSettings>(form.file, form.topicId, _sessionUser.UserId, form.licenseGiverName);
 
         return true;
     }
