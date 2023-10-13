@@ -63,7 +63,7 @@ export const messages: any = {
             inputError: "Bitte überprüfe deine Eingaben.",
             passwordResetTokenIsInvalid: "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team@memucho.de.",
             passwordResetTokenIsExpired: "Der Link ist abgelaufen.",
-            doesNotExist: "Der angegebene Nutzer wurde nicht gefunden. Bitte überprüfen Sie, ob Sie den korrekten Anmeldedaten eingegeben haben.",
+            doesNotExist: "Der angegebene Nutzer wurde nicht gefunden. Bitte überprüfe, ob deine Anmeldedaten korrekt sind.",
             invalidFBToken: "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
             emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
             passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein.",
