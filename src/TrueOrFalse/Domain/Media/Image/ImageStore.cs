@@ -14,11 +14,12 @@ public class ImageStore : IRegisterAsInstancePerLifetime
     public ImageStore(
         ImageMetaDataWritingRepo imgMetaDataWritingRepo,
         Logg logg,
-        HttpContextAccessor httpContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
         QuestionReadingRepo questionReadingRepo,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment
+        )
     {
-       
+
         _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
         _logg = logg;
         _httpContextAccessor = httpContextAccessor;
