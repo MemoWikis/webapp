@@ -98,7 +98,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
         {
             category.AuthorIds += ", " + author.Id;
-            Sl.CategoryRepo.Update(category);
+            Sl.CategoryRepo.UpdateOnlyDb(category);
         }
         SetData(category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
         base.Create(categoryChange);
