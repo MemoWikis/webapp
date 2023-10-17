@@ -1,32 +1,40 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public class ImageSettingsFactory(IHttpContextAccessor httpContextAccessor,
-    IWebHostEnvironment webHostEnvironment,
-    QuestionReadingRepo questionReadingRepo)
+public class ImageSettingsFactory
 {
-    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
+    public readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public ImageSettingsFactory(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo)
+    {
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _questionReadingRepo = questionReadingRepo;
+    }
 
     public T Create<T>(int typeId) where T : IImageSettings
     {
         if (typeof(T) == typeof(CategoryImageSettings))
         {
-            return (T)(IImageSettings)new CategoryImageSettings(typeId, httpContextAccessor, webHostEnvironment);
+            return (T)(IImageSettings)new CategoryImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
         }
 
        if (typeof(T) == typeof(QuestionImageSettings))
         {
-            return (T)(IImageSettings)new QuestionImageSettings(questionReadingRepo,
-                httpContextAccessor, 
-                webHostEnvironment);
+            return (T)(IImageSettings)new QuestionImageSettings(_questionReadingRepo,
+                _httpContextAccessor, 
+                _webHostEnvironment);
         }
 
        if (typeof(T) == typeof(UserImageSettings))
        {
            return (T)(IImageSettings)new UserImageSettings(
-               httpContextAccessor,
-               webHostEnvironment);
+               _httpContextAccessor,
+               _webHostEnvironment);
        }
 
 
