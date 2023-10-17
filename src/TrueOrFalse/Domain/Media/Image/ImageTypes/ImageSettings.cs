@@ -18,7 +18,7 @@ public abstract class ImageSettings
 
     public string ServerPathAndId()
     {
-        return Path.Combine(ImageFolderPath(), Id.ToString());
+        return Path.Combine(ImageFolderPath(), BasePath, Id.ToString());
     }
 
     public static string ImageFolderPath()
