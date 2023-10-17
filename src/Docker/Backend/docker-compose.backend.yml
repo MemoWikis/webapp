@@ -1,0 +1,23 @@
+version: "3.9"
+services:
+  mem-backend:
+    image: ghcr.io/memowikis/mem-backend:${BUILD_NUMBER:-error}
+    ports:
+      - "${BACKEND_PORT:-7000}:7000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - environment-specific-network
+    environment:
+      # - EXAMPLE_ENVIRONMENT_VARIABLE=${EXAMPLE_ENVIRONMENT_VARIABLE:-error}
+      
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-stage}
+    # Was already set up with nginx: 
+    external: true
+
+# Run in bash like this:
+# $ export BUILD_NUMBER=5408
+# $ docker-compose -p mem-stage up -d
+# will recreate a running container

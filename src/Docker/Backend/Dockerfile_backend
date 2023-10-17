@@ -1,0 +1,11 @@
+# Use a lightweight image as the base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the build output from TeamCity into the image
+COPY . /app
+
+# Start the application
+ENTRYPOINT ["dotnet", "TrueOrFalse.dll"]
