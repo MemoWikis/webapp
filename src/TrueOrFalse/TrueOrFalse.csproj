@@ -687,6 +687,7 @@
     <Compile Include="Tools\ScheduledJobs\Jobs\UpdateAggregatedCategoriesForQuestion.cs" />
     <Compile Include="Tools\ScheduledJobs\Jobs\ScheduledMailSender.cs" />
     <Compile Include="Tools\Update\PathTo.cs" />
+    <Compile Include="Tools\Update\PersonalTopicMigration\PersonalTopicMigration.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs228.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs229.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs230.cs" />
@@ -696,6 +697,7 @@
     <Compile Include="Tools\Update\Steps\UpdateToVs241.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs244.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs266.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs267.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs265.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs264.cs" />
     <Compile Include="Tools\Update\Steps\UpdateToVs263.cs" />

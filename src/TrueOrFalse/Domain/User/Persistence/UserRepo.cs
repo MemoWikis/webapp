@@ -229,6 +229,13 @@ public class UserRepo : RepositoryDbBase<User>
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().UpdateAsync(user));
     }
 
+    public void UpdateOnlyDb(User user)
+    {
+        Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        base.Update(user);
+        Flush();
+    }
+
     public void Update(UserCacheItem userCacheItem)
     {
         var user = GetById(userCacheItem.Id);
