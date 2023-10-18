@@ -5,10 +5,12 @@ using System.Text;
 public class EmailConfirmationService: IRegisterAsInstancePerLifetime
 {
     private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
 
-    public EmailConfirmationService(UserReadingRepo userReadingRepo)
+    public EmailConfirmationService(UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo)
     {
         _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
 
     public static string CreateEmailConfirmationToken(User user)
@@ -46,7 +48,8 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
             string recreatedToken = CreateEmailConfirmationToken(user);
             if (recreatedToken == token)
             {
-                _userRepo.Update(user);
+                user.IsEmailConfirmed = true;
+                _userWritingRepo.Update(user);
                 return true;
             }
         }

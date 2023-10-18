@@ -113,7 +113,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
     }
-    public (bool success, RegisterResult registerResult) SetUser(RegisterJson json)
+    public RequestResult SetUser(RegisterJson json)
     {
         var user = new User();
         user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();

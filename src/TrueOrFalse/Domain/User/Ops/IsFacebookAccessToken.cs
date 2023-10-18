@@ -21,7 +21,7 @@ public class IsFacebookAccessToken
         }
         catch (Exception ex)
         {
-            Logg.r().Error("FB Access Token Verification - {msg}", ex.Message);
+            Logg.r.Error("FB Access Token Verification - {msg}", ex.Message);
             return false;
         }
 
