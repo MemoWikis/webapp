@@ -68,7 +68,7 @@ public class FacebookUsersController : Controller
     {
         if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUser.id))
         {
-            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
+            var user = _userReadingRepo.UserGetByFacebookId(facebookUser.id);
             if (user != null)
             {
                 _sessionUser.Login(user);
@@ -86,7 +86,7 @@ public class FacebookUsersController : Controller
                     success = true,
                     data = _vueSessionUser.GetCurrentUserData()
                 });
-            return requestResult;
+            return Json(requestResult);
         }
 
         return Json(new RequestResult

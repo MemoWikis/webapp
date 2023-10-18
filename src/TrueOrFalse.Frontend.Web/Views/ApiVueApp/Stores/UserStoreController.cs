@@ -25,6 +25,7 @@ public class UserStoreController : BaseController
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public UserStoreController(VueSessionUser vueSessionUser,
         SessionUser sessionUser,
@@ -42,7 +43,8 @@ public class UserStoreController : BaseController
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IActionContextAccessor actionContextAccessor,
         UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
@@ -60,6 +62,7 @@ public class UserStoreController : BaseController
         _actionContextAccessor = actionContextAccessor;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     [HttpPost]
@@ -187,7 +190,7 @@ public class UserStoreController : BaseController
     [HttpPost]
     public JsonResult RequestVerificationMail()
     {
-        SendConfirmationEmail.Run(_sessionUser.User.Id);
+        SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
         return Json(new RequestResult
         {
             success = true,

@@ -16,6 +16,7 @@ public class VueUserSettingsController : Controller
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly Logg _logg;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public VueUserSettingsController(SessionUser sessionUser,
         ReputationUpdate reputationUpdate,
@@ -26,7 +27,8 @@ public class VueUserSettingsController : Controller
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         Logg logg,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
@@ -38,6 +40,7 @@ public class VueUserSettingsController : Controller
         _webHostEnvironment = webHostEnvironment;
         _logg = logg;
         _questionReadingRepo = questionReadingRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -126,7 +129,7 @@ public class VueUserSettingsController : Controller
             return Json(new RequestResult
             {
                     success = false,
-                    message = FrontendMessageKeys.Error.User.EmailInUse
+                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
                 }
             );
         }
@@ -157,7 +160,7 @@ public class VueUserSettingsController : Controller
         _userWritingRepo.Update(_sessionUser.User);
 
         if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress && !_sessionUser.User.IsEmailConfirmed)
-            SendConfirmationEmail.Run(_sessionUser.User.Id);
+            SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
 
         var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
             _httpContextAccessor, 
