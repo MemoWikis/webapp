@@ -105,15 +105,13 @@ public class VueUserSettingsController : Controller
     public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
         if (form.id != _sessionUser.User.Id)
-        {
             return Json(null);
-        }
 
-        if(string.IsNullOrEmpty(form.email))
-            return Json(new
-                {
-                    success = false,
-                    message = "emailEmpty"
+        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
+            IsEmailAddressAvailable.Yes(form.email))
+        {
+            _sessionUser.User.EmailAddress = form.email.Trim();
+            _sessionUser.User.IsEmailConfirmed = false;
                 }
             );
         
@@ -151,16 +149,18 @@ public class VueUserSettingsController : Controller
         }
 
         if (form.file != null)
-        {
             UserImageStore.Run(form.file, 
                 _sessionUser.UserId,
                 _httpContextAccessor,
                 _webHostEnvironment,
                 _logg);
-        }
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
+        userRepo.Update(_sessionUser.User);
+
+        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress)
+            SendConfirmationEmail.Run(_sessionUser.User.Id);
 
         var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
             _httpContextAccessor, 

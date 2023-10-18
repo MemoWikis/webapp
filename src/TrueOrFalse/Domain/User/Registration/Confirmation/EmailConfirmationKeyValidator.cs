@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Globalization;
+using System.Security.Cryptography;
 using System.Text;
 
 public class EmailConfirmationService: IRegisterAsInstancePerLifetime
@@ -12,8 +13,14 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
 
     public static string CreateEmailConfirmationToken(User user)
     {
-        long dateTimeInMilliseconds = ((DateTimeOffset)user.DateCreated).ToUnixTimeMilliseconds();
-        string rawString = dateTimeInMilliseconds + user.PasswordHashedAndSalted.Substring(0, Math.Min(user.PasswordHashedAndSalted.Length, 3));
+        DateTime formattedDateTime = DateTime.Parse(user.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
+        long dateTimeInMilliseconds = ((DateTimeOffset)formattedDateTime).ToUnixTimeMilliseconds();
+
+        var userIdentifier = user.IsGoogleUser ? user.GoogleId :
+            user.IsFacebookUser ? user.FacebookId :
+            user.PasswordHashedAndSalted;
+        
+        string rawString = dateTimeInMilliseconds + userIdentifier.Substring(0, Math.Min(userIdentifier.Length, 3)) + "|" + user.EmailAddress;
 
         using (SHA256 sha256Hash = SHA256.Create())
         {
@@ -25,7 +32,8 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
                 builder.Append(bytes[i].ToString("x2"));
             }
 
-            return builder + "-" + user.Id;
+            var token = builder + "-" + user.Id;
+            return token;
         }
     }
 
@@ -36,7 +44,11 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
         if (user != null || userId < 1)
         {
             string recreatedToken = CreateEmailConfirmationToken(user);
-            return recreatedToken == token;
+            if (recreatedToken == token)
+            {
+                _userRepo.Update(user);
+                return true;
+            }
         }
 
         return false;

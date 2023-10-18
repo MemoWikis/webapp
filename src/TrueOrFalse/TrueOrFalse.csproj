@@ -81,5 +81,8 @@
 		<PackageReference Include="System.Text.Json" Version="7.0.3" />
 		<PackageReference Include="Ubiety.Dns.Core" Version="4.2.2" />
 		<PackageReference Include="ZstdNet" Version="1.4.5" />
+    <Compile Include="Domain\User\Registration\Confirmation\SendConfirmationEmail.cs" />
+    <Compile Include="Tools\Update\PersonalTopicMigration\PersonalTopicMigration.cs" />
+    <Compile Include="Tools\Update\Steps\UpdateToVs267.cs" />
 	</ItemGroup>
 </Project>

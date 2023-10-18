@@ -19,6 +19,33 @@ const errorMsg = ref('')
 const forbbidenTopicName = ref('')
 const existingTopicUrl = ref('')
 const { $logger } = useNuxtApp()
+
+async function validateName() {
+    type TopicNameValidationResult = {
+        name: string
+        url?: string
+    }
+
+    const result = await $fetch<FetchResult<TopicNameValidationResult>>('/apiVue/TopicRelationEdit/ValidateName', {
+        method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include',
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
+    })
+
+    if (result.success)
+        return true
+    else if (result.success == false) {
+        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        forbbidenTopicName.value = result.data.name
+        if (result.data.url)
+            existingTopicUrl.value = result.data.url
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+        return false
+    }
+}
+const privateTopicLimitReached = ref(false)
 async function addTopic() {
 
     if (!userStore.isLoggedIn) {
@@ -27,56 +54,47 @@ async function addTopic() {
     }
     spinnerStore.showSpinner()
 
-    type TopicNameValidationResult = {
-        categoryNameAllowed: boolean
+    const nameIsValid = await validateName()
+
+    if (!nameIsValid)
+        return
+
+    type QuickCreateResult = {
         name: string
-        url: string
-        key: string
+        id: number
+        cantSavePrivateTopic?: boolean
     }
 
-    const nameValidationResult = await $fetch<TopicNameValidationResult>('/apiVue/TopicRelationEdit/ValidateName', {
-        method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include',
+    const topicData = {
+        name: name.value,
+        parentTopicId: editTopicRelationStore.parentId,
+    }
+
+    const result = await $fetch<FetchResult<QuickCreateResult>>('/apiVue/TopicRelationEdit/QuickCreate', {
+        method: 'POST', body: topicData, mode: 'cors', credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
+    if (result.success) {
+        spinnerStore.hideSpinner()
+        topicStore.childTopicCount++
+        editTopicRelationStore.showModal = false
+        editTopicRelationStore.addTopic(result.data.id)
 
-    if (nameValidationResult.categoryNameAllowed) {
-        type QuickCreateResult = {
-            success: boolean
-            name: string
-            id: number
-        }
+        // await nextTick()
+        if (editTopicRelationStore.redirect)
+            await navigateTo($urlHelper.getTopicUrl(result.data.name, result.data.id))
 
-        const topicData = {
-            name: name.value,
-            parentTopicId: editTopicRelationStore.parentId,
-        }
-
-        const result = await $fetch<QuickCreateResult>('/apiVue/TopicRelationEdit/QuickCreate', {
-            method: 'POST', body: topicData, mode: 'cors', credentials: 'include',
-            onResponseError(context) {
-                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-            },
-        })
-        if (result.success) {
-            spinnerStore.hideSpinner()
-            topicStore.childTopicCount++
-            editTopicRelationStore.showModal = false
-            editTopicRelationStore.addTopic(result.id)
-
-            // await nextTick()
-            if (editTopicRelationStore.redirect)
-                await navigateTo($urlHelper.getTopicUrl(result.name, result.id))
-        }
-    } else {
-        errorMsg.value = messages.error.category[nameValidationResult.key]
-        forbbidenTopicName.value = nameValidationResult.name
-        existingTopicUrl.value = nameValidationResult.url
+    } else if (result.success == false) {
+        errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
+
+        if (result.data.cantSavePrivateTopic) {
+            privateTopicLimitReached.value = true
+        }
         spinnerStore.hideSpinner()
     }
-
 }
 
 const disableAddButton = ref(true)
@@ -157,25 +175,31 @@ async function moveTopicToNewParent() {
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
     }
-
 }
 
 const { $urlHelper } = useNuxtApp()
+function getAddChildPayload() {
 
+    if (editTopicRelationStore.type == EditTopicRelationType.AddChild)
+        editTopicRelationStore.childId = selectedTopicId.value
+
+    else if (editTopicRelationStore.type == EditTopicRelationType.AddParent || editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki)
+        editTopicRelationStore.parentId = selectedTopicId.value
+
+    return {
+        childId: editTopicRelationStore.childId,
+        parentId: editTopicRelationStore.parentId,
+    }
+}
 async function addExistingTopic() {
     spinnerStore.showSpinner()
-    editTopicRelationStore.childId = selectedTopicId.value
+    const data = getAddChildPayload()
 
-    if (editTopicRelationStore.parentId == editTopicRelationStore.childId) {
+    if (data.childId == data.parentId) {
         errorMsg.value = messages.error.category.loopLink
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
         return
-    }
-
-    const data = {
-        childId: editTopicRelationStore.childId,
-        parentId: editTopicRelationStore.parentId,
     }
 
     const result = await $fetch<FetchResult<{ name: string, id: number }>>('/apiVue/TopicRelationEdit/AddChild', {
@@ -200,9 +224,6 @@ async function addExistingTopic() {
     }
 }
 
-async function addNewParentToTopic() {
-
-}
 
 watch(searchTerm, (term) => {
     if (term.length > 0 && lockDropdown.value == false) {
@@ -281,11 +302,9 @@ function handleMainBtn() {
             moveTopicToNewParent()
             break
         case EditTopicRelationType.AddChild:
-            addExistingTopic()
-            break
         case EditTopicRelationType.AddParent:
         case EditTopicRelationType.AddToPersonalWiki:
-            addNewParentToTopic()
+            addExistingTopic()
             break
     }
 }
@@ -294,6 +313,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
     if (val == false) {
         name.value = ''
         showErrorMsg.value = false
+        privateTopicLimitReached.value = false
     }
 })
 
@@ -304,18 +324,19 @@ watch(() => editTopicRelationStore.showModal, (val) => {
         v-if="editTopicRelationStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handleMainBtn()"
         :show-cancel-btn="true">
         <template v-slot:header>
-            <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">Neues Thema
-                erstellen
+            <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">
+                Neues Thema erstellen
             </h4>
-            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" class="modal-title">Thema
-                verschieben
-                nach</h4>
+            <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" class="modal-title">
+                Thema verschieben nach
+            </h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" class="modal-title">
-                Bestehendes
-                Thema verknüpfen</h4>
+                Bestehendes Thema verknüpfen
+            </h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent || editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki"
-                class="modal-title">Neues
-                Oberthema verknüpfen</h4>
+                class="modal-title">
+                Neues Oberthema verknüpfen
+            </h4>
         </template>
         <template v-slot:body>
             <template v-if="editTopicRelationStore.type == EditTopicRelationType.Create">
@@ -330,7 +351,10 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                     <NuxtLink :href="existingTopicUrl" class="alert-link">{{ forbbidenTopicName }}</NuxtLink>
                     {{ errorMsg }}
                 </div>
-                <div class="categoryPrivate">
+                <div class="link-to-sub-container" v-if="privateTopicLimitReached">
+                    <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
+                </div>
+                <div class="categoryPrivate" v-else>
                     <p><b> Das Thema ist privat.</b> Du kannst es später im das Dreipunkt-Menü oder direkt über das
                         Schloss-Icon veröffentlichen.</p>
                 </div>
@@ -505,6 +529,13 @@ watch(() => editTopicRelationStore.showModal, (val) => {
 <style lang="less" scoped>
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
+
+.link-to-sub-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 24px;
+}
 
 .categorySearchAutocomplete {
     .swap-type-target {

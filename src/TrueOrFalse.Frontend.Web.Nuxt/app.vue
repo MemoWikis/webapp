@@ -98,15 +98,28 @@ userStore.$onAction(({ name, after }) => {
 	if (name == 'login') {
 		after(async (loginResult) => {
 			if (loginResult.success == true) {
-
-				if (page.value == Page.Topic && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
-					await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
-				else
-					await refreshNuxtData()
+				await nextTick()
+				handleLogin()
 			}
 		})
 	}
+	if (name == 'apiLogin') {
+		after(async (loggedIn) => {
+			if (loggedIn == true) {
+				await nextTick()
+				handleLogin()
+			}
+
+		})
+	}
 })
+
+async function handleLogin() {
+	if ((page.value == Page.Topic || page.value == Page.Register) && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
+		await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+	else
+		await refreshNuxtData()
+}
 
 const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm

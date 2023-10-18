@@ -44,6 +44,7 @@ public class Update : IRegisterAsInstancePerLifetime
             .Add(264, () => UpdateToVs264.Run(_nhibernateSession))
             .Add(265, () => UpdateToVs265.Run(_nhibernateSession))
             .Add(266, () => UpdateToVs266.Run(_nhibernateSession))
+            .Add(UpdateToVs266.Run)
             .Run();
     }
 }

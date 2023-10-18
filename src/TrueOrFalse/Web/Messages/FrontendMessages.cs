@@ -23,6 +23,7 @@
             public static readonly string ProfileUpdate = "success_user_profileUpdate";
             public static readonly string PasswordChanged = "success_user_passwordChanged";
             public static readonly string PasswordReset = "success_user_passwordReset";
+            public static readonly string VerificationMailRequestSent = "success_user_passwordVerificationMailSent";
         }
     }
 

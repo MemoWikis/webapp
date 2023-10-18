@@ -15,7 +15,7 @@ function footerCheck() {
     if (topicContentElement) {
         var contentWidth = topicContentElement.clientWidth
         var windowWidth = window.innerWidth;
-        const elFooter = document.getElementById('TopicGrid')
+        const elFooter = document.getElementById('EditBarAnchor')
 
         if (elFooter) {
             var rect = elFooter.getBoundingClientRect();

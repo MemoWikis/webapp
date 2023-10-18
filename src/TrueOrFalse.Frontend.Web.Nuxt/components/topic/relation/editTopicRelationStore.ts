@@ -86,7 +86,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 })
             }
         },
-        addParent(id: number) {
+        addParent(id: number, redirect: boolean = true) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
@@ -94,13 +94,13 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
             const editTopicRelationData: EditRelationData = {
                 childId: id,
-                redirect: true,
+                redirect: redirect,
                 editCategoryRelation: EditTopicRelationType.AddParent
             }
 
             this.openModal(editTopicRelationData)
         },
-        addChild(id: number) {
+        addChild(id: number, redirect: boolean = true) {
             const userStore = useUserStore()
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
@@ -108,7 +108,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
             const editTopicRelationData: EditRelationData = {
                 parentId: id,
-                redirect: true,
+                redirect: redirect,
                 editCategoryRelation: EditTopicRelationType.AddChild
             }
 

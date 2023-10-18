@@ -199,7 +199,7 @@ export default <RouterConfig>{
             path: '/Maintenance',
             component: () => import('~/pages/maintenance.vue'),
             meta: {
-                middleware: ['auth'],
+                middleware: ['admin-auth'],
             },
         },
         {

@@ -4,6 +4,7 @@ import { FacebookMemuchoUser } from './FacebookMemuchoUser'
 function login() {
     FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false)
 }
+const config = useRuntimeConfig()
 
 function loadPlugin(toLogin = false) {
     const fbScriptElement = document.getElementById('facebook-jssdk')
@@ -11,7 +12,7 @@ function loadPlugin(toLogin = false) {
 
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '1789061994647406',
+                appId: config.public.facebookAppId,
                 autoLogAppEvents: true,
                 xfbml: true,
                 version: 'v17.0'
@@ -45,7 +46,7 @@ function loadFbSdk(toLogin = false) {
         fbsdkScript.onload = () => {
             window.fbAsyncInit = function () {
                 FB.init({
-                    appId: '1789061994647406',
+                    appId: config.public.facebookAppId,
                     autoLogAppEvents: true,
                     xfbml: true,
                     version: 'v17.0'
