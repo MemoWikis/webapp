@@ -279,7 +279,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         _updateQuestionCountForCategory.RunOnlyDb(category);
         Task.Run(async () =>
         {
-            await new MeiliSearchCategoriesDatabaseOperations()
+            await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
                 .UpdateAsync(category)
                 .ConfigureAwait(false);
         });

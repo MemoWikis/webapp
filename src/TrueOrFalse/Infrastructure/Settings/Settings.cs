@@ -66,14 +66,14 @@ public class Settings
         ShowAdvertisment = environment != "Live" || environment != "Stage";
         FacebookAppId = OverwrittenConfig.ValueString("FacebookAppId");
         FacebookAppSecret = OverwrittenConfig.ValueString("FacebookAppSecret");
-        MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
-        MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
-        CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
-        AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
-        LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
-        SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
-        WebhookKeyStripe = OverwrittenConfig.ValueString("WebhookKeyStripe");
-        ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
-        StripeBaseUrl = OverwrittenConfig.ValueString("StripeBaseUrl");
+        //MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
+        //MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
+        //CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
+        //AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
+        //LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
+        //SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
+        //WebhookKeyStripe = OverwrittenConfig.ValueString("WebhookKeyStripe");
+        //ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
+        //StripeBaseUrl = OverwrittenConfig.ValueString("StripeBaseUrl");
     }
 }
