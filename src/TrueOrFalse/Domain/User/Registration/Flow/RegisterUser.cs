@@ -29,20 +29,32 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         _categoryRepository = categoryRepository;
     }
 
-    private (bool success, string message) RegisterAndLogin(User user)
+    private RequestResult RegisterAndLogin(User user)
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             if (IsEmailAddressAvailable.No(user.EmailAddress, _userReadingRepo))
-                return (false, "emailInUse");
+                return new RequestResult
+                {
+                    success = false,
+                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                };
 
             if (IsEmailAdressFormat.NotValid(user.EmailAddress))
-                return (false, "falseEmailFormat");
+                return new RequestResult
+                {
+                    success = false,
+                    messageKey = FrontendMessageKeys.Error.User.FalseEmailFormat
+                };
 
             if (!user.IsFacebookUser &&
                 !user.IsGoogleUser &&
                 IsUserNameAvailable.No(user.Name, _userReadingRepo))
-                return (false, "userNameInUse");
+                return new RequestResult
+                {
+                    success = false,
+                    messageKey = FrontendMessageKeys.Error.User.UserNameInUse
+                };
 
             InitializeReputation(user);
             _userWritingRepo.Create(user);
@@ -54,17 +66,20 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user, _messageRepo);
         _sessionUser.Login(user);
 
-        var category = PersonalTopic.GetPersonalCategory(user);
+        var category = PersonalTopic.GetPersonalCategory(user, _categoryRepository);
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
         user.StartTopicId = category.Id;
 
         _userWritingRepo.Update(user);
 
-        return (true, "");
+        return new RequestResult
+        {
+            success = true,
+        };
     }
 
-    public bool SetFacebookUser(FacebookUserCreateParameter facebookUser)
+    public RequestResult SetFacebookUser(FacebookUserCreateParameter facebookUser)
     {
         var user = new User
         {
@@ -73,10 +88,10 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             FacebookId = facebookUser.id
         };
 
-        return RegisterAndLogin(user).success;
+        return RegisterAndLogin(user);
     }
 
-    public bool SetGoogleUser(GoogleUserCreateParameter googleUser)
+    public RequestResult SetGoogleUser(GoogleUserCreateParameter googleUser)
     {
         var user = new User
         {
@@ -85,7 +100,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             GoogleId = googleUser.GoogleId
         };
 
-        return RegisterAndLogin(user).success;
+        return RegisterAndLogin(user);
     }
 
     private void InitializeReputation(User user)
@@ -98,7 +113,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
     }
-    public (bool success, string message) SetUser(RegisterJson json)
+    public (bool success, RegisterResult registerResult) SetUser(RegisterJson json)
     {
         var user = new User();
         user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
@@ -106,6 +121,15 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         SetUserPassword.Run(json.Password.Trim(), user);
 
         return RegisterAndLogin(user);
+    }
+
+    public void SendWelcomeAndRegistrationEmails(User user)
+    {
+        _userReadingRepo.Flush();
+        _userReadingRepo.Refresh(user);
+
+        SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
+        WelcomeMsg.Send(user.Id, _userReadingRepo, _messageRepo);
     }
 }
 

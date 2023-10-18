@@ -173,7 +173,7 @@ public class UserStoreController : BaseController
         });
     }
     private static User CreateUserFromJson(RegisterJson json)
-}
+
     {
         var user = new User();
         user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
@@ -182,7 +182,6 @@ public class UserStoreController : BaseController
         return user;
     }
 
-    }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -194,5 +193,7 @@ public class UserStoreController : BaseController
             success = true,
             messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
         });
+    }
 
 
+}

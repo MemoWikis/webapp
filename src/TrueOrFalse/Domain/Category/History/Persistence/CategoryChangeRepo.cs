@@ -81,32 +81,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         }
     }
 
-    private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
-        User author,
-        CategoryChangeType categoryChangeType,
-        bool imageWasUpdated = false,
-        int[] affectedParentIdsByMove = null)
-    {
-        var categoryChange = new CategoryChange
-        {
-            Category = category,
-            Type = categoryChangeType,
-            AuthorId = author.Id,
-            DataVersion = 2
-        };
-        if (category.AuthorIds == null)
-        {
-            category.AuthorIds = "";
-        }
-        if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
-        {
-            category.AuthorIds += ", " + author.Id;
-            categoryRepository.Update(category);
-        }
-        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
-        base.Create(categoryChange);
-    }
-
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
     {
         Category aliasCategory = null;
@@ -194,7 +168,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     {
         return _session.CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
     }
-    private void AddUpdateOrCreateEntryDbOnly(Category category,
+    private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
         User author,
         CategoryChangeType categoryChangeType,
         bool imageWasUpdated = false,
@@ -215,9 +189,9 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             var newAuthorIdsInts = category.AuthorIdsInts.ToList();
             newAuthorIdsInts.Add(author.Id);
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
-            Sl.CategoryRepo.UpdateOnlyDb(category);
+            categoryRepository.UpdateOnlyDb(category);
         }
-        SetData(category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
+        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
         base.Create(categoryChange);
     }
 }

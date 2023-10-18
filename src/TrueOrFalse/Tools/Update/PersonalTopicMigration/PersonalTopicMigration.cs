@@ -4,12 +4,10 @@ using NHibernate.Util;
 
 public class PersonalTopicMigration
 {
-    public static void CreateOrAddPersonalTopicForUsersWithoutStartTopicId()
+    public static void CreateOrAddPersonalTopicForUsersWithoutStartTopicId(CategoryRepository categoryRepository, UserWritingRepo userWritingRepo, UserReadingRepo userReadingRepo)
     {
-        var userRepo = Sl.UserRepo;
-        var users = userRepo.GetAll();
-        var categoryRepo = Sl.CategoryRepo;
-        var allCategories = categoryRepo.GetAll();
+        var users = userReadingRepo.GetAll();
+        var allCategories = categoryRepository.GetAll();
 
         foreach (var user in users)
         {
@@ -25,13 +23,13 @@ public class PersonalTopicMigration
                 }
                 else
                 {
-                    var newTopic = PersonalTopic.GetPersonalCategory(user);
-                    categoryRepo.CreateOnlyDb(newTopic);
+                    var newTopic = PersonalTopic.GetPersonalCategory(user, categoryRepository);
+                    categoryRepository.CreateOnlyDb(newTopic);
                     user.StartTopicId = newTopic.Id;
                     Logg.r().Information("PersonalTopicMigration - User: {userId}, TopicCreated: {topicId}", user.Id, newTopic.Id);
                 }
 
-                userRepo.UpdateOnlyDb(user);
+                userWritingRepo.UpdateOnlyDb(user);
                 Logg.r().Information("PersonalTopicMigration - End Migration for User: {userId}", user.Id);
             }
         }

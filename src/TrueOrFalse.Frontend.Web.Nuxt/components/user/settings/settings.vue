@@ -121,12 +121,10 @@ watch(activeContent, () => resetAlert())
 
 
 interface ChangeProfileInformationResult {
-    success: boolean
-    message: string
-    name?: string
-    email?: string
-    imgUrl?: string
-    tinyImgUrl?: string
+    name: string
+    email: string
+    imgUrl: string
+    tinyImgUrl: string
 }
 
 async function saveProfileInformation() {
@@ -143,7 +141,7 @@ async function saveProfileInformation() {
 
     formData.append('id', userStore.id.toString())
 
-    const result = await $fetch<ChangeProfileInformationResult>('/apiVue/VueUserSettings/ChangeProfileInformation', {
+    const result = await $fetch<FetchResult<ChangeProfileInformationResult>>('/apiVue/VueUserSettings/ChangeProfileInformation', {
         mode: 'cors',
         method: 'POST',
         body: formData,
@@ -151,16 +149,16 @@ async function saveProfileInformation() {
     })
 
     if (result?.success) {
-        userStore.name, userName.value = result.name!
-        userStore.email, email.value = result.email!
-        userStore.imgUrl = result.tinyImgUrl!
+        userStore.name, userName.value = result.data.name
+        userStore.email, email.value = result.data.email
+        userStore.imgUrl = result.data.tinyImgUrl
         emit('updateProfile')
 
-        msg.value = messages.success.user[result.message]
+        msg.value = messages.getByCompositeKey(result.messageKey)
         success.value = true
         showAlert.value = true
     } else {
-        msg.value = messages.error.user[result.message]
+        msg.value = messages.getByCompositeKey(result.messageKey)
         success.value = false
         showAlert.value = true
     }

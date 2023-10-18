@@ -48,7 +48,7 @@ public class GoogleController : Controller
                     UserName = googleUser.Name,
                     GoogleId = googleUser.Subject
                 };
-                return CreateAndLogin(newUser);
+                return Json(CreateAndLogin(newUser));
             }
 
             _sessionUser.Login(user);
@@ -74,25 +74,18 @@ public class GoogleController : Controller
     }
 
     [HttpPost]
-    public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
+    public RequestResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var isSucces = _registerUser.SetGoogleUser(googleUser);
-
-        if (isSucces)
+        var requestResult = _registerUser.SetGoogleUser(googleUser);
+        if (requestResult.success)
         {
-
-            return Json(new RequestResult
+            return new RequestResult
             {
                 success = true,
                 data = _vueSessionUser.GetCurrentUserData()
-            });
+            };
         }
-
-        return Json(new RequestResult
-        {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.EmailInUse
-        });
+        return requestResult;
     }
 
 

@@ -251,4 +251,10 @@ public class UserWritingRepo
             Update(result.User.User);
         }
     }
+
+    public void UpdateOnlyDb(User user)
+    {
+        Logg.r().Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        Update(user);
+    }
 }

@@ -105,30 +105,28 @@ public class VueUserSettingsController : Controller
     public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
         if (form.id != _sessionUser.User.Id)
-            return Json(null);
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Default
+            });
 
-        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
-            IsEmailAddressAvailable.Yes(form.email))
+        if (form.email != null)
         {
-            _sessionUser.User.EmailAddress = form.email.Trim();
-            _sessionUser.User.IsEmailConfirmed = false;
-                }
-            );
-        
-        var email = form.email.Trim();
-        if (email != _sessionUser.User.EmailAddress &&
-            IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
-            IsEmailAdressFormat.Valid(email))
+            var email = form.email.Trim();
+            if (email != _sessionUser.User.EmailAddress &&
+                IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
+                IsEmailAdressFormat.Valid(email))
+            {
+                _sessionUser.User.EmailAddress = email;
+                _sessionUser.User.IsEmailConfirmed = false;
+            }
+        } else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
         {
-            _sessionUser.User.EmailAddress = email;
-        }
-
-        else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
-        {
-            return Json(new
-                {
+            return Json(new RequestResult
+            {
                     success = false,
-                    message = "emailInUse"
+                    message = FrontendMessageKeys.Error.User.EmailInUse
                 }
             );
         }
@@ -143,7 +141,7 @@ public class VueUserSettingsController : Controller
             return Json(new
                 {
                     success = false,
-                    message = "userNameInUse"
+                    message = FrontendMessageKeys.Error.User.UserNameInUse
                 }
             );
         }
@@ -157,22 +155,24 @@ public class VueUserSettingsController : Controller
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
-        userRepo.Update(_sessionUser.User);
 
-        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress)
+        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress && !_sessionUser.User.IsEmailConfirmed)
             SendConfirmationEmail.Run(_sessionUser.User.Id);
 
         var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
             _httpContextAccessor, 
             _webHostEnvironment);
-        return Json(new
+        return Json(new RequestResult
         {
             success = true,
-            message = "profileUpdate",
-            name = _sessionUser.User.Name,
-            email = _sessionUser.User.EmailAddress,
-            imgUrl = userImageSettings.GetUrl_250px(_sessionUser.User).Url,
-            tinyImgUrl = userImageSettings.GetUrl_20px(_sessionUser.User).Url
+            messageKey = FrontendMessageKeys.Success.User.ProfileUpdate,
+            data = new
+            {
+                name = _sessionUser.User.Name,
+                email = _sessionUser.User.EmailAddress,
+                imgUrl = userImageSettings.GetUrl_250px(_sessionUser.User).Url,
+                tinyImgUrl = userImageSettings.GetUrl_20px(_sessionUser.User).Url
+            }
         });
     }
 
