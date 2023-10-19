@@ -24,7 +24,6 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         credentials: 'include',
         mode: 'cors',
         onRequest({ options }) {
-            console.log('Anfrage startet /apiVue/Topic/GetTopic/ .... ');
             if (process.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
@@ -36,7 +35,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         },
         server: true,
         retry: 3
-        })
+    })
 
 const tabSwitched = ref(false)
 
@@ -153,13 +152,6 @@ useHead(() => ({
 }))
 
 const { isMobile } = useDevice()
-onBeforeMount(() => {
-    $logger.info(`tabCheck onBeforeMount: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
-})
-onMounted(() => {
-    $logger.info(`tabCheck mounted: ${route.params.id}`, [{ route: route.fullPath, activeTab: tabsStore.activeTab, props: props.tab, tabSwitched: tabSwitched.value }])
-})
-
 watch(() => props.tab, (t) => {
     if (t != null) {
         tabsStore.activeTab = t

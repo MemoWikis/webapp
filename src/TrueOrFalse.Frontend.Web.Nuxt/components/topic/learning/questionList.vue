@@ -25,7 +25,6 @@ async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
 
-    console.log("itemscountPerPage", itemCountPerPage.value, "page", page, "topicId", topicStore.id)
     var result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
         method: 'POST', body: {
             itemCountPerPage: itemCountPerPage.value,
