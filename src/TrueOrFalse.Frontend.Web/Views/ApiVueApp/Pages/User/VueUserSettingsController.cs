@@ -102,37 +102,32 @@ public class VueUserSettingsController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeProfileInformation(ProfileInformation form)
+    public JsonResult ChangeProfileInformation([FromForm] ProfileInformation form)
     {
         if (form.id != _sessionUser.User.Id)
         {
             return Json(null);
         }
-
-        if(string.IsNullOrEmpty(form.email))
-            return Json(new
-                {
-                    success = false,
-                    message = "emailEmpty"
-                }
-            );
         
-        var email = form.email.Trim();
-        if (email != _sessionUser.User.EmailAddress &&
-            IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
-            IsEmailAdressFormat.Valid(email))
+        if (form.email != null)
         {
-            _sessionUser.User.EmailAddress = email;
-        }
+            var email = form.email.Trim();
+            if (email != _sessionUser.User.EmailAddress &&
+                IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
+                IsEmailAdressFormat.Valid(email))
+            {
+                _sessionUser.User.EmailAddress = email;
+            }
 
-        else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
-        {
-            return Json(new
-                {
-                    success = false,
-                    message = "emailInUse"
-                }
-            );
+            else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
+            {
+                return Json(new
+                    {
+                        success = false,
+                        message = "emailInUse"
+                    }
+                );
+            }
         }
 
         if (form.username != null && form.username.Trim() != _sessionUser.User.Name &&
@@ -165,6 +160,7 @@ public class VueUserSettingsController : Controller
         var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
             _httpContextAccessor, 
             _webHostEnvironment);
+
         return Json(new
         {
             success = true,
