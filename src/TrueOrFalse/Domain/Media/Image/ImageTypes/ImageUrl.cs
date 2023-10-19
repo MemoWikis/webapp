@@ -37,7 +37,7 @@ public class ImageUrl
         bool isSquare,
         Func<int, string> getFallBackImage)
     {
-        var requestedImagePath =  Path.Combine(ImagePath, "_" + requestedWidth + SquareSuffix(isSquare) + ".jpg").NormalizePathSeparators();
+        var requestedImagePath =  Path.Combine(ImagePath, imageSettings.BasePath, $"{imageSettings.Id}_" + requestedWidth + SquareSuffix(isSquare) + ".jpg").NormalizePathSeparators();
 
         if (imageSettings.Id > 0)
         {
@@ -122,7 +122,7 @@ public class ImageUrl
 
     private ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
     {
-        var basePath = ImageFolder + "/" + imageSettings.BasePath + imageSettings.Id; 
+        var basePath = $"{ImageFolder}/{imageSettings.BasePath}/{imageSettings.Id}"; 
         var url = width ==  -1 ?
                              basePath + ".jpg" :
                             basePath + "_" + width + SquareSuffix(isSquare) + ".jpg";
