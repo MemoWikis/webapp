@@ -285,32 +285,6 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         });
     }
 
-    public void UpdateOnlyDb(
-        Category category,
-        SessionUserCacheItem author = null,
-        bool imageWasUpdated = false,
-        bool isFromModifiyRelations = false,
-        CategoryChangeType type = CategoryChangeType.Update,
-        bool createCategoryChange = true,
-        int[] affectedParentIdsByMove = null)
-    {
-        base.Update(category);
-
-        if (author != null && createCategoryChange)
-        {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
-        }
-
-        Flush();
-        Sl.R<UpdateQuestionCountForCategory>().RunOnlyDb(category);
-        Task.Run(async () =>
-        {
-            await new MeiliSearchCategoriesDatabaseOperations()
-                .UpdateAsync(category)
-                .ConfigureAwait(false);
-        });
-    }
-
     public void UpdateAuthors(Category category)
     {
         var sql = "UPDATE category " +

@@ -72,30 +72,25 @@ public class FacebookUsersController : Controller
             if (user != null)
             {
                 _sessionUser.Login(user);
-
                 return Json(new RequestResult
                 {
                     success = true,
                     data = _vueSessionUser.GetCurrentUserData()
                 });
             }
+
             var requestResult = _registerUser.SetFacebookUser(facebookUser);
             if (requestResult.success)
-                return Json(new RequestResult
-                {
-                    success = true,
-                    data = _vueSessionUser.GetCurrentUserData()
-                });
-            return Json(requestResult);
-            }
-            if (registerResult.EmailAlreadyInUse)
             {
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                    success = true,
+                    data = _vueSessionUser.GetCurrentUserData()
                 });
             }
+
+            return Json(requestResult);
+
         }
 
         return Json(new RequestResult

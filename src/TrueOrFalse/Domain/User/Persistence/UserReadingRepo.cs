@@ -109,7 +109,7 @@ public class UserReadingRepo : RepositoryDb<User>
             .RowCount() == 1;
     }
 
-    public User UserGetByFacebookId(string facebookId)
+    public User? UserGetByFacebookId(string facebookId)
     {
         return Session
             .QueryOver<User>()

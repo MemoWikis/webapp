@@ -7,9 +7,10 @@ using TrueOrFalse.Domain.User;
 
 namespace VueApp;
 
-public class UserStoreController : BaseController
+public class UserStoreController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
+    private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
@@ -47,6 +48,7 @@ public class UserStoreController : BaseController
         JobQueueRepo jobQueueRepo)
     {
         _vueSessionUser = vueSessionUser;
+        _sessionUser = sessionUser;
         _registerUser = registerUser;
         _persistentLoginRepo = persistentLoginRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
@@ -185,19 +187,6 @@ public class UserStoreController : BaseController
         return user;
     }
 
-    }
-
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult RequestVerificationMail()
-    {
-        SendConfirmationEmail.Run(_sessionUser.User.Id);
-        return Json(new RequestResult
-        {
-            success = true,
-            messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
-        });
-
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult RequestVerificationMail()
@@ -209,6 +198,5 @@ public class UserStoreController : BaseController
             messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
         });
     }
-
 
 }
