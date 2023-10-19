@@ -15,14 +15,15 @@ export const messages: any = {
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
             passwordChanged: "Dein Passwort wurde erfolgreich geändert.",
-            passwordReset: "Dein Passwort wurde zurückgesetzt."
+            passwordReset: "Dein Passwort wurde zurückgesetzt.",
+            passwordVerificationMailSent: "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
         }
     },
     error: {
         subscription: {
-            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenztes Wunschwissen zu erhalten.",
-            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenzt private Fragen zu erstellen.",
-            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab um unbegrenzt private Themen zu erstellen."
+            cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
+            cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
+            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
         },
         category: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
@@ -63,8 +64,8 @@ export const messages: any = {
             inputError: "Bitte überprüfe deine Eingaben.",
             passwordResetTokenIsInvalid: "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team@memucho.de.",
             passwordResetTokenIsExpired: "Der Link ist abgelaufen.",
-            doesNotExist: "Der angegebene Nutzern wurde nicht gefunden. Bitte überprüfen Sie, ob Sie den korrekten Anmeldedaten eingegeben haben.",
-            invalidFBToken: "Hoppla! Es scheint, als ob das von Ihnen eingegebene Facebook-Token nicht korrekt ist. Bitte versuchen Sie es erneut mit einer neuen Anmeldung über Facebook. Falls das Problem weiterhin besteht, kontaktieren Sie uns bitte für Unterstützung. Wir sind immer da, um Ihnen zu helfen.",
+            doesNotExist: "Der angegebene Nutzer wurde nicht gefunden. Bitte überprüfe, ob deine Anmeldedaten korrekt sind.",
+            invalidFBToken: "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
             emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
             passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein.",
             loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
@@ -85,12 +86,12 @@ export const messages: any = {
         googleLogin: '<p>Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
         facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
         questionNotInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',
-        passwordResetRequested: (email: string) => `Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an ${email} geschickt.`
+        passwordResetRequested: (email: string) => `Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an ${email} geschickt.`,
+        joinNow: 'Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!'
     },
     getByCompositeKey(messageKey: string): string | undefined {
         const keyParts = messageKey?.split('_');
         let currentLevel = messages;
-
         for (const part of (keyParts ?? ["WillReturnUndefined"])) {
             if (currentLevel.hasOwnProperty(part)) {
                 currentLevel = currentLevel[part];

@@ -16,6 +16,7 @@ public class VueUserSettingsController : Controller
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly Logg _logg;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public VueUserSettingsController(SessionUser sessionUser,
         ReputationUpdate reputationUpdate,
@@ -26,7 +27,8 @@ public class VueUserSettingsController : Controller
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         Logg logg,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
@@ -38,6 +40,7 @@ public class VueUserSettingsController : Controller
         _webHostEnvironment = webHostEnvironment;
         _logg = logg;
         _questionReadingRepo = questionReadingRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -105,32 +108,28 @@ public class VueUserSettingsController : Controller
     public JsonResult ChangeProfileInformation(ProfileInformation form)
     {
         if (form.id != _sessionUser.User.Id)
-        {
-            return Json(null);
-        }
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Default
+            });
 
-        if(string.IsNullOrEmpty(form.email))
-            return Json(new
-                {
-                    success = false,
-                    message = "emailEmpty"
-                }
-            );
-        
-        var email = form.email.Trim();
-        if (email != _sessionUser.User.EmailAddress &&
-            IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
-            IsEmailAdressFormat.Valid(email))
+        if (form.email != null)
         {
-            _sessionUser.User.EmailAddress = email;
-        }
-
-        else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
+            var email = form.email.Trim();
+            if (email != _sessionUser.User.EmailAddress &&
+                IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
+                IsEmailAdressFormat.Valid(email))
+            {
+                _sessionUser.User.EmailAddress = email;
+                _sessionUser.User.IsEmailConfirmed = false;
+            }
+        } else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
         {
-            return Json(new
-                {
+            return Json(new RequestResult
+            {
                     success = false,
-                    message = "emailInUse"
+                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
                 }
             );
         }
@@ -145,34 +144,38 @@ public class VueUserSettingsController : Controller
             return Json(new
                 {
                     success = false,
-                    message = "userNameInUse"
+                    message = FrontendMessageKeys.Error.User.UserNameInUse
                 }
             );
         }
 
         if (form.file != null)
-        {
             UserImageStore.Run(form.file, 
                 _sessionUser.UserId,
                 _httpContextAccessor,
                 _webHostEnvironment,
                 _logg);
-        }
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
 
+        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress && !_sessionUser.User.IsEmailConfirmed)
+            SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
+
         var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
             _httpContextAccessor, 
             _webHostEnvironment);
-        return Json(new
+        return Json(new RequestResult
         {
             success = true,
-            message = "profileUpdate",
-            name = _sessionUser.User.Name,
-            email = _sessionUser.User.EmailAddress,
-            imgUrl = userImageSettings.GetUrl_250px(_sessionUser.User).Url,
-            tinyImgUrl = userImageSettings.GetUrl_20px(_sessionUser.User).Url
+            messageKey = FrontendMessageKeys.Success.User.ProfileUpdate,
+            data = new
+            {
+                name = _sessionUser.User.Name,
+                email = _sessionUser.User.EmailAddress,
+                imgUrl = userImageSettings.GetUrl_250px(_sessionUser.User).Url,
+                tinyImgUrl = userImageSettings.GetUrl_20px(_sessionUser.User).Url
+            }
         });
     }
 

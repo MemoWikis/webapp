@@ -11,6 +11,9 @@ public class Settings
     public static bool UseWebConfig;
     public static string WebhookKeyStripe => OverwrittenConfig.ValueString("WebhookKeyStripe");
     public static string CanonicalHost => GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
+    public static string GoogleApiKey => GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
+    public static string FacebookAppId => OverwrittenConfig.ValueString("FacebookAppId");
+    public static string FacebookAppSecret => OverwrittenConfig.ValueString("FacebookAppSecret");
     public static string EmailFrom = "team@memucho.de";
     public static string EmailToMemucho = "team@memucho.de";
     public static string MemuchoCookie = "memucho";

@@ -78,7 +78,8 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 IsSubscriptionCanceled = subscriptionDate is
                 {
                     Year: < 9999
-                }
+                },
+                IsEmailConfirmed = _sessionUser.IsLoggedIn && _sessionUser.User.IsEmailConfirmed
             };
         }
 

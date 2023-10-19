@@ -67,7 +67,11 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         var stripeReturnUrlGenerator = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment);
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string> { "card", "paypal", "sofort" },
+            PaymentMethodTypes = new List<string> { 
+                "card",
+                "paypal"
+                //, "sofort"
+            },
             Mode = "subscription",
             LineItems = new List<SessionLineItemOptions>
             {

@@ -247,6 +247,43 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
                 .ConfigureAwait(false);
         });
     }
+    public void CreateOnlyDb(Category category)
+    {
+        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
+        {
+            related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
+        }
+
+        base.Create(category);
+        Flush();
+
+        _categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
+    }
+    public void UpdateOnlyDb(
+        Category category,
+        SessionUserCacheItem author = null,
+        bool imageWasUpdated = false,
+        bool isFromModifiyRelations = false,
+        CategoryChangeType type = CategoryChangeType.Update,
+        bool createCategoryChange = true,
+        int[] affectedParentIdsByMove = null)
+    {
+        base.Update(category);
+
+        if (author != null && createCategoryChange)
+        {
+            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+        }
+
+        Flush();
+        _updateQuestionCountForCategory.RunOnlyDb(category);
+        Task.Run(async () =>
+        {
+            await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+                .UpdateAsync(category)
+                .ConfigureAwait(false);
+        });
+    }
 
     public void UpdateAuthors(Category category)
     {

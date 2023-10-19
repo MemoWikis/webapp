@@ -121,7 +121,8 @@ const topic = useState<Topic>('topic')
                 <div class="topic-detail-label">{{ topicStore.views }}</div>
             </div>
             <div v-if="isMobile" class="topic-detail-flex-breaker"></div>
-            <div v-if="isDesktopOrTablet" class="topic-detail-spacer"></div>
+            <div v-if="isDesktopOrTablet && (topicStore.views > 0 || (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0))"
+                class="topic-detail-spacer"></div>
 
             <template v-for="author in firstAuthors">
                 <LazyNuxtLink v-if="author.Id > 0" :to="$urlHelper.getUserUrl(author.Name, author.Id)"

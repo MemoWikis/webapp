@@ -23,6 +23,7 @@
             public static readonly string ProfileUpdate = "success_user_profileUpdate";
             public static readonly string PasswordChanged = "success_user_passwordChanged";
             public static readonly string PasswordReset = "success_user_passwordReset";
+            public static readonly string VerificationMailRequestSent = "success_user_passwordVerificationMailSent";
         }
     }
 
@@ -81,6 +82,7 @@
             public static readonly string InvalidFBToken = "error_user_invalidFBToken";
             public static readonly string PasswordTooShort = "error_user_passwordTooShort";
             public static readonly string LoginFailed = "error_user_loginFailed";
+            public static readonly string FalseEmailFormat = "error_user_falseEmailFormat";
         }
 
         public static readonly string Default = "error_default";

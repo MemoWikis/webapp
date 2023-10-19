@@ -77,10 +77,10 @@ namespace VueApp
         }
 
         [HttpGet]
-        public async Task<JsonResult> Topic(string term, string topicIdsToFilter)
+        public async Task<JsonResult> Topic(string term, string topicIdsToFilter = "")
         {
             var items = new List<SearchTopicItem>();
-            var idArray = topicIdsToFilter.Split(',').Select(int.Parse).ToArray();
+        var idArray = topicIdsToFilter.Length > 0 ? topicIdsToFilter.Split(',').Select(int.Parse).ToArray() : null;
 
             var elements = await _search.GoAllCategories(term, idArray);
 

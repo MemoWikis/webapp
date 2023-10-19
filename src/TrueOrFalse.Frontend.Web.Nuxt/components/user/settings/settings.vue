@@ -3,7 +3,7 @@ import { useUserStore } from '../userStore'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import * as Subscription from '~~/components/user/membership/subscription'
 import { Content } from './contentEnum'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore';
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -121,12 +121,10 @@ watch(activeContent, () => resetAlert())
 
 
 interface ChangeProfileInformationResult {
-    success: boolean
-    message: string
-    name?: string
-    email?: string
-    imgUrl?: string
-    tinyImgUrl?: string
+    name: string
+    email: string
+    imgUrl: string
+    tinyImgUrl: string
 }
 
 async function saveProfileInformation() {
@@ -143,7 +141,7 @@ async function saveProfileInformation() {
 
     formData.append('id', userStore.id.toString())
 
-    const result = await $fetch<ChangeProfileInformationResult>('/apiVue/VueUserSettings/ChangeProfileInformation', {
+    const result = await $fetch<FetchResult<ChangeProfileInformationResult>>('/apiVue/VueUserSettings/ChangeProfileInformation', {
         mode: 'cors',
         method: 'POST',
         body: formData,
@@ -151,16 +149,16 @@ async function saveProfileInformation() {
     })
 
     if (result?.success) {
-        userStore.name, userName.value = result.name!
-        userStore.email, email.value = result.email!
-        userStore.imgUrl = result.tinyImgUrl!
+        userStore.name, userName.value = result.data.name
+        userStore.email, email.value = result.data.email
+        userStore.imgUrl = result.data.tinyImgUrl
         emit('updateProfile')
 
-        msg.value = messages.success.user[result.message]
+        msg.value = messages.getByCompositeKey(result.messageKey)
         success.value = true
         showAlert.value = true
     } else {
-        msg.value = messages.error.user[result.message]
+        msg.value = messages.getByCompositeKey(result.messageKey)
         success.value = false
         showAlert.value = true
     }
@@ -342,7 +340,12 @@ const getSelectedSettingsPageLabel = computed(() => {
             return 'Wissensbericht'
     }
 })
-
+async function requestVerificationMail() {
+    const result = await userStore.requestVerificationMail()
+    msg.value = messages.getByCompositeKey(result.messageKey)
+    success.value = true
+    showAlert.value = true
+}
 </script>
 
 <template>
@@ -489,16 +492,40 @@ const getSelectedSettingsPageLabel = computed(() => {
                         </div>
 
                         <div class="input-container">
-                            <div class="overline-s no-line">E-Mail</div>
+                            <div class="overline-s no-line col-lg-6">E-Mail</div>
+                            <div class="col-xs-12"></div>
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
                                         <input name="email" placeholder="" type="email" width="0" v-model="email"
                                             class="settings-input" id="email">
                                     </div>
+                                    <div class="col-lg-12"></div>
+                                    <div class="col-sm-12 col-lg-6 ">
+                                        <div class="email-confirmation-container">
+                                            <div v-if="userStore.isEmailConfirmed"
+                                                class="email-verification-label verified overline-s no-line">
+                                                <font-awesome-icon :icon="['fas', 'check']" /> Verifiziert
+                                            </div>
+                                            <template v-else>
+                                                <div class="email-verification-label not-verified overline-s no-line">
+                                                    <font-awesome-icon :icon="['fas', 'xmark']" /> Nicht verifiziert
+                                                </div>
+                                                <button class="btn-link generic-btn-link"
+                                                    @click.prevent="requestVerificationMail()">
+                                                    <font-awesome-icon
+                                                        :icon="['fas', 'envelope-circle-check']" />Verifizierungs-E-Mail
+                                                    senden
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
                                 </div>
                             </form>
+
                         </div>
+
+
                     </div>
                     <div class="settings-section">
                         <button class="memo-button btn btn-primary" @click="saveProfileInformation()">
@@ -763,6 +790,32 @@ const getSelectedSettingsPageLabel = computed(() => {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.email-confirmation-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .email-verification-label {
+
+        &.verified {
+            svg {
+                color: @memo-green;
+
+            }
+        }
+
+        &.not-verified {
+            svg {
+                color: @memo-wuwi-red;
+            }
+        }
+    }
+
+    svg {
+        margin-right: 2px;
+    }
+}
+
 .mobile-dropdown {
     width: calc(100vw - 20px);
 
@@ -922,7 +975,9 @@ p {
     }
 }
 
-
+.generic-btn-link {
+    padding: 0px;
+}
 
 .divider {
     margin-top: 20px;
