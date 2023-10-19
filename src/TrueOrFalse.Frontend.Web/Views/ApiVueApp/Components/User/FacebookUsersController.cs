@@ -87,6 +87,15 @@ public class FacebookUsersController : Controller
                     data = _vueSessionUser.GetCurrentUserData()
                 });
             return Json(requestResult);
+            }
+            if (registerResult.EmailAlreadyInUse)
+            {
+                return Json(new RequestResult
+                {
+                    success = false,
+                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                });
+            }
         }
 
         return Json(new RequestResult

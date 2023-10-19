@@ -31,6 +31,10 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 
     public void RunOnlyDb(Category category)
     {
+        category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
+    }
+
+    {
         category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;
     }
 

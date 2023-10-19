@@ -5,7 +5,7 @@
         var wikiName = user.Name + "s Wiki";
         var counter = 1;
         while (categoryRepo.Exists(wikiName))
-        {
+    {
             wikiName = user.Name + "s Wiki (" + counter + ")";
             counter++;
         }

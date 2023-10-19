@@ -158,6 +158,13 @@ watch(() => props.tab, (t) => {
     }
 
 }, { immediate: true })
+
+watch(() => props.tab, (t) => {
+    if (t != null) {
+        tabsStore.activeTab = t
+    }
+
+}, { immediate: true })
 </script>
 
 <template>

@@ -78,6 +78,7 @@ public class GoogleController : Controller
     {
         var requestResult = _registerUser.SetGoogleUser(googleUser);
         if (requestResult.success)
+
         {
             return new RequestResult
             {
