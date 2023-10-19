@@ -11,9 +11,9 @@ public class Settings
     public static bool UseWebConfig;
     public static string WebhookKeyStripe => OverwrittenConfig.ValueString("WebhookKeyStripe");
     public static string CanonicalHost => GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
-    public static string GoogleApiKey;
-    public static string FacebookAppId;
-    public static string FacebookAppSecret;
+    public static string GoogleApiKey => GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
+    public static string FacebookAppId => OverwrittenConfig.ValueString("FacebookAppId");
+    public static string FacebookAppSecret => OverwrittenConfig.ValueString("FacebookAppSecret");
     public static string EmailFrom = "team@memucho.de";
     public static string EmailToMemucho = "team@memucho.de";
     public static string MemuchoCookie = "memucho";
@@ -62,18 +62,6 @@ public class Settings
     public Settings(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
         var environment = Environment(httpContext, webHostEnvironment);
-        GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
         ShowAdvertisment = environment != "Live" || environment != "Stage";
-        FacebookAppId = OverwrittenConfig.ValueString("FacebookAppId");
-        FacebookAppSecret = OverwrittenConfig.ValueString("FacebookAppSecret");
-        //MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
-        //MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
-        //CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
-        //AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
-        //LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
-        //SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
-        //WebhookKeyStripe = OverwrittenConfig.ValueString("WebhookKeyStripe");
-        //ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
-        //StripeBaseUrl = OverwrittenConfig.ValueString("StripeBaseUrl");
     }
 }

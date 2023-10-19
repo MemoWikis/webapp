@@ -7,9 +7,10 @@ using TrueOrFalse.Domain.User;
 
 namespace VueApp;
 
-public class UserStoreController : BaseController
+public class UserStoreController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
+    private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
