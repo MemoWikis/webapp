@@ -58,7 +58,8 @@ public class VueUserSettingsController : Controller
             _userWritingRepo.Update(_sessionUser.User);
             return Json(new
             {
-                success = true, message
+                success = true,
+                message
             });
         }
 
@@ -124,15 +125,17 @@ public class VueUserSettingsController : Controller
                 _sessionUser.User.EmailAddress = email;
                 _sessionUser.User.IsEmailConfirmed = false;
             }
-        } else if (form.email != null && !IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
-        {
-            return Json(new RequestResult
+
+            else if (!IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
             {
+                return Json(new
+                {
                     success = false,
                     messageKey = FrontendMessageKeys.Error.User.EmailInUse
-                }
-            );
+                });
+            }
         }
+
 
         if (form.username != null && form.username.Trim() != _sessionUser.User.Name &&
             IsUserNameAvailable.Yes(form.username, _userReadingRepo))
@@ -142,15 +145,15 @@ public class VueUserSettingsController : Controller
         else if (form.username != null && !IsUserNameAvailable.Yes(form.username, _userReadingRepo))
         {
             return Json(new
-                {
-                    success = false,
-                    message = FrontendMessageKeys.Error.User.UserNameInUse
-                }
+            {
+                success = false,
+                message = FrontendMessageKeys.Error.User.UserNameInUse
+            }
             );
         }
 
         if (form.file != null)
-            UserImageStore.Run(form.file, 
+            UserImageStore.Run(form.file,
                 _sessionUser.UserId,
                 _httpContextAccessor,
                 _webHostEnvironment,
@@ -162,8 +165,8 @@ public class VueUserSettingsController : Controller
         if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress && !_sessionUser.User.IsEmailConfirmed)
             SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
 
-        var userImageSettings = new UserImageSettings(_sessionUser.UserId, 
-            _httpContextAccessor, 
+        var userImageSettings = new UserImageSettings(_sessionUser.UserId,
+            _httpContextAccessor,
             _webHostEnvironment);
         return Json(new
         {
@@ -220,10 +223,10 @@ public class VueUserSettingsController : Controller
     {
         var imageSettings = new UserImageSettings(_httpContextAccessor, _webHostEnvironment)
             .InitByType(new ImageMetaData
-        {
-            Type = ImageType.User,
-            TypeId = _sessionUser.User.Id
-        },_questionReadingRepo);
+            {
+                Type = ImageType.User,
+                TypeId = _sessionUser.User.Id
+            }, _questionReadingRepo);
         imageSettings.DeleteFiles();
         return Json(new UserImageSettings(_httpContextAccessor, _webHostEnvironment).GetUrl_250px(_sessionUser.User).Url);
     }
