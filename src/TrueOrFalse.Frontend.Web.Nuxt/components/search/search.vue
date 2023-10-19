@@ -87,7 +87,7 @@ async function search() {
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
         }
-    }) 
+    })
     if (result != null) {
         if (result.topics) {
             topics.value = result.topics
@@ -107,11 +107,6 @@ async function search() {
         }
         noResults.value = result.topics?.length + result.questions?.length + result.users?.length <= 0
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
-
-        console.log("result users", result.users);
-        console.log("result topics", result.topics);
-        console.log("result questions", result.questions);
-        console.log("result",result)
     }
 }
 
@@ -175,7 +170,7 @@ watch(() => props.showSearch, (val) => {
                             <div>{{ topicCount }} Treffer</div>
                         </div>
                         <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
-                             <Image :src="t.ImageUrl" :format="ImageFormat.Topic" />
+                            <Image :src="t.ImageUrl" :format="ImageFormat.Topic" />
                             <div class="searchResultLabelContainer">
                                 <div class="searchResultLabel body-m">{{ t.Name }}</div>
                                 <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template

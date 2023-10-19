@@ -3,6 +3,7 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -31,7 +32,7 @@ public class FacebookUsersController : Controller
     }
 
     [HttpPost]
-    public JsonResult Login(string facebookUserId, string facebookAccessToken)
+    public async Task<JsonResult> Login(string facebookUserId, string facebookAccessToken)
     {
         var user = _userReadingRepo.UserGetByFacebookId(facebookUserId);
 
@@ -44,13 +45,13 @@ public class FacebookUsersController : Controller
             });
         }
 
-        if (IsFacebookAccessToken.Valid(facebookAccessToken, facebookUserId))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUserId))
         {
             _sessionUser.Login(user);
 
             return Json(new RequestResult
             {
-                success = false,
+                success = true,
                 data = _vueSessionUser.GetCurrentUserData()
             });
         }
@@ -63,32 +64,39 @@ public class FacebookUsersController : Controller
     }
 
     [HttpPost]
-    public JsonResult CreateAndLogin(FacebookUserCreateParameter facebookUser)
+    public async Task<JsonResult> CreateAndLogin(FacebookUserCreateParameter facebookUser, string facebookAccessToken)
     {
-        if (_userReadingRepo.FacebookUserExists(facebookUser.id))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUser.id))
         {
-            return Json(new RequestResult
+            var user = _userReadingRepo.UserGetByFacebookId(facebookUser.id);
+            if (user != null)
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.EmailInUse
-            });
-        }
+                _sessionUser.Login(user);
+                return Json(new RequestResult
+                {
+                    success = true,
+                    data = _vueSessionUser.GetCurrentUserData()
+                });
+            }
 
-        var isSuccess = _registerUser.SetFacebookUser(facebookUser);
-
-        if (isSuccess)
-        {
-            return Json(new RequestResult
+            var requestResult = _registerUser.SetFacebookUser(facebookUser);
+            if (requestResult.success)
             {
-                success = true,
-                data = _vueSessionUser.GetCurrentUserData(),
-            });
+                return Json(new RequestResult
+                {
+                    success = true,
+                    data = _vueSessionUser.GetCurrentUserData()
+                });
+            }
+
+            return Json(requestResult);
+
         }
 
         return Json(new RequestResult
         {
             success = false,
-            messageKey = FrontendMessageKeys.Error.Default
+            messageKey = FrontendMessageKeys.Error.User.InvalidFBToken
         });
     }
     

@@ -50,9 +50,11 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         {
             category.AuthorIds = "";
         }
-        if (AuthorWorthyChangeCheck(categoryChangeType) && authorId > 0 && !category.AuthorIds.Contains("," + authorId + ","))
+        else if (AuthorWorthyChangeCheck(categoryChangeType) && authorId > 0 && category.AuthorIdsInts.All(id => id != authorId))
         {
-            category.AuthorIds += ", " + authorId;
+            var newAuthorIdsInts = category.AuthorIdsInts.ToList();
+            newAuthorIdsInts.Add(authorId);
+            category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
             EntityCache.AddOrUpdate(categoryCacheItem);
@@ -61,7 +63,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
         base.Create(categoryChange);
     }
-
 
     private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
     {
@@ -78,32 +79,6 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {categoryChange.DataVersion} for category change id {categoryChange.Id}");
         }
-    }
-
-    private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
-        User author,
-        CategoryChangeType categoryChangeType,
-        bool imageWasUpdated = false,
-        int[] affectedParentIdsByMove = null)
-    {
-        var categoryChange = new CategoryChange
-        {
-            Category = category,
-            Type = categoryChangeType,
-            AuthorId = author.Id,
-            DataVersion = 2
-        };
-        if (category.AuthorIds == null)
-        {
-            category.AuthorIds = "";
-        }
-        if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && !category.AuthorIds.Contains("," + author.Id + ","))
-        {
-            category.AuthorIds += ", " + author.Id;
-            categoryRepository.Update(category);
-        }
-        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
-        base.Create(categoryChange);
     }
 
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
@@ -192,5 +167,31 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
     public int GetCategoryId(int version)
     {
         return _session.CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+    }
+    private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
+        User author,
+        CategoryChangeType categoryChangeType,
+        bool imageWasUpdated = false,
+        int[] affectedParentIdsByMove = null)
+    {
+        var categoryChange = new CategoryChange
+        {
+            Category = category,
+            Type = categoryChangeType,
+            AuthorId = author.Id,
+            DataVersion = 2
+        };
+        if (category.AuthorIds == null)
+        {
+            category.AuthorIds = "";
+        } else if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && category.AuthorIdsInts.All(id => id != author.Id))
+        {
+            var newAuthorIdsInts = category.AuthorIdsInts.ToList();
+            newAuthorIdsInts.Add(author.Id);
+            category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
+            categoryRepository.UpdateOnlyDb(category);
+        }
+        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
+        base.Create(categoryChange);
     }
 }

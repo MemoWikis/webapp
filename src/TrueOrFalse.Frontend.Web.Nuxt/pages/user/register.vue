@@ -60,6 +60,8 @@ function facebookRegister() {
     }
 }
 
+const config = useRuntimeConfig()
+
 function loadFacebookPlugin(toRegister = false) {
     allowFacebookPlugin.value = true
     awaitingConsent.value = null
@@ -69,7 +71,7 @@ function loadFacebookPlugin(toRegister = false) {
 
         window.fbAsyncInit = function () {
             FB.init({
-                appId: '1789061994647406',
+                appId: config.public.facebookAppId,
                 xfbml: true,
                 version: 'v2.8'
             })
@@ -130,8 +132,10 @@ const { $urlHelper } = useNuxtApp()
 async function register() {
     errorMessage.value = ''
 
-    if (!isValidEmail(eMail.value))
+    if (!isValidEmail(eMail.value)) {
         errorMessage.value = messages.error.user.emailIsInvalid(eMail.value)
+        return
+    }
 
     spinnerStore.showSpinner()
 

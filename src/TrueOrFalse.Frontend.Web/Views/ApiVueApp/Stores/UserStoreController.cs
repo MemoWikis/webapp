@@ -26,6 +26,7 @@ public class UserStoreController : Controller
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public UserStoreController(VueSessionUser vueSessionUser,
         SessionUser sessionUser,
@@ -43,7 +44,8 @@ public class UserStoreController : Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IActionContextAccessor actionContextAccessor,
         UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo,
+        JobQueueRepo jobQueueRepo)
     {
         _vueSessionUser = vueSessionUser;
         _sessionUser = sessionUser;
@@ -62,6 +64,7 @@ public class UserStoreController : Controller
         _actionContextAccessor = actionContextAccessor;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
+        _jobQueueRepo = jobQueueRepo;
     }
 
     [HttpPost]
@@ -174,7 +177,26 @@ public class UserStoreController : Controller
             }
         });
     }
+    private static User CreateUserFromJson(RegisterJson json)
+
+    {
+        var user = new User();
+        user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
+        user.Name = json.Name.TrimAndReplaceWhitespacesWithSingleSpace();
+        SetUserPassword.Run(json.Password.Trim(), user);
+        return user;
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult RequestVerificationMail()
+    {
+        SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
+        return Json(new RequestResult
+        {
+            success = true,
+            messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
+        });
+    }
+
 }
-
-
-

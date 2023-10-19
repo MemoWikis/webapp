@@ -56,4 +56,86 @@ public class EmailConfirmationServiceTests
 
         Assert.Equal(expectedUrl, result);
     }
+
+
+    [Fact]
+    public void CreateEmailConfirmationToken_ShouldReturnValidToken_WhenDateCreatedIsISOFormat()
+    {
+        var user = new User
+        {
+            DateCreated = DateTime.Parse("2023-09-23T00:36:27.3876261+02:00"),
+            PasswordHashedAndSalted = "abcdef",
+            Id = 1
+        };
+
+        var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
+
+        Assert.NotNull(token);
+        // You might want more specific assertions here, e.g. length checks or format checks.
+    }
+
+    [Fact]
+    public void CreateEmailConfirmationToken_ShouldReturnValidToken_WhenDateCreatedIsSimpleFormat()
+    {
+        var user = new User
+        {
+            DateCreated = DateTime.Parse("2023-09-23 00:36:27"),
+            PasswordHashedAndSalted = "abcdef",
+            Id = 1
+        };
+
+        var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
+
+        Assert.NotNull(token);
+        // Again, you might want more specific assertions here.
+    }
+
+    [Fact]
+    public void CreateEmailConfirmationToken_ShouldThrow_WhenDateCreatedIsInvalidFormat()
+    {
+        // This will throw a FormatException because "InvalidDate" cannot be parsed to a DateTime.
+        Assert.Throws<FormatException>(() =>
+        {
+            var user = new User
+            {
+                DateCreated = DateTime.Parse("InvalidDate"),
+                PasswordHashedAndSalted = "abcdef",
+                Id = 1
+            };
+
+            EmailConfirmationService.CreateEmailConfirmationToken(user);
+        });
+    }
+
+    [Fact]
+    public void CreateEmailConfirmationToken_ShouldReturnSameToken_ForAllDateFormats()
+    {
+        var userIsoFormat = new User
+        {
+            DateCreated = DateTime.Parse("2023-09-23T00:36:27.3876261+02:00"),
+            PasswordHashedAndSalted = "abcdef",
+            Id = 1
+        };
+
+        var userSimpleFormat = new User
+        {
+            DateCreated = DateTime.Parse("2023-09-23 00:36:27"),
+            PasswordHashedAndSalted = "abcdef",
+            Id = 1
+        };
+
+        var userDayFirstFormat = new User
+        {
+            DateCreated = DateTime.Parse("23/09/2023 00:36:27"),
+            PasswordHashedAndSalted = "abcdef",
+            Id = 1
+        };
+
+        var tokenIso = EmailConfirmationService.CreateEmailConfirmationToken(userIsoFormat);
+        var tokenSimple = EmailConfirmationService.CreateEmailConfirmationToken(userSimpleFormat);
+        var tokenDayFirst = EmailConfirmationService.CreateEmailConfirmationToken(userDayFirstFormat);
+
+        Assert.Equal(tokenIso, tokenSimple);
+        Assert.Equal(tokenSimple, tokenDayFirst);
+    }
 }

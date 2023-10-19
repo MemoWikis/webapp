@@ -104,13 +104,13 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
             Views = _categoryViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
-            AuthorIds = topic.AuthorIds,
-            Authors = topic.AuthorIds.Select(id =>
+            AuthorIds = topic.AuthorIds.Distinct().ToArray(),
+            Authors = topic.AuthorIds.Distinct().Select(authorId =>
             {
-                var author = EntityCache.GetUserById(id);
+                var author = EntityCache.GetUserById(authorId);
                 return new
                 {
-                    Id = id,
+                    Id = authorId,
                     Name = author.Name,
                     ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_20px(author).Url,
                     Reputation = author.Reputation,

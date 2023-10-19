@@ -235,13 +235,14 @@ async function loadAnswerBodyModel() {
 
         await nextTick()
         highlightCode()
-        handleUrl()
+        if (tabsStore.activeTab == Tab.Learning)
+            handleUrl()
     }
 }
 
 const router = useRouter()
-function handleUrl() {
-    if (tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0) {
+async function handleUrl() {
+    if (tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)) {
         const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
         router.push(newPath)
     }

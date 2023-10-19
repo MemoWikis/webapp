@@ -303,7 +303,12 @@ namespace Seedworks.Lib.Persistence
             _session.Flush();
 		}
 
-		protected class RepositoryDbEventArgs : EventArgs
+        public void Refresh(TDomainObject item)
+        {
+            _session.Refresh(item);
+        }
+
+        protected class RepositoryDbEventArgs : EventArgs
 		{
 			private readonly TDomainObject _item;
 			public TDomainObject Item { get { return _item; } }

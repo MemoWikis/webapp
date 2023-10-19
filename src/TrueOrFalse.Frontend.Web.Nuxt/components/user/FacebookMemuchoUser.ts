@@ -29,7 +29,7 @@ export class FacebookMemuchoUser {
 
         var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/CreateAndLogin', {
             method: 'POST',
-            body: { facebookUser: user },
+            body: { facebookUser: user, facebookAccessToken },
             credentials: 'include',
             cache: 'no-cache'
         })
@@ -43,8 +43,7 @@ export class FacebookMemuchoUser {
         if (result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)
-            if (window.location.pathname == '/Registrieren')
-                navigateTo('/')
+            userStore.apiLogin(userStore.isLoggedIn)
         }
         else if (result?.success == false) {
             Facebook.RevokeUserAuthorization(user.id, facebookAccessToken)
@@ -72,12 +71,11 @@ export class FacebookMemuchoUser {
                 // Rollbar.error("Something went wrong", error.data)
             })
 
+        spinnerStore.hideSpinner()
         if (result?.success == true) {
             const userStore = useUserStore()
-
             userStore.initUser(result.data)
-            if (window.location.pathname == '/Registrieren')
-                navigateTo('/')
+            userStore.apiLogin(userStore.isLoggedIn)
         } else if (result?.success == false) {
             const alertStore = useAlertStore()
             alertStore.openAlert(AlertType.Error, {
@@ -98,9 +96,6 @@ export class FacebookMemuchoUser {
         disallowRegistration = false) {
         if (response.status === 'connected') {
             FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
-            if (window.location.pathname == '/Registrieren')
-                navigateTo('/')
-
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
             FB.login((response) => {
