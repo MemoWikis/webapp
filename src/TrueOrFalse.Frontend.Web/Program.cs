@@ -109,7 +109,7 @@ app.UseDeveloperExceptionPage();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 app.UseMiddleware<SessionStartMiddleware>();
-app.Urls.Add("http://localhost:5069");
+app.Urls.Add("http://*:5069");
 
 var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitilizer.Init();
