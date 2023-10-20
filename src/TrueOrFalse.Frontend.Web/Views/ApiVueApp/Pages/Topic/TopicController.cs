@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VueApp;
@@ -10,28 +9,25 @@ public class TopicController : Controller
     private readonly PermissionCheck _permissionCheck;
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly SessionUserCache _sessionUserCache;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly PersistentLoginRepo _persistentLoginRepo;
 
     public TopicController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         TopicControllerLogic topicControllerLogic,
         SessionUserCache sessionUserCache,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        KnowledgeSummaryLoader knowledgeSummaryLoader)
+        UserReadingRepo userReadingRepo,
+        PersistentLoginRepo persistentLoginRepo)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _topicControllerLogic = topicControllerLogic;
         _sessionUserCache = sessionUserCache;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _userReadingRepo = userReadingRepo;
+        _persistentLoginRepo = persistentLoginRepo;
     }
 
     public JsonResult GetTopic([FromRoute] int id)

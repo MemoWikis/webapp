@@ -10,24 +10,26 @@ public class PersistentLoginRepo
 
     public PersistentLogin Get(int userId, string guid)
     {
+        var hashedGuid = HashPassword.Run(guid, Settings.SaltCookie);
         return _session.QueryOver<PersistentLogin>()
-                        .Where(x => x.UserId == userId && x.LoginGuid == HashPassword.Run(guid, "someSalt"))
+                        .Where(x => x.UserId == userId &&
+                                    x.LoginGuid == hashedGuid)
                         .SingleOrDefault();
     }
 
     public void Create(PersistentLogin persistentLogin)
     {
-        persistentLogin.LoginGuid = HashPassword.Run(persistentLogin.LoginGuid, "someSalt");
+        persistentLogin.LoginGuid = HashPassword.Run(persistentLogin.LoginGuid, Settings.SaltCookie);
         persistentLogin.Created = DateTime.Now;
         _session.Save(persistentLogin);
     }
 
-    public void Delete(PersistentLogin persistentLogin){ _session.Delete(persistentLogin); }
-    public void Delete(int userId, string loginGuid){
-        _session.CreateQuery("DELETE PersistentLogin WHERE UserId= '" + userId + "' AND LoginGuid = '" + HashPassword.Run(loginGuid, "someSalt") + "'").ExecuteUpdate();
+    public void Delete(PersistentLogin persistentLogin)
+    {
+        Delete(persistentLogin.UserId);
     }
-        
-    public void DeleteAllForUser(int userId){
-        _session.CreateQuery("DELETE PersistentLogin WHERE UserId= '" + userId + "'").ExecuteUpdate();
+    public void Delete(int userId){
+        _session.CreateQuery($"DELETE PersistentLogin WHERE UserId= {userId}").ExecuteUpdate();
+        _session.Flush();
     }
 }

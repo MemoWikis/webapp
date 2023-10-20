@@ -10,17 +10,12 @@ public class RemovePersistentLoginFromCookie
         if (!persistentCookieValue.Exists())
             return;
 
-        persistentLoginRepo.Delete(persistentCookieValue.UserId, persistentCookieValue.LoginGuid);
+        persistentLoginRepo.Delete(persistentCookieValue.UserId);
 
-        var existingCookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Settings.MemuchoCookie];
+        var existingCookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Settings.PersistentLogin];
         if (existingCookieValue != null)
         {
-            var cookieOptions = new CookieOptions
-            {
-                Expires = DateTime.Now.AddDays(-1),
-            };
-
-            httpContextAccessor.HttpContext?.Response.Cookies.Append(Settings.MemuchoCookie, "", cookieOptions);
+            httpContextAccessor.HttpContext?.Response.Cookies.Delete(Settings.PersistentLogin);
         }
     }
 }

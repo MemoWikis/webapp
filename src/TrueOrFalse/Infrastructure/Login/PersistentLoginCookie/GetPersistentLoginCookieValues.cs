@@ -11,9 +11,6 @@ public class GetPersistentLoginCookieValues
 
         var item = cookieValue.Split(new[] { "-x-" }, StringSplitOptions.None);
 
-        if (item.Length < 2)
-            return new GetPersistentLoginCookieValuesResult();
-
         return new GetPersistentLoginCookieValuesResult
         {
             UserId = Convert.ToInt32(item[0]),

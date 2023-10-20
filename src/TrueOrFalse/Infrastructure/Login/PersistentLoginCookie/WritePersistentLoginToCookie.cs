@@ -6,11 +6,13 @@ public class WritePersistentLoginToCookie
     {
         var cookieOptions = new CookieOptions
         {
-            Expires = DateTime.Now.AddDays(45)
+            Expires = DateTime.Now.AddDays(45),
+            IsEssential = true,
         };
         var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
 
-        httpContextAccessor.HttpContext?.Response.Cookies.Append("persistentLogin", userId + "-x-" + loginGuid, cookieOptions);
+        httpContextAccessor.HttpContext.Response.Cookies.Delete(Settings.PersistentLogin);
+        httpContextAccessor.HttpContext.Response.Cookies.Append(Settings.PersistentLogin, userId + "-x-" + loginGuid, cookieOptions);
 
     }        
 }

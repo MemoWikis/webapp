@@ -14,6 +14,7 @@ public class Settings
     public static string GoogleApiKey => GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
     public static string FacebookAppId => OverwrittenConfig.ValueString("FacebookAppId");
     public static string FacebookAppSecret => OverwrittenConfig.ValueString("FacebookAppSecret");
+    public static string SaltCookie = "someSalt";
     public static string EmailFrom = "team@memucho.de";
     public static string EmailToMemucho = "team@memucho.de";
     public static string MemuchoCookie = "memucho";

@@ -69,8 +69,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+        //var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        //await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
         _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
     }

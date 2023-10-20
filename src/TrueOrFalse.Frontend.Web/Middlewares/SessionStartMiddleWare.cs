@@ -16,20 +16,20 @@ public class SessionStartMiddleware
 
     public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
     {
-        var userAgent = context.Request.Headers["User-Agent"].ToString();
-        var referrer = context.Request.Headers["Referer"].ToString() ?? "No referrer";
-        Logg.r.Information("SessionStart - userAgent: {userAgent}, referrer: {referrer}", userAgent, referrer);
-
-        // Autofac
-        using (var scope = serviceProvider.CreateScope())
+        var cookieValue = _httpContextAccessor.HttpContext?.Request.Cookies[Settings.PersistentLogin];
+        if (cookieValue != null)
         {
-            var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
-            var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-            var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-
-            if (!sessionUser.IsLoggedIn)
+            // Autofac
+            using (var scope = serviceProvider.CreateScope())
             {
-                LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, _httpContextAccessor);
+                var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
+                if (!sessionUser.IsLoggedIn)
+                {
+                    var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
+                    var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+
+                    LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, _httpContextAccessor);
+                }
             }
         }
 

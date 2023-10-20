@@ -6,7 +6,8 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Authentication.Cookies;using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
@@ -37,6 +38,7 @@ builder.Services.AddControllersWithViews()
 
 
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSession(options =>
 {
     options.Cookie.IsEssential = true;
@@ -98,6 +100,7 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(imagesPath),
     RequestPath = "/Images"
 });
+
 app.UseRouting();
 app.UseSession();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
