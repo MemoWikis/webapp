@@ -73,6 +73,7 @@ var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;
 
+
 if (!env.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -99,6 +100,8 @@ app.UseStaticFiles(new StaticFileOptions
 });
 app.UseRouting();
 app.UseSession();
+app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
+app.UseMiddleware<SessionStartMiddleware>();
 
 app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
     name: "default",
@@ -106,9 +109,8 @@ app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
 
 
 app.UseDeveloperExceptionPage();
-app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<SessionStartMiddleware>();
+
 app.Urls.Add("http://localhost:5069");
 
 var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();

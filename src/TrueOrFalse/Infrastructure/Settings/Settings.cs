@@ -17,6 +17,7 @@ public class Settings
     public static string EmailFrom = "team@memucho.de";
     public static string EmailToMemucho = "team@memucho.de";
     public static string MemuchoCookie = "memucho";
+    public static string PersistentLogin = "persistentLogin";
     public static int MemuchoUserId = 26;
     public static bool WithNHibernateStatistics = true;
     public static string LomExportPath => GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
