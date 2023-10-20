@@ -117,7 +117,7 @@ public class UserReadingRepo : RepositoryDb<User>
             .SingleOrDefault();
     }
 
-    public User UserGetByGoogleId(string googleId)
+    public User? UserGetByGoogleId(string googleId)
     {
         return Session
             .QueryOver<User>()

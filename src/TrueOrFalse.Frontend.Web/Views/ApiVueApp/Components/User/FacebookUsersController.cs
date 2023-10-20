@@ -32,9 +32,9 @@ public class FacebookUsersController : Controller
     }
 
     [HttpPost]
-    public async Task<JsonResult> Login(string facebookUserId, string facebookAccessToken)
+    public async Task<JsonResult> Login([FromBody] FacebookHelper.LoginJson json)
     {
-        var user = _userReadingRepo.UserGetByFacebookId(facebookUserId);
+        var user = _userReadingRepo.UserGetByFacebookId(json.facebookUserId);
 
         if (user == null)
         {
@@ -45,7 +45,7 @@ public class FacebookUsersController : Controller
             });
         }
 
-        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUserId))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken, json.facebookUserId))
         {
             _sessionUser.Login(user);
 
@@ -64,11 +64,11 @@ public class FacebookUsersController : Controller
     }
 
     [HttpPost]
-    public async Task<JsonResult> CreateAndLogin(FacebookUserCreateParameter facebookUser, string facebookAccessToken)
+    public async Task<JsonResult> CreateAndLogin([FromBody] FacebookHelper.CreateAndLoginJson json)
     {
-        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUser.id))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken, json.facebookUser.id))
         {
-            var user = _userReadingRepo.UserGetByFacebookId(facebookUser.id);
+            var user = _userReadingRepo.UserGetByFacebookId(json.facebookUser.id);
             if (user != null)
             {
                 _sessionUser.Login(user);
@@ -79,7 +79,7 @@ public class FacebookUsersController : Controller
                 });
             }
 
-            var requestResult = _registerUser.SetFacebookUser(facebookUser);
+            var requestResult = _registerUser.SetFacebookUser(json.facebookUser);
             if (requestResult.success)
             {
                 return Json(new RequestResult
@@ -101,7 +101,7 @@ public class FacebookUsersController : Controller
     }
     
     [HttpGet]
-    public JsonResult UserExists(string facebookId)
+    public JsonResult UserExists([FromBody] string facebookId)
     {
         return Json(_userReadingRepo.FacebookUserExists(facebookId));
     }
