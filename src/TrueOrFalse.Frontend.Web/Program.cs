@@ -114,7 +114,7 @@ app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
 app.UseDeveloperExceptionPage();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
-app.Urls.Add("http://localhost:5069");
+app.Urls.Add("http://*:5069");
 
 var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitilizer.Init();

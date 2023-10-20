@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Markdig.Syntax.Inlines;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class TopicStoreController : BaseController
+public class TopicStoreController : Controller
 {
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
@@ -17,7 +19,7 @@ public class TopicStoreController : BaseController
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
+        IWebHostEnvironment webHostEnvironment)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
@@ -25,38 +27,46 @@ public class TopicStoreController : BaseController
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
+
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
+    public JsonResult SaveTopic([FromBody] TopicStoreHelper.SaveTopicJson json)
     {
-        if (!_permissionCheck.CanEditCategory(id))
-            return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
+        if (!_permissionCheck.CanEditCategory(json.id))
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+            });
 
-        var categoryCacheItem = EntityCache.GetCategory(id);
-        var category = _categoryRepository.GetById(categoryCacheItem.Id);
+        var categoryCacheItem = EntityCache.GetCategory(json.id);
+        var category = _categoryRepository.GetById(json.id);
 
         if (categoryCacheItem == null || category == null)
             return Json(false);
 
-        if (saveName)
+        if (json.saveName)
         {
-            categoryCacheItem.Name = name;
-            category.Name = name;
+            categoryCacheItem.Name = json.name;
+            category.Name = json.name;
         }
 
-        if (saveContent)
+        if (json.saveContent)
         {
-            categoryCacheItem.Content = content;
-            category.Content = content;
+            categoryCacheItem.Content = json.content;
+            category.Content = json.content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
         _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
 
-        return Json(true);
+        return Json(new RequestResult
+        {
+            success = true
+        });
     }
 
     [HttpGet]
-    public string GetTopicImageUrl(int id)
+    public string GetTopicImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewCategory(id))
             return new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url;
@@ -66,7 +76,7 @@ public class TopicStoreController : BaseController
 
 
     [HttpGet]
-    public JsonResult GetUpdatedKnowledgeSummary(int id)
+    public JsonResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
         var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
