@@ -207,8 +207,6 @@ function highlightCode() {
 }
 const answerBodyModel = ref<AnswerBodyModel>()
 
-const route = useRoute()
-
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return

@@ -31,6 +31,8 @@ public class AnswerBodyController : Controller {
     public JsonResult Get(int index)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
+        if (learningSession.Steps.Count == 0)
+            return Json(null);
         var step = learningSession.Steps[index];
 
         var q = step.Question;
