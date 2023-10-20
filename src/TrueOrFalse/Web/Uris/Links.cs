@@ -1,11 +1,9 @@
-﻿using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using TrueOrFalse.Web;
-using static System.String;
 
 namespace TrueOrFalse.Frontend.Web.Code;
 
@@ -122,12 +120,14 @@ public class Links
 
         if (type is Question)
         {
-            return AnswerQuestion((Question)type);
+            var question = (Question)type;
+            return GetLandingPageUrl(question.Text, question.Id);
         }
 
         if (type is QuestionCacheItem)
         {
-            return AnswerQuestion((QuestionCacheItem)type);
+            var question = (QuestionCacheItem)type;
+            return GetLandingPageUrl(question.Text, question.Id);
         }
 
         throw new Exception("unexpected type");
@@ -146,7 +146,11 @@ public class Links
         return GetUrlHelper().UrlAction("List", "QuestionHistory", new { questionId });
     }
 
- 
+    public string GetLandingPageUrl(string text, int id)
+    {
+        return $"/Fragen/{text}/{id}";
+    }
+
     public static string UsersSearch(string searchTerm)
     {
         return "/Nutzer/Suche/" + searchTerm;
