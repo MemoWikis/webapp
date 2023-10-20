@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,10 +35,11 @@ public class TopicLearningQuestionController: BaseController
         _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
     }
+
     [HttpPost]
-    public JsonResult LoadQuestionData(int questionId)
+    public JsonResult LoadQuestionData([FromBody] QuestionIdHelper questionIdHelper)
     {
-        var question = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+        var question = EntityCache.GetQuestionById(questionIdHelper.QuestionId, _httpContextAccessor, _webHostEnvironment);
         var author = new UserTinyModel(question.Creator);
         var authorImage = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment)
             .GetUrl_128px_square(author);
@@ -87,5 +89,13 @@ public class TopicLearningQuestionController: BaseController
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;
 
         return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned);
+    }
+}
+
+namespace HelperClassesControllers
+{
+    public class QuestionIdHelper
+    {
+        public int QuestionId { get; set; }
     }
 }
