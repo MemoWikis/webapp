@@ -337,7 +337,7 @@ public class EntityCache : BaseEntityCache
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static CategoryCacheItem GetCategory(int categoryId)
+    public static CategoryCacheItem? GetCategory(int categoryId)
     {
         if (Categories == null) return null;
         Categories.TryGetValue(categoryId, out var category);
