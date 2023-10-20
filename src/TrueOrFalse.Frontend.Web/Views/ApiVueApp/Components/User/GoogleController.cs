@@ -32,10 +32,11 @@ public class GoogleController : Controller
         _sessionUser = sessionUser;
     }
 
+
     [HttpPost]
-    public async Task<JsonResult> Login(string token)
+    public async Task<JsonResult> Login([FromBody] GoogleHelper.LoginJson json)
     {
-        var googleUser = await GetGoogleUser(token);
+        var googleUser = await GetGoogleUser(json.token);
         if (googleUser != null)
         {
             var user = _userReadingRepo.UserGetByGoogleId(googleUser.Subject);

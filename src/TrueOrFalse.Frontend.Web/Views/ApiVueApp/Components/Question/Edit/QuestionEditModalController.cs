@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HelperClassesControllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 public class QuestionEditModalController : BaseController
@@ -14,7 +15,7 @@ public class QuestionEditModalController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Create(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
+    public JsonResult Create([FromBody] QuestionDataJson questionDataJson)
     {
         var data = _questionEditModalControllerLogic
             .Create(questionDataJson); 
@@ -24,7 +25,7 @@ public class QuestionEditModalController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Edit(QuestionEditModalControllerLogic.QuestionDataJson questionDataJson)
+    public JsonResult Edit([FromBody] QuestionDataJson questionDataJson)
     {
         var data = _questionEditModalControllerLogic.Edit(questionDataJson);
         return Json(data);

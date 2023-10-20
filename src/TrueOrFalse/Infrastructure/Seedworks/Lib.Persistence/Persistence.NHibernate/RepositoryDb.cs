@@ -220,7 +220,7 @@ namespace Seedworks.Lib.Persistence
             return list;
         }
         
-        public virtual TDomainObject GetById(int id)
+        public virtual TDomainObject? GetById(int id)
         {
             var result = _session.CreateCriteria(typeof(TDomainObject))
                            .Add(Restrictions.Eq("Id", id))

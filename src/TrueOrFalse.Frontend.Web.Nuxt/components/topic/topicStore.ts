@@ -4,6 +4,7 @@ import { Visibility } from '../shared/visibilityEnum'
 import { Author } from '../author/author'
 import { TopicItem } from '../search/searchHelper'
 import { GridTopicItem } from './content/grid/item/gridTopicItem'
+import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 
 export class Topic {
 	CanAccess: boolean = false
@@ -140,15 +141,19 @@ export const useTopicStore = defineStore('topicStore', {
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
-			const result = await $fetch('/apiVue/TopicStore/SaveTopic', {
+			const result = await $fetch<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
 				method: 'POST', body: json, mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
-			if (result == true)
+			if (result.success == true)
 				this.contentHasChanged = false
+			else if (result.success == false) {
+				const alertStore = useAlertStore()
+				alertStore.openAlert(AlertType.Error, messages.getByCompositeKey(result.messageKey))
+			}
 		},
 		resetContent() {
 			this.name = this.initialName
@@ -161,7 +166,7 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 
 		async refreshTopicImage() {
-			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl?id=${this.id}`, {
+			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
@@ -170,7 +175,7 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 		},
 		async reloadKnowledgeSummary() {
-			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary?id=${this.id}`, {
+			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
