@@ -165,6 +165,7 @@ watch(() => props.tab, (t) => {
     }
 
 }, { immediate: true })
+
 </script>
 
 <template>
@@ -179,7 +180,8 @@ watch(() => props.tab, (t) => {
                             <TopicTabsContent
                                 v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
                             <template #fallback>
-                                <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }">
+                                <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
+                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
                                     <div class="col-xs-12">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                                             id="TopicContentPlaceholder">
@@ -235,6 +237,10 @@ watch(() => props.tab, (t) => {
                         <ClientOnly>
                             <TopicTabsQuestions
                                 v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                            <template #fallback>
+                                <div class="row">
+                                </div>
+                            </template>
                         </ClientOnly>
                         <TopicTabsAnalytics
                             v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
