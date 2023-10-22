@@ -23,10 +23,9 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
         );
     }
 
-    public  LearningSession TryRemove()
+    public void TryRemove()
     {
         _learningSessions.TryRemove(_httpContext.Session.Id, out _);
-        return GetLearningSession();
     }
 
     public  LearningSession GetLearningSession()
@@ -38,8 +37,8 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
             AddOrUpdate(learningSession);
             return learningSession;
         }
-        
-        throw new NullReferenceException("learningSession is null"); 
+
+        throw new NullReferenceException("learningSession is null");
     }
 
     public void EditQuestionInLearningSession(QuestionCacheItem question)
