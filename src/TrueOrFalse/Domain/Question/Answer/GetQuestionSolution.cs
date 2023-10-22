@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.Text.Json;
+using Newtonsoft.Json;
 using TrueOrFalse;
 
 public class GetQuestionSolution
@@ -15,10 +15,6 @@ public class GetQuestionSolution
 
     public static QuestionSolution? Run(QuestionCacheItem question)
     {
-        var options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-        };
 
         switch (question.SolutionType)
         {
@@ -26,19 +22,19 @@ public class GetQuestionSolution
                 return new QuestionSolutionExact{ Text = question.Solution.Trim(),  MetadataSolutionJson = question.SolutionMetadataJson };
 
             case SolutionType.Sequence:
-                return JsonSerializer.Deserialize<QuestionSolutionSequence>(question.Solution, options);
+                return JsonConvert.DeserializeObject<QuestionSolutionSequence>(question.Solution);
 
             case SolutionType.MultipleChoice_SingleSolution:
-                return JsonSerializer.Deserialize<QuestionSolutionMultipleChoice_SingleSolution>(question.Solution, options);
+                return JsonConvert.DeserializeObject<QuestionSolutionMultipleChoice_SingleSolution>(question.Solution);
 
             case SolutionType.MultipleChoice:
-                return JsonSerializer.Deserialize<QuestionSolutionMultipleChoice>(question.Solution, options);
+                return JsonConvert.DeserializeObject<QuestionSolutionMultipleChoice>(question.Solution);
 
             case SolutionType.MatchList:
-                return JsonSerializer.Deserialize<QuestionSolutionMatchList>(question.Solution, options);
+                return JsonConvert.DeserializeObject<QuestionSolutionMatchList>(question.Solution);
 
             case SolutionType.FlashCard:
-                return JsonSerializer.Deserialize<QuestionSolutionFlashCard>(question.Solution, options);
+                return JsonConvert.DeserializeObject<QuestionSolutionFlashCard>(question.Solution);
         }
 
         throw new NotImplementedException($"Solution Type not implemented: {question.SolutionType}");

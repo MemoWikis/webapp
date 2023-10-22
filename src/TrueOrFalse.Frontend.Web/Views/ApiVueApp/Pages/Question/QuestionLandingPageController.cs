@@ -55,7 +55,7 @@ public class QuestionLandingPageController
     }
 
     [HttpGet]
-    public JsonResult GetQuestionPage(int id)
+    public JsonResult GetQuestionPage([FromRoute] int id)
     {
         var q = EntityCache.GetQuestion(id);
 
