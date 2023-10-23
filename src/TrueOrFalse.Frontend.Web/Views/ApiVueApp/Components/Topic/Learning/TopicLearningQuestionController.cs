@@ -80,15 +80,15 @@ public class TopicLearningQuestionController: BaseController
     }
 
     [HttpGet]
-    public JsonResult GetKnowledgeStatus(int id)
+    public JsonResult GetKnowledgeStatus([FromHeader] IdHelper idHelper)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-        var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(idHelper.Id) && _sessionUser.IsLoggedIn;
 
-        return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned);
+        return Json(hasUserValuation ? userQuestionValuation[idHelper.Id].KnowledgeStatus : KnowledgeStatus.NotLearned);
     }
 }
 
@@ -98,4 +98,9 @@ namespace HelperClassesControllers
     {
         public int QuestionId { get; set; }
     }
+    public class IdHelper
+    {
+        public int Id { get; set; }
+    }
+
 }

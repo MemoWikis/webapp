@@ -76,11 +76,11 @@ watch(() => topicStore.questionCount, (count) => {
                 <slot>
                     <div class="session-progress-bar">
                         <div class="session-progress">
-                            <DevOnly>
+                            <!-- <DevOnly>
                                 <div v-for="step in learningSessionStore.steps" class="step"
                                     :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
                                 </div>
-                            </DevOnly>
+                            </DevOnly> -->
                             <div class="step answered" :style="answeredWidth"></div>
                             <div class="step" :style="unansweredWidth"></div>
 

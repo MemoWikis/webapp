@@ -197,10 +197,10 @@ public class LearningSessionStoreController: BaseController
     }
         
     [HttpPost]
-    public IActionResult LoadSpecificQuestion(int index)
+    public IActionResult LoadSpecificQuestion([FromBody] Counter counter)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        learningSession.LoadSpecificQuestion(index);
+        learningSession.LoadSpecificQuestion(counter.Index);
 
         var json = JsonConvert.SerializeObject(new
         {
@@ -215,7 +215,7 @@ public class LearningSessionStoreController: BaseController
             {
                 state = learningSession.CurrentStep.AnswerState,
                 id = learningSession.CurrentStep.Question.Id,
-                index = index,
+                index = counter.Index,
                 isLastStep = learningSession.TestIsLastStep()
             },
         });
@@ -274,5 +274,10 @@ namespace HelperClassesControllers
     {
         public LearningSessionConfig Config { get; set; } 
         public int Id { get; set; }
+    }
+
+    public class Counter
+    {
+        public int Index { get; set; }
     }
 }

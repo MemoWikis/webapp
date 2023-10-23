@@ -148,12 +148,15 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+            debugger;
             if (result != null) {
                 this.steps = result.steps
                 this.setCurrentStep(result.currentStep)
             }
         },
         loadNextQuestionInSession() {
+            console.log("currentIndex", this.currentIndex)
+            console.log("steps", this.steps)
             if (this.currentIndex < this.steps[this.steps.length - 1].index)
                 this.changeActiveQuestion(this.currentIndex + 1)
         },
