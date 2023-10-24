@@ -164,6 +164,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             const data = {
                 index: this.currentIndex
             }
+            console.log("currentIndexSkip", this.currentIndex)
             const result = await $fetch<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
                 {
                     method: 'POST',

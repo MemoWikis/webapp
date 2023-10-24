@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 //using Newtonsoft.Json;
 
-public class LearningSessionStoreController: BaseController
+public class LearningSessionStoreController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly PermissionCheck _permissionCheck;
@@ -17,7 +17,7 @@ public class LearningSessionStoreController: BaseController
 
     public LearningSessionStoreController(LearningSessionCreator learningSessionCreator,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser, 
+        SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
@@ -27,7 +27,7 @@ public class LearningSessionStoreController: BaseController
         _httpContextAccessor = httpContextAccessor;
     }
     [HttpPost]
-    public JsonResult NewSession([FromBody]LearningSessionConfig config)
+    public JsonResult NewSession([FromBody] LearningSessionConfig config)
     {
         var newSession = _learningSessionCreator.BuildLearningSession(config);
         _learningSessionCache.AddOrUpdate(newSession);
@@ -68,10 +68,10 @@ public class LearningSessionStoreController: BaseController
     [HttpPost]
     public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionData data)
     {
-        var config = data.Config; 
+        var config = data.Config;
         var id = data.Id;
 
-        var category = EntityCache.GetCategory(config.CategoryId); 
+        var category = EntityCache.GetCategory(config.CategoryId);
         var allQuestions = category.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
         if (allQuestions.IndexOf(q => q.Id == id) < 0)
@@ -128,13 +128,13 @@ public class LearningSessionStoreController: BaseController
     }
 
     [HttpGet]
-    public JsonResult GetLastStepInQuestionList(int index)
+    public JsonResult GetLastStepInQuestionList([FromHeader] Counter counter)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
 
         if (learningSession != null)
         {
-            learningSession.LoadSpecificQuestion(index);
+            learningSession.LoadSpecificQuestion(counter.Index);
 
             return Json(new
             {
@@ -148,9 +148,9 @@ public class LearningSessionStoreController: BaseController
                 activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
                 lastQuestionInList = new
                 {
-                    id = learningSession.Steps[index].Question.Id,
+                    id = learningSession.Steps[counter.Index].Question.Id,
                     state = AnswerState.Unanswered,
-                    index = index
+                    index = counter.Index
                 }
             });
         }
@@ -195,7 +195,7 @@ public class LearningSessionStoreController: BaseController
             success = false
         });
     }
-        
+
     [HttpPost]
     public IActionResult LoadSpecificQuestion([FromBody] Counter counter)
     {
@@ -220,14 +220,14 @@ public class LearningSessionStoreController: BaseController
             },
         });
 
-        return Content(json, "application/json"); 
+        return Content(json, "application/json");
     }
 
     [HttpPost]
-    public JsonResult SkipStep(int index)
+    public JsonResult SkipStep([FromBody] Counter counter)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.CurrentIndex == index)
+        if (learningSession.CurrentIndex == counter.Index)
         {
             learningSession.SkipStep();
             return Json(new StepResult
@@ -260,19 +260,19 @@ public class LearningSessionStoreController: BaseController
     }
 }
 public class StepResult
-    {
-        public AnswerState state;
-        public int id;
-        public int index;
-        public bool isLastStep;
-    }
+{
+    public AnswerState state { get; set; }
+    public int id { get; set; }
+    public int index { get; set; }
+    public bool isLastStep { get; set; }
+}
 
 
 namespace HelperClassesControllers
 {
     public class NewSessionWithJumpToQuestionData
     {
-        public LearningSessionConfig Config { get; set; } 
+        public LearningSessionConfig Config { get; set; }
         public int Id { get; set; }
     }
 
@@ -280,4 +280,5 @@ namespace HelperClassesControllers
     {
         public int Index { get; set; }
     }
+
 }

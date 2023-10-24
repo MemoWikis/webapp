@@ -37,7 +37,8 @@ onBeforeMount(() => {
 
 const pairs = ref<Pair[]>([])
 const rightElements = ref<Element[]>([])
-function getAnswerDataString(): string {
+async function getAnswerDataString(): Promise<string> {
+    await nextTick()
     let data = {
         Pairs: pairs.value
     }
