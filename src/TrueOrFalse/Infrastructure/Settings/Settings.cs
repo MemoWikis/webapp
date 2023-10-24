@@ -39,7 +39,7 @@ public class Settings
     public static string ConnectionString(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
     {
         var result = OverwrittenConfig.Value("connectionString");
-        return result.HasValue ? result.Value : ConfigurationManager.ConnectionStrings["main"].ConnectionString;
+        return result.HasValue ? result.Value : "No value in the Overwritten.config" ;
     }
 
     private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)

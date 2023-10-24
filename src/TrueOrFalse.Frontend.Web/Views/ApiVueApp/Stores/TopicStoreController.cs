@@ -78,7 +78,8 @@ public class TopicStoreController : Controller
     [HttpGet]
     public JsonResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
-        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+        var sessionuserId = _sessionUser == null ? -1 : _sessionUser.UserId;   
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id,  sessionuserId);
 
         return Json(new
         {

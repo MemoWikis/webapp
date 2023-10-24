@@ -136,7 +136,7 @@ async function answer() {
     answersSoFar.value.push(solutionComponent.getAnswerText())
 
     const data = {
-        answer: solutionComponent.getAnswerDataString(),
+        answer: await solutionComponent.getAnswerDataString(),
         id: answerBodyModel.value?.id,
         questionViewGuid: answerBodyModel.value?.questionViewGuid,
         inTestMode: learningSessionStore.isInTestMode,
@@ -192,6 +192,7 @@ const flashCardAnswered = ref(false)
 const markFlashCardAsCorrect = ref(false)
 
 function answerFlashcard(isCorrect: boolean) {
+    console.log("answerFlashcard mark as correct", isCorrect);
     markFlashCardAsCorrect.value = isCorrect
     flashCardAnswered.value = true
     answer()

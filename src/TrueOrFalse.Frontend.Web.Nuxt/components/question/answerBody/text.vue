@@ -15,7 +15,8 @@ function resize() {
     }
 }
 
-function getAnswerDataString(): string {
+async function getAnswerDataString(): Promise<string> {
+    await nextTick()
     return getAnswerText()
 }
 function getAnswerText(): string {

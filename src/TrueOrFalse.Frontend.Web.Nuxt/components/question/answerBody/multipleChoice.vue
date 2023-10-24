@@ -45,12 +45,15 @@ watch(() => props.solution, () => init())
 const localChoices = ref<Choice[]>([])
 const selected = ref<string[]>([])
 
-function getAnswerDataString(): string {
+async function getAnswerDataString(): Promise<string> {
+    await nextTick(); 
     return selected.value.join("%seperate&xyz%")
 }
+
 function getAnswerText(): string {
     return selected.value.join("</br>")
 }
+
 defineExpose({ getAnswerDataString, getAnswerText })
 
 function getClass(c: Choice) {
