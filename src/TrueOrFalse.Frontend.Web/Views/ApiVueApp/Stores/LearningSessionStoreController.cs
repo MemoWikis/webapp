@@ -1,12 +1,8 @@
 ﻿using System.Linq;
-using System.Text.Json.Serialization;
-using System.Text.Json;
 using HelperClassesControllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-
-//using Newtonsoft.Json;
 
 public class LearningSessionStoreController: BaseController
 {

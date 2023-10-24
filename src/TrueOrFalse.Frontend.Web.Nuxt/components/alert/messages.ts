@@ -34,6 +34,7 @@ export const messages: any = {
             parentIsRoot: "Unter 'Alle Themem', darfst du nur private Themen neu hinzufügen",
             loopLink: "Man kann keine Themen sich selber unterordnen",
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
+            isNotAChild: "Das Thema ist bereits kein Unterthema",
             isLinkedInNonWuwi: "Du hast das Thema außerhalb deines Wunschwissens schon untergeordnet, bitte stelle: 'Zeige nur dein Wunschwissen' aus und füge die Kategorie deinem Wunschwissen hinzu. ",
             childIsParent: "Übergeordnete Themen können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
@@ -41,7 +42,8 @@ export const messages: any = {
             rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden.",
             missingRights: "Dir fehlen die notwendigen Rechte.",
             tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
-            saveImageError: "Das Bild konnte nicht gespeichert werden."
+            saveImageError: "Das Bild konnte nicht gespeichert werden.",
+            pinnedQuestions: ""
         },
         question: {
             missingText: "Der Fragetext fehlt.",

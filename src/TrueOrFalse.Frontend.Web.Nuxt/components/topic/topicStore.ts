@@ -152,7 +152,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.contentHasChanged = false
 			else if (result.success == false) {
 				const alertStore = useAlertStore()
-				alertStore.openAlert(AlertType.Error, messages.getByCompositeKey(result.messageKey))
+				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 			}
 		},
 		resetContent() {

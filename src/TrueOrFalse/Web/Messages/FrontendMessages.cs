@@ -46,6 +46,7 @@
             public static readonly string ParentIsRoot = "error_category_parentIsRoot";
             public static readonly string LoopLink = "error_category_loopLink";
             public static readonly string IsAlreadyLinkedAsChild = "error_category_isAlreadyLinkedAsChild";
+            public static readonly string IsNotAChild = "error_category_isNotAChild";
             public static readonly string IsLinkedInNonWuwi = "error_category_isLinkedInNonWuwi";
             public static readonly string ChildIsParent = "error_category_childIsParent";
             public static readonly string NameIsTaken = "error_category_nameIsTaken";
@@ -54,6 +55,8 @@
             public static readonly string MissingRights = "error_category_missingRights";
             public static readonly string TooPopular = "error_category_tooPopular";
             public static readonly string SaveImageError = "error_category_saveImageError";
+            public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
+
         }
 
         public static class Question

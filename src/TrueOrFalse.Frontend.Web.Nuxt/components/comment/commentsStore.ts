@@ -38,7 +38,7 @@ export const useCommentsStore = defineStore('commentsStore', () => {
             settledComments: CommentModel[]
             unsettledComments: CommentModel[]
         }
-        const result = await $fetch<Result>(`/apiVue/CommentsStore/GetAllComments?questionId=${questionId.value}`, {
+        const result = await $fetch<Result>(`/apiVue/CommentsStore/GetAllComments/${questionId.value}`, {
             mode: 'cors',
             credentials: 'include'
         })

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PublishTopicStoreHelper;
 
 namespace VueApp;
 
@@ -47,44 +48,54 @@ public class PublishTopicStoreController : Controller
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult PublishTopic(int topicId)
+    public JsonResult PublishTopic([FromBody] PublishTopicJson json)
     {
-        var topicCacheItem = EntityCache.GetCategory(topicId);
+        var topicCacheItem = EntityCache.GetCategory(json.id);
 
-        if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == topicId)
+        if (topicCacheItem != null)
         {
-            if (topicCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
-                return Json(new
-                {
-                    success = false,
-                    key = "parentIsRoot"
-                });
 
-            
-            topicCacheItem.Visibility = CategoryVisibility.All;
-            var topic = _categoryRepository.GetById(topicId);
-            topic.Visibility = CategoryVisibility.All;
-            _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
-
-            return Json(new
+            if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == json.id)
             {
-                success = true,
+                if (topicCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
+                    return Json(new RequestResult
+                    {
+                        success = false,
+                        messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                    });
+
+                topicCacheItem.Visibility = CategoryVisibility.All;
+                var topic = _categoryRepository.GetById(json.id);
+                topic.Visibility = CategoryVisibility.All;
+                _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
+
+                return Json(new RequestResult
+                {
+                    success = true,
+                });
+            } 
+
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
+                data = topicCacheItem.ParentCategories().Select(c => c.Id).ToList()
             });
+
         }
 
-        return Json(new
+        return Json(new RequestResult
         {
             success = false,
-            key = "parentIsPrivate",
-            parentList = topicCacheItem.ParentCategories().Select(c => c.Id).ToList()
+            messageKey = FrontendMessageKeys.Error.Default
         });
     }
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public void PublishQuestions(List<int> questionIds)
+    public void PublishQuestions([FromBody] PublishQuestionsJson json)
     {
-        foreach (var questionId in questionIds)
+        foreach (var questionId in json.questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
             if (questionCacheItem.Creator.Id == _sessionUser.User.Id)
@@ -100,7 +111,7 @@ public class PublishTopicStoreController : Controller
 
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public JsonResult Get(int topicId)
+    public JsonResult Get([FromRoute] int topicId)
     {
         var topicCacheItem = EntityCache.GetCategory(topicId);
         var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
@@ -125,7 +136,7 @@ public class PublishTopicStoreController : Controller
             success = true,
             name = topicCacheItem.Name,
             questionIds = filteredAggregatedQuestions,
-            questionCount = filteredAggregatedQuestions.Count()
+            questionCount = filteredAggregatedQuestions.Count
         });
     }
 }
