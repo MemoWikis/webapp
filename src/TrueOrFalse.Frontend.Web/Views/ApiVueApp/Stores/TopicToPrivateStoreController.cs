@@ -175,7 +175,7 @@ public class TopicToPrivateStoreController : Controller
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
+        _categoryRepository.Update(topic, _sessionUser.UserId, type: CategoryChangeType.Privatized);
 
         return Json(new
         {

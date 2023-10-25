@@ -218,7 +218,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(
         Category category,
-        SessionUserCacheItem author = null,
+        int authorId,
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,
@@ -227,13 +227,13 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     {
         base.Update(category);
 
-        if (author != null && createCategoryChange)
+        if (authorId != 0 && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();
-        _updateQuestionCountForCategory.Run(category);
+        _updateQuestionCountForCategory.RunForJob(category, authorId);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()

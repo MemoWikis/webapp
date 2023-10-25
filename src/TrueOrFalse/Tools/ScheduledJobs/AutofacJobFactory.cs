@@ -9,23 +9,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class AutofacJobFactory : IJobFactory
     {
         private readonly IContainer _container;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AutofacJobFactory(IContainer container,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+        public AutofacJobFactory(IContainer container)
         {
             _container = container;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
             ServiceLocator.Init(container);
         }
 
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
             try
-            {
+            { 
                 return (IJob)_container.Resolve(bundle.JobDetail.JobType);
             }
             catch (Exception e)

@@ -234,7 +234,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
-        JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId);
+        JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
         EntityCache.GetCategory(parentId).CachedData.AddChildId(childId);
         EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
 
@@ -260,12 +260,12 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
-        _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, _sessionUser.UserId, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childId);
         if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
-            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new RequestResult

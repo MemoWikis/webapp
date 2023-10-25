@@ -16,20 +16,18 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         static JobScheduler()
         {
-            var context = AutofacWebInitializer.GetContainer().Resolve<IHttpContextAccessor>();
-            var webhostEnvironment = WebHostEnvironmentProvider.GetWebHostEnvironment();
-            _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync(context, webhostEnvironment)).Value.Result;
+            _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync()).Value.Result;
         }
 
         public static void EmptyMethodToCallConstructor()
         {
         }
 
-        public static async Task<IScheduler> InitializeAsync(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+        public static async Task<IScheduler> InitializeAsync()
         {
             var container = AutofacWebInitializer.Run();
             var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.JobFactory = new AutofacJobFactory(container, httpContextAccessor, webHostEnvironment);
+            scheduler.JobFactory = new AutofacJobFactory(container);
             scheduler.Start();
 
             return scheduler;
@@ -202,12 +200,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 TriggerBuilder.Create().StartNow().Build());
         }
 
-        public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId)
+        public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId, int authorId)
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<AddParentCategoryInDb>()
                     .UsingJobData("childCategoryId", childCategoryId)
                     .UsingJobData("parentCategoryId", parentCategoryId)
+                    .UsingJobData("authorId", authorId)
                     .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }

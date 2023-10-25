@@ -53,7 +53,7 @@ namespace VueApp
                 topicCacheItem.Visibility = CategoryVisibility.All;
                 var topic = _categoryRepository.GetById(topicIdHelper.TopicId);
                 topic.Visibility = CategoryVisibility.All;
-                _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Published);
+                _categoryRepository.Update(topic, _sessionUser.UserId, type: CategoryChangeType.Published);
 
                 return Json(new
                 {

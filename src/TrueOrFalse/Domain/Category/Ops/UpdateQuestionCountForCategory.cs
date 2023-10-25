@@ -29,6 +29,12 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
     }
 
+    public void RunForJob(Category category, int authorId)
+    {
+        category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;
+        category.UpdateCountQuestionsAggregated(authorId);
+    }
+
     public void RunOnlyDb(Category category)
     {
         category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;

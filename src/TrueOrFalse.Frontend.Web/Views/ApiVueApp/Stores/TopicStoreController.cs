@@ -55,7 +55,7 @@ public class TopicStoreController : Controller
             category.Content = json.content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
+        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
         return Json(new RequestResult
         {
