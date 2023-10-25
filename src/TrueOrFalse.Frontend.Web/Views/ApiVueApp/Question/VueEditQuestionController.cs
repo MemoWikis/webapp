@@ -252,7 +252,7 @@ public class VueEditQuestionController
     {
         var user = _sessionUser.User;
         var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
-        var q = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+        var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
@@ -262,7 +262,6 @@ public class VueEditQuestionController
         question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, 
                     ImageType.Question),
                 _httpContextAccessor,
-                _webHostEnvironment,
                 _questionReadingRepo)
             .GetImageUrl(40, true)
             .Url;
@@ -370,7 +369,7 @@ public class VueEditQuestionController
         question = _questionReadingRepo.GetById(questionId);
         _questionChangeRepo.AddUpdateEntry(question, imageWasChanged: true);
 
-        var imageSettings = new QuestionImageSettings(questionId, _httpContextAccessor, _webHostEnvironment, _questionReadingRepo);
+        var imageSettings = new QuestionImageSettings(questionId, _httpContextAccessor, _questionReadingRepo);
 
         return new JsonResult(new
         {
@@ -389,7 +388,7 @@ public class VueEditQuestionController
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
             if (questionCacheItem.Creator.Id == _sessionUser.UserId)
             {
                 questionCacheItem.Visibility = QuestionVisibility.All;
@@ -405,7 +404,7 @@ public class VueEditQuestionController
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)

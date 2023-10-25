@@ -39,9 +39,9 @@ public class TopicLearningQuestionController: BaseController
     [HttpPost]
     public JsonResult LoadQuestionData([FromBody] QuestionIdHelper questionIdHelper)
     {
-        var question = EntityCache.GetQuestionById(questionIdHelper.QuestionId, _httpContextAccessor, _webHostEnvironment);
+        var question = EntityCache.GetQuestionById(questionIdHelper.QuestionId);
         var author = new UserTinyModel(question.Creator);
-        var authorImage = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment)
+        var authorImage = new UserImageSettings(author.Id, _httpContextAccessor)
             .GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
         var answerQuestionModel = new AnswerQuestionModel(question,

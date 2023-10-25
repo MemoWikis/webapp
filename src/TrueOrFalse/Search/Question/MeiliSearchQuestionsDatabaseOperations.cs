@@ -9,9 +9,6 @@ namespace TrueOrFalse.Search
 {
     internal class MeiliSearchQuestionsDatabaseOperations : MeiliSearchBase
     {
-        public MeiliSearchQuestionsDatabaseOperations(IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
-            : base(httpContextAccessor, webHostEnvironment){ }
         /// <summary>
         /// Create MeiliSearch Question
         /// </summary>

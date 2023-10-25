@@ -9,7 +9,7 @@ public class UserImageStore
             return;
 
         using var stream = imageFile.OpenReadStream();
-        var userImageSettings = new UserImageSettings(userId, httpContextAccessor, webHostEnvironment); 
+        var userImageSettings = new UserImageSettings(userId, httpContextAccessor); 
         SaveImageToFile.Run(
         stream,
         userImageSettings,

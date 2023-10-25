@@ -69,9 +69,9 @@ public class ImageMaintenanceInfo
         TypeId = imageMetaData.TypeId;
         TypeNotFound = false;
 
-        var categoryImgBasePath = new CategoryImageSettings(0, httpContextAccessor, webHostEnvironment).BasePath;
-        var questionImgBasePath = new QuestionImageSettings(questionReadingRepo, httpContextAccessor, webHostEnvironment).BasePath;
-        var setImgBasePath = new SetImageSettings(httpContextAccessor, webHostEnvironment).BasePath;
+        var categoryImgBasePath = new CategoryImageSettings(0, httpContextAccessor).BasePath;
+        var questionImgBasePath = new QuestionImageSettings(questionReadingRepo, httpContextAccessor).BasePath;
+        var setImgBasePath = new SetImageSettings(httpContextAccessor).BasePath;
 
         switch (MetaData.Type)
         {
@@ -156,12 +156,12 @@ public class ImageMaintenanceInfo
             setImgBasePath + imageMetaData.TypeId + ".jpg"));
 
         if (MetaData.Type == ImageType.Category)
-            Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment).GetUrl_128px(asSquare: true).Url;
+            Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor).GetUrl_128px(asSquare: true).Url;
             
         if (MetaData.Type == ImageType.Question)
-            Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, webHostEnvironment, questionReadingRepo).GetUrl_128px_square().Url;
+            Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, questionReadingRepo).GetUrl_128px_square().Url;
 
-        FrontendData = new ImageFrontendData(MetaData, httpContextAccessor, webHostEnvironment, questionReadingRepo);
+        FrontendData = new ImageFrontendData(MetaData, httpContextAccessor, questionReadingRepo);
     }
 
     public void EvaluateImageDeployability()

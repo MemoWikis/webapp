@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Quartz;
 using Quartz.Impl;
+using TrueOrFalse.Environment;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools.ScheduledJobs.Jobs;
 
@@ -16,7 +17,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         static JobScheduler()
         {
             var context = AutofacWebInitializer.GetContainer().Resolve<IHttpContextAccessor>();
-            var webhostEnvironment = AutofacWebInitializer.GetContainer().Resolve<IWebHostEnvironment>();
+            var webhostEnvironment = WebHostEnvironmentProvider.GetWebHostEnvironment();
             _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync(context, webhostEnvironment)).Value.Result;
         }
 

@@ -62,10 +62,14 @@ namespace VueApp
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult AddChild(int childId, int parentId, int parentIdToRemove = -1,
-            bool addIdToWikiHistory = false)
+        public JsonResult AddChild([FromBody] AddChildHelper addChildHelper)
         {
-            var data = _editControllerLogic.AddChild(childId, parentId, parentIdToRemove, addIdToWikiHistory);
+            var data = _editControllerLogic
+                .AddChild(addChildHelper.ChildId,
+                addChildHelper.ParentId, 
+                addChildHelper.ParentIdToRemove, 
+                addChildHelper.AddIdToWikiHistory);
+
             return Json(data);
         }
 
@@ -90,5 +94,13 @@ namespace HelperClassesControllers
     {
         public string Name { get; set; }
         public int ParentTopicId { get; set; } 
+    }
+
+    public class AddChildHelper
+    {
+        public int ChildId { get; set; }
+        public int ParentId { get; set; }
+        public int ParentIdToRemove { get; set; } = -1;
+        public bool AddIdToWikiHistory { get; set; } = false;
     }
 }

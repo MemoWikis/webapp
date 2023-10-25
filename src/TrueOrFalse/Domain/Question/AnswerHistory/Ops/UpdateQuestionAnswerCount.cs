@@ -6,16 +6,10 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
 {
     private readonly object _updateLock = new();
     private readonly ISession _session;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public UpdateQuestionAnswerCount(ISession session,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public UpdateQuestionAnswerCount(ISession session)
     {
         _session = session;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public void Run(int questionId, bool isCorrect)
@@ -30,14 +24,14 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
     {
         _session.CreateSQLQuery("UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = " +
                                 questionId).ExecuteUpdate();
-        EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment).TotalTrueAnswers++;
+        EntityCache.GetQuestionById(questionId).TotalTrueAnswers++;
     }
 
     private void AddWrongAnswer(int questionId)
     {
         _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers + 1 where Id = " +
                                 questionId).ExecuteUpdate();
-        EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment).TotalFalseAnswers++;
+        EntityCache.GetQuestionById(questionId).TotalFalseAnswers++;
     }
 
     public void ChangeOneWrongAnswerToCorrect(int questionId)
@@ -49,9 +43,8 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
             _session.CreateSQLQuery("UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers - 1 where Id = " +
                                     questionId).ExecuteUpdate();
 
-            EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment).TotalTrueAnswers++;
-            EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment).TotalFalseAnswers--;
+            EntityCache.GetQuestionById(questionId).TotalTrueAnswers++;
+            EntityCache.GetQuestionById(questionId).TotalFalseAnswers--;
         }
     }
-
 }

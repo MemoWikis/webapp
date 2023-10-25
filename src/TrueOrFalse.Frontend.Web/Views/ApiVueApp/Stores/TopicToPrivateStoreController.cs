@@ -190,7 +190,7 @@ public class TopicToPrivateStoreController : Controller
     {
         foreach (var questionId in questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||

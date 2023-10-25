@@ -5,11 +5,9 @@ using TrueOrFalse;
 
 public class GetQuestionSolution
 {
-    public static QuestionSolution? Run(int questionId,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public static QuestionSolution? Run(int questionId)
     {
-        var question = EntityCache.GetQuestionById(questionId, httpContextAccessor, webHostEnvironment);
+        var question = EntityCache.GetQuestionById(questionId);
         return Run(question);
     }
 

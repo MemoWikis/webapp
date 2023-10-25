@@ -33,7 +33,7 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
 
             creatorName = c.Creator.Name,
             creatorId = c.Creator.Id,
-            creatorImgUrl = new UserImageSettings(c.Creator.Id, _httpContextAccessor, _webHostEnvironment)
+            creatorImgUrl = new UserImageSettings(c.Creator.Id, _httpContextAccessor)
                 .GetUrl_128px_square(c.Creator)
                 .Url,
 

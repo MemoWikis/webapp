@@ -108,7 +108,6 @@ public class QuickCreateQuestionController : Controller
             _imageMetaDataReadingRepo, 
             _sessionUserCache,
             _httpContextAccessor, 
-            _webHostEnvironment, 
             _actionContextAccessor, 
             _questionReadingRepo); 
 

@@ -21,11 +21,9 @@ namespace VueApp
         private readonly PermissionCheck _permissionCheck;
         private readonly LearningSessionCreator _learningSessionCreator;
         private readonly QuestionInKnowledge _questionInKnowledge;
-        private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
         private readonly CategoryRepository _categoryRepository;
         private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
         private readonly UserReadingRepo _userReadingRepo;
-        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly QuestionWritingRepo _questionWritingRepo;
         private readonly QuestionReadingRepo _questionReadingRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -39,11 +37,9 @@ namespace VueApp
             PermissionCheck permissionCheck,
             LearningSessionCreator learningSessionCreator,
             QuestionInKnowledge questionInKnowledge,
-            CategoryValuationReadingRepo categoryValuationReadingRepo,
             CategoryRepository categoryRepository,
             ImageMetaDataReadingRepo imageMetaDataReadingRepo,
             UserReadingRepo userReadingRepo,
-            QuestionValuationReadingRepo questionValuationReadingRepo,
             QuestionWritingRepo questionWritingRepo,
             QuestionReadingRepo questionReadingRepo,
             IHttpContextAccessor httpContextAccessor,
@@ -57,11 +53,9 @@ namespace VueApp
             _permissionCheck = permissionCheck;
             _learningSessionCreator = learningSessionCreator;
             _questionInKnowledge = questionInKnowledge;
-            _categoryValuationReadingRepo = categoryValuationReadingRepo;
             _categoryRepository = categoryRepository;
             _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
             _userReadingRepo = userReadingRepo;
-            _questionValuationReadingRepo = questionValuationReadingRepo;
             _questionWritingRepo = questionWritingRepo;
             _questionReadingRepo = questionReadingRepo;
             _httpContextAccessor = httpContextAccessor;
@@ -112,14 +106,13 @@ namespace VueApp
         {
             var user = _sessionUser.User;
             var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
-            var q = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+            var q = EntityCache.GetQuestionById(questionId);
             var question = new QuestionListJson.Question();
             question.Id = q.Id;
             question.Title = q.Text;
             question.LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(q);
             question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                     _httpContextAccessor,
-                    _webHostEnvironment,
                     _questionReadingRepo)
                 .GetImageUrl(40, true)
                 .Url;
@@ -171,7 +164,7 @@ namespace VueApp
 
         public dynamic GetData(int id)
         {
-            var question = EntityCache.GetQuestionById(id, _httpContextAccessor, _webHostEnvironment);
+            var question = EntityCache.GetQuestionById(id);
             var solution = question.SolutionType == SolutionType.FlashCard
                 ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml()
                 : question.Solution;
@@ -202,11 +195,10 @@ namespace VueApp
                 Id = topic.Id,
                 Name = topic.Name,
                 QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-                ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor, _webHostEnvironment)
+                ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor)
                     .GetUrl_128px(asSquare: true).Url,
                 MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
                         _httpContextAccessor,
-                        _webHostEnvironment,
                         _questionReadingRepo)
                     .GetImageUrl(30, true, false, ImageType.Category)
                     .Url,

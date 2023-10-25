@@ -13,9 +13,8 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
 
 
     public CategoryImageSettings(int categoryId,
-        IHttpContextAccessor contextAccessor, 
-        IWebHostEnvironment webHostEnvironment) :
-        base(contextAccessor, webHostEnvironment)
+        IHttpContextAccessor contextAccessor) :
+        base(contextAccessor)
     {
         Id = categoryId;
     }
@@ -27,7 +26,7 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_128px(bool asSquare = false) { return GetUrl(128, asSquare); }
     public ImageUrl GetUrl(int width, bool isSquare = false)
     {
-        return new ImageUrl(_contextAccessor, _webHostEnvironment)
+        return new ImageUrl(_contextAccessor)
             .Get(this, width, isSquare, GetFallbackImage);
     }
 

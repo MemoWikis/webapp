@@ -13,7 +13,6 @@ public class QuestionController : Controller
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private IActionContextAccessor _actionAccessor;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
@@ -22,7 +21,6 @@ public class QuestionController : Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionAccessor,
         QuestionReadingRepo questionReadingRepo)
     {
@@ -31,7 +29,6 @@ public class QuestionController : Controller
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _actionAccessor = actionAccessor;
         _questionReadingRepo = questionReadingRepo;
     }
@@ -39,7 +36,7 @@ public class QuestionController : Controller
     {
         var user = _sessionUser;
         var userQuestionValuation = _sessionUserCache.GetItem(user.UserId).QuestionValuations;
-        var q = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+        var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
@@ -48,7 +45,6 @@ public class QuestionController : Controller
         question.LinkToQuestion = links.GetUrl(q);
         question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                 _httpContextAccessor, 
-                _webHostEnvironment,
                 _questionReadingRepo)
             .GetImageUrl(40, true)
             .Url;

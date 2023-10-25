@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Quartz;
-using System.Threading.Tasks;
+﻿using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -9,19 +6,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly SessionUser _sessionUser;
         private readonly CategoryRepository _categoryRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
-
+       
+        
         public AddParentCategoryInDb(SessionUser sessionUser,
-            CategoryRepository categoryRepository,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+            CategoryRepository categoryRepository)
         {
             _sessionUser = sessionUser;
             _categoryRepository = categoryRepository;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
+
         public async Task Execute(IJobExecutionContext context)
         {
             var dataMap = context.JobDetail.JobDataMap;

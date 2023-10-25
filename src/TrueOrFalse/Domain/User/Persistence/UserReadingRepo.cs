@@ -7,18 +7,9 @@ using ISession = NHibernate.ISession;
 
 public class UserReadingRepo : RepositoryDb<User>
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-   
-    
-
-    public UserReadingRepo(ISession session,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment) : base(session)
+    public UserReadingRepo(ISession session) : base(session)
 
     {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
       
     }
 

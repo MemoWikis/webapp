@@ -10,32 +10,21 @@ namespace VueApp;
 public class EditTopicRelationStoreController : BaseController
 {
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly EditControllerLogic _editControllerLogic;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public EditTopicRelationStoreController(SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IHttpContextAccessor httpContextAccessor,
-        IGlobalSearch search,
-        PermissionCheck permissionCheck,
         EditControllerLogic editControllerLogic,
         QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _actionContextAccessor = actionContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _httpContextAccessor = httpContextAccessor;
         _editControllerLogic = editControllerLogic;
         _questionReadingRepo = questionReadingRepo;
     }
-    private readonly IGlobalSearch _search;
-    private readonly PermissionCheck _permissionCheck;
-
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
@@ -50,9 +39,7 @@ public class EditTopicRelationStoreController : BaseController
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
-                _actionContextAccessor,
                 _httpContextAccessor,
-                _webHostEnvironment,
                 _questionReadingRepo)
             .FillSearchCategoryItem(personalWiki, UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
@@ -63,9 +50,7 @@ public class EditTopicRelationStoreController : BaseController
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
                 recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
-                    _actionContextAccessor,
                     _httpContextAccessor,
-                    _webHostEnvironment,
                     _questionReadingRepo)
                     .FillSearchCategoryItem(topicCacheItem, UserId));
             }

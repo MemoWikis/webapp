@@ -15,8 +15,6 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IActionContextAccessor _actionContextAccessor;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public TopicControllerLogic(SessionUser sessionUser,
@@ -26,8 +24,6 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor,
         QuestionReadingRepo questionReadingRepo)
     {
         _sessionUser = sessionUser;
@@ -37,8 +33,6 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _actionContextAccessor = actionContextAccessor;
         _questionReadingRepo = questionReadingRepo;
     }
     public dynamic GetTopicData(int id)
@@ -64,13 +58,11 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             Name = topic.Name,
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id,
-                    _httpContextAccessor, 
-                    _webHostEnvironment)
+                    _httpContextAccessor)
                 .GetUrl_128px(asSquare: true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
                     _httpContextAccessor, 
-                    _webHostEnvironment,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
@@ -87,14 +79,14 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             CanAccess = true,
             Id = id,
             Name = topic.Name,
-            ImageUrl = new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
+            ImageUrl = new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url,
             Content = topic.Content,
             ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
             Parents = topic.ParentCategories().Where(_permissionCheck.CanView).Select(p =>
                 new {
                     id = p.Id,
                     name = p.Name,
-                    imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor, _webHostEnvironment)
+                    imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
                     .GetUrl(50, true)
                     .Url
                 })
@@ -112,7 +104,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 {
                     Id = authorId,
                     Name = author.Name,
-                    ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_20px(author).Url,
+                    ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor).GetUrl_20px(author).Url,
                     Reputation = author.Reputation,
                     ReputationPos = author.ReputationPos
                 };

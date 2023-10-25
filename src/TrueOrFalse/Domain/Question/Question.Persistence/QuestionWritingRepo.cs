@@ -17,8 +17,6 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     private readonly UserActivityRepo _userActivityRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly ISession _nhibernateSession;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webEnvironment;
     private readonly RepositoryDb<Question> _repo;
 
 
@@ -28,9 +26,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         QuestionChangeRepo questionChangeRepo,
-        ISession nhibernateSession,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webEnvironment) : base(nhibernateSession)
+        ISession nhibernateSession) : base(nhibernateSession)
     {
         _repo = new RepositoryDb<Question>(nhibernateSession);
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
@@ -40,8 +36,6 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         _userActivityRepo = userActivityRepo;
         _questionChangeRepo = questionChangeRepo;
         _nhibernateSession = nhibernateSession;
-        _httpContextAccessor = httpContextAccessor;
-        _webEnvironment = webEnvironment;
     }
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -71,7 +65,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question));
 
         _questionChangeRepo.AddCreateEntry(question);
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .CreateAsync(question));
     }
 
@@ -89,7 +83,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     {
         base.Delete(question);
         _questionChangeRepo.AddDeleteEntry(question);
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .DeleteAsync(question));
     }
 
@@ -134,7 +128,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         _questionChangeRepo.AddUpdateEntry(question);
 
-        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations(_httpContextAccessor, _webEnvironment)
+        Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .UpdateAsync(question));
     }
     public void UpdateFieldsOnly(Question question)

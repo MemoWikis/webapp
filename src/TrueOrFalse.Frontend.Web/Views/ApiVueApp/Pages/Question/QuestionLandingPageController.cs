@@ -115,7 +115,6 @@ public class QuestionLandingPageController
                 _imageMetaDataReadingRepo, 
                 _totalsPersUserLoader,
                 _httpContextAccessor,
-                _webHostEnvironment, 
                 _sessionUserCache,
                 _actionContextAccessor,
                 _questionReadingRepo)

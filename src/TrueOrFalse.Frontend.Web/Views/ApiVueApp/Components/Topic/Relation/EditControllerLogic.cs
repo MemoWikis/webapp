@@ -139,9 +139,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
         if (elements.Categories.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
-           _actionContextAccessor,
            _httpContextAccessor,
-           _webHostEnvironment,
            _questionReadingRepo)
                 .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
@@ -159,9 +157,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
         if (elements.Categories.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
-                _actionContextAccessor,
                 _httpContextAccessor,
-                _webHostEnvironment,
                 _questionReadingRepo)
                 .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
