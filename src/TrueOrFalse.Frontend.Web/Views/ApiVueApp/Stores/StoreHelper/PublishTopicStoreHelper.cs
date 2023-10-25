@@ -1,14 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace PublishTopicStoreHelper;
+namespace HelperClassesControllers;
 
-public class PublishTopicJson
+public class PublishTopicStoreHelper
 {
-    public int id { get; set; }
-}
+    public class PublishTopicJson
+    {
+        public int id { get; set; }
+    }
 
-public class PublishQuestionsJson
-{
-    public List<int> questionIds { get; set; }
+    public class PublishQuestionsJson
+    {
+        public List<int> questionIds { get; set; }
+    }
 }
 

@@ -73,16 +73,23 @@ const questions = ref([] as QuestionItem[])
 const users = ref([] as UserItem[])
 const { $urlHelper, $logger } = useNuxtApp()
 
-const computedSearchUrl = computed(() => {
-    let url = `${searchUrl.value}?term=${encodeURIComponent(searchTerm.value)}`
-    if (props.searchType == SearchType.Category || props.searchType == SearchType.CategoryInWiki)
-        url += `&topicIdsToFilter=${props.topicIdsToFilter.join(',')}`
-    return url
-})
-
 async function search() {
-    const result = await $fetch<FullSearch>(computedSearchUrl.value, {
-        mode: 'no-cors',
+
+    type BodyType = {
+        term: string
+        topicIdsToFilter?: number[]
+    }
+
+    let data: BodyType = {
+        term: searchTerm.value,
+    }
+    if ((props.searchType == SearchType.Category || props.searchType == SearchType.CategoryInWiki))
+        data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
+
+    const result = await $fetch<FullSearch>(searchUrl.value, {
+        method: 'POST',
+        body: data,
+        mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])

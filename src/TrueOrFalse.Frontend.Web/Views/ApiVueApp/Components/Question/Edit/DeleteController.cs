@@ -39,6 +39,7 @@ public class QuestionEditDeleteController : Controller
         var updatedLearningSessionResult = _learningSessionCache.RemoveQuestionFromLearningSession(id);
 
         _questionDelete.Run(id);
+
         return Json(new
         {
             reloadAnswerBody = updatedLearningSessionResult.reloadAnswerBody,

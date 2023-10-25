@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
+using Seedworks.Web.State;
 using TrueOrFalse;
 
 namespace VueApp;
@@ -24,6 +25,10 @@ public class QuickCreateQuestionController : Controller
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly ImageStore _imageStore;
+    private readonly SessionUiData _sessionUiData;
+    private readonly QuestionChangeRepo _questionChangeRepo;
 
     public QuickCreateQuestionController(SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
@@ -37,7 +42,7 @@ public class QuickCreateQuestionController : Controller
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo, QuestionChangeRepo questionChangeRepo, SessionUiData sessionUiData, ImageStore imageStore, PermissionCheck permissionCheck)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
@@ -52,24 +57,24 @@ public class QuickCreateQuestionController : Controller
         _actionContextAccessor = actionContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
+        _questionChangeRepo = questionChangeRepo;
+        _sessionUiData = sessionUiData;
+        _imageStore = imageStore;
+        _permissionCheck = permissionCheck;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public ActionResult<object> CreateFlashcard([FromBody] FlashCardLoader flashCardJson)
+    public JsonResult CreateFlashcard([FromBody] FlashCardLoader flashCardJson)
     {
-        
         var safeText = GetSafeText(flashCardJson.TextHtml);
         if (safeText.Length <= 0)
-        {
-            return new JsonResult(new
+            return Json(new RequestResult
             {
-                error = true,
-                key = "missingText",
-
+                success = false,
+                data = FrontendMessageKeys.Error.Question.MissingText
             });
-        };
-      
+
         var question = new Question();
 
         question.TextHtml = flashCardJson.TextHtml;
@@ -80,10 +85,10 @@ public class QuickCreateQuestionController : Controller
         solutionModelFlashCard.Text = flashCardJson.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
-            return new JsonResult(new
+            return Json(new RequestResult
             {
-                error = true,
-                key = "missingAnswer",
+                success = false,
+                data = FrontendMessageKeys.Error.Question.MissingAnswer
             });
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
@@ -103,16 +108,29 @@ public class QuickCreateQuestionController : Controller
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        var questionController = new QuestionController(_sessionUser,
+        var questionController = new VueEditQuestionController(_sessionUser,
             _learningSessionCache,
-            _imageMetaDataReadingRepo, 
+            _permissionCheck,
+            _learningSessionCreator,
+            _questionInKnowledge,
+            _categoryRepository,
+            _imageMetaDataReadingRepo,
+            _imageStore,
+            _sessionUiData,
+            _userReadingRepo,
+            _questionChangeRepo,
+            _questionWritingRepo,
+            _questionReadingRepo,
             _sessionUserCache,
-            _httpContextAccessor, 
-            _webHostEnvironment, 
-            _actionContextAccessor, 
-            _questionReadingRepo); 
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _actionContextAccessor); 
 
-        return questionController.LoadQuestion(question.Id);
+        return Json(new RequestResult
+        {
+            success = true,
+            data = questionController.LoadQuestion(question.Id).SessionIndex
+        });
     }
 
     public class FlashCardLoader

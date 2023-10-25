@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TopicToPrivateStoreHelper;
 
 namespace VueApp;
 
@@ -204,7 +204,7 @@ public class TopicToPrivateStoreController : Controller
 
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public void SetQuestionsToPrivate([FromBody] SetQuestionsToPrivateJson json)
+    public void SetQuestionsToPrivate([FromBody] TopicToPrivateStoreHelper.SetQuestionsToPrivateJson json)
     {
         foreach (var questionId in json.questionIds)
         {

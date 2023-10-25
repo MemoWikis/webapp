@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
+using AnswerBodyHelper;
 
 
 public class AnswerBodyController : Controller {
@@ -28,7 +28,7 @@ public class AnswerBodyController : Controller {
     }
 
     [HttpGet]
-    public JsonResult Get(int index)
+    public JsonResult Get([FromRoute] int index)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession.Steps.Count == 0)
@@ -87,7 +87,7 @@ public class AnswerBodyController : Controller {
     }
 
     [HttpPost]
-    public JsonResult MarkAsCorrect([FromBody] MarkAsCorrectData markAsCorrectData)
+    public bool MarkAsCorrect([FromBody] MarkAsCorrectData markAsCorrectData)
     {
         var id = markAsCorrectData.Id;
         var questionViewGuid = markAsCorrectData.QuestionViewGuid;
@@ -95,12 +95,8 @@ public class AnswerBodyController : Controller {
         var result = markAsCorrectData.AmountOfTries == 0
             ? _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
             : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, markAsCorrectData.AmountOfTries, true);
-        if (result != null)
-        {
-            return Json(true);
-        }
 
-        return Json(false);
+        return result != null;
     }
 
 
@@ -157,33 +153,5 @@ public class AnswerBodyController : Controller {
                 }).ToArray()
             }
         );
-    }
-}
-
-namespace HelperClassesControllers
-{
-    public class SendAnswerToLearningSession
-    {
-        public int Id { get; set; }
-        public Guid QuestionViewGuid { get; set; }
-        public string Answer { get; set; }
-        public bool InTestMode { get; set; }
-
-    }
-
-    public class GetSolutionData
-    {
-        public int Id { get; set; }
-        public Guid QuestionViewGuid { get; set; }
-        public int InteractionNumber { get; set; }
-        public int MillisecondsSinceQuestionView { get; set; } = -1;
-        public bool Unanswered { get; set; } = false;
-    }
-
-    public class MarkAsCorrectData
-    {
-        public int Id { get; set; }
-        public Guid QuestionViewGuid { get; set; }
-        public int AmountOfTries { get; set; }
     }
 }

@@ -31,7 +31,6 @@ public class VueEditQuestionController
     private readonly ImageStore _imageStore;
     private readonly SessionUiData _sessionUiData;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
@@ -39,20 +38,17 @@ public class VueEditQuestionController
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
 
     public VueEditQuestionController(SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         ImageStore imageStore,
         SessionUiData sessionUiData,
         UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
         QuestionChangeRepo questionChangeRepo,
         QuestionWritingRepo questionWritingRepo,
         QuestionReadingRepo questionReadingRepo,
@@ -66,13 +62,11 @@ public class VueEditQuestionController
         _permissionCheck = permissionCheck;
         _learningSessionCreator = learningSessionCreator;
         _questionInKnowledge = questionInKnowledge;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _imageStore = imageStore;
         _sessionUiData = sessionUiData;
         _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _questionChangeRepo = questionChangeRepo;
         _questionWritingRepo = questionWritingRepo;
         _questionReadingRepo = questionReadingRepo;
@@ -111,7 +105,11 @@ public class VueEditQuestionController
         if (questionDataJson.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        return LoadQuestion(question.Id);
+        return Json(new RequestResult
+        {
+            success = true,
+            data = LoadQuestion(question.Id)
+        });
     }
 
     [AccessOnlyAsLoggedIn]
@@ -134,7 +132,11 @@ public class VueEditQuestionController
         if (questionDataJson.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return LoadQuestion(updatedQuestion.Id);
+        return Json(new RequestResult
+        {
+            success = true,
+            data = LoadQuestion(updatedQuestion.Id)
+        });
     }
 
     [AccessOnlyAsLoggedIn]
@@ -143,11 +145,12 @@ public class VueEditQuestionController
     {
         var safeText = GetSafeText(flashCardJson.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult(new
+            return Json(new RequestResult
             {
-                error = true,
-                key = "missingText",
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Question.MissingText
             });
+
         
         var question = new Question();
 
@@ -159,10 +162,10 @@ public class VueEditQuestionController
         solutionModelFlashCard.Text = flashCardJson.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
-            return new JsonResult(new
+            return Json(new RequestResult
             {
-                error = true,
-                key = "missingAnswer",
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Question.MissingAnswer
             });
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
@@ -180,7 +183,11 @@ public class VueEditQuestionController
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
-        return LoadQuestion(question.Id);
+        return Json(new RequestResult
+        {
+            success = true,
+            data = LoadQuestion(question.Id)
+        });
     }
 
     private string GetSafeText(string text)
@@ -248,7 +255,7 @@ public class VueEditQuestionController
         return question;
     }
 
-    public JsonResult LoadQuestion(int questionId)
+    public QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
         var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
@@ -287,7 +294,7 @@ public class VueEditQuestionController
             question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }
 
-        return Json(question);
+        return question;
     }
 
     [HttpGet]
@@ -377,12 +384,6 @@ public class VueEditQuestionController
             PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
             NewQuestionId = newQuestionId
         });
-    }
-    //todo: (DaMa) mit Jun schauen scheint nicht benötigt zu werden 
-    public ActionResult ReferencePartial(int catId)
-    {
-        var category = _categoryRepository.GetById(catId);
-        return View("Reference", category);
     }
 
     public void PublishQuestions(List<int> questionIds)

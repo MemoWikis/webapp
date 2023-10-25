@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using PublishTopicStoreHelper;
 
 namespace VueApp;
 
@@ -48,7 +47,7 @@ public class PublishTopicStoreController : Controller
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult PublishTopic([FromBody] PublishTopicJson json)
+    public JsonResult PublishTopic([FromBody] PublishTopicStoreHelper.PublishTopicJson json)
     {
         var topicCacheItem = EntityCache.GetCategory(json.id);
 
@@ -93,7 +92,7 @@ public class PublishTopicStoreController : Controller
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public void PublishQuestions([FromBody] PublishQuestionsJson json)
+    public void PublishQuestions([FromBody] PublishTopicStoreHelper.PublishQuestionsJson json)
     {
         foreach (var questionId in json.questionIds)
         {

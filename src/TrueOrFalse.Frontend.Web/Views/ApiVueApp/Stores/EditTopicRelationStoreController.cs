@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using EditTopicRelationStoreHelper;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -85,7 +85,7 @@ public class EditTopicRelationStoreController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveTopics([FromBody] RemoveTopicsJson json)
+    public JsonResult RemoveTopics([FromBody] EditTopicRelationStoreHelper.RemoveTopicsJson json)
     {
         var removedChildrenIds = new List<int>();
 

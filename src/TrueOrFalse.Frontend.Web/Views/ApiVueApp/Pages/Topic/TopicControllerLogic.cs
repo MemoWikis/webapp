@@ -81,7 +81,6 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
 
     private dynamic CreateTopicDataObject(int id, CategoryCacheItem topic, ImageMetaData imageMetaData, KnowledgeSummary knowledgeSummary)
     {
-
         return new
         {
             CanAccess = true,

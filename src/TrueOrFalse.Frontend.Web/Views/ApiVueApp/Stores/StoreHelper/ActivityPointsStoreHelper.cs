@@ -1,7 +1,11 @@
-﻿namespace ActivityPointsStoreHelper;
-
-public class AddJson
+﻿
+namespace HelperClassesControllers;
+public class ActivityPointsStoreHelper
 {
-    public string ActivityTypeString { get; set; }
-    public int Points { get; set; }
+    public class AddJson
+    {
+        public string ActivityTypeString { get; set; }
+        public int Points { get; set; }
+    }
 }
+

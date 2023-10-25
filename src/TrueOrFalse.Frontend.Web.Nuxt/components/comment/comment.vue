@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3';
+import { Editor } from '@tiptap/vue-3'
 import { useUserStore } from '../user/userStore'
 import { useCommentsStore, CommentModel } from './commentsStore'
 
@@ -78,7 +78,6 @@ async function saveAnswer() {
         body: data,
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
     if (result) {

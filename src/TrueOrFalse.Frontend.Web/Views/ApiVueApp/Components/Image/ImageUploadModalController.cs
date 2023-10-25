@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using HelperClassesControllers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 
@@ -20,9 +21,9 @@ public class ImageUploadModalController
 
 
     [HttpPost]
-    public JsonResult GetWikimediaPreview(string url)
+    public JsonResult GetWikimediaPreview([FromBody] ImageUploadModalHelper.GetWikimediaPreviewJson json)
     {
-        var result = WikiImageMetaLoader.Run(url, 200);
+        var result = WikiImageMetaLoader.Run(json.url, 200);
         return Json(new
         {
             imageFound = !result.ImageNotFound,
@@ -32,26 +33,18 @@ public class ImageUploadModalController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveWikimediaImage(int topicId, string url)
+    public bool SaveWikimediaImage([FromBody] ImageUploadModalHelper.SaveWikimediaImageJson json)
     {
-        if (url == null || !_permissionCheck.CanEditCategory(topicId))
+        if (json.url == null || !_permissionCheck.CanEditCategory(json.topicId))
             return false;
 
-        _imageStore.RunWikimedia<CategoryImageSettings>(url, topicId, ImageType.Category, _sessionUser.UserId);
+        _imageStore.RunWikimedia<CategoryImageSettings>(json.url, json.topicId, ImageType.Category, _sessionUser.UserId);
         return true;
     }
 
-    public class CustomImageFormdata
-    {
-        public int topicId { get; set; }
-        public string licenseGiverName { get; set; }
-        public IFormFile file { get; set; }
-    }
-
-    //[AccessOnlyAsLoggedIn]
-
-    //[HttpPost]
-    public bool SaveCustomImage([FromForm] CustomImageFormdata form)
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public bool SaveCustomImage([FromForm] ImageUploadModalHelper.CustomImageFormdata form)
     {
         if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
             return false;

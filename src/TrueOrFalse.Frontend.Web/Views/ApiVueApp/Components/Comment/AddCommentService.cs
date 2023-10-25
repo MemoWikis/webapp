@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
-public class CommentHelper : IRegisterAsInstancePerLifetime
+public class AddCommentService : IRegisterAsInstancePerLifetime
 {
     private readonly CommentRepository _commentRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public CommentHelper(CommentRepository commentRepository,
+    public AddCommentService(CommentRepository commentRepository,
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
@@ -68,13 +69,13 @@ public class CommentHelper : IRegisterAsInstancePerLifetime
         return comment;
     }
 
-    public void SaveComment(CommentType type,int typeId, string text, string title, int userId )
+    public void SaveComment(CommentType type, AddCommentHelper.AddJson json, int userId )
     {
         var comment = new Comment();
         comment.Type = type;
-        comment.TypeId = typeId;
-        comment.Text = text;
-        comment.Title = title;
+        comment.TypeId = json.id;
+        comment.Text = json.text;
+        comment.Title = json.title;
         comment.Creator = _userReadingRepo.GetById(userId);
 
         _commentRepository.Create(comment);

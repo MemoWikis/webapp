@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
-
     public class TopicRelationEditController : Controller
     {
         private readonly SessionUser _sessionUser;
@@ -19,18 +18,18 @@ namespace VueApp
         }
 
         [HttpPost]
-        public JsonResult ValidateName([FromBody] NameHelper nameHelper)
+        public JsonResult ValidateName([FromBody] ValidateNameJson json)
         {
-            var data = _editControllerLogic.ValidateName(nameHelper.Name);
+            var data = _editControllerLogic.ValidateName(json.Name);
             return Json(data);
         }
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult QuickCreate([FromBody] QuickCreatHelper quickCreatHelper)
+        public JsonResult QuickCreate([FromBody] QuickCreateJson quickCreateJson)
         {
-            var data = _editControllerLogic.QuickCreate(quickCreatHelper.Name,
-                    quickCreatHelper.ParentTopicId, 
+            var data = _editControllerLogic.QuickCreate(quickCreateJson.Name,
+                    quickCreateJson.ParentTopicId, 
                     _sessionUser);
 
             return Json(data);
@@ -38,17 +37,17 @@ namespace VueApp
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public async Task<JsonResult> SearchTopic(string term, int[] topicIdsToFilter = null)
+        public async Task<JsonResult> SearchTopic([FromBody] SearchJson json)
         {
-            var data = _editControllerLogic.SearchTopic(term, topicIdsToFilter);
+            var data = _editControllerLogic.SearchTopic(json.term, json.topicIdsToFilter);
             return Json(data);
         }
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public async Task<JsonResult> SearchTopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
+        public async Task<JsonResult> SearchTopicInPersonalWiki([FromBody] SearchJson json)
         {
-            var data = _editControllerLogic.SearchTopicInPersonalWiki(term, topicIdsToFilter);
+            var data = _editControllerLogic.SearchTopicInPersonalWiki(json.term, json.topicIdsToFilter);
             return Json(data);
         }
 
@@ -81,14 +80,20 @@ namespace VueApp
 
 namespace HelperClassesControllers
 {
-    public class NameHelper
+    public class ValidateNameJson
     {
         public string Name { get; set; }
     }
 
-    public class QuickCreatHelper
+    public class QuickCreateJson
     {
         public string Name { get; set; }
         public int ParentTopicId { get; set; } 
+    }
+
+    public class SearchJson
+    {
+        public string term { get; set; }
+        public int[] topicIdsToFilter { get; set; } = null;
     }
 }

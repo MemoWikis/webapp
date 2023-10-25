@@ -31,7 +31,6 @@ public class VueLearningSessionResultController
     [HttpGet]
     public JsonResult Get()
     {
-        
         var learningSession = _learningSessionCache.GetLearningSession();
         var model = new LearningSessionResultModel(learningSession, _httpContextAccessor, _webHostEnvironment);
         var questions = model.AnsweredStepsGrouped.Where(g => g.First().Question.Id != 0).Select(g =>

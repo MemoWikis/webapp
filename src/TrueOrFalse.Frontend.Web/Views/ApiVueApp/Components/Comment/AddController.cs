@@ -1,21 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HelperClassesControllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class CommentAddController : BaseController
 {
-    private readonly CommentHelper _commentHelper;
+    private readonly AddCommentService _addCommentService;
 
-    public CommentAddController(SessionUser sessionUser, CommentHelper commentHelper) :base(sessionUser)
+    public CommentAddController(SessionUser sessionUser, AddCommentService addCommentService) :base(sessionUser)
     {
-        _commentHelper = commentHelper;
+        _addCommentService = addCommentService;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveComment(int id, string text, string title)
+    public bool SaveComment([FromBody] AddCommentHelper.AddJson json)
     {
-        _commentHelper.SaveComment(CommentType.AnswerQuestion, id, text,title, UserId);
+        _addCommentService.SaveComment(CommentType.AnswerQuestion, json, UserId);
         return true;
     }
 }

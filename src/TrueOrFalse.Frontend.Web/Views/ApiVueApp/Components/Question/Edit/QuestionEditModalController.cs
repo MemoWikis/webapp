@@ -33,12 +33,12 @@ public class QuestionEditModalController : BaseController
 
 
     [HttpGet]
-    public JsonResult GetData(int id)
+    public JsonResult GetData([FromRoute] int id)
     {
         var data = _questionEditModalControllerLogic.GetData(id);
         return Json(data);
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
+    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetCategory(id).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 }

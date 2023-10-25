@@ -14,7 +14,7 @@ public class GridItemController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetChildren(int id)
+    public JsonResult GetChildren([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
@@ -26,7 +26,7 @@ public class GridItemController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetItem(int id)
+    public JsonResult GetItem([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))

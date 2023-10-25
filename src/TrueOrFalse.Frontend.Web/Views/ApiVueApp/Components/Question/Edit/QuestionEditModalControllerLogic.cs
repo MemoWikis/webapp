@@ -5,7 +5,6 @@ using System.Text.RegularExpressions;
 using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
 using TrueOrFalse;
@@ -283,10 +282,6 @@ namespace VueApp
 
             return topics;
         }
-
-        [HttpGet]
-        public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId)
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
     }
 }
 

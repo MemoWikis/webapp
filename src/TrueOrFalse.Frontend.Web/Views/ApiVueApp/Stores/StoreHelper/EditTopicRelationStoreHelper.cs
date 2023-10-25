@@ -1,8 +1,11 @@
-﻿namespace EditTopicRelationStoreHelper;
+﻿namespace HelperClassesControllers;
 
-public class RemoveTopicsJson
+public class EditTopicRelationStoreHelper
 {
-    public int parentId { get; set; }
-    public int[] childIds { get; set; }
+    public class RemoveTopicsJson
+    {
+        public int parentId { get; set; }
+        public int[] childIds { get; set; }
+    }
 }
 

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace TopicToPrivateStoreHelper;
+namespace HelperClassesControllers;
 
-public class SetQuestionsToPrivateJson
+public class TopicToPrivateStoreHelper
 {
-    public List<int> questionIds { get; set; }
+    public class SetQuestionsToPrivateJson
+    {
+        public List<int> questionIds { get; set; }
+    }
 }

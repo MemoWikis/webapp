@@ -1,5 +1,5 @@
 ﻿using System;
-using ActivityPointsStoreHelper;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 
 public class ActivityPointsStoreController : Controller
@@ -18,7 +18,7 @@ public class ActivityPointsStoreController : Controller
     }
 
     [HttpPost]
-    public JsonResult Add([FromBody] AddJson activityPointsData)
+    public JsonResult Add([FromBody] ActivityPointsStoreHelper.AddJson activityPointsData)
     {
         var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints

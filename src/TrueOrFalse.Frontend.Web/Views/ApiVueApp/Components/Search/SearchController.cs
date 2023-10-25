@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,15 +39,13 @@ namespace VueApp
             _questionReadingRepo = questionReadingRepo;
         }
 
-      
-
-        [HttpGet]
-        public async Task<JsonResult> All(string term)
+        [HttpPost]
+        public async Task<JsonResult> All([FromBody] SearchAllJson json)
         {
             var topicItems = new List<SearchTopicItem>();
             var questionItems = new List<SearchQuestionItem>();
             var userItems = new List<SearchUserItem>();
-            var elements = await _search.Go(term);
+            var elements = await _search.Go(json.term);
 
             var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
                 _actionContextAccessor,
@@ -70,19 +69,17 @@ namespace VueApp
                 questionCount = elements.QuestionsResultCount,
                 users = userItems,
                 userCount = elements.UsersResultCount,
-                userSearchUrl = Links.UsersSearch(term)
+                userSearchUrl = Links.UsersSearch(json.term)
             });
 
             return result;
         }
 
-        [HttpGet]
-        public async Task<JsonResult> Topic(string term, string topicIdsToFilter = "")
-        {
+        [HttpPost]
+        public async Task<JsonResult> Topic([FromBody] SearchTopicJson json)
+        { 
             var items = new List<SearchTopicItem>();
-        var idArray = topicIdsToFilter.Length > 0 ? topicIdsToFilter.Split(',').Select(int.Parse).ToArray() : null;
-
-            var elements = await _search.GoAllCategories(term, idArray);
+            var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
 
             if (elements.Categories.Any())
                 new SearchHelper(_imageMetaDataReadingRepo,
@@ -98,13 +95,11 @@ namespace VueApp
             });
         }
 
-        [HttpGet]
-        public async Task<JsonResult> TopicInPersonalWiki(string term, string topicIdsToFilter)
+        [HttpPost]
+        public async Task<JsonResult> TopicInPersonalWiki([FromBody] SearchTopicJson json)
         {
             var items = new List<SearchTopicItem>();
-            var idArray = topicIdsToFilter.Split(',').Select(int.Parse).ToArray();
-
-            var elements = await _search.GoAllCategories(term, idArray);
+            var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
 
             if (elements.Categories.Any())
                 new SearchHelper(_imageMetaDataReadingRepo,
@@ -129,7 +124,7 @@ namespace VueApp
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult GetPersonalWikiData(int id)
+        public JsonResult GetPersonalWikiData([FromRoute] int id)
         {
             if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
                 return Json(new
@@ -170,3 +165,15 @@ namespace VueApp
     }
 }
 
+namespace HelperClassesControllers
+{
+    public class SearchAllJson
+    {
+        public string term { get; set; }
+    }
+    public class SearchTopicJson
+    {
+        public string term { get; set; }
+        public int[] topicIdsToFilter { get; set; } = null;
+    }
+}

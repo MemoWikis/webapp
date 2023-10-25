@@ -41,7 +41,7 @@ public class AnswerQuestionDetailsController: Controller
         _questionReadingRepo = questionReadingRepo;
     }
     [HttpGet]
-    public JsonResult Get(int id) => Json(GetData(id));
+    public JsonResult Get([FromRoute] int id) => Json(GetData(id));
 
     public dynamic GetData(int id)
     {

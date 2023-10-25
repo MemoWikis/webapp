@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using HelperClassesControllers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -184,9 +185,9 @@ public class VueUserSettingsController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeSupportLoginRights(bool allowSupportiveLogin)
+    public JsonResult ChangeSupportLoginRights([FromBody] ChangeSupportLoginRightsJson json)
     {
-        _sessionUser.User.AllowsSupportiveLogin = allowSupportiveLogin;
+        _sessionUser.User.AllowsSupportiveLogin = json.allowSupportiveLogin;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
@@ -201,9 +202,9 @@ public class VueUserSettingsController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeWuwiVisibility(bool showWuwi)
+    public JsonResult ChangeWuwiVisibility([FromBody] ChangeWuwiVisibilityJson json)
     {
-        _sessionUser.User.ShowWishKnowledge = showWuwi;
+        _sessionUser.User.ShowWishKnowledge = json.showWuwi;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);

@@ -75,9 +75,17 @@ public class TopicLearningQuestionListController: Controller
     }
 
     [HttpGet]
-    public JsonResult LoadNewQuestion(int index)
+    public JsonResult LoadNewQuestion([FromRoute] int index)
     {
-        var steps = _learningSessionCache.GetLearningSession().Steps;
+        var session = _learningSessionCache.GetLearningSession();
+        if (session == null)
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Default
+            });
+        var steps = session.Steps;
+
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
@@ -86,25 +94,30 @@ public class TopicLearningQuestionListController: Controller
 
         var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 
-        return Json( new {
-            Id = question.Id,
-            Title = question.Text,
-            LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(question),
-            ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question),
-                _httpContextAccessor,
-                _webHostEnvironment,
-                _questionReadingRepo)
-                .GetImageUrl(40, true)
-                .Url,
-            LearningSessionStepCount = steps.Count,
-            LinkToQuestionVersions = new Links(_actionContextAccessor, _httpContextAccessor).QuestionHistory(question.Id),
-            LinkToComment = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(question) + "#JumpLabel",
-            CorrectnessProbability = hasUserValuation ? userQuestionValuation[question.Id].CorrectnessProbability : question.CorrectnessProbability,
-            KnowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
-            Visibility = question.Visibility,
-            SessionIndex = index,
-            IsInWishknowledge = hasUserValuation && userQuestionValuation[question.Id].IsInWishKnowledge,
-            HasPersonalAnswer = false
+        return Json(new RequestResult
+        {
+            success = true,
+            data = new
+            {
+                Id = question.Id,
+                Title = question.Text,
+                LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(question),
+                ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question),
+                        _httpContextAccessor,
+                        _webHostEnvironment,
+                        _questionReadingRepo)
+                    .GetImageUrl(40, true)
+                    .Url,
+                LearningSessionStepCount = steps.Count,
+                LinkToQuestionVersions = new Links(_actionContextAccessor, _httpContextAccessor).QuestionHistory(question.Id),
+                LinkToComment = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(question) + "#JumpLabel",
+                CorrectnessProbability = hasUserValuation ? userQuestionValuation[question.Id].CorrectnessProbability : question.CorrectnessProbability,
+                KnowledgeStatus = hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
+                Visibility = question.Visibility,
+                SessionIndex = index,
+                IsInWishknowledge = hasUserValuation && userQuestionValuation[question.Id].IsInWishKnowledge,
+                HasPersonalAnswer = false
+            }
         });
     }
 }
