@@ -102,7 +102,7 @@ namespace VueApp
         [AccessOnlyAsLoggedIn]
     public JsonResult Get([FromRoute] int topicId)
         {
-            var topicCacheItem = EntityCache.GetCategory(topicIdHelper.TopicId);
+            var topicCacheItem = EntityCache.GetCategory(topicId);
             var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
 
             if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
