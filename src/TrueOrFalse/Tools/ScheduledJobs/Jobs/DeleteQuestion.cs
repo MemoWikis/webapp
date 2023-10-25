@@ -14,11 +14,7 @@ public class DeleteQuestion : IJob
     private readonly CommentRepository _commentRepository;
     private readonly ISession _nhibernateSession;
     private readonly QuestionWritingRepo _questionWritingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly Logg _logg;
 
 
     public DeleteQuestion(ReferenceRepo referenceRepo,
@@ -28,9 +24,6 @@ public class DeleteQuestion : IJob
         CommentRepository commentRepository,
         ISession nhibernateSession,
         QuestionWritingRepo questionWritingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        Logg logg,
         QuestionValuationWritingRepo questionValuationWritingRepo)
     {
         _referenceRepo = referenceRepo;
@@ -40,19 +33,13 @@ public class DeleteQuestion : IJob
         _commentRepository = commentRepository;
         _nhibernateSession = nhibernateSession;
         _questionWritingRepo = questionWritingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _questionValuationWritingRepo = questionValuationWritingRepo;
-        _sessionUserCache = _questionValuationWritingRepo.SessionUserCache;
-        _logg = logg;
     }
     public Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
         Logg.r.Information("Job started - DeleteQuestion {id}", questionId);
-
-        _sessionUserCache.RemoveQuestionForAllUsers(questionId);
 
         //delete connected db-entries
         _referenceRepo.DeleteForQuestion(questionId);
