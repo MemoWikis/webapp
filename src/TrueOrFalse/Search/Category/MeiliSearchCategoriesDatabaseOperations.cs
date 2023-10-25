@@ -7,12 +7,6 @@ namespace TrueOrFalse.Search
 {
     internal class MeiliSearchCategoriesDatabaseOperations : MeiliSearchBase
     {
-        public MeiliSearchCategoriesDatabaseOperations(IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
-            : base(httpContextAccessor, webHostEnvironment)
-        {
-            
-        }
 
         /// <summary>
         /// Create MeiliSearch Category

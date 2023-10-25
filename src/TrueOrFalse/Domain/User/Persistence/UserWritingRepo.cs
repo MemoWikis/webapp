@@ -1,6 +1,4 @@
 ﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 using ISession = NHibernate.ISession;
@@ -15,8 +13,6 @@ public class UserWritingRepo
     private readonly UserReadingRepo _userReadingRepo;
     private readonly ReputationCalc _reputationCalc;
     private readonly GetWishQuestionCount _getWishQuestionCount;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
     private readonly RepositoryDb<User> _repo;
 
@@ -29,8 +25,6 @@ public class UserWritingRepo
         UserReadingRepo userReadingRepo,
         ReputationCalc reputationCalc,
         GetWishQuestionCount getWishQuestionCount,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache)
     {
         _repo = new RepositoryDb<User>(session);
@@ -41,8 +35,6 @@ public class UserWritingRepo
         _userReadingRepo = userReadingRepo;
         _reputationCalc = reputationCalc;
         _getWishQuestionCount = getWishQuestionCount;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
     }
 
@@ -72,8 +64,7 @@ public class UserWritingRepo
         _sessionUserCache.AddOrUpdate(user);
 
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor,
-            _webHostEnvironment).CreateAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
     }
 
     public void Delete(int id)
@@ -89,15 +80,14 @@ public class UserWritingRepo
         _sessionUserCache.Remove(user);
         EntityCache.RemoveUser(id);
         Task.Run(async () => 
-            await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+            await new MeiliSearchUsersDatabaseOperations()
                 .DeleteAsync(user));
     }
 
     public void DeleteFromAllTables(int userId)
     {
         var user = _repo.Session.Get<User>(userId);
-        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor,
-            _webHostEnvironment).DeleteAsync(user));
+        Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
 
         _repo.Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId)
             .ExecuteUpdate();
@@ -169,7 +159,7 @@ public class UserWritingRepo
         _sessionUserCache.AddOrUpdate(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => 
-            await new MeiliSearchUsersDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+            await new MeiliSearchUsersDatabaseOperations()
                 .UpdateAsync(user));
     }
 

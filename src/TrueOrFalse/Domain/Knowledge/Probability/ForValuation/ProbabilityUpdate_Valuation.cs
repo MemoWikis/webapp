@@ -80,7 +80,7 @@ namespace TrueOrFalse
             var user = EntityCache.GetUserById(questionValuation.User.Id);
 
             var probabilityResult =  _probabilityCalcSimple1
-                .Run(EntityCache.GetQuestionById(question.Id, _httpContextAccessor, _webHostEnvironment)
+                .Run(EntityCache.GetQuestionById(question.Id)
                 , user, _session, _answerRepo);
 
             questionValuation.CorrectnessProbability = probabilityResult.Probability;

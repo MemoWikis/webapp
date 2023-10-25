@@ -86,7 +86,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
     public void RunUploaded<T>(IFormFile imageFile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
     {
-        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _webHostEnvironment, _questionReadingRepo)
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
             .Create<T>(typeId);
 
         imageSettings.Init(typeId);

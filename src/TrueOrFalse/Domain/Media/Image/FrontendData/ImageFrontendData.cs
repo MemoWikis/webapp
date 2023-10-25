@@ -6,7 +6,6 @@ using static System.String;
 public class ImageFrontendData
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly QuestionReadingRepo _questionReadingRepo;
     public ImageMetaData ImageMetaData;
     public bool ImageMetaDataExists;
@@ -27,11 +26,9 @@ public class ImageFrontendData
         
     public ImageFrontendData(ImageMetaData imageMetaData,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         QuestionReadingRepo questionReadingRepo)
     {
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
         if (imageMetaData == null)
             return;
@@ -172,18 +169,18 @@ public class ImageFrontendData
         switch (imageType)
         {
             case ImageType.Category:
-                imageSettings = new CategoryImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
+                imageSettings = new CategoryImageSettings(typeId, _httpContextAccessor);
                 break;
             case ImageType.User:
-                imageSettings = new UserImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
+                imageSettings = new UserImageSettings(typeId, _httpContextAccessor);
                 break;
             default:
-                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _webHostEnvironment, _questionReadingRepo);
+                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _questionReadingRepo);
                 break;
         }
 
-        var result = new ImageUrl(_httpContextAccessor, _webHostEnvironment).Get(imageSettings, width, asSquare, arg =>
-            new ImageUrl(_httpContextAccessor, _webHostEnvironment).GetFallbackImageUrl(imageSettings, width));
+        var result = new ImageUrl(_httpContextAccessor).Get(imageSettings, width, asSquare, arg =>
+            new ImageUrl(_httpContextAccessor).GetFallbackImageUrl(imageSettings, width));
 
         return result;
     }

@@ -11,12 +11,13 @@ using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
+using TrueOrFalse.Environment;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    serverOptions.Limits.MaxRequestBodySize = 1073741824; 
+    serverOptions.Limits.MaxRequestBodySize = 1073741824;
 });
 
 
@@ -51,26 +52,32 @@ builder.Services.Configure<FormOptions>(options =>
     options.ValueLengthLimit = int.MaxValue;
     options.MultipartBodyLengthLimit = long.MaxValue;
     options.BufferBodyLengthLimit = int.MaxValue;
-}); 
+});
 
-builder.Services.AddCors(options => {
-        options.AddPolicy("LocalhostCorsPolicy",
-            builder => builder
-                .WithOrigins("http://localhost:3000")
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
-    });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LocalhostCorsPolicy",
+        builder => builder
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
-builder.Services.AddAuthentication(options => {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    })
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
     .AddCookie();
 
 builder.Services.AddAntiforgery(_ => { });
 
+builder.WebHost.ConfigureServices(services =>
+{
+    WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
+});
 var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;

@@ -23,7 +23,7 @@ public class AuthorController : Controller
         if (author != null)
             return Json(new
             {
-                ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment)
+                ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor)
                     .GetUrl_20px(author)
                     .Url,
                 Reputation = author.Reputation,

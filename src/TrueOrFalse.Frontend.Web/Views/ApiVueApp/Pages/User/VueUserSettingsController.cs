@@ -167,8 +167,7 @@ public class VueUserSettingsController : Controller
             SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
 
         var userImageSettings = new UserImageSettings(_sessionUser.UserId,
-            _httpContextAccessor,
-            _webHostEnvironment);
+            _httpContextAccessor);
         return Json(new
         {
             success = true,
@@ -222,14 +221,14 @@ public class VueUserSettingsController : Controller
     [HttpGet]
     public JsonResult DeleteUserImage()
     {
-        var imageSettings = new UserImageSettings(_httpContextAccessor, _webHostEnvironment)
+        var imageSettings = new UserImageSettings(_httpContextAccessor)
             .InitByType(new ImageMetaData
             {
                 Type = ImageType.User,
                 TypeId = _sessionUser.User.Id
             }, _questionReadingRepo);
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings(_httpContextAccessor, _webHostEnvironment).GetUrl_250px(_sessionUser.User).Url);
+        return Json(new UserImageSettings(_httpContextAccessor).GetUrl_250px(_sessionUser.User).Url);
     }
 
     [HttpPost]

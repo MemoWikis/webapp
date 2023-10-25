@@ -15,7 +15,6 @@ public class AnswerQuestionDetailsController: Controller
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly QuestionReadingRepo _questionReadingRepo;
@@ -25,7 +24,6 @@ public class AnswerQuestionDetailsController: Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache,
         IActionContextAccessor actionContextAccessor,
         QuestionReadingRepo questionReadingRepo)
@@ -35,7 +33,6 @@ public class AnswerQuestionDetailsController: Controller
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
         _actionContextAccessor = actionContextAccessor;
         _questionReadingRepo = questionReadingRepo;
@@ -45,8 +42,7 @@ public class AnswerQuestionDetailsController: Controller
 
     public dynamic GetData(int id)
     {
-        var question = EntityCache.GetQuestionById(id,
-            _httpContextAccessor, _webHostEnvironment );
+        var question = EntityCache.GetQuestionById(id);
 
         if (question.Id == 0 || !_permissionCheck.CanView(question))
             return Json(null);
@@ -83,11 +79,11 @@ public class AnswerQuestionDetailsController: Controller
                 Name = t.Name,
                 Url = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(t.Name, t.Id),
                 QuestionCount = t.GetCountQuestionsAggregated(_sessionUser.UserId),
-                ImageUrl = new CategoryImageSettings(t.Id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url,
+                ImageUrl = new CategoryImageSettings(t.Id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url,
                 IconHtml = CategoryCachedData.GetIconHtml(t),
                 MiniImageUrl = new ImageFrontendData(
                         _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
-                        _httpContextAccessor, _webHostEnvironment,
+                        _httpContextAccessor,
                         _questionReadingRepo)
                     .GetImageUrl(30, true, false, ImageType.Category).Url,
 

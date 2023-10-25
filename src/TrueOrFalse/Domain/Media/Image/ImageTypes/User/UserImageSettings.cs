@@ -15,15 +15,13 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public string BaseDummyUrl => "no-profile-picture-";
 
     public UserImageSettings(int id,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment):
-        base(httpContextAccessor, webHostEnvironment){
+        IHttpContextAccessor httpContextAccessor):
+        base(httpContextAccessor){
         Id = id;
     }
 
-    public UserImageSettings(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) :
-        base(httpContextAccessor, webHostEnvironment) {}
+    public UserImageSettings(IHttpContextAccessor httpContextAccessor) :
+        base(httpContextAccessor) {}
 
     public void Init(int typeId)
     {
@@ -38,7 +36,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
-        return new ImageUrl(_contextAccessor, _webHostEnvironment)
+        return new ImageUrl(_contextAccessor)
             .Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
     }
 

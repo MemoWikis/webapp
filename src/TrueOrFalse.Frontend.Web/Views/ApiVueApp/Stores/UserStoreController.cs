@@ -155,8 +155,7 @@ public class UserStoreController : Controller
                 Type = UserType.Normal,
                 ImgUrl = _sessionUser.IsLoggedIn
                     ? new UserImageSettings(_sessionUser.UserId,
-                            _httpContextAccessor,
-                            _webHostEnvironment)
+                            _httpContextAccessor)
                         .GetUrl_20px(_sessionUser.User)
                         .Url
                     : "",
@@ -169,8 +168,6 @@ public class UserStoreController : Controller
                         _categoryViewRepo, 
                         _imageMetaDataReadingRepo, 
                         _httpContextAccessor,
-                        _webHostEnvironment, 
-                        _actionContextAccessor,
                         _questionReadingRepo)
                     .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }

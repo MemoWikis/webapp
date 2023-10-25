@@ -10,7 +10,6 @@ public class GridItemLogic
     private readonly SessionUser _sessionUser;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReading;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
@@ -18,7 +17,6 @@ public class GridItemLogic
         SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReading,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         QuestionReadingRepo questionReadingRepo)
     {
@@ -26,7 +24,6 @@ public class GridItemLogic
         _sessionUser = sessionUser;
         _imageMetaDataReading = imageMetaDataReading;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _questionReadingRepo = questionReadingRepo;
     }
@@ -77,7 +74,7 @@ public class GridItemLogic
     public GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
     {
         var imageMetaData = _imageMetaDataReading.GetBy(topic.Id, ImageType.Category);
-        var imageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _webHostEnvironment, _questionReadingRepo);
+        var imageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _questionReadingRepo);
 
         return new GridTopicItem
         {
@@ -117,7 +114,7 @@ public class GridItemLogic
     private TinyTopicModel[] GetParents(CategoryCacheItem topic)
     {
         return topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
-            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor, _webHostEnvironment)
+            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
                 .GetUrl(50, true).Url })
             .ToArray();
     }

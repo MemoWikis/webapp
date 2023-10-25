@@ -39,7 +39,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
 
         EntityCache.AddOrUpdate(categoryCacheItem);
         var authorSessionUserCacheItem = SessionUserCacheItem.CreateCacheItem(author);
-        _categoryRepository.Update(category, authorSessionUserCacheItem, type: CategoryChangeType.Restore);
+        _categoryRepository.Update(category, authorSessionUserCacheItem.Id, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }
@@ -57,7 +57,7 @@ public class RestoreCategory : IRegisterAsInstancePerLifetime
         categoryCacheItem.Content = historicCategory.Content;
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        _categoryRepository.Update(category, author, type: CategoryChangeType.Restore);
+        _categoryRepository.Update(category, author.Id, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }

@@ -1,32 +1,28 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using System.Threading.Tasks;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class AddParentCategoryInDb : IJob
     {
-        private readonly SessionUser _sessionUser;
         private readonly CategoryRepository _categoryRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
+        private int _authorId; 
 
-        public AddParentCategoryInDb(SessionUser sessionUser,
-            CategoryRepository categoryRepository,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+
+        public AddParentCategoryInDb(CategoryRepository categoryRepository)
         {
-            _sessionUser = sessionUser;
             _categoryRepository = categoryRepository;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
+
         public async Task Execute(IJobExecutionContext context)
         {
+            //context.JobDetail.JobDataMap["context"];
             var dataMap = context.JobDetail.JobDataMap;
             var childCategoryId = dataMap.GetInt("childCategoryId");
             var parentCategoryId = dataMap.GetInt("parentCategoryId");
+            _authorId = dataMap.GetInt("authorId"); 
+
             Logg.r.Information("Job started - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
             await Run(childCategoryId, parentCategoryId);
             Logg.r.Information("Job ended - ModifyRelation Child: {childId}, Parent: {parentId}", childCategoryId, parentCategoryId);
@@ -39,8 +35,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(childCategory, parentCategoryId);
 
-             _categoryRepository.Update(childCategory, _sessionUser.User, type: CategoryChangeType.Relations);
-             _categoryRepository.Update(parentCategory, _sessionUser.User, type: CategoryChangeType.Relations);
+             _categoryRepository.Update(childCategory, _authorId, type: CategoryChangeType.Relations);
+             _categoryRepository.Update(parentCategory, _authorId, type: CategoryChangeType.Relations);
              return Task.CompletedTask;
         }
     }

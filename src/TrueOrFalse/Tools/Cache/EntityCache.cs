@@ -147,9 +147,7 @@ public class EntityCache : BaseEntityCache
 
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
-    public static QuestionCacheItem GetQuestionById(int questionId,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    public static QuestionCacheItem GetQuestionById(int questionId)
     {
         if (Questions.TryGetValue(questionId, out var question))
             return question;

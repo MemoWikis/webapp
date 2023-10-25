@@ -5,14 +5,11 @@ public class ImageSettingsFactory
 {
     public readonly QuestionReadingRepo _questionReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ImageSettingsFactory(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         QuestionReadingRepo questionReadingRepo)
     {
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
     }
 
@@ -20,21 +17,19 @@ public class ImageSettingsFactory
     {
         if (typeof(T) == typeof(CategoryImageSettings))
         {
-            return (T)(IImageSettings)new CategoryImageSettings(typeId, _httpContextAccessor, _webHostEnvironment);
+            return (T)(IImageSettings)new CategoryImageSettings(typeId, _httpContextAccessor);
         }
 
        if (typeof(T) == typeof(QuestionImageSettings))
         {
             return (T)(IImageSettings)new QuestionImageSettings(_questionReadingRepo,
-                _httpContextAccessor, 
-                _webHostEnvironment);
+                _httpContextAccessor);
         }
 
        if (typeof(T) == typeof(UserImageSettings))
        {
            return (T)(IImageSettings)new UserImageSettings(
-               _httpContextAccessor,
-               _webHostEnvironment);
+               _httpContextAccessor);
        }
 
 

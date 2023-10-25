@@ -12,20 +12,18 @@ public class TopicStoreController : Controller
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public TopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor)
     {
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryRepository = categoryRepository;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpPost]
@@ -57,7 +55,7 @@ public class TopicStoreController : Controller
             category.Content = json.content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        _categoryRepository.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
+        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
         return Json(new RequestResult
         {
@@ -69,7 +67,7 @@ public class TopicStoreController : Controller
     public string GetTopicImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewCategory(id))
-            return new CategoryImageSettings(id, _httpContextAccessor, _webHostEnvironment).GetUrl_128px(asSquare: true).Url;
+            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url;
 
         return "";
     }

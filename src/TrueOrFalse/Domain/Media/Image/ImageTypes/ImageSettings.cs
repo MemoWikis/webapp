@@ -5,13 +5,10 @@ using Microsoft.AspNetCore.Http;
 public abstract class ImageSettings
 {
     protected readonly IHttpContextAccessor _contextAccessor;
-    protected readonly IWebHostEnvironment _webHostEnvironment;
 
-    public ImageSettings(IHttpContextAccessor contextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    public ImageSettings(IHttpContextAccessor contextAccessor)
     {
         _contextAccessor = contextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
     public abstract int Id { get; set;  }
     public abstract string BasePath { get; }
@@ -47,13 +44,13 @@ public abstract class ImageSettings
         switch (imageMetaData.Type)
         {
             case ImageType.Category:
-                return new CategoryImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
+                return new CategoryImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.Question:
-                return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment, questionReadingRepo);
+                return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, questionReadingRepo);
             case ImageType.QuestionSet:
-                return new SetImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
+                return new SetImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.User:
-                return new UserImageSettings(imageMetaData.TypeId, _contextAccessor, _webHostEnvironment);
+                return new UserImageSettings(imageMetaData.TypeId, _contextAccessor);
             default:
                 throw new Exception("invalid type");
         }

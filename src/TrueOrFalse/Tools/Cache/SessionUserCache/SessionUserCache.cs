@@ -10,8 +10,6 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     public const int ExpirationSpanInMinutes = 600;
     private ConcurrentHashSet<string> _cacheKeys = new();
     private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
@@ -20,15 +18,11 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     public SessionUserCache(CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        QuestionValuationReadingRepo questionValuationReadingRepo)
     {
         _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationReadingRepo = questionValuationReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
     public List<SessionUserCacheItem> GetAllCacheItems() 
     {
@@ -180,7 +174,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
             _questionValuationReadingRepo.GetByUserWithQuestion(userId)
                 .Select(v =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
-                        QuestionValuationCacheItem.ToCacheItem(v, _httpContextAccessor, _webHostEnvironment))));
+                        QuestionValuationCacheItem.ToCacheItem(v))));
 
         _cacheKeys.Add(GetCacheKey(userId));
 

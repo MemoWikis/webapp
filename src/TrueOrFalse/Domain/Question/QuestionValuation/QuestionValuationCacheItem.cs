@@ -18,9 +18,7 @@ public class QuestionValuationCacheItem
 
     public bool IsInWishKnowledge;
 
-    public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation)
     {
         var val = questionValuation.IsInWishKnowledge();
         return new QuestionValuationCacheItem()
@@ -32,7 +30,7 @@ public class QuestionValuationCacheItem
             IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
             Question = EntityCache.
-                GetQuestionById(questionValuation.Question.Id, httpContextAccessor, webHostEnvironment),
+                GetQuestionById(questionValuation.Question.Id),
             User = EntityCache.
                 GetUserById(questionValuation.User.Id)
         };

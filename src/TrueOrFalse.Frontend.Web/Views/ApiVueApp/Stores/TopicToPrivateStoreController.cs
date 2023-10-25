@@ -193,7 +193,7 @@ public class TopicToPrivateStoreController : Controller
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
+        _categoryRepository.Update(topic, _sessionUser.UserId, type: CategoryChangeType.Privatized);
 
         return Json(new RequestResult
         {
@@ -208,7 +208,7 @@ public class TopicToPrivateStoreController : Controller
     {
         foreach (var questionId in json.questionIds)
         {
-            var questionCacheItem = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+            var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||

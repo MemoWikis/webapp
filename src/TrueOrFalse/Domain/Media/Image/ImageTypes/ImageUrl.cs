@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc.Routing;
 
 public class ImageUrl
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     public bool HasUploadedImage;
     public string Url;
     private readonly HttpContext? _httpContext;
@@ -17,12 +15,9 @@ public class ImageUrl
   
 
 
-    public ImageUrl(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public ImageUrl(IHttpContextAccessor httpContextAccessor)
     {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _httpContext = _httpContextAccessor.HttpContext;
+        _httpContext = httpContextAccessor.HttpContext;
         
     }
 

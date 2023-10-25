@@ -73,7 +73,6 @@ public class QuestionListModel
                 LinkToQuestion = links.GetUrl(q),
                 ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                         _httpContextAccessor, 
-                        _webHostEnvironment,
                         _questionReadingRepo)
                     .GetImageUrl(40, true)
                     .Url,

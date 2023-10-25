@@ -10,18 +10,15 @@ public class ImageLicenseStoreController : BaseController
 {
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public ImageLicenseStoreController(SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo , 
         IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment,
         QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
     }
     [HttpGet]
@@ -30,7 +27,6 @@ public class ImageLicenseStoreController : BaseController
 
         var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo.GetById(id), 
             _httpContextAccessor, 
-            _webHostEnvironment,
             _questionReadingRepo);
         try
         {
