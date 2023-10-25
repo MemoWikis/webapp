@@ -104,7 +104,6 @@ public class TopicLearningQuestionListController: Controller
                 LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(question),
                 ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question),
                         _httpContextAccessor,
-                        _webHostEnvironment,
                         _questionReadingRepo)
                     .GetImageUrl(40, true)
                     .Url,
