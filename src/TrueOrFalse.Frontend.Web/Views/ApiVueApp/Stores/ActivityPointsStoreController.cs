@@ -1,5 +1,5 @@
 ﻿using System;
-using HelperClassesControllers;
+using ActivityPointsStoreHelper;
 using Microsoft.AspNetCore.Mvc;
 
 public class ActivityPointsStoreController : Controller
@@ -18,7 +18,7 @@ public class ActivityPointsStoreController : Controller
     }
 
     [HttpPost]
-    public JsonResult Add([FromBody] ActivityPointsData activityPointsData)
+    public JsonResult Add([FromBody] AddJson activityPointsData)
     {
         var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints
@@ -63,14 +63,5 @@ public class ActivityPointsStoreController : Controller
                     activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(newUserLevel)
                 });
         }
-    }
-}
-
-namespace HelperClassesControllers
-{
-    public class ActivityPointsData
-    {
-        public string ActivityTypeString { get; set; }
-        public int Points { get; set; }
     }
 }

@@ -25,7 +25,7 @@ public class CommentsStoreController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetAllComments(int questionId)
+    public JsonResult GetAllComments([FromRoute] int questionId)
     {
         var _comments = _commentRepository.GetForDisplay(questionId);
         var commentHelper = new CommentHelper(_commentRepository, _userReadingRepo, _httpContextAccessor, _webHostEnvironment);

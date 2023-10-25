@@ -2,6 +2,7 @@
 using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Quartz;
 using Rollbar;
 
@@ -66,10 +67,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             }
         }
 
-        private static CategoryUserPair GetCategoryUserPair(JobQueue jobQueueEntry)
+        private static CategoryUserPair? GetCategoryUserPair(JobQueue jobQueueEntry)
         {
-        
-            return JsonSerializer.Deserialize<CategoryUserPair>(jobQueueEntry.JobContent);
+            return JsonConvert.DeserializeObject<CategoryUserPair>(jobQueueEntry.JobContent);
         }
     }
 

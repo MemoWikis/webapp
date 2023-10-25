@@ -28,7 +28,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
         async openModal(id: number) {
             this.includeQuestionsToPublish = false
             this.confirmLicense = false
-            const result = await $fetch<PublishTopicData>(`/apiVue/PublishTopicStore/Get?topicId=${id}`, {
+            const result = await $fetch<PublishTopicData>(`/apiVue/PublishTopicStore/Get/${id}`, {
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -49,9 +49,9 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
 
             const alertStore = useAlertStore()
             const data = {
-                topicId: this.id
+                id: this.id
             }
-            const result = await $fetch<any>('/apiVue/PublishTopicStore/PublishTopic', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            const result = await $fetch<FetchResult<number[]>>('/apiVue/PublishTopicStore/PublishTopic', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
             if (result.success) {
                 this.showModal = false
 
@@ -70,7 +70,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
                 }
             } else {
                 this.showModal = false
-                alertStore.openAlert(AlertType.Error, { text: messages.error.category.parentIsPrivate })
+                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
                 return {
                     success: false,
                     id: this.id
@@ -78,10 +78,10 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             }
         },
         publishQuestions() {
-            var data = {
+            const data = {
                 questionIds: this.questionIds,
             }
-            $fetch<any>('/apiVue/PublishTopicStore/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            $fetch('/apiVue/PublishTopicStore/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
         }
 
     },

@@ -66,7 +66,7 @@ public class AnswerBodyController : Controller {
         var answer = sendAnswerToLearningSession.Answer;
         var id = sendAnswerToLearningSession.Id;
 
-        var learningSession =  _learningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
         var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, sendAnswerToLearningSession.QuestionViewGuid, 0,
