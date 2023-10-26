@@ -84,8 +84,7 @@ interface QuestionDataResult {
 const { $logger } = useNuxtApp()
 async function loadQuestionData() {
 
-    const result = await $fetch<FetchResult<QuestionDataResult>>('/apiVue/TopicLearningQuestion/LoadQuestionData/', {
-        body: { questionId: props.question.Id },
+    const result = await $fetch<FetchResult<QuestionDataResult>>(`/apiVue/TopicLearningQuestion/LoadQuestionData/${props.question.Id}`, {
         method: 'POST',
         credentials: 'include',
 
@@ -232,7 +231,7 @@ function setTitle(title: string) {
 }
 
 async function getNewKnowledgeStatus() {
-    currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus?id=${props.question.Id}`, {
+    currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus/${props.question.Id}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {

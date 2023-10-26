@@ -11,8 +11,6 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserActivityRepo _userActivityRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public enum CreateDeleteUpdate
     {
@@ -26,17 +24,13 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         CategoryChangeRepo categoryChangeRepo,
         UpdateQuestionCountForCategory updateQuestionCountForCategory,
         UserReadingRepo userReadingRepo,
-        UserActivityRepo userActivityRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        UserActivityRepo userActivityRepo)
         : base(session)
     {
         _categoryChangeRepo = categoryChangeRepo;
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
         _userReadingRepo = userReadingRepo;
         _userActivityRepo = userActivityRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     /// <summary>
@@ -76,7 +70,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
                  CategoryChangeType.Relations);
         }
 
-        Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+        Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
             .CreateAsync(category)
             .ConfigureAwait(false));
     }
@@ -224,7 +218,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(
         Category category,
-        SessionUserCacheItem author = null,
+        int authorId,
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,
@@ -233,16 +227,16 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     {
         base.Update(category);
 
-        if (author != null && createCategoryChange)
+        if (authorId != 0 && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();
-        _updateQuestionCountForCategory.Run(category);
+        _updateQuestionCountForCategory.RunForJob(category, authorId);
         Task.Run(async () =>
         {
-            await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+            await new MeiliSearchCategoriesDatabaseOperations()
                 .UpdateAsync(category)
                 .ConfigureAwait(false);
         });
@@ -279,7 +273,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
         _updateQuestionCountForCategory.RunOnlyDb(category);
         Task.Run(async () =>
         {
-            await new MeiliSearchCategoriesDatabaseOperations(_httpContextAccessor, _webHostEnvironment)
+            await new MeiliSearchCategoriesDatabaseOperations()
                 .UpdateAsync(category)
                 .ConfigureAwait(false);
         });

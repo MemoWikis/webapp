@@ -24,7 +24,7 @@ public class DeleteTopicStoreController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult GetDeleteData(int id)
+    public JsonResult GetDeleteData([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         var children = EntityCache.GetAllChildren(id);
@@ -40,7 +40,7 @@ public class DeleteTopicStoreController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Delete(int id)
+    public JsonResult Delete([FromRoute] int id)
     {
         var redirectParent = GetRedirectTopic(id);
         var topic = _categoryRepo.GetById(id);

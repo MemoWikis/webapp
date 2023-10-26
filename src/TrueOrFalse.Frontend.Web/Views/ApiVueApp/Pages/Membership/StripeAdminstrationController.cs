@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,9 +33,9 @@ public class StripeAdminstrationController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public async Task<JsonResult> CompletedSubscription(string priceId)
+    public async Task<JsonResult> CompletedSubscription([FromBody] CompletedSubscriptionJson json)
     {
-        var sessionId = await _stripeSubscriptionHelper.CreateStripeSubscriptionSession(priceId);
+        var sessionId = await _stripeSubscriptionHelper.CreateStripeSubscriptionSession(json.priceId);
         if (sessionId.Equals("-1"))
         {
             return Json(new { success = false });

@@ -16,16 +16,14 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     private Question _question => __question ??= _questionReadingRepo.GetById(Id);
 
     public QuestionImageSettings(QuestionReadingRepo questionReadingRepo,
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment) :base(httpContextAccessor, webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor) :base(httpContextAccessor)
     {
         _questionReadingRepo = questionReadingRepo;
     }
 
     public QuestionImageSettings(int questionId,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo) : base(httpContextAccessor, webHostEnvironment)
+        QuestionReadingRepo questionReadingRepo) : base(httpContextAccessor)
     {
         Init(questionId);
         _questionReadingRepo = questionReadingRepo;
@@ -47,7 +45,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
 
         if (_question.Categories.Any())
             return new CategoryImageSettings(_question.Categories.First().Id,
-                _contextAccessor, _webHostEnvironment).GetUrl(width, isSquare);
+                _contextAccessor).GetUrl(width, isSquare);
 
         return imageUrl;
     }
@@ -55,7 +53,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
     public ImageUrl GetUrl_435px() { return GetUrl(435); }
     private ImageUrl GetUrl(int width, bool isSquare = false){
-        return new ImageUrl(_contextAccessor, _webHostEnvironment)
+        return new ImageUrl(_contextAccessor)
             .Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
     }
 }

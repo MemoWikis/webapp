@@ -40,7 +40,7 @@ public class CommentModel
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
         CreatorUrl = "/Nutzer/" + comment.Creator.Name + "/" + comment.Creator.Id;
-        ImageUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor, webHostEnvironment).GetUrl_128px_square(comment.Creator).Url;
+        ImageUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor).GetUrl_128px_square(comment.Creator).Url;
         Title = comment.Title ?? "";
         Text = comment.Text;
 

@@ -95,7 +95,7 @@ public class VueUsersController : Controller
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,
-            imgUrl = new UserImageSettings(user.Id, _httpContextAccessor, _webHostEnvironment)
+            imgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
             wikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1

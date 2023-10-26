@@ -14,6 +14,7 @@ import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { Question } from '~/components/question/question'
 
 const highlightEmptyFields = ref(false)
 
@@ -141,15 +142,18 @@ async function addFlashcard() {
         SessionConfig: sessionConfigJson.value
     }
 
-    const data = await $fetch<any>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
-        method: 'POST', body: json, mode: 'cors', credentials: 'include',
+    const result = await $fetch<FetchResult<number>>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
+        method: 'POST',
+        body: json,
+        mode: 'cors',
+        credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
-    if (data) {
+    if (result.success == true) {
         topicStore.questionCount++
-        if (data.SessionIndex < 0) {
+        if (result.data < 0) {
             alertStore.openAlert(AlertType.Success, {
                 text: messages.success.question.created,
                 customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
@@ -168,18 +172,18 @@ async function addFlashcard() {
             })
         }
         else {
-            learningSessionStore.lastIndexInQuestionList = data.SessionIndex
+            learningSessionStore.lastIndexInQuestionList = result.data
             learningSessionStore.getLastStepInQuestionList()
             learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
         }
-        highlightEmptyFields.value = false
-        editor.value?.commands.setContent('')
-        questionHtml.value = ''
-        flashCardAnswer.value = ''
-        flashCardEditor.value?.clearFlashCard()
-        topicStore.questionCount++
-        topicStore.reloadKnowledgeSummary()
     }
+    highlightEmptyFields.value = false
+    editor.value?.commands.setContent('')
+    questionHtml.value = ''
+    flashCardAnswer.value = ''
+    flashCardEditor.value?.clearFlashCard()
+    topicStore.questionCount++
+    topicStore.reloadKnowledgeSummary()
 }
 
 function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) {

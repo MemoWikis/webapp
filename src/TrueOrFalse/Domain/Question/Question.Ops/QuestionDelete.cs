@@ -22,7 +22,6 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
     }
     public void Run(int questionId)
     {
-        
         var question = _questionReadingRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
@@ -34,7 +33,8 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(questionCacheItem);
-        _sessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId);
+        _sessionUserCache.RemoveQuestionForAllUsers(questionId);
+
         JobScheduler.StartImmediately_DeleteQuestion(questionId);
     }
 

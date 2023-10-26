@@ -13,13 +13,13 @@ public class QuestionPinStoreController : Controller
     }
 
     [HttpPost]
-    public JsonResult Pin(int id)
+    public JsonResult Pin([FromRoute] int id)
     {
         return Json(_questionPinStoreControllerLogic.Pin(id, _sessionUser));
     }
 
     [HttpPost]
-    public JsonResult Unpin(int id)
+    public JsonResult Unpin([FromRoute] int id)
     {
         return Json(_questionPinStoreControllerLogic.Unpin(id, _sessionUser));
     }

@@ -54,7 +54,7 @@ async function loadChildren(force: boolean = false) {
         return
 
     spinnerStore.showSpinner()
-    const result = await $fetch<FetchResult<GridTopicItem[]>>(`/apiVue/GridItem/GetChildren?id=${props.topic.id}`, {
+    const result = await $fetch<FetchResult<GridTopicItem[]>>(`/apiVue/GridItem/GetChildren/${props.topic.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -192,11 +192,10 @@ async function addGridItem(id: number) {
         children.value.push(result.data)
     } else if (result.success == false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
-
 }
 
 async function loadGridItem(id: number) {
-    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/GridItem/GetItem?id=${id}`, {
+    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/GridItem/GetItem/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'

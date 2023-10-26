@@ -1,4 +1,5 @@
 ﻿using System;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 
@@ -49,21 +50,21 @@ public class ResetPasswordController : BaseController
     }
 
     [HttpGet]
-    public JsonResult Validate(string token)
+    public JsonResult Validate([FromRoute] string token)
     {
         return Json(ValidateToken(token));
     }
 
     [HttpPost]
-    public JsonResult SetNewPassword(string token, string password)
+    public JsonResult SetNewPassword([FromBody] SetNewPasswordJson json)
     {
-        var validationResult = ValidateToken(token);
+        var validationResult = ValidateToken(json.token);
         if (validationResult.success == false)
         {
             return Json(validationResult);
         }
-        var result = PasswordResetPrepare.Run(token, _session);
-        if (password.Trim().Length < 5)
+        var result = PasswordResetPrepare.Run(json.token, _session);
+        if (json.password.Trim().Length < 5)
         {
             return Json(new RequestResult
             {
@@ -79,7 +80,7 @@ public class ResetPasswordController : BaseController
         if (user == null)
             throw new Exception();
 
-        SetUserPassword.Run(password.Trim(), user);
+        SetUserPassword.Run(json.password.Trim(), user);
         _userWritingRepo.Update(user);
 
         _sessionUser.Login(user);

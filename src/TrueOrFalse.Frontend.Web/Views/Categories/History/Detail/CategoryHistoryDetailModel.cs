@@ -110,7 +110,7 @@ public class CategoryHistoryDetailModel
 
         Author = author;
         AuthorName = author.Name;
-        AuthorImageUrl = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment)
+        AuthorImageUrl = new UserImageSettings(author.Id, _httpContextAccessor)
             .GetUrl_85px_square(author).Url;
 
         CategoryUrl = isCategoryDeleted ? "" : new Links(_actionContextAccessor, _httpContextAccessor)
@@ -131,8 +131,7 @@ public class CategoryHistoryDetailModel
             ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(CategoryId, ImageType.Category);
             ImageFrontendData = new ImageFrontendData(imageMetaData,
-                _httpContextAccessor, 
-                _webHostEnvironment, 
+                _httpContextAccessor,
                 questionReadingRepo);
         }
 

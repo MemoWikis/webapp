@@ -1,5 +1,6 @@
 using System.Collections.Specialized;
 using System.Text.Json;
+using Newtonsoft.Json;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
 public class QuestionSolutionMatchList : QuestionSolution
@@ -57,7 +58,7 @@ public class QuestionSolutionMatchList : QuestionSolution
 
     public static MatchListAnswerPairs? DeserializeMatchListAnswer(string answerJson)
     {
-        return JsonSerializer.Deserialize<MatchListAnswerPairs>(answerJson);
+        return JsonConvert.DeserializeObject<MatchListAnswerPairs>(answerJson);
     }
 
     public override bool IsCorrect(string answer)

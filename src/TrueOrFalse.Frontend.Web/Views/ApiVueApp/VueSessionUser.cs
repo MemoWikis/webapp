@@ -51,7 +51,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = user.StartTopicId,
                 Type = type,
-                ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor, _webHostEnvironment)
+                ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor)
                     .GetUrl_50px(_sessionUser.User)
                     .Url,
                 user.Reputation,

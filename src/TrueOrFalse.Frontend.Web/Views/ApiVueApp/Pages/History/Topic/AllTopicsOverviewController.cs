@@ -15,20 +15,17 @@ public class HistoryTopicAllTopicsOverviewController : Controller
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
         PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo, 
         SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor)
     {
         _allTopicsHistory = allTopicsHistory;
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -128,8 +125,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
             topicId = topicChange.Category.Id,
             topicName = topicChange.Category.Name,
             topicImgUrl = new CategoryImageSettings(topicChange.Category.Id,
-                _httpContextAccessor, 
-                _webHostEnvironment)
+                _httpContextAccessor)
                 .GetUrl(50)
                 .Url,
             author = SetAuthor(topicChange),

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,36 +11,25 @@ namespace VueApp;
 public class EditTopicRelationStoreController : BaseController
 {
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly EditControllerLogic _editControllerLogic;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public EditTopicRelationStoreController(SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IHttpContextAccessor httpContextAccessor,
-        IGlobalSearch search,
-        PermissionCheck permissionCheck,
         EditControllerLogic editControllerLogic,
         QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _actionContextAccessor = actionContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _httpContextAccessor = httpContextAccessor;
         _editControllerLogic = editControllerLogic;
         _questionReadingRepo = questionReadingRepo;
     }
-    private readonly IGlobalSearch _search;
-    private readonly PermissionCheck _permissionCheck;
-
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult GetPersonalWikiData(int id)
+    public JsonResult GetPersonalWikiData([FromRoute] int id)
     {
         if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new RequestResult
@@ -50,9 +40,7 @@ public class EditTopicRelationStoreController : BaseController
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
-                _actionContextAccessor,
                 _httpContextAccessor,
-                _webHostEnvironment,
                 _questionReadingRepo)
             .FillSearchCategoryItem(personalWiki, UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
@@ -63,9 +51,7 @@ public class EditTopicRelationStoreController : BaseController
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
                 recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
-                    _actionContextAccessor,
                     _httpContextAccessor,
-                    _webHostEnvironment,
                     _questionReadingRepo)
                     .FillSearchCategoryItem(topicCacheItem, UserId));
             }
@@ -84,16 +70,36 @@ public class EditTopicRelationStoreController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveTopics(int parentId, int[] childIds)
+    public JsonResult RemoveTopics([FromBody] EditTopicRelationStoreHelper.RemoveTopicsJson json)
     {
-        return Json(null);
+        var removedChildrenIds = new List<int>();
+
+        foreach (var childId in json.childIds)
+        {
+            var result = _editControllerLogic.RemoveParent(json.parentId, childId);
+            if (result.success)
+                removedChildrenIds.Add(childId);
+        }
+
+        return Json(new RequestResult
+        {
+            success = true,
+            data = removedChildrenIds
+        });
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddToPersonalWiki(int id)
+    public JsonResult AddToPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+
+        if (personalWiki == null)
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Default
+            });
 
         if (personalWiki.DirectChildrenIds.Any(cId => cId == id))
         {
@@ -104,24 +110,40 @@ public class EditTopicRelationStoreController : BaseController
             });
         }
 
-        return Json(_editControllerLogic.AddChild(id, personalWiki.Id));
+        return Json(new RequestResult
+        {
+            success = true,
+            data = _editControllerLogic.AddChild(id, personalWiki.Id)
+        });
+
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveFromPersonalWiki(int id)
+    public JsonResult RemoveFromPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+
+        if (personalWiki == null)
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Default
+            });
 
         if (personalWiki.DirectChildrenIds.Any(cId => cId != id))
         {
             return Json(new RequestResult
             {
                 success = false,
-                messageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
+                messageKey = FrontendMessageKeys.Error.Category.IsNotAChild
             });
         }
 
-        return Json(_editControllerLogic.RemoveParent(personalWiki.Id, id));
+        return Json(new RequestResult
+        {
+            success = true,
+            data = _editControllerLogic.RemoveParent(personalWiki.Id, id)
+        });
     }
 }

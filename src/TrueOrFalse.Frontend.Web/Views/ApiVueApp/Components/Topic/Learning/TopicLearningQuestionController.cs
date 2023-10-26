@@ -37,11 +37,11 @@ public class TopicLearningQuestionController: BaseController
     }
 
     [HttpPost]
-    public JsonResult LoadQuestionData([FromBody] QuestionIdHelper questionIdHelper)
+    public JsonResult LoadQuestionData([FromRoute] int id)
     {
-        var question = EntityCache.GetQuestionById(questionIdHelper.QuestionId, _httpContextAccessor, _webHostEnvironment);
+        var question = EntityCache.GetQuestionById(id);
         var author = new UserTinyModel(question.Creator);
-        var authorImage = new UserImageSettings(author.Id, _httpContextAccessor, _webHostEnvironment)
+        var authorImage = new UserImageSettings(author.Id, _httpContextAccessor)
             .GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
         var answerQuestionModel = new AnswerQuestionModel(question,
@@ -80,27 +80,14 @@ public class TopicLearningQuestionController: BaseController
     }
 
     [HttpGet]
-    public JsonResult GetKnowledgeStatus([FromHeader] IdHelper idHelper)
+    public JsonResult GetKnowledgeStatus([FromRoute] int id)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-        var hasUserValuation = userQuestionValuation.ContainsKey(idHelper.Id) && _sessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;
 
-        return Json(hasUserValuation ? userQuestionValuation[idHelper.Id].KnowledgeStatus : KnowledgeStatus.NotLearned);
+        return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned);
     }
-}
-
-namespace HelperClassesControllers
-{
-    public class QuestionIdHelper
-    {
-        public int QuestionId { get; set; }
-    }
-    public class IdHelper
-    {
-        public int Id { get; set; }
-    }
-
 }

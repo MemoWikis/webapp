@@ -151,7 +151,6 @@ async function answer() {
             mode: 'cors',
             onResponseError(context) {
                 $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
             }
         })
 
@@ -211,7 +210,7 @@ const answerBodyModel = ref<AnswerBodyModel>()
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
-    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentIndex}`, {
+    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
@@ -259,17 +258,16 @@ async function markAsCorrect() {
         amountOfTries: amountOfTries.value,
     }
 
-    const result = $fetch<any>('/apiVue/AnswerBody/MarkAsCorrect', {
+    const result = await $fetch<boolean>('/apiVue/AnswerBody/MarkAsCorrect', {
         method: 'POST',
         mode: 'cors',
         body: data,
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
-
         }
     })
 
-    if (result != null) {
+    if (result != false) {
         activityPointsStore.addPoints(Activity.CountAsCorrect)
         learningSessionStore.markCurrentStepAsCorrect()
         answerIsWrong.value = false

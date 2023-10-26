@@ -127,8 +127,7 @@ public class HistoryTopicOverviewController : Controller
             id = author.Id,
             name = author.Name,
             imgUrl = new UserImageSettings(author.Id,
-                _httpContextAccessor,
-                _webHostEnvironment).GetUrl_50px_square(author)
+                _httpContextAccessor).GetUrl_50px_square(author)
                 .Url,
         };
     }

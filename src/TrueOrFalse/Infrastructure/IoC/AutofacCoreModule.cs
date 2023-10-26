@@ -7,6 +7,7 @@ using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Text;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -16,6 +17,7 @@ namespace TrueOrFalse.Infrastructure
         {
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+            
 
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
             try

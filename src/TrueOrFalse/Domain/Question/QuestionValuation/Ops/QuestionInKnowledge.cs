@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.QuestionValuation;
+using TrueOrFalse.Environment;
 using ISession = NHibernate.ISession;
 
 public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
@@ -30,7 +31,6 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         AnswerRepo answerRepo,
          UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache)
     {
         _sessionUser = sessionUser;
@@ -42,7 +42,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _answerRepo = answerRepo;
         _userReadingRepo = userReadingRepo;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
+        _webHostEnvironment = WebHostEnvironmentProvider.GetWebHostEnvironment(); ;
         _sessionUserCache = sessionUserCache;
     }
     public void Pin(int questionId, int userId)
@@ -119,7 +119,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
     private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
     {
-        var question = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+        var question = EntityCache.GetQuestionById(questionId);
         ChangeTotalInOthersWishknowledge(relevance == 50, userId, question);
         CreateOrUpdateValuation(questionId, userId, relevance);
 
@@ -129,7 +129,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
         _nhibernateSession.Flush();
 
-        _reputationUpdate.ForQuestion(questionId, _httpContextAccessor, _webHostEnvironment);
+        _reputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
             new ProbabilityUpdate_Valuation(_nhibernateSession,

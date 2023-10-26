@@ -15,7 +15,6 @@ public class GetQuestionImageFrontendData
         if (imageMetaData != null)
             return new ImageFrontendData(imageMetaData,
                 httpContextAccessor,
-                webHostEnvironment,
                 questionReadingRepo); ;
 
         foreach (var category in question.Categories)
@@ -28,7 +27,6 @@ public class GetQuestionImageFrontendData
 
         return new ImageFrontendData(imageMetaData,
             httpContextAccessor,
-            webHostEnvironment,
             questionReadingRepo); ;
     }
 }

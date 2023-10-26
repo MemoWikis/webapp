@@ -129,7 +129,7 @@ async function addGridItem(id: number) {
 }
 
 async function loadGridItem(id: number) {
-    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/Grid/GetItem?id=${id}`, {
+    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/Grid/GetItem/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'

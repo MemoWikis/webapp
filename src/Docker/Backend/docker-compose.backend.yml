@@ -3,7 +3,7 @@ services:
   mem-backend:
     image: ghcr.io/memowikis/mem-backend:${BUILD_NUMBER:-error}
     ports:
-      - "${BACKEND_PORT:-7000}:7000"
+      - "${BACKEND_PORT:-7000}:5069"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     networks:

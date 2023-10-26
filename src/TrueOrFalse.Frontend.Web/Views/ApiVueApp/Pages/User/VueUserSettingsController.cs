@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using HelperClassesControllers;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -166,8 +167,7 @@ public class VueUserSettingsController : Controller
             SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
 
         var userImageSettings = new UserImageSettings(_sessionUser.UserId,
-            _httpContextAccessor,
-            _webHostEnvironment);
+            _httpContextAccessor);
         return Json(new
         {
             success = true,
@@ -184,9 +184,9 @@ public class VueUserSettingsController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeSupportLoginRights(bool allowSupportiveLogin)
+    public JsonResult ChangeSupportLoginRights([FromBody] ChangeSupportLoginRightsJson json)
     {
-        _sessionUser.User.AllowsSupportiveLogin = allowSupportiveLogin;
+        _sessionUser.User.AllowsSupportiveLogin = json.allowSupportiveLogin;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
@@ -201,9 +201,9 @@ public class VueUserSettingsController : Controller
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeWuwiVisibility(bool showWuwi)
+    public JsonResult ChangeWuwiVisibility([FromBody] ChangeWuwiVisibilityJson json)
     {
-        _sessionUser.User.ShowWishKnowledge = showWuwi;
+        _sessionUser.User.ShowWishKnowledge = json.showWuwi;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
@@ -221,14 +221,14 @@ public class VueUserSettingsController : Controller
     [HttpGet]
     public JsonResult DeleteUserImage()
     {
-        var imageSettings = new UserImageSettings(_httpContextAccessor, _webHostEnvironment)
+        var imageSettings = new UserImageSettings(_httpContextAccessor)
             .InitByType(new ImageMetaData
             {
                 Type = ImageType.User,
                 TypeId = _sessionUser.User.Id
             }, _questionReadingRepo);
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings(_httpContextAccessor, _webHostEnvironment).GetUrl_250px(_sessionUser.User).Url);
+        return Json(new UserImageSettings(_httpContextAccessor).GetUrl_250px(_sessionUser.User).Url);
     }
 
     [HttpPost]

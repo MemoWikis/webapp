@@ -110,7 +110,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         };
     }
 
-    public LearningSession BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
+    public LearningSession? BuildLearningSessionWithSpecificQuestion(LearningSessionConfig config, int id, IList<QuestionCacheItem> allQuestions)
     {
         _learningSessionCache.TryRemove();
 

@@ -80,11 +80,11 @@ const { $logger } = useNuxtApp()
 const tabsStore = useTabsStore()
 async function search() {
     showDropdown.value = true
-    var data = {
+    const data = {
         term: searchTerm.value,
     }
 
-    var result = await $fetch<TopicResult>('/apiVue/Search/Topic', {
+    const result = await $fetch<TopicResult>('/apiVue/Search/Topic', {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -198,7 +198,7 @@ function getSaveJson() {
     return { ...json, ...jsonExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount?topicId=${topicStore.id}`, {
+    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -324,7 +324,7 @@ const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
-    const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
+    const result = await $fetch<QuestionData>(`/apiVue/Que7stionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',

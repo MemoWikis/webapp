@@ -23,7 +23,6 @@ public class VueQuestionController : Controller
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
 
     public VueQuestionController(SessionUser sessionUser,
@@ -36,7 +35,6 @@ public class VueQuestionController : Controller
         TotalsPersUserLoader totalsPersUserLoader,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor) 
     {
         _sessionUser = sessionUser;
@@ -49,14 +47,13 @@ public class VueQuestionController : Controller
         _totalsPersUserLoader = totalsPersUserLoader;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _actionContextAccessor = actionContextAccessor;
     }
 
     [HttpGet]
     public JsonResult GetQuestion(int id)
     {
-        var q = EntityCache.GetQuestionById(id, _httpContextAccessor, _webHostEnvironment);
+        var q = EntityCache.GetQuestionById(id);
         if (_permissionCheck.CanView(q))
         {
             return Json(new
@@ -118,7 +115,6 @@ public class VueQuestionController : Controller
                     _imageMetaDataReadingRepo,
                     _totalsPersUserLoader,
                     _httpContextAccessor,
-                    _webHostEnvironment,
                     _sessionUserCache,
                     _actionContextAccessor,
                     _questionReadingRepo)
@@ -133,7 +129,7 @@ public class VueQuestionController : Controller
             _sessionUserCache.GetItem(_sessionUser.UserId)
                 .QuestionValuations : null;
 
-        var q = EntityCache.GetQuestionById(questionId, _httpContextAccessor, _webHostEnvironment);
+        var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
@@ -141,9 +137,9 @@ public class VueQuestionController : Controller
         question.LinkToQuestion = links.GetUrl(q);
         question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                 _httpContextAccessor, 
-                _webHostEnvironment, 
                 _questionReadingRepo)
             .GetImageUrl(40, true).Url;
+
         question.LinkToQuestion = links.GetUrl(q);
         question.LinkToQuestionVersions = links.QuestionHistory(q.Id);
         question.LinkToComment = links.GetUrl(q) + "#JumpLabel";

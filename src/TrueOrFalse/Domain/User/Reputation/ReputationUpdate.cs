@@ -12,10 +12,8 @@ public class ReputationUpdate : IRegisterAsInstancePerLifetime
         _jobQueueRepo = jobQueueRepo;
     }
 
-    public void ForQuestion(int questionId,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) =>
-      ScheduleUpdate(EntityCache.GetQuestionById(questionId, httpContextAccessor, webHostEnvironment)
+    public void ForQuestion(int questionId) =>
+      ScheduleUpdate(EntityCache.GetQuestionById(questionId)
           .Creator.Id);
 
 

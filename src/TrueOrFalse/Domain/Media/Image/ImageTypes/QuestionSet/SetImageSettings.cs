@@ -11,14 +11,12 @@ public class SetImageSettings : ImageSettings, IImageSettings
     public override string  BasePath => Path.Combine(ImageFolderPath(), "QuestionSets");
     public string BaseDummyUrl => Path.Combine(ImageFolderPath(), "no-set-");
 
-    public SetImageSettings(IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) :
-        base(httpContextAccessor, webHostEnvironment)  {}
+    public SetImageSettings(IHttpContextAccessor httpContextAccessor) :
+        base(httpContextAccessor)  {}
 
     public SetImageSettings(int setId, 
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) :
-        base(httpContextAccessor, webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor) :
+        base(httpContextAccessor)
     {
         Init(setId);
     }

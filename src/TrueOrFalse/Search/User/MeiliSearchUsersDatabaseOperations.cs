@@ -1,18 +1,11 @@
 ﻿using Meilisearch;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 [assembly: InternalsVisibleTo("TrueOrFalse.Tests")]
 namespace TrueOrFalse.Search
 {
     internal class MeiliSearchUsersDatabaseOperations : MeiliSearchBase
     {
-        public MeiliSearchUsersDatabaseOperations(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
-            : base(httpContextAccessor, webHostEnvironment)
-        {
-            
-        }
         /// <summary>
         /// CreateUserAsync in MeilieSearch
         /// </summary>

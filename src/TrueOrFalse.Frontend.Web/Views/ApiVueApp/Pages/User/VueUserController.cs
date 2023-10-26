@@ -52,7 +52,7 @@ public class VueUserController : BaseController
                     wikiUrl = _permissionCheck.CanView(userWiki)
                         ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId
                         : null,
-                    imageUrl = new UserImageSettings(user.Id, _httpContextAccessor, _webHostEnvironment)
+                    imageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                         .GetUrl_250px(user)
                         .Url,
                     reputationPoints = reputation.TotalReputation,

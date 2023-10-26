@@ -4,26 +4,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class SearchHelper
 {
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public SearchHelper(ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         QuestionReadingRepo questionReadingRepo)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
     }
     public void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck, int userId)
@@ -40,11 +33,10 @@ public class SearchHelper
             Name = topic.Name,
             QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(topic.Id,
-                    _httpContextAccessor,
-                    _webHostEnvironment).GetUrl_128px(asSquare: true)
+                    _httpContextAccessor).GetUrl_128px(asSquare: true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo
-                    .GetBy(topic.Id, ImageType.Category), _httpContextAccessor, _webHostEnvironment, _questionReadingRepo)
+                    .GetBy(topic.Id, ImageType.Category), _httpContextAccessor, _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
             Visibility = (int)topic.Visibility
         };
@@ -58,13 +50,12 @@ public class SearchHelper
             Name = c.Name,
             QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(c.Id, 
-                    _httpContextAccessor,
-                    _webHostEnvironment)
+                    _httpContextAccessor)
                 .GetUrl_128px(asSquare: true).Url,
             IconHtml = GetIconHtml(c),
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(c.Id, ImageType.Category),
                     _httpContextAccessor, 
-                    _webHostEnvironment, _questionReadingRepo)
+                    _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category)
                 .Url,
             Visibility = (int)c.Visibility
@@ -81,7 +72,7 @@ public class SearchHelper
             {
                 Id = q.Id,
                 Name = q.Text.Wrap(200),
-                ImageUrl = new QuestionImageSettings(q.Id, _httpContextAccessor, _webHostEnvironment,questionReadingRepo)
+                ImageUrl = new QuestionImageSettings(q.Id, _httpContextAccessor,questionReadingRepo)
                     .GetUrl_50px_square()
                     .Url,
                 PrimaryTopicId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
@@ -96,7 +87,7 @@ public class SearchHelper
             {
                 Id = u.Id,
                 Name = u.Name,
-                ImageUrl = new UserImageSettings(u.Id, _httpContextAccessor, _webHostEnvironment)
+                ImageUrl = new UserImageSettings(u.Id, _httpContextAccessor)
                     .GetUrl_50px_square(u)
                     .Url
             }));
