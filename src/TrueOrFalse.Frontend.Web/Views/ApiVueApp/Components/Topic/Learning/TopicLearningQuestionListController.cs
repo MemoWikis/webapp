@@ -75,7 +75,7 @@ public class TopicLearningQuestionListController: Controller
     }
 
     [HttpGet]
-    public JsonResult LoadNewQuestion([FromRoute] int index)
+    public JsonResult LoadNewQuestion([FromQuery] int index)
     {
         var session = _learningSessionCache.GetLearningSession();
         if (session == null)
