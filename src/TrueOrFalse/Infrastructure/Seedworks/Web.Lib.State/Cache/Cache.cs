@@ -4,8 +4,7 @@ namespace Seedworks.Web.State
     {
         private static CacheAspNet _cache;
         private static readonly object _lock = new();
-        private static Cache? _instance;
-
+  
 
         public static void Add(string key, object obj)
         {

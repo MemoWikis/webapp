@@ -24,7 +24,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         _userReadingRepo = userReadingRepo;
         _questionValuationReadingRepo = questionValuationReadingRepo;
     }
-    public List<SessionUserCacheItem> GetAllCacheItems() 
+    public List<SessionUserCacheItem> GetAllCacheItems()
     {
         var allUserIds = _userReadingRepo.GetAllIds();
         return allUserIds.Select(uId => GetItem(uId))
@@ -43,10 +43,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
         lock (_createItemLockKey)
         {
-            //recheck if the cache item exists
             Log.Information("GetUserCacheItem: {userId}", userId);
-            cacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-            return cacheItem ?? CreateSessionUserItemFromDatabase(userId);
+            return CreateSessionUserItemFromDatabase(userId);
         }
     }
 
@@ -100,7 +98,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     /// <summary> Used for question delete </summary>
     public void RemoveQuestionForAllUsers(int questionId)
     {
-        foreach (var userId in _userReadingRepo.GetAllIds())
+        var allUser = _userReadingRepo.GetAllIds();
+        foreach (var userId in allUser)
         {
             RemoveQuestionValuationForUser(userId, questionId);
         }
@@ -119,9 +118,9 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         foreach (var userCacheKey in _cacheKeys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
         {
             var item = Cache.Get<SessionUserCacheItem>(userCacheKey);
-            if ( item != null)
+            if (item != null)
             {
-                userCacheItems.Add(item); 
+                userCacheItems.Add(item);
             }
         }
 
@@ -129,7 +128,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     }
 
     /// <summary> Used for category delete </summary>
-    public void RemoveAllForCategory(int categoryId, 
+    public void RemoveAllForCategory(int categoryId,
         CategoryValuationWritingRepo categoryValuationWritingRepo)
     {
         categoryValuationWritingRepo.DeleteCategoryValuation(categoryId);
@@ -154,7 +153,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     }
 
 
-    public  SessionUserCacheItem CreateSessionUserItemFromDatabase(int userId)
+    public SessionUserCacheItem CreateSessionUserItemFromDatabase(int userId)
     {
         var user = _userReadingRepo.GetById(userId);
 

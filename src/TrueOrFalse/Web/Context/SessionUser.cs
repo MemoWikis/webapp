@@ -55,7 +55,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    public async void Login(User user)
+    public void Login(User user)
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
