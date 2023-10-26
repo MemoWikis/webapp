@@ -71,6 +71,7 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddAntiforgery(_ => { });
 
+Settings.Initialize(builder.Configuration);
 var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;
