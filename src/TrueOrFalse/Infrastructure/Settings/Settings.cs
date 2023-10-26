@@ -16,7 +16,6 @@ public class Settings
     [ThreadStatic]
     public static bool UseWebConfig;
     // LoginProvider properties
-    public static string GoogleApiKey => _configuration["LoginProvider:GoogleApiKey"];
     public static string FacebookAppId => _configuration["LoginProvider:FacebookAppId"];
     public static string FacebookAppSecret => _configuration["LoginProvider:FacebookAppSecret"];
 
@@ -32,23 +31,16 @@ public class Settings
     public static string CanonicalHost => _configuration["General:CanonicalHost"];
     public static string SaltCookie => _configuration["General:SaltCookie"];
     public static int MemuchoUserId => int.Parse(_configuration["General:MemuchoUserId"]);
-    public static string Environment(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => _configuration["General:Environment"];
-    public static string UpdateUserSettingsKey(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => _configuration["General:UpdateUserSettingsKey"];
+    public static string Environment => _configuration["General:Environment"];
+    public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
 
     // Settings properties
     public static bool WithNHibernateStatistics => bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
-    public static bool ShowAdvertisment => bool.Parse(_configuration["Settings:ShowAdvertisment"]);
     public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
 
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
     public static string EmailToMemucho => _configuration["Email:EmailToMemucho"];
-
-    // Cookies properties
-    public static string MemuchoCookie => _configuration["Cookies:MemuchoCookie"];
-    public static string PersistentLogin => _configuration["Cookies:PersistentLogin"];
 
     // Paths properties
     public static string LomExportPath => _configuration["Paths:LomExportPath"];

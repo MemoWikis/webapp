@@ -12,7 +12,7 @@ public class UpdateSetting
     {
         var salt = user.Salt;
         MD5 md5Hasher = MD5.Create();
-        byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(updateCommand + salt + Settings.UpdateUserSettingsKey(httpContext, webHostEnvironment)));
+        byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(updateCommand + salt + Settings.UpdateUserSettingsKey));
 
         var stringBuilder = new StringBuilder();
 
