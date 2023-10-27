@@ -20,8 +20,6 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.Limits.MaxRequestBodySize = 1073741824;
 });
 
-
-
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
@@ -35,8 +33,6 @@ builder.Services.AddControllersWithViews()
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
 });
-
-
 
 builder.Services.AddHttpContextAccessor();
 

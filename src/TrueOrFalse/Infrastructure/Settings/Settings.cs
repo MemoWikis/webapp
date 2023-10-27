@@ -47,5 +47,5 @@ public class Settings
     public static string ImagePath => _configuration["Paths:ImagePath"];
 
     // Connection properties
-    public static string ConnectionString => _configuration["Connection:ConnectionString"];
+    public static string ConnectionString => _configuration["General:ConnectionString"];
 }
