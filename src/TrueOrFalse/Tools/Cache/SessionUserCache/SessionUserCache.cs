@@ -1,8 +1,6 @@
 ﻿using Seedworks.Web.State;
 using System.Collections.Concurrent;
 using ConcurrentCollections;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Serilog;
 
 public class SessionUserCache : IRegisterAsInstancePerLifetime
