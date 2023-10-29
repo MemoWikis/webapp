@@ -1,0 +1,30 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:vue/vue3-essential"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "parser": "@typescript-eslint/parser"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "vue"
+    ],
+    "rules": {
+        "no-unref": "off"
+    },
+    "globals": {
+        "useNuxtApp": "readonly",
+        "watch": "readonly",
+        "onMounted": "readonly",
+        "nextTick": "readonly",
+        "ref": "off"
+    }    
+}
+ 
