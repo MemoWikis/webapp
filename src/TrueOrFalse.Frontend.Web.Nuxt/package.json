@@ -10,7 +10,9 @@
   },
   "devDependencies": {
     "@nuxtjs/device": "^3.0.0",
+    "@nuxtjs/eslint-module": "^4.1.0",
     "@types/jquery": "^3.5.14",
+    "eslint": "^8.52.0",
     "nuxt": "^3.7.0"
   },
   "dependencies": {
