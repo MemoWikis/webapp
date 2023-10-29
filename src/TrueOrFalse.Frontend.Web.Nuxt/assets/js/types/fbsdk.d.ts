@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 // Type definitions for Facebook Javascript SDK
 // Project: https://developers.facebook.com/docs/javascript
 // Definitions by: Joshua Strobl <https://github.com/JoshStrobl>
@@ -8,6 +9,7 @@ interface FBInitParams {
     authResponse?: string;
     cookie?: boolean;
     frictionlessRequests?: boolean;
+    // eslint-disable-next-line @typescript-eslint/ban-types
     hideFlashCallback?: Function;
     logging?: boolean;
     status?: boolean;
@@ -238,4 +240,4 @@ declare namespace FB {
     }
 }
 
-declare var FB: FBSDK;
+declare const FB: FBSDK;

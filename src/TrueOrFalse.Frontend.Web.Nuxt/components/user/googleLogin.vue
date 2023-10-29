@@ -16,5 +16,3 @@ defineExpose({
     login
 })
 </script>
-
-<template></template>

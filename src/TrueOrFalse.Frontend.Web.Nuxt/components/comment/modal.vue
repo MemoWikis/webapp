@@ -20,7 +20,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
             <div id="CommentsSection">
                 <div class="commentSection">
                     <div>
-                        <div v-for="comment in commentsStore.unsettledComments" class="comment">
+                        <div v-for="comment in commentsStore.unsettledComments" :key="comment.id" class="comment">
                             <Comment :comment="comment" :question-id="commentsStore.questionId"
                                 :creator-id="comment.creatorId" @add-answer="addAnswerToUnsettledComments" />
                         </div>
@@ -35,7 +35,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
                             </div>
 
                             <div v-if="showSettledComments">
-                                <div v-for="settledComment in commentsStore.settledComments " class="comment">
+                                <div v-for="settledComment in commentsStore.settledComments" :key="settledComment.id" class="comment">
                                     <Comment :comment="settledComment" :question-id="commentsStore.questionId"
                                         :creator-id="settledComment.creatorId" @add-answer="addAnswerToSettledComments" />
                                 </div>

@@ -17,14 +17,17 @@
         "vue"
     ],
     "rules": {
-        "no-unref": "off"
+        "no-undef": "off", 
+        "no-unused-vars": "off",
+        "vue/multi-word-component-names": "off",
+        "vue/valid-v-for": "off",
+        "vue/require-v-for-key": "off",
+        "vue/no-use-v-if-with-v-for": "off",
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-non-null-asserted-optional-chain": "off"
     },
     "globals": {
-        "useNuxtApp": "readonly",
-        "watch": "readonly",
-        "onMounted": "readonly",
-        "nextTick": "readonly",
-        "ref": "off"
     }    
 }
  

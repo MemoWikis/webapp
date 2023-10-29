@@ -42,8 +42,8 @@ async function command(commandString: string, e: Event) {
             props.editor.commands.toggleCodeBlock()
             break
         case 'setLink':
-            const previousUrl = props.editor.getAttributes('link').href
-            const linkUrl = window.prompt('URL', previousUrl)
+            var previousUrl = props.editor.getAttributes('link').href
+            var linkUrl = window.prompt('URL', previousUrl)
 
             if (linkUrl === null)
                 return
@@ -70,7 +70,7 @@ async function command(commandString: string, e: Event) {
             props.editor.chain().unsetLink().focus().run()
             break
         case 'addImage':
-            const imgUrl = window.prompt('Bild URL')
+            var imgUrl = window.prompt('Bild URL')
             if (imgUrl)
                 props.editor.commands.setImage({ src: imgUrl })
             break

@@ -1,7 +1,7 @@
 ﻿import { AlertType, messages, useAlertStore } from "../alert/alertStore"
 import { useUserStore, CurrentUser } from "./userStore"
 
-declare var window: any
+declare const window: any
 
 export class Google {
     public static SignIn() {
@@ -45,7 +45,7 @@ export class Google {
 
     public static async handleCredentialResponse(e: any) {
 
-        var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
+        const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
             method: 'POST', body: { token: e.credential }, mode: 'cors', credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
         if (result?.success == true) {
