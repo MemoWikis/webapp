@@ -30,7 +30,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 canBeDeleted: boolean
                 hasChildren: boolean
             }
-            var result = await $fetch<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const result = await $fetch<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 
             if (result != null) {
                 this.name = result.name
@@ -52,7 +52,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                     id: number
                 }
             }
-            var result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
+            const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
             if (!!result && result.success) {
                 const { $urlHelper } = useNuxtApp()
                 this.redirectURL = $urlHelper.getTopicUrl(result.redirectParent.name, result.redirectParent.id)

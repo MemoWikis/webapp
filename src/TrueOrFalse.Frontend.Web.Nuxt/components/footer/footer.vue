@@ -81,7 +81,7 @@ const { $urlHelper } = useNuxtApp()
                                     {{ props.footerTopics.MemoWiki.Name }}
                                 </NuxtLink>
                             </div>
-                            <template v-for="(t, i) in props.footerTopics.MemoTopics" v-if="props.footerTopics?.MemoTopics">
+                            <template v-for="(t, i) in props.footerTopics.MemoTopics" v-if="props.footerTopics?.MemoTopics" :key="i">
                                 <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.Name, t.Id)">
                                     {{ t.Name }}
                                 </NuxtLink>

@@ -148,7 +148,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
-            debugger;
+
             if (result != null) {
                 this.steps = result.steps
                 this.setCurrentStep(result.currentStep)

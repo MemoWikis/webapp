@@ -84,7 +84,7 @@ onBeforeMount(() => setKnowledgeSummaryData())
                             Fragen nach Status gruppiert
                         </div>
                         <div class="knowledgesummary-content">
-                            <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info">
+                            <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
                                 <div class="color-container" :class="`color-${d.class}`"></div>
                                 <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
                             </div>

@@ -114,7 +114,7 @@ export interface StoredSessionConfig {
 
 export const useLearningSessionConfigurationStore = defineStore('learningSessionConfigurationStore', {
     state: () => {
-        let sessionConfig = new SessionConfig()
+        const sessionConfig = new SessionConfig()
 
         return {
             topicId: 0,
@@ -252,7 +252,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
 
         async saveSessionConfig() {
-            var sessionConfig = {
+            const sessionConfig = {
                 knowledgeSummary: this.knowledgeSummary,
                 questionFilterOptions: this.questionFilterOptions,
                 userHasChangedMaxCount: this.userHasChangedMaxCount,
@@ -275,7 +275,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             const force = this.allKnowledgeSummaryOptionsAreSelected ? false : true
 
-            for (var key in this.knowledgeSummary) {
+            for (const key in this.knowledgeSummary) {
                 this.selectKnowledgeSummary(this.knowledgeSummary[key], false, force)
             }
             this.activeCustomSettings = true
@@ -305,16 +305,16 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
 
         checkKnowledgeSummarySelection() {
-            var count = 0
+            let count = 0
 
-            for (var key in this.knowledgeSummary)
+            for (const key in this.knowledgeSummary)
                 if (this.knowledgeSummary[key].isSelected)
                     count++
 
             this.knowledgeSummaryCount = count
-            var allKnowledgeSummaryOptionsAreSelected = true
+            let allKnowledgeSummaryOptionsAreSelected = true
 
-            for (var key in this.knowledgeSummary)
+            for (const key in this.knowledgeSummary)
                 if (!this.knowledgeSummary[key].isSelected)
                     allKnowledgeSummaryOptionsAreSelected = false
 
@@ -327,9 +327,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 userStore.openLoginModal()
                 return
             }
-            var force = this.allQuestionFilterOptionsAreSelected ? false : true
+            const force = this.allQuestionFilterOptionsAreSelected ? false : true
 
-            for (var key in this.questionFilterOptions) {
+            for (const key in this.questionFilterOptions) {
                 this.selectQuestionFilter(this.questionFilterOptions[key], false, force)
             }
             this.activeCustomSettings = true
@@ -361,8 +361,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
 
         checkQuestionFilterSelection() {
-            var allQuestionFilterOptionsAreSelected = true
-            for (var key in this.questionFilterOptions)
+            let allQuestionFilterOptionsAreSelected = true
+            for (const key in this.questionFilterOptions)
                 if (!this.questionFilterOptions[key].isSelected)
                     allQuestionFilterOptionsAreSelected = false
 
@@ -371,10 +371,10 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
 
         setQuestionFilterDisplay() {
-            var count = 0
-            var selectedOptions: any = []
+            let count = 0
+            const selectedOptions: any = []
 
-            for (var key in this.questionFilterOptions)
+            for (const key in this.questionFilterOptions)
                 if (this.questionFilterOptions[key].isSelected) {
                     selectedOptions.push(this.questionFilterOptions[key])
                     count++
@@ -391,8 +391,8 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         buildSessionConfigJson(id: number = 0, isInLearningTab = true) {
             const topicStore = useTopicStore()
 
-            var json: { [key: string]: any; } = {}
-            var base: { [key: string]: any; } = {
+            const json: { [key: string]: any; } = {}
+            const base: { [key: string]: any; } = {
                 CategoryId: topicStore.id,
                 maxQuestionCount: this.selectedQuestionCount,
 
@@ -414,8 +414,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 .forEach(key => json[key] = base[key])
 
             if (this.isPracticeMode) {
-
-                var practiceJson: { [key: string]: any; } = {
+                const practiceJson: { [key: string]: any; } = {
                     QuestionOrder: this.practiceOptions.questionOrder,
                     Repetition: this.practiceOptions.repetition,
                     AnswerHelp: this.practiceOptions.answerHelp
@@ -426,7 +425,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             } else if (this.isTestMode) {
 
-                var testJson: { [key: string]: any; } = {
+                const testJson: { [key: string]: any; } = {
                     QuestionOrder: this.testOptions.questionOrder,
                     Repetition: 0,
                     AnswerHelp: false,
@@ -445,7 +444,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
 
             this.userHasChangedMaxCount = true
-            var count = this.selectedQuestionCount + val
+            const count = this.selectedQuestionCount + val
             this.selectedQuestionCount = count
             this.activeCustomSettings = true
             this.lazyLoadCustomSession()

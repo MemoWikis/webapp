@@ -100,7 +100,7 @@ async function saveComment() {
         </div>
         <div v-else class="row commentLoginContainer">
             <div class="col-xs-12 commentLoginText">
-                Um zu kommentieren, musst du eingeloggt sein. &nbsp
+                Um zu kommentieren, musst du eingeloggt sein. &nbsp;
                 <NuxtLink href="/Registrieren" @click="commentsStore.show = false" class="pointer">
                     Jetzt registrieren
                 </NuxtLink>

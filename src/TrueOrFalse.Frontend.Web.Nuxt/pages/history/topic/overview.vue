@@ -80,7 +80,7 @@ function handleClick(g: GroupedChanges) {
                     </div>
                 </div>
                 <div class="col-xs-12">
-                    <div class="category-change-day row" v-for="day in historyResult.days">
+                    <div class="category-change-day row" v-for="day in historyResult.days" :key="day.date">
                         <div class="col-xs-12">
                             <h3>{{ day.date }}</h3>
                         </div>
