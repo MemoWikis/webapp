@@ -72,10 +72,11 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     public List<int> Delete(int questionId, int userId)
     {
         var question = GetById(questionId);
-        Delete(question, userId);
         var categoriesToUpdate = question.Categories.ToList();
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
+
+        Delete(question, userId);
         return categoriesToUpdateIds;
     }
 

@@ -13,7 +13,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         var QuestionChange = new QuestionChange
         {
             Question = question,
-            AuthorId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default,
+            AuthorId = userId,
             Type = QuestionChangeType.Delete,
             DataVersion = 1
         };
