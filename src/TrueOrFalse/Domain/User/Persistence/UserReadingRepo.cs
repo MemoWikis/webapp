@@ -59,11 +59,6 @@ public class UserReadingRepo : RepositoryDb<User>
             .SingleOrDefault<User>();
     }
 
-    public User GetById(int id)
-    {
-        return base.GetById(id); 
-    }
-
     public User GetByStripeId(string stripId)
     {
         if (stripId == null)

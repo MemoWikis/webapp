@@ -35,7 +35,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         EntityCache.Remove(questionCacheItem);
         _sessionUserCache.RemoveQuestionForAllUsers(questionId);
 
-        JobScheduler.StartImmediately_DeleteQuestion(questionId);
+        JobScheduler.StartImmediately_DeleteQuestion(questionId, _sessionUser.UserId);
     }
 
     public CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)

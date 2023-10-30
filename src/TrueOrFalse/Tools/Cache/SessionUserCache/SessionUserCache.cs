@@ -12,7 +12,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     private ConcurrentHashSet<string> _cacheKeys = new();
     private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
     private string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
-
+    private static object cacheLock = new object();
 
     public SessionUserCache(CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
@@ -22,28 +22,26 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         _userReadingRepo = userReadingRepo;
         _questionValuationReadingRepo = questionValuationReadingRepo;
     }
-    public List<SessionUserCacheItem> GetAllCacheItems()
+    public List<SessionUserCacheItem?> GetAllCacheItems()
     {
         var allUserIds = _userReadingRepo.GetAllIds();
-        return allUserIds.Select(uId => GetItem(uId))
+        return allUserIds
+            .Select(uId => GetItem(uId))
+            .Where(suci => suci != null)
           .ToList();
     }
 
-    public SessionUserCacheItem GetUser(int userId) =>
+    public SessionUserCacheItem? GetUser(int userId) =>
       GetItem(userId);
 
-    private readonly string _createItemLockKey = "2FB5BC59-9E90-4511-809A-BC67A6D35F7F";
-    public SessionUserCacheItem GetItem(int userId)
+    public SessionUserCacheItem? GetItem(int userId)
     {
-        var cacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-        if (cacheItem != null)
-            return cacheItem;
+        return Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
+    }
 
-        lock (_createItemLockKey)
-        {
-            Log.Information("GetUserCacheItem: {userId}", userId);
-            return CreateSessionUserItemFromDatabase(userId);
-        }
+    public bool ItemExists(int userId)
+    {
+        return Cache.Contains(GetCacheKey(userId));
     }
 
     public bool IsQuestionInWishknowledge(int userId, int questionId)
@@ -62,14 +60,25 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
       GetItem(userId)?.QuestionValuations.Values
           .ToList() ?? new List<QuestionValuationCacheItem>();
 
-    public IList<CategoryValuation> GetCategoryValuations(int userId) =>
-      GetItem(userId).CategoryValuations.Values.ToList();
+    public IList<CategoryValuation> GetCategoryValuations(int userId)
+    {
+        var item = GetItem(userId);
+
+        if (item != null)
+        {
+            return item.CategoryValuations.Values.ToList();
+        }
+
+        Logg.r.Error("sessionUserItem is null");
+        return new List<CategoryValuation>();
+    }
+
 
     public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 
-        lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
+        lock (cacheLock)
         {
             cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation,
               (k, v) => questionValuation);
@@ -80,7 +89,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     {
         var cacheItem = GetItem(categoryValuation.UserId);
 
-        lock ("82f573db-40a7-43d9-9e68-6cd78b626e8d")
+        lock (cacheLock)
         {
             cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation,
               (k, v) => categoryValuation);
@@ -90,37 +99,57 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     public void AddOrUpdate(User user)
     {
         var cacheItem = GetItem(user.Id);
+        var cacheIte = GetItem(user.Id);
+        if (cacheItem == null)
+        {
+            cacheItem = CreateSessionUserItemFromDatabase(user.Id); 
+            cacheItem.AssignValues(user);
+            Add_UserCacheItem_to_cache(cacheItem);
+        }
+        Remove(user);
         cacheItem.AssignValues(user);
+        Add_UserCacheItem_to_cache(cacheItem);
+    }
+    public void AddOrUpdate(SessionUserCacheItem user)
+    {
+        var cacheItem = GetItem(user.Id);
+        if (cacheItem == null)
+        {
+            cacheItem = CreateSessionUserItemFromDatabase(user.Id);
+            Add_UserCacheItem_to_cache(cacheItem);
+            return;
+        }
+        Remove(user.Id);
+        Add_UserCacheItem_to_cache(cacheItem);
     }
 
-    /// <summary> Used for question delete </summary>
     public void RemoveQuestionForAllUsers(int questionId)
     {
-        var allUser = _userReadingRepo.GetAllIds();
-        foreach (var userId in allUser)
-        {
-            RemoveQuestionValuationForUser(userId, questionId);
-        }
+        foreach (var user in EntityCache.GetAllUsers())
+            RemoveQuestionValuationForUser(user.Id, questionId);
     }
 
     public void RemoveQuestionValuationForUser(int userId, int questionId)
     {
-        var cacheItem = GetItem(userId);
-        cacheItem?.QuestionValuations.TryRemove(questionId, out _);
+        if (ItemExists(userId))
+        {
+            var cacheItem = GetItem(userId);
+            cacheItem?.QuestionValuations.TryRemove(questionId, out _);
+        }
     }
 
+
+    /// <summary>
+    /// Get all active UserCaches
+    /// </summary>
+    /// <returns></returns>
     public List<SessionUserCacheItem> GetAllActiveCaches()
     {
-        List<SessionUserCacheItem> userCacheItems = new List<SessionUserCacheItem>();
-
-        foreach (var userCacheKey in _cacheKeys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
-        {
-            var item = Cache.Get<SessionUserCacheItem>(userCacheKey);
-            if (item != null)
-            {
-                userCacheItems.Add(item);
-            }
-        }
+        var allUsers = EntityCache.GetAllUsers();
+        var userCacheItems = allUsers
+            .Select(user => GetItem(user.Id))
+            .Where(item => item != null)
+            .ToList();
 
         return userCacheItems;
     }
@@ -163,19 +192,13 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
             _categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
 
-        Add_UserCacheItem_to_cache(cacheItem);
-
-        var addedCacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-
-        addedCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
+        cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             _questionValuationReadingRepo.GetByUserWithQuestion(userId)
                 .Select(v =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
                         QuestionValuationCacheItem.ToCacheItem(v))));
 
-        _cacheKeys.Add(GetCacheKey(userId));
-
-        return addedCacheItem;
+        return cacheItem;
     }
 
     private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)

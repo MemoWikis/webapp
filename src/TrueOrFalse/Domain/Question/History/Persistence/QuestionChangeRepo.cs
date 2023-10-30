@@ -8,7 +8,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         _sessionUser = sessionUser;
     }
 
-    public void AddDeleteEntry(Question question)
+    public void AddDeleteEntry(Question question, int userId)
     {
         var QuestionChange = new QuestionChange
         {

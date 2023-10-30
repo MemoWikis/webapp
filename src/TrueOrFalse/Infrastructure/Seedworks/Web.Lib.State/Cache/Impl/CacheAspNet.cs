@@ -51,13 +51,12 @@ namespace Seedworks.Web.State
             _cache.Add(key, obj);
         }
 
-        public static object Get(string key)
+        public static object? Get(string key)
         {
-            
             return _cache.Get<object>(key); ;
         }
 
-        public static  T Get<T>(string key)
+        public static T Get<T>(string key)
         {
             return _cache.Get<T>(key);
         }

@@ -10,19 +10,19 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public VueSessionUser(SessionUser sessionUser,
         TopicControllerLogic topicControllerLogic,
         GetUnreadMessageCount getUnreadMessageCount,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor, 
+        UserReadingRepo userReadingRepo)
     {
         _sessionUser = sessionUser;
         _topicControllerLogic = topicControllerLogic;
         _getUnreadMessageCount = getUnreadMessageCount;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
+        _userReadingRepo = userReadingRepo;
     }
     public dynamic GetCurrentUserData()
     {
@@ -107,6 +107,9 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         };
     }
 
-
+    public void Test()
+    {
+        var user = _userReadingRepo.GetById(445); 
+    }
  
 }
