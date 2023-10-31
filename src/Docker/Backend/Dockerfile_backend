@@ -15,8 +15,7 @@ COPY TrueOrFalse.Frontend.Web/ TrueOrFalse.Frontend.Web
 
 FROM build AS publish
 WORKDIR /source/TrueOrFalse.Frontend.Web
-RUN dotnet publish --no-restore -o /app
-
+RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -o /app
 
 # final stage/image
 #FROM mcr.microsoft.com/dotnet/runtime:7.0

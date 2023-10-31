@@ -3,6 +3,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using TrueOrFalse.Environment;
 
 public class Settings
 {
@@ -44,7 +45,9 @@ public class Settings
 
     // Paths properties
     public static string LomExportPath => _configuration["Paths:LomExportPath"];
-    public static string ImagePath => _configuration["Paths:ImagePath"];
+    public static string ImagePath => string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])
+        ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath, "Images")
+        : _configuration["Paths:AbsoluteImagePath"];
 
     // Connection properties
     public static string ConnectionString => _configuration["General:ConnectionString"];

@@ -1,7 +1,5 @@
 ﻿using System.Drawing;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 
 public class ImageUrl
@@ -10,15 +8,11 @@ public class ImageUrl
     public string Url;
     private readonly HttpContext? _httpContext;
     private static string ImagePath => Settings.ImagePath;
-    private static string ImageFolder = "/Images"; 
-
-  
-
+    private static string ImageFolder = "/Images";
 
     public ImageUrl(IHttpContextAccessor httpContextAccessor)
     {
         _httpContext = httpContextAccessor.HttpContext;
-        
     }
 
     public string UrlWithoutTime()
@@ -117,13 +111,14 @@ public class ImageUrl
 
     private ImageUrl GetResult(IImageSettings imageSettings, int width, bool isSquare)
     {
-        var basePath = $"{ImageFolder}/{imageSettings.BasePath}/{imageSettings.Id}"; 
+        var basePath = $"{imageSettings.BasePath}/{imageSettings.Id}"; 
         var url = width ==  -1 ?
                              basePath + ".jpg" :
                             basePath + "_" + width + SquareSuffix(isSquare) + ".jpg";
-        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(ImageSettings.SolutionPath(), url))
+        Url = url + "?t=" + File.GetLastWriteTime(Path.Combine(Settings.ImagePath, url))
             .ToString("yyyyMMddhhmmss");
         HasUploadedImage = true;
+        
         return this;
     }
 
@@ -149,7 +144,7 @@ public class ImageUrl
         var fileDirectory = imageSettings.BaseDummyUrl.Split(new string[] { fileNameTrunk }, StringSplitOptions.None)
             .First();
         var fileNames =
-            Directory.GetFiles(Path.Combine(ImageSettings.SolutionPath(), fileDirectory), fileNameTrunk + "*.png");
+            Directory.GetFiles(Path.Combine(Settings.ImagePath, fileDirectory), fileNameTrunk + "*.png");
         if (fileNames.Any())
         {
             var fileWidths = fileNames.Where(x => !x.Contains("s.jpg"))
@@ -174,7 +169,6 @@ public class ImageUrl
                 return ImageFolder + "/" + imageSettings.BaseDummyUrl + fileWidth + ".png";
             }
         }
-
         Logg.r.Error("Image page not available");
         return "";
     }
