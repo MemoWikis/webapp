@@ -15,6 +15,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly ReputationUpdate _reputationUpdate;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+    private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
     private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
     private readonly AnswerRepo _answerRepo;
     private readonly UserReadingRepo _userReadingRepo;
@@ -27,6 +28,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         ReputationUpdate reputationUpdate,
         QuestionReadingRepo questionReadingRepo,
         QuestionValuationReadingRepo questionValuationReadingRepo,
+        QuestionValuationWritingRepo questionValuationWritingRepo,
         ProbabilityCalc_Simple1 probabilityCalcSimple1,
         AnswerRepo answerRepo,
          UserReadingRepo userReadingRepo,
@@ -38,6 +40,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _reputationUpdate = reputationUpdate;
         _questionReadingRepo = questionReadingRepo;
         _questionValuationReadingRepo = questionValuationReadingRepo;
+        _questionValuationWritingRepo = questionValuationWritingRepo;
         _probabilityCalcSimple1 = probabilityCalcSimple1;
         _answerRepo = answerRepo;
         _userReadingRepo = userReadingRepo;
@@ -242,7 +245,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             if (relevancePersonal != -2)
                 questionValuation.RelevancePersonal = relevancePersonal;
 
-            _questionValuationReadingRepo.Update(questionValuation);
+            _questionValuationWritingRepo.Update(questionValuation);
         }
         _questionValuationReadingRepo.Flush();
     }
