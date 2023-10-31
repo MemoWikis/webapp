@@ -1,5 +1,4 @@
 ﻿
-using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -45,7 +44,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
+    public SessionUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
 
     public bool IsLoggedInUser(int userId)
     {
@@ -53,6 +52,19 @@ public class SessionUser : IRegisterAsInstancePerLifetime
             return false;
 
         return userId == UserId;
+    }
+
+    public SessionUserCacheItem GetOrCreateUserFromSessionCache()
+    {
+        var user = _sessionUserCache.GetUser(_userId);
+        if (user == null)
+        {
+            user = _sessionUserCache.CreateSessionUserItemFromDatabase(_userId); 
+            _sessionUserCache.AddOrUpdate(user);
+            user = _sessionUserCache.GetUser(_userId);
+        }
+
+        return user; 
     }
 
     public void Login(User user)
@@ -65,10 +77,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
 
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString())
-        };
         var userCacheItem = _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
         _sessionUserCache.AddOrUpdate(userCacheItem);
     }

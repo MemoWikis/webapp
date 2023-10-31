@@ -1,7 +1,6 @@
 ﻿using Seedworks.Web.State;
 using System.Collections.Concurrent;
 using ConcurrentCollections;
-using Serilog;
 
 public class SessionUserCache : IRegisterAsInstancePerLifetime
 {
@@ -36,7 +35,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     public SessionUserCacheItem? GetItem(int userId)
     {
-        return Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
+        var user = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId)); 
+        return user;
     }
 
     public bool ItemExists(int userId)
@@ -99,7 +99,6 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     public void AddOrUpdate(User user)
     {
         var cacheItem = GetItem(user.Id);
-        var cacheIte = GetItem(user.Id);
         if (cacheItem == null)
         {
             cacheItem = CreateSessionUserItemFromDatabase(user.Id); 
