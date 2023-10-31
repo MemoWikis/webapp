@@ -197,6 +197,11 @@ public class LearningSessionStoreController : BaseController
     [HttpPost]
     public IActionResult LoadSpecificQuestion([FromBody] Counter counter)
     {
+        if (counter.Index == -1)
+        {
+            return Json(""); 
+        }
+
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.LoadSpecificQuestion(counter.Index);
 
