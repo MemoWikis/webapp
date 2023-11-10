@@ -6,7 +6,7 @@
   "private": true,
   "main": "test.js",
   "dependencies": {
-    "axios": "^0.21.4",
+    "axios": "^1.6.0",
     "chart.js": "^2.9.4",
     "core-js": "^3.22.1",
     "cross-env": "^7.0.3",
