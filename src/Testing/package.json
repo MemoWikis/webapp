@@ -36,7 +36,7 @@
     "**/*.{ts,js,json}": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "axios": "^0.26.0",
+    "axios": "^1.6.0",
     "cypress": "^9.5.1",
     "cypress-wait-until": "^1.7.1"
   }
