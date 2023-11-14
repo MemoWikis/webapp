@@ -45,7 +45,7 @@ public class ImageUrl
         int originallyRequestedWidth,
         bool isSquare,
         Func<int, string> getFallBackImage)
-    {
+    { 
         var requestedWidth = originallyRequestedWidth;
         var imagePathBuilder = new ImagePathBuilder(imageSettings.BasePath, imageSettings.Id, isSquare);
         var requestedImagePath = imagePathBuilder.GetImagePath(requestedWidth);
@@ -66,7 +66,7 @@ public class ImageUrl
                 using (var inputStream = new SKManagedStream(input))
                 using (var image = SKBitmap.Decode(inputStream))
                 {
-                    resizePath = ResizeImage2.RunAndReturnPath(image, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
+                    resizePath = ResizeImage3.RunAndReturnPath(image, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
                     Console.WriteLine($"Resize Image1, {resizePath}");
                     Console.WriteLine($"Requested Image Path, {requestedImagePath}");
                 }
@@ -84,8 +84,6 @@ public class ImageUrl
                 return this;
             }
 
-            //we search for the biggest file
-           
             var searchPattern = $"{imageSettings.Id}_*.jpg";
             
             var basePath = Path.Combine(ImagePath, imageSettings.BasePath).NormalizePathSeparators();
@@ -96,11 +94,14 @@ public class ImageUrl
             var maxFileWidth = GetMaxFileWidth(basePath, searchPattern);
 
             if (maxFileWidth > 0){
-                var biggestAvailableImage = LoadImage(imageSettings.ServerPathAndId(), maxFileWidth);
+                var imagePath = $"{imageSettings.ServerPathAndId()}_{maxFileWidth}.jpg";
+                if (!File.Exists(imagePath)) return null;
+                using var input = File.OpenRead(imagePath);
+                using var inputStream = new SKManagedStream(input);
+                var biggestAvailableImage = SKBitmap.Decode(inputStream);
 
                 if(biggestAvailableImage != null){
-
-                    if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
+                    
                     {
                         var absoluteUri = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
                         Logg.r.Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {absoluteUri}). ");
@@ -112,7 +113,7 @@ public class ImageUrl
                             if (File.Exists(imageSettings.ServerPathAndId() + "_" + requestedWidth + SquareSuffix(true) + ".jpg"))
                                 return GetResult(imageSettings, requestedWidth, true);
 
-                            resizePath = ResizeImage2.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, true);
+                            resizePath = ResizeImage3.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, true);
                             Console.WriteLine($"Resize Image2, {resizePath}");
                             Console.WriteLine($"Requested Image Path, {requestedImagePath}");
                         }
@@ -123,7 +124,7 @@ public class ImageUrl
                     }
                     else
                     {
-                        resizePath = ResizeImage2.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
+                        resizePath = ResizeImage3.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
                         Console.WriteLine($"Resize Image3, {resizePath}");
                         Console.WriteLine($"Requested Image Path, {requestedImagePath}");
                     }

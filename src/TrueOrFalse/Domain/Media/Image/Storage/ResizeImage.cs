@@ -2,13 +2,14 @@
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
+
 public class ResizeImage
 {
     public static void Run(Image image, string basePathAndId, int width, bool isSquare)
     {
         if (image.Width < width)
             width = image.Width;
-        
+
         if (!isSquare)
         {
             var scale = (float)width / image.Width;
@@ -55,4 +56,6 @@ public class ResizeImage
         graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
         graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
     }
+
+
 }

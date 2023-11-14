@@ -40,6 +40,7 @@
 		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.32.1" />
 		<PackageReference Include="RazorLight" Version="2.3.1" />
 		<PackageReference Include="Rollbar.NetCore.AspNet" Version="5.2.0" />
+		<PackageReference Include="SkiaSharp" Version="2.88.6" />
 		<PackageReference Include="System.ServiceModel" Version="1.0.0" />
 		<PackageReference Include="MySql.Data" Version="8.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
