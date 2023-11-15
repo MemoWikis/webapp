@@ -25,7 +25,7 @@ export const useImageLicenseStore = defineStore('imageLicenseStore', {
             this.show = true
         },
         async loadLicenseInfo(id: number) {
-            const result = await $fetch<ImageLicenseData>(`/apiVue/ImageLicenseStore/GetLicenseInfo?id=${id}`, { mode: 'cors' })
+            const result = await $fetch<ImageLicenseData>(`/apiVue/ImageLicenseStore/GetLicenseInfo/${id}`, { mode: 'cors' })
             if (result.imageCanBeDisplayed) {
                 this.url = result.url ?? ''
                 this.alt = result.alt ?? ''

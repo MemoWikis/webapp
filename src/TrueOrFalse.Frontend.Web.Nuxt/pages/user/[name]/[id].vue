@@ -63,7 +63,7 @@ interface ProfileData {
     isCurrentUser: boolean
 }
 
-const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get?id=${route.params.id ? route.params.id : userStore.id}`, {
+const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -84,7 +84,7 @@ onBeforeMount(() => {
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
 
-const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi?id=${route.params.id ? route.params.id : userStore.id}`, {
+const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
