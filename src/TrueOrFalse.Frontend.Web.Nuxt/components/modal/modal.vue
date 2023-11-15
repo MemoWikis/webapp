@@ -12,7 +12,6 @@ interface Props {
     primaryBtnLabel?: string
     secondaryBtnLabel?: string
     isFullSizeButtons?: boolean
-
 }
 
 const props = defineProps<Props>()
@@ -22,12 +21,13 @@ const isSuccess = ref(false)
 const slots = useSlots()
 
 const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
-
+const openModal = ref(false)
+watch(() => props.show, (val) => openModal.value = val, { immediate: true })
 </script>
 
 
 <template>
-    <VueFinalModal v-model="props.show" class="modal-container" content-class="modal-content" :z-index-auto="false">
+    <VueFinalModal v-model="openModal" class="modal-container" content-class="modal-content" :z-index-auto="false">
         <div class="modal-default">
             <div class="modal-default-mask" @click="emit('close')">
                 <div class="modal-default-wrapper">

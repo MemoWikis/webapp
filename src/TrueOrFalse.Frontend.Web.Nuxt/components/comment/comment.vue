@@ -105,12 +105,12 @@ async function saveAnswer() {
 
                     <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                        <template class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
+                        <div class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
                             &nbsp; {{ props.comment.answers.length }} Beitrag
-                        </template>
-                        <template class="commentSpeechBubbleText" v-else>
+                        </div>
+                        <div class="commentSpeechBubbleText" v-else>
                             &nbsp; {{ props.comment.answers.length }} Beiträge
-                        </template>
+                        </div>
                     </span>
                 </div>
 

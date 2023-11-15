@@ -53,7 +53,7 @@ async function removeImage() {
         mode: 'cors',
         method: 'GET',
     })
-    imageUrl.value = ""
+    currentImageUrl.value = ""
     emit('updateProfile')
     userStore.imgUrl = fallbackImagaUrl
 }
@@ -64,9 +64,9 @@ function onFileChange(e: any) {
     createImage(files[0])
 }
 const imgFile = ref<File>()
-const imageUrl = ref('')
+const currentImageUrl = ref('')
 if (props.imageUrl) {
-    imageUrl.value = props.imageUrl
+    currentImageUrl.value = props.imageUrl
 }
 onBeforeMount(() => {
     if (props.content == Content.Membership) {
@@ -78,7 +78,7 @@ onBeforeMount(() => {
 function createImage(file: File) {
     imgFile.value = file
     const previewImgUrl = URL.createObjectURL(file)
-    imageUrl.value = previewImgUrl
+    currentImageUrl.value = previewImgUrl
 }
 const { $logger } = useNuxtApp()
 
@@ -457,7 +457,7 @@ async function requestVerificationMail() {
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">Profilbild</div>
-                        <Image :src="imageUrl" :format="ImageFormat.Author" class="profile-picture" />
+                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture" />
                         <div class="img-settings-btns">
 
                             <div>
