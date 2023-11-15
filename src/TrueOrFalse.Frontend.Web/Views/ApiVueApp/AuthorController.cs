@@ -17,7 +17,7 @@ public class AuthorController : Controller
 
     [HttpPost]
     [Route("GetAuthor")]
-    public JsonResult GetAuthor(int id)
+    public JsonResult GetAuthor([FromRoute] int id)
     {
         var author = EntityCache.GetUserById(id);
         if (author != null)

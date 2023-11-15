@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -51,7 +50,7 @@ public class VueQuestionController : Controller
     }
 
     [HttpGet]
-    public JsonResult GetQuestion(int id)
+    public JsonResult GetQuestion([FromRoute] int id)
     {
         var q = EntityCache.GetQuestionById(id);
         if (_permissionCheck.CanView(q))
@@ -70,7 +69,7 @@ public class VueQuestionController : Controller
     }
 
     [HttpGet]
-    public JsonResult GetQuestionPage(int id)
+    public JsonResult GetQuestionPage([FromRoute] int id)
     {
         var q = EntityCache.GetQuestion(id);
         var primaryTopic = q.Categories.LastOrDefault();

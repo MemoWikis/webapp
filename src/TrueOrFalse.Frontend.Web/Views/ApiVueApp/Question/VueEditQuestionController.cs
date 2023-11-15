@@ -297,7 +297,7 @@ public class VueEditQuestionController
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount(int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
+    public int GetCurrentQuestionCount([FromRoute] int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     public class QuestionDataJson
     {

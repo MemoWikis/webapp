@@ -69,9 +69,9 @@ public class UserStoreController : Controller
     [HttpPost]
     public JsonResult Login([FromBody] LoginJson loginJson)
     {
-        var isLoginSuccessfull = _login.UserLogin(loginJson);
+        var loginIsSuccessful = _login.UserLogin(loginJson);
 
-        if (isLoginSuccessfull)
+        if (loginIsSuccessful)
         {
             return Json(new RequestResult
             {

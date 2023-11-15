@@ -30,10 +30,10 @@ public class TopicController : Controller
         _persistentLoginRepo = persistentLoginRepo;
     }
 
+    [HttpGet]
     public JsonResult GetTopic([FromRoute] int id)
     {
-        var topic = Json(_topicControllerLogic.GetTopicData(id));
-        return topic; 
+        return Json(_topicControllerLogic.GetTopicData(id));
     }
 
     public bool CanAccess([FromQuery] int id)
