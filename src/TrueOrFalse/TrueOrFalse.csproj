@@ -83,7 +83,7 @@
 		<PackageReference Include="ZstdNet" Version="1.4.5" />
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 	  <Folder Include="Tools\Cache\Redis\" />
-	</ItemGroup>
+	</ItemGroup>-->
 </Project>
