@@ -102,6 +102,7 @@ public class ImageUrl
 
                 if(biggestAvailableImage != null){
                     
+                    if (biggestAvailableImage.Width < requestedWidth)//if requested width is bigger than max. available width
                     {
                         var absoluteUri = $"{_httpContext.Request.Scheme}://{_httpContext.Request.Host}{_httpContext.Request.Path}{_httpContext.Request.QueryString}";
                         Logg.r.Warning($"Requested image width of {requestedWidth}px is greater than max. available {biggestAvailableImage.Width}px of image {imageSettings.ServerPathAndId()} (requested url: {absoluteUri}). ");
