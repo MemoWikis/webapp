@@ -78,12 +78,12 @@ public class VueEditQuestionController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult VueCreate(QuestionDataJson questionDataJson)
+    public JsonResult VueCreate(QuestionDataParam questionDataParam)
     {
-        if (questionDataJson?.SessionConfig?.CurrentUserId <= 0)
-            questionDataJson.SessionConfig.CurrentUserId = _sessionUser.UserId; 
+        if (questionDataParam.SessionConfig?.CurrentUserId <= 0)
+            questionDataParam.SessionConfig.CurrentUserId = _sessionUser.UserId; 
         
-        var safeText = GetSafeText(questionDataJson.TextHtml);
+        var safeText = GetSafeText(questionDataParam.TextHtml);
         if (safeText.Length <= 0)
             return new JsonResult(new
             {
@@ -93,16 +93,16 @@ public class VueEditQuestionController
         var question = new Question();
         var sessionUserAsUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUserAsUser;
-        question = UpdateQuestion(question, questionDataJson, safeText);
+        question = UpdateQuestion(question, questionDataParam, safeText);
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
-        if (questionDataJson.IsLearningTab) { }
-        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataJson.SessionIndex, questionDataJson.SessionConfig);
+        if (questionDataParam.IsLearningTab) { }
+        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataParam.SessionIndex, questionDataParam.SessionConfig);
 
-        if (questionDataJson.AddToWishknowledge)
+        if (questionDataParam.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return Json(new RequestResult
@@ -114,9 +114,9 @@ public class VueEditQuestionController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult VueEdit(QuestionDataJson questionDataJson)
+    public JsonResult VueEdit(QuestionDataParam questionDataParam)
     {
-        var safeText = GetSafeText(questionDataJson.TextHtml);
+        var safeText = GetSafeText(questionDataParam.TextHtml);
         if (safeText.Length <= 0)
             return new JsonResult(new
             {
@@ -124,12 +124,12 @@ public class VueEditQuestionController
                 key = "missingText",
             });
 
-        var question = _questionReadingRepo.GetById(questionDataJson.QuestionId);
-        var updatedQuestion = UpdateQuestion(question, questionDataJson, safeText);
+        var question = _questionReadingRepo.GetById(questionDataParam.QuestionId);
+        var updatedQuestion = UpdateQuestion(question, questionDataParam, safeText);
 
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
-        if (questionDataJson.IsLearningTab)
+        if (questionDataParam.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         return Json(new RequestResult
@@ -141,9 +141,9 @@ public class VueEditQuestionController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult CreateFlashcard(FlashCardLoader flashCardJson)
+    public JsonResult CreateFlashcard(CreateFlashcardParam param)
     {
-        var safeText = GetSafeText(flashCardJson.TextHtml);
+        var safeText = GetSafeText(param.TextHtml);
         if (safeText.Length <= 0)
             return Json(new RequestResult
             {
@@ -154,12 +154,12 @@ public class VueEditQuestionController
         
         var question = new Question();
 
-        question.TextHtml = flashCardJson.TextHtml;
+        question.TextHtml = param.TextHtml;
         question.Text = safeText;
         question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), "9");
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
-        solutionModelFlashCard.Text = flashCardJson.Answer;
+        solutionModelFlashCard.Text = param.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
             return Json(new RequestResult
@@ -172,17 +172,17 @@ public class VueEditQuestionController
 
         var sessionUserAsUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUserAsUser;
-        question.Categories = GetAllParentsForQuestion(flashCardJson.CategoryId, question);
-        var visibility = (QuestionVisibility)flashCardJson.Visibility;
+        question.Categories = GetAllParentsForQuestion(param.CategoryId, question);
+        var visibility = (QuestionVisibility)param.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
-        if (flashCardJson.AddToWishknowledge)
+        if (param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
         return Json(new RequestResult
         {
             success = true,
@@ -195,25 +195,24 @@ public class VueEditQuestionController
         return Regex.Replace(text, "<.*?>", "");
     }
 
-    public class FlashCardLoader
+    public readonly record struct CreateFlashcardParam(
+        int CategoryId,
+        string TextHtml,
+        string Answer,
+        int Visibility,
+        bool AddToWishknowledge,
+        int LastIndex,
+        LearningSessionConfig SessionConfig
+    );
+    private Question UpdateQuestion(Question question, QuestionDataParam questionDataParam, string safeText)
     {
-        public int CategoryId { get; set; }
-        public string TextHtml { get; set; }
-        public string Answer { get; set; }
-        public int Visibility { get; set; }
-        public bool AddToWishknowledge { get; set; }
-        public int LastIndex { get; set; }
-        public LearningSessionConfig SessionConfig { get; set; }
-    }
-    private Question UpdateQuestion(Question question, QuestionDataJson questionDataJson, string safeText)
-    {
-        question.TextHtml = questionDataJson.TextHtml;
+        question.TextHtml = questionDataParam.TextHtml;
         question.Text = safeText;
-        question.DescriptionHtml = questionDataJson.DescriptionHtml;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataJson.SolutionType);
+        question.DescriptionHtml = questionDataParam.DescriptionHtml;
+        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataParam.SolutionType);
 
         var preEditedCategoryIds = question.Categories.Select(c => c.Id);
-        var newCategoryIds = questionDataJson.CategoryIds.ToList();
+        var newCategoryIds = questionDataParam.CategoryIds.ToList();
 
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
@@ -222,22 +221,22 @@ public class VueEditQuestionController
                 newCategoryIds.Add(categoryId);
 
         question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
-        question.Visibility = (QuestionVisibility)questionDataJson.Visibility;
+        question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
         {
             var solutionModelFlashCard = new QuestionSolutionFlashCard();
-            solutionModelFlashCard.Text = questionDataJson.Solution;
+            solutionModelFlashCard.Text = questionDataParam.Solution;
             question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
         }
         else
-            question.Solution = questionDataJson.Solution;
+            question.Solution = questionDataParam.Solution;
 
-        question.SolutionMetadataJson = questionDataJson.SolutionMetadataJson;
+        question.SolutionMetadataJson = questionDataParam.SolutionMetadataJson;
 
-        if (!String.IsNullOrEmpty(questionDataJson.ReferencesJson))
+        if (!String.IsNullOrEmpty(questionDataParam.ReferencesJson))
         {
-            var references = ReferenceJson.LoadFromJson(questionDataJson.ReferencesJson, question, _categoryRepository);
+            var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question, _categoryRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -247,7 +246,7 @@ public class VueEditQuestionController
         }
 
         question.License = _sessionUser.IsInstallationAdmin
-            ? LicenseQuestionRepo.GetById(questionDataJson.LicenseId)
+            ? LicenseQuestionRepo.GetById(questionDataParam.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
         EntityCache.AddOrUpdate(questionCacheItem); 
@@ -299,23 +298,22 @@ public class VueEditQuestionController
     [HttpGet]
     public int GetCurrentQuestionCount([FromRoute] int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
-    public class QuestionDataJson
-    {
-        public int[] CategoryIds { get; set; }
-        public int QuestionId { get; set; }
-        public string TextHtml { get; set; }
-        public string DescriptionHtml { get; set; }
-        public dynamic Solution { get; set; }
-        public string SolutionMetadataJson { get; set; }
-        public int Visibility { get; set; }
-        public string SolutionType { get; set; }
-        public bool AddToWishknowledge { get; set; }
-        public int SessionIndex { get; set; }
-        public int LicenseId { get; set; }
-        public string ReferencesJson { get; set; }
-        public bool IsLearningTab { get; set; }
-        public LearningSessionConfig SessionConfig { get; set; }
-    }
+    public readonly record struct QuestionDataParam(
+        int[] CategoryIds,
+        int QuestionId,
+        string TextHtml,
+        string DescriptionHtml,
+        dynamic Solution,
+        string SolutionMetadataJson,
+        int Visibility,
+        string SolutionType,
+        bool AddToWishknowledge,
+        int SessionIndex,
+        int LicenseId,
+        string ReferencesJson,
+        bool IsLearningTab,
+        LearningSessionConfig SessionConfig
+    );
 
     private List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) => GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
