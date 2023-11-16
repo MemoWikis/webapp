@@ -10,8 +10,8 @@ public class TmpImage
         _webHostEnvironment = webHostEnvironment;
         string deleteTime = DateTime.Now.AddHours(1).ToString("yyyy-mm-dd_hh-MM");
         Guid = System.Guid.NewGuid().ToString();
-        Path = "/Images/Tmp/" + Guid + "-DEL-" + deleteTime + ".png";
-        PathPreview = "/Images/Tmp/" + Guid + "-" + previewWidth + "-DEL-" + deleteTime + ".jpg";
+        Path = "/Tmp/" + Guid + "-DEL-" + deleteTime + ".png";
+        PathPreview = "/Tmp/" + Guid + "-" + previewWidth + "-DEL-" + deleteTime + ".jpg";
         PreviewWidth = previewWidth;
     }
 

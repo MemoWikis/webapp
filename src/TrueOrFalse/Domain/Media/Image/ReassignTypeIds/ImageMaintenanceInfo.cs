@@ -147,12 +147,11 @@ public class ImageMaintenanceInfo
         EvaluateImageDeployability();
         SetLicenseStateCssClass();
 
-        var basePath = AppDomain.CurrentDomain.BaseDirectory; 
-        InCategoryFolder = File.Exists(Path.Combine(basePath,
+        InCategoryFolder = File.Exists(Path.Combine(Settings.ImagePath,
             categoryImgBasePath + imageMetaData.TypeId + ".jpg"));
-        InQuestionFolder = File.Exists(Path.Combine(basePath,
+        InQuestionFolder = File.Exists(Path.Combine(Settings.ImagePath,
             questionImgBasePath + imageMetaData.TypeId + ".jpg"));
-        InSetFolder = File.Exists(Path.Combine(basePath,
+        InSetFolder = File.Exists(Path.Combine(Settings.ImagePath,
             setImgBasePath + imageMetaData.TypeId + ".jpg"));
 
         if (MetaData.Type == ImageType.Category)
