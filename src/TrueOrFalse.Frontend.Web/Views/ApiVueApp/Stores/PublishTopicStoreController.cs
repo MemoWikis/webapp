@@ -101,9 +101,9 @@ namespace VueApp
 
         [HttpGet]
         [AccessOnlyAsLoggedIn]
-        public JsonResult Get([FromRoute] int topicId)
+        public JsonResult Get([FromRoute] int id)
         {
-            var topicCacheItem = EntityCache.GetCategory(topicId);
+            var topicCacheItem = EntityCache.GetCategory(id);
             var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
 
             if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
@@ -129,13 +129,5 @@ namespace VueApp
                 questionCount = filteredAggregatedQuestions.Count
             });
         }
-    }
-}
-
-namespace HelperClassesControllers
-{
-    public class TopicIdHelper
-    {
-        public int TopicId { get; set; }
     }
 }

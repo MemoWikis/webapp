@@ -25,9 +25,9 @@ public class CommentsStoreController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetAllComments([FromRoute] int questionId)
+    public JsonResult GetAllComments([FromRoute] int id)
     {
-        var _comments = _commentRepository.GetForDisplay(questionId);
+        var _comments = _commentRepository.GetForDisplay(id);
         var commentHelper = new AddCommentService(_commentRepository, _userReadingRepo, _httpContextAccessor, _webHostEnvironment);
         var settledComments = _comments.Where(c => c.IsSettled).Select(c => commentHelper.GetComment(c)).ToArray();
         var unsettledComments = _comments.Where(c => !c.IsSettled).Select(c => commentHelper.GetComment(c)).ToArray();

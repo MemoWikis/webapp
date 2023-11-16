@@ -123,12 +123,12 @@ public class LearningSessionStoreController : BaseController
             answerHelp = learningSession.Config.AnswerHelp,
             isInTestMode = learningSession.Config.IsInTestMode
         });
-
     }
 
-    [HttpGet]
-    public JsonResult GetLastStepInQuestionList([FromRoute] int index)  
+    [HttpGet]       
+    public JsonResult GetLastStepInQuestionList([FromRoute] int id)
     {
+        var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
 
         if (learningSession != null)

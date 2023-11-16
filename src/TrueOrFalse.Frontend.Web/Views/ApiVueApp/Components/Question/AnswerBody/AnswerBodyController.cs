@@ -26,8 +26,9 @@ public class AnswerBodyController : Controller {
     }
 
     [HttpGet]
-    public JsonResult Get([FromRoute] int index)
+    public JsonResult Get([FromRoute] int id)
     {
+        var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
         if (learningSession.Steps.Count == 0)
             return Json(null);
