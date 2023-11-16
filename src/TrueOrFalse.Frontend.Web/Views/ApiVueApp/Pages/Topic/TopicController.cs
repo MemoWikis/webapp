@@ -35,32 +35,5 @@ public class TopicController : Controller
     {
         return Json(_topicControllerLogic.GetTopicData(id));
     }
-
-    public bool CanAccess([FromQuery] int id)
-    {
-        var c = EntityCache.GetCategory(id);
-
-        if (_permissionCheck.CanView(c))
-            return true;
-
-        return false;
-    }
-
-    public JsonResult LoadQuestionIds([FromQuery] int topicId)
-    {
-        var topicCacheItem = EntityCache.GetCategory(topicId);
-        if (_permissionCheck.CanView(topicCacheItem))
-        {
-            var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
-            return Json(topicCacheItem
-                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
-                .Where(q =>
-                    q.Creator.Id == userCacheItem.Id &&
-                    q.IsPrivate() &&
-                    _permissionCheck.CanEdit(q))
-                .Select(q => q.Id).ToList());
-        }
-        return Json(new { });
-    }
 }
 
