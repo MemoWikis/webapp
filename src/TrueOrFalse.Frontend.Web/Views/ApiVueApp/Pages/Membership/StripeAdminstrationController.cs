@@ -31,6 +31,7 @@ public class StripeAdminstrationController : Controller
         return Json(await _stripeSubscriptionHelper.GetCancelPlanSessionUrl());
     }
 
+    public readonly record struct CompletedSubscriptionJson(string priceId);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public async Task<JsonResult> CompletedSubscription([FromBody] CompletedSubscriptionJson json)

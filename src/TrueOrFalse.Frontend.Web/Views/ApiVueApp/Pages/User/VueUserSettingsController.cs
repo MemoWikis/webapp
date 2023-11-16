@@ -182,6 +182,7 @@ public class VueUserSettingsController : Controller
         });
     }
 
+    public readonly record struct ChangeSupportLoginRightsJson(bool allowSupportiveLogin);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ChangeSupportLoginRights([FromBody] ChangeSupportLoginRightsJson json)
@@ -198,7 +199,7 @@ public class VueUserSettingsController : Controller
         });
     }
 
-
+    public readonly record struct ChangeWuwiVisibilityJson(bool showWuwi);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult ChangeWuwiVisibility([FromBody] ChangeWuwiVisibilityJson json)

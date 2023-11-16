@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HelperClassesControllers;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp
@@ -32,7 +28,7 @@ namespace VueApp
             _httpContextAccessor = httpContextAccessor;
             _questionReadingRepo = questionReadingRepo;
         }
-
+        public readonly record struct SearchAllJson(string term);
         [HttpPost]
         public async Task<JsonResult> All([FromBody] SearchAllJson json)
         {
@@ -66,7 +62,7 @@ namespace VueApp
 
             return result;
         }
-
+        public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
         [HttpPost]
         public async Task<JsonResult> Topic([FromBody] SearchTopicJson json)
         { 
@@ -146,18 +142,5 @@ namespace VueApp
                 addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
             });
         }
-    }
-}
-
-namespace HelperClassesControllers
-{
-    public class SearchAllJson
-    {
-        public string term { get; set; }
-    }
-    public class SearchTopicJson
-    {
-        public string term { get; set; }
-        public int[] topicIdsToFilter { get; set; } = null;
     }
 }

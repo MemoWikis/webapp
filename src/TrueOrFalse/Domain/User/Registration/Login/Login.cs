@@ -26,6 +26,7 @@ namespace TrueOrFalse.Domain.User
             _persistentLoginRepo = persistentLoginRepo;
             _httpContextAccessor = httpContextAccessor;
         }
+
         public bool UserLogin(LoginJson loginJson)
         {
             if (_credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))

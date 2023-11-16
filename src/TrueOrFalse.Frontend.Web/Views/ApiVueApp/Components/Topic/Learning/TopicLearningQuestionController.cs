@@ -1,35 +1,25 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 public class TopicLearningQuestionController: BaseController
 {
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CommentRepository _commentRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
 
     public TopicLearningQuestionController(SessionUser sessionUser,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         CommentRepository commentRepository, 
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
         TotalsPersUserLoader totalsPersUserLoader,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache) : base(sessionUser)
     {
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _commentRepository = commentRepository;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _totalsPersUserLoader = totalsPersUserLoader;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;

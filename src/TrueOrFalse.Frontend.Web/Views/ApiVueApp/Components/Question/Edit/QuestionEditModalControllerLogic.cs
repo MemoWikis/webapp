@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -277,23 +276,19 @@ namespace VueApp
     }
 }
 
-namespace HelperClassesControllers
-{
-    public class QuestionDataJson
-    {
-        public int[] CategoryIds { get; set; }
-        public int QuestionId { get; set; }
-        public string TextHtml { get; set; }
-        public string DescriptionHtml { get; set; }
-        public dynamic Solution { get; set; }
-        public string SolutionMetadataJson { get; set; }
-        public int Visibility { get; set; }
-        public string SolutionType { get; set; }
-        public bool AddToWishknowledge { get; set; }
-        public int SessionIndex { get; set; }
-        public int LicenseId { get; set; }
-        public string ReferencesJson { get; set; }
-        public bool IsLearningTab { get; set; }
-        public LearningSessionConfig SessionConfig { get; set; }
-    }
-}
+public readonly record struct QuestionDataJson(
+    int[] CategoryIds,
+    int QuestionId,
+    string TextHtml,
+    string DescriptionHtml,
+    dynamic Solution,
+    string SolutionMetadataJson,
+    int Visibility,
+    string SolutionType,
+    bool AddToWishknowledge,
+    int SessionIndex,
+    int LicenseId,
+    string ReferencesJson,
+    bool IsLearningTab,
+    LearningSessionConfig SessionConfig
+);

@@ -68,9 +68,10 @@ public class EditTopicRelationStoreController : BaseController
         });
     }
 
+    public readonly record struct RemoveTopicsJson(int parentId, int[] childIds);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveTopics([FromBody] EditTopicRelationStoreHelper.RemoveTopicsJson json)
+    public JsonResult RemoveTopics([FromBody] RemoveTopicsJson json)
     {
         var removedChildrenIds = new List<int>();
 

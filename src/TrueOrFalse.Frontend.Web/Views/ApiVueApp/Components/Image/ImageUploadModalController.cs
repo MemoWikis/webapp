@@ -1,5 +1,4 @@
-﻿using HelperClassesControllers;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 
@@ -19,9 +18,9 @@ public class ImageUploadModalController
         _imageStore = imageStore;
     }
 
-
+    public readonly record struct GetWikimediaPreviewJson(string url);
     [HttpPost]
-    public JsonResult GetWikimediaPreview([FromBody] ImageUploadModalHelper.GetWikimediaPreviewJson json)
+    public JsonResult GetWikimediaPreview([FromBody] GetWikimediaPreviewJson json)
     {
         var result = WikiImageMetaLoader.Run(json.url, 200);
         return Json(new
@@ -31,9 +30,10 @@ public class ImageUploadModalController
         });
     }
 
+    public readonly record struct SaveWikimediaImageJson(int topicId, string url);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveWikimediaImage([FromBody] ImageUploadModalHelper.SaveWikimediaImageJson json)
+    public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
     {
         if (json.url == null || !_permissionCheck.CanEditCategory(json.topicId))
             return false;
@@ -42,9 +42,10 @@ public class ImageUploadModalController
         return true;
     }
 
+    public readonly record struct SaveCustomImageJson(int topicId, string licenseGiverName, IFormFile file);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveCustomImage([FromForm] ImageUploadModalHelper.CustomImageFormdata form)
+    public bool SaveCustomImage([FromForm] SaveCustomImageJson form)
     {
         if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
             return false;

@@ -26,9 +26,11 @@ public class TopicStoreController : Controller
         _httpContextAccessor = httpContextAccessor;
     }
 
+    public readonly record struct SaveTopicJson(int id, string name, bool saveName, string content, bool saveContent);
+
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic([FromBody] TopicStoreHelper.SaveTopicJson json)
+    public JsonResult SaveTopic([FromBody] SaveTopicJson json)
     {
         if (!_permissionCheck.CanEditCategory(json.id))
             return Json(new RequestResult

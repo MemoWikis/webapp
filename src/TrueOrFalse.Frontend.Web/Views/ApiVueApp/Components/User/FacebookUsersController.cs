@@ -31,8 +31,9 @@ public class FacebookUsersController : Controller
         _jobQueueRepo = jobQueueRepo;
     }
 
+    public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
     [HttpPost]
-    public async Task<JsonResult> Login([FromBody] FacebookHelper.LoginJson json)
+    public async Task<JsonResult> Login([FromBody] LoginJson json)
     {
         var user = _userReadingRepo.UserGetByFacebookId(json.facebookUserId);
 
@@ -63,8 +64,10 @@ public class FacebookUsersController : Controller
         });
     }
 
+    public readonly record struct CreateAndLoginJson(FacebookUserCreateParameter facebookUser, string facebookAccessToken);
+
     [HttpPost]
-    public async Task<JsonResult> CreateAndLogin([FromBody] FacebookHelper.CreateAndLoginJson json)
+    public async Task<JsonResult> CreateAndLogin([FromBody] CreateAndLoginJson json)
     {
         if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken, json.facebookUser.id))
         {

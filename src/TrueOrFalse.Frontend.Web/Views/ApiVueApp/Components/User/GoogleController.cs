@@ -32,9 +32,9 @@ public class GoogleController : Controller
         _sessionUser = sessionUser;
     }
 
-
+    public readonly record struct LoginJson(string token);
     [HttpPost]
-    public async Task<JsonResult> Login([FromBody] GoogleHelper.LoginJson json)
+    public async Task<JsonResult> Login([FromBody] LoginJson json)
     {
         var googleUser = await GetGoogleUser(json.token);
         if (googleUser != null)

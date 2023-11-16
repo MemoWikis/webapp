@@ -60,8 +60,10 @@ public class AnswerBodyController : Controller {
         return Json(model);
     }
 
+    public readonly record struct SendAnswerToLearningSessionJson(int Id, Guid QuestionViewGuid, string Answer, bool InTestMode);
+
     [HttpPost]
-    public JsonResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSession sendAnswerToLearningSession)
+    public JsonResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
     {
         var answer = sendAnswerToLearningSession.Answer;
         var id = sendAnswerToLearningSession.Id;
@@ -86,8 +88,9 @@ public class AnswerBodyController : Controller {
         });
     }
 
+    public readonly record struct MarkAsCorrectJson(int Id, Guid QuestionViewGuid, int AmountOfTries);
     [HttpPost]
-    public bool MarkAsCorrect([FromBody] MarkAsCorrectData markAsCorrectData)
+    public bool MarkAsCorrect([FromBody] MarkAsCorrectJson markAsCorrectData)
     {
         var id = markAsCorrectData.Id;
         var questionViewGuid = markAsCorrectData.QuestionViewGuid;
@@ -124,9 +127,10 @@ public class AnswerBodyController : Controller {
         }
     }
 
+    public readonly record struct GetSolutionJson(int Id, Guid QuestionViewGuid, int InteractionNumber, int MillisecondsSinceQuestionView, bool Unanswered);
 
     [HttpPost]
-    public JsonResult GetSolution([FromBody] GetSolutionData getSolutionData)
+    public JsonResult GetSolution([FromBody] GetSolutionJson getSolutionData)
     {
         var question = EntityCache.GetQuestion(getSolutionData.Id);
         var solution = GetQuestionSolution.Run(question);
@@ -134,7 +138,7 @@ public class AnswerBodyController : Controller {
             _answerLog.LogAnswerView(question, _sessionUser.UserId,
                 getSolutionData.QuestionViewGuid, 
                 getSolutionData.InteractionNumber,
-                getSolutionData.MillisecondsSinceQuestionView);
+                getSolutionData.MillisecondsSinceQuestionView > 0 ? getSolutionData.MillisecondsSinceQuestionView : -1);
 
         EscapeReferencesText(question.References);
 

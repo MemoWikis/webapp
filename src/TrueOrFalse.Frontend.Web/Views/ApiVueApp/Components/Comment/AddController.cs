@@ -1,5 +1,4 @@
-﻿using HelperClassesControllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -14,9 +13,10 @@ public class CommentAddController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveComment([FromBody] AddCommentHelper.AddJson json)
+    public bool SaveComment([FromBody] AddCommentJson json)
     {
         _addCommentService.SaveComment(CommentType.AnswerQuestion, json, UserId);
         return true;
     }
 }
+public readonly record struct AddCommentJson(int id, string text, string title);

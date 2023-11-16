@@ -1,5 +1,4 @@
 ﻿using System;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 
 public class ActivityPointsStoreController : Controller
@@ -17,8 +16,9 @@ public class ActivityPointsStoreController : Controller
         _userWritingRepo = userWritingRepo;
     }
 
+    public readonly record struct AddJson(string ActivityTypeString, int Points);
     [HttpPost]
-    public JsonResult Add([FromBody] ActivityPointsStoreHelper.AddJson activityPointsData)
+    public JsonResult Add([FromBody] AddJson activityPointsData)
     {
         var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
@@ -68,8 +67,7 @@ public class AddCommentService : IRegisterAsInstancePerLifetime
         }
         return comment;
     }
-
-    public void SaveComment(CommentType type, AddCommentHelper.AddJson json, int userId )
+    public void SaveComment(CommentType type, AddCommentJson json, int userId )
     {
         var comment = new Comment();
         comment.Type = type;

@@ -202,9 +202,10 @@ public class TopicToPrivateStoreController : Controller
         });
     }
 
+    public readonly record struct SetQuestionsToPrivateJson(List<int> questionIds);
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public void SetQuestionsToPrivate([FromBody] TopicToPrivateStoreHelper.SetQuestionsToPrivateJson json)
+    public void SetQuestionsToPrivate([FromBody] SetQuestionsToPrivateJson json)
     {
         foreach (var questionId in json.questionIds)
         {

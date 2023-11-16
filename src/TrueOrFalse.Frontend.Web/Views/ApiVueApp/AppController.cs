@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using VueApp;
 
-
 public class AppController : Controller
 {
     private readonly VueSessionUser _vueSessionUser;
