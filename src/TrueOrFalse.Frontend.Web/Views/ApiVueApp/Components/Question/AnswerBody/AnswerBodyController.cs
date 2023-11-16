@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
-using AnswerBodyHelper;
-
 
 public class AnswerBodyController : Controller {
     private readonly AnswerQuestion _answerQuestion;
