@@ -63,11 +63,12 @@ public class LearningSessionStoreController : BaseController
         });
     }
 
+    public readonly record struct NewSessionWithJumpToQuestionJson(LearningSessionConfig Config, int Id);
     [HttpPost]
-    public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionData data)
+    public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionJson json)
     {
-        var config = data.Config;
-        var id = data.Id;
+        var config = json.Config;
+        var id = json.Id;
 
         var category = EntityCache.GetCategory(config.CategoryId);
         var allQuestions = category.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
@@ -126,13 +127,13 @@ public class LearningSessionStoreController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetLastStepInQuestionList([FromHeader] Counter counter)
+    public JsonResult GetLastStepInQuestionList([FromRoute] int index)  
     {
         var learningSession = _learningSessionCache.GetLearningSession();
 
         if (learningSession != null)
         {
-            learningSession.LoadSpecificQuestion(counter.Index);
+            learningSession.LoadSpecificQuestion(index);
 
             return Json(new
             {
@@ -146,9 +147,9 @@ public class LearningSessionStoreController : BaseController
                 activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
                 lastQuestionInList = new
                 {
-                    id = learningSession.Steps[counter.Index].Question.Id,
+                    id = learningSession.Steps[index].Question.Id,
                     state = AnswerState.Unanswered,
-                    index = counter.Index
+                    index = index
                 }
             });
         }
@@ -194,18 +195,19 @@ public class LearningSessionStoreController : BaseController
         });
     }
 
+    public readonly record struct LoadSpecificQuestionJson(int index);
     [HttpPost]
-    public IActionResult LoadSpecificQuestion([FromBody] Counter counter)
+    public JsonResult LoadSpecificQuestion([FromBody] LoadSpecificQuestionJson json)
     {
-        if (counter.Index == -1)
+        if (json.index == -1)
         {
             return Json(""); 
         }
 
         var learningSession = _learningSessionCache.GetLearningSession();
-        learningSession.LoadSpecificQuestion(counter.Index);
+        learningSession.LoadSpecificQuestion(json.index);
 
-        var json = JsonConvert.SerializeObject(new
+        return Json(new
         {
             steps = learningSession.Steps.Select((s, index) => new StepResult
             {
@@ -218,19 +220,18 @@ public class LearningSessionStoreController : BaseController
             {
                 state = learningSession.CurrentStep.AnswerState,
                 id = learningSession.CurrentStep.Question.Id,
-                index = counter.Index,
+                index = json.index,
                 isLastStep = learningSession.TestIsLastStep()
             },
         });
-
-        return Content(json, "application/json");
     }
 
+    public readonly record struct SkipStepJson(int index);
     [HttpPost]
-    public JsonResult SkipStep([FromBody] Counter counter)
+    public JsonResult SkipStep([FromBody] SkipStepJson json)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.CurrentIndex == counter.Index)
+        if (learningSession.CurrentIndex == json.index)
         {
             learningSession.SkipStep();
             return Json(new StepResult
@@ -268,20 +269,4 @@ public class StepResult
     public int id { get; set; }
     public int index { get; set; }
     public bool isLastStep { get; set; }
-}
-
-
-namespace HelperClassesControllers
-{
-    public class NewSessionWithJumpToQuestionData
-    {
-        public LearningSessionConfig Config { get; set; }
-        public int Id { get; set; }
-    }
-
-    public class Counter
-    {
-        public int Index { get; set; }
-    }
-
 }
