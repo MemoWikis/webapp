@@ -28,7 +28,7 @@ public class TopicStoreController : Controller
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic([FromRoute] SaveTopicParam param)
+    public JsonResult SaveTopic([FromBody] SaveTopicParam param)
     {
         if (!_permissionCheck.CanEditCategory(param.id))
             return Json(new RequestResult
