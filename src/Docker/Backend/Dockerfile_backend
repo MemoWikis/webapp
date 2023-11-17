@@ -1,6 +1,11 @@
 # Use a .NET SDK image as the base
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
+# Install SkiaSharp dependencies
+RUN apt-get update && \
+    apt-get install -y libfontconfig1 libharfbuzz0b libfreetype6 && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
@@ -20,6 +25,12 @@ RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -o /app
 # final stage/image
 #FROM mcr.microsoft.com/dotnet/runtime:7.0
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
+
+# Install SkiaSharp dependencies in the final stage as well
+RUN apt-get update && \
+    apt-get install -y libfontconfig1 libharfbuzz0b libfreetype6 && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "TrueOrFalse.View.Web.dll"]
