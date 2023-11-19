@@ -14,7 +14,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 namespace VueApp;
 public class QuestionEditModalController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCreator _learningSessionCreator;
@@ -47,17 +46,31 @@ public class QuestionEditModalController : BaseController
         Logg logg) 
         : base(sessionUser)
     {
+        _learningSessionCache = learningSessionCache;
+        _permissionCheck = permissionCheck;
+        _learningSessionCreator = learningSessionCreator;
+        _questionInKnowledge = questionInKnowledge;
+        _categoryRepository = categoryRepository;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _userReadingRepo = userReadingRepo;
+        _questionWritingRepo = questionWritingRepo;
+        _questionReadingRepo = questionReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
+        _actionContextAccessor = actionContextAccessor;
+        _logg = logg;
     }
     public readonly record struct QuestionDataParam(
         int[] CategoryIds,
-        int QuestionId,
+        int? QuestionId,
         string TextHtml,
         string DescriptionHtml,
-        dynamic Solution,
+        string Solution,
         string SolutionMetadataJson,
         int Visibility,
-        string SolutionType,
-        bool AddToWishknowledge,
+        SolutionType SolutionType,
+        bool? AddToWishknowledge,
         int SessionIndex,
         int LicenseId,
         string ReferencesJson,
@@ -69,6 +82,7 @@ public class QuestionEditModalController : BaseController
     [HttpPost]
     public JsonResult Create([FromBody] QuestionDataParam param)
     {
+        var sessionUser = _sessionUser;
         if (!new LimitCheck(_httpContextAccessor, _webHostEnvironment, _logg, _sessionUser).CanSavePrivateQuestion(
                 logExceedance: true))
         {
@@ -98,7 +112,7 @@ public class QuestionEditModalController : BaseController
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, param.SessionIndex,
             param.SessionConfig);
 
-        if (param.AddToWishknowledge)
+        if (param.AddToWishknowledge != null && (bool)param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return Json(new RequestResult { success = true, data = LoadQuestion(question.Id) });
@@ -115,7 +129,10 @@ public class QuestionEditModalController : BaseController
                 { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText });
         }
 
-        var question = _questionReadingRepo.GetById(param.QuestionId);
+        if (param.QuestionId == null)
+            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default });
+
+        var question = _questionReadingRepo.GetById((int)param.QuestionId);
         var updatedQuestion = UpdateQuestion(question, param, safeText);
 
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
@@ -124,6 +141,7 @@ public class QuestionEditModalController : BaseController
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         return Json(new RequestResult { success = true, data = LoadQuestion(updatedQuestion.Id) });
+
     }
 
 
@@ -228,7 +246,7 @@ public class QuestionEditModalController : BaseController
         question.TextHtml = param.TextHtml;
         question.Text = safeText;
         question.DescriptionHtml = param.DescriptionHtml;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), param.SolutionType);
+        question.SolutionType = param.SolutionType;
 
         var preEditedCategoryIds = question.Categories.Select(c => c.Id);
         var newCategoryIds = param.CategoryIds.ToList();

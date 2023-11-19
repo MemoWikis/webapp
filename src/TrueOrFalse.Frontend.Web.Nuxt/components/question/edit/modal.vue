@@ -164,7 +164,7 @@ function getSolution() {
 
 const solutionMetadataJson = ref('')
 
-function getSaveJson() {
+function getData() {
     const solution = getSolution()
     if (solution == null) {
         return
@@ -172,19 +172,19 @@ function getSaveJson() {
     if (solutionType.value == SolutionType.Numeric || solutionType.value == SolutionType.Date)
         solutionType.value = SolutionType.Text
 
-    var editJson = {
+    const editData = {
         QuestionId: editQuestionStore.id,
     }
-    var createJson = {
-        AddToWishknowledge: addToWuwi,
+    const createData = {
+        AddToWishknowledge: addToWuwi.value,
     }
-    var visibility = isPrivate.value ? 1 : 0
+    const visibility = isPrivate.value ? 1 : 0
 
-    var jsonExtension = {
+    const dataExtension = {
         CategoryIds: topicIds.value,
         TextHtml: questionHtml.value,
         DescriptionHtml: descriptionHtml.value,
-        Solution: solution,
+        Solution: solution.toString(),
         SolutionType: solutionType.value,
         Visibility: visibility,
         SolutionMetadataJson: solutionMetadataJson.value,
@@ -193,9 +193,9 @@ function getSaveJson() {
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
         SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
     }
-    var json = editQuestionStore.edit ? editJson : createJson
+    const data = editQuestionStore.edit ? editData : createData
 
-    return { ...json, ...jsonExtension }
+    return { ...data, ...dataExtension }
 }
 async function updateQuestionCount() {
     let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
@@ -226,10 +226,23 @@ async function save() {
 
     spinnerStore.showSpinner()
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
-    const json = getSaveJson()
+    const data = getData()
+
+    // const testData = {
+    //     CategoryIds: topicIds.value,
+    //     TextHtml: questionHtml.value,
+    //     DescriptionHtml: descriptionHtml.value,
+    //     SolutionType: solutionType.value,
+    //     Visibility: visibility,
+    //     SolutionMetadataJson: solutionMetadataJson.value,
+    //     LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
+    //     SessionIndex: learningSessionStore.lastIndexInQuestionList,
+    //     IsLearningTab: tabsStore.activeTab == Tab.Learning,
+    //     SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
+    // }
 
     const result = await $fetch<FetchResult<QuestionListItem>>(url, {
-        body: json,
+        body: data,
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
@@ -324,7 +337,7 @@ const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
-    const result = await $fetch<QuestionData>(`/apiVue/Que7stionEditModal/GetData/${id}`, {
+    const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
