@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
-    public class TopicRelationEditController : Controller
+    public class TopicRelationEditController : BaseController
     {
-        private readonly SessionUser _sessionUser;
         private readonly EditControllerLogic _editControllerLogic;
 
         public TopicRelationEditController(IGlobalSearch search,
             SessionUser sessionUser,
-            EditControllerLogic editControllerLogic)
+            EditControllerLogic editControllerLogic) : base(sessionUser)
         {
             _sessionUser = sessionUser;
             _editControllerLogic = editControllerLogic;

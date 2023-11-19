@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-public class QuestionEditDeleteController : Controller
+public class QuestionEditDeleteController : BaseController
 {
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionDelete _questionDelete;
@@ -9,7 +9,7 @@ public class QuestionEditDeleteController : Controller
 
     public QuestionEditDeleteController(QuestionReadingRepo questionReadingRepo,
         QuestionDelete questionDelete,
-        LearningSessionCache learningSessionCache)
+        LearningSessionCache learningSessionCache, SessionUser sessionUser) : base(sessionUser)
     {
         _questionReadingRepo = questionReadingRepo;
         _questionDelete = questionDelete;

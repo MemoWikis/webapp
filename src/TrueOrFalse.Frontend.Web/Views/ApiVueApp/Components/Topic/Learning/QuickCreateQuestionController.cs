@@ -10,9 +10,8 @@ using Seedworks.Web.State;
 using TrueOrFalse;
 
 namespace VueApp;
-public class QuickCreateQuestionController : Controller
+public class QuickCreateQuestionController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly LearningSessionCache _learningSessionCache;
@@ -42,7 +41,11 @@ public class QuickCreateQuestionController : Controller
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo, QuestionChangeRepo questionChangeRepo, SessionUiData sessionUiData, ImageStore imageStore, PermissionCheck permissionCheck)
+        QuestionReadingRepo questionReadingRepo, 
+        QuestionChangeRepo questionChangeRepo, 
+        SessionUiData sessionUiData, 
+        ImageStore imageStore, 
+        PermissionCheck permissionCheck) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;

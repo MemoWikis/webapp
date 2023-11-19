@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class TopicLearningQuestionListController: Controller
+public class TopicLearningQuestionListController: BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
@@ -31,7 +30,7 @@ public class TopicLearningQuestionListController: Controller
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor,
-        QuestionReadingRepo questionReadingRepo) 
+        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;

@@ -9,11 +9,10 @@ using Newtonsoft.Json.Linq;
 
 namespace VueApp;
 
-public class FacebookUsersController : Controller
+public class FacebookUsersController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
    
     private readonly JobQueueRepo _jobQueueRepo;
@@ -22,7 +21,7 @@ public class FacebookUsersController : Controller
         UserReadingRepo userReadingRepo,
         SessionUser sessionUser,
         RegisterUser registerUser,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
         _userReadingRepo = userReadingRepo;

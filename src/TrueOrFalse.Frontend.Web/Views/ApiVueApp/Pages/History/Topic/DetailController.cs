@@ -8,18 +8,13 @@ using ISession = NHibernate.ISession;
 
 namespace VueApp;
 
-public class HistoryTopicDetailController : Controller
+public class HistoryTopicDetailController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly ISession _nhibernatesession;
-    private readonly SessionUser _sessionUser;
     private readonly RestoreCategory _restoreCategory;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -40,18 +35,14 @@ public class HistoryTopicDetailController : Controller
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
-        _nhibernatesession = nhibernatesession;
         _sessionUser = sessionUser;
         _restoreCategory = restoreCategory;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;

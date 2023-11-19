@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class StripeAdminstrationController : Controller
+public class StripeAdminstrationController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly StripeSubscriptionHelper _stripeSubscriptionHelper;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -15,9 +14,8 @@ public class StripeAdminstrationController : Controller
     public StripeAdminstrationController(SessionUser sessionUser,
         StripeSubscriptionHelper stripeSubscriptionHelper,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _stripeSubscriptionHelper = stripeSubscriptionHelper;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;

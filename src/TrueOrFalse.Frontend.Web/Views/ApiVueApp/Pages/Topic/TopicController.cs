@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VueApp;
 
-public class TopicController : Controller
+public class TopicController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly SessionUserCache _sessionUserCache;
@@ -19,7 +18,7 @@ public class TopicController : Controller
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         UserReadingRepo userReadingRepo,
-        PersistentLoginRepo persistentLoginRepo)
+        PersistentLoginRepo persistentLoginRepo) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;

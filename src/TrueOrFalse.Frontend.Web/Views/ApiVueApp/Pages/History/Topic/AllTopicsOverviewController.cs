@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentNHibernate.Conventions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class HistoryTopicAllTopicsOverviewController : Controller
+public class HistoryTopicAllTopicsOverviewController : BaseController
 {
     private readonly AllTopicsHistory _allTopicsHistory;
     private readonly PermissionCheck _permissionCheck;
@@ -17,9 +16,9 @@ public class HistoryTopicAllTopicsOverviewController : Controller
     private readonly IHttpContextAccessor _httpContextAccessor;
 
     public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
-        PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo, 
+        PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo,
         SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor, SessionUser sessionUser) : base(sessionUser)
     {
         _allTopicsHistory = allTopicsHistory;
         _permissionCheck = permissionCheck;

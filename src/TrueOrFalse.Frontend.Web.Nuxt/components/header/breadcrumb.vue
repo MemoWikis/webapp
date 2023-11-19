@@ -175,8 +175,7 @@ async function getBreadcrumb() {
 	} else {
 		const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
 			{
-				method: 'POST',
-				body: data,
+				method: 'GET',
 				credentials: 'include',
 				mode: 'no-cors',
 				onResponseError(context) {

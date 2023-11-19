@@ -5,9 +5,8 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
-public class AnswerBodyController : Controller {
+public class AnswerBodyController : BaseController {
     private readonly AnswerQuestion _answerQuestion;
-    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly AnswerLog _answerLog;
     private readonly SessionUserCache _sessionUserCache;
@@ -16,7 +15,7 @@ public class AnswerBodyController : Controller {
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         AnswerLog answerLog,
-        SessionUserCache sessionUserCache)
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
         _answerQuestion = answerQuestion;
         _sessionUser = sessionUser;

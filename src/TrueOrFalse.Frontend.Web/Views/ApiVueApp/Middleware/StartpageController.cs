@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 
-public class MiddlewareStartpageController : Controller
+public class MiddlewareStartpageController : BaseController
 {
-    private readonly SessionUser _sessionUser;
-
-    public MiddlewareStartpageController(SessionUser sessionUser)
+    public MiddlewareStartpageController(SessionUser sessionUser) : base(sessionUser)
     {
         _sessionUser = sessionUser;
     }

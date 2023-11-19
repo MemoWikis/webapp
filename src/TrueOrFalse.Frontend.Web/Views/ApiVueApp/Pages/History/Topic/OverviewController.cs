@@ -9,7 +9,7 @@ using TrueOrFalse;
 
 namespace VueApp;
 
-public class HistoryTopicOverviewController : Controller
+public class HistoryTopicOverviewController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly CategoryChangeRepo _categoryChangeRepo;
@@ -22,7 +22,7 @@ public class HistoryTopicOverviewController : Controller
         CategoryChangeRepo categoryChangeRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment, SessionUser sessionUser) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;

@@ -53,7 +53,6 @@ public class LimitCheck
     public bool CanSavePrivateQuestion(bool logExceedance = false)
     {
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
-
             return true;
 
         var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId,

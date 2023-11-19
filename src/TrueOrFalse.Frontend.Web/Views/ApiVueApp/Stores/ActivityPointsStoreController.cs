@@ -1,17 +1,15 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-public class ActivityPointsStoreController : Controller
+public class ActivityPointsStoreController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly UserWritingRepo _userWritingRepo;
 
     public ActivityPointsStoreController(SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
         _userWritingRepo = userWritingRepo;
     }

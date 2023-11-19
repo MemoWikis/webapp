@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-public class QuestionPinStoreController : Controller
+public class QuestionPinStoreController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly QuestionPinStoreControllerLogic _questionPinStoreControllerLogic;
 
     public QuestionPinStoreController(SessionUser sessionUser,
-        QuestionPinStoreControllerLogic questionPinStoreControllerLogic )
+        QuestionPinStoreControllerLogic questionPinStoreControllerLogic) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _questionPinStoreControllerLogic = questionPinStoreControllerLogic;
     }
 

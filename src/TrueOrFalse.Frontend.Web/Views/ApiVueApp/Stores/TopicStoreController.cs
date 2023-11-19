@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class TopicStoreController : Controller
+public class TopicStoreController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
@@ -15,9 +14,8 @@ public class TopicStoreController : Controller
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryRepository = categoryRepository;

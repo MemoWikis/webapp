@@ -6,10 +6,9 @@ using TrueOrFalse.Domain.User;
 
 namespace VueApp;
 
-public class UserStoreController : Controller
+public class UserStoreController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
-    private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
     private readonly PersistentLoginRepo _persistentLoginRepo;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
@@ -22,7 +21,6 @@ public class UserStoreController : Controller
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryViewRepo _categoryViewRepo;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IActionContextAccessor _actionContextAccessor;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly JobQueueRepo _jobQueueRepo;
@@ -41,13 +39,11 @@ public class UserStoreController : Controller
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryViewRepo categoryViewRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IActionContextAccessor actionContextAccessor,
         UserReadingRepo userReadingRepo,
         QuestionReadingRepo questionReadingRepo,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
-        _sessionUser = sessionUser;
         _registerUser = registerUser;
         _persistentLoginRepo = persistentLoginRepo;
         _getUnreadMessageCount = getUnreadMessageCount;
@@ -60,7 +56,6 @@ public class UserStoreController : Controller
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryViewRepo = categoryViewRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _actionContextAccessor = actionContextAccessor;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
         _jobQueueRepo = jobQueueRepo;

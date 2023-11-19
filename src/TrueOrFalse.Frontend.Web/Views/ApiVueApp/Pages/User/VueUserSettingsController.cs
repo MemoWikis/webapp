@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class VueUserSettingsController : Controller
+public class VueUserSettingsController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly ReputationUpdate _reputationUpdate;
     private readonly CredentialsAreValid _credentialsAreValid;
     private readonly UserReadingRepo _userReadingRepo;
@@ -28,9 +27,8 @@ public class VueUserSettingsController : Controller
         IWebHostEnvironment webHostEnvironment,
         Logg logg,
         QuestionReadingRepo questionReadingRepo,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _reputationUpdate = reputationUpdate;
         _credentialsAreValid = credentialsAreValid;
         _userReadingRepo = userReadingRepo;

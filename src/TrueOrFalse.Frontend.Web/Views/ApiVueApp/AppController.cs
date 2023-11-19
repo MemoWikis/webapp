@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using VueApp;
 
-public class AppController : Controller
+public class AppController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
 
-    public AppController(VueSessionUser vueSessionUser)
+    public AppController(SessionUser sessionUser, VueSessionUser vueSessionUser) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
     }

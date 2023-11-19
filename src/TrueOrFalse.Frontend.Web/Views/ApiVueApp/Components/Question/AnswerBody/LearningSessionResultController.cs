@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 public class VueLearningSessionResultController
-    : Controller
+    : BaseController
 {
     private readonly LearningSessionCache _learningSessionCache;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
@@ -19,7 +19,7 @@ public class VueLearningSessionResultController
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo, SessionUser sessionUser) : base(sessionUser)
     {
         _learningSessionCache = learningSessionCache;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;

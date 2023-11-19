@@ -5,9 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace VueApp
 {
 
-    public class PublishTopicStoreController : Controller
+    public class PublishTopicStoreController : BaseController
     {
-        private readonly SessionUser _sessionUser;
         private readonly PermissionCheck _permissionCheck;
         private readonly CategoryRepository _categoryRepository;
         private readonly QuestionReadingRepo _questionReadingRepo;
@@ -20,9 +19,8 @@ namespace VueApp
             CategoryRepository categoryRepository,
             QuestionReadingRepo questionReadingRepo,
             QuestionWritingRepo questionWritingRepo,
-            SessionUserCache sessionUserCache)
+            SessionUserCache sessionUserCache) : base(sessionUser)
         {
-            _sessionUser = sessionUser;
             _permissionCheck = permissionCheck;
             _categoryRepository = categoryRepository;
             _questionReadingRepo = questionReadingRepo;
