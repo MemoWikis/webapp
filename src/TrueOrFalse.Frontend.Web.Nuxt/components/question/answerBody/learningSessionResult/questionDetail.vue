@@ -71,7 +71,7 @@ onBeforeMount(() => {
                             </div>
                             <div class="col-xs-9 col-sm-10">
                                 <p class="rightAnswer">Richtige Antwort:
-                                <div v-html="handleNewLine(question.correctAnswerHtml)"></div>
+                                    <span v-html="handleNewLine(question.correctAnswerHtml)"></span>
                                 </p>
                                 <br />
                                 <p class="answerTry" v-for="(step, index) in question.steps">

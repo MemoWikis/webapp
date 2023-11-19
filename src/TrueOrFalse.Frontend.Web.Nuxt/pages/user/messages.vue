@@ -64,7 +64,7 @@ const forceShow = ref(false)
                                 model.readCount == 0 ||
                                 model.readCount > 1 ? 'en' : ''
                             }}.
-                        <div v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</div>.
+                            <span v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</span>.
                         </p>
 
                     </div>
