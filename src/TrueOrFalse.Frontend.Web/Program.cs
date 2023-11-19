@@ -12,6 +12,7 @@ using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using TrueOrFalse.Environment;
+using static System.Int32;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,19 +20,6 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.Limits.MaxRequestBodySize = 1073741824;
 });
-
-//builder.Services.AddStackExchangeRedisCache(options =>
-//{
-//    options.Configuration = "localhost:6379";  
-//    options.InstanceName = "SessionInstace";
-//});
-
-//builder.Services.AddSession(options =>
-//{
-//    options.IdleTimeout = TimeSpan.FromMinutes(480);
-//    options.Cookie.HttpOnly = true;
-//    options.Cookie.IsEssential = true;
-//});
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
@@ -48,22 +36,21 @@ builder.Services.AddControllersWithViews()
 });
 
 
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSession(options =>
 {
     options.Cookie.IsEssential = true;
+    options.Cookie.HttpOnly = true;
     options.IdleTimeout = TimeSpan.FromMinutes(480);
-
 });
 
 builder.Services.Configure<FormOptions>(options =>
 {
-    options.MemoryBufferThreshold = Int32.MaxValue;
-    options.ValueLengthLimit = int.MaxValue;
+    options.MemoryBufferThreshold = MaxValue;
+    options.ValueLengthLimit = MaxValue;
     options.MultipartBodyLengthLimit = long.MaxValue;
-    options.BufferBodyLengthLimit = int.MaxValue;
+    options.BufferBodyLengthLimit = MaxValue;
 });
 
 builder.Services.AddCors(options =>
@@ -90,10 +77,10 @@ builder.WebHost.ConfigureServices(services =>
 {
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
 });
+
 var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;
-
 
 if (!env.IsDevelopment())
 {
