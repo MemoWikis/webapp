@@ -35,7 +35,13 @@ public class ResizeImage
                     destRect = new SKRect(0, -(scaledHeight - height) / 2, width, scaledHeight - (scaledHeight - height) / 2);
                 }
 
-                canvas.DrawBitmap(originalBitmap, destRect);
+                canvas.DrawBitmap(originalBitmap, destRect,
+                    paint: new SKPaint
+                    {
+                        IsAntialias = true,
+                        FilterQuality = SKFilterQuality.High,
+                        IsDither = true
+                    });
             }
 
             // Save the image
