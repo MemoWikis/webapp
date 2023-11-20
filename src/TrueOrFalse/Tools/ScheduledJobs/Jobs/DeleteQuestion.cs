@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Quartz;
+﻿using Quartz;
 using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs;
