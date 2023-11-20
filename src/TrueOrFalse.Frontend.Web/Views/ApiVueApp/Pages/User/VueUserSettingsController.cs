@@ -145,7 +145,7 @@ public class VueUserSettingsController : BaseController
             return Json(new
             {
                 success = false,
-                message = FrontendMessageKeys.Error.User.UserNameInUse
+                messageKey = FrontendMessageKeys.Error.User.UserNameInUse
             }
             );
         }
