@@ -19,12 +19,12 @@ public class SaveImageToFile
 
             foreach (var size in imageSettings.SizesSquare)
             {
-                ResizeImage2.RunAndReturnPath(original, imageSettings.ServerPathAndId(), size, isSquare: true);
+                ResizeImage.RunAndReturnPath(original, imageSettings.ServerPathAndId(), size, isSquare: true);
             }
 
             foreach (var width in imageSettings.SizesFixedWidth)
             {
-                ResizeImage2.RunAndReturnPath(original, imageSettings.ServerPathAndId(), width, isSquare: false);
+                ResizeImage.RunAndReturnPath(original, imageSettings.ServerPathAndId(), width, isSquare: false);
             }
         }
     }

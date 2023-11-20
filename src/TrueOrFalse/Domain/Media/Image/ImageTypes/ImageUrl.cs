@@ -66,7 +66,7 @@ public class ImageUrl
                 using (var inputStream = new SKManagedStream(input))
                 using (var image = SKBitmap.Decode(inputStream))
                 {
-                    resizePath = ResizeImage3.RunAndReturnPath(image, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
+                    resizePath = ResizeImage.RunAndReturnPath(image, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
                     Console.WriteLine($"Resize Image1, {resizePath}");
                     Console.WriteLine($"Requested Image Path, {requestedImagePath}");
                 }
@@ -114,7 +114,7 @@ public class ImageUrl
                             if (File.Exists(imageSettings.ServerPathAndId() + "_" + requestedWidth + SquareSuffix(true) + ".jpg"))
                                 return GetResult(imageSettings, requestedWidth, true);
 
-                            resizePath = ResizeImage3.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, true);
+                            resizePath = ResizeImage.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, true);
                             Console.WriteLine($"Resize Image2, {resizePath}");
                             Console.WriteLine($"Requested Image Path, {requestedImagePath}");
                         }
@@ -125,7 +125,7 @@ public class ImageUrl
                     }
                     else
                     {
-                        resizePath = ResizeImage3.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
+                        resizePath = ResizeImage.RunAndReturnPath(biggestAvailableImage, imageSettings.ServerPathAndId(), requestedWidth, isSquare);
                         Console.WriteLine($"Resize Image3, {resizePath}");
                         Console.WriteLine($"Requested Image Path, {requestedImagePath}");
                     }
