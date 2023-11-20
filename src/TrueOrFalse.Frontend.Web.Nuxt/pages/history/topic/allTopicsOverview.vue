@@ -91,7 +91,7 @@ function handleClick(g: GroupedChanges) {
                 <h1>Bearbeitungshistorie aller Themen</h1>
             </div>
             <div class="col-xs-12">
-                <div class="category-change-day row" v-if="days" v-for="day, dIndex in days">
+                <div class="category-change-day row" v-if="days" v-for="day in days">
                     <div class="col-xs-12">
                         <h3>{{ day.date }}</h3>
                     </div>

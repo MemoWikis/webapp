@@ -2,13 +2,13 @@ import { lowlight } from 'lowlight/lib/core'
 import { toHtml } from 'hast-util-to-html'
 
 export function getHighlightedCode(oldHtml: string) {
-    var lowlightNode = lowlight.highlightAuto(oldHtml)
-    var newHtml = toHtml(lowlightNode)
+    const lowlightNode = lowlight.highlightAuto(oldHtml)
+    const newHtml = toHtml(lowlightNode)
     return newHtml
 }
 
 export function random(minVal: any, maxVal: any, floatVal: any = 'undefined'): number {
-    var randVal = minVal + (Math.random() * (maxVal - minVal));
+    const randVal = minVal + (Math.random() * (maxVal - minVal));
     return <number>(typeof floatVal == 'undefined' ? Math.round(randVal) : randVal.toFixed(floatVal));
 }
 
@@ -19,7 +19,7 @@ export function handleNewLine(str: string = '') {
 export function getElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath): T | undefined {
     let item: NestedArray<T> = arr
 
-    for (let index of indexPath) {
+    for (const index of indexPath) {
         if (Array.isArray(item)) {
             item = item[index]
         } else {
@@ -31,11 +31,11 @@ export function getElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath): 
 }
 
 export function removeElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath): ElementAndNestedArray<T> | undefined {
-    let pathCopy = [...indexPath]
-    let targetIndex = pathCopy.pop()
+    const pathCopy = [...indexPath]
+    const targetIndex = pathCopy.pop()
 
     let targetArray: NestedArray<T> = arr
-    for (let index of pathCopy) {
+    for (const index of pathCopy) {
         if (Array.isArray(targetArray)) {
             targetArray = targetArray[index]
         } else {
@@ -44,7 +44,7 @@ export function removeElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath
     }
 
     if (Array.isArray(targetArray) && typeof targetIndex === "number") {
-        let removedElement = targetArray.splice(targetIndex, 1)
+        const removedElement = targetArray.splice(targetIndex, 1)
         return { element: removedElement[0] as T, array: arr }
     } else {
         return undefined
@@ -52,11 +52,11 @@ export function removeElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath
 }
 
 export function addElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath, element: T): void {
-    let pathCopy = [...indexPath]
-    let targetIndex = pathCopy.pop()
+    const pathCopy = [...indexPath]
+    const targetIndex = pathCopy.pop()
 
     let targetArray: NestedArray<T> = arr
-    for (let index of pathCopy) {
+    for (const index of pathCopy) {
         if (Array.isArray(targetArray)) {
             targetArray = targetArray[index]
         } else {
@@ -72,7 +72,7 @@ export function addElementAtPath<T>(arr: NestedArray<T>, indexPath: IndexPath, e
 }
 
 export function moveElement<T>(arr: NestedArray<T>, fromIndexPath: IndexPath, toIndexPath: IndexPath): void {
-    let removed = removeElementAtPath(arr, fromIndexPath)
+    const removed = removeElementAtPath(arr, fromIndexPath)
     if (removed) {
         addElementAtPath(removed.array, toIndexPath, removed.element)
     }

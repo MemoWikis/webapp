@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
 
-public class AnswerQuestionDetailsController: Controller
+public class AnswerQuestionDetailsController: BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
@@ -26,7 +25,7 @@ public class AnswerQuestionDetailsController: Controller
         IHttpContextAccessor httpContextAccessor,
         SessionUserCache sessionUserCache,
         IActionContextAccessor actionContextAccessor,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;

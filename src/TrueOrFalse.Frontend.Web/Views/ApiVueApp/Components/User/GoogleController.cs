@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class GoogleController : Controller
+public class GoogleController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
     private readonly RegisterUser _registerUser;
@@ -13,7 +13,6 @@ public class GoogleController : Controller
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly MessageRepo _messageRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly SessionUser _sessionUser;
 
     public GoogleController(SessionUser sessionUser,
         UserReadingRepo userReadingRepo,
@@ -21,7 +20,7 @@ public class GoogleController : Controller
         RegisterUser registerUser,
         CategoryRepository categoryRepository,
         JobQueueRepo jobQueueRepo,
-        MessageRepo messageRepo)
+        MessageRepo messageRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
@@ -32,9 +31,9 @@ public class GoogleController : Controller
         _sessionUser = sessionUser;
     }
 
-
+    public readonly record struct LoginJson(string token);
     [HttpPost]
-    public async Task<JsonResult> Login([FromBody] GoogleHelper.LoginJson json)
+    public async Task<JsonResult> Login([FromBody] LoginJson json)
     {
         var googleUser = await GetGoogleUser(json.token);
         if (googleUser != null)

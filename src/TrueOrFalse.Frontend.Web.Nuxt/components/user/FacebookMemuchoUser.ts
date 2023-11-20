@@ -7,7 +7,7 @@ export class FacebookMemuchoUser {
 
     static async Exists(facebookId: string): Promise<boolean> {
 
-        var doesExist = await $fetch<boolean>('/apiVue/FacebookUsers/UserExists', {
+        const doesExist = await $fetch<boolean>('/apiVue/FacebookUsers/UserExists', {
             method: 'GET', body: { facebookId: facebookId }, credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
 
@@ -27,7 +27,7 @@ export class FacebookMemuchoUser {
 
         spinnerStore.showSpinner();
 
-        var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/CreateAndLogin', {
+        const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/CreateAndLogin', {
             method: 'POST',
             body: { facebookUser: user, facebookAccessToken },
             credentials: 'include',
@@ -60,7 +60,7 @@ export class FacebookMemuchoUser {
         FacebookMemuchoUser.Throw_if_not_exists(facebookId);
         spinnerStore.showSpinner();
 
-        var result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/Login', {
+        const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/Login', {
             method: 'POST',
             body: { facebookUserId: facebookId, facebookAccessToken: facebookAccessToken },
             credentials: 'include',
@@ -100,8 +100,8 @@ export class FacebookMemuchoUser {
 
             FB.login((response) => {
 
-                var facebookId = response.authResponse!.userID
-                var facebookAccessToken = response.authResponse!.accessToken
+                const facebookId = response.authResponse!.userID
+                const facebookAccessToken = response.authResponse!.accessToken
 
                 if (response.status !== "connected")
                     return;

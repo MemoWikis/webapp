@@ -46,6 +46,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     }
 
     public SessionUserCacheItem User => _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
+    //public SessionUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
 
     public bool IsLoggedInUser(int userId)
     {
@@ -55,7 +56,20 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    public async void Login(User user)
+    //public SessionUserCacheItem GetOrCreateUserFromSessionCache()
+    //{
+    //    var user = _sessionUserCache.GetUser(_userId);
+    //    if (user == null)
+    //    {
+    //        user = _sessionUserCache.CreateSessionUserItemFromDatabase(_userId); 
+    //        _sessionUserCache.AddOrUpdate(user);
+    //        user = _sessionUserCache.GetUser(_userId);
+    //    }
+
+    //    return user; 
+    //}
+
+    public void Login(User user)
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
@@ -69,10 +83,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        //var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //await _httpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
-        _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
+        var userCacheItem = _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
+        _sessionUserCache.AddOrUpdate(userCacheItem);
     }
 
     public async void Logout()

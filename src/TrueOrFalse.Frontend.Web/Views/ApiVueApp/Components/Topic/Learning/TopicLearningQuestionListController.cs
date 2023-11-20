@@ -1,14 +1,12 @@
 ﻿using System.Collections.Concurrent;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class TopicLearningQuestionListController: Controller
+public class TopicLearningQuestionListController: BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
@@ -32,7 +30,7 @@ public class TopicLearningQuestionListController: Controller
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor,
-        QuestionReadingRepo questionReadingRepo) 
+        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
@@ -47,14 +45,16 @@ public class TopicLearningQuestionListController: Controller
         _questionReadingRepo = questionReadingRepo;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
     }
+
+    public readonly record struct LoadQuestionsJson(int ItemCountPerPage, int PageNumber, int TopicId);
     [HttpPost]
-    public JsonResult LoadQuestions([FromBody] LoadQuestion loadQuestion)
+    public JsonResult LoadQuestions([FromBody] LoadQuestionsJson json)
     {
-        if (_learningSessionCache.GetLearningSession() == null || loadQuestion.TopicId != _learningSessionCache.GetLearningSession().Config.CategoryId)
+        if (_learningSessionCache.GetLearningSession() == null || json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
         {
             var config = new LearningSessionConfig
             {
-                CategoryId = loadQuestion.TopicId,
+                CategoryId = json.TopicId,
                 CurrentUserId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default
             };
             _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
@@ -71,12 +71,13 @@ public class TopicLearningQuestionListController: Controller
                 _httpContextAccessor,
                 _webHostEnvironment,
                 _questionReadingRepo)
-            .PopulateQuestionsOnPage(loadQuestion.PageNumber, loadQuestion.ItemCountPerPage));
+            .PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage));
     }
 
     [HttpGet]
-    public JsonResult LoadNewQuestion([FromRoute] int index)
+    public JsonResult LoadNewQuestion([FromRoute] int id)
     {
+        var index = id;
         var session = _learningSessionCache.GetLearningSession();
         if (session == null)
             return Json(new RequestResult
@@ -89,10 +90,10 @@ public class TopicLearningQuestionListController: Controller
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? _sessionUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
+        var hasUserValuation = userQuestionValuation != null && userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
 
         return Json(new RequestResult
         {
@@ -118,15 +119,5 @@ public class TopicLearningQuestionListController: Controller
                 HasPersonalAnswer = false
             }
         });
-    }
-}
-
-namespace HelperClassesControllers
-{
-    public class LoadQuestion
-    {
-        public int ItemCountPerPage { get; set; }
-        public int PageNumber { get; set; }
-        public int TopicId { get; set; }
     }
 }

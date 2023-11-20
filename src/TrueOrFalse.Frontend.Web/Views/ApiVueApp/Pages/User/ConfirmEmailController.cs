@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -14,11 +12,10 @@ public class ConfirmEmailController : BaseController
         _emailConfirmationService = emailConfirmationService;
     }
 
+    public readonly record struct ConfirmEmailRunJson(string token);
     [HttpPost]
-    public JsonResult Run(string token)
+    public JsonResult Run([FromBody] ConfirmEmailRunJson json)
     {
-        var mailConfirmed = _emailConfirmationService.TryConfirmEmail(token);
-
-        return Json(mailConfirmed);
+        return Json(_emailConfirmationService.TryConfirmEmail(json.token));
     }
 }

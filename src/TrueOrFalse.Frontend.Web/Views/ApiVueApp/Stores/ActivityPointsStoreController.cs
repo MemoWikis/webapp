@@ -1,24 +1,22 @@
 ﻿using System;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 
-public class ActivityPointsStoreController : Controller
+public class ActivityPointsStoreController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly ActivityPointsRepo _activityPointsRepo;
     private readonly UserWritingRepo _userWritingRepo;
 
     public ActivityPointsStoreController(SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        UserWritingRepo userWritingRepo)
+        UserWritingRepo userWritingRepo) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
         _userWritingRepo = userWritingRepo;
     }
 
+    public readonly record struct AddJson(string ActivityTypeString, int Points);
     [HttpPost]
-    public JsonResult Add([FromBody] ActivityPointsStoreHelper.AddJson activityPointsData)
+    public JsonResult Add([FromBody] AddJson activityPointsData)
     {
         var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints

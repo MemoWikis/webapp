@@ -32,7 +32,7 @@ public class VueUserController : BaseController
         _sessionUserCache = sessionUserCache;
     }
     [HttpGet]
-    public JsonResult Get(int id)
+    public JsonResult Get([FromRoute] int id)
     {
         var user = EntityCache.GetUserById(id);
 
@@ -86,7 +86,7 @@ public class VueUserController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetWuwi(int id)
+    public JsonResult GetWuwi([FromRoute] int id)
     {
         var user = EntityCache.GetUserById(id);
 

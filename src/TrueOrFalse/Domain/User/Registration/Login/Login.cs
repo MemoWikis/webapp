@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Net;
 
 namespace TrueOrFalse.Domain.User
 {
@@ -26,12 +25,13 @@ namespace TrueOrFalse.Domain.User
             _persistentLoginRepo = persistentLoginRepo;
             _httpContextAccessor = httpContextAccessor;
         }
-        public bool UserLogin(LoginJson loginJson)
+
+        public bool UserLogin(LoginParam param)
         {
-            if (_credentialsAreValid.Yes(loginJson.EmailAddress, loginJson.Password))
+            if (_credentialsAreValid.Yes(param.EmailAddress, param.Password))
             {
 
-                if (loginJson.PersistentLogin)
+                if (param.PersistentLogin)
                 {
                     WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id,
                         _persistentLoginRepo, 

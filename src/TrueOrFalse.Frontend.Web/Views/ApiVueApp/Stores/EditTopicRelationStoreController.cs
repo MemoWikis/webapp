@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HelperClassesControllers;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace VueApp;
 
@@ -68,9 +65,10 @@ public class EditTopicRelationStoreController : BaseController
         });
     }
 
+    public readonly record struct RemoveTopicsJson(int parentId, int[] childIds);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveTopics([FromBody] EditTopicRelationStoreHelper.RemoveTopicsJson json)
+    public JsonResult RemoveTopics([FromBody] RemoveTopicsJson json)
     {
         var removedChildrenIds = new List<int>();
 

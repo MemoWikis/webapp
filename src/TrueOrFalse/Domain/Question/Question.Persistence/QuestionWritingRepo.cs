@@ -69,20 +69,21 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .CreateAsync(question));
     }
 
-    public List<int> Delete(int questionId)
+    public List<int> Delete(int questionId, int userId)
     {
         var question = GetById(questionId);
-        Delete(question);
         var categoriesToUpdate = question.Categories.ToList();
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
+
+        Delete(question, userId);
         return categoriesToUpdateIds;
     }
 
-    public void Delete(Question question)
+    public void Delete(Question question, int userId)
     {
         base.Delete(question);
-        _questionChangeRepo.AddDeleteEntry(question);
+        _questionChangeRepo.AddDeleteEntry(question, userId);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .DeleteAsync(question));
     }

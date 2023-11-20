@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
         '@nuxtjs/device',
+        '@nuxtjs/eslint-module',
     ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',

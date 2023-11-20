@@ -22,9 +22,8 @@ public class ImageLicenseStoreController : BaseController
         _questionReadingRepo = questionReadingRepo;
     }
     [HttpGet]
-    public JsonResult GetLicenseInfo(int id)
+    public JsonResult GetLicenseInfo([FromRoute] int id)
     {
-
         var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo.GetById(id), 
             _httpContextAccessor, 
             _questionReadingRepo);

@@ -1,53 +1,54 @@
 ﻿using System.Threading.Tasks;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
-    public class TopicRelationEditController : Controller
+    public class TopicRelationEditController : BaseController
     {
-        private readonly SessionUser _sessionUser;
         private readonly EditControllerLogic _editControllerLogic;
 
         public TopicRelationEditController(IGlobalSearch search,
             SessionUser sessionUser,
-            EditControllerLogic editControllerLogic)
+            EditControllerLogic editControllerLogic) : base(sessionUser)
         {
             _sessionUser = sessionUser;
             _editControllerLogic = editControllerLogic;
         }
 
+        public readonly record struct ValidateNameParam(string Name);
         [HttpPost]
-        public JsonResult ValidateName([FromBody] ValidateNameJson json)
+        public JsonResult ValidateName([FromBody] ValidateNameParam param)
         {
-            var data = _editControllerLogic.ValidateName(json.Name);
+            var data = _editControllerLogic.ValidateName(param.Name);
             return Json(data);
         }
 
+        public readonly record struct QuickCreateParam(string Name, int ParentTopicId);
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult QuickCreate([FromBody] QuickCreateJson quickCreateJson)
+        public JsonResult QuickCreate([FromBody] QuickCreateParam param)
         {
-            var data = _editControllerLogic.QuickCreate(quickCreateJson.Name,
-                    quickCreateJson.ParentTopicId, 
+            var data = _editControllerLogic.QuickCreate(param.Name,
+                    param.ParentTopicId, 
                     _sessionUser);
 
             return Json(data);
         }
 
+        public readonly record struct SearchParam(string term, int[] topicIdsToFilter);
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public async Task<JsonResult> SearchTopic([FromBody] SearchJson json)
+        public async Task<JsonResult> SearchTopic([FromBody] SearchParam param)
         {
-            var data = _editControllerLogic.SearchTopic(json.term, json.topicIdsToFilter);
+            var data = _editControllerLogic.SearchTopic(param.term, param.topicIdsToFilter);
             return Json(data);
         }
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public async Task<JsonResult> SearchTopicInPersonalWiki([FromBody] SearchJson json)
+        public async Task<JsonResult> SearchTopicInPersonalWiki([FromBody] SearchParam param)
         {
-            var data = _editControllerLogic.SearchTopicInPersonalWiki(json.term, json.topicIdsToFilter);
+            var data = _editControllerLogic.SearchTopicInPersonalWiki(param.term, param.topicIdsToFilter);
             return Json(data);
         }
 
@@ -59,15 +60,17 @@ namespace VueApp
             return Json(data);
         }
 
+        public readonly record struct AddChildParam(int ChildId, int ParentId, int ParentIdToRemove, bool AddIdToWikiHistory);
+
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult AddChild([FromBody] AddChildHelper addChildHelper)
+        public JsonResult AddChild([FromBody] AddChildParam param)
         {
             var data = _editControllerLogic
-                .AddChild(addChildHelper.ChildId,
-                addChildHelper.ParentId, 
-                addChildHelper.ParentIdToRemove, 
-                addChildHelper.AddIdToWikiHistory);
+                .AddChild(param.ChildId,
+                    param.ParentId,
+                    param.ParentIdToRemove,
+                    param.AddIdToWikiHistory);
 
             return Json(data);
         }
@@ -79,33 +82,5 @@ namespace VueApp
             var data = _editControllerLogic.RemoveParent(parentIdToRemove, childId, affectedParentIdsByMove);
             return Json(data);
         }
-    }
-}
-
-namespace HelperClassesControllers
-{
-    public class ValidateNameJson
-    {
-        public string Name { get; set; }
-    }
-
-    public class QuickCreateJson
-    {
-        public string Name { get; set; }
-        public int ParentTopicId { get; set; } 
-    }
-
-    public class SearchJson
-    {
-        public string term { get; set; }
-        public int[] topicIdsToFilter { get; set; } = null;
-    }
-    
-    public class AddChildHelper
-    {
-        public int ChildId { get; set; }
-        public int ParentId { get; set; }
-        public int ParentIdToRemove { get; set; } = -1;
-        public bool AddIdToWikiHistory { get; set; } = false;
     }
 }

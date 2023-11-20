@@ -34,7 +34,7 @@ onMounted(() => {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
 
-    if (typeof window != undefined) {
+    if (typeof window != "undefined") {
         window.addEventListener('resize', handleResize)
     }
 })

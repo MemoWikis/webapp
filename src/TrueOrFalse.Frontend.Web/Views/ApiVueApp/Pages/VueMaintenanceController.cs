@@ -12,9 +12,8 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class VueMaintenanceController : Controller
+public class VueMaintenanceController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
     private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
     private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
@@ -44,9 +43,8 @@ public class VueMaintenanceController : Controller
         UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo,
         IAntiforgery antiforgery,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
         _probabilityUpdateQuestion = probabilityUpdateQuestion;
         _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;

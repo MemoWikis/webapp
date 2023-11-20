@@ -32,7 +32,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         UserReadingRepo userReadingRepo,
         QuestionValuationReadingRepo questionValuationReadingRepo,
         CategoryValuationReadingRepo categoryValuationReading,
-        IMemoryCache cache, 
+        IMemoryCache cache,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache)
@@ -52,7 +52,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
     }
-
+    ///todo:(DaMa)  Revise: Wrong place for SQL commands.
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
@@ -82,9 +82,10 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         }
 
         _userActivityRepo.DeleteForCategory(category.Id);
-        _categoryRepository.Delete(category);
+
         _categoryChangeRepo.AddDeleteEntry(category, userId);
-       _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
+        _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
+        _categoryRepository.Delete(category);
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
         EntityCache.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
@@ -95,7 +96,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
-        _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo); 
+        _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;

@@ -105,12 +105,12 @@ async function saveAnswer() {
 
                     <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                        <template class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
-                            &nbsp {{ props.comment.answers.length }} Beitrag
-                        </template>
-                        <template class="commentSpeechBubbleText" v-else>
-                            &nbsp {{ props.comment.answers.length }} Beiträge
-                        </template>
+                        <div class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
+                            &nbsp; {{ props.comment.answers.length }} Beitrag
+                        </div>
+                        <div class="commentSpeechBubbleText" v-else>
+                            &nbsp; {{ props.comment.answers.length }} Beiträge
+                        </div>
                     </span>
                 </div>
 
@@ -126,9 +126,9 @@ async function saveAnswer() {
                         <span v-html="props.comment.title"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
+                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp;
                                 {{ props.comment.answers.length }} Beitrag</span>
-                            <span class="commentSpeechBubbleText" v-else>&nbsp {{ props.comment.answers.length }}
+                            <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
                                 Beiträge</span>
                         </span>
                     </div>
@@ -137,9 +137,9 @@ async function saveAnswer() {
 
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
+                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp;
                                 {{ props.comment.answers.length }} Beitrag</span>
-                            <span class="commentSpeechBubbleText" v-else>&nbsp {{ props.comment.answers.length }}
+                            <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
                                 Beiträge</span>
                         </span>
                     </div>
@@ -147,9 +147,9 @@ async function saveAnswer() {
                         <span v-html="props.comment.text"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp
+                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp;
                                 {{ props.comment.answers.length }} Beitrag</span>
-                            <span class="commentSpeechBubbleText" v-else>&nbsp {{ props.comment.answers.length }}
+                            <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
                                 Beiträge</span>
                         </span>
                     </div>

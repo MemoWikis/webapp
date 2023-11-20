@@ -39,6 +39,7 @@ public class DeleteQuestion : IJob
     {
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
+        var userId = dataMap.GetInt("userId");
         Logg.r.Information("Job started - DeleteQuestion {id}", questionId);
 
         //delete connected db-entries
@@ -53,7 +54,7 @@ public class DeleteQuestion : IJob
             .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = " + questionId)
             .ExecuteUpdate();
 
-        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId);
+        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
         Logg.r.Information("Question {id} deleted", questionId);
 

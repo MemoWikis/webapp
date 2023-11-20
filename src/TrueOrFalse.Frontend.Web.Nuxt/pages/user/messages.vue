@@ -54,7 +54,7 @@ const forceShow = ref(false)
                     </h1>
                     <div id="messagesWrapper">
                         <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages" :message="message"
-                            :force-show="forceShow" />
+                            :force-show="forceShow" :key="message.id" />
                         <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length == 0">
                             Du hast aktuell keine ungelesenen Nachrichten.
                         </div>

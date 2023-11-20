@@ -9,9 +9,8 @@ using TrueOrFalse.Search;
 
 namespace VueApp;
 
-public class VueUsersController : Controller
+public class VueUsersController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly MeiliSearchUsers _meiliSearchUsers;
     private readonly GetTotalUsers _totalUsers;
@@ -29,7 +28,7 @@ public class VueUsersController : Controller
         QuestionValuationReadingRepo questionValuationReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        SessionUserCache sessionUserCache)
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;

@@ -12,11 +12,13 @@ public class BreadcrumbController : BaseController
     {
         _crumbtrailService = crumbtrailService;
     }
+
+    public readonly record struct GetBreadcrumbParam(int wikiId, int currentCategoryId);
     [HttpPost]
-    public JsonResult GetBreadcrumb([FromBody] BreadcrumbRequest breadcrumbRequest)
+    public JsonResult GetBreadcrumb([FromBody] GetBreadcrumbParam param)
     {
-        var wikiId = breadcrumbRequest.WikiId;
-        int currentCategoryId= breadcrumbRequest.CurrentCategoryId;
+        var wikiId = param.wikiId;
+        int currentCategoryId = param.currentCategoryId;
 
         var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
@@ -71,6 +73,7 @@ public class BreadcrumbController : BaseController
         });
     }
 
+    [HttpGet]
     public JsonResult GetPersonalWiki()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
@@ -96,11 +99,5 @@ public class BreadcrumbController : BaseController
     {
         public string Name { get; set; }
         public int Id { get; set; }
-    }
-
-    public class BreadcrumbRequest
-    {
-        public int WikiId { get; set; }
-        public int CurrentCategoryId { get; set; }
     }
 }

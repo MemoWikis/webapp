@@ -68,7 +68,7 @@ watch(showFilterDropdown, (val) => {
                         class="button-placeholder">
                         Wähle deine Fragen aus</div>
                     <div v-else class="question-filter-options-icon-container">
-                        <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay">
+                        <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay" >
                             <font-awesome-icon v-if="o.isSelected" :icon="o.icon" class="filter-icon" />
                         </template>
                         <div class="icon-counter"

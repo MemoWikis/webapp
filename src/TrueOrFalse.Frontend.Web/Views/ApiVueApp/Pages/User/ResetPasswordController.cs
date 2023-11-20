@@ -1,5 +1,4 @@
 ﻿using System;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 
@@ -55,6 +54,7 @@ public class ResetPasswordController : BaseController
         return Json(ValidateToken(token));
     }
 
+    public readonly record struct SetNewPasswordJson(string token, string password);
     [HttpPost]
     public JsonResult SetNewPassword([FromBody] SetNewPasswordJson json)
     {

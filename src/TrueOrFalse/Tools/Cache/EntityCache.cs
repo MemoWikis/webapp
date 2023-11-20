@@ -212,6 +212,11 @@ public class EntityCache : BaseEntityCache
         AddOrUpdate(Users, user);
     }
 
+    public static ICollection<UserCacheItem> GetAllUsers()
+    {
+        return Users.Values; 
+    }
+
     public static void RemoveUser(int id)
     {
         Remove(GetUserById(id));

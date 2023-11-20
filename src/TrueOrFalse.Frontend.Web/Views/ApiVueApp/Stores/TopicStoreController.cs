@@ -1,13 +1,10 @@
-﻿using HelperClassesControllers;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class TopicStoreController : Controller
+public class TopicStoreController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
@@ -17,42 +14,43 @@ public class TopicStoreController : Controller
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor)
+        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryRepository = categoryRepository;
         _httpContextAccessor = httpContextAccessor;
     }
 
+    public readonly record struct SaveTopicParam(int id, string name, bool saveName, string content, bool saveContent);
+
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic([FromBody] TopicStoreHelper.SaveTopicJson json)
+    public JsonResult SaveTopic([FromBody] SaveTopicParam param)
     {
-        if (!_permissionCheck.CanEditCategory(json.id))
+        if (!_permissionCheck.CanEditCategory(param.id))
             return Json(new RequestResult
             {
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.MissingRights
             });
 
-        var categoryCacheItem = EntityCache.GetCategory(json.id);
-        var category = _categoryRepository.GetById(json.id);
+        var categoryCacheItem = EntityCache.GetCategory(param.id);
+        var category = _categoryRepository.GetById(param.id);
 
         if (categoryCacheItem == null || category == null)
             return Json(false);
 
-        if (json.saveName)
+        if (param.saveName)
         {
-            categoryCacheItem.Name = json.name;
-            category.Name = json.name;
+            categoryCacheItem.Name = param.name;
+            category.Name = param.name;
         }
 
-        if (json.saveContent)
+        if (param.saveContent)
         {
-            categoryCacheItem.Content = json.content;
-            category.Content = json.content;
+            categoryCacheItem.Content = param.content;
+            category.Content = param.content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
         _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);

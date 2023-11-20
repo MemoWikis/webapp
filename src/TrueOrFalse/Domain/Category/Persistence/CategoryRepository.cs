@@ -218,7 +218,7 @@ public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstanc
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(
         Category category,
-        int authorId,
+        int authorId = 0,
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,

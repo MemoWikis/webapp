@@ -10,9 +10,8 @@ using Seedworks.Web.State;
 using TrueOrFalse;
 
 namespace VueApp;
-public class QuickCreateQuestionController : Controller
+public class QuickCreateQuestionController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly QuestionInKnowledge _questionInKnowledge;
     private readonly LearningSessionCache _learningSessionCache;
@@ -42,7 +41,11 @@ public class QuickCreateQuestionController : Controller
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo, QuestionChangeRepo questionChangeRepo, SessionUiData sessionUiData, ImageStore imageStore, PermissionCheck permissionCheck)
+        QuestionReadingRepo questionReadingRepo, 
+        QuestionChangeRepo questionChangeRepo, 
+        SessionUiData sessionUiData, 
+        ImageStore imageStore, 
+        PermissionCheck permissionCheck) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _learningSessionCreator = learningSessionCreator;
@@ -62,12 +65,20 @@ public class QuickCreateQuestionController : Controller
         _imageStore = imageStore;
         _permissionCheck = permissionCheck;
     }
-
+    public readonly record struct CreateFlashcardParam(
+        int TopicId,
+        string TextHtml,
+        string Answer,
+        int Visibility,
+        bool AddToWishknowledge,
+        int LastIndex,
+        LearningSessionConfig SessionConfig
+    );
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult CreateFlashcard([FromBody] FlashCardLoader flashCardJson)
+    public JsonResult CreateFlashcard([FromBody] CreateFlashcardParam param)
     {
-        var safeText = GetSafeText(flashCardJson.TextHtml);
+        var safeText = GetSafeText(param.TextHtml);
         if (safeText.Length <= 0)
             return Json(new RequestResult
             {
@@ -77,12 +88,12 @@ public class QuickCreateQuestionController : Controller
 
         var question = new Question();
 
-        question.TextHtml = flashCardJson.TextHtml;
+        question.TextHtml = param.TextHtml;
         question.Text = safeText;
         question.SolutionType = SolutionType.FlashCard;
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard();
-        solutionModelFlashCard.Text = flashCardJson.Answer;
+        solutionModelFlashCard.Text = param.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
             return Json(new RequestResult
@@ -96,18 +107,18 @@ public class QuickCreateQuestionController : Controller
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Categories = new List<Category>
         {
-            _categoryRepository.GetById(flashCardJson.TopicId)
+            _categoryRepository.GetById(param.TopicId)
         };
-        var visibility = (QuestionVisibility)flashCardJson.Visibility;
+        var visibility = (QuestionVisibility)param.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
-        if (flashCardJson.AddToWishknowledge)
+        if (param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), flashCardJson.LastIndex, flashCardJson.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
         var questionController = new VueEditQuestionController(_sessionUser,
             _learningSessionCache,
             _permissionCheck,
@@ -131,17 +142,6 @@ public class QuickCreateQuestionController : Controller
             success = true,
             data = questionController.LoadQuestion(question.Id).SessionIndex
         });
-    }
-
-    public class FlashCardLoader
-    {
-        public int TopicId { get; set; }
-        public string TextHtml { get; set; }
-        public string Answer { get; set; }
-        public int Visibility { get; set; }
-        public bool AddToWishknowledge { get; set; }
-        public int LastIndex { get; set; }
-        public LearningSessionConfig SessionConfig { get; set; }
     }
 
     private string GetSafeText(string text)

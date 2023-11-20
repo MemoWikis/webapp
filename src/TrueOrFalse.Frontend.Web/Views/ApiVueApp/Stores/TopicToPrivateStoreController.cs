@@ -1,49 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using HelperClassesControllers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class TopicToPrivateStoreController : Controller
+public class TopicToPrivateStoreController : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public TopicToPrivateStoreController(SessionUser sessionUser,
-        PermissionCheck permissionCheck, 
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
+        PermissionCheck permissionCheck,
         CategoryRepository categoryRepository,
         QuestionReadingRepo questionReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
         QuestionWritingRepo questionWritingRepo,
-        SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) 
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _categoryRepository = categoryRepository;
         _questionReadingRepo = questionReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _questionWritingRepo = questionWritingRepo;
         _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -202,9 +184,10 @@ public class TopicToPrivateStoreController : Controller
         });
     }
 
+    public readonly record struct SetQuestionsToPrivateJson(List<int> questionIds);
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public void SetQuestionsToPrivate([FromBody] TopicToPrivateStoreHelper.SetQuestionsToPrivateJson json)
+    public void SetQuestionsToPrivate([FromBody] SetQuestionsToPrivateJson json)
     {
         foreach (var questionId in json.questionIds)
         {

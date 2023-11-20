@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using VueApp;
 
-
-public class AppController : Controller
+public class AppController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
 
-    public AppController(VueSessionUser vueSessionUser)
+    public AppController(SessionUser sessionUser, VueSessionUser vueSessionUser) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
     }
@@ -15,8 +14,7 @@ public class AppController : Controller
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        var currentUser = _vueSessionUser.GetCurrentUserData();
-        return Json(currentUser);
+        return Json(_vueSessionUser.GetCurrentUserData());
     }
 
     [HttpGet]
@@ -27,7 +25,7 @@ public class AppController : Controller
             RootWiki = new
             {
                 Id = RootCategory.RootCategoryId,
-                Name = EntityCache.GetCategory(RootCategory.RootCategoryId).Name
+                Name = EntityCache.GetCategory(RootCategory.RootCategoryId)?.Name
             },
             MainTopics = RootCategory.MainCategoryIds.Select(id => new
             {

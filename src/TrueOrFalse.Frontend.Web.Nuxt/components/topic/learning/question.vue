@@ -123,7 +123,7 @@ async function loadQuestionData() {
 
 }
 
-function expandQuestion() {
+function expandQuestionContainer() {
     showFullQuestion.value = !showFullQuestion.value
     if (allDataLoaded.value == false) {
         loadQuestionData()
@@ -132,7 +132,7 @@ function expandQuestion() {
 
 watch(() => props.expandQuestion, (val) => {
     if (val != showFullQuestion.value)
-        expandQuestion()
+        expandQuestionContainer()
 })
 
 function highlightCode(elementId: string) {
@@ -277,13 +277,13 @@ function hasContent(str: string) {
         <div class="questionSectionFlex">
             <div class="questionContainer">
                 <div class="questionBodyTop row">
-                    <div class="questionImg col-xs-1" @click="expandQuestion()">
+                    <div class="questionImg col-xs-1" @click="expandQuestionContainer()">
                         <Image :src="props.question.ImageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader">
                             <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId"
-                                @click="expandQuestion()">
+                                @click="expandQuestionContainer()">
                                 <div v-html="questionTitleHtml" v-if="questionTitleHtml != null">
 
                                 </div>
@@ -291,8 +291,8 @@ function hasContent(str: string) {
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
                                 </div>
                             </div>
-                            <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestion()">
-                                <div class="iconContainer float-right" @click="expandQuestion()">
+                            <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestionContainer()">
+                                <div class="iconContainer float-right" @click="expandQuestionContainer()">
                                     <font-awesome-icon icon="fa-solid fa-angle-down" class="rotateIcon"
                                         :class="{ open: showFullQuestion }" />
                                 </div>

@@ -11,9 +11,8 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 public class QuestionLandingPageController
-    : Controller
+    : BaseController
 {
-    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly TotalsPersUserLoader _totalsPersUserLoader;
@@ -31,7 +30,7 @@ public class QuestionLandingPageController
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;

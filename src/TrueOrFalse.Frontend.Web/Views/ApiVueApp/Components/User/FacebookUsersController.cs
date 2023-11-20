@@ -9,11 +9,10 @@ using Newtonsoft.Json.Linq;
 
 namespace VueApp;
 
-public class FacebookUsersController : Controller
+public class FacebookUsersController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly SessionUser _sessionUser;
     private readonly RegisterUser _registerUser;
    
     private readonly JobQueueRepo _jobQueueRepo;
@@ -22,7 +21,7 @@ public class FacebookUsersController : Controller
         UserReadingRepo userReadingRepo,
         SessionUser sessionUser,
         RegisterUser registerUser,
-        JobQueueRepo jobQueueRepo)
+        JobQueueRepo jobQueueRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
         _userReadingRepo = userReadingRepo;
@@ -31,8 +30,9 @@ public class FacebookUsersController : Controller
         _jobQueueRepo = jobQueueRepo;
     }
 
+    public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
     [HttpPost]
-    public async Task<JsonResult> Login([FromBody] FacebookHelper.LoginJson json)
+    public async Task<JsonResult> Login([FromBody] LoginJson json)
     {
         var user = _userReadingRepo.UserGetByFacebookId(json.facebookUserId);
 
@@ -63,8 +63,10 @@ public class FacebookUsersController : Controller
         });
     }
 
+    public readonly record struct CreateAndLoginJson(FacebookUserCreateParameter facebookUser, string facebookAccessToken);
+
     [HttpPost]
-    public async Task<JsonResult> CreateAndLogin([FromBody] FacebookHelper.CreateAndLoginJson json)
+    public async Task<JsonResult> CreateAndLogin([FromBody] CreateAndLoginJson json)
     {
         if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken, json.facebookUser.id))
         {

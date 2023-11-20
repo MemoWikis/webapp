@@ -95,6 +95,7 @@ export const messages: any = {
         const keyParts = messageKey?.split('_');
         let currentLevel = messages;
         for (const part of (keyParts ?? ["WillReturnUndefined"])) {
+            // eslint-disable-next-line no-prototype-builtins
             if (currentLevel.hasOwnProperty(part)) {
                 currentLevel = currentLevel[part];
             } else {

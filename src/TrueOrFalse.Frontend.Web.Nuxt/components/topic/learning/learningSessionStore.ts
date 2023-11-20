@@ -63,7 +63,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 steps: Step[],
                 activeQuestionCount: number,
                 lastQuestionInList: Step
-            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/?index=${this.lastIndexInQuestionList}`, {
+            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/${this.lastIndexInQuestionList}`, {
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -148,7 +148,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
-            debugger;
+
             if (result != null) {
                 this.steps = result.steps
                 this.setCurrentStep(result.currentStep)

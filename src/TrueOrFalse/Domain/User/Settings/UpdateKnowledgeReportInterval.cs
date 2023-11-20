@@ -4,7 +4,6 @@ using TrueOrFalse.Web;
 
 public class UpdateKnowledgeReportInterval
 {
-
     public const string CommandName = "kri";
     public const string ExpirationDateFormat = "yyyy-MM-dd";
 
