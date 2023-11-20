@@ -25,7 +25,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
     public void Init(int typeId)
     {
-        throw new NotImplementedException();
+        Id = typeId;
     }
 
     public ImageUrl GetUrl_128px_square(IUserTinyModel user) { return GetUrl(user, 128, isSquare: true);}

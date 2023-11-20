@@ -42,7 +42,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         using (var stream = wikiMetaData.GetThumbImageStream())
         {
             //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
-            SaveImageToFile.Run(stream, imageSettings, _logg);
+            SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
         }
 
         _imgMetaDataWritingRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
@@ -69,14 +69,14 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         {
             using (var stream = tmpImage.GetStream())
             {
-                SaveImageToFile.Run(stream, imageSettings, _logg);
+                SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
             }
         }
         else
         {
             using (var stream = tmpImage.RelocateImage(relocateUrl))
             {
-                SaveImageToFile.Run(stream, imageSettings, _logg);
+                SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
             }
         }
 
@@ -97,7 +97,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         using var stream = imageFile.OpenReadStream();
 
-        SaveImageToFile.Run(stream, imageSettings, _logg);
+        SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
 
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }

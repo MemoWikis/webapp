@@ -6,9 +6,11 @@ services:
       - "${BACKEND_PORT:-7000}:5069"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images:/app/Images
     networks:
       - environment-specific-network
-    environment:
+    # environment:
       # - EXAMPLE_ENVIRONMENT_VARIABLE=${EXAMPLE_ENVIRONMENT_VARIABLE:-error}
       
 networks:

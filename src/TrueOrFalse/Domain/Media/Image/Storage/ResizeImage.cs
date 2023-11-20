@@ -1,58 +1,70 @@
-﻿using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
+﻿using SkiaSharp;
 
 public class ResizeImage
 {
-    public static void Run(Image image, string basePathAndId, int width, bool isSquare)
+    public static string? RunAndReturnPath(SKBitmap originalBitmap, string basePathAndId, int width, bool isSquare)
     {
-        if (image.Width < width)
-            width = image.Width;
-        
-        if (!isSquare)
+        try
         {
-            var scale = (float)width / image.Width;
-            var height = (int)(image.Height * scale);
-            using (var resized = new Bitmap(width, height))
+            if (originalBitmap.Width < width)
+                width = originalBitmap.Width;
+
+            var height = width;
+            if (!isSquare)
             {
-                using (var graphics = Graphics.FromImage(resized))
+                var scale = (float)width / originalBitmap.Width;
+                height = (int)(originalBitmap.Height * scale);
+            }
+
+            using var resizedImage = new SKBitmap(width, height);
+            using (var canvas = new SKCanvas(resizedImage))
+            {
+                ConfigureCanvas(canvas);
+
+                var destRect = new SKRect(0, 0, width, height);
+                if (isSquare && originalBitmap.Width > originalBitmap.Height)
                 {
-                    ConfigureGraphics(graphics);
-                    graphics.DrawImage(image, 0, 0, width, height);
+                    float scale = (float)width / originalBitmap.Height;
+                    float scaledWidth = originalBitmap.Width * scale;
+                    destRect = new SKRect(-(scaledWidth - width) / 2, 0, scaledWidth - (scaledWidth - width) / 2, height);
+                }
+                else if (isSquare)
+                {
+                    float scale = (float)width / originalBitmap.Width;
+                    float scaledHeight = originalBitmap.Height * scale;
+                    destRect = new SKRect(0, -(scaledHeight - height) / 2, width, scaledHeight - (scaledHeight - height) / 2);
                 }
 
-                resized.Save(basePathAndId + "_" + width + ".jpg", ImageFormat.Jpeg);
+                canvas.DrawBitmap(originalBitmap, destRect,
+                    paint: new SKPaint
+                    {
+                        IsAntialias = true,
+                        FilterQuality = SKFilterQuality.High,
+                        IsDither = true
+                    });
             }
-            return;
+
+            // Save the image
+            var imagePath = basePathAndId + "_" + width + ImageUrl.SquareSuffix(true) + ".jpg";
+            using (var image = SKImage.FromBitmap(resizedImage))
+            using (var data = image.Encode(SKEncodedImageFormat.Jpeg, 100))
+            {
+                using (var stream = File.OpenWrite(imagePath))
+                {
+                    data.SaveTo(stream);
+                }
+            }
+            return imagePath; // Return the path to the saved image
         }
-
-        //isSquare
-        using (var resized = new Bitmap(width, width))
+        catch (Exception ex)
         {
-            using (var graphics = Graphics.FromImage(resized))
-            {
-                ConfigureGraphics(graphics);
-                if (image.Width > image.Height)
-                {
-                    var scale = (float)width / image.Height;
-                    graphics.DrawImage(image, -(image.Width * scale - width) / 2, 0, image.Width * scale, width);
-                }
-                else
-                {
-                    var scale = (float)width / image.Width;
-                    graphics.DrawImage(image, 0, -(image.Height * scale - width) / 2, width, image.Height * scale);
-                }
-            }
-
-            resized.Save(basePathAndId + "_" + width + ImageUrl.SquareSuffix(true) + ".jpg", ImageFormat.Jpeg);
+            Logg.Error(ex);
+            return null;
         }
     }
 
-    public static void ConfigureGraphics(Graphics graphics)
+    private static void ConfigureCanvas(SKCanvas canvas)
     {
-        graphics.Clear(Color.White);
-        graphics.SmoothingMode = SmoothingMode.AntiAlias;
-        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+        canvas.Clear(SKColors.White);
     }
 }

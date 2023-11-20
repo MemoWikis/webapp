@@ -14,7 +14,6 @@ public class ImageMetaDataCache : BaseEntityCache
 
     public static bool IsInCache(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-        ICollection<ImageMetaData> questionImageMetaDataCache = null;
         if (imageType == ImageType.Question)
             if (RequestCache_Questions(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
                 return true;
@@ -29,7 +28,6 @@ public class ImageMetaDataCache : BaseEntityCache
     public static ImageMetaData? FromCache(int typeId, ImageType imageType,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
-        ICollection<ImageMetaData> imageMetaDataCache = null;
         if (imageType == ImageType.Question)
         {
             return RequestCache_Questions(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
@@ -37,7 +35,7 @@ public class ImageMetaDataCache : BaseEntityCache
 
         if (imageType == ImageType.Category)
         {
-            return RequestCache_Questions(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
+            return RequestCache_Categories(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
         }
 
         return null;

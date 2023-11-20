@@ -2,68 +2,53 @@
 using System.Net.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using TrueOrFalse.Environment;
 
 public class Settings
 {
-    private static readonly AppSettingsReader _settingReader = new();
+    private static IConfiguration _configuration;
 
+    public static void Initialize(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+    
     [ThreadStatic]
     public static bool UseWebConfig;
-    public static string WebhookKeyStripe => OverwrittenConfig.ValueString("WebhookKeyStripe");
-    public static string CanonicalHost => GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
-    public static string GoogleApiKey => GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
-    public static string FacebookAppId => OverwrittenConfig.ValueString("FacebookAppId");
-    public static string FacebookAppSecret => OverwrittenConfig.ValueString("FacebookAppSecret");
-    public static string SaltCookie = "someSalt";
-    public static string EmailFrom = "team@memucho.de";
-    public static string EmailToMemucho = "team@memucho.de";
-    public static string MemuchoCookie = "memucho";
-    public static string PersistentLogin = "persistentLogin";
-    public static int MemuchoUserId = 26;
-    public static bool WithNHibernateStatistics = true;
-    public static string LomExportPath => GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
-    public static bool ShowAdvertisment; 
-    public static string MeiliSearchUrl => OverwrittenConfig.ValueString("MeiliSearchUrl");
-    public static string MeiliSearcMasterKey => OverwrittenConfig.ValueString("MeiliSearchMasterKey");
-    public static string StripeBaseUrl => OverwrittenConfig.ValueString("StripeBaseUrl");
+    // LoginProvider properties
+    public static string FacebookAppId => _configuration["LoginProvider:FacebookAppId"];
+    public static string FacebookAppSecret => _configuration["LoginProvider:FacebookAppSecret"];
 
-    public static string ImagePath => OverwrittenConfig.ValueString("imagePath"); 
+    // Stripe properties
+    public static string WebhookKeyStripe => _configuration["Stripe:WebhookKeyStripe"];
+    public static string StripeBaseUrl => _configuration["Stripe:StripeBaseUrl"];
 
-    /// <summary>Develop / Stage / Live</summary>
-    public static string Environment(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => OverwrittenConfig.ValueString("environment");
-    public static string UpdateUserSettingsKey(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => OverwrittenConfig.ValueString("updateUserSettingsKey");
-    public static bool DisableAllJobs(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-        => OverwrittenConfig.ValueBool("disableAllJobs");
-    public static string ConnectionString(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-    {
-        var result = OverwrittenConfig.Value("connectionString");
-        return result.HasValue ? result.Value : "No value in the Overwritten.config" ;
-    }
+    // Meilisearch properties
+    public static string MeiliSearchUrl => _configuration["Meilisearch:MeiliSearchUrl"];
+    public static string MeiliSearchMasterKey => _configuration["Meilisearch:MeiliSearchMasterKey"];
 
-    private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)
-    {
-        if (overwrittenConfigValueResult.HasValue)
-            return overwrittenConfigValueResult.Value;
+    // General properties
+    public static string CanonicalHost => _configuration["General:CanonicalHost"];
+    public static string SaltCookie => _configuration["General:SaltCookie"];
+    public static int MemuchoUserId => int.Parse(_configuration["General:MemuchoUserId"]);
+    public static string Environment => _configuration["General:Environment"];
+    public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
 
-        return Get<string>(configKey);
-    }
+    // Settings properties
+    public static bool WithNHibernateStatistics => bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
+    public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
 
-    private static T? Get<T>(string settingKey){
-        try
-        {
-            return (T)_settingReader.GetValue(settingKey, typeof(T));
-        }
-        catch
-        {
-            return default;
-        }
-    }
+    // Email properties
+    public static string EmailFrom => _configuration["Email:EmailFrom"];
+    public static string EmailToMemucho => _configuration["Email:EmailToMemucho"];
 
-    public Settings(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
-    {
-        var environment = Environment(httpContext, webHostEnvironment);
-        ShowAdvertisment = environment != "Live" || environment != "Stage";
-    }
+    // Paths properties
+    public static string LomExportPath => _configuration["Paths:LomExportPath"];
+    public static string ImagePath => string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])
+        ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath, "Images")
+        : _configuration["Paths:AbsoluteImagePath"];
+
+    // Connection properties
+    public static string ConnectionString => _configuration["General:ConnectionString"];
 }

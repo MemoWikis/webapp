@@ -8,8 +8,8 @@ public class SetImageSettings : ImageSettings, IImageSettings
     public ImageType ImageType => ImageType.QuestionSet;
     public IEnumerable<int> SizesSquare => new[] { 206, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
-    public override string  BasePath => Path.Combine(ImageFolderPath(), "QuestionSets");
-    public string BaseDummyUrl => Path.Combine(ImageFolderPath(), "no-set-");
+    public override string  BasePath => Path.Combine(Settings.ImagePath, "QuestionSets");
+    public string BaseDummyUrl => Path.Combine(Settings.ImagePath, "no-set-");
 
     public SetImageSettings(IHttpContextAccessor httpContextAccessor) :
         base(httpContextAccessor)  {}

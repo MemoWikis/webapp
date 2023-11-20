@@ -11,8 +11,8 @@ public class WritePersistentLoginToCookie
         };
         var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
 
-        httpContextAccessor.HttpContext.Response.Cookies.Delete(Settings.PersistentLogin);
-        httpContextAccessor.HttpContext.Response.Cookies.Append(Settings.PersistentLogin, userId + "-x-" + loginGuid, cookieOptions);
+        httpContextAccessor.HttpContext.Response.Cookies.Delete(PersistentLoginCookie.Key);
+        httpContextAccessor.HttpContext.Response.Cookies.Append(PersistentLoginCookie.Key, userId + "-x-" + loginGuid, cookieOptions);
 
     }        
 }

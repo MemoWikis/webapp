@@ -1,5 +1,4 @@
 ﻿
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 public abstract class ImageSettings
@@ -15,22 +14,12 @@ public abstract class ImageSettings
 
     public string ServerPathAndId()
     {
-        return Path.Combine(ImageFolderPath(), BasePath, Id.ToString());
-    }
-
-    public static string ImageFolderPath()
-    {
-        return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "TrueOrFalse.Frontend.Web", "Images");
-    }
-
-    public static string SolutionPath()
-    {
-        return Path.Combine(new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.Parent.FullName, "TrueOrFalse.Frontend.Web"); 
+        return Path.Combine(Settings.ImagePath, BasePath, Id.ToString());
     }
 
     public void DeleteFiles()
     {
-        var filesToDelete = Directory.GetFiles(ImageFolderPath(), Id + "_*");
+        var filesToDelete = Directory.GetFiles(Settings.ImagePath, Id + "_*");
 
         if (filesToDelete.Length > 33)
             throw new Exception("unexpected high amount of files");

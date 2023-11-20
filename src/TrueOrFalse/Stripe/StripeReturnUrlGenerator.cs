@@ -15,7 +15,7 @@ public class StripeReturnUrlGenerator
     }
     public string Create(string targetPath)
     {
-        var server = Settings.Environment(_httpContextAccessor.HttpContext, _webHostEnvironment);
+        var server = Settings.Environment;
         var url = "";
         if (!string.IsNullOrEmpty(Settings.StripeBaseUrl))
         {

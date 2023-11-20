@@ -38,6 +38,14 @@
 		<LangVersion>10</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
+  		<None Remove="appsettings.*.json" />
+  		<None Remove="appsettings.json" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
+  		<Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="AngleSharp" Version="1.0.4" />
 		<PackageReference Include="Antlr3.Runtime" Version="3.5.1" />
 		<PackageReference Include="Autofac" Version="7.1.0" />

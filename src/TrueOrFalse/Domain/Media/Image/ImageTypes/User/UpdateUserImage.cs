@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
-public class UserImageStore
+public class UpdateUserImage
 {
     public static void Run(IFormFile imageFile, int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment, Logg logg)
     {
@@ -10,17 +10,9 @@ public class UserImageStore
 
         using var stream = imageFile.OpenReadStream();
         var userImageSettings = new UserImageSettings(userId, httpContextAccessor); 
-        SaveImageToFile.Run(
-        stream,
-        userImageSettings,
-        logg
+        SaveImageToFile.RemoveExistingAndSaveAllSizes(
+            stream,
+            userImageSettings
         );
     }
-
-
-
-
-
-
-
 }

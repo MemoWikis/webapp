@@ -151,7 +151,7 @@ public class VueUserSettingsController : BaseController
         }
 
         if (form.file != null)
-            UserImageStore.Run(form.file,
+            UpdateUserImage.Run(form.file,
                 _sessionUser.UserId,
                 _httpContextAccessor,
                 _webHostEnvironment,

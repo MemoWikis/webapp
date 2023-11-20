@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Threading.Tasks;
-using TrueOrFalse.Search;
+﻿using TrueOrFalse.Search;
 
 public interface IGlobalSearch
 {

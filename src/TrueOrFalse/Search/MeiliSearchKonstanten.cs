@@ -12,6 +12,6 @@ namespace TrueOrFalse.Search
         public const string Questions = "Questions";
         public const string  Users = "Users";
         public static readonly string Url = Settings.MeiliSearchUrl;
-        public static readonly string MasterKey = Settings.MeiliSearcMasterKey;
+        public static readonly string MasterKey = Settings.MeiliSearchMasterKey;
     }
 }

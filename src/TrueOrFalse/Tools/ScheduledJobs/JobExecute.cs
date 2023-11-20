@@ -97,7 +97,7 @@ public class JobExecute
                 {
                     Logg.r.Information("Job is already running: {jobName}, {Environment}", 
                         jobName,
-                        Settings.Environment(httpContextAccessor.HttpContext, webHostEnvironment));
+                        Settings.Environment);
 
                     return true;
                 }

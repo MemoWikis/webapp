@@ -16,7 +16,7 @@ public class SessionStartMiddleware
 
     public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
     {
-        var cookieValue = _httpContextAccessor.HttpContext?.Request.Cookies[Settings.PersistentLogin];
+        var cookieValue = _httpContextAccessor.HttpContext?.Request.Cookies[PersistentLoginCookie.Key];
         if (cookieValue != null)
         {
             // Autofac

@@ -35,7 +35,6 @@ builder.Services.AddControllersWithViews()
     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
 });
 
-
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSession(options =>
@@ -77,6 +76,8 @@ builder.WebHost.ConfigureServices(services =>
 {
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
 });
+
+Settings.Initialize(builder.Configuration);
 
 var app = builder.Build();
 var env = app.Environment;
