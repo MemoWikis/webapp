@@ -35,6 +35,9 @@ async function command(commandString: string, e: Event) {
         case 'orderedList':
             props.editor.commands.toggleOrderedList()
             break
+        case 'taskList':
+            props.editor.commands.toggleTaskList()
+            break
         case 'blockquote':
             props.editor.commands.toggleBlockquote()
             break
@@ -144,6 +147,11 @@ const { isMobile } = useDevice()
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }"
                     @mousedown="command('orderedList', $event)">
                     <font-awesome-icon icon="fa-solid fa-list-ol" />
+                </button>
+
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('taskList') }"
+                    @mousedown="command('taskList', $event)">
+                    <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
