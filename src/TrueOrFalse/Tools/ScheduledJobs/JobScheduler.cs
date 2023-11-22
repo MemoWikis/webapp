@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Quartz.Impl;
+using TrueOrFalse.Environment;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools.ScheduledJobs.Jobs;
 
@@ -12,15 +16,21 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         static JobScheduler()
         {
-            var container = AutofacWebInitializer.Run();
-
-            _scheduler =  StdSchedulerFactory.GetDefaultScheduler();
-            _scheduler.JobFactory = new AutofacJobFactory(container);
-            _scheduler.Start();
+            _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync()).Value.Result;
         }
 
         public static void EmptyMethodToCallConstructor()
         {
+        }
+
+        public static async Task<IScheduler> InitializeAsync()
+        {
+            var container = AutofacWebInitializer.Run();
+            var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+            scheduler.JobFactory = new AutofacJobFactory(container);
+            scheduler.Start();
+
+            return scheduler;
         }
 
         public static void Shutdown()
@@ -28,9 +38,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _scheduler.Shutdown(waitForJobsToComplete:true);
         }
 
-        public static void Start()
+        public static void Start(RunningJobRepo runningJobRepo)
         {
-            Sl.R<RunningJobRepo>().TruncateTable();
+           runningJobRepo.TruncateTable();
             
             Schedule_CleanupWorkInProgressQuestions();
             Schedule_RecalcKnowledgeStati();
@@ -181,21 +191,23 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 TriggerBuilder.Create().StartNow().Build());
         }
 
-        public static void StartImmediately_DeleteQuestion(int questionId)
+        public static void StartImmediately_DeleteQuestion(int questionId, int userId)
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<DeleteQuestion>()
                     .UsingJobData("questionId", questionId)
+                    .UsingJobData("userId", userId)
                     .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }
 
-        public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId)
+        public static void StartImmediately_ModifyCategoryRelation(int childCategoryId, int parentCategoryId, int authorId)
         {
             _scheduler.ScheduleJob(
                 JobBuilder.Create<AddParentCategoryInDb>()
                     .UsingJobData("childCategoryId", childCategoryId)
                     .UsingJobData("parentCategoryId", parentCategoryId)
+                    .UsingJobData("authorId", authorId)
                     .Build(),
                 TriggerBuilder.Create().StartNow().Build());
         }

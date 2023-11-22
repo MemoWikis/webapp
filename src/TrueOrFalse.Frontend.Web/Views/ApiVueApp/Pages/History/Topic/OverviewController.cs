@@ -1,22 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
 using FluentNHibernate.Conventions;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
-using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class HistoryTopicOverviewController : Controller
+public class HistoryTopicOverviewController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
     private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
 
-    public HistoryTopicOverviewController(PermissionCheck permissionCheck)
+    public HistoryTopicOverviewController(PermissionCheck permissionCheck,
+        CategoryChangeRepo categoryChangeRepo,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment, SessionUser sessionUser) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryChangeRepo = categoryChangeRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
@@ -26,7 +38,7 @@ public class HistoryTopicOverviewController : Controller
 
         if (_permissionCheck.CanView(topic))
         {
-            _allOrderedTopicChanges = Sl.CategoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
+            _allOrderedTopicChanges = _categoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
 
             var days = _allOrderedTopicChanges
                 .GroupBy(change => change.DateCreated.Date)
@@ -39,10 +51,10 @@ public class HistoryTopicOverviewController : Controller
             {
                 topicName = topic.Name,
                 days = days
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
-        return Json(null, JsonRequestBehavior.AllowGet);
+        return Json(null);
     }
 
     public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
@@ -109,12 +121,14 @@ public class HistoryTopicOverviewController : Controller
     {
         if (change.AuthorId < 1)
             return null;
-        var author = SessionUserCache.GetItem(change.AuthorId);
+        var author = _sessionUserCache.GetItem(change.AuthorId);
         return new Author
         {
             id = author.Id,
             name = author.Name,
-            imgUrl = new UserImageSettings(author.Id).GetUrl_50px_square(author).Url,
+            imgUrl = new UserImageSettings(author.Id,
+                _httpContextAccessor).GetUrl_50px_square(author)
+                .Url,
         };
     }
 

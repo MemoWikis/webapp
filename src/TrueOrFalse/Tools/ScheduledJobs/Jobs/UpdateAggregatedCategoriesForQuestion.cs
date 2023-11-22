@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 
 
@@ -7,29 +9,44 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class UpdateAggregatedCategoriesForQuestion : IJob
     {
+        private readonly JobQueueRepo _jobQueueRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly SessionUser _sessionUser;
+        private readonly CategoryRepository _categoryRepository;
 
-        public UpdateAggregatedCategoriesForQuestion(SessionUser sessionUser)
+        public UpdateAggregatedCategoriesForQuestion(JobQueueRepo jobQueueRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
+            _jobQueueRepo = jobQueueRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
+        public UpdateAggregatedCategoriesForQuestion(SessionUser sessionUser, CategoryRepository categoryRepository)
         {
             _sessionUser = sessionUser;
+            _categoryRepository = categoryRepository;
         }
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
-            Logg.r().Information("Job started - Update Aggregated Categories from Update Question");
+            Logg.r.Information("Job started - Update Aggregated Categories from Update Question");
 
             var dataMap = context.JobDetail.JobDataMap;
             var categoryIds = (List<int>)dataMap["categoryIds"];
 
             var aggregatedCategoriesToUpdate =
-                CategoryAggregation.GetAggregatingAncestors(Sl.CategoryRepo.GetByIds(categoryIds));
+                CategoryAggregation.GetAggregatingAncestors(_categoryRepository.GetByIds(categoryIds), _categoryRepository);
 
             foreach (var category in aggregatedCategoriesToUpdate)
             {
                 category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
-                Sl.CategoryRepo.Update(category);
-                KnowledgeSummaryUpdate.ScheduleForCategory(category.Id);
-                Logg.r().Information("Update Category from Update Question - {id}", category.Id);
+                _categoryRepository.Update(category);
+                KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
+                Logg.r.Information("Update Category from Update Question - {id}", category.Id);
             }
+
+            return Task.CompletedTask;
         }
     }
 }

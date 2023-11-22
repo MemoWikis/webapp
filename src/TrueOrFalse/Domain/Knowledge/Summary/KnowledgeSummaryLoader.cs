@@ -1,11 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using TrueOrFalse.Domain.Question.QuestionValuation;
 
 public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
 {
-    public static KnowledgeSummary RunFromDbCache(Category category, int userId)
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly SessionUserCache _sessionUserCache;
+
+    public KnowledgeSummaryLoader(CategoryValuationReadingRepo categoryValuationReadingRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo, 
+        CategoryRepository categoryRepository,
+        SessionUserCache sessionUserCache)
     {
-        var categoryValuation = Sl.CategoryValuationRepo.GetBy(category.Id, userId);
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
+        _categoryRepository = categoryRepository;
+        _sessionUserCache = sessionUserCache;
+    }
+
+    public KnowledgeSummary RunFromDbCache(Category category, int userId)
+    {
+        var categoryValuation = _categoryValuationReadingRepo.GetBy(category.Id, userId);
 
         if (categoryValuation == null)
         {
@@ -24,20 +39,23 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         );
     }
 
-    public static KnowledgeSummary RunFromDbCache(int categoryId, int userId)
+    public KnowledgeSummary RunFromDbCache(int categoryId, int userId)
     {
-        return RunFromDbCache(Sl.CategoryRepo.GetById(categoryId), userId);
+        return RunFromDbCache(_categoryRepository.GetById(categoryId), userId);
     }
 
-    public static KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    public KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
     {
         return RunFromMemoryCache(EntityCache.GetCategory(categoryId), userId);
     }
 
-    public static KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
+    public KnowledgeSummary RunFromMemoryCache(CategoryCacheItem categoryCacheItem, int userId)
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
-        var aggregatedCategories = categoryCacheItem.AggregatedCategories(PermissionCheck.Instance(userId), includingSelf: true);
+        
+        var aggregatedCategories = 
+            categoryCacheItem
+            .AggregatedCategories(new PermissionCheck(userId), includingSelf: true);
 
         foreach (var currentCategory in aggregatedCategories)
         {
@@ -45,7 +63,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         }
 
         aggregatedQuestions = aggregatedQuestions.Distinct().ToList();
-        var userValuations = SessionUserCache.GetItem(userId)?.QuestionValuations;
+        var userValuations = _sessionUserCache.GetItem(userId)?.QuestionValuations;
         var aggregatedQuestionValuations = new List<QuestionValuationCacheItem>();
         int countNoValuation = 0;
 
@@ -76,12 +94,12 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         return knowledgeSummary;
     }
 
-    public static KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
+    public KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true) 
         => Run(userId, 
             EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId).GetIds(),
             onlyValuated);
 
-    public static KnowledgeSummary Run(
+    public KnowledgeSummary Run(
         int userId, 
         IList<int> questionIds = null, 
         bool onlyValuated = true,
@@ -90,7 +108,7 @@ public class KnowledgeSummaryLoader :IRegisterAsInstancePerLifetime
         if (userId <= 0 && questionIds != null)
             return new KnowledgeSummary(notInWishKnowledge: questionIds.Count);
 
-        var questionValuations = Sl.QuestionValuationRepo.GetByUserFromCache(userId);
+        var questionValuations = new QuestionValuationCache(_sessionUserCache).GetByUserFromCache(userId);
         if (onlyValuated)
             questionValuations = questionValuations.Where(v => v.IsInWishKnowledge).ToList();
         if (questionIds != null)

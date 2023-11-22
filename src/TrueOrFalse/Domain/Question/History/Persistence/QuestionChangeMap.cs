@@ -11,7 +11,7 @@ public class QuestionChangeMap : ClassMap<QuestionChange>
         Map(x => x.Data);
         Map(x => x.ShowInSidebar);
 
-        Map(x => x.Type);
+        Map(x => x.Type).CustomType<QuestionChangeType>();
         Map(x => x.DataVersion);
         Map(x => x.DateCreated);
 

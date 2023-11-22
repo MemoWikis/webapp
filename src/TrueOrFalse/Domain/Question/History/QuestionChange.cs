@@ -1,4 +1,6 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Seedworks.Lib.Persistence;
 
 public class QuestionChange : Entity, WithDateCreated
 {
@@ -11,9 +13,10 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual int AuthorId { get; set; }
 
-    public virtual UserCacheItem Author => _author ??= EntityCache.GetUserById(AuthorId);
+    public virtual UserCacheItem Author(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) 
+        => _author ??= EntityCache.GetUserById(AuthorId);
 
-    private UserCacheItem _author;
+    private UserCacheItem? _author;
 
     public virtual QuestionChangeType Type { get; set; } 
 
@@ -34,7 +37,7 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual Question ToHistoricQuestion()
     {
-        return GetQuestionChangeData().ToQuestion(Question.Id);
+        return GetQuestionChangeData().ToQuestion(Question);
     }
 }
 

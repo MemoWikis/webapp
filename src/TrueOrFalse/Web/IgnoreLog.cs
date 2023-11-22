@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using static System.String;
+﻿using static System.String;
 
 namespace TrueOrFalse.Tools;
 
 public class IgnoreLog
 {
-    private static IEnumerable<string> _crawlers;
+    private static IEnumerable<string>? _crawlers;
 
     public static bool ContainsCrawlerInHeader(string header)
     {
@@ -19,35 +16,32 @@ public class IgnoreLog
         foreach (var crawlerName in GetCrawlers())
         {
             if (header.ToLower().IndexOf(crawlerName.Trim()) != -1)
-            {
                 return true;
-            }
         }
 
         return false;
     }
 
-    public static IEnumerable<string> GetCrawlers()
+    public static IEnumerable<string>? GetCrawlers()
     {
-        if (_crawlers == null)
-        {
+        if (_crawlers == null) 
             Initialize();
-        }
 
         return _crawlers;
     }
 
     public static void Initialize()
     {
+        var logIgnorePath = PathTo.Log_Ignore(); 
         lock ("3fb23623-caed-48fc-6e86-c595b4c0820c")
         {
-            if (!File.Exists(PathTo.Log_Ignore()))
+            if (!File.Exists(logIgnorePath))
             {
-                Logg.r().Warning($"Ignore.log is not available- {PathTo.Log_Ignore()}");
+                Logg.r.Warning($"Ignore.log is not available- {logIgnorePath}");
                 _crawlers = new List<string>();
             }
 
-            var lines = File.ReadAllLines(PathTo.Log_Ignore());
+            var lines = File.ReadAllLines(logIgnorePath);
 
             _crawlers = lines
                 .Select(line => line.Trim())

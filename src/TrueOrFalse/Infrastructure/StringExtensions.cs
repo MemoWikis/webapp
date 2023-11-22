@@ -2,17 +2,6 @@
 
 public static class StringExtensions
 {
-    public static bool StartsAndEndsWith(this string input, string searchTerm)
-    {
-        if (input== null)
-            return false;
-
-        if (input.Trim().StartsWith(searchTerm) && input.Trim().EndsWith(searchTerm))
-            return true;
-
-        return false;
-    }
-
     public static string Truncate(this string input, int maxLength, bool addEllipsis = false)
     {
         if (string.IsNullOrEmpty(input))

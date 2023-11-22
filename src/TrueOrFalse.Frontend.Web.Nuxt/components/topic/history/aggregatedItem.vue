@@ -33,4 +33,5 @@ const props = defineProps(['aggregatedItem'])
             </div>
         </div>
     </li> -->
+    <div></div>
 </template>

@@ -1,59 +1,81 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class TopicStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public TopicStoreController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    public TopicStoreController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _categoryRepository = categoryRepository;
+        _httpContextAccessor = httpContextAccessor;
     }
+
+    public readonly record struct SaveTopicParam(int id, string name, bool saveName, string content, bool saveContent);
+
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic(int id, string name, bool saveName, string content, bool saveContent)
+    public JsonResult SaveTopic([FromBody] SaveTopicParam param)
     {
-        if (!_permissionCheck.CanEditCategory(id))
-            return Json("Dir fehlen leider die Rechte um die Seite zu bearbeiten");
+        if (!_permissionCheck.CanEditCategory(param.id))
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+            });
 
-        var categoryCacheItem = EntityCache.GetCategory(id);
-        var category = Sl.CategoryRepo.GetById(categoryCacheItem.Id);
+        var categoryCacheItem = EntityCache.GetCategory(param.id);
+        var category = _categoryRepository.GetById(param.id);
 
         if (categoryCacheItem == null || category == null)
             return Json(false);
 
-        if (saveName)
+        if (param.saveName)
         {
-            categoryCacheItem.Name = name;
-            category.Name = name;
+            categoryCacheItem.Name = param.name;
+            category.Name = param.name;
         }
 
-        if (saveContent)
+        if (param.saveContent)
         {
-            categoryCacheItem.Content = content;
-            category.Content = content;
+            categoryCacheItem.Content = param.content;
+            category.Content = param.content;
         }
         EntityCache.AddOrUpdate(categoryCacheItem);
-        Sl.CategoryRepo.Update(category, _sessionUser.User, type: CategoryChangeType.Text);
+        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
-        return Json(true);
+        return Json(new RequestResult
+        {
+            success = true
+        });
     }
 
     [HttpGet]
-    public string GetTopicImageUrl(int id)
+    public string GetTopicImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewCategory(id))
-            return new CategoryImageSettings(id).GetUrl_128px(asSquare: true).Url;
+            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url;
 
         return "";
     }
 
 
     [HttpGet]
-    public JsonResult GetUpdatedKnowledgeSummary(int id)
+    public JsonResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
-        var knowledgeSummary = KnowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+        var sessionuserId = _sessionUser == null ? -1 : _sessionUser.UserId;   
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id,  sessionuserId);
 
         return Json(new
         {
@@ -61,7 +83,7 @@ public class TopicStoreController : BaseController
             needsLearning = knowledgeSummary.NeedsLearning,
             needsConsolidation = knowledgeSummary.NeedsConsolidation,
             solid = knowledgeSummary.Solid,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }
 

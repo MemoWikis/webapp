@@ -1,29 +1,43 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
 public class TopicLearningQuestionController: BaseController
 {
+    private readonly CommentRepository _commentRepository;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
-    public TopicLearningQuestionController(SessionUser sessionUser) : base(sessionUser)
+    public TopicLearningQuestionController(SessionUser sessionUser,
+        CommentRepository commentRepository, 
+        TotalsPersUserLoader totalsPersUserLoader,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
-        
+        _commentRepository = commentRepository;
+        _totalsPersUserLoader = totalsPersUserLoader;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
+
     [HttpPost]
-    public JsonResult LoadQuestionData(int questionId)
+    public JsonResult LoadQuestionData([FromRoute] int id)
     {
-        var question = EntityCache.GetQuestionById(questionId);
+        var question = EntityCache.GetQuestionById(id);
         var author = new UserTinyModel(question.Creator);
-        var authorImage = new UserImageSettings(author.Id).GetUrl_128px_square(author);
+        var authorImage = new UserImageSettings(author.Id, _httpContextAccessor)
+            .GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
-        var answerQuestionModel = new AnswerQuestionModel(question, true);
+        var answerQuestionModel = new AnswerQuestionModel(question,
+            _sessionUser.UserId,
+            _totalsPersUserLoader,
+            _sessionUserCache);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var json = Json(new RequestResult
@@ -37,9 +51,9 @@ public class TopicLearningQuestionController: BaseController
                 authorId = author.Id,
                 authorImageUrl = authorImage.Url,
                 extendedQuestion = question.TextExtendedHtml ?? "",
-                commentCount = Resolve<CommentRepository>().GetForDisplay(question.Id)
+                commentCount = _commentRepository.GetForDisplay(question.Id)
                     .Where(c => !c.IsSettled)
-                    .Select(c => new CommentModel(c))
+                    .Select(c => new CommentModel(c, _httpContextAccessor, _webHostEnvironment))
                     .ToList()
                     .Count(),
                 isCreator = author.Id == _sessionUser.UserId,
@@ -56,14 +70,14 @@ public class TopicLearningQuestionController: BaseController
     }
 
     [HttpGet]
-    public JsonResult GetKnowledgeStatus(int id)
+    public JsonResult GetKnowledgeStatus([FromRoute] int id)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;
 
-        return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned, JsonRequestBehavior.AllowGet);
+        return Json(hasUserValuation ? userQuestionValuation[id].KnowledgeStatus : KnowledgeStatus.NotLearned);
     }
 }

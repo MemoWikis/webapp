@@ -1,8 +1,12 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using static System.String;
 
 public class ImageFrontendData
-{ 
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public ImageMetaData ImageMetaData;
     public bool ImageMetaDataExists;
     public MainLicenseInfo MainLicenseInfo;
@@ -19,18 +23,19 @@ public class ImageFrontendData
     public string LicenseShortDescriptionLink;
     public string AttributionHtmlString;
     public ImageParsingNotifications ImageParsingNotifications;
-
-    public ImageFrontendData(int typeId, ImageType imageType) : this(PrepareConstructorArguments(typeId, imageType))
-    {
-    }
         
-    public ImageFrontendData(ImageMetaData imageMetaData)
+    public ImageFrontendData(ImageMetaData imageMetaData,
+        IHttpContextAccessor httpContextAccessor,
+        QuestionReadingRepo questionReadingRepo)
     {
+        _httpContextAccessor = httpContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
         if (imageMetaData == null)
             return;
 
         ImageMetaDataExists = true;
         ImageMetaData = imageMetaData;
+     
         MainLicenseInfo = !IsNullOrEmpty(ImageMetaData.MainLicenseInfo)
             ? MainLicenseInfo.FromJson(ImageMetaData.MainLicenseInfo)
             : null;
@@ -164,24 +169,20 @@ public class ImageFrontendData
         switch (imageType)
         {
             case ImageType.Category:
-                imageSettings = new CategoryImageSettings(typeId);
+                imageSettings = new CategoryImageSettings(typeId, _httpContextAccessor);
                 break;
             case ImageType.User:
-                imageSettings = new UserImageSettings(typeId);
-                break;
-            case ImageType.QuestionSet:
-
-                if(ImageMetaDataExists && ImageMetaData.IsYoutubePreviewImage)
-                    return new SetImageSettings(typeId).GetUrl(width, asSquare);
-
-                imageSettings = new SetImageSettings(typeId);
+                imageSettings = new UserImageSettings(typeId, _httpContextAccessor);
                 break;
             default:
-                imageSettings = new QuestionImageSettings(typeId);
+                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _questionReadingRepo);
                 break;
         }
 
-        return ImageUrl.Get(imageSettings, width, asSquare, arg => ImageUrl.GetFallbackImageUrl(imageSettings, width));
+        var result = new ImageUrl(_httpContextAccessor).Get(imageSettings, width, asSquare, arg =>
+            new ImageUrl(_httpContextAccessor).GetFallbackImageUrl(imageSettings, width));
+
+        return result;
     }
 
     public string RenderHtmlImageBasis(
@@ -257,10 +258,5 @@ public class ImageFrontendData
         var noFollowString = noFollow ? " rel='nofollow'" : "";
         return $"<a href='{link}'{noFollowString}>{html}</a>";
 
-    }
-
-    private static ImageMetaData PrepareConstructorArguments(int typeId, ImageType imageType)
-    {
-        return Sl.ImageMetaDataRepo.GetBy(typeId, imageType);
     }
 }

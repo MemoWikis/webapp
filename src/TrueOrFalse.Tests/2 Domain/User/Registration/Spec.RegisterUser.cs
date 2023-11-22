@@ -29,9 +29,14 @@ public class User_creation_spec : BaseTest
         var user = new User();
         user.Name = _name;
         user.EmailAddress = _emailAddress;
-        SetUserPassword.Run(_password, user);
 
-        Resolve<RegisterUser>().Run(user);
+        Resolve<RegisterUser>().SetUser(new RegisterJson
+        {
+            Name = _name,
+            Email = _emailAddress,
+            Password = _password
+
+        });
     });
 
     private readonly Action an_email_should_be_send = () => Assert.That(OneEmailWasSend.IsTrue(), Is.True);

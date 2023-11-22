@@ -2,38 +2,39 @@ using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class FacebookUsersController : Controller
+public class FacebookUsersController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
-    private readonly UserRepo _userRepo;
-    private readonly SessionUser _sessionUser;
+    private readonly UserReadingRepo _userReadingRepo;
     private readonly RegisterUser _registerUser;
-    private readonly CategoryRepository _categoryRepository;
+   
+    private readonly JobQueueRepo _jobQueueRepo;
 
     public FacebookUsersController(VueSessionUser vueSessionUser,
-        UserRepo userRepo,
-        SessionUser sessionUser,RegisterUser registerUser,
-        CategoryRepository categoryRepository)
+        UserReadingRepo userReadingRepo,
+        SessionUser sessionUser,
+        RegisterUser registerUser,
+        JobQueueRepo jobQueueRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
-        _userRepo = userRepo;
+        _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
         _registerUser = registerUser;
-        _categoryRepository = categoryRepository;
+        _jobQueueRepo = jobQueueRepo;
     }
 
+    public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
     [HttpPost]
-    public async Task<JsonResult> Login(string facebookUserId, string facebookAccessToken)
+    public async Task<JsonResult> Login([FromBody] LoginJson json)
     {
-        var user = _userRepo.UserGetByFacebookId(facebookUserId);
+        var user = _userReadingRepo.UserGetByFacebookId(json.facebookUserId);
 
         if (user == null)
         {
@@ -44,7 +45,7 @@ public class FacebookUsersController : Controller
             });
         }
 
-        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUserId))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken, json.facebookUserId))
         {
             _sessionUser.Login(user);
 
@@ -62,46 +63,36 @@ public class FacebookUsersController : Controller
         });
     }
 
+    public readonly record struct CreateAndLoginJson(FacebookUserCreateParameter facebookUser, string facebookAccessToken);
+
     [HttpPost]
-    public async Task<JsonResult> CreateAndLogin(FacebookUserCreateParameter facebookUser, string facebookAccessToken)
+    public async Task<JsonResult> CreateAndLogin([FromBody] CreateAndLoginJson json)
     {
-        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(facebookAccessToken, facebookUser.id))
+        if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken, json.facebookUser.id))
         {
-            var user = _userRepo.UserGetByFacebookId(facebookUser.id);
+            var user = _userReadingRepo.UserGetByFacebookId(json.facebookUser.id);
             if (user != null)
             {
                 _sessionUser.Login(user);
-
                 return Json(new RequestResult
                 {
                     success = true,
                     data = _vueSessionUser.GetCurrentUserData()
                 });
             }
-            var registerResult = _registerUser.Run(facebookUser);
 
-            if (registerResult.Success)
+            var requestResult = _registerUser.SetFacebookUser(json.facebookUser);
+            if (requestResult.success)
             {
-                var newUser = _userRepo.UserGetByFacebookId(facebookUser.id);
-                _registerUser.CreateStartTopicAndSetToUser(newUser);
-                _registerUser.SendWelcomeAndRegistrationEmails(newUser);
-
-                _sessionUser.Login(newUser);
-
                 return Json(new RequestResult
                 {
                     success = true,
-                    data = _vueSessionUser.GetCurrentUserData(),
+                    data = _vueSessionUser.GetCurrentUserData()
                 });
             }
-            if (registerResult.EmailAlreadyInUse)
-            {
-                return Json(new RequestResult
-                {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
-                });
-            }
+
+            return Json(requestResult);
+
         }
 
         return Json(new RequestResult
@@ -112,9 +103,9 @@ public class FacebookUsersController : Controller
     }
     
     [HttpGet]
-    public JsonResult UserExists(string facebookId)
+    public JsonResult UserExists([FromBody] string facebookId)
     {
-        return Json(_userRepo.FacebookUserExists(facebookId), JsonRequestBehavior.AllowGet);
+        return Json(_userReadingRepo.FacebookUserExists(facebookId));
     }
 
     [HttpPost]
@@ -127,11 +118,13 @@ public class FacebookUsersController : Controller
         }
         var confirmationCode = GetHashString(userData["user_id"]?.ToString());
 
-        SendEmail.Run(new MailMessage(
+        var mailMessage = new MailMessage(
             Settings.EmailFrom,
             Settings.EmailToMemucho,
             "Facebook Data Deletion Callback",
-            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}."), MailMessagePriority.High);
+            $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}.");
+
+        SendEmail.Run(mailMessage, _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
         var requestAnswer = new { url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" + userData["user_id"], confirmation_code = confirmationCode};
         return JsonConvert.SerializeObject(requestAnswer); ;
     }

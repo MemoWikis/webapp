@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using Autofac;
+using Quartz;
 
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
@@ -6,13 +7,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class RecalcReputationForAll : IJob
     {
 
-        public void Execute(IJobExecutionContext context)
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
-                scope.R<JobQueueRepo>().DeleteAllJobs(JobQueueType.UpdateReputationForUser);
-                scope.R<ReputationUpdate>().RunForAll();
+                scope.Resolve<JobQueueRepo>().DeleteAllJobs(JobQueueType.UpdateReputationForUser);
+                scope.Resolve<UserWritingRepo>().ReputationUpdateForAll();
             }, "RecalcReputationForAll");
+
+            return Task.CompletedTask;
         }
 
     }

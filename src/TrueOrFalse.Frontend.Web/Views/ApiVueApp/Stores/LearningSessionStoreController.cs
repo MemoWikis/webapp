@@ -1,24 +1,30 @@
 ﻿using System.Linq;
-using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class LearningSessionStoreController: BaseController
+//using Newtonsoft.Json;
+
+public class LearningSessionStoreController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
     private readonly PermissionCheck _permissionCheck;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
     public LearningSessionStoreController(LearningSessionCreator learningSessionCreator,
         PermissionCheck permissionCheck,
-        SessionUser sessionUser, LearningSessionCache learningSessionCache) : base(sessionUser)
+        SessionUser sessionUser,
+        LearningSessionCache learningSessionCache,
+        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
         _permissionCheck = permissionCheck;
         _learningSessionCache = learningSessionCache;
+        _httpContextAccessor = httpContextAccessor;
     }
     [HttpPost]
-    public JsonResult NewSession(LearningSessionConfig config)
+    public JsonResult NewSession([FromBody] LearningSessionConfig config)
     {
         var newSession = _learningSessionCreator.BuildLearningSession(config);
         _learningSessionCache.AddOrUpdate(newSession);
@@ -28,7 +34,7 @@ public class LearningSessionStoreController: BaseController
         if (learningSession is { Steps: { Count: > 0 } })
         {
             var firstStep = learningSession.Steps.First();
-            return Json(new
+            var result = new
             {
                 success = true,
                 steps = learningSession.Steps.Select((s, index) => new
@@ -46,7 +52,8 @@ public class LearningSessionStoreController: BaseController
                 },
                 answerHelp = learningSession.Config.AnswerHelp,
                 isInTestMode = learningSession.Config.IsInTestMode
-            });
+            };
+            return Json(result);
         }
 
         return Json(new
@@ -55,10 +62,15 @@ public class LearningSessionStoreController: BaseController
         });
     }
 
+    public readonly record struct NewSessionWithJumpToQuestionJson(LearningSessionConfig Config, int Id);
     [HttpPost]
-    public JsonResult NewSessionWithJumpToQuestion(LearningSessionConfig config, int id)
+    public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionJson json)
     {
-        var allQuestions = EntityCache.GetCategory(config.CategoryId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
+        var config = json.Config;
+        var id = json.Id;
+
+        var category = EntityCache.GetCategory(config.CategoryId);
+        var allQuestions = category.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
         if (allQuestions.IndexOf(q => q.Id == id) < 0)
             return Json(new
@@ -110,12 +122,12 @@ public class LearningSessionStoreController: BaseController
             answerHelp = learningSession.Config.AnswerHelp,
             isInTestMode = learningSession.Config.IsInTestMode
         });
-
     }
 
-    [HttpGet]
-    public JsonResult GetLastStepInQuestionList(int index)
+    [HttpGet]       
+    public JsonResult GetLastStepInQuestionList([FromRoute] int id)
     {
+        var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
 
         if (learningSession != null)
@@ -138,13 +150,13 @@ public class LearningSessionStoreController: BaseController
                     state = AnswerState.Unanswered,
                     index = index
                 }
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
         return Json(new
         {
             success = false
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [HttpGet]
@@ -179,14 +191,20 @@ public class LearningSessionStoreController: BaseController
         return Json(new
         {
             success = false
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
-        
+
+    public readonly record struct LoadSpecificQuestionJson(int index);
     [HttpPost]
-    public JsonResult LoadSpecificQuestion(int index)
+    public JsonResult LoadSpecificQuestion([FromBody] LoadSpecificQuestionJson json)
     {
+        if (json.index == -1)
+        {
+            return Json(""); 
+        }
+
         var learningSession = _learningSessionCache.GetLearningSession();
-        learningSession.LoadSpecificQuestion(index);
+        learningSession.LoadSpecificQuestion(json.index);
 
         return Json(new
         {
@@ -201,17 +219,18 @@ public class LearningSessionStoreController: BaseController
             {
                 state = learningSession.CurrentStep.AnswerState,
                 id = learningSession.CurrentStep.Question.Id,
-                index = index,
+                index = json.index,
                 isLastStep = learningSession.TestIsLastStep()
             },
         });
     }
 
+    public readonly record struct SkipStepJson(int index);
     [HttpPost]
-    public JsonResult SkipStep(int index)
+    public JsonResult SkipStep([FromBody] SkipStepJson json)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.CurrentIndex == index)
+        if (learningSession.CurrentIndex == json.index)
         {
             learningSession.SkipStep();
             return Json(new StepResult
@@ -227,24 +246,26 @@ public class LearningSessionStoreController: BaseController
     }
 
     [HttpGet]
-    public JsonResult LoadSteps()
+    public IActionResult LoadSteps()
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        return Json(learningSession.Steps.Select((s, index) => new StepResult
+        var result = learningSession.Steps.Select((s, index) => new StepResult
         {
             id = s.Question.Id,
             state = s.AnswerState,
             index = index,
             isLastStep = learningSession.Steps.Last() == s
-        }).ToArray(), JsonRequestBehavior.AllowGet);
-    }
+        }).ToArray();
 
-    public class StepResult
-    {
-        public AnswerState state;
-        public int id;
-        public int index;
-        public bool isLastStep;
-    }
+        var serializedResult = JsonConvert.SerializeObject(result);
 
+        return Content(serializedResult, "application/json");
+    }
+}
+public class StepResult
+{
+    public AnswerState state { get; set; }
+    public int id { get; set; }
+    public int index { get; set; }
+    public bool isLastStep { get; set; }
 }

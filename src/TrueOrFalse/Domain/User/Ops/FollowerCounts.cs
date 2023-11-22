@@ -1,9 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using NHibernate;
 
 public class FollowerCounts : IRegisterAsInstancePerLifetime
 {
+    private readonly ISession _nhibernateSession;
+
+    public FollowerCounts(ISession nhibernateSession)
+    {
+        _nhibernateSession = nhibernateSession;
+    }
     private readonly Dictionary<int, int> _followers = new Dictionary<int, int>();
     private bool _initialized;
 
@@ -23,7 +30,7 @@ public class FollowerCounts : IRegisterAsInstancePerLifetime
                 .Select(u => u.ToString())
                 .Aggregate((a, b) => a + "," + b));
 
-        var listOfObjects = Sl.R<ISession>()
+        var listOfObjects = _nhibernateSession
             .CreateSQLQuery(query)
             .List<object[]>();
 

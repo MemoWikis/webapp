@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
-[DebuggerDisplay("Id={Id} Name={Name}")]
+[DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
 public class QuestionCacheItem
 {
@@ -15,7 +18,8 @@ public class QuestionCacheItem
         References = new List<ReferenceCacheItem>();
     }
 
-    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
+    public virtual UserCacheItem Creator
+        => EntityCache.GetUserById(CreatorId);
 
     public virtual IList<CategoryCacheItem> Categories { get; set; }
 
@@ -121,7 +125,7 @@ public class QuestionCacheItem
         return safeText.TruncateAtWord(length);
     }
 
-    public virtual QuestionSolution GetSolution()
+    public virtual QuestionSolution? GetSolution()
     {
         return GetQuestionSolution.Run(this);
     }
@@ -139,9 +143,9 @@ public class QuestionCacheItem
     {
         return Categories.Where(permissionCheck.CanView);
     }
-    public virtual bool IsInWishknowledge(int userId)
+    public virtual bool IsInWishknowledge(int userId, SessionUserCache sessionUserCache)
     {
-        return SessionUserCache.IsQuestionInWishknowledge(userId, Id);
+        return sessionUserCache.IsQuestionInWishknowledge(userId, Id);
     }
 
     public virtual bool IsMediumQuestion()
@@ -217,9 +221,17 @@ public class QuestionCacheItem
         return questions.Select(q => ToCacheQuestion(q));
     }
 
-    public virtual string ToLomXml()
+    public virtual string ToLomXml(CategoryRepository categoryRepository,
+        IActionContextAccessor contextAccessor,
+        IHttpContextAccessor httContextAccessor,
+        IActionContextAccessor actionContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
-        return LomXml.From(this);
+        return LomXml.From(this,
+            categoryRepository,
+            httContextAccessor,
+            actionContextAccessor,
+            webHostEnvironment);
     }
 
     public virtual int TotalAnswers()
@@ -289,7 +301,7 @@ public class QuestionCacheItem
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
     }
-    public virtual bool IsCreator(int userId)
+    public virtual bool IsCreator(int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
     {
         return userId == Creator?.Id;
     }

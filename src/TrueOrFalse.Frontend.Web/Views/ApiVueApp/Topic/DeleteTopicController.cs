@@ -1,6 +1,4 @@
-﻿using System.Web.Mvc;
-
-namespace VueApp;
+﻿namespace VueApp;
 
 public class DeletTopicController : BaseController
 {

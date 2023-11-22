@@ -28,7 +28,7 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.CountQuestions);
         Map(x => x.CountSets);
 
-        Map(x => x.Type);
+        Map(x => x.Type).CustomType<CategoryType>();
         Map(x => x.TypeJson);
 
         Map(x => x.CorrectnessProbability);
@@ -40,7 +40,7 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.DateModified);
         Map(x => x.FormerSetId);
         Map(x => x.SkipMigration);
-        Map(x => x.Visibility);
+        Map(x => x.Visibility).CustomType<CategoryVisibility>();
         Map(x => x.IsUserStartTopic);
 
         Map(x => x.AuthorIds);

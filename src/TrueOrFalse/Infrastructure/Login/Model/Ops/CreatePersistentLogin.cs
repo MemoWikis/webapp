@@ -1,10 +1,10 @@
 ﻿public class CreatePersistentLogin
 {
-    public static string Run(int userId)
+    public static string Run(int userId, PersistentLoginRepo persistentLoginRepo)
     {
         var newGuid = Guid.NewGuid().ToString();
         var persistentLogin = new PersistentLogin { UserId = userId, LoginGuid = newGuid };
-        Sl.R<PersistentLoginRepo>().Create(persistentLogin);
+        persistentLoginRepo.Create(persistentLogin);
         return newGuid;
     }
 }

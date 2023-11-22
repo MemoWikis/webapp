@@ -11,7 +11,8 @@ public class Write_activity_question : BaseTest
         //User2 follows User3 (and creates two questions)
         //User3 follows User4
         //User4 follows nobody (but creates one question)
-        var context = ContextUser.New()
+        var userWritingRepo = R<UserWritingRepo>();
+        var context = ContextUser.New(userWritingRepo)
             .Add("User 1")
             .Add("User 2")
             .Add("User 3")
@@ -23,22 +24,27 @@ public class Write_activity_question : BaseTest
         var user3 = context.All[2];
         var user4 = context.All[3];
 
-        user4.AddFollower(user3);
-        user4.AddFollower(user1);
-        user2.AddFollower(user1);
+        
 
-        R<UserRepo>().Update(user4);
-        R<UserRepo>().Update(user3);
+        userWritingRepo.AddFollower(user3, user4);
+        userWritingRepo.AddFollower(user1, user4);
+        userWritingRepo.AddFollower(user1, user2);
+
+        userWritingRepo.Update(user4);
+        userWritingRepo.Update(user3);
 
         //User4 creates one question
         System.Threading.Thread.Sleep(50); // to much commits without sleep
-        ContextQuestion.New().AddQuestion(creator: user4).Persist();
-        //User2 creates two questions
-        ContextQuestion.New()
+        ContextQuestion.New(R<QuestionWritingRepo>(),
+                R<AnswerRepo>(),
+                R<AnswerQuestion>(),
+                userWritingRepo,
+                R<CategoryRepository>())
             .AddQuestion(creator: user2)
             .AddQuestion(creator: user2)
+            .AddQuestion(creator: user4)
             .Persist();
-        
+
         //User3 should see activity: User4 created Question
         var activitiesUser3 = R<UserActivityRepo>().GetByUser(user3);
         Assert.That(activitiesUser3.Count, Is.EqualTo(1));

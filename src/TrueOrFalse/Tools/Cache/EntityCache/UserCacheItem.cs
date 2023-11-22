@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Seedworks.Lib.Persistence;
 using static System.String;
 
-public class UserCacheItem : IUserTinyModel
+public class UserCacheItem : IUserTinyModel, IPersistable
 {
     public int ReputationPos;
 

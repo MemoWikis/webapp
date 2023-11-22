@@ -1,11 +1,11 @@
 ﻿public class PersonalTopic 
 {
-    public static Category GetPersonalCategory(User user)
+    public static Category GetPersonalCategory(User user, CategoryRepository categoryRepo)
     {
         var wikiName = user.Name + "s Wiki";
         var counter = 1;
-        while (Sl.CategoryRepo.Exists(wikiName))
-        {
+        while (categoryRepo.Exists(wikiName))
+    {
             wikiName = user.Name + "s Wiki (" + counter + ")";
             counter++;
         }

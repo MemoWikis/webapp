@@ -1,4 +1,0 @@
-*.md
-package.json
-package-lock.json
-.gitlab-ci.yml

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -9,7 +10,7 @@ class ModifyRelationsForCategory_tests : BaseTest
     {
         ContextCategory.New().AddCaseThreeToCache();
         Resolve<EntityCacheInitializer>().Init();
-        ModifyRelationsForCategory.UpdateCategoryRelationsOfType(
+        new ModifyRelationsForCategory(LifetimeScope.Resolve<CategoryRepository>()).UpdateCategoryRelationsOfType(
             EntityCache.GetCategoryByName("X3").FirstOrDefault().Id, 
             EntityCache.GetCategoryByName("B").GetIds().ToList());
 

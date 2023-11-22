@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -13,6 +13,6 @@ public class MiddlewareAuthController : BaseController
     [HttpGet]
     public JsonResult Get()
     {
-        return Json(_sessionUser.IsInstallationAdmin, JsonRequestBehavior.AllowGet);
+        return Json(_sessionUser.IsInstallationAdmin);
     }
 }   

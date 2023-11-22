@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
         '@nuxtjs/device',
+        '@nuxtjs/eslint-module',
     ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
@@ -71,7 +72,7 @@ export default defineNuxtConfig({
 
 
     // devServer: {
-    //     host: 'memucho.local'
+    //     host: 'localhost:5069'
     // }
     // devServer: {
     //     https: {

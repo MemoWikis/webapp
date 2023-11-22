@@ -2,25 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class AnswerBodyController : BaseController
-{
+public class AnswerBodyController : BaseController {
     private readonly AnswerQuestion _answerQuestion;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly AnswerLog _answerLog;
+    private readonly SessionUserCache _sessionUserCache;
 
-    public AnswerBodyController(AnswerQuestion answerQuestion,SessionUser sessionUser, LearningSessionCache learningSessionCache) : base(sessionUser)
+    public AnswerBodyController(AnswerQuestion answerQuestion,
+        SessionUser sessionUser,
+        LearningSessionCache learningSessionCache,
+        AnswerLog answerLog,
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
         _answerQuestion = answerQuestion;
+        _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
+        _answerLog = answerLog;
+        _sessionUserCache = sessionUserCache;
     }
 
     [HttpGet]
-    public JsonResult Get(int index)
+    public JsonResult Get([FromRoute] int id)
     {
+        var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
+        if (learningSession.Steps.Count == 0)
+            return Json(null);
         var step = learningSession.Steps[index];
 
         var q = step.Question;
@@ -40,26 +50,27 @@ public class AnswerBodyController : BaseController
             solution = q.Solution,
 
             isCreator = q.Creator.Id == _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
+            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
 
             questionViewGuid = Guid.NewGuid(),
             isLastStep = learningSession.Steps.Last() == step
         };
-        return Json(model, JsonRequestBehavior.AllowGet);
+        return Json(model);
     }
 
+    public readonly record struct SendAnswerToLearningSessionJson(int Id, Guid QuestionViewGuid, string Answer, bool InTestMode);
+
     [HttpPost]
-    public JsonResult SendAnswerToLearningSession(
-        int id,
-        Guid questionViewGuid = new Guid(),
-        string answer = "",
-        bool inTestMode = false)
+    public JsonResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
     {
-        var learningSession =  _learningSessionCache.GetLearningSession();
+        var answer = sendAnswerToLearningSession.Answer;
+        var id = sendAnswerToLearningSession.Id;
+
+        var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
-        var result = _answerQuestion.Run(id, answer, UserId, questionViewGuid, 0,
-            0, 0, new Guid(), inTestMode);
+        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, sendAnswerToLearningSession.QuestionViewGuid, 0,
+            0, 0, new Guid(), sendAnswerToLearningSession.InTestMode);
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
 
@@ -75,18 +86,18 @@ public class AnswerBodyController : BaseController
         });
     }
 
+    public readonly record struct MarkAsCorrectJson(int Id, Guid QuestionViewGuid, int AmountOfTries);
     [HttpPost]
-    public JsonResult MarkAsCorrect(int id, Guid questionViewGuid, int amountOfTries)
+    public bool MarkAsCorrect([FromBody] MarkAsCorrectJson markAsCorrectData)
     {
-        var result = amountOfTries == 0
-            ? _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, amountOfTries, true);
-        if (result != null)
-        {
-            return Json(true);
-        }
+        var id = markAsCorrectData.Id;
+        var questionViewGuid = markAsCorrectData.QuestionViewGuid;
 
-        return Json(false);
+        var result = markAsCorrectData.AmountOfTries == 0
+            ? _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
+            : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, markAsCorrectData.AmountOfTries, true);
+
+        return result != null;
     }
 
 
@@ -114,16 +125,18 @@ public class AnswerBodyController : BaseController
         }
     }
 
+    public readonly record struct GetSolutionJson(int Id, Guid QuestionViewGuid, int InteractionNumber, int MillisecondsSinceQuestionView, bool Unanswered);
 
     [HttpPost]
-    public JsonResult GetSolution(int id, Guid questionViewGuid, int interactionNumber,
-        int millisecondsSinceQuestionView = -1, bool unanswered = false)
+    public JsonResult GetSolution([FromBody] GetSolutionJson getSolutionData)
     {
-        var question = EntityCache.GetQuestion(id);
+        var question = EntityCache.GetQuestion(getSolutionData.Id);
         var solution = GetQuestionSolution.Run(question);
-        if (!unanswered)
-            R<AnswerLog>().LogAnswerView(question, this.UserId, questionViewGuid, interactionNumber,
-                millisecondsSinceQuestionView);
+        if (!getSolutionData.Unanswered)
+            _answerLog.LogAnswerView(question, _sessionUser.UserId,
+                getSolutionData.QuestionViewGuid, 
+                getSolutionData.InteractionNumber,
+                getSolutionData.MillisecondsSinceQuestionView > 0 ? getSolutionData.MillisecondsSinceQuestionView : -1);
 
         EscapeReferencesText(question.References);
 

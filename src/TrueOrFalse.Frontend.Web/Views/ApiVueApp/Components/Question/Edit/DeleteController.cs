@@ -1,25 +1,25 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-public class QuestionEditDeleteController : Controller
+public class QuestionEditDeleteController : BaseController
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionDelete _questionDelete;
     private readonly LearningSessionCache _learningSessionCache;
 
-    public QuestionEditDeleteController(QuestionRepo questionRepo,
+    public QuestionEditDeleteController(QuestionReadingRepo questionReadingRepo,
         QuestionDelete questionDelete,
-        LearningSessionCache learningSessionCache)
+        LearningSessionCache learningSessionCache, SessionUser sessionUser) : base(sessionUser)
     {
-        _questionRepo = questionRepo;
+        _questionReadingRepo = questionReadingRepo;
         _questionDelete = questionDelete;
         _learningSessionCache = learningSessionCache;
     }
 
     [HttpGet]
-    public JsonResult DeleteDetails(int questionId)
+    public JsonResult DeleteDetails([FromRoute] int id)
     {
-        var question = _questionRepo.GetById(questionId);
+        var question = _questionReadingRepo.GetById(id);
         var canBeDeleted = _questionDelete.CanBeDeleted(question.Creator.Id, question);
 
         return Json(new
@@ -29,20 +29,22 @@ public class QuestionEditDeleteController : Controller
             canNotBeDeleted = !canBeDeleted.Yes,
             wuwiCount = canBeDeleted.WuwiCount,
             hasRights = canBeDeleted.HasRights
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
+    [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Delete(int questionId)
+    public JsonResult Delete([FromRoute] int id)
     {
-        var updatedLearningSessionResult = _learningSessionCache.RemoveQuestionFromLearningSession(questionId);
+        var updatedLearningSessionResult = _learningSessionCache.RemoveQuestionFromLearningSession(id);
 
-        _questionDelete.Run(questionId);
+        _questionDelete.Run(id);
+
         return Json(new
         {
             reloadAnswerBody = updatedLearningSessionResult.reloadAnswerBody,
             sessionIndex = updatedLearningSessionResult.sessionIndex,
-            id = questionId
+            id = id
         });
     }
 }

@@ -102,6 +102,7 @@ declare namespace gapi.auth {
         /**
          * A function in the global namespace, which is called when the sign-in button is rendered and also called after a sign-in flow completes.
          */
+        // eslint-disable-next-line @typescript-eslint/ban-types
         callback?: Function;
         /**
          * If true, all previously granted scopes remain granted in each incremental request, for incremental authorization. The default value true is correct for most use cases; use false only if employing delegated auth, where you pass the bearer token to a less-trusted component with lower programmatic authority.

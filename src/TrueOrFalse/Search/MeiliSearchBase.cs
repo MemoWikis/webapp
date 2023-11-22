@@ -1,11 +1,13 @@
 ﻿using Meilisearch;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Search
 {
     internal class MeiliSearchBase
     {
-       private readonly MeilisearchClient _client;
+        private readonly MeilisearchClient _client;
         internal MeiliSearchBase()
         {
             _client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
@@ -21,7 +23,7 @@ namespace TrueOrFalse.Search
             var taskresult = await _client.WaitForTaskAsync(taskInfo.TaskUid);
             if (taskresult.Status != TaskInfoStatus.Succeeded)
             {
-                Logg.r().Error("Cannot create question in MeiliSearch", taskresult);
+                Logg.r.Error("Cannot create question in MeiliSearch", taskresult);
             }
         }
     }

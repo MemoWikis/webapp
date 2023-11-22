@@ -1,36 +1,28 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace Seedworks.Web.State
 {
-    public static class ContextUtil
+    public class ContextUtil
     {
-        public static bool UseWebConfig => Settings.UseWebConfig;
+        private readonly HttpContext? _httpContext;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public static bool IsWebContext => HttpContext.Current != null;    
-
-
-        public static string GetFilePath(string fileName) 
+        public ContextUtil(HttpContext? httpContext, IWebHostEnvironment webHostEnvironment)
         {
-            if (IsWebContext)
-                return HttpContext.Current.Server.MapPath($@"~/{fileName}");
-            
-            if (UseWebConfig)
-                return Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.FullName, fileName);
-            
-            return Path.Combine(new DirectoryInfo(AssemblyDirectory).Parent.Parent.FullName, fileName);
+            _httpContext = httpContext;
+            _webHostEnvironment = webHostEnvironment;
         }
+        public bool UseWebConfig => Settings.UseWebConfig;
 
-        private static string AssemblyDirectory
+        public bool IsWebContext => _httpContext != null;
+
+        public string GetFilePath(string fileName)
         {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
+            return Path.Combine(AppContext.BaseDirectory, $@"~/{fileName}");
         }
     }
 

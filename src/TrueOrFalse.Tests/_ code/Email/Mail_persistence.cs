@@ -16,13 +16,13 @@ class Mail_persistence : BaseTest
     public void MailSendingTest()
     {
         CleanEmailsFromPickupDirectory.Run();
+        var userReadingRepo = R<UserReadingRepo>(); 
+        var user = ContextUser.New(R<UserWritingRepo>()).AddWithEmail("ab@c.de").Persist().All.Last();
+        var jqr = R<JobQueueRepo>(); 
+        SendEmail.Run(CreateLowPriorityMails(user),jqr, userReadingRepo);
+        SendEmail.Run(GetHighPriorityMail(user), jqr, userReadingRepo, MailMessagePriority.High);
 
-        var user = ContextUser.New().AddWithEmail("ab@c.de").Persist().All.Last();
-
-        SendEmail.Run(CreateLowPriorityMails(user));
-        SendEmail.Run(GetHighPriorityMail(user), MailMessagePriority.High);
-
-        JobScheduler.Start();
+        JobScheduler.Start(R<RunningJobRepo>());
         Thread.Sleep(1000);
         var mailsInDirectory = GetEmailsFromPickupDirectory.GetAsDateSortedList();
 

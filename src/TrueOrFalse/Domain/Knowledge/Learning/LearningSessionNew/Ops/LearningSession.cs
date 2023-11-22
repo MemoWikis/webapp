@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿
 
 [Serializable]
 public class LearningSession
@@ -13,18 +12,29 @@ public class LearningSession
 
     public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
     {
+        if (Config == null)
+        {
+            Logg.r.Error("LearningSessionConfig is null");
+        }
+
         Steps = learningSessionSteps;
         Config = config;
-        Config.Category = EntityCache.GetCategory(Config.CategoryId);
+        Config.Category = EntityCache.GetCategory(Config.CategoryId) ?? throw new InvalidOperationException();
     }
 
-    public LearningSessionStep CurrentStep => Steps[CurrentIndex];
+    public LearningSessionStep? CurrentStep => CurrentIndex == -1 ? null : Steps[CurrentIndex];
 
     public int CurrentIndex { get; private set; }
     public bool IsLastStep { get; private set; }
 
     public bool AddAnswer(AnswerQuestionResult answer)
     {
+        if (CurrentStep == null)
+        {
+            Logg.r.Error("CurrentStep in LearningSession is null");
+            throw new NullReferenceException(); 
+        }
+
         CurrentStep.AnswerState = answer.IsCorrect ? AnswerState.Correct : AnswerState.False;
         return ReAddCurrentStepToEnd();
     }
@@ -76,12 +86,18 @@ public class LearningSession
 
     public void SetCurrentStepAsCorrect()
     {
+        if(CurrentStep == null)
+            return;
+
         CurrentStep.AnswerState = AnswerState.Correct;
         DeleteLastStep();
     }
 
     public void SkipStep()
     {
+        if (CurrentStep == null)
+            return;
+
         CurrentStep.AnswerState = AnswerState.Skipped;
         IsLastStep = TestIsLastStep();
 
@@ -98,6 +114,9 @@ public class LearningSession
 
     private bool ReAddCurrentStepToEnd()
     {
+        if (CurrentStep == null)
+            return false;
+
         if (LimitForThisQuestionHasBeenReached(CurrentStep) ||
             LimitForNumberOfRepetitionsHasBeenReached() ||
             Config.IsAnonymous() ||

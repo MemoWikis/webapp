@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using static System.String;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class SetImageSettings : ImageSettings, IImageSettings
 {
@@ -7,43 +8,20 @@ public class SetImageSettings : ImageSettings, IImageSettings
     public ImageType ImageType => ImageType.QuestionSet;
     public IEnumerable<int> SizesSquare => new[] { 206, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
-    public override string BasePath => "/Images/QuestionSets/";
-    public string BaseDummyUrl => "/Images/no-set-";
+    public override string  BasePath => Path.Combine(Settings.ImagePath, "QuestionSets");
+    public string BaseDummyUrl => Path.Combine(Settings.ImagePath, "no-set-");
 
-    public SetImageSettings() {}
+    public SetImageSettings(IHttpContextAccessor httpContextAccessor) :
+        base(httpContextAccessor)  {}
 
-    public SetImageSettings(int setId){
+    public SetImageSettings(int setId, 
+        IHttpContextAccessor httpContextAccessor) :
+        base(httpContextAccessor)
+    {
         Init(setId);
     }
 
     public void Init(int setId){
         Id = setId;
-    }
-
-    public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
-
-    public ImageUrl GetUrl(int width, bool isSquare = false)
-    {
-        var imageMetaRepo = ServiceLocator.Resolve<ImageMetaDataRepo>();
-        var imageMeta = imageMetaRepo.GetBy(Id, ImageType.QuestionSet);
-
-        return ImageUrl.Get(
-            this,
-            width, 
-            isSquare,
-            arg =>
-            {
-                var youtubUrl = Sl.SetRepo.GetYoutbeUrl(Id);
-
-                if (!IsNullOrEmpty(youtubUrl))
-                {
-                    var youtubeKey = YoutubeVideo.GetVideoKeyFromUrl(youtubUrl);
-                    if(!IsNullOrEmpty(youtubeKey))
-                        return YoutubeVideo.GetPreviewImage(youtubeKey);
-                }
-
-                return BaseDummyUrl + width + ".png";
-            }
-        ).SetSuffix(imageMeta);
     }
 }

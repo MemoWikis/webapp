@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class ImageMaintenanceInfo
@@ -36,39 +34,54 @@ public class ImageMaintenanceInfo
     public string LicenseStateCssClass;
     public string LicenseStateHtmlList;
     public ImageFrontendData FrontendData;
-    private readonly List<LicenseImage> _offeredLicenses;
     public int SelectedMainLicenseId { get; set; }
 
 
-    public ImageMaintenanceInfo(int typeId, ImageType imageType)
-        : this(ServiceLocator.Resolve<ImageMetaDataRepo>().GetBy(typeId, imageType))
+    public ImageMaintenanceInfo(int typeId,
+        ImageType imageType,
+        QuestionReadingRepo questionReadingRepo,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        CategoryRepository categoryRepository, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor)
+        : this(imageMetaDataReadingRepo.GetBy(typeId, imageType), 
+            questionReadingRepo, 
+            categoryRepository, 
+            httpContextAccessor,
+            webHostEnvironment, 
+            actionContextAccessor)
     {
     }
 
-    public ImageMaintenanceInfo(ImageMetaData imageMetaData)
+    public ImageMaintenanceInfo(ImageMetaData imageMetaData,
+        QuestionReadingRepo questionReadingRepo,
+        CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        IActionContextAccessor actionContextAccessor)
     {
-        var categoryImgBasePath = new CategoryImageSettings().BasePath;
-        var questionImgBasePath = new QuestionImageSettings().BasePath;
-        var setImgBasePath = new SetImageSettings().BasePath;
+       
 
         ImageId = imageMetaData.Id;
         MetaData = imageMetaData;
+        
         TypeId = imageMetaData.TypeId;
         TypeNotFound = false;
-        
+
+        var categoryImgBasePath = new CategoryImageSettings(0, httpContextAccessor).BasePath;
+        var questionImgBasePath = new QuestionImageSettings(questionReadingRepo, httpContextAccessor).BasePath;
+        var setImgBasePath = new SetImageSettings(httpContextAccessor).BasePath;
+
         switch (MetaData.Type)
         {
             case ImageType.Category:
-                Type = Sl.R<CategoryRepository>().GetById(MetaData.TypeId);
-                TypeUrl = Links.GetUrl(Type);
-                break;
-            case ImageType.QuestionSet:
-                Type = Sl.R<SetRepo>().GetById(MetaData.TypeId);
-                TypeUrl = Links.GetUrl(Type);
+                Type = categoryRepository.GetById(MetaData.TypeId);
+                TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
                 break;
             case ImageType.Question:
-                Type = Sl.R<QuestionRepo>().GetById(MetaData.TypeId);
-                TypeUrl = Links.GetUrl(Type);
+                Type = questionReadingRepo.GetById(MetaData.TypeId);
+                TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
                 break;
             default:
                 throw new Exception("invalid type");
@@ -90,13 +103,13 @@ public class ImageMaintenanceInfo
                     ? ManualImageData.AuthorManuallyAdded
                     : MetaData.AuthorParsed;
 
-        _offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
+        var offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
             .Concat(new List<LicenseImage> { new LicenseImage { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
             .ToList();
             
         if (LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseImageRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
         {
-            _offeredLicenses = _offeredLicenses
+            offeredLicenses = offeredLicenses
                 .Concat(new List<LicenseImage>{new LicenseImage { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
                 .Concat(
                     LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses)
@@ -112,7 +125,7 @@ public class ImageMaintenanceInfo
             LicenseImageRepo.GetAllAuthorizedLicenses()
                 .Any(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
         {
-            _offeredLicenses = _offeredLicenses.Concat(new List<LicenseImage>{ new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
+            offeredLicenses = offeredLicenses.Concat(new List<LicenseImage>{ new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
                                                 .Concat(LicenseImageRepo.GetAllAuthorizedLicenses().Where(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
                                                 .ToList();
         }
@@ -134,23 +147,20 @@ public class ImageMaintenanceInfo
         EvaluateImageDeployability();
         SetLicenseStateCssClass();
 
-        InCategoryFolder = File.Exists(HttpContext.Current.Server.MapPath(
+        InCategoryFolder = File.Exists(Path.Combine(Settings.ImagePath,
             categoryImgBasePath + imageMetaData.TypeId + ".jpg"));
-        InQuestionFolder = File.Exists(HttpContext.Current.Server.MapPath(
+        InQuestionFolder = File.Exists(Path.Combine(Settings.ImagePath,
             questionImgBasePath + imageMetaData.TypeId + ".jpg"));
-        InSetFolder = File.Exists(HttpContext.Current.Server.MapPath(
+        InSetFolder = File.Exists(Path.Combine(Settings.ImagePath,
             setImgBasePath + imageMetaData.TypeId + ".jpg"));
 
         if (MetaData.Type == ImageType.Category)
-            Url_128 = new CategoryImageSettings(MetaData.TypeId).GetUrl_128px(asSquare: true).Url;
+            Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor).GetUrl_128px(asSquare: true).Url;
             
         if (MetaData.Type == ImageType.Question)
-            Url_128 = new QuestionImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
+            Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, questionReadingRepo).GetUrl_128px_square().Url;
 
-        if (MetaData.Type == ImageType.QuestionSet)
-            Url_128 = new SetImageSettings(MetaData.TypeId).GetUrl_128px_square().Url;
-
-        FrontendData = new ImageFrontendData(MetaData);
+        FrontendData = new ImageFrontendData(MetaData, httpContextAccessor, questionReadingRepo);
     }
 
     public void EvaluateImageDeployability()

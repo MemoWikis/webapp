@@ -6,26 +6,19 @@ namespace TrueOrFalse.Tests;
 public class ContextComment
 {
     private readonly CommentRepository _commentRepo;
-    private readonly ContextUser _contextUser = ContextUser.New();
-    private readonly ContextQuestion _contextQuestion = ContextQuestion.New();
-
     private readonly User _user1;
-    public readonly Question Question;
         
     public List<Comment> All = new();
 
-    private ContextComment(){
-        _commentRepo = Sl.R<CommentRepository>() ;
-
-        _user1 = _contextUser.Add("Test").Persist().All.First();
-
-        Question = _contextQuestion.AddQuestion(questionText: "text", solutionText: "solution").Persist().All[0];
+    public ContextComment(CommentRepository commentRepository,
+        UserWritingRepo userWritingRepo
+       ){
+        _commentRepo = commentRepository ;
+        var userRepo1 = userWritingRepo;
+        var contextUser = ContextUser.New(userRepo1);
+        _user1 = contextUser.Add("Test").Persist().All.First();
     }
 
-    public static ContextComment New()
-    {
-        return new ContextComment();
-    }
 
     public ContextComment Add(string text = "My comment", Comment commentTo = null)
     {

@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using static CategoryRepository;
 
-public class EntityCache : BaseCache
+public class EntityCache : BaseEntityCache
 {
     public const string CacheKeyUsers = "allUsers_EntityCache";
     public const string CacheKeyQuestions = "allQuestions_EntityCache";
@@ -13,24 +12,26 @@ public class EntityCache : BaseCache
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserCacheItem> Users => (ConcurrentDictionary<int, UserCacheItem>)HttpRuntime.Cache[CacheKeyUsers];
+    private static ConcurrentDictionary<int, UserCacheItem> Users => _cache.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
-    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => (ConcurrentDictionary<int, QuestionCacheItem>)HttpRuntime.Cache[CacheKeyQuestions];
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => (ConcurrentDictionary<int, CategoryCacheItem>)HttpRuntime.Cache[CacheKeyCategories];
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => _cache.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
+
+    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => _cache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
-        (ConcurrentDictionary<int, ConcurrentDictionary<int, int>>)HttpRuntime.Cache[CacheKeyCategoryQuestionsList];
+        _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyCategoryQuestionsList);
 
-    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => ids.Select(id => GetUserById(id)).ToList(); 
+    public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => 
+        ids.Select(id => GetUserById(id))
+            .ToList(); 
     public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))
             return user;
 
-        Logg.r().Warning("UserId is not available: {userId}", userId);
         return new UserCacheItem();
     }
 
@@ -52,8 +53,9 @@ public class EntityCache : BaseCache
 
     public static IList<int> GetQuestionsIdsForCategory(int categoryId)
     {
-        var questionIds = CategoryQuestionsList.ContainsKey(categoryId) ? CategoryQuestionsList[categoryId].Keys.ToList() : new List<int>();
-        return questionIds;
+         CategoryQuestionsList.TryGetValue(categoryId, out var questionIds);
+
+        return questionIds?.Keys.ToList() ?? new List<int>();
     }
 
     public static IList<QuestionCacheItem> GetQuestionsByIds(IList<int> questionIds)
@@ -96,7 +98,7 @@ public class EntityCache : BaseCache
         if (createDeleteUpdate == CreateDeleteUpdate.Create)
         {
             //Update EntityCache
-            var parents = EntityCache.GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
+            var parents = GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
             foreach (var parent in parents)
             {
                 parent.CachedData.AddChildId(categoryCacheItem.Id);
@@ -150,7 +152,7 @@ public class EntityCache : BaseCache
         if (Questions.TryGetValue(questionId, out var question))
             return question;
 
-        Logg.r().Warning("QuestionId is not available");
+        Logg.r.Warning("QuestionId is not available");
         return new QuestionCacheItem();
     }
     private static void UpdateCategoryQuestionList(
@@ -177,6 +179,7 @@ public class EntityCache : BaseCache
             }
         }
     }
+
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
         ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
@@ -189,17 +192,10 @@ public class EntityCache : BaseCache
 
         foreach (var category in categories)
         {
-            try
-            {
-                categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
+            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
                     (k, existingList) => existingList);
 
                 categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
-            }
-            catch
-            {
-                Logg.r().Error("Update failed in AddQuestionToCategorie");
-            }
         }
     }
 
@@ -214,6 +210,11 @@ public class EntityCache : BaseCache
     public static void AddOrUpdate(UserCacheItem user)
     {
         AddOrUpdate(Users, user);
+    }
+
+    public static ICollection<UserCacheItem> GetAllUsers()
+    {
+        return Users.Values; 
     }
 
     public static void RemoveUser(int id)
@@ -278,6 +279,7 @@ public class EntityCache : BaseCache
     {
         Remove(Categories, category);
         var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId);
+
         foreach (var connectedQuestion in connectedQuestions)
         {
             var categoryInQuestion = connectedQuestion.Categories.FirstOrDefault(c => c.Id == category.Id);
@@ -327,14 +329,18 @@ public class EntityCache : BaseCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    public static IEnumerable<CategoryCacheItem> GetCategories(IEnumerable<int> getIds) =>
-        getIds.Select(categoryId => GetCategory(categoryId));
+    public static IEnumerable<CategoryCacheItem> GetCategories(IEnumerable<int> getIds)
+    {
+       var c =  getIds.Select(categoryId => GetCategory(categoryId)).ToList();
+       return c;
+    }
+        
 
     public static CategoryCacheItem GetCategory(Category category) => GetCategory(category.Id);
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static CategoryCacheItem GetCategory(int categoryId)
+    public static CategoryCacheItem? GetCategory(int categoryId)
     {
         if (Categories == null) return null;
         Categories.TryGetValue(categoryId, out var category);
@@ -435,7 +441,9 @@ public class EntityCache : BaseCache
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 
-    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
+    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId, 
+        IHttpContextAccessor httpContextAccessor, 
+        IWebHostEnvironment webHostEnvironment) => GetAllQuestions()
         .Where(q => q.Creator.Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 

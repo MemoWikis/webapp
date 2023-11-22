@@ -3,17 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Web;
 
 namespace VueApp;
-public class QuestionLandingPageController : BaseController
+public class QuestionLandingPageController
+    : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public QuestionLandingPageController(SessionUser sessionUser, PermissionCheck permissionCheck) : base(sessionUser)
+    public QuestionLandingPageController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        TotalsPersUserLoader totalsPersUserLoader,
+        SessionUserCache sessionUserCache,
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _totalsPersUserLoader = totalsPersUserLoader;
+        _sessionUserCache = sessionUserCache;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _questionReadingRepo = questionReadingRepo;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -27,7 +54,7 @@ public class QuestionLandingPageController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetQuestionPage(int id)
+    public JsonResult GetQuestionPage([FromRoute] int id)
     {
         var q = EntityCache.GetQuestion(id);
 
@@ -56,11 +83,17 @@ public class QuestionLandingPageController : BaseController
                 solution = q.Solution,
 
                 isCreator = q.Creator.Id == _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
 
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true,
-                imgUrl = GetQuestionImageFrontendData.Run(q).GetImageUrl(435, true, imageTypeForDummy: ImageType.Question).Url
+                imgUrl = GetQuestionImageFrontendData.Run(q, 
+                    _imageMetaDataReadingRepo, 
+                    _httpContextAccessor, 
+                    _webHostEnvironment, 
+                    _questionReadingRepo)
+                    .GetImageUrl(435, true, imageTypeForDummy: ImageType.Question)
+                    .Url
             },
             solutionData = new
             {
@@ -76,9 +109,16 @@ public class QuestionLandingPageController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser, _permissionCheck).GetData(id)
-
-        }, JsonRequestBehavior.AllowGet);
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
+                _permissionCheck, 
+                _imageMetaDataReadingRepo, 
+                _totalsPersUserLoader,
+                _httpContextAccessor,
+                _sessionUserCache,
+                _actionContextAccessor,
+                _questionReadingRepo)
+                .GetData(id)
+        });
     }
 
 }

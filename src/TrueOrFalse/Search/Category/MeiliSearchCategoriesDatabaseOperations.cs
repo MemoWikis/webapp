@@ -1,11 +1,13 @@
 ﻿using Meilisearch;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
 
 namespace TrueOrFalse.Search
 {
     internal class MeiliSearchCategoriesDatabaseOperations : MeiliSearchBase
     {
+
         /// <summary>
         /// Create MeiliSearch Category
         /// </summary>
@@ -45,7 +47,7 @@ namespace TrueOrFalse.Search
                 await CheckStatus(taskInfo);
         }
 
-        private static MeiliSearchCategoryMap CreateCategoryMap(Category category, string indexConstant, out Index index)
+        private static MeiliSearchCategoryMap CreateCategoryMap(Category category, string indexConstant, out Meilisearch.Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             index = client.Index(indexConstant);

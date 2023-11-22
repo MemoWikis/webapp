@@ -6,12 +6,16 @@ public class QuestionAnswerPersistenceTests : BaseTest
     [Test]
     public void Persistence_Test()
     {
+        var answerRepo = R<AnswerRepo>();
         var answer = new Answer();
-        answer.Question = ContextQuestion.GetQuestion();
+        answer.Question = ContextQuestion.GetQuestion(answerRepo, 
+            R<AnswerQuestion>(),
+            R<UserWritingRepo>(),
+            R<CategoryRepository>(),
+            R<QuestionWritingRepo>());
         answer.MillisecondsSinceQuestionView = 100;
         answer.UserId = 1;
         answer.AnswerText = "asdfasfsf";
-
-        Resolve<AnswerRepo>().Create(answer);
+        answerRepo.Create(answer);
     }
 }

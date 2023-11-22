@@ -1,13 +1,19 @@
 ﻿using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class StripeWebhookController : Controller
 {
-    public async Task<ActionResult> Webhook()
+    private readonly WebhookEventHandler _webhookEventHandler;
+
+    public StripeWebhookController(WebhookEventHandler webhookLogic)
     {
-        var httpStatusCode = await new WebhookEventHandler().Create(HttpContext, Request);
+        _webhookEventHandler = webhookLogic;
+    }
+    public async Task<IActionResult> Webhook()
+    {
+        var httpStatusCode = await _webhookEventHandler.Create();
         return httpStatusCode;
     }
 }

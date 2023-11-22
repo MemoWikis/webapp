@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
@@ -15,11 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		WebEssentials-Settings.json = WebEssentials-Settings.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse", "TrueOrFalse\TrueOrFalse.csproj", "{0AA2472F-E001-45C0-AD00-2E49B1566739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrueOrFalse", "TrueOrFalse\TrueOrFalse.csproj", "{0AA2472F-E001-45C0-AD00-2E49B1566739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrueOrFalse.Frontend.Web", "TrueOrFalse.Frontend.Web\TrueOrFalse.Frontend.Web.csproj", "{C936EA17-2C3F-4C2B-AC7B-66E991542EC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrueOrFalse.Tests", "TrueOrFalse.Tests\TrueOrFalse.Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrueOrFalse.Tests", "TrueOrFalse.Tests\TrueOrFalse.Tests.csproj", "{1C9D8C0C-800E-4BBB-82B1-89E111004596}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

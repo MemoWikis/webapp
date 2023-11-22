@@ -6,11 +6,15 @@ public class AllTopicsHistory : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUser _sessionUser;
+    private readonly ISession _nhibernateSession;
 
-    public AllTopicsHistory(PermissionCheck permissionCheck, SessionUser sessionUser)
+    public AllTopicsHistory(PermissionCheck permissionCheck,
+        SessionUser sessionUser,
+        ISession nhibernateSession)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
+        _nhibernateSession = nhibernateSession;
     }
     public IOrderedEnumerable<IGrouping<DateTime, CategoryChange>> GetGroupedChanges(int page, int revisionsToShow)
     {
@@ -21,7 +25,7 @@ public class AllTopicsHistory : IRegisterAsInstancePerLifetime
             ORDER BY cc.DateCreated DESC 
             LIMIT {revisionsToSkip},{revisionsToShow}";
 
-        var orderedTopicChangesOnPage = Sl.R<ISession>().CreateSQLQuery(query).AddEntity(typeof(CategoryChange))
+        var orderedTopicChangesOnPage = _nhibernateSession.CreateSQLQuery(query).AddEntity(typeof(CategoryChange))
             .List<CategoryChange>().OrderBy(c => c.Id);
 
         var groupedChanges = orderedTopicChangesOnPage

@@ -1,21 +1,24 @@
 ﻿using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class UserMessagesController : BaseController
 {
-    public UserMessagesController(SessionUser sessionUser) :base(sessionUser)
+    private readonly MessageRepo _messageRepo;
+
+    public UserMessagesController(SessionUser sessionUser,
+        MessageRepo messageRepo) :base(sessionUser)
     {
-        
+        _messageRepo = messageRepo;
     }
     [HttpGet]
     public JsonResult Get()
     {
         if (_sessionUser.IsLoggedIn)
         {
-            var messages = Resolve<MessageRepo>()
+            var messages = _messageRepo
             .GetForUser(_sessionUser.UserId, false)
             .Select(m => new 
             {
@@ -28,17 +31,17 @@ public class UserMessagesController : BaseController
             })
             .ToArray();
 
-            var readMessagesCount = Resolve<MessageRepo>().GetNumberOfReadMessages(_sessionUser.UserId);
+            var readMessagesCount = _messageRepo.GetNumberOfReadMessages(_sessionUser.UserId);
             return Json(new
             {
                 messages = messages,
                 readCount = readMessagesCount   
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
         return Json(new
         {
             notLoggedIn = true,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 }

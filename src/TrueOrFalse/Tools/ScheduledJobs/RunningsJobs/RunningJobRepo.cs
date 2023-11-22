@@ -1,10 +1,19 @@
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
+using ISession = NHibernate.ISession;
 
 public class RunningJobRepo : RepositoryDb<RunningJob>
 {
-    public RunningJobRepo(ISession session) : base(session)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public RunningJobRepo(ISession session,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) : base(session)
     {
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public bool IsJobRunning(string jobName)
@@ -21,13 +30,13 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             if (jobCount == 1)
                 return true;
 
-            Logg.r().Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
+            Logg.r.Error("Unexpected job count {JobCount} {Jobname}", jobCount, jobName);
 
             return true;
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, "Error in IsJobRunning.");
+            Logg.r.Error(e, "Error in IsJobRunning.");
             return true;
         }
     }
@@ -48,10 +57,10 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             .List();
 
         if(jobs.Count == 0)
-            Logg.r().Error("No job for removal found {Jobname}", jobName);
+            Logg.r.Error("No job for removal found {Jobname}", jobName);
 
         else if(jobs.Count > 1)
-            Logg.r().Error("More than one job for remove found: {Jobname} {JobCount}", jobName, jobs.Count);
+            Logg.r.Error("More than one job for remove found: {Jobname} {JobCount}", jobName, jobs.Count);
 
         foreach (var job in jobs)
             Delete(job);

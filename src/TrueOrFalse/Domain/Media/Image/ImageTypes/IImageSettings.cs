@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 public interface IImageSettings
 {
     int Id { get; }

@@ -1,20 +1,24 @@
-﻿using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class CommentMsg
 {
-    public static void Send(Comment comment)
+    public static void Send(Comment comment,
+        QuestionReadingRepo questionReadingRepo, 
+        MessageRepo messageRepo, 
+        IHttpContextAccessor httpContextAccessor,
+        IActionContextAccessor actionContextAccessor)
     {
         if (comment.Type != CommentType.AnswerQuestion)
             throw new Exception("Other CommentType than AnswerQuestion is unknown.");
 
-        var question = Sl.R<QuestionRepo>().GetById(comment.TypeId);
+        var question = questionReadingRepo.GetById(comment.TypeId);
 
         var questionUrl = "";
-        if(HttpContext.Current != null)
-            questionUrl = Links.AnswerQuestion(question);
+        if(httpContextAccessor.HttpContext != null)
+            questionUrl = new Links(actionContextAccessor, httpContextAccessor).AnswerQuestion(question);
 
         string shouldImproveOrRemove = "";
         if (comment.ShouldImprove)
@@ -35,7 +39,7 @@ public class CommentMsg
 
         if (comment.ShouldRemove)
         {
-            shouldImproveOrRemove = String.Format(@"
+            shouldImproveOrRemove = string.Format(@"
                 <p>Die Frage sollte entfernt werden!</p>
                 <div class='ReasonList'>
                     <i class='fa fa-fire show-tooltip' style='float:left' title='Die Frage sollte entfernt werden'></i>&nbsp;
@@ -49,23 +53,23 @@ public class CommentMsg
                     .Aggregate((a, b) => a + b));                
         }
 
-        string body = String.Format(@"
+        string body = string.Format(@"
 <p>Ein neuer Kommentar auf die Frage <a href='{0}'><i>{1}</i></a>:</p>
 {2}
 <p>{3}</p>", questionUrl, question.Text, shouldImproveOrRemove, comment.Text.LineBreaksToBRs());
 
-        Send_CommentToYourQuestion(body, receiverUserId: question.Creator.Id);
+        Send_CommentToYourQuestion(body, receiverUserId: question.Creator.Id, messageRepo);
 
         if(comment.AnswerTo != null && comment.AnswerTo.Creator.Id != question.Creator.Id)
-            Send_AnswerToYourComment(body, comment.AnswerTo.Creator.Id);
+            Send_AnswerToYourComment(body, comment.AnswerTo.Creator.Id, messageRepo);
 
-        Send_InfoToMemucho(body, Constants.MemuchoAdminUserId);
+        Send_InfoToMemucho(body, Constants.MemuchoAdminUserId, messageRepo);
 
     }
 
-    static public void Send_CommentToYourQuestion(string body, int receiverUserId)
+    public static void Send_CommentToYourQuestion(string body, int receiverUserId, MessageRepo messageRepo)
     {
-        Sl.R<MessageRepo>().Create(new Message
+        messageRepo.Create(new Message
         {
             ReceiverId = receiverUserId,
             Subject = "Ein neuer Kommentar",
@@ -74,9 +78,9 @@ public class CommentMsg
         });
     }
 
-    public static void Send_AnswerToYourComment(string body, int receiverUserId)
+    private static void Send_AnswerToYourComment(string body, int receiverUserId, MessageRepo messageRepo )
     {
-        Sl.R<MessageRepo>().Create(new Message
+        messageRepo.Create(new Message
         {
             ReceiverId = receiverUserId,
             Subject = "Antwort auf deinen Kommentar",
@@ -85,8 +89,8 @@ public class CommentMsg
         });
     }
 
-    public static void Send_InfoToMemucho(string body, int receiverUserId)
+    private static void Send_InfoToMemucho(string body, int receiverUserId, MessageRepo messageRepo)
     {
-        Send_CommentToYourQuestion(body, receiverUserId);
+        Send_CommentToYourQuestion(body, receiverUserId, messageRepo);
     }
 }

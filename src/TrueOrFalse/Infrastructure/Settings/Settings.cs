@@ -1,101 +1,54 @@
 ﻿using System.Configuration;
+using System.Net.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using TrueOrFalse.Environment;
 
 public class Settings
 {
-    private static readonly AppSettingsReader _settingReader = new();
+    private static IConfiguration _configuration;
 
+    public static void Initialize(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+    
     [ThreadStatic]
     public static bool UseWebConfig;
-    public static string SecurityKeyStripe { get; set; }
-    public static string WebhookKeyStripe { get; set; }
+    // LoginProvider properties
+    public static string FacebookAppId => _configuration["LoginProvider:FacebookAppId"];
+    public static string FacebookAppSecret => _configuration["LoginProvider:FacebookAppSecret"];
 
-    public static string CanonicalHost;
+    // Stripe properties
+    public static string WebhookKeyStripe => _configuration["Stripe:WebhookKeyStripe"];
+    public static string StripeBaseUrl => _configuration["Stripe:StripeBaseUrl"];
 
-   // public static bool GoogleKeyIsSet = false;
+    // Meilisearch properties
+    public static string MeiliSearchUrl => _configuration["Meilisearch:MeiliSearchUrl"];
+    public static string MeiliSearchMasterKey => _configuration["Meilisearch:MeiliSearchMasterKey"];
 
-   // public static string GoogleAnalyticsKey;
-    public static string GoogleApiKey;
-    public static string FacebookAppId;
-    public static string FacebookAppSecret;
+    // General properties
+    public static string CanonicalHost => _configuration["General:CanonicalHost"];
+    public static string SaltCookie => _configuration["General:SaltCookie"];
+    public static int MemuchoUserId => int.Parse(_configuration["General:MemuchoUserId"]);
+    public static string Environment => _configuration["General:Environment"];
+    public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
 
-    public static bool AdvertisementTurnedOn;
+    // Settings properties
+    public static bool WithNHibernateStatistics => bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
+    public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
 
-    public static string EmailFrom = "team@memucho.de";
-    public static string EmailToMemucho = "team@memucho.de";
-    
-    public static string MemuchoCookie = "memucho";
-    public static int MemuchoUserId = 26;
-    public static bool WithNHibernateStatistics = true;
+    // Email properties
+    public static string EmailFrom => _configuration["Email:EmailFrom"];
+    public static string EmailToMemucho => _configuration["Email:EmailToMemucho"];
 
-    public static int TestSessionQuestionCount = 5;
+    // Paths properties
+    public static string LomExportPath => _configuration["Paths:LomExportPath"];
+    public static string ImagePath => string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])
+        ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath, "Images")
+        : _configuration["Paths:AbsoluteImagePath"];
 
-    public static string LomExportPath;
-
-    public static bool ShowAdvertisment; 
-
-    private static bool? _developOffline;
-
-    public static string MeiliSearchUrl;
-    public static string MeiliSearcMasterKey;
-
-    public static string StripeBaseUrl;
-
-    public static bool InitEntityCacheViaJobScheduler()
-    {
-        var result = OverwrittenConfig.Value("initEntityCacheViaJobScheduler");
-
-        return result.HasValue && Boolean.Parse(result.Value);
-    }
-
-    /// <summary>Develop / Stage / Live</summary>
-    public static string Environment() => OverwrittenConfig.ValueString("environment");
-    public static string UpdateUserSettingsKey() => OverwrittenConfig.ValueString("updateUserSettingsKey");
-    public static bool DebugEnableMiniProfiler() => OverwrittenConfig.ValueBool("debugEnableMiniProfiler");
-
-    public static bool DisableAllJobs() => OverwrittenConfig.ValueBool("disableAllJobs");
-
-    public static string RollbarAccessToken => Get<string>("Rollbar.AccessToken");
-    public static string RollbarEnvironment => Get<string>("Rollbar.Environment");
- 
-
-    public static string ConnectionString()
-    {
-        var result = OverwrittenConfig.Value("connectionString");
-        return result.HasValue ? result.Value : ConfigurationManager.ConnectionStrings["main"].ConnectionString;
-    }
-
-    private static string GetValue(OverwrittenConfigValueResult overwrittenConfigValueResult, string configKey)
-    {
-        if (overwrittenConfigValueResult.HasValue)
-            return overwrittenConfigValueResult.Value;
-
-        return Get<string>(configKey);
-    }
-
-    private static T Get<T>(string settingKey){
-        try
-        {
-            return (T)_settingReader.GetValue(settingKey, typeof(T));
-        }
-        catch
-        {
-            return default(T);
-        }
-    }
-
-    static Settings()
-    {
-        GoogleApiKey = GetValue(OverwrittenConfig.Value("googleApiKey"), "GoogleAnalyticsKey");
-        FacebookAppId = OverwrittenConfig.ValueString("FacebookAppId");
-        FacebookAppSecret = OverwrittenConfig.ValueString("FacebookAppSecret");
-        MeiliSearchUrl =  OverwrittenConfig.ValueString("MeiliSearchUrl");
-        MeiliSearcMasterKey = OverwrittenConfig.ValueString("MeiliSearchMasterKey");
-        CanonicalHost = GetValue(OverwrittenConfig.Value("canonicalHost"), "CanonicalHost");
-        AdvertisementTurnedOn = bool.Parse(GetValue(OverwrittenConfig.Value("advertisementTurnedOn"), "AdvertisementTurnedOn"));
-        LomExportPath = GetValue(OverwrittenConfig.Value("lomExportPath"), "LomExportPath");
-        SecurityKeyStripe = OverwrittenConfig.ValueString("SecurityKeyStripe");
-        WebhookKeyStripe = OverwrittenConfig.ValueString("WebhookKeyStripe");
-        ShowAdvertisment = Environment() != "Live" || Environment() != "Stage";
-        StripeBaseUrl = OverwrittenConfig.ValueString("StripeBaseUrl");
-    }
+    // Connection properties
+    public static string ConnectionString => _configuration["General:ConnectionString"];
 }

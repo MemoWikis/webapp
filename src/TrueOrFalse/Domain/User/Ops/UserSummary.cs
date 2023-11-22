@@ -3,9 +3,15 @@ using NHibernate.Criterion;
 
 public class UserSummary : IRegisterAsInstancePerLifetime
 {
+    private readonly ISession _nhibernateSession;
+
+    public UserSummary(ISession nhibernateSession)
+    {
+        _nhibernateSession = nhibernateSession;
+    }
     public int AmountCreatedQuestions(int creatorId, bool inclPrivateQuestions = true)
     {
-        var query = Sl.Resolve<ISession>()
+        var query = _nhibernateSession
             .QueryOver<Question>()
             .Select(Projections.RowCount())
             .Where(q => q.Creator != null && q.Creator.Id == creatorId);
@@ -18,7 +24,7 @@ public class UserSummary : IRegisterAsInstancePerLifetime
 
     public int AmountCreatedCategories(int creatorId, bool inclPrivateCategories = true)
     {
-        var query = Sl.Resolve<ISession>()
+        var query = _nhibernateSession
             .QueryOver<Category>()
             .Select(Projections.RowCount())
             .Where(c => c.Creator != null && c.Creator.Id == creatorId);

@@ -1,19 +1,23 @@
-﻿using System.Collections.Concurrent;
-using System.Web;
-using System.Web.Caching;
+﻿
+using System.Collections.Concurrent;
+using CacheManager.Core;
 
- public class BaseCache
+
+public class BaseEntityCache
+{
+    protected static ICacheManager<object> _cache = CacheFactory.Build<object>(settings =>
     {
-        public static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
-        {
-            HttpRuntime.Cache.Insert(
-                key,
-                objectToCache,
-                null,
-                Cache.NoAbsoluteExpiration,
-                Cache.NoSlidingExpiration,
-                CacheItemPriority.NotRemovable,
-                null);
-        }
+        settings.WithDictionaryHandle();
+    });
+
+    public static void IntoForeverCache<T>(string key, ConcurrentDictionary<int, T> objectToCache)
+    {
+        _cache.Add(key, objectToCache);
+    }
+
+    public static void IntoForeverCache<T>(string key, ConcurrentDictionary<(int, int), T> objectToCache)
+    {
+        _cache.Add(key, objectToCache);
+    }
 }
 

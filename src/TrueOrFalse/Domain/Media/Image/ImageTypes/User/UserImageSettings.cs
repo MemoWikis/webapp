@@ -1,12 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web;
-using Newtonsoft.Json;
-using static System.String;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+
 
 public class UserImageSettings : ImageSettings, IImageSettings
 {
@@ -17,21 +11,21 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 85, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
 
-    public override string BasePath => "/Images/Users/";
-    public string BaseDummyUrl => "/Images/no-profile-picture-";
+    public override string BasePath => "Users";
+    public string BaseDummyUrl => "no-profile-picture-";
 
-    public UserImageSettings(int id){
+    public UserImageSettings(int id,
+        IHttpContextAccessor httpContextAccessor):
+        base(httpContextAccessor){
         Id = id;
     }
 
-    public UserImageSettings()
-    {
-
-    }
+    public UserImageSettings(IHttpContextAccessor httpContextAccessor) :
+        base(httpContextAccessor) {}
 
     public void Init(int typeId)
     {
-        throw new NotImplementedException();
+        Id = typeId;
     }
 
     public ImageUrl GetUrl_128px_square(IUserTinyModel user) { return GetUrl(user, 128, isSquare: true);}
@@ -42,13 +36,14 @@ public class UserImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
-        return ImageUrl.Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
+        return new ImageUrl(_contextAccessor)
+            .Get(this, width, isSquare, arg => GetFallbackImage(user, arg));
     }
 
     protected string GetFallbackImage(IUserTinyModel user, int width)
     {
         //Removed Google, Facebook and Gravatar urls for the time being, to be reintroduced with images fetched server side
-        return BaseDummyUrl + width + ".png";
+        return Path.Combine(BaseDummyUrl + width + ".png");
     }
 }
 

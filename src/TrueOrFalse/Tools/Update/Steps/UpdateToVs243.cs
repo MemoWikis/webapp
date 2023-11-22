@@ -4,9 +4,9 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs243
 {
-    public static void Run()
+    public static void Run(ISession nhibernateSession)
     {
-        Sl.Resolve<ISession>()
+        nhibernateSession
             .CreateSQLQuery(
                 @"ALTER TABLE User CHANGE subscriptionStartDate SubscriptionStartDate DATETIME NULL;"
             ).ExecuteUpdate();

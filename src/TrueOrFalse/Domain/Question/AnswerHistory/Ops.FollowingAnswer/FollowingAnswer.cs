@@ -2,9 +2,9 @@
 
 public class FollowingAnswer
 {
-    public static Answer Get(Answer answer)
+    public static Answer Get(Answer answer, AnswerRepo answerRepo)
     {
-        var allAnswers =  Sl.R<AnswerRepo>().GetByQuestion(answer.Question.Id, answer.UserId);
+        var allAnswers =  answerRepo.GetByQuestion(answer.Question.Id, answer.UserId);
         var allAnswersOrdered = allAnswers.OrderBy(x => x.DateCreated).ToList();
 
         for (var i = 0; i < allAnswersOrdered.Count; i++)

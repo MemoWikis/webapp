@@ -1,6 +1,8 @@
 ﻿using System.Linq;
-using NHibernate;
-using TrueOrFalse.Search;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using ISession = NHibernate.ISession;
 
 public class CategoryDeleter : IRegisterAsInstancePerLifetime
 {
@@ -9,28 +11,48 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
     private readonly UserActivityRepo _userActivityRepo;
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryValuationRepo _categoryValuationRepo;
+    private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
+    private readonly CategoryValuationReadingRepo _categoryValuationReading;
+    private readonly IMemoryCache _cache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
     private readonly PermissionCheck _permissionCheck;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
 
     public CategoryDeleter(
         ISession session,
-
         SessionUser sessionUser,
         UserActivityRepo userActivityRepo,
         CategoryRepository categoryRepository,
         CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationRepo categoryValuationRepo,
-        PermissionCheck permissionCheck)
+        CategoryValuationWritingRepo categoryValuationWritingRepo,
+        PermissionCheck permissionCheck,
+        UserReadingRepo userReadingRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
+        CategoryValuationReadingRepo categoryValuationReading,
+        IMemoryCache cache,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        SessionUserCache sessionUserCache)
     {
         _session = session;
         _sessionUser = sessionUser;
         _userActivityRepo = userActivityRepo;
         _categoryRepository = categoryRepository;
         _categoryChangeRepo = categoryChangeRepo;
-        _categoryValuationRepo = categoryValuationRepo;
+        _categoryValuationWritingRepo = categoryValuationWritingRepo;
         _permissionCheck = permissionCheck;
+        _userReadingRepo = userReadingRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
+        _categoryValuationReading = categoryValuationReading;
+        _cache = cache;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _sessionUserCache = sessionUserCache;
     }
-
+    ///todo:(DaMa)  Revise: Wrong place for SQL commands.
     public HasDeleted Run(Category category, int userId, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
@@ -38,7 +60,7 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
 
         if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
         {
-            Logg.r().Error("Category can´t deleted it has children");
+            Logg.r.Error("Category can´t deleted it has children");
             hasDeleted.HasChildren = true;
             return hasDeleted;
         }
@@ -60,9 +82,10 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         }
 
         _userActivityRepo.DeleteForCategory(category.Id);
-        _categoryRepository.Delete(category);
+
         _categoryChangeRepo.AddDeleteEntry(category, userId);
-       _categoryValuationRepo.DeleteCategoryValuation(category.Id);
+        _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
+        _categoryRepository.Delete(category);
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
         EntityCache.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
@@ -73,7 +96,8 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id);
+        _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
+
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;
     }

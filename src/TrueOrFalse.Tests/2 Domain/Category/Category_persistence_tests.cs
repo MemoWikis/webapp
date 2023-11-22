@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using NHibernate.Util;
 using NUnit.Framework;
 
@@ -12,9 +13,9 @@ public class Category_persistence_tests : BaseTest
     public void Category_should_be_persisted()
     {
         var user = new User { Name = "Some user" };
-        Resolve<UserRepo>().Create(user);
-        var sessionUser = Resolve<SessionUser>(); 
-        var categoryRepo = Resolve<CategoryRepository>();
+        R<UserWritingRepo>().Create(user);
+        var sessionUser = R<SessionUser>(); 
+        var categoryRepo = R<CategoryRepository>();
 
        
 
@@ -58,7 +59,7 @@ public class Category_persistence_tests : BaseTest
                 parentCategories.Add(context.All.First(x => x.Name.StartsWith("Daily-A")));
                 parentCategories.Add(context.All.First(x => x.Name.StartsWith("Standard-1")));
 
-                ModifyRelationsForCategory.UpdateCategoryRelationsOfType(c.Id,
+                new ModifyRelationsForCategory(LifetimeScope.Resolve<CategoryRepository>()).UpdateCategoryRelationsOfType(c.Id,
                     parentCategories.Select(cat => cat.Id).ToList());
             });
 
@@ -95,12 +96,17 @@ public class Category_persistence_tests : BaseTest
                         RelatedCategoryId = categories[i].Id
                     });
                 EntityCache.AddOrUpdate(category);
-                context.Update(Sl.CategoryRepo.GetByIdEager(category.Id));
+                context.Update(LifetimeScope.Resolve<CategoryRepository>().GetByIdEager(category.Id));
             }
         }
         categories = EntityCache.GetAllCategories();
-            
-        Assert.That(EntityCache.GetCategoryByName("A").First().AggregatedCategories( permissionCheck,true).Where(cci => SessionUserCache.IsInWishknowledge(user.Id,cci.Key)).Count, Is.EqualTo(6));
+
+        var expectedResult = EntityCache.GetCategoryByName("A").First()
+            .AggregatedCategories(permissionCheck)
+            .Count(cci => SessionUserCache.IsInWishknowledge(user.Id, cci.Key, Resolve<CategoryValuationReadingRepo>(), R<UserReadingRepo>(),
+                R<QuestionValuationRepo>())); 
+
+        Assert.That(expectedResult, Is.EqualTo(6));
         Assert.That(categories.ByName("A").AggregatedCategories(permissionCheck, true).Count, Is.EqualTo(13));
     }
 }

@@ -1,12 +1,23 @@
 ﻿using Autofac;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
+using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class CleanUpWorkInProgressQuestions : IJob
     {
-        public void Execute(IJobExecutionContext context)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public CleanUpWorkInProgressQuestions(IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
@@ -14,13 +25,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     .Where(q => q.IsWorkInProgress && q.DateCreated < DateTime.Now.AddHours(-6))
                     .List<Question>();
 
-                var questionRepo = scope.Resolve<QuestionRepo>();
+                var questionWritingRepo = scope.Resolve<QuestionWritingRepo>();
 
                 foreach (var question in questions)
-                    questionRepo.Delete(question);
+                    questionWritingRepo.Delete(question);
 
-                Logg.r().Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
+                Logg.r.Information("CleanUpWorkInProgressQuestions: {amountOfDeletedQuestions}", questions.Count);
             }, "CleanUpWorkInProgressQuestions");
+
+            return Task.CompletedTask;
         }
     }
 }

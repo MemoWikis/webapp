@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace QuestionListJson
+﻿namespace QuestionListJson
 {
     public class Question
     {

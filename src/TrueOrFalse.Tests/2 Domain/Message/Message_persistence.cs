@@ -9,9 +9,9 @@ public class Message_persistence : BaseTest
     [Test]
     public void Should_persist_message()
     {
-        var context = ContextUser.New().Add("Jule").Persist();
+        var context = ContextUser.New(R<UserWritingRepo>()).Add("Jule").Persist();
         var userId = context.All.First().Id;
 
-        CustomMsg.Send(userId, "subject", "body");
+        CustomMsg.Send(userId, "subject", "body", R<MessageRepo>(), R<UserReadingRepo>());
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using NHibernate;
 using NUnit.Framework;
 using SharpTestsEx;
@@ -12,16 +13,22 @@ public class Question_persistence : BaseTest
     [Test]
     public void Questions_should_be_persisted()
     {
-        var context = ContextQuestion.New().AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
-            .AddCategory("A")
-            .AddCategory("B")
-            .AddCategory("C")
+        var entityCacheInitilizer = LifetimeScope.Resolve<EntityCacheInitializer>();
+        var context = ContextQuestion.New(R<QuestionWritingRepo>(),
+                R<AnswerRepo>(),
+                R<AnswerQuestion>(),
+                R<UserWritingRepo>(), 
+                R<CategoryRepository>())
+            .AddQuestion(questionText: "What is BDD", solutionText: "Another name for writing acceptance tests")
+            .AddCategory("A", entityCacheInitilizer)
+            .AddCategory("B", entityCacheInitilizer)
+            .AddCategory("C", entityCacheInitilizer)
             .AddQuestion(questionText: "Another Question", solutionText: "Some answer")
             .Persist();
-            
+
         Resolve<ISession>().Evict(context.All[0]);
 
-        var questions = Resolve<QuestionRepo>().GetAll();
+        var questions = Resolve<QuestionReadingRepo>().GetAll();
         questions.Count.Should().Be.EqualTo(2);
         questions[0].Categories.Count.Should().Be.EqualTo(3);
         questions[0].Categories.Count(c => c.Name == "A").Should().Be.EqualTo(1);
@@ -33,11 +40,15 @@ public class Question_persistence : BaseTest
     public void Should_ensure_correct_cascading_for_categories()
     {
         //Arrange
-        var context = ContextQuestion.New()
+        var context = ContextQuestion.New(R<QuestionWritingRepo>(),
+                R<AnswerRepo>(),
+                R<AnswerQuestion>(),
+                R<UserWritingRepo>(), 
+                R<CategoryRepository>())
             .AddQuestion(questionText: "Q")
-            .AddCategory("C")
+            .AddCategory("C", LifetimeScope.Resolve<EntityCacheInitializer>())
             .Persist();
-            
+
         RecycleContainer();
 
         //Act
@@ -47,7 +58,7 @@ public class Question_persistence : BaseTest
 
         RecycleContainer();
         session = R<ISession>();
-            
+
         //Assert
         Assert.That(session.QueryOver<Question>().List().Count, Is.EqualTo(0));
         Assert.That(session.QueryOver<Category>().List().Count, Is.EqualTo(1));
@@ -82,7 +93,12 @@ public class Question_persistence : BaseTest
     private static Reference ReferenceWithContext()
     {
         var uniqueCategoryName = "Category" + Guid.NewGuid();
-        var contextQuestion = ContextQuestion.New().AddQuestion(questionText: "text", solutionText: "solution").Persist();
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
+                R<AnswerRepo>(), 
+                R<AnswerQuestion>(), 
+                R<UserWritingRepo>(), 
+                R<CategoryRepository>())
+            .AddQuestion(questionText: "text", solutionText: "solution").Persist();
         var contextCategory = ContextCategory.New().Add(uniqueCategoryName).Persist();
 
         var reference = new Reference();

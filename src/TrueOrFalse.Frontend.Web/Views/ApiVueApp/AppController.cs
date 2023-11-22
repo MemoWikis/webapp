@@ -1,15 +1,12 @@
 ﻿using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using TrueOrFalse.Web;
+using Microsoft.AspNetCore.Mvc;
+using VueApp;
 
-namespace VueApp;
-
-public class AppController : Controller
+public class AppController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
 
-    public AppController(VueSessionUser vueSessionUser)
+    public AppController(SessionUser sessionUser, VueSessionUser vueSessionUser) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
     }
@@ -17,18 +14,18 @@ public class AppController : Controller
     [HttpGet]
     public JsonResult GetCurrentUser()
     {
-        return Json(_vueSessionUser.GetCurrentUserData(), JsonRequestBehavior.AllowGet);
+        return Json(_vueSessionUser.GetCurrentUserData());
     }
 
     [HttpGet]
     public JsonResult GetFooterTopics()
     {
-        return Json(new
+        var json = new
         {
             RootWiki = new
             {
                 Id = RootCategory.RootCategoryId,
-                Name = EntityCache.GetCategory(RootCategory.RootCategoryId).Name
+                Name = EntityCache.GetCategory(RootCategory.RootCategoryId)?.Name
             },
             MainTopics = RootCategory.MainCategoryIds.Select(id => new
             {
@@ -60,6 +57,7 @@ public class AppController : Controller
                 Id = RootCategory.IntroCategoryId,
                 Name = EntityCache.GetCategory(RootCategory.IntroCategoryId).Name
             }
-        }, JsonRequestBehavior.AllowGet);
+        }; 
+        return Json(json);
     }
 }

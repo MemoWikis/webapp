@@ -1,52 +1,32 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-
-namespace VueApp;
+﻿using Microsoft.AspNetCore.Mvc;
+using VueApp;
 
 public class TopicController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly PersistentLoginRepo _persistentLoginRepo;
 
-    public TopicController(SessionUser sessionUser,PermissionCheck permissionCheck) : base(sessionUser)
+    public TopicController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        TopicControllerLogic topicControllerLogic,
+        SessionUserCache sessionUserCache,
+        UserReadingRepo userReadingRepo,
+        PersistentLoginRepo persistentLoginRepo) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _topicControllerLogic = topicControllerLogic;
+        _sessionUserCache = sessionUserCache;
+        _userReadingRepo = userReadingRepo;
+        _persistentLoginRepo = persistentLoginRepo;
     }
 
     [HttpGet]
-    public JsonResult GetTopic(int id)
+    public JsonResult GetTopic([FromRoute] int id)
     {
-        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
-        var topicControllerLogic = new TopicControllerLogic(_sessionUser,_permissionCheck, gridItemLogic);
-        return Json(topicControllerLogic.GetTopicData(id), JsonRequestBehavior.AllowGet);
-    }
-
-    [HttpGet]
-    public bool CanAccess(int id)
-    {
-        var c = EntityCache.GetCategory(id);
-
-        if (_permissionCheck.CanView(c))
-            return true;
-
-        return false;
-    }
-
-    [HttpGet]
-    public JsonResult LoadQuestionIds(int topicId)
-    {
-        var topicCacheItem = EntityCache.GetCategory(topicId);
-        if (_permissionCheck.CanView(topicCacheItem))
-        {
-            var userCacheItem = SessionUserCache.GetItem(User_().Id);
-            return Json(topicCacheItem
-                .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
-                .Where(q =>
-                    q.Creator.Id == userCacheItem.Id &&
-                    q.IsPrivate() &&
-                    _permissionCheck.CanEdit(q))
-                .Select(q => q.Id).ToList(), JsonRequestBehavior.AllowGet);
-        }
-        return Json(new { }, JsonRequestBehavior.DenyGet);
+        return Json(_topicControllerLogic.GetTopicData(id));
     }
 }
 

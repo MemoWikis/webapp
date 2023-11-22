@@ -1,64 +1,59 @@
-﻿using System.Web;
-using RollbarSharp;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
+using Rollbar;
 using Serilog;
 using TrueOrFalse.Infrastructure.Logging;
 using TrueOrFalse.Tools;
 
-public class Logg
+public class Logg : IRegisterAsInstancePerLifetime
 {
-    private const string _seqUrl = "http://localhost:5341";
-    private static readonly ILogger _logger;
-    private static readonly ILogger _loggerIsCrawler;
-    private static readonly ILogger _subscriptionLogger;
-
+    private const string SeqUrl = "http://localhost:5341";
+    private static readonly Serilog.ILogger _logger;
+    private static readonly Serilog.ILogger _loggerIsCrawler;
+    private static readonly Serilog.ILogger _subscriptionLogger;
+    
     static Logg()
     {
         _logger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", Settings.Environment())
+            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", false)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(SeqUrl)
             .CreateLogger();
 
         _loggerIsCrawler = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", Settings.Environment())
+            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", true)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(SeqUrl)
             .CreateLogger();
 
         _subscriptionLogger = new LoggerConfiguration()
-            .Enrich.WithProperty("Environment", Settings.Environment())
+            .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("isSubscription", true)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(SeqUrl)
             .CreateLogger();
-
 
         //configure globally shared logger
         Log.Logger = _logger;
     }
 
+    public static void Error(Exception exception) => r.Error(exception, "Error");
 
-    public static void Error(Exception exception)
+    public static void Error(Exception exception, HttpContext httpContext)
     {
         try
         {
-            if (HttpContext.Current == null)
-            {
-                r().Error(exception, "Error");
-                return;
-            }
-
-            var request = HttpContext.Current.Request;
+            var request = httpContext.Request;
             var header = request.Headers.ToString();
+            var rawUrl = $"{request.Path}{request.QueryString}";
+
+            r.Error(exception, "PageError {Url} {Headers}", rawUrl, header);
 
             if (!IgnoreLog.ContainsCrawlerInHeader(header))
             {
-                r(IsCrawlerRequest.Yes(UserAgent.Get())).Error(exception, "PageError {Url} {Headers}",
-                    request.RawUrl,
-                    header);
-
-                if (!request.IsLocal)
+                var connection = httpContext.Connection;
+                if (connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress))
                 {
-                    new RollbarClient().SendException(exception);
+                    RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(exception));
                 }
             }
         }
@@ -67,13 +62,11 @@ public class Logg
         }
     }
 
-    public static ILogger r(bool isCrawler = false)
-    {
-        return isCrawler ? _loggerIsCrawler : _logger;
-    }
+    // ReSharper disable once InconsistentNaming
+    public static Serilog.ILogger r => _logger;
 
     /// <summary>
-    ///     Log subscription events
+    /// Log subscription events
     /// </summary>
     /// <param name="stripePaymentEvents"></param>
     /// <param name="userId"></param>

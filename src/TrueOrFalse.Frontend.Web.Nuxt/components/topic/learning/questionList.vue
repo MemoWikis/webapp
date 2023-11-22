@@ -5,12 +5,14 @@ import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { useTopicStore } from '../topicStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useDeleteQuestionStore } from '~/components/question/edit/delete/deleteQuestionStore'
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
 const spinnerStore = useSpinnerStore()
 const topicStore = useTopicStore()
 const deleteQuestionStore = useDeleteQuestionStore()
+const alertStore = useAlertStore()
 
 interface Props {
     expandQuestion: boolean
@@ -24,8 +26,10 @@ const { $logger } = useNuxtApp()
 async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
+
     var result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
-        method: 'POST', body: {
+        method: 'POST',
+        body: {
             itemCountPerPage: itemCountPerPage.value,
             pageNumber: page,
             topicId: topicStore.id
@@ -44,13 +48,11 @@ async function loadQuestions(page: number) {
 }
 const itemsPerPage = ref(25)
 function loadPageWithSpecificQuestion() {
-
     const page = Math.ceil((learningSessionStore.currentIndex + 1) / itemsPerPage.value)
     currentPage.value = page
 
     if (page == 1 || learningSessionStore.currentIndex == 0)
         loadQuestions(1)
-
 }
 
 onBeforeMount(() => {
@@ -103,18 +105,21 @@ deleteQuestionStore.$onAction(({ name, after }) => {
 async function loadNewQuestion(index: number) {
     spinnerStore.showSpinner()
 
-    var result = await $fetch<any>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/?index=${index}`, {
+    const result = await $fetch<FetchResult<QuestionListItem>>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/${index}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
-    if (result != null) {
-        questions.value.push(result)
-        learningSessionStore.lastIndexInQuestionList = index + 1
-    }
     spinnerStore.hideSpinner()
+
+    if (result.success == true) {
+        questions.value.push(result.data)
+        learningSessionStore.lastIndexInQuestionList = index + 1
+    } else {
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+    }
 }
 
 

@@ -1,16 +1,24 @@
-﻿using System.Collections;
-using System.Web;
-using System.Web.Caching;
+﻿using CacheManager.Core;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Primitives;
 
 namespace Seedworks.Web.State
 {
-    internal class CacheAspNet : ICache
+    //todo (DaMa) überarbeiten, dieser Cache muss nicht mehr alleine existieren und kann verallgemeinert werden, mir fehlt gerade der Überblick um das zu erledigen
+    internal class CacheAspNet
     {
-        public int Count => HttpRuntime.Cache.Count;
+        private static readonly ICacheManager<object> _cache;
+        private static CancellationTokenSource _cacheResetToken;
 
-        public IDictionaryEnumerator GetEnumerator()
+        static CacheAspNet()
         {
-            return HttpRuntime.Cache.GetEnumerator();
+            _cache = CacheFactory.Build<object>(settings =>
+            {
+                settings.WithDictionaryHandle()
+                    .EnablePerformanceCounters()
+                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
+            });
+            _cacheResetToken = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -21,49 +29,48 @@ namespace Seedworks.Web.State
         /// <param name="obj"></param>
         /// <param name="expiration"></param>
         /// <param name="slidingExpiration"></param>
-        public void Add(string key, object obj, TimeSpan expiration, bool slidingExpiration = false)
+        public static void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
         {
-
-            if (slidingExpiration)
+            var cacheEntryOptions = new MemoryCacheEntryOptions
             {
-                // The first approach removes an item from the cache if it has not been accessed for the given TimeSpan.
-                HttpRuntime.Cache.Insert(key, obj, null, System.Web.Caching.Cache.NoAbsoluteExpiration, expiration, CacheItemPriority.NotRemovable, null);
-                return;
+                ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
+            };
+
+            if (expiration.HasValue)
+            {
+                if (slidingExpiration)
+                {
+                    cacheEntryOptions.SlidingExpiration = expiration.Value;
+                }
+                else
+                {
+                    cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
+                }
             }
-               
-            // The second approach removes an item from the cache at a given point in time, here after <expiration> has elapsed.
-            HttpRuntime.Cache.Insert(key, obj, null, DateTime.Now + expiration, System.Web.Caching.Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
+
+            _cache.Add(key, obj);
         }
 
-        /// <summary>
-        /// Add an object to the Cache (overwrite if already existent).
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
-        public void Add(string key, object obj)
+        public static object? Get(string key)
         {
-            HttpRuntime.Cache.Insert(key, obj);  
+            return _cache.Get<object>(key); ;
         }
 
-        public object Get(string key)
+        public static T Get<T>(string key)
         {
-            return HttpRuntime.Cache.Get(key);
+            return _cache.Get<T>(key);
         }
 
-        public T Get<T>(string key)
+        public static void Clear()
         {
-            return (T)HttpRuntime.Cache.Get(key);
+            _cacheResetToken.Cancel();
+            _cacheResetToken.Dispose();
+            _cacheResetToken = new CancellationTokenSource();
         }
 
-        public void Clear()
+        public static void Remove(string key)
         {
-            foreach (DictionaryEntry item in HttpRuntime.Cache)
-                HttpRuntime.Cache.Remove(item.Key.ToString());
-        }
-
-        public void Remove(string key)
-        {
-            HttpRuntime.Cache.Remove(key);
+            _cache.Remove(key);
         }
     }
 }

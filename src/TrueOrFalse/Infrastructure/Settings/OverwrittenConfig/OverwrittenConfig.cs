@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Seedworks.Web.State;
 
-public static class OverwrittenConfig
+public class OverwrittenConfig
 {
-    private static readonly Dictionary<string, string> _stringValues = new Dictionary<string, string>();
-    private static readonly Dictionary<string, bool> _booleanValues = new Dictionary<string, bool>();
+    private static readonly Dictionary<string, string> _stringValues = new();
+    private static Dictionary<string, bool> _booleanValues = new();
     private static XDocument _xDoc;
 
     public static string ValueString(string itemName)
@@ -37,9 +39,8 @@ public static class OverwrittenConfig
     {
         if (_xDoc == null)
         {
-            string filePath = ContextUtil.GetFilePath(
-                ContextUtil.IsWebContext || ContextUtil.UseWebConfig ? "Web.overwritten.config" : "App.overwritten.config"
-            );
+            string filePath = Path.Combine(AppContext.BaseDirectory, "Web.overwritten.config");
+            
 
             if (!File.Exists(filePath))
                 return new OverwrittenConfigValueResult(false, null);
@@ -47,8 +48,8 @@ public static class OverwrittenConfig
             _xDoc = XDocument.Load(filePath);
         }
 
-            
-        if(_xDoc.Root.Element(itemName) == null)
+
+        if (_xDoc.Root.Element(itemName) == null)
             return new OverwrittenConfigValueResult(false, null);
 
         var value = _xDoc.Root.Element(itemName).Value;

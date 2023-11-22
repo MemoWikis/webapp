@@ -28,9 +28,11 @@ function flip() {
 
 watch(flipped, () => emit('flipped'))
 
-function getAnswerDataString(): string {
+async function getAnswerDataString(): Promise<string> {
+    await nextTick(); 
     return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
 }
+
 function getAnswerText(): string {
     return ''
 }

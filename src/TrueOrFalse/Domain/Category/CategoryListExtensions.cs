@@ -9,6 +9,10 @@ public static class CategoryListExtensions
     public static CategoryCacheItem ByName(this IEnumerable<CategoryCacheItem> categories, string name) =>
         categories.First(c => c.Name == name);
 
-    public static IEnumerable<int> GetIds(this IEnumerable<CategoryCacheItem> sets) =>
-        sets.Select(q => q.Id).ToList();
+    public static IEnumerable<int> GetIds(this IEnumerable<CategoryCacheItem> sets)
+    {
+        var l = sets.Select(q => q.Id).ToList();
+        return l;
+    }
+        
 }

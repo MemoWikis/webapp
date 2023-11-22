@@ -1,18 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using NHibernate;
 using NHibernate.Criterion;
 
 namespace Seedworks.Lib.Persistence
 {
-    public abstract class RepositoryDb<TDomainObject>
+    public class RepositoryDb<TDomainObject>
         where TDomainObject : class, IPersistable
     {
         protected readonly ISession _session;
 		private List<TDomainObject> _allItemsCached;
-		protected event EventHandler<RepositoryDbEventArgs> OnItemMutated;
-    	protected event EventHandler<RepositoryDbEventArgs> OnItemCreated;
+        protected event EventHandler<RepositoryDbEventArgs> OnItemMutated;
+        protected event EventHandler<RepositoryDbEventArgs> OnItemCreated;
 		protected event EventHandler<RepositoryDbEventArgs> OnItemDeleted;
 		protected event EventHandler<RepositoryDbEventArgs> OnItemUpdated;
 
@@ -30,7 +28,7 @@ namespace Seedworks.Lib.Persistence
         /// </summary>
         protected event EventHandler<TDomainObjectListArgs> AfterItemListRetrieved;
 
-        protected RepositoryDb(ISession session)
+        public RepositoryDb(ISession session)
         {
             _session = session;
         	OnItemCreated += ItemMutated;
@@ -40,9 +38,9 @@ namespace Seedworks.Lib.Persistence
 
     	private void ItemMutated(object sender, RepositoryDbEventArgs e)
     	{
-			if (OnItemMutated != null)
-				OnItemMutated(this, e);
-    	}
+            if (OnItemMutated != null)
+                OnItemMutated(this, e);
+        }
 
     	public DetachedCriteria GetDetachedCriteria()
         {
@@ -147,7 +145,7 @@ namespace Seedworks.Lib.Persistence
 				OnItemUpdated(this, new RepositoryDbEventArgs(domainObject));
 		}
 
-    	public virtual void Merge(TDomainObject domainObject)
+        public virtual void Merge(TDomainObject domainObject)
         {
 			if (domainObject is WithDateModified)
 				(domainObject as WithDateModified).DateModified = DateTime.Now;
@@ -191,14 +189,6 @@ namespace Seedworks.Lib.Persistence
                 OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
         }
 
-        public virtual void DeleteWithoutFlush(TDomainObject domainObject)
-        {
-            _session.Delete(domainObject);
-
-            if (OnItemDeleted != null)
-                OnItemDeleted(this, new RepositoryDbEventArgs(domainObject));
-        }
-
         public virtual void Delete(int id)
         {
             Delete(GetById(id));
@@ -230,23 +220,11 @@ namespace Seedworks.Lib.Persistence
             return list;
         }
         
-        public virtual TDomainObject GetById(int id)
+        public virtual TDomainObject? GetById(int id)
         {
             var result = _session.CreateCriteria(typeof(TDomainObject))
                            .Add(Restrictions.Eq("Id", id))
                            .UniqueResult<TDomainObject>();
-
-            if (AfterItemRetrieved != null)
-                AfterItemRetrieved(this, new TDomainObjectArgs(result));
-
-            return result;
-        }
-
-        public virtual TDomainObject GetBySetId(int id)
-        {
-            var result = _session.CreateCriteria(typeof(TDomainObject))
-                .Add(Restrictions.Eq("FormerSetId", id))
-                .UniqueResult<TDomainObject>();
 
             if (AfterItemRetrieved != null)
                 AfterItemRetrieved(this, new TDomainObjectArgs(result));
@@ -301,10 +279,10 @@ namespace Seedworks.Lib.Persistence
 			{
                 multiResult = multiCriteria.List();
 			}
-			catch (ADOException)
+			catch (ADOException e)
 			{
 				_session.Connection.Close();
-				
+				Console.WriteLine($"____________________________________ {e}------------------------------------");
 				throw;
 			}
 
@@ -318,22 +296,6 @@ namespace Seedworks.Lib.Persistence
                 AfterItemListRetrieved(this, new TDomainObjectListArgs(list));
 
             return list;
-        }
-
-        public TDomainObject GetByUnique(ISearchDesc searchDesc)
-        {
-            var criteria = GetExecutableCriteria();
-            AddGenericConditions(criteria, searchDesc.Filter);
-
-            var result = criteria.List<TDomainObject>();
-
-            if (result.Count > 1)
-                throw new Exception("An empty or single result is expected, but result count was: " + result.Count);
-
-            if(result.Count == 1)
-                return result[0];
-
-            return default(TDomainObject);
         }
 
         public void Flush()
@@ -385,31 +347,6 @@ namespace Seedworks.Lib.Persistence
 
     		return criteria.List<int>();
     	}
-
-    	public IList<int> GetAllIds(ISearchDesc searchDesc)
-    	{
-			var criteria = GetExecutableCriteria();
-
-			AddGenericConditions(criteria, searchDesc.Filter);
-			AddOrderBy(criteria, searchDesc.OrderBy);
-
-			criteria.SetProjection(Projections.Property("Id")); // guaranteed to exist by IPersistable
-
-    		return criteria.List<int>();
-    	}
-
-		public IList GetProjectionBy(ISearchDesc searchDesc, params string[] projectionProperties)
-		{
-			var criteria = GetExecutableCriteria();
-
-			AddGenericConditions(criteria, searchDesc.Filter);
-			AddOrderBy(criteria, searchDesc.OrderBy);
-
-			foreach (var property in projectionProperties)
-				criteria.SetProjection(Projections.Property(property));
-
-			return criteria.List();
-		}
     }
 }
 

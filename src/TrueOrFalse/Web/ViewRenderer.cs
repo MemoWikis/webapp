@@ -1,5 +1,10 @@
-﻿using System.IO;
-using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 /// <summary>
 /// Copied from here: http://weblog.west-wind.com/posts/2012/May/30/Rendering-ASPNET-MVC-Views-to-String
@@ -9,21 +14,16 @@ using System.Web.Mvc;
 /// </summary>
 public class ViewRenderer
 {
-    /// <summary>
-    /// Renders a full MVC view to a string. Will render with the full MVC
-    /// View engine including running _ViewStart and merging into _Layout        
-    /// </summary>
-    /// <param name="viewPath">
-    /// The path to the view to render. Either in same controller, shared by 
-    /// name or as fully qualified ~/ path including extension
-    /// </param>
-    /// <param name="model">The model to render the view with</param>
-    /// <returns>String of the rendered view or null on error</returns>
-    public static string RenderView(string viewPath, object model, ControllerContext controllerContext)
-    {
-        return RenderViewToStringInternal(viewPath, model, controllerContext, false);
-    }
+    private readonly IRazorViewEngine _viewEngine;
+    private readonly ITempDataProvider _tempDataProvider;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
+    public ViewRenderer(IRazorViewEngine viewEngine, ITempDataProvider tempDataProvider, IServiceProvider serviceProvider, IHttpContextAccessor httpContextAccessor)
+    {
+        _viewEngine = viewEngine;
+        _tempDataProvider = tempDataProvider;
+        _httpContextAccessor = httpContextAccessor;
+    }
 
     /// <summary>
     /// Renders a partial MVC view to string. Use this method to render
@@ -36,9 +36,9 @@ public class ViewRenderer
     /// </param>
     /// <param name="model">The model to pass to the viewRenderer</param>
     /// <returns>String of the rendered view or null on error</returns>
-    public static string RenderPartialView(string viewPath, object model, ControllerContext controllerContext)
+    public string RenderPartialView(string viewPath, object model, ControllerContext controllerContext)
     {
-        return RenderViewToStringInternal(viewPath, model, controllerContext, true);
+        return RenderViewToStringInternal(viewPath, model, true);
     }
 
     /// <summary>
@@ -52,36 +52,34 @@ public class ViewRenderer
     /// <param name="model">Model to render the view with</param>
     /// <param name="partial">Determines whether to render a full or partial view</param>
     /// <returns>String of the rendered view</returns>
-    protected static string RenderViewToStringInternal(string viewPath, object model,
-        ControllerContext controllerContext, bool partial = false)
+    private string RenderViewToStringInternal(string viewPath, object model, bool partial = false)
     {
-        // first find the ViewEngine for this view
-        ViewEngineResult viewEngineResult;
-        if (partial)
-            viewEngineResult = ViewEngines.Engines.FindPartialView(controllerContext, viewPath);
-        else
-            viewEngineResult = ViewEngines.Engines.FindView(controllerContext, viewPath, null);
+        
+        var actionContext = new ActionContext(_httpContextAccessor.HttpContext, new Microsoft.AspNetCore.Routing.RouteData(), new ControllerActionDescriptor());
 
-        if (viewEngineResult == null)
-            throw new FileNotFoundException();
+        using var sw = new StringWriter();
+        var viewResult = partial ? _viewEngine.FindView(actionContext, viewPath, false) : _viewEngine.GetView(null, viewPath, false);
 
-        // get the view and attach the model to view data
-        var view = viewEngineResult.View;
-        controllerContext.Controller.ViewData.Model = model;
-
-        string result;
-
-        using (var sw = new StringWriter())
+        if (viewResult.View == null)
         {
-            var ctx = new ViewContext(controllerContext, view,
-                controllerContext.Controller.ViewData,
-                controllerContext.Controller.TempData,
-                sw);
-            view.Render(ctx, sw);
-            result = sw.ToString();
+            throw new ArgumentNullException($"{viewPath} does not match any available view");
         }
 
-        return result;
+        var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+        {
+            Model = model
+        };
+        var viewContext = new ViewContext(
+            actionContext,
+            viewResult.View,
+            viewDictionary,
+            new TempDataDictionary(actionContext.HttpContext, _tempDataProvider),
+            sw,
+            new HtmlHelperOptions()
+        );
+
+        viewResult.View.RenderAsync(viewContext).Wait();
+        return sw.ToString();
     }
 
 }

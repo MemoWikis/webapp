@@ -36,7 +36,7 @@ public class QuestionValuation : IPersistable, WithDateCreated
         return new QuestionValuationCacheItem
         {
             Id = Id,
-            User = User == null ? null : EntityCache.GetUserById(User.Id),
+            User = EntityCache.GetUserById(User.Id),
             CorrectnessProbability = CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = CorrectnessProbabilityAnswerCount,
             KnowledgeStatus = KnowledgeStatus,

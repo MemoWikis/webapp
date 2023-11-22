@@ -2,9 +2,9 @@
 
 public class PasswordResetPrepare
 {
-    public static PasswordResetPrepareResult Run(string token)
+    public static PasswordResetPrepareResult Run(string token, ISession nhibernateSession)
     {
-        var passwortToken = Sl.R<ISession>().QueryOver<PasswordRecoveryToken>()
+        var passwortToken = nhibernateSession.QueryOver<PasswordRecoveryToken>()
                 .Where(x => x.Token == token)
                 .SingleOrDefault<PasswordRecoveryToken>();
 

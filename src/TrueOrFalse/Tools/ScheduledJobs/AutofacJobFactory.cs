@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Quartz;
 using Quartz.Spi;
 
@@ -17,12 +19,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
             try
-            {
+            { 
                 return (IJob)_container.Resolve(bundle.JobDetail.JobType);
             }
             catch (Exception e)
             {
-                Logg.r().Error(e, "Error starting Job");
+                Logg.r.Error(e, "Error starting Job");
                 throw;
             }
         }

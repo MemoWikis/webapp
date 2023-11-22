@@ -4,11 +4,11 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs247
 {
-    public static void Run()
+    public static void Run(ISession nhibernateSession)
     {
-        Sl.Resolve<ISession>()
-            .CreateSQLQuery(
-                @"DROP TABLE answerfeature;"
-            ).ExecuteUpdate();
+        nhibernateSession
+                .CreateSQLQuery(
+                    @"DROP TABLE answerfeature;"
+                ).ExecuteUpdate();
     }
 }

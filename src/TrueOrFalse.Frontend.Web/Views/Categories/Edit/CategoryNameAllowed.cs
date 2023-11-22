@@ -4,23 +4,23 @@ public class CategoryNameAllowed
 {
     public IList<Category> ExistingCategories { get; private set; }
 
-    public bool Yes(Category category)
+    public bool Yes(Category category, CategoryRepository categoryRepository)
     {
-        return Yes(category.Name, category.Type);
+        return Yes(category.Name, category.Type, categoryRepository);
     }
 
-    public bool No(Category category)
+    public bool No(Category category, CategoryRepository categoryRepository)
     {
-        return !Yes(category);
+        return !Yes(category, categoryRepository);
     }
 
-    private bool Yes(string categoryName, CategoryType type)
+    private bool Yes(string categoryName, CategoryType type, CategoryRepository categoryRepository)
     {
         var typesToTest = new[] { CategoryType.Standard, CategoryType.Magazine, CategoryType.Daily };
         if (typesToTest.All(t => type != t))
             return true;
 
-        ExistingCategories = ServiceLocator.Resolve<CategoryRepository>().GetByName(categoryName);
+        ExistingCategories = categoryRepository.GetByName(categoryName);
 
         return ExistingCategories.All(c => c.Type != type);
     }

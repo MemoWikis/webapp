@@ -2,6 +2,12 @@
 
 public class KnowledgeReportMsgModel
 {
+    private readonly GetAnswerStatsInPeriod _getAnswerStatsInPeriod;
+    private readonly GetStreaksDays _getStreaksDays;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly GetUnreadMessageCount _getUnreadMessageCount;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public DateTime ShowStatsForPeriodSince;
     public string ShowStatsForPeriodSinceString;
 
@@ -39,8 +45,21 @@ public class KnowledgeReportMsgModel
 
     public string UtmSourceFullString;
 
-    public KnowledgeReportMsgModel(User user, string utmSource)
+    public KnowledgeReportMsgModel(User user, 
+        string utmSource, 
+        GetAnswerStatsInPeriod getAnswerStatsInPeriod,
+        GetStreaksDays getStreaksDays, 
+        UserReadingRepo userReadingRepo,
+        GetUnreadMessageCount getUnreadMessageCount,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        QuestionReadingRepo questionReadingRepo)
     {
+        _getAnswerStatsInPeriod = getAnswerStatsInPeriod;
+        _getStreaksDays = getStreaksDays;
+        _userReadingRepo = userReadingRepo;
+        _getUnreadMessageCount = getUnreadMessageCount;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _questionReadingRepo = questionReadingRepo;
         UtmSourceFullString = "&utm_source=" + utmSource;
 
         switch (user.KnowledgeReportInterval)
@@ -69,7 +88,7 @@ public class KnowledgeReportMsgModel
         QuestionCountWish = user.WishCountQuestions + " Frage" + StringUtils.PluralSuffix(user.WishCountQuestions, "n");
         SetCountWish = user.WishCountSets + " Lernset" + StringUtils.PluralSuffix(user.WishCountSets, "s");
 
-        var knowledgeSummary = KnowledgeSummaryLoader.Run(user.Id);
+        var knowledgeSummary = _knowledgeSummaryLoader.Run(user.Id);
         KnowledgeSolid = knowledgeSummary.Solid.ToString();
         KnowledgeSolidPercentage = knowledgeSummary.SolidPercentage.ToString();
         KnowledgeNeedsConsolidation = knowledgeSummary.NeedsConsolidation.ToString();
@@ -86,20 +105,20 @@ public class KnowledgeReportMsgModel
             (DateTime.Now -
              ((ShowStatsForPeriodSince < user.DateCreated) ? user.DateCreated : ShowStatsForPeriodSince)).Days
                 .ToString();
-        var answerStats = Sl.R<GetAnswerStatsInPeriod>().Run(user.Id, ShowStatsForPeriodSince.Date, DateTime.Now, groupByDate: true, excludeAnswerViews: true);
+        var answerStats = _getAnswerStatsInPeriod.Run(user.Id, ShowStatsForPeriodSince.Date, DateTime.Now, groupByDate: true, excludeAnswerViews: true);
         DaysLearnedSinceCount = answerStats.Count.ToString();
         var answeredQuestionsSinceCount = answerStats.Sum(d => d.TotalAnswers);
-        AnsweredQuestionsSinceCount = answeredQuestionsSinceCount.ToString() + " Frage" + StringUtils.PluralSuffix(answerStats.Sum(d => d.TotalAnswers),"n");
+        AnsweredQuestionsSinceCount = answeredQuestionsSinceCount + " Frage" + StringUtils.PluralSuffix(answerStats.Sum(d => d.TotalAnswers),"n");
         if (answeredQuestionsSinceCount > 0)
         {
             var answeredQuestionsCorrectSinceCount = answerStats.Sum(d => d.TotalTrueAnswers);
-            AnsweredQuestionsCorrectSinceCount = ",<br/> davon " + answeredQuestionsCorrectSinceCount.ToString() + " richtig (=";
-            AnsweredQuestionsCorrectSinceCount += ((int)Math.Round(answeredQuestionsCorrectSinceCount / (float)answeredQuestionsSinceCount * 100)).ToString() + " %)";
+            AnsweredQuestionsCorrectSinceCount = ",<br/> davon " + answeredQuestionsCorrectSinceCount + " richtig (=";
+            AnsweredQuestionsCorrectSinceCount += ((int)Math.Round(answeredQuestionsCorrectSinceCount / (float)answeredQuestionsSinceCount * 100)) + " %)";
         }
 
-        var streak = Sl.R<GetStreaksDays>().Run(user, seperateStreakInRecentPeriodSince: ShowStatsForPeriodSince.Date);
-        StreakSince = streak.RecentPeriodSLongestLength.ToString() + " Lerntag" + StringUtils.PluralSuffix(streak.RecentPeriodSLongestLength, "en");
-        TopStreak = streak.LongestLength.ToString() + " Tag" + StringUtils.PluralSuffix(streak.LongestLength, "e");
+        var streak = _getStreaksDays.Run(user, seperateStreakInRecentPeriodSince: ShowStatsForPeriodSince.Date);
+        StreakSince = streak.RecentPeriodSLongestLength + " Lerntag" + StringUtils.PluralSuffix(streak.RecentPeriodSLongestLength, "en");
+        TopStreak = streak.LongestLength + " Tag" + StringUtils.PluralSuffix(streak.LongestLength, "e");
         if (streak.RecentPeriodSLongestLength > 1)
             StreakSince += " (" + streak.RecentPeriodSLongestStart.ToString("dd.MM") + " - " + streak.RecentPeriodSLongestEnd.ToString("dd.MM.yyyy") + ")";
         else if (streak.RecentPeriodSLongestLength == 1)
@@ -112,16 +131,16 @@ public class KnowledgeReportMsgModel
 
         /* Stats on new content */
 
-        NewQuestions = Sl.R<QuestionRepo>().HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
-        TotalAvailableQuestions = Sl.R<QuestionRepo>().TotalPublicQuestionCount().ToString();
+        NewQuestions = _questionReadingRepo.HowManyNewPublicQuestionsCreatedSince(ShowStatsForPeriodSince).ToString();
+        TotalAvailableQuestions = _questionReadingRepo.TotalPublicQuestionCount().ToString();
 
         /* User's additional status & infos */
 
-        UnreadMessagesCount = Sl.R<GetUnreadMessageCount>().Run(user.Id).ToString();
-        var followerIAmCount = Sl.R<UserRepo>().GetById(user.Id).Followers.Count; //needs to be reloaded for avoiding lazy-load problems
-        var followedIAmCount = Sl.R<UserRepo>().GetById(user.Id).Followers.Count;
-        FollowerIAm = followerIAmCount.ToString() + " Nutzer" + StringUtils.PluralSuffix(followerIAmCount, "n");
-        FollowedIAm = followedIAmCount.ToString() + " Nutzer folg" + StringUtils.PluralSuffix(followedIAmCount, "en", "t");
+        UnreadMessagesCount = _getUnreadMessageCount.Run(user.Id).ToString();
+        var followerIAmCount = _userReadingRepo.GetById(user.Id).Followers.Count; //needs to be reloaded for avoiding lazy-load problems
+        var followedIAmCount = _userReadingRepo.GetById(user.Id).Followers.Count;
+        FollowerIAm = followerIAmCount + " Nutzer" + StringUtils.PluralSuffix(followerIAmCount, "n");
+        FollowedIAm = followedIAmCount + " Nutzer folg" + StringUtils.PluralSuffix(followedIAmCount, "en", "t");
 
 
         /* Create Links */

@@ -5,7 +5,9 @@ using NHibernate.Criterion;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
 {
-    public CategoryChangeRepo(ISession session) : base(session) { }
+    public CategoryChangeRepo(ISession session) : base(session)
+    {
+    }
 
     public void AddDeleteEntry(Category category,
         int userId)
@@ -22,20 +24,20 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         base.Create(categoryChange);
     }
 
-    public void AddCreateEntry(Category category, int authorId) => 
-        AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Create);
-    public void AddCreateEntryDbOnly(Category category, User author) => 
-        AddUpdateOrCreateEntryDbOnly(category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(Category category, int authorId, bool imageWasUpdated) =>
-        AddUpdateOrCreateEntry(category, authorId, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(Category category,
+    public void AddCreateEntry(CategoryRepository categoryRepository, Category category, int authorId) =>
+        AddUpdateOrCreateEntry(categoryRepository,category, authorId, CategoryChangeType.Create);
+    public void AddCreateEntryDbOnly(CategoryRepository categoryRepository, Category category, User author) =>
+        AddUpdateOrCreateEntryDbOnly(categoryRepository,category, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>    
+        AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Update, imageWasUpdated);
+    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category,
         int authorId,
         bool imageWasUpdated,
         CategoryChangeType type,
         int[] affectedParentIdsByMove = null) =>
-        AddUpdateOrCreateEntry(category, authorId, type, imageWasUpdated, affectedParentIdsByMove);
+        AddUpdateOrCreateEntry(categoryRepository, category, authorId, type, imageWasUpdated, affectedParentIdsByMove);
 
-    private void AddUpdateOrCreateEntry(Category category, int authorId, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
+    private void AddUpdateOrCreateEntry(CategoryRepository categoryRepository, Category category, int authorId, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
     {
         var categoryChange = new CategoryChange
         {
@@ -56,30 +58,28 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
             EntityCache.AddOrUpdate(categoryCacheItem);
-            Sl.CategoryRepo.Update(category);
+            categoryRepository.Update(category);
         }
-        SetData(category, imageWasUpdated, affectedParentIdsByMove,categoryChange);
+        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
         base.Create(categoryChange);
     }
 
-    private void SetData(Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
+    private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
     {
         switch (categoryChange.DataVersion)
         {
             case 1:
-                categoryChange.Data = new CategoryEditData_V1(category,_session).ToJson();
+                categoryChange.Data = new CategoryEditData_V1(category, _session, categoryRepository).ToJson();
                 break;
 
             case 2:
-                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds,_session).ToJson();
+                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds, _session).ToJson();
                 break;
 
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {categoryChange.DataVersion} for category change id {categoryChange.Id}");
         }
     }
-
-
 
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
     {
@@ -131,6 +131,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         var categoryChangeList = query
             .List();
 
+
         categoryChangeList = categoryChangeList.Where(cc =>
                 cc.Category.Id == categoryId ||
                 cc.Type != CategoryChangeType.Text &&
@@ -143,23 +144,12 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
         return categoryChangeList;
     }
 
-    public IList<int> GetAuthorsOfCategory(int categoryId)
-    {
-        var sb = "SELECT Author_id FROM categorychange " +
-                 "where category_id = " + categoryId +
-                 " and (Type = 0 or Type = 1 or Type = 6) " +
-                 "and Author_id > 0 " +
-                 "Group By Author_id";
-
-        var authorIds = _session.CreateSQLQuery(sb)
-            .List<int>();
-
-        return authorIds;
-    }
-
     public bool AuthorWorthyChangeCheck(CategoryChangeType type)
     {
-        if (type != CategoryChangeType.Privatized && type != CategoryChangeType.Relations && type != CategoryChangeType.Restore && type != CategoryChangeType.Moved)
+        if (type != CategoryChangeType.Privatized &&
+            type != CategoryChangeType.Relations &&
+            type != CategoryChangeType.Restore &&
+            type != CategoryChangeType.Moved)
             return true;
 
         return false;
@@ -174,11 +164,11 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             .SingleOrDefault();
     }
 
-    public virtual int GetCategoryId(int version)
+    public int GetCategoryId(int version)
     {
-        return Sl.Resolve<ISession>().CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+        return _session.CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
     }
-    private void AddUpdateOrCreateEntryDbOnly(Category category,
+    private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
         User author,
         CategoryChangeType categoryChangeType,
         bool imageWasUpdated = false,
@@ -199,9 +189,9 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             var newAuthorIdsInts = category.AuthorIdsInts.ToList();
             newAuthorIdsInts.Add(author.Id);
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
-            Sl.CategoryRepo.UpdateOnlyDb(category);
+            categoryRepository.UpdateOnlyDb(category);
         }
-        SetData(category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
+        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
         base.Create(categoryChange);
     }
 }

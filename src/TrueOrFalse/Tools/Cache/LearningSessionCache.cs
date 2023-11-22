@@ -1,39 +1,45 @@
 ﻿using System.Collections.Concurrent;
-using System.Linq;
-using System.Web;
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using TrueOrFalse.Web.Context;
 
 public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
-    private readonly string _sessionId;
+    private readonly HttpContext _httpContext;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
 
-    public LearningSessionCache(HttpContext httpContext)
+    public LearningSessionCache(IHttpContextAccessor httpContextAccessor)
     {
-        _sessionId = httpContext.Session.SessionID;
+        _httpContext = httpContextAccessor.HttpContext!;
     }
     public void AddOrUpdate(LearningSession learningSession)
     {
+        _httpContext.Session.ForceInit();
+
         _learningSessions.AddOrUpdate(
-            HttpContext.Current.Session.SessionID,
+            _httpContext.Session.Id,
             learningSession,
             (a, b) => learningSession
         );
     }
 
-    public  LearningSession TryRemove()
+    public void TryRemove()
     {
-
-        _learningSessions.TryRemove(_sessionId, out var learningSession);
-        return GetLearningSession();
+        _learningSessions.TryRemove(_httpContext.Session.Id, out _);
     }
 
-    public  LearningSession GetLearningSession()
+    public LearningSession? GetLearningSession()
     {
-        var context = HttpContext.Current.Session.SessionID;
+        _learningSessions.TryGetValue(_httpContext.Session.Id, out var learningSession);
 
-        _learningSessions.TryGetValue(_sessionId, out var learningSession);
-        AddOrUpdate(learningSession);
-        return learningSession;
+        if (learningSession != null)
+        {
+            AddOrUpdate(learningSession);
+            return learningSession;
+        }
+
+        //throw new NullReferenceException("learningSession is null");
+        return null;
     }
 
     public void EditQuestionInLearningSession(QuestionCacheItem question)
@@ -71,7 +77,9 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
         return new RemovalResult
         {
             reloadAnswerBody = reloadAnswerBody,
-            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ? learningSession.CurrentIndex : learningSession.Steps.Count - 1
+            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ? 
+                learningSession.CurrentIndex : 
+                learningSession.Steps.Count - 1
         };
     }
 }

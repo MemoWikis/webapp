@@ -27,7 +27,7 @@ async function getDeleteDetails(id: number) {
 
     showErrorMsg.value = false
 
-    var result = await $fetch<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails?questionId=${id}`, {
+    var result = await $fetch<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -66,22 +66,18 @@ async function deleteQuestion() {
     spinnerStore.showSpinner()
     showDeleteInfo.value = false
 
-    const data = {
-        questionId: deleteQuestionStore.id
-    }
-
-    const result = await $fetch<{ id: number, sessionIndex: number, reloadAnswerBody: boolean }>('/apiVue/QuestionEditDelete/Delete', {
+    const result = await $fetch<{ id: number, sessionIndex: number, reloadAnswerBody: boolean }>(`/apiVue/QuestionEditDelete/Delete/${deleteQuestionStore.id}`, {
         method: 'POST',
-        body: data,
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {
+            spinnerStore.hideSpinner()
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     })
+    spinnerStore.hideSpinner()
 
     if (result) {
-        spinnerStore.hideSpinner()
         deletionInProgress.value = false
         deleteQuestionStore.questionDeleted(result.id)
         if (result.reloadAnswerBody)
@@ -90,7 +86,6 @@ async function deleteQuestion() {
         alertStore.openAlert(AlertType.Success, { text: messages.success.question.delete })
         deleteQuestionStore.showModal = false
     } else {
-        spinnerStore.hideSpinner()
         deletionInProgress.value = false
         showDeleteBtn.value = false
         showErrorMsg.value = true

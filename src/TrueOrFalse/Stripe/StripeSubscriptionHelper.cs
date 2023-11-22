@@ -1,16 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class StripeSubscriptionHelper
+public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public StripeSubscriptionHelper(SessionUser sessionUser)
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public StripeSubscriptionHelper(SessionUser sessionUser,
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) 
     {
         _sessionUser = sessionUser;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     private async Task<string> CreateStripeCustomer(string username, string email, int userId)
@@ -28,9 +43,9 @@ public class StripeSubscriptionHelper
         var serviceUser = new CustomerService();
         var customer = await serviceUser.CreateAsync(optionsUser);
 
-        var user = Sl.UserRepo.GetById(userId);
+        var user = _userReadingRepo.GetById(userId);
         user.StripeId = customer.Id;
-        Sl.UserRepo.Update(user);
+        _userWritingRepo.Update(user);
 
         return customer.Id;
     }
@@ -49,6 +64,7 @@ public class StripeSubscriptionHelper
             customerId = sessionUser.StripeId;
         }
 
+        var stripeReturnUrlGenerator = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment);
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = new List<string> { 
@@ -65,8 +81,8 @@ public class StripeSubscriptionHelper
                     Quantity = 1
                 }
             },
-            SuccessUrl = StripeReturnUrlGenerator.Create("Preise"),
-            CancelUrl = StripeReturnUrlGenerator.Create("Preise"),
+            SuccessUrl = stripeReturnUrlGenerator.Create("Preise"),
+            CancelUrl = stripeReturnUrlGenerator.Create("Preise"),
             Customer = customerId,
             AutomaticTax = new SessionAutomaticTaxOptions
             {
@@ -88,13 +104,13 @@ public class StripeSubscriptionHelper
         }
     }
 
-    public static async Task<string> GetCancelPlanSessionUrl(SessionUser sessionUser)
+    public async Task<string> GetCancelPlanSessionUrl()
     {
-        var stripeId = sessionUser.User.StripeId;
+        var stripeId = _sessionUser.User.StripeId;
         var options = new Stripe.BillingPortal.SessionCreateOptions
         {
             Customer = stripeId,
-            ReturnUrl = StripeReturnUrlGenerator.Create("")
+            ReturnUrl = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment).Create("")
         };
         var service = new Stripe.BillingPortal.SessionService();
         var session = await service.CreateAsync(options);

@@ -1,55 +1,53 @@
 ﻿using Seedworks.Web.State;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
-using Serilog;
+using ConcurrentCollections;
 
-public class SessionUserCache
+public class SessionUserCache : IRegisterAsInstancePerLifetime
 {
+    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     public const int ExpirationSpanInMinutes = 600;
-
+    private ConcurrentHashSet<string> _cacheKeys = new();
     private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
-    private static string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
+    private string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
+    private static object cacheLock = new object();
 
-    public static List<SessionUserCacheItem> GetAllCacheItems() //todo: Wir haben zum abgleichen des Caches einen Job, den benötigen wir nicht wenn wir manuell abgleichen
+    public SessionUserCache(CategoryValuationReadingRepo categoryValuationReadingRepo,
+        UserReadingRepo userReadingRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo)
     {
-        var allUserIds = Sl.UserRepo.GetAllIds();
-        return allUserIds.Select(GetItem).ToList();
+        _categoryValuationReadingRepo = categoryValuationReadingRepo;
+        _userReadingRepo = userReadingRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
+    }
+    public List<SessionUserCacheItem?> GetAllCacheItems()
+    {
+        var allUserIds = _userReadingRepo.GetAllIds();
+        return allUserIds
+            .Select(uId => GetItem(uId))
+            .Where(suci => suci != null)
+          .ToList();
     }
 
-    public static SessionUserCacheItem GetUser(int userId) => GetItem(userId);
+    public SessionUserCacheItem? GetUser(int userId) =>
+      GetItem(userId);
 
-    private static readonly string _createItemLockKey = "2FB5BC59-9E90-4511-809A-BC67A6D35F7F";
-    public static SessionUserCacheItem GetItem(int userId)
+    public SessionUserCacheItem? GetItem(int userId)
     {
-        var cacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-        if (cacheItem != null)
-            return cacheItem;
-
-        lock (_createItemLockKey)                                                                   //todo: Wenn das Item Null ist, ist doch irgendwas schiefgegangen
-        {
-            //recheck if the cache item exists
-            Log.Information("GetUserCacheItem: {userId}", userId);
-            cacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-            return cacheItem ?? CreateItemFromDatabase(userId);
-        }
+        var user = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId)); 
+        return user;
     }
 
-    public static bool IsInWishknowledge(int userId, int categoryId)
+    public bool ItemExists(int userId)
+    {
+        return Cache.Contains(GetCacheKey(userId));
+    }
+
+    public bool IsQuestionInWishknowledge(int userId, int questionId)
     {
         var cacheItem = GetItem(userId);
-        var hasCategoryValuation = cacheItem.CategoryValuations.ContainsKey(categoryId);
 
-        if (!hasCategoryValuation)
-            return false;
-
-        return cacheItem.CategoryValuations[categoryId].IsInWishKnowledge();
-    }
-
-    public static bool IsQuestionInWishknowledge(int userId, int questionId)
-    {
-        var cacheItem = GetItem(userId);
         var hasQuestionValuation = cacheItem.QuestionValuations.ContainsKey(questionId);
 
         if (!hasQuestionValuation)
@@ -58,120 +56,117 @@ public class SessionUserCache
         return cacheItem.QuestionValuations[questionId].IsInWishKnowledge;
     }
 
-    public static SessionUserCacheItem CreateItemFromDatabase(int userId)
+    public IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
+      GetItem(userId)?.QuestionValuations.Values
+          .ToList() ?? new List<QuestionValuationCacheItem>();
+
+    public IList<CategoryValuation> GetCategoryValuations(int userId)
     {
-        var user = Sl.UserRepo.GetById(userId);
+        var item = GetItem(userId);
 
-        if (user == null) return null;
+        if (item != null)
+        {
+            return item.CategoryValuations.Values.ToList();
+        }
 
-        var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
-        cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
-            Sl.CategoryValuationRepo.GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
-
-        Add_UserCacheItem_to_cache(cacheItem, userId);
-
-        var addedCacheItem = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-
-        addedCacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
-            Sl.QuestionValuationRepo.GetByUserWithQuestion(userId)
-                .Select(v =>
-                    new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
-                        QuestionValuationCacheItem.ToCacheItem(v))));
-
-        return addedCacheItem;
+        Logg.r.Error("sessionUserItem is null");
+        return new List<CategoryValuation>();
     }
 
-    private static void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem, int userId)
-    {
-        Cache.Add(GetCacheKey(userId), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
-            slidingExpiration: true);
-    }
 
-    public static IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
-        GetItem(userId)?.QuestionValuations.Values.ToList() ?? new List<QuestionValuationCacheItem>();
-
-    public static IList<CategoryValuation> GetCategoryValuations(int userId) =>
-        GetItem(userId).CategoryValuations.Values.ToList();
-
-    public static void AddOrUpdate(QuestionValuationCacheItem questionValuation)
+    public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 
-        lock ("7187a2c9-a3a2-42ca-8202-f9cb8cb54137")
+        lock (cacheLock)
         {
             cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation,
-                (k, v) => questionValuation);
+              (k, v) => questionValuation);
         }
     }
 
-    public static void AddOrUpdate(CategoryValuation categoryValuation)
+    public void AddOrUpdate(CategoryValuation categoryValuation)
     {
         var cacheItem = GetItem(categoryValuation.UserId);
 
-        lock ("82f573db-40a7-43d9-9e68-6cd78b626e8d")
+        lock (cacheLock)
         {
             cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation,
-                (k, v) => categoryValuation);
+              (k, v) => categoryValuation);
         }
     }
 
-    public static void AddOrUpdate(User user)
+    public void AddOrUpdate(User user)
     {
         var cacheItem = GetItem(user.Id);
+        if (cacheItem == null)
+        {
+            cacheItem = CreateSessionUserItemFromDatabase(user.Id); 
+            cacheItem.AssignValues(user);
+            Add_UserCacheItem_to_cache(cacheItem);
+        }
+        Remove(user);
         cacheItem.AssignValues(user);
+        Add_UserCacheItem_to_cache(cacheItem);
+    }
+    public void AddOrUpdate(SessionUserCacheItem user)
+    {
+        var cacheItem = GetItem(user.Id);
+        if (cacheItem == null)
+        {
+            cacheItem = CreateSessionUserItemFromDatabase(user.Id);
+            Add_UserCacheItem_to_cache(cacheItem);
+            return;
+        }
+        Remove(user.Id);
+        Add_UserCacheItem_to_cache(cacheItem);
     }
 
-    /// <summary> Used for question delete </summary>
-    public static void RemoveQuestionForAllUsers(int questionId)
+    public void RemoveQuestionForAllUsers(int questionId)
     {
-        foreach (var userId in Sl.UserRepo.GetAllIds())
+        foreach (var user in EntityCache.GetAllUsers())
+            RemoveQuestionValuationForUser(user.Id, questionId);
+    }
+
+    public void RemoveQuestionValuationForUser(int userId, int questionId)
+    {
+        if (ItemExists(userId))
         {
-            RemoveQuestionValuationForUser(userId, questionId);
+            var cacheItem = GetItem(userId);
+            cacheItem?.QuestionValuations.TryRemove(questionId, out _);
         }
     }
 
-    public static void RemoveQuestionValuationForUser(int userId, int questionId)
+
+    /// <summary>
+    /// Get all active UserCaches
+    /// </summary>
+    /// <returns></returns>
+    public List<SessionUserCacheItem> GetAllActiveCaches()
     {
-        var cacheItem = GetItem(userId);
-        cacheItem?.QuestionValuations.TryRemove(questionId, out _);
-    }
-
-    public static List<SessionUserCacheItem> GetAllActiveCaches()
-    {
-        var enumerator = System.Web.HttpRuntime.Cache.GetEnumerator();
-        List<string> keys = new List<string>();
-        List<SessionUserCacheItem> userCacheItems = new List<SessionUserCacheItem>();
-
-        while (enumerator.MoveNext())
-        {
-            keys.Add(enumerator.Key.ToString());
-        }
-
-        foreach (var userCacheKey in keys.Where(k => k.Contains(SessionUserCacheItemPrefix)))
-        {
-            var startIndex = userCacheKey.IndexOf("_") + 1;
-            var endIndex = userCacheKey.Length - startIndex;
-            var userId = Int32.Parse(userCacheKey.Substring(startIndex, endIndex));
-            userCacheItems.Add(GetItem(userId));
-        }
+        var allUsers = EntityCache.GetAllUsers();
+        var userCacheItems = allUsers
+            .Select(user => GetItem(user.Id))
+            .Where(item => item != null)
+            .ToList();
 
         return userCacheItems;
     }
 
     /// <summary> Used for category delete </summary>
-    public static void RemoveAllForCategory(int categoryId)
+    public void RemoveAllForCategory(int categoryId,
+        CategoryValuationWritingRepo categoryValuationWritingRepo)
     {
-        Sl.CategoryValuationRepo.DeleteCategoryValuation(categoryId);
+        categoryValuationWritingRepo.DeleteCategoryValuation(categoryId);
         foreach (var userCache in GetAllActiveCaches())
         {
             userCache.CategoryValuations.TryRemove(categoryId, out var result);
         }
     }
 
-    public static void Remove(User user) => Remove(user.Id);
+    public void Remove(User user) => Remove(user.Id);
 
-    public static void Remove(int userId)
+    public void Remove(int userId)
     {
         var cacheKey = GetCacheKey(userId);
         var cacheItem = Cache.Get<SessionUserCacheItem>(cacheKey);
@@ -179,14 +174,35 @@ public class SessionUserCache
         if (cacheItem != null)
         {
             Cache.Remove(cacheKey);
+            _cacheKeys.TryRemove(cacheKey);
         }
     }
 
-    public static void Clear()
-    {
-        var allUserIds = Sl.UserRepo.GetAllIds();
 
-        foreach (var userId in allUserIds)
-            Remove(userId);
+    public SessionUserCacheItem CreateSessionUserItemFromDatabase(int userId)
+    {
+        var user = _userReadingRepo.GetById(userId);
+
+        if (user == null) return null;
+
+        var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
+
+        cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
+            _categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
+
+        cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
+            _questionValuationReadingRepo.GetByUserWithQuestion(userId)
+                .Select(v =>
+                    new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
+                        QuestionValuationCacheItem.ToCacheItem(v))));
+
+        return cacheItem;
+    }
+
+    private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
+    {
+        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+            slidingExpiration: true);
     }
 }

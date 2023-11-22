@@ -1,55 +1,88 @@
-﻿using NHibernate;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate.Util;
+using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse
 {
     public class ProbabilityUpdate_Valuation
     {
-        public static void Run(int userId, ISession nhibernateSession)
+        private readonly ISession _session;
+        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+        private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
+        private readonly AnswerRepo _answerRepo;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public ProbabilityUpdate_Valuation(ISession session,
+            QuestionValuationReadingRepo questionValuationReadingRepo,
+            ProbabilityCalc_Simple1 probabilityCalcSimple1,
+            AnswerRepo answerRepo, 
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
-            Sl.QuestionValuationRepo
+            _session = session;
+            _questionValuationReadingRepo = questionValuationReadingRepo;
+            _probabilityCalcSimple1 = probabilityCalcSimple1;
+            _answerRepo = answerRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+        public void Run(int userId)
+        {
+           _questionValuationReadingRepo
                 .GetByUser(userId, onlyActiveKnowledge: false)
-                .ForEach(qv=> Run(qv, nhibernateSession));
+                .ForEach(qv=> Run(qv));
         }
 
-        private static void Run(QuestionValuation questionValuation, ISession nhinbernSession)
+        private void Run(QuestionValuation questionValuation)
         {
-            UpdateValuationProbabilitys(questionValuation, nhinbernSession);
+            UpdateValuationProbabilitys(questionValuation);
 
-            Sl.QuestionValuationRepo.CreateOrUpdate(questionValuation);
-
-            //Logg.r().Information("Calculated probability in {elapsed} for question {questionId} and user {userId}: ", sp.Elapsed, question.Id, user.Id);
+            _questionValuationReadingRepo.CreateOrUpdate(questionValuation);
         }
 
-        public static void Run(int questionId, int userId, ISession nhibernateSession)
+        public void Run(int questionId, 
+            int userId,
+            QuestionReadingRepo questionReadingRepo,
+            UserReadingRepo userReadingRepo)
         {
-            var user = Sl.UserRepo.GetById(userId);
+            var user = userReadingRepo.GetById(userId);
 
             if(user == null)
                 return;
 
-            Run(EntityCache.GetQuestion(questionId), user, nhibernateSession);
+            Run(EntityCache.GetQuestion(questionId),
+                user,
+                questionReadingRepo
+                );
         }
 
-        public static void Run(QuestionCacheItem question, User user, ISession nhibernateSession)
+        public void Run(QuestionCacheItem question,
+            User user,
+            QuestionReadingRepo questionReadingRepo)
         {
             var questionValuation =
-                Sl.QuestionValuationRepo.GetBy(question.Id, user.Id) ??
+                _questionValuationReadingRepo.GetBy(question.Id, user.Id) ??
                     new QuestionValuation
                     {
-                        Question = Sl.QuestionRepo.GetById(question.Id),
+                        Question = questionReadingRepo.GetById(question.Id),
                         User = user
                     };
 
-            Run(questionValuation, nhibernateSession);
+            Run(questionValuation);
         }
 
-        private static void UpdateValuationProbabilitys(QuestionValuation questionValuation, ISession nhinbernateSession)
+        private void UpdateValuationProbabilitys(QuestionValuation questionValuation)
         {
             var question = questionValuation.Question;
             var user = EntityCache.GetUserById(questionValuation.User.Id);
 
-            var probabilityResult = Sl.R<ProbabilityCalc_Simple1>().Run(EntityCache.GetQuestionById(question.Id), user, nhinbernateSession);
+            var probabilityResult =  _probabilityCalcSimple1
+                .Run(EntityCache.GetQuestionById(question.Id)
+                , user, _session, _answerRepo);
+
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
             questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;
             questionValuation.KnowledgeStatus = probabilityResult.KnowledgeStatus;

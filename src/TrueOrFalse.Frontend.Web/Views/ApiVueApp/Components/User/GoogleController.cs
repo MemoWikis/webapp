@@ -1,38 +1,44 @@
 ﻿using Google.Apis.Auth;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class GoogleController : Controller
+public class GoogleController : BaseController
 {
     private readonly VueSessionUser _vueSessionUser;
     private readonly RegisterUser _registerUser;
-    private readonly UserRepo _userRepo;
-    private readonly SessionUser _sessionUser;
-    private readonly CategoryRepository _categoryRepo;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly JobQueueRepo _jobQueueRepo;
+    private readonly MessageRepo _messageRepo;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public GoogleController(SessionUser sessionUser,
-        UserRepo userRepo, 
+        UserReadingRepo userReadingRepo,
         VueSessionUser vueSessionUser,
         RegisterUser registerUser,
-        CategoryRepository categoryRepo)
+        CategoryRepository categoryRepository,
+        JobQueueRepo jobQueueRepo,
+        MessageRepo messageRepo) : base(sessionUser)
     {
         _vueSessionUser = vueSessionUser;
         _registerUser = registerUser;
-        _userRepo = userRepo;
+        _categoryRepository = categoryRepository;
+        _jobQueueRepo = jobQueueRepo;
+        _messageRepo = messageRepo;
+        _userReadingRepo = userReadingRepo;
         _sessionUser = sessionUser;
-        _categoryRepo = categoryRepo;
     }
 
+    public readonly record struct LoginJson(string token);
     [HttpPost]
-    public async Task<JsonResult> Login(string token)
+    public async Task<JsonResult> Login([FromBody] LoginJson json)
     {
-        var googleUser = await GetGoogleUser(token);
+        var googleUser = await GetGoogleUser(json.token);
         if (googleUser != null)
         {
-            var user = _userRepo.UserGetByGoogleId(googleUser.Subject);
+            var user = _userReadingRepo.UserGetByGoogleId(googleUser.Subject);
 
             if (user == null)
             {
@@ -42,7 +48,7 @@ public class GoogleController : Controller
                     UserName = googleUser.Name,
                     GoogleId = googleUser.Subject
                 };
-                return CreateAndLogin(newUser);
+                return Json(CreateAndLogin(newUser));
             }
 
             _sessionUser.Login(user);
@@ -58,49 +64,38 @@ public class GoogleController : Controller
             success = false,
             messageKey = FrontendMessageKeys.Error.Default
         });
-       
+
     }
 
     [HttpPost]
     public JsonResult UserExists(string googleId)
     {
-        return Json(_userRepo.GoogleUserExists(googleId));
+        return Json(_userReadingRepo.GoogleUserExists(googleId));
     }
 
     [HttpPost]
-    public JsonResult CreateAndLogin(GoogleUserCreateParameter googleUser)
+    public RequestResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var registerResult = _registerUser.Run(googleUser);
+        var requestResult = _registerUser.SetGoogleUser(googleUser);
+        if (requestResult.success)
 
-        if (registerResult.Success)
         {
-            var user = _userRepo.UserGetByGoogleId(googleUser.GoogleId);
-            _registerUser.CreateStartTopicAndSetToUser(user);
-            _registerUser.SendWelcomeAndRegistrationEmails(user);
-
-            _sessionUser.Login(user);
-        }
-        else if (registerResult.EmailAlreadyInUse)
-        {
-            return Json(new RequestResult
+            return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.EmailInUse
-            });
+                success = true,
+                data = _vueSessionUser.GetCurrentUserData()
+            };
         }
-
-        return Json(new RequestResult
-        {
-            success = true,
-            data = _vueSessionUser.GetCurrentUserData()
-        });
+        return requestResult;
     }
+
 
     public async Task<GoogleJsonWebSignature.Payload> GetGoogleUser(string token)
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
-            Audience = new List<string>() { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
+            Audience = new List<string>()
+                    { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
         };
 
         try

@@ -1,6 +1,6 @@
-﻿
-using System;
-using System.Web.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
+using NHibernate;
 
 namespace VueApp;
 
@@ -8,11 +8,22 @@ public class ResetPasswordController : BaseController
 {
     private readonly PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator;
     private readonly VueSessionUser _vueSessionUser;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
+    private readonly ISession _session;
 
-    public ResetPasswordController(PasswordRecoveryTokenValidator passwordRecoveryTokenValidator, SessionUser sessionUser, VueSessionUser vueSessionUser) :base(sessionUser)
+    public ResetPasswordController(PasswordRecoveryTokenValidator passwordRecoveryTokenValidator,
+        SessionUser sessionUser, 
+        VueSessionUser vueSessionUser,
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo,
+        ISession session) :base(sessionUser)
     {
         _passwordRecoveryTokenValidator = passwordRecoveryTokenValidator;
         _vueSessionUser = vueSessionUser;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
+        _session = session;
     }
 
     private RequestResult ValidateToken(string token)
@@ -38,21 +49,22 @@ public class ResetPasswordController : BaseController
     }
 
     [HttpGet]
-    public JsonResult Validate(string token)
+    public JsonResult Validate([FromRoute] string token)
     {
-        return Json(ValidateToken(token), JsonRequestBehavior.AllowGet);
+        return Json(ValidateToken(token));
     }
 
+    public readonly record struct SetNewPasswordJson(string token, string password);
     [HttpPost]
-    public JsonResult SetNewPassword(string token, string password)
+    public JsonResult SetNewPassword([FromBody] SetNewPasswordJson json)
     {
-        var validationResult = ValidateToken(token);
+        var validationResult = ValidateToken(json.token);
         if (validationResult.success == false)
         {
             return Json(validationResult);
         }
-
-        if (password.Trim().Length < 5)
+        var result = PasswordResetPrepare.Run(json.token, _session);
+        if (json.password.Trim().Length < 5)
         {
             return Json(new RequestResult
             {
@@ -61,16 +73,15 @@ public class ResetPasswordController : BaseController
             });
         }
 
-        var result = PasswordResetPrepare.Run(token);
 
-        var userRepo = Sl.Resolve<UserRepo>();
-        var user = userRepo.GetByEmail(result.Email);
+       
+        var user = _userReadingRepo.GetByEmail(result.Email);
 
         if (user == null)
             throw new Exception();
 
-        SetUserPassword.Run(password.Trim(), user);
-        userRepo.Update(user);
+        SetUserPassword.Run(json.password.Trim(), user);
+        _userWritingRepo.Update(user);
 
         _sessionUser.Login(user);
         return Json(new RequestResult

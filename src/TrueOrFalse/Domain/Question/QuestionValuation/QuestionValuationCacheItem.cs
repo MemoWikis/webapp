@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 [DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge}")]
 public class QuestionValuationCacheItem
@@ -27,8 +29,12 @@ public class QuestionValuationCacheItem
             Id = questionValuation.Id,
             IsInWishKnowledge = questionValuation.IsInWishKnowledge(),
             KnowledgeStatus = questionValuation.KnowledgeStatus,
-            Question = EntityCache.GetQuestionById(questionValuation.Question.Id),
-            User = EntityCache.GetUserById(questionValuation.User.Id)
+            Question = EntityCache.
+                GetQuestionById(questionValuation.Question.Id),
+            User = EntityCache.
+                GetUserById(questionValuation.User.Id)
         };
     }
+
+ 
 }

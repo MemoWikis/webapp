@@ -1,23 +1,32 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
 public class VueSessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
+    private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly GetUnreadMessageCount _getUnreadMessageCount;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly UserReadingRepo _userReadingRepo;
 
-    public VueSessionUser(SessionUser sessionUser,PermissionCheck permissionCheck, GridItemLogic gridItemLogic)
+    public VueSessionUser(SessionUser sessionUser,
+        TopicControllerLogic topicControllerLogic,
+        GetUnreadMessageCount getUnreadMessageCount,
+        IHttpContextAccessor httpContextAccessor,
+        UserReadingRepo userReadingRepo)
     {
         _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
+        _topicControllerLogic = topicControllerLogic;
+        _getUnreadMessageCount = getUnreadMessageCount;
+        _httpContextAccessor = httpContextAccessor;
+        _userReadingRepo = userReadingRepo;
     }
-
     public dynamic GetCurrentUserData()
     {
         var type = UserType.Anonymous;
         var user = _sessionUser.User;
-        var gridItemLogic = new GridItemLogic(_permissionCheck, _sessionUser);
 
         if (_sessionUser.IsLoggedIn)
         {
@@ -41,10 +50,12 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = user.StartTopicId,
                 Type = type,
-                ImgUrl = new UserImageSettings(_sessionUser.UserId).GetUrl_50px(_sessionUser.User).Url,
+                ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor)
+                    .GetUrl_50px(_sessionUser.User)
+                    .Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(user.StartTopicId),
+                PersonalWiki =_topicControllerLogic.GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -56,7 +67,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                         ? 0
                         : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
                 },
-                UnreadMessagesCount = Sl.Resolve<GetUnreadMessageCount>().Run(_sessionUser.UserId),
+                UnreadMessagesCount = _getUnreadMessageCount.Run(_sessionUser.UserId),
                 SubscriptionType = user.EndDate > DateTime.Now
                     ? SubscriptionType.Plus
                     : SubscriptionType.Basic,
@@ -72,19 +83,19 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         }
 
         var userLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
-
         return new
         {
             IsLoggedIn = false,
             Id = -1,
             Name = "",
             IsAdmin = false,
-            PersonalWikiId = RootCategory.RootCategoryId,
+            PersonalWikiId = RootCategory.RootCategoryId,   
             Type = type,
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicControllerLogic(_sessionUser, _permissionCheck, gridItemLogic).GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = _topicControllerLogic
+             .GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = _sessionUser.GetTotalActivityPoints(),
@@ -95,11 +106,9 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         };
     }
 
-    private enum UserType
+    public void Test()
     {
-        Normal,
-        Google,
-        Facebook,
-        Anonymous
+        var user = _userReadingRepo.GetById(445); 
     }
+ 
 }

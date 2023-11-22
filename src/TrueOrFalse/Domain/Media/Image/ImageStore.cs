@@ -1,17 +1,30 @@
-﻿using System.Web;
+﻿using Microsoft.AspNetCore.Http;
+using System.Web;
+using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
 public class ImageStore : IRegisterAsInstancePerLifetime
 {
-    private readonly WikiImageMetaLoader _metaLoader;
-    private readonly ImageMetaDataRepo _imgMetaRepo;
+    private readonly ImageMetaDataWritingRepo _imgMetaDataWritingRepo;
+    private readonly Logg _logg;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ImageStore(
-        WikiImageMetaLoader metaLoader,
-        ImageMetaDataRepo imgMetaRepo)
+        ImageMetaDataWritingRepo imgMetaDataWritingRepo,
+        Logg logg,
+        IHttpContextAccessor httpContextAccessor,
+        QuestionReadingRepo questionReadingRepo,
+        IWebHostEnvironment webHostEnvironment
+        )
     {
-        _metaLoader = metaLoader;
-        _imgMetaRepo = imgMetaRepo;
+
+        _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
+        _logg = logg;
+        _httpContextAccessor = httpContextAccessor;
+        _questionReadingRepo = questionReadingRepo;
+        _webHostEnvironment = webHostEnvironment;
     }
 
     public void RunWikimedia(
@@ -21,7 +34,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         int userId, 
         IImageSettings imageSettings)
     {
-        var wikiMetaData = _metaLoader.Run(imageWikiFileName, 1024);
+        var wikiMetaData = WikiImageMetaLoader.Run(imageWikiFileName, 1024);
 
         imageSettings.Init(typeId);
         imageSettings.DeleteFiles(); //old files..
@@ -29,10 +42,10 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         using (var stream = wikiMetaData.GetThumbImageStream())
         {
             //$temp: Bildbreite uebergeben und abhaengig davon versch. Groessen speichern?
-            SaveImageToFile.Run(stream, imageSettings);
+            SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
         }
 
-        _imgMetaRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
+        _imgMetaDataWritingRepo.StoreWiki(typeId, imageType, userId, wikiMetaData);
     }
 
     public void RunWikimedia<T>(
@@ -56,29 +69,36 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         {
             using (var stream = tmpImage.GetStream())
             {
-                SaveImageToFile.Run(stream, imageSettings);
+                SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
             }
         }
         else
         {
             using (var stream = tmpImage.RelocateImage(relocateUrl))
             {
-                SaveImageToFile.Run(stream, imageSettings);
+                SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
             }
         }
 
 
-        _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
 
-    public void RunUploaded<T>(HttpPostedFileBase imagefile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
+    public void RunUploaded<T>(IFormFile imageFile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
     {
-        var imageSettings = Activator.CreateInstance<T>();
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
+            .Create<T>(typeId);
+
         imageSettings.Init(typeId);
         imageSettings.DeleteFiles(); //old files..
 
-        SaveImageToFile.Run(imagefile.InputStream, imageSettings);
+        if (imageFile.Length == 0)
+            return;
 
-        _imgMetaRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+        using var stream = imageFile.OpenReadStream();
+
+        SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
+
+        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
     }
 }

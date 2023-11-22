@@ -1,29 +1,55 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class EditControllerLogic
+public class EditControllerLogic : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryRepository _categoryRepository = Sl.CategoryRepo;
     private readonly IGlobalSearch _search;
-    private readonly bool _isInstallationAdmin;
     private readonly PermissionCheck _permissionCheck;
-    private readonly int _sessionUserId;
     private readonly SessionUser _sessionUser;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
+    private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public EditControllerLogic(IGlobalSearch search, bool isInstallationAdmin,PermissionCheck permissionCheck,SessionUser sessionUser)
+    public EditControllerLogic(IGlobalSearch search,
+        PermissionCheck permissionCheck,
+        SessionUser sessionUser,
+        CategoryRepository categoryRepository,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo,
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg,
+        QuestionReadingRepo questionReadingRepo)
     {
-        _search = search; 
-        _isInstallationAdmin = isInstallationAdmin;
+        _search = search;
         _permissionCheck = permissionCheck;
-        _sessionUserId = sessionUser.UserId;
         _sessionUser = sessionUser;
+        _categoryRepository = categoryRepository;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
+        _actionContextAccessor = actionContextAccessor;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public RequestResult ValidateName(string name)
@@ -32,10 +58,10 @@ public class EditControllerLogic
         dummyTopic.Name = name;
         dummyTopic.Type = CategoryType.Standard;
         var topicNameAllowed = new CategoryNameAllowed();
-        if (topicNameAllowed.No(dummyTopic))
+        if (topicNameAllowed.No(dummyTopic, _categoryRepository))
         {
             var topic = EntityCache.GetCategoryByName(name).FirstOrDefault();
-            var url = topic.Visibility == CategoryVisibility.All ? Links.CategoryDetail(topic) : "";
+            var url = topic.Visibility == CategoryVisibility.All ? new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic) : "";
             return new RequestResult
             {
                 success = false,
@@ -71,7 +97,10 @@ public class EditControllerLogic
 
     public RequestResult QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
     {
-        if (!LimitCheck.CanSavePrivateTopic(sessionUser, logExceedance: true))
+        if (!new LimitCheck(_httpContextAccessor,
+                _webHostEnvironment,
+                _logg,
+                sessionUser).CanSavePrivateTopic(true))
         {
             return new RequestResult
             {
@@ -81,13 +110,13 @@ public class EditControllerLogic
                 {
                     cantSavePrivateTopic = true
                 }
-            }; 
+            };
         }
 
-        var topic = new Category(name,_sessionUserId);
-        ModifyRelationsForCategory.AddParentCategory(topic, parentTopicId);
+        var topic = new Category(name, sessionUser.UserId);
+        new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
 
-        topic.Creator = Sl.UserRepo.GetById(_sessionUserId);
+        topic.Creator = _userReadingRepo.GetById(sessionUser.UserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
@@ -109,7 +138,10 @@ public class EditControllerLogic
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+           _httpContextAccessor,
+           _questionReadingRepo)
+                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
         return new
         {
@@ -124,7 +156,10 @@ public class EditControllerLogic
         var elements = await _search.GoAllCategories(term, topicIdsToFilter);
 
         if (elements.Categories.Any())
-            SearchHelper.AddTopicItems(items, elements, _permissionCheck, _sessionUserId);
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _httpContextAccessor,
+                _questionReadingRepo)
+                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
         var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
@@ -144,7 +179,7 @@ public class EditControllerLogic
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
-        if (parentIdToRemove == RootCategory.RootCategoryId && !_isInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId && !_isInstallationAdmin)
+        if (parentIdToRemove == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new RequestResult
             {
                 success = false,
@@ -163,7 +198,7 @@ public class EditControllerLogic
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
-        if (parentId == RootCategory.RootCategoryId && !_isInstallationAdmin)
+        if (parentId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new RequestResult
             {
                 success = false,
@@ -182,7 +217,7 @@ public class EditControllerLogic
 
         if (selectedTopicIsParent)
         {
-            Logg.r().Error("Child is Parent ");
+            Logg.r.Error("Child is Parent ");
             return new RequestResult
             {
                 success = false,
@@ -191,11 +226,15 @@ public class EditControllerLogic
         }
 
         if (addIdToWikiHistory)
-            RecentlyUsedRelationTargets.Add(_sessionUserId, parentId);
+            RecentlyUsedRelationTargets.Add(_sessionUser.UserId,
+                parentId,
+                _userWritingRepo,
+                _httpContextAccessor,
+                _webHostEnvironment);
 
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
-        JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId);
+        JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
         EntityCache.GetCategory(parentId).CachedData.AddChildId(childId);
         EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
 
@@ -212,7 +251,7 @@ public class EditControllerLogic
 
     public RequestResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
-        var parentHasBeenRemoved = new ModifyRelationsForCategory().RemoveChildCategoryRelation(parentIdToRemove, childId,_permissionCheck);
+        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
         if (!parentHasBeenRemoved)
             return new RequestResult
             {
@@ -221,12 +260,12 @@ public class EditControllerLogic
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
-        _categoryRepository.Update(parent, _sessionUser.User, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, _sessionUser.UserId, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childId);
         if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
+            _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
-            _categoryRepository.Update(child, _sessionUser.User, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
         EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new RequestResult

@@ -47,11 +47,6 @@ public class Answer : IPersistable, WithDateCreated, IAnswered
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual User GetUser()
-    {
-        return Sl.R<UserRepo>().GetById(UserId);
-    }
-
     public virtual bool IsView()
     {
         return AnswerredCorrectly == AnswerCorrectness.IsView;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using Seedworks.Lib.Persistence;
 
 public static class ListExtensions
 {
@@ -50,17 +51,20 @@ public static class ListExtensions
         return -1;
     }
 
-    public static ConcurrentDictionary<int, UserCacheItem> ToConcurrentDictionary(this IList<UserCacheItem> list)
+    public static ConcurrentDictionary<int, TElement> ToConcurrentDictionary<TElement>(this IList<TElement> list)
+        where TElement : IPersistable
     {
-        return new ConcurrentDictionary<int, UserCacheItem>(list.Select(user => new KeyValuePair<int, UserCacheItem>(user.Id, user)));
-    }
-
-    public static ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(this IList<CategoryCacheItem> list)
-    {
-        return new ConcurrentDictionary<int, CategoryCacheItem>(list.Select(UserCacheCategory => new KeyValuePair<int, CategoryCacheItem>(UserCacheCategory.Id, UserCacheCategory)));
+        return new ConcurrentDictionary<int, TElement>(
+            list.Select(item => new KeyValuePair<int, TElement>(item.Id, item))
+        );
     }
     public static ConcurrentDictionary<int, QuestionCacheItem> ToConcurrentDictionary(this IList<QuestionCacheItem> list)
     {
         return new ConcurrentDictionary<int, QuestionCacheItem>(list.Select(UserCacheQuestion => new KeyValuePair<int, QuestionCacheItem>(UserCacheQuestion.Id, UserCacheQuestion)));
+    }
+
+    public static ConcurrentDictionary<(int, int), ImageMetaData> ToConcurrentDictionary(this IList<ImageMetaData> list)
+    {
+        return new ConcurrentDictionary<(int, int), ImageMetaData>(list.Select(imageMetaData => new KeyValuePair<(int, int), ImageMetaData>((imageMetaData.TypeId, (int)imageMetaData.Type), imageMetaData)));
     }
 }

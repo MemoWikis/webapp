@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using TrueOrFalse.Infrastructure;
@@ -8,10 +10,17 @@ namespace TrueOrFalse.Updates
     public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DbSettingsRepo _dbSettingsRepo;
-        private readonly Dictionary<int, Action> _actions = new Dictionary<int, Action>();
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly Dictionary<int, Action> _actions = new();
 
-        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo){
+        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
+        {
             _dbSettingsRepo = dbSettingsRepo;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public UpdateStepExecuter Add(Action action)
@@ -43,9 +52,9 @@ namespace TrueOrFalse.Updates
             foreach (var dictionaryItem in _actions)
                 if (appVersion < dictionaryItem.Key)
                 {
-                    Logg.r().Information("update to {0} - START", dictionaryItem.Key);
+                    Logg.r.Information("update to {0} - START", dictionaryItem.Key);
                     dictionaryItem.Value();
-                    Logg.r().Information("update to {0} - END", dictionaryItem.Key);
+                    Logg.r.Information("update to {0} - END", dictionaryItem.Key);
                     _dbSettingsRepo.UpdateAppVersion(dictionaryItem.Key);
                 }   
         }

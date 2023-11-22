@@ -1,13 +1,28 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Domain;
 
 public class LimitCheck
 {
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly Logg _logg;
+    private readonly SessionUser _sessionUser;
     private static readonly int _privateQuestionsQuantity = 20;
     private static readonly int _privateTopicsQuantity = 10;
     private static readonly int _wishCountKnowledge = 50;
 
+    public LimitCheck(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment,
+        Logg logg,
+        SessionUser sessionUser)
+    {
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+        _logg = logg;
+        _sessionUser = sessionUser;
+    }
     public static dynamic GetBasicLimits()
     {
         return new
@@ -19,62 +34,63 @@ public class LimitCheck
         };
     }
 
-    public static bool CanAddNewKnowledge(SessionUser sessionUser, bool logExceedance = false)
+    public bool CanAddNewKnowledge(bool logExceedance = false)
     {
-        if (sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan(sessionUser))
+        if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
         
-        var withinLimit = sessionUser.User.WishCountQuestions < _wishCountKnowledge;
+        var withinLimit = _sessionUser.User.WishCountQuestions < _wishCountKnowledge;
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("question in wishknowledge");
-        }
+            LogExceededLimit("question in wishknowledge", _logg);
+    	}
 
         return withinLimit;
     }
 
-    public static bool CanSavePrivateQuestion(SessionUser sessionUser, bool logExceedance = false)
+    public bool CanSavePrivateQuestion(bool logExceedance = false)
     {
-        if (sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan(sessionUser))
-
+        if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
             return true;
 
-        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(sessionUser.UserId).Count() < _privateQuestionsQuantity;
+        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId,
+        _httpContextAccessor, 
+        _webHostEnvironment).Count() < _privateQuestionsQuantity;
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("private questions");
+            LogExceededLimit("private questions", _logg);
         }
 
         return withinLimit;
 
     }
 
-    public static bool CanSavePrivateTopic(SessionUser sessionUser,  bool logExceedance = false)
+    public bool CanSavePrivateTopic(bool logExceedance = false)
     {
-        if (sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan(sessionUser))
+        if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
         
-        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(sessionUser.UserId).Count() < _privateTopicsQuantity;
+        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() < _privateTopicsQuantity;
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("private topics");
+            LogExceededLimit("private topics", _logg);
         }
 
         return withinLimit;
     }
 
-    private static bool HasActiveSubscriptionPlan(SessionUser sessionUser)
+    private bool HasActiveSubscriptionPlan()
     {
-        return sessionUser.User.EndDate != null && sessionUser.User.EndDate > DateTime.Now;
+        return _sessionUser.User.EndDate != null && _sessionUser.User.EndDate > DateTime.Now;
     }
 
-    public static void LogExceededLimit(string type)
+    public static void LogExceededLimit(string type, Logg logg)
     {
-        Logg.r().Information("LimitCheck: max. number of type '{type}' exceeded", type);
+        Logg.r.Information("LimitCheck: max. number of type '{type}' exceeded", type);
     }
 }

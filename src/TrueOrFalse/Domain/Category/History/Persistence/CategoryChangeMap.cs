@@ -1,5 +1,4 @@
-﻿using FluentNHibernate.Conventions.Inspections;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
 
 public class CategoryChangeMap : ClassMap<CategoryChange>
 {
@@ -13,7 +12,7 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
         Map(x => x.ShowInSidebar);
 
         Map(x => x.DataVersion);
-        Map(x => x.Type);
+        Map(x => x.Type).CustomType<CategoryChangeType>();
 
         Map(x => x.AuthorId).Column("Author_id");
 

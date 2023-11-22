@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 
-public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsInstancePerLifetime
+public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 {
     private readonly SessionUser _sessionUser;
     public QuestionChangeRepo(ISession session, SessionUser sessionUser) : base(session)
@@ -8,12 +8,12 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
         _sessionUser = sessionUser;
     }
 
-    public void AddDeleteEntry(Question question)
+    public void AddDeleteEntry(Question question, int userId)
     {
         var QuestionChange = new QuestionChange
         {
             Question = question,
-            AuthorId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default,
+            AuthorId = userId,
             Type = QuestionChangeType.Delete,
             DataVersion = 1
         };
@@ -36,7 +36,10 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>,IRegisterAsIn
 
     public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
-    private void AddUpdateOrCreateEntry(Question question, QuestionChangeType questionChangeType, User author, bool imageWasChanged)
+    private void AddUpdateOrCreateEntry(Question question,
+        QuestionChangeType questionChangeType,
+        User author,
+        bool imageWasChanged)
     {
         var questionChange = new QuestionChange
         {

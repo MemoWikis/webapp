@@ -35,6 +35,9 @@ async function command(commandString: string, e: Event) {
         case 'orderedList':
             props.editor.commands.toggleOrderedList()
             break
+        case 'taskList':
+            props.editor.commands.toggleTaskList()
+            break
         case 'blockquote':
             props.editor.commands.toggleBlockquote()
             break
@@ -42,8 +45,8 @@ async function command(commandString: string, e: Event) {
             props.editor.commands.toggleCodeBlock()
             break
         case 'setLink':
-            const previousUrl = props.editor.getAttributes('link').href
-            const linkUrl = window.prompt('URL', previousUrl)
+            var previousUrl = props.editor.getAttributes('link').href
+            var linkUrl = window.prompt('URL', previousUrl)
 
             if (linkUrl === null)
                 return
@@ -70,7 +73,7 @@ async function command(commandString: string, e: Event) {
             props.editor.chain().unsetLink().focus().run()
             break
         case 'addImage':
-            const imgUrl = window.prompt('Bild URL')
+            var imgUrl = window.prompt('Bild URL')
             if (imgUrl)
                 props.editor.commands.setImage({ src: imgUrl })
             break
@@ -144,6 +147,11 @@ const { isMobile } = useDevice()
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }"
                     @mousedown="command('orderedList', $event)">
                     <font-awesome-icon icon="fa-solid fa-list-ol" />
+                </button>
+
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('taskList') }"
+                    @mousedown="command('taskList', $event)">
+                    <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using Microsoft.AspNetCore.Hosting;
 
 /// <summary>
 /// TmpImageStore is per user and stored in <see cref="SessionUiData"/> . 
@@ -7,12 +6,12 @@ using System.IO;
 [Serializable]
 public class TmpImageStore
 {
-    private readonly List<TmpImage> _tmpImages = new List<TmpImage>(); 
+    private readonly List<TmpImage> _tmpImages = new(); 
 
-    public TmpImage Add(Stream inputStream, int previewWidth)
+    public TmpImage Add(Stream inputStream, int previewWidth, IWebHostEnvironment webHostEnvironment)
     {
-        var tmpImage = new TmpImage(previewWidth);
-        SaveImageToFile.Run(inputStream, tmpImage);
+        var tmpImage = new TmpImage(previewWidth, webHostEnvironment);
+        SaveImageToFile.SaveTempImage(inputStream, tmpImage);
 
         _tmpImages.Add(tmpImage);
 

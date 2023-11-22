@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Web.Mvc;
 using FluentNHibernate.Conventions;
-using TrueOrFalse.Web;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class HistoryTopicAllTopicsOverviewController : Controller
+public class HistoryTopicAllTopicsOverviewController : BaseController
 {
     private readonly AllTopicsHistory _allTopicsHistory;
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory, PermissionCheck permissionCheck)
+    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
+        PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor, SessionUser sessionUser) : base(sessionUser)
     {
         _allTopicsHistory = allTopicsHistory;
         _permissionCheck = permissionCheck;
+        _categoryChangeRepo = categoryChangeRepo;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpGet]
@@ -25,7 +33,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         const int revisionsToShow = 100;
         var days = GetDays(page, revisionsToShow);
 
-        return Json(days, JsonRequestBehavior.AllowGet);
+        return Json(days);
     }
 
     private Day[] GetDays(int page, int revisionsToShow)
@@ -99,7 +107,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         if (change.AuthorId < 1)
             return null;
 
-        var author = SessionUserCache.GetItem(change.AuthorId);
+        var author = _sessionUserCache.GetItem(change.AuthorId);
 
         return new Author
         {
@@ -115,7 +123,10 @@ public class HistoryTopicAllTopicsOverviewController : Controller
         {
             topicId = topicChange.Category.Id,
             topicName = topicChange.Category.Name,
-            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id).GetUrl(50).Url,
+            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id,
+                _httpContextAccessor)
+                .GetUrl(50)
+                .Url,
             author = SetAuthor(topicChange),
             timeCreated = topicChange.DateCreated.ToString("HH:mm"),
             topicChangeType = topicChange.Type,
@@ -124,7 +135,7 @@ public class HistoryTopicAllTopicsOverviewController : Controller
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
-            var previousChange = Sl.CategoryChangeRepo.GetForTopic(topicChange.Category.Id).OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
+            var previousChange = _categoryChangeRepo.GetForTopic(topicChange.Category.Id).OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
             
             if (previousChange == null) 
                 return change;

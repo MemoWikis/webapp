@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class CategoryImageSettings : ImageSettings, IImageSettings
 {
@@ -7,12 +8,14 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 206, 50 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
-    public override string BasePath => "/Images/Categories/";
-    public string BaseDummyUrl => "/Images/no-category-picture-";
+    public override string BasePath => "Categories";  
+    public string BaseDummyUrl => "no-category-picture-";
 
-    public CategoryImageSettings(){}
 
-    public CategoryImageSettings(int categoryId){
+    public CategoryImageSettings(int categoryId,
+        IHttpContextAccessor contextAccessor) :
+        base(contextAccessor)
+    {
         Id = categoryId;
     }
 
@@ -23,10 +26,11 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_128px(bool asSquare = false) { return GetUrl(128, asSquare); }
     public ImageUrl GetUrl(int width, bool isSquare = false)
     {
-        return ImageUrl.Get(this, width, isSquare, GetFallbackImage);
+        return new ImageUrl(_contextAccessor)
+            .Get(this, width, isSquare, GetFallbackImage);
     }
 
     private string GetFallbackImage(int width){
-        return BaseDummyUrl + width + ".png";
+        return  BaseDummyUrl + width + ".png";
     }
 }

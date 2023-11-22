@@ -1,77 +1,72 @@
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Web;
+using SkiaSharp;
 
 public class SaveImageToFile
 {
-    public static void Run(Stream inputStream, IImageSettings imageSettings)
+    public static void RemoveExistingAndSaveAllSizes(Stream inputStream, IImageSettings imageSettings)
     {
-        var oldImages = Directory.GetFiles(
-            HttpContext.Current.Server.MapPath(imageSettings.BasePath), 
-            string.Format("{0}_*", imageSettings.Id)
-        );
+        var directory = Path.Combine(Settings.ImagePath, imageSettings.BasePath);
 
-        foreach (var file in oldImages){
+        var oldImages = Directory.GetFiles(directory, $"{imageSettings.Id}_*");
+
+        foreach (var file in oldImages)
+        {
             File.Delete(file);
         }
 
-        using (var image = Image.FromStream(inputStream)){
-
-            if (image.VerticalResolution != 96.0F || image.HorizontalResolution != 96.0F)
-                ((Bitmap)image).SetResolution(96.0F, 96.0F);
-
-            SaveOriginalSize(imageSettings, image);
-
-            foreach (var size in imageSettings.SizesSquare){
-                ResizeImage.Run(image, imageSettings.ServerPathAndId(), size, isSquare: true);
-            }
-
-            foreach (var width in imageSettings.SizesFixedWidth){//$temp: hier werden die verschiedenen Bildgroessen abgelegt
-                ResizeImage.Run(image, imageSettings.ServerPathAndId(), width, isSquare: false);
-            }
-        }
-    }
-
-    private static void SaveOriginalSize(IImageSettings imageSettings, Image image)
-    {
-        using (var resized = new Bitmap(image))
+        using (var original = SKBitmap.Decode(inputStream))
         {
-            using (var graphics = Graphics.FromImage(resized))
-            {
-                ResizeImage.ConfigureGraphics(graphics);
-                graphics.DrawImage(image, 0, 0);
-            }
-            var filename = imageSettings.ServerPathAndId() + "_" + image.Width + ".jpg";
-            resized.Save(filename, ImageFormat.Jpeg);
+            SaveOriginalSize(imageSettings, original);
 
-            if (image.Width < 300)
+            foreach (var size in imageSettings.SizesSquare)
             {
-                Logg.r().Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+                ResizeImage.RunAndReturnPath(original, imageSettings.ServerPathAndId(), size, isSquare: true);
+            }
+
+            foreach (var width in imageSettings.SizesFixedWidth)
+            {
+                ResizeImage.RunAndReturnPath(original, imageSettings.ServerPathAndId(), width, isSquare: false);
             }
         }
     }
 
-
-    /// <summary>store temp images</summary>
-    public static void Run(Stream inputStream, TmpImage tmpImage)
+    private static void SaveOriginalSize(IImageSettings imageSettings, SKBitmap image)
     {
-        using (var image = Image.FromStream(inputStream)){
+        var filename = $"{imageSettings.ServerPathAndId()}_{image.Width}.jpg";
+        using (var fileStream = File.OpenWrite(filename))
+        {
+            image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
+        }
 
-            image.Save(HttpContext.Current.Server.MapPath(tmpImage.Path), ImageFormat.Png);
+        if (image.Width < 300)
+        {
+            Logg.r.Error($"SMALL IMAGE: Original size of Image {filename} is smaller than 300px.");
+        }
+    }
 
-            var scale = (float)tmpImage.PreviewWidth / image.Width;
-            var height = (int)(image.Height * scale);
-            using (var resized = new Bitmap(tmpImage.PreviewWidth, height)){
-                using (var graphics = Graphics.FromImage(resized)){
-                    graphics.Clear(Color.White);
-                    graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                    graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                    graphics.DrawImage(image, 0, 0, tmpImage.PreviewWidth, height);
+    public static void SaveTempImage(Stream inputStream, TmpImage tmpImage)
+    {
+        using (var original = SKBitmap.Decode(inputStream))
+        {
+            using (var fileStream = File.OpenWrite(Path.Combine(Settings.ImagePath, tmpImage.Path)))
+            {
+                original.Encode(fileStream, SKEncodedImageFormat.Png, 100);
+            }
+
+            var scale = (float)tmpImage.PreviewWidth / original.Width;
+            var height = (int)(original.Height * scale);
+
+            using (var resized = new SKBitmap(tmpImage.PreviewWidth, height))
+            {
+                using (var canvas = new SKCanvas(resized))
+                {
+                    canvas.Clear(SKColors.White);
+                    canvas.DrawBitmap(original, new SKRect(0, 0, tmpImage.PreviewWidth, height));
                 }
-                resized.Save(HttpContext.Current.Server.MapPath(tmpImage.PathPreview), ImageFormat.Jpeg);
+
+                using (var fileStream = File.OpenWrite(Path.Combine(Settings.ImagePath, tmpImage.PathPreview)))
+                {
+                    resized.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
+                }
             }
         }
     }

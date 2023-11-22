@@ -1,11 +1,13 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Web;
+﻿using System.Reflection;
 using Autofac;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
 using NHibernate;
 using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Text;
+using Microsoft.AspNetCore.Hosting;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -13,19 +15,11 @@ namespace TrueOrFalse.Infrastructure
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(context => HttpContext.Current).InstancePerLifetimeScope();
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+            
 
-            builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
-                               .AssignableTo<IRegisterAsInstancePerLifetime>();
-
-            var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
-            builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
-                .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"));
-         
-
-
+            builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
             try
             {
 #if DEBUG
@@ -72,7 +66,25 @@ namespace TrueOrFalse.Infrastructure
             }
 
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
-            builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
+
+
+            builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
+                .AssignableTo<IRegisterAsInstancePerLifetime>();
+
+            var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
+
+            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
+            builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
+            builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
+                .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"))
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<MemoryCache>()
+                .As<IMemoryCache>()
+                .SingleInstance();
+
+
+
             builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
         }
     }

@@ -3,12 +3,14 @@ using System.Reflection;
 using System.Web;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 using Seedworks.Web.State;
 using TrueOrFalse.Infrastructure.Persistence;
-using Environment = NHibernate.Cfg.Environment;
+
 
 namespace TrueOrFalse
 {
@@ -18,50 +20,26 @@ namespace TrueOrFalse
         
         public static ISessionFactory CreateSessionFactory()
         {
-            var configuration = ReadConfigurationFromCacheOrBuildIt();
-            _configuration = configuration;
-            _configuration.SetProperty(Environment.Hbm2ddlKeyWords, "none");
-
-            return configuration.BuildSessionFactory();
+            var sessionFactory = Fluently.Configure()
+                .Database(MySQLConfiguration.Standard.ConnectionString(Settings.ConnectionString))
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
+                .BuildSessionFactory();
+            return sessionFactory;
         }
 
-        private static Configuration ReadConfigurationFromCacheOrBuildIt()
-        {
-            Configuration nhConfigurationCache;
-
-            var assembly = Assembly.GetAssembly(typeof (Question));  
-            if(assembly == null && !ContextUtil.IsWebContext)
-                assembly = Assembly.LoadFile(
-                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assembly.GetName().Name + ".dll"));
-
-            var nhCfgCache = new NHConfigurationFileCache(assembly);
-            var cachedCfg = nhCfgCache.LoadConfigurationFromFile();
-
-            if (cachedCfg == null)
-            {
-                nhConfigurationCache = BuildConfiguration();
-                nhCfgCache.SaveConfigurationToFile(nhConfigurationCache);
-            }
-            else
-            {
-                nhConfigurationCache = cachedCfg;
-            }
-            return nhConfigurationCache;            
-        }
-
-        private static Configuration BuildConfiguration()
+        private static Configuration BuildConfiguration(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
         {
             var configuration = Fluently.Configure()
                 .Database(
                     MySQLConfiguration.Standard
-                        .ConnectionString(Settings.ConnectionString())
+                        .ConnectionString(Settings.ConnectionString)
                         .Dialect<MySQL5FlexibleDialect>()
                 )
                 .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
                 .ExposeConfiguration(SetConfig)
                 .BuildConfiguration();
 
-            if (!ContextUtil.IsWebContext || Settings.WithNHibernateStatistics)
+            if (!new ContextUtil(httpContext, webHostEnvironment).IsWebContext || Settings.WithNHibernateStatistics)
                 configuration = configuration.SetProperty("generate_statistics", "true");
 
             return configuration;

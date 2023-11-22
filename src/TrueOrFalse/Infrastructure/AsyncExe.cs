@@ -1,11 +1,24 @@
-﻿using System.Threading.Tasks;
-using System.Web.Hosting;
-using Seedworks.Web.State;
+﻿using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using TrueOrFalse.Infrastructure;
 
-public static class AsyncExe
+public class AsyncExe
 {
-    public static void Run(Action action, bool withAutofac = false)
+    private readonly ILifetimeScope _lifetimeScope;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public AsyncExe(ILifetimeScope lifetimeScope,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
+    {
+        _lifetimeScope = lifetimeScope;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
+
+    public void Run(Action action, bool withAutofac = false)
     {
         try
         {
@@ -16,10 +29,7 @@ public static class AsyncExe
                 actionExec = () =>
                 {
                     Settings.UseWebConfig = true;
-                    var container = AutofacWebInitializer.Run();
-                    ServiceLocator.Init(container);
-
-                    using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope())
+                    using (var scope = _lifetimeScope.BeginLifetimeScope())
                     {
                         action();
                     }
@@ -30,25 +40,18 @@ public static class AsyncExe
                 actionExec = action;
             }
 
-            if (ContextUtil.IsWebContext)
-                HostingEnvironment.QueueBackgroundWorkItem(ct =>
-                {
-                    try
-                    {
-                        actionExec();
-                    }
-                    catch(Exception e)
-                    {
-                        Logg.r().Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
-                    }
-                    
-                });
-            else //for unit tests
+            try
+            {
                 Task.Factory.StartNew(() => { actionExec(); });
+            }
+            catch (Exception e)
+            {
+                Logg.r.Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
+            }
         }
         catch (Exception e)
         {
-            Logg.r().Error(e, "Error in AsyncRunner");
+            Logg.r.Error(e, "Error in AsyncRunner");
         }
     }
 }

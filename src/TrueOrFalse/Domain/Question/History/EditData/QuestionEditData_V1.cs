@@ -7,7 +7,9 @@ public class QuestionEditData_V1 : QuestionEditData
     private readonly ISession _nhibernateSession;
     public QuestionEditData_V1(){}
 
-    public QuestionEditData_V1(Question question, bool imageWasChanged, ISession nhibernateSession)
+    public QuestionEditData_V1(Question question,
+        bool imageWasChanged,
+        ISession nhibernateSession)
     {
         _nhibernateSession = nhibernateSession;
         //TextHtml is missing here
@@ -31,10 +33,8 @@ public class QuestionEditData_V1 : QuestionEditData
         return JsonConvert.DeserializeObject<QuestionEditData_V1>(json);
     }
 
-    public override Question ToQuestion(int questionId)
+    public override Question ToQuestion(Question question)
     {
-        var question = Sl.QuestionRepo.GetById(questionId);
-
         // Query Categories and References properties to load and thus prevent an
         // NHibernate.LazyInitializationException
         question.Categories.ToList();

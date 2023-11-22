@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Criterion;
+using Serilog;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstancePerLifetime
+public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstancePerLifetime
 {
-    private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserActivityRepo _userActivityRepo;
 
     public enum CreateDeleteUpdate
     {
@@ -16,15 +19,18 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         Update = 3
     }
 
-    public const int AllgemeinwissenId = 709;
-
     public CategoryRepository(
-        ISession session,
-        PermissionCheck permissionCheck,
-        SessionUser sessionUser)
+        NHibernate.ISession session,
+        CategoryChangeRepo categoryChangeRepo,
+        UpdateQuestionCountForCategory updateQuestionCountForCategory,
+        UserReadingRepo userReadingRepo,
+        UserActivityRepo userActivityRepo)
         : base(session)
     {
-        _permissionCheck = permissionCheck;
+        _categoryChangeRepo = categoryChangeRepo;
+        _updateQuestionCountForCategory = updateQuestionCountForCategory;
+        _userReadingRepo = userReadingRepo;
+        _userActivityRepo = userActivityRepo;
     }
 
     /// <summary>
@@ -41,73 +47,34 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         base.Create(category);
         Flush();
 
-        UserActivityAdd.CreatedCategory(category);
+        UserActivityAdd.CreatedCategory(category, _userReadingRepo, _userActivityRepo);
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        Sl.CategoryChangeRepo.AddCreateEntry(category, category.Creator?.Id ?? -1);
+        _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
 
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem, category.Creator.Id);
         EntityCache.UpdateCachedData(categoryCacheItem, CreateDeleteUpdate.Create);
 
         if (category.ParentCategories().Count != 1)
         {
-            Logg.r().Warning("the parentcounter is != 1");
+            Logg.r.Warning("the parentcounter is != 1");
         }
 
         var parentCategories = category.ParentCategories();
 
         if (parentCategories.Count != 0)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, category.Creator?.Id ?? default, false,
-                CategoryChangeType.Relations);
+            _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
+                 CategoryChangeType.Relations);
         }
 
-        var result = Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
+        Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
             .CreateAsync(category)
             .ConfigureAwait(false));
     }
 
-    //todo (Meili) die Stelle nochmal anschauen
-    public void CreateOnlyDb(Category category)
-    {
-        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
-        {
-            related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
-        }
-
-        base.Create(category);
-        Flush();
-
-        Sl.CategoryChangeRepo.AddCreateEntryDbOnly(category, category.Creator);
-    }
-
-    public void Delete(Category category, int userId)
-    {
-
-        base.Delete(category);
-        EntityCache.Remove(EntityCache.GetCategory(category),_permissionCheck, userId);
-        Task.Run(async () =>
-        {
-            await new MeiliSearchCategoriesDatabaseOperations()
-                .DeleteAsync(category)
-                .ConfigureAwait(false);
-        });
-    }
-
-    public void DeleteWithoutFlush(Category category, int userId)
-    {
-        base.DeleteWithoutFlush(category);
-        EntityCache.Remove(EntityCache.GetCategory(category.Id), _permissionCheck, userId);
-        SessionUserCache.RemoveAllForCategory(category.Id);
-        Task.Run(async () =>
-        {
-            await new MeiliSearchCategoriesDatabaseOperations()
-                .DeleteAsync(category)
-                .ConfigureAwait(false);
-        });
-    }
 
     public bool Exists(string categoryName)
     {
@@ -251,7 +218,7 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(
         Category category,
-        SessionUserCacheItem author = null,
+        int authorId = 0,
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,
@@ -260,13 +227,13 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
     {
         base.Update(category);
 
-        if (author != null && createCategoryChange)
+        if (authorId != 0 && createCategoryChange)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();
-        Sl.R<UpdateQuestionCountForCategory>().Run(category);
+        _updateQuestionCountForCategory.RunForJob(category, authorId);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -274,7 +241,18 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
                 .ConfigureAwait(false);
         });
     }
+    public void CreateOnlyDb(Category category)
+    {
+        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
+        {
+            related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
+        }
 
+        base.Create(category);
+        Flush();
+
+        _categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
+    }
     public void UpdateOnlyDb(
         Category category,
         SessionUserCacheItem author = null,
@@ -288,11 +266,11 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
 
         if (author != null && createCategoryChange)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();
-        Sl.R<UpdateQuestionCountForCategory>().RunOnlyDb(category);
+        _updateQuestionCountForCategory.RunOnlyDb(category);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -309,5 +287,5 @@ public class CategoryRepository : RepositoryDbBase<Category>,IRegisterAsInstance
         _session.CreateSQLQuery(sql).ExecuteUpdate();
     }
 
-   
+
 }

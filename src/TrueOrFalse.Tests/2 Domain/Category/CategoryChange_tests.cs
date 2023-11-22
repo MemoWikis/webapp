@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -13,9 +14,10 @@ class CategoryChange_tests : BaseTest
         var category = ContextCategory.New().Add("Category 1").Persist().All[0];
         category.Name = "Category 2";
 
-        Sl.CategoryRepo.Update(category);
+        var categoryRepo = LifetimeScope.Resolve<CategoryRepository>(); 
+        categoryRepo.Update(category);
 
-        Assert.That(Sl.CategoryRepo.GetAllEager().ToList().First().Name, Is.EqualTo("Category 2"));
+        Assert.That(categoryRepo.GetAllEager().ToList().First().Name, Is.EqualTo("Category 2"));
     }
 
     [Test]

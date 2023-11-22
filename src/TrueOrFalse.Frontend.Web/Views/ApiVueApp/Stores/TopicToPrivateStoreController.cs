@@ -1,56 +1,77 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class TopicToPrivateStoreController : BaseController
 {
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly QuestionWritingRepo _questionWritingRepo;
+    private readonly SessionUserCache _sessionUserCache;
 
-    public TopicToPrivateStoreController(SessionUser sessionUser, PermissionCheck permissionCheck) :base(sessionUser)
+    public TopicToPrivateStoreController(SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        CategoryRepository categoryRepository,
+        QuestionReadingRepo questionReadingRepo,
+        QuestionWritingRepo questionWritingRepo,
+        SessionUserCache sessionUserCache) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
+        _categoryRepository = categoryRepository;
+        _questionReadingRepo = questionReadingRepo;
+        _questionWritingRepo = questionWritingRepo;
+        _sessionUserCache = sessionUserCache;
     }
 
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public JsonResult Get(int topicId)
+    public JsonResult Get([FromRoute] int id)
     {
-        var topicCacheItem = EntityCache.GetCategory(topicId);
-        var userCacheItem = SessionUserCache.GetItem(User_().Id);
-
-        if (!_permissionCheck.CanEdit(topicCacheItem))
-            return Json(new
+        var topicCacheItem = EntityCache.GetCategory(id);
+        var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
+        if (topicCacheItem == null)
+            return Json(new RequestResult
             {
                 success = false,
-                key = "missingRights"
-            }, JsonRequestBehavior.AllowGet);
+                messageKey = FrontendMessageKeys.Error.Default
+            });
+
+        if (!_permissionCheck.CanEdit(topicCacheItem))
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+            });
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var publicAggregatedQuestions = topicCacheItem.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
             .Where(q => q.Visibility == QuestionVisibility.All).ToList();
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
-        if (!IsInstallationAdmin)
+        if (!_sessionUser.IsInstallationAdmin)
         {
-            if (topicId == RootCategory.RootCategoryId)
-                return Json(new
+            if (id == RootCategory.RootCategoryId)
+                return Json(new RequestResult
                 {
                     success = false,
-                    key = "rootCategoryMustBePublic"
-                }, JsonRequestBehavior.AllowGet);
+                    messageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
+                });
 
             foreach (var c in aggregatedTopics)
             {
                 bool childHasPublicParent = c.Value.ParentCategories()
-                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != topicId);
+                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
                 if (!childHasPublicParent)
-                    return Json(new
+                    return Json(new RequestResult
                     {
                         success = false,
-                        key = "publicChildCategories"
-                    }, JsonRequestBehavior.AllowGet);
+                        messageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
+                    });
             }
 
             var pinnedQuestionIds = new List<int>();
@@ -62,20 +83,21 @@ public class TopicToPrivateStoreController : BaseController
             }
 
             if (pinnedQuestionIds.Count > 0)
-                return Json(new
+                return Json(new RequestResult
                 {
                     success = false,
-                    key = "questionIsPinned",
-                    pinnedQuestionIds
-                }, JsonRequestBehavior.AllowGet);
+                    messageKey = FrontendMessageKeys.Error.Category.PinnedQuestions,
+                    data = pinnedQuestionIds
+                });
+
 
             if (pinCount >= 10)
             {
-                return Json(new
+                return Json(new RequestResult
                 {
                     success = false,
-                    key = "tooPopular"
-                }, JsonRequestBehavior.AllowGet);
+                    messageKey = FrontendMessageKeys.Error.Category.TooPopular
+                });
             }
         }
 
@@ -83,92 +105,103 @@ public class TopicToPrivateStoreController : BaseController
             .Where(q => q.Creator != null && q.Creator.Id == userCacheItem.Id)
             .Select(q => q.Id).ToList();
 
-        return Json(new
+        return Json(new RequestResult
         {
             success = true,
-            name = topicCacheItem.Name,
-            personalQuestionIds = filteredAggregatedQuestions,
-            personalQuestionCount = filteredAggregatedQuestions.Count(),
-            allQuestionIds = publicAggregatedQuestions.Select(q => q.Id).ToList(),
-            allQuestionCount = publicAggregatedQuestions.Count()
-        }, JsonRequestBehavior.AllowGet);
+            data = new
+            {
+                name = topicCacheItem.Name,
+                personalQuestionIds = filteredAggregatedQuestions,
+                personalQuestionCount = filteredAggregatedQuestions.Count,
+                allQuestionIds = publicAggregatedQuestions.Select(q => q.Id).ToList(),
+                allQuestionCount = publicAggregatedQuestions.Count
+            }
+        });
     }
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult Set(int topicId)
+    public JsonResult Set([FromRoute] int id)
     {
-        var topicCacheItem = EntityCache.GetCategory(topicId);
-        if (!_permissionCheck.CanEdit(topicCacheItem))
-            return Json(new
+        var topicCacheItem = EntityCache.GetCategory(id);
+        if (topicCacheItem == null)
+            return Json(new RequestResult
             {
                 success = false,
-                key = "missingRights"
+                messageKey = FrontendMessageKeys.Error.Default
+            });
+
+        if (!_permissionCheck.CanEdit(topicCacheItem))
+            return Json(new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.MissingRights
             });
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
             .Where(c => c.Value.Visibility == CategoryVisibility.All);
-        var topic = Sl.CategoryRepo.GetById(topicId);
+        var topic = _categoryRepository.GetById(id);
         var pinCount = topic.TotalRelevancePersonalEntries;
-        if (!IsInstallationAdmin)
+        if (!_sessionUser.IsInstallationAdmin)
         {
-            if (topicId == RootCategory.RootCategoryId)
-                return Json(new
+            if (id == RootCategory.RootCategoryId)
+                return Json(new RequestResult
                 {
                     success = false,
-                    key = "rootCategoryMustBePublic"
+                    messageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
                 });
 
             foreach (var c in aggregatedTopics)
             {
                 bool childHasPublicParent = c.Value.ParentCategories()
-                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != topicId);
+                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
                 if (!childHasPublicParent)
-                    return Json(new
+                    return Json(new RequestResult
                     {
                         success = false,
-                        key = "publicChildCategories"
+                        messageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
                     });
             }
 
             if (pinCount >= 10)
             {
-                return Json(new
+                return Json(new RequestResult
                 {
-                    success = true,
-                    key = "tooPopular"
+                    success = false,
+                    messageKey = FrontendMessageKeys.Error.Category.TooPopular
                 });
             }
         }
 
         topicCacheItem.Visibility = CategoryVisibility.Owner;
         topic.Visibility = CategoryVisibility.Owner;
-        Sl.CategoryRepo.Update(topic, _sessionUser.User, type: CategoryChangeType.Privatized);
+        _categoryRepository.Update(topic, _sessionUser.UserId, type: CategoryChangeType.Privatized);
 
-        return Json(new
+        return Json(new RequestResult
         {
             success = true,
-            key = "setToPrivate"
+            messageKey = FrontendMessageKeys.Success.Category.SetToPrivate
         });
     }
 
+    public readonly record struct SetQuestionsToPrivateJson(List<int> questionIds);
     [HttpGet]
     [AccessOnlyAsLoggedIn]
-    public void SetQuestionsToPrivate(List<int> questionIds)
+    public void SetQuestionsToPrivate([FromBody] SetQuestionsToPrivateJson json)
     {
-        foreach (var questionId in questionIds)
+        foreach (var questionId in json.questionIds)
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId) ? 1 : 0);
+                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache) ? 1 : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) ||
-                IsInstallationAdmin)
+                _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);
-                var question = Sl.QuestionRepo.GetById(questionId);
+                var question = _questionReadingRepo.GetById(questionId);
                 question.Visibility = QuestionVisibility.Owner;
-                Sl.QuestionRepo.Update(question);
+                _questionWritingRepo.UpdateOrMerge(question, false);
             }
         }
     }

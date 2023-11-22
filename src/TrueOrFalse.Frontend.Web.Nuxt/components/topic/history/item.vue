@@ -10,6 +10,7 @@ function getRelationChangeLabel() {
 </script>
 
 <template>
+    <div></div>
     <!-- <template v-if="props.item.IsVisibleToCurrentUser">
         <div class="panel-group row change-detail-model" id="accordion<%= panelId %>" role="tablist"
             aria-multiselectable="true">

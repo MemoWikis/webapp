@@ -9,6 +9,7 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 public class BaseTest
 {
     private static IContainer _container;
+    protected ILifetimeScope LifetimeScope;
     static BaseTest()
     {
         #if DEBUG
@@ -22,6 +23,7 @@ public class BaseTest
     {
         CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
+        LifetimeScope = _container.BeginLifetimeScope(); 
 
         Resolve<EntityCacheInitializer>().Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
@@ -43,21 +45,14 @@ public class BaseTest
         BuildContainer();
         ServiceLocator.Init(_container);
         SessionFactory.TruncateAllTables();
-    }
-
-    protected bool IsMysqlInMemoryEngine()  
-    {
-        return MySQL5FlexibleDialect.IsInMemoryEngine();
+        
     }
 
     private static void BuildContainer()
     {
-        JobScheduler.EmptyMethodToCallConstructor();//Call here to have container with default solr cores registered (not suitable for unit testing) built first and overwritten afterwards 
-
+        JobScheduler.EmptyMethodToCallConstructor(); //Call here to have container with default solr cores registered (not suitable for unit testing) built first and overwritten afterwards 
         var builder = new ContainerBuilder();
         _container = builder.Build();
-        ServiceLocator.Init(_container);
-        Sl.IsUnitTest = true;
     }
 
     public static T Resolve<T>()

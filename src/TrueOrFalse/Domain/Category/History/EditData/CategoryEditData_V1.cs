@@ -6,11 +6,15 @@ using NHibernate;
 public class CategoryEditData_V1 : CategoryEditData
 {
     private readonly ISession _nhibernateSession;
+    private readonly CategoryRepository _categoryRepository;
     public IList<CategoryRelation_EditData_V1> CategoryRelations;
 
-    public CategoryEditData_V1(Category category, ISession nhibernateSession)
+    public CategoryEditData_V1(Category category,
+        ISession nhibernateSession,
+        CategoryRepository categoryRepository)
     {
         _nhibernateSession = nhibernateSession;
+        _categoryRepository = categoryRepository;
         Name = category.Name;
         Description = category.Description;
         TopicMardkown = category.TopicMarkdown;
@@ -26,7 +30,7 @@ public class CategoryEditData_V1 : CategoryEditData
 
     public override Category ToCategory(int categoryId)
     {
-        var category = Sl.CategoryRepo.GetById(categoryId);
+        var category = _categoryRepository.GetById(categoryId);
 
         _nhibernateSession.Evict(category);
         var categoryIsNull = category == null;

@@ -1,21 +1,14 @@
-using System.Collections;
-
 namespace Seedworks.Web.State
 {    
     public class Cache 
     {
-        private static readonly ICache _cache;
-        
-        public static int Count => _cache.Count;
-
-        static Cache()
-        {
-            _cache = new CacheAspNet();
-        }
+        private static CacheAspNet _cache;
+        private static readonly object _lock = new();
+  
 
         public static void Add(string key, object obj)
         {
-            _cache.Add(key, obj);
+            CacheAspNet.Add(key, obj);
         }
 
         /// <summary>
@@ -24,32 +17,32 @@ namespace Seedworks.Web.State
         /// </summary>
         public static void Add(string key, object obj, TimeSpan timeSpan, bool slidingExpiration = false)
         {
-            _cache.Add(key, obj, timeSpan, slidingExpiration);
+            CacheAspNet.Add(key, obj, timeSpan, slidingExpiration);
         }
 
-        public static object Get(string key)
+        public static object? Get(string key)
         {
-            return _cache.Get(key);
+            return CacheAspNet.Get(key);
         }
 
-        public static T Get<T>(string key)
+        public static T? Get<T>(string key)
         {
-            return _cache.Get<T>(key);
+            return CacheAspNet.Get<T>(key);
         }
 
         public static void Clear()
         {
-            _cache.Clear();
+            CacheAspNet.Clear();
         }
 
         public static void Remove(string key)
         {
-            _cache.Remove(key);
+            CacheAspNet.Remove(key);
         }
 
         public static bool Contains(string key)
         {
-            return _cache.Get(key) != null;
+            return CacheAspNet.Get(key) != null;
         }
     }
 }

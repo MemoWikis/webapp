@@ -1,28 +1,46 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Serilog;
 
 public class ProbabilityUpdate_Category
 {
-    public static void Run()
+    private readonly CategoryRepository _categoryRepository;
+    private readonly AnswerRepo _answerRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public ProbabilityUpdate_Category(CategoryRepository categoryRepository,
+        AnswerRepo answerRepo,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
+    {
+        _categoryRepository = categoryRepository;
+        _answerRepo = answerRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
+    public void Run()
     {
         var sp = Stopwatch.StartNew();
 
-        foreach (var category in Sl.R<CategoryRepository>().GetAll())
+        foreach (var category in _categoryRepository.GetAll())
             Run(category);
 
-        Logg.r().Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
+        Log.Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
     }
 
-    public static void Run(Category category)
+    public void Run(Category category)
     {
         var sp = Stopwatch.StartNew();
 
-        var answers = Sl.R<AnswerRepo>().GetByCategories(category.Id);  
+        var answers = _answerRepo.GetByCategories(category.Id);  
 
         category.CorrectnessProbability = ProbabilityCalc_Category.Run(answers);
         category.CorrectnessProbabilityAnswerCount = answers.Count;
 
-        Sl.R<CategoryRepository>().Update(category);
+        _categoryRepository.Update(category);
 
-        Logg.r().Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, category.Id);
+        Logg.r.Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, category.Id);
     }
 }

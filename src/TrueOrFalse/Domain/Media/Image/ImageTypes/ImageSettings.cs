@@ -1,30 +1,25 @@
-﻿using System.IO;
-using System.Web;
+﻿
+using Microsoft.AspNetCore.Http;
 
 public abstract class ImageSettings
 {
+    protected readonly IHttpContextAccessor _contextAccessor;
+
+    public ImageSettings(IHttpContextAccessor contextAccessor)
+    {
+        _contextAccessor = contextAccessor;
+    }
     public abstract int Id { get; set;  }
-    public abstract string BasePath { get;  }
+    public abstract string BasePath { get; }
 
     public string ServerPathAndId()
     {
-        if (HttpContext.Current == null)
-            return "";
-
-        return HttpContext.Current.Server.MapPath(BasePath + Id);
-    }
-
-    public string ServerPath()
-    {
-        if (HttpContext.Current == null)
-            return "";
-
-        return HttpContext.Current.Server.MapPath(BasePath);
+        return Path.Combine(Settings.ImagePath, BasePath, Id.ToString());
     }
 
     public void DeleteFiles()
     {
-        var filesToDelete = Directory.GetFiles(ServerPath(), Id + "_*");
+        var filesToDelete = Directory.GetFiles(Settings.ImagePath, Id + "_*");
 
         if (filesToDelete.Length > 33)
             throw new Exception("unexpected high amount of files");
@@ -33,18 +28,18 @@ public abstract class ImageSettings
             File.Delete(file);
     }
 
-    public static IImageSettings InitByType(ImageMetaData imageMetaData)
+    public IImageSettings InitByType(ImageMetaData imageMetaData, QuestionReadingRepo questionReadingRepo)
     {
         switch (imageMetaData.Type)
         {
             case ImageType.Category:
-                return new CategoryImageSettings(imageMetaData.TypeId);
+                return new CategoryImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.Question:
-                return new QuestionImageSettings(imageMetaData.TypeId);
+                return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, questionReadingRepo);
             case ImageType.QuestionSet:
-                return new SetImageSettings(imageMetaData.TypeId);
+                return new SetImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.User:
-                return new UserImageSettings(imageMetaData.TypeId);
+                return new UserImageSettings(imageMetaData.TypeId, _contextAccessor);
             default:
                 throw new Exception("invalid type");
         }

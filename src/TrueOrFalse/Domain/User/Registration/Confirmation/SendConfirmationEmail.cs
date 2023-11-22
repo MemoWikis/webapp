@@ -3,16 +3,15 @@ using System.Text;
 
 public class SendConfirmationEmail
 {
-    public static void Run(int userId)
+    public static void Run(int userId, JobQueueRepo jobQueueRepo, UserReadingRepo userReadingRepo)
     {
-        var userRepo = Sl.UserRepo;
-        userRepo.Flush();
-        var user = Sl.UserRepo.GetById(userId);
-        userRepo.Refresh(user);
+        userReadingRepo.Flush();
+        var user = userReadingRepo.GetById(userId);
+        userReadingRepo.Refresh(user);
 
-        Run(user);
+        Run(user, jobQueueRepo, userReadingRepo);
     }
-    public static void Run(User user)
+    public static void Run(User user, JobQueueRepo jobQueueRepo, UserReadingRepo userReadingRepo)
     {
         var mail = new MailMessage();
         mail.To.Add(user.EmailAddress);
@@ -30,6 +29,6 @@ public class SendConfirmationEmail
         mail.Subject = "memucho - Bestätigungslink für deine E-Mail-Adresse";
         mail.Body = emailBody.ToString();
 
-        SendEmail.Run(mail, MailMessagePriority.High);
+        SendEmail.Run(mail, jobQueueRepo, userReadingRepo, MailMessagePriority.High);
     }
 }

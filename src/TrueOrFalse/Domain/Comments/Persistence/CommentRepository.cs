@@ -1,18 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib.Persistence;
+using ISession = NHibernate.ISession;
 
 public class CommentRepository : RepositoryDb<Comment>
 {
-    public CommentRepository(ISession session) : base(session)
+    private readonly MessageRepo _messageRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IActionContextAccessor _actionContextAccessor;
+
+    public CommentRepository(ISession session,
+        MessageRepo messageRepo,
+        QuestionReadingRepo questionReadingRepo, 
+        IHttpContextAccessor httpContextAccessor,
+        IActionContextAccessor actionContextAccessor) : base(session)
     {
+        _messageRepo = messageRepo;
+        _questionReadingRepo = questionReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _actionContextAccessor = actionContextAccessor;
     }
 
     public override void Create(Comment comment)
     {
         base.Create(comment);
-        CommentMsg.Send(comment);
+        CommentMsg.Send(comment,
+            _questionReadingRepo,
+            _messageRepo, 
+            _httpContextAccessor, 
+            _actionContextAccessor);
     }
 
     public IList<Comment> GetForDisplay(int questionId)

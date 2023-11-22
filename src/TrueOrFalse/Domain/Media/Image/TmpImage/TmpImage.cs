@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using Microsoft.AspNetCore.Hosting;
 
 [Serializable]
 public class TmpImage
 {
-    public TmpImage(int previewWidth)
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public TmpImage(int previewWidth, IWebHostEnvironment webHostEnvironment)
     {
+        _webHostEnvironment = webHostEnvironment;
         string deleteTime = DateTime.Now.AddHours(1).ToString("yyyy-mm-dd_hh-MM");
         Guid = System.Guid.NewGuid().ToString();
-        Path = "/Images/Tmp/" + Guid + "-DEL-" + deleteTime + ".png";
-        PathPreview = "/Images/Tmp/" + Guid + "-" + previewWidth + "-DEL-" + deleteTime + ".jpg";
+        Path = "/Tmp/" + Guid + "-DEL-" + deleteTime + ".png";
+        PathPreview = "/Tmp/" + Guid + "-" + previewWidth + "-DEL-" + deleteTime + ".jpg";
         PreviewWidth = previewWidth;
     }
 
@@ -25,19 +23,17 @@ public class TmpImage
 
     ~TmpImage()
     {
-        if (HttpContext.Current == null)
-            return;
+        var basePath = _webHostEnvironment.WebRootPath; 
+        if (File.Exists(System.IO.Path.Combine(basePath, Path)))
+            File.Delete(System.IO.Path.Combine(basePath, Path));
 
-        if (File.Exists(HttpContext.Current.Server.MapPath(Path)))
-            File.Delete(HttpContext.Current.Server.MapPath(Path));
-
-        if (File.Exists(HttpContext.Current.Server.MapPath(PathPreview)))
-            File.Delete(HttpContext.Current.Server.MapPath(PathPreview));
+        if (File.Exists(System.IO.Path.Combine(basePath, PathPreview)))
+            File.Delete(System.IO.Path.Combine(basePath, PathPreview));
     }
 
     public Stream GetStream()
     {
-        return File.OpenRead(HttpContext.Current.Server.MapPath(Path));
+        return File.OpenRead(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, Path));
     }
 
     public Stream RelocateImage(string imgUrl)

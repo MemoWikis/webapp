@@ -1,12 +1,21 @@
-﻿using System;
-using Seedworks.Lib.Settings;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 
 public class StripeReturnUrlGenerator
 {
-    public static string Create(string targetPath)
+    protected readonly IHttpContextAccessor _httpContextAccessor;
+    protected readonly IWebHostEnvironment _webHostEnvironment;
+
+    public StripeReturnUrlGenerator(IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment)
     {
-        var server = Settings.Environment();
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
+    }
+    public string Create(string targetPath)
+    {
+        var server = Settings.Environment;
         var url = "";
         if (!string.IsNullOrEmpty(Settings.StripeBaseUrl))
         {

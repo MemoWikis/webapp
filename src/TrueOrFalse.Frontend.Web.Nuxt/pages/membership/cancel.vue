@@ -36,7 +36,7 @@ if (result.value?.success == true) {
                 <a href="https://discord.com/invite/nXKwGrN" target="_blank"><i class="fab fa-discord"
                         aria-hidden="true"></i>Discord</a>
 
-                <nuxt-link v-for="(nameAndLink) in  topicArray " :to="nameAndLink.link" target="_blank"
+                <nuxt-link v-for="(nameAndLink) in  topicArray " :to="nameAndLink.link" target="_blank" :key="nameAndLink.link"
                     v-if="result?.success == true">{{
                         nameAndLink.name
                     }}</nuxt-link><br />

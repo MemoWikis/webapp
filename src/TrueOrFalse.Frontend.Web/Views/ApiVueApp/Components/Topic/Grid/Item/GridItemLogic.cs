@@ -1,20 +1,32 @@
 ﻿
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
-namespace VueApp;
-[SessionState(System.Web.SessionState.SessionStateBehavior.ReadOnly)]
-public class GridItemLogic : IRegisterAsInstancePerLifetime
+public class GridItemLogic
+    : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUser _sessionUser;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReading;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public GridItemLogic(PermissionCheck permissionCheck, SessionUser sessionUser)
+    public GridItemLogic(PermissionCheck permissionCheck,
+        SessionUser sessionUser,
+        ImageMetaDataReadingRepo imageMetaDataReading,
+        IHttpContextAccessor httpContextAccessor,
+        KnowledgeSummaryLoader knowledgeSummaryLoader,
+        QuestionReadingRepo questionReadingRepo)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
+        _imageMetaDataReading = imageMetaDataReading;
+        _httpContextAccessor = httpContextAccessor;
+        _knowledgeSummaryLoader = knowledgeSummaryLoader;
+        _questionReadingRepo = questionReadingRepo;
     }
-
     public class GridTopicItem
     {
         public int id { get; set; }
@@ -61,8 +73,8 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
 
     public GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
     {
-        var imageMetaData = Sl.ImageMetaDataRepo.GetBy(topic.Id, ImageType.Category);
-        var imageFrontendData = new ImageFrontendData(imageMetaData);
+        var imageMetaData = _imageMetaDataReading.GetBy(topic.Id, ImageType.Category);
+        var imageFrontendData = new ImageFrontendData(imageMetaData, _httpContextAccessor, _questionReadingRepo);
 
         return new GridTopicItem
         {
@@ -83,7 +95,7 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
 
     private KnowledgebarData GetKnowledgebarData(CategoryCacheItem topic)
     {
-        var knowledgeBarSummary = new CategoryKnowledgeBarModel(topic, _sessionUser.UserId).CategoryKnowledgeSummary;
+        var knowledgeBarSummary = new CategoryKnowledgeBarModel(topic, _sessionUser.UserId, _knowledgeSummaryLoader).CategoryKnowledgeSummary;
 
         return new KnowledgebarData
         {
@@ -102,7 +114,9 @@ public class GridItemLogic : IRegisterAsInstancePerLifetime
     private TinyTopicModel[] GetParents(CategoryCacheItem topic)
     {
         return topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
-            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id).GetUrl(50, true).Url }).ToArray();
+            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
+                .GetUrl(50, true).Url })
+            .ToArray();
     }
 }
 

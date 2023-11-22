@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Autofac;
 using NHibernate;
 using NHibernate.Collection.Generic;
 using NHibernate.Engine;
@@ -63,9 +64,9 @@ class EntityCache_tests : BaseTest
         var allCacheCategories = EntityCache.GetAllCategories();
         var deleteCategory = allCacheCategories.ByName("E");
         var idFromDeleteCategory = deleteCategory.Id;
-        var catRepo = Sl.CategoryRepo; 
+        var catRepo = LifetimeScope.Resolve<CategoryRepository>(); 
 
-        Sl.CategoryRepo.Delete( catRepo.GetByIdEager(deleteCategory));
+        catRepo.Delete( catRepo.GetByIdEager(deleteCategory));
 
         var relatedCategories = EntityCache.GetAllCategories().SelectMany(c => c.CategoryRelations.Where(cr => cr.RelatedCategoryId == idFromDeleteCategory && cr.CategoryId == idFromDeleteCategory)).ToList();
         Assert.That(relatedCategories.Count, Is.EqualTo(0));
@@ -75,20 +76,26 @@ class EntityCache_tests : BaseTest
     public void Should_able_to_deep_clone_cache_items()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New();
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(), 
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(), 
+            R<UserWritingRepo>(), 
+            R<CategoryRepository>());
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
         question1.Categories.Add(rootCategory);
-        Sl.QuestionRepo.Update(question1);
+
+       
+        R<QuestionWritingRepo>().UpdateOrMerge(question1, false);
 
         RecycleContainer();
 
         Resolve<EntityCacheInitializer>().Init();
 
-        var questions = Sl.QuestionRepo.GetAll();
-        var categories = Sl.CategoryRepo.GetAllEager();
+        var questions = R<QuestionReadingRepo>().GetAll();
+        var categories = LifetimeScope.Resolve<CategoryRepository>().GetAllEager();
 
         ObjectExtensions.DeepClone(EntityCache.GetAllCategories().First());
         FluentNHibernate.Utils.Extensions.DeepClone(EntityCache.GetAllCategories().First());
@@ -99,24 +106,21 @@ class EntityCache_tests : BaseTest
     public void Entity_in_cache_should_be_detached_from_NHibernate_session()
     {
         var contexCategory = ContextCategory.New();
-        var contextQuestion = ContextQuestion.New();
+        var contextQuestion = ContextQuestion.New(R<QuestionWritingRepo>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            R<UserWritingRepo>(),
+            R<CategoryRepository>()); 
 
         var rootCategory = contexCategory.Add("root").Persist().All.First();
 
         var question1 = contextQuestion.AddQuestion().Persist().All.First();
         question1.Categories.Add(rootCategory);
-        Sl.QuestionRepo.Update(question1);
-
-        var session = typeof(PersistentGenericBag<Category>).GetField("session", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(question1.Categories);
-        var session2 = question1.Categories.GetFieldValue<object>("session");
-
-        var persistentGenericBag = ((PersistentGenericBag<Category>) question1.Categories);
-        var session3 = persistentGenericBag.GetFieldValue<ISessionImplementor>("session");
+        R<QuestionWritingRepo>().UpdateOrMerge(question1, false);
 
         Assert.IsTrue(NHibernateUtil.IsInitialized(question1.Categories));
 
-
-        Sl.QuestionRepo.Session.Evict(question1.Categories);
+        R<ISession>().Evict(question1.Categories);
 
         RecycleContainer();
 
@@ -171,16 +175,5 @@ class EntityCache_tests : BaseTest
 
         Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("G").Id), "I"), Is.EqualTo(true));
         Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
-    }
-}
-
-public static class ReflectionExtensions
-{
-    public static T GetFieldValue<T>(this object obj, string name)
-    {
-        // Set the flags so that private and public fields from instances will be found
-        var bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-        var field = obj.GetType().GetField(name, bindingFlags);
-        return (T)field?.GetValue(obj);
     }
 }

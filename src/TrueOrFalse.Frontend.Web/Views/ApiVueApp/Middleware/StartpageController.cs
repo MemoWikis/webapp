@@ -1,19 +1,17 @@
-﻿using System.Web.Mvc;
-using TrueOrFalse.Web;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace VueApp;
 
 public class MiddlewareStartpageController : BaseController
 {
-    public MiddlewareStartpageController(SessionUser sessionUser) :base(sessionUser)
+    public MiddlewareStartpageController(SessionUser sessionUser) : base(sessionUser)
     {
-        
+        _sessionUser = sessionUser;
     }
 
     [HttpGet]
     public JsonResult Get()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
-        return Json(new { name = topic.Name, id = topic.Id }, JsonRequestBehavior.AllowGet);
+        return Json(new { name = topic.Name, id = topic.Id });
     }
 }   

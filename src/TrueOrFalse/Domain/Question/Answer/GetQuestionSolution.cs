@@ -1,36 +1,38 @@
-using System.Web.Script.Serialization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using TrueOrFalse;
 
 public class GetQuestionSolution
 {
-    public static QuestionSolution Run(int questionId)
+    public static QuestionSolution? Run(int questionId)
     {
         var question = EntityCache.GetQuestionById(questionId);
         return Run(question);
     }
 
-    public static QuestionSolution Run(QuestionCacheItem question)
+    public static QuestionSolution? Run(QuestionCacheItem question)
     {
-        var serializer = new JavaScriptSerializer();
+
         switch (question.SolutionType)
         {
             case SolutionType.Text:
                 return new QuestionSolutionExact{ Text = question.Solution.Trim(),  MetadataSolutionJson = question.SolutionMetadataJson };
 
             case SolutionType.Sequence:
-                return serializer.Deserialize<QuestionSolutionSequence>(question.Solution);
+                return JsonConvert.DeserializeObject<QuestionSolutionSequence>(question.Solution);
 
             case SolutionType.MultipleChoice_SingleSolution:
-                return serializer.Deserialize<QuestionSolutionMultipleChoice_SingleSolution>(question.Solution);
+                return JsonConvert.DeserializeObject<QuestionSolutionMultipleChoice_SingleSolution>(question.Solution);
 
             case SolutionType.MultipleChoice:
-                return serializer.Deserialize<QuestionSolutionMultipleChoice>(question.Solution);
+                return JsonConvert.DeserializeObject<QuestionSolutionMultipleChoice>(question.Solution);
 
             case SolutionType.MatchList:
-                return serializer.Deserialize<QuestionSolutionMatchList>(question.Solution);
+                return JsonConvert.DeserializeObject<QuestionSolutionMatchList>(question.Solution);
 
             case SolutionType.FlashCard:
-                return serializer.Deserialize<QuestionSolutionFlashCard>(question.Solution);
+                return JsonConvert.DeserializeObject<QuestionSolutionFlashCard>(question.Solution);
         }
 
         throw new NotImplementedException($"Solution Type not implemented: {question.SolutionType}");

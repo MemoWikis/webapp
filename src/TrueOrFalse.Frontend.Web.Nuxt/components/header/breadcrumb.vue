@@ -175,15 +175,13 @@ async function getBreadcrumb() {
 	} else {
 		const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
 			{
-				method: 'POST',
-				body: data,
+				method: 'GET',
 				credentials: 'include',
 				mode: 'no-cors',
 				onResponseError(context) {
 					throw createError({ statusMessage: context.error?.message })
 				}
 			})
-
 		personalWiki.value = result
 
 	}
@@ -318,7 +316,7 @@ const { $urlHelper } = useNuxtApp()
 
 			<template #popper>
 
-				<NuxtLink v-for="(s, i) in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.Name, s.Id)"
+				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.Name, s.Id)" :key="s.Id"
 					v-tooltip="s.Name" :aria-label="s.Name">
 					<div class="dropdown-row">
 						{{ s.Name }}

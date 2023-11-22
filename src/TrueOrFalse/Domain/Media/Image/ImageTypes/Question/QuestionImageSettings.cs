@@ -1,38 +1,36 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 public class QuestionImageSettings : ImageSettings, IImageSettings
 {
+    private readonly QuestionReadingRepo _questionReadingRepo;
     public override int Id { get; set; }
     public ImageType ImageType => ImageType.Question;
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500, 435, 100 };
 
-    public override string BasePath => "/Images/Questions/";
-    public string BaseDummyUrl => "/Images/no-question-";
+    public override string BasePath => "Questions";
+    public string BaseDummyUrl => "no-question-";
 
-    private Question __question;
-    private Question _question
+    private Question? __question;
+    private Question _question => __question ??= _questionReadingRepo.GetById(Id);
+
+    public QuestionImageSettings(QuestionReadingRepo questionReadingRepo,
+        IHttpContextAccessor httpContextAccessor) :base(httpContextAccessor)
     {
-        get => __question ?? (__question = Sl.QuestionRepo.GetById(Id));
-        set => __question = value;
+        _questionReadingRepo = questionReadingRepo;
     }
 
-    public QuestionImageSettings(){}
-
-    public QuestionImageSettings(Question question)
+    public QuestionImageSettings(int questionId,
+        IHttpContextAccessor httpContextAccessor,
+        QuestionReadingRepo questionReadingRepo) : base(httpContextAccessor)
     {
-        _question = question;
-
-        Init(question.Id);
-    }
-
-    public QuestionImageSettings(int questionId){
         Init(questionId);
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public void Init(int questionId){
-        Id = questionId; //$temp: wenn id = questionId, was ist dann bei mehreren Bildern
+        Id = questionId;
     }
 
     public ImageUrl GetUrl_50px_square() => 
@@ -46,7 +44,8 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
             return imageUrl;
 
         if (_question.Categories.Any())
-            return new CategoryImageSettings(_question.Categories.First().Id).GetUrl(width, isSquare);
+            return new CategoryImageSettings(_question.Categories.First().Id,
+                _contextAccessor).GetUrl(width, isSquare);
 
         return imageUrl;
     }
@@ -54,13 +53,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
     public ImageUrl GetUrl_435px() { return GetUrl(435); }
     private ImageUrl GetUrl(int width, bool isSquare = false){
-        return ImageUrl.Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
-    }
-
-    public static QuestionImageSettings Create(int questionId)
-    {
-        var result = new QuestionImageSettings();
-        result.Init(questionId);
-        return result;
+        return new ImageUrl(_contextAccessor)
+            .Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
     }
 }

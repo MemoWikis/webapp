@@ -2,33 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueQuestionController : BaseController
+public class VueQuestionController : Controller
 {
-    private readonly QuestionRepo _questionRepo;
+    private readonly SessionUser _sessionUser;
     private readonly PermissionCheck _permissionCheck;
     private readonly RestoreQuestion _restoreQuestion;
     private readonly LearningSessionCache _learningSessionCache;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly TotalsPersUserLoader _totalsPersUserLoader;
+    private readonly SessionUserCache _sessionUserCache;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IActionContextAccessor _actionContextAccessor;
 
-    public VueQuestionController(QuestionRepo questionRepo,
-        SessionUser sessionUser,
+    public VueQuestionController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         RestoreQuestion restoreQuestion,
-        LearningSessionCache learningSessionCache) : base(sessionUser)
+        LearningSessionCache learningSessionCache,
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        UserReadingRepo userReadingRepo,
+        QuestionReadingRepo questionReadingRepo,
+        TotalsPersUserLoader totalsPersUserLoader,
+        SessionUserCache sessionUserCache,
+        IHttpContextAccessor httpContextAccessor,
+        IActionContextAccessor actionContextAccessor) 
     {
-        _questionRepo = questionRepo;
+        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _restoreQuestion = restoreQuestion;
         _learningSessionCache = learningSessionCache;
+        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
+        _userReadingRepo = userReadingRepo;
+        _questionReadingRepo = questionReadingRepo;
+        _totalsPersUserLoader = totalsPersUserLoader;
+        _sessionUserCache = sessionUserCache;
+        _httpContextAccessor = httpContextAccessor;
+        _actionContextAccessor = actionContextAccessor;
     }
 
     [HttpGet]
-    public JsonResult GetQuestion(int id)
+    public JsonResult GetQuestion([FromRoute] int id)
     {
         var q = EntityCache.GetQuestionById(id);
         if (_permissionCheck.CanView(q))
@@ -40,14 +62,14 @@ public class VueQuestionController : BaseController
                 q.TextExtended,
                 q.SolutionType,
                 Solution = GetQuestionSolution.Run(q).GetCorrectAnswerAsHtml()
-            }, JsonRequestBehavior.AllowGet);
+            });
         }
 
-        return Json(new { }, JsonRequestBehavior.AllowGet);
+        return Json(new { });
     }
 
     [HttpGet]
-    public JsonResult GetQuestionPage(int id)
+    public JsonResult GetQuestionPage([FromRoute] int id)
     {
         var q = EntityCache.GetQuestion(id);
         var primaryTopic = q.Categories.LastOrDefault();
@@ -68,10 +90,8 @@ public class VueQuestionController : BaseController
                 primaryTopicId = primaryTopic?.Id,
                 primaryTopicName = primaryTopic?.Name,
                 solution = q.Solution,  
-
                 isCreator = q.Creator.Id == _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId),
-
+                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
                 questionViewGuid = Guid.NewGuid(),
                 isLastStep = true
             },
@@ -89,24 +109,39 @@ public class VueQuestionController : BaseController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser, _permissionCheck).GetData(id)
-        }, JsonRequestBehavior.AllowGet);
+            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
+                    _permissionCheck,
+                    _imageMetaDataReadingRepo,
+                    _totalsPersUserLoader,
+                    _httpContextAccessor,
+                    _sessionUserCache,
+                    _actionContextAccessor,
+                    _questionReadingRepo)
+                .GetData(id)
+        });
     }
 
 
     public JsonResult LoadQuestion(int questionId)
     {
-        var userQuestionValuation = IsLoggedIn ? SessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations : null;
+        var userQuestionValuation = _sessionUser.IsLoggedIn ? 
+            _sessionUserCache.GetItem(_sessionUser.UserId)
+                .QuestionValuations : null;
+
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(Sl.ImageMetaDataRepo.GetBy(q.Id, ImageType.Question))
+        var links = new Links(_actionContextAccessor, _httpContextAccessor);
+        question.LinkToQuestion = links.GetUrl(q);
+        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+                _httpContextAccessor, 
+                _questionReadingRepo)
             .GetImageUrl(40, true).Url;
-        question.LinkToQuestion = Links.GetUrl(q);
-        question.LinkToQuestionVersions = Links.QuestionHistory(q.Id);
-        question.LinkToComment = Links.GetUrl(q) + "#JumpLabel";
+
+        question.LinkToQuestion = links.GetUrl(q);
+        question.LinkToQuestionVersions = links.QuestionHistory(q.Id);
+        question.LinkToComment = links.GetUrl(q) + "#JumpLabel";
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
         question.CreatorId = q.CreatorId;
@@ -132,10 +167,11 @@ public class VueQuestionController : BaseController
     [RedirectToErrorPage_IfNotLoggedIn]
     public ActionResult Restore(int questionId, int questionChangeId)
     {
-        _restoreQuestion.Run(questionChangeId, User_());
+        _restoreQuestion.Run(questionChangeId, _userReadingRepo.GetById(_sessionUser.UserId));
 
-        var question = _questionRepo.GetById(questionId);
-        return Redirect(Links.AnswerQuestion(question));
+        var question = _questionReadingRepo.GetById(questionId);
+        return Redirect(new Links(_actionContextAccessor, _httpContextAccessor)
+            .AnswerQuestion(question));
     }
 
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)

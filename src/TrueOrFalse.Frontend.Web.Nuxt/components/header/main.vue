@@ -64,7 +64,7 @@ onMounted(async () => {
     if (!userStore.isLoggedIn || window.innerWidth < 769 || isMobile) {
         showSearch.value = false
     }
-    if (typeof window != undefined) {
+    if (typeof window != "undefined") {
         window.addEventListener('resize', handleResize)
         window.addEventListener('scroll', handleScroll)
     }

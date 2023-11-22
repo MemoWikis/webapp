@@ -1,22 +1,30 @@
 ﻿using System;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
 
 public class DeleteTopicStoreController : BaseController
 {
     private readonly CategoryDeleter _categoryDeleter;
     private readonly CrumbtrailService _crumbtrailService;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryRepository _categoryRepo;
 
-    public DeleteTopicStoreController(SessionUser sessionUser,CategoryDeleter categoryDeleter,CrumbtrailService crumbtrailService) :base(sessionUser)
+    public DeleteTopicStoreController(SessionUser sessionUser,
+        CategoryDeleter categoryDeleter,
+        CrumbtrailService crumbtrailService,
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryRepository categoryRepository) :base(sessionUser)
     {
         _categoryDeleter = categoryDeleter;
         _crumbtrailService = crumbtrailService;
+        _categoryChangeRepo = categoryChangeRepo;
+        _categoryRepo = categoryRepository;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult GetDeleteData(int id)
+    public JsonResult GetDeleteData([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         var children = EntityCache.GetAllChildren(id);
@@ -27,27 +35,27 @@ public class DeleteTopicStoreController : BaseController
         return Json(new {
             name = topic.Name,
             hasChildren = hasChildren,
-        }, JsonRequestBehavior.AllowGet);
+        });
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Delete(int id)
+    public JsonResult Delete([FromRoute] int id)
     {
         var redirectParent = GetRedirectTopic(id);
-        var topic = Sl.CategoryRepo.GetById(id);
+        var topic = _categoryRepo.GetById(id);
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
         var parentIds =
             EntityCache.GetCategory(id).ParentCategories().Select(c => c.Id)
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
-        var parentTopics = Sl.CategoryRepo.GetByIds(parentIds);
+        var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = _categoryDeleter.Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)
         {
-            Sl.CategoryChangeRepo.AddUpdateEntry(parent, _sessionUser.UserId, false);
+            _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
         }
 
         return Json(new

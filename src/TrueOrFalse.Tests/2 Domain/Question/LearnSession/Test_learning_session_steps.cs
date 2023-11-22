@@ -10,13 +10,21 @@ class Test_learning_session_steps : BaseTest
     [Test]
     public void Test_answer_should_correct_added_or_not_added_for_logged_in_user()
     {
-        var learningSession = ContextLearningSession.GetLearningSessionWithUser(new LearningSessionConfig
+        var learningSessionConfig = new LearningSessionConfig
         {
             CurrentUserId = UserId,
             MaxQuestionCount = 5,
             CategoryId = 1,
             Repetition = RepetitionType.Normal
-        });
+        }; 
+        var learningSession = new ContextLearningSession(R<CategoryRepository>(), 
+            R<LearningSessionCreator>(), 
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            learningSessionConfig,
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
+            .GetLearningSessionWithUser();
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
@@ -40,7 +48,14 @@ class Test_learning_session_steps : BaseTest
     [Test]
     public void Test_answer_should_correct_added_or_not_added_for_not_logged_in_user()
     {
-        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(5);
+        var learningSession = new ContextLearningSession(R<CategoryRepository>(),
+            R<LearningSessionCreator>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            new LearningSessionConfig(),
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
+            .GetLearningSessionForAnonymusUser(5);
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         Assert.That(learningSession.Steps.Count, Is.EqualTo(5));
@@ -58,23 +73,49 @@ class Test_learning_session_steps : BaseTest
     [Test]
     public void Test_is_last_step()
     {
-        var learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1);
+        var catRepo = R<CategoryRepository>();
+        var leraningSessionCreator = R<LearningSessionCreator>(); 
+        var learningSession = new ContextLearningSession(R<CategoryRepository>(),
+            R<LearningSessionCreator>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            new LearningSessionConfig(),
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
+            .GetLearningSessionForAnonymusUser(1);
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = true });
         learningSession.NextStep();
         Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
 
-        learningSession = ContextLearningSession.GetLearningSessionForAnonymusUser(1);
+        learningSession = new ContextLearningSession(R<CategoryRepository>(),
+            R<LearningSessionCreator>(), 
+            R<AnswerRepo>(), 
+            R<AnswerQuestion>(), 
+            new LearningSessionConfig(),
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
+            .GetLearningSessionForAnonymusUser(1);
+
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
         learningSession.NextStep();
         Assert.That(learningSession.IsLastStep, Is.EqualTo(true));
 
-        learningSession = ContextLearningSession.GetLearningSessionWithUser(new LearningSessionConfig
+        var learningsessionConfig = new LearningSessionConfig
         {
             CurrentUserId = UserId,
             MaxQuestionCount = 1,
             CategoryId = 1,
             Repetition = RepetitionType.None
-        });
+        }; 
+
+        learningSession = new ContextLearningSession(R<CategoryRepository>(),
+            R<LearningSessionCreator>(),
+            R<AnswerRepo>(),
+            R<AnswerQuestion>(),
+            learningsessionConfig, 
+            R<QuestionWritingRepo>(),
+            R<UserWritingRepo>())
+            .GetLearningSessionWithUser();
 
         learningSession.AddAnswer(new AnswerQuestionResult { IsCorrect = false });
         learningSession.NextStep();

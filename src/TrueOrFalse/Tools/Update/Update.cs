@@ -1,55 +1,53 @@
-﻿namespace TrueOrFalse.Updates;
+﻿using NHibernate;
+
+namespace TrueOrFalse.Updates;
 
 public class Update : IRegisterAsInstancePerLifetime
 {
     private readonly UpdateStepExecuter _updateStepExecuter;
+    private readonly ISession _nhibernateSession;
+    private CategoryRepository _categoryRepository;
+    private UserReadingRepo _userReadingRepo;
+    private UserWritingRepo _userWritingRepo;
 
-    public Update(UpdateStepExecuter updateStepExecuter)
+    public Update(UpdateStepExecuter updateStepExecuter, ISession nhibernateSession, CategoryRepository categoryRepository)
     {
         _updateStepExecuter = updateStepExecuter;
+        _nhibernateSession = nhibernateSession;
+        _categoryRepository = categoryRepository;
     }
 
     public void Run()
     {
         _updateStepExecuter
-            .Add(UpdateToVs228.Run)
-            .Add(UpdateToVs229.Run)
-            .Add(UpdateToVs230.Run)
-            .Add(UpdateToVs231.Run)
-            .Add(UpdateToVs232.Run)
-            .Add(UpdateToVs234.Run)
-            .Add(UpdateToVs235.Run)
-            .Add(UpdateToVs236.Run)
-            .Add(UpdateToVs237.Run)
-            .Add(UpdateToVs238.Run)
-            .Add(UpdateToVs239.Run)
-            .Add(UpdateToVs240.Run)
-            .Add(UpdateToVs241.Run)
-            .Add(UpdateToVs242.Run)
-            .Add(UpdateToVs243.Run)
-            .Add(UpdateToVs244.Run)
-            .Add(UpdateToVs245.Run)
-            .Add(UpdateToVs246.Run)
-            .Add(UpdateToVs247.Run)
-            .Add(UpdateToVs248.Run)
-            .Add(UpdateToVs249.Run)
-            .Add(UpdateToVs250.Run)
-            .Add(UpdateToVs251.Run)
-            .Add(UpdateToVs252.Run)
-            .Add(UpdateToVs253.Run)
-            .Add(UpdateToVs254.Run)
-            .Add(UpdateToVs255.Run)
-            .Add(UpdateToVs256.Run)
-            .Add(UpdateToVs257.Run)
-            .Add(UpdateToVs258.Run)
-            .Add(UpdateToVs259.Run)
-            .Add(UpdateToVs260.Run)
-            .Add(UpdateToVs261.Run)
-            .Add(UpdateToVs262.Run)
-            .Add(UpdateToVs263.Run)
-            .Add(UpdateToVs264.Run)
-            .Add(UpdateToVs265.Run)
-            .Add(UpdateToVs266.Run)
+            .Add(239, () => UpdateToVs239.Run(_nhibernateSession))
+            .Add(240, () => UpdateToVs240.Run(_nhibernateSession))
+            .Add(241, () => UpdateToVs241.Run(_nhibernateSession))
+            .Add(242, () => UpdateToVs242.Run(_nhibernateSession))
+            .Add(243, () => UpdateToVs243.Run(_nhibernateSession))
+            .Add(244, () => UpdateToVs244.Run(_nhibernateSession))
+            .Add(245, () => UpdateToVs245.Run(_nhibernateSession))
+            .Add(246, () => UpdateToVs246.Run(_nhibernateSession))
+            .Add(247, () => UpdateToVs247.Run(_nhibernateSession))
+            .Add(248, () => UpdateToVs248.Run(_nhibernateSession))
+            .Add(249, () => UpdateToVs249.Run(_nhibernateSession))
+            .Add(250, () => UpdateToVs250.Run(_nhibernateSession))
+            .Add(251, () => UpdateToVs251.Run(_nhibernateSession))
+            .Add(252, () => UpdateToVs252.Run(_nhibernateSession))
+            .Add(253, () => UpdateToVs253.Run(_nhibernateSession))
+            .Add(254, () => UpdateToVs254.Run(_nhibernateSession))                               
+            .Add(255, () => UpdateToVs255.Run(_nhibernateSession))
+            .Add(256, () => UpdateToVs256.Run(_nhibernateSession))
+            .Add(257, () => UpdateToVs257.Run(_nhibernateSession))
+            .Add(258, () => UpdateToVs258.Run(_nhibernateSession))
+            .Add(259, () => UpdateToVs259.Run(_nhibernateSession))
+            .Add(260, () => UpdateToVs260.Run(_nhibernateSession))
+            .Add(261, () => UpdateToVs261.Run(_nhibernateSession))
+            .Add(262, () => UpdateToVs262.Run(_nhibernateSession))
+            .Add(263, () => UpdateToVs263.Run(_nhibernateSession))
+            .Add(264, () => UpdateToVs264.Run(_nhibernateSession))
+            .Add(265, () => UpdateToVs265.Run(_nhibernateSession))
+            .Add(266, () => UpdateToVs266.Run(_categoryRepository, _userWritingRepo, _userReadingRepo))
             .Run();
     }
 }

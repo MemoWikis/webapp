@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -12,9 +12,14 @@ public class BreadcrumbController : BaseController
     {
         _crumbtrailService = crumbtrailService;
     }
+
+    public readonly record struct GetBreadcrumbParam(int wikiId, int currentCategoryId);
     [HttpPost]
-    public JsonResult GetBreadcrumb(int wikiId, int currentCategoryId) 
+    public JsonResult GetBreadcrumb([FromBody] GetBreadcrumbParam param)
     {
+        var wikiId = param.wikiId;
+        int currentCategoryId = param.currentCategoryId;
+
         var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
@@ -68,8 +73,7 @@ public class BreadcrumbController : BaseController
         });
     }
 
-
-    [HttpPost]
+    [HttpGet]
     public JsonResult GetPersonalWiki()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;

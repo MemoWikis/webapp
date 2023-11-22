@@ -32,7 +32,7 @@ onMounted(() => {
     alertStore.$onAction(({ name, after }) => {
         if (name == 'closeAlert')
             after((result) => {
-                if(result.id == redirectingDialogTitle && !result.cancelled){
+                if (result.id == redirectingDialogTitle && !result.cancelled) {
                     consentForStripeGiven.value = true
                     redirectToCheckout()
                 }
@@ -44,12 +44,12 @@ const consentForStripeGiven = ref(userStore.hasStripeCustomerId)
 
 const redirectToCheckout = async (): Promise<void> => {
 
-    if(!consentForStripeGiven) return
+    if (!consentForStripeGiven) return
 
     const sessionId = await getStripeSessionId(selectedPriceId.value);
 
     if (!sessionId || sessionId == '') {
-        alertStore.openAlert(AlertType.Error, { text: "Es konnte leider keine Verbindung zum Zahlungsdienstleister Stripe hergestellt werden."})
+        alertStore.openAlert(AlertType.Error, { text: "Es konnte leider keine Verbindung zum Zahlungsdienstleister Stripe hergestellt werden." })
         return
     }
 
@@ -84,7 +84,7 @@ const initStripeCheckout = (type: Subscription.Type) => {
     else if (type == Subscription.Type.Team)
         selectedPriceId.value = config.public.stripeTeamPriceId
 
-    if(consentForStripeGiven.value){
+    if (consentForStripeGiven.value) {
         redirectToCheckout()
     } else {
         //Is handled as close event:
@@ -107,7 +107,9 @@ const plans = ref()
 
 async function setPlanData() {
     const limit = await $fetch<Subscription.BasicLimits>(`/apiVue/UserMembershipPlans/GetBasicLimits`, {
-        method: 'GET', mode: 'cors', credentials: 'include',
+        method: 'GET',
+        mode: 'cors',
+        credentials: 'include',
         onResponseError(context) {
             const { $logger } = useNuxtApp()
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])

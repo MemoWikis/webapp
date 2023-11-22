@@ -4,21 +4,24 @@ using BDDish.Model;
 
 public class ContextRegisteredUser : IContextDescription
 {
-    private readonly UserRepo _userRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
 
     public string SampleDesciption { get; set; }
     public string EmailAddress = "john@doe.com";
 
     public List<User> Users = new List<User>();
 
-    private ContextRegisteredUser()
+    private ContextRegisteredUser(UserReadingRepo userReadingRepo,
+        UserWritingRepo userWritingRepo)
     {
-        _userRepo = Sl.R<UserRepo>();
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
     }
 
-    public static ContextRegisteredUser New()
+    public static ContextRegisteredUser New(UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo)
     {
-        return new ContextRegisteredUser();
+        return new ContextRegisteredUser(userReadingRepo, userWritingRepo);
     }
 
     public ContextRegisteredUser Add()
@@ -34,7 +37,7 @@ public class ContextRegisteredUser : IContextDescription
     public ContextRegisteredUser Persist()
     {
         foreach(var user in Users)
-            _userRepo.Create(user);
+            _userWritingRepo.Create(user);
 
         return this;
     }

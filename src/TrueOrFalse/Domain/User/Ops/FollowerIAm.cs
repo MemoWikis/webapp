@@ -4,6 +4,12 @@ using NHibernate;
 
 public class FollowerIAm : IRegisterAsInstancePerLifetime
 {
+    private readonly ISession _nhibernateSession;
+
+    public FollowerIAm(ISession nhibernateSession)
+    {
+        _nhibernateSession = nhibernateSession;
+    }
     private bool _initialized;
 
     private IList<int> _whoIFollow = new List<int>();
@@ -33,7 +39,7 @@ public class FollowerIAm : IRegisterAsInstancePerLifetime
                 .Aggregate((a, b) => a + "," + b),
             myUserId);
 
-        _whoIFollow = Sl.R<ISession>()
+        _whoIFollow = _nhibernateSession
             .CreateSQLQuery(query)
             .List<int>();
 

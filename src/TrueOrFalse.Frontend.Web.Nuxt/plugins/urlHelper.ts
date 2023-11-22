@@ -49,7 +49,7 @@ class UrlHelper {
     }
 
     public getTopicUrl(name: string, id: number | string, tab: Tab = Tab.Topic): string {
-        let url = `/${this.sanitizeUri(name)}/${id}`
+        const url = `/${this.sanitizeUri(name)}/${id}`
 
         switch (tab) {
             case Tab.Learning:

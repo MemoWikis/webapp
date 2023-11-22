@@ -4,24 +4,30 @@ using System.Security;
 
 public class ModifyRelationsForCategory
 {
+    private readonly CategoryRepository _categoryRepository;
+
+    public ModifyRelationsForCategory(CategoryRepository categoryRepository)
+    {
+        _categoryRepository = categoryRepository;
+    }
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
     /// <param name="categoryCacheItem"></param>
     /// <param name="relatedCategorieIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
-    public static void UpdateCategoryRelationsOfType(
+    public void UpdateCategoryRelationsOfType(
         int categoryId,
         IList<int> relatedCategorieIds)
     {
-        var category = Sl.CategoryRepo.GetByIdEager(categoryId);
-        var relatedCategoriesAsCategories = Sl.CategoryRepo.GetByIdsEager(relatedCategorieIds);
+        var category = _categoryRepository.GetByIdEager(categoryId);
+        var relatedCategoriesAsCategories = _categoryRepository.GetByIdsEager(relatedCategorieIds);
         var existingRelationsOfType = GetExistingRelations(category).ToList();
     }
 
-    public static void AddParentCategory(Category category, int parentId)
+    public void AddParentCategory(Category category, int parentId)
     {
-        var relatedCategory = Sl.CategoryRepo.GetByIdEager(parentId);
+        var relatedCategory = _categoryRepository.GetByIdEager(parentId);
         var categoryRelationToAdd = new CategoryRelation()
         {
             Category = category,
@@ -60,7 +66,7 @@ public class ModifyRelationsForCategory
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
         var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
-        var parentCategoryAsCategory = Sl.CategoryRepo.GetById(parentCategoryIdToRemove);
+        var parentCategoryAsCategory = _categoryRepository.GetById(parentCategoryIdToRemove);
 
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
@@ -68,7 +74,7 @@ public class ModifyRelationsForCategory
         if (!permissionCheck.CanEdit(childCategory))
             throw new SecurityException("Not allowed to edit category");
 
-        var childCategoryAsCategory = Sl.CategoryRepo.GetById(childCategory.Id);
+        var childCategoryAsCategory = _categoryRepository.GetById(childCategory.Id);
 
         RemoveRelation(
             childCategoryAsCategory,

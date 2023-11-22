@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -57,20 +59,6 @@ public class Category : DomainEntity, ICreator, ICloneable
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x));
 
-    public virtual IList<Category> CategoriesToInclude()
-    {
-        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString)
-            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)
-            : new List<Category>();
-    }
-
-    public virtual IList<Category> CategoriesToExclude()
-    {
-        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
-            ? Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)
-            : new List<Category>();
-    }
-
     public virtual int CountQuestionsAggregated { get; set; }
 
     public virtual void UpdateCountQuestionsAggregated(int userId)
@@ -97,7 +85,6 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual bool IsHistoric { get; set; }
 
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsInWishknowledge(userId, Id);
 
     public Category()
     {
@@ -170,7 +157,10 @@ public class Category : DomainEntity, ICreator, ICloneable
         throw new Exception("Invalid type.");
     }
 
-    public virtual string ToLomXml() => LomXml.From(this);
+    public virtual string ToLomXml(CategoryRepository categoryRepository, 
+        IActionContextAccessor actionContextAccessor, 
+        IHttpContextAccessor httpContextAccessor) => 
+        LomXml.From(this, categoryRepository, httpContextAccessor, actionContextAccessor);
 
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }

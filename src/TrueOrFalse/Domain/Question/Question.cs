@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 
@@ -17,7 +19,6 @@ public class Question : DomainEntity, ICreator
     }
 
     public virtual IList<Category> Categories { get; set; }
-
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
     public virtual string Description { get; set; }
@@ -109,126 +110,16 @@ public class Question : DomainEntity, ICreator
         return answerText;
     }
 
-    public virtual string GetShortTitle(int length = 96)
+    public virtual string ToLomXml(CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor, 
+        IActionContextAccessor actionContextAccessor)
     {
-        var safeText = Regex.Replace(Text, "<.*?>", "");
-        return safeText.TruncateAtWord(length);
-    }
-
-    public virtual QuestionSolution GetSolution()
-    {
-        return GetQuestionSolution.Run(Id);
-    }
-
-    public virtual bool IsEasyQuestion()
-    {
-        return false;
-    }
-
-    public virtual bool IsHardQuestion()
-    {
-        return false;
-    }
-
-    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsQuestionInWishknowledge(userId, Id);
-   
-
-    public virtual bool IsMediumQuestion()
-    {
-        return false;
-    }
-
-    public virtual bool IsNobrainer()
-    {
-        return false;
-    }
-
-    public virtual bool IsPrivate()
-    {
-        return Visibility != QuestionVisibility.All;
-    }
-
-    public virtual string ToLomXml()
-    {
-        return LomXml.From(this);
+        return LomXml.From(this, categoryRepository, httpContextAccessor, actionContextAccessor);
     }
 
     public virtual int TotalAnswers()
     {
         return TotalFalseAnswers + TotalTrueAnswers;
-    }
-
-    public virtual int TotalFalseAnswerPercentage()
-    {
-        if (TotalAnswers() == 0)
-        {
-            return 0;
-        }
-
-        if (TotalFalseAnswers == 0)
-        {
-            return 0;
-        }
-
-        return Convert.ToInt32((decimal)TotalFalseAnswers / TotalAnswers() * 100);
-    }
-
-    public virtual int TotalTrueAnswersPercentage()
-    {
-        if (TotalAnswers() == 0)
-        {
-            return 0;
-        }
-
-        if (TotalTrueAnswers == 0)
-        {
-            return 0;
-        }
-
-        return Convert.ToInt32((decimal)TotalTrueAnswers / TotalAnswers() * 100);
-    }
-
-    public virtual void UpdateReferences(IList<ReferenceCacheItem> references)
-    {
-        var newReferences = references.Where(r => r.Id == -1 || r.Id == 0).ToArray();
-        var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
-        var existingReferences = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
-
-        newReferences.ToList().ForEach(r =>
-        {
-            r.DateCreated = DateTime.Now;
-            r.DateModified = DateTime.Now;
-        });
-
-        for (var i = 0; i < newReferences.Count(); i++)
-        {
-            newReferences[i].Id = default;
-            var currentReference = newReferences[i];
-            References.Add(new Reference
-            {
-                AdditionalInfo = currentReference.AdditionalInfo,
-                Category = Sl.CategoryRepo.GetByIdEager(currentReference.Category),
-                Id = currentReference.Id,
-                DateCreated = currentReference.DateCreated,
-                DateModified = currentReference.DateModified,
-                Question = Sl.QuestionRepo.GetById(currentReference.Question.Id),
-                ReferenceText = currentReference.ReferenceText,
-                ReferenceType = currentReference.ReferenceType
-            });
-        }
-
-        for (var i = 0; i < removedReferences.Count(); i++)
-        {
-            References.Remove(removedReferences[i]);
-        }
-
-        for (var i = 0; i < existingReferences.Count(); i++)
-        {
-            var reference = References.First(r => r.Id == existingReferences[i].Id);
-            reference.DateModified = DateTime.Now;
-            reference.AdditionalInfo = existingReferences[i].AdditionalInfo;
-            reference.ReferenceText = existingReferences[i].ReferenceText;
-        }
     }
 
     public virtual bool IsCreator(int userId)

@@ -4,16 +4,25 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUser _sessionUser;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+    private readonly SessionUserCache _sessionUserCache;
 
-    public QuestionDelete(PermissionCheck permissionCheck, SessionUser sessionUser )
+    public QuestionDelete(PermissionCheck permissionCheck,
+        SessionUser sessionUser,
+        QuestionReadingRepo questionReadingRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
+        SessionUserCache sessionUserCache)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
+        _questionReadingRepo = questionReadingRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
+        _sessionUserCache = sessionUserCache;
     }
     public void Run(int questionId)
     {
-        var questionRepo = Sl.QuestionRepo;
-        var question = questionRepo.GetById(questionId);
+        var question = _questionReadingRepo.GetById(questionId);
         var questionCacheItem = EntityCache.GetQuestion(questionId);
         ThrowIfNot_IsLoggedInUserOrAdmin.Run(_sessionUser);
 
@@ -24,8 +33,9 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         }
 
         EntityCache.Remove(questionCacheItem);
-        SessionUserCache.RemoveQuestionValuationForUser(_sessionUser.UserId, questionId);
-        JobScheduler.StartImmediately_DeleteQuestion(questionId);
+        _sessionUserCache.RemoveQuestionForAllUsers(questionId);
+
+        JobScheduler.StartImmediately_DeleteQuestion(questionId, _sessionUser.UserId);
     }
 
     public CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
@@ -33,7 +43,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         var questionCreator = question.Creator;
         if (_permissionCheck.CanDelete(question))
         {
-            var howOftenInOtherPeopleWuwi = Sl.R<QuestionRepo>().HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
+            var howOftenInOtherPeopleWuwi = _questionValuationReadingRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
             if (howOftenInOtherPeopleWuwi > 0)
             {
                 return new CanBeDeletedResult

@@ -1,16 +1,11 @@
-﻿using System.Linq;
-using System.Web;
+﻿using Microsoft.AspNetCore.Http;
 
 public class IsCrawlerRequest
 {
-    public static bool Yes(string userAgent)
+    public static bool Yes(HttpContext httpContext)
     {
-        if (HttpContext.Current.Request.Browser.Crawler)
-            return true;
+        var userAgent = UserAgent.Get(httpContext);
 
-        if (CrawlerRepo.GetAll().Any(crawler => userAgent.Contains(crawler.Pattern)))
-            return true;
-
-        return false;
+        return CrawlerRepo.GetAll().Any(crawler => userAgent.Contains(crawler.Pattern));
     }
 }

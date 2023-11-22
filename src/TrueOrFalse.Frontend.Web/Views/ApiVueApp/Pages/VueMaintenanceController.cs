@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.Helpers;
-using System.Web.Mvc;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
@@ -14,12 +15,52 @@ namespace VueApp;
 public class VueMaintenanceController : BaseController
 {
     private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
+    private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
+    private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
+    private readonly UpdateQuestionAnswerCounts _updateQuestionAnswerCounts;
+    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
+    private readonly UpdateWishcount _updateWishcount;
+    private readonly MeiliSearchReIndexCategories _meiliSearchReIndexCategories;
+    private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly AnswerRepo _answerRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly UserWritingRepo _userWritingRepo;
+    private readonly IAntiforgery _antiforgery;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public VueMaintenanceController(SessionUser sessionUser,
-        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll) :base(sessionUser)
+        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
+        ProbabilityUpdate_Question probabilityUpdateQuestion,
+        MeiliSearchReIndexAllQuestions meiliSearchReIndexAllQuestions,
+        UpdateQuestionAnswerCounts updateQuestionAnswerCounts,
+        UpdateWishcount updateWishcount,
+        MeiliSearchReIndexCategories meiliSearchReIndexCategories,
+        MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
+        CategoryRepository categoryRepository,
+        AnswerRepo answerRepo,
+        UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo,
+        IAntiforgery antiforgery,
+        IHttpContextAccessor httpContextAccessor,
+        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
     {
         _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
+        _probabilityUpdateQuestion = probabilityUpdateQuestion;
+        _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
+        _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
+        _updateWishcount = updateWishcount;
+        _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
+        _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
+        _categoryRepository = categoryRepository;
+        _answerRepo = answerRepo;
+        _userReadingRepo = userReadingRepo;
+        _userWritingRepo = userWritingRepo;
+        _antiforgery = antiforgery;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = webHostEnvironment;
     }
+    [ValidateAntiForgeryToken]
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
     [HttpGet]
@@ -27,16 +68,13 @@ public class VueMaintenanceController : BaseController
     {
         if (_sessionUser.IsInstallationAdmin)
         {
-            AntiForgery.GetTokens(null, out string cookieToken, out string formToken);
-            HttpCookie antiForgeryCookie = new HttpCookie("__RequestVerificationToken");
-            antiForgeryCookie.Value = cookieToken;
-            antiForgeryCookie.HttpOnly = true;
+            var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
+            Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = true });
 
-            Response.Cookies.Add(antiForgeryCookie);
-            return Fetch.Success(formToken, true);
+            return new JsonResult(new { token = tokens.RequestToken, success = true });
         }
 
-        return Fetch.Error("notAllowed", true);
+        return new JsonResult(new { error = "notAllowed", success = false });
     }
 
     [ValidateAntiForgeryToken]
@@ -44,9 +82,11 @@ public class VueMaintenanceController : BaseController
     public JsonResult RecalculateAllKnowledgeItems()
     {
         _probabilityUpdateValuationAll.Run();
-        ProbabilityUpdate_Question.Run();
-        ProbabilityUpdate_Category.Run();
-        ProbabilityUpdate_User.Run();
+        _probabilityUpdateQuestion.Run();
+       new  ProbabilityUpdate_Category(_categoryRepository, _answerRepo, _httpContextAccessor, _webHostEnvironment).Run();
+       ProbabilityUpdate_User.Initialize(_userReadingRepo, _userWritingRepo, _answerRepo, _httpContextAccessor,
+           _webHostEnvironment);
+       ProbabilityUpdate_User.Instance.Run();
 
         return Json(new
             {
@@ -60,7 +100,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult CalcAggregatedValuesQuestions()
     {
-        Resolve<UpdateQuestionAnswerCounts>().Run();
+        _updateQuestionAnswerCounts.Run();
 
 
         return Json(new
@@ -74,7 +114,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult UpdateFieldQuestionCountForTopics()
     {
-        Resolve<UpdateQuestionCountForCategory>().All();
+        _updateQuestionCountForCategory.All(_categoryRepository);
 
         return Json(new
         {
@@ -87,7 +127,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult UpdateUserReputationAndRankings()
     {
-        Resolve<ReputationUpdate>().RunForAll();
+        _userWritingRepo.ReputationUpdateForAll();
 
         return Json(new
         {
@@ -100,7 +140,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult UpdateUserWishCount()
     {
-        Resolve<UpdateWishcount>().Run();
+        _updateWishcount.Run();
 
         return Json(new
         {
@@ -113,7 +153,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public ActionResult DeleteUser(int userId)
     {
-        Sl.UserRepo.DeleteFromAllTables(userId);
+        _userWritingRepo.DeleteFromAllTables(userId);
 
         return Json(new
         {
@@ -130,7 +170,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> ReIndexAllQuestions()
     {
-       await  Resolve<MeiliSearchReIndexAllQuestions>().Go();
+       await _meiliSearchReIndexAllQuestions.Go();
 
         return Json(new
         {
@@ -143,7 +183,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> ReIndexAllTopics()
     {
-        await Resolve<MeiliSearchReIndexCategories>().Go();
+        await _meiliSearchReIndexCategories.Go();
 
         return Json(new
         {
@@ -156,7 +196,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> ReIndexAllUsers()
     {
-        await Resolve<MeiliSearchReIndexAllUsers>().Run();
+        await _meiliSearchReIndexAllUsers.Run();
 
         return Json(new
         {
@@ -169,7 +209,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllQuestions()
     {
-        await Resolve<MeiliSearchReIndexAllQuestions>().Go();
+        await _meiliSearchReIndexAllQuestions.Go();
 
         return Json(new
         {
@@ -182,7 +222,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllTopics()
     {
-        await Resolve<MeiliSearchReIndexCategories>().Go();
+        await _meiliSearchReIndexCategories.Go();
 
         return Json(new
         {
@@ -195,7 +235,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllUsers()
     {
-        await Resolve<MeiliSearchReIndexAllUsers>().Run();
+        await _meiliSearchReIndexAllUsers.Run();
 
         return Json(new
         {
@@ -208,7 +248,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult CheckForDuplicateInteractionNumbers()
     {
-        var duplicates = Sl.R<AnswerRepo>().GetAll()
+        var duplicates = _answerRepo.GetAll()
             .Where(a => a.QuestionViewGuid != Guid.Empty)
             .GroupBy(a => new { a.QuestionViewGuid, a.InteractionNumber })
             .Where(g => g.Skip(1).Any())
@@ -248,7 +288,7 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult ReloadListFromIgnoreCrawlers()
     {
-        if (Request.IsLocal)
+        if (_httpContextAccessor.HttpContext.Request.IsLocal())
         {
             IgnoreLog.LoadNewList();
 
@@ -270,12 +310,6 @@ public class VueMaintenanceController : BaseController
     [HttpPost]
     public JsonResult Start100TestJobs()
     {
-        //for (var i = 0; i < 1000; i++)
-        //    JobScheduler.StartImmediately<TestJob1>();
-
-        //for (var i = 0; i < 1000; i++)
-        //    JobScheduler.StartImmediately<TestJob2>();
-
         JobScheduler.StartImmediately<TestJobCacheInitializer>();
 
         return Json(new
@@ -283,7 +317,6 @@ public class VueMaintenanceController : BaseController
             success = true,
             data = "Started 100 test jobs."
         });
-
     }
 
 

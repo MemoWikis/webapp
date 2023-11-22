@@ -3,10 +3,12 @@
 public class AnswerLog : IRegisterAsInstancePerLifetime
 {
     private readonly AnswerRepo _answerRepo;
+    private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public AnswerLog(AnswerRepo answerRepo)
+    public AnswerLog(AnswerRepo answerRepo, QuestionReadingRepo questionReadingRepo)
     {
         _answerRepo = answerRepo;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public void Run(
@@ -72,7 +74,7 @@ public class AnswerLog : IRegisterAsInstancePerLifetime
     {
         var answer = new Answer
         {
-            Question = Sl.QuestionRepo.GetById(question.Id),
+            Question =_questionReadingRepo.GetById(question.Id),
             UserId = userId,
             QuestionViewGuid = questionViewGuid,
             InteractionNumber = interactionNumber,

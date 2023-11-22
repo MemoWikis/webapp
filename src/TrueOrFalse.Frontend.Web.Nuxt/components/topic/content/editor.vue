@@ -6,6 +6,8 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import TaskList from '@tiptap/extension-task-list'
+import TaskItem from '@tiptap/extension-task-item'
 import { lowlight } from 'lowlight/lib/core'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
@@ -48,6 +50,10 @@ const editor = useEditor({
         }),
         CodeBlockLowlight.configure({
             lowlight,
+        }),
+        TaskList,
+        TaskItem.configure({
+            nested: true,
         })
     ],
     onUpdate({ editor }) {
@@ -108,10 +114,45 @@ onMounted(() => {
     </template>
 </template>
 
-<style lang="less" scoped>
-.content-placeholder {
-    :deep(p:empty) {
-        min-height: 20px
+<style lang="less">
+.ProseMirror {
+    .content-placeholder {
+        :deep(p:empty) {
+            min-height: 20px
+        }
+    }
+
+    ul[data-type="taskList"] {
+        list-style: none;
+        padding: 0;
+
+        p {
+            margin: 0;
+        }
+
+        li {
+            display: flex;
+
+            >label {
+                flex: 0 0 auto;
+                margin-right: 0.5rem;
+                user-select: none;
+            }
+
+            >div {
+                flex: 1 1 auto;
+            }
+
+            ul li,
+            ol li {
+                display: list-item;
+            }
+
+            ul[data-type="taskList"]>li {
+                display: flex;
+            }
+        }
     }
 }
 </style>
+

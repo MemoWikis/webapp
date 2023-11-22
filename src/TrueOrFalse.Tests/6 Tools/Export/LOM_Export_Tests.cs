@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using NUnit.Framework;
 using TrueOrFalse.Tests;
 
@@ -9,15 +10,25 @@ public class LOM_Export_Tests : BaseTest
     [Test]
     public void Should_export_LOM()
     {
-        var category = ContextCategory.New().Add("Example category").Persist().All.First();
-        var lomXmlCategory = category.ToLomXml();
+        
+            var category = ContextCategory.New().Add("Example category").Persist().All.First();
+            var lomXmlCategory = category.ToLomXml(LifetimeScope.Resolve<CategoryRepository>());
 
-        Console.Write(lomXmlCategory);
+            Console.Write(lomXmlCategory);
 
-        var question = ContextQuestion.New().AddQuestion("Example question").AddCategory("cat 1").Persist().All.First();
-        var lomXmlQuestion = question.ToLomXml();
+            var question = ContextQuestion.New(R<QuestionWritingRepo>(),
+                    R<AnswerRepo>(),
+                    R<AnswerQuestion>(),
+                    R<UserWritingRepo>(), 
+                    R<CategoryRepository>())
+                .AddQuestion("Example question")
+                .AddCategory("cat 1", R<EntityCacheInitializer>())
+                .Persist()
+                .All
+                .First();
+            var lomXmlQuestion = question.ToLomXml(LifetimeScope.Resolve<CategoryRepository>());
 
-        Console.Write(lomXmlQuestion);
+            Console.Write(lomXmlQuestion);
     }
 }
 

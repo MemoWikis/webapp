@@ -4,31 +4,40 @@ using NHibernate;
 
 public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryRepository _categoryRepository;
-    private readonly QuestionRepo _questionRepository;
+    private readonly QuestionReadingRepo _questionReadingRepository;
     private readonly SessionUser _sessionUser;
+    private readonly ISession _nhinbernateSession;
 
-    public UpdateQuestionCountForCategory(CategoryRepository categoryRepository, QuestionRepo questionRepo, SessionUser sessionUser)
+    public UpdateQuestionCountForCategory(
+        QuestionReadingRepo questionReadingRepo,
+        SessionUser sessionUser,
+        ISession nhinbernateSession)
     {
-        _categoryRepository = categoryRepository;
-        _questionRepository = questionRepo;
+        _questionReadingRepository = questionReadingRepo;
         _sessionUser = sessionUser;
+        _nhinbernateSession = nhinbernateSession;
     }
 
-    public void All()
+    public void All(CategoryRepository categoryRepository)
     {
-        RunWithSql(_categoryRepository.GetAll());
+        RunWithSql(categoryRepository.GetAll().Select(c => c.Id));
     }
 
     public void Run(Category category)
     {
-        category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
+        category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;
         category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
+    }
+
+    public void RunForJob(Category category, int authorId)
+    {
+        category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;
+        category.UpdateCountQuestionsAggregated(authorId);
     }
 
     public void RunOnlyDb(Category category)
     {
-        category.CountQuestions = _questionRepository.GetForCategory(category.Id).Count;
+        category.CountQuestions = _questionReadingRepository.GetForCategory(category.Id).Count;
     }
 
     public void Run(IList<Category> categories)
@@ -39,20 +48,7 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         }
     }
 
-    public void Run(IList<int> categoryIds)
-    {
-        foreach (var categoryId in categoryIds)
-        {
-            Run(_categoryRepository.GetById(categoryId));
-        }
-    }
-
-    public void RunWithSql(IList<Category> categories)
-    {
-        RunWithSql(categories.Select(c => c.Id));
-    }
-
-    public void RunWithSql(IEnumerable<int> categoryIds)
+    private void RunWithSql(IEnumerable<int> categoryIds)
     {
         foreach (var categoryId in categoryIds)
         {
@@ -80,10 +76,10 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
 			                WHERE r.Category_id = {categoryId}
 			                AND q.Visibility = 0
 		                )
-	                )I_was_here
+	                )
                 ) WHERE c.Id = {categoryId}";
 
-            Sl.R<ISession>().CreateSQLQuery(query).ExecuteUpdate();
+            _nhinbernateSession.CreateSQLQuery(query).ExecuteUpdate();
         }
     }
 }

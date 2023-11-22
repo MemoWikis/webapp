@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meilisearch;
+﻿using Meilisearch;
 
 namespace TrueOrFalse.Search
 {
@@ -40,7 +37,7 @@ namespace TrueOrFalse.Search
             return _result;
         }
 
-        private async Task<List<int>> LoadSearchResults(string searchTerm, Index index)
+        private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
         {
             var sq = new SearchQuery { Limit = _count };
             var categoryMaps =

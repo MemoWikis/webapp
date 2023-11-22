@@ -8,8 +8,9 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual bool ShowInSidebar { get; set; } = true;
 
-    private SessionUserCacheItem _author;
-    public virtual SessionUserCacheItem Author => _author ??= SessionUserCache.GetItem(AuthorId);
+    private SessionUserCacheItem? _author;
+    public virtual SessionUserCacheItem Author(SessionUserCache sessionUserCache) => 
+        _author ??= sessionUserCache.GetItem(AuthorId);
 
     public virtual int AuthorId { get; set; }
 

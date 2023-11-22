@@ -73,7 +73,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 personalWiki: TopicItem,
                 recentlyUsedRelationTargetTopics: TopicItem[]
             }
-            var result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
@@ -121,13 +121,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 return
             }
 
-            const data = {
-                id: id,
-            }
-
-            const result = await $fetch<any>("/apiVue/EditTopicRelationStore/AddToPersonalWiki", {
+            const result = await $fetch<any>(`/apiVue/EditTopicRelationStore/AddToPersonalWiki/${id}`, {
                 method: "POST",
-                body: data,
                 mode: "cors",
                 credentials: "include",
             })
@@ -149,13 +144,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 return
             }
 
-            const data = {
-                id: id,
-            }
-
-            const result = await $fetch<any>("/apiVue/EditTopicRelationStore/RemoveFromPersonalWiki", {
+            const result = await $fetch<any>(`/apiVue/EditTopicRelationStore/RemoveFromPersonalWiki/${id}`, {
                 method: "POST",
-                body: data,
                 mode: "cors",
                 credentials: "include",
             })
@@ -183,6 +173,12 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
         },
         async removeChild(parentId: number, childId: number) {
+            const userStore = useUserStore()
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
+
             const result = await this.removeChildren(parentId, [childId])
             if (result && isEqual(result.removedChildIds, [childId]))
                 return {
@@ -202,7 +198,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 childIds: childIds,
             }
 
-            var result = await $fetch<FetchResult<number[]>>("/apiVue/EditTopicRelationStore/RemoveChildren", {
+            const result = await $fetch<FetchResult<number[]>>("/apiVue/EditTopicRelationStore/RemoveTopics", {
                 method: "POST",
                 body: data,
                 mode: "cors",

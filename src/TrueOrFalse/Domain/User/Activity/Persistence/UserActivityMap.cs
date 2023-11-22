@@ -8,7 +8,7 @@ public class UserActivityMap : ClassMap<UserActivity>
 
         References(x => x.UserConcerned);
         Map(x => x.At);
-        Map(x => x.Type);
+        Map(x => x.Type).CustomType<UserActivityType>();
         References(x => x.Question);
         References(x => x.Category);
         References(x => x.UserIsFollowed);

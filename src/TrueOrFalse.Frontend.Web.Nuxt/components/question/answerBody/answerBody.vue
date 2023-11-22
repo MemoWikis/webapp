@@ -136,7 +136,7 @@ async function answer() {
     answersSoFar.value.push(solutionComponent.getAnswerText())
 
     const data = {
-        answer: solutionComponent.getAnswerDataString(),
+        answer: await solutionComponent.getAnswerDataString(),
         id: answerBodyModel.value?.id,
         questionViewGuid: answerBodyModel.value?.questionViewGuid,
         inTestMode: learningSessionStore.isInTestMode,
@@ -151,7 +151,6 @@ async function answer() {
             mode: 'cors',
             onResponseError(context) {
                 $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
             }
         })
 
@@ -192,6 +191,7 @@ const flashCardAnswered = ref(false)
 const markFlashCardAsCorrect = ref(false)
 
 function answerFlashcard(isCorrect: boolean) {
+    console.log("answerFlashcard mark as correct", isCorrect);
     markFlashCardAsCorrect.value = isCorrect
     flashCardAnswered.value = true
     answer()
@@ -207,12 +207,10 @@ function highlightCode() {
 }
 const answerBodyModel = ref<AnswerBodyModel>()
 
-const route = useRoute()
-
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
-    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/?index=${learningSessionStore.currentIndex}`, {
+    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
@@ -260,17 +258,16 @@ async function markAsCorrect() {
         amountOfTries: amountOfTries.value,
     }
 
-    const result = $fetch<any>('/apiVue/AnswerBody/MarkAsCorrect', {
+    const result = await $fetch<boolean>('/apiVue/AnswerBody/MarkAsCorrect', {
         method: 'POST',
         mode: 'cors',
         body: data,
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
-
         }
     })
 
-    if (result != null) {
+    if (result != false) {
         activityPointsStore.addPoints(Activity.CountAsCorrect)
         learningSessionStore.markCurrentStepAsCorrect()
         answerIsWrong.value = false

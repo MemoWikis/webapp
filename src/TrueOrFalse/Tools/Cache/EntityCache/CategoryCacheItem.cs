@@ -1,18 +1,12 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
+using Seedworks.Lib.Persistence;
+using Serilog;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class CategoryCacheItem
+public class CategoryCacheItem : IPersistable
 {
     public int CreatorId;
-
-    private IEnumerable<int> _categoriesToExcludeIds;
-
-    private IEnumerable<int> _categoriesToIncludeIds;
-
     public CategoryCacheItem()
     {
     }
@@ -22,7 +16,8 @@ public class CategoryCacheItem
         Name = name;
     }
 
-    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
+    public virtual UserCacheItem Creator =>
+        EntityCache.GetUserById(CreatorId);
     public virtual int[] AuthorIds { get; set; }
 
     public virtual CategoryCachedData CachedData { get; set; } = new();
@@ -85,50 +80,6 @@ public class CategoryCacheItem
         return visibleVisited;
     }
 
-    public virtual IList<CategoryCacheItem> CategoriesToExclude()
-    {
-        return !string.IsNullOrEmpty(CategoriesToExcludeIdsString)
-            ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToExcludeIdsString)).ToList()
-            : new List<CategoryCacheItem>();
-    }
-
-    public virtual IEnumerable<int> CategoriesToExcludeIds()
-    {
-        return _categoriesToExcludeIds ?? (_categoriesToExcludeIds = CategoriesToExcludeIdsString
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)));
-    }
-
-    public virtual IList<CategoryCacheItem> CategoriesToInclude()
-    {
-        return !string.IsNullOrEmpty(CategoriesToIncludeIdsString)
-            ? ToCacheCategories(Sl.R<CategoryRepository>().GetByIdsFromString(CategoriesToIncludeIdsString)).ToList()
-            : new List<CategoryCacheItem>();
-    }
-
-    public virtual IEnumerable<int> CategoriesToIncludeIds()
-    {
-        return _categoriesToIncludeIds ?? (_categoriesToIncludeIds = CategoriesToIncludeIdsString
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x)));
-    }
-
-    public bool Contains(CategoryCacheRelation categoryRelation)
-    {
-        return CategoryRelations.Any(
-            cr => cr.RelatedCategoryId == categoryRelation.RelatedCategoryId
-        );
-    }
-
-    public virtual IList<int> GetAggregatedQuestionIdsFromMemoryCache(PermissionCheck permissionCheck)
-    {
-        return AggregatedCategories(permissionCheck)
-            .SelectMany(c => EntityCache.GetQuestionsIdsForCategory(c.Key))
-            .Distinct()
-            .ToList();
-    }
-
-
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
         bool onlyVisible = true,
@@ -139,8 +90,9 @@ public class CategoryCacheItem
 
         if (fullList)
         {
-            
-            questions = AggregatedCategories(PermissionCheck.Instance(userId))
+
+            questions = AggregatedCategories(
+                    new PermissionCheck(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
                 .Distinct().ToList();
         }
@@ -166,40 +118,26 @@ public class CategoryCacheItem
         return questions.ToList();
     }
 
-    public virtual int GetCountQuestionsAggregated(int userId, bool inCategoryOnly = false, int categoryId = 0)
+    public virtual int GetCountQuestionsAggregated(int userId,
+        bool inCategoryOnly = false,
+        int categoryId = 0)
     {
         if (inCategoryOnly)
         {
-            return GetAggregatedQuestionsFromMemoryCache(userId, true, false, categoryId).Count;
+            return GetAggregatedQuestionsFromMemoryCache(userId,
+                true,
+                false,
+                categoryId)
+                .Count;
         }
 
-        return GetAggregatedQuestionsFromMemoryCache(userId).Count;
+        return GetAggregatedQuestionsFromMemoryCache(userId)
+            .Count;
     }
 
     public virtual bool HasPublicParent()
     {
         return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
-    }
-
-    public virtual bool HasRelation(CategoryCacheRelation newRelation)
-    {
-        foreach (var categoryRelation in CategoryRelations)
-        {
-            if (CategoryCacheRelation.IsCategorRelationEqual(categoryRelation, newRelation))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public virtual bool IsInWishknowledge(int userId) => SessionUserCache.IsInWishknowledge(userId, Id);
-
-
-    public virtual bool IsSpoiler(QuestionCacheItem question)
-    {
-        return IsSpoilerCategory.Yes(Name, question);
     }
 
     public bool IsStartPage()
@@ -215,17 +153,6 @@ public class CategoryCacheItem
         }
 
         return false;
-    }
-
-    public virtual bool IsStartTopicModified()
-    {
-        if (CachedData.ChildrenIds.Count == 0)
-        {
-            return false;
-        }
-
-        return EntityCache.GetCategories(CachedData.ChildrenIds)
-            .Count(cci => cci.Visibility == CategoryVisibility.All) > 0;
     }
 
     public virtual IList<CategoryCacheItem> ParentCategories(bool getFromEntityCache = false)
@@ -286,34 +213,6 @@ public class CategoryCacheItem
         return categoryCacheItem;
     }
 
-    public ConcurrentDictionary<int, CategoryCacheItem> ToConcurrentDictionary(
-        ConcurrentDictionary<int, Category> concurrentDictionary)
-    {
-        var concDic = new ConcurrentDictionary<int, CategoryCacheItem>();
-
-        foreach (var keyValuePair in concurrentDictionary)
-        {
-            concDic.TryAdd(keyValuePair.Key, ToCacheCategory(keyValuePair.Value));
-        }
-
-        return concDic;
-    }
-
-    public IEnumerable<CategoryCacheItem> ToIEnumerable(
-        IEnumerable<Category> categoryList,
-        bool withCachedData = false,
-        bool withRealtions = false)
-    {
-        var categories = new List<CategoryCacheItem>();
-
-        foreach (var category in categoryList)
-        {
-            categories.Add(ToCacheCategory(category));
-        }
-
-        return categories;
-    }
-
     public void UpdateCountQuestionsAggregated(int userId)
     {
         CountQuestionsAggregated = GetCountQuestionsAggregated(userId);
@@ -346,7 +245,7 @@ public class CategoryCacheItem
                     if (permissionCheck.CanView(child))
                     {
                         visibleVisited.Add(childId, child);
-                        VisibleChildCategories(child,permissionCheck, visibleVisited);
+                        VisibleChildCategories(child, permissionCheck, visibleVisited);
                     }
                 }
             }

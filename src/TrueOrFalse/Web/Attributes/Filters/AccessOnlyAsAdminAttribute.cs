@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿
+using Microsoft.AspNetCore.Mvc.Filters;
+
 public class AccessOnlyAsAdminAttribute : Attribute{}
 
 public class AccessOnlyAsAdminAttributeFilter : ActionFilterAttribute

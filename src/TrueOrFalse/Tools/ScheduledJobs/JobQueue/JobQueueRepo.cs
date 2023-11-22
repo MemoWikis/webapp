@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using NHibernate;
-using NHibernate.Mapping;
 using NHibernate.Transform;
 using NHibernate.Util;
-using RollbarSharp;
 using Seedworks.Lib.Persistence;
 
 public class JobQueueRepo : RepositoryDb<JobQueue>
@@ -67,7 +63,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
     }
     public JobQueue GetTopPriorityMailMessage()
     {
-        var result = Sl.Resolve<ISession>()
+        var result = _session
             .CreateSQLQuery(
                 @"SELECT 
                     Id, JobQueueType, JobContent

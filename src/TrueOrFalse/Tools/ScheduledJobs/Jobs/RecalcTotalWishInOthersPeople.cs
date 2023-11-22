@@ -7,14 +7,26 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcTotalWishInOthersPeople : IJob
     {
-        public void Execute(IJobExecutionContext context)
+        private readonly JobQueueRepo _jobQueueRepo;
+        private readonly ISession _nhibernateSession;
+        private readonly UserReadingRepo _userReadingRepo;
+
+        public RecalcTotalWishInOthersPeople(JobQueueRepo jobQueueRepo,
+            ISession nhibernateSession,
+            UserReadingRepo userReadingRepo)
+        {
+            _jobQueueRepo = jobQueueRepo;
+            _nhibernateSession = nhibernateSession;
+            _userReadingRepo = userReadingRepo;
+        }
+        public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
                 var start = DateTime.Now;
                 var report = GetReport();
 
-                Sl.Resolve<ISession>().CreateSQLQuery(
+                _nhibernateSession.CreateSQLQuery(
                         @"UPDATE user SET TotalInOthersWishknowledge = (
                         SELECT count(*) FROM questionvaluation qv
                         JOIN question q
@@ -32,17 +44,18 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             }, "RecalcTotalWishInOthersPeople");
 
+            return Task.CompletedTask;
         }
 
         private string GetReport()
         {
-            var userIds = Sl.UserRepo.GetAllIds();
+            var userIds = _userReadingRepo.GetAllIds();
             var counter = 0;
 
             foreach (var userId in userIds)
             {
-                var userTotalWishKnowledgeInOtherPoeple = Sl.Resolve<ISession>().CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ").SetParameter("userId", userId).UniqueResult<int>();
-                var joinTotalWishKnowledgeInOtherPoeple = Sl.Resolve<ISession>().CreateSQLQuery(
+                var userTotalWishKnowledgeInOtherPoeple = _nhibernateSession.CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ").SetParameter("userId", userId).UniqueResult<int>();
+                var joinTotalWishKnowledgeInOtherPoeple = _nhibernateSession.CreateSQLQuery(
                     @"SELECT count(qv.Id) FROM questionvaluation qv JOIN 
                     question q ON qv.Questionid = q.Id
                     WHERE qv.RelevancePersonal > 0
@@ -63,7 +76,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             SendEmail.Run(new MailMessage("daniel.majunke@googlemail.com", to,
                 "Report TotalWishKnowledge in other people",
-                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), MailMessagePriority.Medium);
+                $"Hallo {name}, hier die gewünschten Zahlen: {report}"), _jobQueueRepo, _userReadingRepo);
         }
     }
 }

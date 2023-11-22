@@ -1,12 +1,9 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
+using System;
 
 namespace TrueOrFalse.Infrastructure.Persistence
 {
-    /// <summary>
-    /// Überwacht den Lifecycle einer NHibernate Session, damit
-    /// Daten vor dem Schließen gespeichert werden.
-    /// </summary>
     public class SessionManager : ISessionManager
     {
         public SessionManager(ISession session)
@@ -28,4 +25,3 @@ namespace TrueOrFalse.Infrastructure.Persistence
         }
     }
 }
-

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Search
 {
@@ -49,7 +51,7 @@ namespace TrueOrFalse.Search
                  await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Index index)
+        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Meilisearch.Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             index = client.Index(indexConstant);

@@ -1,18 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHibernate;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using TrueOrFalse;
+using TrueOrFalse.Domain.Question.QuestionValuation;
+using TrueOrFalse.Environment;
+using ISession = NHibernate.ISession;
 
 public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly ISession _nhibernateSession;
+    private readonly ReputationUpdate _reputationUpdate;
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+    private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
+    private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
+    private readonly AnswerRepo _answerRepo;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly SessionUserCache _sessionUserCache;
 
-    public QuestionInKnowledge(SessionUser sessionUser, ISession nhibernateSession)
+    public QuestionInKnowledge(SessionUser sessionUser,
+        ISession nhibernateSession,
+        ReputationUpdate reputationUpdate,
+        QuestionReadingRepo questionReadingRepo,
+        QuestionValuationReadingRepo questionValuationReadingRepo,
+        QuestionValuationWritingRepo questionValuationWritingRepo,
+        ProbabilityCalc_Simple1 probabilityCalcSimple1,
+        AnswerRepo answerRepo,
+         UserReadingRepo userReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
+        SessionUserCache sessionUserCache)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
+        _reputationUpdate = reputationUpdate;
+        _questionReadingRepo = questionReadingRepo;
+        _questionValuationReadingRepo = questionValuationReadingRepo;
+        _questionValuationWritingRepo = questionValuationWritingRepo;
+        _probabilityCalcSimple1 = probabilityCalcSimple1;
+        _answerRepo = answerRepo;
+        _userReadingRepo = userReadingRepo;
+        _httpContextAccessor = httpContextAccessor;
+        _webHostEnvironment = WebHostEnvironmentProvider.GetWebHostEnvironment(); ;
+        _sessionUserCache = sessionUserCache;
     }
     public void Pin(int questionId, int userId)
     {
@@ -29,9 +63,9 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         UpdateRelevancePersonal(questionId, userId, -1);
     }
 
-    public static void Create(QuestionValuation questionValuation)
+    public void Create(QuestionValuation questionValuation)
     {
-        Sl.Resolve<QuestionValuationRepo>().CreateOrUpdate(questionValuation);
+        _questionValuationReadingRepo.CreateOrUpdate(questionValuation);
 
         var sb = new StringBuilder();
 
@@ -41,19 +75,19 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         sb.Append(GenerateEntriesQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
         sb.Append(GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionValuation.Question.Id));
         
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
-        session.Flush();
+        
+        _nhibernateSession.CreateSQLQuery(sb.ToString()).ExecuteUpdate();
+        _nhibernateSession.Flush();
     }
 
-    private static void ChangeTotalInOthersWishknowledge(bool isIncrement, int userId, QuestionCacheItem question)
+    private void ChangeTotalInOthersWishknowledge(bool isIncrement, int userId, QuestionCacheItem question)
     {
         if (question.Creator == null || question.Creator.Id == userId) 
             return; 
            
         var sign = isIncrement ? "+" : "-" ;
         
-                Sl.Resolve<ISession>()
+                _nhibernateSession
                     .CreateSQLQuery(
                 @"Update user Set TotalInOthersWishknowledge = TotalInOthersWishknowledge " + sign + " 1 where id = " +
                 question.Creator.Id + ";")
@@ -62,7 +96,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
     private void UpdateRelevancePersonal(IList<QuestionCacheItem> questions, User user, int relevance = 50)
     {
-        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionIds(questions.GetIds(), user.Id);
+        var questionValuations = _questionValuationReadingRepo.GetByQuestionIds(questions.GetIds(), user.Id);
 
         foreach (var question in questions)
         {
@@ -70,14 +104,20 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             ChangeTotalInOthersWishknowledge(relevance==50, user.Id, question);
             _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id)).ExecuteUpdate();
 
-            ProbabilityUpdate_Valuation.Run(question, user, _nhibernateSession);
+            new ProbabilityUpdate_Valuation(_nhibernateSession,
+                    _questionValuationReadingRepo,
+                    _probabilityCalcSimple1,
+                    _answerRepo,
+                    _httpContextAccessor,
+                    _webHostEnvironment)
+                .Run(question, user, _questionReadingRepo);
         }
         UpdateTotalRelevancePersonalInCache(questions);
         SetUserWishCountQuestions(user.Id,_sessionUser);
 
         var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
-            ReputationUpdate.ForUser(creator.First());
+            _reputationUpdate.ForUser(creator.First());
     }
 
     private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
@@ -88,14 +128,20 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
         SetUserWishCountQuestions(userId, _sessionUser);
 
-        var session = Sl.Resolve<ISession>();
-        session.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
-        session.Flush();
+       
+        _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
+        _nhibernateSession.Flush();
 
-        ReputationUpdate.ForQuestion(questionId);
+        _reputationUpdate.ForQuestion(questionId);
 
         if (relevance != -1)
-            ProbabilityUpdate_Valuation.Run(questionId, userId, _nhibernateSession);
+            new ProbabilityUpdate_Valuation(_nhibernateSession,
+                _questionValuationReadingRepo,
+                _probabilityCalcSimple1,
+                _answerRepo,
+                _httpContextAccessor,
+                _webHostEnvironment)
+                .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
     }
 
     public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
@@ -109,12 +155,12 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 WHERE userId = :userId
                 AND RelevancePersonal > 0) 
             WHERE Id = :userId";
-        Sl.Resolve<ISession>().CreateSQLQuery(query).SetParameter("userId", userId).ExecuteUpdate();
+        _nhibernateSession.CreateSQLQuery(query).SetParameter("userId", userId).ExecuteUpdate();
         query =
             $@"Select WishCountQuestions From user
             WHERE Id = :userId";
 
-        var wishKnowledgeCount = (int)Sl.Resolve<ISession>().CreateSQLQuery(query)
+        var wishKnowledgeCount = (int)_nhibernateSession.CreateSQLQuery(query)
             .SetParameter("userId", userId).UniqueResult();
         _sessionUser.User.WishCountQuestions = wishKnowledgeCount;
 
@@ -134,9 +180,10 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             GenerateAvgQuery("TotalRelevancePersonal", "RelevancePersonal", questionId);
     }
 
-    public static void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)
+    public  void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)
     {
-        var questionValuations = Sl.QuestionValuationRepo.GetByQuestionsFromCache(questions);
+        var questionValuations = new QuestionValuationCache(_sessionUserCache)
+            .GetByQuestionsFromCache(questions);
         foreach (var question in questions)
         {
             var totalRelevancePersonalEntriesCount = questionValuations.Count(v => v.Question.Id == question.Id && v.IsInWishKnowledge);
@@ -167,41 +214,39 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 "WHERE Id = " + questionId + ";";
     }
 
-    private static void CreateOrUpdateValuation(int questionId, int userId, int relevancePersonal = -2)
+    private void CreateOrUpdateValuation(int questionId, int userId, int relevancePersonal = -2)
     {
-        var questionValuation = Sl.QuestionValuationRepo.GetBy(questionId, userId);
+        var questionValuation = _questionValuationReadingRepo.GetBy(questionId, userId);
         var question = EntityCache.GetQuestion(questionId);
 
         CreateOrUpdateValuation(question, questionValuation, userId, relevancePersonal);
     }
 
-    private static void CreateOrUpdateValuation(
+    private void CreateOrUpdateValuation(
         QuestionCacheItem question, 
         QuestionValuation questionValuation, 
         int userId, 
         int relevancePersonal = -2)
     {
-        var questionValuationRepo = Sl.QuestionValuationRepo;
-
         if (questionValuation == null)
         {
             var newQuestionVal = new QuestionValuation
             {
-                Question = Sl.QuestionRepo.GetById(question.Id),
-                User = Sl.UserRepo.GetById(userId),
+                Question = _questionReadingRepo.GetById(question.Id),
+                User = _userReadingRepo.GetById(userId),
                 RelevancePersonal = relevancePersonal,
                 CorrectnessProbability = question.CorrectnessProbability
             };
 
-            questionValuationRepo.Create(newQuestionVal); ;
+            _questionValuationReadingRepo.Create(newQuestionVal); ;
         }
         else
         {
             if (relevancePersonal != -2)
                 questionValuation.RelevancePersonal = relevancePersonal;
 
-            questionValuationRepo.Update(questionValuation);
+            _questionValuationWritingRepo.Update(questionValuation);
         }
-        questionValuationRepo.Flush();
+        _questionValuationReadingRepo.Flush();
     }
 }

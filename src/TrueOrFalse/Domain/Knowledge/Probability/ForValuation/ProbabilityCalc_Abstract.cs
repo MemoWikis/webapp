@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using NHibernate;
 
 public abstract class ProbabilityCalc_Abstract
 {
-    public ProbabilityCalcResult Run(QuestionCacheItem question, UserCacheItem user, ISession nhibernateSession)
+    public ProbabilityCalcResult Run(QuestionCacheItem question, UserCacheItem user, ISession nhibernateSession, AnswerRepo answerRepo)
     {
-        var answers = Sl.R<AnswerRepo>().GetByQuestion(question.Id, user.Id);
+        var answers = answerRepo.GetByQuestion(question.Id, user.Id);
 
-        if(nhibernateSession.Get<Question>(question.Id) == null || nhibernateSession.Get<User>(user.Id) == null)
+        if (nhibernateSession.Get<Question>(question.Id) == null || nhibernateSession.Get<User>(user.Id) == null)
             return new ProbabilityCalcResult { Probability = 0, KnowledgeStatus = KnowledgeStatus.NotLearned };
 
         return Run(answers, question, user);

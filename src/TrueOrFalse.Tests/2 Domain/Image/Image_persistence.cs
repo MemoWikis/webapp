@@ -11,6 +11,6 @@ public class Image_persistence : BaseTest
         imageMetaData.Type = ImageType.QuestionSet;
         imageMetaData.UserId = 2;
 
-        Resolve<ImageMetaDataRepo>().Create(imageMetaData);
+        R<ImageMetaDataWritingRepo>().Create(imageMetaData);
     }
 }

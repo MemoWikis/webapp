@@ -69,16 +69,6 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string FacebookId { get; set; }
     public virtual string GoogleId { get; set; }
 
-    public virtual void AddFollower(User follower)
-    {
-        Followers.Add(new FollowerInfo
-            { Follower = follower, User = this, DateCreated = DateTime.Now, DateModified = DateTime.Now });
-        Sl.UserRepo.Flush();
-        UserActivityAdd.FollowedUser(follower, this);
-        UserActivityUpdate.NewFollower(follower, this);
-        ReputationUpdate.ForUser(this);
-    }
-
     public virtual IList<int> FollowerIds()
     {
         return Followers.Select(f => f.Follower.Id).ToList();

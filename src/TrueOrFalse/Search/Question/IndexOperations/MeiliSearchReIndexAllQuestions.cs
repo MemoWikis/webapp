@@ -7,30 +7,15 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchReIndexAllQuestions : IRegisterAsInstancePerLifetime
     {
+        private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+        private readonly QuestionReadingRepo _questionReadingRepo;
         private readonly MeilisearchClient _client;
-        private QuestionRepo __questionRepo;
-        private QuestionValuationRepo __questionValuationRepo;
 
-        private QuestionValuationRepo _questionValuationRepo
+        public MeiliSearchReIndexAllQuestions(QuestionValuationReadingRepo questionValuationReadingRepo,
+            QuestionReadingRepo questionReadingRepo)
         {
-            get
-            {
-                if (__questionValuationRepo == null)
-                    __questionValuationRepo = Sl.Resolve<QuestionValuationRepo>();
-
-                return __questionValuationRepo;
-            }
-        }
-
-        private QuestionRepo _questionRepo
-        {
-            get
-            {
-                if (__questionRepo == null)
-                    __questionRepo = Sl.Resolve<QuestionRepo>();
-
-                return __questionRepo;
-            }
+            _questionValuationReadingRepo = questionValuationReadingRepo;
+            _questionReadingRepo = questionReadingRepo;
         }
 
         public MeiliSearchReIndexAllQuestions()
@@ -43,8 +28,8 @@ namespace TrueOrFalse.Search
             var taskId = (await _client.DeleteIndexAsync(MeiliSearchKonstanten.Questions)).TaskUid;
             await _client.WaitForTaskAsync(taskId);
 
-            var allQuestionsFromDb = _questionRepo.GetAll().Where(q => !q.IsWorkInProgress);
-            var allValuations = _questionValuationRepo.GetAll();
+            var allQuestionsFromDb = _questionReadingRepo.GetAll().Where(q => !q.IsWorkInProgress);
+            var allValuations = _questionValuationReadingRepo.GetAll();
             var meiliSearchQuestions = new List<MeiliSearchQuestionMap>();
 
             foreach (var question in allQuestionsFromDb)

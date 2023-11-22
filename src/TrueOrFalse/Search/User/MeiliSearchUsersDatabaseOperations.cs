@@ -1,8 +1,5 @@
 ﻿using Meilisearch;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.IdentityModel.Tokens;
 
 [assembly: InternalsVisibleTo("TrueOrFalse.Tests")]
 namespace TrueOrFalse.Search
@@ -19,8 +16,10 @@ namespace TrueOrFalse.Search
         {
 
             var userMap = CreateUserMap(user, indexConstant, out var index);
-            var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
-            .ConfigureAwait(false);
+            var taskInfo = await index
+                .AddDocumentsAsync(new List<MeiliSearchUserMap> { userMap })
+                .ConfigureAwait(false);
+
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
@@ -34,8 +33,10 @@ namespace TrueOrFalse.Search
         {
 
             var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
-            var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
+            var taskInfo = await index
+                .UpdateDocumentsAsync(new List<MeiliSearchUserMap> { userMapAndIndex })
                 .ConfigureAwait(false);
+
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
@@ -51,10 +52,11 @@ namespace TrueOrFalse.Search
             var taskInfo = await index
                  .DeleteOneDocumentAsync(userMapAndIndex.Id.ToString())
                  .ConfigureAwait(false);
+            
             await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Index index)
+        private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Meilisearch.Index index)
         {
             var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
             index = client.Index(indexConstant);

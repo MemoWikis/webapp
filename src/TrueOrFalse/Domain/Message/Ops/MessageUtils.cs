@@ -1,8 +1,8 @@
 ﻿public class MessageUtils
 {
-    public static User LoadUser(int receiverId)
+    public static User LoadUser(int receiverId, UserReadingRepo userReadingRepo)
     {
-        var user = Sl.R<UserRepo>().GetById(receiverId);
+        var user = userReadingRepo.GetById(receiverId);
 
         if (user == null)
             throw new Exception("user '" + receiverId + "' not found");

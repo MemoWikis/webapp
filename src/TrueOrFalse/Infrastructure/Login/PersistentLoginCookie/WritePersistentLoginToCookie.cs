@@ -1,13 +1,18 @@
-﻿using System.Web;
+﻿using Microsoft.AspNetCore.Http;
 
 public class WritePersistentLoginToCookie
 {
-    public static void Run(int userId)
+    public static void Run(int userId, PersistentLoginRepo persistentLoginRepo, IHttpContextAccessor httpContextAccessor)
     {
-        var loginGuid = CreatePersistentLogin.Run(userId);
+        var cookieOptions = new CookieOptions
+        {
+            Expires = DateTime.Now.AddDays(45),
+            IsEssential = true,
+        };
+        var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
 
-        var cookie = MemuchoCookie.GetNew();
-        cookie.Values.Add("persistentLogin", userId + "-x-" + loginGuid);
-        HttpContext.Current.Response.Cookies.Add(cookie);
+        httpContextAccessor.HttpContext.Response.Cookies.Delete(PersistentLoginCookie.Key);
+        httpContextAccessor.HttpContext.Response.Cookies.Append(PersistentLoginCookie.Key, userId + "-x-" + loginGuid, cookieOptions);
+
     }        
 }

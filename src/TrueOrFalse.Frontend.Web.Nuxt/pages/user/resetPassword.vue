@@ -21,7 +21,7 @@ onBeforeMount(() => {
 
 const { $logger } = useNuxtApp()
 const route = useRoute()
-const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVue/ResetPassword/Validate?token=${route.params.token}`, {
+const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVue/ResetPassword/Validate/${route.params.token}`, {
     method: 'GET',
     credentials: 'include',
     onResponseError(context) {

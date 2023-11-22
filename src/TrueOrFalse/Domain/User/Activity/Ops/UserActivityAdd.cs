@@ -1,14 +1,14 @@
 public class UserActivityAdd
 {
-    public static void CreatedQuestion(Question question)
+    public static void CreatedQuestion(Question question, UserReadingRepo userReadingRepo, UserActivityRepo userActivityRepo)
     {
         if(question.Creator == null)
             return;
 
-        var userCreator = Sl.R<UserRepo>().GetById(question.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        var userCreator = userReadingRepo.GetById(question.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
-            Sl.R<UserActivityRepo>().Create(new UserActivity {
+            userActivityRepo.Create(new UserActivity {
                     UserConcerned = follower.Follower,
                     At = DateTime.Now,
                     Type = UserActivityType.CreatedQuestion,
@@ -22,15 +22,15 @@ public class UserActivityAdd
     /// Add Category to UserActivityRepo
     /// </summary>
     /// <param name="category"></param>
-    public static void CreatedCategory(Category category)
+    public static void CreatedCategory(Category category, UserReadingRepo userReadingRepo, UserActivityRepo userActivityRepo)
     {
         if(category.Creator == null)
             return;
 
-        var userCreator = Sl.R<UserRepo>().GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        var userCreator = userReadingRepo.GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userCreator.Followers)
         {
-            Sl.R<UserActivityRepo>().Create(new UserActivity
+            userActivityRepo.Create(new UserActivity
             {
                 UserConcerned = follower.Follower,
                 At = DateTime.Now,
@@ -41,12 +41,12 @@ public class UserActivityAdd
         }
     }
 
-    public static void FollowedUser(User userFollows, User userIsFollowed)
+    public static void FollowedUser(User userFollows, User userIsFollowed, UserActivityRepo userActivityRepo)
     {
-        //var userFollowsFromDb = Sl.R<UserRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        //var userFollowsFromDb = Sl.R<UserReadingRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userFollows.Followers)
         {
-            Sl.R<UserActivityRepo>().Create(new UserActivity
+            userActivityRepo.Create(new UserActivity
             {
                 UserConcerned = follower.Follower,
                 At = DateTime.Now,

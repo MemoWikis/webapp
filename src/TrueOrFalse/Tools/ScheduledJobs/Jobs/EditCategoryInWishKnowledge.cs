@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Script.Serialization;
+﻿using System.Text.Json;
 using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Quartz;
-using RollbarSharp;
+using Rollbar;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -13,20 +12,27 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly SessionUser _sessionUser;
         private readonly CategoryInKnowledge _categoryInKnowledge;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public const int IntervalInSeconds = 2;
 
-        public EditCategoryInWishKnowledge(SessionUser sessionUser, CategoryInKnowledge categoryInKnowledge )
+        public EditCategoryInWishKnowledge(SessionUser sessionUser,
+            CategoryInKnowledge categoryInKnowledge,
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _sessionUser = sessionUser;
             _categoryInKnowledge = categoryInKnowledge;
+            _httpContextAccessor = httpContextAccessor;
+            _webHostEnvironment = webHostEnvironment;
         }
-        public void Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
                 var allJobs = new List<JobQueue>();
-                allJobs.AddRange(scope.R<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge());
+                allJobs.AddRange(scope.Resolve<JobQueueRepo>().GetRemoveQuestionsInCategoryFromWishKnowledge());
                 allJobs = allJobs.OrderBy(j => j.Id).ToList();
 
                 foreach (var job in allJobs)
@@ -50,21 +56,20 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 categoryUserPair = GetCategoryUserPair(job);
                 _categoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId, sessionUser);
                 
-                scope.R<JobQueueRepo>().Delete(job.Id);
-                Logg.r().Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
+                scope.Resolve<JobQueueRepo>().Delete(job.Id);
+                Logg.r.Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");
             }
             catch (Exception e)
             {
 
-                Logg.r().Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "RemoveQuestionsInCategoryFromWishKnowledge", categoryUserPair.CategoryId);
-                new RollbarClient().SendException(e);
+                Logg.r.Error(e, "Error in job EditCategoryInWishKnowledge. {Method} {CategoryId}", "RemoveQuestionsInCategoryFromWishKnowledge", categoryUserPair.CategoryId);
+                RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
             }
         }
 
-        private static CategoryUserPair GetCategoryUserPair(JobQueue jobQueueEntry)
+        private static CategoryUserPair? GetCategoryUserPair(JobQueue jobQueueEntry)
         {
-            var serializer = new JavaScriptSerializer();
-            return serializer.Deserialize<CategoryUserPair>(jobQueueEntry.JobContent);
+            return JsonConvert.DeserializeObject<CategoryUserPair>(jobQueueEntry.JobContent);
         }
     }
 

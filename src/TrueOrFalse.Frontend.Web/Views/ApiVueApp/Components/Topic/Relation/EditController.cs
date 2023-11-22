@@ -1,79 +1,86 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
-namespace VueApp;
-
-public class TopicRelationEditController : Controller
+namespace VueApp
 {
-    private readonly IGlobalSearch _search;
-    private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly bool IsInstallationAdmin;
-
-    public TopicRelationEditController(IGlobalSearch search,SessionUser sessionUser, PermissionCheck permissionCheck) 
+    public class TopicRelationEditController : BaseController
     {
-        _search = search;
-        _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        IsInstallationAdmin = _sessionUser.IsInstallationAdmin;
+        private readonly EditControllerLogic _editControllerLogic;
 
-    }
+        public TopicRelationEditController(IGlobalSearch search,
+            SessionUser sessionUser,
+            EditControllerLogic editControllerLogic) : base(sessionUser)
+        {
+            _sessionUser = sessionUser;
+            _editControllerLogic = editControllerLogic;
+        }
 
-    [HttpPost]
-    public JsonResult ValidateName(string name)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).ValidateName(name);
-        return Json(data, JsonRequestBehavior.AllowGet);
-    }
+        public readonly record struct ValidateNameParam(string Name);
+        [HttpPost]
+        public JsonResult ValidateName([FromBody] ValidateNameParam param)
+        {
+            var data = _editControllerLogic.ValidateName(param.Name);
+            return Json(data);
+        }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult QuickCreate(string name, int parentTopicId)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser)            
-            .QuickCreate(name, parentTopicId,_sessionUser); 
+        public readonly record struct QuickCreateParam(string Name, int ParentTopicId);
+        [AccessOnlyAsLoggedIn]
+        [HttpPost]
+        public JsonResult QuickCreate([FromBody] QuickCreateParam param)
+        {
+            var data = _editControllerLogic.QuickCreate(param.Name,
+                    param.ParentTopicId, 
+                    _sessionUser);
 
-        return Json(data, JsonRequestBehavior.AllowGet);
-    }
+            return Json(data);
+        }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public async Task<JsonResult> SearchTopic(string term, int[] topicIdsToFilter = null)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).SearchTopic(term, topicIdsToFilter);
-        return Json(data, JsonRequestBehavior.AllowGet);
-    }
+        public readonly record struct SearchParam(string term, int[] topicIdsToFilter);
+        [AccessOnlyAsLoggedIn]
+        [HttpPost]
+        public async Task<JsonResult> SearchTopic([FromBody] SearchParam param)
+        {
+            var data = _editControllerLogic.SearchTopic(param.term, param.topicIdsToFilter);
+            return Json(data);
+        }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public async Task<JsonResult> SearchTopicInPersonalWiki(string term, int[] topicIdsToFilter = null)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).SearchTopicInPersonalWiki(term, topicIdsToFilter);
-        return Json(data, JsonRequestBehavior.AllowGet);
-    }
+        [AccessOnlyAsLoggedIn]
+        [HttpPost]
+        public async Task<JsonResult> SearchTopicInPersonalWiki([FromBody] SearchParam param)
+        {
+            var data = _editControllerLogic.SearchTopicInPersonalWiki(param.term, param.topicIdsToFilter);
+            return Json(data);
+        }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).MoveChild(childId,parentIdToRemove,parentIdToAdd);
-        return Json(data, JsonRequestBehavior.AllowGet);
-    }
+        [AccessOnlyAsLoggedIn]
+        [HttpPost]
+        public JsonResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
+        {
+            var data = _editControllerLogic.MoveChild(childId, parentIdToRemove, parentIdToAdd);
+            return Json(data);
+        }
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult AddChild(int childId, int parentId, int parentIdToRemove = -1, bool addIdToWikiHistory = false)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).AddChild(childId,parentId,parentIdToRemove,addIdToWikiHistory);
-        return Json(data, JsonRequestBehavior.AllowGet);
-    }
+        public readonly record struct AddChildParam(int ChildId, int ParentId, int ParentIdToRemove, bool AddIdToWikiHistory);
 
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    public JsonResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
-    {
-        var data = new EditControllerLogic(_search, IsInstallationAdmin, _permissionCheck, _sessionUser).RemoveParent(parentIdToRemove,childId,affectedParentIdsByMove);
-        return Json(data, JsonRequestBehavior.AllowGet);
+        [AccessOnlyAsLoggedIn]
+        [HttpPost]
+        public JsonResult AddChild([FromBody] AddChildParam param)
+        {
+            var data = _editControllerLogic
+                .AddChild(param.ChildId,
+                    param.ParentId,
+                    param.ParentIdToRemove,
+                    param.AddIdToWikiHistory);
+
+            return Json(data);
+        }
+
+        [AccessOnlyAsLoggedIn]
+        [HttpPost]
+        public JsonResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
+        {
+            var data = _editControllerLogic.RemoveParent(parentIdToRemove, childId, affectedParentIdsByMove);
+            return Json(data);
+        }
     }
 }

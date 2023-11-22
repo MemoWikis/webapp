@@ -63,7 +63,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 steps: Step[],
                 activeQuestionCount: number,
                 lastQuestionInList: Step
-            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/?index=${this.lastIndexInQuestionList}`, {
+            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/${this.lastIndexInQuestionList}`, {
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -77,7 +77,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         async startNewSession() {
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
-
+            console.log(config)
             const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSession/', {
                 method: 'POST',
                 body: config,
@@ -148,12 +148,15 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+
             if (result != null) {
                 this.steps = result.steps
                 this.setCurrentStep(result.currentStep)
             }
         },
         loadNextQuestionInSession() {
+            console.log("currentIndex", this.currentIndex)
+            console.log("steps", this.steps)
             if (this.currentIndex < this.steps[this.steps.length - 1].index)
                 this.changeActiveQuestion(this.currentIndex + 1)
         },
@@ -161,6 +164,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             const data = {
                 index: this.currentIndex
             }
+            console.log("currentIndexSkip", this.currentIndex)
             const result = await $fetch<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
                 {
                     method: 'POST',
