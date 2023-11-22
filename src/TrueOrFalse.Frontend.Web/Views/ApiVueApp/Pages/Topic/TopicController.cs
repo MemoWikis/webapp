@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using VueApp;
 
 public class TopicController : BaseController
@@ -8,7 +6,6 @@ public class TopicController : BaseController
     private readonly PermissionCheck _permissionCheck;
     private readonly TopicControllerLogic _topicControllerLogic;
     private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly PersistentLoginRepo _persistentLoginRepo;
 
@@ -16,15 +13,12 @@ public class TopicController : BaseController
         PermissionCheck permissionCheck,
         TopicControllerLogic topicControllerLogic,
         SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
         UserReadingRepo userReadingRepo,
         PersistentLoginRepo persistentLoginRepo) : base(sessionUser)
     {
-        _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _topicControllerLogic = topicControllerLogic;
         _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
         _userReadingRepo = userReadingRepo;
         _persistentLoginRepo = persistentLoginRepo;
     }

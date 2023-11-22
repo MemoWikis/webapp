@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
@@ -15,7 +14,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
     public VueSessionUser(SessionUser sessionUser,
         TopicControllerLogic topicControllerLogic,
         GetUnreadMessageCount getUnreadMessageCount,
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor httpContextAccessor,
         UserReadingRepo userReadingRepo)
     {
         _sessionUser = sessionUser;
