@@ -31,7 +31,7 @@ namespace TrueOrFalse.Domain.Question.QuestionValuation
         public IList<QuestionValuationCacheItem> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
         {
             var cacheItem = _sessionUserCache.GetItem(userId);
-            return cacheItem.QuestionValuations.Values.ToList();
+            return cacheItem?.QuestionValuations.Values.ToList() ?? new List<QuestionValuationCacheItem>();
         }
     }
 }
