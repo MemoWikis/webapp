@@ -7,11 +7,31 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images:/app/Images
+      - ${HOST_IMAGE_PATH:-error}:{ABSOLUTE_IMAGE_PATH:-error}
     networks:
       - environment-specific-network
-    # environment:
-      # - EXAMPLE_ENVIRONMENT_VARIABLE=${EXAMPLE_ENVIRONMENT_VARIABLE:-error}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Stage}
+      - GENERAL__CANONICALHOST=${CANONICAL_HOST:-error}
+      - MEILISEARCH__MEILISEARCHURL=${MEILISEARCH_URL:-error}
+      - PATHS__LOM_EXPORT_PATH=${LOM_EXPORT_PATH:-error}
+      - PATHS__ABSOLUTE_IMAGE_PATH=${ABSOLUTE_IMAGE_PATH:-error}
+      - GENERAL__CONNECTION_STRING=${CONNECTION_STRING:-error}
+      - GENERAL__ENVIRONMENT=${ENVIRONMENT:-error}
+      - GENERAL__MEMUCHO_USER_ID=${MEMUCHO_USER_ID:-error}
+      - GENERAL__SALT_COOKIE=${SALT_COOKIE:-error}
+      - GENERAL__UPDATE_USER_SETTINGS_KEY=${UPDATE_USER_SETTINGS_KEY:-error}
+      - SETTINGS__WITH_NHIBERNATE_STATISTICS=${WITH_NHIBERNATE_STATISTICS:-error}
+      - SETTINGS__DISABLE_ALL_JOBS=${DISABLE_ALL_JOBS:-error}
+      - LOGINPROVIDER__FACEBOOK_APP_ID=${FACEBOOK_APP_ID:-error}
+      - LOGINPROVIDER__FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET:-error}
+      - STRIPE__WEBHOOK_KEY_STRIPE=${WEBHOOK_KEY_STRIPE:-error}
+      - STRIPE__STRIPE_BASE_URL=${STRIPE_BASE_URL:-error}
+      - MEILISEARCH__MEILISEARCH_URL=${MEILISEARCH_URL:-error}
+      - MEILISEARCH__MEILISEARCH_MASTER_KEY=${MEILISEARCH_MASTER_KEY:-error}
+      - EMAIL__EMAIL_FROM=${EMAIL_FROM:-error}
+      - EMAIL__EMAIL_TO_MEMUCHO=${EMAIL_TO_MEMUCHO:-error}
+
       
 networks:
   environment-specific-network:
