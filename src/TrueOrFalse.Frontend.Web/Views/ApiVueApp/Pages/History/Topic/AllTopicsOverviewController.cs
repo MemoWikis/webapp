@@ -56,8 +56,8 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
         foreach (var change in topicChanges)
         {
-            authors.Add(SetAuthor(change));
-            changes.Add(SetChange(change));
+            authors.Add(BuildAuthor(change));
+            changes.Add(BuildChange(change));
         }
 
         day.groupedChanges = BuildGroupedChanges(changes);
@@ -102,7 +102,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
                currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
     }
 
-    public Author SetAuthor(CategoryChange change)
+    public Author BuildAuthor(CategoryChange change)
     {
         if (change.AuthorId < 1)
             return null;
@@ -116,7 +116,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
         };
     }
 
-    public Change SetChange(CategoryChange topicChange)
+    public Change BuildChange(CategoryChange topicChange)
     {
 
         var change = new Change
@@ -127,7 +127,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
                 _httpContextAccessor)
                 .GetUrl(50)
                 .Url,
-            author = SetAuthor(topicChange),
+            author = BuildAuthor(topicChange),
             timeCreated = topicChange.DateCreated.ToString("HH:mm"),
             topicChangeType = topicChange.Type,
             revisionId = topicChange.Id,

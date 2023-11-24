@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHibernate;
 
 public class CategoryEditData_V2 : CategoryEditData
@@ -9,7 +7,7 @@ public class CategoryEditData_V2 : CategoryEditData
     public IList<CategoryRelation_EditData_V2> CategoryRelations;
     public bool ImageWasUpdated;
     private readonly ISession _nhibernateSession;
-
+    public CategoryEditData_V2() { }
     public CategoryEditData_V2(CategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;

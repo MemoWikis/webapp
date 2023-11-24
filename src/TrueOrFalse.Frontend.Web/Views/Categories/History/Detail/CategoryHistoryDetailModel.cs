@@ -106,7 +106,7 @@ public class CategoryHistoryDetailModel
             CategoryName = currentRevision.Category.Name;
 
         var author =
-            new UserTinyModel(currentRevision.Author(_sessionUserCache));
+            new UserTinyModel(currentRevision.Author());
 
         Author = author;
         AuthorName = author.Name;
