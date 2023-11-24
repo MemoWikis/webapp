@@ -7,7 +7,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images:/app/Images
+      - ${HOST_IMAGE_PATH:-error}:{ABSOLUTE_IMAGE_PATH:-error}
     networks:
       - environment-specific-network
     environment:
