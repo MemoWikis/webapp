@@ -7,14 +7,15 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ${HOST_IMAGE_PATH:-error}:{ABSOLUTE_IMAGE_PATH:-error}
+      - ${HOST_IMAGE_PATH:-error}:${ABSOLUTE_IMAGE_PATH:-error}
     networks:
       - environment-specific-network
     environment:
       - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Stage}
+      #Override appsettings:
       - Paths__LomExportPath=${LOM_EXPORT_PATH}
-      - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-error}
-      - General__SeqUrl=${SEQ_URL:-error}
+      - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
+      - General__SeqUrl=${SEQ_URL:-http://host.docker.internal:5341}
       - General__CanonicalHost=${CANONICAL_HOST:-error}
       - General__ConnectionString=${CONNECTION_STRING:-error}
       - General__Environment=${ENVIRONMENT:-error}
@@ -42,3 +43,25 @@ networks:
 # $ export BUILD_NUMBER=5408
 # $ docker-compose -p mem-stage up -d
 # will recreate a running container
+
+# To override variables locally create .env file next to this and specify values (or comment out lines under environment that should not override appsettings):
+# LOM_EXPORT_PATH=<value>
+# HOST_IMAGE_PATH=C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images
+# ABSOLUTE_IMAGE_PATH=/app/Images
+# SEQ_URL=http://host.docker.internal:5341
+# CANONICAL_HOST=<value>
+# CONNECTION_STRING=Server=host.docker.internal;Port=3306;Database=memucho;uid=root;pwd=XXXXXXXXXXXXXXXXXX
+# ENVIRONMENT=<value>
+# MEMUCHO_USER_ID=26
+# SALT_COOKIE=<value>
+# UPDATE_USER_SETTINGS_KEY=<value>
+# WITH_NHIBERNATE_STATISTICS=<value>
+# DISABLE_ALL_JOBS=<value>
+# FACEBOOK_APP_ID=<value>
+# FACEBOOK_APP_SECRET=<value>
+# WEBHOOK_KEY_STRIPE=<value>
+# STRIPE_BASE_URL=<value>
+# MEILISEARCH_URL=<value>
+# MEILISEARCH_MASTER_KEY=<value>
+# EMAIL_FROM=<value>
+# EMAIL_TO_MEMUCHO=<value>
