@@ -49,7 +49,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             Schedule_RecalcReputationForAll();
             Schedule_EditCategoryInWishKnowledge();
             Schedule_KnowledgeReportCheck();
-            Schedule_LOM_Export();
+            //Schedule_LOM_Export();
             Schedule_RecalcTotalWishInOthersPeople();
             Schedule_MailTransmitter();
 
