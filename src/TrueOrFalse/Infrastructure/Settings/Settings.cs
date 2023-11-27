@@ -51,4 +51,7 @@ public class Settings
 
     // Connection properties
     public static string ConnectionString => _configuration["General:ConnectionString"];
+
+    //Seq
+    public static string SeqUrl => _configuration["General:SeqUrl"];
 }
