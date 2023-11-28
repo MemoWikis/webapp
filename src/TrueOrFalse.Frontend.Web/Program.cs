@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
+using Stripe;
 using TrueOrFalse.Environment;
 using static System.Int32;
 
@@ -103,6 +104,10 @@ if (string.IsNullOrEmpty(env.WebRootPath))
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
+StripeConfiguration.ApiKey = Settings.StripeSecurityKey;
+Console.WriteLine("StripeKey: " + Settings.StripeSecurityKey);
+Console.Out.Flush();
+
 var imagesPath = Settings.ImagePath;
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -125,8 +130,6 @@ app.UseEndpoints(endpoints =>
         "healthcheck_backend"
     );
 });
-    
-
 
 app.UseDeveloperExceptionPage();
 app.UseMiddleware<ErrorHandlerMiddleware>();

@@ -11,7 +11,7 @@ services:
     networks:
       - environment-specific-network
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Stage}
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-stage}
       #Override appsettings:
       - Paths__LomExportPath=${LOM_EXPORT_PATH}
       - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
@@ -27,6 +27,7 @@ services:
       - LoginProvider__FacebookAppId=${FACEBOOK_APP_ID:-error}
       - LoginProvider__FacebookAppSecret=${FACEBOOK_APP_SECRET:-error}
       - Stripe__WebhookKeyStripe=${WEBHOOK_KEY_STRIPE:-error}
+      - Stripe__StripeSecurityKey=${STRIPE_SECURITY_KEY:-error}
       - Stripe__StripeBaseUrl=${STRIPE_BASE_URL:-error}
       - Meilisearch__MeiliSearchUrl=${MEILISEARCH_URL:-error}
       - Meilisearch__MeiliSearchMasterKey=${MEILISEARCH_MASTER_KEY:-error}
