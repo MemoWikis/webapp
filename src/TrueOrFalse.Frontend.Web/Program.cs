@@ -72,6 +72,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAntiforgery(_ => { });
 
+builder.Services.AddHealthChecks();
+
 builder.WebHost.ConfigureServices(services =>
 {
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
@@ -113,9 +115,17 @@ app.UseSession();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<SessionStartMiddleware>();
 
-app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
-    name: "default",
-    pattern: "apiVue/{controller}/{action}/{id?}"));
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "apiVue/{controller}/{action}/{id?}");
+
+    endpoints.MapHealthChecks(
+        "healthcheck_backend"
+    );
+});
+    
 
 
 app.UseDeveloperExceptionPage();
