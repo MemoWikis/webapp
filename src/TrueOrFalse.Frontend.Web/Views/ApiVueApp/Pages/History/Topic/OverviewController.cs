@@ -45,8 +45,8 @@ public class HistoryTopicOverviewController : BaseController
                 .OrderByDescending(group => group.Key)
                 .Select(group => GetDay(
                     group.Key,
-                    group.OrderByDescending(g => g.DateCreated).ToArray())).ToArray();
-
+                    group.OrderByDescending(g => g.DateCreated).ToArray())
+                ).ToArray();
 
             return Json(new
             {
@@ -60,7 +60,6 @@ public class HistoryTopicOverviewController : BaseController
 
     public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
     {
-
         var day = new Day
         {
             date = date.ToString("dd.MM.yyyy"),
@@ -71,7 +70,7 @@ public class HistoryTopicOverviewController : BaseController
 
         foreach (var change in topicChanges)
         {
-            authors.Add(BuildAuthor(change));
+            authors.Add(GetAuthor(change));
             changes.Add(BuildChange(change));
         }
 
@@ -118,7 +117,7 @@ public class HistoryTopicOverviewController : BaseController
                currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
     }
 
-    public Author BuildAuthor(CategoryChange change)
+    public Author GetAuthor(CategoryChange change)
     {
         if (change.AuthorId < 1)
             return null;
@@ -140,7 +139,7 @@ public class HistoryTopicOverviewController : BaseController
         var change = new Change
         {
             topicId = topicChange.Category.Id,
-            author = BuildAuthor(topicChange),
+            author = GetAuthor(topicChange),
             elapsedTime = TimeElapsedAsText.Run(topicChange.DateCreated),
             topicChangeType = topicChange.Type,
             revisionId = topicChange.Id

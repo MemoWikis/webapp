@@ -7,6 +7,8 @@ public class CategoryEditData_V2 : CategoryEditData
     public IList<CategoryRelation_EditData_V2> CategoryRelations;
     public bool ImageWasUpdated;
     private readonly ISession _nhibernateSession;
+
+    //empty constructor is used for the JsonSerializer
     public CategoryEditData_V2() { }
     public CategoryEditData_V2(CategoryRepository categoryRepository)
     {

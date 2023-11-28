@@ -104,10 +104,10 @@ async function restore() {
                             </div>
                         </div>
                         <div>
-                            <button class="memo-button btn btn-default" @click="restore"
+                            <!-- <button class="memo-button btn btn-default" @click="restore"
                                 v-if="changeDetail.changeType == TopicChangeType.Renamed || changeDetail.changeType == TopicChangeType.Text">
                                 Wiederherstellen
-                            </button>
+                            </button> -->
                         </div>
                     </div>
                 </div>
