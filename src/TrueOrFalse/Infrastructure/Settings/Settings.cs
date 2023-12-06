@@ -22,6 +22,7 @@ public class Settings
 
     // Stripe properties
     public static string WebhookKeyStripe => _configuration["Stripe:WebhookKeyStripe"];
+    public static string StripeSecurityKey => _configuration["Stripe:StripeSecurityKey"];
     public static string StripeBaseUrl => _configuration["Stripe:StripeBaseUrl"];
 
     // Meilisearch properties
@@ -51,4 +52,7 @@ public class Settings
 
     // Connection properties
     public static string ConnectionString => _configuration["General:ConnectionString"];
+
+    //Seq
+    public static string SeqUrl => _configuration["General:SeqUrl"];
 }

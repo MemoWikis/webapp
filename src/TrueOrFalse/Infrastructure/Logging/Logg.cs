@@ -7,7 +7,7 @@ using TrueOrFalse.Tools;
 
 public class Logg : IRegisterAsInstancePerLifetime
 {
-    private const string SeqUrl = "http://localhost:5341";
+    private static readonly string _seqUrl = Settings.SeqUrl;
     private static readonly Serilog.ILogger _logger;
     private static readonly Serilog.ILogger _loggerIsCrawler;
     private static readonly Serilog.ILogger _subscriptionLogger;
@@ -17,19 +17,19 @@ public class Logg : IRegisterAsInstancePerLifetime
         _logger = new LoggerConfiguration()
             .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", false)
-            .WriteTo.Seq(SeqUrl)
+            .WriteTo.Seq(_seqUrl)
             .CreateLogger();
 
         _loggerIsCrawler = new LoggerConfiguration()
             .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", true)
-            .WriteTo.Seq(SeqUrl)
+            .WriteTo.Seq(_seqUrl)
             .CreateLogger();
 
         _subscriptionLogger = new LoggerConfiguration()
             .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("isSubscription", true)
-            .WriteTo.Seq(SeqUrl)
+            .WriteTo.Seq(_seqUrl)
             .CreateLogger();
 
         //configure globally shared logger

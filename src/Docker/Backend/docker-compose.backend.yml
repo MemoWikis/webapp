@@ -7,11 +7,32 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images:/app/Images
+      - ${HOST_IMAGE_PATH:-error}:${ABSOLUTE_IMAGE_PATH:-error}
     networks:
       - environment-specific-network
-    # environment:
-      # - EXAMPLE_ENVIRONMENT_VARIABLE=${EXAMPLE_ENVIRONMENT_VARIABLE:-error}
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-stage}
+      #Override appsettings:
+      - Paths__LomExportPath=${LOM_EXPORT_PATH}
+      - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
+      - General__SeqUrl=${SEQ_URL:-http://host.docker.internal:5341}
+      - General__CanonicalHost=${CANONICAL_HOST:-error}
+      - General__ConnectionString=${CONNECTION_STRING:-error}
+      - General__Environment=${ENVIRONMENT:-error}
+      - General__MemuchoUserId=${MEMUCHO_USER_ID:-error}
+      - General__SaltCookie=${SALT_COOKIE:-error}
+      - General__UpdateUserSettingsKey=${UPDATE_USER_SETTINGS_KEY:-error}
+      - Settings__WithNHibernateStatistics=${WITH_NHIBERNATE_STATISTICS:-error}
+      - Settings__DisableAllJobs=${DISABLE_ALL_JOBS:-error}
+      - LoginProvider__FacebookAppId=${FACEBOOK_APP_ID:-error}
+      - LoginProvider__FacebookAppSecret=${FACEBOOK_APP_SECRET:-error}
+      - Stripe__WebhookKeyStripe=${WEBHOOK_KEY_STRIPE:-error}
+      - Stripe__StripeSecurityKey=${STRIPE_SECURITY_KEY:-error}
+      - Stripe__StripeBaseUrl=${STRIPE_BASE_URL:-error}
+      - Meilisearch__MeiliSearchUrl=${MEILISEARCH_URL:-error}
+      - Meilisearch__MeiliSearchMasterKey=${MEILISEARCH_MASTER_KEY:-error}
+      - Email__EmailFrom=${EMAIL_FROM:-error}
+      - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
       
 networks:
   environment-specific-network:
@@ -23,3 +44,25 @@ networks:
 # $ export BUILD_NUMBER=5408
 # $ docker-compose -p mem-stage up -d
 # will recreate a running container
+
+# To override variables locally create .env file next to this and specify values (or comment out lines under environment that should not override appsettings):
+# LOM_EXPORT_PATH=<value>
+# HOST_IMAGE_PATH=C:/Projects/memucho/src/TrueOrFalse.Frontend.Web/Images
+# ABSOLUTE_IMAGE_PATH=/app/Images
+# SEQ_URL=http://host.docker.internal:5341
+# CANONICAL_HOST=<value>
+# CONNECTION_STRING=Server=host.docker.internal;Port=3306;Database=memucho;uid=root;pwd=XXXXXXXXXXXXXXXXXX
+# ENVIRONMENT=<value>
+# MEMUCHO_USER_ID=26
+# SALT_COOKIE=<value>
+# UPDATE_USER_SETTINGS_KEY=<value>
+# WITH_NHIBERNATE_STATISTICS=<value>
+# DISABLE_ALL_JOBS=<value>
+# FACEBOOK_APP_ID=<value>
+# FACEBOOK_APP_SECRET=<value>
+# WEBHOOK_KEY_STRIPE=<value>
+# STRIPE_BASE_URL=<value>
+# MEILISEARCH_URL=<value>
+# MEILISEARCH_MASTER_KEY=<value>
+# EMAIL_FROM=<value>
+# EMAIL_TO_MEMUCHO=<value>
