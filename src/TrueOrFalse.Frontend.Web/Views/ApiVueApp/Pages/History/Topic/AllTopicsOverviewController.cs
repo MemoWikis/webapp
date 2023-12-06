@@ -56,8 +56,8 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
         foreach (var change in topicChanges)
         {
-            authors.Add(SetAuthor(change));
-            changes.Add(SetChange(change));
+            authors.Add(GetAuthor(change));
+            changes.Add(BuildChange(change));
         }
 
         day.groupedChanges = BuildGroupedChanges(changes);
@@ -66,8 +66,8 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
     public class GroupedChange
     {
-        public bool collapsed = true;
-        public Change[] changes;
+        public bool collapsed { get; set; } = true;
+        public Change[] changes { get; set; }
     }
 
     public class TempGroup
@@ -102,12 +102,12 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
                currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
     }
 
-    public Author SetAuthor(CategoryChange change)
+    public Author GetAuthor(CategoryChange change)
     {
         if (change.AuthorId < 1)
             return null;
 
-        var author = _sessionUserCache.GetItem(change.AuthorId);
+        var author = EntityCache.GetUserById(change.AuthorId);
 
         return new Author
         {
@@ -116,7 +116,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
         };
     }
 
-    public Change SetChange(CategoryChange topicChange)
+    public Change BuildChange(CategoryChange topicChange)
     {
 
         var change = new Change
@@ -127,7 +127,7 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
                 _httpContextAccessor)
                 .GetUrl(50)
                 .Url,
-            author = SetAuthor(topicChange),
+            author = GetAuthor(topicChange),
             timeCreated = topicChange.DateCreated.ToString("HH:mm"),
             topicChangeType = topicChange.Type,
             revisionId = topicChange.Id,

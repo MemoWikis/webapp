@@ -28,10 +28,14 @@ namespace TrueOrFalse.Domain.Question.QuestionValuation
         }
 
 
-        public IList<QuestionValuationCacheItem> GetByUserFromCache(int userId, bool onlyActiveKnowledge = true)
+        public IList<QuestionValuationCacheItem> GetByUserFromCache(int userId)
         {
             var cacheItem = _sessionUserCache.GetItem(userId);
-            return cacheItem?.QuestionValuations.Values.ToList() ?? new List<QuestionValuationCacheItem>();
+
+            if (cacheItem == null)
+                return new List<QuestionValuationCacheItem>();
+
+            return cacheItem.QuestionValuations.Values.ToList();
         }
     }
 }

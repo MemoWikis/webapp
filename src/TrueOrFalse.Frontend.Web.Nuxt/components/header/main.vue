@@ -80,7 +80,7 @@ watch(() => openedModals, (val) => {
     if (val.length > 0)
         modalIsOpen.value = true
     else modalIsOpen.value = false
-}, { deep: true })
+}, { deep: true, immediate: true })
 
 </script>
 
@@ -89,7 +89,8 @@ watch(() => openedModals, (val) => {
         <div class="container">
             <div class="row">
                 <div class="header-container col-xs-12" ref="headerContainer">
-                    <div class="partial start" :class="{ 'search-open': showSearch }" ref="partialLeft">
+                    <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
+                        ref="partialLeft">
                         <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
                             :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
                             :partial-left="partialLeft" />
@@ -213,6 +214,10 @@ watch(() => openedModals, (val) => {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.modal-is-open {
+    width: 100%;
+}
 
 .header-author-icon {
     height: 32px;

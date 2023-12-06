@@ -55,6 +55,7 @@ onMounted(async () => {
 })
 
 const tabsStore = useTabsStore()
+
 </script>
 
 <template>

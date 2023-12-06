@@ -357,6 +357,8 @@ const allMultipleChoiceCombinationTried = computed(() => {
     }
     return false
 })
+
+watch(() => topicStore.id, () => learningSessionStore.showResult = false) 
 </script>
 
 <template>

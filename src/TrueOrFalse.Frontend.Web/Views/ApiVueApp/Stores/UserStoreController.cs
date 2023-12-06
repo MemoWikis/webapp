@@ -151,7 +151,7 @@ public class UserStoreController : BaseController
                 ImgUrl = _sessionUser.IsLoggedIn
                     ? new UserImageSettings(_sessionUser.UserId,
                             _httpContextAccessor)
-                        .GetUrl_20px(_sessionUser.User)
+                        .GetUrl_20px_square(_sessionUser.User)
                         .Url
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,

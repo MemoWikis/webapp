@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHibernate;
 
 public class CategoryEditData_V2 : CategoryEditData
@@ -10,6 +8,8 @@ public class CategoryEditData_V2 : CategoryEditData
     public bool ImageWasUpdated;
     private readonly ISession _nhibernateSession;
 
+    //empty constructor is used for the JsonSerializer
+    public CategoryEditData_V2() { }
     public CategoryEditData_V2(CategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;

@@ -45,7 +45,8 @@ public class HistoryTopicOverviewController : BaseController
                 .OrderByDescending(group => group.Key)
                 .Select(group => GetDay(
                     group.Key,
-                    group.OrderByDescending(g => g.DateCreated).ToList())).ToArray();
+                    group.OrderByDescending(g => g.DateCreated).ToArray())
+                ).ToArray();
 
             return Json(new
             {
@@ -59,7 +60,6 @@ public class HistoryTopicOverviewController : BaseController
 
     public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
     {
-
         var day = new Day
         {
             date = date.ToString("dd.MM.yyyy"),
@@ -70,8 +70,8 @@ public class HistoryTopicOverviewController : BaseController
 
         foreach (var change in topicChanges)
         {
-            authors.Add(SetAuthor(change));
-            changes.Add(SetChange(change));
+            authors.Add(GetAuthor(change));
+            changes.Add(BuildChange(change));
         }
 
         day.groupedChanges = BuildGroupedChanges(changes);
@@ -81,13 +81,13 @@ public class HistoryTopicOverviewController : BaseController
 
     public class GroupedChange
     {
-        public bool collapsed = true;
-        public Change[] changes;
+        public bool collapsed { get; set; } = true;
+        public Change[] changes { get; set; }
     }
 
     public class TempGroup
     {
-        public IList<Change> changes;
+        public IList<Change> changes { get; set; }
     }
 
     private GroupedChange[] BuildGroupedChanges(List<Change> changes)
@@ -117,11 +117,13 @@ public class HistoryTopicOverviewController : BaseController
                currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
     }
 
-    public Author SetAuthor(CategoryChange change)
+    public Author GetAuthor(CategoryChange change)
     {
         if (change.AuthorId < 1)
             return null;
-        var author = _sessionUserCache.GetItem(change.AuthorId);
+
+        var author = EntityCache.GetUserById(change.AuthorId);
+
         return new Author
         {
             id = author.Id,
@@ -132,12 +134,12 @@ public class HistoryTopicOverviewController : BaseController
         };
     }
 
-    public Change SetChange(CategoryChange topicChange)
+    public Change BuildChange(CategoryChange topicChange)
     {
         var change = new Change
         {
             topicId = topicChange.Category.Id,
-            author = SetAuthor(topicChange),
+            author = GetAuthor(topicChange),
             elapsedTime = TimeElapsedAsText.Run(topicChange.DateCreated),
             topicChangeType = topicChange.Type,
             revisionId = topicChange.Id

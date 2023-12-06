@@ -7,18 +7,15 @@ public class CategoryChange : Entity, WithDateCreated
     public virtual string Data { get; set; }
 
     public virtual bool ShowInSidebar { get; set; } = true;
+    private UserCacheItem? _author;
 
-    private SessionUserCacheItem? _author;
-    public virtual SessionUserCacheItem Author(SessionUserCache sessionUserCache) => 
-        _author ??= sessionUserCache.GetItem(AuthorId);
+    public virtual UserCacheItem? Author() => _author ??= EntityCache.GetUserById(AuthorId);
 
     public virtual int AuthorId { get; set; }
 
     public virtual CategoryChangeType Type { get; set; } 
 
     public virtual DateTime DateCreated { get; set; }
-
-   
 
     public virtual CategoryEditData GetCategoryChangeData()
     {

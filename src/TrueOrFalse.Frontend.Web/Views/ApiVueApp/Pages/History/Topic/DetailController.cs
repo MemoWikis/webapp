@@ -51,7 +51,7 @@ public class HistoryTopicDetailController : BaseController
     }
 
     [HttpGet]
-    public JsonResult Get(int topicId, int currentRevisionId, int firstEditId = 0)
+    public JsonResult Get([FromQuery]int topicId, int currentRevisionId, int firstEditId = 0)
     {
         if(!_permissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
@@ -81,7 +81,7 @@ public class HistoryTopicDetailController : BaseController
             _actionContextAccessor,
             _questionReadingRepo);
 
-        var currentAuthor = currentRevision.Author(_sessionUserCache);
+        var currentAuthor = currentRevision.Author();
         var result = new ChangeDetailResult
         {
             topicName = topicHistoryDetailModel.CategoryName,
@@ -94,7 +94,7 @@ public class HistoryTopicDetailController : BaseController
             authorId = currentAuthor.Id,
             authorImgUrl = new UserImageSettings(currentAuthor.Id, 
                     _httpContextAccessor)
-                .GetUrl_20px(currentAuthor)
+                .GetUrl_20px_square(currentAuthor)
                 .Url
         };
 

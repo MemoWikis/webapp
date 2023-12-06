@@ -57,6 +57,7 @@ function handleScroll() {
 const personalWiki = ref<BreadcrumbItem | null>(null)
 const isUpdating = ref(false)
 async function updateBreadcrumb() {
+
 	isUpdating.value = true
 
 	await nextTick()
