@@ -2,7 +2,7 @@
 import { handleNewLine } from '~~/components/shared/utils'
 
 interface Props {
-    text: string
+    frontContent: string
     solution: string
     markedAsCorrect: boolean
 }
@@ -29,7 +29,7 @@ function flip() {
 watch(flipped, () => emit('flipped'))
 
 async function getAnswerDataString(): Promise<string> {
-    await nextTick(); 
+    await nextTick();
     return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
 }
 
@@ -57,8 +57,7 @@ const emit = defineEmits((['flipped']))
     <div class="flashcard" @click="flip()" :class="{ 'flipped': flipped }">
         <div class="flashcard-inner">
             <div class="flashcard-front" :style="getMinHeight()">
-                <div class="question-text" ref="front">
-                    {{ props.text }}
+                <div class="question-text" ref="front" v-html="props.frontContent">
                 </div>
                 <div class="flip-label">
                     <font-awesome-icon icon="fa-solid fa-rotate" />

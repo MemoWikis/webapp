@@ -151,7 +151,8 @@ onBeforeMount(() => {
 											<QuestionAnswerBodyFlashcard :key="question.answerBodyModel.id + 'flashcard'"
 												v-if="question.answerBodyModel.solutionType == SolutionType.FlashCard"
 												ref="flashcard" :solution="question.answerBodyModel.solution"
-												:text="question.answerBodyModel.text" :marked-as-correct="true" />
+												:front-content="question.answerBodyModel.textHtml"
+												:marked-as-correct="true" />
 											<QuestionAnswerBodyMatchlist :key="question.answerBodyModel.id + 'matchlist'"
 												v-else-if="question.answerBodyModel.solutionType == SolutionType.MatchList"
 												ref="matchList" :solution="question.answerBodyModel.solution"

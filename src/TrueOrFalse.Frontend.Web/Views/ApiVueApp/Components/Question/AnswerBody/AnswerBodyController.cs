@@ -40,6 +40,7 @@ public class AnswerBodyController : BaseController {
         {
             id = q.Id,
             text = q.Text,
+            textHtml = q.TextHtml,
             title = title,
             solutionType = q.SolutionType,
             renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",

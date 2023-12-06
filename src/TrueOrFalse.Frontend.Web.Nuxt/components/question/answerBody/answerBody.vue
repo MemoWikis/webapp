@@ -470,7 +470,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
                             <QuestionAnswerBodyFlashcard :key="answerBodyModel.id + 'flashcard'"
                                 v-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
-                                :solution="answerBodyModel.solution" :text="answerBodyModel.text"
+                                :solution="answerBodyModel.solution" :front-content="answerBodyModel.textHtml"
                                 :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'"
                                 v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
