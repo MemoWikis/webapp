@@ -82,7 +82,7 @@ public class GridItemLogic
             name = topic.Name,
             questionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
             childrenCount =
-                EntityCache.GetChildren(topic.Id).Count(c => _permissionCheck.CanView((CategoryCacheItem)c)),
+                EntityCache.GetChildren(topic.Id).Count(c => _permissionCheck.CanView(c)),
             imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
             visibility = topic.Visibility,
             parents = GetParents(topic),
