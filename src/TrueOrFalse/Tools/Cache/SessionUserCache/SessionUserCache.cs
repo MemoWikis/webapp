@@ -1,7 +1,7 @@
 ﻿using Seedworks.Web.State;
 using System.Collections.Concurrent;
 using ConcurrentCollections;
-
+using CacheManager.Core;
 public class SessionUserCache : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
@@ -35,7 +35,10 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     public SessionUserCacheItem? GetItem(int userId)
     {
-        var user = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId)); 
+        var user = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
+
+        //Logg.r.Information(user == null ? "==Cache== miss {id}, stacktrace {st}" : "==Cache== hit {id}, stacktrace {stackTrace}", userId, Environment.StackTrace);
+
         return user;
     }
 
@@ -168,6 +171,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     public void Remove(int userId)
     {
+        //Logg.r.Information("==Cache== try remove {id}", userId);
+
         var cacheKey = GetCacheKey(userId);
         var cacheItem = Cache.Get<SessionUserCacheItem>(cacheKey);
 
@@ -175,6 +180,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         {
             Cache.Remove(cacheKey);
             _cacheKeys.TryRemove(cacheKey);
+            //Logg.r.Information("==Cache== {id} remove, stacktrace {stackTrace}", userId, Environment.StackTrace);
         }
     }
 
@@ -202,6 +208,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
     {
+        //Logg.r.Information("==Cache== add {id}, expiration {time}", cacheItem.Id, ExpirationSpanInMinutes);
+
         Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }

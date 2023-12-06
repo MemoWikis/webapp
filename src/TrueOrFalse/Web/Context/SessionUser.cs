@@ -13,11 +13,11 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     public SessionUser(IHttpContextAccessor httpContextAccessor,
         SessionUserCache sessionUserCache)
     {
-        _httpContext = httpContextAccessor.HttpContext; ;
+        _httpContext = httpContextAccessor.HttpContext;
         _sessionUserCache = sessionUserCache;
     }
 
-    public bool SessionIsActive () => _httpContext.Session is not null;
+    public bool SessionIsActive() => _httpContext.Session is not null;
 
     public bool HasBetaAccess
     {
@@ -45,9 +45,14 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
-    //public SessionUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
+    public SessionUserCacheItem User => GetUser();
+    //public SessionUserCacheItem User => _userId <= 0 ? null : GetOrCreateUserFromSessionCache();
 
+    private SessionUserCacheItem GetUser()
+    {
+        Logg.r.Information("==Cache== User hit, stackTrace: {stackTrace}", Environment.StackTrace);
+        return _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
+    }
     public bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
@@ -56,18 +61,19 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    //public SessionUserCacheItem GetOrCreateUserFromSessionCache()
-    //{
-    //    var user = _sessionUserCache.GetUser(_userId);
-    //    if (user == null)
-    //    {
-    //        user = _sessionUserCache.CreateSessionUserItemFromDatabase(_userId); 
-    //        _sessionUserCache.AddOrUpdate(user);
-    //        user = _sessionUserCache.GetUser(_userId);
-    //    }
+    public SessionUserCacheItem GetOrCreateUserFromSessionCache()
+    {
+        var user = _sessionUserCache.GetUser(_userId);
+        
+        if (user == null)
+        {
+            var newUser = _sessionUserCache.CreateSessionUserItemFromDatabase(_userId);
+            _sessionUserCache.AddOrUpdate(newUser);
+            return _sessionUserCache.GetUser(_userId);
+        }
 
-    //    return user; 
-    //}
+        return user;
+    }
 
     public void Login(User user)
     {

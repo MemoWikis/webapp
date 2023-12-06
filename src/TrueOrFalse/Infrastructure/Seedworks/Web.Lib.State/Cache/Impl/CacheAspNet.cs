@@ -31,6 +31,7 @@ namespace Seedworks.Web.State
         /// <param name="slidingExpiration"></param>
         public static void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
         {
+
             var cacheEntryOptions = new MemoryCacheEntryOptions
             {
                 ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
@@ -47,6 +48,8 @@ namespace Seedworks.Web.State
                     cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
                 }
             }
+            if (key.Contains("SessionUserCacheItem_2150"))
+                Logg.r.Information("==Cache== SessionUserCacheItem add 2150, {SlidingExpiration}, {AbsoluteExpirationRelativeToNow}, {options}, {expiration}", cacheEntryOptions.SlidingExpiration, cacheEntryOptions.AbsoluteExpirationRelativeToNow, cacheEntryOptions, expiration.Value);
 
             _cache.Add(key, obj);
         }
@@ -63,6 +66,7 @@ namespace Seedworks.Web.State
 
         public static void Clear()
         {
+            Logg.r.Information("==Cache== cache clear, stackTrace {stackTrace}", Environment.StackTrace);
             _cacheResetToken.Cancel();
             _cacheResetToken.Dispose();
             _cacheResetToken = new CancellationTokenSource();
@@ -70,6 +74,8 @@ namespace Seedworks.Web.State
 
         public static void Remove(string key)
         {
+            if (key.Contains("SessionUserCacheItem_2150"))
+                Logg.r.Information("==Cache== SessionUserCacheItem remove 2150");
             _cache.Remove(key);
         }
     }
