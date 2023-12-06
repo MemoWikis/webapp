@@ -62,7 +62,7 @@ const editor = useEditor({
 })
 
 function initSolution() {
-    if (props.solution) {
+    if (props.solution && props.solution.trim() != editor.value?.getHTML().trim()) {
         editor.value?.commands.setContent(props.solution)
         setFlashCardContent()
     }
