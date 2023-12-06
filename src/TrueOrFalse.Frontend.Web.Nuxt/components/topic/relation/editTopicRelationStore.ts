@@ -134,7 +134,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 }
             } else if (result.success == false) {
                 const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Error, { text: messages.error.topic[result.key] })
+                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
             }
         },
         async removeFromPersonalWiki(id: number) {
@@ -157,7 +157,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 }
             } else if (result.success == false) {
                 const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Error, { text: messages.error.topic[result.key] })
+                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
             }
         },
         addTopic(childId: number) {
