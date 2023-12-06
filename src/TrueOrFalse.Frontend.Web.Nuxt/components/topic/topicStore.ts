@@ -125,6 +125,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.searchTopicItem = topic.TopicItem
 				this.knowledgeSummary = topic.KnowledgeSummary
 				this.gridItems = topic.gridItems
+				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
 			}
 		},
 		async saveTopic() {
