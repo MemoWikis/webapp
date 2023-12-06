@@ -12,6 +12,7 @@ interface Props {
 	imageId?: number,
 	minWidth?: number,
 	minHeight?: number,
+	customStyle?: string,
 }
 
 const props = defineProps<Props>()
@@ -36,7 +37,7 @@ setImgSrc()
 
 const imgContainer = ref()
 const getCustomStyle = computed(() => {
-	let str = ''
+	let str = props.customStyle ?? ''
 	if (props.minWidth)
 		str += `min-width: ${props.minWidth}px;`
 	if (props.minHeight)

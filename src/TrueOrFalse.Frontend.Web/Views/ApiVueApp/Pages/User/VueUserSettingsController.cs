@@ -173,8 +173,8 @@ public class VueUserSettingsController : BaseController
             {
                 name = _sessionUser.User.Name,
                 email = _sessionUser.User.EmailAddress,
-                imgUrl = userImageSettings.GetUrl_250px(_sessionUser.User).Url,
-                tinyImgUrl = userImageSettings.GetUrl_20px(_sessionUser.User).Url
+                imgUrl = userImageSettings.GetUrl_256px_square(_sessionUser.User).Url,
+                tinyImgUrl = userImageSettings.GetUrl_50px_square(_sessionUser.User).Url
             }
         });
     }
@@ -226,7 +226,7 @@ public class VueUserSettingsController : BaseController
                 TypeId = _sessionUser.User.Id
             }, _questionReadingRepo);
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings(_httpContextAccessor).GetUrl_250px(_sessionUser.User).Url);
+        return Json(new UserImageSettings(_httpContextAccessor).GetUrl_256px_square(_sessionUser.User).Url);
     }
 
     [HttpPost]

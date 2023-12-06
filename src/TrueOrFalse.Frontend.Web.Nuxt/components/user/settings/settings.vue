@@ -457,7 +457,8 @@ async function requestVerificationMail() {
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">Profilbild</div>
-                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture" />
+                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture"
+                            :custom-style="'object-fit: cover;'" />
                         <div class="img-settings-btns">
 
                             <div>

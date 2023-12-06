@@ -53,7 +53,7 @@ public class VueUserController : BaseController
                         ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId
                         : null,
                     imageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
-                        .GetUrl_250px(user)
+                        .GetUrl_256px_square(user)
                         .Url,
                     reputationPoints = reputation.TotalReputation,
                     rank = user.ReputationPos,

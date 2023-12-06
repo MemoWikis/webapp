@@ -103,7 +103,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 {
                     Id = authorId,
                     Name = author.Name,
-                    ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor).GetUrl_20px(author).Url,
+                    ImgUrl = new UserImageSettings(author.Id, _httpContextAccessor).GetUrl_20px_square(author).Url,
                     Reputation = author.Reputation,
                     ReputationPos = author.ReputationPos
                 };

@@ -8,9 +8,6 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
     public ImageType ImageType => ImageType.User;
 
-    public IEnumerable<int> SizesSquare => new[] { 512, 128, 85, 50, 20 };
-    public IEnumerable<int> SizesFixedWidth => new[] { 100, 500 };
-
     public override string BasePath => "Users";
     public string BaseDummyUrl => "no-profile-picture-";
 
@@ -27,13 +24,19 @@ public class UserImageSettings : ImageSettings, IImageSettings
     {
         Id = typeId;
     }
-
+    public IEnumerable<int> SizesSquare => new[] { 512, 256, 128, 85, 50, 20 };
+    public ImageUrl GetUrl_512px_square(IUserTinyModel user) { return GetUrl(user, 512, isSquare: true); }
+    public ImageUrl GetUrl_256px_square(IUserTinyModel user) { return GetUrl(user, 256, isSquare: true); }
     public ImageUrl GetUrl_128px_square(IUserTinyModel user) { return GetUrl(user, 128, isSquare: true);}
     public ImageUrl GetUrl_85px_square(IUserTinyModel user) { return GetUrl(user, 85, isSquare: true); }
     public ImageUrl GetUrl_50px_square(IUserTinyModel user) { return GetUrl(user, 50, isSquare: true); }
-    public ImageUrl GetUrl_50px(IUserTinyModel user) { return GetUrl(user, 50);}
+    public ImageUrl GetUrl_20px_square(IUserTinyModel user) { return GetUrl(user, 20, isSquare: true); }
+
+    public IEnumerable<int> SizesFixedWidth => new[] { 100, 250, 500 };
+    public ImageUrl GetUrl_500px(IUserTinyModel user) { return GetUrl(user, 500); }
     public ImageUrl GetUrl_250px(IUserTinyModel user) { return GetUrl(user, 250); }
-    public ImageUrl GetUrl_20px(IUserTinyModel user) { return GetUrl(user, 20); }
+    public ImageUrl GetUrl_50px(IUserTinyModel user) { return GetUrl(user, 50);}
+
 
     private ImageUrl GetUrl(IUserTinyModel user, int width, bool isSquare = false) {
         return new ImageUrl(_contextAccessor)

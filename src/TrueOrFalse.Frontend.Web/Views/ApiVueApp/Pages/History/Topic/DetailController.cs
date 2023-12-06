@@ -94,7 +94,7 @@ public class HistoryTopicDetailController : BaseController
             authorId = currentAuthor.Id,
             authorImgUrl = new UserImageSettings(currentAuthor.Id, 
                     _httpContextAccessor)
-                .GetUrl_20px(currentAuthor)
+                .GetUrl_20px_square(currentAuthor)
                 .Url
         };
 
