@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
+using Stripe;
 using TrueOrFalse.Environment;
 using static System.Int32;
 
@@ -72,6 +73,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAntiforgery(_ => { });
 
+builder.Services.AddHealthChecks();
+
 builder.WebHost.ConfigureServices(services =>
 {
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
@@ -101,6 +104,10 @@ if (string.IsNullOrEmpty(env.WebRootPath))
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
+StripeConfiguration.ApiKey = Settings.StripeSecurityKey;
+Console.WriteLine("StripeKey: " + Settings.StripeSecurityKey);
+Console.Out.Flush();
+
 var imagesPath = Settings.ImagePath;
 app.UseStaticFiles(new StaticFileOptions
 {
@@ -113,10 +120,16 @@ app.UseSession();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<SessionStartMiddleware>();
 
-app.UseEndpoints(endpoints => endpoints.MapControllerRoute(
-    name: "default",
-    pattern: "apiVue/{controller}/{action}/{id?}"));
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "apiVue/{controller}/{action}/{id?}");
 
+    endpoints.MapHealthChecks(
+        "healthcheck_backend"
+    );
+});
 
 app.UseDeveloperExceptionPage();
 app.UseMiddleware<ErrorHandlerMiddleware>();

@@ -1,26 +1,22 @@
-# Use a .NET SDK image as the base
+# First stage: build the application
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-
 WORKDIR /source
 
-# copy csproj and restore as distinct layers
+# Copy csproj and restore as distinct layers
 COPY TrueOrFalse/*.csproj TrueOrFalse/
 COPY TrueOrFalse.Frontend.Web/*.csproj TrueOrFalse.Frontend.Web/
 RUN dotnet restore TrueOrFalse/TrueOrFalse.csproj
 RUN dotnet restore TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.csproj
 
-# copy and build app and libraries
+# Copy and build app and libraries
 COPY TrueOrFalse/ TrueOrFalse/
 COPY TrueOrFalse.Frontend.Web/ TrueOrFalse.Frontend.Web
-
-FROM build AS publish
 WORKDIR /source/TrueOrFalse.Frontend.Web
-RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -o /app
+RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -c Release -o /app
 
-# final stage/image
-#FROM mcr.microsoft.com/dotnet/runtime:7.0
+# Second stage: build the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
-
 WORKDIR /app
-COPY --from=publish /app .
+COPY --from=build /app .
+
 ENTRYPOINT ["dotnet", "TrueOrFalse.View.Web.dll"]
