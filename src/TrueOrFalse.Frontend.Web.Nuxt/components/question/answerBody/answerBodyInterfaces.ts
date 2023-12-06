@@ -3,6 +3,7 @@ import { SolutionType } from "../solutionTypeEnum"
 export interface AnswerBodyModel {
     id: number
     text: string
+    textHtml: string
     title: string
     solutionType: SolutionType
     renderedQuestionTextExtended: string
