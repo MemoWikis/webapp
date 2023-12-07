@@ -68,7 +68,7 @@ watch(showFilterDropdown, (val) => {
                         class="button-placeholder">
                         Wähle deine Fragen aus</div>
                     <div v-else class="question-filter-options-icon-container">
-                        <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay" >
+                        <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay">
                             <font-awesome-icon v-if="o.isSelected" :icon="o.icon" class="filter-icon" />
                         </template>
                         <div class="icon-counter"
@@ -112,7 +112,7 @@ watch(showFilterDropdown, (val) => {
             <div class="col-xs-12 col-sm-6 question-counter-container">
                 <div class="sub-header">Max. Fragen</div>
                 <div class="question-counter"
-                    :class="{ 'input-is-active': learningSessionConfigurationStore.questionCountInputFocused, 'input-error': learningSessionConfigurationStore.questionCountIsInvalid && learningSessionConfigurationStore.userHasChangedMaxCount }">
+                    :class="{ 'input-is-active': learningSessionConfigurationStore.questionCountInputFocused, 'input-error': learningSessionConfigurationStore.selectedQuestionCount < 1 && learningSessionConfigurationStore.userHasChangedMaxCount }">
                     <input type="number" min="0" v-model="learningSessionConfigurationStore.selectedQuestionCount"
                         @input="(event: any) => learningSessionConfigurationStore.setSelectedQuestionCount(event.target.value)"
                         @focus="learningSessionConfigurationStore.questionCountInputFocused = true"
@@ -129,10 +129,10 @@ watch(showFilterDropdown, (val) => {
                     </div>
 
                 </div>
-                <div v-if="learningSessionConfigurationStore.questionCountIsInvalid && learningSessionConfigurationStore.userHasChangedMaxCount"
-                    class="input-error-label">Wähle mindestens
-                    1 Frage</div>
-
+                <div v-if="learningSessionConfigurationStore.selectedQuestionCount < 1 && learningSessionConfigurationStore.userHasChangedMaxCount"
+                    class="input-error-label">
+                    Wähle mindestens 1 Frage
+                </div>
             </div>
 
             <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeKnowledgeSummaryDropdown"
@@ -144,13 +144,14 @@ watch(showFilterDropdown, (val) => {
                     @click="showKnowledgeSummaryDropdown = !showKnowledgeSummaryDropdown"
                     :class="{ 'is-open': showKnowledgeSummaryDropdown }">
                     <div v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 0" class="button-placeholder">
-                        Wähle einen Wissensstand</div>
+                        Wähle einen Wissensstand
+                    </div>
                     <div class="knowledge-summary-chip-container">
                         <template v-for="s in learningSessionConfigurationStore.knowledgeSummary">
                             <div v-if="s.isSelected" class="knowledge-summary-chip" :class="s.colorClass">
-                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">{{
-                                    s.label
-                                }}</template>
+                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">
+                                    {{ s.label }}
+                                </template>
                             </div>
                         </template>
                     </div>
@@ -165,7 +166,8 @@ watch(showFilterDropdown, (val) => {
                         <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
                             v-if="learningSessionConfigurationStore.allKnowledgeSummaryOptionsAreSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
-                        <div class="selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">Alles auswählen
+                        <div class="selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
+                            Alles auswählen
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
