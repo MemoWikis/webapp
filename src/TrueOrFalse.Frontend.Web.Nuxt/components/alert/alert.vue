@@ -23,7 +23,7 @@ onMounted(() => {
 })
 
 watch(() => alertStore.show, (show) => {
-    if(!show) return
+    if (!show) return
 
     shuffleSuccessImage();
 })
@@ -31,7 +31,7 @@ watch(() => alertStore.show, (show) => {
 function shuffleSuccessImage(): void {
     const randomIdx = Math.floor(Math.random() * successImages.length)
     var newImage = successImages[randomIdx]
-    if(successImages.length < 2 || newImage != randomImageSuccess.value){
+    if (successImages.length < 2 || newImage != randomImageSuccess.value) {
         randomImageSuccess.value = newImage
     } else {
         shuffleSuccessImage()
@@ -41,8 +41,8 @@ function shuffleSuccessImage(): void {
 </script>
 
 <template>
-    <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.show = false" :z-index-auto="false"
-        @close="alertStore.show = false">
+    <VueFinalModal v-model="alertStore.show" @keydown.esc="alertStore.closeAlert(true)" :z-index-auto="false"
+        @close="alertStore.closeAlert(true)">
         <div class="modal-dialog" :class="{ 'has-icon': alertStore.type != AlertType.Default }" role="document">
             <div class="modal-content">
 
@@ -56,8 +56,8 @@ function shuffleSuccessImage(): void {
                     </h3>
                     <div class="alert-msg-container">
                         <template v-if="alertStore.title == null || alertStore.title.length == 0">
-                            <img v-if="alertStore.type == AlertType.Error" width="200" :src="errorImage"/>
-                            <img v-else-if="alertStore.type == AlertType.Success" width="200" :src="randomImageSuccess"/>
+                            <img v-if="alertStore.type == AlertType.Error" width="200" :src="errorImage" />
+                            <img v-else-if="alertStore.type == AlertType.Success" width="200" :src="randomImageSuccess" />
                         </template>
                         <div class="alert-msg">
                             {{ alertStore.text }}
@@ -68,10 +68,10 @@ function shuffleSuccessImage(): void {
 
                 <div class="modal-footer">
                     <button class="btn memo-button pull-right" :class="{
-                            'btn-success': alertStore.type == AlertType.Success,
-                            'btn-error': alertStore.type == AlertType.Error,
-                            'btn-primary': alertStore.type == AlertType.Default
-                        }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
+                        'btn-success': alertStore.type == AlertType.Success,
+                        'btn-error': alertStore.type == AlertType.Error,
+                        'btn-primary': alertStore.type == AlertType.Default
+                    }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
                     <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
                         @click="alertStore.closeAlert(true)">
                         Abbrechen
@@ -119,7 +119,7 @@ function shuffleSuccessImage(): void {
             padding-left: 20px;
             flex-grow: 1;
         }
-    }   
+    }
 }
 
 .modal-footer {
@@ -132,5 +132,4 @@ function shuffleSuccessImage(): void {
         margin: 200px auto;
     }
 }
-
 </style>

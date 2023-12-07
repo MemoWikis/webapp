@@ -105,31 +105,36 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
+
             if (result != null && result.success) {
                 this.steps = result.steps!
                 this.activeQuestionCount = result.activeQuestionCount!
                 this.setCurrentStep(result.currentStep!)
                 this.answerHelp = result.answerHelp!
                 this.isInTestMode = result.isInTestMode!
-                return true
-            } else if (!result.success && result.message == 'questionNotInFilter') {
-                const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Default, { text: messages.info.questionNotInFilter }, 'Filter zurücksetzen', true)
+                return { success: true }
+            }
+            const errorMsg = result.message ? messages.info[result.message] : messages.error.default
+            return { success: false, errorMsg: errorMsg }
+        },
+        handleQuestionNotInSessionAlert(id: number, msg: string) {
+            const alertStore = useAlertStore()
+            alertStore.openAlert(AlertType.Default, { text: msg, customBtnKey: 'reset-learning-session' }, 'Filter zurücksetzen', true)
+            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 
-                alertStore.$onAction(({ name, after }) => {
-                    if (name == 'closeAlert')
-                        after((result) => {
-                            if (!result.cancelled) {
-                                learningSessionConfigurationStore.resetData()
-                                learningSessionConfigurationStore.saveSessionConfig()
-                                learningSessionConfigurationStore.getQuestionCount()
-                                this.startNewSessionWithJumpToQuestion(id)
-                            } else {
-                                this.startNewSession()
-                            }
-                        })
-                })
-            } else return false
+            alertStore.$onAction(({ name, after }) => {
+                if (name == 'closeAlert')
+                    after((result) => {
+                        if (!result.cancelled && result.customKey == 'reset-learning-session') {
+                            learningSessionConfigurationStore.resetData()
+                            learningSessionConfigurationStore.saveSessionConfig()
+                            learningSessionConfigurationStore.getQuestionCount()
+                            this.startNewSessionWithJumpToQuestion(id)
+                        } else {
+                            // this.startNewSession()
+                        }
+                    })
+            })
         },
         async loadSteps() {
             const result = await $fetch<Step[]>('/apiVue/LearningSessionStore/LoadSteps/', {

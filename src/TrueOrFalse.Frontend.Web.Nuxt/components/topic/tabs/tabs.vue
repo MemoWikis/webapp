@@ -47,7 +47,6 @@ function getTooltipLabel(key: string, count: number) {
 
 onBeforeMount(() => setChartData())
 watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
-
 </script>
 
 <template>
@@ -186,7 +185,7 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 
 				<div class="tab">
 
-					<div class="tab-label chip-tab active" v-if="tabsStore.activeTab == Tab.Learning"
+					<div class="tab-label chip-tab active learning-tab" v-if="tabsStore.activeTab == Tab.Learning"
 						:style="getWidth(learningLabelEl)">
 						Fragen
 						<div class="chip" v-if="topicStore.questionCount > 0">
@@ -249,6 +248,13 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.fallback {
+	.learning-tab {
+		margin-left: 15px;
+		margin-right: -15px;
+	}
+}
 
 .tab-analytics {
 	display: flex;

@@ -13,14 +13,33 @@ const topicStore = useTopicStore()
 const route = useRoute()
 const openFilter = ref(true)
 
+const alertOnMounted = ref(false)
+const alertOnMountedMsg = ref('')
+
 onBeforeMount(async () => {
+    alertOnMounted.value = false
+    alertOnMountedMsg.value = ''
+
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.params.questionId != null)
-        await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
+    if (route.params.questionId != null) {
+        const result = await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
+        if (result.success == false) {
+            if (process.server) {
+                alertOnMounted.value = true
+                alertOnMountedMsg.value = result.errorMsg
+            } else {
+                learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId.toString()), result.errorMsg)
+            }
+        }
+    }
     else
         await learningSessionStore.startNewSession()
+})
+onMounted(() => {
+    if (process.client && alertOnMounted.value)
+        learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId.toString()), alertOnMountedMsg.value)
 })
 const filterOpened = useCookie('show-top-dropdown')
 onBeforeMount(() => {
@@ -66,7 +85,6 @@ watch(() => topicStore.questionCount, (count) => {
     if (count > 0)
         learningSessionConfigurationStore.showFilter = true
 })
-
 </script>
 
 <template>
