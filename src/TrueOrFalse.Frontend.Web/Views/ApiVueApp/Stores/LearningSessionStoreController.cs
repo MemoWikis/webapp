@@ -76,14 +76,14 @@ public class LearningSessionStoreController : BaseController
             return Json(new
             {
                 success = false,
-                message = "questionDoesntExistInTopic"
+                message = "questionNotInFilter"
             });
 
         if (!_permissionCheck.CanViewQuestion(id))
             return Json(new
             {
                 success = false,
-                message = "private"
+                message = "questionIsPrivate"
             });
 
         var newSession = _learningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
