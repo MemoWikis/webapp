@@ -8,7 +8,6 @@ using ISession = NHibernate.ISession;
 public class UserReadingRepo : RepositoryDb<User>
 {
     public UserReadingRepo(ISession session) : base(session)
-
     {
       
     }

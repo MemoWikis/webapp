@@ -17,7 +17,7 @@ interface Props {
 const props = defineProps<Props>()
 const route = useRoute()
 const config = useRuntimeConfig()
-const headers = useRequestHeaders(['cookie']) as HeadersInit
+const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
 const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
