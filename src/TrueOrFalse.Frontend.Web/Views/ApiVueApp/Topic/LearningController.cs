@@ -11,22 +11,6 @@ public class LearningController : BaseController
     {
         _learningSessionCreator = learningSessionCreator;
     }
-    private class SessionData
-    {
-        public SessionData(string currentSessionHeader = "", int currentStepIdx = -1, bool isLastStep = false, int skipStepIdx = -1, int learningSessionId = -1)
-        {
-            CurrentSessionHeader = currentSessionHeader;
-            SkipStepIdx = skipStepIdx;
-            IsLastStep = isLastStep;
-            LearningSessionId = learningSessionId;
-        }
-
-        public string CurrentSessionHeader { get; private set; }
-        public int SkipStepIdx { get; private set; }
-        public bool IsLastStep { get; private set; }
-        public Guid CurrentStepGuid { get; private set; }
-        public int LearningSessionId { get; private set; }
-    }
 
     [HttpPost]
     public JsonResult GetCount([FromBody] LearningSessionConfig config)
@@ -34,9 +18,7 @@ public class LearningController : BaseController
         if (config.CurrentUserId == 0 && _sessionUser.IsLoggedIn)
             config.CurrentUserId = _sessionUser.UserId;
 
-        var learningSession = _learningSessionCreator.BuildLearningSession(config);
-        
-        return Json(learningSession.QuestionCounter);
+        return Json(_learningSessionCreator.GetQuestionCounterForLearningSession(config));
     }
 
 }

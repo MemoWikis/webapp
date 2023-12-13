@@ -23,19 +23,10 @@ interface NewSessionResult {
     success: boolean
     steps: Step[]
     activeQuestionCount: number
-    firstStep: Step
+    currentStep: Step
     answerHelp: boolean
     isInTestMode: boolean
-}
-
-interface NewSessionWithJumpToQuestionResult {
-    success: boolean
-    message?: string
-    steps?: Step[]
-    activeQuestionCount?: number
-    currentStep?: Step
-    answerHelp?: boolean
-    isInTestMode?: boolean
+    messageKey?: string
 }
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
@@ -87,35 +78,34 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             if (result != null && result.success) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
-                this.setCurrentStep(result.firstStep)
+                this.setCurrentStep(result.currentStep)
                 this.answerHelp = result.answerHelp
                 this.isInTestMode = result.isInTestMode
                 return true
             } else return false
         },
         async startNewSessionWithJumpToQuestion(id: number) {
-
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
             learningSessionConfigurationStore.getQuestionCount()
 
-            const result = await $fetch<NewSessionWithJumpToQuestionResult>('/apiVue/LearningSessionStore/NewSessionWithJumpToQuestion/', {
+            const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSessionWithJumpToQuestion/', {
                 method: 'POST',
                 body: { config: config, id: id },
                 mode: 'cors',
                 credentials: 'include'
             })
 
-            if (result != null && result.success) {
-                this.steps = result.steps!
-                this.activeQuestionCount = result.activeQuestionCount!
-                this.setCurrentStep(result.currentStep!)
-                this.answerHelp = result.answerHelp!
-                this.isInTestMode = result.isInTestMode!
-                return { success: true }
+            if (result.steps.length > 0) {
+                this.steps = result.steps
+                this.activeQuestionCount = result.activeQuestionCount
+                this.setCurrentStep(result.currentStep)
+                this.answerHelp = result.answerHelp
+                this.isInTestMode = result.isInTestMode
             }
-            const errorMsg = result.message ? messages.info[result.message] : messages.error.default
-            return { success: false, errorMsg: errorMsg }
+
+            const errorMsg = result.messageKey ? messages.info[result.messageKey] : null
+            return errorMsg
         },
         handleQuestionNotInSessionAlert(id: number, msg: string) {
             const alertStore = useAlertStore()

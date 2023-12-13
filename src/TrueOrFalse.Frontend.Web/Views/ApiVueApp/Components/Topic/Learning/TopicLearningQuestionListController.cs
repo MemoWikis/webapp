@@ -51,14 +51,7 @@ public class TopicLearningQuestionListController: BaseController
     public JsonResult LoadQuestions([FromBody] LoadQuestionsJson json)
     {
         if (_learningSessionCache.GetLearningSession() == null || json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
-        {
-            var config = new LearningSessionConfig
-            {
-                CategoryId = json.TopicId,
-                CurrentUserId = _sessionUser.IsLoggedIn ? _sessionUser.UserId : default
-            };
-            _learningSessionCache.AddOrUpdate(_learningSessionCreator.BuildLearningSession(config));
-        }
+            _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId, _sessionUser.UserId);
 
         return Json(new QuestionListModel(_learningSessionCache,
                 _sessionUser,

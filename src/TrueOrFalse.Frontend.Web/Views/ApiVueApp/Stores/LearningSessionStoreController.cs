@@ -1,7 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static FrontendMessageKeys.Error;
 
 //using Newtonsoft.Json;
 
@@ -23,105 +27,18 @@ public class LearningSessionStoreController : BaseController
         _learningSessionCache = learningSessionCache;
         _httpContextAccessor = httpContextAccessor;
     }
+
     [HttpPost]
     public JsonResult NewSession([FromBody] LearningSessionConfig config)
     {
-        var newSession = _learningSessionCreator.BuildLearningSession(config);
-        _learningSessionCache.AddOrUpdate(newSession);
-
-        var learningSession = _learningSessionCache.GetLearningSession();
-
-        if (learningSession is { Steps: { Count: > 0 } })
-        {
-            var firstStep = learningSession.Steps.First();
-            var result = new
-            {
-                success = true,
-                steps = learningSession.Steps.Select((s, index) => new
-                {
-                    id = s.Question.Id,
-                    state = s.AnswerState,
-                    index = index
-                }).ToArray(),
-                activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
-                firstStep = new
-                {
-                    state = firstStep.AnswerState,
-                    id = firstStep.Question.Id,
-                    index = 0
-                },
-                answerHelp = learningSession.Config.AnswerHelp,
-                isInTestMode = learningSession.Config.IsInTestMode
-            };
-            return Json(result);
-        }
-
-        return Json(new
-        {
-            success = false
-        });
+        return Json(_learningSessionCreator.GetLearningSessionResult(config));
     }
 
-    public readonly record struct NewSessionWithJumpToQuestionJson(LearningSessionConfig Config, int Id);
+    public readonly record struct NewSessionWithJumpToQuestionData(LearningSessionConfig Config, int Id);
     [HttpPost]
-    public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionJson json)
+    public JsonResult NewSessionWithJumpToQuestion([FromBody] NewSessionWithJumpToQuestionData data)
     {
-        var config = json.Config;
-        var id = json.Id;
-
-        var category = EntityCache.GetCategory(config.CategoryId);
-        var allQuestions = category.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
-        allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
-        if (allQuestions.IndexOf(q => q.Id == id) < 0)
-            return Json(new
-            {
-                success = false,
-                message = "questionNotInFilter"
-            });
-
-        if (!_permissionCheck.CanViewQuestion(id))
-            return Json(new
-            {
-                success = false,
-                message = "questionIsPrivate"
-            });
-
-        var newSession = _learningSessionCreator.BuildLearningSessionWithSpecificQuestion(config, id, allQuestions);
-
-        if (newSession == null)
-            return Json(new
-            {
-                success = false,
-                message = "questionNotInFilter"
-            });
-
-        _learningSessionCache.AddOrUpdate(newSession);
-
-        var learningSession = _learningSessionCache.GetLearningSession();
-
-        var index = learningSession.Steps.IndexOf(s => s.Question.Id == id);
-        learningSession.LoadSpecificQuestion(index);
-
-        return Json(new
-        {
-            success = true,
-            steps = learningSession.Steps.Select((s, index) => new
-            {
-                id = s.Question.Id,
-                state = s.AnswerState,
-                index = index
-            }).ToArray(),
-            activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
-            currentStep = new
-            {
-                state = learningSession.CurrentStep.AnswerState,
-                id = learningSession.CurrentStep.Question.Id,
-                index = index,
-                isLastStep = learningSession.TestIsLastStep()
-            },
-            answerHelp = learningSession.Config.AnswerHelp,
-            isInTestMode = learningSession.Config.IsInTestMode
-        });
+        return Json(_learningSessionCreator.GetLearningSessionResult(data.Config, data.Id));
     }
 
     [HttpGet]       
@@ -162,67 +79,14 @@ public class LearningSessionStoreController : BaseController
     [HttpGet]
     public JsonResult GetCurrentSession()
     {
-        var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession != null)
-        {
-            var firstUnansweredStep = learningSession.Steps.First(s => s.AnswerState != AnswerState.Unanswered);
-            return Json(new
-            {
-                success = true,
-                steps = learningSession.Steps.Select((s, index) => new StepResult
-                {
-                    id = s.Question.Id,
-                    state = s.AnswerState,
-                    index = index,
-                    isLastStep = learningSession.Steps.Last() == s
-                }).ToArray(),
-                activeQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count(),
-                firstUnansweredStep = new StepResult
-                {
-                    state = firstUnansweredStep.AnswerState,
-                    id = firstUnansweredStep.Question.Id,
-                    index = learningSession.Steps.IndexOf(s => s == firstUnansweredStep),
-                    isLastStep = learningSession.Steps.Last() == firstUnansweredStep
-                }
-
-            });
-        }
-
-        return Json(new
-        {
-            success = false
-        });
+        return Json(_learningSessionCreator.GetLearningSessionResult());
     }
 
     public readonly record struct LoadSpecificQuestionJson(int index);
     [HttpPost]
     public JsonResult LoadSpecificQuestion([FromBody] LoadSpecificQuestionJson json)
     {
-        if (json.index == -1)
-        {
-            return Json(""); 
-        }
-
-        var learningSession = _learningSessionCache.GetLearningSession();
-        learningSession.LoadSpecificQuestion(json.index);
-
-        return Json(new
-        {
-            steps = learningSession.Steps.Select((s, index) => new StepResult
-            {
-                id = s.Question.Id,
-                state = s.AnswerState,
-                index = index,
-                isLastStep = learningSession.Steps.Last() == s
-            }).ToArray(),
-            currentStep = new StepResult
-            {
-                state = learningSession.CurrentStep.AnswerState,
-                id = learningSession.CurrentStep.Question.Id,
-                index = json.index,
-                isLastStep = learningSession.TestIsLastStep()
-            },
-        });
+        return Json(_learningSessionCreator.GetStep(json.index));
     }
 
     public readonly record struct SkipStepJson(int index);

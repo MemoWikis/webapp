@@ -89,6 +89,7 @@ export const messages: any = {
         facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
         questionNotInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',
         questionIsPrivate: 'Die Frage ist privat. Bitte logge Dich ein.',
+        questionNotInTopic: 'Die Frage ist nicht im Thema enthalten.',
         passwordResetRequested: (email: string) => `Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an ${email} geschickt.`,
         joinNow: 'Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!'
     },

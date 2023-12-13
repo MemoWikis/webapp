@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using TrueOrFalse.Web.Context;
 
@@ -7,7 +6,6 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
-
     public LearningSessionCache(IHttpContextAccessor httpContextAccessor)
     {
         _httpContext = httpContextAccessor.HttpContext!;

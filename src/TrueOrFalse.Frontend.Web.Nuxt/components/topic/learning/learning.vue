@@ -24,13 +24,13 @@ onBeforeMount(async () => {
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
     if (route.params.questionId != null) {
-        const result = await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
-        if (result.success == false) {
+        const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
+        if (errorMsg) {
             if (process.server) {
                 alertOnMounted.value = true
-                alertOnMountedMsg.value = result.errorMsg
+                alertOnMountedMsg.value = errorMsg
             } else {
-                learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId.toString()), result.errorMsg)
+                learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId.toString()), errorMsg)
             }
         }
     }
