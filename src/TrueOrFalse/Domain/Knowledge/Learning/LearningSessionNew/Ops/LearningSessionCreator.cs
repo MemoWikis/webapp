@@ -113,10 +113,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         var learningSession = GetLearningSession(config);
         var result = new LearningSessionResult();
 
-        learningSession.Steps.First(s => s.AnswerState != AnswerState.Unanswered);
-
-
         if (learningSession.Steps.Any())
+        
             result = FillLearningSessionResult(learningSession, result);
 
         return result;

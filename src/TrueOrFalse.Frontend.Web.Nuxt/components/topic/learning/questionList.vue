@@ -58,10 +58,8 @@ function loadPageWithSpecificQuestion() {
 onBeforeMount(() => {
     learningSessionStore.$onAction(({ after, name }) => {
         if (name == 'startNewSession') {
-            after((result) => {
-                if (result) {
-                    loadQuestions(1)
-                }
+            after(() => {
+                loadQuestions(1)
             })
         } else if (name == 'startNewSessionWithJumpToQuestion') {
             after(() => {
