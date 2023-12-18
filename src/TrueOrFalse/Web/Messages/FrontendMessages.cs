@@ -110,6 +110,9 @@
         public static class Question
         {
             public static readonly string NewQuestionNotInFilter = "info_question_newQuestionNotInFilter";
+            public static readonly string NotInFilter = "info_question_notInFilter";
+            public static readonly string IsPrivate = "info_question_isPrivate";
+            public static readonly string NotInTopic = "info_question_notInTopic";
         }
 
         public static readonly string GoogleLogin = "info_googleLogin";

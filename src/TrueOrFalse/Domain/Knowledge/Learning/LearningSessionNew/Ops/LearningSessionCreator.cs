@@ -137,11 +137,11 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         var result = new LearningSessionResult();
 
         if (!_permissionCheck.CanViewQuestion(questionId))
-            result.messageKey = "questionIsPrivate";
+            result.messageKey = FrontendMessageKeys.Info.Question.IsPrivate;
 
         var (allQuestions, questionNotInTopic) = CheckQuestionInTopic(config.CategoryId, questionId);
         if (questionNotInTopic)
-            result.messageKey = "questionNotInTopic";
+            result.messageKey = FrontendMessageKeys.Info.Question.NotInTopic;
 
         var learningSession = GetLearningSession(config, questionId, allQuestions);
 
@@ -151,7 +151,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         if (learningSession.Steps.Any(s => s.Question.Id == questionId))
             learningSession.LoadSpecificQuestion(learningSession.Steps.IndexOf(s => s.Question.Id == questionId));
         else if (result.messageKey == null)
-            result.messageKey = "questionNotInFilter";
+            result.messageKey = FrontendMessageKeys.Info.Question.NotInFilter;
 
         result = FillLearningSessionResult(learningSession, result);
 

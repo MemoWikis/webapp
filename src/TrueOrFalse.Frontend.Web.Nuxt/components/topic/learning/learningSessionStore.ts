@@ -82,7 +82,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.isInTestMode = result.isInTestMode
             }
 
-            const errorMsg = result.messageKey ? messages.info[result.messageKey] : null
+            const errorMsg = result.messageKey ? messages.getByCompositeKey(result.messageKey) : null
             return errorMsg
         },
         async startNewSession() {
