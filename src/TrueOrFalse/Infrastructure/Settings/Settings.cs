@@ -39,6 +39,8 @@ public class Settings
     // Settings properties
     public static bool WithNHibernateStatistics => bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
     public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
+    public static int SessionStateTimeoutInMin => Convert.ToInt32(_configuration["Settings:SessionStateTimeoutInMin"]);
+
 
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];

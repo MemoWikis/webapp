@@ -38,11 +38,13 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddHttpContextAccessor();
 
+Settings.Initialize(builder.Configuration);
+
 builder.Services.AddSession(options =>
 {
     options.Cookie.IsEssential = true;
     options.Cookie.HttpOnly = true;
-    options.IdleTimeout = TimeSpan.FromMinutes(480);
+    options.IdleTimeout = TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin);
 });
 
 builder.Services.Configure<FormOptions>(options =>
@@ -80,7 +82,6 @@ builder.WebHost.ConfigureServices(services =>
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
 });
 
-Settings.Initialize(builder.Configuration);
 
 var app = builder.Build();
 var env = app.Environment;
