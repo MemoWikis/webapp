@@ -3,29 +3,21 @@ using VueApp;
 
 public class TopicController : BaseController
 {
-    private readonly PermissionCheck _permissionCheck;
     private readonly TopicControllerLogic _topicControllerLogic;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly PersistentLoginRepo _persistentLoginRepo;
+    private readonly CategoryViewRepo _categoryViewRepo;
 
     public TopicController(SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        TopicControllerLogic topicControllerLogic,
-        SessionUserCache sessionUserCache,
-        UserReadingRepo userReadingRepo,
-        PersistentLoginRepo persistentLoginRepo) : base(sessionUser)
+        TopicControllerLogic topicControllerLogic, CategoryViewRepo categoryViewRepo) : base(sessionUser)
     {
-        _permissionCheck = permissionCheck;
         _topicControllerLogic = topicControllerLogic;
-        _sessionUserCache = sessionUserCache;
-        _userReadingRepo = userReadingRepo;
-        _persistentLoginRepo = persistentLoginRepo;
+        _categoryViewRepo = categoryViewRepo;
     }
 
     [HttpGet]
     public JsonResult GetTopic([FromRoute] int id)
     {
+        var userAgent = Request.Headers["User-Agent"].ToString();
+        _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
         return Json(_topicControllerLogic.GetTopicData(id));
     }
 }

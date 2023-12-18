@@ -2,11 +2,9 @@
 
 [Serializable]
 public class LearningSession
-
 {
     public IList<LearningSessionStep> Steps;
     public LearningSessionConfig Config;
-
 
     public QuestionCounter QuestionCounter;
 
@@ -22,7 +20,10 @@ public class LearningSession
         Config.Category = EntityCache.GetCategory(Config.CategoryId) ?? throw new InvalidOperationException();
     }
 
-    public LearningSessionStep? CurrentStep => CurrentIndex == -1 ? null : Steps[CurrentIndex];
+    public LearningSessionStep? CurrentStep => 
+        CurrentIndex <= 0 ?
+            Steps.Any() ? Steps[0] : null : 
+            Steps[CurrentIndex];
 
     public int CurrentIndex { get; private set; }
     public bool IsLastStep { get; private set; }
@@ -134,15 +135,15 @@ public class LearningSession
 
 public class QuestionCounter
 {
-    public int InWuwi;
-    public int NotInWuwi;
-    public int CreatedByCurrentUser;
-    public int NotCreatedByCurrentUser;
-    public int Private;
-    public int Public;
-    public int NotLearned;
-    public int NeedsLearning;
-    public int NeedsConsolidation;
-    public int Solid;
-    public int Max;
+    public int InWuwi { get; set; }
+    public int NotInWuwi { get; set; }
+    public int CreatedByCurrentUser { get; set; }
+    public int NotCreatedByCurrentUser { get; set; }
+    public int Private { get; set; }
+    public int Public { get; set; }
+    public int NotLearned { get; set; }
+    public int NeedsLearning { get; set; }
+    public int NeedsConsolidation { get; set; }
+    public int Solid { get; set; }
+    public int Max { get; set; }
 }

@@ -19,23 +19,14 @@ export interface Step {
     isLastStep: boolean
 }
 
-interface NewSessionResult {
+interface LearningSessionResult {
     success: boolean
     steps: Step[]
     activeQuestionCount: number
-    firstStep: Step
+    currentStep: Step
     answerHelp: boolean
     isInTestMode: boolean
-}
-
-interface NewSessionWithJumpToQuestionResult {
-    success: boolean
-    message?: string
-    steps?: Step[]
-    activeQuestionCount?: number
-    currentStep?: Step
-    answerHelp?: boolean
-    isInTestMode?: boolean
+    messageKey?: string
 }
 
 export const useLearningSessionStore = defineStore('learningSessionStore', {
@@ -74,48 +65,38 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 return true
             } else return false
         },
-        async startNewSession() {
-            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
-            console.log(config)
-            const result = await $fetch<NewSessionResult>('/apiVue/LearningSessionStore/NewSession/', {
+        async loadLearningSession(data: any, url: string) {
+
+            const result = await $fetch<LearningSessionResult>(`/apiVue/LearningSessionStore/${url}`, {
                 method: 'POST',
-                body: config,
+                body: data,
                 mode: 'cors',
                 credentials: 'include'
             })
-            if (result != null && result.success) {
+
+            if (result.steps.length > 0) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
-                this.setCurrentStep(result.firstStep)
+                this.setCurrentStep(result.currentStep)
                 this.answerHelp = result.answerHelp
                 this.isInTestMode = result.isInTestMode
-                return true
-            } else return false
+            }
+
+            const errorMsg = result.messageKey ? messages.getByCompositeKey(result.messageKey) : null
+            return errorMsg
+        },
+        async startNewSession() {
+            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+            const config = learningSessionConfigurationStore.buildSessionConfigJson()
+
+            return await this.loadLearningSession(config, 'NewSession')
         },
         async startNewSessionWithJumpToQuestion(id: number) {
-
             const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
             const config = learningSessionConfigurationStore.buildSessionConfigJson()
             learningSessionConfigurationStore.getQuestionCount()
 
-            const result = await $fetch<NewSessionWithJumpToQuestionResult>('/apiVue/LearningSessionStore/NewSessionWithJumpToQuestion/', {
-                method: 'POST',
-                body: { config: config, id: id },
-                mode: 'cors',
-                credentials: 'include'
-            })
-
-            if (result != null && result.success) {
-                this.steps = result.steps!
-                this.activeQuestionCount = result.activeQuestionCount!
-                this.setCurrentStep(result.currentStep!)
-                this.answerHelp = result.answerHelp!
-                this.isInTestMode = result.isInTestMode!
-                return { success: true }
-            }
-            const errorMsg = result.message ? messages.info[result.message] : messages.error.default
-            return { success: false, errorMsg: errorMsg }
+            return await this.loadLearningSession({ config: config, id: id }, 'NewSessionWithJumpToQuestion')
         },
         handleQuestionNotInSessionAlert(id: number, msg: string) {
             const alertStore = useAlertStore()
@@ -147,14 +128,14 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             } else return false
         },
         async changeActiveQuestion(index: number) {
-            const result = await $fetch<{ steps: Step[], currentStep: Step }>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
+            const result = await $fetch<LearningSessionResult>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
                 method: 'POST',
                 body: { index: index },
                 mode: 'cors',
                 credentials: 'include'
             })
 
-            if (result != null) {
+            if (result) {
                 this.steps = result.steps
                 this.setCurrentStep(result.currentStep)
             }

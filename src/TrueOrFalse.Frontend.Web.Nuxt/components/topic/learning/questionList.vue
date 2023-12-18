@@ -27,7 +27,7 @@ async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
 
-    var result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
+    const result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
         method: 'POST',
         body: {
             itemCountPerPage: itemCountPerPage.value,
@@ -40,9 +40,9 @@ async function loadQuestions(page: number) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
-    if (result != null) {
+    if (result) {
         questions.value = result
-        learningSessionStore.lastIndexInQuestionList = questions.value[questions.value.length - 1].SessionIndex
+        learningSessionStore.lastIndexInQuestionList = result.length > 0 ? questions.value[questions.value.length - 1].SessionIndex : 0
     }
     spinnerStore.hideSpinner()
 }
@@ -58,16 +58,12 @@ function loadPageWithSpecificQuestion() {
 onBeforeMount(() => {
     learningSessionStore.$onAction(({ after, name }) => {
         if (name == 'startNewSession') {
-            after((result) => {
-                if (result) {
-                    loadQuestions(1)
-                }
+            after(() => {
+                loadQuestions(1)
             })
         } else if (name == 'startNewSessionWithJumpToQuestion') {
-            after((result) => {
-                if (result) {
-                    loadPageWithSpecificQuestion()
-                }
+            after(() => {
+                loadPageWithSpecificQuestion()
             })
         }
     })
