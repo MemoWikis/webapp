@@ -16,7 +16,7 @@ namespace Seedworks.Web.State
             {
                 settings.WithDictionaryHandle()
                     .EnablePerformanceCounters()
-                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(10));
+                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin));
             });
             _cacheResetToken = new CancellationTokenSource();
         }
@@ -31,22 +31,23 @@ namespace Seedworks.Web.State
         /// <param name="slidingExpiration"></param>
         public static void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
         {
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
-            };
+            //code block below does nothing
+                //var cacheEntryOptions = new MemoryCacheEntryOptions
+                //{
+                //    ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
+                //};
 
-            if (expiration.HasValue)
-            {
-                if (slidingExpiration)
-                {
-                    cacheEntryOptions.SlidingExpiration = expiration.Value;
-                }
-                else
-                {
-                    cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
-                }
-            }
+                //if (expiration.HasValue)
+                //{
+                //    if (slidingExpiration)
+                //    {
+                //        cacheEntryOptions.SlidingExpiration = expiration.Value;
+                //    }
+                //    else
+                //    {
+                //        cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
+                //    }
+                //}
 
             _cache.Add(key, obj);
         }
