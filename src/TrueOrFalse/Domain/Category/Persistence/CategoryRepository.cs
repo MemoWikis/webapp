@@ -1,11 +1,8 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
-using Serilog;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>, IRegisterAsInstancePerLifetime
+public class CategoryRepository : RepositoryDbBase<Category>
 {
     private readonly CategoryChangeRepo _categoryChangeRepo;
     private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
