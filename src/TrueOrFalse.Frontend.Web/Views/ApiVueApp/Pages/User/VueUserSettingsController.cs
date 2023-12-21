@@ -43,7 +43,7 @@ public class VueUserSettingsController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeNotificationIntervalPreferences(UserSettingNotificationInterval notificationInterval)
+    public JsonResult ChangeNotificationIntervalPreferences([FromBody] UserSettingNotificationInterval notificationInterval)
     {
         var result = new UpdateKnowledgeReportIntervalResult();
         var updatedResult =
@@ -67,39 +67,36 @@ public class VueUserSettingsController : BaseController
         });
     }
 
+    public readonly record struct ChangePasswordData(string currentPassword, string newPassword);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangePassword(string currentPassword, string newPassword)
+    public JsonResult ChangePassword([FromBody] ChangePasswordData data)
     {
-        if (_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, currentPassword))
-        {
-            if (currentPassword == newPassword)
-
-            {
-                return Json(new
-                {
-                    success = false,
-                    message = "samePassword"
-                });
-            }
-
-            var user = _userReadingRepo.GetById(_sessionUser.User.Id);
-            SetUserPassword.Run(newPassword.Trim(), user);
-
+        if (!_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, data.currentPassword))
             return Json(new
             {
-                success = true,
-                message = "passwordChanged"
+                success = false,
+                message = "passwordIsWrong"
             });
-        }
 
+        if (data.currentPassword == data.newPassword)
+            return Json(new
+            {
+                success = false,
+                message = "samePassword"
+            });
+
+        var user = _userReadingRepo.GetById(_sessionUser.User.Id);
+        SetUserPassword.Run(data.newPassword.Trim(), user);
 
         return Json(new
         {
-            success = false,
-            message = "passwordIsWrong"
+            success = true,
+            message = "passwordChanged"
         });
+
+
     }
 
     [AccessOnlyAsLoggedIn]
