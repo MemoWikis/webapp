@@ -42,7 +42,12 @@ public class ImageUploadModalController
         return true;
     }
 
-    public readonly record struct SaveCustomImageJson(int topicId, string licenseGiverName, IFormFile file);
+    public class SaveCustomImageJson
+    {
+        public int topicId { get; set; }
+        public string licenseGiverName { get; set; }
+        public IFormFile file { get; set; }
+    }
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageJson form)

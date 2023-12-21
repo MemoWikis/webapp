@@ -113,7 +113,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 .Run(question, user, _questionReadingRepo);
         }
         UpdateTotalRelevancePersonalInCache(questions);
-        SetUserWishCountQuestions(user.Id,_sessionUser);
+        SetUserWishCountQuestions(user.Id);
 
         var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
         foreach (var creator in creatorGroups)
@@ -126,7 +126,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         ChangeTotalInOthersWishknowledge(relevance == 50, userId, question);
         CreateOrUpdateValuation(questionId, userId, relevance);
 
-        SetUserWishCountQuestions(userId, _sessionUser);
+        SetUserWishCountQuestions(userId);
 
        
         _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(questionId)).ExecuteUpdate();
@@ -144,7 +144,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
                 .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
     }
 
-    public void SetUserWishCountQuestions(int userId, SessionUser sessionUser)
+    public void SetUserWishCountQuestions(int userId)
     {
         var query =
             $@"
