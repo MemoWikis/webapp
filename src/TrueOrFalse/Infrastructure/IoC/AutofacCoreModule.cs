@@ -7,7 +7,6 @@ using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Text;
-using Microsoft.AspNetCore.Hosting;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -17,6 +16,7 @@ namespace TrueOrFalse.Infrastructure
         {
             builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+
             
 
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
@@ -74,6 +74,7 @@ namespace TrueOrFalse.Infrastructure
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
 
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
+            builder.RegisterType<EntityCacheInitializer>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"))
