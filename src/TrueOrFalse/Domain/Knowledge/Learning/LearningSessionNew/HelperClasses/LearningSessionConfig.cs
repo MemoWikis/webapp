@@ -3,10 +3,11 @@
     public int CategoryId { get; set; }
     public CategoryCacheItem Category { get; set; }
     public int MaxQuestionCount { get; set; } = 0;
+
     /// <summary>
     /// Currently logged in user
     /// </summary>
-    public int CurrentUserId { get; set; }
+    public int CurrentUserId { get; set; } = 0;
     public bool IsInTestMode { get; set; }
     public QuestionOrder QuestionOrder { get; set; } = QuestionOrder.SortByEasiest;
     public bool AnswerHelp { get; set; }

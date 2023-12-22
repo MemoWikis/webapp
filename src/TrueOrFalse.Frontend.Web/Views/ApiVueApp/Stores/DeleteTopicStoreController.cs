@@ -73,10 +73,17 @@ public class DeleteTopicStoreController : BaseController
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
         var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
+        if (lastBreadcrumbItem != null)
+            return new
+            {
+                name = lastBreadcrumbItem.Category.Name,
+                id = lastBreadcrumbItem.Category.Id
+            };
+
         return new
         {
-            name = lastBreadcrumbItem.Category.Name,
-            id = lastBreadcrumbItem.Category.Id
+            name = currentWiki.Name,
+            id = currentWiki.Id
         };
     }
 }

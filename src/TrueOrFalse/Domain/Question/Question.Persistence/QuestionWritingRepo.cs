@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
@@ -18,7 +13,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     private readonly QuestionChangeRepo _questionChangeRepo;
     private readonly ISession _nhibernateSession;
     private readonly RepositoryDb<Question> _repo;
-
+    private readonly SessionUser _sessionUser;
 
     public QuestionWritingRepo(UpdateQuestionCountForCategory updateQuestionCountForCategory,
         JobQueueRepo jobQueueRepo,
@@ -26,7 +21,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         QuestionChangeRepo questionChangeRepo,
-        ISession nhibernateSession) : base(nhibernateSession)
+        ISession nhibernateSession,
+        SessionUser sessionUser) : base(nhibernateSession)
     {
         _repo = new RepositoryDb<Question>(nhibernateSession);
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
@@ -36,6 +32,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         _userActivityRepo = userActivityRepo;
         _questionChangeRepo = questionChangeRepo;
         _nhibernateSession = nhibernateSession;
+        _sessionUser = sessionUser;
     }
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -88,7 +85,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .DeleteAsync(question));
     }
 
-    public  void UpdateOrMerge(Question question, bool withMerge)
+    public void UpdateOrMerge(Question question, bool withMerge)
     {
         var categoriesIds = _nhibernateSession
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
@@ -107,15 +104,12 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .IsIn(categoriesBeforeUpdateIds)
             .List();
 
-        UpdateOrMerge(question, withMerge);
-        if (withMerge)
-        {
+        //UpdateOrMerge(question, withMerge);
+        if (withMerge) 
             Merge(question);
-        }
-        else
-        {
-          Update(question);
-        }
+        else 
+            Update(question);
+
         Flush();
         var categoriesToUpdate = categoriesBeforeUpdate
             .Union(question.Categories)
@@ -126,7 +120,7 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
-        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds);
+        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, _sessionUser.UserId);
         _questionChangeRepo.AddUpdateEntry(question);
 
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()

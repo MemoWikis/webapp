@@ -1,9 +1,12 @@
 <script lang="ts" setup>
-
 import { useUserStore } from '~/components/user/userStore'
+import { Page } from './components/shared/pageEnum'
 
 const userStore = useUserStore()
 const router = useRouter()
+
+const emit = defineEmits(['setPage'])
+emit('setPage', Page.Error)
 
 onBeforeMount(() => {
     if (window.location.pathname != '/Fehler') {
@@ -15,8 +18,9 @@ onBeforeMount(() => {
 function handleError() {
     clearError({ redirect: '/' })
 }
-watch(() => userStore.isLoggedIn, () => {
-    handleError()
+watch(() => userStore.isLoggedIn, (val) => {
+    if (val)
+        handleError()
 })
 
 </script>

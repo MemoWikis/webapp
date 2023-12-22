@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using Quartz;
+﻿using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -8,7 +6,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly CategoryRepository _categoryRepository;
         private int _authorId; 
-
 
         public AddParentCategoryInDb(CategoryRepository categoryRepository)
         {

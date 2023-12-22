@@ -51,7 +51,7 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
         return questionsInOtherValuatedCategories;
     }
 
-    public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId, SessionUser sessionUser)
+    public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
     {
         var user = _userReadingRepo.GetByIds(userId).First();
         var questionsInCategory = EntityCache.GetCategory(categoryId).GetAggregatedQuestionsFromMemoryCache(userId);
@@ -66,6 +66,6 @@ public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
             _questionInKnowledge.Unpin(question.Id, user.Id);
 
         _questionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
-        _questionInKnowledge.SetUserWishCountQuestions(user.Id, sessionUser);
+        _questionInKnowledge.SetUserWishCountQuestions(user.Id);
     }
 }

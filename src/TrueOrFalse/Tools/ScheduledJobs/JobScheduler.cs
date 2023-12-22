@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using Autofac;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
-using TrueOrFalse.Environment;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools.ScheduledJobs.Jobs;
 
@@ -179,12 +174,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 TriggerBuilder.Create().StartNow().Build());
         }
 
-        public static void StartImmediately_UpdateAggregatedCategoriesForQuestion(List<int> categoryIds)
+        public static void StartImmediately_UpdateAggregatedCategoriesForQuestion(List<int> categoryIds, int userId = -1)
         {
             var job = JobBuilder.Create<UpdateAggregatedCategoriesForQuestion>()
                 .Build();
 
             job.JobDataMap["categoryIds"] = categoryIds;
+            job.JobDataMap["userId"] = userId;
 
             _scheduler.ScheduleJob(
                 job,

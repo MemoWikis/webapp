@@ -115,6 +115,8 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
+	if (page.value == Page.Error)
+		return
 	if ((page.value == Page.Topic || page.value == Page.Register) && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
 		await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
 	else
