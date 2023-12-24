@@ -23,7 +23,7 @@ public class ContextCategory: BaseTest
     public ContextCategory Add(int amount)
     {
         for (var i = 0; i < amount; i++)
-            Add($"category name {i + 1}", id: i + 1);
+            Add($"category name {i + 1}");
 
         return this;
     }
