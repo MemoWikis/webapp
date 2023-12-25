@@ -22,6 +22,12 @@ namespace TrueOrFalse.Infrastructure
             return _container;
         }
 
+        public static void Dispose()
+        {
+            _container?.Dispose();
+            _container = null;
+        }
+
         private static IContainer InitializeTest(IWebHostEnvironment fakEnvironment)
         {
             var builder = new ContainerBuilder();

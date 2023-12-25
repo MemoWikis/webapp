@@ -9,7 +9,9 @@
             var firstTopic = ContextCategory.New().Add("A").Persist().All.First();
             var categoryRepo = R<CategoryRepository>();
             var topicFromDatabase = categoryRepo.GetById(firstTopic.Id); 
-            Assert.AreEqual(firstTopic.Name, topicFromDatabase.Name );
+            Assert.IsNotNull(firstTopic);
+            Assert.IsNotNull(topicFromDatabase);
+            Assert.AreEqual(topicFromDatabase?.Name, firstTopic.Name);
         }
 
         [Test]

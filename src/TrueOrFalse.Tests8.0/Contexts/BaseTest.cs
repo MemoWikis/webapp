@@ -24,7 +24,6 @@ public class BaseTest
     [SetUp]
     public void SetUp()
     {
-        
         Settings.Initialize(CreateConfiguration());
         SessionFactory.BuildTestConfiguration(); 
         // CleanEmailsFromPickupDirectory.Run();
@@ -50,8 +49,7 @@ public class BaseTest
         EntityCache.Clear();
         Resolve<SessionData>().Clear();
         R<ISession>().Flush();
-        _container.Dispose();
-        BuildContainer();
+        AutofacWebInitializer.Dispose();
     }
 
     public static void InitializeContainer()
@@ -65,9 +63,6 @@ public class BaseTest
 
     private static void BuildContainer()
     {
-        // JobScheduler.EmptyMethodToCallConstructor(); //Call here to have container with default solr cores registered (not suitable for unit testing) built first and overwritten afterwards 
-        //var builder = new ContainerBuilder();
-        //_container = builder.Build();
         var fakeWebHostEnvironment = A.Fake<IWebHostEnvironment>();
         App.Environment = fakeWebHostEnvironment;
         A.CallTo(() => fakeWebHostEnvironment.EnvironmentName).Returns("TestEnvironment");
@@ -78,7 +73,7 @@ public class BaseTest
     private IConfiguration CreateConfiguration()
     {
         var configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.AddJsonFile("appsettings.Test.json"); // Pfad zur Konfigurationsdatei
+        configurationBuilder .AddJsonFile("appsettings.Test.json"); // Pfad zur Konfigurationsdatei
         return configurationBuilder.Build();
     }
    
