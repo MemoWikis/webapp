@@ -1,5 +1,4 @@
-﻿namespace TrueOrFalse.Tests8._0.Topics
-{
+﻿namespace TrueOrFalse.Tests8._0.Topics;
     internal class BaseTopicTests : BaseTest
     {
 
@@ -23,5 +22,25 @@
 
             CollectionAssert.AreEquivalent(topicIds, idsFromDatabase);
         }
+
+        [Test]
+        public void TopicShouldUpdated()
+        {
+            var categoryName = "C1"; 
+            var contextCategory = ContextCategory.New();
+            var categoryRepo = R<CategoryRepository>();
+
+            contextCategory.Add(categoryName).Persist(); 
+            var categoryBeforUpdated = categoryRepo
+                .GetByName(categoryName)
+                .Single();
+            var newCategoryName = "newC2"; 
+            categoryBeforUpdated.Name = newCategoryName;
+            contextCategory.Update(categoryBeforUpdated);
+
+            var categoryAfterUpdate = categoryRepo.GetByName(newCategoryName).SingleOrDefault(); 
+
+            Assert.IsNotNull(categoryAfterUpdate);
+            Assert.AreEqual(newCategoryName, categoryAfterUpdate.Name); 
+        }
     }
-}

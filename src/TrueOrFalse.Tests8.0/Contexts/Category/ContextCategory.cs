@@ -147,7 +147,7 @@ public class ContextCategory: BaseTest
         return this;
     }
 
-    public ContextCategory Update()
+    public ContextCategory UpdateAll()
     {
         foreach (var cat in All)
             _categoryRepository.Update(cat);
