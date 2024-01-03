@@ -316,7 +316,6 @@ async function loadSolution(answered: boolean = true) {
 }
 
 onMounted(() => {
-
     watch([() => learningSessionStore.currentStep?.index, () => learningSessionStore.currentStep?.id], () => {
         loadAnswerBodyModel()
     })
@@ -529,7 +528,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                     </template>
 
                                     <div v-if="learningSessionStore.isLearningSession
-                                        && !learningSessionStore.isInTestMode && amountOfTries == 0 && !showAnswer
+                                        && !learningSessionStore.isInTestMode && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)
                                         ">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
@@ -555,7 +554,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                         </button>
                                     </div>
 
-                                    <div v-else-if="learningSessionStore.currentStep?.isLastStep && amountOfTries > 0">
+                                    <div
+                                        v-else-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state == AnswerState.Skipped)">
                                         <button @click="loadResult()" class="btn btn-primary memo-button" rel="nofollow">
                                             Zum Ergebnis
                                         </button>
