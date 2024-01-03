@@ -1,5 +1,5 @@
 ﻿
-public class ContextCategory: BaseTest
+public class ContextCategory : BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
@@ -37,65 +37,43 @@ public class ContextCategory: BaseTest
     public ContextCategory Add(
         string categoryName,
         CategoryType categoryType = CategoryType.Standard,
-        User creator = null,
-        Category parent = null,
-        List<Category> parents = null,
-        int id = 0)
+        User creator = null)
     {
-        Category category;
-        if (_categoryRepository.Exists(categoryName))
-        {
-            category = _categoryRepository.GetByName(categoryName).First();
-        }
-        else
-        {
-            category = new Category
-            {
-                Name = categoryName,
-                Creator = creator ?? _contextUser.All.First(),
-                Type = categoryType,
-            };
 
-            if (id > 0)
-                category.Id = id;
-        }
+        var category = new Category
+        {
+            Name = categoryName,
+            Creator = creator ?? _contextUser.All.First(),
+            Type = categoryType,
 
-        var categoryRelations = category.CategoryRelations.Count != 0
-            ? category.CategoryRelations
+        };
+
+        All.Add(category);
+
+        return this;
+    }
+
+
+    public ContextCategory AddParentToCategory(Category child, Category parent)
+    {
+        var categoryRelations = child.CategoryRelations.Count != 0
+            ? child.CategoryRelations
             : new List<CategoryRelation>();
 
         if (parent != null) // set parent
         {
             categoryRelations.Add(new CategoryRelation
             {
-                Category = category,
+                Category = child,
                 RelatedCategory = parent,
             });
 
-            category.CategoryRelations = categoryRelations;
-        }
-
-        if (parents != null) // set parent
-        {
-            foreach (var p in parents)
-            {
-                categoryRelations.Add(new CategoryRelation
-                {
-                    Category = category,
-                    RelatedCategory = p,
-                });
-            }
-
-            category.CategoryRelations = categoryRelations;
-        }
-
-        if (!_categoryRepository.Exists(categoryName))
-        {
-            All.Add(category);
+            child.CategoryRelations = categoryRelations;
         }
 
         return this;
     }
+
 
     public ContextCategory AddToEntityCache(string categoryName,
         CategoryType categoryType = CategoryType.Standard,
@@ -157,56 +135,56 @@ public class ContextCategory: BaseTest
         return this;
     }
 
-    public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
-    {
-        //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
-        var rootElement = Add("A").Persist().All.First();
+    //public User AddCaseThreeToCache(bool withWuwi = true, ContextUser contextUser = null)
+    //{
+    //    //Add this Case: https://drive.google.com/file/d/1CEMMm1iIhfNKvuKng5oM6erR0bVDWHr6/view?usp=sharing
+    //    var rootElement = Add("A").Persist().All.First();
 
-        if (contextUser == null)
-            contextUser = ContextUser.New(R<UserWritingRepo>());
-        var user = contextUser.Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
+    //    if (contextUser == null)
+    //        contextUser = ContextUser.New(R<UserWritingRepo>());
+    //    var user = contextUser.Add("User" + new Random().Next(0, 32000)).Persist(true, this).All[0];
 
-        var firstChildren =
-            Add("X", parent: rootElement)
-                .Add("X1", parent: rootElement)
-                .Add("X2", parent: rootElement)
-                .Add("X3", parent: rootElement)
-                .Persist().All;
+    //    var firstChildren =
+    //        Add("X", parent: rootElement)
+    //            .Add("X1", parent: rootElement)
+    //            .Add("X2", parent: rootElement)
+    //            .Add("X3", parent: rootElement)
+    //            .Persist().All;
 
-        Add("X1", parent: firstChildren.ByName("X3"));
+    //    Add("X1", parent: firstChildren.ByName("X3"));
 
-        var secondChildren = Add("B", parent: rootElement)
-            .Add("C", parent: firstChildren.ByName("X"))
-            .Persist().All;
+    //    var secondChildren = Add("B", parent: rootElement)
+    //        .Add("C", parent: firstChildren.ByName("X"))
+    //        .Persist().All;
 
-        Add("C", parent: firstChildren.ByName("X1")).Persist();
-        Add("C", parent: firstChildren.ByName("X2")).Persist();
+    //    Add("C", parent: firstChildren.ByName("X1")).Persist();
+    //    Add("C", parent: firstChildren.ByName("X2")).Persist();
 
-        Add("H", parent: firstChildren.ByName("C"))
-            .Add("G", parent: secondChildren.ByName("C"))
-            .Add("F", parent: secondChildren.ByName("C"))
-            .Add("E", parent: secondChildren.ByName("C"))
-            .Add("D", parent: secondChildren.ByName("B"))
-            .Persist();
+    //    Add("H", parent: firstChildren.ByName("C"))
+    //        .Add("G", parent: secondChildren.ByName("C"))
+    //        .Add("F", parent: secondChildren.ByName("C"))
+    //        .Add("E", parent: secondChildren.ByName("C"))
+    //        .Add("D", parent: secondChildren.ByName("B"))
+    //        .Persist();
 
-        Add("I", parent: secondChildren.ByName("C")).Persist();
-        Add("I", parent: secondChildren.ByName("E")).Persist();
-        Add("I", parent: secondChildren.ByName("G")).Persist();
+    //    Add("I", parent: secondChildren.ByName("C")).Persist();
+    //    Add("I", parent: secondChildren.ByName("E")).Persist();
+    //    Add("I", parent: secondChildren.ByName("G")).Persist();
 
-        foreach (var category in firstChildren)
-        {
-            category.Visibility = CategoryVisibility.All;
-        }
-        foreach (var category in secondChildren)
-        {
-            category.Visibility = CategoryVisibility.All;
-        }
-        Resolve<EntityCacheInitializer>().Init();
+    //    foreach (var category in firstChildren)
+    //    {
+    //        category.Visibility = CategoryVisibility.All;
+    //    }
+    //    foreach (var category in secondChildren)
+    //    {
+    //        category.Visibility = CategoryVisibility.All;
+    //    }
+    //    Resolve<EntityCacheInitializer>().Init();
 
-        Resolve<SessionUser>().Login(user);
-        Resolve<SessionUser>().Logout();
-        return user;
-    }
+    //    Resolve<SessionUser>().Login(user);
+    //    Resolve<SessionUser>().Logout();
+    //    return user;
+    //}
 
     public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
     {

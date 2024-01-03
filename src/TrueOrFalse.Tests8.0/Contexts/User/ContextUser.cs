@@ -16,12 +16,9 @@ public class ContextUser
         return new ContextUser(userWritingRepo);
     }
 
-    public static User GetUser(UserWritingRepo userWritingRepo, string userName = "Firstname Lastname")
+    public  User GetUser(string userName)
     {
-        return New(userWritingRepo)
-            .Add(userName)
-            .Persist()
-            .All[0];
+        return All.Single(u => u.Name.Equals(userName));
     }
 
     public ContextUser Add(string userName)
@@ -50,30 +47,38 @@ public class ContextUser
         return this;
     }
 
-    public ContextUser Persist(bool withStartTopic = false, ContextCategory context = null)
+    //public ContextUser Persist(bool withStartTopic = false, ContextCategory context = null)
+    //{
+    //    foreach (var usr in All)
+    //    {
+    //        _userWritingRepo.Create(usr);
+    //        if (withStartTopic && usr != null)
+    //        {
+    //            Category firstStartTopic;
+    //            if (context != null)
+    //            {
+    //                var newId = context.All.Count + 1;
+    //                firstStartTopic = context
+    //                    .Add(usr.Name + "s Startseite", creator: usr, id: newId).Persist()
+    //                    .All
+    //                    .ByName(usr.Name + "s Startseite");
+    //            }
+    //            else
+    //                firstStartTopic = ContextCategory.New(false) 
+    //                .Add(usr.Name + "s Startseite", creator: usr).Persist()
+    //                .All
+    //                .First();
+    //            usr.StartTopicId = firstStartTopic.Id;
+    //        }
+    //    }
+    //    return this;
+    //}
+
+    public ContextUser Persist()
     {
         foreach (var usr in All)
-        {
             _userWritingRepo.Create(usr);
-            if (withStartTopic && usr != null)
-            {
-                Category firstStartTopic;
-                if (context != null)
-                {
-                    var newId = context.All.Count + 1;
-                    firstStartTopic = context
-                        .Add(usr.Name + "s Startseite", creator: usr, id: newId).Persist()
-                        .All
-                        .ByName(usr.Name + "s Startseite");
-                }
-                else
-                    firstStartTopic = ContextCategory.New(false) 
-                    .Add(usr.Name + "s Startseite", creator: usr).Persist()
-                    .All
-                    .First();
-                usr.StartTopicId = firstStartTopic.Id;
-            }
-        }
+
         return this;
     }
 }
