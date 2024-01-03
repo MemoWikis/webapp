@@ -64,9 +64,10 @@ public class TopicToPrivateStoreController : BaseController
 
             foreach (var c in aggregatedTopics)
             {
-                bool childHasPublicParent = c.Value.ParentCategories()
-                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
-                if (!childHasPublicParent)
+                var parentCategories = c.Value.ParentCategories();
+                bool childHasPublicParent = parentCategories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
+
+                if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
                     return Json(new RequestResult
                     {
                         success = false,
@@ -138,8 +139,6 @@ public class TopicToPrivateStoreController : BaseController
                 messageKey = FrontendMessageKeys.Error.Category.MissingRights
             });
 
-        var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
-            .Where(c => c.Value.Visibility == CategoryVisibility.All);
         var topic = _categoryRepository.GetById(id);
         var pinCount = topic.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
@@ -151,11 +150,16 @@ public class TopicToPrivateStoreController : BaseController
                     messageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
                 });
 
+
+            var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
+                .Where(c => c.Value.Visibility == CategoryVisibility.All);
+
             foreach (var c in aggregatedTopics)
             {
-                bool childHasPublicParent = c.Value.ParentCategories()
-                    .Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
-                if (!childHasPublicParent)
+                var parentCategories = c.Value.ParentCategories();
+                bool childHasPublicParent = parentCategories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
+
+                if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
                     return Json(new RequestResult
                     {
                         success = false,
