@@ -12,9 +12,20 @@ namespace TrueOrFalse.Infrastructure
 {
     public class AutofacCoreModule : Autofac.Module
     {
+        private readonly bool _externallyProvidedHttpContextAccessor;
+
+        public AutofacCoreModule(bool externallyProvidedHttpContextAccessor = false)
+        {
+            _externallyProvidedHttpContextAccessor = externallyProvidedHttpContextAccessor;
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            if (_externallyProvidedHttpContextAccessor == false)
+            {
+                builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            }
+
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
             
