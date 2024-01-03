@@ -58,13 +58,6 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
 
-        if (categoryCacheItem.CachedData.ChildrenIds.Count != 0)
-        {
-            Logg.r.Error("Category can´t deleted it has children");
-            hasDeleted.HasChildren = true;
-            return hasDeleted;
-        }
-
         if (!_sessionUser.IsInstallationAdmin && _sessionUser.UserId != categoryCacheItem.Creator.Id)
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
@@ -88,13 +81,6 @@ public class CategoryDeleter : IRegisterAsInstancePerLifetime
         _categoryRepository.Delete(category);
 
         ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
-        EntityCache.UpdateCachedData(categoryCacheItem, CategoryRepository.CreateDeleteUpdate.Delete);
-        var parentIds = EntityCache.ParentCategories(category.Id, _permissionCheck).Select(cci => cci.Id).ToList();
-        foreach (var parentId in parentIds)
-        {
-            EntityCache.GetCategory(parentId).CachedData.RemoveChildId(categoryCacheItem.Id);
-        }
-
         EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
         _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
