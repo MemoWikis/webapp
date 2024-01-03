@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TrueOrFalse.Infrastructure
@@ -9,15 +10,13 @@ namespace TrueOrFalse.Infrastructure
     {
         private static IContainer? _container;
 
-        public static IContainer GetContainer(IWebHostEnvironment? fakEnvironment = null)
+        public static IContainer GetTestContainer(
+            IWebHostEnvironment fakeEnvironment, 
+            IHttpContextAccessor httpContextAccessor)
         {
             if (_container == null)
             {
-                if (fakEnvironment == null)
-                    _container = Initialize();
-                else
-                    _container = InitializeTest(fakEnvironment);
-
+                _container = InitializeTest(fakeEnvironment, httpContextAccessor);
             }
             return _container;
         }
@@ -28,27 +27,19 @@ namespace TrueOrFalse.Infrastructure
             _container = null;
         }
 
-        private static IContainer InitializeTest(IWebHostEnvironment fakEnvironment)
+        private static IContainer InitializeTest(
+            IWebHostEnvironment fakeEnvironment,
+            IHttpContextAccessor httpContextAccessor)
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterInstance(fakEnvironment)
+            builder.RegisterInstance(fakeEnvironment)
                 .As<IWebHostEnvironment>()
                 .SingleInstance();
-            builder.RegisterModule<AutofacCoreModule>();
-            return builder.Build();
-        }
-
-        private static IContainer Initialize(bool registerForAspNet = false, Assembly assembly = null)
-        {
-            var builder = new ContainerBuilder();
-
-            if (registerForAspNet)
-            {
-                builder.RegisterAssemblyModules(assembly);
-            }
-
-            builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterInstance(httpContextAccessor)
+                .As<IHttpContextAccessor>()
+                .SingleInstance();
+            builder.RegisterModule(new AutofacCoreModule(true));
             return builder.Build();
         }
 
@@ -66,7 +57,7 @@ namespace TrueOrFalse.Infrastructure
                     .InstancePerLifetimeScope();
             }
 
-            builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterModule(new AutofacCoreModule());
             return builder.Build();
         }
     }

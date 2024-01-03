@@ -25,7 +25,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
-        containerBuilder.RegisterModule<AutofacCoreModule>();
+        containerBuilder.RegisterModule(new AutofacCoreModule());
     });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSwaggerGen();
