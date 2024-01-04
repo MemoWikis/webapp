@@ -49,6 +49,11 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         _sessionUserCache = sessionUserCache;
     }
 
+    // For Tests
+    public LearningSessionCreator()
+    {
+    }
+
     public record struct Step
     {
         public int id { get; set; }
@@ -207,6 +212,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     public LearningSession BuildLearningSession(LearningSessionConfig config, IList<QuestionCacheItem> allQuestions, int questionId = 0)
     {
         _learningSessionCache.TryRemove();
+        if (_sessionUser.IsLoggedIn && config.CurrentUserId != _sessionUser.UserId)
+            config.CurrentUserId = _sessionUser.UserId;
 
         var questionCounter = new QuestionCounter();
         var allQuestionValuation = _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
@@ -412,20 +419,25 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questions.Take(maxQuestionCount).ToList();
     }
 
+    public QuestionDetail FilterByCreatorTest(LearningSessionConfig config, QuestionCacheItem q,
+        QuestionDetail questionDetail) => FilterByCreator(config, q, questionDetail);
+
     private QuestionDetail FilterByCreator(LearningSessionConfig config, 
         QuestionCacheItem q,
         QuestionDetail questionDetail)
     {
-        if (q.Creator.Id == config.CurrentUserId)
+        var noCreatorSelected = !config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser;
+
+        if (q.CreatorId == config.CurrentUserId)
         {
-            if (config.CreatedByCurrentUser || (!config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser))
+            if (config.CreatedByCurrentUser || noCreatorSelected)
                 questionDetail.AddByCreator = true;
 
             questionDetail.CreatedByCurrentUser = true;
         }
         else
         {
-            if (config.NotCreatedByCurrentUser || !config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser)
+            if (config.NotCreatedByCurrentUser || noCreatorSelected)
                 questionDetail.AddByCreator = true;
 
             questionDetail.NotCreatedByCurrentUser = true;
@@ -436,16 +448,18 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
     private static QuestionDetail FilterByVisibility(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail)
     {
+        var noVisibilitySelected = !config.PrivateQuestions && !config.PublicQuestions;
+
         if (q.Visibility == QuestionVisibility.All)
         {
-            if (config.PublicQuestions || !config.PrivateQuestions && !config.PublicQuestions)
+            if (config.PublicQuestions || noVisibilitySelected)
                 questionDetail.AddByVisibility = true;
 
             questionDetail.Public = true;
         }
         else
         {
-            if (config.PrivateQuestions || !config.PrivateQuestions && !config.PublicQuestions)
+            if (config.PrivateQuestions || noVisibilitySelected)
                 questionDetail.AddByVisibility = true;
 
             questionDetail.Private = true;

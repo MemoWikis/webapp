@@ -113,7 +113,6 @@ public class EditTopicRelationStoreController : BaseController
             success = true,
             data = _editControllerLogic.AddChild(id, personalWiki.Id)
         });
-
     }
 
     [AccessOnlyAsLoggedIn]

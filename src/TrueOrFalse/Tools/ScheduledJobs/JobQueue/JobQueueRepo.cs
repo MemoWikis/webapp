@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Transform;
 using NHibernate.Util;
 using Seedworks.Lib.Persistence;
