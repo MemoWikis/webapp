@@ -17,11 +17,12 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = 1
         };
         var question = new QuestionCacheItem { CreatorId = 1 };
-        var questionDetail = new QuestionStatus();
+        var questionProps = new QuestionProperties();
 
-        _learningSessionCreator.FilterByCreator_Test(config, question, questionDetail);
+        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsTrue(questionDetail.AddByCreator);
+        // CurrentUserId == CreatorId
+        Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -33,12 +34,13 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = false,
             CurrentUserId = 1
         };
-        var q = new QuestionCacheItem { CreatorId = 2 };
-        var questionDetail = new QuestionStatus();
+        var question = new QuestionCacheItem { CreatorId = 2 };
+        var questionProps = new QuestionProperties();
 
-        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
+        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsFalse(questionDetail.AddByCreator);
+        // CurrentUserId != CreatorId
+        Assert.IsFalse(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -50,12 +52,12 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = true,
             CurrentUserId = 1
         };
-        var q = new QuestionCacheItem { CreatorId = 1 };
-        var questionDetail = new QuestionStatus();
+        var question = new QuestionCacheItem { CreatorId = 2 };
+        var questionProps = new QuestionProperties();
 
-        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
+        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsTrue(questionDetail.AddByCreator);
+        Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -67,12 +69,12 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = true,
             CurrentUserId = 1
         };
-        var q = new QuestionCacheItem { CreatorId = 2 };
-        var questionDetail = new QuestionStatus();
+        var question = new QuestionCacheItem { CreatorId = 2 };
+        var questionProps = new QuestionProperties();
 
-        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
+        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsTrue(questionDetail.AddByCreator);
+        Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -84,12 +86,12 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = true,
             CurrentUserId = 1
         };
-        var q = new QuestionCacheItem { CreatorId = 1 };
-        var questionDetail = new QuestionStatus();
+        var question = new QuestionCacheItem { CreatorId = 1 };
+        var questionProps = new QuestionProperties();
 
-        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
+        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsTrue(questionDetail.AddByCreator);
+        Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
     [Test]
@@ -101,12 +103,12 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = true,
             CurrentUserId = 1
         };
-        var q = new QuestionCacheItem { CreatorId = 2 };
-        var questionDetail = new QuestionStatus();
+        var question = new QuestionCacheItem { CreatorId = 2 };
+        var questionProps = new QuestionProperties();
 
-        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
+        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsTrue(questionDetail.AddByCreator);
+        Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
 }
