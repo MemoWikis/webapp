@@ -213,10 +213,16 @@ public class ContextCategory: BaseTest
         return user;
     }
 
-    public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
+    public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, int childId)
     {
-        return categoryCachedItem.CachedData.ChildrenIds.Any(child =>
-            child == EntityCache.GetCategoryByName(childName).First().Id);
+        var permissionCheck = R<PermissionCheck>();
+
+       var aggregatedCategorys =  categoryCachedItem.AggregatedCategories(permissionCheck);
+
+       if(aggregatedCategorys.Any() == false )
+           return false;
+
+       return aggregatedCategorys.TryGetValue(childId, out _);
     }
 
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)

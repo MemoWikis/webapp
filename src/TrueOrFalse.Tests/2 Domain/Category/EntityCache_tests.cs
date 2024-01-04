@@ -136,44 +136,49 @@ class EntityCache_tests : BaseTest
 
         Resolve<EntityCacheInitializer>().Init();
         
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X3"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X2"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X1"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "X"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), "B"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("A").Id).CachedData.ChildrenIds.Count, Is.EqualTo(5));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id),GetCategoryId("X3", context) ), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), GetCategoryId("X2", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), GetCategoryId("X1", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), GetCategoryId("X", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), GetCategoryId("B", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("A").Id).Count, Is.EqualTo(5));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X3").Id), "X1"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X3").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X3").Id), GetCategoryId("X1", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X3").Id).Count, Is.EqualTo(1));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X1").Id), "C"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X1").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X1").Id), GetCategoryId("C", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X1").Id).Count, Is.EqualTo(1));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X2").Id), "C"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X2").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X2").Id), GetCategoryId("C", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X2").Id).Count, Is.EqualTo(1));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X").Id), "C"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("X").Id), GetCategoryId("C", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X").Id).Count, Is.EqualTo(1));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), "E"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), "F"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), "G"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), "H"), Is.EqualTo(true));
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), "I"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("A").Id).CachedData.ChildrenIds.Count, Is.EqualTo(5));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), GetCategoryId("E", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), GetCategoryId("F", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), GetCategoryId("G", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), GetCategoryId("H", context)), Is.EqualTo(true));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("C").Id), GetCategoryId("I", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("A").Id).Count, Is.EqualTo(5));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("B").Id), "D"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("B").Id), GetCategoryId("D", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X").Id).Count, Is.EqualTo(1));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("E").Id), "I"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("E").Id), GetCategoryId("I", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X").Id).Count, Is.EqualTo(1));
 
 
-        Assert.That(EntityCache.GetCategory(categories.ByName("D").Id).CachedData.ChildrenIds.Count, Is.EqualTo(0));
-        Assert.That(EntityCache.GetCategory(categories.ByName("F").Id).CachedData.ChildrenIds.Count, Is.EqualTo(0));
-        Assert.That(EntityCache.GetCategory(categories.ByName("H").Id).CachedData.ChildrenIds.Count, Is.EqualTo(0));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("D").Id).Count, Is.EqualTo(0));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("F").Id).Count, Is.EqualTo(0));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("H").Id).Count, Is.EqualTo(0));
 
-        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("G").Id), "I"), Is.EqualTo(true));
-        Assert.That(EntityCache.GetCategory(categories.ByName("X").Id).CachedData.ChildrenIds.Count, Is.EqualTo(1));
+        Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("G").Id), GetCategoryId("I", context)), Is.EqualTo(true));
+        Assert.That(EntityCache.GetAllChildren(categories.ByName("X").Id).Count, Is.EqualTo(1));
+    }
+
+    private int GetCategoryId(string topicName, ContextCategory categoryContext)
+    {
+        return categoryContext.All.Single(c => c.Name.Equals(topicName)).Id; 
     }
 }

@@ -46,24 +46,6 @@ public class GraphService
             .Select(cr => cr.RelatedCategoryId).ToList();
     }
 
-    public static ConcurrentDictionary<int, CategoryCacheItem> AddChildrenIdsToCategoryCacheData(
-        ConcurrentDictionary<int, CategoryCacheItem> categories)
-    {
-        foreach (var category in categories.Values)
-        {
-            foreach (var categoryRelation in category.CategoryRelations)
-            {
-                if (categories.ContainsKey(categoryRelation.RelatedCategoryId))
-                {
-                    categories[categoryRelation.RelatedCategoryId].CachedData
-                        .AddChildId(categories[categoryRelation.CategoryId].Id);
-                }
-            }
-        }
-
-        return categories;
-    }
-
     public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category, int userId)
     {
         var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);

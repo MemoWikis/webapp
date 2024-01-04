@@ -17,7 +17,7 @@ namespace TrueOrFalse
     public class SessionFactory
     {
         private static Configuration _configuration;
-        
+
         public static ISessionFactory CreateSessionFactory()
         {
             var sessionFactory = Fluently.Configure()
@@ -27,7 +27,7 @@ namespace TrueOrFalse
             return sessionFactory;
         }
 
-        private static Configuration BuildConfiguration(HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
+        public static Configuration BuildTestConfiguration()
         {
             var configuration = Fluently.Configure()
                 .Database(
@@ -37,11 +37,8 @@ namespace TrueOrFalse
                 )
                 .Mappings(m => AddConventions(m).AddFromAssemblyOf<Question>())
                 .ExposeConfiguration(SetConfig)
-                .BuildConfiguration();
-
-            if (!new ContextUtil(httpContext, webHostEnvironment).IsWebContext || Settings.WithNHibernateStatistics)
-                configuration = configuration.SetProperty("generate_statistics", "true");
-
+                .BuildConfiguration()
+                .SetProperty("generate_statistics", "true");
             return configuration;
         }
 
@@ -55,7 +52,7 @@ namespace TrueOrFalse
             return mappingsContainer;
         }
 
-        private static void SetConfig(Configuration config)
+        public static void SetConfig(Configuration config)
         {
             _configuration = config;
         }
@@ -68,16 +65,26 @@ namespace TrueOrFalse
 
         public static void TruncateAllTables()
         {
-            const string sqlString =
-                @"SELECT Concat('TRUNCATE TABLE ', TABLE_NAME, ';') 
-                  FROM INFORMATION_SCHEMA.TABLES where  table_schema in (DATABASE())";
+            const string disableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS = 0;";
+            const string enableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS = 1;";
+
+            const string sqlString = @"
+                
+                SELECT Concat('TRUNCATE TABLE ', TABLE_NAME, ';') 
+                FROM INFORMATION_SCHEMA.TABLES 
+                WHERE table_schema = DATABASE();
+                SET FOREIGN_KEY_CHECKS = 1;
+";
 
             using (var session = _configuration.BuildSessionFactory().OpenSession())
             {
                 var statements = session.CreateSQLQuery(sqlString).List<string>();
+                session.CreateSQLQuery(disableForeignKeyCheck).ExecuteUpdate();
 
                 foreach (var statement in statements)
                     session.CreateSQLQuery(statement).ExecuteUpdate();
+
+                session.CreateSQLQuery(enableForeignKeyCheck).ExecuteUpdate();
             }
         }
     }

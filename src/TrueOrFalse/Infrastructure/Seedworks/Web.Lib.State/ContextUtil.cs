@@ -9,12 +9,10 @@ namespace Seedworks.Web.State
     public class ContextUtil
     {
         private readonly HttpContext? _httpContext;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ContextUtil(HttpContext? httpContext, IWebHostEnvironment webHostEnvironment)
+        public ContextUtil(HttpContext? httpContext)
         {
             _httpContext = httpContext;
-            _webHostEnvironment = webHostEnvironment;
         }
         public bool UseWebConfig => Settings.UseWebConfig;
 

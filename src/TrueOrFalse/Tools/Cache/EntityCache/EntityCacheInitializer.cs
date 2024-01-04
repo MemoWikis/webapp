@@ -33,8 +33,6 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(EntityCache.CacheKeyCategories, GraphService.AddChildrenIdsToCategoryCacheData(categories.ToConcurrentDictionary()));
-
         var allQuestions = _questionReadingRepo.GetAllEager();
         Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();

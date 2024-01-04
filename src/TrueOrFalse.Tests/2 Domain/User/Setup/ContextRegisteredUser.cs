@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BDDish.Model;
 
-public class ContextRegisteredUser : IContextDescription
+public class ContextRegisteredUser 
 {
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserWritingRepo _userWritingRepo;
