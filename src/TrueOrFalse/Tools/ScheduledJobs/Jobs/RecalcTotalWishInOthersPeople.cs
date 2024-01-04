@@ -1,7 +1,6 @@
 ﻿using System.Net.Mail;
 using NHibernate;
 using Quartz;
-using Serilog;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
