@@ -11,7 +11,7 @@ public class SendEmail
             Run(mail, jobQueueRepo, UserReadingRepo);
     }
 
-    public static void Run(MailMessage mailMessage, JobQueueRepo jopJobQueueRepo, UserReadingRepo userReadingRepo, MailMessagePriority priority = MailMessagePriority.Medium)
+    public static void Run(MailMessage mailMessage, JobQueueRepo jobQueueRepo, UserReadingRepo userReadingRepo, MailMessagePriority priority = MailMessagePriority.Medium)
     {
         if (mailMessage.To.Count > 1)
             throw new Exception("only emails to one user are allowed");
@@ -26,6 +26,6 @@ public class SendEmail
 
         var mailMessageForJob = new MailMessageJson(mailMessage.From.Address, mailMessage.To[0].Address, mailMessage.Subject, mailMessage.Body);
 
-        jopJobQueueRepo.Add(JobQueueType.MailMessage, JsonConvert.SerializeObject(mailMessageForJob), (int)priority);
+        jobQueueRepo.Add(JobQueueType.MailMessage, JsonConvert.SerializeObject(mailMessageForJob), (int)priority);
     }
 }

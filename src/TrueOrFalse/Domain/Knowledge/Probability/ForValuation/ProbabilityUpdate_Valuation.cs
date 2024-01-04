@@ -11,22 +11,16 @@ namespace TrueOrFalse
         private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public ProbabilityUpdate_Valuation(ISession session,
             QuestionValuationReadingRepo questionValuationReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
-            AnswerRepo answerRepo, 
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+            AnswerRepo answerRepo)
         {
             _session = session;
             _questionValuationReadingRepo = questionValuationReadingRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         public void Run(int userId)

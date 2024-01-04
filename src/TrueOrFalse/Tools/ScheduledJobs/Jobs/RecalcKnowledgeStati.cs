@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Quartz;
 using ISession = NHibernate.ISession;
 
@@ -15,8 +13,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private readonly AnswerRepo _answerRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
         private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
         public RecalcKnowledgeStati(ISession nhibernateSession,
             CategoryValuationReadingRepo categoryValuationReadingRepo,
@@ -24,9 +20,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
-            CategoryValuationWritingRepo categoryValuationWritingRepo,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+            CategoryValuationWritingRepo categoryValuationWritingRepo)
         {
             _nhibernateSession = nhibernateSession;
             _categoryValuationReadingRepo = categoryValuationReadingRepo;
@@ -35,8 +29,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             _answerRepo = answerRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
             _categoryValuationWritingRepo = categoryValuationWritingRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -47,9 +39,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     new ProbabilityUpdate_Valuation(_nhibernateSession,
                         _questionValuationReadingRepo,
                         _probabilityCalcSimple1,
-                        _answerRepo,
-                        _httpContextAccessor,
-                        _webHostEnvironment).Run(user.Id);
+                        _answerRepo).Run(user.Id);
                     KnowledgeSummaryUpdate.RunForUser(user.Id,
                         _categoryValuationReadingRepo,
                         _categoryValuationWritingRepo, 
