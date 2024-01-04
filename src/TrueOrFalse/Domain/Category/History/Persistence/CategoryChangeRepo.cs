@@ -1,6 +1,4 @@
 ﻿using NHibernate;
-using System.Collections.Generic;
-using System.Linq;
 using NHibernate.Criterion;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>

@@ -8,15 +8,16 @@ class Automatic_inclusion_tests : BaseTest
     {
         //Create 
         var context = ContextCategory.New();
+     
         var userName = "Dandor";
         var contextUser = ContextUser.New(R<UserWritingRepo>())
              .Add(userName)
              .Persist();
         var creator = contextUser.GetUser(userName);
 
-
+        var parentName = "Parent";
         var parent = context
-            .Add("Parent", creator: creator)
+            .Add(parentName, creator: creator)
             .Persist()
             .All.First();
 
@@ -31,25 +32,28 @@ class Automatic_inclusion_tests : BaseTest
 
 
         var child1 = subCategories.ByName("Child1");
+        var child2 = subCategories.ByName("Child2");
+        var child3 = subCategories.ByName("Child3");
+
         var parent2 = subCategories.ByName("Child3");
 
         context.AddParentToCategory(child1, parent);
+        context.AddParentToCategory(child2, parent);
+        context.AddParentToCategory(child3, parent);
+        
         context.AddParentToCategory(child1, parent2);
         context.Persist(); 
-
-        var initilizer = Resolve<EntityCacheInitializer>();
-        initilizer.Init(" (started in unit test) ");
 
         //Work 
         var categoryFromCache = EntityCache.GetCategoryByName("child1").First();
         GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryFromCache, R<SessionUser>().UserId);
 
-
         //Testing
-        Assert.That(R<CategoryRepository>().GetById(child1.Id).ParentCategories().Count,
-            Is.EqualTo(2));
+        Assert.That(R<CategoryRepository>().GetById(child1.Id).ParentCategories().Count, Is.EqualTo(2));
+        var parentCacheItem = EntityCache.GetCategory(parent); 
 
-        Assert.That(EntityCache.GetCategoryByName("Parent").First().CachedData.ChildrenIds.Count, Is.EqualTo(3));
+
+        Assert.That(parentCacheItem.AggregatedCategories(R<PermissionCheck>()).Count, Is.EqualTo(3));
 
     }
 
