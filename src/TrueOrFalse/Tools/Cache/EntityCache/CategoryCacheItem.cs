@@ -121,17 +121,19 @@ public class CategoryCacheItem : IPersistable
         return questions.ToList();
     }
 
-    public virtual int GetCountQuestionsAggregated(int userId,
+    public virtual int GetCountQuestionsAggregated(
+        int userId,
         bool inCategoryOnly = false,
         int categoryId = 0)
     {
         if (inCategoryOnly)
         {
-            return GetAggregatedQuestionsFromMemoryCache(userId,
+            return GetAggregatedQuestionsFromMemoryCache(
+                userId,
                 true,
                 false,
-                categoryId)
-                .Count;
+                categoryId
+            ).Count;
         }
 
         return GetAggregatedQuestionsFromMemoryCache(userId)

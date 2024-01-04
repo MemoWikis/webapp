@@ -95,43 +95,6 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         };
     }
 
-    public RequestResult QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
-    {
-        if (!new LimitCheck(_httpContextAccessor,
-                _webHostEnvironment,
-                _logg,
-                sessionUser).CanSavePrivateTopic(true))
-        {
-            return new RequestResult
-            {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                data = new
-                {
-                    cantSavePrivateTopic = true
-                }
-            };
-        }
-
-        var topic = new Category(name, sessionUser.UserId);
-        new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
-
-        topic.Creator = _userReadingRepo.GetById(sessionUser.UserId);
-        topic.Type = CategoryType.Standard;
-        topic.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Create(topic);
-
-        return new RequestResult
-        {
-            success = true,
-            data = new
-            {
-                name = topic.Name,
-                id = topic.Id
-            }
-        };
-    }
-
     public async Task<dynamic> SearchTopic(string term, int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();

@@ -56,19 +56,16 @@ public class ContextCategory : BaseTest
 
     public ContextCategory AddParentToCategory(Category child, Category parent)
     {
-        var categoryRelations = child.CategoryRelations.Count != 0
-            ? child.CategoryRelations
-            : new List<CategoryRelation>();
+        var childFromDb = _categoryRepository.GetById(child.Id);
+        var parentFromDb = _categoryRepository.GetById(parent.Id);
 
-        if (parent != null) // set parent
+        if (parentFromDb != null) // set parent
         {
-            categoryRelations.Add(new CategoryRelation
+            childFromDb.CategoryRelations.Add(new CategoryRelation
             {
-                Category = child,
-                RelatedCategory = parent,
+                Category = childFromDb,
+                RelatedCategory = parentFromDb,
             });
-
-            child.CategoryRelations = categoryRelations;
         }
 
         return this;
@@ -113,6 +110,10 @@ public class ContextCategory : BaseTest
         foreach (var cat in All)
             if (cat.Id <= 0) //if not already created
                 _categoryRepository.Create(cat);
+            else
+            {
+                _categoryRepository.Update(cat, authorId: cat.AuthorIds.First(), type: CategoryChangeType.Relations);
+            }
 
         return this;
     }
@@ -120,8 +121,6 @@ public class ContextCategory : BaseTest
     public ContextCategory Update(Category category)
     {
         _categoryRepository.Update(category);
-
-        _categoryRepository.Session.Flush();
         return this;
     }
 
@@ -129,8 +128,6 @@ public class ContextCategory : BaseTest
     {
         foreach (var cat in All)
             _categoryRepository.Update(cat);
-
-        _categoryRepository.Session.Flush();
 
         return this;
     }
@@ -186,10 +183,16 @@ public class ContextCategory : BaseTest
     //    return user;
     //}
 
-    public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, string childName)
+    public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, int childId)
     {
-        return categoryCachedItem.CachedData.ChildrenIds.Any(child =>
-            child == EntityCache.GetCategoryByName(childName).First().Id);
+        var permissionCheck = R<PermissionCheck>();
+
+        var aggregatedCategorys = categoryCachedItem.AggregatedCategories(permissionCheck);
+
+        if (aggregatedCategorys.Any() == false)
+            return false;
+
+        return aggregatedCategorys.TryGetValue(childId, out _); 
     }
 
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)

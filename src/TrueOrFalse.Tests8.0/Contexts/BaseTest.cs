@@ -3,6 +3,7 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Seedworks.Lib.Persistence;
 using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
@@ -41,7 +42,6 @@ public class BaseTest
                 Console.WriteLine(service);
             }
         }
-
         var initilizer = Resolve<EntityCacheInitializer>();
         initilizer.Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
