@@ -5,11 +5,9 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
 
-    public struct QuestionDetail
+    public struct QuestionProperties
     {
         public bool NotLearned;
         public bool NeedsLearning;
@@ -21,11 +19,14 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         public bool NotCreatedByCurrentUser;
         public bool Private;
         public bool Public;
-        public bool FilterByKnowledgeSummary;
+        public int PersonalCorrectnessProbability;
+
+        // Flags: If all Flags are true, 
+        // question will be added to learning session
+        public bool AddByKnowledgeSummary;
         public bool AddByWuwi;
         public bool AddByCreator;
         public bool AddByVisibility;
-        public int PersonalCorrectnessProbability;
     }
 
     struct KnowledgeSummaryDetail
@@ -37,15 +38,11 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     public LearningSessionCreator(SessionUser sessionUser,
         LearningSessionCache learningSessionCache, 
         PermissionCheck permissionCheck,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         SessionUserCache sessionUserCache)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _sessionUserCache = sessionUserCache;
     }
 
@@ -223,19 +220,19 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
         if (_sessionUser.IsLoggedIn)
         {
-            foreach (var q in allQuestions)
+            foreach (var question in allQuestions)
             {
-                var questionDetail = BuildQuestionDetail(config, q, allQuestionValuation);
+                var questionProps = BuildQuestionProperties(config, question, allQuestionValuation);
 
-                if (questionDetail.AddByWuwi &&
-                    questionDetail.AddByCreator &&
-                    questionDetail.AddByVisibility &&
-                    questionDetail.FilterByKnowledgeSummary)
+                if (questionProps.AddByWuwi &&
+                    questionProps.AddByCreator &&
+                    questionProps.AddByVisibility &&
+                    questionProps.AddByKnowledgeSummary)
                 {
-                    AddQuestionToFilteredList(filteredQuestions, questionDetail, q, knowledgeSummaryDetails);
+                    AddQuestionToFilteredList(filteredQuestions, questionProps, question, knowledgeSummaryDetails);
                     questionCounter.Max++;
                 }
-                questionCounter = CountQuestionsForSessionConfig(questionDetail, questionCounter);
+                questionCounter = CountQuestionsForSessionConfig(questionProps, questionCounter);
             }
         }
         else
@@ -293,14 +290,17 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         };
     }
 
-    public QuestionDetail BuildQuestionDetail(LearningSessionConfig config, QuestionCacheItem q,
+    public QuestionProperties BuildQuestionProperties(
+        LearningSessionConfig config, 
+        QuestionCacheItem question,
         IList<QuestionValuationCacheItem> allQuestionValuation)
     {
-        var questionDetail = new QuestionDetail();
+        var questionDetail = new QuestionProperties();
 
-        questionDetail = FilterByCreator(config, q, questionDetail);
-        questionDetail = FilterByVisibility(config, q, questionDetail);
-        questionDetail = FilterByKnowledgeSummary(config, q, questionDetail, allQuestionValuation);
+        questionDetail = FilterByCreator(config, question, questionDetail);
+        questionDetail = FilterByVisibility(config, question, questionDetail);
+        questionDetail = FilterByKnowledgeSummaryAndWuwi(config, question, questionDetail, allQuestionValuation);
+
         return questionDetail;
     }
 
@@ -314,18 +314,19 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             var allQuestionValuation = 
                 _sessionUserCache.GetQuestionValuations(config.CurrentUserId);
 
-            var questionDetail = BuildQuestionDetail(config, question, allQuestionValuation);
+            var questionDetail = BuildQuestionProperties(config, question, allQuestionValuation);
 
             learningSession.QuestionCounter = CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
 
             if (questionDetail.AddByWuwi &&
                 questionDetail.AddByCreator &&
                 questionDetail.AddByVisibility &&
-                questionDetail.FilterByKnowledgeSummary)
+                questionDetail.AddByKnowledgeSummary)
             {
                 if (learningSession.Steps.Count > sessionIndex + 1)
                     learningSession.Steps.Insert(sessionIndex + 1, step);
-                else learningSession.Steps.Add(step);
+                else 
+                    learningSession.Steps.Add(step);
             }
 
             learningSession.QuestionCounter.Max += 1;
@@ -334,7 +335,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     }
 
     private void AddQuestionToFilteredList(IList<QuestionCacheItem> filteredQuestions,
-        QuestionDetail questionDetail, 
+        QuestionProperties questionProperties, 
         QuestionCacheItem question, 
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails)
     {
@@ -342,7 +343,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         if (_sessionUser.IsLoggedIn)
             knowledgeSummaryDetails.Add(new KnowledgeSummaryDetail
             {
-                PersonalCorrectnessProbability = questionDetail.PersonalCorrectnessProbability,
+                PersonalCorrectnessProbability = questionProperties.PersonalCorrectnessProbability,
                 QuestionId = question.Id
             });
             
@@ -368,36 +369,36 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questions;
     }
 
-    public static QuestionCounter CountQuestionsForSessionConfig(QuestionDetail questionDetail, QuestionCounter counter)
+    public static QuestionCounter CountQuestionsForSessionConfig(QuestionProperties questionProperties, QuestionCounter counter)
     {
-        if (questionDetail.NotLearned)
+        if (questionProperties.NotLearned)
             counter.NotLearned++;
 
-        if (questionDetail.NeedsLearning)
+        if (questionProperties.NeedsLearning)
             counter.NeedsLearning++;
 
-        if (questionDetail.NeedsConsolidation)
+        if (questionProperties.NeedsConsolidation)
             counter.NeedsConsolidation++;
 
-        if (questionDetail.Solid)
+        if (questionProperties.Solid)
             counter.Solid++;
 
-        if (questionDetail.InWuwi)
+        if (questionProperties.InWuwi)
             counter.InWuwi++;
 
-        if (questionDetail.NotInWuwi)
+        if (questionProperties.NotInWuwi)
             counter.NotInWuwi++;
 
-        if (questionDetail.CreatedByCurrentUser)
+        if (questionProperties.CreatedByCurrentUser)
             counter.CreatedByCurrentUser++;
 
-        if (questionDetail.NotCreatedByCurrentUser)
+        if (questionProperties.NotCreatedByCurrentUser)
             counter.NotCreatedByCurrentUser++;
 
-        if (questionDetail.Public)
+        if (questionProperties.Public)
             counter.Public++;
 
-        if (questionDetail.Private)
+        if (questionProperties.Private)
             counter.Private++;
 
         return counter;
@@ -419,126 +420,132 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questions.Take(maxQuestionCount).ToList();
     }
 
-    public QuestionDetail FilterByCreatorTest(LearningSessionConfig config, QuestionCacheItem q,
-        QuestionDetail questionDetail) => FilterByCreator(config, q, questionDetail);
+    public QuestionProperties FilterByCreator_Test(LearningSessionConfig config, QuestionCacheItem questionCacheItem, QuestionProperties questionProperties) =>
+        FilterByCreator(config, questionCacheItem, questionProperties);
 
-    private QuestionDetail FilterByCreator(LearningSessionConfig config, 
-        QuestionCacheItem q,
-        QuestionDetail questionDetail)
+    private QuestionProperties FilterByCreator(
+        LearningSessionConfig config, 
+        QuestionCacheItem questionCacheItem,
+        QuestionProperties questionProperties)
     {
         var noCreatorSelected = !config.CreatedByCurrentUser && !config.NotCreatedByCurrentUser;
 
-        if (q.CreatorId == config.CurrentUserId)
+        if (questionCacheItem.CreatorId == config.CurrentUserId)
         {
             if (config.CreatedByCurrentUser || noCreatorSelected)
-                questionDetail.AddByCreator = true;
+                questionProperties.AddByCreator = true;
 
-            questionDetail.CreatedByCurrentUser = true;
+            questionProperties.CreatedByCurrentUser = true;
         }
         else
         {
             if (config.NotCreatedByCurrentUser || noCreatorSelected)
-                questionDetail.AddByCreator = true;
+                questionProperties.AddByCreator = true;
 
-            questionDetail.NotCreatedByCurrentUser = true;
+            questionProperties.NotCreatedByCurrentUser = true;
         }
 
-        return questionDetail;
+        return questionProperties;
     }
 
-    private static QuestionDetail FilterByVisibility(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail)
+    private static QuestionProperties FilterByVisibility(LearningSessionConfig config, QuestionCacheItem question, QuestionProperties questionProperties)
     {
         var noVisibilitySelected = !config.PrivateQuestions && !config.PublicQuestions;
 
-        if (q.Visibility == QuestionVisibility.All)
+        if (question.Visibility == QuestionVisibility.All)
         {
             if (config.PublicQuestions || noVisibilitySelected)
-                questionDetail.AddByVisibility = true;
+                questionProperties.AddByVisibility = true;
 
-            questionDetail.Public = true;
+            questionProperties.Public = true;
         }
         else
         {
             if (config.PrivateQuestions || noVisibilitySelected)
-                questionDetail.AddByVisibility = true;
+                questionProperties.AddByVisibility = true;
 
-            questionDetail.Private = true;
+            questionProperties.Private = true;
         }
 
-        return questionDetail;
+        return questionProperties;
     }
 
-    private QuestionDetail FilterByKnowledgeSummary(LearningSessionConfig config, QuestionCacheItem q, QuestionDetail questionDetail, IList<QuestionValuationCacheItem> allQuestionValuation)
+    private QuestionProperties FilterByKnowledgeSummaryAndWuwi(
+        LearningSessionConfig config, 
+        QuestionCacheItem question, 
+        QuestionProperties questionProperties, 
+        IList<QuestionValuationCacheItem> allQuestionValuation
+    )
     {
         if (_sessionUser.IsLoggedIn)
         {
-            var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == q.Id);
+            var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == question.Id);
 
-            questionDetail = FilterByWuwi(questionValuation, config, questionDetail);
+            questionProperties = FilterByWuwi(questionValuation, config, questionProperties);
 
             if (questionValuation == null || questionValuation.CorrectnessProbabilityAnswerCount <= 0)
             {
                 if (config.NotLearned)
-                    questionDetail.FilterByKnowledgeSummary = true;
+                    questionProperties.AddByKnowledgeSummary = true;
 
-                questionDetail.NotLearned = true;
+                questionProperties.NotLearned = true;
 
                 if (questionValuation != null)
-                    questionDetail.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
-                else questionDetail.PersonalCorrectnessProbability = q.CorrectnessProbability;
+                    questionProperties.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
+                else questionProperties.PersonalCorrectnessProbability = question.CorrectnessProbability;
             }
             else if (questionValuation.CorrectnessProbability <= 50)
             {
                 if (config.NeedsLearning)
-                    questionDetail.FilterByKnowledgeSummary = true;
+                    questionProperties.AddByKnowledgeSummary = true;
 
-                questionDetail.NeedsLearning = true;
-                questionDetail.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
+                questionProperties.NeedsLearning = true;
+                questionProperties.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
             }
             else if (questionValuation.CorrectnessProbability > 50 && questionValuation.CorrectnessProbability < 80)
             {
                 if (config.NeedsConsolidation)
-                    questionDetail.FilterByKnowledgeSummary = true;
+                    questionProperties.AddByKnowledgeSummary = true;
 
-                questionDetail.NeedsConsolidation = true;
-                questionDetail.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
+                questionProperties.NeedsConsolidation = true;
+                questionProperties.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
             }
             else if (questionValuation.CorrectnessProbability >= 80)
             {
                 if (config.Solid)
-                    questionDetail.FilterByKnowledgeSummary = true;
+                    questionProperties.AddByKnowledgeSummary = true;
 
-                questionDetail.Solid = true;
-                questionDetail.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
+                questionProperties.Solid = true;
+                questionProperties.PersonalCorrectnessProbability = questionValuation.CorrectnessProbability;
             }
 
         }
         else
         {
-            questionDetail.FilterByKnowledgeSummary = true;
-            questionDetail.NotLearned = true;
+            questionProperties.AddByKnowledgeSummary = true;
+            questionProperties.NotLearned = true;
         }
 
-        return questionDetail;
+        return questionProperties;
     }
 
-    private static QuestionDetail FilterByWuwi(QuestionValuationCacheItem questionValuation, LearningSessionConfig config, QuestionDetail questionDetail)
+    private static QuestionProperties FilterByWuwi(QuestionValuationCacheItem questionValuation, LearningSessionConfig config, QuestionProperties questionProperties)
     {
         if (questionValuation != null && questionValuation.IsInWishKnowledge)
         {
             if (config.InWuwi || !config.InWuwi && !config.NotInWuwi)
-                questionDetail.AddByWuwi = true;
+                questionProperties.AddByWuwi = true;
 
-            questionDetail.InWuwi = true;
+            questionProperties.InWuwi = true;
         }
         else
         {
             if (config.NotInWuwi || !config.InWuwi && !config.NotInWuwi)
-                questionDetail.AddByWuwi = true;
+                questionProperties.AddByWuwi = true;
 
-            questionDetail.NotInWuwi = true;
+            questionProperties.NotInWuwi = true;
         }
 
-        return questionDetail;
+        return questionProperties;
     }
 }

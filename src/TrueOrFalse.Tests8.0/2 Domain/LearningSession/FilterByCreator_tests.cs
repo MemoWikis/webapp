@@ -16,10 +16,10 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = false,
             CurrentUserId = 1
         };
-        var q = new QuestionCacheItem { CreatorId = 1 };
-        var questionDetail = new QuestionDetail();
+        var question = new QuestionCacheItem { CreatorId = 1 };
+        var questionDetail = new QuestionStatus();
 
-        _learningSessionCreator.FilterByCreatorTest(config, q, questionDetail);
+        _learningSessionCreator.FilterByCreator_Test(config, question, questionDetail);
 
         Assert.IsTrue(questionDetail.AddByCreator);
     }
@@ -34,9 +34,9 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = 1
         };
         var q = new QuestionCacheItem { CreatorId = 2 };
-        var questionDetail = new QuestionDetail();
+        var questionDetail = new QuestionStatus();
 
-        _learningSessionCreator.FilterByCreatorTest(config, q, questionDetail);
+        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
 
         Assert.IsFalse(questionDetail.AddByCreator);
     }
@@ -51,9 +51,9 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = 1
         };
         var q = new QuestionCacheItem { CreatorId = 1 };
-        var questionDetail = new QuestionDetail();
+        var questionDetail = new QuestionStatus();
 
-        _learningSessionCreator.FilterByCreatorTest(config, q, questionDetail);
+        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
 
         Assert.IsTrue(questionDetail.AddByCreator);
     }
@@ -68,9 +68,9 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = 1
         };
         var q = new QuestionCacheItem { CreatorId = 2 };
-        var questionDetail = new QuestionDetail();
+        var questionDetail = new QuestionStatus();
 
-        _learningSessionCreator.FilterByCreatorTest(config, q, questionDetail);
+        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
 
         Assert.IsTrue(questionDetail.AddByCreator);
     }
@@ -85,9 +85,9 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = 1
         };
         var q = new QuestionCacheItem { CreatorId = 1 };
-        var questionDetail = new QuestionDetail();
+        var questionDetail = new QuestionStatus();
 
-        _learningSessionCreator.FilterByCreatorTest(config, q, questionDetail);
+        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
 
         Assert.IsTrue(questionDetail.AddByCreator);
     }
@@ -102,9 +102,9 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = 1
         };
         var q = new QuestionCacheItem { CreatorId = 2 };
-        var questionDetail = new QuestionDetail();
+        var questionDetail = new QuestionStatus();
 
-        _learningSessionCreator.FilterByCreatorTest(config, q, questionDetail);
+        _learningSessionCreator.FilterByCreator_Test(config, q, questionDetail);
 
         Assert.IsTrue(questionDetail.AddByCreator);
     }
