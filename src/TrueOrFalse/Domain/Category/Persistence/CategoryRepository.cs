@@ -51,8 +51,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
 
-        GraphService.AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(categoryCacheItem, category.Creator.Id);
-
         if (category.ParentCategories().Count != 1)
         {
             Logg.r.Warning("the parentcounter is != 1");

@@ -45,14 +45,4 @@ public class GraphService
         return category.CategoryRelations
             .Select(cr => cr.RelatedCategoryId).ToList();
     }
-
-    public static void AutomaticInclusionOfChildCategoriesForEntityCacheAndDbCreate(CategoryCacheItem category, int userId)
-    {
-        var parentsFromParentCategories = GetAllParentsFromEntityCache(category.Id);
-
-        foreach (var parent in parentsFromParentCategories)
-        {
-            parent.UpdateCountQuestionsAggregated(userId);
-        }
-    }
 }
