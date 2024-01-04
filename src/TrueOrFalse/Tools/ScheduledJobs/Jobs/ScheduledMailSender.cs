@@ -19,8 +19,12 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
         }
         public async Task Execute(IJobExecutionContext context)
         {
+            Logg.r.Information("Mail Log - before async start");
+
             JobExecute.Run(async scope =>
             {
+                Logg.r.Information("Mail Log");
+
                 var job = scope.Resolve<JobQueueRepo>().GetTopPriorityMailMessage();
 
                 var successfulJobIds = _cache.Get(CacheKey) as List<int> ?? new List<int>();
