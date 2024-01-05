@@ -493,7 +493,7 @@ async function requestVerificationMail() {
                         </div>
 
                         <div class="input-container">
-                            <div class="overline-s no-line col-lg-6">E-Mail</div>
+                            <div class="overline-s no-line">E-Mail</div>
                             <div class="col-xs-12"></div>
                             <form class="form-horizontal">
                                 <div class="form-group">
