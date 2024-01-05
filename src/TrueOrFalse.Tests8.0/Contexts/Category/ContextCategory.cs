@@ -72,24 +72,8 @@ public class ContextCategory : BaseTest
     }
 
 
-    public ContextCategory AddToEntityCache(string categoryName,
-        CategoryType categoryType = CategoryType.Standard,
-        User creator = null,
-        bool withId = false,
-        int categoryId = 0
-    )
+    public ContextCategory AddToEntityCache( Category category)
     {
-        var category = new Category();
-
-        if (withId && categoryId == 0)
-            category.Id = 0;
-        else
-            category.Id = categoryId;
-
-        category.Name = categoryName;
-        category.Creator = creator == null ? _contextUser.All.FirstOrDefault() : creator;
-        category.Type = categoryType;
-
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);

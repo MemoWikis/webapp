@@ -55,6 +55,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
+            //the line should not be needed
             EntityCache.AddOrUpdate(categoryCacheItem);
             categoryRepository.Update(category);
         }
