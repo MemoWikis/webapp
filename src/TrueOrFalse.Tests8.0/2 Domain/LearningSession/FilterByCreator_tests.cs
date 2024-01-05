@@ -1,14 +1,11 @@
-﻿using NUnit.Framework;
-using static LearningSessionCreator;
+﻿using static LearningSessionCreator;
 
 namespace TrueOrFalse.Tests;
 
 class FilterByCreator_tests : BaseTest
 {
-    public LearningSessionCreator _learningSessionCreator = new LearningSessionCreator();
-
     [Test]
-    public void FilterByCreator_CreatedByCurrentUserAndIsCreator_SetsAddByCreatorTrue()
+    public void Should_Add_UserIsCreator_ConfigHas_CreatedByCurrentUser()
     {
         var config = new LearningSessionConfig
         {
@@ -19,66 +16,32 @@ class FilterByCreator_tests : BaseTest
         var question = new QuestionCacheItem { CreatorId = 1 };
         var questionProps = new QuestionProperties();
 
-        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
+        questionProps = FilterByCreator_Test(config, question, questionProps);
 
         // CurrentUserId == CreatorId
         Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
     [Test]
-    public void FilterByCreator_CreatedByCurrentUserAndIsNotCreator_SetsAddByCreatorFalse()
+    public void Should_Add_UserIsNotCreator_ConfigHas_NotCreatedByCurrentUser()
     {
         var config = new LearningSessionConfig
         {
-            CreatedByCurrentUser = true,
-            NotCreatedByCurrentUser = false,
+            CreatedByCurrentUser = false,
+            NotCreatedByCurrentUser = true,
             CurrentUserId = 1
         };
         var question = new QuestionCacheItem { CreatorId = 2 };
         var questionProps = new QuestionProperties();
 
-        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
+        questionProps = FilterByCreator_Test(config, question, questionProps);
 
         // CurrentUserId != CreatorId
-        Assert.IsFalse(questionProps.AddToLearningSession);
-    }
-
-    [Test]
-    public void FilterByCreator_NotCreatedByCurrentUserAndIsCreator_SetsAddByCreatorTrue()
-    {
-        var config = new LearningSessionConfig
-        {
-            CreatedByCurrentUser = false,
-            NotCreatedByCurrentUser = true,
-            CurrentUserId = 1
-        };
-        var question = new QuestionCacheItem { CreatorId = 2 };
-        var questionProps = new QuestionProperties();
-
-        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
-
         Assert.IsTrue(questionProps.AddToLearningSession);
     }
 
     [Test]
-    public void FilterByCreator_NotCreatedByCurrentUserAndIsNotCreator_SetsAddByCreatorTrue()
-    {
-        var config = new LearningSessionConfig
-        {
-            CreatedByCurrentUser = false,
-            NotCreatedByCurrentUser = true,
-            CurrentUserId = 1
-        };
-        var question = new QuestionCacheItem { CreatorId = 2 };
-        var questionProps = new QuestionProperties();
-
-        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
-
-        Assert.IsTrue(questionProps.AddToLearningSession);
-    }
-
-    [Test]
-    public void FilterByCreator_BothFlagsTrueAndIsCreator_SetsAddByCreatorTrue()
+    public void Should_Add_ConfigHas_CreatedByCurrentUser_and_NotCreatedByCurrentUser()
     {
         var config = new LearningSessionConfig
         {
@@ -89,26 +52,80 @@ class FilterByCreator_tests : BaseTest
         var question = new QuestionCacheItem { CreatorId = 1 };
         var questionProps = new QuestionProperties();
 
-        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
+        questionProps = FilterByCreator_Test(config, question, questionProps);
 
         Assert.IsTrue(questionProps.AddToLearningSession);
+
+        var question2 = new QuestionCacheItem { CreatorId = 2 };
+        var questionProps2 = new QuestionProperties();
+
+        questionProps2 = FilterByCreator_Test(config, question2, questionProps2);
+
+        Assert.IsTrue(questionProps2.AddToLearningSession);
     }
 
     [Test]
-    public void FilterByCreator_BothFlagsTrueAndIsNotCreator_SetsAddByCreatorTrue()
+    public void Should_Add_No_ConfigSelection()
+    {
+        var config = new LearningSessionConfig
+        {
+            CreatedByCurrentUser = false,
+            NotCreatedByCurrentUser = false,
+            CurrentUserId = 1
+        };
+        var question = new QuestionCacheItem { CreatorId = 1 };
+        var questionProps = new QuestionProperties();
+
+        questionProps = FilterByCreator_Test(config, question, questionProps);
+
+        Assert.IsTrue(questionProps.AddToLearningSession);
+
+        var config2 = new LearningSessionConfig
+        {
+            CreatedByCurrentUser = false,
+            NotCreatedByCurrentUser = false,
+            CurrentUserId = 1
+        };
+        var question2 = new QuestionCacheItem { CreatorId = 2 };
+        var questionProps2 = new QuestionProperties();
+
+        questionProps2 = FilterByCreator_Test(config2, question2, questionProps2);
+
+        Assert.IsTrue(questionProps2.AddToLearningSession);
+    }
+
+    [Test]
+    public void ShouldNot_Add_UserIsCreator_ConfigHas_NotCreatedByCurrentUser()
+    {
+        var config = new LearningSessionConfig
+        {
+            CreatedByCurrentUser = false,
+            NotCreatedByCurrentUser = true,
+            CurrentUserId = 1
+        };
+        var question = new QuestionCacheItem { CreatorId = 1 };
+        var questionProps = new QuestionProperties();
+
+        questionProps = FilterByCreator_Test(config, question, questionProps);
+
+        Assert.IsFalse(questionProps.AddToLearningSession);
+    }
+
+    [Test]
+    public void ShouldNot_Add_UserIsNotCreator_ConfigHas_CreatedByCurrentUser()
     {
         var config = new LearningSessionConfig
         {
             CreatedByCurrentUser = true,
-            NotCreatedByCurrentUser = true,
+            NotCreatedByCurrentUser = false,
             CurrentUserId = 1
         };
         var question = new QuestionCacheItem { CreatorId = 2 };
         var questionProps = new QuestionProperties();
 
-        questionProps = _learningSessionCreator.FilterByCreator_Test(config, question, questionProps);
+        questionProps = FilterByCreator_Test(config, question, questionProps);
 
-        Assert.IsTrue(questionProps.AddToLearningSession);
+        Assert.IsFalse(questionProps.AddToLearningSession);
     }
 
 }

@@ -416,10 +416,10 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questions.Take(maxQuestionCount).ToList();
     }
 
-    public QuestionProperties FilterByCreator_Test(LearningSessionConfig config, QuestionCacheItem questionCacheItem, QuestionProperties questionProperties) =>
+    public static QuestionProperties FilterByCreator_Test(LearningSessionConfig config, QuestionCacheItem questionCacheItem, QuestionProperties questionProperties) =>
         FilterByCreator(config, questionCacheItem, questionProperties);
 
-    private QuestionProperties FilterByCreator(
+    private static QuestionProperties FilterByCreator(
         LearningSessionConfig config, 
         QuestionCacheItem questionCacheItem,
         QuestionProperties questionProperties)
@@ -533,6 +533,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questionProperties;
     }
 
+    public static QuestionProperties FilterByWuwi_Test(QuestionValuationCacheItem? questionValuation, LearningSessionConfig config, QuestionProperties questionProperties) =>
+        FilterByWuwi(questionValuation, config, questionProperties);    
     private static QuestionProperties FilterByWuwi(QuestionValuationCacheItem? questionValuation, LearningSessionConfig config, QuestionProperties questionProperties)
     {
         if (questionValuation != null && questionValuation.IsInWishKnowledge)
@@ -546,7 +548,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         {
             questionProperties.NotInWuwi = true;
 
-            if (!config.NotInWuwi&& config.InWuwi)
+            if (!config.NotInWuwi && config.InWuwi)
                 questionProperties.AddToLearningSession = false;
         }
 
