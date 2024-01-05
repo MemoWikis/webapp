@@ -21,7 +21,7 @@ public class QuestionValuationCacheItem
     public static QuestionValuationCacheItem ToCacheItem(QuestionValuation questionValuation)
     {
         var val = questionValuation.IsInWishKnowledge();
-        return new QuestionValuationCacheItem()
+        return new QuestionValuationCacheItem
         {
             CorrectnessProbability = questionValuation.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = questionValuation.CorrectnessProbabilityAnswerCount,

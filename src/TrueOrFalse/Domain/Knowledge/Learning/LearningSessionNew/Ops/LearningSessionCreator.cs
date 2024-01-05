@@ -313,11 +313,11 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             var allQuestionValuation = 
                 _sessionUserCache.GetQuestionValuations(config.CurrentUserId);
 
-            var questionDetail = BuildQuestionProperties(config, question, allQuestionValuation);
+            var questionProps = BuildQuestionProperties(config, question, allQuestionValuation);
 
-            learningSession.QuestionCounter = CountQuestionsForSessionConfig(questionDetail, learningSession.QuestionCounter);
+            learningSession.QuestionCounter = CountQuestionsForSessionConfig(questionProps, learningSession.QuestionCounter);
 
-            if (questionDetail.AddToLearningSession)
+            if (questionProps.AddToLearningSession)
             {
                 if (learningSession.Steps.Count > sessionIndex + 1)
                     learningSession.Steps.Insert(sessionIndex + 1, step);
@@ -442,21 +442,24 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questionProperties;
     }
 
+    public static QuestionProperties FilterByVisibility_Test(LearningSessionConfig config, QuestionCacheItem question, QuestionProperties questionProperties) =>
+        FilterByVisibility(config, question, questionProperties);
+
     private static QuestionProperties FilterByVisibility(LearningSessionConfig config, QuestionCacheItem question, QuestionProperties questionProperties)
     {
         if (question.Visibility == QuestionVisibility.All)
         {
+            questionProperties.Public = true;
+
             if (!config.PublicQuestions && config.PrivateQuestions)
                 questionProperties.AddToLearningSession = false;
-
-            questionProperties.Public = true;
         }
         else
         {
+            questionProperties.Private = true;
+
             if (!config.PrivateQuestions && config.PublicQuestions)
                 questionProperties.AddToLearningSession = false;
-
-            questionProperties.Private = true;
         }
 
         return questionProperties;
@@ -484,7 +487,14 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questionProperties;
     }
 
-    private QuestionProperties FilterByKnowledgeSummary(
+    public static QuestionProperties FilterByKnowledgeSummary_Test(
+        LearningSessionConfig config,
+        QuestionCacheItem question,
+        QuestionProperties questionProperties,
+        QuestionValuationCacheItem? questionValuation) 
+        => FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
+
+    private static QuestionProperties FilterByKnowledgeSummary(
         LearningSessionConfig config, 
         QuestionCacheItem question,
         QuestionProperties questionProperties, 
