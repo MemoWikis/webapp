@@ -56,19 +56,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    //public SessionUserCacheItem GetOrCreateUserFromSessionCache()
-    //{
-    //    var user = _sessionUserCache.GetUser(_userId);
-    //    if (user == null)
-    //    {
-    //        user = _sessionUserCache.CreateSessionUserItemFromDatabase(_userId); 
-    //        _sessionUserCache.AddOrUpdate(user);
-    //        user = _sessionUserCache.GetUser(_userId);
-    //    }
-
-    //    return user; 
-    //}
-
     public void Login(User user)
     {
         HasBetaAccess = true;

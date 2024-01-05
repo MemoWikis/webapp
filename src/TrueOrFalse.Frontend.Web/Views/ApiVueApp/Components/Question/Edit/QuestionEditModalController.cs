@@ -82,8 +82,7 @@ public class QuestionEditModalController : BaseController
     [HttpPost]
     public JsonResult Create([FromBody] QuestionDataParam param)
     {
-        if (!new LimitCheck(_httpContextAccessor, _webHostEnvironment, _logg, _sessionUser).CanSavePrivateQuestion(
-                logExceedance: true))
+        if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true))
         {
             return Json(new RequestResult
                 { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion });

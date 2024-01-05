@@ -92,59 +92,6 @@ public class EntityCache : BaseEntityCache
         return questions;
     }
 
-    public static void UpdateCachedData(CategoryCacheItem categoryCacheItem, CreateDeleteUpdate createDeleteUpdate)
-    {
-        //Create
-        if (createDeleteUpdate == CreateDeleteUpdate.Create)
-        {
-            //Update EntityCache
-            var parents = GetCategories(GraphService.GetDirectParentIds(categoryCacheItem));
-            foreach (var parent in parents)
-            {
-                parent.CachedData.AddChildId(categoryCacheItem.Id);
-            }
-        }
-
-        //Update
-        if (createDeleteUpdate == CreateDeleteUpdate.Update)
-        {
-            var oldCategoryCacheItem1 = GetCategory(categoryCacheItem.Id);
-
-            var parentIdsCacheItem1 = categoryCacheItem.CategoryRelations
-                .Select(cr => cr.RelatedCategoryId).ToList();
-
-            var parentIdsOldCategoryCacheItem1 = oldCategoryCacheItem1.CategoryRelations
-                .Select(cr => cr.RelatedCategoryId).ToList();
-
-            var exceptIdsToDelete1 = parentIdsOldCategoryCacheItem1.Except(parentIdsCacheItem1).ToList();
-            var exceptIdsToAdd1 = parentIdsCacheItem1.Except(parentIdsOldCategoryCacheItem1).ToList();
-
-            if (exceptIdsToAdd1.Any() || exceptIdsToDelete1.Any())
-            {
-                foreach (var id in exceptIdsToAdd1)
-                {
-                    GetCategory(id).CachedData
-                        .AddChildId(categoryCacheItem.Id);
-                }
-
-                foreach (var id in exceptIdsToDelete1)
-                {
-                    GetCategory(id).CachedData.RemoveChildId(categoryCacheItem.Id);
-                }
-            }
-        }
-
-        //Delete
-        if (createDeleteUpdate == CreateDeleteUpdate.Delete)
-        {
-            //EntityCache
-            foreach (var parent in categoryCacheItem.ParentCategories(true))
-            {
-                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
-            }
-        }
-    }
-
     public static IList<QuestionCacheItem> GetAllQuestions() => Questions.Values.ToList();
 
     public static QuestionCacheItem GetQuestionById(int questionId)
@@ -242,19 +189,7 @@ public class EntityCache : BaseEntityCache
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
         AddOrUpdate(Categories, categoryCacheItem);
-        if (!Categories.ContainsKey(categoryCacheItem.Id)) return;
-        var parentsToAdd = categoryCacheItem.ParentCategories();
-        foreach (var parent in parentsToAdd)
-        {
-            parent.CachedData.AddChildId(categoryCacheItem.Id);
-        }
 
-        var parentsToRemove = Categories.Where(d => d.Value.CachedData.ChildrenIds.Contains(categoryCacheItem.Id)).ToList().Select(d => d.Value).ToList();
-        foreach (var parent in parentsToRemove)
-        {
-            if (categoryCacheItem.CategoryRelations.All(c => c.RelatedCategoryId != parent.Id) && !parentsToAdd.Contains(parent))
-                parent.CachedData.RemoveChildId(categoryCacheItem.Id);
-        }
     }
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem)
     {
@@ -286,12 +221,7 @@ public class EntityCache : BaseEntityCache
             connectedQuestion.Categories.Remove(categoryInQuestion);
         }
 
-        var parentCategories = GetAllParents(category.Id,permissionCheck);
-        foreach (var parent in parentCategories)
-        {
-            parent.CachedData.RemoveChildId(category.Id);
-        }
-        CategoryQuestionsList.TryRemove(category.Id, out var catOut);
+        CategoryQuestionsList.TryRemove(category.Id, out _);
     }
 
     /// <summary>
@@ -441,9 +371,7 @@ public class EntityCache : BaseEntityCache
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 
-    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId, 
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment) => GetAllQuestions()
+    public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
         .Where(q => q.Creator.Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 

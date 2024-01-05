@@ -1,32 +1,45 @@
 ﻿using System.Reflection;
 using Autofac;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TrueOrFalse.Infrastructure
 {
     public static class AutofacWebInitializer
     {
-        private static IContainer _container;
+        private static IContainer? _container;
 
-        public static IContainer GetContainer()
+        public static IContainer GetTestContainer(
+            IWebHostEnvironment fakeEnvironment, 
+            IHttpContextAccessor httpContextAccessor)
         {
             if (_container == null)
             {
-                _container = Initialize();
+                _container = InitializeTest(fakeEnvironment, httpContextAccessor);
             }
             return _container;
         }
 
-        private static IContainer Initialize(bool registerForAspNet = false, Assembly assembly = null)
+        public static void Dispose()
+        {
+            _container?.Dispose();
+            _container = null;
+        }
+
+        private static IContainer InitializeTest(
+            IWebHostEnvironment fakeEnvironment,
+            IHttpContextAccessor httpContextAccessor)
         {
             var builder = new ContainerBuilder();
 
-            if (registerForAspNet)
-            {
-                builder.RegisterAssemblyModules(assembly);
-            }
-
-            builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterInstance(fakeEnvironment)
+                .As<IWebHostEnvironment>()
+                .SingleInstance();
+            builder.RegisterInstance(httpContextAccessor)
+                .As<IHttpContextAccessor>()
+                .SingleInstance();
+            builder.RegisterModule(new AutofacCoreModule(externallyProvidedHttpContextAccessor: true));
             return builder.Build();
         }
 
@@ -44,7 +57,7 @@ namespace TrueOrFalse.Infrastructure
                     .InstancePerLifetimeScope();
             }
 
-            builder.RegisterModule<AutofacCoreModule>();
+            builder.RegisterModule(new AutofacCoreModule());
             return builder.Build();
         }
     }

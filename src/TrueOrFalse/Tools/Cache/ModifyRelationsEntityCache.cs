@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentNHibernate.Data;
-
+﻿
 public class ModifyRelationsEntityCache
 {
     public static void DeleteIncludetContentOf(CategoryCacheItem category)

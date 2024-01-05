@@ -7,16 +7,31 @@ using Quartz;
 using TrueOrFalse.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Text;
-using Microsoft.AspNetCore.Hosting;
 
 namespace TrueOrFalse.Infrastructure
 {
     public class AutofacCoreModule : Autofac.Module
     {
+        private readonly bool _externallyProvidedHttpContextAccessor;
+
+        public AutofacCoreModule()
+        {
+        }
+
+        public AutofacCoreModule(bool externallyProvidedHttpContextAccessor)
+        {
+            _externallyProvidedHttpContextAccessor = externallyProvidedHttpContextAccessor;
+        }
+
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            if (_externallyProvidedHttpContextAccessor == false)
+            {
+                builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().SingleInstance();
+            }
+
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
+
             
 
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
@@ -74,6 +89,7 @@ namespace TrueOrFalse.Infrastructure
             var assemblyTrueOrFalse = Assembly.Load("TrueOrFalse");
 
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IRegisterAsInstancePerLifetime>();
+            builder.RegisterType<EntityCacheInitializer>().AsSelf().InstancePerLifetimeScope();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse).AssignableTo<IJob>();
             builder.RegisterAssemblyTypes(assemblyTrueOrFalse)
                 .Where(a => a.Name.EndsWith("Repository") || a.Name.EndsWith("Repo"))

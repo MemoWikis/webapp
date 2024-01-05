@@ -1,6 +1,4 @@
 ﻿using NHibernate;
-using System.Collections.Generic;
-using System.Linq;
 using NHibernate.Criterion;
 
 public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
@@ -57,6 +55,7 @@ public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
             var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
+            //the line should not be needed
             EntityCache.AddOrUpdate(categoryCacheItem);
             categoryRepository.Update(category);
         }

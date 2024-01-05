@@ -6,13 +6,16 @@ namespace VueApp
     public class TopicRelationEditController : BaseController
     {
         private readonly EditControllerLogic _editControllerLogic;
+        private readonly CategoryCreator _categoryCreator;
 
-        public TopicRelationEditController(IGlobalSearch search,
+        public TopicRelationEditController(
             SessionUser sessionUser,
-            EditControllerLogic editControllerLogic) : base(sessionUser)
+            EditControllerLogic editControllerLogic, 
+            CategoryCreator categoryCreator) : base(sessionUser)
         {
             _sessionUser = sessionUser;
             _editControllerLogic = editControllerLogic;
+            _categoryCreator = categoryCreator;
         }
 
         public readonly record struct ValidateNameParam(string Name);
@@ -28,10 +31,7 @@ namespace VueApp
         [HttpPost]
         public JsonResult QuickCreate([FromBody] QuickCreateParam param)
         {
-            var data = _editControllerLogic.QuickCreate(param.Name,
-                    param.ParentTopicId, 
-                    _sessionUser);
-
+            var data = _categoryCreator.Create(param.Name, param.ParentTopicId, _sessionUser);
             return Json(data);
         }
 

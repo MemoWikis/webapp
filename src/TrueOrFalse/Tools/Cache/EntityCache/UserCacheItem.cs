@@ -50,7 +50,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsInstallationAdmin { get; set;  }
     public bool IsEmailConfirmed { get; set; }
 
-    public void AssignValues(User user)
+    protected void AssignValues(User user)
     {
         Id = user.Id;
         Name = user.Name;

@@ -19,9 +19,6 @@ public class CategoryCacheItem : IPersistable
     public virtual UserCacheItem Creator =>
         EntityCache.GetUserById(CreatorId);
     public virtual int[] AuthorIds { get; set; }
-
-    public virtual CategoryCachedData CachedData { get; set; } = new();
-
     public virtual string CategoriesToExcludeIdsString { get; set; }
     public virtual string CategoriesToIncludeIdsString { get; set; }
     public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
@@ -61,6 +58,12 @@ public class CategoryCacheItem : IPersistable
 
     public virtual string WikipediaURL { get; set; }
 
+    /// <summary>
+    /// Get Aggregated Topics
+    /// </summary>
+    /// <param name="permissionCheck"></param>
+    /// <param name="includingSelf"></param>
+    /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
     public Dictionary<int, CategoryCacheItem> AggregatedCategories(PermissionCheck permissionCheck, bool includingSelf = true)
     {
         var visibleVisited = VisibleChildCategories(this, permissionCheck);
@@ -118,17 +121,19 @@ public class CategoryCacheItem : IPersistable
         return questions.ToList();
     }
 
-    public virtual int GetCountQuestionsAggregated(int userId,
+    public virtual int GetCountQuestionsAggregated(
+        int userId,
         bool inCategoryOnly = false,
         int categoryId = 0)
     {
         if (inCategoryOnly)
         {
-            return GetAggregatedQuestionsFromMemoryCache(userId,
+            return GetAggregatedQuestionsFromMemoryCache(
+                userId,
                 true,
                 false,
-                categoryId)
-                .Count;
+                categoryId
+            ).Count;
         }
 
         return GetAggregatedQuestionsFromMemoryCache(userId)
@@ -182,7 +187,6 @@ public class CategoryCacheItem : IPersistable
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
-            CachedData = new CategoryCachedData(),
             CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,

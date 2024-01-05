@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
@@ -92,43 +91,6 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         return new RequestResult
         {
             success = true
-        };
-    }
-
-    public RequestResult QuickCreate(string name, int parentTopicId, SessionUser sessionUser)
-    {
-        if (!new LimitCheck(_httpContextAccessor,
-                _webHostEnvironment,
-                _logg,
-                sessionUser).CanSavePrivateTopic(true))
-        {
-            return new RequestResult
-            {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                data = new
-                {
-                    cantSavePrivateTopic = true
-                }
-            };
-        }
-
-        var topic = new Category(name, sessionUser.UserId);
-        new ModifyRelationsForCategory(_categoryRepository).AddParentCategory(topic, parentTopicId);
-
-        topic.Creator = _userReadingRepo.GetById(sessionUser.UserId);
-        topic.Type = CategoryType.Standard;
-        topic.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Create(topic);
-
-        return new RequestResult
-        {
-            success = true,
-            data = new
-            {
-                name = topic.Name,
-                id = topic.Id
-            }
         };
     }
 
@@ -235,7 +197,6 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
         JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
-        EntityCache.GetCategory(parentId).CachedData.AddChildId(childId);
         EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
 
         return new RequestResult
@@ -266,7 +227,6 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
             _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
-        EntityCache.GetCategory(parentIdToRemove).CachedData.RemoveChildId(childId);
         EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new RequestResult
         {

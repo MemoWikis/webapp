@@ -13,10 +13,10 @@ public class NHConfigurationFileCache
     private readonly string _cacheFile;
     private readonly Assembly _definitionsAssembly;
 
-    public NHConfigurationFileCache(Assembly definitionsAssembly, HttpContext httpContext, IWebHostEnvironment webHostEnvironment)
+    public NHConfigurationFileCache(Assembly definitionsAssembly, HttpContext httpContext)
     {
         _definitionsAssembly = definitionsAssembly;
-        _cacheFile = new ContextUtil(httpContext, webHostEnvironment).GetFilePath("bin/nh.cfg");
+        _cacheFile = new ContextUtil(httpContext).GetFilePath("bin/nh.cfg");
     }
 
     public bool IsConfigurationFileValid
