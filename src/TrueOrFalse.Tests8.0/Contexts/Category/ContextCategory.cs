@@ -75,6 +75,9 @@ public class ContextCategory : BaseTest
     public ContextCategory AddToEntityCache( Category category)
     {
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+
+        var cacheUser = UserCacheItem.ToCacheUser(category.Creator); 
+        EntityCache.AddOrUpdate(cacheUser);
         EntityCache.AddOrUpdate(categoryCacheItem);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
 
