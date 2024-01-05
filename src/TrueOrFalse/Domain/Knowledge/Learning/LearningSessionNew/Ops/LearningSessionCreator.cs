@@ -215,7 +215,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             config.CurrentUserId = _sessionUser.UserId;
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuation = _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
+        var allQuestionValuations = _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -224,7 +224,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         {
             foreach (var question in allQuestions)
             {
-                var questionProps = BuildQuestionProperties(config, question, allQuestionValuation);
+                var questionProps = BuildQuestionProperties(question, config, allQuestionValuations);
 
                 if (questionProps.AddToLearningSession)
                 {
@@ -290,8 +290,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     }
 
     public QuestionProperties BuildQuestionProperties(
-        LearningSessionConfig config, 
         QuestionCacheItem question,
+        LearningSessionConfig config, 
         IList<QuestionValuationCacheItem> allQuestionValuation)
     {
         var questionProperties = new QuestionProperties();
@@ -324,7 +324,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             var allQuestionValuation = 
                 _sessionUserCache.GetQuestionValuations(config.CurrentUserId);
 
-            var questionProps = BuildQuestionProperties(config, question, allQuestionValuation);
+            var questionProps = BuildQuestionProperties(question, config, allQuestionValuation);
 
             learningSession.QuestionCounter = CountQuestionsForSessionConfig(questionProps, learningSession.QuestionCounter);
 
@@ -427,8 +427,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return questions.Take(maxQuestionCount).ToList();
     }
 
-    public static QuestionProperties FilterByCreator_Test(LearningSessionConfig config, QuestionCacheItem questionCacheItem, QuestionProperties questionProperties) =>
-        FilterByCreator(config, questionCacheItem, questionProperties);
+    public static QuestionProperties FilterByCreator_Test(LearningSessionConfig config, QuestionCacheItem questionCacheItem) =>
+        FilterByCreator(config, questionCacheItem, new QuestionProperties());
 
     private static QuestionProperties FilterByCreator(
         LearningSessionConfig config, 

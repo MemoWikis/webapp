@@ -17,9 +17,8 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = false,
             CurrentUserId = _userId
         };
-        var questionProps = new QuestionProperties();
 
-        questionProps = FilterByCreator_Test(config, _questionUserIsCreator, questionProps);
+        var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
 
         // CurrentUserId == CreatorId
         Assert.IsTrue(questionProps.AddToLearningSession);
@@ -34,9 +33,8 @@ class FilterByCreator_tests : BaseTest
             NotCreatedByCurrentUser = true,
             CurrentUserId = _userId
         };
-        var questionProps = new QuestionProperties();
-
-        questionProps = FilterByCreator_Test(config, _questionUserIsNotCreator, questionProps);
+        
+        var questionProps = FilterByCreator_Test(config, _questionUserIsNotCreator);
 
         // CurrentUserId != CreatorId
         Assert.IsTrue(questionProps.AddToLearningSession);
@@ -52,14 +50,10 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = _userId
         };
 
-        var questionProps = new QuestionProperties();
-        questionProps = FilterByCreator_Test(config, _questionUserIsCreator, questionProps);
-
+        var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
         Assert.IsTrue(questionProps.AddToLearningSession);
 
-        var questionProps2 = new QuestionProperties();
-        questionProps2 = FilterByCreator_Test(config, _questionUserIsNotCreator, questionProps2);
-
+        var questionProps2 = FilterByCreator_Test(config, _questionUserIsNotCreator);
         Assert.IsTrue(questionProps2.AddToLearningSession);
     }
 
@@ -73,14 +67,10 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = _userId
         };
 
-        var questionProps = new QuestionProperties();
-        questionProps = FilterByCreator_Test(config, _questionUserIsCreator, questionProps);
-
+        var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
         Assert.IsTrue(questionProps.AddToLearningSession);
 
-        var questionProps2 = new QuestionProperties();
-        questionProps2 = FilterByCreator_Test(config, _questionUserIsNotCreator, questionProps2);
-
+        var questionProps2 = FilterByCreator_Test(config, _questionUserIsNotCreator);
         Assert.IsTrue(questionProps2.AddToLearningSession);
     }
 
@@ -94,9 +84,7 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = _userId
         };
 
-        var questionProps = new QuestionProperties();
-        questionProps = FilterByCreator_Test(config, _questionUserIsCreator, questionProps);
-
+        var questionProps = FilterByCreator_Test(config, _questionUserIsCreator);
         Assert.IsFalse(questionProps.AddToLearningSession);
     }
 
@@ -110,9 +98,7 @@ class FilterByCreator_tests : BaseTest
             CurrentUserId = _userId
         };
 
-        var questionProps = new QuestionProperties();
-        questionProps = FilterByCreator_Test(config, _questionUserIsNotCreator, questionProps);
-
+        var questionProps = FilterByCreator_Test(config, _questionUserIsNotCreator);
         Assert.IsFalse(questionProps.AddToLearningSession);
     }
 
