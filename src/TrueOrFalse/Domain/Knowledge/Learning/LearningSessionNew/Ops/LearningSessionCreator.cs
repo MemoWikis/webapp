@@ -298,7 +298,18 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
         questionProperties = FilterByCreator(config, question, questionProperties);
         questionProperties = FilterByVisibility(config, question, questionProperties);
-        questionProperties = FilterByKnowledgeSummaryAndWuwi(config, question, questionProperties, allQuestionValuation);
+
+        if (_sessionUser.IsLoggedIn)
+        {
+            var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == question.Id);
+
+            questionProperties = FilterByWuwi(questionValuation, config, questionProperties);
+            questionProperties = FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
+        }
+        else
+        {
+            questionProperties.NotLearned = true;
+        }
 
         return questionProperties;
     }
@@ -460,28 +471,6 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
             if (!config.PrivateQuestions && config.PublicQuestions)
                 questionProperties.AddToLearningSession = false;
-        }
-
-        return questionProperties;
-    }
-
-    private QuestionProperties FilterByKnowledgeSummaryAndWuwi(
-        LearningSessionConfig config, 
-        QuestionCacheItem question, 
-        QuestionProperties questionProperties, 
-        IList<QuestionValuationCacheItem> allQuestionValuation
-    )
-    {
-        if (_sessionUser.IsLoggedIn)
-        {
-            var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == question.Id);
-
-            questionProperties = FilterByWuwi(questionValuation, config, questionProperties);
-            questionProperties = FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
-        }
-        else
-        {
-            questionProperties.NotLearned = true;
         }
 
         return questionProperties;
