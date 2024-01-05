@@ -14,7 +14,11 @@ namespace TrueOrFalse.Infrastructure
     {
         private readonly bool _externallyProvidedHttpContextAccessor;
 
-        public AutofacCoreModule(bool externallyProvidedHttpContextAccessor = false)
+        public AutofacCoreModule()
+        {
+        }
+
+        public AutofacCoreModule(bool externallyProvidedHttpContextAccessor)
         {
             _externallyProvidedHttpContextAccessor = externallyProvidedHttpContextAccessor;
         }

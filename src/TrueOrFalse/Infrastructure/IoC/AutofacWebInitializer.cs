@@ -39,7 +39,7 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterInstance(httpContextAccessor)
                 .As<IHttpContextAccessor>()
                 .SingleInstance();
-            builder.RegisterModule(new AutofacCoreModule(true));
+            builder.RegisterModule(new AutofacCoreModule(externallyProvidedHttpContextAccessor: true));
             return builder.Build();
         }
 
