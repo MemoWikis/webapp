@@ -51,9 +51,7 @@ namespace TrueOrFalse
                 new ProbabilityUpdate_Valuation(_nhibernateSession,
                     _questionValuationReadingRepo,
                     _probabilityCalcSimple1,
-                    _answerRepo,
-                    _httpContextAccessor,
-                    _webHostEnvironment)
+                    _answerRepo)
                     .Run((int)item[0],
                     (int)item[1],
                     _questionReadingRepo,

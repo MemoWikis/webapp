@@ -107,9 +107,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             new ProbabilityUpdate_Valuation(_nhibernateSession,
                     _questionValuationReadingRepo,
                     _probabilityCalcSimple1,
-                    _answerRepo,
-                    _httpContextAccessor,
-                    _webHostEnvironment)
+                    _answerRepo)
                 .Run(question, user, _questionReadingRepo);
         }
         UpdateTotalRelevancePersonalInCache(questions);
@@ -138,9 +136,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
             new ProbabilityUpdate_Valuation(_nhibernateSession,
                 _questionValuationReadingRepo,
                 _probabilityCalcSimple1,
-                _answerRepo,
-                _httpContextAccessor,
-                _webHostEnvironment)
+                _answerRepo)
                 .Run(questionId, userId, _questionReadingRepo, _userReadingRepo);
     }
 
