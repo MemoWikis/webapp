@@ -1,8 +1,4 @@
-﻿using System.Configuration;
-using System.Net.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using TrueOrFalse.Environment;
 
 public class Settings

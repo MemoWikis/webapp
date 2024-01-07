@@ -3,7 +3,6 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Seedworks.Lib.Persistence;
 using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
@@ -30,7 +29,6 @@ public class BaseTest
     [SetUp]
     public void SetUp()
     {
-        Settings.Initialize(CreateConfiguration());
         SessionFactory.BuildTestConfiguration();
         // CleanEmailsFromPickupDirectory.Run();
         InitializeContainer();
@@ -109,12 +107,6 @@ public class BaseTest
             .Persist();
     }
 
-    private IConfiguration CreateConfiguration()
-    {
-        var configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.AddJsonFile("appsettings.Test.json");
-        return configurationBuilder.Build();
-    }
 
     public static T Resolve<T>() where T : notnull => _container.Resolve<T>();
     public static T R<T>() where T : notnull => _container.Resolve<T>();

@@ -1,14 +1,8 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Web;
-using FluentNHibernate.Cfg;
+﻿using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using NHibernate;
 using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
-using Seedworks.Web.State;
 using TrueOrFalse.Infrastructure.Persistence;
 
 
@@ -69,10 +63,10 @@ namespace TrueOrFalse
             const string enableForeignKeyCheck = "SET FOREIGN_KEY_CHECKS = 1;";
 
             const string sqlString = @"
-                
                 SELECT Concat('TRUNCATE TABLE ', TABLE_NAME, ';') 
                 FROM INFORMATION_SCHEMA.TABLES 
                 WHERE table_schema = DATABASE();
+
                 SET FOREIGN_KEY_CHECKS = 1;
 ";
 
