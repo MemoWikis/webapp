@@ -15,7 +15,9 @@ async function handlePrimaryAction() {
     if (deleteTopicStore.topicDeleted) {
         deleteTopicStore.showModal = false
         deleteTopicStore.topicDeleted = false
-        await navigateTo(deleteTopicStore.redirectURL)
+
+        if (deleteTopicStore.redirect)
+            await navigateTo(deleteTopicStore.redirectURL)
     } else {
         deleteTopicStore.deleteTopic()
     }

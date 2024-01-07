@@ -71,7 +71,7 @@ public class ModifyRelationsForCategory
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
 
-        if (!permissionCheck.CanEdit(childCategory))
+        if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEditCategory(parentCategoryIdToRemove))  
             throw new SecurityException("Not allowed to edit category");
 
         var childCategoryAsCategory = _categoryRepository.GetById(childCategory.Id);

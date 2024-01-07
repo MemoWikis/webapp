@@ -52,16 +52,16 @@ namespace VueApp
             return Json(data);
         }
 
+        public readonly record struct MoveChildParam(int childId, int parentIdToRemove, int parentIdToAdd );
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
+        public JsonResult MoveChild([FromBody] MoveChildParam param)
         {
-            var data = _editControllerLogic.MoveChild(childId, parentIdToRemove, parentIdToAdd);
+            var data = _editControllerLogic.MoveChild(param.childId, param.parentIdToRemove, param.parentIdToAdd);
             return Json(data);
         }
 
         public readonly record struct AddChildParam(int ChildId, int ParentId, int ParentIdToRemove, bool AddIdToWikiHistory);
-
         [AccessOnlyAsLoggedIn]
         [HttpPost]
         public JsonResult AddChild([FromBody] AddChildParam param)
@@ -75,11 +75,12 @@ namespace VueApp
             return Json(data);
         }
 
+        public readonly record struct RemoveParentParam(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null);
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
+        public JsonResult RemoveParent([FromBody] RemoveParentParam param)
         {
-            var data = _editControllerLogic.RemoveParent(parentIdToRemove, childId, affectedParentIdsByMove);
+            var data = _editControllerLogic.RemoveParent(param.parentIdToRemove, param.childId, param.affectedParentIdsByMove);
             return Json(data);
         }
     }

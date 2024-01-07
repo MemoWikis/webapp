@@ -125,7 +125,10 @@ editTopicRelationStore.$onAction(({ after, name }) => {
     if (name == 'addTopic') {
         after((result) => {
             if (result.parentId == props.topic.id) {
-                addGridItem(result.childId)
+                if (children.value.some(c => c.id == result.childId))
+                    reloadGridItem(result.childId)
+                else
+                    addGridItem(result.childId)
             }
         })
     }
@@ -189,7 +192,10 @@ async function addGridItem(id: number) {
     const result = await loadGridItem(id)
 
     if (result.success == true) {
-        children.value.push(result.data)
+        if (children.value.some(c => c.id == result.data.id))
+            reloadGridItem(result.data.id)
+        else
+            children.value.push(result.data)
     } else if (result.success == false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
