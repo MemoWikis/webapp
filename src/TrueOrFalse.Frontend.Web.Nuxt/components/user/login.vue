@@ -245,10 +245,10 @@ onMounted(() => {
                             </div>
                             <div class="infoContainer col-sm-12 noPadding">
                                 <div class="col-sm-4 noPadding">
-                                    <label class="cursor-hand">
+                                    <!-- <label class="cursor-hand">
                                         <input type="checkbox" class="cursor-hand" v-model="persistentLogin" />
                                         <span class="checkboxText">Angemeldet bleiben</span>
-                                    </label>
+                                    </label> -->
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
                                     <div class="btn btn-link" @click="showPasswordReset = true">
