@@ -1,26 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using FluentNHibernate.Conventions;
-using MySqlX.XDevAPI;
+﻿using FluentNHibernate.Conventions;
 
-public class CategoryInKnowledge :IRegisterAsInstancePerLifetime
+public class CategoryInKnowledge : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
     private readonly SessionUserCache _sessionUserCache;
 
     public CategoryInKnowledge(QuestionInKnowledge questionInKnowledge,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
         UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
         SessionUserCache sessionUserCache)
     {
         _questionInKnowledge = questionInKnowledge;
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
         _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
         _sessionUserCache = sessionUserCache;
     }
 
