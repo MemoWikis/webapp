@@ -1,29 +1,15 @@
 ﻿using System.Net.Mail;
 
-public class RestoreCategory : IRegisterAsInstancePerLifetime
+public class RestoreCategory(
+    SessionUser _sessionUser,
+    CategoryRepository _categoryRepository,
+    CategoryChangeRepo _categoryChangeRepo,
+    JobQueueRepo _jobQueueRepo,
+    UserReadingRepo _userReadingRepo,
+    MessageRepo _messageRepo)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly MessageRepo _messageRepo;
-    private readonly MessageRepo _message;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly int _sessionUserId;
-
-    public RestoreCategory(SessionUser sessionUser,
-        CategoryRepository categoryRepository,
-        CategoryChangeRepo categoryChangeRepo,
-        JobQueueRepo jobQueueRepo,
-        UserReadingRepo userReadingRepo,
-        MessageRepo messageRepo)
-    {
-        _categoryChangeRepo = categoryChangeRepo;
-        _jobQueueRepo = jobQueueRepo;
-        _userReadingRepo = userReadingRepo;
-        _messageRepo = messageRepo;
-        _categoryRepository = categoryRepository; 
-        _sessionUserId = sessionUser.UserId;
-    }
+    private readonly int _sessionUserId = _sessionUser.UserId;
 
     public void Run(int categoryChangeId, User author)
     {

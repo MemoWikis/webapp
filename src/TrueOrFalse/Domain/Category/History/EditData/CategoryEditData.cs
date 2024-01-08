@@ -1,5 +1,4 @@
-﻿
-public abstract class CategoryEditData
+﻿public abstract class CategoryEditData
 {
     public string Name;
     public string Description;

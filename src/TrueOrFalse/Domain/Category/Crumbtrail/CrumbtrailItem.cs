@@ -1,13 +1,7 @@
-﻿public class CrumbtrailItem
+﻿public class CrumbtrailItem(CategoryCacheItem _category)
 {
-    public string Text;
-    public readonly CategoryCacheItem Category;
-
-    public CrumbtrailItem(CategoryCacheItem category)
-    {
-        Text = category.Name;
-        Category = category;
-    }
+    public string Text = _category.Name;
+    public readonly CategoryCacheItem Category = _category;
 
     public bool IsEqual(CategoryCacheItem category) => Category.Id == category.Id;
 }

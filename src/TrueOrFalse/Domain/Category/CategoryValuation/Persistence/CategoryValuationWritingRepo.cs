@@ -1,16 +1,10 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
 
-public class CategoryValuationWritingRepo : IRegisterAsInstancePerLifetime
+public class CategoryValuationWritingRepo(ISession _session, KnowledgeSummaryLoader _knowledgeSummaryLoader)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly RepositoryDb<CategoryValuation> _repo;
-
-    public CategoryValuationWritingRepo(ISession session, KnowledgeSummaryLoader knowledgeSummaryLoader)
-    {
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _repo = new RepositoryDb<CategoryValuation>(session); 
-    }
+    private readonly RepositoryDb<CategoryValuation> _repo = new(_session);
 
     private void UpdateKnowledgeSummary(CategoryValuation categoryValuation)
     {

@@ -1,17 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class Crumbtrail
+﻿public class Crumbtrail(CategoryCacheItem _current, CategoryCacheItem _root)
 {
-    public CrumbtrailItem Root;
-    public CrumbtrailItem Current;
+    public CrumbtrailItem Root = new(_root);
+    public CrumbtrailItem Current = new(_current);
     public IList<CrumbtrailItem> Items = new List<CrumbtrailItem>();
-
-    public Crumbtrail(CategoryCacheItem current, CategoryCacheItem root)
-    {
-        Current = new CrumbtrailItem(current);
-        Root = new CrumbtrailItem(root);
-    }
 
     public bool Rootfound;
 

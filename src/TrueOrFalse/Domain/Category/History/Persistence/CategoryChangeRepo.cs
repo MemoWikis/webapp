@@ -1,12 +1,8 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 
-public class CategoryChangeRepo : RepositoryDbBase<CategoryChange>
+public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryChange>(_session)
 {
-    public CategoryChangeRepo(ISession session) : base(session)
-    {
-    }
-
     public void AddDeleteEntry(Category category,
         int userId)
     {

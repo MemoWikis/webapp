@@ -1,9 +1,4 @@
-public class CategoryRelation_EditData_V1
+public class CategoryRelation_EditData_V1(CategoryRelation _categoryRelation)
 {
-    public int CategoryId;
-
-    public CategoryRelation_EditData_V1(CategoryRelation categoryRelation)
-    {
-        CategoryId = categoryRelation.Category.Id;
-    }
+    public int CategoryId = _categoryRelation.Category.Id;
 }

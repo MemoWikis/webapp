@@ -1,21 +1,11 @@
-﻿using System;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 
-public class AllTopicsHistory : IRegisterAsInstancePerLifetime
+public class AllTopicsHistory(
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser,
+    ISession _nhibernateSession)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly SessionUser _sessionUser;
-    private readonly ISession _nhibernateSession;
-
-    public AllTopicsHistory(PermissionCheck permissionCheck,
-        SessionUser sessionUser,
-        ISession nhibernateSession)
-    {
-        _permissionCheck = permissionCheck;
-        _sessionUser = sessionUser;
-        _nhibernateSession = nhibernateSession;
-    }
     public IOrderedEnumerable<IGrouping<DateTime, CategoryChange>> GetGroupedChanges(int page, int revisionsToShow)
     {
         var revisionsToSkip = (page - 1) * revisionsToShow;
@@ -37,4 +27,3 @@ public class AllTopicsHistory : IRegisterAsInstancePerLifetime
     }
     
 }
-

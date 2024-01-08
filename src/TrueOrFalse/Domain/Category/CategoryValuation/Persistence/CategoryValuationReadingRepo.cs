@@ -5,14 +5,9 @@ using NHibernate;
 using NHibernate.Transform;
 using Seedworks.Lib.Persistence;
 
-public class CategoryValuationReadingRepo : IRegisterAsInstancePerLifetime
+public class CategoryValuationReadingRepo(ISession _session) : IRegisterAsInstancePerLifetime
 {
-    private readonly RepositoryDb<CategoryValuation> _repo;
-
-    public CategoryValuationReadingRepo(ISession session)
-    {
-        _repo = new RepositoryDb<CategoryValuation>(session); 
-    }
+    private readonly RepositoryDb<CategoryValuation> _repo = new(_session);
 
     public CategoryValuation GetBy(int categoryId, int userId) =>
         _repo.Session.QueryOver<CategoryValuation>()

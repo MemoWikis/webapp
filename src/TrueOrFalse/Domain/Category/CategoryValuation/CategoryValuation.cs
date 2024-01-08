@@ -20,6 +20,4 @@ public class CategoryValuation : DomainEntity
     }
 
     public virtual bool IsInWishKnowledge() { return RelevancePersonal > 0; }
-
-    
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-
-public class GraphService
+﻿public class GraphService
 {
     public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
         GetAllParentsFromEntityCache(EntityCache.GetCategory(categoryId));
