@@ -20,7 +20,6 @@ const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/ap
         },
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         },
     })
 
@@ -72,7 +71,6 @@ async function handleClick(url: string) {
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-
     const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/${url}`, {
         body: data,
         method: 'POST',
@@ -89,8 +87,8 @@ const emit = defineEmits(['setBreadcrumb'])
 onBeforeMount(() => {
     if (!isAdmin.value && !userStore.isAdmin)
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-    emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
 
+    emit('setBreadcrumb', [{ name: 'Maintenance', url: '/Maintenance' }])
 })
 
 const userIdToDelete = ref(0)
