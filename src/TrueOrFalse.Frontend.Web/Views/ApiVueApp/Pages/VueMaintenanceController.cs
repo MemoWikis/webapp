@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Hosting;
@@ -60,8 +61,7 @@ public class VueMaintenanceController : BaseController
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
-    [ValidateAntiForgeryToken]
-    [AccessOnlyAsLoggedIn]
+
     [AccessOnlyAsAdmin]
     [HttpGet]
     public JsonResult Get()
@@ -71,21 +71,38 @@ public class VueMaintenanceController : BaseController
             var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
             Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = true });
 
-            return new JsonResult(new { token = tokens.RequestToken, success = true });
+            return Json(new
+            {
+                success = true,
+                data = tokens.RequestToken
+            });
         }
 
-        return new JsonResult(new { error = "notAllowed", success = false });
+        throw new SecurityException("Not allowed");
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult RecalculateAllKnowledgeItems()
     {
         _probabilityUpdateValuationAll.Run();
         _probabilityUpdateQuestion.Run();
-       new  ProbabilityUpdate_Category(_categoryRepository, _answerRepo, _httpContextAccessor, _webHostEnvironment).Run();
-       ProbabilityUpdate_User.Initialize(_userReadingRepo, _userWritingRepo, _answerRepo, _httpContextAccessor,
+
+       new ProbabilityUpdate_Category(
+           _categoryRepository, 
+           _answerRepo, 
+           _httpContextAccessor, 
+           _webHostEnvironment)
+           .Run();
+
+       ProbabilityUpdate_User.Initialize(
+           _userReadingRepo, 
+           _userWritingRepo, 
+           _answerRepo, 
+           _httpContextAccessor,
            _webHostEnvironment);
+
        ProbabilityUpdate_User.Instance.Run();
 
         return Json(new
@@ -95,13 +112,12 @@ public class VueMaintenanceController : BaseController
             });
     }
 
-
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult CalcAggregatedValuesQuestions()
     {
         _updateQuestionAnswerCounts.Run();
-
 
         return Json(new
         {
@@ -110,6 +126,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult UpdateFieldQuestionCountForTopics()
@@ -136,6 +153,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult UpdateUserWishCount()
@@ -162,10 +180,8 @@ public class VueMaintenanceController : BaseController
         });
     }
 
-
-
-
     //todo: Remove when Meilisearch is active
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<JsonResult> ReIndexAllQuestions()
@@ -178,7 +194,9 @@ public class VueMaintenanceController : BaseController
             data = "Fragen wurden neu indiziert."
         });
     }
+
     //todo: Remove when Meilisearch is active
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<JsonResult> ReIndexAllTopics()
@@ -205,6 +223,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllQuestions()
@@ -218,6 +237,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllTopics()
@@ -231,6 +251,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<JsonResult> MeiliReIndexAllUsers()
@@ -244,6 +265,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult CheckForDuplicateInteractionNumbers()
@@ -265,7 +287,7 @@ public class VueMaintenanceController : BaseController
     }
 
     //Tools
-
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult Throw500()
@@ -273,6 +295,7 @@ public class VueMaintenanceController : BaseController
         throw new Exception("Some random exception");
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult CleanUpWorkInProgressQuestions()
@@ -284,6 +307,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult ReloadListFromIgnoreCrawlers()
@@ -306,6 +330,7 @@ public class VueMaintenanceController : BaseController
         });
     }
 
+    [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
     public JsonResult Start100TestJobs()
@@ -318,8 +343,6 @@ public class VueMaintenanceController : BaseController
             data = "Started 100 test jobs."
         });
     }
-
-
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
