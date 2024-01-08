@@ -212,6 +212,13 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
     public RequestResult RemoveParent(int parentIdToRemove, int childId, int[] affectedParentIdsByMove = null)
     {
+        if (!_permissionCheck.CanEditCategory(parentIdToRemove) && !_permissionCheck.CanEditCategory(childId))
+            return new RequestResult
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+            };
+
         var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
         if (!parentHasBeenRemoved)
             return new RequestResult
