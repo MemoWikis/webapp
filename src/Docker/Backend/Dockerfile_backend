@@ -1,5 +1,5 @@
 # First stage: build the application
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /source
 
 # Copy csproj and restore as distinct layers
@@ -15,7 +15,7 @@ WORKDIR /source/TrueOrFalse.Frontend.Web
 RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -c Release -o /app
 
 # Second stage: build the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app .
 
