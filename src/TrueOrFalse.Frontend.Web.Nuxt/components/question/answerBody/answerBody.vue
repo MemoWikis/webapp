@@ -357,7 +357,8 @@ const allMultipleChoiceCombinationTried = computed(() => {
     return false
 })
 
-watch(() => topicStore.id, () => learningSessionStore.showResult = false) 
+watch(() => topicStore.id, () => learningSessionStore.showResult = false)
+
 </script>
 
 <template>
@@ -378,66 +379,10 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                             :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                     </div>
                 </div>
-                <div class="Button dropdown answerbody-btn">
-                    <div class="answerbody-btn-inner">
-                        <VDropdown :distance="0">
-                            <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
-                            <template #popper="{ hide }">
-
-                                <div class="dropdown-row"
-                                    v-if="tabsStore.activeTab == Tab.Learning && (answerBodyModel.isCreator || userStore.isAdmin)"
-                                    @click="editQuestionStore.editQuestion(answerBodyModel!.id)">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon icon="fa-solid fa-pen" />
-                                    </div>
-                                    <div class="dropdown-label">Frage bearbeiten</div>
-
-                                </div>
-
-                                <LazyNuxtLink :to="$urlHelper.getQuestionUrl(answerBodyModel.title, answerBodyModel.id)"
-                                    v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
-                                    <div class="dropdown-row">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-file" />
-                                        </div>
-                                        <div class="dropdown-label">Frageseite anzeigen</div>
-                                    </div>
-                                </LazyNuxtLink>
-
-                                <LazyNuxtLink :to="`/QuestionHistory/${answerBodyModel.title}/${answerBodyModel.id}`"
-                                    v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
-                                    <div class="dropdown-row">
-                                        <div class="dropdown-icon">
-                                            <font-awesome-icon icon="fa-solid fa-code-fork" />
-                                        </div>
-                                        <div class="dropdown-label">Bearbeitungshistorie der Frage</div>
-                                    </div>
-                                </LazyNuxtLink>
-
-                                <div class="dropdown-row" @click="openCommentModal(); hide()">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon icon="fa-solid fa-comment" />
-                                    </div>
-                                    <div class="dropdown-label">Frage kommentieren</div>
-                                </div>
-
-                                <div class="dropdown-row"
-                                    @click="deleteQuestionStore.openModal(answerBodyModel!.id); hide()"
-                                    v-if="userStore.isLoggedIn && answerBodyModel.isCreator || userStore.isAdmin">
-                                    <div class="dropdown-icon">
-                                        <font-awesome-icon icon="fa-solid fa-trash" />
-                                    </div>
-                                    <div class="dropdown-label">Frage löschen</div>
-                                </div>
-
-                            </template>
-                        </VDropdown>
-
-                    </div>
-                </div>
+                <QuestionAnswerBodyOptions v-if="answerBodyModel" :id="answerBodyModel.id" :title="answerBodyModel.title"
+                    :can-edit="answerBodyModel.isCreator || userStore.isAdmin" />
 
             </div>
-
 
         </div>
 
