@@ -73,8 +73,8 @@ public class ContextCategory: BaseTest
         {
             categoryRelations.Add(new CategoryRelation
             {
-                Category = category,
-                RelatedCategory = parent,
+                Child = category,
+                Parent = parent,
             });
 
             category.CategoryRelations = categoryRelations;
@@ -86,8 +86,8 @@ public class ContextCategory: BaseTest
             {
                 categoryRelations.Add(new CategoryRelation
                 {
-                    Category = category,
-                    RelatedCategory = p,
+                    Child = category,
+                    Parent = p,
                 });
             }
 

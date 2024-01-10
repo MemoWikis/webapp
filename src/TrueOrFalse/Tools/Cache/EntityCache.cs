@@ -284,7 +284,7 @@ public class EntityCache : BaseEntityCache
         var allCategories = GetAllCategories();
 
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.RelatedCategoryId == categoryId)
+            c.CategoryRelations.Where(cr => cr.ParentCategoryId == categoryId)
                 .Select(cr => GetCategory(cr.CategoryId))).ToList();
     }
 
@@ -326,12 +326,12 @@ public class EntityCache : BaseEntityCache
         {
            return allCategories.SelectMany(c =>
                 c.CategoryRelations.Where(cr => cr.CategoryId == categoryId &&
-                                                permissionCheck.CanViewCategory(cr.RelatedCategoryId))
-                    .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
+                                                permissionCheck.CanViewCategory(cr.ParentCategoryId))
+                    .Select(cr => GetCategory(cr.ParentCategoryId))).ToList();
         }
         return allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.CategoryId == categoryId)
-                .Select(cr => GetCategory(cr.RelatedCategoryId))).ToList();
+                .Select(cr => GetCategory(cr.ParentCategoryId))).ToList();
     }
 
     public static IList<CategoryCacheItem> GetAllParents(int childId,PermissionCheck permissionCheck, bool getFromEntityCache = false,bool visibleOnly = false)

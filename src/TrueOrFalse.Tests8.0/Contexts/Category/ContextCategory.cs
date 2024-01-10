@@ -54,19 +54,18 @@ public class ContextCategory : BaseTest
     }
 
 
-    public ContextCategory AddParentToCategory(Category child, Category parent)
+    public ContextCategory AddChild(Category parent, Category child)
     {
-        var childFromDb = _categoryRepository.GetById(child.Id);
         var parentFromDb = _categoryRepository.GetById(parent.Id);
+        var childFromDb = _categoryRepository.GetById(child.Id);
 
-        if (parentFromDb != null) // set parent
+        var newRelation = new CategoryRelation
         {
-            childFromDb.CategoryRelations.Add(new CategoryRelation
-            {
-                Category = childFromDb,
-                RelatedCategory = parentFromDb,
-            });
-        }
+            Child = childFromDb,
+            Parent = parentFromDb,
+        };
+
+        R<CategoryRelationRepo>().Create(newRelation);
 
         return this;
     }
@@ -185,6 +184,6 @@ public class ContextCategory : BaseTest
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
     {
         return categoryCacheItem.CategoryRelations.Any(cr =>
-            cr.RelatedCategoryId == deletedId || cr.CategoryId == deletedId);
+            cr.ParentCategoryId == deletedId || cr.CategoryId == deletedId);
     }
 }

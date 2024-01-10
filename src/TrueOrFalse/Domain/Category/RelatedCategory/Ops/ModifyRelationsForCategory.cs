@@ -30,12 +30,12 @@ public class ModifyRelationsForCategory
         var relatedCategory = _categoryRepository.GetByIdEager(parentId);
         var categoryRelationToAdd = new CategoryRelation()
         {
-            Category = category,
-            RelatedCategory = relatedCategory,
+            Child = category,
+            Parent = relatedCategory,
         };
         if (!category.CategoryRelations.Any(cr =>
-                cr.Category == categoryRelationToAdd.Category &&
-                cr.RelatedCategory == categoryRelationToAdd.RelatedCategory))
+                cr.Child == categoryRelationToAdd.Child &&
+                cr.Parent == categoryRelationToAdd.Parent))
         {
             category.CategoryRelations.Add(categoryRelationToAdd);
         }
@@ -44,7 +44,7 @@ public class ModifyRelationsForCategory
     public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)
     {
         return category.CategoryRelations.Any()
-            ? category.CategoryRelations?.Where(r => r.RelatedCategory.Id == category.Id).ToList()
+            ? category.CategoryRelations?.Where(r => r.Parent.Id == category.Id).ToList()
             : new List<CategoryRelation>();
     }
 
@@ -53,8 +53,8 @@ public class ModifyRelationsForCategory
         for (int i = 0; i < category.CategoryRelations.Count; i++)
         {
             var relation = category.CategoryRelations[i];
-            if (relation.Category.Id == category.Id &&
-                relation.RelatedCategory.Id == relatedCategory.Id)
+            if (relation.Child.Id == category.Id &&
+                relation.Parent.Id == relatedCategory.Id)
             {
                 category.CategoryRelations.RemoveAt(i);
                 break;

@@ -10,7 +10,7 @@ public class ModifyRelationsEntityCache
             {
                 var relation = parent.CategoryRelations[i];
 
-                if (relation.RelatedCategoryId == category.Id)
+                if (relation.ParentCategoryId == category.Id)
                 {
                     parent.CategoryRelations.Remove(relation);
                     break;
@@ -23,7 +23,7 @@ public class ModifyRelationsEntityCache
     {
         child.CategoryRelations.Add(new CategoryCacheRelation
         {
-            RelatedCategoryId = parentId,
+            ParentCategoryId = parentId,
             CategoryId = child.Id
         }); 
     }
@@ -34,7 +34,7 @@ public class ModifyRelationsEntityCache
             var relation = categoryCacheItem.CategoryRelations[i];
 
             if (relation.CategoryId == categoryCacheItem.Id &&
-                relation.RelatedCategoryId == relatedId)
+                relation.ParentCategoryId == relatedId)
             {
                 categoryCacheItem.CategoryRelations.RemoveAt(i);
                 break;

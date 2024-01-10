@@ -164,7 +164,7 @@ public class CategoryCacheItem : IPersistable
     {
         return CategoryRelations != null && CategoryRelations.Any()
             ? CategoryRelations
-                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId))
+                .Select(x => EntityCache.GetCategory(x.ParentCategoryId))
                 .ToList()
             : new List<CategoryCacheItem>();
     }

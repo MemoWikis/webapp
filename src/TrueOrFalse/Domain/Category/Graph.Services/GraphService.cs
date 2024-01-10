@@ -39,6 +39,6 @@
         }
 
         return category.CategoryRelations
-            .Select(cr => cr.RelatedCategoryId).ToList();
+            .Select(cr => cr.ParentCategoryId).ToList();
     }
 }
