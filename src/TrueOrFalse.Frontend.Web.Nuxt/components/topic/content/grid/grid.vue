@@ -72,7 +72,10 @@ editTopicRelationStore.$onAction(({ after, name }) => {
         after((result) => {
             if (result.parentId == topicStore.id) {
                 addGridItem(result.childId)
+            } else if (topicStore.gridItems.some(c => c.id == result.childId)) {
+                reloadGridItem(result.childId)
             }
+
         })
     }
     if (name == 'removeTopic') {
@@ -160,7 +163,7 @@ const { isMobile } = useDevice()
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Themen' }} ({{ topicStore.directChildTopicCount }})
+                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Themen' }} ({{ topicStore.childTopicCount }})
                     </div>
 
                     <div class="grid-options">
