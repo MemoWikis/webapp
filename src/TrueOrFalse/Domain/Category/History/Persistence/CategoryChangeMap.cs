@@ -8,7 +8,7 @@ public class CategoryChangeMap : ClassMap<CategoryChange>
 
         References(x => x.Category).NotFound.Ignore();
 
-        Map(x => x.Data);
+        Map(x => x.Data).CustomSqlType("longtext");
         Map(x => x.ShowInSidebar);
 
         Map(x => x.DataVersion);
