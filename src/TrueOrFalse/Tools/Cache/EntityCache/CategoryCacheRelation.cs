@@ -1,7 +1,7 @@
 ﻿[Serializable]
 public class CategoryCacheRelation
 {
-    public virtual int CategoryId { get; set; }
+    public virtual int ChildCategoryId { get; set; }
     public virtual int ParentCategoryId { get; set; }
 
     public IList<CategoryCacheRelation> ToListCategoryRelations(IList<CategoryRelation> listCategoryRelations)
@@ -27,14 +27,14 @@ public class CategoryCacheRelation
     {
         return new CategoryCacheRelation
         {
-            CategoryId = categoryRelation.Child.Id,
+            ChildCategoryId = categoryRelation.Child.Id,
             ParentCategoryId = categoryRelation.Parent.Id
         };
     }
 
-    public static bool IsCategorRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
+    public static bool IsCategoryRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
     {
         return relation1.ParentCategoryId == relation2.ParentCategoryId &&
-               relation1.CategoryId == relation2.CategoryId;
+               relation1.ChildCategoryId == relation2.ChildCategoryId;
     }
 }

@@ -72,8 +72,8 @@ editTopicRelationStore.$onAction(({ after, name }) => {
         after((result) => {
             if (result.parentId == topicStore.id) {
                 addGridItem(result.childId)
-            } else if (topicStore.gridItems.some(c => c.id == result.childId)) {
-                reloadGridItem(result.childId)
+            } else if (topicStore.gridItems.some(c => c.id == result.parentId)) {
+                reloadGridItem(result.parentId)
             }
 
         })

@@ -7,7 +7,7 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public EntityCacheInitializer(
-         CategoryRepository categoryRepository,
+        CategoryRepository categoryRepository,
         UserReadingRepo userReadingRepo,
         QuestionReadingRepo questionReadingRepo
     )

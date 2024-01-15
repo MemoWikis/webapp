@@ -54,6 +54,7 @@ public class BaseTest
         Resolve<SessionData>().Clear();
         R<ISession>().Flush();
         AutofacWebInitializer.Dispose();
+        BuildContainer();
     }
 
     public static void InitializeContainer()

@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static CategoryRepository;
@@ -282,10 +283,57 @@ public class EntityCache : BaseEntityCache
     public static List<CategoryCacheItem> GetChildren(int categoryId)
     {
         var allCategories = GetAllCategories();
-
-        return allCategories.SelectMany(c =>
+        var children = allCategories.SelectMany(c =>
             c.CategoryRelations.Where(cr => cr.ParentCategoryId == categoryId)
-                .Select(cr => GetCategory(cr.CategoryId))).ToList();
+                .Select(cr => GetCategory(cr.ChildCategoryId))).ToList();
+        return children;
+    }
+
+    public static List<CategoryCacheItem> GetVisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
+    {
+        var visibleChildren = new List<CategoryCacheItem>();
+
+        foreach (var category in Categories.Values)
+        {
+            foreach (var relation in category.CategoryRelations)
+            {
+                if (relation.ParentCategoryId != categoryId) 
+                    continue;
+
+                if (Categories.TryGetValue(category.Id, out var childCategory) &&
+                    permissionCheck.CanView(userId, childCategory))
+                    visibleChildren.Add(childCategory);
+            }
+        }
+
+        return visibleChildren;
+    }
+
+    public static IList<CategoryCacheItem> GetAllVisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
+    {
+        var allDescendants = new HashSet<CategoryCacheItem>();
+        var visitedCategories = new HashSet<int>();
+
+        void AddDescendants(int id)
+        {
+            if (visitedCategories.Contains(id))
+            {
+                return;
+            }
+
+            visitedCategories.Add(id);
+
+            var children = GetVisibleChildren(id, permissionCheck, userId);
+            foreach (var child in children)
+            {
+                allDescendants.Add(child);
+                AddDescendants(child.Id);
+            }
+        }
+
+        AddDescendants(categoryId);
+
+        return allDescendants.ToList();
     }
 
     public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id);
@@ -325,12 +373,12 @@ public class EntityCache : BaseEntityCache
         if (visibleOnly)
         {
            return allCategories.SelectMany(c =>
-                c.CategoryRelations.Where(cr => cr.CategoryId == categoryId &&
+                c.CategoryRelations.Where(cr => cr.ChildCategoryId == categoryId &&
                                                 permissionCheck.CanViewCategory(cr.ParentCategoryId))
                     .Select(cr => GetCategory(cr.ParentCategoryId))).ToList();
         }
         return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.CategoryId == categoryId)
+            c.CategoryRelations.Where(cr => cr.ChildCategoryId == categoryId)
                 .Select(cr => GetCategory(cr.ParentCategoryId))).ToList();
     }
 

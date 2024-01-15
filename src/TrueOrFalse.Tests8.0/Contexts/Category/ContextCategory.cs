@@ -37,7 +37,8 @@ public class ContextCategory : BaseTest
     public ContextCategory Add(
         string categoryName,
         CategoryType categoryType = CategoryType.Standard,
-        User creator = null)
+        User creator = null,
+        CategoryVisibility visibility = CategoryVisibility.All)
     {
 
         var category = new Category
@@ -45,6 +46,7 @@ public class ContextCategory : BaseTest
             Name = categoryName,
             Creator = creator ?? _contextUser.All.First(),
             Type = categoryType,
+            Visibility = visibility
 
         };
 
@@ -71,7 +73,7 @@ public class ContextCategory : BaseTest
     }
 
 
-    public ContextCategory AddToEntityCache( Category category)
+    public ContextCategory AddToEntityCache(Category category)
     {
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
@@ -184,6 +186,6 @@ public class ContextCategory : BaseTest
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
     {
         return categoryCacheItem.CategoryRelations.Any(cr =>
-            cr.ParentCategoryId == deletedId || cr.CategoryId == deletedId);
+            cr.ParentCategoryId == deletedId || cr.ChildCategoryId == deletedId);
     }
 }

@@ -11,7 +11,7 @@ class TestHelper
     public static bool HasParent(CategoryCacheItem category, int relatedId)
     {
         return category.CategoryRelations.Any(c =>
-            c.CategoryId == category.Id && c.RelatedCategoryId== relatedId);
+            c.ChildCategoryId == category.Id && c.RelatedCategoryId== relatedId);
     }
 }
 

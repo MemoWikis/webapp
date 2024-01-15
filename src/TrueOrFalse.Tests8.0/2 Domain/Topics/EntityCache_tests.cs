@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Google.Protobuf.WellKnownTypes;
 using NHibernate;
 
 class EntityCache_tests : BaseTest
@@ -19,11 +20,48 @@ class EntityCache_tests : BaseTest
 
         context.AddChild(root, children.ByName("Sub1"));
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        RecycleContainer();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
         var directChildren = EntityCache.GetChildren(root.Id).First();
+        Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
+    }
+
+    [Test]
+    public void Should_get_direct_visible_children()
+    {
+        var context = ContextCategory.New();
+
+        var root = context.Add("RootElement").Persist().All.First();
+
+        var children = context
+            .Add("Sub1")
+            .Add("SubSub1")
+            .Add("Sub2", visibility:CategoryVisibility.Owner)
+            .Persist()
+            .All;
+
+        context.AddChild(root, children.ByName("Sub1"));
+        context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+
+        context.AddChild(root, children.ByName("Sub2"));
+
+        //RecycleContainer();
+
+        var entityCacheInitializer = R<EntityCacheInitializer>();
+        entityCacheInitializer.Init();
+
+        //context.AddToEntityCache(root);
+        //context.AddToEntityCache(children.ByName("Sub1"));
+        //context.AddToEntityCache(children.ByName("SubSub1"));
+        //context.AddToEntityCache(children.ByName("Sub2"));
+
+        var defaultUserId = -1;
+        var permissionCheck = new PermissionCheck(defaultUserId);
+
+        var directChildren = EntityCache.GetVisibleChildren(root.Id, permissionCheck, defaultUserId).First();
         Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
     }
 
@@ -82,7 +120,7 @@ class EntityCache_tests : BaseTest
     //    var question1 = contextQuestion.AddQuestion().Persist().All.First();
     //    question1.Categories.Add(rootCategory);
 
-       
+
     //    R<QuestionWritingRepo>().UpdateOrMerge(question1, false);
 
     //    RecycleContainer();
@@ -130,7 +168,7 @@ class EntityCache_tests : BaseTest
     //    var categories = context.All;
 
     //    Resolve<EntityCacheInitializer>().Init();
-        
+
     //    Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id),GetCategoryId("X3", context) ), Is.EqualTo(true));
     //    Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), GetCategoryId("X2", context)), Is.EqualTo(true));
     //    Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("A").Id), GetCategoryId("X1", context)), Is.EqualTo(true));

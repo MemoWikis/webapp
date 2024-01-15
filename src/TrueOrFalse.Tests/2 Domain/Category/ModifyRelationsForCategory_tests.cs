@@ -15,7 +15,7 @@ class ModifyRelationsForCategory_tests : BaseTest
             EntityCache.GetCategoryByName("B").GetIds().ToList());
 
         var X3 = EntityCache.GetCategoryByName("X3").First();
-        Assert.That(EntityCache.GetCategory(X3.CategoryRelations.First().CategoryId).Name, Is.EqualTo("X3"));
+        Assert.That(EntityCache.GetCategory(X3.CategoryRelations.First().ChildCategoryId).Name, Is.EqualTo("X3"));
         Assert.That(EntityCache.GetCategory(X3.CategoryRelations.First().RelatedCategoryId).Name, Is.EqualTo("B"));
         Assert.That(ContextCategory.HasCorrectChild(X3, "A"), Is.EqualTo(false));
         

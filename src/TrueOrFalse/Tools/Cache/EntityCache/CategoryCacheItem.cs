@@ -184,10 +184,12 @@ public class CategoryCacheItem : IPersistable
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
+        var categoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations);
+
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
-            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
+            CategoryRelations = categoryRelations,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,

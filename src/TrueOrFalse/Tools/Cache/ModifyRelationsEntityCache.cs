@@ -24,7 +24,7 @@ public class ModifyRelationsEntityCache
         child.CategoryRelations.Add(new CategoryCacheRelation
         {
             ParentCategoryId = parentId,
-            CategoryId = child.Id
+            ChildCategoryId = child.Id
         }); 
     }
     public static void RemoveRelation(CategoryCacheItem categoryCacheItem, int relatedId)
@@ -33,7 +33,7 @@ public class ModifyRelationsEntityCache
         {
             var relation = categoryCacheItem.CategoryRelations[i];
 
-            if (relation.CategoryId == categoryCacheItem.Id &&
+            if (relation.ChildCategoryId == categoryCacheItem.Id &&
                 relation.ParentCategoryId == relatedId)
             {
                 categoryCacheItem.CategoryRelations.RemoveAt(i);

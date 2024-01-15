@@ -91,7 +91,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 })
                 .ToArray(),
 
-            ChildTopicCount = topic.AggregatedCategories(_permissionCheck, false).Count,
+            ChildTopicCount = EntityCache.GetAllVisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
             Views = _categoryViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
