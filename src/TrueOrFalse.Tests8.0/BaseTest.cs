@@ -54,7 +54,10 @@ public class BaseTest
         Resolve<SessionData>().Clear();
         R<ISession>().Flush();
         AutofacWebInitializer.Dispose();
+
+        MySQL5FlexibleDialect.Engine = "MEMORY";
         BuildContainer();
+        ServiceLocator.Init(_container);
     }
 
     public static void InitializeContainer()
@@ -68,6 +71,7 @@ public class BaseTest
     private static void BuildContainer()
     {
         _container = AutofacWebInitializer.GetTestContainer(SetWebHostEnvironment(), SetHttpContextAccessor());
+        Console.WriteLine(_container.GetHashCode());
     }
 
     private static IWebHostEnvironment SetWebHostEnvironment()

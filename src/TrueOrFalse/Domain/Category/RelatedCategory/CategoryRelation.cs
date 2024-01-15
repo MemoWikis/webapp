@@ -2,7 +2,7 @@
 using Seedworks.Lib.Persistence;
 
 
-[DebuggerDisplay("{Child.Name}({CategoryId.Id}) {RelatedCategoryId.Name}({Parent.Id})")]
+[DebuggerDisplay("{Child.Name}({CategoryId.Id}) {Parent.Name}({Parent.Id})")]
 [Serializable]
 public class CategoryRelation : DomainEntity
 {

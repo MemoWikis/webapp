@@ -29,7 +29,7 @@
             Assert.That(childFromDatabase.DateCreated, Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
             Assert.That(childFromDatabase.DateModified, Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1))); 
             Assert.AreEqual(childFromDatabase.CategoryRelations.Count, 1);
-            Assert.AreEqual(childFromDatabase.CategoryRelations.First().RelatedCategory.Name, parent.Name);
+            Assert.AreEqual(childFromDatabase.CategoryRelations.First().Parent.Name, parent.Name);
         }
 
         [Test]

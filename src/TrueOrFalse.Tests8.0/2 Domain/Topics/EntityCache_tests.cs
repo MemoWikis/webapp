@@ -1,12 +1,70 @@
-﻿using Autofac;
-using Google.Protobuf.WellKnownTypes;
+﻿
 using NHibernate;
 
 class EntityCache_tests : BaseTest
 {
+    [Test]
+    public void GetAll()
+    {
+        var context = ContextCategory.New();
+
+        var root = context.Add("RootElement").Persist().All.First();
+        var child = context
+            .Add("Sub1")
+            .Persist()
+            .All.Last();
+
+        RecycleContainer();
+
+        var categoryRepo = R<CategoryRepository>();
+        var categories = categoryRepo.GetAll();
+        Assert.IsNotNull(categories);
+    }
+
+    [Test]
+    public void GetAll2()
+    {
+        var context = ContextCategory.New();
+
+        var root = context.Add("RootElement").Persist().All.First();
+        var child = context
+            .Add("Sub1")
+            .Persist()
+            .All.Last();
+
+        context.AddChild(root, child);
+
+        RecycleContainer();
+
+        var categoryRepo = R<CategoryRepository>();
+        var categories = categoryRepo.GetAll();
+        Assert.IsNotNull(categories);
+    }
+
+    [Test]
+    public void GetAll3()
+    {
+        var context = ContextCategory.New();
+
+        var root = context.Add("RootElement").Persist().All.First();
+        var child = context
+            .Add("Sub1")
+            .Persist()
+            .All.Last();
+
+        context.AddChild(root, child);
+
+        RecycleContainer();
+
+        var initializer = Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in entitycache_tests) ");
+
+        var directChildren = EntityCache.GetChildren(root.Id).First();
+        Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
+    }
 
     [Test, Sequential]
-    public void Should_get_direct_children()
+    public async Task Should_get_direct_children()
     {
         var context = ContextCategory.New();
 
@@ -18,12 +76,29 @@ class EntityCache_tests : BaseTest
             .Persist()
             .All;
 
-        context.AddChild(root, children.ByName("Sub1"));
-        context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        //context.AddChild(root, children.ByName("Sub1"));
+        //context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+
+        var categoryRepo = R<CategoryRepository>();
+        var relationModifier = new ModifyRelationsForCategory(R<CategoryRepository>());
+
+        var sub1 = children.ByName("Sub1");
+        relationModifier.AddParentCategory(sub1, root.Id);
+
+        categoryRepo.Update(sub1, 2, type: CategoryChangeType.Relations);
+        categoryRepo.Update(root, 2, type: CategoryChangeType.Relations);
+
+        var subsub1 = children.ByName("SubSub1");
+
+        relationModifier.AddParentCategory(subsub1, sub1.Id);
+
+        categoryRepo.Update(subsub1, 2, type: CategoryChangeType.Relations);
+        categoryRepo.Update(sub1, 2, type: CategoryChangeType.Relations);
+
         RecycleContainer();
 
-        var entityCacheInitializer = R<EntityCacheInitializer>();
-        entityCacheInitializer.Init();
+        var initializer = Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in entitycache_tests) ");
 
         var directChildren = EntityCache.GetChildren(root.Id).First();
         Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
