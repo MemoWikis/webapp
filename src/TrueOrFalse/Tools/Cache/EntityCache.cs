@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static CategoryRepository;
 
-public class EntityCache : BaseEntityCache
+public class EntityCache
 {
     public const string CacheKeyUsers = "allUsers_EntityCache";
     public const string CacheKeyQuestions = "allQuestions_EntityCache";
@@ -13,17 +13,17 @@ public class EntityCache : BaseEntityCache
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
 
     public static bool IsFirstStart = true;
-    private static ConcurrentDictionary<int, UserCacheItem> Users => _cache.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
+    private static ConcurrentDictionary<int, UserCacheItem> Users => Cache.Mgr.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => _cache.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
+    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
 
-    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => _cache.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
+    public static ConcurrentDictionary<int, QuestionCacheItem> Questions => Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>> CategoryQuestionsList =>
-        _cache.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyCategoryQuestionsList);
+        Cache.Mgr.Get<ConcurrentDictionary<int, ConcurrentDictionary<int, int>>>(CacheKeyCategoryQuestionsList);
 
     public static List<UserCacheItem> GetUsersByIds(IEnumerable<int> ids) => 
         ids.Select(id => GetUserById(id))
@@ -265,8 +265,6 @@ public class EntityCache : BaseEntityCache
        var c =  getIds.Select(categoryId => GetCategory(categoryId)).ToList();
        return c;
     }
-        
-
     public static CategoryCacheItem GetCategory(Category category) => GetCategory(category.Id);
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
@@ -279,15 +277,6 @@ public class EntityCache : BaseEntityCache
     }
 
     public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
-
-    public static List<CategoryCacheItem> GetChildren(int categoryId)
-    {
-        var allCategories = GetAllCategories();
-        var children = allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.ParentCategoryId == categoryId)
-                .Select(cr => GetCategory(cr.ChildCategoryId))).ToList();
-        return children;
-    }
 
     public static List<CategoryCacheItem> GetVisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
     {
@@ -336,33 +325,53 @@ public class EntityCache : BaseEntityCache
         return allDescendants.ToList();
     }
 
-    public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category, bool isFromEntityCache = false) => GetChildren(category.Id);
-
-    public static IList<CategoryCacheItem> GetAllChildren(int parentId, bool getFromEntityCache = false)
+    public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category) => GetChildren(category.Id);
+    public static List<CategoryCacheItem> GetChildren(int categoryId)
     {
-        var currentGeneration = GetChildren(parentId).ToList();
-        var nextGeneration = new List<CategoryCacheItem>();
+        var childrenIds = Categories.Values
+            .SelectMany(c => c.CategoryRelations)
+            .Where(cr => cr.ParentCategoryId == categoryId)
+            .Select(cr => cr.ChildCategoryId)
+            .Distinct();
+
+        var children = childrenIds
+            .Select(id => Categories.TryGetValue(id, out var childCategory) ? childCategory : null)
+            .Where(c => c != null)
+            .ToList();
+
+        return children;
+    }
+
+    public static IList<CategoryCacheItem> GetAllChildren(int parentId)
+    {
+        var categoriesDictionary = Categories;
         var descendants = new List<CategoryCacheItem>();
+        var toProcess = new Queue<int>(new[] { parentId });
 
-        while (currentGeneration.Count > 0)
+        while (toProcess.Count > 0)
         {
-            descendants.AddRange(currentGeneration);
-
-            foreach (var category in currentGeneration)
+            var currentId = toProcess.Dequeue();
+            if (categoriesDictionary.TryGetValue(currentId, out var currentCategory))
             {
-                var children = GetChildren(category.Id).ToList();
-                if (children.Count > 0)
+                descendants.Add(currentCategory);
+
+                var childIds = currentCategory.CategoryRelations
+                    .Select(cr => cr.ChildCategoryId)
+                    .Where(childId => !descendants.Any(d => d.Id == childId));
+
+                foreach (var childId in childIds)
                 {
-                    nextGeneration.AddRange(children);
+                    if (!toProcess.Contains(childId))
+                    {
+                        toProcess.Enqueue(childId);
+                    }
                 }
             }
-
-            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
-            nextGeneration = new List<CategoryCacheItem>();
         }
 
         return descendants;
     }
+
     public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategories()
         .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
@@ -431,8 +440,6 @@ public class EntityCache : BaseEntityCache
 
     public static void Clear()
     {
-        Questions.Clear();
-        Categories.Clear();
-        CategoryQuestionsList.Clear();
+        Cache.Mgr.Clear();
     }
 }
