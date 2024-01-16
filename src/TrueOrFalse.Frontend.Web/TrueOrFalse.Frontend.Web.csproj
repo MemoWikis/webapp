@@ -65,10 +65,10 @@
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
 		<!--<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.13" />-->
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="6.32.1" />
-		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.32.1" />
-		<PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.32.1" />
-		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.32.1" />
+		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="6.34.0" />
+		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.34.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.34.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.34.0" />
 		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.1.5" />
 		<PackageReference Include="MySql.Data" Version="8.1.0" />
 		<PackageReference Include="NHibernate" Version="5.4.5" />
