@@ -40,8 +40,8 @@ public class BaseTest
                 Console.WriteLine(service);
             }
         }
-        var initilizer = Resolve<EntityCacheInitializer>();
-        initilizer.Init(" (started in unit test) ");
+        var initializer = Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
         SetSessionUserInDatabase(_sessionUser);
     }
@@ -50,14 +50,24 @@ public class BaseTest
     public void RecycleContainer()
     {
         App.Environment = null;
-        EntityCache.Clear();
-        Resolve<SessionData>().Clear();
         R<ISession>().Flush();
         AutofacWebInitializer.Dispose();
 
         MySQL5FlexibleDialect.Engine = "MEMORY";
         BuildContainer();
         ServiceLocator.Init(_container);
+        
+    }
+
+    public void RecycleContainerAndEntityCache()
+    {
+        EntityCache.Clear();
+        Resolve<SessionData>().Clear();
+
+        RecycleContainer();
+
+        var initializer = Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in unit test) ");
     }
 
     public static void InitializeContainer()

@@ -4,67 +4,7 @@ using NHibernate;
 class EntityCache_tests : BaseTest
 {
     [Test]
-    public void GetAll()
-    {
-        var context = ContextCategory.New();
-
-        var root = context.Add("RootElement").Persist().All.First();
-        var child = context
-            .Add("Sub1")
-            .Persist()
-            .All.Last();
-
-        RecycleContainer();
-
-        var categoryRepo = R<CategoryRepository>();
-        var categories = categoryRepo.GetAll();
-        Assert.IsNotNull(categories);
-    }
-
-    [Test]
-    public void GetAll2()
-    {
-        var context = ContextCategory.New();
-
-        var root = context.Add("RootElement").Persist().All.First();
-        var child = context
-            .Add("Sub1")
-            .Persist()
-            .All.Last();
-
-        context.AddChild(root, child);
-
-        RecycleContainer();
-
-        var categoryRepo = R<CategoryRepository>();
-        var categories = categoryRepo.GetAll();
-        Assert.IsNotNull(categories);
-    }
-
-    [Test]
-    public void GetAll3()
-    {
-        var context = ContextCategory.New();
-
-        var root = context.Add("RootElement").Persist().All.First();
-        var child = context
-            .Add("Sub1")
-            .Persist()
-            .All.Last();
-
-        context.AddChild(root, child);
-
-        RecycleContainer();
-
-        var initializer = Resolve<EntityCacheInitializer>();
-        initializer.Init(" (started in entitycache_tests) ");
-
-        var directChildren = EntityCache.GetChildren(root.Id).First();
-        Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
-    }
-
-    [Test, Sequential]
-    public async Task Should_get_direct_children()
+    public void Should_get_direct_children()
     {
         var context = ContextCategory.New();
 
@@ -76,26 +16,10 @@ class EntityCache_tests : BaseTest
             .Persist()
             .All;
 
-        //context.AddChild(root, children.ByName("Sub1"));
-        //context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        context.AddChild(root, children.ByName("Sub1"));
+        context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
 
-        var categoryRepo = R<CategoryRepository>();
-        var relationModifier = new ModifyRelationsForCategory(R<CategoryRepository>());
-
-        var sub1 = children.ByName("Sub1");
-        relationModifier.AddParentCategory(sub1, root.Id);
-
-        categoryRepo.Update(sub1, 2, type: CategoryChangeType.Relations);
-        categoryRepo.Update(root, 2, type: CategoryChangeType.Relations);
-
-        var subsub1 = children.ByName("SubSub1");
-
-        relationModifier.AddParentCategory(subsub1, sub1.Id);
-
-        categoryRepo.Update(subsub1, 2, type: CategoryChangeType.Relations);
-        categoryRepo.Update(sub1, 2, type: CategoryChangeType.Relations);
-
-        RecycleContainer();
+        RecycleContainerAndEntityCache();
 
         var initializer = Resolve<EntityCacheInitializer>();
         initializer.Init(" (started in entitycache_tests) ");
@@ -123,15 +47,10 @@ class EntityCache_tests : BaseTest
 
         context.AddChild(root, children.ByName("Sub2"));
 
-        //RecycleContainer();
+        RecycleContainerAndEntityCache();
 
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
-
-        //context.AddToEntityCache(root);
-        //context.AddToEntityCache(children.ByName("Sub1"));
-        //context.AddToEntityCache(children.ByName("SubSub1"));
-        //context.AddToEntityCache(children.ByName("Sub2"));
 
         var defaultUserId = -1;
         var permissionCheck = new PermissionCheck(defaultUserId);
@@ -139,7 +58,51 @@ class EntityCache_tests : BaseTest
         var directChildren = EntityCache.GetVisibleChildren(root.Id, permissionCheck, defaultUserId).First();
         Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
     }
+    [Test]
+    public void Should_get_all_visible_children()
+    {
+        var context = ContextCategory.New();
 
+        context.Add("RootElement").Add("RootElement2").Persist();
+
+        var root = context.All.ByName("RootElement");
+        var root2 = context.All.ByName("RootElement2");
+
+        context
+            .Add("Sub1")
+            .Add("SubSub1")
+            .Add("Sub2", visibility: CategoryVisibility.Owner)
+            .Add("SubSub2", visibility: CategoryVisibility.Owner)
+            .Add("SubSub1and2")
+            .Add("Sub3", visibility: CategoryVisibility.Owner)
+            .Add("SubSub3")
+            .Persist();
+
+        context.AddChild(root, context.All.ByName("Sub1"));
+        context.AddChild(context.All.ByName("Sub1"), context.All.ByName("SubSub1"));
+
+        context.AddChild(root, context.All.ByName("Sub2"));
+        context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub2")); 
+        
+        context.AddChild(context.All.ByName("Sub1"), context.All.ByName("SubSub1and2"));
+        context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub1and2"));
+
+        context.AddChild(root, context.All.ByName("Sub3"));
+        context.AddChild(context.All.ByName("Sub3"), context.All.ByName("SubSub3"));
+        context.AddChild(root2, context.All.ByName("SubSub3"));
+
+        RecycleContainerAndEntityCache();
+
+        var entityCacheInitializer = R<EntityCacheInitializer>();
+        entityCacheInitializer.Init();
+
+        var defaultUserId = -1;
+        var permissionCheck = new PermissionCheck(defaultUserId);
+
+        var allChildren = EntityCache.GetAllVisibleChildren(root.Id, permissionCheck, defaultUserId);
+        Assert.That(allChildren.Count, Is.EqualTo(3));
+        Assert.That(allChildren.Last().Name, Is.EqualTo("SubSub1and2"));
+    }
 
     //[Test]
     //public void Should_get_all_children()
@@ -289,4 +252,5 @@ class EntityCache_tests : BaseTest
     //{
     //    return categoryContext.All.Single(c => c.Name.Equals(topicName)).Id; 
     //}
+
 }
