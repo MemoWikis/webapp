@@ -341,41 +341,6 @@ public class EntityCache
         return children;
     }
 
-    public static List<CategoryCacheItem> GetChildrenOld(int categoryId)
-    {
-        var allCategories = GetAllCategories();
-        var children = allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.ParentCategoryId == categoryId)
-                .Select(cr => GetCategory(cr.ChildCategoryId))).ToList();
-
-        return children;
-    }
-
-    public static IList<CategoryCacheItem> GetAllChildrenOld(int parentId, bool getFromEntityCache = false)
-    {
-        var currentGeneration = GetChildrenOld(parentId).ToList();
-        var nextGeneration = new List<CategoryCacheItem>();
-        var descendants = new List<CategoryCacheItem>();
-
-        while (currentGeneration.Count > 0)
-        {
-            descendants.AddRange(currentGeneration);
-
-            foreach (var category in currentGeneration)
-            {
-                var children = GetChildrenOld(category.Id).ToList();
-                if (children.Count > 0)
-                {
-                    nextGeneration.AddRange(children);
-                }
-            }
-
-            currentGeneration = nextGeneration.Except(descendants).Where(c => c.Id != parentId).Distinct().ToList();
-            nextGeneration = new List<CategoryCacheItem>();
-        }
-        return descendants;
-    }
-
     public static IList<CategoryCacheItem> GetAllChildren(int parentId)
     {
         var descendants = new List<CategoryCacheItem>();
