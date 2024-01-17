@@ -86,7 +86,7 @@ public class GridItemLogic
             visibility = topic.Visibility,
             parents = GetParents(topic),
             knowledgebarData = GetKnowledgebarData(topic),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetChildren(_sessionUser.User.StartTopicId).Any(c => c.Id == topic.Id),
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetAllVisibleChildren(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == topic.Id),
             creatorId = topic.CreatorId,
             canDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
         };

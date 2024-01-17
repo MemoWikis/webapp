@@ -123,7 +123,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 _questionReadingRepo)
                 .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
-        var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
+        var wikiChildren = EntityCache.GetAllVisibleChildren(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new
@@ -197,7 +197,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
         JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
-        EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
+        EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetVisibleChildren(parentId, _permissionCheck, _sessionUser.UserId).Select(cci => cci.Id).ToList();
 
         return new RequestResult
         {

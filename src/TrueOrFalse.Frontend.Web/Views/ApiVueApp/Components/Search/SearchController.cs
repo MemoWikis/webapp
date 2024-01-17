@@ -110,7 +110,7 @@ namespace VueApp
         [HttpPost]
         public JsonResult GetPersonalWikiData([FromRoute] int id)
         {
-            if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
+            if (EntityCache.GetAllVisibleChildren(id, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == _sessionUser.User.StartTopicId))
                 return Json(new
                 {
                     success = false,

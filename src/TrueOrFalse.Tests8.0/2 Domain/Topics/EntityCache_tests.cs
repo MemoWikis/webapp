@@ -13,19 +13,20 @@ class EntityCache_tests : BaseTest
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
+            .Add("Sub2", visibility: CategoryVisibility.Owner)
             .Persist()
             .All;
 
         context.AddChild(root, children.ByName("Sub1"));
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        context.AddChild(root, children.ByName("Sub2"));
 
         RecycleContainerAndEntityCache();
 
-        var initializer = Resolve<EntityCacheInitializer>();
-        initializer.Init(" (started in entitycache_tests) ");
-
-        var directChildren = EntityCache.GetChildren(root.Id).First();
-        Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
+        var directChildren = EntityCache.GetChildren(root.Id);
+        Assert.That(directChildren.Count, Is.EqualTo(2));
+        Assert.That(directChildren.First().Name, Is.EqualTo("Sub1"));
+        Assert.That(directChildren.Last().Name, Is.EqualTo("Sub2"));
     }
 
     [Test]
@@ -49,15 +50,41 @@ class EntityCache_tests : BaseTest
 
         RecycleContainerAndEntityCache();
 
-        var entityCacheInitializer = R<EntityCacheInitializer>();
-        entityCacheInitializer.Init();
-
         var defaultUserId = -1;
         var permissionCheck = new PermissionCheck(defaultUserId);
 
         var directChildren = EntityCache.GetVisibleChildren(root.Id, permissionCheck, defaultUserId).First();
         Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
     }
+
+    [Test]
+    public void Should_get_all_children()
+    {
+        var context = ContextCategory.New();
+
+        var root = context.Add("RootElement").Persist().All.First();
+
+        var children = context
+            .Add("Sub1")
+            .Add("SubSub1")
+            .Add("Sub2", visibility: CategoryVisibility.Owner)
+            .Persist()
+            .All;
+
+        context.AddChild(root, children.ByName("Sub1"));
+        context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
+        context.AddChild(root, children.ByName("Sub2"));
+
+        RecycleContainerAndEntityCache();
+
+        var directChildren = EntityCache.GetAllChildren(root.Id);
+
+        Assert.That(directChildren.Count, Is.EqualTo(3));
+        Assert.That(directChildren.Select(i => i.Name), Does.Contain("Sub1"));
+        Assert.That(directChildren.Select(i => i.Name), Does.Contain("Sub2"));
+        Assert.That(directChildren.Select(i => i.Name), Does.Contain("SubSub1"));
+    }
+
     [Test]
     public void Should_get_all_visible_children()
     {
