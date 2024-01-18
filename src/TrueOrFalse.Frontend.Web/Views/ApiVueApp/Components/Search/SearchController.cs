@@ -96,7 +96,7 @@ namespace VueApp
                         _permissionCheck,
                         UserId);
 
-            var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
+            var wikiChildren = GraphService.Descendants(_sessionUser.User.StartTopicId);
             items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
             return Json(new
@@ -110,7 +110,7 @@ namespace VueApp
         [HttpPost]
         public JsonResult GetPersonalWikiData([FromRoute] int id)
         {
-            if (EntityCache.GetAllVisibleChildren(id, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == _sessionUser.User.StartTopicId))
+            if (GraphService.VisibleDescendants(id, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == _sessionUser.User.StartTopicId))
                 return Json(new
                 {
                     success = false,

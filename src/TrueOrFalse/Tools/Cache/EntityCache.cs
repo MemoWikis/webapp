@@ -15,7 +15,7 @@ public class EntityCache
     public static bool IsFirstStart = true;
     private static ConcurrentDictionary<int, UserCacheItem> Users => Cache.Mgr.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
-    private static ConcurrentDictionary<int, CategoryCacheItem> Categories => Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
+    internal static ConcurrentDictionary<int, CategoryCacheItem> Categories => Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions => Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
@@ -276,103 +276,16 @@ public class EntityCache
         return category;
     }
 
-    public static IList<CategoryCacheItem> GetAllCategories() => Categories.Values.ToList();
+    public static IList<CategoryCacheItem> GetAllCategoriesList() => Categories.Values.ToList();
 
-    public static List<CategoryCacheItem> GetVisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
-    {
-        var visibleChildren = new List<CategoryCacheItem>();
-
-        foreach (var category in Categories.Values)
-        {
-            foreach (var relation in category.CategoryRelations)
-            {
-                if (relation.ParentCategoryId != categoryId) 
-                    continue;
-
-                if (Categories.TryGetValue(category.Id, out var childCategory) &&
-                    permissionCheck.CanView(userId, childCategory))
-                    visibleChildren.Add(childCategory);
-            }
-        }
-
-        return visibleChildren;
-    }
-
-    public static IList<CategoryCacheItem> GetAllVisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
-    {
-        var allDescendants = new HashSet<CategoryCacheItem>();
-        var visitedCategories = new HashSet<int>();
-
-        void AddDescendants(int id)
-        {
-            if (visitedCategories.Contains(id))
-            {
-                return;
-            }
-
-            visitedCategories.Add(id);
-
-            var children = GetVisibleChildren(id, permissionCheck, userId);
-            foreach (var child in children)
-            {
-                allDescendants.Add(child);
-                AddDescendants(child.Id);
-            }
-        }
-
-        AddDescendants(categoryId);
-
-        return allDescendants.ToList();
-    }
-
-    public static List<CategoryCacheItem> GetChildren(CategoryCacheItem category) => GetChildren(category.Id);
-    public static List<CategoryCacheItem> GetChildren(int categoryId)
-    {
-        var childrenIds = Categories.Values
-            .SelectMany(c => c.CategoryRelations)
-            .Where(cr => cr.ParentCategoryId == categoryId)
-            .Select(cr => cr.ChildCategoryId)
-            .Distinct();
-
-        var children = childrenIds
-            .Select(id => Categories.TryGetValue(id, out var childCategory) ? childCategory : null)
-            .Where(c => c != null)
-            .ToList();
-        return children;
-    }
-
-    public static IList<CategoryCacheItem> GetAllChildren(int parentId)
-    {
-        var descendants = new List<CategoryCacheItem>();
-        var toProcess = new Queue<int>(new[] { parentId });
-
-        while (toProcess.Count > 0)
-        {
-            var currentId = toProcess.Dequeue();
-
-            if (currentId != parentId && Categories.TryGetValue(currentId, out var currentCategory))
-                descendants.Add(currentCategory);
-
-            foreach (var potentialChild in Categories.Values)
-            {
-                foreach (var relation in potentialChild.CategoryRelations)
-                {
-                    if (relation.ParentCategoryId == currentId && !descendants.Any(d => d.Id == potentialChild.Id) && !toProcess.Contains(potentialChild.Id))
-                        toProcess.Enqueue(potentialChild.Id);
-                }
-            }
-        }
-        return descendants;
-    }
-
-    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategories()
+    public static IEnumerable<int> GetPrivateCategoryIdsFromUser(int userId) => GetAllCategoriesList()
         .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
 
     public static List<CategoryCacheItem> GetCategoryByName(string name, CategoryType type = CategoryType.Standard)
     {
-        var allCategories = GetAllCategories();
+        var allCategories = GetAllCategoriesList();
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 

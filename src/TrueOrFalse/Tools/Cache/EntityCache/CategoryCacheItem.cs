@@ -233,7 +233,7 @@ public class CategoryCacheItem : IPersistable
         var visibleVisited = new Dictionary<int, CategoryCacheItem>();
         if (parentCacheItem.ChildrenIds == null)
         {
-            parentCacheItem.ChildrenIds = EntityCache.GetChildren(parentCacheItem).Select(cci => cci.Id).ToList();
+            parentCacheItem.ChildrenIds = GraphService.Children(parentCacheItem).Select(cci => cci.Id).ToList();
             EntityCache.AddOrUpdate(parentCacheItem);
         }
 

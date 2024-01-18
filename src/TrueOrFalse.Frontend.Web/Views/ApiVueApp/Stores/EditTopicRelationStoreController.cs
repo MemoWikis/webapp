@@ -28,7 +28,7 @@ public class EditTopicRelationStoreController : BaseController
     [HttpGet]
     public JsonResult GetPersonalWikiData([FromRoute] int id)
     {
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
+        if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new RequestResult
             {
                 success = false,

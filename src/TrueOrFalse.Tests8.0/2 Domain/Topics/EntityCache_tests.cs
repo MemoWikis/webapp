@@ -23,7 +23,7 @@ class EntityCache_tests : BaseTest
 
         RecycleContainerAndEntityCache();
 
-        var directChildren = EntityCache.GetChildren(root.Id);
+        var directChildren = GraphService.Children(root.Id);
         Assert.That(directChildren.Count, Is.EqualTo(2));
         Assert.That(directChildren.First().Name, Is.EqualTo("Sub1"));
         Assert.That(directChildren.Last().Name, Is.EqualTo("Sub2"));
@@ -53,7 +53,7 @@ class EntityCache_tests : BaseTest
         var defaultUserId = -1;
         var permissionCheck = new PermissionCheck(defaultUserId);
 
-        var directChildren = EntityCache.GetVisibleChildren(root.Id, permissionCheck, defaultUserId).First();
+        var directChildren = GraphService.VisibleChildren(root.Id, permissionCheck, defaultUserId).First();
         Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
     }
 
@@ -77,7 +77,7 @@ class EntityCache_tests : BaseTest
 
         RecycleContainerAndEntityCache();
 
-        var directChildren = EntityCache.GetAllChildren(root.Id);
+        var directChildren = GraphService.Descendants(root.Id);
 
         Assert.That(directChildren.Count, Is.EqualTo(3));
         Assert.That(directChildren.Select(i => i.Name), Does.Contain("Sub1"));
@@ -126,7 +126,7 @@ class EntityCache_tests : BaseTest
         var defaultUserId = -1;
         var permissionCheck = new PermissionCheck(defaultUserId);
 
-        var allChildren = EntityCache.GetAllVisibleChildren(root.Id, permissionCheck, defaultUserId);
+        var allChildren = GraphService.VisibleDescendants(root.Id, permissionCheck, defaultUserId);
         Assert.That(allChildren.Count, Is.EqualTo(3));
         Assert.That(allChildren.Last().Name, Is.EqualTo("SubSub1and2"));
     }

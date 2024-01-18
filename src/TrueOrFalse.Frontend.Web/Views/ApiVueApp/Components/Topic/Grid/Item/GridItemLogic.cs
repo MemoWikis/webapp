@@ -67,7 +67,7 @@ public class GridItemLogic
 
     public GridTopicItem[] GetChildren(int id)
     {
-        var visibleChildren = EntityCache.GetVisibleChildren(id, _permissionCheck, _sessionUser.UserId);
+        var visibleChildren = GraphService.VisibleChildren(id, _permissionCheck, _sessionUser.UserId);
         return visibleChildren.Select(BuildGridTopicItem).ToArray();
     }
 
@@ -81,12 +81,12 @@ public class GridItemLogic
             id = topic.Id,
             name = topic.Name,
             questionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
-            childrenCount = EntityCache.GetAllVisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+            childrenCount = GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
             visibility = topic.Visibility,
             parents = GetParents(topic),
             knowledgebarData = GetKnowledgebarData(topic),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetAllVisibleChildren(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == topic.Id),
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService.VisibleDescendants(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == topic.Id),
             creatorId = topic.CreatorId,
             canDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
         };

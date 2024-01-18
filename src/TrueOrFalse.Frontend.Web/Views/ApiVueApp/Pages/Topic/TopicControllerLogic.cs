@@ -91,8 +91,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 })
                 .ToArray(),
 
-            ChildTopicCount = EntityCache.GetAllVisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            DirectVisibleChildTopicCount = EntityCache.GetVisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+            ChildTopicCount = GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+            DirectVisibleChildTopicCount = GraphService.VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             Views = _categoryViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
             AuthorIds = topic.AuthorIds.Distinct().ToArray(),

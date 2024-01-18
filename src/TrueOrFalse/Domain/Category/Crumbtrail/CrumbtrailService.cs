@@ -60,7 +60,7 @@
 
     private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
     {
-        var isLinkedToRoot = GraphService.GetAscendants(category.Id,_permissionCheck,visibleOnly:true).Any(c => c == root);
+        var isLinkedToRoot = GraphService.Ascendants(category.Id,_permissionCheck,visibleOnly:true).Any(c => c == root);
         if (isLinkedToRoot)
             return true;
         return false;
@@ -75,7 +75,7 @@
         if (root == categoryCacheItem)
             return;
 
-        var parents = GraphService.ParentCategories(categoryCacheItem.Id,_permissionCheck, visibleOnly:true);
+        var parents = GraphService.Parents(categoryCacheItem.Id,_permissionCheck, visibleOnly:true);
         parents = OrderParentList(parents, root.Creator.Id);
         
         if (parents.Any(c => c.Id == root.Id))
@@ -116,7 +116,7 @@
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
-        var parents = GraphService.GetAscendants(categoryCacheItem.Id, _permissionCheck, visibleOnly: true);
+        var parents = GraphService.Ascendants(categoryCacheItem.Id, _permissionCheck, visibleOnly: true);
         if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !_permissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)
