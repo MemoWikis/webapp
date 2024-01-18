@@ -5,27 +5,34 @@
 
     private static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
     {
-        var parentIds = GetDirectParentIds(category);
         var allParents = new List<CategoryCacheItem>();
-        var deletedIds = new Dictionary<int, int>();
+        var visitedIds = new HashSet<int>();
+
+        var parentIds = new Queue<int>(GetDirectParentIds(category));
 
         while (parentIds.Count > 0)
         {
-            var parent = EntityCache.GetCategory(parentIds[0]);
+            int currentParentId = parentIds.Dequeue();
 
-            if (!deletedIds.ContainsKey(parentIds[0]))
+            if (visitedIds.Contains(currentParentId))
             {
-                allParents.Add(parent); //Avoidance of circular references
-
-                deletedIds.Add(parentIds[0], parentIds[0]);
-                var currentParents = GetDirectParentIds(parent);
-                foreach (var currentParent in currentParents)
-                {
-                    parentIds.Add(currentParent);
-                }
+                continue;
             }
 
-            parentIds.RemoveAt(0);
+            var parent = EntityCache.GetCategory(currentParentId);
+            if (parent != null)
+            {
+                allParents.Add(parent);
+                visitedIds.Add(currentParentId);
+
+                foreach (var parentId in GetDirectParentIds(parent))
+                {
+                    if (!visitedIds.Contains(parentId))
+                    {
+                        parentIds.Enqueue(parentId);
+                    }
+                }
+            }
         }
 
         return allParents;
@@ -33,12 +40,6 @@
 
     public static List<int> GetDirectParentIds(CategoryCacheItem category)
     {
-        if (category == null)
-        {
-            return new List<int>();
-        }
-
-        return category.CategoryRelations
-            .Select(cr => cr.ParentCategoryId).ToList();
+        return category?.CategoryRelations?.Select(cr => cr.ParentCategoryId).ToList() ?? new List<int>();
     }
 }
