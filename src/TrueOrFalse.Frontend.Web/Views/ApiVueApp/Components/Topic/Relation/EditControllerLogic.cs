@@ -174,7 +174,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
             };
-        var selectedTopicIsParent = GraphService.GetAllParentsFromEntityCache(parentId)
+        var selectedTopicIsParent = GraphService.GetAllParents(parentId)
             .Any(c => c.Id == childId);
 
         if (selectedTopicIsParent)

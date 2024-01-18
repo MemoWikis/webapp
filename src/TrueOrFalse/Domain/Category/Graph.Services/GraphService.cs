@@ -1,9 +1,13 @@
-﻿public class GraphService
+﻿
+/// <summary>
+/// Works on the entity cache
+/// </summary>
+public class GraphService
 {
-    public static IList<CategoryCacheItem> GetAllParentsFromEntityCache(int categoryId) =>
-        GetAllParentsFromEntityCache(EntityCache.GetCategory(categoryId));
+    public static IList<CategoryCacheItem> GetAllParents(int categoryId) =>
+        GetAllParents(EntityCache.GetCategory(categoryId));
 
-    private static IList<CategoryCacheItem> GetAllParentsFromEntityCache(CategoryCacheItem category)
+    private static IList<CategoryCacheItem> GetAllParents(CategoryCacheItem category)
     {
         var allParents = new List<CategoryCacheItem>();
         var visitedIds = new HashSet<int>();

@@ -41,10 +41,10 @@ class GraphService_tests : BaseTest
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var allParents = GraphService.GetAllParentsFromEntityCache(context.All.ByName("SubSub3").Id);
+        var allParents = GraphService.GetAllParents(context.All.ByName("SubSub3").Id);
         Assert.That(allParents.Count, Is.EqualTo(3));
         Assert.That(allParents.Select(i => i.Name), Does.Contain("Sub3"));
         Assert.That(allParents.Select(i => i.Name), Does.Contain("RootElement"));
-        Assert.That(allParents.Select(i => i.Name), Does.Contain("RootElement"));
+        Assert.That(allParents.Select(i => i.Name), Does.Contain("RootElement2"));
     }
 }

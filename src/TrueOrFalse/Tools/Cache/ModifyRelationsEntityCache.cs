@@ -3,7 +3,7 @@ public class ModifyRelationsEntityCache
 {
     public static void RemoveRelations(CategoryCacheItem category)
     {
-        var allParents = GraphService.GetAllParentsFromEntityCache(category.Id);
+        var allParents = GraphService.GetAllParents(category.Id);
         foreach (var parent in allParents)
         {
             for (var i = 0; i < parent.CategoryRelations.Count; i++)
