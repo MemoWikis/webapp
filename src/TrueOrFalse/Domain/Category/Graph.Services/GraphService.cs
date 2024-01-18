@@ -42,50 +42,44 @@ public class GraphService
         return allParents;
     }
 
-    public static IList<CategoryCacheItem> Ascendants(int childId, PermissionCheck permissionCheck, bool visibleOnly = false)
+    public static IList<CategoryCacheItem> VisibleAscendants(int childId, PermissionCheck permissionCheck)
     {
-        var currentGeneration = Parents(childId, permissionCheck, visibleOnly);
-        var nextGeneration = new List<CategoryCacheItem>();
-        var ascendants = new List<CategoryCacheItem>();
+        var currentGeneration = new HashSet<CategoryCacheItem>(VisibleParents(childId, permissionCheck));
+        var ascendants = new HashSet<CategoryCacheItem>();
 
         while (currentGeneration.Count > 0)
         {
-            ascendants.AddRange(currentGeneration);
-
             foreach (var parent in currentGeneration)
             {
-                var parents = Parents(parent.Id, permissionCheck, visibleOnly);
-                if (parents.Count > 0)
+                if (parent.Id != childId)
                 {
-                    nextGeneration.AddRange(parents);
+                    ascendants.Add(parent);
+                }
+
+                foreach (var grandparent in VisibleParents(parent.Id, permissionCheck))
+                {
+                    if (grandparent.Id != childId)
+                    {
+                        currentGeneration.Add(grandparent);
+                    }
                 }
             }
 
-            currentGeneration = nextGeneration.Except(ascendants).Where(c => c.Id != childId).Distinct().ToList();
-            nextGeneration = new List<CategoryCacheItem>();
+            currentGeneration = new HashSet<CategoryCacheItem>(currentGeneration.Except(ascendants));
         }
 
-        ascendants = ascendants.Distinct().ToList();
-        var self = ascendants.Find(cci => cci.Id == childId);
-        if (self != null)
-            ascendants.Remove(self);
-
-        return ascendants;
+        return ascendants.ToList();
     }
 
-    public static List<CategoryCacheItem> Parents(int categoryId, PermissionCheck permissionCheck, bool visibleOnly = false)
+
+    public static List<CategoryCacheItem> VisibleParents(int categoryId, PermissionCheck permissionCheck)
     {
         var allCategories = EntityCache.GetAllCategoriesList();
-        if (visibleOnly)
-        {
-            return allCategories.SelectMany(c =>
-                c.CategoryRelations.Where(cr => cr.ChildCategoryId == categoryId &&
-                                                permissionCheck.CanViewCategory(cr.ParentCategoryId))
+
+        return allCategories.SelectMany(c => c.CategoryRelations
+            .Where(cr => cr.ChildCategoryId == categoryId && permissionCheck.CanViewCategory(cr.ParentCategoryId))
                     .Select(cr => EntityCache.GetCategory(cr.ParentCategoryId))).ToList();
-        }
-        return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.ChildCategoryId == categoryId)
-                .Select(cr => EntityCache.GetCategory(cr.ParentCategoryId))).ToList();
+
     }
 
 
