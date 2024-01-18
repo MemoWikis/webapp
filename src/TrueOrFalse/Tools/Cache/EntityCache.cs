@@ -369,51 +369,6 @@ public class EntityCache
         .Where(c => c.Creator.Id == userId && c.Visibility == CategoryVisibility.Owner)
         .Select(c => c.Id);
 
-    public static List<CategoryCacheItem> ParentCategories(int categoryId,PermissionCheck permissionCheck, bool visibleOnly = false)
-    {
-        var allCategories = GetAllCategories();
-        if (visibleOnly)
-        {
-           return allCategories.SelectMany(c =>
-                c.CategoryRelations.Where(cr => cr.ChildCategoryId == categoryId &&
-                                                permissionCheck.CanViewCategory(cr.ParentCategoryId))
-                    .Select(cr => GetCategory(cr.ParentCategoryId))).ToList();
-        }
-        return allCategories.SelectMany(c =>
-            c.CategoryRelations.Where(cr => cr.ChildCategoryId == categoryId)
-                .Select(cr => GetCategory(cr.ParentCategoryId))).ToList();
-    }
-
-    public static IList<CategoryCacheItem> GetAllParents(int childId,PermissionCheck permissionCheck, bool getFromEntityCache = false,bool visibleOnly = false)
-    {
-        var currentGeneration = ParentCategories(childId, permissionCheck, visibleOnly);
-        var nextGeneration = new List<CategoryCacheItem>();
-        var ascendants = new List<CategoryCacheItem>();
-
-        while (currentGeneration.Count > 0)
-        {
-            ascendants.AddRange(currentGeneration);
-
-            foreach (var parent in currentGeneration)
-            {
-                var parents = ParentCategories(parent.Id, permissionCheck, visibleOnly);
-                if (parents.Count > 0)
-                {
-                    nextGeneration.AddRange(parents);
-                }
-            }
-
-            currentGeneration = nextGeneration.Except(ascendants).Where(c => c.Id != childId).Distinct().ToList();
-            nextGeneration = new List<CategoryCacheItem>();
-        }
-
-        ascendants = ascendants.Distinct().ToList();
-        var self = ascendants.Find(cci => cci.Id == childId);
-        if (self != null)
-            ascendants.Remove(self);
-
-        return ascendants;
-    }
 
     public static List<CategoryCacheItem> GetCategoryByName(string name, CategoryType type = CategoryType.Standard)
     {

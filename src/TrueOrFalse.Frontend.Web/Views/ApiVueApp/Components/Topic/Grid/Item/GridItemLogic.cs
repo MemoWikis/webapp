@@ -112,7 +112,7 @@ public class GridItemLogic
 
     private TinyTopicModel[] GetParents(CategoryCacheItem topic)
     {
-        return topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
+        return topic.Parents().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
             { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
                 .GetUrl(50, true).Url })
             .ToArray();

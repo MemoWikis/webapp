@@ -99,7 +99,7 @@ public class EditTopicRelationStoreController : BaseController
                 messageKey = FrontendMessageKeys.Error.Default
             });
 
-        if (personalWiki.DirectChildrenIds.Any(cId => cId == id))
+        if (personalWiki.ChildrenIds.Any(cId => cId == id))
         {
             return Json(new RequestResult
             {
@@ -128,7 +128,7 @@ public class EditTopicRelationStoreController : BaseController
                 messageKey = FrontendMessageKeys.Error.Default
             });
 
-        if (personalWiki.DirectChildrenIds.Any(cId => cId != id))
+        if (personalWiki.ChildrenIds.Any(cId => cId != id))
         {
             return Json(new RequestResult
             {

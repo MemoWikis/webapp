@@ -65,7 +65,7 @@ public class ModifyRelationsForCategory
     public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
-        var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
+        var parentCategories = childCategory.Parents().Where(c => c.Id != parentCategoryIdToRemove);
         var parentCategoryAsCategory = _categoryRepository.GetById(parentCategoryIdToRemove);
 
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))

@@ -80,8 +80,8 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
             Name = topic.Name,
             ImageUrl = new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url,
             Content = topic.Content,
-            ParentTopicCount = topic.ParentCategories().Where(_permissionCheck.CanView).ToList().Count,
-            Parents = topic.ParentCategories().Where(_permissionCheck.CanView).Select(p =>
+            ParentTopicCount = topic.Parents().Where(_permissionCheck.CanView).ToList().Count,
+            Parents = topic.Parents().Where(_permissionCheck.CanView).Select(p =>
                 new {
                     id = p.Id,
                     name = p.Name,
@@ -124,7 +124,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 solid = knowledgeSummary.Solid
             },
             gridItems = _gridItemLogic.GetChildren(id),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).DirectChildrenIds.Any(id => id == topic.Id)
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).ChildrenIds.Any(id => id == topic.Id)
         };
     }
 }
