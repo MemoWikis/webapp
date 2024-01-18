@@ -197,7 +197,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
         JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
-        EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetVisibleChildren(parentId, _permissionCheck, _sessionUser.UserId).Select(cci => cci.Id).ToList();
+        EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
 
         return new RequestResult
         {

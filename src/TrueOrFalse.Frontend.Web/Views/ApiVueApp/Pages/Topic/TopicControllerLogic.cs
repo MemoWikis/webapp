@@ -92,7 +92,7 @@ public class TopicControllerLogic : IRegisterAsInstancePerLifetime
                 .ToArray(),
 
             ChildTopicCount = EntityCache.GetAllVisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            DirectChildTopicCount = topic.DirectChildrenIds.Where(_permissionCheck.CanViewCategory).ToList().Count,
+            DirectVisibleChildTopicCount = EntityCache.GetVisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             Views = _categoryViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
             AuthorIds = topic.AuthorIds.Distinct().ToArray(),
