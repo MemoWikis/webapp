@@ -1,5 +1,4 @@
-﻿using Seedworks.Web.State;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using ConcurrentCollections;
 
 public class SessionUserCache : IRegisterAsInstancePerLifetime

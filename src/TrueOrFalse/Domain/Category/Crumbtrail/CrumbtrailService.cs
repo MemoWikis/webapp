@@ -1,8 +1,15 @@
-﻿public class CrumbtrailService(
-    PermissionCheck _permissionCheck,
-    SessionUserCache _sessionUserCache)
-    : IRegisterAsInstancePerLifetime
+﻿public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
+    private readonly PermissionCheck _permissionCheck;
+    private readonly SessionUserCache _sessionUserCache;
+
+    public CrumbtrailService(
+        PermissionCheck permissionCheck,
+        SessionUserCache sessionUserCache)
+    {
+        _permissionCheck = permissionCheck;
+        _sessionUserCache = sessionUserCache;
+    }
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
