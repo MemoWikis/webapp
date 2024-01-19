@@ -123,7 +123,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 _questionReadingRepo)
                 .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
-        var wikiChildren = EntityCache.GetAllChildren(_sessionUser.User.StartTopicId);
+        var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new
@@ -168,13 +168,13 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             };
         var parent = EntityCache.GetCategory(parentId);
 
-        if (parent.DirectChildrenIds.Any(id => id == childId))
+        if (parent.ChildrenIds.Any(id => id == childId))
             return new RequestResult
             {
                 success = false,
                 messageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
             };
-        var selectedTopicIsParent = GraphService.GetAllParentsFromEntityCache(parentId)
+        var selectedTopicIsParent = GraphService.Ascendants(parentId)
             .Any(c => c.Id == childId);
 
         if (selectedTopicIsParent)
@@ -197,7 +197,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         var child = EntityCache.GetCategory(childId);
         ModifyRelationsEntityCache.AddParent(child, parentId);
         JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
-        EntityCache.GetCategory(parentId).DirectChildrenIds = EntityCache.GetChildren(parentId).Select(cci => cci.Id).ToList();
+        EntityCache.GetCategory(parentId).ChildrenIds = GraphService.Children(parentId).Select(cci => cci.Id).ToList();
 
         return new RequestResult
         {
@@ -234,7 +234,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
             _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
-        EntityCache.GetCategory(parentIdToRemove).DirectChildrenIds = EntityCache.GetChildren(parentIdToRemove).Select(cci => cci.Id).ToList();
+        EntityCache.GetCategory(parentIdToRemove).ChildrenIds = GraphService.Children(parentIdToRemove).Select(cci => cci.Id).ToList();
         return new RequestResult
         {
             success = true,

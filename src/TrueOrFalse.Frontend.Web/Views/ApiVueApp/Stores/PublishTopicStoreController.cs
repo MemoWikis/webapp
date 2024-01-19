@@ -40,7 +40,7 @@ namespace VueApp
 
                 if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == json.id)
                 {
-                    if (topicCacheItem.ParentCategories(true).Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
+                    if (topicCacheItem.Parents().Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
                         return Json(new RequestResult
                         {
                             success = false,
@@ -62,7 +62,7 @@ namespace VueApp
                 {
                     success = false,
                     messageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
-                    data = topicCacheItem.ParentCategories().Select(c => c.Id).ToList()
+                    data = topicCacheItem.Parents().Select(c => c.Id).ToList()
                 });
 
             }

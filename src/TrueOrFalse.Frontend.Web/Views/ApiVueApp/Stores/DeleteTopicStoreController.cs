@@ -27,7 +27,7 @@ public class DeleteTopicStoreController : BaseController
     public JsonResult GetDeleteData([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
-        var children = EntityCache.GetAllChildren(id);
+        var children = GraphService.Descendants(id);
         var hasChildren = children.Count > 0;
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
@@ -48,7 +48,7 @@ public class DeleteTopicStoreController : BaseController
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
         var parentIds =
-            EntityCache.GetCategory(id).ParentCategories().Select(c => c.Id)
+            EntityCache.GetCategory(id).Parents().Select(c => c.Id)
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = _categoryRepo.GetByIds(parentIds);
 

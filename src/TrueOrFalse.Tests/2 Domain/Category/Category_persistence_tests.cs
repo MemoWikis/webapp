@@ -92,7 +92,7 @@ public class Category_persistence_tests : BaseTest
                 category.CategoryRelations.Add(
                     new CategoryCacheRelation()
                     {
-                        CategoryId = category.Id,
+                        ChildCategoryId = category.Id,
                         RelatedCategoryId = categories[i].Id
                     });
                 EntityCache.AddOrUpdate(category);

@@ -1,16 +1,16 @@
 ﻿
 public class ModifyRelationsEntityCache
 {
-    public static void DeleteIncludetContentOf(CategoryCacheItem category)
+    public static void RemoveRelations(CategoryCacheItem category)
     {
-        var allParents = GraphService.GetAllParentsFromEntityCache(category.Id);
+        var allParents = GraphService.Ascendants(category.Id);
         foreach (var parent in allParents)
         {
             for (var i = 0; i < parent.CategoryRelations.Count; i++)
             {
                 var relation = parent.CategoryRelations[i];
 
-                if (relation.RelatedCategoryId == category.Id)
+                if (relation.ParentCategoryId == category.Id)
                 {
                     parent.CategoryRelations.Remove(relation);
                     break;
@@ -23,8 +23,8 @@ public class ModifyRelationsEntityCache
     {
         child.CategoryRelations.Add(new CategoryCacheRelation
         {
-            RelatedCategoryId = parentId,
-            CategoryId = child.Id
+            ParentCategoryId = parentId,
+            ChildCategoryId = child.Id
         }); 
     }
     public static void RemoveRelation(CategoryCacheItem categoryCacheItem, int relatedId)
@@ -33,8 +33,8 @@ public class ModifyRelationsEntityCache
         {
             var relation = categoryCacheItem.CategoryRelations[i];
 
-            if (relation.CategoryId == categoryCacheItem.Id &&
-                relation.RelatedCategoryId == relatedId)
+            if (relation.ChildCategoryId == categoryCacheItem.Id &&
+                relation.ParentCategoryId == relatedId)
             {
                 categoryCacheItem.CategoryRelations.RemoveAt(i);
                 break;

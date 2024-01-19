@@ -1,13 +1,13 @@
 ﻿using System.Diagnostics;
 
-public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLifetime
+public class EntityCacheInitializer : IRegisterAsInstancePerLifetime
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public EntityCacheInitializer(
-         CategoryRepository categoryRepository,
+        CategoryRepository categoryRepository,
         UserReadingRepo userReadingRepo,
         QuestionReadingRepo questionReadingRepo
     )
@@ -26,14 +26,14 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
         Logg.r.Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
+        Cache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
 
         var allCategories = _categoryRepository.GetAllEager();
         Logg.r.Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
+        Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
 
         var allQuestions = _questionReadingRepo.GetAllEager();
         Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
@@ -41,8 +41,8 @@ public class EntityCacheInitializer : BaseEntityCache, IRegisterAsInstancePerLif
         Logg.r.Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Logg.r.Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
-        IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions));
+        Cache.IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
+        Cache.IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsList(questions));
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {

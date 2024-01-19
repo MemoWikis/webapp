@@ -64,7 +64,7 @@ public class TopicToPrivateStoreController : BaseController
 
             foreach (var c in aggregatedTopics)
             {
-                var parentCategories = c.Value.ParentCategories();
+                var parentCategories = c.Value.Parents();
                 bool childHasPublicParent = parentCategories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
 
                 if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
@@ -156,7 +156,7 @@ public class TopicToPrivateStoreController : BaseController
 
             foreach (var c in aggregatedTopics)
             {
-                var parentCategories = c.Value.ParentCategories();
+                var parentCategories = c.Value.Parents();
                 bool childHasPublicParent = parentCategories.Any(p => p.Visibility == CategoryVisibility.All && p.Id != id);
 
                 if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))

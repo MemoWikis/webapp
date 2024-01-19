@@ -17,13 +17,13 @@ public class DeepCloneTests : BaseTest
         var categoryA = categories.ByName("A"); 
             
         categoryRoot.CategoryRelations = new List<CategoryRelation> {
-            new CategoryRelation {Category = categoryRoot, RelatedCategory = categoryA},
+            new CategoryRelation {Child = categoryRoot, Parent = categoryA},
         };
 
         Assert.That(categoryRoot.DeepClone(), Is.Not.Null);
 
         categoryA.CategoryRelations = new List<CategoryRelation> {
-            new CategoryRelation {Category = categoryA, RelatedCategory = categoryRoot},
+            new CategoryRelation {Child = categoryA, Parent = categoryRoot},
         };
 
         //Pre cloning, check that circular reference exists

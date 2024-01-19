@@ -16,7 +16,7 @@ export class Topic {
 	ParentTopicCount: number = 0
 	Parents: TinyTopicModel[] = []
 	ChildTopicCount: number = 0
-	DirectChildTopicCount: number = 0
+	DirectVisibleChildTopicCount: number = 0
 	Views: number = 0
 	CommentCount: number = 0
 	Visibility: Visibility = Visibility.Owner
@@ -78,7 +78,7 @@ export const useTopicStore = defineStore('topicStore', {
 			parentTopicCount: 0,
 			parents: [] as TinyTopicModel[],
 			childTopicCount: 0,
-			directChildTopicCount: 0,
+			directVisibleChildTopicCount: 0,
 			views: 0,
 			commentCount: 0,
 			visibility: null as Visibility | null,
@@ -107,7 +107,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.parentTopicCount = topic.ParentTopicCount
 				this.parents = topic.Parents
 				this.childTopicCount = topic.ChildTopicCount
-				this.directChildTopicCount = topic.DirectChildTopicCount
+				this.directVisibleChildTopicCount = topic.DirectVisibleChildTopicCount
 
 				this.views = topic.Views
 				this.commentCount = topic.CommentCount
