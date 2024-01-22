@@ -49,6 +49,8 @@ public class GraphService
 
         while (currentGeneration.Count > 0)
         {
+            var nextGeneration = new HashSet<CategoryCacheItem>();
+
             foreach (var parent in currentGeneration)
             {
                 if (parent.Id != childId)
@@ -60,12 +62,12 @@ public class GraphService
                 {
                     if (grandparent.Id != childId)
                     {
-                        currentGeneration.Add(grandparent);
+                        nextGeneration.Add(grandparent);
                     }
                 }
             }
 
-            currentGeneration = new HashSet<CategoryCacheItem>(currentGeneration.Except(ascendants));
+            currentGeneration = nextGeneration;
         }
 
         return ascendants.ToList();
