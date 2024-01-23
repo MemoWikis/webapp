@@ -53,28 +53,9 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
     public RequestResult ValidateName(string name)
     {
-        var dummyTopic = new Category();
-        dummyTopic.Name = name;
-        dummyTopic.Type = CategoryType.Standard;
-        var topicNameAllowed = new CategoryNameAllowed();
-        if (topicNameAllowed.No(dummyTopic, _categoryRepository))
-        {
-            var topic = EntityCache.GetCategoryByName(name).FirstOrDefault();
-            var url = topic.Visibility == CategoryVisibility.All ? new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(topic) : "";
-            return new RequestResult
-            {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.NameIsTaken,
-                data = new
-                {
-                    categoryNameAllowed = false,
-                    name,
-                    url
-                }
-            };
-        }
+        var nameValidator = new TopicNameValidator();
 
-        if (topicNameAllowed.ForbiddenWords(name))
+        if (nameValidator.IsForbiddenName(name))
         {
             return new RequestResult
             {
