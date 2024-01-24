@@ -19,6 +19,24 @@ public class OrderService
         return (updatedOldOrder, updatedNewOrder);
     }
 
+    public (List<TopicOrderNode> UpdatedOldOrder, List<TopicOrderNode> UpdatedNewOrder) MoveAfter(
+        TopicOrderNode oldNode,
+        int afterTopicId,
+        int parentId,
+        List<TopicOrderNode> oldOrder,
+        List<TopicOrderNode> newOrder)
+    {
+        if (oldOrder.FirstOrDefault()?.ParentId != parentId)
+        {
+            throw new InvalidOperationException("ParentId mismatch in the provided lists.");
+        }
+
+        var updatedOldOrder = RemoveNodeFromOrder(oldNode, oldOrder);
+        var updatedNewOrder = AddAfterNode(oldNode.TopicId, afterTopicId, parentId, newOrder);
+
+        return (updatedOldOrder, updatedNewOrder);
+    }
+
     private List<TopicOrderNode> RemoveNodeFromOrder(TopicOrderNode node, List<TopicOrderNode> order)
     {
         var nodeIndex = order.IndexOf(node);

@@ -23,7 +23,7 @@ class Order_tests : BaseTest
     }
 
     [Test]
-    public void MoveBefore_ShouldCorrectlyReorderNodes()
+    public void MoveBefore_ShouldCorrectlyReorderNodes_SameParentId()
     {
         var oldOrder = new List<TopicOrderNode>
         {
@@ -53,5 +53,38 @@ class Order_tests : BaseTest
         Assert.AreEqual(1, newNodeIndex);
         Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].TopicId);
         Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].TopicId);
+    }
+
+    [Test]
+    public void MoveAfter_ShouldCorrectlyReorderNodes_SameParentId()
+    {
+        var oldOrder = new List<TopicOrderNode>
+        {
+            new TopicOrderNode { TopicId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new TopicOrderNode { TopicId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
+            new TopicOrderNode { TopicId = 3, ParentId = 10, PreviousId = 2, NextId = null }
+        };
+        var newOrder = new List<TopicOrderNode>
+        {
+            new TopicOrderNode { TopicId = 4, ParentId = 10, PreviousId = null, NextId = 5 },
+            new TopicOrderNode { TopicId = 5, ParentId = 10, PreviousId = 4, NextId = null }
+        };
+
+        var oldNode = oldOrder[1];
+        int afterTopicId = 4;
+        int parentId = 10;
+
+        var oderService = new OrderService();
+        var result = oderService.MoveAfter(oldNode, afterTopicId, parentId, oldOrder, newOrder);
+
+        Assert.IsNotNull(result.UpdatedOldOrder);
+        Assert.IsNotNull(result.UpdatedNewOrder);
+
+        Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.TopicId == oldNode.TopicId));
+
+        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.TopicId == oldNode.TopicId);
+        Assert.AreEqual(1, newNodeIndex);
+        Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].TopicId);
+        Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].TopicId);
     }
 }
