@@ -10,17 +10,11 @@ namespace TrueOrFalse.Updates
     public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DbSettingsRepo _dbSettingsRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Dictionary<int, Action> _actions = new();
 
-        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo)
         {
             _dbSettingsRepo = dbSettingsRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         public UpdateStepExecuter Add(Action action)
