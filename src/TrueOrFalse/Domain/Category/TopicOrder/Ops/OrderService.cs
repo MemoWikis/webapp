@@ -1,20 +1,32 @@
 ﻿
+using Org.BouncyCastle.Asn1.Ocsp;
+using TrueOrFalse.Utilities.ScheduledJobs;
+
 public class OrderService
 {
+
+    private readonly CategoryRepository _categoryRepository;
+    private readonly PermissionCheck _permissionCheck;
+
+    public OrderService(CategoryRepository categoryRepository, PermissionCheck permissionCheck)
+    {
+        _categoryRepository = categoryRepository;
+        _permissionCheck = permissionCheck;
+    }
+
+    public OrderService()
+    {
+    }
+
     public (List<TopicOrderNode> UpdatedOldOrder, List<TopicOrderNode> UpdatedNewOrder) MoveBefore(
         TopicOrderNode oldNode, 
         int beforeTopicId,
-        int parentId,
-        List<TopicOrderNode> oldOrder, 
+        int newParentId,
+        List<TopicOrderNode> oldOrder,
         List<TopicOrderNode> newOrder)
     {
-        if (oldOrder.FirstOrDefault().ParentId != parentId)
-        {
-            throw new InvalidOperationException("ParentId mismatch in the provided lists.");
-        }
-
         var updatedOldOrder = RemoveNodeFromOrder(oldNode, oldOrder);
-        var updatedNewOrder = AddBeforeNode(oldNode.TopicId, beforeTopicId, parentId, newOrder);
+        var updatedNewOrder = AddBeforeNode(oldNode.TopicId, beforeTopicId, newParentId, newOrder);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -22,17 +34,12 @@ public class OrderService
     public (List<TopicOrderNode> UpdatedOldOrder, List<TopicOrderNode> UpdatedNewOrder) MoveAfter(
         TopicOrderNode oldNode,
         int afterTopicId,
-        int parentId,
+        int newParentId,
         List<TopicOrderNode> oldOrder,
         List<TopicOrderNode> newOrder)
     {
-        if (oldOrder.FirstOrDefault()?.ParentId != parentId)
-        {
-            throw new InvalidOperationException("ParentId mismatch in the provided lists.");
-        }
-
         var updatedOldOrder = RemoveNodeFromOrder(oldNode, oldOrder);
-        var updatedNewOrder = AddAfterNode(oldNode.TopicId, afterTopicId, parentId, newOrder);
+        var updatedNewOrder = AddAfterNode(oldNode.TopicId, afterTopicId, newParentId, newOrder);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -59,6 +66,13 @@ public class OrderService
     private List<TopicOrderNode> AddBeforeNode(int topicId, int beforeTopicId, int parentId, List<TopicOrderNode> order)
     {
         return InsertNode(topicId, beforeTopicId, parentId, order, false);
+    }
+
+    public List<TopicOrderNode> AddAfterNode(int topicId, int afterTopicId, int parentId)
+    {
+        var order = _categoryRepository.GetById(parentId).TopicOrder;
+        //var order = new List<TopicOrderNode>();
+        return AddAfterNode(topicId, afterTopicId, parentId, order);
     }
 
     private List<TopicOrderNode> AddAfterNode(int topicId, int afterTopicId, int parentId, List<TopicOrderNode> order)

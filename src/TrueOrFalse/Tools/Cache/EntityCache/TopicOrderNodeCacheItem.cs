@@ -1,7 +1,5 @@
-﻿using Seedworks.Lib.Persistence;
-
-[Serializable]
-public class TopicOrderNode : DomainEntity
+﻿[Serializable]
+public class TopicOrderNodeCacheItem
 {
     public virtual required int TopicId { get; set; }
     public virtual required int ParentId { get; set; }

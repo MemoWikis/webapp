@@ -86,6 +86,9 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual CategoryVisibility Visibility { get; set; }
 
+    public virtual List<TopicOrderNode> TopicOrder { get; set; }
+
+
     public Category()
     {
         CategoryRelations = new List<CategoryRelation>();

@@ -48,15 +48,15 @@ public class ModifyRelationsForCategory
             : new List<CategoryRelation>();
     }
 
-    public static void RemoveRelation(Category category, Category relatedCategory)
+    public static void RemoveRelation(Category child, Category parent)
     {
-        for (int i = 0; i < category.CategoryRelations.Count; i++)
+        for (int i = 0; i < child.CategoryRelations.Count; i++)
         {
-            var relation = category.CategoryRelations[i];
-            if (relation.Child.Id == category.Id &&
-                relation.Parent.Id == relatedCategory.Id)
+            var relation = child.CategoryRelations[i];
+            if (relation.Child.Id == child.Id &&
+                relation.Parent.Id == parent.Id)
             {
-                category.CategoryRelations.RemoveAt(i);
+                child.CategoryRelations.RemoveAt(i);
                 break;
             }
         }
@@ -80,17 +80,9 @@ public class ModifyRelationsForCategory
             childCategoryAsCategory,
             parentCategoryAsCategory);
 
-        RemoveRelation(
-            parentCategoryAsCategory,
-            childCategoryAsCategory);
-
-        ModifyRelationsEntityCache.RemoveRelation(
+        ModifyRelationsEntityCache.RemoveParent(
             childCategory,
             parentCategoryIdToRemove);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            EntityCache.GetCategory(parentCategoryIdToRemove),
-            childCategoryId);
 
         return true;
     }
@@ -104,5 +96,13 @@ public class ModifyRelationsForCategory
             return false;
 
         return true;
+    }
+
+    public void MoveTopic(int topicId, int oldParentId, int newParentId)
+    {
+        var topic = _categoryRepository.GetById(topicId);
+        AddParentCategory(topic, newParentId);
+        var oldParent = _categoryRepository.GetById(oldParentId);
+        RemoveRelation(oldParent, topic);
     }
 }

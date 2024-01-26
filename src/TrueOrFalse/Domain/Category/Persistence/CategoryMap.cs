@@ -49,5 +49,10 @@ public class CategoryMap : ClassMap<Category>
             .Cascade.AllDeleteOrphan()
             .Inverse();
 
+        HasMany(x => x.TopicOrder)
+            .Table("topicordernodes")
+            .KeyColumn("ParentId")
+            .Cascade.AllDeleteOrphan()
+            .Inverse();
     }
 }

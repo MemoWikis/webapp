@@ -19,6 +19,8 @@ public class ModifyRelationsEntityCache
         }
     }
 
+    public static void AddParent(int childId, int parentId) => AddParent(EntityCache.GetCategory(childId), parentId);
+
     public static void AddParent(CategoryCacheItem child, int parentId)
     {
         child.CategoryRelations.Add(new CategoryCacheRelation
@@ -27,18 +29,25 @@ public class ModifyRelationsEntityCache
             ChildCategoryId = child.Id
         }); 
     }
-    public static void RemoveRelation(CategoryCacheItem categoryCacheItem, int relatedId)
+    public static void RemoveParent(CategoryCacheItem categoryCacheItem, int parentId)
     {
         for (int i = 0; i < categoryCacheItem.CategoryRelations.Count; i++)
         {
             var relation = categoryCacheItem.CategoryRelations[i];
 
             if (relation.ChildCategoryId == categoryCacheItem.Id &&
-                relation.ParentCategoryId == relatedId)
+                relation.ParentCategoryId == parentId)
             {
                 categoryCacheItem.CategoryRelations.RemoveAt(i);
                 break;
             }
         }
+    }
+
+    public static void MoveTopic(int childId, int oldParentId, int newParentId)
+    {
+        var child = EntityCache.GetCategory(childId);
+        AddParent(child, newParentId);
+        RemoveParent(child, oldParentId);
     }
 }
