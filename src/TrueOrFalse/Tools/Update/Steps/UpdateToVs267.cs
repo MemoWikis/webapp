@@ -8,10 +8,10 @@ internal class UpdateToVs267
     {
         nhibernateSession
             .CreateSQLQuery(
-                @"CREATE TABLE TopicOrder (
+                @"CREATE TABLE TopicOrderNodes (
                     Id INT AUTO_INCREMENT PRIMARY KEY,
                     TopicId INT NOT NULL,
-                    ParentId INT NULL,
+                    ParentId INT NOT NULL,
                     PreviousId INT NULL,
                     NextId INT NULL
                 )"
