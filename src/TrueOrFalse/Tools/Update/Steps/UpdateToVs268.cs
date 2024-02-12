@@ -1,39 +1,62 @@
 ﻿using NHibernate;
+using NHibernate.Transform;
 
 namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs268
 {
+    public class CategoryRelationInfo
+    {
+        public int Id { get; set; }
+        public int ParentId { get; set; }
+    }
+
     public static void Run(ISession nhibernateSession)
     {
-        nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE questionview DROP FOREIGN KEY FK_WidgetView;"
-            ).ExecuteUpdate();
+        using var transaction = nhibernateSession.BeginTransaction();
+        try
+        {
+            var query = @"SELECT Id, Related_id AS ParentId FROM relatedcategoriestorelatedcategories ORDER BY Related_id, Id";
+            IList<CategoryRelationInfo> allRecords = nhibernateSession.CreateSQLQuery(query)
+                .SetResultTransformer(Transformers.AliasToBean<CategoryRelationInfo>())
+                .List<CategoryRelationInfo>();
 
-        nhibernateSession
-            .CreateSQLQuery(
-                @"DROP TABLE widgetview;"
-            ).ExecuteUpdate();
+            var groupedRecords = allRecords.GroupBy(x => x.ParentId);
 
-        nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE useractivity DROP COLUMN Date_id DROP COLUMN Gamer_id DROP COLUMN Set_id;"
-            ).ExecuteUpdate();
+            foreach (var group in groupedRecords)
+            {
+                CategoryRelationInfo previousRecord = null;
+                foreach (var currentRecord in group)
+                {
+                    if (previousRecord != null)
+                    {
+                        UpdatePreviousAndNextIds(nhibernateSession, previousRecord.Id, currentRecord.Id);
+                    }
+                    previousRecord = currentRecord;
+                }
+            }
 
-        nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE questionview DROP COLUMN Round_id DROP COLUMN WidgetView_id DROP COLUMN Planer_id;"
-            ).ExecuteUpdate();
+            transaction.Commit();
+        }
+        catch (Exception ex)
+        {
+            transaction.Rollback();
+            throw;
+        }
+    }
 
-       nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE message DROP COLUMN TrainingDate_id;"
-            ).ExecuteUpdate();
+    private static void UpdatePreviousAndNextIds(ISession session, int previousRecordId, int currentRecordId)
+    {
+        var updateCurrent = @"UPDATE relatedcategoriestorelatedcategories SET Previous_id = :previousId WHERE Id = :currentId";
+        session.CreateSQLQuery(updateCurrent)
+            .SetParameter("previousId", previousRecordId)
+            .SetParameter("currentId", currentRecordId)
+            .ExecuteUpdate();
 
-       nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE learningsession DROP COLUMN DateToLearn_id DROP COLUMN SetToLearn_id;"
-            ).ExecuteUpdate();
+        var updatePrevious = @"UPDATE relatedcategoriestorelatedcategories SET Next_id = :nextId WHERE Id = :previousId";
+        session.CreateSQLQuery(updatePrevious)
+            .SetParameter("nextId", currentRecordId)
+            .SetParameter("previousId", previousRecordId)
+            .ExecuteUpdate();
     }
 }

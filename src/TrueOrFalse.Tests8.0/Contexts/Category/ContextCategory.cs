@@ -185,7 +185,7 @@ public class ContextCategory : BaseTest
 
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
     {
-        return categoryCacheItem.CategoryRelations.Any(cr =>
-            cr.ParentCategoryId == deletedId || cr.ChildCategoryId == deletedId);
+        return categoryCacheItem.ParentRelations.Any(cr =>
+            cr.ParentId == deletedId || cr.ChildId == deletedId);
     }
 }

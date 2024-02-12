@@ -8,13 +8,12 @@ internal class UpdateToVs267
     {
         nhibernateSession
             .CreateSQLQuery(
-                @"CREATE TABLE TopicOrderNodes (
-                    Id INT AUTO_INCREMENT PRIMARY KEY,
-                    TopicId INT NOT NULL,
-                    ParentId INT NOT NULL,
-                    PreviousId INT NULL,
-                    NextId INT NULL
-                )"
+                @"ALTER TABLE relatedcategoriestorelatedcategories ADD Previous_id INT NULL;"
+            ).ExecuteUpdate();
+
+        nhibernateSession
+            .CreateSQLQuery(
+                @"ALTER TABLE relatedcategoriestorelatedcategories ADD Next_id INT NULL;"
             ).ExecuteUpdate();
     }
 }

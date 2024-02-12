@@ -1,21 +1,23 @@
 ﻿[Serializable]
 public class CategoryCacheRelation
 {
-    public virtual int ChildCategoryId { get; set; }
-    public virtual int ParentCategoryId { get; set; }
+    public virtual int ChildId { get; set; }
+    public virtual int ParentId { get; set; }
+    public virtual int? PreviousId { get; set; }
+    public virtual int? NextId { get; set; }
 
-    public IList<CategoryCacheRelation> ToListCategoryRelations(IList<CategoryRelation> listCategoryRelations)
+    public IList<CategoryCacheRelation> ToParentRelations(IList<CategoryRelation> parentRelations)
     {
         var result = new List<CategoryCacheRelation>();
 
-        if (listCategoryRelations == null)
+        if (parentRelations == null)
             Logg.r.Error("CategoryRelations cannot be null");
 
-        if (listCategoryRelations.Count <= 0 || listCategoryRelations == null)
+        if (parentRelations.Count <= 0 || parentRelations == null)
         {
             return result;
         }
-        foreach (var categoryRelation in listCategoryRelations)
+        foreach (var categoryRelation in parentRelations)
         {
             result.Add(ToCategoryCacheRelation(categoryRelation));
         }
@@ -23,18 +25,41 @@ public class CategoryCacheRelation
         return result;
     }
 
+    public IList<CategoryCacheRelation> ToChildRelations(IList<CategoryRelation> childRelations)
+    {
+        var sortedList = new List<CategoryCacheRelation>();
+
+        if (childRelations == null)
+            Logg.r.Error("CategoryRelations cannot be null");
+
+        if (childRelations.Count <= 0 || childRelations == null)
+        {
+            return sortedList;
+        }
+
+        var current = childRelations.FirstOrDefault(x => x.PreviousId == null);
+
+        while (current != null)
+        {
+            sortedList.Add(ToCategoryCacheRelation(current));
+            current = childRelations.FirstOrDefault(x => x.Child.Id == current.NextId);
+        }
+
+        return sortedList;
+    }
+
     public static CategoryCacheRelation ToCategoryCacheRelation(CategoryRelation categoryRelation)
     {
         return new CategoryCacheRelation
         {
-            ChildCategoryId = categoryRelation.Child.Id,
-            ParentCategoryId = categoryRelation.Parent.Id
+            ChildId = categoryRelation.Child.Id,
+            ParentId = categoryRelation.Parent.Id
         };
     }
 
     public static bool IsCategoryRelationEqual(CategoryCacheRelation relation1, CategoryCacheRelation relation2)
     {
-        return relation1.ParentCategoryId == relation2.ParentCategoryId &&
-               relation1.ChildCategoryId == relation2.ChildCategoryId;
+        return relation1.ParentId == relation2.ParentId &&
+               relation1.ChildId == relation2.ChildId;
     }
 }

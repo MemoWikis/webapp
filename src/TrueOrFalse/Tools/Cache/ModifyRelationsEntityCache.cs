@@ -6,13 +6,13 @@ public class ModifyRelationsEntityCache
         var allParents = GraphService.Ascendants(category.Id);
         foreach (var parent in allParents)
         {
-            for (var i = 0; i < parent.CategoryRelations.Count; i++)
+            for (var i = 0; i < parent.ParentRelations.Count; i++)
             {
-                var relation = parent.CategoryRelations[i];
+                var relation = parent.ParentRelations[i];
 
-                if (relation.ParentCategoryId == category.Id)
+                if (relation.ParentId == category.Id)
                 {
-                    parent.CategoryRelations.Remove(relation);
+                    parent.ParentRelations.Remove(relation);
                     break;
                 }
             }
@@ -23,22 +23,22 @@ public class ModifyRelationsEntityCache
 
     public static void AddParent(CategoryCacheItem child, int parentId)
     {
-        child.CategoryRelations.Add(new CategoryCacheRelation
+        child.ParentRelations.Add(new CategoryCacheRelation
         {
-            ParentCategoryId = parentId,
-            ChildCategoryId = child.Id
+            ParentId = parentId,
+            ChildId = child.Id
         }); 
     }
     public static void RemoveParent(CategoryCacheItem categoryCacheItem, int parentId)
     {
-        for (int i = 0; i < categoryCacheItem.CategoryRelations.Count; i++)
+        for (int i = 0; i < categoryCacheItem.ParentRelations.Count; i++)
         {
-            var relation = categoryCacheItem.CategoryRelations[i];
+            var relation = categoryCacheItem.ParentRelations[i];
 
-            if (relation.ChildCategoryId == categoryCacheItem.Id &&
-                relation.ParentCategoryId == parentId)
+            if (relation.ChildId == categoryCacheItem.Id &&
+                relation.ParentId == parentId)
             {
-                categoryCacheItem.CategoryRelations.RemoveAt(i);
+                categoryCacheItem.ParentRelations.RemoveAt(i);
                 break;
             }
         }

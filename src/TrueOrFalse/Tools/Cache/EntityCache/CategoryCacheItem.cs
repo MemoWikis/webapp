@@ -21,7 +21,7 @@ public class CategoryCacheItem : IPersistable
     public virtual int[] AuthorIds { get; set; }
     public virtual string CategoriesToExcludeIdsString { get; set; }
     public virtual string CategoriesToIncludeIdsString { get; set; }
-    public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
+    public virtual IList<CategoryCacheRelation> ParentRelations { get; set; }
     public virtual string Content { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
@@ -162,9 +162,9 @@ public class CategoryCacheItem : IPersistable
 
     public virtual List<CategoryCacheItem> Parents()
     {
-        return CategoryRelations.Any()
-            ? CategoryRelations
-                .Select(x => EntityCache.GetCategory(x.ParentCategoryId))
+        return ParentRelations.Any()
+            ? ParentRelations
+                .Select(x => EntityCache.GetCategory(x.ParentId))
                 .Where(x => x != null)
                 .ToList()!
             : new List<CategoryCacheItem>();
@@ -185,12 +185,12 @@ public class CategoryCacheItem : IPersistable
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
-        var categoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations);
+        var parentRelations = userEntityCacheCategoryRelations.ToParentRelations(category.ParentRelations);
 
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
-            CategoryRelations = categoryRelations,
+            ParentRelations = parentRelations,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,
