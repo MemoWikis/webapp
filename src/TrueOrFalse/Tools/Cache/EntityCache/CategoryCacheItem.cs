@@ -22,6 +22,8 @@ public class CategoryCacheItem : IPersistable
     public virtual string CategoriesToExcludeIdsString { get; set; }
     public virtual string CategoriesToIncludeIdsString { get; set; }
     public virtual IList<CategoryCacheRelation> ParentRelations { get; set; }
+    public virtual IList<CategoryCacheRelation> ChildRelations { get; set; }
+
     public virtual string Content { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
@@ -186,10 +188,11 @@ public class CategoryCacheItem : IPersistable
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var parentRelations = userEntityCacheCategoryRelations.ToParentRelations(category.ParentRelations);
-
+        var childRelations = userEntityCacheCategoryRelations.ToChildRelations(category.ChildRelations);
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
+            ChildRelations = childRelations,
             ParentRelations = parentRelations,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
