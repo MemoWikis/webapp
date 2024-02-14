@@ -112,17 +112,17 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
-        var query = _session.QueryOver<Category>();
+        var query = _session.QueryOver<Category>(); 
         if (categoryIds != null)
         {
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
         }
 
         var result = query.Left
-            .JoinQueryOver<CategoryRelation>(s => s.ParentRelations) // Join for parent relations
-                .Left.JoinQueryOver(x => x.Parent) // Join for parent
+            .JoinQueryOver<CategoryRelation>(s => s.CategoryRelations) // Join for parent relations
+            .Left.JoinQueryOver(x => x.Child) // Join for parent
             .JoinQueryOver<CategoryRelation>(s => s.ChildRelations) // Join for child relations
-                .Left.JoinQueryOver(x => x.Child) // Join for child
+            .Left.JoinQueryOver(x => x.Parent) // Join for child
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -131,7 +131,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         foreach (var category in result)
         {
             NHibernateUtil.Initialize(category.Creator);
-            NHibernateUtil.Initialize(category.ParentRelations);
+            NHibernateUtil.Initialize(category.CategoryRelations);
             NHibernateUtil.Initialize(category.ChildRelations);
         }
 

@@ -1,9 +1,4 @@
 ﻿
-
-
-using Markdig.Helpers;
-using Org.BouncyCastle.Asn1.Ocsp;
-
 public class TopicOrderService
 {
     private readonly CategoryRepository _categoryRepository;
@@ -39,7 +34,7 @@ public class TopicOrderService
 
     private List<CategoryRelation> Remove(CategoryRelation relation, int oldParentId)
     {
-        var relations = _categoryRepository.GetById(oldParentId).ParentRelations;
+        var relations = _categoryRepository.GetById(oldParentId).CategoryRelations;
 
         var nodeIndex = relations.IndexOf(relation);
         if (nodeIndex != -1)
@@ -61,7 +56,7 @@ public class TopicOrderService
     private List<CategoryRelation> AddBefore(int topicId, int beforeTopicId, int parentId)
     {
         var parent = _categoryRepository.GetById(parentId);
-        var relations = parent.ParentRelations.ToList();
+        var relations = parent.CategoryRelations.ToList();
         var child = _categoryRepository.GetById(topicId);
         return Insert(child, beforeTopicId, parent, relations, false);
     }
@@ -69,7 +64,7 @@ public class TopicOrderService
     private List<CategoryRelation> AddAfter(int topicId, int afterTopicId, int parentId)
     {
         var parent = _categoryRepository.GetById(parentId);
-        var relations = parent.ParentRelations.ToList();
+        var relations = parent.CategoryRelations.ToList();
         var child = _categoryRepository.GetById(topicId);
         return Insert(child, afterTopicId, parent, relations, true);
     }

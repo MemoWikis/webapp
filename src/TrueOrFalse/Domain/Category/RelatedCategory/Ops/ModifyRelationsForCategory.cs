@@ -33,30 +33,30 @@ public class ModifyRelationsForCategory
             Child = category,
             Parent = relatedCategory,
         };
-        if (!category.ParentRelations.Any(cr =>
+        if (!category.CategoryRelations.Any(cr =>
                 cr.Child == categoryRelationToAdd.Child &&
                 cr.Parent == categoryRelationToAdd.Parent))
         {
-            category.ParentRelations.Add(categoryRelationToAdd);
+            category.CategoryRelations.Add(categoryRelationToAdd);
         }
     }
 
     public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)
     {
-        return category.ParentRelations.Any()
-            ? category.ParentRelations?.Where(r => r.Parent.Id == category.Id).ToList()
+        return category.CategoryRelations.Any()
+            ? category.CategoryRelations?.Where(r => r.Parent.Id == category.Id).ToList()
             : new List<CategoryRelation>();
     }
 
     public static void RemoveRelation(Category child, Category parent)
     {
-        for (int i = 0; i < child.ParentRelations.Count; i++)
+        for (int i = 0; i < child.CategoryRelations.Count; i++)
         {
-            var relation = child.ParentRelations[i];
+            var relation = child.CategoryRelations[i];
             if (relation.Child.Id == child.Id &&
                 relation.Parent.Id == parent.Id)
             {
-                child.ParentRelations.RemoveAt(i);
+                child.CategoryRelations.RemoveAt(i);
                 break;
             }
         }
