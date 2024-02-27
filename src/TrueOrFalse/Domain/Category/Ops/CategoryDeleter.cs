@@ -42,7 +42,7 @@ public class CategoryDeleter(
         _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
         _categoryRepository.Delete(category);
 
-        ModifyRelationsEntityCache.DeleteIncludetContentOf(categoryCacheItem);
+        ModifyRelationsEntityCache.RemoveRelations(categoryCacheItem);
         EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
         _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 

@@ -1,7 +1,9 @@
 ﻿
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Validations;
 
 public class GridItemLogic
     : IRegisterAsInstancePerLifetime
@@ -65,10 +67,8 @@ public class GridItemLogic
 
     public GridTopicItem[] GetChildren(int id)
     {
-        return EntityCache.GetChildren(id)
-            .Where(c => _permissionCheck.CanView(c))
-            .Select(BuildGridTopicItem)
-            .ToArray();
+        var visibleChildren = GraphService.VisibleChildren(id, _permissionCheck, _sessionUser.UserId);
+        return visibleChildren.Select(BuildGridTopicItem).ToArray();
     }
 
     public GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
@@ -81,13 +81,12 @@ public class GridItemLogic
             id = topic.Id,
             name = topic.Name,
             questionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
-            childrenCount =
-                EntityCache.GetChildren(topic.Id).Count(c => _permissionCheck.CanView(c)),
+            childrenCount = GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
             visibility = topic.Visibility,
             parents = GetParents(topic),
             knowledgebarData = GetKnowledgebarData(topic),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache.GetChildren(_sessionUser.User.StartTopicId).Any(c => c.Id == topic.Id),
+            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService.VisibleDescendants(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == topic.Id),
             creatorId = topic.CreatorId,
             canDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
         };
@@ -113,7 +112,7 @@ public class GridItemLogic
 
     private TinyTopicModel[] GetParents(CategoryCacheItem topic)
     {
-        return topic.ParentCategories().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
+        return topic.Parents().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
             { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
                 .GetUrl(50, true).Url })
             .ToArray();

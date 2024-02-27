@@ -42,7 +42,7 @@ public class VueUserController : BaseController
             var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
             var isCurrentUser = _sessionUser.UserId == user.Id;
             var allQuestionsCreatedByUser = EntityCache.GetAllQuestions().Where(q => q.Creator != null && q.CreatorId == user.Id);
-            var allTopicsCreatedByUser = EntityCache.GetAllCategories().Where(c => c.Creator != null && c.CreatorId == user.Id);
+            var allTopicsCreatedByUser = EntityCache.GetAllCategoriesList().Where(c => c.Creator != null && c.CreatorId == user.Id);
             var result = new
             {
                 user = new

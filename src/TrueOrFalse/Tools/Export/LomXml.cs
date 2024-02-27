@@ -195,7 +195,7 @@ public class LomXmlParams
         GeneralIdentifier = "thema-" + categoryCacheItem.Id;
         GeneralTitle = categoryCacheItem.Name;
         GeneralDescription = categoryCacheItem.Description;
-        Categories = categoryRepository.GetByIdsEager(categoryCacheItem.ParentCategories().Select(c => c.Id));
+        Categories = categoryRepository.GetByIdsEager(categoryCacheItem.Parents().Select(c => c.Id));
         AggregationLevel = LomAggregationLevel.Level3Course.GetValue();
         LifecycleDate = categoryCacheItem.DateCreated;
         MetaMetaCatalogEntry = "metadata.memucho-thema-" + categoryCacheItem.Id;

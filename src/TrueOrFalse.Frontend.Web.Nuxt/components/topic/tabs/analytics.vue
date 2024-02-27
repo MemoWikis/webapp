@@ -66,7 +66,7 @@ onBeforeMount(() => setKnowledgeSummaryData())
                                 <b>{{ topicStore.childTopicCount }} </b> eingeschlossene Themen
                             </li>
                             <li>
-                                <b>{{ topicStore.directChildTopicCount }}</b> direkt verknüpfte Unterthemen
+                                <b>{{ topicStore.directVisibleChildTopicCount }}</b> direkt verknüpfte Unterthemen
                             </li>
                             <li>
                                 <b> {{ topicStore.parentTopicCount }} </b> übergeordnete Themen

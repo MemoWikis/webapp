@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Markdig.Helpers;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using VueApp;
 
 public class TopicController : BaseController
@@ -18,6 +20,7 @@ public class TopicController : BaseController
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+
         return Json(_topicControllerLogic.GetTopicData(id));
     }
 }

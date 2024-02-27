@@ -38,7 +38,7 @@ public class Category : DomainEntity, ICreator, ICloneable
     {
         return CategoryRelations.Any()
             ? CategoryRelations
-                .Select(x => x.RelatedCategory)
+                .Select(x => x.Parent)
                 .ToList()
             : new List<Category>();
     }
