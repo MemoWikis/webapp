@@ -34,7 +34,7 @@ public class CategoryCacheItem : IPersistable
     public virtual DateTime DateCreated { get; set; }
     public virtual string Description { get; set; }
 
-    public virtual IList<int> DirectChildrenIds { get; set; }
+    public virtual IList<int> ChildrenIds { get; set; }
 
     public virtual bool DisableLearningFunctions { get; set; }
 
@@ -142,7 +142,7 @@ public class CategoryCacheItem : IPersistable
 
     public virtual bool HasPublicParent()
     {
-        return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
+        return Parents().Any(c => c.Visibility == CategoryVisibility.All);
     }
 
     public bool IsStartPage()
@@ -160,12 +160,13 @@ public class CategoryCacheItem : IPersistable
         return false;
     }
 
-    public virtual IList<CategoryCacheItem> ParentCategories(bool getFromEntityCache = false)
+    public virtual List<CategoryCacheItem> Parents()
     {
-        return CategoryRelations != null && CategoryRelations.Any()
+        return CategoryRelations.Any()
             ? CategoryRelations
-                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId))
-                .ToList()
+                .Select(x => EntityCache.GetCategory(x.ParentCategoryId))
+                .Where(x => x != null)
+                .ToList()!
             : new List<CategoryCacheItem>();
     }
 
@@ -184,10 +185,12 @@ public class CategoryCacheItem : IPersistable
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
+        var categoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations);
+
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
-            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
+            CategoryRelations = categoryRelations,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,
@@ -228,9 +231,9 @@ public class CategoryCacheItem : IPersistable
         Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
     {
         var visibleVisited = new Dictionary<int, CategoryCacheItem>();
-        if (parentCacheItem.DirectChildrenIds == null)
+        if (parentCacheItem.ChildrenIds == null)
         {
-            parentCacheItem.DirectChildrenIds = EntityCache.GetChildren(parentCacheItem).Select(cci => cci.Id).ToList();
+            parentCacheItem.ChildrenIds = GraphService.Children(parentCacheItem).Select(cci => cci.Id).ToList();
             EntityCache.AddOrUpdate(parentCacheItem);
         }
 
@@ -239,9 +242,9 @@ public class CategoryCacheItem : IPersistable
             visibleVisited = _previousVisibleVisited;
         }
 
-        if (parentCacheItem.DirectChildrenIds != null)
+        if (parentCacheItem.ChildrenIds != null)
         {
-            foreach (var childId in parentCacheItem.DirectChildrenIds)
+            foreach (var childId in parentCacheItem.ChildrenIds)
             {
                 if (!visibleVisited.ContainsKey(childId))
                 {

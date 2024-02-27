@@ -1,5 +1,4 @@
-﻿using Seedworks.Web.State;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using ConcurrentCollections;
 
 public class SessionUserCache : IRegisterAsInstancePerLifetime
@@ -35,13 +34,13 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     public SessionUserCacheItem? GetItem(int userId)
     {
-        var user = Cache.Get<SessionUserCacheItem>(GetCacheKey(userId)); 
+        var user = Seedworks.Web.State.Cache.Get<SessionUserCacheItem>(GetCacheKey(userId)); 
         return user;
     }
 
     public bool ItemExists(int userId)
     {
-        return Cache.Contains(GetCacheKey(userId));
+        return Seedworks.Web.State.Cache.Contains(GetCacheKey(userId));
     }
 
     public bool IsQuestionInWishknowledge(int userId, int questionId)
@@ -169,11 +168,11 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     public void Remove(int userId)
     {
         var cacheKey = GetCacheKey(userId);
-        var cacheItem = Cache.Get<SessionUserCacheItem>(cacheKey);
+        var cacheItem = Seedworks.Web.State.Cache.Get<SessionUserCacheItem>(cacheKey);
 
         if (cacheItem != null)
         {
-            Cache.Remove(cacheKey);
+            Seedworks.Web.State.Cache.Remove(cacheKey);
             _cacheKeys.TryRemove(cacheKey);
         }
     }
@@ -202,7 +201,7 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
 
     private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
     {
-        Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+        Seedworks.Web.State.Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }
 }

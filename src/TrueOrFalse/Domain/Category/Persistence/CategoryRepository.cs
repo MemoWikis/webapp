@@ -69,12 +69,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ConfigureAwait(false));
     }
 
-
-    public bool Exists(string categoryName)
-    {
-        return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
-    }
-
     public IList<Category> GetAllEager()
     {
         return GetByIdsEager();
@@ -119,7 +113,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         var result = query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .Left.JoinQueryOver(x => x.RelatedCategory)
+            .Left.JoinQueryOver(x => x.Parent)
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -156,10 +150,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<Category> GetCategoriesIdsForRelatedCategory(Category relatedCategory)
     {
         var query = _session.QueryOver<CategoryRelation>()
-            .Where(r => r.RelatedCategory == relatedCategory);
+            .Where(r => r.Parent == relatedCategory);
 
         return query.List()
-            .Select(r => r.Category)
+            .Select(r => r.Child)
             .ToList();
     }
 
@@ -174,8 +168,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         var query = Session
             .QueryOver<CategoryRelation>()
-            .JoinAlias(c => c.RelatedCategory, () => relatedCategoryAlias)
-            .JoinAlias(c => c.Category, () => categoryAlias)
+            .JoinAlias(c => c.Parent, () => relatedCategoryAlias)
+            .JoinAlias(c => c.Child, () => categoryAlias)
             .Where(r => relatedCategoryAlias.Type == parentType
                         && relatedCategoryAlias.Id == parentId
                         && categoryAlias.Type == childrenType);
@@ -186,7 +180,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .IsLike(searchTerm);
         }
 
-        return query.Select(r => r.Category).List<Category>();
+        return query.Select(r => r.Child).List<Category>();
     }
 
     public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)

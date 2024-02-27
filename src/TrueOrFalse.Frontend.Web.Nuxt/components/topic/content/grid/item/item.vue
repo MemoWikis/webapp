@@ -71,22 +71,17 @@ async function loadChildren(force: boolean = false) {
 }
 
 const { $urlHelper } = useNuxtApp()
-const computedChildrenCount = computed(() => {
-    const { childrenCount } = props.topic
 
-    return childrenLoaded.value ? children.value.length : childrenCount
-
-})
 const detailLabel = computed(() => {
-    const { questionCount } = props.topic
+    const { questionCount, childrenCount } = props.topic
 
-    const childrenLabel = `${computedChildrenCount.value} ${computedChildrenCount.value === 1 ? 'Unterthema' : 'Unterthemen'}`
+    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterthema' : 'Unterthemen'}`
     const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
 
-    if (computedChildrenCount.value > 0 && questionCount > 0)
+    if (childrenCount > 0 && questionCount > 0)
         return `${childrenLabel} und ${questionLabel}`
 
-    if (computedChildrenCount.value > 0)
+    if (childrenCount > 0)
         return childrenLabel
 
     if (questionCount > 0)
@@ -124,7 +119,9 @@ async function addTopic(newTopic: boolean) {
 editTopicRelationStore.$onAction(({ after, name }) => {
     if (name == 'addTopic') {
         after((result) => {
+            console.log(result)
             if (result.parentId == props.topic.id) {
+                console.log('pId is rId')
                 if (children.value.some(c => c.id == result.childId))
                     reloadGridItem(result.childId)
                 else
@@ -224,7 +221,7 @@ async function reloadGridItem(id: number) {
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="computedChildrenCount > 0"
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
         </div>
 
@@ -257,7 +254,7 @@ async function reloadGridItem(id: number) {
             :parent-name="props.parentName" />
     </div>
 
-    <div v-if="computedChildrenCount > 0 && expanded" class="grid-item-children">
+    <div v-if="props.topic.childrenCount > 0 && expanded" class="grid-item-children">
         <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
             :parent-id="props.topic.id" :parent-name="props.topic.name" />
     </div>

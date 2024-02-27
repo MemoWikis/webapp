@@ -28,7 +28,7 @@ public class EditTopicRelationStoreController : BaseController
     [HttpGet]
     public JsonResult GetPersonalWikiData([FromRoute] int id)
     {
-        if (EntityCache.GetAllChildren(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
+        if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new RequestResult
             {
                 success = false,
@@ -99,7 +99,7 @@ public class EditTopicRelationStoreController : BaseController
                 messageKey = FrontendMessageKeys.Error.Default
             });
 
-        if (personalWiki.DirectChildrenIds.Any(cId => cId == id))
+        if (personalWiki.ChildrenIds.Any(cId => cId == id))
         {
             return Json(new RequestResult
             {
@@ -128,7 +128,7 @@ public class EditTopicRelationStoreController : BaseController
                 messageKey = FrontendMessageKeys.Error.Default
             });
 
-        if (personalWiki.DirectChildrenIds.Any(cId => cId != id))
+        if (personalWiki.ChildrenIds.Any(cId => cId != id))
         {
             return Json(new RequestResult
             {

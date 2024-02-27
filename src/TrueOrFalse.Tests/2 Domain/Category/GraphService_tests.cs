@@ -25,7 +25,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryId = 111
+                ChildCategoryId = 111
             }
         };
 
@@ -34,7 +34,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryId = 111
+                ChildCategoryId = 111
             }
         };
 
@@ -47,7 +47,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryId = 113
+                ChildCategoryId = 113
             }
         };
 
@@ -59,7 +59,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryId = 111
+                ChildCategoryId = 111
             }
         };
 
@@ -68,7 +68,7 @@ class GraphService_tests : BaseTest
             new CategoryCacheRelation
             {
                 RelatedCategoryId = 222,
-                CategoryId = 112
+                ChildCategoryId = 112
             }
         };
 
@@ -96,7 +96,7 @@ class GraphService_tests : BaseTest
     private bool IsCategoryRelationsCategoriesIdCorrect(CategoryCacheItem category)
     {
         return category.CategoryRelations
-            .Select(cr => EntityCache.GetCategory(cr.CategoryId).Name == category.Name).All(b => b);
+            .Select(cr => EntityCache.GetCategory(cr.ChildCategoryId).Name == category.Name).All(b => b);
     }
 
     private static bool IsCategoryRelationEqual(CategoryCacheItem category1, CategoryCacheItem category2)
@@ -116,7 +116,7 @@ class GraphService_tests : BaseTest
             var count = 0;
 
             var countVariousRelations = relations1.Count(r => !relations2.Any(r2 =>
-                r2.RelatedCategoryId == r.RelatedCategoryId && r2.CategoryId == r.CategoryId)); 
+                r2.RelatedCategoryId == r.RelatedCategoryId && r2.ChildCategoryId == r.ChildCategoryId)); 
             return countVariousRelations == 0;
         }
 

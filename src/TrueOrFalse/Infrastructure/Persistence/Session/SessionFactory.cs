@@ -15,7 +15,10 @@ namespace TrueOrFalse
         public static ISessionFactory CreateSessionFactory()
         {
             var sessionFactory = Fluently.Configure()
-                .Database(MySQLConfiguration.Standard.ConnectionString(Settings.ConnectionString))
+                .Database(
+                    MySQLConfiguration.Standard
+                        .ConnectionString(Settings.ConnectionString)
+                )
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
                 .BuildSessionFactory();
             return sessionFactory;
@@ -33,6 +36,7 @@ namespace TrueOrFalse
                 .ExposeConfiguration(SetConfig)
                 .BuildConfiguration()
                 .SetProperty("generate_statistics", "true");
+
             return configuration;
         }
 
