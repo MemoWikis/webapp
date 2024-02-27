@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Threading;
-using NHibernate.Criterion;
-using NUnit.Framework;
+﻿using System.Net.Mail;
 using TrueOrFalse.Utilities.ScheduledJobs;
 
 
