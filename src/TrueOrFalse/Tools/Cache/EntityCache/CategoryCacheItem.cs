@@ -187,13 +187,13 @@ public class CategoryCacheItem : IPersistable
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
-        var categoryRelations = userEntityCacheCategoryRelations.ToParentRelations(category.CategoryRelations);
-        var childRelations = userEntityCacheCategoryRelations.ToChildRelations(category.ChildRelations);
+        var parentRelations = userEntityCacheCategoryRelations.ToParentRelations(category.ChildRelations);
+        var childRelations = userEntityCacheCategoryRelations.ToChildRelations(category.ParentRelations);
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
             ChildRelations = childRelations,
-            ParentRelations = categoryRelations,
+            ParentRelations = parentRelations,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,

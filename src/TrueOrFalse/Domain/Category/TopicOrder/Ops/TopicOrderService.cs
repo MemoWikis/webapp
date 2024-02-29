@@ -34,7 +34,7 @@ public class TopicOrderService
 
     private List<CategoryRelation> Remove(CategoryRelation relation, int oldParentId)
     {
-        var relations = _categoryRepository.GetById(oldParentId).CategoryRelations;
+        var relations = _categoryRepository.GetById(oldParentId).ParentRelations;
 
         var nodeIndex = relations.IndexOf(relation);
         if (nodeIndex != -1)
@@ -56,7 +56,7 @@ public class TopicOrderService
     private List<CategoryRelation> AddBefore(int topicId, int beforeTopicId, int parentId)
     {
         var parent = _categoryRepository.GetById(parentId);
-        var relations = parent.CategoryRelations.ToList();
+        var relations = parent.ParentRelations.ToList();
         var child = _categoryRepository.GetById(topicId);
         return Insert(child, beforeTopicId, parent, relations, false);
     }
@@ -64,7 +64,7 @@ public class TopicOrderService
     private List<CategoryRelation> AddAfter(int topicId, int afterTopicId, int parentId)
     {
         var parent = _categoryRepository.GetById(parentId);
-        var relations = parent.CategoryRelations.ToList();
+        var relations = parent.ParentRelations.ToList();
         var child = _categoryRepository.GetById(topicId);
         return Insert(child, afterTopicId, parent, relations, true);
     }

@@ -25,7 +25,7 @@ public class CategoryEditData_V2 : CategoryEditData
         CustomSegments = category.CustomSegments;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-        CategoryRelations = category.CategoryRelations
+        CategoryRelations = category.ParentRelations
             .Select(cr => new CategoryRelation_EditData_V2(cr))
             .ToList();
         ImageWasUpdated = imageWasUpdated;

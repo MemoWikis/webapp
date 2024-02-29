@@ -23,7 +23,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<CategoryRelation> CategoryRelations { get; set; }
+    public virtual IList<CategoryRelation> ParentRelations { get; set; }
     public virtual IList<CategoryRelation> ChildRelations { get; set; }
 
     public virtual bool IsUserStartTopic { get; set; }
@@ -37,8 +37,8 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual IList<Category> ParentCategories()
     {
-        return CategoryRelations.Any()
-            ? CategoryRelations
+        return ParentRelations.Any()
+            ? ParentRelations
                 .Select(x => x.Parent)
                 .ToList()
             : new List<Category>();
@@ -89,7 +89,7 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public Category()
     {
-        CategoryRelations = new List<CategoryRelation>();
+        ParentRelations = new List<CategoryRelation>();
         Type = CategoryType.Standard;
     }
 

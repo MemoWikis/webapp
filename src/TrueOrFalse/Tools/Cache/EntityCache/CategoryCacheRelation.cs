@@ -1,6 +1,9 @@
-﻿[Serializable]
-public class CategoryCacheRelation
+﻿using Seedworks.Lib.Persistence;
+
+[Serializable]
+public class CategoryCacheRelation : IPersistable
 {
+    public virtual int Id { get; set; }
     public virtual int ChildId { get; set; }
     public virtual int ParentId { get; set; }
     public virtual int? PreviousId { get; set; }
@@ -48,12 +51,20 @@ public class CategoryCacheRelation
         return sortedList;
     }
 
+    public static IEnumerable<CategoryCacheRelation> ToCategoryCacheRelations(IEnumerable<CategoryRelation> allRelations)
+    {
+        return allRelations.Select(ToCategoryCacheRelation);
+    }
+
     public static CategoryCacheRelation ToCategoryCacheRelation(CategoryRelation categoryRelation)
     {
         return new CategoryCacheRelation
         {
+            Id = categoryRelation.Id,
             ChildId = categoryRelation.Child.Id,
-            ParentId = categoryRelation.Parent.Id
+            ParentId = categoryRelation.Parent.Id,
+            PreviousId = categoryRelation.PreviousId,
+            NextId = categoryRelation.NextId
         };
     }
 

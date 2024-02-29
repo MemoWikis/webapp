@@ -174,15 +174,29 @@ public class ModifyRelationsEntityCache
         return relations;
     }
 
-    public List<CategoryRelation> SortTopics(List<CategoryCacheRelation> categoryRelations)
+    public List<CategoryCacheRelation> SortTopics(List<CategoryCacheRelation> categoryRelations)
     {
         var sortedList = new List<CategoryCacheRelation>();
+        var addedIds = new HashSet<int>();
         var current = categoryRelations.FirstOrDefault(x => x.PreviousId == null);
 
         while (current != null)
         {
             sortedList.Add(current);
+            addedIds.Add(current.ChildId);
             current = categoryRelations.FirstOrDefault(x => x.ChildId == current.NextId);
+        }
+
+        if (sortedList.Count != categoryRelations.Count)
+        {
+            Logg.r.Error("Topic Order Sort Error");
+            foreach (var relation in categoryRelations)
+            {
+                if (!addedIds.Contains(relation.ChildId))
+                {
+                    sortedList.Add(relation);
+                }
+            }
         }
 
         return sortedList;

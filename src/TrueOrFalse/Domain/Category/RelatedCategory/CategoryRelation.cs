@@ -7,7 +7,6 @@ using Seedworks.Lib.Persistence;
 public class CategoryRelation : DomainEntity
 {
     public virtual required Category Child { get; set; } //Child
-
     public virtual required Category Parent { get; set; } //Parent
 
     public virtual int? PreviousId { get; set; }

@@ -45,12 +45,12 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.AuthorIds);
 
-        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories")
+        HasMany(x => x.ParentRelations).Table("relatedcategoriestorelatedcategories")
             .Cascade.AllDeleteOrphan()
             .Inverse();
 
-        //HasMany(x => x.ChildRelations).Table("relatedcategoriestorelatedcategories")
-        //    .Cascade.AllDeleteOrphan()
-        //    .Inverse();
+        HasMany(x => x.ChildRelations).Table("relatedcategoriestorelatedcategories")
+            .Cascade.AllDeleteOrphan()
+            .Inverse();
     }
 }

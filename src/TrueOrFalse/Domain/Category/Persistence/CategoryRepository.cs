@@ -119,10 +119,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
         }
 
         var result = query.Left
-            .JoinQueryOver<CategoryRelation>(s => s.CategoryRelations) // Join for parent relations
-            .Left.JoinQueryOver(x => x.Child) // Join for parent
-            .JoinQueryOver<CategoryRelation>(s => s.ChildRelations) // Join for child relations
-            .Left.JoinQueryOver(x => x.Parent) // Join for child
+            .JoinQueryOver<CategoryRelation>(s => s.ParentRelations)
+            .Left.JoinQueryOver(x => x.Parent)
+            //.JoinQueryOver<CategoryRelation>(s => s.ChildRelations)
+            //.Left.JoinQueryOver(x => x.Child)
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -131,8 +131,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         foreach (var category in result)
         {
             NHibernateUtil.Initialize(category.Creator);
-            NHibernateUtil.Initialize(category.CategoryRelations);
-            NHibernateUtil.Initialize(category.ChildRelations);
         }
 
         return result;
