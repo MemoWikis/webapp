@@ -37,7 +37,7 @@ public class ContextCategory : BaseTest
     public ContextCategory Add(
         string categoryName,
         CategoryType categoryType = CategoryType.Standard,
-        User creator = null,
+        User? creator = null,
         CategoryVisibility visibility = CategoryVisibility.All)
     {
 
@@ -72,8 +72,9 @@ public class ContextCategory : BaseTest
         return this;
     }
 
+   
 
-    public ContextCategory AddToEntityCache(Category category)
+        public ContextCategory AddToEntityCache(Category category)
     {
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
@@ -187,5 +188,10 @@ public class ContextCategory : BaseTest
     {
         return categoryCacheItem.CategoryRelations.Any(cr =>
             cr.ParentCategoryId == deletedId || cr.ChildCategoryId == deletedId);
+    }
+
+    public Category GetTopicByName(string name)
+    {
+        return All.Single(c => c.Name == name); 
     }
 }

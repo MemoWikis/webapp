@@ -50,7 +50,8 @@ public class CategoryDeleter(
         return hasDeleted;
     }
 
-    public RequestResult DeleteTopic(int id)
+    public record DeleteTopicResult(bool HasChildren, bool IsNotCreatorOrAdmin, bool Success, RedirectParent WikinInfo);
+    public DeleteTopicResult DeleteTopic(int id)
     {
         var redirectParent = GetRedirectTopic(id);
         var topic = categoryRepo.GetById(id);
@@ -68,38 +69,25 @@ public class CategoryDeleter(
             _categoryChangeRepo.AddUpdateEntry(categoryRepo, parent, _sessionUser.UserId, false);
         }
 
-        return new RequestResult
-        {
-            success = true,
-            data = new
-            {
-                hasChildren = hasDeleted.HasChildren,
-                isNotCreatorOrAdmin = hasDeleted.IsNotCreatorOrAdmin,
-                success = hasDeleted.DeletedSuccessful,
-                redirectParent = redirectParent
-            }
-        };
+        return new DeleteTopicResult(
+            hasDeleted.HasChildren,
+            hasDeleted.IsNotCreatorOrAdmin,
+            hasDeleted.DeletedSuccessful,
+            redirectParent
+        );
     }
 
-
-    private dynamic GetRedirectTopic(int id)
+    public  record RedirectParent(string Name, int Id);
+    private RedirectParent GetRedirectTopic(int id)
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
         var lastBreadcrumbItem = crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
         if (lastBreadcrumbItem != null)
-            return new
-            {
-                name = lastBreadcrumbItem.Category.Name,
-                id = lastBreadcrumbItem.Category.Id
-            };
+            return new RedirectParent(lastBreadcrumbItem.Category.Name, lastBreadcrumbItem.Category.Id);
 
-        return new
-        {
-            name = currentWiki.Name,
-            id = currentWiki.Id
-        };
+        return new RedirectParent(currentWiki.Name, currentWiki.Id); 
     }
 
     public class HasDeleted

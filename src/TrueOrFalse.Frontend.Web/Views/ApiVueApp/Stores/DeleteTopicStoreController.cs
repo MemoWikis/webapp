@@ -25,16 +25,10 @@ public class DeleteTopicStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Delete([FromRoute] int id)
+    public OkObjectResult Delete([FromRoute] int id)
     {
         var result = categoryDeleter.DeleteTopic(id); 
 
-        return Json(new
-        {
-            hasChildren = result.data.hasChildren,
-            isNotCreatorOrAdmin = result.data.isNotCreatorOrAdmin,
-            success = result.data.success,
-            redirectParent = result.data.redirectParent
-        });
+        return Ok(result);
     }
 }
