@@ -58,7 +58,7 @@ const { $urlHelper } = useNuxtApp()
                 </div>
                 <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
                     <NuxtLink class="memo-button btn btn-primary"
-                        :to="$urlHelper.getTopicUrl(props.documentation.Name, props.documentation.Id)">
+                        :to="$urlHelper.getTopicUrl(props.documentation.name, props.documentation.id)">
                         Zur Dokumentation
                     </NuxtLink>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()" class="hidden-xs close-banner" />

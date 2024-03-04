@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
 
         const userStore = useUserStore()
         if (userStore.isLoggedIn)
-            return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.Id}`
+            return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.id}`
         else return `/apiVue/Topic/GetTopic/1`
     }
 

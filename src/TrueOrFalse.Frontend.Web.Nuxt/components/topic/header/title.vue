@@ -71,7 +71,7 @@ const topic = useState<Topic>('topic')
             <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea" v-model="topicStore.name"
                 v-if="topicStore" :readonly="readonly"></textarea>
             <template v-else-if="topic">
-                {{ topic.Name }}
+                {{ topic.name }}
             </template>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
