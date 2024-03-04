@@ -182,7 +182,7 @@ const showAllLinkOptions = ref<boolean>(false)
                         <div class="dropdown-label">Aus deinem Wiki entfernen</div>
                     </div> -->
                         <div @click="editTopicRelationStore.addToPersonalWiki(props.topic.id); hide()" class="dropdown-row"
-                            v-if="!props.topic.isChildOfPersonalWiki && props.topic.id != userStore.personalWiki?.Id">
+                            v-if="!props.topic.isChildOfPersonalWiki && props.topic.id != userStore.personalWiki?.id">
                             <div class="dropdown-icon">
                                 <font-awesome-layers>
                                     <font-awesome-icon :icon="['fas', 'house']" />

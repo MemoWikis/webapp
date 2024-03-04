@@ -168,15 +168,6 @@ public class UserStoreController : BaseController
             }
         });
     }
-    private static User CreateUserFromJson(RegisterJson json)
-
-    {
-        var user = new User();
-        user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
-        user.Name = json.Name.TrimAndReplaceWhitespacesWithSingleSpace();
-        SetUserPassword.Run(json.Password.Trim(), user);
-        return user;
-    }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
