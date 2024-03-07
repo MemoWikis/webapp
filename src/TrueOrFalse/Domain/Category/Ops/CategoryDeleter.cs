@@ -50,7 +50,7 @@ public class CategoryDeleter(
         return hasDeleted;
     }
 
-    public record DeleteTopicResult(bool HasChildren, bool IsNotCreatorOrAdmin, bool Success, RedirectParent WikinInfo);
+    public record DeleteTopicResult(bool HasChildren, bool IsNotCreatorOrAdmin, bool Success, RedirectParent RedirectParent);
     public DeleteTopicResult DeleteTopic(int id)
     {
         var redirectParent = GetRedirectTopic(id);

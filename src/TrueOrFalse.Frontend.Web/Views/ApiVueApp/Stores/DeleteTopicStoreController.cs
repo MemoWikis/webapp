@@ -7,9 +7,10 @@ public class DeleteTopicStoreController(
     SessionUser sessionUser,
     CategoryDeleter categoryDeleter) : BaseController(sessionUser)
 {
+    public record DeleteData(string Name, bool HasChildren); 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult GetDeleteData([FromRoute] int id)
+    public OkObjectResult GetDeleteData([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         var children = GraphService.Descendants(id);
@@ -17,10 +18,7 @@ public class DeleteTopicStoreController(
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        return Json(new {
-            name = topic.Name,
-            hasChildren = hasChildren,
-        });
+        return Ok(new DeleteData(topic.Name, hasChildren));
     }
 
     [AccessOnlyAsLoggedIn]
