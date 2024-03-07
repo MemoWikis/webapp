@@ -51,6 +51,7 @@ public class CategoryDeleter(
     }
 
     public record DeleteTopicResult(bool HasChildren, bool IsNotCreatorOrAdmin, bool Success, RedirectParent RedirectParent);
+
     public DeleteTopicResult DeleteTopic(int id)
     {
         var redirectParent = GetRedirectTopic(id);
@@ -78,6 +79,7 @@ public class CategoryDeleter(
     }
 
     public  record RedirectParent(string Name, int Id);
+
     private RedirectParent GetRedirectTopic(int id)
     {
         var topic = EntityCache.GetCategory(id);
