@@ -14,7 +14,6 @@ public class UserStoreController : BaseController
     private readonly PasswordRecovery _passwordRecovery;
     private readonly Login _login;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly PermissionCheck _permissionCheck;
     private readonly GridItemLogic _gridItemLogic;
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
@@ -32,7 +31,6 @@ public class UserStoreController : BaseController
         PasswordRecovery passwordRecovery,
         Login login,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         PermissionCheck permissionCheck,
         GridItemLogic gridItemLogic,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
@@ -49,7 +47,6 @@ public class UserStoreController : BaseController
         _passwordRecovery = passwordRecovery;
         _login = login;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _permissionCheck = permissionCheck;
         _gridItemLogic = gridItemLogic;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
