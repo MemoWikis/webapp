@@ -29,26 +29,15 @@ public class ModifyRelationsEntityCache
             ChildId = child.Id
         }); 
     }
-    public static void RemoveParent(CategoryCacheItem categoryCacheItem, int parentId)
+    public static void RemoveParent(CategoryCacheItem childCategory, int parentId)
     {
-        for (int i = 0; i < categoryCacheItem.ParentRelations.Count; i++)
+        var relationToRemove = EntityCache.GetCategory(parentId).ChildRelations.Where(r => r.ChildId == childCategory.Id).FirstOrDefault();
+
+        if (relationToRemove != null)
         {
-            var relation = categoryCacheItem.ParentRelations[i];
-
-            if (relation.ChildId == categoryCacheItem.Id &&
-                relation.ParentId == parentId)
-            {
-                categoryCacheItem.ParentRelations.RemoveAt(i);
-                break;
-            }
+            Remove(relationToRemove, parentId);
+            childCategory.ParentRelations.Remove(relationToRemove);
         }
-    }
-
-    public static void MoveTopic(int childId, int oldParentId, int newParentId)
-    {
-        var child = EntityCache.GetCategory(childId);
-        AddParent(child, newParentId);
-        RemoveParent(child, oldParentId);
     }
 
     public static void AddChild(int parentId, int childId) => AddChild(EntityCache.GetCategory(parentId), EntityCache.GetCategory(childId));
@@ -56,20 +45,15 @@ public class ModifyRelationsEntityCache
     public static void AddChild(CategoryCacheItem parent, CategoryCacheItem child)
     {
         var previousId = parent.ChildRelations.LastOrDefault()?.ChildId;
-
-        parent.ChildRelations.Add(new CategoryCacheRelation
+        var newRelation = new CategoryCacheRelation
         {
             ParentId = parent.Id,
             ChildId = child.Id,
             PreviousId = previousId,
             NextId = null
-        });
-
-        child.ParentRelations.Add(new CategoryCacheRelation
-        {
-            ParentId = parent.Id,
-            ChildId = child.Id
-        });
+        };
+        parent.ChildRelations.Add(newRelation); 
+        child.ParentRelations.Add(newRelation);
     }
 
 
@@ -97,9 +81,9 @@ public class ModifyRelationsEntityCache
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    private List<CategoryCacheRelation> Remove(CategoryCacheRelation relation, int oldParentId)
+    private static List<CategoryCacheRelation> Remove(CategoryCacheRelation relation, int oldParentId)
     {
-        var relations = EntityCache.GetCategory(oldParentId).ParentRelations;
+        var relations = EntityCache.GetCategory(oldParentId).ChildRelations;
 
         var nodeIndex = relations.IndexOf(relation);
         if (nodeIndex != -1)

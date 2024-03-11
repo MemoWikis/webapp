@@ -30,17 +30,21 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _userActivityRepo = userActivityRepo;
     }
 
+
+    public void Create(Category category, int parentId)
+    {
+        Create(category);
+
+        _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
+            CategoryChangeType.Relations);
+    }
+
     /// <summary>
     ///     Add Category in Database,
     /// </summary>
     /// <param name="category"></param>
     public override void Create(Category category)
     {
-        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
-        {
-            related.DateModified = related.DateCreated = DateTime.Now;
-        }
-
         base.Create(category);
         Flush();
 
@@ -50,19 +54,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         EntityCache.AddOrUpdate(categoryCacheItem);
 
         _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
-
-        if (category.ParentCategories().Count != 1)
-        {
-            Logg.r.Warning("the parentcounter is != 1");
-        }
-
-        var parentCategories = category.ParentCategories();
-
-        if (parentCategories.Count != 0)
-        {
-            _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
-                 CategoryChangeType.Relations);
-        }
 
         Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
             .CreateAsync(category)
@@ -118,11 +109,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
         }
 
-        var result = query.Left
-            .JoinQueryOver<CategoryRelation>(s => s.ParentRelations)
-            .Left.JoinQueryOver(x => x.Parent)
-            //.JoinQueryOver<CategoryRelation>(s => s.ChildRelations)
-            //.Left.JoinQueryOver(x => x.Child)
+        var result = query
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -135,7 +122,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         return result;
     }
-
     public IList<Category> GetByIdsFromString(string idsString)
     {
         return idsString

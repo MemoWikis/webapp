@@ -9,6 +9,7 @@ internal class UpdateToVs268
     {
         public int Id { get; set; }
         public int ParentId { get; set; }
+        public int ChildId { get; set; }
     }
 
     public static void Run(ISession nhibernateSession)
@@ -16,7 +17,7 @@ internal class UpdateToVs268
         using var transaction = nhibernateSession.BeginTransaction();
         try
         {
-            var query = @"SELECT Id, Related_id AS ParentId FROM relatedcategoriestorelatedcategories ORDER BY Related_id, Id";
+            var query = @"SELECT Id, Category_id AS ChildId, Related_id AS ParentId FROM relatedcategoriestorelatedcategories ORDER BY Related_id, Id";
             IList<CategoryRelationInfo> allRecords = nhibernateSession.CreateSQLQuery(query)
                 .SetResultTransformer(Transformers.AliasToBean<CategoryRelationInfo>())
                 .List<CategoryRelationInfo>();
@@ -30,7 +31,7 @@ internal class UpdateToVs268
                 {
                     if (previousRecord != null)
                     {
-                        UpdatePreviousAndNextIds(nhibernateSession, previousRecord.Id, currentRecord.Id);
+                        UpdatePreviousAndNextIds(nhibernateSession, previousRecord.ChildId, currentRecord.ChildId, previousRecord.Id, currentRecord.Id);
                     }
                     previousRecord = currentRecord;
                 }
@@ -45,17 +46,17 @@ internal class UpdateToVs268
         }
     }
 
-    private static void UpdatePreviousAndNextIds(ISession session, int previousRecordId, int currentRecordId)
+    private static void UpdatePreviousAndNextIds(ISession session, int previousRecordChildId, int currentRecordChildId, int previousRecordId, int currentRecordId)
     {
-        var updateCurrent = @"UPDATE relatedcategoriestorelatedcategories SET Previous_id = :previousId WHERE Id = :currentId";
+        var updateCurrent = @"UPDATE relatedcategoriestorelatedcategories SET Previous_id = :previousChildId WHERE Id = :currentId";
         session.CreateSQLQuery(updateCurrent)
-            .SetParameter("previousId", previousRecordId)
+            .SetParameter("previousChildId", previousRecordChildId)
             .SetParameter("currentId", currentRecordId)
             .ExecuteUpdate();
 
-        var updatePrevious = @"UPDATE relatedcategoriestorelatedcategories SET Next_id = :nextId WHERE Id = :previousId";
+        var updatePrevious = @"UPDATE relatedcategoriestorelatedcategories SET Next_id = :nextChildId WHERE Id = :previousId";
         session.CreateSQLQuery(updatePrevious)
-            .SetParameter("nextId", currentRecordId)
+            .SetParameter("nextChildId", currentRecordChildId)
             .SetParameter("previousId", previousRecordId)
             .ExecuteUpdate();
     }

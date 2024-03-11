@@ -33,7 +33,7 @@ public class EntityCacheInitializer : IRegisterAsInstancePerLifetime
 
         var allCategories = _categoryRepository.GetAllEager();
         Logg.r.Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var allRelations = _categoryRelationRepo.GetAllRelations(allCategories);
+        var allRelations = _categoryRelationRepo.GetAll();
         Logg.r.Information("EntityCache CategoryRelationsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();

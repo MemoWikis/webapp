@@ -10,11 +10,13 @@ namespace TrueOrFalse
     {
         private readonly UserReadingRepo _userReadingRepo;
         private readonly CategoryRepository _categoryRepository;
+        private readonly CategoryRelationRepo _categoryRelationRepo;
 
-        public Importer(UserReadingRepo userReadingRepo, CategoryRepository categoryRepository)
+        public Importer(UserReadingRepo userReadingRepo, CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo)
         {
             _userReadingRepo = userReadingRepo;
             _categoryRepository = categoryRepository;
+            _categoryRelationRepo = categoryRelationRepo;
         }
 
         public ImporterResult Run(string xml)
@@ -31,7 +33,7 @@ namespace TrueOrFalse
                 var categoryElement = document.Root.Elements("category").Single(x => x.Element("name").Value == category.Name);
                 var parentCategories = (from relatedElementId in categoryElement.Element("relatedCategories").Elements("id")
                                               select result.Categories.Single(x => x.Id == Convert.ToInt32(relatedElementId.Value))).ToList();
-                new ModifyRelationsForCategory(_categoryRepository).UpdateCategoryRelationsOfType(category.Id, parentCategories.Select(c => c.Id).ToList());
+                new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo).UpdateCategoryRelationsOfType(category.Id, parentCategories.Select(c => c.Id).ToList());
             }
 
             result.Questions = from questionElement in document.Root.Elements("question")

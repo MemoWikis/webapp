@@ -51,6 +51,29 @@ public class CategoryCacheRelation : IPersistable
         return sortedList;
     }
 
+    public IList<CategoryCacheRelation> Sort(IList<CategoryCacheRelation> childRelations)
+    {
+        if (childRelations == null)
+            Logg.r.Error("CategoryRelations cannot be null");
+
+        if (childRelations.Count <= 0 || childRelations == null)
+        {
+            return childRelations;
+        }
+
+        var current = childRelations.FirstOrDefault(x => x.PreviousId == null);
+
+        var sortedList = new List<CategoryCacheRelation>();
+
+        while (current != null)
+        {
+            sortedList.Add(current);
+            current = childRelations.FirstOrDefault(x => x.ChildId == current.NextId);
+        }
+
+        return sortedList;
+    }
+
     public static IEnumerable<CategoryCacheRelation> ToCategoryCacheRelations(IEnumerable<CategoryRelation> allRelations)
     {
         return allRelations.Select(ToCategoryCacheRelation);

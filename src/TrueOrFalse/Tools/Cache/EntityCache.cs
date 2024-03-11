@@ -21,6 +21,8 @@ public class EntityCache
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions => Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
+    public static ConcurrentDictionary<int, CategoryCacheRelation> Relations => Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
+
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
@@ -157,6 +159,21 @@ public class EntityCache
             questionsInCategory.TryRemove(question.Id, out var outVar);
         }
     }
+
+    public static IList<CategoryCacheRelation> GetChildRelationsByParentId(int id)
+    {
+        return Relations.Values
+            .Where(relation => relation.ParentId == id)
+            .ToList();
+    }
+    public static IList<CategoryCacheRelation> GetParentRelationsByChildId(int id)
+    {
+        return Relations.Values
+            .Where(relation => relation.ChildId == id)
+            .ToList();
+    }
+
+
     public static void AddOrUpdate(UserCacheItem user)
     {
         AddOrUpdate(Users, user);
