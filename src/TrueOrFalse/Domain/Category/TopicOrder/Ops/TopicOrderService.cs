@@ -135,9 +135,4 @@ public class TopicOrderService
 
         return sortedList;
     }
-
-    private void UpdateRelations(List<CategoryCacheRelation> relations)
-    {
-        JobScheduler.StartImmediately_ModifyTopicRelations(relations, _sessionUser.UserId);
-    }
 }

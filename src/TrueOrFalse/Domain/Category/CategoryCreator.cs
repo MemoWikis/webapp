@@ -1,4 +1,6 @@
-﻿public class CategoryCreator : IRegisterAsInstancePerLifetime
+﻿using TrueOrFalse.Utilities.ScheduledJobs;
+
+public class CategoryCreator : IRegisterAsInstancePerLifetime
 {
     private readonly Logg _logg;
     private readonly CategoryRepository _categoryRepository;
@@ -30,12 +32,14 @@
         }
 
         var topic = new Category(name, sessionUser.UserId);
-        new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo).AddParentCategory(topic, parentTopicId);
 
         topic.Creator = _userReadingRepo.GetById(sessionUser.UserId);
         topic.Type = CategoryType.Standard;
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
+
+        var newRelation = ModifyRelationsEntityCache.AddChild(parentTopicId, topic.Id);
+        JobScheduler.StartImmediately_ModifyTopicRelations(new List<CategoryCacheRelation> { newRelation }, sessionUser.UserId);
 
         return new RequestResult
         {
