@@ -221,19 +221,6 @@ public class QuestionCacheItem
         return questions.Select(q => ToCacheQuestion(q));
     }
 
-    public virtual string ToLomXml(CategoryRepository categoryRepository,
-        IActionContextAccessor contextAccessor,
-        IHttpContextAccessor httContextAccessor,
-        IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        return LomXml.From(this,
-            categoryRepository,
-            httContextAccessor,
-            actionContextAccessor,
-            webHostEnvironment);
-    }
-
     public virtual int TotalAnswers()
     {
         return TotalFalseAnswers + TotalTrueAnswers;

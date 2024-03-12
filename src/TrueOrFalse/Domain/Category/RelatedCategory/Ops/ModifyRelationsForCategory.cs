@@ -23,8 +23,7 @@ public class ModifyRelationsForCategory
         IList<int> relatedCategorieIds)
     {
         var category = _categoryRepository.GetByIdEager(categoryId);
-        var relatedCategoriesAsCategories = _categoryRepository.GetByIdsEager(relatedCategorieIds);
-        var existingRelationsOfType = GetExistingRelations(category).ToList();
+
     }
 
     public void AddParentCategory(Category category, int parentId)
@@ -50,33 +49,11 @@ public class ModifyRelationsForCategory
         _categoryRelationRepo.Create(categoryRelationToAdd);
     }
 
-    public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)
-    {
-        return category.ParentRelations.Any()
-            ? category.ParentRelations?.Where(r => r.Parent.Id == category.Id).ToList()
-            : new List<CategoryRelation>();
-    }
-
-    public static void RemoveRelation(Category child, Category parent)
-    {
-        for (int i = 0; i < child.ParentRelations.Count; i++)
-        {
-            var relation = child.ParentRelations[i];
-            if (relation.Child.Id == child.Id &&
-                relation.Parent.Id == parent.Id)
-            {
-                child.ParentRelations.RemoveAt(i);
-                break;
-            }
-        }
-    }
-
     public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
         var newParentRelationsIds = childCategory.ParentRelations.Where(r => r.ParentId != parentCategoryIdToRemove).Select(r => r.ParentId);
         var parentCategories = EntityCache.GetCategories(newParentRelationsIds);
-        var parentCategoryAsCategory = _categoryRepository.GetById(parentCategoryIdToRemove);
 
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
@@ -84,15 +61,11 @@ public class ModifyRelationsForCategory
         if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEditCategory(parentCategoryIdToRemove))  
             throw new SecurityException("Not allowed to edit category");
 
-        var childCategoryAsCategory = _categoryRepository.GetById(childCategory.Id);
-
-        RemoveRelation(
-            childCategoryAsCategory,
-            parentCategoryAsCategory);
-
-        ModifyRelationsEntityCache.RemoveParent(
+        var relationIdToRemove = ModifyRelationsEntityCache.RemoveParent(
             childCategory,
             parentCategoryIdToRemove);
+        
+        _categoryRelationRepo.Delete(relationIdToRemove);
 
         return true;
     }
@@ -107,12 +80,4 @@ public class ModifyRelationsForCategory
 
         return true;
     }
-
-    //public void MoveTopic(int topicId, int oldParentId, int newParentId)
-    //{
-    //    var topic = _categoryRepository.GetById(topicId);
-    //    AddParentCategory(topic, newParentId);
-    //    var oldParent = _categoryRepository.GetById(oldParentId);
-    //    RemoveRelation(oldParent, topic);
-    //}
 }

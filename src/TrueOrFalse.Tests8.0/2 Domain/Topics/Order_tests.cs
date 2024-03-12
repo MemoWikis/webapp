@@ -24,11 +24,11 @@ class Order_tests : BaseTest
     [Test]
     public void SortTopics_ShouldCorrectlySortNodes()
     {
-        var unsortedRelations = new List<CategoryRelation>
+        var unsortedRelations = new List<CategoryCacheRelation>
         {
-            new CategoryRelation { Child = new Category{ Id = 3 }, Parent = new Category{ Id = 10 }, PreviousId = 2, NextId = null },
-            new CategoryRelation { Child = new Category{ Id = 1 }, Parent = new Category{ Id = 10 }, PreviousId = null, NextId = 2 },
-            new CategoryRelation { Child = new Category{ Id = 2 }, Parent = new Category{ Id = 10 }, PreviousId = 1, NextId = 3 }
+            new CategoryCacheRelation { ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new CategoryCacheRelation { ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new CategoryCacheRelation { ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
         };
 
         var orderService = Resolve<TopicOrderService>();
@@ -36,19 +36,19 @@ class Order_tests : BaseTest
 
         Assert.IsNotNull(sortedRelations);
         Assert.AreEqual(3, sortedRelations.Count);
-        Assert.AreEqual(1, sortedRelations[0].Child.Id);
-        Assert.AreEqual(2, sortedRelations[1].Child.Id);
-        Assert.AreEqual(3, sortedRelations[2].Child.Id);
+        Assert.AreEqual(1, sortedRelations[0].ChildId);
+        Assert.AreEqual(2, sortedRelations[1].ChildId);
+        Assert.AreEqual(3, sortedRelations[2].ChildId);
     }
 
     [Test]
     public void MoveBefore_ShouldCorrectlyReorderNodes_SameParentId()
     {
-        var oldRelations = new List<CategoryRelation>
+        var oldRelations = new List<CategoryCacheRelation>
         {
-            new CategoryRelation { Child = new Category{ Id = 2 }, Parent = new Category{ Id = 10 }, PreviousId = null, NextId = 3 },
-            new CategoryRelation { Child = new Category{ Id = 4 }, Parent = new Category{ Id = 10 }, PreviousId = 2, NextId = 4 },
-            new CategoryRelation { Child = new Category{ Id = 5 }, Parent = new Category{ Id = 10 }, PreviousId = 3, NextId = null }
+            new CategoryCacheRelation { ChildId = 2, ParentId = 10, PreviousId = null, NextId = 3 },
+            new CategoryCacheRelation { ChildId = 4, ParentId = 10, PreviousId = 2, NextId = 4 },
+            new CategoryCacheRelation { ChildId = 5, ParentId = 10, PreviousId = 3, NextId = null }
         };
 
         var relationToMove = oldRelations[1];
@@ -61,22 +61,22 @@ class Order_tests : BaseTest
         Assert.IsNotNull(result.UpdatedOldOrder);
         Assert.IsNotNull(result.UpdatedNewOrder);
 
-        Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.Child.Id == relationToMove.Child.Id));
+        Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.ChildId == relationToMove.ChildId));
 
-        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.Child.Id == relationToMove.Child.Id);
+        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.ChildId == relationToMove.ChildId);
         Assert.AreEqual(1, newNodeIndex);
-        Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].Child.Id);
-        Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].Child.Id);
+        Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].ChildId);
+        Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].ChildId);
     }
 
     [Test]
     public void MoveAfter_ShouldCorrectlyReorderNodes_SameParentId()
     {
-        var oldRelations = new List<CategoryRelation>
+        var oldRelations = new List<CategoryCacheRelation>
         {
-            new CategoryRelation { Child = new Category{ Id = 2 }, Parent = new Category{ Id = 10 }, PreviousId = null, NextId = 3 },
-            new CategoryRelation { Child = new Category{ Id = 3 }, Parent = new Category{ Id = 10 }, PreviousId = 2, NextId = 4 },
-            new CategoryRelation { Child = new Category{ Id = 4 }, Parent = new Category{ Id = 10 }, PreviousId = 3, NextId = null }
+            new CategoryCacheRelation { ChildId = 2, ParentId = 10, PreviousId = null, NextId = 3 },
+            new CategoryCacheRelation { ChildId = 3, ParentId = 10, PreviousId = 2, NextId = 4 },
+            new CategoryCacheRelation { ChildId = 4, ParentId = 10, PreviousId = 3, NextId = null }
         };
 
         var relationToMove = oldRelations[1];
@@ -89,11 +89,11 @@ class Order_tests : BaseTest
         Assert.IsNotNull(result.UpdatedOldOrder);
         Assert.IsNotNull(result.UpdatedNewOrder);
 
-        Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.Child.Id == relationToMove.Child.Id));
+        Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.ChildId == relationToMove.ChildId));
 
-        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.Child.Id == relationToMove.Child.Id);
+        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.ChildId == relationToMove.ChildId);
         Assert.AreEqual(1, newNodeIndex);
-        Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].Child.Id);
-        Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].Child.Id);
+        Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].ChildId);
+        Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].ChildId);
     }
 }

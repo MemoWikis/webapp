@@ -20,9 +20,7 @@ public class CategoryEditData_V1 : CategoryEditData
         CustomSegments = category.CustomSegments;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-        CategoryRelations = category.ParentRelations
-            .Select(cr => new CategoryRelation_EditData_V1(cr))
-            .ToList();
+        CategoryRelations = null;
         Visibility = category.Visibility;
     }
 

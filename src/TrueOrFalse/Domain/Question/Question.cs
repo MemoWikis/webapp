@@ -110,13 +110,6 @@ public class Question : DomainEntity, ICreator
         return answerText;
     }
 
-    public virtual string ToLomXml(CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor, 
-        IActionContextAccessor actionContextAccessor)
-    {
-        return LomXml.From(this, categoryRepository, httpContextAccessor, actionContextAccessor);
-    }
-
     public virtual int TotalAnswers()
     {
         return TotalFalseAnswers + TotalTrueAnswers;
