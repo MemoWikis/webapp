@@ -191,7 +191,7 @@ const { isMobile } = useDevice()
                 </div>
 
                 <div class="grid-items">
-                    <TopicContentGridItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                    <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
                         :parent-id="topicStore.id" :parent-name="topicStore.name" />
                 </div>
 

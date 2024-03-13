@@ -25,9 +25,7 @@ public class CategoryEditData_V2 : CategoryEditData
         CustomSegments = category.CustomSegments;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-        CategoryRelations = category.CategoryRelations
-            .Select(cr => new CategoryRelation_EditData_V2(cr))
-            .ToList();
+        CategoryRelations = null;
         ImageWasUpdated = imageWasUpdated;
         _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;

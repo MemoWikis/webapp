@@ -211,8 +211,22 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                     removedChildIds: result.data
                 }
             }
-
         },
+
+        async moveTopic(moveId: number, targetId: number, position: string) {
+            const data = {
+                moveId: moveId,
+                targetId: targetId,
+                position: position
+            }
+
+            const result = await $fetch<FetchResult<number[]>>("/apiVue/EditTopicRelationStore/MoveTopic", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            })
+        }
     },
 })
 

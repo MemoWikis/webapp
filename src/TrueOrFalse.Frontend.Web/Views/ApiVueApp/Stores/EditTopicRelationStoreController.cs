@@ -86,6 +86,19 @@ public class EditTopicRelationStoreController : BaseController
         });
     }
 
+    public readonly record struct MoveTopicJson(int moveId, int targetId, string position);
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public JsonResult MoveTopic([FromBody] MoveTopicJson json)
+    {
+        return Json(new
+        {
+            moveId = json.moveId,
+            targetId = json.targetId,
+            position = json.position
+        });
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult AddToPersonalWiki([FromRoute] int id)

@@ -44,10 +44,5 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.IsUserStartTopic);
 
         Map(x => x.AuthorIds);
-
-        HasMany(x => x.CategoryRelations).Table("relatedcategoriestorelatedcategories")
-            .Cascade.AllDeleteOrphan()
-            .Inverse();
-
     }
 }

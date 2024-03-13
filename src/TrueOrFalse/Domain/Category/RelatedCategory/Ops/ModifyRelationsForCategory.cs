@@ -5,10 +5,12 @@ using System.Security;
 public class ModifyRelationsForCategory
 {
     private readonly CategoryRepository _categoryRepository;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public ModifyRelationsForCategory(CategoryRepository categoryRepository)
+    public ModifyRelationsForCategory(CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo)
     {
         _categoryRepository = categoryRepository;
+        _categoryRelationRepo = categoryRelationRepo;
     }
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
@@ -21,52 +23,37 @@ public class ModifyRelationsForCategory
         IList<int> relatedCategorieIds)
     {
         var category = _categoryRepository.GetByIdEager(categoryId);
-        var relatedCategoriesAsCategories = _categoryRepository.GetByIdsEager(relatedCategorieIds);
-        var existingRelationsOfType = GetExistingRelations(category).ToList();
+
     }
 
     public void AddParentCategory(Category category, int parentId)
     {
         var relatedCategory = _categoryRepository.GetByIdEager(parentId);
+        var previousCachedRelation = EntityCache.GetCategory(parentId).ChildRelations.LastOrDefault();
+
+        if (previousCachedRelation != null)
+        {
+            var previousRelation = _categoryRelationRepo.GetById(previousCachedRelation.Id);
+            previousRelation.NextId = category.Id;
+
+            _categoryRelationRepo.Update(previousRelation);
+        }
+
         var categoryRelationToAdd = new CategoryRelation()
         {
             Child = category,
             Parent = relatedCategory,
+            PreviousId = previousCachedRelation?.ChildId
         };
-        if (!category.CategoryRelations.Any(cr =>
-                cr.Child == categoryRelationToAdd.Child &&
-                cr.Parent == categoryRelationToAdd.Parent))
-        {
-            category.CategoryRelations.Add(categoryRelationToAdd);
-        }
-    }
 
-    public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)
-    {
-        return category.CategoryRelations.Any()
-            ? category.CategoryRelations?.Where(r => r.Parent.Id == category.Id).ToList()
-            : new List<CategoryRelation>();
-    }
-
-    public static void RemoveRelation(Category category, Category relatedCategory)
-    {
-        for (int i = 0; i < category.CategoryRelations.Count; i++)
-        {
-            var relation = category.CategoryRelations[i];
-            if (relation.Child.Id == category.Id &&
-                relation.Parent.Id == relatedCategory.Id)
-            {
-                category.CategoryRelations.RemoveAt(i);
-                break;
-            }
-        }
+        _categoryRelationRepo.Create(categoryRelationToAdd);
     }
 
     public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
-        var parentCategories = childCategory.Parents().Where(c => c.Id != parentCategoryIdToRemove);
-        var parentCategoryAsCategory = _categoryRepository.GetById(parentCategoryIdToRemove);
+        var newParentRelationsIds = childCategory.ParentRelations.Where(r => r.ParentId != parentCategoryIdToRemove).Select(r => r.ParentId);
+        var parentCategories = EntityCache.GetCategories(newParentRelationsIds);
 
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
             return false;
@@ -74,23 +61,11 @@ public class ModifyRelationsForCategory
         if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEditCategory(parentCategoryIdToRemove))  
             throw new SecurityException("Not allowed to edit category");
 
-        var childCategoryAsCategory = _categoryRepository.GetById(childCategory.Id);
-
-        RemoveRelation(
-            childCategoryAsCategory,
-            parentCategoryAsCategory);
-
-        RemoveRelation(
-            parentCategoryAsCategory,
-            childCategoryAsCategory);
-
-        ModifyRelationsEntityCache.RemoveRelation(
+        var relationIdToRemove = ModifyRelationsEntityCache.RemoveParent(
             childCategory,
             parentCategoryIdToRemove);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            EntityCache.GetCategory(parentCategoryIdToRemove),
-            childCategoryId);
+        
+        _categoryRelationRepo.Delete(relationIdToRemove);
 
         return true;
     }

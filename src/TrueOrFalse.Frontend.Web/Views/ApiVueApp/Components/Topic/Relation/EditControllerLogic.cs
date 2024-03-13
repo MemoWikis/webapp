@@ -23,6 +23,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly Logg _logg;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
     public EditControllerLogic(IGlobalSearch search,
         PermissionCheck permissionCheck,
@@ -35,7 +36,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         Logg logg,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo, 
+        CategoryRelationRepo categoryRelationRepo)
     {
         _search = search;
         _permissionCheck = permissionCheck;
@@ -49,6 +51,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         _webHostEnvironment = webHostEnvironment;
         _logg = logg;
         _questionReadingRepo = questionReadingRepo;
+        _categoryRelationRepo = categoryRelationRepo;
     }
 
     public RequestResult ValidateName(string name)
@@ -175,9 +178,9 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var child = EntityCache.GetCategory(childId);
-        ModifyRelationsEntityCache.AddParent(child, parentId);
-        JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
+        var newRelation = ModifyRelationsEntityCache.AddChild(parentId, childId);
+        JobScheduler.StartImmediately_ModifyTopicRelations(new List<CategoryCacheRelation>{newRelation}, _sessionUser.UserId);
+
         EntityCache.GetCategory(parentId).ChildrenIds = GraphService.Children(parentId).Select(cci => cci.Id).ToList();
 
         return new RequestResult
@@ -200,7 +203,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 messageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
-        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
+        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
         if (!parentHasBeenRemoved)
             return new RequestResult
             {

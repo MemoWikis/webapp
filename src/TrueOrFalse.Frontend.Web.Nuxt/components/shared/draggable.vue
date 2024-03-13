@@ -5,7 +5,9 @@ interface Props {
 }
 const props = defineProps<Props>()
 function handleDragStart(event: any) {
+    console.log(props.transferData)
     event.dataTransfer.setData('value', props.transferData)
+    console.log(event.dataTransfer)
 }
 const emit = defineEmits(['dragEnded'])
 </script>

@@ -1,4 +1,5 @@
-﻿using Quartz;
+﻿using System.Text.Json;
+using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools.ScheduledJobs.Jobs;
@@ -124,16 +125,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             .EndingDailyAfterCount(1)).Build());
         }
 
-        private static void Schedule_LOM_Export()
-        {
-            _scheduler.ScheduleJob(JobBuilder.Create<LomExportJob>().Build(),
-                TriggerBuilder.Create()
-                    .WithDailyTimeIntervalSchedule(x =>
-                        x.StartingDailyAt(new TimeOfDay(3, 30))
-                            .OnEveryDay()
-                            .EndingDailyAfterCount(1)).Build());
-        }
-
         private static void Schedule_RefreshEntityCache()
         {
             _scheduler.ScheduleJob(JobBuilder.Create<RefreshEntityCache>().Build(),
@@ -203,6 +194,18 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 JobBuilder.Create<AddParentCategoryInDb>()
                     .UsingJobData("childCategoryId", childCategoryId)
                     .UsingJobData("parentCategoryId", parentCategoryId)
+                    .UsingJobData("authorId", authorId)
+                    .Build(),
+                TriggerBuilder.Create().StartNow().Build());
+        }
+
+        public static void StartImmediately_ModifyTopicRelations(List<CategoryCacheRelation> relations, int authorId)
+        {
+            var relationsJson = JsonSerializer.Serialize(relations);
+
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<AddOrUpdateRelationsInDb>()
+                    .UsingJobData("relations", relationsJson)
                     .UsingJobData("authorId", authorId)
                     .Build(),
                 TriggerBuilder.Create().StartNow().Build());

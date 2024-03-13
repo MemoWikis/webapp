@@ -78,33 +78,28 @@ public class GraphService
     {
         var allCategories = EntityCache.GetAllCategoriesList();
 
-        return allCategories.SelectMany(c => c.CategoryRelations
-            .Where(cr => cr.ChildCategoryId == categoryId && permissionCheck.CanViewCategory(cr.ParentCategoryId))
-                    .Select(cr => EntityCache.GetCategory(cr.ParentCategoryId))).ToList();
+        return allCategories.SelectMany(c => c.ParentRelations
+            .Where(cr => cr.ChildId == categoryId && permissionCheck.CanViewCategory(cr.ParentId))
+                    .Select(cr => EntityCache.GetCategory(cr.ParentId))).ToList();
 
     }
 
 
     public static List<int> ParentIds(CategoryCacheItem category)
     {
-        return category?.CategoryRelations?.Select(cr => cr.ParentCategoryId).ToList() ?? new List<int>();
+        return category?.ParentRelations?.Select(cr => cr.ParentId).ToList() ?? new List<int>();
     }
 
     public static List<CategoryCacheItem> VisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
     {
         var visibleChildren = new List<CategoryCacheItem>();
 
-        foreach (var category in EntityCache.Categories.Values)
+        var parent = EntityCache.GetCategory(categoryId);
+        foreach (var relation in parent.ChildRelations)
         {
-            foreach (var relation in category.CategoryRelations)
-            {
-                if (relation.ParentCategoryId != categoryId)
-                    continue;
-
-                if (EntityCache.Categories.TryGetValue(category.Id, out var childCategory) &&
-                    permissionCheck.CanView(userId, childCategory))
-                    visibleChildren.Add(childCategory);
-            }
+            if (EntityCache.Categories.TryGetValue(relation.ChildId, out var childCategory) &&
+                permissionCheck.CanView(userId, childCategory))
+                visibleChildren.Add(childCategory);
         }
 
         return visibleChildren;
@@ -141,9 +136,9 @@ public class GraphService
     public static List<CategoryCacheItem> Children(int categoryId)
     {
         var childrenIds = EntityCache.Categories.Values
-            .SelectMany(c => c.CategoryRelations)
-            .Where(cr => cr.ParentCategoryId == categoryId)
-            .Select(cr => cr.ChildCategoryId)
+            .SelectMany(c => c.ParentRelations)
+            .Where(cr => cr.ParentId == categoryId)
+            .Select(cr => cr.ChildId)
             .Distinct();
 
         var children = childrenIds
@@ -167,9 +162,9 @@ public class GraphService
 
             foreach (var potentialChild in EntityCache.Categories.Values)
             {
-                foreach (var relation in potentialChild.CategoryRelations)
+                foreach (var relation in potentialChild.ParentRelations)
                 {
-                    if (relation.ParentCategoryId == currentId && !descendants.Any(d => d.Id == potentialChild.Id) && !toProcess.Contains(potentialChild.Id))
+                    if (relation.ParentId == currentId && !descendants.Any(d => d.Id == potentialChild.Id) && !toProcess.Contains(potentialChild.Id))
                         toProcess.Enqueue(potentialChild.Id);
                 }
             }

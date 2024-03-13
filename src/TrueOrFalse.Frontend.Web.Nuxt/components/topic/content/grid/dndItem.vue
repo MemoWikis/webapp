@@ -1,87 +1,48 @@
 <script lang="ts" setup>
+import { ToggleState } from './toggleStateEnum'
+import { GridTopicItem } from './item/gridTopicItem'
+import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 
-interface Item {
-    name: string,
-    id: number,
-    children?: Item[]
-}
+const editTopicRelationStore = useEditTopicRelationStore()
+
 interface Props {
-    item: Item,
-    index: IndexPath,
-    items: Item[]
+    topic: GridTopicItem
+    toggleState: ToggleState
+    parentId: number
+    parentName: string
 }
 const props = defineProps<Props>()
 const isDroppableItemActive = ref(false)
 function onDragOver() {
     isDroppableItemActive.value = true
+
+    // if (!hoverTopFake.value && !hoverTopHalf.value)
+    //     setTimeout(() => showTopFake.value = false, 300)
+    // if (!hoverBottomHalf.value && !hoverBottomFake.value)
+    //     setTimeout(() => showBottomFake.value = false, 300)
+
+    if (hoverTopFake.value || hoverTopHalf.value) {
+        showBottomFake.value = false
+        showTopFake.value = true
+    }
+    else if (hoverBottomFake.value || hoverBottomHalf.value) {
+        showTopFake.value = false
+        showBottomFake.value = true
+    }
 }
 function onDragLeave() {
     isDroppableItemActive.value = false
 }
+async function onDrop(event: any) {
+    console.log(props.topic.id)
+    isDroppableItemActive.value = false
+    console.log(event.dataTransfer.getData("value"))
+    console.log(event.target.attributes["data-targetposition"].value)
 
-
-function removeElementAtPath(arr: Item[], indexPath: IndexPath): { element: Item, array: Item[] } | undefined {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
-
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            return undefined;
-        }
-    }
-
-    if (targetIndex !== undefined && targetIndex < targetArray.length) {
-        let removedElement = targetArray.splice(targetIndex, 1);
-        return { element: removedElement[0], array: arr };
-    } else {
-        return undefined;
-    }
-}
-
-function addElementAtPath(arr: Item[], indexPath: IndexPath, element: Item): void {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
-
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            throw new Error("Invalid index path: encountered non-array element before reaching target location");
-        }
-    }
-
-    if (targetIndex !== undefined) {
-        targetArray.splice(targetIndex, 0, element);
-    } else {
-        throw new Error("Invalid index path: did not resolve to array element");
-    }
-}
-
-function moveElement(arr: Item[], fromIndexPath: IndexPath, toIndexPath: IndexPath): Item[] {
-    let removed = removeElementAtPath(arr, fromIndexPath);
-    if (removed) {
-        addElementAtPath(removed.array, toIndexPath, removed.element);
-        return removed.array;
-    } else {
-        return arr;
-    }
-}
-const emit = defineEmits(['setNewArr'])
-
-const newArr = ref<Item[]>([])
-
-function onDrop(event: any) {
-    console.log('target', props.index)
-    const e = event.dataTransfer.getData('value')
-    console.log('drop', e)
-
-    newArr.value = moveElement(props.items, e, props.index)
-    emit('setNewArr', newArr)
-
+    const moveId = event.dataTransfer.getData("value")
+    const targetId = props.topic.id
+    const position = event.target.attributes["data-targetposition"].value
+    editTopicRelationStore.moveTopic(moveId, targetId, position)
 }
 // function getPayload(index: number) {
 //     const payload = {
@@ -91,19 +52,80 @@ function onDrop(event: any) {
 //     return payload
 // }
 
-const open = ref(false)
+const showTopFake = ref(false)
+
+const hoverTopHalf = ref(false)
+const hoverTopFake = ref(false)
+
+// watch([hoverTopHalf, hoverTopFake], ([h, f]) => {
+//     console.log(isDroppableItemActive.value)
+//     console.log('toptrigger')
+//     if (isDroppableItemActive.value) {
+//         if (h || f)
+//             showTopFake.value = true
+//         else {
+//             if (hoverBottomHalf.value && hoverBottomFake.value)
+//                 showTopFake.value = false
+//             else
+//                 setTimeout(() => showTopFake.value = false, 300)
+//         }
+//     } else showTopFake.value = false
+
+// })
+
+const showBottomFake = ref(false)
+const hoverBottomHalf = ref(false)
+const hoverBottomFake = ref(false)
+
+// watch([hoverBottomHalf, hoverBottomFake], ([h, f]) => {
+//     console.log(isDroppableItemActive.value)
+//     console.log('bottomtrigger')
+//     if (isDroppableItemActive.value) {
+//         if (h || f)
+//             showBottomFake.value = true
+//         else {
+//             if (hoverTopHalf.value && hoverTopFake.value)
+//                 showBottomFake.value = false
+//             else
+//                 setTimeout(() => showBottomFake.value = false, 300)
+//         }
+//     } else showBottomFake.value = false
+// })
+
+watch(isDroppableItemActive, (val) => {
+    if (!val) {
+        showBottomFake.value = false
+        showTopFake.value = false
+    }
+})
 </script>
 
 <template>
-    <SharedDraggable :transfer-data="index" class="draggable">
+    <SharedDraggable :transfer-data="topic.id" class="draggable">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
-            <div class="item" @click.self="open = !open"
-                :class="{ 'open': open, 'isDroppableItemActive': isDroppableItemActive }">
-                {{ item.name }}
+            <div class="item" :class="{ 'isDroppableItemActive': isDroppableItemActive }">
                 <div>
-                    <TopicContentGridDndItem v-for="c, i in props.item.children" :item="c" :index="[...index, i]"
-                        :items="props.items" @set-new-arr="emit('setNewArr', newArr)" />
+                    <!-- <div v-if="showTopFake" @dragover="hoverTopFake = true" @drageleave="hoverTopFake = false"> hello
+                        world</div> -->
+
+
+                    <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
+                        :parent-name="props.parentName">
+                        <div style="position:absolute; width: 100%; height: 50%; top: 0px; background:#3344BB20;"
+                            @dragover="hoverTopHalf = true" @mouseleave="hoverTopHalf = false"
+                            data-targetposition="before">
+                        </div>
+                        <div style="position:absolute; width: 100%; height: 50%; top: 50%; background:#99443320;"
+                            @dragover="hoverBottomHalf = true" @mouseleave="hoverBottomHalf = false"
+                            data-targetposition="after">
+                        </div>
+                    </TopicContentGridItem>
+
+                    <!-- <div v-if="showBottomFake" @dragover="hoverBottomFake = true" @drageleave="hoverBottomFake = false">
+                        hello hell
+                    </div> -->
+
                 </div>
             </div>
         </SharedDroppable>
@@ -129,22 +151,9 @@ const open = ref(false)
 
 
     .item {
-        width: 100%;
-        border: solid 1px silver;
         padding: 10px;
-        background: white;
-        margin-left: 10px;
-        transition: all 0.1s;
-        border-right: none;
-        margin-bottom: 10px;
-        // transform: scale(1);
 
-        &.open {
-            padding-top: 50px;
-            padding-bottom: 50px;
-
-            background-color: mediumspringgreen;
-        }
+        &.open {}
 
         &.isDroppableItemActive {
             background-color: lightpink;

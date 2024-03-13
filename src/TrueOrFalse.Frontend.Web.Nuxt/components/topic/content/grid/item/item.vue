@@ -220,6 +220,7 @@ async function reloadGridItem(id: number) {
     <div class="grid-item" @click="expanded = !expanded"
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
+        <slot></slot>
         <div class="grid-item-caret-container">
             <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
@@ -258,6 +259,7 @@ async function reloadGridItem(id: number) {
         <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
             :parent-id="props.topic.id" :parent-name="props.topic.name" />
     </div>
+
 </template>
 
 <style lang="less" scoped>
@@ -271,6 +273,7 @@ async function reloadGridItem(id: number) {
     padding: 10px 0px;
     background: white;
     border-top: solid 1px @memo-grey-light;
+    position: relative;
 
     &:hover {
         filter: brightness(0.975)

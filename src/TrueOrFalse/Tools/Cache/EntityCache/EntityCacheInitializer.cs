@@ -5,16 +5,19 @@ public class EntityCacheInitializer : IRegisterAsInstancePerLifetime
     private readonly CategoryRepository _categoryRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
     public EntityCacheInitializer(
         CategoryRepository categoryRepository,
         UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo
+        QuestionReadingRepo questionReadingRepo,
+        CategoryRelationRepo categoryRelationRepo
     )
     {
         _categoryRepository = categoryRepository;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
+        _categoryRelationRepo = categoryRelationRepo;
     }
     public void Init(string customMessage = "")
     {
@@ -30,6 +33,12 @@ public class EntityCacheInitializer : IRegisterAsInstancePerLifetime
 
         var allCategories = _categoryRepository.GetAllEager();
         Logg.r.Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var allRelations = _categoryRelationRepo.GetAll();
+        Logg.r.Information("EntityCache CategoryRelationsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();
+        Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
+
         var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
