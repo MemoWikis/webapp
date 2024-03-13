@@ -94,17 +94,12 @@ public class GraphService
     {
         var visibleChildren = new List<CategoryCacheItem>();
 
-        foreach (var category in EntityCache.Categories.Values)
+        var parent = EntityCache.GetCategory(categoryId);
+        foreach (var relation in parent.ChildRelations)
         {
-            foreach (var relation in category.ParentRelations)
-            {
-                if (relation.ParentId != categoryId)
-                    continue;
-
-                if (EntityCache.Categories.TryGetValue(category.Id, out var childCategory) &&
-                    permissionCheck.CanView(userId, childCategory))
-                    visibleChildren.Add(childCategory);
-            }
+            if (EntityCache.Categories.TryGetValue(relation.ChildId, out var childCategory) &&
+                permissionCheck.CanView(userId, childCategory))
+                visibleChildren.Add(childCategory);
         }
 
         return visibleChildren;

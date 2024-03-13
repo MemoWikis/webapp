@@ -1,14 +1,12 @@
 <script lang="ts" setup>
+import { ToggleState } from './toggleStateEnum'
+import { GridTopicItem } from './item/gridTopicItem'
 
-interface Item {
-    name: string,
-    id: number,
-    children?: Item[]
-}
 interface Props {
-    item: Item,
-    index: IndexPath,
-    items: Item[]
+    topic: GridTopicItem
+    toggleState: ToggleState
+    parentId: number
+    parentName: string
 }
 const props = defineProps<Props>()
 const isDroppableItemActive = ref(false)
@@ -18,70 +16,16 @@ function onDragOver() {
 function onDragLeave() {
     isDroppableItemActive.value = false
 }
-
-
-function removeElementAtPath(arr: Item[], indexPath: IndexPath): { element: Item, array: Item[] } | undefined {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
-
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            return undefined;
-        }
-    }
-
-    if (targetIndex !== undefined && targetIndex < targetArray.length) {
-        let removedElement = targetArray.splice(targetIndex, 1);
-        return { element: removedElement[0], array: arr };
-    } else {
-        return undefined;
-    }
-}
-
-function addElementAtPath(arr: Item[], indexPath: IndexPath, element: Item): void {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
-
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            throw new Error("Invalid index path: encountered non-array element before reaching target location");
-        }
-    }
-
-    if (targetIndex !== undefined) {
-        targetArray.splice(targetIndex, 0, element);
-    } else {
-        throw new Error("Invalid index path: did not resolve to array element");
-    }
-}
-
-function moveElement(arr: Item[], fromIndexPath: IndexPath, toIndexPath: IndexPath): Item[] {
-    let removed = removeElementAtPath(arr, fromIndexPath);
-    if (removed) {
-        addElementAtPath(removed.array, toIndexPath, removed.element);
-        return removed.array;
-    } else {
-        return arr;
-    }
+function onMouseLeave() {
+    isDroppableItemActive.value = false
 }
 const emit = defineEmits(['setNewArr'])
 
-const newArr = ref<Item[]>([])
+const newArr = ref<GridTopicItem[]>([])
 
 function onDrop(event: any) {
-    console.log('target', props.index)
-    const e = event.dataTransfer.getData('value')
-    console.log('drop', e)
-
-    newArr.value = moveElement(props.items, e, props.index)
-    emit('setNewArr', newArr)
-
+    isDroppableItemActive.value = false
+    console.log("dropped")
 }
 // function getPayload(index: number) {
 //     const payload = {
@@ -95,15 +39,14 @@ const open = ref(false)
 </script>
 
 <template>
-    <SharedDraggable :transfer-data="index" class="draggable">
-        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
+    <SharedDraggable :transfer-data="topic.id" class="draggable">
+        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop, onMouseLeave }">
 
             <div class="item" @click.self="open = !open"
                 :class="{ 'open': open, 'isDroppableItemActive': isDroppableItemActive }">
-                {{ item.name }}
                 <div>
-                    <TopicContentGridDndItem v-for="c, i in props.item.children" :item="c" :index="[...index, i]"
-                        :items="props.items" @set-new-arr="emit('setNewArr', newArr)" />
+                    <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
+                        :parent-name="props.parentName" />
                 </div>
             </div>
         </SharedDroppable>
