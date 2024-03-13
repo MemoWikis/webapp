@@ -213,51 +213,14 @@ async function reloadGridItem(id: number) {
     } else if (result.success == false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
-const showTopFake = ref(false)
 
-const hoverTopHalf = ref(false)
-const hoverTopFake = ref(false)
-
-watch([hoverTopHalf, hoverTopFake], ([h, f]) => {
-    if (h || f)
-        showTopFake.value = true
-    else {
-        if (hoverBottomHalf.value && hoverBottomFake.value)
-            showTopFake.value = false
-        else
-            setTimeout(() => showTopFake.value = false, 300)
-    }
-})
-
-const showBottomFake = ref(false)
-const hoverBottomHalf = ref(false)
-const hoverBottomFake = ref(false)
-
-watch([hoverBottomHalf, hoverBottomFake], ([h, f]) => {
-    if (h || f)
-        showBottomFake.value = true
-    else {
-        if (hoverTopHalf.value && hoverTopFake.value)
-            showBottomFake.value = false
-        else
-            setTimeout(() => showBottomFake.value = false, 300)
-    }
-})
 </script>
 
 <template>
-    <div v-if="showTopFake" @mouseover="hoverTopFake = true" @mouseleave="hoverTopFake = false"> hello world</div>
     <div class="grid-item" @click="expanded = !expanded"
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
-        <div style="position:absolute; width: 100%; height: 50%; top: 0px; background:#3344BB20;"
-            @mouseover="hoverTopHalf = true" @mouseleave="hoverTopHalf = false">
-
-        </div>
-        <div style="position:absolute; width: 100%; height: 50%; top: 50%; background:#99443320;"
-            @mouseover="showBottomFake = true" @mouseleave="showBottomFake = false">
-
-        </div>
+        <slot></slot>
         <div class="grid-item-caret-container">
             <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
@@ -295,8 +258,6 @@ watch([hoverBottomHalf, hoverBottomFake], ([h, f]) => {
     <div v-if="props.topic.childrenCount > 0 && expanded" class="grid-item-children">
         <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
             :parent-id="props.topic.id" :parent-name="props.topic.name" />
-    </div>
-    <div v-if="showBottomFake" @mouseover="hoverBottomFake = true" @mouseleave="hoverBottomFake = false"> hello hell
     </div>
 
 </template>

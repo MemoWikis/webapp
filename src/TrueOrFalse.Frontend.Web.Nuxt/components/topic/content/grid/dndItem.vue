@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
+import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
+
+const editTopicRelationStore = useEditTopicRelationStore()
 
 interface Props {
     topic: GridTopicItem
@@ -12,20 +15,34 @@ const props = defineProps<Props>()
 const isDroppableItemActive = ref(false)
 function onDragOver() {
     isDroppableItemActive.value = true
+
+    // if (!hoverTopFake.value && !hoverTopHalf.value)
+    //     setTimeout(() => showTopFake.value = false, 300)
+    // if (!hoverBottomHalf.value && !hoverBottomFake.value)
+    //     setTimeout(() => showBottomFake.value = false, 300)
+
+    if (hoverTopFake.value || hoverTopHalf.value) {
+        showBottomFake.value = false
+        showTopFake.value = true
+    }
+    else if (hoverBottomFake.value || hoverBottomHalf.value) {
+        showTopFake.value = false
+        showBottomFake.value = true
+    }
 }
 function onDragLeave() {
     isDroppableItemActive.value = false
 }
-function onMouseLeave() {
+async function onDrop(event: any) {
+    console.log(props.topic.id)
     isDroppableItemActive.value = false
-}
-const emit = defineEmits(['setNewArr'])
+    console.log(event.dataTransfer.getData("value"))
+    console.log(event.target.attributes["data-targetposition"].value)
 
-const newArr = ref<GridTopicItem[]>([])
-
-function onDrop(event: any) {
-    isDroppableItemActive.value = false
-    console.log("dropped")
+    const moveId = event.dataTransfer.getData("value")
+    const targetId = props.topic.id
+    const position = event.target.attributes["data-targetposition"].value
+    editTopicRelationStore.moveTopic(moveId, targetId, position)
 }
 // function getPayload(index: number) {
 //     const payload = {
@@ -35,18 +52,80 @@ function onDrop(event: any) {
 //     return payload
 // }
 
-const open = ref(false)
+const showTopFake = ref(false)
+
+const hoverTopHalf = ref(false)
+const hoverTopFake = ref(false)
+
+// watch([hoverTopHalf, hoverTopFake], ([h, f]) => {
+//     console.log(isDroppableItemActive.value)
+//     console.log('toptrigger')
+//     if (isDroppableItemActive.value) {
+//         if (h || f)
+//             showTopFake.value = true
+//         else {
+//             if (hoverBottomHalf.value && hoverBottomFake.value)
+//                 showTopFake.value = false
+//             else
+//                 setTimeout(() => showTopFake.value = false, 300)
+//         }
+//     } else showTopFake.value = false
+
+// })
+
+const showBottomFake = ref(false)
+const hoverBottomHalf = ref(false)
+const hoverBottomFake = ref(false)
+
+// watch([hoverBottomHalf, hoverBottomFake], ([h, f]) => {
+//     console.log(isDroppableItemActive.value)
+//     console.log('bottomtrigger')
+//     if (isDroppableItemActive.value) {
+//         if (h || f)
+//             showBottomFake.value = true
+//         else {
+//             if (hoverTopHalf.value && hoverTopFake.value)
+//                 showBottomFake.value = false
+//             else
+//                 setTimeout(() => showBottomFake.value = false, 300)
+//         }
+//     } else showBottomFake.value = false
+// })
+
+watch(isDroppableItemActive, (val) => {
+    if (!val) {
+        showBottomFake.value = false
+        showTopFake.value = false
+    }
+})
 </script>
 
 <template>
     <SharedDraggable :transfer-data="topic.id" class="draggable">
-        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop, onMouseLeave }">
+        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
-            <div class="item" @click.self="open = !open"
-                :class="{ 'open': open, 'isDroppableItemActive': isDroppableItemActive }">
+            <div class="item" :class="{ 'isDroppableItemActive': isDroppableItemActive }">
                 <div>
+                    <!-- <div v-if="showTopFake" @dragover="hoverTopFake = true" @drageleave="hoverTopFake = false"> hello
+                        world</div> -->
+
+
                     <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
-                        :parent-name="props.parentName" />
+                        :parent-name="props.parentName">
+                        <div style="position:absolute; width: 100%; height: 50%; top: 0px; background:#3344BB20;"
+                            @dragover="hoverTopHalf = true" @mouseleave="hoverTopHalf = false"
+                            data-targetposition="before">
+                        </div>
+                        <div style="position:absolute; width: 100%; height: 50%; top: 50%; background:#99443320;"
+                            @dragover="hoverBottomHalf = true" @mouseleave="hoverBottomHalf = false"
+                            data-targetposition="after">
+                        </div>
+                    </TopicContentGridItem>
+
+                    <!-- <div v-if="showBottomFake" @dragover="hoverBottomFake = true" @drageleave="hoverBottomFake = false">
+                        hello hell
+                    </div> -->
+
                 </div>
             </div>
         </SharedDroppable>
@@ -72,22 +151,9 @@ const open = ref(false)
 
 
     .item {
-        width: 100%;
-        border: solid 1px silver;
         padding: 10px;
-        background: white;
-        margin-left: 10px;
-        transition: all 0.1s;
-        border-right: none;
-        margin-bottom: 10px;
-        // transform: scale(1);
 
-        &.open {
-            padding-top: 50px;
-            padding-bottom: 50px;
-
-            background-color: mediumspringgreen;
-        }
+        &.open {}
 
         &.isDroppableItemActive {
             background-color: lightpink;
