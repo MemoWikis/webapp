@@ -15,7 +15,7 @@ public class CategoryDeleter(
 {
 
     ///todo:(DaMa)  Revise: Wrong place for SQL commands.
-    public HasDeleted Run(Category category, int userId, bool isTestCase = false)
+    private HasDeleted Run(Category category, int userId, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
@@ -92,7 +92,7 @@ public class CategoryDeleter(
         return new RedirectParent(currentWiki.Name, currentWiki.Id); 
     }
 
-    public class HasDeleted
+    private class HasDeleted
     {
         public bool DeletedSuccessful { get; set; }
         public bool HasChildren { get; set; }
