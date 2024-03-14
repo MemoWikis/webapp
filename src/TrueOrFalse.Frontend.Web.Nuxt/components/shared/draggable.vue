@@ -5,15 +5,30 @@ interface Props {
 }
 const props = defineProps<Props>()
 function handleDragStart(event: any) {
-    console.log(props.transferData)
     event.dataTransfer.setData('value', props.transferData)
-    console.log(event.dataTransfer)
+    emit('dragStarted')
+
+    if (document != null)
+        document.body.classList.add('dnd-grabbing')
 }
-const emit = defineEmits(['dragEnded'])
+
+function handleDragEnd(event: any) {
+    emit('dragEnded')
+
+    if (document != null)
+        document.body.classList.remove('dnd-grabbing')
+}
+const emit = defineEmits(['dragEnded', 'dragStarted'])
 </script>
 
 <template>
-    <span :draggable="!disabled" @dragstart="handleDragStart" @dragend="emit('dragEnded')">
+    <span :draggable="!disabled" @dragstart="handleDragStart" @dragend="handleDragEnd">
         <slot />
     </span>
 </template>
+
+<style lang="less">
+.dnd-grabbing {
+    cursor: grabbing !important;
+}
+</style>

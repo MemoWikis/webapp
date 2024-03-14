@@ -213,11 +213,13 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
         },
 
-        async moveTopic(moveId: number, targetId: number, position: string) {
+        async moveTopic(movingTopicId: number, targetId: number, position: string, newParentId: number, oldParentId: number) {
             const data = {
-                moveId: moveId,
+                movingTopicId: movingTopicId,
                 targetId: targetId,
-                position: position
+                position: position,
+                newParentId: newParentId,
+                oldParentId: oldParentId
             }
 
             const result = await $fetch<FetchResult<number[]>>("/apiVue/EditTopicRelationStore/MoveTopic", {
