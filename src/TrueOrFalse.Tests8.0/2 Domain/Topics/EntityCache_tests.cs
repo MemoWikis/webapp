@@ -131,6 +131,12 @@ class EntityCache_tests : BaseTest
         Assert.That(allChildren.Last().Name, Is.EqualTo("SubSub1and2"));
     }
 
+    [Test]
+    public void Should_get_all_children_even_if_relations_are_faulty()
+    {
+
+    }
+
     //[Test]
     //public void Should_get_all_children()
     //{

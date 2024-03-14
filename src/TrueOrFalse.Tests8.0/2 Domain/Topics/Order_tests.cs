@@ -15,9 +15,6 @@ class Order_tests : BaseTest
             .Add("Sub3")
             .Persist()
             .All;
-
-
-
     }
 
 
@@ -96,4 +93,10 @@ class Order_tests : BaseTest
         Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].ChildId);
         Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].ChildId);
     }
+
+    [Test]
+    public void MoveAfter_ShouldCorrectlyUpdateAllChangedRelationsInDb()
+    {
+
+    } 
 }
