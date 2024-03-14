@@ -151,24 +151,33 @@ public class GraphService
     public static IList<CategoryCacheItem> Descendants(int parentId)
     {
         var descendants = new List<CategoryCacheItem>();
-        var toProcess = new Queue<int>(new[] { parentId });
+        var toProcess = new Queue<int>();
+
+        if (EntityCache.Categories.TryGetValue(parentId, out var parentCategory))
+        {
+            foreach (var childRelation in parentCategory.ChildRelations)
+            {
+                toProcess.Enqueue(childRelation.ChildId);
+            }
+        }
 
         while (toProcess.Count > 0)
         {
             var currentId = toProcess.Dequeue();
-
-            if (currentId != parentId && EntityCache.Categories.TryGetValue(currentId, out var currentCategory))
+            if (EntityCache.Categories.TryGetValue(currentId, out var currentCategory))
+            {
                 descendants.Add(currentCategory);
 
-            foreach (var potentialChild in EntityCache.Categories.Values)
-            {
-                foreach (var relation in potentialChild.ParentRelations)
+                foreach (var childRelation in currentCategory.ChildRelations)
                 {
-                    if (relation.ParentId == currentId && !descendants.Any(d => d.Id == potentialChild.Id) && !toProcess.Contains(potentialChild.Id))
-                        toProcess.Enqueue(potentialChild.Id);
+                    if (!descendants.Any(d => d.Id == childRelation.ChildId) && !toProcess.Contains(childRelation.ChildId))
+                    {
+                        toProcess.Enqueue(childRelation.ChildId);
+                    }
                 }
             }
         }
+
         return descendants;
     }
 }
