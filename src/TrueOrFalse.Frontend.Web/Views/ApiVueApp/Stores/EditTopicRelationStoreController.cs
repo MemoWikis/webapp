@@ -86,16 +86,32 @@ public class EditTopicRelationStoreController : BaseController
         });
     }
 
-    public readonly record struct MoveTopicJson(int moveId, int targetId, string position);
+    public readonly record struct MoveTopicJson(int movingTopicId, int targetId, string position, int newParentId, int oldParentId);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult MoveTopic([FromBody] MoveTopicJson json)
     {
+        var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
+            .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();
+
+        if (relationToMove != null)
+        {
+            if (json.position == "before")
+                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
+                    json.oldParentId, _sessionUser.UserId);
+            else if (json.position == "after")
+                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
+                    json.oldParentId, _sessionUser.UserId);
+        }
+
         return Json(new
         {
-            moveId = json.moveId,
+            movingTopicId = json.movingTopicId,
             targetId = json.targetId,
-            position = json.position
+            position = json.position,
+            newParentId = json.newParentId,
+            oldParentId = json.oldParentId,
+            relationTomove = relationToMove
         });
     }
 

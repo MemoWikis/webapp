@@ -1,4 +1,6 @@
 ﻿
+using TrueOrFalse.Utilities.ScheduledJobs;
+
 public class ModifyRelationsEntityCache
 {
     public static void RemoveRelations(CategoryCacheItem category)
@@ -30,14 +32,14 @@ public class ModifyRelationsEntityCache
         });
     }
 
-    public static int RemoveParent(CategoryCacheItem childCategory, int parentId)
+    public static int RemoveParent(CategoryCacheItem childCategory, int parentId, int authorId)
     {
         var parent = EntityCache.GetCategory(parentId);
         var relationToRemove = parent.ChildRelations.Where(r => r.ChildId == childCategory.Id).FirstOrDefault();
 
         if (relationToRemove != null)
         {
-            Remove(relationToRemove, parentId); // removes relation in parent.ChildRelations
+            Remove(relationToRemove, parentId, authorId);
             childCategory.ParentRelations.Remove(relationToRemove);
         }
 
@@ -62,69 +64,99 @@ public class ModifyRelationsEntityCache
         return newRelation;
     }
 
+    public static bool CanBeMoved(int childId, int parentId)
+    {
+        var child = EntityCache.GetCategory(childId);
+        var parent = EntityCache.GetCategory(parentId);
 
-    public (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation> UpdatedNewOrder) MoveBefore(
+        if (GraphService.Descendants(childId).Any(r => r.Id == parentId))
+            return false;
+
+        return true;
+    }
+
+    public static (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation> UpdatedNewOrder) MoveBefore(
         CategoryCacheRelation relation,
         int beforeTopicId,
         int newParentId,
-        int oldParentId)
+        int oldParentId,
+        int authorId)
     {
-        var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId);
-        var updatedOldOrder = Remove(relation, oldParentId);
+        if (!CanBeMoved(relation.ChildId, newParentId))
+        {
+            throw new Exception("circular reference");
+        }
+
+        var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId);
+        var updatedOldOrder = Remove(relation, oldParentId, authorId);
 
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    public (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation> UpdatedNewOrder) MoveAfter(
+    public static (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation> UpdatedNewOrder) MoveAfter(
         CategoryCacheRelation relation,
         int afterTopicId,
         int newParentId,
-        int oldParentId)
+        int oldParentId,
+        int authorId)
     {
-        var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId);
-        var updatedOldOrder = Remove(relation, oldParentId);
+        if (!CanBeMoved(relation.ChildId, newParentId))
+        {
+            throw new Exception("circular reference");
+        }
+
+        var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId);
+        var updatedOldOrder = Remove(relation, oldParentId, authorId);
 
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    private static List<CategoryCacheRelation> Remove(CategoryCacheRelation relation, int oldParentId)
+    private static List<CategoryCacheRelation> Remove(CategoryCacheRelation relation, int oldParentId, int authorId)
     {
         var relations = EntityCache.GetCategory(oldParentId).ChildRelations;
 
-        var nodeIndex = relations.IndexOf(relation);
-        if (nodeIndex != -1)
+        var relationIndex = relations.IndexOf(relation);
+        if (relationIndex != -1)
         {
-            if (nodeIndex > 0)
+            var changedRelations = new List<CategoryCacheRelation>();
+
+            if (relationIndex > 0)
             {
-                relations[nodeIndex - 1].NextId = nodeIndex < relations.Count - 1 ? relations[nodeIndex + 1].ChildId : (int?)null;
+                var previousRelation = relations[relationIndex - 1];
+                previousRelation.NextId = relationIndex < relations.Count - 1 ? relations[relationIndex + 1].ChildId : (int?)null;
+                changedRelations.Add(previousRelation);
             }
-            if (nodeIndex < relations.Count - 1)
+            if (relationIndex < relations.Count - 1)
             {
-                relations[nodeIndex + 1].PreviousId = nodeIndex > 0 ? relations[nodeIndex - 1].ChildId : (int?)null;
+                var nextRelation = relations[relationIndex + 1];
+                nextRelation.PreviousId = relationIndex > 0 ? relations[relationIndex - 1].ChildId : (int?)null;
+                changedRelations.Add(nextRelation);
             }
-            relations.RemoveAt(nodeIndex);
+            relations.RemoveAt(relationIndex);
+
+            JobScheduler.StartImmediately_ModifyTopicRelations(changedRelations, authorId);
         }
 
         return relations.ToList();
     }
 
-    private List<CategoryCacheRelation> AddBefore(int topicId, int beforeTopicId, int parentId)
+    private static List<CategoryCacheRelation> AddBefore(int topicId, int beforeTopicId, int parentId, int authorId)
     {
         var parent = EntityCache.GetCategory(parentId);
         var relations = parent.ChildRelations.ToList();
-        return Insert(topicId, beforeTopicId, parentId, relations, false);
+        return Insert(topicId, beforeTopicId, parentId, relations, false, authorId);
     }
 
-    private List<CategoryCacheRelation> AddAfter(int topicId, int afterTopicId, int parentId)
+    private static List<CategoryCacheRelation> AddAfter(int topicId, int afterTopicId, int parentId, int authorId)
     {
         var parent = EntityCache.GetCategory(parentId);
         var relations = parent.ChildRelations.ToList();
-        return Insert(topicId, afterTopicId, parentId, relations, true);
+        return Insert(topicId, afterTopicId, parentId, relations, true, authorId);
     }
 
-    private List<CategoryCacheRelation> Insert(int childId, int targetTopicId, int parentId, List<CategoryCacheRelation> relations, bool insertAfter)
+    private static List<CategoryCacheRelation> Insert(int childId, int targetTopicId, int parentId, List<CategoryCacheRelation> relations, bool insertAfter, int authorId)
     {
-        var node = new CategoryCacheRelation
+        var relation = new CategoryCacheRelation
         {
             ChildId = childId,
             ParentId = parentId,
@@ -139,27 +171,38 @@ public class ModifyRelationsEntityCache
 
         int positionToInsert = insertAfter ? targetPosition + 1 : targetPosition;
 
-        relations.Insert(positionToInsert, node);
+        relations.Insert(positionToInsert, relation);
 
-        node.PreviousId = insertAfter ? targetTopicId : (positionToInsert > 0 ? relations[positionToInsert - 1].ChildId : (int?)null);
-        node.NextId = positionToInsert < relations.Count - 1 ? relations[positionToInsert + 1].ChildId : (int?)null;
+        relation.PreviousId = insertAfter ? targetTopicId : (positionToInsert > 0 ? relations[positionToInsert - 1].ChildId : (int?)null);
+        relation.NextId = positionToInsert < relations.Count - 1 ? relations[positionToInsert + 1].ChildId : (int?)null;
+
+        var changedRelations = new List<CategoryCacheRelation>();
 
         if (positionToInsert > 0 && !insertAfter)
         {
-            relations[positionToInsert - 1].NextId = node.ChildId;
+            var previousRelation = relations[positionToInsert - 1];
+            previousRelation.NextId = relation.ChildId;
+            changedRelations.Add(previousRelation);
         }
         if (positionToInsert < relations.Count - 1 && insertAfter)
         {
-            relations[positionToInsert + 1].PreviousId = node.ChildId;
+            var nextRelation = relations[positionToInsert + 1];
+            nextRelation.PreviousId = relation.ChildId;
+            changedRelations.Add(nextRelation);
         }
+
         if (insertAfter)
         {
-            relations[targetPosition].NextId = node.ChildId;
+            relations[targetPosition].NextId = relation.ChildId;
         }
         else if (targetPosition > 0)
         {
-            relations[targetPosition - 1].NextId = node.ChildId;
+            relations[targetPosition - 1].NextId = relation.ChildId;
         }
+
+        changedRelations.Add(relation);
+
+        JobScheduler.StartImmediately_ModifyTopicRelations(changedRelations, authorId);
 
         return relations;
     }

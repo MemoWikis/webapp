@@ -222,7 +222,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 messageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
-        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
+        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck, _sessionUser.UserId);
         if (!parentHasBeenRemoved)
             return new RequestResult
             {
