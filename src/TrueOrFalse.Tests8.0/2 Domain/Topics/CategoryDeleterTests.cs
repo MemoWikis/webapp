@@ -173,6 +173,5 @@
             Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
             Assert.That(parent.Id, Is.EqualTo(requestResult.RedirectParent.Id));
         }
-
     }
 }
