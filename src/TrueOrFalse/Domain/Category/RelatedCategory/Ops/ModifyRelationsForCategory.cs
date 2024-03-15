@@ -49,7 +49,7 @@ public class ModifyRelationsForCategory
         _categoryRelationRepo.Create(categoryRelationToAdd);
     }
 
-    public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
+    public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck, int authorId)
     {
         var childCategory = EntityCache.GetCategory(childCategoryId);
         var newParentRelationsIds = childCategory.ParentRelations.Where(r => r.ParentId != parentCategoryIdToRemove).Select(r => r.ParentId);
@@ -63,7 +63,8 @@ public class ModifyRelationsForCategory
 
         var relationIdToRemove = ModifyRelationsEntityCache.RemoveParent(
             childCategory,
-            parentCategoryIdToRemove);
+            parentCategoryIdToRemove,
+            authorId);
         
         _categoryRelationRepo.Delete(relationIdToRemove);
 

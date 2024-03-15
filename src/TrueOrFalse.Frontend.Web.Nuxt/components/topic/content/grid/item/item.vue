@@ -256,7 +256,7 @@ async function reloadGridItem(id: number) {
     </div>
 
     <div v-if="props.topic.childrenCount > 0 && expanded" class="grid-item-children">
-        <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+        <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
             :parent-id="props.topic.id" :parent-name="props.topic.name" />
     </div>
 

@@ -12,156 +12,132 @@ interface Props {
     parentName: string
 }
 const props = defineProps<Props>()
+
+const transferData = ref('')
+
+onBeforeMount(() => {
+    transferData.value = JSON.stringify({
+        movingTopicId: props.topic.id,
+        oldParentId: props.parentId
+    })
+})
+
 const isDroppableItemActive = ref(false)
 function onDragOver() {
     isDroppableItemActive.value = true
-
-    // if (!hoverTopFake.value && !hoverTopHalf.value)
-    //     setTimeout(() => showTopFake.value = false, 300)
-    // if (!hoverBottomHalf.value && !hoverBottomFake.value)
-    //     setTimeout(() => showBottomFake.value = false, 300)
-
-    if (hoverTopFake.value || hoverTopHalf.value) {
-        showBottomFake.value = false
-        showTopFake.value = true
-    }
-    else if (hoverBottomFake.value || hoverBottomHalf.value) {
-        showTopFake.value = false
-        showBottomFake.value = true
-    }
 }
 function onDragLeave() {
     isDroppableItemActive.value = false
 }
 async function onDrop(event: any) {
-    console.log(props.topic.id)
     isDroppableItemActive.value = false
-    console.log(event.dataTransfer.getData("value"))
-    console.log(event.target.attributes["data-targetposition"].value)
 
-    const moveId = event.dataTransfer.getData("value")
+    hoverTopHalf.value = false
+    hoverBottomHalf.value = false
+
+    const { movingTopicId, oldParentId } = JSON.parse(event.dataTransfer.getData('value'))
     const targetId = props.topic.id
-    const position = event.target.attributes["data-targetposition"].value
-    editTopicRelationStore.moveTopic(moveId, targetId, position)
-}
-// function getPayload(index: number) {
-//     const payload = {
-//         item: props.item.children![index],
-//         index: [...props.index, index]
-//     }
-//     return payload
-// }
 
-const showTopFake = ref(false)
+    if (movingTopicId == targetId)
+        return
+
+    const position = event.target.attributes['data-targetposition'].value
+    editTopicRelationStore.moveTopic(movingTopicId, targetId, position, oldParentId, props.parentId)
+}
 
 const hoverTopHalf = ref(false)
-const hoverTopFake = ref(false)
-
-// watch([hoverTopHalf, hoverTopFake], ([h, f]) => {
-//     console.log(isDroppableItemActive.value)
-//     console.log('toptrigger')
-//     if (isDroppableItemActive.value) {
-//         if (h || f)
-//             showTopFake.value = true
-//         else {
-//             if (hoverBottomHalf.value && hoverBottomFake.value)
-//                 showTopFake.value = false
-//             else
-//                 setTimeout(() => showTopFake.value = false, 300)
-//         }
-//     } else showTopFake.value = false
-
-// })
-
-const showBottomFake = ref(false)
 const hoverBottomHalf = ref(false)
-const hoverBottomFake = ref(false)
 
-// watch([hoverBottomHalf, hoverBottomFake], ([h, f]) => {
-//     console.log(isDroppableItemActive.value)
-//     console.log('bottomtrigger')
-//     if (isDroppableItemActive.value) {
-//         if (h || f)
-//             showBottomFake.value = true
-//         else {
-//             if (hoverTopHalf.value && hoverTopFake.value)
-//                 showBottomFake.value = false
-//             else
-//                 setTimeout(() => showBottomFake.value = false, 300)
-//         }
-//     } else showBottomFake.value = false
-// })
-
-watch(isDroppableItemActive, (val) => {
-    if (!val) {
-        showBottomFake.value = false
-        showTopFake.value = false
-    }
+const dragging = ref(false)
+watch(dragging, (val) => {
+    const html = document.getElementsByTagName('html').item(0)
+    if (html != null)
+        html.classList.toggle('grabbing', val)
 })
 </script>
 
 <template>
-    <SharedDraggable :transfer-data="topic.id" class="draggable">
+    <SharedDraggable :transfer-data="transferData" class="draggable" @drag-started="dragging = true"
+        @drag-ended="dragging = false">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
-            <div class="item" :class="{ 'isDroppableItemActive': isDroppableItemActive }">
+            <div class="item" :class="{ 'isDroppableItemActive': isDroppableItemActive, 'dragging': dragging }">
                 <div>
-                    <!-- <div v-if="showTopFake" @dragover="hoverTopFake = true" @drageleave="hoverTopFake = false"> hello
-                        world</div> -->
 
+                    <div @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false" class="emptydropzone"
+                        :class="{ 'open': hoverTopHalf && !dragging }">
+                    </div>
 
                     <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
                         :parent-name="props.parentName">
-                        <div style="position:absolute; width: 100%; height: 50%; top: 0px; background:#3344BB20;"
-                            @dragover="hoverTopHalf = true" @mouseleave="hoverTopHalf = false"
-                            data-targetposition="before">
-                        </div>
-                        <div style="position:absolute; width: 100%; height: 50%; top: 50%; background:#99443320;"
-                            @dragover="hoverBottomHalf = true" @mouseleave="hoverBottomHalf = false"
-                            data-targetposition="after">
-                        </div>
+
+                        <div class="dropzone top" :class="{ 'hover': hoverTopHalf && !dragging }"
+                            @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
+                            data-targetposition="before"></div>
+                        <div class="dropzone bottom" :class="{ 'hover': hoverBottomHalf && !dragging }"
+                            @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
+                            data-targetposition="after"></div>
+
                     </TopicContentGridItem>
 
-                    <!-- <div v-if="showBottomFake" @dragover="hoverBottomFake = true" @drageleave="hoverBottomFake = false">
-                        hello hell
-                    </div> -->
-
+                    <div @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false" class="emptydropzone"
+                        :class="{ 'open': hoverBottomHalf && !dragging }">
+                    </div>
                 </div>
             </div>
         </SharedDroppable>
     </SharedDraggable>
-
-    <!-- <Draggable :key="index.toString() + item.id" class="draggable">
-        <div class="item">
-            {{ item.name }}
-
-            <Container @drop="emit('onDndDrop', { event: $event, targetPath: index })" group-name="test"
-                :get-child-payload="getPayload">
-                <TopicContentGridItem v-for="c, i in item.children" :item="c" :index="[...index, i]"
-                    @on-dnd-drop="emit('onDndDrop', $event)" />
-            </Container>
-        </div>
-    </Draggable> -->
 </template>
 
 <style lang="less" scoped>
-.draggable {
-    // transition: all 2s;
-    transform: scale(1);
+@import (reference) '~~/assets/includes/imports.less';
 
+.emptydropzone {
+    height: 0px;
+    transition: all 150ms ease-in;
+    opacity: 0;
+    background: @memo-green;
 
-    .item {
-        padding: 10px;
+    &.open {
+        height: 30px;
+        opacity: 1;
+    }
+}
 
-        &.open {}
+.dropzone {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    opacity: 0;
+    transition: all 150ms ease-in;
 
-        &.isDroppableItemActive {
-            background-color: lightpink;
-        }
+    &.top {
+        top: 0px;
+        background: @memo-green;
+        background: linear-gradient(180deg, rgba(175, 213, 52, 0.5) 0%, rgba(175, 213, 52, 0) 100%);
     }
 
-    .is-moving {
-        // transform: scale(0);
+    &.bottom {
+        top: 50%;
+        background: @memo-green;
+        background: linear-gradient(0deg, rgba(175, 213, 52, 0.5) 0%, rgba(175, 213, 52, 0) 100%);
+    }
+
+    &.hover {
+        opacity: 1;
+    }
+}
+
+
+.draggable {
+    transition: all 0.5s;
+
+    .item {
+        opacity: 1;
+
+        &.dragging {
+            opacity: 0.2;
+        }
     }
 }
 </style>
