@@ -27,7 +27,6 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 		throw createError({ statusMessage: context.error?.message })
 	}
 })
-console.log(currentUser, "currentUser from GetCurrentUser")
 if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)

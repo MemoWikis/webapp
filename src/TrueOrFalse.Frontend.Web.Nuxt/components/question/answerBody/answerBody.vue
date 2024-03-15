@@ -191,7 +191,6 @@ const flashCardAnswered = ref(false)
 const markFlashCardAsCorrect = ref(false)
 
 function answerFlashcard(isCorrect: boolean) {
-    console.log("answerFlashcard mark as correct", isCorrect);
     markFlashCardAsCorrect.value = isCorrect
     flashCardAnswered.value = true
     answer()
@@ -379,8 +378,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                             :is-in-wishknowledge="answerBodyModel.isInWishknowledge" />
                     </div>
                 </div>
-                <QuestionAnswerBodyOptions v-if="answerBodyModel" :id="answerBodyModel.id" :title="answerBodyModel.title"
-                    :can-edit="answerBodyModel.isCreator || userStore.isAdmin" />
+                <QuestionAnswerBodyOptions v-if="answerBodyModel" :id="answerBodyModel.id"
+                    :title="answerBodyModel.title" :can-edit="answerBodyModel.isCreator || userStore.isAdmin" />
 
             </div>
 
@@ -397,7 +396,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
             <div id="AnswerAndSolutionCol">
                 <div id="AnswerAndSolution">
-                    <div class="row" :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
+                    <div class="row"
+                        :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
                         <div id="AnswerInputSection">
                             <template v-if="answerBodyModel.solutionType != SolutionType.FlashCard">
                                 <Transition name="fade">
@@ -418,7 +418,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                 :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'"
                                 v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
-                                :solution="answerBodyModel.solution" :show-answer="showAnswer" @flipped="amountOfTries++" />
+                                :solution="answerBodyModel.solution" :show-answer="showAnswer"
+                                @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMultipleChoice :key="answerBodyModel.id + 'multiplechoice'"
                                 v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
                                 :solution="answerBodyModel.solution" :show-answer="showAnswer" ref="multipleChoice" />
@@ -473,8 +474,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                     </template>
 
                                     <div v-if="learningSessionStore.isLearningSession
-                                        && !learningSessionStore.isInTestMode && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)
-                                        ">
+        && !learningSessionStore.isInTestMode && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)
+        ">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
@@ -501,7 +502,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
                                     <div
                                         v-else-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state == AnswerState.Skipped)">
-                                        <button @click="loadResult()" class="btn btn-primary memo-button" rel="nofollow">
+                                        <button @click="loadResult()" class="btn btn-primary memo-button"
+                                            rel="nofollow">
                                             Zum Ergebnis
                                         </button>
                                     </div>
@@ -526,7 +528,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                 </div>
 
                                 <div id="AnswerFeedbackAndSolutionDetails">
-                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard" id="AnswerFeedback">
+                                    <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
+                                        id="AnswerFeedback">
                                         <div id="divAnsweredCorrect" v-if="answerIsCorrect">
                                             <b class="correct-answer-label">Richtig! </b>
                                             <SharedRawHtml v-if="wellDoneMsg.length > 0" :html="wellDoneMsg" />
@@ -570,7 +573,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                                 Ergänzungen zur Antwort:
                                             </div>
 
-                                            <SharedRawHtml class="Content body-m" :html="solutionData.answerDescription" />
+                                            <SharedRawHtml class="Content body-m"
+                                                :html="solutionData.answerDescription" />
                                         </div>
                                     </div>
                                 </div>

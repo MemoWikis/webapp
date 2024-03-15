@@ -1,34 +1,32 @@
 <script lang="ts" setup>
+
 interface Props {
     transferData: any
     disabled?: boolean
 }
 const props = defineProps<Props>()
+const nuxtApp = useNuxtApp()
 function handleDragStart(event: any) {
     event.dataTransfer.setData('value', props.transferData)
-    emit('dragStarted')
-
-    if (document != null)
-        document.body.classList.add('dnd-grabbing')
+    emit('selfDragStarted')
+    nuxtApp.provide('dragstarted', true)
 }
 
 function handleDragEnd(event: any) {
     emit('dragEnded')
-
-    if (document != null)
-        document.body.classList.remove('dnd-grabbing')
+    nuxtApp.provide('dragstarted', false)
 }
-const emit = defineEmits(['dragEnded', 'dragStarted'])
+const emit = defineEmits(['dragEnded', 'selfDragStarted'])
 </script>
 
 <template>
-    <span :draggable="!disabled" @dragstart="handleDragStart" @dragend="handleDragEnd">
+    <span :draggable="!disabled" @dragstart="handleDragStart" @dragend="handleDragEnd" class="draggable">
         <slot />
     </span>
 </template>
 
 <style lang="less">
-.dnd-grabbing {
-    cursor: grabbing !important;
+.draggable {
+    cursor: grab;
 }
 </style>

@@ -45,48 +45,41 @@ async function onDrop(event: any) {
     editTopicRelationStore.moveTopic(movingTopicId, targetId, position, oldParentId, props.parentId)
 }
 
-watch(isDroppableItemActive, (val) => {
-    console.log(val)
-})
-
 const hoverTopHalf = ref(false)
 const hoverBottomHalf = ref(false)
 
 const dragging = ref(false)
-watch(dragging, (val) => {
-    const html = document.getElementsByTagName('html').item(0)
-    if (html != null)
-        html.classList.toggle('grabbing', val)
-})
+
+const nuxtApp = useNuxtApp()
+watch(dragging, val => console.log(val))
 </script>
 
 <template>
-    <SharedDraggable :transfer-data="transferData" class="draggable" @drag-started="dragging = true"
+    <SharedDraggable :transfer-data="transferData" class="draggable" @self-drag-started.stop="dragging = true"
         @drag-ended="dragging = false">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
-                <div>
 
-                    <div @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false" class="emptydropzone"
-                        :class="{ 'open': hoverTopHalf && !dragging }">
+                <div v-if="nuxtApp.$dragstarted" @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
+                    class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
+                </div>
+
+                <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
+                    :parent-name="props.parentName" :active-dragging="nuxtApp.$dragstarted">
+
+                    <div v-if="nuxtApp.$dragstarted" class="dropzone top"
+                        :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
+                        @dragleave="hoverTopHalf = false" data-targetposition="before">
                     </div>
+                    <div v-if="nuxtApp.$dragstarted" class="dropzone bottom"
+                        :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
+                        @dragleave="hoverBottomHalf = false" data-targetposition="after"></div>
 
-                    <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
-                        :parent-name="props.parentName">
+                </TopicContentGridItem>
 
-                        <div class="dropzone top" :class="{ 'hover': hoverTopHalf && !dragging }"
-                            @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
-                            data-targetposition="before"></div>
-                        <div class="dropzone bottom" :class="{ 'hover': hoverBottomHalf && !dragging }"
-                            @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
-                            data-targetposition="after"></div>
-
-                    </TopicContentGridItem>
-
-                    <div @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false" class="emptydropzone"
-                        :class="{ 'open': hoverBottomHalf && !dragging }">
-                    </div>
+                <div v-if="nuxtApp.$dragstarted" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
+                    class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging }">
                 </div>
             </div>
         </SharedDroppable>

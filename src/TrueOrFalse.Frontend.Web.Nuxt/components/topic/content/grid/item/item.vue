@@ -119,9 +119,7 @@ async function addTopic(newTopic: boolean) {
 editTopicRelationStore.$onAction(({ after, name }) => {
     if (name == 'addTopic') {
         after((result) => {
-            console.log(result)
             if (result.parentId == props.topic.id) {
-                console.log('pId is rId')
                 if (children.value.some(c => c.id == result.childId))
                     reloadGridItem(result.childId)
                 else
