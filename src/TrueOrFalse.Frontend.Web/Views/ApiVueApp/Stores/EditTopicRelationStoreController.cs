@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -91,6 +92,9 @@ public class EditTopicRelationStoreController : BaseController
     [HttpPost]
     public JsonResult MoveTopic([FromBody] MoveTopicJson json)
     {
+        if (!_sessionUser.IsLoggedIn)
+            throw new Exception("NotLoggedIn");
+
         var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
             .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();
 

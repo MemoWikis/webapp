@@ -214,6 +214,16 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         },
 
         async moveTopic(movingTopicId: number, targetId: number, position: string, newParentId: number, oldParentId: number) {
+
+            const userStore = useUserStore()
+
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                // const alertStore = useAlertStore()
+                // alertStore.openAlert(AlertType.Error, { text: messages.error.category.missingRights })
+                return
+            }
+
             const data = {
                 movingTopicId: movingTopicId,
                 targetId: targetId,

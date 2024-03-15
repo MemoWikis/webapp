@@ -132,7 +132,7 @@ class EntityCache_tests : BaseTest
     }
 
     [Test]
-    public void Should_get_all_children_even_if_relations_are_faulty()
+    public void Should_get_children_even_if_relations_are_faulty()
     {
 
     }

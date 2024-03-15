@@ -45,6 +45,10 @@ async function onDrop(event: any) {
     editTopicRelationStore.moveTopic(movingTopicId, targetId, position, oldParentId, props.parentId)
 }
 
+watch(isDroppableItemActive, (val) => {
+    console.log(val)
+})
+
 const hoverTopHalf = ref(false)
 const hoverBottomHalf = ref(false)
 
@@ -61,7 +65,7 @@ watch(dragging, (val) => {
         @drag-ended="dragging = false">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
-            <div class="item" :class="{ 'isDroppableItemActive': isDroppableItemActive, 'dragging': dragging }">
+            <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
                 <div>
 
                     <div @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false" class="emptydropzone"
@@ -114,13 +118,13 @@ watch(dragging, (val) => {
     &.top {
         top: 0px;
         background: @memo-green;
-        background: linear-gradient(180deg, rgba(175, 213, 52, 0.5) 0%, rgba(175, 213, 52, 0) 100%);
+        background: linear-gradient(180deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 10%, rgba(175, 213, 52, 0.33) 25%, rgba(175, 213, 52, 0) 50%);
     }
 
     &.bottom {
         top: 50%;
         background: @memo-green;
-        background: linear-gradient(0deg, rgba(175, 213, 52, 0.5) 0%, rgba(175, 213, 52, 0) 100%);
+        background: linear-gradient(0deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 10%, rgba(175, 213, 52, 0.33) 25%, rgba(175, 213, 52, 0) 50%);
     }
 
     &.hover {
@@ -138,6 +142,7 @@ watch(dragging, (val) => {
         &.dragging {
             opacity: 0.2;
         }
+
     }
 }
 </style>
