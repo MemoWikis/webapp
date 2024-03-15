@@ -2,15 +2,16 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
+using static CategoryDeleter;
 
 public class DeleteTopicStoreController(
     SessionUser sessionUser,
     CategoryDeleter categoryDeleter) : BaseController(sessionUser)
 {
-    public record DeleteData(string Name, bool HasChildren); 
+    public readonly record struct DeleteData(string Name, bool HasChildren); 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public OkObjectResult GetDeleteData([FromRoute] int id)
+    public DeleteData GetDeleteData([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         var children = GraphService.Descendants(id);
@@ -18,15 +19,10 @@ public class DeleteTopicStoreController(
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        return Ok(new DeleteData(topic.Name, hasChildren));
+        return new DeleteData(topic.Name, hasChildren);
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public OkObjectResult Delete([FromRoute] int id)
-    {
-        var result = categoryDeleter.DeleteTopic(id); 
-
-        return Ok(result);
-    }
+    public DeleteTopicResult Delete([FromRoute] int id) => categoryDeleter.DeleteTopic(id);
 }
