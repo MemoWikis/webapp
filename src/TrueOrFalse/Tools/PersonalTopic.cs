@@ -2,17 +2,9 @@
 {
     public static Category GetPersonalCategory(User user, CategoryRepository categoryRepo)
     {
-        var wikiName = user.Name + "s Wiki";
-        var counter = 1;
-        while (categoryRepo.Exists(wikiName))
-    {
-            wikiName = user.Name + "s Wiki (" + counter + ")";
-            counter++;
-        }
-            
         return new Category
         {
-            Name = wikiName,
+            Name = user.Name + "s Wiki",
             Content = PersonalCategoryContent,
             Visibility = CategoryVisibility.Owner,
             Creator = user,

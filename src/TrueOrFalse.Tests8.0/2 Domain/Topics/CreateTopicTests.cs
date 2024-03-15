@@ -14,6 +14,8 @@
             var childName = "child";
             R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
 
+            RecycleContainer();
+
             var childFromDatabase = R<CategoryRepository>().GetByName(childName).Single();
             DateTime referenceDate = DateTime.Now;
 

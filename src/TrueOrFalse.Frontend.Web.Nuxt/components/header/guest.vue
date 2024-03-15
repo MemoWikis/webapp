@@ -53,7 +53,7 @@ const rootTopicChipStore = useRootTopicChipStore()
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
-                        :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.Name!, userStore.personalWiki?.Id!) : $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)"
+                        :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)"
                         alt="homepage">
                         <div id="Logo">
                             <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />

@@ -367,7 +367,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                 </div>
                 <div>
                     <div class="categorySearchAutocomplete mb-250" v-if="editTopicRelationStore.personalWiki != null"
-                        @click="selectedParentInWikiId = userStore.personalWiki?.Id ?? 0">
+                        @click="selectedParentInWikiId = userStore.personalWiki?.id ?? 0">
                         <div class="searchResultItem"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editTopicRelationStore.personalWiki.Id }">
                             <img :src="editTopicRelationStore.personalWiki.MiniImageUrl" />

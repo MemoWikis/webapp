@@ -4,7 +4,7 @@ import { useUserStore } from '~~/components/user/userStore'
 const userStore = useUserStore()
 
 if (userStore.isLoggedIn) {
-    await navigateTo(`${userStore.personalWiki?.Name}/${userStore.personalWiki?.Id}`)
+    await navigateTo(`${userStore.personalWiki?.name}/${userStore.personalWiki?.id}`)
 } else {
     await navigateTo(`/Globales-Wiki/1`)
 }

@@ -60,12 +60,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
             .ConfigureAwait(false));
     }
 
-
-    public bool Exists(string categoryName)
-    {
-        return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
-    }
-
     public IList<Category> GetAllEager()
     {
         return GetByIdsEager();

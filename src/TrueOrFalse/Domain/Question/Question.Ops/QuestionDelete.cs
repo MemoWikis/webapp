@@ -40,17 +40,19 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
 
     public CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)
     {
-        var questionCreator = question.Creator;
         if (_permissionCheck.CanDelete(question))
         {
-            var howOftenInOtherPeopleWuwi = _questionValuationReadingRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
-            if (howOftenInOtherPeopleWuwi > 0)
+            if (!_sessionUser.IsInstallationAdmin)
             {
-                return new CanBeDeletedResult
+                var howOftenInOtherPeopleWuwi = _questionValuationReadingRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
+                if (howOftenInOtherPeopleWuwi > 0)
                 {
-                    Yes = false,
-                    WuwiCount = howOftenInOtherPeopleWuwi
-                };
+                    return new CanBeDeletedResult
+                    {
+                        Yes = false,
+                        WuwiCount = howOftenInOtherPeopleWuwi
+                    };
+                }
             }
 
             return new CanBeDeletedResult { Yes = true };

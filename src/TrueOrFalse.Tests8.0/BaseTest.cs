@@ -2,7 +2,6 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
@@ -121,7 +120,6 @@ public class BaseTest
             .Add(_sessionUser)
             .Persist();
     }
-
 
     public static T Resolve<T>() where T : notnull => _container.Resolve<T>();
     public static T R<T>() where T : notnull => _container.Resolve<T>();

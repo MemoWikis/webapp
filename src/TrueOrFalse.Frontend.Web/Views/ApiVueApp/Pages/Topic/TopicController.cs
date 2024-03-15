@@ -16,12 +16,12 @@ public class TopicController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetTopic([FromRoute] int id)
+    public OkObjectResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-
-        return Json(_topicControllerLogic.GetTopicData(id));
+        var data = Ok(_topicControllerLogic.GetTopicData(id));
+        return data; 
     }
 }
 

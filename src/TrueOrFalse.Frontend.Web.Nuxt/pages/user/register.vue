@@ -147,7 +147,7 @@ async function register() {
     const result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
     if (result == 'success' && userStore.personalWiki)
-        return navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+        return navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id))
     else if (result)
         errorMessage.value = result
 }

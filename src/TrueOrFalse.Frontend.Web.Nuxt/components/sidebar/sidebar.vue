@@ -19,7 +19,7 @@ const { $urlHelper } = useNuxtApp()
             <div id="SidebarSpacer"></div>
             <SidebarCard>
                 <template v-slot:header>
-                    <NuxtLink :to="$urlHelper.getTopicUrl(props.documentation.Name, props.documentation.Id)"
+                    <NuxtLink :to="$urlHelper.getTopicUrl(props.documentation.name, props.documentation.id)"
                         class="sidebar-link">
                         Zur Dokumentation
                     </NuxtLink>
