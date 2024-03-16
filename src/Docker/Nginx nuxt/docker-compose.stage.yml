@@ -17,10 +17,7 @@ services:
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
       - environment-specific-network
-  redis:
-    deploy:
-      restart_policy:
-        condition: always
+
 networks:
   environment-specific-network:
     name: mem-stage
