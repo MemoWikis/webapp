@@ -33,9 +33,6 @@ services:
       - Meilisearch__MeiliSearchMasterKey=${MEILISEARCH_MASTER_KEY:-error}
       - Email__EmailFrom=${EMAIL_FROM:-error}
       - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
-    deploy:
-      restart_policy:
-        condition: always
       
 networks:
   environment-specific-network:
