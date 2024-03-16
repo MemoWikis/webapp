@@ -17,6 +17,7 @@ services:
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
       - environment-specific-network
+    restart: always
 
 networks:
   environment-specific-network:

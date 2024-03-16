@@ -23,6 +23,7 @@ services:
       - NUXT_PUBLIC_STRIPE_PLUS_PRICE_ID=${NUXT_PUBLIC_STRIPE_PLUS_PRICE_ID}
       - NUXT_PUBLIC_STRIPE_KEY=${NUXT_PUBLIC_STRIPE_KEY}
       - NUXT_PUBLIC_FACEBOOK_APP_ID=${NUXT_PUBLIC_FACEBOOK_APP_ID}
+    restart: always
 
 networks:
   environment-specific-network:
