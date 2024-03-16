@@ -79,7 +79,7 @@ const userStore = useUserStore()
             <template v-if="tabsStore.activeTab == Tab.Topic">
                 <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged">
                     <div class="toolbar"
-                        :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand }"
+                        :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand, 'not-logged-in': !userStore.isLoggedIn }"
                         z>
                         <div class="toolbar-btn-container">
                             <div class="btn-left">
@@ -98,24 +98,28 @@ const userStore = useUserStore()
                             </div>
 
                             <div class="btn-right" v-show="topicStore.contentHasChanged" v-else>
-                                <div class="button" @click.prevent="topicStore.saveTopic()" :class="{ expanded: editMode }">
-                                    <div class="icon">
-                                        <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                                <template v-if="userStore.isLoggedIn">
+                                    <div class="button" @click.prevent="topicStore.saveTopic()"
+                                        :class="{ expanded: editMode }">
+                                        <div class="icon">
+                                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                                        </div>
+                                        <div class="btn-label">
+                                            Speichern
+                                        </div>
                                     </div>
-                                    <div class="btn-label">
-                                        Speichern
-                                    </div>
-                                </div>
 
-                                <div class="button" @click.prevent="topicStore.resetContent()"
-                                    :class="{ expanded: editMode }">
-                                    <div class="icon">
-                                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                                    <div class="button" @click.prevent="topicStore.resetContent()"
+                                        :class="{ expanded: editMode }">
+                                        <div class="icon">
+                                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                                        </div>
+                                        <div class="btn-label">
+                                            Verwerfen
+                                        </div>
                                     </div>
-                                    <div class="btn-label">
-                                        Verwerfen
-                                    </div>
-                                </div>
+                                </template>
+
                             </div>
 
                         </div>
@@ -362,6 +366,11 @@ const userStore = useUserStore()
             min-width: 1px;
             width: 100%;
             position: fixed;
+
+            &.not-logged-in {
+                background-color: @memo-yellow;
+                // color: white;
+            }
 
             @media (min-width: 1200px) {
                 transform-origin: 65% 25%;
