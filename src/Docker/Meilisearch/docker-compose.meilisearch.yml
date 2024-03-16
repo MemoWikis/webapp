@@ -8,3 +8,7 @@ services:
       - "${MEILI_PORT}:7700"
     volumes:
       - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
+  redis:
+    deploy:
+      restart_policy:
+        condition: always
