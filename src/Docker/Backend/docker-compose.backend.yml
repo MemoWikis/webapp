@@ -34,7 +34,7 @@ services:
       - Email__EmailFrom=${EMAIL_FROM:-error}
       - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
     restart: always
-
+    
 networks:
   environment-specific-network:
     name: mem-${MEM_ENVIRONMENT:-stage}
