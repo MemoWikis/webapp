@@ -17,7 +17,6 @@ services:
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
       - environment-specific-network
-  redis:
     deploy:
       restart_policy:
         condition: always
