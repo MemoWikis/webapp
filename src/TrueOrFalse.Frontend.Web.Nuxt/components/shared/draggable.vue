@@ -1,21 +1,24 @@
 <script lang="ts" setup>
-
+import { useDragStore } from './dragStore'
 interface Props {
     transferData: any
     disabled?: boolean
 }
 const props = defineProps<Props>()
-const nuxtApp = useNuxtApp()
+const dragStore = useDragStore()
+
 function handleDragStart(event: any) {
     event.dataTransfer.setData('value', props.transferData)
     emit('selfDragStarted')
-    nuxtApp.provide('dragstarted', true)
+    dragStore.dragStart()
 }
 
-function handleDragEnd(event: any) {
+function handleDragEnd() {
     emit('dragEnded')
-    nuxtApp.provide('dragstarted', false)
+    dragStore.dragEnd()
+
 }
+
 const emit = defineEmits(['dragEnded', 'selfDragStarted'])
 </script>
 

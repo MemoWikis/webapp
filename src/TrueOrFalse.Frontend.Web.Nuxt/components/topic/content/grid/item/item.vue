@@ -23,6 +23,7 @@ interface Props {
     toggleState: ToggleState
     parentId: number
     parentName: string
+    isDragging: boolean
 }
 
 const props = defineProps<Props>()
@@ -212,13 +213,20 @@ async function reloadGridItem(id: number) {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
+const dragActive = ref(false)
+watch(() => props.isDragging, (val) => {
+    dragActive.value = val
+}, { immediate: true })
+
 </script>
 
 <template>
     <div class="grid-item" @click="expanded = !expanded"
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
-        <slot></slot>
+        <slot name="topdropzone"></slot>
+        <slot name="bottomdropzone" v-if="!expanded"></slot>
+
         <div class="grid-item-caret-container">
             <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
@@ -253,7 +261,7 @@ async function reloadGridItem(id: number) {
             :parent-name="props.parentName" />
     </div>
 
-    <div v-if="props.topic.childrenCount > 0 && expanded" class="grid-item-children">
+    <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
         <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
             :parent-id="props.topic.id" :parent-name="props.topic.name" />
     </div>
@@ -282,7 +290,6 @@ async function reloadGridItem(id: number) {
     }
 
     .grid-item-caret-container {
-        cursor: pointer;
         width: 32px;
         height: 100%;
         min-height: 40px;
@@ -307,7 +314,6 @@ async function reloadGridItem(id: number) {
     }
 
     .grid-item-body-container {
-        cursor: pointer;
         display: flex;
         justify-content: flex-start;
         flex-wrap: nowrap;
@@ -336,7 +342,6 @@ async function reloadGridItem(id: number) {
     }
 
     &.no-children {
-        cursor: default;
 
         &:hover {
             filter: brightness(1)

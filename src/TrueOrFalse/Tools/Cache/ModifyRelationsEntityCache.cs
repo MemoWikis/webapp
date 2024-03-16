@@ -87,8 +87,8 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId);
         var updatedOldOrder = Remove(relation, oldParentId, authorId);
+        var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -105,8 +105,8 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId);
         var updatedOldOrder = Remove(relation, oldParentId, authorId);
+        var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -132,6 +132,7 @@ public class ModifyRelationsEntityCache
                 nextRelation.PreviousId = relationIndex > 0 ? relations[relationIndex - 1].ChildId : (int?)null;
                 changedRelations.Add(nextRelation);
             }
+
             relations.RemoveAt(relationIndex);
 
             JobScheduler.StartImmediately_ModifyTopicRelations(changedRelations, authorId);
