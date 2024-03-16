@@ -33,7 +33,11 @@ services:
       - Meilisearch__MeiliSearchMasterKey=${MEILISEARCH_MASTER_KEY:-error}
       - Email__EmailFrom=${EMAIL_FROM:-error}
       - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
-      
+    restart_policy:
+      condition: always
+      delay: 5s
+      window: 30s
+
 networks:
   environment-specific-network:
     name: mem-${MEM_ENVIRONMENT:-stage}
