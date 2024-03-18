@@ -331,6 +331,10 @@ watch(() => props.isDragging, (val) => {
 
             .item-name {
                 font-size: 18px;
+
+                a {
+                    cursor: pointer;
+                }
             }
 
             .item-detaillabel {

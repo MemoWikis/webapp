@@ -12,17 +12,20 @@ public class EditTopicRelationStoreController : BaseController
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly EditControllerLogic _editControllerLogic;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly PermissionCheck _permissionCheck;
 
     public EditTopicRelationStoreController(SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         EditControllerLogic editControllerLogic,
-        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
+        QuestionReadingRepo questionReadingRepo,
+        PermissionCheck permissionCheck) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _editControllerLogic = editControllerLogic;
         _questionReadingRepo = questionReadingRepo;
+        _permissionCheck = permissionCheck;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -94,6 +97,10 @@ public class EditTopicRelationStoreController : BaseController
     {
         if (!_sessionUser.IsLoggedIn)
             throw new Exception("NotLoggedIn");
+
+        if (!_permissionCheck.CanEditCategory(json.movingTopicId))
+            throw new Exception("NoRights");
+
 
         //var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
         //    .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();

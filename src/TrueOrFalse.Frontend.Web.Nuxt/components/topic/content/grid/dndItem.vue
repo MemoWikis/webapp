@@ -45,7 +45,6 @@ const hoverBottomHalf = ref(false)
 const dragging = ref(false)
 
 function handleDragStart(event: any) {
-    console.log('dragstart')
     const data = JSON.stringify({
         movingTopicId: props.topic.id,
         oldParentId: props.parentId
@@ -59,10 +58,15 @@ function handleDragStart(event: any) {
 //     if (!val)
 //         dragging.value = false
 // })
+
+function handleDragEnd() {
+    dragging.value = false
+    dragStore.dragEnd()
+}
 </script>
 
 <template>
-    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="dragging = false" :draggable="true">
+    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
