@@ -33,7 +33,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 Logg.r.Information("Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}", r.Id, r.ChildId, r.ParentId);
 
-                var relationToUpdate = _categoryRelationRepo.GetById(r.Id);
+                var relationToUpdate = r.Id > 0 ? _categoryRelationRepo.GetById(r.Id) : null;
                 var child = _categoryRepository.GetById(r.ChildId);
                 var parent = _categoryRepository.GetById(r.ParentId);
 
@@ -50,7 +50,6 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     var relation = new CategoryRelation
                     {
-                        Id = r.Id,
                         Child = child,
                         Parent = parent,
                         PreviousId = r.PreviousId,

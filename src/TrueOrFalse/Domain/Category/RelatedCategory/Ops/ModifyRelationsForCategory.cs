@@ -81,4 +81,29 @@ public class ModifyRelationsForCategory
 
         return true;
     }
+
+    public CategoryRelation AddChild(int parentId, int childId, CategoryCacheRelation previousCacheRelation)
+    {
+        var child = _categoryRepository.GetById(childId);
+        var parent = _categoryRepository.GetById(parentId);
+
+        var relation = new CategoryRelation
+        {
+            Child = child,
+            Parent = parent,
+            PreviousId = previousCacheRelation != null ? previousCacheRelation.ChildId : null,
+            NextId = null,
+        };
+
+        _categoryRelationRepo.Create(relation);
+
+        if (previousCacheRelation != null)
+        {
+            var previousRelation = _categoryRelationRepo.GetById(previousCacheRelation.Id);
+            previousRelation.NextId = childId;
+
+            _categoryRelationRepo.Update(previousRelation);
+        }
+        return relation;
+    }
 }

@@ -178,8 +178,12 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var newRelation = ModifyRelationsEntityCache.AddChild(parentId, childId);
-        JobScheduler.StartImmediately_ModifyTopicRelations(new List<CategoryCacheRelation>{newRelation}, _sessionUser.UserId);
+        var previousRelation = parent.ChildRelations.LastOrDefault();
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var relation = modifyRelationsForCategory.AddChild(parentId, childId, previousRelation);
+        ModifyRelationsEntityCache.AddChild(relation);
+
+        //JobScheduler.StartImmediately_ModifyTopicRelations(new List<CategoryCacheRelation>{newRelation}, _sessionUser.UserId);
 
         EntityCache.GetCategory(parentId).ChildrenIds = GraphService.Children(parentId).Select(cci => cci.Id).ToList();
 

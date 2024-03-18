@@ -64,6 +64,16 @@ public class ModifyRelationsEntityCache
         return newRelation;
     }
 
+    public static CategoryCacheRelation AddChild(CategoryRelation categoryRelation)
+    {
+        var newRelation = CategoryCacheRelation.ToCategoryCacheRelation(categoryRelation);
+        EntityCache.AddOrUpdate(newRelation);
+        EntityCache.GetCategory(newRelation.ParentId).ChildRelations.Add(newRelation);
+        EntityCache.GetCategory(newRelation.ChildId).ParentRelations.Add(newRelation);
+
+        return newRelation;
+    }
+
     public static bool CanBeMoved(int childId, int parentId)
     {
         var child = EntityCache.GetCategory(childId);

@@ -102,18 +102,18 @@ public class EditTopicRelationStoreController : BaseController
             throw new Exception("NoRights");
 
 
-        //var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
-        //    .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();
+        var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
+            .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();
 
-        //if (relationToMove != null)
-        //{
-        //    if (json.position == "before")
-        //        ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
-        //            json.oldParentId, _sessionUser.UserId);
-        //    else if (json.position == "after")
-        //        ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
-        //            json.oldParentId, _sessionUser.UserId);
-        //}
+        if (relationToMove != null)
+        {
+            if (json.position == "before")
+                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
+                    json.oldParentId, _sessionUser.UserId);
+            else if (json.position == "after")
+                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
+                    json.oldParentId, _sessionUser.UserId);
+        }
 
         return Json(new
         {
@@ -122,7 +122,7 @@ public class EditTopicRelationStoreController : BaseController
             position = json.position,
             newParentId = json.newParentId,
             oldParentId = json.oldParentId,
-            //relationTomove = relationToMove
+            //relationToMove = relationToMove
         });
     }
 

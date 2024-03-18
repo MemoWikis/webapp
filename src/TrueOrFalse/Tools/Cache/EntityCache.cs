@@ -206,6 +206,12 @@ public class EntityCache
         RemoveQuestionFrom(CategoryQuestionsList, question);
     }
 
+    public static void AddOrUpdate(CategoryCacheRelation categoryCacheRelation)
+    {
+        AddOrUpdate(Relations, categoryCacheRelation);
+
+    }
+
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
     {
         AddOrUpdate(Categories, categoryCacheItem);
@@ -254,6 +260,12 @@ public class EntityCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
+
+    private static void AddOrUpdate(ConcurrentDictionary<int, CategoryCacheRelation> objectToCache, CategoryCacheRelation obj)
+    {
+        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
+    }
+
     private static void AddOrUpdate(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
@@ -265,6 +277,11 @@ public class EntityCache
     }
 
     private static void Remove(ConcurrentDictionary<int, UserCacheItem> objectToCache, UserCacheItem obj)
+    {
+        objectToCache.TryRemove(obj.Id, out _);
+    }
+
+    private static void Remove(ConcurrentDictionary<int, CategoryCacheRelation> objectToCache, CategoryCacheRelation obj)
     {
         objectToCache.TryRemove(obj.Id, out _);
     }
@@ -316,6 +333,13 @@ public class EntityCache
     {
         Questions.TryGetValue(questionId, out var question);
         return question;
+    }
+
+    public static CategoryCacheRelation? GetRelation(int relationId)
+    {
+        if (Relations == null) return null;
+        Relations.TryGetValue(relationId, out var relation);
+        return relation;
     }
 
     public static void Clear()
