@@ -343,22 +343,22 @@ watch(() => props.isDragging, (val) => {
 
     &.no-children {
 
-        &:hover {
-            filter: brightness(1)
-        }
+        // &:hover {
+        //     filter: brightness(1)
+        // }
 
-        &:active {
-            filter: brightness(1)
-        }
+        // &:active {
+        //     filter: brightness(1)
+        // }
 
-        .grid-item-caret-container {
-            color: @memo-grey-light;
-            cursor: default;
-        }
+        // .grid-item-caret-container {
+        //     color: @memo-grey-light;
+        //     cursor: default;
+        // }
 
-        .grid-item-body-container {
-            cursor: default;
-        }
+        // .grid-item-body-container {
+        //     cursor: default;
+        // }
     }
 }
 

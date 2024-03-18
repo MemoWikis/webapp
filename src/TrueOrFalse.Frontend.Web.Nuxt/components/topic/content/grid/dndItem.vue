@@ -16,15 +16,6 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-const transferData = ref('')
-
-onBeforeMount(() => {
-    transferData.value = JSON.stringify({
-        movingTopicId: props.topic.id,
-        oldParentId: props.parentId
-    })
-})
-
 const isDroppableItemActive = ref(false)
 function onDragOver() {
     isDroppableItemActive.value = true
@@ -53,19 +44,25 @@ const hoverBottomHalf = ref(false)
 
 const dragging = ref(false)
 
-function handleDragStart() {
+function handleDragStart(event: any) {
+    console.log('dragstart')
+    const data = JSON.stringify({
+        movingTopicId: props.topic.id,
+        oldParentId: props.parentId
+    })
+    event.dataTransfer.setData('value', data)
+    dragStore.dragStart()
     dragging.value = true
 }
 
-watch(() => dragStore.active, (val) => {
-    if (!val)
-        dragging.value = false
-})
+// watch(() => dragStore.active, (val) => {
+//     if (!val)
+//         dragging.value = false
+// })
 </script>
 
 <template>
-    <SharedDraggable :transfer-data="transferData" class="draggable" @self-drag-started="handleDragStart"
-        @drag-ended="dragging = false">
+    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="dragging = false" :draggable="true">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
@@ -112,7 +109,7 @@ watch(() => dragStore.active, (val) => {
                 </div>
             </div>
         </SharedDroppable>
-    </SharedDraggable>
+    </div>
 </template>
 
 <style lang="less" scoped>
