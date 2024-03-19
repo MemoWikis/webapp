@@ -132,21 +132,17 @@ public class GraphService
         return allDescendants.ToList();
     }
 
-    public static List<CategoryCacheItem> Children(CategoryCacheItem category) => Children(category.Id);
-    public static List<CategoryCacheItem> Children(int categoryId)
+    public static List<CategoryCacheItem> Children(CategoryCacheItem category)
     {
-        var childrenIds = EntityCache.Categories.Values
-            .SelectMany(c => c.ParentRelations)
-            .Where(cr => cr.ParentId == categoryId)
-            .Select(cr => cr.ChildId)
-            .Distinct();
-
+        var childrenIds = category.ChildRelations.Select(r => r.ChildId);
         var children = childrenIds
             .Select(id => EntityCache.Categories.TryGetValue(id, out var childCategory) ? childCategory : null)
             .Where(c => c != null)
             .ToList();
         return children;
     }
+
+    public static List<CategoryCacheItem> Children(int categoryId) => Children(EntityCache.GetCategory(categoryId));
 
     public static IList<CategoryCacheItem> Descendants(int parentId)
     {

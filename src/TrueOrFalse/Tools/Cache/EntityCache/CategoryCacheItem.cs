@@ -36,8 +36,6 @@ public class CategoryCacheItem : IPersistable
     public virtual DateTime DateCreated { get; set; }
     public virtual string Description { get; set; }
 
-    public virtual IList<int> ChildrenIds { get; set; }
-
     public virtual bool DisableLearningFunctions { get; set; }
 
     public virtual int FormerSetId { get; set; }
@@ -234,27 +232,22 @@ public class CategoryCacheItem : IPersistable
         Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
     {
         var visibleVisited = new Dictionary<int, CategoryCacheItem>();
-        if (parentCacheItem.ChildrenIds == null)
-        {
-            parentCacheItem.ChildrenIds = GraphService.Children(parentCacheItem).Select(cci => cci.Id).ToList();
-            EntityCache.AddOrUpdate(parentCacheItem);
-        }
 
         if (_previousVisibleVisited != null)
         {
             visibleVisited = _previousVisibleVisited;
         }
 
-        if (parentCacheItem.ChildrenIds != null)
+        if (parentCacheItem.ChildRelations != null)
         {
-            foreach (var childId in parentCacheItem.ChildrenIds)
+            foreach (var r in parentCacheItem.ChildRelations)
             {
-                if (!visibleVisited.ContainsKey(childId))
+                if (!visibleVisited.ContainsKey(r.ChildId))
                 {
-                    var child = EntityCache.GetCategory(childId);
+                    var child = EntityCache.GetCategory(r.ChildId);
                     if (permissionCheck.CanView(child))
                     {
-                        visibleVisited.Add(childId, child);
+                        visibleVisited.Add(r.ChildId, child);
                         VisibleChildCategories(child, permissionCheck, visibleVisited);
                     }
                 }

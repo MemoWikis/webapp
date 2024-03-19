@@ -38,14 +38,9 @@ public class CategoryCreator : IRegisterAsInstancePerLifetime
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
 
-        var parent = EntityCache.GetCategory(parentTopicId);
         var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        var previousRelation = parent.ChildRelations.LastOrDefault();
-        var relation = modifyRelationsForCategory.AddChild(parentTopicId, topic.Id, previousRelation);
-        ModifyRelationsEntityCache.AddChild(relation); 
+        modifyRelationsForCategory.AddChild(parentTopicId, topic.Id);
         
-        //JobScheduler.StartImmediately_ModifyTopicRelations(new List<CategoryCacheRelation> { newRelation }, sessionUser.UserId);
-
         return new RequestResult
         {
             success = true,
