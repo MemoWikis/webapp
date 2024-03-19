@@ -58,21 +58,11 @@ public class ContextCategory : BaseTest
 
     public ContextCategory AddChild(Category parent, Category child)
     {
-        var parentFromDb = _categoryRepository.GetById(parent.Id);
-        var childFromDb = _categoryRepository.GetById(child.Id);
-
-        var newRelation = new CategoryRelation
-        {
-            Child = childFromDb,
-            Parent = parentFromDb,
-        };
-
-        R<CategoryRelationRepo>().Create(newRelation);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
+        modifyRelationsForCategory.AddChild(parent.Id, child.Id);
 
         return this;
     }
-
-
 
     public ContextCategory AddToEntityCache(Category category)
     {
