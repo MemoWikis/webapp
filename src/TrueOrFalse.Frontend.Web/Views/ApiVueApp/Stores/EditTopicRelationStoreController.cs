@@ -113,11 +113,9 @@ public class EditTopicRelationStoreController : BaseController
             var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
             if (json.position == "before")
-                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
-                    json.oldParentId, _sessionUser.UserId, modifyRelationsForCategory);
+                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
             else if (json.position == "after")
-                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
-                    json.oldParentId, _sessionUser.UserId, modifyRelationsForCategory);
+                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
         }
 
         return Json(new

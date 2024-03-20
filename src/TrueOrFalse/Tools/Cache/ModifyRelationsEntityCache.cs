@@ -22,17 +22,6 @@ public class ModifyRelationsEntityCache
         }
     }
 
-    public static void AddParent(int childId, int parentId) => AddParent(EntityCache.GetCategory(childId), parentId);
-
-    public static void AddParent(CategoryCacheItem child, int parentId)
-    {
-        child.ParentRelations.Add(new CategoryCacheRelation
-        {
-            ParentId = parentId,
-            ChildId = child.Id
-        });
-    }
-
     private static bool CheckParentAvailability(IEnumerable<CategoryCacheItem> parentCategories, CategoryCacheItem childCategory)
     {
         var allParentsArePrivate = parentCategories.All(c => c.Visibility != CategoryVisibility.All);
@@ -100,8 +89,8 @@ public class ModifyRelationsEntityCache
 
     public static bool CanBeMoved(int childId, int parentId)
     {
-        var child = EntityCache.GetCategory(childId);
-        var parent = EntityCache.GetCategory(parentId);
+        if (childId == parentId) 
+            return false;
 
         if (GraphService.Descendants(childId).Any(r => r.Id == parentId))
             return false;
@@ -113,7 +102,6 @@ public class ModifyRelationsEntityCache
         CategoryCacheRelation relation,
         int beforeTopicId,
         int newParentId,
-        int oldParentId,
         int authorId,
         ModifyRelationsForCategory modifyRelationsForCategory)
     {
@@ -122,7 +110,7 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        var updatedOldOrder = Remove(relation, oldParentId, authorId, modifyRelationsForCategory);
+        var updatedOldOrder = Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
         var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId, modifyRelationsForCategory);
 
         return (updatedOldOrder, updatedNewOrder);
@@ -132,7 +120,6 @@ public class ModifyRelationsEntityCache
         CategoryCacheRelation relation,
         int afterTopicId,
         int newParentId,
-        int oldParentId,
         int authorId,
         ModifyRelationsForCategory modifyRelationsForCategory)
     {
@@ -141,7 +128,7 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        var updatedOldOrder = Remove(relation, oldParentId, authorId, modifyRelationsForCategory);
+        var updatedOldOrder = Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
         var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId, modifyRelationsForCategory);
 
         return (updatedOldOrder, updatedNewOrder);
@@ -261,7 +248,7 @@ public class ModifyRelationsEntityCache
         }
         else
         {
-            var nextRelation = relations[targetPosition];
+            var nextRelation = relations[positionToInsert + 1];
             nextRelation.PreviousId = currentRelation.ChildId;
 
             EntityCache.AddOrUpdate(nextRelation);
