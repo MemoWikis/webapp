@@ -211,16 +211,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 TriggerBuilder.Create().StartNow().Build());
         }
 
-        public static void StartImmediately_DeleteRelation(int id, int authorId)
+        public static void StartImmediately_DeleteRelation(int relationId, int authorId)
         {
-            //var relationsJson = JsonSerializer.Serialize(relations);
-
-            //_scheduler.ScheduleJob(
-            //    JobBuilder.Create<AddOrUpdateRelationsInDb>()
-            //        .UsingJobData("relations", relationsJson)
-            //        .UsingJobData("authorId", authorId)
-            //        .Build(),
-            //    TriggerBuilder.Create().StartNow().Build());
+            _scheduler.ScheduleJob(
+                JobBuilder.Create<DeleteRelationInDb>()
+                    .UsingJobData("relationId", relationId)
+                    .UsingJobData("authorId", authorId)
+                    .Build(),
+                TriggerBuilder.Create().StartNow().Build());
         }
     }
 }
