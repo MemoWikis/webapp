@@ -1,9 +1,5 @@
-﻿
-using System.Diagnostics;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
-using Microsoft.OpenApi.Validations;
 
 public class GridItemLogic
     : IRegisterAsInstancePerLifetime
@@ -31,38 +27,38 @@ public class GridItemLogic
     }
     public class GridTopicItem
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public int questionCount { get; set; }
-        public int childrenCount { get; set; }
-        public string imageUrl { get; set; }
-        public CategoryVisibility visibility { get; set; }
-        public TinyTopicModel[] parents { get; set; }
-        public KnowledgebarData knowledgebarData { get; set; }
-        public bool isChildOfPersonalWiki { get; set; }
-        public int creatorId { get; set; }
-        public bool canDelete { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int QuestionCount { get; set; }
+        public int ChildrenCount { get; set; }
+        public string ImageUrl { get; set; }
+        public CategoryVisibility Visibility { get; set; }
+        public TinyTopicModel[] Parents { get; set; }
+        public KnowledgebarData KnowledgebarData { get; set; }
+        public bool IsChildOfPersonalWiki { get; set; }
+        public int CreatorId { get; set; }
+        public bool CanDelete { get; set; }
 
     }
 
     public class TinyTopicModel
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string imgUrl { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string ImgUrl { get; set; }
     }
 
     public class KnowledgebarData
     {
-        public int total { get; set; }
-        public int needsLearning { get; set; }
-        public double needsLearningPercentage { get; set; }
-        public int needsConsolidation { get; set; }
-        public double needsConsolidationPercentage { get; set; }
-        public int solid { get; set; }
-        public double solidPercentage { get; set; }
-        public int notLearned { get; set; }
-        public double notLearnedPercentage { get; set; }
+        public int Total { get; set; }
+        public int NeedsLearning { get; set; }
+        public double NeedsLearningPercentage { get; set; }
+        public int NeedsConsolidation { get; set; }
+        public double NeedsConsolidationPercentage { get; set; }
+        public int Solid { get; set; }
+        public double SolidPercentage { get; set; }
+        public int NotLearned { get; set; }
+        public double NotLearnedPercentage { get; set; }
     }
 
     public GridTopicItem[] GetChildren(int id)
@@ -78,17 +74,17 @@ public class GridItemLogic
 
         return new GridTopicItem
         {
-            id = topic.Id,
-            name = topic.Name,
-            questionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
-            childrenCount = GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            imageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
-            visibility = topic.Visibility,
-            parents = GetParents(topic),
-            knowledgebarData = GetKnowledgebarData(topic),
-            isChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService.VisibleDescendants(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == topic.Id),
-            creatorId = topic.CreatorId,
-            canDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
+            Id = topic.Id,
+            Name = topic.Name,
+            QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count,
+            ChildrenCount = GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+            ImageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
+            Visibility = topic.Visibility,
+            Parents = GetParents(topic),
+            KnowledgebarData = GetKnowledgebarData(topic),
+            IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService.VisibleDescendants(_sessionUser.User.StartTopicId, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == topic.Id),
+            CreatorId = topic.CreatorId,
+            CanDelete = _sessionUser.IsLoggedIn && (topic.CreatorId == _sessionUser.User.Id || _sessionUser.IsInstallationAdmin)
         };
     }
 
@@ -98,22 +94,22 @@ public class GridItemLogic
 
         return new KnowledgebarData
         {
-            total = knowledgeBarSummary.Total,
-            needsLearning = knowledgeBarSummary.NeedsLearning,
-            needsLearningPercentage = knowledgeBarSummary.NeedsLearningPercentage,
-            needsConsolidation = knowledgeBarSummary.NeedsConsolidation,
-            needsConsolidationPercentage = knowledgeBarSummary.NeedsConsolidationPercentage,
-            solid = knowledgeBarSummary.Solid,
-            solidPercentage = knowledgeBarSummary.SolidPercentage,
-            notLearned = knowledgeBarSummary.NotLearned,
-            notLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage
+            Total = knowledgeBarSummary.Total,
+            NeedsLearning = knowledgeBarSummary.NeedsLearning,
+            NeedsLearningPercentage = knowledgeBarSummary.NeedsLearningPercentage,
+            NeedsConsolidation = knowledgeBarSummary.NeedsConsolidation,
+            NeedsConsolidationPercentage = knowledgeBarSummary.NeedsConsolidationPercentage,
+            Solid = knowledgeBarSummary.Solid,
+            SolidPercentage = knowledgeBarSummary.SolidPercentage,
+            NotLearned = knowledgeBarSummary.NotLearned,
+            NotLearnedPercentage = knowledgeBarSummary.NotLearnedPercentage
         };
     }
 
     private TinyTopicModel[] GetParents(CategoryCacheItem topic)
     {
         return topic.Parents().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
-            { id = p.Id, name = p.Name, imgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
+            { Id = p.Id, Name = p.Name, ImgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
                 .GetUrl(50, true).Url })
             .ToArray();
     }
