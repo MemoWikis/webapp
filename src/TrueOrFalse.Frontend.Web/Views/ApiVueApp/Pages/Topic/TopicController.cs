@@ -1,6 +1,5 @@
-﻿using Markdig.Helpers;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using VueApp;
 
 public class TopicController : BaseController
@@ -16,11 +15,11 @@ public class TopicController : BaseController
     }
 
     [HttpGet]
-    public OkObjectResult GetTopic([FromRoute] int id)
+    public TopicControllerLogic.TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-        var data = Ok(_topicControllerLogic.GetTopicData(id));
+        var data = _topicControllerLogic.GetTopicData(id);
         return data; 
     }
 }

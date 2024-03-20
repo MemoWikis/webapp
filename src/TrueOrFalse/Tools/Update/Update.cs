@@ -10,11 +10,17 @@ public class Update : IRegisterAsInstancePerLifetime
     private UserReadingRepo _userReadingRepo;
     private UserWritingRepo _userWritingRepo;
 
-    public Update(UpdateStepExecuter updateStepExecuter, ISession nhibernateSession, CategoryRepository categoryRepository)
+    public Update(UpdateStepExecuter updateStepExecuter,
+        ISession nhibernateSession, 
+        CategoryRepository categoryRepository,
+        UserWritingRepo userWritingRepo,
+        UserReadingRepo userReadingRepo)
     {
         _updateStepExecuter = updateStepExecuter;
         _nhibernateSession = nhibernateSession;
         _categoryRepository = categoryRepository;
+        _userWritingRepo = userWritingRepo;
+        _userReadingRepo = userReadingRepo;
     }
 
     public void Run()
