@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Stripe;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security;
 
@@ -82,8 +83,11 @@ public class ModifyRelationsForCategory
         return true;
     }
 
-    public CategoryRelation AddChild(int parentId, int childId, CategoryCacheRelation previousCacheRelation)
+    public void AddChild(int parentId, int childId)
     {
+        var cachedParent = EntityCache.GetCategory(parentId);
+        var previousCacheRelation = cachedParent.ChildRelations.LastOrDefault();
+
         var child = _categoryRepository.GetById(childId);
         var parent = _categoryRepository.GetById(parentId);
 
@@ -104,6 +108,7 @@ public class ModifyRelationsForCategory
 
             _categoryRelationRepo.Update(previousRelation);
         }
-        return relation;
+
+        ModifyRelationsEntityCache.AddChild(relation);
     }
 }
