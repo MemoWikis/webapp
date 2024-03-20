@@ -13,19 +13,23 @@ public class EditTopicRelationStoreController : BaseController
     private readonly EditControllerLogic _editControllerLogic;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
     public EditTopicRelationStoreController(SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         EditControllerLogic editControllerLogic,
         QuestionReadingRepo questionReadingRepo,
-        PermissionCheck permissionCheck) : base(sessionUser)
+        PermissionCheck permissionCheck, CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _editControllerLogic = editControllerLogic;
         _questionReadingRepo = questionReadingRepo;
         _permissionCheck = permissionCheck;
+        _categoryRepository = categoryRepository;
+        _categoryRelationRepo = categoryRelationRepo;
     }
 
     [AccessOnlyAsLoggedIn]
@@ -101,18 +105,19 @@ public class EditTopicRelationStoreController : BaseController
         if (!_permissionCheck.CanEditCategory(json.movingTopicId))
             throw new Exception("NoRights");
 
-
         var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
             .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();
 
         if (relationToMove != null)
         {
+            var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+
             if (json.position == "before")
                 ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
-                    json.oldParentId, _sessionUser.UserId);
+                    json.oldParentId, _sessionUser.UserId, modifyRelationsForCategory);
             else if (json.position == "after")
                 ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
-                    json.oldParentId, _sessionUser.UserId);
+                    json.oldParentId, _sessionUser.UserId, modifyRelationsForCategory);
         }
 
         return Json(new
