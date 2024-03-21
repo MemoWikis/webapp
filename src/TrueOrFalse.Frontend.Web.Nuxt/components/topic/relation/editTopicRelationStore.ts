@@ -25,6 +25,12 @@ export interface EditRelationData {
     topicIdToRemove?: number
 }
 
+export enum TargetPosition {
+    Before,
+    After,
+    None
+}
+
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     state: () => {
         return {
@@ -213,7 +219,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
         },
 
-        async moveTopic(movingTopicId: number, targetId: number, position: string, newParentId: number, oldParentId: number) {
+        async moveTopic(movingTopicId: number, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
 
             const userStore = useUserStore()
 
@@ -231,13 +237,18 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 newParentId: newParentId,
                 oldParentId: oldParentId
             }
-
-            const result = await $fetch<FetchResult<number[]>>("/apiVue/EditTopicRelationStore/MoveTopic", {
+            interface MoveTopicResult {
+                oldParentId: number
+                newParentId: number
+            }
+            const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
                 method: "POST",
                 body: data,
                 mode: "cors",
                 credentials: "include",
             })
+
+            return result
         }
     },
 })

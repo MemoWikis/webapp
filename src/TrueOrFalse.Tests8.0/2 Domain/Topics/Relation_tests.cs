@@ -278,5 +278,9 @@ class Relation_tests : BaseTest
 
         var ex = Assert.Throws<Exception>(() => ModifyRelationsEntityCache.MoveAfter(relationToMove, sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
         Assert.That(ex.Message, Is.EqualTo("circular reference"));
+
+        var ex2 = Assert.Throws<Exception>(() => ModifyRelationsEntityCache.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1, modifyRelationsForCategory));
+        Assert.That(ex2.Message, Is.EqualTo("circular reference"));
     }
+
 }
