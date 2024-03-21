@@ -178,7 +178,8 @@ public class ModifyRelationsEntityCache
         var relations = child.ParentRelations;
 
         var relationIndex = relations.IndexOf(relation);
-        relations.RemoveAt(relationIndex);
+        if (relationIndex >= 0)
+            relations.RemoveAt(relationIndex);
     }
 
     private static List<CategoryCacheRelation> AddBefore(int topicId, int beforeTopicId, int parentId, int authorId, ModifyRelationsForCategory modifyRelationsForCategory)
