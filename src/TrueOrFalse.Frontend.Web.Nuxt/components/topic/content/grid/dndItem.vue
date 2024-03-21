@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
-import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
+import { useEditTopicRelationStore, TargetPosition } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore } from '~~/components/shared/dragStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
@@ -29,14 +29,20 @@ async function onDrop(event: any) {
     hoverTopHalf.value = false
     hoverBottomHalf.value = false
 
-    const { movingTopicId, oldParentId } = JSON.parse(event.dataTransfer.getData('value'))
+    interface TransferData {
+        movingTopicId: number
+        oldParentId: number
+    }
+    const transferData: TransferData = JSON.parse(event.dataTransfer.getData('value').toString())
     const targetId = props.topic.id
 
-    if (movingTopicId == targetId)
+    if (transferData.movingTopicId == targetId)
         return
 
-    const position = event.target.attributes['data-targetposition'].value
-    editTopicRelationStore.moveTopic(movingTopicId, targetId, position, oldParentId, props.parentId)
+    const position = currentPosition.value
+    currentPosition.value = TargetPosition.None
+
+    editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, transferData.oldParentId, props.parentId)
 }
 
 const hoverTopHalf = ref(false)
@@ -54,14 +60,20 @@ function handleDragStart(event: any) {
     dragging.value = true
 }
 
-// watch(() => dragStore.active, (val) => {
-//     if (!val)
-//         dragging.value = false
-// })
+const currentPosition = ref<TargetPosition>(TargetPosition.None)
+
+watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
+    if (t)
+        currentPosition.value = TargetPosition.Before
+    else if (b)
+        currentPosition.value = TargetPosition.After
+
+})
 
 function handleDragEnd() {
     dragging.value = false
     dragStore.dragEnd()
+    currentPosition.value = TargetPosition.None
 }
 </script>
 
@@ -88,13 +100,13 @@ function handleDragEnd() {
                     <template #topdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
                             :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
-                            @dragleave="hoverTopHalf = false" data-targetposition="before">
+                            @dragleave="hoverTopHalf = false">
                         </div>
                     </template>
                     <template #bottomdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone bottom"
                             :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
-                            @dragleave="hoverBottomHalf = false" data-targetposition="after">
+                            @dragleave="hoverBottomHalf = false">
                         </div>
                     </template>
 
@@ -136,10 +148,12 @@ function handleDragEnd() {
 
         &.bottom {
             border-top: none;
+            z-index: 2;
         }
 
         &.top {
             border-bottom: none;
+            z-index: 3;
         }
     }
 }

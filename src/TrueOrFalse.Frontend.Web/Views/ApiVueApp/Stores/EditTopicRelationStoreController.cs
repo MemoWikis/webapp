@@ -94,10 +94,17 @@ public class EditTopicRelationStoreController : BaseController
         });
     }
 
-    public readonly record struct MoveTopicJson(int movingTopicId, int targetId, string position, int newParentId, int oldParentId);
+    public enum TargetPosition
+    {
+        Before,
+        After,
+        None
+    }
+    public readonly record struct MoveTopicJson(int movingTopicId, int targetId, TargetPosition position, int newParentId, int oldParentId);
+    public readonly record struct MoveTopicResult(int oldParentId, int newParentId);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult MoveTopic([FromBody] MoveTopicJson json)
+    public MoveTopicResult MoveTopic([FromBody] MoveTopicJson json)
     {
         if (!_sessionUser.IsLoggedIn)
             throw new Exception("NotLoggedIn");
@@ -112,23 +119,15 @@ public class EditTopicRelationStoreController : BaseController
         {
             var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
-            if (json.position == "before")
-                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
-                    json.oldParentId, _sessionUser.UserId, modifyRelationsForCategory);
-            else if (json.position == "after")
-                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
-                    json.oldParentId, _sessionUser.UserId, modifyRelationsForCategory);
+            if (json.position == TargetPosition.Before)
+                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
+            else if (json.position == TargetPosition.After)
+                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
+            else if (json.position == null || json.position == TargetPosition.None)
+                throw new Exception("NoPosition");
         }
 
-        return Json(new
-        {
-            movingTopicId = json.movingTopicId,
-            targetId = json.targetId,
-            position = json.position,
-            newParentId = json.newParentId,
-            oldParentId = json.oldParentId,
-            //relationToMove = relationToMove
-        });
+        return new MoveTopicResult(json.oldParentId, json.newParentId);
     }
 
     [AccessOnlyAsLoggedIn]
