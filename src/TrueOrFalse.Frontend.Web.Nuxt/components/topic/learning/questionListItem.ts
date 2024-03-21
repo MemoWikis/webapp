@@ -1,21 +1,21 @@
 import { KnowledgeStatus } from "~~/components/question/knowledgeStatusEnum"
 
 export interface QuestionListItem {
-    CorrectnessProbability: number
-    HasPersonalAnswer: boolean
-    Id: number
-    ImageData: string
-    IsInWishknowledge: boolean
-    LearningSessionStepCount: number
-    LinkToComment: string
-    LinkToDeleteQuestion: string
-    LinkToEditQuestion: string
-    LinkToQuestion: string
-    LinkToQuestionDetailSite: string
-    LinkToQuestionVersions: string
-    Title: string
-    Visibility: number
-    SessionIndex: number
-    CreatorId: number
-    KnowledgeStatus: KnowledgeStatus
+    correctnessProbability: number
+    hasPersonalAnswer: boolean
+    id: number
+    imageData: string
+    isInWishknowledge: boolean
+    learningSessionStepCount: number
+    linkToComment: string
+    linkToDeleteQuestion: string
+    linkToEditQuestion: string
+    linkToQuestion: string
+    linkToQuestionDetailSite: string
+    linkToQuestionVersions: string
+    title: string
+    visibility: number
+    sessionIndex: number
+    creatorId: number
+    knowledgeStatus: KnowledgeStatus
 }

@@ -69,7 +69,7 @@ const rootTopicChipStore = useRootTopicChipStore()
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>
                         <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
-                            <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
+                            <Search :search-type="SearchType.all" :show-search="showSearch" v-on:select-item="openUrl"
                                 id="SmallHeaderSearchComponent" />
                         </div>
                     </div>

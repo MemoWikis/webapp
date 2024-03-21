@@ -78,7 +78,7 @@ export const useUserStore = defineStore('userStore', {
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.activityPoints)
             this.isEmailConfirmed = currentUser.isEmailConfirmed
-            console.log(currentUser);
+            // console.log(currentUser);
             return
         },
         async login(loginData: {
@@ -87,7 +87,7 @@ export const useUserStore = defineStore('userStore', {
             PersistentLogin: boolean
         }) {
             const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
-            console.log(result)
+            // console.log(result)
             if (!!result && result.success) {
                 this.showLoginModal = false
                 this.initUser(result.data)

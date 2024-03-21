@@ -104,7 +104,7 @@ watch(() => openedModals, (val) => {
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
                             <div class="StickySearch">
-                                <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
+                                <Search :search-type="SearchType.all" :show-search="showSearch" v-on:select-item="openUrl"
                                     placement="bottom-end" :main-search="true" :distance="distance" />
                             </div>
                         </div>
@@ -188,7 +188,7 @@ watch(() => openedModals, (val) => {
                                     <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                                 </div>
                                 <div class="StickySearch">
-                                    <Search :search-type="SearchType.All" :show-search="showSearch"
+                                    <Search :search-type="SearchType.all" :show-search="showSearch"
                                         v-on:select-item="openUrl" v-on:navigate-to-url="openUrl" placement="bottom-end" />
                                 </div>
                             </div>

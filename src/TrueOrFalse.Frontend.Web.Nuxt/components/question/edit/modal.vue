@@ -71,7 +71,7 @@ function removeTopic(t: TopicItem) {
         var index = selectedTopics.value.findIndex(s => s == t)
         selectedTopics.value.splice(index, 1)
 
-        var topicIdIndex = topicIds.value.findIndex(i => i == t.Id)
+        var topicIdIndex = topicIds.value.findIndex(i => i == t.id)
         topicIds.value.splice(topicIdIndex, 1)
     }
 }
@@ -124,9 +124,9 @@ function selectTopic(t: TopicItem) {
     lockDropdown.value = true
     searchTerm.value = ''
 
-    var index = topicIds.value.indexOf(t.Id)
+    var index = topicIds.value.indexOf(t.id)
     if (index < 0) {
-        topicIds.value.push(t.Id)
+        topicIds.value.push(t.id)
         selectedTopics.value.push(t)
     }
 }
@@ -258,13 +258,13 @@ async function save() {
     if (result?.success) {
         if (editQuestionStore.edit) {
             learningSessionStore.updateQuestionList(result.data)
-        } else if (result.data.SessionIndex > 0) {
-            learningSessionStore.lastIndexInQuestionList = result.data.SessionIndex
+        } else if (result.data.sessionIndex > 0) {
+            learningSessionStore.lastIndexInQuestionList = result.data.sessionIndex
             learningSessionStore.getLastStepInQuestionList()
             learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
         }
 
-        if (result.data.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
+        if (result.data.sessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
             alertStore.openAlert(AlertType.Success, {
                 text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
             })
@@ -280,7 +280,7 @@ async function save() {
         editQuestionStore.showModal = false
         lockSaveButton.value = false
         updateQuestionCount()
-        editQuestionStore.questionEdited(result.data.Id)
+        editQuestionStore.questionEdited(result.data.id)
     } else if (result?.success == false) {
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
@@ -473,7 +473,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                         @removeTopic="removeTopic" :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
-                                <Search :search-type="SearchType.Category" :show-search-icon="false" :show-search="true"
+                                <Search :search-type="SearchType.category" :show-search-icon="false" :show-search="true"
                                     :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
                                     placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
                                     @select-item="selectTopic" />

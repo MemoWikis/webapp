@@ -15,7 +15,7 @@
 
     static RevokeUserAuthorization(facebookId: string, accessToken: string) {
         FB.api("/me/permissions", "DELETE", response => {
-            console.log(response); //return true on "app delete" success 
+           // console.log(response); //return true on "app delete" success 
         });
     }
 }

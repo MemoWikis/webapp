@@ -877,8 +877,8 @@ watch(() => userStore.isLoggedIn, () => {
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
-                            <TopicChip v-for="(t, index) in topics" :key="t.Id + index" :topic="t" :index="index"
-                                :is-spoiler="learningSessionStore.isInTestMode && t.IsSpoiler && !$props.landingPage" />
+                            <TopicChip v-for="(t, index) in topics" :key="t.id + index" :topic="t" :index="index"
+                                :is-spoiler="learningSessionStore.isInTestMode && t.isSpoiler && !$props.landingPage" />
                         </div>
                     </div>
                 </div>

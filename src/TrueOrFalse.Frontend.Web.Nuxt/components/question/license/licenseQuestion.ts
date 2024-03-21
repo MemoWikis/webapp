@@ -1,21 +1,21 @@
 const DefaultLicenseId = -1
 
 export class LicenseQuestion {
-    Id: number = -1
-    NameLong: string = ''
-    NameShort: string = ''
-    DisplayTextShort:  string = ''
-    DisplayTextFull: string = ''
+    id: number = -1
+    nameLong: string = ''
+    nameShort: string = ''
+    displayTextShort:  string = ''
+    displayTextFull: string = ''
 
-    LicenseLink: string = ''
-    LicenseShortDescriptionLink: string = ''
+    licenseLink: string = ''
+    licenseShortDescriptionLink: string = ''
 
-    AuthorRequired: boolean = false
-    LicenseLinkRequired: boolean = false
-    ChangesNotAllowed: boolean = true
+    authorRequired: boolean = false
+    licenseLinkRequired: boolean = false
+    changesNotAllowed: boolean = true
 
     IsDefault():boolean {
-        return this.Id == DefaultLicenseId
+        return this.id == DefaultLicenseId
     }
 }
 

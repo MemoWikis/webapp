@@ -84,11 +84,11 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
                 this.categoriesToFilter = []
-                this.categoriesToFilter.push(this.personalWiki.Id)
+                this.categoriesToFilter.push(this.personalWiki.id)
 
                 this.recentlyUsedRelationTargetTopics = result.data.recentlyUsedRelationTargetTopics?.reverse()
                 this.recentlyUsedRelationTargetTopics?.forEach((el) => {
-                    this.categoriesToFilter.push(el.Id)
+                    this.categoriesToFilter.push(el.id)
                 })
             }
         },

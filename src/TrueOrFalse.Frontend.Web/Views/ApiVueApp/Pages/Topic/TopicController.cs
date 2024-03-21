@@ -15,12 +15,12 @@ public class TopicController : BaseController
     }
 
     [HttpGet]
-    public OkObjectResult GetTopic([FromRoute] int id)
+    public TopicControllerLogic.TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
         var data = _topicControllerLogic.GetTopicData(id);
-        return Ok(data); 
+        return data; 
     }
 }
 

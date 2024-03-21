@@ -32,14 +32,14 @@ const rootTopicItem = ref<TopicItem>()
 
 onMounted(() => {
     rootTopicItem.value = {
-        Type: 'TopicItem',
-        Id: rootTopicChipStore.id,
-        Name: rootTopicChipStore.name,
-        Url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
-        QuestionCount: 0,
-        ImageUrl: rootTopicChipStore.imgUrl,
-        MiniImageUrl: rootTopicChipStore.imgUrl,
-        Visibility: 0,
+        type: 'TopicItem',
+        id: rootTopicChipStore.id,
+        name: rootTopicChipStore.name,
+        url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
+        questionCount: 0,
+        imageUrl: rootTopicChipStore.imgUrl,
+        miniImageUrl: rootTopicChipStore.imgUrl,
+        visibility: 0,
     }
 })
 

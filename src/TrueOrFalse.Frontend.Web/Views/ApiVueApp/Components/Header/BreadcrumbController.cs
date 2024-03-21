@@ -55,21 +55,21 @@ public class BreadcrumbController : BaseController
 
         return Json(new Breadcrumb
         {
-            newWikiId = currentWiki.Id,
-            items = breadcrumbItems,
-            personalWiki = personalWiki,
-            rootTopic = new BreadcrumbItem
+            NewWikiId = currentWiki.Id,
+            Items = breadcrumbItems,
+            PersonalWiki = personalWiki,
+            RootTopic = new BreadcrumbItem
             {
                 Name = breadcrumb.Root.Text,
                 Id = breadcrumb.Root.Category.Id
             },
-            currentTopic = new BreadcrumbItem
+            CurrentTopic = new BreadcrumbItem
             {
                 Name = breadcrumb.Current.Text,
                 Id = breadcrumb.Current.Category.Id
             },
-            breadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
-            isInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
+            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
+            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
         });
     }
 
@@ -86,13 +86,13 @@ public class BreadcrumbController : BaseController
 
     public class Breadcrumb
     {
-        public int newWikiId { get; set; }
-        public BreadcrumbItem personalWiki { get; set; }
-        public List<BreadcrumbItem> items { get; set; }
-        public BreadcrumbItem rootTopic { get; set; }
-        public BreadcrumbItem currentTopic { get; set; }
-        public bool breadcrumbHasGlobalWiki { get; set; }
-        public bool isInPersonalWiki { get; set; }
+        public int NewWikiId { get; set; }
+        public BreadcrumbItem PersonalWiki { get; set; }
+        public List<BreadcrumbItem> Items { get; set; }
+        public BreadcrumbItem RootTopic { get; set; }
+        public BreadcrumbItem CurrentTopic { get; set; }
+        public bool BreadcrumbHasGlobalWiki { get; set; }
+        public bool IsInPersonalWiki { get; set; }
     }
 
     public class BreadcrumbItem
