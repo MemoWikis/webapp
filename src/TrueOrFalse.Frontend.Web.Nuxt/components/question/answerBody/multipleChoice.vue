@@ -7,8 +7,8 @@ interface Props {
 
 const props = defineProps<Props>()
 interface Choice {
-    Text: string,
-    IsCorrect: boolean
+    text: string,
+    isCorrect: boolean
 }
 
 function shuffleChoices(choices: Choice[]) {
@@ -57,9 +57,9 @@ function getAnswerText(): string {
 defineExpose({ getAnswerDataString, getAnswerText })
 
 function getClass(c: Choice) {
-    if (props.showAnswer && c.IsCorrect)
+    if (props.showAnswer && c.isCorrect)
         return 'is-correct show-solution'
-    else if ((selected.value.indexOf(c.Text) >= 0 && !c.IsCorrect) && props.showAnswer)
+    else if ((selected.value.indexOf(c.text) >= 0 && !c.isCorrect) && props.showAnswer)
         return 'is-wrong show-solution'
     return ''
 }
@@ -70,15 +70,15 @@ function getClass(c: Choice) {
         <div v-for="choice in localChoices" :class="getClass(choice)">
             <label>
                 <div class="checkbox-container">
-                    <input type="checkbox" name="answer" :value="choice.Text" v-model="selected" class="hidden"
+                    <input type="checkbox" name="answer" :value="choice.text" v-model="selected" class="hidden"
                         :disabled="props.showAnswer" />
-                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="selected.indexOf(choice.Text) >= 0"
+                    <font-awesome-icon icon="fa-solid fa-square-check" v-if="selected.indexOf(choice.text) >= 0"
                         class="checkbox-icon" :class="{ 'disabled': props.showAnswer }" />
                     <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon"
                         :class="{ 'disabled': props.showAnswer }" />
                     <span class="checkbox-label">
 
-                        {{ choice.Text }}
+                        {{ choice.text }}
 
                     </span>
                     <!-- 

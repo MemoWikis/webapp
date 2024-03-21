@@ -27,7 +27,7 @@ public class TopicControllerLogic(
             return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
 
-        return new TopicDataResult();
+        return null;
     }
 
 
@@ -67,14 +67,14 @@ public class TopicControllerLogic(
             Parents: topic.Parents()
                 .Where(_permissionCheck.CanView)
                 .Select(p =>
-                    new Parent(
+                    new Parent{
 
-                    p.Id,
-                     p.Name,
-                     new CategoryImageSettings(p.Id, _httpContextAccessor)
+                    Id = p.Id,
+                     Name=p.Name,
+                    ImgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
                     .GetUrl(50, true)
                     .Url
-                ))
+                })
                 .ToArray(),
 
             ChildTopicCount: GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
@@ -110,20 +110,26 @@ public class TopicControllerLogic(
                 knowledgeSummary.Solid
             ),
             GridItems: _gridItemLogic.GetChildren(id),
-            IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).ChildrenIds.Any(id => id == topic.Id)
+            IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).ChildRelations.Any(r => r.ChildId == topic.Id)
         );
     }
 
-    public readonly record struct Author(int Id, string Name, string ImgUrl, int Reputation, int ReputationPos);
-    public readonly record struct Parent(int Id, string Name, string ImgUrl);
+    public record Author(int Id, string Name, string ImgUrl, int Reputation, int ReputationPos);
 
-    public readonly record struct KnowledgeSummarySlim(
+    public class Parent
+    {
+        public int Id { get; set; }
+        public string Name { get; set;}
+        public string ImgUrl { get; set; }
+    }
+
+    public class KnowledgeSummarySlim(
         int NotLearned,
         int NeedsLearning,
         int NeedsConsolidation,
         int Solid);
 
-    public readonly record struct TopicDataResult(
+    public record TopicDataResult(
         bool CanAccess,
         int Id,
         string Name,

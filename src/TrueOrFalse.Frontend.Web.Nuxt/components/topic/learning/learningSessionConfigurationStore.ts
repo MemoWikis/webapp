@@ -5,17 +5,17 @@ import { useLearningSessionStore } from './learningSessionStore'
 import _ from 'underscore'
 
 export interface QustionCounter {
-    CreatedByCurrentUser: number
-    InWuwi: number
-    Max: number
-    NeedsConsolidation: number
-    NeedsLearning: number
-    NotCreatedByCurrentUser: number
-    NotInWuwi: number
-    NotLearned: number
-    Private: number
-    Public: number
-    Solid: number
+    createdByCurrentUser: number
+    inWuwi: number
+    max: number
+    needsConsolidation: number
+    needsLearning: number
+    notCreatedByCurrentUser: number
+    notInWuwi: number
+    notLearned: number
+    private: number
+    public: number
+    solid: number
 }
 
 export class SessionConfig {

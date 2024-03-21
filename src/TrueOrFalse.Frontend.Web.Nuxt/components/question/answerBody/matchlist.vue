@@ -7,32 +7,32 @@ interface Props {
 const props = defineProps<Props>()
 
 interface Pair {
-    ElementLeft: Element;
-    ElementRight: Element;
+    elementLeft: Element;
+    elementRight: Element;
 }
 interface Element {
-    Text: string
+    text: string
 }
 
 interface Solution {
-    Pairs: Pair[]
-    RightElements: Element[]
-    IsSolutionOrdered: boolean
+    pairs: Pair[]
+    rightElements: Element[]
+    isSolutionOrdered: boolean
 }
 onBeforeMount(() => {
     const solution: Solution = JSON.parse(props.solution)
-    solution.Pairs.forEach(p => {
+    solution.pairs.forEach(p => {
         const newPair: Pair = {
-            ElementLeft: {
-                Text: p.ElementLeft.Text
+            elementLeft: {
+                text: p.elementLeft.text
             },
-            ElementRight: {
-                Text: ''
+            elementRight: {
+                text: ''
             }
         }
         pairs.value.push(newPair)
     })
-    rightElements.value = solution.RightElements
+    rightElements.value = solution.rightElements
 })
 
 const pairs = ref<Pair[]>([])
@@ -61,11 +61,11 @@ function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
     const e = event.dataTransfer.getData('value')
     if (index != null) {
-        pairs.value[index].ElementRight.Text = e
+        pairs.value[index].elementRight.text = e
         temp.value = null
     }
     if (movingAnswerIndex.value != null) {
-        pairs.value[movingAnswerIndex.value].ElementRight.Text = ''
+        pairs.value[movingAnswerIndex.value].elementRight.text = ''
         movingAnswerIndex.value = null
     }
 
@@ -76,7 +76,7 @@ function onDrop(event: any) {
 const hover = ref<number | null>(null)
 function dropClass(i: number) {
     let classes = ''
-    if (pairs.value[i].ElementRight.Text != '')
+    if (pairs.value[i].elementRight.text != '')
         classes = 'has-input'
     if (isDroppableItemActive.value && hover.value == i && dragStarted)
         return classes + ' active'
@@ -90,18 +90,18 @@ const preDrop = ref<any>()
 
 function dragEnter(i: number, event: any) {
     hover.value = i
-    preDrop.value = pairs.value[i].ElementRight.Text
+    preDrop.value = pairs.value[i].elementRight.text
 
     var index: number = event.target.getAttribute('data-index')
     if (index != null)
-        pairs.value[index].ElementRight.Text = temp.value
+        pairs.value[index].elementRight.text = temp.value
 
 }
 function dragLeave(i: number) {
     if (isDroppableItemActive.value)
-        pairs.value[i].ElementRight.Text = preDrop.value
+        pairs.value[i].elementRight.text = preDrop.value
     if (movingAnswerIndex.value)
-        pairs.value[movingAnswerIndex.value].ElementRight.Text = ''
+        pairs.value[movingAnswerIndex.value].elementRight.text = ''
     hover.value = null
 }
 const dragStarted = ref(false)
@@ -111,15 +111,15 @@ function dragStart(e: any) {
 }
 const movingAnswerIndex = ref<number | null>()
 function dragPlacedAnswer(i: number) {
-    if (pairs.value[i].ElementRight.Text == '')
+    if (pairs.value[i].elementRight.text == '')
         return
     movingAnswerIndex.value = i
     dragStarted.value = true
-    temp.value = pairs.value[i].ElementRight.Text
+    temp.value = pairs.value[i].elementRight.text
 }
 function handleDragEnd(i: number) {
     if (movingAnswerIndex.value == i)
-        pairs.value[i].ElementRight.Text = ''
+        pairs.value[i].elementRight.text = ''
     movingAnswerIndex.value = null
     dragStarted.value = false
 }
@@ -131,17 +131,17 @@ function handleDragEnd(i: number) {
             <div class="row">
                 <div class="col-sm-12">
                     <div class="matchlist-pairs" v-for="p, i in pairs">
-                        <div class="left">{{ p.ElementLeft.Text }}</div>
+                        <div class="left">{{ p.elementLeft.text }}</div>
                         <font-awesome-icon icon="fa-solid fa-arrow-right" class="pair-divider" />
                         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }" class="drop-section">
-                            <SharedDraggable @dragstart="dragPlacedAnswer(i)" :transferData="pairs[i].ElementRight.Text"
-                                :disabled="pairs[i].ElementRight.Text == ''" @drag-ended="handleDragEnd(i)">
+                            <SharedDraggable @dragstart="dragPlacedAnswer(i)" :transferData="pairs[i].elementRight.text"
+                                :disabled="pairs[i].elementRight.text == ''" @drag-ended="handleDragEnd(i)">
                                 <div class="drop-container" :class="dropClass(i)" :data-index="i"
                                     @dragenter="dragEnter(i, $event)" @dragleave="dragLeave(i)">
 
-                                    <font-awesome-icon v-if="pairs[i].ElementRight.Text == ''"
+                                    <font-awesome-icon v-if="pairs[i].elementRight.text == ''"
                                         icon="fa-solid fa-arrow-right-to-bracket" class="drop-icon" rotation="90" />
-                                    <template v-else>{{ pairs[i].ElementRight.Text }}</template>
+                                    <template v-else>{{ pairs[i].elementRight.text }}</template>
                                 </div>
                             </SharedDraggable>
                         </SharedDroppable>
@@ -150,10 +150,10 @@ function handleDragEnd(i: number) {
                 <div class="col-sm-12">
                     <div class="row">
                         <div id="matchlist-rightelements row">
-                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text"
-                                class="draggable-element col-xs-6" @dragstart="dragStart(e.Text)">
+                            <SharedDraggable v-for="e in rightElements" :transferData="e.text"
+                                class="draggable-element col-xs-6" @dragstart="dragStart(e.text)">
                                 <div class="drag">
-                                    {{ e.Text }}
+                                    {{ e.text }}
                                 </div>
                             </SharedDraggable>
 
