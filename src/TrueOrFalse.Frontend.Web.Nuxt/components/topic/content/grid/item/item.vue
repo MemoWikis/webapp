@@ -222,11 +222,19 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     if (name == 'moveTopic') {
 
         after(async (result) => {
-            if (result?.oldParentId == props.topic.id || result?.newParentId == props.topic.id)
-                loadChildren(true)
+            if (result) {
+                if (result.oldParentId == props.topic.id || result.newParentId == props.topic.id)
+                    loadChildren(true)
+
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (children.value.find(c => c.id == result.oldParentId))
+                    reloadGridItem(result.oldParentId)
+                if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
+                    reloadGridItem(result.newParentId)
+            }
         })
     }
-
 })
 
 </script>

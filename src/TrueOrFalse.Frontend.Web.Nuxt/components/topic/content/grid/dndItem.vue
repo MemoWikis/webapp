@@ -67,7 +67,6 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
         currentPosition.value = TargetPosition.Before
     else if (b)
         currentPosition.value = TargetPosition.After
-
 })
 
 function handleDragEnd() {

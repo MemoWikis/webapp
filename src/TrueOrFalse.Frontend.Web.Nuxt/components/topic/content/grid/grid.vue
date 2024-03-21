@@ -142,7 +142,7 @@ async function loadGridItem(id: number) {
 
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
-
+    console.log(result)
     if (result.success == true) {
         topicStore.gridItems = topicStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success == false)
@@ -155,6 +155,22 @@ function removeGridItem(id: number) {
 }
 
 const { isMobile } = useDevice()
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (props.children.find(c => c.id == result.oldParentId))
+                    reloadGridItem(result.oldParentId)
+                if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
+                    reloadGridItem(result.newParentId)
+            }
+        })
+    }
+})
 </script>
 
 <template>
