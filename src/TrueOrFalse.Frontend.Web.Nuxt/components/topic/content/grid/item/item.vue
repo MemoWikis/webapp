@@ -218,6 +218,17 @@ watch(() => props.isDragging, (val) => {
     dragActive.value = val
 }, { immediate: true })
 
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result?.oldParentId == props.topic.id || result?.newParentId == props.topic.id)
+                loadChildren(true)
+        })
+    }
+
+})
+
 </script>
 
 <template>

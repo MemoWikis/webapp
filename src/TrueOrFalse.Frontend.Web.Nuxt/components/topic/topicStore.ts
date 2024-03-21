@@ -183,6 +183,20 @@ export const useTopicStore = defineStore('topicStore', {
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
 				}
 			})
+		},
+		async reloadGridItems() {
+
+
+			const result = await $fetch<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
+				method: 'GET', mode: 'cors', credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+				}
+			})
+
+			if (result)
+				this.gridItems = result
 		}
 
 	},

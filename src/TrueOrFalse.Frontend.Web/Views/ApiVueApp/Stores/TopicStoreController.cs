@@ -9,17 +9,19 @@ public class TopicStoreController : BaseController
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly GridItemLogic _gridItemLogic;
 
     public TopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor) : base(sessionUser)
+        IHttpContextAccessor httpContextAccessor, GridItemLogic gridItemLogic) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
         _categoryRepository = categoryRepository;
         _httpContextAccessor = httpContextAccessor;
+        _gridItemLogic = gridItemLogic;
     }
 
     public readonly record struct SaveTopicParam(int id, string name, bool saveName, string content, bool saveContent);
@@ -84,6 +86,12 @@ public class TopicStoreController : BaseController
             needsConsolidation = knowledgeSummary.NeedsConsolidation,
             solid = knowledgeSummary.Solid,
         });
+    }
+
+    [HttpGet]
+    public GridItemLogic.GridTopicItem[] GetGridTopicItems([FromRoute] int id)
+    {
+        return _gridItemLogic.GetChildren(id);
     }
 }
 

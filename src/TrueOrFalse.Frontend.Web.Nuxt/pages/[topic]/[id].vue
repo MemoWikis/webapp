@@ -4,11 +4,13 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+import { useEditTopicRelationStore } from '~/components/topic/relation/editTopicRelationStore'
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
 const spinnerStore = useSpinnerStore()
+const editTopicRelationStore = useEditTopicRelationStore()
 
 interface Props {
     tab?: Tab,
@@ -166,6 +168,17 @@ watch(() => props.tab, (t) => {
 
 }, { immediate: true })
 
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result?.oldParentId == topicStore.id || result?.newParentId == topicStore.id)
+                topicStore.reloadGridItems()
+        })
+    }
+
+})
+
 </script>
 
 <template>
@@ -190,50 +203,12 @@ watch(() => props.tab, (t) => {
                                 </div>
                             </template>
                         </ClientOnly>
-
-                        <!-- <DevOnly>
-                            <ClientOnly>
-                                <div>   
-                                    DevGrid
-                                </div>
-                                <TopicContentGridDndGrid
-                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topicStore.gridItems" />
-                                <template #fallback>
-                                    <TopicContentGridDndGrid
-                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                        :children="topic.gridItems" />
-                                </template>
-                            </ClientOnly>
-
-                            <template #fallback>
-                                <ClientOnly>
-                                    <TopicContentGrid
-                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                        :children="topicStore.gridItems" />
-                                    <template #fallback>
-                                        <TopicContentGrid
-                                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                            :children="topic.gridItems" />
-                                    </template>
-                                </ClientOnly>
-                            </template>
-
-                        </DevOnly> -->
                         <div id="EditBarAnchor"></div>
+
                         <TopicContentGrid
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                             :children="topicStore.gridItems" />
-                        <!-- <ClientOnly>
-                            <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                :children="topicStore.gridItems" />
-                            <template #fallback>
-                                <TopicContentGrid
-                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topic.gridItems" />
-                            </template>
-                        </ClientOnly> -->
+
                         <ClientOnly>
                             <TopicTabsQuestions
                                 v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />

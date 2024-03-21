@@ -42,7 +42,7 @@ async function onDrop(event: any) {
     const position = currentPosition.value
     currentPosition.value = TargetPosition.None
 
-    editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, transferData.oldParentId, props.parentId)
+    editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
 }
 
 const hoverTopHalf = ref(false)
