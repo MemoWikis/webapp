@@ -28,6 +28,7 @@ export interface EditRelationData {
 export enum TargetPosition {
     Before,
     After,
+    Inner,
     None
 }
 

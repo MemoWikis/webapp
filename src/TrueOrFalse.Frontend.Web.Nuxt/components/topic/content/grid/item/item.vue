@@ -24,6 +24,7 @@ interface Props {
     parentId: number
     parentName: string
     isDragging: boolean
+    dropExpand: boolean
 }
 
 const props = defineProps<Props>()
@@ -46,6 +47,12 @@ watch(expanded, async (val) => {
     if (val && !childrenLoaded.value && props.topic.childrenCount > 0)
         await loadChildren()
 })
+
+watch(() => props.dropExpand, val => {
+    if (val && expanded.value == false)
+        expanded.value = true
+})
+
 const children = ref<GridTopicItem[]>([])
 const childrenLoaded = ref<boolean>(false)
 
@@ -244,10 +251,12 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
         <slot name="topdropzone"></slot>
-        <slot name="bottomdropzone" v-if="!expanded"></slot>
+        <slot name="bottomdropzone"
+            v-if="!expanded || ((children.length == 0 && childrenLoaded) || props.topic.childrenCount == 0)"></slot>
+        <slot name="dropinzone"></slot>
 
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
         </div>
 
