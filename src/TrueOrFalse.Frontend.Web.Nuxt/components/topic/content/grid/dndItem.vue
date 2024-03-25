@@ -41,8 +41,6 @@ interface TransferData {
     topicName: string
 }
 
-watch(dropIn, val => console.log(val))
-
 async function onDrop() {
     isDroppableItemActive.value = false
 

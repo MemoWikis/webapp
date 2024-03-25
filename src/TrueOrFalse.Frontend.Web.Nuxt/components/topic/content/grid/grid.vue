@@ -142,7 +142,6 @@ async function loadGridItem(id: number) {
 
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
-    console.log(result)
     if (result.success == true) {
         topicStore.gridItems = topicStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success == false)
@@ -340,8 +339,6 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             button {
                 background: none;
             }
-        }
-
-    }
+        }}
 }
 </style>

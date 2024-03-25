@@ -36,9 +36,9 @@ const props = defineProps<Props>()
     flex-wrap: nowrap;
     padding: 10px 0px;
     background: white;
-    border-top: solid 1px #DDDDDD;
+    // border-top: solid 1px #DDDDDD;
     position: relative;
-    max-height: 80px;
+    max-height: 78px;
 
     .left-spacer {
         width: 32px;
