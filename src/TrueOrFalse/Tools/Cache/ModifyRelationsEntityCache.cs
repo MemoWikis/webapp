@@ -61,7 +61,6 @@ public class ModifyRelationsEntityCache
     public static CategoryCacheRelation AddChild(CategoryRelation categoryRelation)
     {
         var newRelation = CategoryCacheRelation.ToCategoryCacheRelation(categoryRelation);
-        EntityCache.AddOrUpdate(newRelation);
 
         EntityCache.GetCategory(newRelation.ParentId)?.ChildRelations.Add(newRelation);
         EntityCache.GetCategory(newRelation.ChildId)?.ParentRelations.Add(newRelation);
@@ -91,7 +90,8 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        modifyRelationsForCategory.AddChild(newParentId, relation.ParentId);
+        modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
+        var child = EntityCache.GetCategory(relation.ChildId);
         RemoveParent(EntityCache.GetCategory(relation.ChildId), relation.ParentId, authorId, modifyRelationsForCategory, permissionCheck);
     }
 

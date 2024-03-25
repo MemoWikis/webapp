@@ -129,7 +129,7 @@ public class EditTopicRelationStoreController : BaseController
         else if (json.position == TargetPosition.After)
             ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
         else if (json.position == TargetPosition.Inner)
-            ModifyRelationsEntityCache.MoveIn(relationToMove, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
+            ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
         else if (json.position == null || json.position == TargetPosition.None)
             throw new Exception("NoPosition");
 
