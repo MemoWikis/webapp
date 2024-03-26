@@ -5,6 +5,7 @@ import { useUserStore } from '../../user/userStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { Target } from 'nuxt/dist/head/runtime/types'
 
 export enum EditTopicRelationType {
     Create,
@@ -32,6 +33,14 @@ export enum TargetPosition {
     None
 }
 
+interface MoveTarget {
+    movingTopicId: number,
+    targetId: number,
+    position: TargetPosition,
+    newParentId: number,
+    oldParentId: number
+}
+
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     state: () => {
         return {
@@ -44,7 +53,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             categoriesToFilter: [] as number[],
             personalWiki: null as TopicItem | null,
             recentlyUsedRelationTargetTopics: null as TopicItem[] | null,
-            topicIdToRemove: 0
+            topicIdToRemove: 0,
+            moveHistory: {} as MoveTarget
         }
     },
     actions: {
@@ -226,8 +236,6 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
 
             if (!userStore.isLoggedIn) {
                 userStore.openLoginModal()
-                // const alertStore = useAlertStore()
-                // alertStore.openAlert(AlertType.Error, { text: messages.error.category.missingRights })
                 return
             }
 
@@ -241,6 +249,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             interface MoveTopicResult {
                 oldParentId: number
                 newParentId: number
+                undoMove: MoveTarget
             }
             const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
                 method: "POST",
@@ -249,7 +258,15 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 credentials: "include",
             })
 
+            if (result)
+                this.moveHistory = result.undoMove
+
             return result
+        },
+
+        async undoMoveTopic() {
+
+            return this.moveTopic(this.moveHistory.movingTopicId, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
         }
     },
 })

@@ -231,6 +231,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 </div>
             </div>
         </div>
+
+        <div @click="editTopicRelationStore.undoMoveTopic" class="memo-button btn-default btn">Test Undo</div>
     </div>
 </template>
 
@@ -339,6 +341,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             button {
                 background: none;
             }
-        }}
+        }
+    }
 }
 </style>
