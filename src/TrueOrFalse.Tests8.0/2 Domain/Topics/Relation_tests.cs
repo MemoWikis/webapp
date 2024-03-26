@@ -1,7 +1,4 @@
 ﻿
-
-using System.Diagnostics;
-
 class Relation_tests : BaseTest
 {
     [Test]
@@ -281,6 +278,51 @@ class Relation_tests : BaseTest
 
         var ex2 = Assert.Throws<Exception>(() => ModifyRelationsEntityCache.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1, modifyRelationsForCategory));
         Assert.That(ex2.Message, Is.EqualTo("circular reference"));
+    }
+
+    [Test]
+    public void Should_correctly_Remove_and_Add_Parent_on_MoveIn()
+    {
+        var context = ContextCategory.New();
+
+        context.Add("root").Persist();
+
+        context
+            .Add("sub1")
+            .Add("sub2")
+            .Add("sub1sub1")
+            .Persist();
+
+        var root = context.All.ByName("root");
+        var sub1 = context.All.ByName("sub1");
+        var sub2 = context.All.ByName("sub2");
+        var sub1sub1 = context.All.ByName("sub1sub1");
+
+        context.AddChild(root, sub1);
+        context.AddChild(sub1, sub1sub1);
+        context.AddChild(root, sub2);
+
+        RecycleContainerAndEntityCache();
+
+        var entityCacheInitializer = R<EntityCacheInitializer>();
+        entityCacheInitializer.Init();
+
+        var cachedSub1 = EntityCache.GetCategory(sub1);
+        var relationToMove = cachedSub1.ChildRelations[0];
+        var categoryRelationRepo = R<CategoryRelationRepo>();
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+
+        ModifyRelationsEntityCache.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory, R<PermissionCheck>());
+
+        Assert.That(cachedSub1.ChildRelations.Count, Is.EqualTo(0));
+
+        var cachedSub2 = EntityCache.GetCategory(sub2);
+        Assert.That(cachedSub2.ChildRelations.Count, Is.EqualTo(1));
+
+        var movedSub = EntityCache.GetCategory(sub1sub1);
+
+        Assert.That(cachedSub2.ChildRelations[0].ChildId, Is.EqualTo(movedSub.Id));
+        Assert.That(movedSub.ParentRelations.Count, Is.EqualTo(1));
     }
 
 }
