@@ -64,17 +64,40 @@ async function onDrop() {
     editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
 }
 
-
 const dragging = ref(false)
 
-function handleDragStart() {
-    const data: TransferData = {
-        movingTopicId: props.topic.id,
-        oldParentId: props.parentId,
-        topicName: props.topic.name
+function handleDragStart(e: any) {
+    if (!dragStore.active) {
+        console.log('handleDragStart')
+
+        const data: TransferData = {
+            movingTopicId: props.topic.id,
+            oldParentId: props.parentId,
+            topicName: props.topic.name
+        }
+        dragStore.dragStart(data)
+        dragging.value = true
     }
-    dragStore.dragStart(data)
-    dragging.value = true
+
+    dragCheck(e)
+}
+
+const mouseDownTimer = ref()
+
+function mouseDown(e: any) {
+
+    console.log('mousedown')
+    mouseDownTimer.value = setTimeout(() => {
+        handleDragStart(e)
+    }, 100)
+}
+
+function mouseUp(event: any) {
+
+
+    console.log(event)
+    mouseDownTimer.value = null
+    handleDragEnd()
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -91,20 +114,54 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
+    console.log('handleDragEnd')
     dragging.value = false
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
 }
+function handleMove(e: any) {
+    console.log(e)
+    console.log(dragging.value)
+    console.log(dragStore.active)
+
+    mouseDown(e)
+}
+
+function dragCheck(e: any) {
+    if (dragging.value) {
+        const clientX = e.clientX || e.changedTouches[0].clientX;
+        const clientY = e.clientY || e.changedTouches[0].clientY;
+        const el = document.elementFromPoint(clientX, clientY) as any
+        console.log(el.getAttribute('data-dropzonedata'))
+
+    }
+
+}
+
+const width = ref()
+const height = ref()
+
+function getDropZoneData(position: TargetPosition): string {
+    const data = {
+        type: 'grid-item',
+        id: props.topic.id,
+        position: position
+    }
+    return JSON.stringify(data)
+}
+
 </script>
 
 <template>
-    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true">
+    <div class="draggable" v-touch:drag.once="handleDragStart" v-touch:release="mouseUp" style="touch-action: none"
+        @dragend="handleDragEnd">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-                <div v-if="dragStore.active" @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
-                    class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
+                <div v-if="dragStore.active" v-on:mouseenter="hoverTopHalf = true"
+                    v-on:mouseleave="hoverTopHalf = false" class="emptydropzone"
+                    :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
                         <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
@@ -118,29 +175,35 @@ function handleDragEnd() {
                     :drop-expand="dropIn">
 
                     <template #topdropzone>
-                        <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
-                            :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
-                            @dragleave="hoverTopHalf = false">
+                        <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top hover"
+                            @dragover="hoverTopHalf = true" v-on:mouseenter="hoverTopHalf = true"
+                            v-on:mouseleave="hoverTopHalf = false" @dragleave="hoverTopHalf = false"
+                            v-on:touchmove="hoverTopHalf = true" data-id="test"
+                            :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
                         </div>
                     </template>
                     <template #bottomdropzone>
-                        <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone bottom"
-                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
-                            @dragleave="hoverBottomHalf = false">
+                        <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn"
+                            class="dropzone bottom hover" :class="{ 'hover': hoverBottomHalf && !dragging }"
+                            v-on:mouseenter="hoverBottomHalf = true" @touchenter="hoverBottomHalf = true"
+                            v-on:mouseleave="hoverBottomHalf = false" v-on:mouseup="mouseUp"
+                            :data-dropzonedata="getDropZoneData(TargetPosition.After)">
                         </div>
                     </template>
                     <template #dropinzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
-                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
-                            @dragleave="hoverBottomHalf = false">
+                            :class="{ 'hover': hoverBottomHalf && !dragging }" v-on:mouseenter="hoverBottomHalf = true"
+                            v-on:mouseup="mouseUp" v-on:mouseleave="hoverBottomHalf = false"
+                            :data-dropzonedata="getDropZoneData(TargetPosition.After)">
                             <div class="dropzone-label">Thema unterordnen</div>
                         </div>
                     </template>
 
                 </TopicContentGridItem>
 
-                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
-                    class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true"
+                    v-on:mouseleave="hoverBottomHalf = false" class="emptydropzone"
+                    :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
                         <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
@@ -192,6 +255,8 @@ function handleDragEnd() {
     width: 100%;
     opacity: 0;
     transition: all 100ms ease-in;
+    background: grey !important;
+    z-index: 2;
 
     &.top {
         height: 33%;
@@ -241,6 +306,12 @@ function handleDragEnd() {
             opacity: 0.2;
         }
 
+    }
+
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
     }
 }
 </style>
