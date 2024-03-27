@@ -10,6 +10,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
+import { useDragStore } from '~/components/shared/dragStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -19,6 +20,7 @@ const alertStore = useAlertStore()
 const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
 const deleteTopicStore = useDeleteTopicStore()
+const dragStore = useDragStore()
 
 interface Props {
     children: GridTopicItem[]
@@ -233,6 +235,10 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         </div>
 
         <div @click="editTopicRelationStore.undoMoveTopic" class="memo-button btn-default btn">Test Undo</div>
+
+        <LazyClientOnly>
+            <TopicContentGridGhost v-if="dragStore.active" />
+        </LazyClientOnly>
     </div>
 </template>
 

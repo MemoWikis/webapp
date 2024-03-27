@@ -5,7 +5,7 @@ import { useUserStore } from '../../user/userStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
-import { Target } from 'nuxt/dist/head/runtime/types'
+import { TargetPosition } from '~/components/shared/dragStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -24,13 +24,6 @@ export interface EditRelationData {
     selectedCategories?: any[]
     redirect?: boolean
     topicIdToRemove?: number
-}
-
-export enum TargetPosition {
-    Before,
-    After,
-    Inner,
-    None
 }
 
 interface MoveTarget {
