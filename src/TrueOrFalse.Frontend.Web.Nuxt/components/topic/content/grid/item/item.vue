@@ -243,7 +243,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         })
     }
 })
-
+const { isDesktop } = useDevice()
 </script>
 
 <template>
@@ -290,8 +290,14 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     </div>
 
     <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
-        <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-            :parent-id="props.topic.id" :parent-name="props.topic.name" />
+        <template v-if="isDesktop">
+            <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name" />
+        </template>
+        <template v-else>
+            <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name" />
+        </template>
     </div>
 
 </template>

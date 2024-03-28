@@ -2,7 +2,7 @@
 import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
-import { useDragStore, TargetPosition, DragAndDropType, DropZoneData } from '~~/components/shared/dragStore'
+import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
@@ -52,49 +52,29 @@ async function onDrop() {
         return
 
     const transferData: TransferData = dragStore.transferData
-
-    if (dragStore.dropZoneData == null)
-        return
-
-    const targetId = dragStore.dropZoneData.id
+    const targetId = props.topic.id
 
     if (transferData.movingTopicId == targetId)
         return
 
-    const position = dragStore.dropZoneData.position
+    const position = currentPosition.value
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
     editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
 }
 
+
 const dragging = ref(false)
 
-function handleDragStart(e: any) {
-    if (!dragStore.active) {
-        const data: TransferData = {
-            movingTopicId: props.topic.id,
-            oldParentId: props.parentId,
-            topicName: props.topic.name
-        }
-        dragStore.dragStart(data)
-        dragging.value = true
+function handleDragStart() {
+    const data: TransferData = {
+        movingTopicId: props.topic.id,
+        oldParentId: props.parentId,
+        topicName: props.topic.name
     }
-
-    dragCheck(e)
-}
-
-const mouseDownTimer = ref()
-
-function mouseDown(e: any) {
-    mouseDownTimer.value = setTimeout(() => {
-        handleDragStart(e)
-    }, 600)
-}
-
-function mouseUp(event: any) {
-    mouseDownTimer.value = null
-    handleDragEnd()
+    dragStore.dragStart(data)
+    dragging.value = true
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -111,70 +91,20 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
-
-    if (dragStore.active)
-        onDrop()
     dragging.value = false
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
 }
-
-function dragCheck(e: any) {
-    if (dragging.value) {
-        const clientX = e.clientX || e.changedTouches[0].clientX;
-        const clientY = e.clientY || e.changedTouches[0].clientY;
-        dragStore.setMouseData(clientX, clientY)
-    }
-
-}
-
-function getDropZoneData(position: TargetPosition): string {
-    const data = {
-        type: DragAndDropType.GridItem,
-        id: props.topic.id,
-        position: position
-    } as DropZoneData
-    return JSON.stringify(data)
-}
-
-
-watch(() => dragStore.dropZoneData, (data) => {
-    if (data?.type == DragAndDropType.GridItem && data.id == props.topic.id) {
-        currentPosition.value = data.position
-    } else currentPosition.value = TargetPosition.None
-}, { immediate: true, deep: true })
-
-watch(currentPosition, (val) => {
-    if (val == TargetPosition.Before) {
-        hoverTopHalf.value = true
-        hoverBottomHalf.value = false
-    }
-    else if (val == TargetPosition.After) {
-        hoverTopHalf.value = false
-        hoverBottomHalf.value = true
-    }
-    else if (val == TargetPosition.Inner) {
-        hoverTopHalf.value = false
-        hoverBottomHalf.value = true
-    }
-    else {
-        hoverTopHalf.value = false
-        hoverBottomHalf.value = false
-    }
-}, { immediate: true })
 </script>
 
 <template>
-    <div class="draggable" v-touch:press="mouseDown" v-touch:release="mouseUp" v-touch:drag="dragCheck"
-        style="touch-action: none">
+    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-                <div v-if="dragStore.active" v-on:mouseenter="hoverTopHalf = true"
-                    v-on:mouseleave="hoverTopHalf = false" class="emptydropzone"
-                    :class="{ 'open': hoverTopHalf && !dragging }"
-                    :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
+                <div v-if="dragStore.active" @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
+                    class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
                         <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
@@ -190,33 +120,27 @@ watch(currentPosition, (val) => {
                     <template #topdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
                             :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
-                            v-on:mouseenter="hoverTopHalf = true" v-on:mouseleave="hoverTopHalf = false"
-                            @dragleave="hoverTopHalf = false" v-on:touchmove="hoverTopHalf = true" data-id="test"
-                            :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
+                            @dragleave="hoverTopHalf = false">
                         </div>
                     </template>
                     <template #bottomdropzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone bottom"
-                            :class="{ 'hover': hoverBottomHalf && !dragging }" v-on:mouseenter="hoverBottomHalf = true"
-                            @touchenter="hoverBottomHalf = true" v-on:mouseleave="hoverBottomHalf = false"
-                            v-on:mouseup="mouseUp" :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
+                            @dragleave="hoverBottomHalf = false">
                         </div>
                     </template>
                     <template #dropinzone>
                         <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
-                            :class="{ 'hover': hoverBottomHalf && !dragging }" v-on:mouseenter="hoverBottomHalf = true"
-                            v-on:mouseup="mouseUp" v-on:mouseleave="hoverBottomHalf = false"
-                            :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
+                            @dragleave="hoverBottomHalf = false">
                             <div class="dropzone-label">Thema unterordnen</div>
                         </div>
                     </template>
 
                 </TopicContentGridItem>
 
-                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true"
-                    v-on:mouseleave="hoverBottomHalf = false" class="emptydropzone"
-                    :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }"
-                    :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
+                    class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
                         <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
@@ -268,7 +192,6 @@ watch(currentPosition, (val) => {
     width: 100%;
     opacity: 0;
     transition: all 100ms ease-in;
-    z-index: 2;
 
     &.top {
         height: 33%;
@@ -318,12 +241,6 @@ watch(currentPosition, (val) => {
             opacity: 0.2;
         }
 
-    }
-
-    cursor: grab;
-
-    &:active {
-        cursor: grabbing;
     }
 }
 </style>
