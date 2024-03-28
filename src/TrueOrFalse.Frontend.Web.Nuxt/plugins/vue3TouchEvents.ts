@@ -6,7 +6,7 @@ export default defineNuxtPlugin(({ vueApp }) => {
 
     vueApp.use<Vue3TouchEventsOptions>(Vue3TouchEvents, {
         disableClick: false,
-        dragFrequency: 100
+        dragFrequency: 25
         // any other global options...
       })
 })

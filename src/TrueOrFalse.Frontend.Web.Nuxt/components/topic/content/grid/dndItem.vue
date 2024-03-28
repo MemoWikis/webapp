@@ -67,7 +67,15 @@ async function onDrop() {
 
 const dragging = ref(false)
 
-function handleDragStart() {
+function handleDragStart(e: DragEvent) {
+    var customDragImage = document.createElement('div');
+    customDragImage.textContent = 'Dragging...';
+    customDragImage.style.position = 'absolute';
+    customDragImage.style.top = '-99999px';
+    document.body.appendChild(customDragImage);
+
+    e.dataTransfer?.setDragImage(customDragImage, 0, 0);
+
     const data: TransferData = {
         movingTopicId: props.topic.id,
         oldParentId: props.parentId,
@@ -95,10 +103,15 @@ function handleDragEnd() {
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
 }
+
+function handleDrag(e: DragEvent) {
+    dragStore.setMousePosition(e.clientX, e.clientY)
+}
 </script>
 
 <template>
-    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true">
+    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
+        @drag="handleDrag">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
@@ -176,12 +189,10 @@ function handleDragEnd() {
         border: 1px solid @memo-green;
 
         &.bottom {
-            border-top: none;
             z-index: 2;
         }
 
         &.top {
-            border-bottom: none;
             z-index: 3;
         }
     }
@@ -197,16 +208,12 @@ function handleDragEnd() {
         height: 33%;
         z-index: 4;
         top: 0px;
-        background: @memo-green;
-        background: linear-gradient(180deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 10%, rgba(175, 213, 52, 0.33) 25%, rgba(175, 213, 52, 0) 50%);
     }
 
     &.bottom {
         z-index: 3;
         height: 67%;
         top: 33%;
-        background: @memo-green;
-        background: linear-gradient(0deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 5%, rgba(175, 213, 52, 0.33) 12.5%, rgba(175, 213, 52, 0) 25%);
     }
 
     &.inner {

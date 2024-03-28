@@ -246,7 +246,7 @@ const { isDesktop } = useDevice()
         <div @click="editTopicRelationStore.undoMoveTopic" class="memo-button btn-default btn">Test Undo</div>
 
         <LazyClientOnly>
-            <TopicContentGridGhost v-if="dragStore.active" />
+            <TopicContentGridGhost v-show="dragStore.active" />
         </LazyClientOnly>
     </div>
 </template>

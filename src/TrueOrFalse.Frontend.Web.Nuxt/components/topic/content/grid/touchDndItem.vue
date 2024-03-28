@@ -70,20 +70,22 @@ function handleDragStart(e: any) {
     handleDrag(e)
 }
 
-const mouseDownTimer = ref()
+const touchTimer = ref()
 
-function touchDown(e: any) {
-    if ('touches' in e) {
-        mouseDownTimer.value = setTimeout(() => {
-            handleDragStart(e)
-        }, 300)
-    }
+function touchDown(e: TouchEvent) {
+    console.log('handleDragStart')
+
+    touchTimer.value = setTimeout(() => {
+        console.log('handleDragStartTimer')
+
+        handleDragStart(e)
+    }, 500)
 }
 
-function touchRelease(e: MouseEvent | TouchEvent) {
-    if ('touches' in e) {
-        mouseDownTimer.value = null
-    }
+function touchRelease(e: TouchEvent) {
+    console.log('touchRelease')
+    clearTimeout(touchTimer.value)
+    touchTimer.value = null
     handleDragEnd()
 }
 
@@ -101,7 +103,7 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
-
+    console.log('handleDragEnd')
     if (dragStore.active)
         onDrop()
     dragging.value = false
@@ -249,12 +251,10 @@ watch(currentPosition, (val) => {
         border: 1px solid @memo-green;
 
         &.bottom {
-            border-top: none;
             z-index: 2;
         }
 
         &.top {
-            border-bottom: none;
             z-index: 3;
         }
     }
