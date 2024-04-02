@@ -7,8 +7,14 @@ const dragStore = useDragStore()
 onMounted(() => {
     console.log('ghost mounted')
 })
+
+const { isDesktop } = useDevice()
 const style = computed(() => {
-    const str = `top:${dragStore.clientY}px; left:${dragStore.clientX}px; position: absolute; z-index: 2000 !important;`
+
+    const x = isDesktop ? dragStore.x : dragStore.screenX
+    const y = isDesktop ? dragStore.y : dragStore.screenY
+
+    const str = `top:${y}px; left:${x}px; position: absolute; z-index: 2000 !important;`
     return str
 })
 onUnmounted(() => {
