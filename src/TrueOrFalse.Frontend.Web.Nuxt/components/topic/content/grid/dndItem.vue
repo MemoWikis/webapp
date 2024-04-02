@@ -3,9 +3,11 @@ import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
+import { useUserStore } from '~/components/user/userStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
+const userStore = useUserStore()
 
 interface Props {
     topic: GridTopicItem
@@ -19,7 +21,9 @@ const props = defineProps<Props>()
 const dropIn = ref(false)
 const dragOverTimer = ref()
 const isDroppableItemActive = ref(false)
-function onDragOver() {
+function onDragOver(e: any) {
+    e.preventDefault()
+
     isDroppableItemActive.value = true
     if (dragOverTimer.value == null)
         dragOverTimer.value = Date.now()
@@ -68,14 +72,13 @@ async function onDrop() {
 const dragging = ref(false)
 
 function handleDragStart(e: DragEvent) {
-    var customDragImage = document.createElement('div');
-    customDragImage.textContent = '';
-    customDragImage.style.position = 'absolute';
-    customDragImage.style.top = '-99999px';
-    document.body.appendChild(customDragImage);
+    const customDragImage = document.createElement('div')
+    customDragImage.textContent = ''
+    customDragImage.style.position = 'absolute'
+    customDragImage.style.top = '-99999px'
+    document.body.appendChild(customDragImage)
 
     e.dataTransfer?.setDragImage(customDragImage, 0, 0);
-
     const data: TransferData = {
         movingTopicId: props.topic.id,
         oldParentId: props.parentId,
@@ -107,19 +110,24 @@ function handleDragEnd() {
 const dragComponent = ref<HTMLElement | null>(null)
 
 function handleDrag(e: DragEvent) {
-    if (dragComponent.value && window != null) {
+    if (dragComponent.value) {
         const el = dragComponent.value.getBoundingClientRect()
         const x = e.pageX - el.left
         const y = e.pageY - el.height
         dragStore.setMousePosition(x, y)
     }
 }
+
+onMounted(() => {
+    console.log('isloggedin', userStore.isLoggedIn)
+    console.log('mount')
+})
 </script>
 
 <template>
     <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
         ref="dragComponent" @drag.stop="handleDrag">
-        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
+        <div @dragover="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
@@ -169,7 +177,7 @@ function handleDrag(e: DragEvent) {
 
                 </div>
             </div>
-        </SharedDroppable>
+        </div>
     </div>
 </template>
 

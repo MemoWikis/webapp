@@ -15,7 +15,6 @@ function handleDragStart(event: any) {
 function handleDragEnd() {
     emit('dragEnded')
     dragStore.dragEnd()
-
 }
 
 const emit = defineEmits(['dragEnded', 'selfDragStarted'])

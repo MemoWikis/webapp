@@ -172,7 +172,9 @@ watch(currentPosition, (val) => {
         currentPositionTimer.value = null
     }
 }, { immediate: true })
-
+onMounted(() => {
+    console.log('touchitem')
+})
 </script>
 
 <template>
