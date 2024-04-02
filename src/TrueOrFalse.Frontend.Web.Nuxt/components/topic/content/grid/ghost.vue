@@ -24,9 +24,9 @@ onUnmounted(() => {
 
 <template>
     <div class="ghost-container" :style="style">
-        <div class="">
+        <div class="ghost-body">
             <div class="name">
-                {{ 'TEST' }}
+                {{ dragStore.transferData.topicName }}
             </div>
         </div>
     </div>
@@ -36,7 +36,17 @@ onUnmounted(() => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .ghost-container {
-    background: @memo-green;
-    padding: 20px;
+    background: white;
+    padding: 12px 24px;
+    border: solid 1px @memo-grey-light;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+
+    .ghost-body {
+        // display: flex;
+        // flex-wrap: nowrap;
+        // justify-content: center;
+        // align-items: center;
+    }
 }
 </style>

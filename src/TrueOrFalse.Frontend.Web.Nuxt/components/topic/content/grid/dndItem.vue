@@ -69,7 +69,7 @@ const dragging = ref(false)
 
 function handleDragStart(e: DragEvent) {
     var customDragImage = document.createElement('div');
-    customDragImage.textContent = 'Dragging...';
+    customDragImage.textContent = '';
     customDragImage.style.position = 'absolute';
     customDragImage.style.top = '-99999px';
     document.body.appendChild(customDragImage);
@@ -111,6 +111,7 @@ function handleDrag(e: DragEvent) {
         const el = dragComponent.value.getBoundingClientRect()
         const x = e.pageX - el.left
         const y = e.pageY - el.height
+        console.log(x, y, el.height)
         dragStore.setMousePosition(x, y)
     }
 }
@@ -118,7 +119,7 @@ function handleDrag(e: DragEvent) {
 
 <template>
     <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
-        ref="dragComponent" @drag="handleDrag">
+        ref="dragComponent" @drag.stop="handleDrag">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
@@ -247,6 +248,7 @@ function handleDrag(e: DragEvent) {
 
 .draggable {
     transition: all 0.5s;
+    cursor: grab;
 
     .item {
         opacity: 1;
@@ -255,6 +257,10 @@ function handleDrag(e: DragEvent) {
             opacity: 0.2;
         }
 
+    }
+
+    &:active {
+        cursor: grabbing;
     }
 }
 </style>
