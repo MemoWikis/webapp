@@ -2,20 +2,15 @@
 
 namespace VueApp;
 
-public class CommentAddController : BaseController
+public class CommentAddController(SessionUser _sessionUser, AddCommentService _addCommentService) : Controller
 {
-    private readonly AddCommentService _addCommentService;
-
-    public CommentAddController(SessionUser sessionUser, AddCommentService addCommentService) :base(sessionUser)
-    {
-        _addCommentService = addCommentService;
-    }
+    
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveComment([FromBody] AddCommentJson json)
     {
-        _addCommentService.SaveComment(CommentType.AnswerQuestion, json, UserId);
+        _addCommentService.SaveComment(CommentType.AnswerQuestion, json, _sessionUser.UserId);
         return true;
     }
 }

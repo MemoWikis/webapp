@@ -1,103 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using TrueOrFalse.Domain;
 
 namespace VueApp;
-
-public class BreadcrumbController : BaseController
+public class BreadcrumbController(SessionUser _sessionUser, BreadcrumbCreator _breadcrumbCreator) : Controller
 {
-    private readonly CrumbtrailService _crumbtrailService;
-
-    public BreadcrumbController(SessionUser sessionUser, CrumbtrailService crumbtrailService) : base(sessionUser)
-    {
-        _crumbtrailService = crumbtrailService;
-    }
-
-    public readonly record struct GetBreadcrumbParam(int wikiId, int currentCategoryId);
     [HttpPost]
-    public JsonResult GetBreadcrumb([FromBody] GetBreadcrumbParam param)
+    public Breadcrumb GetBreadcrumb([FromBody] BreadcrumbCreator.GetBreadcrumbParam param)
     {
-        var wikiId = param.wikiId;
-        int currentCategoryId = param.currentCategoryId;
-
-        var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
-        _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
-        var category = EntityCache.GetCategory(currentCategoryId);
-        var currentWiki = _crumbtrailService.GetWiki(category,_sessionUser);
-        _sessionUser.SetWikiId(currentWiki);
-
-        var breadcrumb = _crumbtrailService.BuildCrumbtrail(category, currentWiki);
-
-        var breadcrumbItems = new List<BreadcrumbItem>();
-
-        foreach (var item in breadcrumb.Items)
-        {
-            if (item.Category.Id != breadcrumb.Root.Category.Id)
-                breadcrumbItems.Add(new BreadcrumbItem
-                {
-                    Name = item.Text,
-                    Id = item.Category.Id
-                });
-        }
-
-        var personalWiki = new BreadcrumbItem();
-        if (_sessionUser.IsLoggedIn)
-        {
-            var personalWikiId = _sessionUser.User.StartTopicId;
-            personalWiki.Id = personalWikiId;
-            personalWiki.Name = EntityCache.GetCategory(personalWikiId).Name;
-        }
-        else
-        {
-            personalWiki.Id = RootCategory.RootCategoryId;
-            personalWiki.Name = RootCategory.Get.Name;
-        }
-
-        return Json(new Breadcrumb
-        {
-            NewWikiId = currentWiki.Id,
-            Items = breadcrumbItems,
-            PersonalWiki = personalWiki,
-            RootTopic = new BreadcrumbItem
-            {
-                Name = breadcrumb.Root.Text,
-                Id = breadcrumb.Root.Category.Id
-            },
-            CurrentTopic = new BreadcrumbItem
-            {
-                Name = breadcrumb.Current.Text,
-                Id = breadcrumb.Current.Category.Id
-            },
-            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
-        });
+        return _breadcrumbCreator.GetBreadcrumb(param); 
     }
 
     [HttpGet]
-    public JsonResult GetPersonalWiki()
+    public BreadcrumbItem GetPersonalWiki()
     {
         var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
-        return Json(new BreadcrumbItem
+        return new BreadcrumbItem
         {
             Name = topic.Name,
             Id = topic.Id
-        });
-    }
-
-    public class Breadcrumb
-    {
-        public int NewWikiId { get; set; }
-        public BreadcrumbItem PersonalWiki { get; set; }
-        public List<BreadcrumbItem> Items { get; set; }
-        public BreadcrumbItem RootTopic { get; set; }
-        public BreadcrumbItem CurrentTopic { get; set; }
-        public bool BreadcrumbHasGlobalWiki { get; set; }
-        public bool IsInPersonalWiki { get; set; }
-    }
-
-    public class BreadcrumbItem
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
+        };
     }
 }

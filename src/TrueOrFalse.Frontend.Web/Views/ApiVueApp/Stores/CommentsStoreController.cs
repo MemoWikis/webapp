@@ -5,30 +5,27 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class CommentsStoreController : BaseController
+public class CommentsStoreController : Controller
 {
     private readonly CommentRepository _commentRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public CommentsStoreController(SessionUser sessionUser,
         CommentRepository commentRepository,
         UserReadingRepo userReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
+        IHttpContextAccessor httpContextAccessor) 
     {
         _commentRepository = commentRepository;
         _userReadingRepo = userReadingRepo;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     [HttpGet]
     public JsonResult GetAllComments([FromRoute] int id)
     {
         var _comments = _commentRepository.GetForDisplay(id);
-        var commentHelper = new AddCommentService(_commentRepository, _userReadingRepo, _httpContextAccessor, _webHostEnvironment);
+        var commentHelper = new AddCommentService(_commentRepository, _userReadingRepo, _httpContextAccessor);
         var settledComments = _comments.Where(c => c.IsSettled).Select(c => commentHelper.GetComment(c)).ToArray();
         var unsettledComments = _comments.Where(c => !c.IsSettled).Select(c => commentHelper.GetComment(c)).ToArray();
 

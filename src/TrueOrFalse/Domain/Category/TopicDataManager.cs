@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 
-namespace VueApp;
 
 public class TopicDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    CategoryGridManager _gridItemLogic,
+    CategoryGridManager categoryGridManager,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     CategoryViewRepo _categoryViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -109,7 +107,7 @@ public class TopicDataManager(
                 knowledgeSummary.NeedsConsolidation,
                 knowledgeSummary.Solid
             ),
-            GridItems: _gridItemLogic.GetChildren(id),
+            GridItems: categoryGridManager.GetChildren(id),
             IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).ChildRelations.Any(r => r.ChildId == topic.Id)
         );
     }

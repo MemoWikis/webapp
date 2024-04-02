@@ -1,28 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
-public class AddCommentService : IRegisterAsInstancePerLifetime
+public class AddCommentService(CommentRepository _commentRepository,
+    UserReadingRepo _userReadingRepo,
+    IHttpContextAccessor _httpContextAccessor) : IRegisterAsInstancePerLifetime
 {
-    private readonly CommentRepository _commentRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public AddCommentService(CommentRepository commentRepository,
-        UserReadingRepo userReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        _commentRepository = commentRepository;
-        _userReadingRepo = userReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
-
     public  CommentJson GetComment(Comment c, bool showSettled = false)
     {
         var comment = new CommentJson
