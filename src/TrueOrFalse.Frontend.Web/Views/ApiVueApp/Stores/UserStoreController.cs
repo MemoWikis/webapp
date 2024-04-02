@@ -152,7 +152,7 @@ public class UserStoreController : BaseController
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser,
+                PersonalWiki = new TopicDataManager(_sessionUser,
                         _permissionCheck, 
                         _gridItemLogic, 
                         _knowledgeSummaryLoader, 

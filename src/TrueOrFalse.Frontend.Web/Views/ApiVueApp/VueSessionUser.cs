@@ -6,19 +6,19 @@ namespace VueApp;
 public class VueSessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
-    private readonly TopicControllerLogic _topicControllerLogic;
+    private readonly TopicDataManager _topicDataManager;
     private readonly GetUnreadMessageCount _getUnreadMessageCount;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserReadingRepo _userReadingRepo;
 
     public VueSessionUser(SessionUser sessionUser,
-        TopicControllerLogic topicControllerLogic,
+        TopicDataManager topicDataManager,
         GetUnreadMessageCount getUnreadMessageCount,
         IHttpContextAccessor httpContextAccessor,
         UserReadingRepo userReadingRepo)
     {
         _sessionUser = sessionUser;
-        _topicControllerLogic = topicControllerLogic;
+        _topicDataManager = topicDataManager;
         _getUnreadMessageCount = getUnreadMessageCount;
         _httpContextAccessor = httpContextAccessor;
         _userReadingRepo = userReadingRepo;
@@ -55,7 +55,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                     .Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki =_topicControllerLogic.GetTopicData(user.StartTopicId),
+                PersonalWiki =_topicDataManager.GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -94,7 +94,7 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = _topicControllerLogic
+            PersonalWiki = _topicDataManager
              .GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {

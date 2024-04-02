@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
-public class TopicControllerLogic(
+public class TopicDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     GridItemLogic _gridItemLogic,
