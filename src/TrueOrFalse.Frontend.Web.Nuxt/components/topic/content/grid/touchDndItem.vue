@@ -111,11 +111,15 @@ function handleDragEnd() {
     currentPosition.value = TargetPosition.None
 }
 
+const touchDragComponent = ref<HTMLElement | null>(null)
+
 function handleDrag(e: MouseEvent | TouchEvent) {
 
-    if (dragging.value && 'touches' in e) {
-        const clientX = e.changedTouches[0].clientX;
-        const clientY = e.changedTouches[0].clientY;
+    if (dragging.value && 'touches' in e && touchDragComponent.value) {
+        const el = touchDragComponent.value.getBoundingClientRect()
+        const clientX = e.changedTouches[0].clientX - el.left
+        const clientY = e.changedTouches[0].clientY - el.top
+        console.log(el)
         dragStore.setMouseData(clientX, clientY)
     }
 }
@@ -174,7 +178,7 @@ watch(currentPosition, (val) => {
 
 <template>
     <div class="draggable" v-touch:press="touchDown" v-touch:release="touchRelease" v-touch:drag="handleDrag"
-        @dragstart.stop="handleDragStart" @dragend="handleDragEnd" style="touch-action: none">
+        @dragstart.stop="handleDragStart" @dragend="handleDragEnd" style="touch-action: none" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" v-on:mouseenter="hoverTopHalf = true" class="emptydropzone"

@@ -8,10 +8,7 @@ onMounted(() => {
     console.log('ghost mounted')
 })
 const style = computed(() => {
-    const scrollX = document.documentElement.scrollLeft - 80;
-    const scrollY = document.documentElement.scrollTop - 80;
-    const str = `top:${dragStore.clientY + scrollY}px; left:${dragStore.clientX + scrollX}px; position: absolute; z-index: 2000 !important;`
-    console.log(str)
+    const str = `top:${dragStore.clientY}px; left:${dragStore.clientX}px; position: absolute; z-index: 2000 !important;`
     return str
 })
 onUnmounted(() => {

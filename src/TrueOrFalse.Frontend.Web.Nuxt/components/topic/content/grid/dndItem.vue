@@ -104,14 +104,29 @@ function handleDragEnd() {
     currentPosition.value = TargetPosition.None
 }
 
+const dragComponent = ref<HTMLElement | null>(null)
+
 function handleDrag(e: DragEvent) {
-    dragStore.setMousePosition(e.clientX, e.clientY)
+    if (dragComponent.value && window != null) {
+        const el = dragComponent.value.getBoundingClientRect()
+        const x = e.pageX - el.left
+        const y = e.pageY
+        console.log(x, y)
+        dragStore.setMousePosition(x, y)
+    }
 }
+
+onMounted(() => {
+    if (dragComponent.value && window != null) {
+        const el = dragComponent.value.getBoundingClientRect()
+        console.log(el)
+    }
+})
 </script>
 
 <template>
     <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
-        @drag="handleDrag">
+        ref="dragComponent" @drag="handleDrag">
         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
 
             <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
