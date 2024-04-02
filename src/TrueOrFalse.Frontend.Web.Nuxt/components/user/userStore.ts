@@ -54,7 +54,8 @@ export const useUserStore = defineStore('userStore', {
             EndDate: null as Date | null,
             isSubscriptionCanceled: false,
             subscriptionStartDate: null as Date | null,
-            isEmailConfirmed: false
+            isEmailConfirmed: false,
+            showBanner: false
         }
     },
     actions: {

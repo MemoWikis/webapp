@@ -111,7 +111,6 @@ function handleDrag(e: DragEvent) {
         const el = dragComponent.value.getBoundingClientRect()
         const x = e.pageX - el.left
         const y = e.pageY - el.height
-        console.log(x, y, el.height)
         dragStore.setMousePosition(x, y)
     }
 }

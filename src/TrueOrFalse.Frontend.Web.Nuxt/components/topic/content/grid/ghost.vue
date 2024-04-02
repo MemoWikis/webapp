@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { useDragStore } from '~/components/shared/dragStore'
+import { useUserStore } from '~/components/user/userStore'
 
-
+const userStore = useUserStore()
 const dragStore = useDragStore()
 
 onMounted(() => {
@@ -14,7 +15,7 @@ const style = computed(() => {
     const x = isDesktop ? dragStore.x : dragStore.screenX
     const y = isDesktop ? dragStore.y : dragStore.screenY
 
-    const str = `top:${y}px; left:${x}px; position: absolute; z-index: 2000 !important;`
+    const str = `top:${y - (userStore.showBanner ? 96 : 0)}px; left:${x}px; position: absolute; z-index: 2000 !important;`
     return str
 })
 onUnmounted(() => {
