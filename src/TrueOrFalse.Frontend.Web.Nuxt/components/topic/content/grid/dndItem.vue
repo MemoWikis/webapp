@@ -110,18 +110,10 @@ function handleDrag(e: DragEvent) {
     if (dragComponent.value && window != null) {
         const el = dragComponent.value.getBoundingClientRect()
         const x = e.pageX - el.left
-        const y = e.pageY
-        console.log(x, y)
+        const y = e.pageY - el.height
         dragStore.setMousePosition(x, y)
     }
 }
-
-onMounted(() => {
-    if (dragComponent.value && window != null) {
-        const el = dragComponent.value.getBoundingClientRect()
-        console.log(el)
-    }
-})
 </script>
 
 <template>

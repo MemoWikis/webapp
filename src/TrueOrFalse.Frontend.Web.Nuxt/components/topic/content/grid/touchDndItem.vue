@@ -117,8 +117,8 @@ function handleDrag(e: MouseEvent | TouchEvent) {
 
     if (dragging.value && 'touches' in e && touchDragComponent.value) {
         const el = touchDragComponent.value.getBoundingClientRect()
-        const clientX = e.changedTouches[0].clientX - el.left
-        const clientY = e.changedTouches[0].clientY - el.top
+        const clientX = e.changedTouches[0].pageX - el.left
+        const clientY = e.changedTouches[0].pageY - el.height
         console.log(el)
         dragStore.setMouseData(clientX, clientY)
     }
