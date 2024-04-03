@@ -2,37 +2,34 @@
 import { useSnackbarStore } from './snackBarStore'
 const snackbarStore = useSnackbarStore()
 
-async function customFunction(id: number) {
+async function customFunction(id: number, dismiss?: any) {
 	const index = snackbarStore.customActions.findIndex(c => c.id == id)
-	console.log(index)
 	if (index >= 0) {
 		snackbarStore.customActions[index].action()
 		await nextTick()
-		snackbarStore.splice(index, 1)
+		snackbarStore.customActions.splice(index, 1)
 	}
+	dismiss()
 }
 </script>
 
 <template>
-    <NuxtSnackbar bottom right :duration="40000">
+    <NuxtSnackbar :duration="4000">
 		<template #message-content="{ text, title }">
-			<template v-if="text.buttonId">
-				<div class="snackbar-content-btn">
-					<div class="">
-						<strong v-text="title"></strong>
-						<p v-text="text.message"></p>
-					</div>
-					<div @click="customFunction(text.buttonId)" class="snackbar-btn-container">
-						<div class="snackbar-btn">
-							{{ text.buttonLabel }}
-						</div>
-					</div>
-				</div >
-			</template>
-			<template v-else>
 				<strong v-text="title"></strong>
 				<p v-text="text.message"></p>
-			</template>
+		</template>
+		<template #message-close-icon="{ message, isDismissible, dismiss }">
+			<div class="snackbar-content-btn">
+				<button v-if="isDismissible" @click="dismiss">
+				Close
+				</button>
+				<div v-if="message.text.buttonId" @click="customFunction(message.text.buttonId, dismiss)" class="snackbar-btn-container" >
+					<div class="snackbar-btn">
+						{{ message.text.buttonLabel }}
+					</div>
+				</div>
+			</div >
 		</template>
 	</NuxtSnackbar>
 </template>
@@ -51,6 +48,7 @@ p {
 		align-items: center;
 		padding: 10px;
 		cursor: pointer;
+		flex-direction: row-reverse;
 		.snackbar-btn {
 			font-size: 14px;
 			text-transform: uppercase;
