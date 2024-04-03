@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -15,12 +16,11 @@ public class QuestionLandingPageController
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly SessionUserCache _sessionUserCache;
-    private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly AnswerQuestionDetailsService _answerQuestionDetailsService;
 
     public QuestionLandingPageController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -30,17 +30,17 @@ public class QuestionLandingPageController
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
+        QuestionReadingRepo questionReadingRepo,
+        AnswerQuestionDetailsService answerQuestionDetailsService) : base(sessionUser)
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _totalsPersUserLoader = totalsPersUserLoader;
         _sessionUserCache = sessionUserCache;
-        _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
+        _answerQuestionDetailsService = answerQuestionDetailsService;
     }
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
@@ -109,15 +109,8 @@ public class QuestionLandingPageController
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
-                _permissionCheck, 
-                _imageMetaDataReadingRepo, 
-                _totalsPersUserLoader,
-                _httpContextAccessor,
-                _sessionUserCache,
-                _actionContextAccessor,
-                _questionReadingRepo)
-                .GetData(id)
+            answerQuestionDetailsModel = 
+                _answerQuestionDetailsService.GetData(id)
         });
     }
 

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
@@ -19,10 +20,10 @@ public class VueQuestionController : Controller
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly TotalsPersUserLoader _totalsPersUserLoader;
     private readonly SessionUserCache _sessionUserCache;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IActionContextAccessor _actionContextAccessor;
+    private readonly AnswerQuestionDetailsService _answerQuestionDetailsService;
 
     public VueQuestionController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
@@ -31,10 +32,10 @@ public class VueQuestionController : Controller
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionReadingRepo questionReadingRepo,
-        TotalsPersUserLoader totalsPersUserLoader,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
-        IActionContextAccessor actionContextAccessor) 
+        IActionContextAccessor actionContextAccessor,
+        AnswerQuestionDetailsService answerQuestionDetailsService) 
     {
         _sessionUser = sessionUser;
         _permissionCheck = permissionCheck;
@@ -43,10 +44,10 @@ public class VueQuestionController : Controller
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionReadingRepo = questionReadingRepo;
-        _totalsPersUserLoader = totalsPersUserLoader;
         _sessionUserCache = sessionUserCache;
         _httpContextAccessor = httpContextAccessor;
         _actionContextAccessor = actionContextAccessor;
+        _answerQuestionDetailsService = answerQuestionDetailsService;
     }
 
     [HttpGet]
@@ -109,15 +110,8 @@ public class VueQuestionController : Controller
                     referenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = new AnswerQuestionDetailsController(_sessionUser,
-                    _permissionCheck,
-                    _imageMetaDataReadingRepo,
-                    _totalsPersUserLoader,
-                    _httpContextAccessor,
-                    _sessionUserCache,
-                    _actionContextAccessor,
-                    _questionReadingRepo)
-                .GetData(id)
+            answerQuestionDetailsModel = 
+                _answerQuestionDetailsService.GetData(id)
         });
     }
 
