@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-public class CategoryGridManager
+public class TopicGridManager
     : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
@@ -11,7 +11,7 @@ public class CategoryGridManager
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public CategoryGridManager(PermissionCheck permissionCheck,
+    public TopicGridManager(PermissionCheck permissionCheck,
         SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReading,
         IHttpContextAccessor httpContextAccessor,

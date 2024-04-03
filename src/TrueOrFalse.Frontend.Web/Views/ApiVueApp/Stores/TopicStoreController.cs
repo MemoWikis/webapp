@@ -9,13 +9,13 @@ public class TopicStoreController : BaseController
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly CategoryRepository _categoryRepository;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly GridItemLogic _gridItemLogic;
+    private readonly TopicGridManager _gridItemLogic;
 
     public TopicStoreController(SessionUser sessionUser,
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor, GridItemLogic gridItemLogic) : base(sessionUser)
+        IHttpContextAccessor httpContextAccessor, TopicGridManager gridItemLogic) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
@@ -89,7 +89,7 @@ public class TopicStoreController : BaseController
     }
 
     [HttpGet]
-    public GridItemLogic.GridTopicItem[] GetGridTopicItems([FromRoute] int id)
+    public TopicGridManager.GridTopicItem[] GetGridTopicItems([FromRoute] int id)
     {
         return _gridItemLogic.GetChildren(id);
     }

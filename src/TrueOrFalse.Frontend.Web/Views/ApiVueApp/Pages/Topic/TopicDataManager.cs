@@ -7,7 +7,7 @@ namespace VueApp;
 public class TopicDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    CategoryGridManager _gridItemLogic,
+    TopicGridManager _gridItemLogic,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     CategoryViewRepo _categoryViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -152,7 +152,7 @@ public class TopicDataManager(
         SearchTopicItem TopicItem,
         string MetaDescription,
         KnowledgeSummarySlim KnowledgeSummary,
-        CategoryGridManager.GridTopicItem[] GridItems,
+        TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki
         );
 }

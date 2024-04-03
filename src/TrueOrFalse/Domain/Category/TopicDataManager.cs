@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 public class TopicDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    CategoryGridManager categoryGridManager,
+    TopicGridManager topicGridManager,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     CategoryViewRepo _categoryViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -107,7 +107,7 @@ public class TopicDataManager(
                 knowledgeSummary.NeedsConsolidation,
                 knowledgeSummary.Solid
             ),
-            GridItems: categoryGridManager.GetChildren(id),
+            GridItems: topicGridManager.GetChildren(id),
             IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).ChildRelations.Any(r => r.ChildId == topic.Id)
         );
     }
@@ -150,7 +150,7 @@ public class TopicDataManager(
         SearchTopicItem TopicItem,
         string MetaDescription,
         KnowledgeSummarySlim KnowledgeSummary,
-        CategoryGridManager.GridTopicItem[] GridItems,
+        TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki
         );
 }
