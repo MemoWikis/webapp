@@ -98,10 +98,11 @@ public class EditTopicRelationStoreController : BaseController
     {
         Before,
         After,
+        Inner,
         None
     }
     public readonly record struct MoveTopicJson(int movingTopicId, int targetId, TargetPosition position, int newParentId, int oldParentId);
-    public readonly record struct MoveTopicResult(int oldParentId, int newParentId);
+    public readonly record struct MoveTopicResult(int oldParentId, int newParentId, MoveTopicJson undoMove);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public MoveTopicResult MoveTopic([FromBody] MoveTopicJson json)
@@ -112,22 +113,42 @@ public class EditTopicRelationStoreController : BaseController
         if (!_permissionCheck.CanEditCategory(json.movingTopicId))
             throw new Exception("NoRights");
 
-        var relationToMove = EntityCache.GetCategory(json.oldParentId).ChildRelations
-            .Where(r => r.ChildId == json.movingTopicId).FirstOrDefault();
+        if (json.movingTopicId == json.newParentId)
+            throw new Exception("CircularReference");
 
-        if (relationToMove != null)
-        {
-            var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var relationToMove = EntityCache.GetCategory(json.oldParentId)?.ChildRelations.FirstOrDefault(r => r.ChildId == json.movingTopicId);
 
-            if (json.position == TargetPosition.Before)
-                ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
-            else if (json.position == TargetPosition.After)
-                ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
-            else if (json.position == null || json.position == TargetPosition.None)
-                throw new Exception("NoPosition");
-        }
+        if (relationToMove == null)
+            throw new Exception("NoRelationToMove");
 
-        return new MoveTopicResult(json.oldParentId, json.newParentId);
+        var undoMoveTopicData = GetUndoMoveTopicData(relationToMove, json.newParentId, json.targetId);
+
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+
+        if (json.position == TargetPosition.Before)
+            ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId,
+                modifyRelationsForCategory);
+        else if (json.position == TargetPosition.After)
+            ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
+        else if (json.position == TargetPosition.Inner)
+            ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
+        else if (json.position == TargetPosition.None)
+            throw new Exception("NoPosition");
+
+        return new MoveTopicResult(json.oldParentId, json.newParentId, undoMoveTopicData);
+    }
+
+    private MoveTopicJson GetUndoMoveTopicData(CategoryCacheRelation relation, int newParentId, int targetId)
+    {
+        if (relation.PreviousId != null && _permissionCheck.CanViewCategory((int)relation.PreviousId))
+            return new MoveTopicJson(relation.ChildId, (int)relation.PreviousId, TargetPosition.After, relation.ParentId,
+                newParentId);
+
+        if (relation.NextId != null && _permissionCheck.CanViewCategory((int)relation.NextId))
+            return new MoveTopicJson(relation.ChildId, (int)relation.NextId, TargetPosition.Before, relation.ParentId,
+                newParentId);
+        
+        return new MoveTopicJson(relation.ChildId, relation.ParentId, TargetPosition.Inner, targetId, targetId);
     }
 
     [AccessOnlyAsLoggedIn]

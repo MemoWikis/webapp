@@ -24,6 +24,7 @@ interface Props {
     parentId: number
     parentName: string
     isDragging: boolean
+    dropExpand: boolean
 }
 
 const props = defineProps<Props>()
@@ -46,6 +47,12 @@ watch(expanded, async (val) => {
     if (val && !childrenLoaded.value && props.topic.childrenCount > 0)
         await loadChildren()
 })
+
+watch(() => props.dropExpand, val => {
+    if (val && expanded.value == false)
+        expanded.value = true
+})
+
 const children = ref<GridTopicItem[]>([])
 const childrenLoaded = ref<boolean>(false)
 
@@ -218,6 +225,25 @@ watch(() => props.isDragging, (val) => {
     dragActive.value = val
 }, { immediate: true })
 
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                if (result.oldParentId == props.topic.id || result.newParentId == props.topic.id)
+                    loadChildren(true)
+
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (children.value.find(c => c.id == result.oldParentId))
+                    reloadGridItem(result.oldParentId)
+                if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
+                    reloadGridItem(result.newParentId)
+            }
+        })
+    }
+})
+const { isDesktop } = useDevice()
 </script>
 
 <template>
@@ -225,10 +251,12 @@ watch(() => props.isDragging, (val) => {
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
         <slot name="topdropzone"></slot>
-        <slot name="bottomdropzone" v-if="!expanded"></slot>
+        <slot name="bottomdropzone"
+            v-if="!expanded || ((children.length == 0 && childrenLoaded) || props.topic.childrenCount == 0)"></slot>
+        <slot name="dropinzone"></slot>
 
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
         </div>
 
@@ -262,8 +290,14 @@ watch(() => props.isDragging, (val) => {
     </div>
 
     <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
-        <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-            :parent-id="props.topic.id" :parent-name="props.topic.name" />
+        <template v-if="isDesktop">
+            <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name" />
+        </template>
+        <template v-else>
+            <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name" />
+        </template>
     </div>
 
 </template>

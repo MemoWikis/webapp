@@ -58,28 +58,9 @@ public class ModifyRelationsEntityCache
         return false;
     }
 
-    public static CategoryCacheRelation AddChild(int parentId, int childId) => AddChild(EntityCache.GetCategory(parentId), EntityCache.GetCategory(childId));
-
-    public static CategoryCacheRelation AddChild(CategoryCacheItem parent, CategoryCacheItem child)
-    {
-        var previousId = parent.ChildRelations.LastOrDefault()?.ChildId;
-        var newRelation = new CategoryCacheRelation
-        {
-            ParentId = parent.Id,
-            ChildId = child.Id,
-            PreviousId = previousId,
-            NextId = null
-        };
-        parent.ChildRelations.Add(newRelation); 
-        child.ParentRelations.Add(newRelation);
-
-        return newRelation;
-    }
-
     public static CategoryCacheRelation AddChild(CategoryRelation categoryRelation)
     {
         var newRelation = CategoryCacheRelation.ToCategoryCacheRelation(categoryRelation);
-        EntityCache.AddOrUpdate(newRelation);
 
         EntityCache.GetCategory(newRelation.ParentId)?.ChildRelations.Add(newRelation);
         EntityCache.GetCategory(newRelation.ChildId)?.ParentRelations.Add(newRelation);
@@ -98,6 +79,22 @@ public class ModifyRelationsEntityCache
         return true;
     }
 
+    public static void MoveIn(
+        CategoryCacheRelation relation,
+        int newParentId,
+        int authorId,
+        ModifyRelationsForCategory modifyRelationsForCategory, PermissionCheck permissionCheck)
+    {
+        if (!CanBeMoved(relation.ChildId, newParentId))
+        {
+            throw new Exception("circular reference");
+        }
+
+        modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
+        var child = EntityCache.GetCategory(relation.ChildId);
+        RemoveParent(EntityCache.GetCategory(relation.ChildId), relation.ParentId, authorId, modifyRelationsForCategory, permissionCheck);
+    }
+
     public static (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation> UpdatedNewOrder) MoveBefore(
         CategoryCacheRelation relation,
         int beforeTopicId,
@@ -110,8 +107,8 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        var updatedOldOrder = Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
         var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId, modifyRelationsForCategory);
+        var updatedOldOrder = Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -128,8 +125,8 @@ public class ModifyRelationsEntityCache
             throw new Exception("circular reference");
         }
 
-        var updatedOldOrder = Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
         var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId, modifyRelationsForCategory);
+        var updatedOldOrder = Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
 
         return (updatedOldOrder, updatedNewOrder);
     }

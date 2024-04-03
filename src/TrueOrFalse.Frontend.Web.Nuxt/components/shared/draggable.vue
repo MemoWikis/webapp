@@ -8,15 +8,13 @@ const props = defineProps<Props>()
 const dragStore = useDragStore()
 
 function handleDragStart(event: any) {
-    event.dataTransfer.setData('value', props.transferData)
+    dragStore.dragStart(props.transferData)
     emit('selfDragStarted')
-    dragStore.dragStart()
 }
 
 function handleDragEnd() {
     emit('dragEnded')
     dragStore.dragEnd()
-
 }
 
 const emit = defineEmits(['dragEnded', 'selfDragStarted'])

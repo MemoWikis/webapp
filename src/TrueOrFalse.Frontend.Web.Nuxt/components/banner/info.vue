@@ -37,6 +37,10 @@ function hideInfoBanner() {
 }
 
 const { $urlHelper } = useNuxtApp()
+
+watch(showBanner, (val) => {
+    userStore.showBanner = val
+})
 </script>
 
 <template>
@@ -61,7 +65,8 @@ const { $urlHelper } = useNuxtApp()
                         :to="$urlHelper.getTopicUrl(props.documentation.name, props.documentation.id)">
                         Zur Dokumentation
                     </NuxtLink>
-                    <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()" class="hidden-xs close-banner" />
+                    <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
+                        class="hidden-xs close-banner" />
                 </div>
             </div>
         </div>

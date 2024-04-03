@@ -57,14 +57,15 @@ const rootTopicChipStore = useRootTopicChipStore()
                         alt="homepage">
                         <div id="Logo">
                             <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />
-                            <Image src="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small"
-                                alt="small memucho logo" />
+                            <Image src="/Images/Logo/LogoSmall.png"
+                                class="hidden-sm hidden-md hidden-lg hidden-xl small" alt="small memucho logo" />
                         </div>
                     </NuxtLink>
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
                     <div id="HeaderSearch" class="" v-if="!props.isError">
-                        <div class="search-button" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
+                        <div class="search-button" :class="{ 'showSearch': showSearch }"
+                            @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>

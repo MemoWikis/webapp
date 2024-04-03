@@ -10,6 +10,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
+import { useDragStore } from '~/components/shared/dragStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -19,6 +20,7 @@ const alertStore = useAlertStore()
 const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
 const deleteTopicStore = useDeleteTopicStore()
+const dragStore = useDragStore()
 
 interface Props {
     children: GridTopicItem[]
@@ -142,7 +144,6 @@ async function loadGridItem(id: number) {
 
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
-
     if (result.success == true) {
         topicStore.gridItems = topicStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success == false)
@@ -154,7 +155,24 @@ function removeGridItem(id: number) {
     topicStore.gridItems = filteredGridItems
 }
 
-const { isMobile } = useDevice()
+const { isMobile, isDesktop } = useDevice()
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (props.children.find(c => c.id == result.oldParentId))
+                    reloadGridItem(result.oldParentId)
+                if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
+                    reloadGridItem(result.newParentId)
+            }
+        })
+    }
+})
+
 </script>
 
 <template>
@@ -191,9 +209,16 @@ const { isMobile } = useDevice()
                 </div>
 
                 <div class="grid-items">
-                    <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
-                        :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                    <template v-if="isDesktop">
+                        <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                            :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                    </template>
+                    <template v-else>
+                        <TopicContentGridTouchDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                            :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                    </template>
                 </div>
+
 
                 <div class="grid-footer">
                     <div class="grid-option overline-m no-line no-margin">
@@ -216,6 +241,12 @@ const { isMobile } = useDevice()
                 </div>
             </div>
         </div>
+
+        <div @click="editTopicRelationStore.undoMoveTopic" class="memo-button btn-default btn">Test Undo</div>
+
+        <LazyClientOnly>
+            <TopicContentGridGhost v-show="dragStore.active" />
+        </LazyClientOnly>
     </div>
 </template>
 
@@ -325,7 +356,6 @@ const { isMobile } = useDevice()
                 background: none;
             }
         }
-
     }
 }
 </style>
