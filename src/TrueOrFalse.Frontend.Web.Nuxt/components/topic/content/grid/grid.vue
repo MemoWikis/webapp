@@ -155,7 +155,7 @@ function removeGridItem(id: number) {
     topicStore.gridItems = filteredGridItems
 }
 
-const { isMobile } = useDevice()
+const { isMobile, isDesktop } = useDevice()
 
 editTopicRelationStore.$onAction(({ name, after }) => {
     if (name == 'moveTopic') {
@@ -173,7 +173,6 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     }
 })
 
-const { isDesktop } = useDevice()
 </script>
 
 <template>

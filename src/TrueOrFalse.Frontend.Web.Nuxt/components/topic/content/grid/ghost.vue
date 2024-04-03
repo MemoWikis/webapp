@@ -42,6 +42,7 @@ onUnmounted(() => {
     border: solid 1px @memo-grey-light;
     border-radius: 4px;
     box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+    pointer-events: none;
 
     .ghost-body {
         // display: flex;

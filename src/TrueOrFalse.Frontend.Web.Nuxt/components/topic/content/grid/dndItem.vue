@@ -3,11 +3,9 @@ import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
-import { useUserStore } from '~/components/user/userStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
-const userStore = useUserStore()
 
 interface Props {
     topic: GridTopicItem
@@ -68,17 +66,19 @@ async function onDrop() {
     editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
 }
 
-
 const dragging = ref(false)
-
+const customDragImage = ref()
 function handleDragStart(e: DragEvent) {
-    const customDragImage = document.createElement('div')
-    customDragImage.textContent = ''
-    customDragImage.style.position = 'absolute'
-    customDragImage.style.top = '-99999px'
-    document.body.appendChild(customDragImage)
 
-    e.dataTransfer?.setDragImage(customDragImage, 0, 0);
+    const cdi = document.createElement('div')
+    cdi.textContent = ''
+    cdi.style.position = 'absolute'
+    cdi.style.top = '-99999px'
+    customDragImage.value = cdi
+
+    document.body.appendChild(cdi)
+
+    e.dataTransfer?.setDragImage(cdi, 0, 0);
     const data: TransferData = {
         movingTopicId: props.topic.id,
         oldParentId: props.parentId,
@@ -105,6 +105,7 @@ function handleDragEnd() {
     dragging.value = false
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
+    customDragImage.value.remove()
 }
 
 const dragComponent = ref<HTMLElement | null>(null)
@@ -118,10 +119,6 @@ function handleDrag(e: DragEvent) {
     }
 }
 
-onMounted(() => {
-    console.log('isloggedin', userStore.isLoggedIn)
-    console.log('mount')
-})
 </script>
 
 <template>

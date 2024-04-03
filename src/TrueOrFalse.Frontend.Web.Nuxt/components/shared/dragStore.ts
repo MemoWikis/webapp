@@ -39,10 +39,13 @@ export const useDragStore = defineStore('dragStore', {
 		},
 		setMouseData(x: number, y: number, screenX?: number, screenY?: number) {
 			this.setMousePosition(x,y,screenX,screenY)
-			const el = document.elementFromPoint(x, y) as any
-			const jsonString = el?.getAttribute('data-dropzonedata')
-			if (jsonString)
-				this.dropZoneData = JSON.parse(jsonString)
+			if (screenX && screenY) {
+				const el = document.elementFromPoint(x, y) as any
+				const jsonString = el?.getAttribute('data-dropzonedata')
+				if (jsonString)
+					this.dropZoneData = JSON.parse(jsonString)
+			}
+
 		},
 		setMousePosition(x: number, y: number, screenX?: number, screenY?: number) {
 			this.x = x
