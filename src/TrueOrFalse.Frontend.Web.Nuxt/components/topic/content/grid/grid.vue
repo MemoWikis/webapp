@@ -11,6 +11,8 @@ import { usePublishTopicStore } from '~/components/topic/publish/publishTopicSto
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
 import { useDragStore } from '~/components/shared/dragStore'
+import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { SnackbarData } from '~/components/snackBar/snackBarStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -21,6 +23,7 @@ const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
 const deleteTopicStore = useDeleteTopicStore()
 const dragStore = useDragStore()
+const snackbarStore = useSnackbarStore()
 
 interface Props {
     children: GridTopicItem[]
@@ -172,7 +175,38 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         })
     }
 })
+const snackbar = useSnackbar()
 
+function snack() {
+
+    const randomBoolean = () => Math.random() >= 0.5;
+    if (randomBoolean())
+        snackbar.add({
+            type: 'success',
+            title: 'test2',
+            text: { message: 'This is a snackbar message' }
+        })
+    else {
+        const snackbarCustomAction: SnackbarCustomAction = {
+            label: 'Zurücksetzen',
+            action: () => {
+                editTopicRelationStore.undoMoveTopic()
+            }
+        }
+        const snackbarData: SnackbarData = {
+            type: 'info',
+            title: 'Thema wurde verschoben',
+            text: 'Testnachricht',
+            snackbarCustomAction: snackbarCustomAction
+        }
+        snackbar.add({
+            type: snackbarData.type,
+            title: snackbarData.title,
+            text: { message: snackbarData.text, buttonLabel: snackbarData.snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction) }
+        })
+
+    }
+}
 </script>
 
 <template>
@@ -242,7 +276,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             </div>
         </div>
 
-        <div @click="editTopicRelationStore.undoMoveTopic" class="memo-button btn-default btn">Test Undo</div>
+        <div @click="snack" class="memo-button btn-default btn">Test Undo</div>
 
         <LazyClientOnly>
             <TopicContentGridGhost v-show="dragStore.active" />

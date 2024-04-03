@@ -140,6 +140,7 @@ useHead(() => ({
 		}
 	]
 }))
+
 </script>
 
 <template>
@@ -160,6 +161,6 @@ useHead(() => ({
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
 	</ClientOnly>
-
+	<SnackBar />
 	<Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>

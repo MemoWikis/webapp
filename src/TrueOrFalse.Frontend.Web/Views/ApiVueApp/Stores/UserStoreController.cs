@@ -3,25 +3,23 @@ using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain.User;
 namespace VueApp;
 
-public class UserStoreControllerVueSessionUser( VueSessionUser _vueSessionUser,
-SessionUser _sessionUser,
-RegisterUser _registerUser,
-PersistentLoginRepo _persistentLoginRepo,
-GetUnreadMessageCount _getUnreadMessageCount,
-PasswordRecovery _passwordRecovery,
-Login _login,
-IHttpContextAccessor _httpContextAccessor,
-PermissionCheck _permissionCheck,
-TopicGridManager _gridItemLogic,
-KnowledgeSummaryLoader _knowledgeSummaryLoader,
-CategoryViewRepo _categoryViewRepo,
-ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-UserReadingRepo _userReadingRepo,
-QuestionReadingRepo _questionReadingRepo,
-JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
-{
- 
-   
+public class UserStoreController(
+    VueSessionUser _vueSessionUser,
+    SessionUser _sessionUser,
+    RegisterUser _registerUser,
+    PersistentLoginRepo _persistentLoginRepo,
+    GetUnreadMessageCount _getUnreadMessageCount,
+    PasswordRecovery _passwordRecovery,
+    Login _login,
+    IHttpContextAccessor _httpContextAccessor,
+    PermissionCheck _permissionCheck,
+    TopicGridManager _gridItemLogic,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    CategoryViewRepo _categoryViewRepo,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    UserReadingRepo _userReadingRepo,
+    QuestionReadingRepo _questionReadingRepo,
+    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser) {
 
     [HttpPost]
     public JsonResult Login([FromBody] LoginParam param)
