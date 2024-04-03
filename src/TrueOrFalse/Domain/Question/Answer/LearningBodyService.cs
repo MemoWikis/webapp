@@ -2,7 +2,7 @@
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
-public struct LearningBody(
+public record struct LearningBody(
     int Id,
     string Text,
     string TextHtml,
@@ -19,18 +19,18 @@ public struct LearningBody(
     Guid QuestionViewGuid,
     bool IsLastStep);
 
-public struct LearningResult(bool Correct,
+public record struct LearningResult(bool Correct,
     string CorrectAnswer,
     List<string> Choices,
     bool NewStepAdded,
     bool IsLastStep);
-public struct SolutionResult(
+public record struct SolutionResult(
     string AnswerAsHTML,
     string Answer,
     string AnswerDescription,
     AnswerReferences[] AnswerReferences);
 
-public struct AnswerReferences(
+public record struct AnswerReferences(
     int ReferenceId,
     int? TopicId,
     string ReferenceType,
@@ -71,8 +71,7 @@ public class LearningBodyService(
             IsCreator: q.Creator.Id == _sessionUser.UserId,
             IsInWishknowledge: _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
             QuestionViewGuid: Guid.NewGuid(),
-            IsLastStep: learningSession.Steps.Last() == step)
-        ;
+            IsLastStep: learningSession.Steps.Last() == step);
         return learningBody;
     }
 

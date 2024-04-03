@@ -7,7 +7,8 @@ public class AnswerBodyController(LearningBodyService _learningBodyService) : Co
     [HttpGet]
     public LearningBody? Get([FromRoute] int id)
     {
-       return _learningBodyService.GetLearningBody(id);
+        var answerBody = _learningBodyService.GetLearningBody(id);
+        return answerBody;
     }
 
     public readonly record struct SendAnswerToLearningSessionJson(int Id, Guid QuestionViewGuid, string Answer, bool InTestMode);

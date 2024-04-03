@@ -72,7 +72,7 @@ public class Breadcrumb
     public bool BreadcrumbHasGlobalWiki { get; set; }
     public bool IsInPersonalWiki { get; set; }
 }
-public struct BreadcrumbItem
+public record struct BreadcrumbItem
 {
     public string Name { get; set; }
     public int Id { get; set; }

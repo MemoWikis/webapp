@@ -7,7 +7,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     private readonly PermissionCheck _permissionCheck;
     private readonly SessionUserCache _sessionUserCache;
 
-    public struct QuestionProperties
+    public record struct QuestionProperties
     {
         public bool NotLearned;
         public bool NeedsLearning;
