@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-
-public class LearningSessionResultModel
+﻿public class LearningSessionResultModel
 {
     public LearningSession LearningSession;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     public int NumberSteps;
     public int NumberUniqueQuestions;
     public int NumberCorrectAnswers; //answered correctly at first try
@@ -24,15 +16,12 @@ public class LearningSessionResultModel
     public bool ShowSummaryText;
     public int PercentageAverageRightAnswers;
 
-    public LearningSessionResultModel(LearningSession learningSession,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
+    public LearningSessionResultModel(
+        LearningSession learningSession,
         bool isInTestMode = false)
     {
         ShowSummaryText = !isInTestMode;
         LearningSession = learningSession;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         NumberSteps = LearningSession.Steps.Count();
         var numberQuestions = LearningSession.Steps.Count(s => s.AnswerState == AnswerState.Unanswered || s.AnswerState == AnswerState.Skipped);
         PercentageAverageRightAnswers = (int)Math.Round(LearningSession.Steps.Sum(s => s.Question.CorrectnessProbability) / (float)numberQuestions);

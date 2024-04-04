@@ -90,7 +90,6 @@ public class QuestionLandingPageController
                 imgUrl = GetQuestionImageFrontendData.Run(q, 
                     _imageMetaDataReadingRepo, 
                     _httpContextAccessor, 
-                    _webHostEnvironment, 
                     _questionReadingRepo)
                     .GetImageUrl(435, true, imageTypeForDummy: ImageType.Question)
                     .Url

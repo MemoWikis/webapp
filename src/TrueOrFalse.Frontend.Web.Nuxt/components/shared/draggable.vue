@@ -7,7 +7,7 @@ interface Props {
 const props = defineProps<Props>()
 const dragStore = useDragStore()
 
-function handleDragStart(event: any) {
+function handleDragStart() {
     dragStore.dragStart(props.transferData)
     emit('selfDragStarted')
 }
