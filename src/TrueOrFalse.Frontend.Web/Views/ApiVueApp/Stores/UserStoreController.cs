@@ -20,9 +20,6 @@ UserReadingRepo _userReadingRepo,
 QuestionReadingRepo _questionReadingRepo,
 JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
 {
- 
-   
-
     [HttpPost]
     public JsonResult Login([FromBody] LoginParam param)
     {
