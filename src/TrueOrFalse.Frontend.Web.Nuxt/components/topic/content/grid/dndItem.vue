@@ -3,9 +3,12 @@ import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
+import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { SnackbarData } from '~/components/snackBar/snackBarStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
+const snackbarStore = useSnackbarStore()
 
 interface Props {
     topic: GridTopicItem
@@ -43,6 +46,8 @@ interface TransferData {
     topicName: string
 }
 
+const snackbar = useSnackbar()
+
 async function onDrop() {
     isDroppableItemActive.value = false
 
@@ -63,7 +68,26 @@ async function onDrop() {
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
-    editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+    await editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+
+    const snackbarCustomAction: SnackbarCustomAction = {
+        label: 'Zurücksetzen',
+        action: () => {
+            editTopicRelationStore.undoMoveTopic()
+        }
+    }
+    const snackbarData: SnackbarData = {
+        type: 'info',
+        title: 'Thema wurde verschoben',
+        text: 'Testnachricht',
+        snackbarCustomAction: snackbarCustomAction
+    }
+    snackbar.add({
+        type: snackbarData.type,
+        title: snackbarData.title,
+        text: { message: snackbarData.text, buttonLabel: snackbarData.snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction) },
+        dismissible: true
+    })
 }
 
 const dragging = ref(false)

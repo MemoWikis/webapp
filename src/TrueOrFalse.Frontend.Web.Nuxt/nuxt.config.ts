@@ -27,6 +27,7 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         '@nuxtjs/device',
         '@nuxtjs/eslint-module',
+        'nuxt-snackbar'
     ],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
@@ -63,6 +64,11 @@ export default defineNuxtConfig({
             extensions: ['.vue'],
         }
     ],
+    snackbar: {
+        bottom: true,
+        duration: 5000,
+        groups: false
+      }
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {
     //     server: true,

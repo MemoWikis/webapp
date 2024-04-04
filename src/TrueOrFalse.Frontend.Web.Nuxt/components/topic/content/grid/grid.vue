@@ -242,8 +242,6 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             </div>
         </div>
 
-        <div @click="editTopicRelationStore.undoMoveTopic" class="memo-button btn-default btn">Test Undo</div>
-
         <LazyClientOnly>
             <TopicContentGridGhost v-show="dragStore.active" />
         </LazyClientOnly>

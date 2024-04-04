@@ -178,7 +178,6 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     }
 
 })
-
 </script>
 
 <template>
@@ -228,7 +227,6 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                             <TopicToPrivateModal />
                             <TopicDeleteModal />
                         </ClientOnly>
-
                     </template>
                 </div>
                 <Sidebar :documentation="props.documentation" class="is-topic" />
