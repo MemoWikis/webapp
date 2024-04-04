@@ -10,14 +10,22 @@ export enum SnackbarType {
 export interface SnackbarData{
 	type?: string
 	title?: string
-	text?: string
+	text?: SnackbarMessage
 	snackbarCustomAction?: SnackbarCustomAction
 }
 
+export interface SnackbarMessage {
+	message: string
+	buttonId?: number
+	buttonLabel?: string
+	buttonIcon?: string[]
+}
+
 export interface SnackbarCustomAction {
-	id?: number,
+	id?: number
 	label: string
 	action: () => void
+	icon?: string
 }
 
 export const useSnackbarStore = defineStore('snackbarStore', {
@@ -27,26 +35,6 @@ export const useSnackbarStore = defineStore('snackbarStore', {
 		}
 	},
 	actions: {
-		// add(data: SnackbarData) {
-		// 	console.log(data)
-
-		// 	if (data.snackbarCustomAction)
-		// 		this.addCustomAction(data.snackbarCustomAction)
-
-		// 	const snackbar = useSnackbar()
-		// 	if (data.snackbarCustomAction) {
-		// 		snackbar.add({
-		// 			type: data.type,
-		// 			title: data.title,
-		// 			text: { message: data.text, buttonLabel: data.snackbarCustomAction?.label, buttonId: data.snackbarCustomAction?.id, hasButton: true }
-		// 		})
-		// 	} else 
-		// 	snackbar.add({
-		// 		type: data.type,
-		// 		title: data.title,
-		// 		text: { message: data.text }
-		// 	})
-		// },
 		addCustomAction(newAction: SnackbarCustomAction):number {
 			newAction.id = Date.now()
 			this.customActions.push(newAction)

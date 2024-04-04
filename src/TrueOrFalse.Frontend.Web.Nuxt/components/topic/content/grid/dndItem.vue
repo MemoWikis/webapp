@@ -60,7 +60,6 @@ async function onDrop() {
 
     const transferData: TransferData = dragStore.transferData
     const targetId = props.topic.id
-
     if (transferData.movingTopicId == targetId)
         return
 
@@ -76,16 +75,11 @@ async function onDrop() {
             editTopicRelationStore.undoMoveTopic()
         }
     }
-    const snackbarData: SnackbarData = {
-        type: 'info',
-        title: 'Thema wurde verschoben',
-        text: 'Testnachricht',
-        snackbarCustomAction: snackbarCustomAction
-    }
+
     snackbar.add({
-        type: snackbarData.type,
-        title: snackbarData.title,
-        text: { message: snackbarData.text, buttonLabel: snackbarData.snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction) },
+        type: 'info',
+        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
+        text: { message: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
         dismissible: true
     })
 }

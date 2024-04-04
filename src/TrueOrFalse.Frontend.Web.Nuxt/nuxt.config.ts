@@ -67,7 +67,11 @@ export default defineNuxtConfig({
     snackbar: {
         bottom: true,
         duration: 5000,
-        groups: false
+        groups: false,
+        success: '#AFD534',
+        error: '#FF001F',
+        warning: '#FDD648',
+        info: '#555555'
       }
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {

@@ -5,10 +5,6 @@ import { useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
 const dragStore = useDragStore()
 
-onMounted(() => {
-    console.log('ghost mounted')
-})
-
 const { isDesktop } = useDevice()
 const style = computed(() => {
 
@@ -17,9 +13,6 @@ const style = computed(() => {
 
     const str = `top:${y - (userStore.showBanner ? 96 : 0)}px; left:${x}px; position: absolute; z-index: 2000 !important;`
     return str
-})
-onUnmounted(() => {
-    console.log('ghost unmounted')
 })
 </script>
 

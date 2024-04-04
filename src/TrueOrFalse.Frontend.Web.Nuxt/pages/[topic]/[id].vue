@@ -5,6 +5,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { useEditTopicRelationStore } from '~/components/topic/relation/editTopicRelationStore'
+import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
@@ -178,6 +179,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     }
 
 })
+
 </script>
 
 <template>

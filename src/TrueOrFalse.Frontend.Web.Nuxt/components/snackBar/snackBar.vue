@@ -14,17 +14,23 @@ async function customFunction(id: number, dismiss?: any) {
 </script>
 
 <template>
-    <NuxtSnackbar :duration="4000">
+    <NuxtSnackbar :duration="400000">
 		<template #message-content="{ text, title }">
-				<strong v-text="title"></strong>
-				<p v-text="text.message"></p>
+			<strong v-if="title.url">
+				<NuxtLink :to="title.url">{{ title.text }}</NuxtLink>
+			</strong>
+			<strong v-text="title" v-else></strong>
+			<p v-text="text.message"></p>
 		</template>
-		<template #message-close-icon="{ message, isDismissible, dismiss }">
+		<template #message-close-icon="{ message, dismiss }">
 			<div class="snackbar-content-btn">
-				<button v-if="isDismissible" @click="dismiss">
-				Close
-				</button>
+				<div class="snackbar-btn-container">
+					<div @click="dismiss" class="snackbar-btn">
+						<font-awesome-icon icon="fa-solid fa-xmark" />
+					</div>
+				</div>
 				<div v-if="message.text.buttonId" @click="customFunction(message.text.buttonId, dismiss)" class="snackbar-btn-container" >
+					<font-awesome-icon v-if="message.text.buttonIcon" :icon="message.text.buttonIcon" class="snackbar-btn-icon"/>
 					<div class="snackbar-btn">
 						{{ message.text.buttonLabel }}
 					</div>
@@ -34,7 +40,9 @@ async function customFunction(id: number, dismiss?: any) {
 	</NuxtSnackbar>
 </template>
 
-<style lang="less">
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
+
 p {
 	margin-bottom: 0px;
 }
@@ -42,16 +50,49 @@ p {
 .snackbar-content-btn {
 	display: flex;
 	justify-content: space-between;
+	flex-direction: row-reverse;
+	margin-right: -10px;
+
 	.snackbar-btn-container {
 		display:flex;
 		justify-content: center;
 		align-items: center;
-		padding: 10px;
+		padding: 10px 14px;
 		cursor: pointer;
-		flex-direction: row-reverse;
+		border-radius: 24px;
+		height: 40px;
+		min-width: 40px;
+		transition: all ease-in 100ms;
+
+		.snackbar-btn-icon{
+			margin-right: 8px;
+		}
+
+		&:hover {
+			background-color: rgba(255, 255, 255, 0.2);
+		}
+		
 		.snackbar-btn {
 			font-size: 14px;
+			font-weight: 500;
 			text-transform: uppercase;
+			cursor: pointer;
+		}
+	}
+}
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+article.vue3-snackbar-message {
+	&.warning, &.success {
+		color: @memo-blue;
+	}
+
+	&.info, &.error {
+		a {
+			color: @memo-info;
 		}
 	}
 }
