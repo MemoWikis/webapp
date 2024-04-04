@@ -14,7 +14,7 @@ async function customFunction(id: number, dismiss?: any) {
 </script>
 
 <template>
-    <NuxtSnackbar :duration="400000">
+    <NuxtSnackbar :duration="4000">
 		<template #message-content="{ text, title }">
 			<strong v-if="title.url">
 				<NuxtLink :to="title.url">{{ title.text }}</NuxtLink>
