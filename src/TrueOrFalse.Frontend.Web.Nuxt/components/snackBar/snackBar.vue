@@ -69,7 +69,11 @@ p {
 		}
 
 		&:hover {
-			background-color: rgba(255, 255, 255, 0.2);
+			background-color: rgba(255, 255, 255, 0.15);
+			transition: all ease-in 10ms;
+		}
+		&:active {
+			background-color: rgba(255, 255, 255, 0.3);
 		}
 		
 		.snackbar-btn {
