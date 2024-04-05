@@ -33,7 +33,7 @@ const showDropdown = ref(false)
             <template #popper="{ hide }">
 
                 <div class="dropdown-row" v-if="tabsStore.activeTab == Tab.Learning && props.canEdit"
-                    @click="editQuestionStore.editQuestion(props.id)">
+                    @click="editQuestionStore.editQuestion(props.id); hide()">
                     <div class="dropdown-icon">
                         <font-awesome-icon icon="fa-solid fa-pen" />
                     </div>

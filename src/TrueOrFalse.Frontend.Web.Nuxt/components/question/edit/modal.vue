@@ -290,16 +290,16 @@ onMounted(() => {
 })
 
 type QuestionData = {
-    SolutionType: SolutionType
-    Solution: string
-    SolutionMetadataJson: string
-    Text: string
-    TextExtended: string
-    TopicIds: number[]
-    DescriptionHtml: string
-    Topics: TopicItem[]
-    LicenseId: number
-    Visibility: Visibility
+    solutionType: SolutionType
+    solution: string
+    solutionMetadataJson: string
+    text: string
+    textExtended: string
+    topicIds: number[]
+    descriptionHtml: string
+    topics: TopicItem[]
+    licenseId: number
+    visibility: Visibility
 }
 
 function initiateSolution(solution: string) {
@@ -332,16 +332,17 @@ async function getQuestionData(id: number) {
         }
     })
     if (result != null) {
-        solutionType.value = result.SolutionType as SolutionType
-        initiateSolution(result.Solution)
-        questionHtml.value = result.Text
-        questionExtensionHtml.value = result.TextExtended
-        descriptionHtml.value = result.DescriptionHtml
-        topicIds.value = result.TopicIds
-        selectedTopics.value = result.Topics
-        licenseId.value = result.LicenseId
-        solutionMetadataJson.value = result.SolutionMetadataJson
-        if (result.Visibility == 1)
+        console.log(result)
+        solutionType.value = result.solutionType as SolutionType
+        initiateSolution(result.solution)
+        questionHtml.value = result.text
+        questionExtensionHtml.value = result.textExtended
+        descriptionHtml.value = result.descriptionHtml
+        topicIds.value = result.topicIds
+        selectedTopics.value = result.topics
+        licenseId.value = result.licenseId
+        solutionMetadataJson.value = result.solutionMetadataJson
+        if (result.visibility == 1)
             isPrivate.value = true
         else {
             isPrivate.value = false

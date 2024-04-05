@@ -374,11 +374,9 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.name }}
                                 </div>
-                                <div class="searchResultQuestionCount body-s">{{
-            editTopicRelationStore.personalWiki.questionCount
-        }}
-                                    Frage<template
-                                        v-if="editTopicRelationStore.personalWiki.questionCount != 1">n</template>
+                                <div class="searchResultQuestionCount body-s">
+                                    {{ editTopicRelationStore.personalWiki.questionCount + `
+                                    Frage${editTopicRelationStore.personalWiki.questionCount != 1 ? 'n' : ''}` }}
                                 </div>
                             </div>
                             <div v-show="selectedParentInWikiId == editTopicRelationStore.personalWiki.id"

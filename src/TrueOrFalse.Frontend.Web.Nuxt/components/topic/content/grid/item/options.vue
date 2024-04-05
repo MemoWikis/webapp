@@ -138,7 +138,8 @@ const showAllLinkOptions = ref<boolean>(false)
                     </div>
 
                     <div v-if="showAllLinkOptions" class="link-options">
-                        <div @click="editTopicRelationStore.addParent(props.topic.id, false); hide()" class="dropdown-row">
+                        <div @click="editTopicRelationStore.addParent(props.topic.id, false); hide()"
+                            class="dropdown-row">
                             <div class="dropdown-icon">
                                 <font-awesome-icon icon="fa-solid fa-link" />
                             </div>
@@ -181,7 +182,8 @@ const showAllLinkOptions = ref<boolean>(false)
                         </div>
                         <div class="dropdown-label">Aus deinem Wiki entfernen</div>
                     </div> -->
-                        <div @click="editTopicRelationStore.addToPersonalWiki(props.topic.id); hide()" class="dropdown-row"
+                        <div @click="editTopicRelationStore.addToPersonalWiki(props.topic.id); hide()"
+                            class="dropdown-row"
                             v-if="!props.topic.isChildOfPersonalWiki && props.topic.id != userStore.personalWiki?.id">
                             <div class="dropdown-icon">
                                 <font-awesome-layers>

@@ -110,7 +110,7 @@ public class EditTopicRelationStoreController : BaseController
         if (!_sessionUser.IsLoggedIn)
             throw new Exception("NotLoggedIn");
 
-        if (!_permissionCheck.CanEditCategory(json.movingTopicId))
+        if (!_permissionCheck.CanMoveTopic(json.movingTopicId, json.oldParentId, json.newParentId))
             throw new Exception("NoRights");
 
         if (json.movingTopicId == json.newParentId)

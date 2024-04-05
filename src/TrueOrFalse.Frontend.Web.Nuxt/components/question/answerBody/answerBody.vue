@@ -473,9 +473,9 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                         </div>
                                     </template>
 
-                                    <div v-if="learningSessionStore.isLearningSession
-        && !learningSessionStore.isInTestMode && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)
-        ">
+                                    <div
+                                        v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
+        && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
