@@ -14,7 +14,6 @@ import { useLearningSessionStore } from '~~/components/topic/learning/learningSe
 import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 import { SearchType } from '../../search/searchHelper'
 import { QuestionListItem } from '~~/components/topic/learning/questionListItem'
-// import { FetchResult } from '~~/components/fetchResult'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
@@ -228,19 +227,6 @@ async function save() {
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
-    // const testData = {
-    //     CategoryIds: topicIds.value,
-    //     TextHtml: questionHtml.value,
-    //     DescriptionHtml: descriptionHtml.value,
-    //     SolutionType: solutionType.value,
-    //     Visibility: visibility,
-    //     SolutionMetadataJson: solutionMetadataJson.value,
-    //     LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
-    //     SessionIndex: learningSessionStore.lastIndexInQuestionList,
-    //     IsLearningTab: tabsStore.activeTab == Tab.Learning,
-    //     SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
-    // }
-
     const result = await $fetch<FetchResult<QuestionListItem>>(url, {
         body: data,
         method: 'POST',
@@ -428,7 +414,8 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         </div>
                     </div>
 
-                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!editQuestionStore.edit">
+                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi"
+                        v-if="!editQuestionStore.edit">
                         <div>
                             <font-awesome-icon v-if="addToWuwi" icon="fa-solid fa-heart" />
                             <font-awesome-icon v-else icon="fa-regular fa-heart" />
@@ -467,16 +454,18 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>
                         <form class="" v-on:submit.prevent>
-                            <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                            <div class="form-group dropdown categorySearchAutocomplete"
+                                :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
-                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t" :index="index"
-                                        @removeTopic="removeTopic" :removable-chip="selectedTopics.length > 1" />
+                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
+                                        :index="index" @removeTopic="removeTopic"
+                                        :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
                                 <Search :search-type="SearchType.category" :show-search-icon="false" :show-search="true"
                                     :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
-                                    placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
-                                    @select-item="selectTopic" />
+                                    placeholder-label="Bitte gib den Namen des Themas ein"
+                                    :show-default-search-icon="true" @select-item="selectTopic" />
                             </div>
 
                         </form>
@@ -485,13 +474,14 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         <div class="overline-s no-line">
                             Sichtbarkeit
                         </div>
-                        <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
+                        <div class="privacy-selector"
+                            :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
                             <div class="checkbox-container">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
-                                            class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
-                                            data-html="true" data-original-title="
+                                            class="fas fa-lock show-tooltip tooltip-min-200" title=""
+                                            data-placement="top" data-html="true" data-original-title="
                                             <ul class='show-tooltip-ul'>
                                                 <li>Die Frage kann nur von dir genutzt werden.</li>
                                                 <li>Niemand sonst kann die Frage sehen oder nutzen.</li>

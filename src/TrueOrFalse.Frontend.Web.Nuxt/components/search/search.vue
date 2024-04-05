@@ -158,8 +158,8 @@ watch(() => props.showSearch, (val) => {
             <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
-                        <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
-                            v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
+                        <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }"
+                            type="text" v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
                             :placeholder="props.placeholderLabel" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />

@@ -4,7 +4,6 @@ import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
-import { SnackbarData } from '~/components/snackBar/snackBarStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
@@ -30,7 +29,7 @@ function onDragOver(e: any) {
         dragOverTimer.value = Date.now()
     else {
         const diff = Date.now() - dragOverTimer.value
-        if (diff > 1000)
+        if (diff > 700)
             dropIn.value = true
     }
 }
