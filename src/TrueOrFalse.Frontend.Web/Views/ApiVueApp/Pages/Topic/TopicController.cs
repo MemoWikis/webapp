@@ -1,26 +1,30 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VueApp;
 
-public class TopicController : BaseController
+public class TopicController(
+    SessionUser _sessionUser,
+    CategoryViewRepo _categoryViewRepo,
+    PermissionCheck _permissionCheck,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo)
+    : Controller
 {
-    private readonly TopicDataManager _topicDataManager;
-    private readonly CategoryViewRepo _categoryViewRepo;
-
-    public TopicController(SessionUser sessionUser,
-        TopicDataManager topicDataManager, CategoryViewRepo categoryViewRepo) : base(sessionUser)
-    {
-        _topicDataManager = topicDataManager;
-        _categoryViewRepo = categoryViewRepo;
-    }
-
     [HttpGet]
     public TopicDataManager.TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-        var data = _topicDataManager.GetTopicData(id);
-        return data; 
+        var data = new TopicDataManager(
+            _sessionUser, 
+            _permissionCheck, 
+            _knowledgeSummaryLoader, 
+            _categoryViewRepo,
+            _imageMetaDataReadingRepo, 
+            _httpContextAccessor, 
+            _questionReadingRepo)
+            .GetTopicData(id);
+        return data;
     }
 }
-

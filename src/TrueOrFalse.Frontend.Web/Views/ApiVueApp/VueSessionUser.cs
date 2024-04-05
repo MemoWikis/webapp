@@ -3,26 +3,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
-public class VueSessionUser : IRegisterAsInstancePerLifetime
+public class VueSessionUser(
+    SessionUser _sessionUser,
+    GetUnreadMessageCount _getUnreadMessageCount,
+    IHttpContextAccessor _httpContextAccessor,
+    UserReadingRepo _userReadingRepo,
+    PermissionCheck _permissionCheck,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    CategoryViewRepo _categoryViewRepo,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    QuestionReadingRepo _questionReadingRepo)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
-    private readonly TopicDataManager _topicDataManager;
-    private readonly GetUnreadMessageCount _getUnreadMessageCount;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly UserReadingRepo _userReadingRepo;
-
-    public VueSessionUser(SessionUser sessionUser,
-        TopicDataManager topicDataManager,
-        GetUnreadMessageCount getUnreadMessageCount,
-        IHttpContextAccessor httpContextAccessor,
-        UserReadingRepo userReadingRepo)
-    {
-        _sessionUser = sessionUser;
-        _topicDataManager = topicDataManager;
-        _getUnreadMessageCount = getUnreadMessageCount;
-        _httpContextAccessor = httpContextAccessor;
-        _userReadingRepo = userReadingRepo;
-    }
     public dynamic GetCurrentUserData()
     {
         var type = UserType.Anonymous;
@@ -55,7 +47,13 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                     .Url,
                 user.Reputation,
                 user.ReputationPos,
-                PersonalWiki =_topicDataManager.GetTopicData(user.StartTopicId),
+                PersonalWiki = new TopicDataManager(_sessionUser,
+                    _permissionCheck,
+                    _knowledgeSummaryLoader,
+                    _categoryViewRepo,
+                    _imageMetaDataReadingRepo,
+                    _httpContextAccessor,
+                    _questionReadingRepo).GetTopicData(user.StartTopicId),
                 ActivityPoints = new
                 {
                     points = activityPoints,
@@ -89,13 +87,19 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             Id = -1,
             Name = "",
             IsAdmin = false,
-            PersonalWikiId = RootCategory.RootCategoryId,   
+            PersonalWikiId = RootCategory.RootCategoryId,
             Type = type,
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = _topicDataManager
-             .GetTopicData(RootCategory.RootCategoryId),
+            PersonalWiki = new TopicDataManager(_sessionUser,
+                    _permissionCheck,
+                    _knowledgeSummaryLoader,
+                    _categoryViewRepo,
+                    _imageMetaDataReadingRepo,
+                    _httpContextAccessor,
+                    _questionReadingRepo)
+                .GetTopicData(RootCategory.RootCategoryId),
             ActivityPoints = new
             {
                 points = _sessionUser.GetTotalActivityPoints(),
@@ -108,7 +112,6 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
 
     public void Test()
     {
-        var user = _userReadingRepo.GetById(445); 
+        var user = _userReadingRepo.GetById(445);
     }
- 
 }

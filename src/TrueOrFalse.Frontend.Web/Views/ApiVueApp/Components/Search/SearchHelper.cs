@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Seedworks.Lib;
+using TrueOrFalse.Search;
 
 public class SearchHelper
 {
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public SearchHelper(ImageMetaDataReadingRepo imageMetaDataReadingRepo,
@@ -19,7 +18,9 @@ public class SearchHelper
         _httpContextAccessor = httpContextAccessor;
         _questionReadingRepo = questionReadingRepo;
     }
-    public void AddTopicItems(List<SearchTopicItem> items, TrueOrFalse.Search.GlobalSearchResult elements, PermissionCheck permissionCheck, int userId)
+
+    public void AddTopicItems(List<SearchTopicItem> items, GlobalSearchResult elements, PermissionCheck permissionCheck,
+        int userId)
     {
         items.AddRange(
             elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
@@ -33,7 +34,7 @@ public class SearchHelper
             Name = topic.Name,
             QuestionCount = EntityCache.GetCategory(topic.Id).GetCountQuestionsAggregated(userId),
             ImageUrl = new CategoryImageSettings(topic.Id,
-                    _httpContextAccessor).GetUrl_128px(asSquare: true)
+                    _httpContextAccessor).GetUrl_128px(true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo
                     .GetBy(topic.Id, ImageType.Category), _httpContextAccessor, _questionReadingRepo)
@@ -49,12 +50,12 @@ public class SearchHelper
             Id = c.Id,
             Name = c.Name,
             QuestionCount = EntityCache.GetCategory(c.Id).GetCountQuestionsAggregated(userId),
-            ImageUrl = new CategoryImageSettings(c.Id, 
+            ImageUrl = new CategoryImageSettings(c.Id,
                     _httpContextAccessor)
-                .GetUrl_128px(asSquare: true).Url,
+                .GetUrl_128px(true).Url,
             IconHtml = GetIconHtml(c),
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(c.Id, ImageType.Category),
-                    _httpContextAccessor, 
+                    _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category)
                 .Url,
@@ -63,24 +64,26 @@ public class SearchHelper
     }
 
     public void AddQuestionItems(List<SearchQuestionItem> items,
-        TrueOrFalse.Search.GlobalSearchResult elements, 
-        PermissionCheck permissionCheck, 
+        GlobalSearchResult elements,
+        PermissionCheck permissionCheck,
         QuestionReadingRepo questionReadingRepo)
     {
         items.AddRange(
-            elements.Questions.Where(q => permissionCheck.CanView(q) && q.CategoriesVisibleToCurrentUser(permissionCheck).Any()).Select((q, index) => new SearchQuestionItem
-            {
-                Id = q.Id,
-                Name = q.Text.Wrap(200),
-                ImageUrl = new QuestionImageSettings(q.Id, _httpContextAccessor,questionReadingRepo)
-                    .GetUrl_50px_square()
-                    .Url,
-                PrimaryTopicId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
-                PrimaryTopicName = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
-            }));
+            elements.Questions
+                .Where(q => permissionCheck.CanView(q) && q.CategoriesVisibleToCurrentUser(permissionCheck).Any())
+                .Select((q, index) => new SearchQuestionItem
+                {
+                    Id = q.Id,
+                    Name = q.Text.Wrap(200),
+                    ImageUrl = new QuestionImageSettings(q.Id, _httpContextAccessor, questionReadingRepo)
+                        .GetUrl_50px_square()
+                        .Url,
+                    PrimaryTopicId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
+                    PrimaryTopicName = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
+                }));
     }
 
-    public void AddUserItems(List<SearchUserItem> items, TrueOrFalse.Search.GlobalSearchResult elements)
+    public void AddUserItems(List<SearchUserItem> items, GlobalSearchResult elements)
     {
         items.AddRange(
             elements.Users.Select(u => new SearchUserItem
@@ -126,6 +129,7 @@ public class SearchHelper
                 iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
                 break;
         }
+
         if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
             iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
 
