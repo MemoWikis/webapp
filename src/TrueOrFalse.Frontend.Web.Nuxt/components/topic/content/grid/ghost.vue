@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useDragStore } from '~/components/shared/dragStore'
+import { MoveTopicTransferData, useDragStore } from '~/components/shared/dragStore'
 import { useUserStore } from '~/components/user/userStore'
 
 const userStore = useUserStore()
@@ -14,13 +14,24 @@ const style = computed(() => {
     const str = `top:${y - (userStore.showBanner ? 96 : 0)}px; left:${x}px; position: absolute; z-index: 2000 !important;`
     return str
 })
+
+const topicName = ref('')
+
+watch(() => dragStore.transferData, (t) => {
+    if (dragStore.isMoveTopicTransferData) {
+        const m = t as MoveTopicTransferData
+        topicName.value = m.topicName
+
+    }
+}, { deep: true })
+
 </script>
 
 <template>
     <div class="ghost-container" :style="style">
         <div class="ghost-body">
             <div class="name">
-                {{ dragStore.transferData.topicName }}
+                {{ topicName }}
             </div>
         </div>
     </div>

@@ -61,7 +61,7 @@ function onDragLeave() {
 }
 function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
-    if (index != null) {
+    if (index != null && typeof dragStore.transferData == 'string') {
         pairs.value[index].ElementRight.Text = dragStore.transferData
         temp.value = null
     }

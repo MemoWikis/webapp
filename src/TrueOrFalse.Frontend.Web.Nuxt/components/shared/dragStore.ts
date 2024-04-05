@@ -16,11 +16,18 @@ export interface DropZoneData {
 	id: number,
 	position: TargetPosition
 }
+
+export interface MoveTopicTransferData {
+    movingTopicId: number
+    oldParentId: number
+    topicName: string
+}
+
 export const useDragStore = defineStore('dragStore', {
 	state: () => {
 		return {
 			active: false,
-			transferData: null as any,
+			transferData: null as MoveTopicTransferData | string | null,
 			dropZoneData: null as DropZoneData | null,
 			x: 0,
 			y: 0,
@@ -56,4 +63,23 @@ export const useDragStore = defineStore('dragStore', {
 			}
 		}
 	},
+	getters: {
+		transferDataType(): string {
+			if (typeof this.transferData === 'string') {
+				return 'string'
+			} else if (this.transferData === null) {
+				return 'null'
+			} else if (typeof this.transferData === 'object') {
+				if ('movingTopicId' in this.transferData && typeof this.transferData.movingTopicId === 'number' &&
+					'oldParentId' in this.transferData && typeof this.transferData.oldParentId === 'number' &&
+					'topicName' in this.transferData && typeof this.transferData.topicName === 'string') {
+				return 'MoveTopicTransferData'
+				}
+			}
+			return 'unknown'
+		},
+		isMoveTopicTransferData(): boolean {
+			return this.transferDataType == 'MoveTopicTransferData'
+		}
+	}
 })

@@ -2,7 +2,7 @@
 import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
-import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
+import { useDragStore, TargetPosition, MoveTopicTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
@@ -39,12 +39,6 @@ function onDragLeave() {
     dropIn.value = false
 }
 
-interface TransferData {
-    movingTopicId: number
-    oldParentId: number
-    topicName: string
-}
-
 const snackbar = useSnackbar()
 
 async function onDrop() {
@@ -54,10 +48,10 @@ async function onDrop() {
     hoverBottomHalf.value = false
     dropIn.value = false
 
-    if (dragStore.transferData == null)
+    if (dragStore.transferData == null || dragStore.isMoveTopicTransferData)
         return
 
-    const transferData: TransferData = dragStore.transferData
+    const transferData = dragStore.transferData as MoveTopicTransferData
     const targetId = props.topic.id
     if (transferData.movingTopicId == targetId)
         return
@@ -96,7 +90,7 @@ function handleDragStart(e: DragEvent) {
     document.body.appendChild(cdi)
 
     e.dataTransfer?.setDragImage(cdi, 0, 0);
-    const data: TransferData = {
+    const data: MoveTopicTransferData = {
         movingTopicId: props.topic.id,
         oldParentId: props.parentId,
         topicName: props.topic.name
@@ -136,6 +130,15 @@ function handleDrag(e: DragEvent) {
     }
 }
 
+const placeHolderTopicName = ref('')
+
+watch(() => dragStore.transferData, (t) => {
+    if (dragStore.isMoveTopicTransferData) {
+        const m = t as MoveTopicTransferData
+        placeHolderTopicName.value = m.topicName
+
+    }
+}, { deep: true })
 </script>
 
 <template>
@@ -149,8 +152,8 @@ function handleDrag(e: DragEvent) {
                     class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
-                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
-                            :name="dragStore.transferData?.topicName" />
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                            :name="placeHolderTopicName" />
                     </div>
 
                 </div>
@@ -185,8 +188,8 @@ function handleDrag(e: DragEvent) {
                     class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
-                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
-                            :name="dragStore.transferData?.topicName" />
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                            :name="placeHolderTopicName" />
                     </div>
 
                 </div>
