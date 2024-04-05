@@ -42,8 +42,8 @@ public class TopicLearningQuestionController: BaseController
 
         var json = Json(new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 answer = solution.GetCorrectAnswerAsHtml(),
                 extendedAnswer = question.DescriptionHtml ?? "",

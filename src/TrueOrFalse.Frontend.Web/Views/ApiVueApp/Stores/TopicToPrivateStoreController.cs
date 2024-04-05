@@ -37,15 +37,15 @@ public class TopicToPrivateStoreController : BaseController
         if (topicCacheItem == null)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             });
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
@@ -58,8 +58,8 @@ public class TopicToPrivateStoreController : BaseController
             if (id == RootCategory.RootCategoryId)
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
                 });
 
             foreach (var c in aggregatedTopics)
@@ -70,8 +70,8 @@ public class TopicToPrivateStoreController : BaseController
                 if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
                     return Json(new RequestResult
                     {
-                        success = false,
-                        messageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
+                        Success = false,
+                        MessageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
                     });
             }
 
@@ -86,9 +86,9 @@ public class TopicToPrivateStoreController : BaseController
             if (pinnedQuestionIds.Count > 0)
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.PinnedQuestions,
-                    data = pinnedQuestionIds
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.PinnedQuestions,
+                    Data = pinnedQuestionIds
                 });
 
 
@@ -96,8 +96,8 @@ public class TopicToPrivateStoreController : BaseController
             {
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.TooPopular
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.TooPopular
                 });
             }
         }
@@ -108,8 +108,8 @@ public class TopicToPrivateStoreController : BaseController
 
         return Json(new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 name = topicCacheItem.Name,
                 personalQuestionIds = filteredAggregatedQuestions,
@@ -128,15 +128,15 @@ public class TopicToPrivateStoreController : BaseController
         if (topicCacheItem == null)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
 
         if (!_permissionCheck.CanEdit(topicCacheItem))
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             });
 
         var topic = _categoryRepository.GetById(id);
@@ -146,8 +146,8 @@ public class TopicToPrivateStoreController : BaseController
             if (id == RootCategory.RootCategoryId)
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
                 });
 
 
@@ -162,8 +162,8 @@ public class TopicToPrivateStoreController : BaseController
                 if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
                     return Json(new RequestResult
                     {
-                        success = false,
-                        messageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
+                        Success = false,
+                        MessageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
                     });
             }
 
@@ -171,8 +171,8 @@ public class TopicToPrivateStoreController : BaseController
             {
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.TooPopular
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.TooPopular
                 });
             }
         }
@@ -183,8 +183,8 @@ public class TopicToPrivateStoreController : BaseController
 
         return Json(new RequestResult
         {
-            success = true,
-            messageKey = FrontendMessageKeys.Success.Category.SetToPrivate
+            Success = true,
+            MessageKey = FrontendMessageKeys.Success.Category.SetToPrivate
         });
     }
 

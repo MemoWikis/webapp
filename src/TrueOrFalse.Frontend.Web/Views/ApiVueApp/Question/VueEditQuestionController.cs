@@ -107,8 +107,8 @@ public class VueEditQuestionController
 
         return Json(new RequestResult
         {
-            success = true,
-            data = LoadQuestion(question.Id)
+            Success = true,
+            Data = LoadQuestion(question.Id)
         });
     }
 
@@ -134,8 +134,8 @@ public class VueEditQuestionController
 
         return Json(new RequestResult
         {
-            success = true,
-            data = LoadQuestion(updatedQuestion.Id)
+            Success = true,
+            Data = LoadQuestion(updatedQuestion.Id)
         });
     }
 
@@ -147,8 +147,8 @@ public class VueEditQuestionController
         if (safeText.Length <= 0)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Question.MissingText
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Question.MissingText
             });
 
         
@@ -164,8 +164,8 @@ public class VueEditQuestionController
         if (solutionModelFlashCard.Text.Length <= 0)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Question.MissingAnswer
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
             });
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
@@ -185,8 +185,8 @@ public class VueEditQuestionController
         _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
         return Json(new RequestResult
         {
-            success = true,
-            data = LoadQuestion(question.Id)
+            Success = true,
+            Data = LoadQuestion(question.Id)
         });
     }
 

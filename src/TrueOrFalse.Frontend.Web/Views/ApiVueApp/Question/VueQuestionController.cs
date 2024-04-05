@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -11,45 +12,18 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueQuestionController : Controller
+public class VueQuestionController(SessionUser _sessionUser,
+PermissionCheck _permissionCheck,
+RestoreQuestion _restoreQuestion,
+LearningSessionCache _learningSessionCache,
+ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+UserReadingRepo _userReadingRepo,
+QuestionReadingRepo _questionReadingRepo,
+SessionUserCache _sessionUserCache,
+IHttpContextAccessor _httpContextAccessor,
+IActionContextAccessor _actionContextAccessor,
+TotalsPersUserLoader _totalsPersUserLoader) : Controller
 {
-    private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly RestoreQuestion _restoreQuestion;
-    private readonly LearningSessionCache _learningSessionCache;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly AnswerQuestionDetailsService _answerQuestionDetailsService;
-
-    public VueQuestionController(SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        RestoreQuestion restoreQuestion,
-        LearningSessionCache learningSessionCache,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo,
-        SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        IActionContextAccessor actionContextAccessor,
-        AnswerQuestionDetailsService answerQuestionDetailsService) 
-    {
-        _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        _restoreQuestion = restoreQuestion;
-        _learningSessionCache = learningSessionCache;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionReadingRepo = questionReadingRepo;
-        _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
-        _actionContextAccessor = actionContextAccessor;
-        _answerQuestionDetailsService = answerQuestionDetailsService;
-    }
-
     [HttpGet]
     public JsonResult GetQuestion([FromRoute] int id)
     {
@@ -111,10 +85,78 @@ public class VueQuestionController : Controller
                 }).ToArray()
             },
             answerQuestionDetailsModel = 
-                _answerQuestionDetailsService.GetData(id)
+                GetData(id)
         });
     }
 
+     public AnswerQuestionDetailsResult? GetData(int id)
+    {
+        var question = EntityCache.GetQuestionById(id);
+
+        if (question.Id == 0 || !_permissionCheck.CanView(question))
+            return null;
+
+        var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        var answerQuestionModel = new AnswerQuestionModel(question,
+            _sessionUser.UserId,
+            _totalsPersUserLoader,
+            _sessionUserCache);
+
+        var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
+        var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
+
+        var userQuestionValuation = _sessionUser.IsLoggedIn
+            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
+        var result = new AnswerQuestionDetailsResult(
+            KnowledgeStatus: hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
+            PersonalProbability: correctnessProbability.CPPersonal,
+            PersonalColor: correctnessProbability.CPPColor,
+            AvgProbability: correctnessProbability.CPAll,
+            PersonalAnswerCount: history.TimesAnsweredUser,
+            PersonalAnsweredCorrectly: history.TimesAnsweredUserTrue,
+            PersonalAnsweredWrongly: history.TimesAnsweredUserWrong,
+            OverallAnswerCount: history.TimesAnsweredTotal,
+            OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
+            OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
+            IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
+            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t => new AnswerQuestionDetailsTopic(
+                Id: t.Id,
+                Name: t.Name,
+                Url: new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(t.Name, t.Id),
+                QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
+                ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url,
+                IconHtml: CategoryCachedData.GetIconHtml(t),
+                MiniImageUrl: new ImageFrontendData(
+                        _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
+                        _httpContextAccessor,
+                        _questionReadingRepo)
+                    .GetImageUrl(30, true, false, ImageType.Category).Url,
+                Visibility: (int)t.Visibility,
+                IsSpoiler:  IsSpoilerCategory.Yes(t.Name, question)
+            )).Distinct().ToArray(),
+
+            Visibility: question.Visibility,
+            DateNow: dateNow,
+            EndTimer: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
+            Creator: new MacroCreator(
+            
+                Id: question.CreatorId,
+                Name: question.Creator.Name
+            ),
+            CreationDate: DateTimeUtils.TimeElapsedAsText(question.DateCreated),
+            TotalViewCount: question.TotalViews,
+            WishknowledgeCount:  question.TotalRelevancePersonalEntries,
+            License: new License(
+            
+                IsDefault: question.License.IsDefault(),
+                ShortText: question.License.DisplayTextShort,
+                FullText: question.License.DisplayTextFull
+            )
+        );
+        return result;
+    }
 
     public JsonResult LoadQuestion(int questionId)
     {

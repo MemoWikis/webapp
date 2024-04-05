@@ -16,21 +16,33 @@ public class QuestionEditDeleteController : BaseController
         _learningSessionCache = learningSessionCache;
     }
 
+    public record struct DeleteDetailsJson(
+        string QuestionTitle,
+        int TotalAnswers,
+        bool CanNotBeDeleted,
+        int WuwiCount,
+        bool HasRights);
+
     [HttpGet]
     public JsonResult DeleteDetails([FromRoute] int id)
     {
         var question = _questionReadingRepo.GetById(id);
         var canBeDeleted = _questionDelete.CanBeDeleted(question.Creator.Id, question);
 
-        return Json(new
-        {
-            questionTitle = question.Text.TruncateAtWord(90),
-            totalAnswers = question.TotalAnswers(),
-            canNotBeDeleted = !canBeDeleted.Yes,
-            wuwiCount = canBeDeleted.WuwiCount,
-            hasRights = canBeDeleted.HasRights
-        });
+        return Json(new DeleteDetailsJson(
+
+            QuestionTitle: question.Text.TruncateAtWord(90),
+            TotalAnswers: question.TotalAnswers(),
+            CanNotBeDeleted: !canBeDeleted.Yes,
+            WuwiCount: canBeDeleted.WuwiCount,
+            HasRights: canBeDeleted.HasRights
+        ));
     }
+
+    public record struct DeleteJson(
+        bool ReloadAnswerBody,
+    int SessionIndex,
+    int Id);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -40,12 +52,10 @@ public class QuestionEditDeleteController : BaseController
 
         _questionDelete.Run(id);
 
-        return Json(new
-        {
-            reloadAnswerBody = updatedLearningSessionResult.reloadAnswerBody,
-            sessionIndex = updatedLearningSessionResult.sessionIndex,
+        return Json(new DeleteJson(
+            ReloadAnswerBody: updatedLearningSessionResult.reloadAnswerBody,
+            SessionIndex: updatedLearningSessionResult.sessionIndex,
             id = id
-        });
+        ));
     }
 }
-    

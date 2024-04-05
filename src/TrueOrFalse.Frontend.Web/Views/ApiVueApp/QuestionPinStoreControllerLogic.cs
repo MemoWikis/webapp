@@ -19,13 +19,13 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
     {
         if (!sessionUser.IsLoggedIn)
         {
-            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
+            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
         }
 
         var limitcheck = new LimitCheck(_logg, sessionUser); 
         if (!limitcheck.CanAddNewKnowledge(logExceedance: true))
         {
-            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
+            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Subscription.CantAddKnowledge };
         }
 
         try
@@ -35,18 +35,18 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
         catch (Exception e)
         {
             Logg.r.Error(e, $"Error while pinning question Id={id} for userId={sessionUser.UserId}");
-            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
+            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
         }
 
         var success = EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId, _sessionUserCache);
-        return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
+        return new RequestResult { Success = success, MessageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 
     public dynamic Unpin(int id, SessionUser sessionUser)
     {
         if (!sessionUser.IsLoggedIn)
         {
-            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
+            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.User.NotLoggedIn };
         }
 
         try
@@ -56,10 +56,10 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
         catch (Exception e)
         {
             Logg.r.Error(e, $"Error while unpinning question Id={id} for userId={sessionUser.UserId}");
-            return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
+            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
         }
 
         var success = !EntityCache.GetQuestion(id).IsInWishknowledge(sessionUser.UserId, _sessionUserCache);
-        return new RequestResult { success = success, messageKey = success ? null : FrontendMessageKeys.Error.Default };
+        return new RequestResult { Success = success, MessageKey = success ? null : FrontendMessageKeys.Error.Default };
     }
 }

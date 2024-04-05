@@ -40,8 +40,8 @@ public class FacebookUsersController : BaseController
         {
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.DoesNotExist
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.DoesNotExist
             });
         }
 
@@ -51,15 +51,15 @@ public class FacebookUsersController : BaseController
 
             return Json(new RequestResult
             {
-                success = true,
-                data = _vueSessionUser.GetCurrentUserData()
+                Success = true,
+                Data = _vueSessionUser.GetCurrentUserData()
             });
         }
 
         return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.InvalidFBToken
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.User.InvalidFBToken
         });
     }
 
@@ -76,18 +76,18 @@ public class FacebookUsersController : BaseController
                 _sessionUser.Login(user);
                 return Json(new RequestResult
                 {
-                    success = true,
-                    data = _vueSessionUser.GetCurrentUserData()
+                    Success = true,
+                    Data = _vueSessionUser.GetCurrentUserData()
                 });
             }
 
             var requestResult = _registerUser.SetFacebookUser(json.facebookUser);
-            if (requestResult.success)
+            if (requestResult.Success)
             {
                 return Json(new RequestResult
                 {
-                    success = true,
-                    data = _vueSessionUser.GetCurrentUserData()
+                    Success = true,
+                    Data = _vueSessionUser.GetCurrentUserData()
                 });
             }
 
@@ -97,8 +97,8 @@ public class FacebookUsersController : BaseController
 
         return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.InvalidFBToken
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.User.InvalidFBToken
         });
     }
     

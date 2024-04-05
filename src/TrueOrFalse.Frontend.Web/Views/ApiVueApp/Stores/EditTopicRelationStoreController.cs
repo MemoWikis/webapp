@@ -39,8 +39,8 @@ public class EditTopicRelationStoreController : BaseController
         if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.LoopLink
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
             });
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
@@ -64,8 +64,8 @@ public class EditTopicRelationStoreController : BaseController
 
         return Json(new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 personalWiki = personalWikiItem,
                 recentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics.ToArray()
@@ -83,14 +83,14 @@ public class EditTopicRelationStoreController : BaseController
         foreach (var childId in json.childIds)
         {
             var result = _editControllerLogic.RemoveParent(json.parentId, childId);
-            if (result.success)
+            if (result.Success)
                 removedChildrenIds.Add(childId);
         }
 
         return Json(new RequestResult
         {
-            success = true,
-            data = removedChildrenIds
+            Success = true,
+            Data = removedChildrenIds
         });
     }
 
@@ -160,23 +160,23 @@ public class EditTopicRelationStoreController : BaseController
         if (personalWiki == null)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId == id))
         {
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
             });
         }
 
         return Json(new RequestResult
         {
-            success = true,
-            data = _editControllerLogic.AddChild(id, personalWiki.Id)
+            Success = true,
+            Data = _editControllerLogic.AddChild(id, personalWiki.Id)
         });
     }
 
@@ -189,23 +189,23 @@ public class EditTopicRelationStoreController : BaseController
         if (personalWiki == null)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId != id))
         {
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.IsNotAChild
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.IsNotAChild
             });
         }
 
         return Json(new RequestResult
         {
-            success = true,
-            data = _editControllerLogic.RemoveParent(personalWiki.Id, id)
+            Success = true,
+            Data = _editControllerLogic.RemoveParent(personalWiki.Id, id)
         });
     }
 }

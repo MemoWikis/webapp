@@ -43,8 +43,8 @@ namespace VueApp
                     if (topicCacheItem.Parents().Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
                         return Json(new RequestResult
                         {
-                            success = false,
-                            messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                            Success = false,
+                            MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
                         });
 
                     topicCacheItem.Visibility = CategoryVisibility.All;
@@ -54,23 +54,23 @@ namespace VueApp
 
                     return Json(new RequestResult
                     {
-                        success = true,
+                        Success = true,
                     });
                 } 
 
                 return Json(new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
-                    data = topicCacheItem.Parents().Select(c => c.Id).ToList()
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
+                    Data = topicCacheItem.Parents().Select(c => c.Id).ToList()
                 });
 
             }
 
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
         }
         public readonly record struct PublishQuestionsJson(List<int> questionIds);

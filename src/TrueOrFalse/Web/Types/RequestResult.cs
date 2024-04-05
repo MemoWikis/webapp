@@ -1,9 +1,9 @@
 ﻿public class RequestResult
 {
-    public bool success { get; set; }
-    public string messageKey { get; set; }
+    public bool Success { get; set; }
+    public string MessageKey { get; set; }
 
-    public dynamic data { get; set; }
+    public dynamic Data { get; set; }
 
 }
 

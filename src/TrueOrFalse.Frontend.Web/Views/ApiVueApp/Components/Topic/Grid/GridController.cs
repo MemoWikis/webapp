@@ -8,12 +8,12 @@ public class GridController(PermissionCheck _permissionCheck, SessionUser _sessi
     {
         var topic = EntityCache.GetCategory(id);
         if (topic == null)
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default });
+            return Json(new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default });
         if (!_permissionCheck.CanView(topic))
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights });
+            return Json(new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.MissingRights });
 
         var gridItem = _gridItemLogic.BuildGridTopicItem(topic);
-        return Json(new RequestResult { success = true, data = gridItem });
+        return Json(new RequestResult { Success = true, Data = gridItem });
     }
 }
 

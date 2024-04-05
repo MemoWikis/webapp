@@ -106,8 +106,8 @@ public class VueUserSettingsController : BaseController
         if (form.id != _sessionUser.User.Id)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
 
         if (form.email != null)

@@ -33,8 +33,8 @@ public class TopicStoreController : BaseController
         if (!_permissionCheck.CanEditCategory(param.id))
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             });
 
         var categoryCacheItem = EntityCache.GetCategory(param.id);
@@ -59,7 +59,7 @@ public class TopicStoreController : BaseController
 
         return Json(new RequestResult
         {
-            success = true
+            Success = true
         });
     }
 

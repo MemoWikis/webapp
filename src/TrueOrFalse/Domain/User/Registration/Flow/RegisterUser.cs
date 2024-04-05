@@ -36,15 +36,15 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
             if (IsEmailAddressAvailable.No(user.EmailAddress, _userReadingRepo))
                 return new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.EmailInUse
                 };
 
             if (IsEmailAdressFormat.NotValid(user.EmailAddress))
                 return new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.FalseEmailFormat
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.FalseEmailFormat
                 };
 
             if (!user.IsFacebookUser &&
@@ -52,8 +52,8 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                 IsUserNameAvailable.No(user.Name, _userReadingRepo))
                 return new RequestResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.UserNameInUse
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
                 };
 
             InitializeReputation(user);
@@ -75,7 +75,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
         return new RequestResult
         {
-            success = true,
+            Success = true,
         };
     }
 

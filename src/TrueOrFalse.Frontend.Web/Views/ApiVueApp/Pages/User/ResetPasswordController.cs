@@ -31,18 +31,18 @@ public class ResetPasswordController : BaseController
         var passwordToken = _passwordRecoveryTokenValidator.Run(token);
         var result = new RequestResult
         {
-            success = true
+            Success = true
         };
 
         if (passwordToken == null)
         {
-            result.success = false;
-            result.messageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsInvalid;
+            result.Success = false;
+            result.MessageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsInvalid;
         }
         else if ((DateTime.Now - passwordToken.DateCreated).TotalDays > 3)
         {
-            result.success = false;
-            result.messageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsExpired;
+            result.Success = false;
+            result.MessageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsExpired;
         }
 
         return result;
@@ -59,7 +59,7 @@ public class ResetPasswordController : BaseController
     public JsonResult SetNewPassword([FromBody] SetNewPasswordJson json)
     {
         var validationResult = ValidateToken(json.token);
-        if (validationResult.success == false)
+        if (validationResult.Success == false)
         {
             return Json(validationResult);
         }
@@ -68,8 +68,8 @@ public class ResetPasswordController : BaseController
         {
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.PasswordTooShort
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.PasswordTooShort
             });
         }
 
@@ -86,8 +86,8 @@ public class ResetPasswordController : BaseController
         _sessionUser.Login(user);
         return Json(new RequestResult
         {
-            success = true,
-            data = _vueSessionUser.GetCurrentUserData()
+            Success = true,
+            Data = _vueSessionUser.GetCurrentUserData()
         });
     }
 }

@@ -22,9 +22,9 @@ public class CategoryCreator : IRegisterAsInstancePerLifetime
         {
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                data = new
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
+                Data = new
                 {
                     cantSavePrivateTopic = true
                 }
@@ -43,8 +43,8 @@ public class CategoryCreator : IRegisterAsInstancePerLifetime
         
         return new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 name = topic.Name,
                 id = topic.Id

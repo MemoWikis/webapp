@@ -62,9 +62,9 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         {
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.NameIsForbidden,
-                data = new
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.NameIsForbidden,
+                Data = new
                 {
                     categoryNameAllowed = false,
                     name,
@@ -74,7 +74,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
         return new RequestResult
         {
-            success = true
+            Success = true
         };
     }
 
@@ -122,14 +122,14 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         if (childId == parentIdToRemove || childId == parentIdToAdd)
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.LoopLink
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
         if (parentIdToRemove == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
         var json = AddChild(childId, parentIdToAdd, parentIdToRemove);
         RemoveParent(parentIdToRemove, childId, new int[] { parentIdToAdd, parentIdToRemove });
@@ -141,22 +141,22 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         if (childId == parentId)
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.LoopLink
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
         if (parentId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
         var parent = EntityCache.GetCategory(parentId);
 
         if (parent.ChildRelations.Any(r => r.ChildId == childId))
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
             };
         var selectedTopicIsParent = GraphService.Ascendants(parentId)
             .Any(c => c.Id == childId);
@@ -166,8 +166,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             Logg.r.Error("Child is Parent ");
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.ChildIsParent
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.ChildIsParent
             };
         }
 
@@ -183,8 +183,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
         return new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 name = EntityCache.GetCategory(parentId).Name,
                 id = childId
@@ -197,8 +197,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         if (!_permissionCheck.CanEditCategory(parentIdToRemove) && !_permissionCheck.CanEditCategory(childId))
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.MissingRights
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
         var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
@@ -208,8 +208,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         if (!parentHasBeenRemoved)
             return new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.NoRemainingParents
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.NoRemainingParents
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
@@ -222,8 +222,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
 
         return new RequestResult
         {
-            success = true,
-            messageKey = FrontendMessageKeys.Success.Category.Unlinked
+            Success = true,
+            MessageKey = FrontendMessageKeys.Success.Category.Unlinked
         };
     }
 }

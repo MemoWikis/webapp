@@ -1,66 +1,29 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System;
-using TrueOrFalse.Domain;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-
 namespace VueApp;
-public class QuestionEditModalController : BaseController
+public class QuestionEditModalController(SessionUser _sessionUser,
+    LearningSessionCache _learningSessionCache,
+    PermissionCheck _permissionCheck,
+    LearningSessionCreator _learningSessionCreator,
+    QuestionInKnowledge _questionInKnowledge,
+    CategoryRepository _categoryRepository,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    UserReadingRepo _userReadingRepo,
+    QuestionWritingRepo _questionWritingRepo,
+    QuestionReadingRepo _questionReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    SessionUserCache _sessionUserCache,
+    IActionContextAccessor _actionContextAccessor,
+    Logg _logg) : Controller
 {
-    private readonly LearningSessionCache _learningSessionCache;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly LearningSessionCreator _learningSessionCreator;
-    private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionWritingRepo _questionWritingRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly Logg _logg;
-
-    public QuestionEditModalController(SessionUser sessionUser,
-        LearningSessionCache learningSessionCache,
-        PermissionCheck permissionCheck,
-        LearningSessionCreator learningSessionCreator,
-        QuestionInKnowledge questionInKnowledge,
-        CategoryRepository categoryRepository,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionWritingRepo questionWritingRepo,
-        QuestionReadingRepo questionReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        SessionUserCache sessionUserCache,
-        IActionContextAccessor actionContextAccessor,
-        Logg logg) 
-        : base(sessionUser)
-    {
-        _learningSessionCache = learningSessionCache;
-        _permissionCheck = permissionCheck;
-        _learningSessionCreator = learningSessionCreator;
-        _questionInKnowledge = questionInKnowledge;
-        _categoryRepository = categoryRepository;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionWritingRepo = questionWritingRepo;
-        _questionReadingRepo = questionReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _sessionUserCache = sessionUserCache;
-        _actionContextAccessor = actionContextAccessor;
-        _logg = logg;
-    }
     public readonly record struct QuestionDataParam(
         int[] CategoryIds,
         int? QuestionId,
@@ -80,19 +43,19 @@ public class QuestionEditModalController : BaseController
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Create([FromBody] QuestionDataParam param)
+    public RequestResult Create([FromBody] QuestionDataParam param)
     {
         if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true))
         {
-            return Json(new RequestResult
-                { success = false, messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion });
+            return new RequestResult
+            { Success = false, MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
         }
 
         var safeText = RemoveHtmlTags(param.TextHtml);
         if (safeText.Length <= 0)
         {
-            return Json(new RequestResult
-                { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText });
+            return new RequestResult
+            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -113,22 +76,22 @@ public class QuestionEditModalController : BaseController
         if (param.AddToWishknowledge != null && (bool)param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        return Json(new RequestResult { success = true, data = LoadQuestion(question.Id) });
+        return new RequestResult { Success = true, Data = LoadQuestion(question.Id) };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult Edit([FromBody] QuestionDataParam param)
+    public RequestResult Edit([FromBody] QuestionDataParam param)
     {
         var safeText = RemoveHtmlTags(param.TextHtml);
         if (safeText.Length <= 0)
         {
-            return Json(new RequestResult
-                { success = false, messageKey = FrontendMessageKeys.Error.Question.MissingText });
+            return new RequestResult
+            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         if (param.QuestionId == null)
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default });
+            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         var question = _questionReadingRepo.GetById((int)param.QuestionId);
         var updatedQuestion = UpdateQuestion(question, param, safeText);
@@ -138,13 +101,24 @@ public class QuestionEditModalController : BaseController
         if (param.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return Json(new RequestResult { success = true, data = LoadQuestion(updatedQuestion.Id) });
-
+        return new RequestResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
     }
 
+    public record struct QuestionJson(int Id,
+    int SolutionType,
+    string Solution,
+    string SolutionMetadataJson,
+    string Text,
+    string TextExtended,
+    int[] PublicTopicIds,
+    string DescriptionHtml,
+    SearchTopicItem[] Topics,
+    int[] TopicIds,
+    int LicenseId,
+    QuestionVisibility Visibility);
 
     [HttpGet]
-    public JsonResult GetData([FromRoute] int id)
+    public QuestionJson GetData([FromRoute] int id)
     {
         var question = EntityCache.GetQuestionById(id);
         var solution = question.SolutionType == SolutionType.FlashCard
@@ -153,28 +127,26 @@ public class QuestionEditModalController : BaseController
         var topicsVisibleToCurrentUser =
             question.Categories.Where(_permissionCheck.CanView).Distinct();
 
-        return Json(new
-        {
-            Id = id,
-            SolutionType = (int)question.SolutionType,
-            Solution = solution,
-            SolutionMetadataJson = question.SolutionMetadataJson,
-            Text = question.TextHtml,
-            TextExtended = question.TextExtendedHtml,
-            PublicTopicIds = topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
-            DescriptionHtml = question.DescriptionHtml,
-            Topics = topicsVisibleToCurrentUser.Select(t => FillMiniTopicItem(t)).ToArray(),
-            TopicIds = topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
-            LicenseId = question.LicenseId,
-            Visibility = question.Visibility,
-        });
+        return new QuestionJson(
+            Id: id,
+            SolutionType: (int)question.SolutionType,
+            Solution: solution,
+            SolutionMetadataJson: question.SolutionMetadataJson,
+            Text: question.TextHtml,
+            TextExtended: question.TextExtendedHtml,
+            PublicTopicIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            DescriptionHtml: question.DescriptionHtml,
+            Topics: topicsVisibleToCurrentUser.Select(t => FillMiniTopicItem(t)).ToArray(),
+            TopicIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            LicenseId: question.LicenseId,
+            Visibility: question.Visibility
+        );
     }
 
     [HttpGet]
     public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetCategory(id).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
-
-    private dynamic LoadQuestion(int questionId)
+    private QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
         var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;

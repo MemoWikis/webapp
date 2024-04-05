@@ -82,8 +82,8 @@ public class QuickCreateQuestionController : BaseController
         if (safeText.Length <= 0)
             return Json(new RequestResult
             {
-                success = false,
-                data = FrontendMessageKeys.Error.Question.MissingText
+                Success = false,
+                Data = FrontendMessageKeys.Error.Question.MissingText
             });
 
         var question = new Question();
@@ -98,8 +98,8 @@ public class QuickCreateQuestionController : BaseController
         if (solutionModelFlashCard.Text.Length <= 0)
             return Json(new RequestResult
             {
-                success = false,
-                data = FrontendMessageKeys.Error.Question.MissingAnswer
+                Success = false,
+                Data = FrontendMessageKeys.Error.Question.MissingAnswer
             });
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
@@ -139,8 +139,8 @@ public class QuickCreateQuestionController : BaseController
 
         return Json(new RequestResult
         {
-            success = true,
-            data = questionController.LoadQuestion(question.Id).SessionIndex
+            Success = true,
+            Data = questionController.LoadQuestion(question.Id).SessionIndex
         });
     }
 

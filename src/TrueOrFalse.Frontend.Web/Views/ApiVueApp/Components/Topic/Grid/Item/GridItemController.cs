@@ -8,11 +8,11 @@ public class GridItemController(PermissionCheck _permissionCheck, SessionUser _s
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights });
+            return Json(new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.MissingRights });
 
 
         var children = _gridItemLogic.GetChildren(id);
-        return Json(new RequestResult { success = true, data = children });
+        return Json(new RequestResult { Success = true, Data = children });
     }
 
     [HttpGet]
@@ -20,11 +20,11 @@ public class GridItemController(PermissionCheck _permissionCheck, SessionUser _s
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights });
+            return Json(new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.MissingRights });
 
 
         var gridItem = _gridItemLogic.BuildGridTopicItem(topic);
-        return Json(new RequestResult { success = true, data = gridItem });
+        return Json(new RequestResult { Success = true, Data = gridItem });
     }
 }
 

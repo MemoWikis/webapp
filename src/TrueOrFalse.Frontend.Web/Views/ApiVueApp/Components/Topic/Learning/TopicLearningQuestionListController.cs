@@ -75,8 +75,8 @@ public class TopicLearningQuestionListController: BaseController
         if (session == null)
             return Json(new RequestResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
             });
         var steps = session.Steps;
 
@@ -90,8 +90,8 @@ public class TopicLearningQuestionListController: BaseController
 
         return Json(new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 Id = question.Id,
                 Title = question.Text,

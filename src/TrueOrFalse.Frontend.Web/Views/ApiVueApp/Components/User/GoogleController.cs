@@ -54,15 +54,15 @@ public class GoogleController : BaseController
             _sessionUser.Login(user);
             return Json(new RequestResult
             {
-                success = true,
-                data = _vueSessionUser.GetCurrentUserData()
+                Success = true,
+                Data = _vueSessionUser.GetCurrentUserData()
             });
         }
 
         return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.Default
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.Default
         });
 
     }
@@ -77,13 +77,13 @@ public class GoogleController : BaseController
     public RequestResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
         var requestResult = _registerUser.SetGoogleUser(googleUser);
-        if (requestResult.success)
+        if (requestResult.Success)
 
         {
             return new RequestResult
             {
-                success = true,
-                data = _vueSessionUser.GetCurrentUserData()
+                Success = true,
+                Data = _vueSessionUser.GetCurrentUserData()
             };
         }
         return requestResult;

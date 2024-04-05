@@ -6,7 +6,6 @@ using System.Linq;
 public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
     public record struct LearningSessionResult(

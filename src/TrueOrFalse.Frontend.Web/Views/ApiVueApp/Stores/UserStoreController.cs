@@ -30,14 +30,14 @@ public class UserStoreController(
         {
             return Json(new RequestResult
             {
-                success = true,
-                data = _vueSessionUser.GetCurrentUserData()
+                Success = true,
+                Data = _vueSessionUser.GetCurrentUserData()
             });
         }
         return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.LoginFailed
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.User.LoginFailed
         });
     }
 
@@ -51,13 +51,13 @@ public class UserStoreController(
         if (!_sessionUser.IsLoggedIn)
             return Json(new RequestResult
             {
-                success = true,
+                Success = true,
             });
 
         return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.Default
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.Default
         });
     }
 
@@ -73,7 +73,7 @@ public class UserStoreController(
     {
         var result = _passwordRecovery.RunForNuxt(email);
         //Don't reveal if email exists 
-        return Json(new RequestResult { success = result.Success || result.EmailDoesNotExist });
+        return Json(new RequestResult { Success = result.Success || result.EmailDoesNotExist });
     }
 
     [HttpPost]
@@ -84,23 +84,23 @@ public class UserStoreController(
         if (!IsEmailAddressAvailable.Yes(json.Email, _userReadingRepo))
             return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.EmailInUse
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.User.EmailInUse
         });
 
         if (!IsUserNameAvailable.Yes(json.Email, _userReadingRepo))
             return Json(new RequestResult
         {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.UserNameInUse
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
         });
 
         _registerUser.SetUser(json);
 
         return Json(new RequestResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
@@ -136,8 +136,8 @@ public class UserStoreController(
         SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
         return Json(new RequestResult
         {
-            success = true,
-            messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
+            Success = true,
+            MessageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
         });
     }
 
