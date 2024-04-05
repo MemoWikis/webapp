@@ -39,7 +39,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         server: true,
         retry: 3
     })
-console.log(topic)
+
 const tabSwitched = ref(false)
 
 const router = useRouter()
