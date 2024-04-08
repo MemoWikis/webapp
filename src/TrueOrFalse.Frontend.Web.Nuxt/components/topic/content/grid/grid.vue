@@ -213,12 +213,14 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                     <template v-if="isDesktop">
                         <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
                             :parent-id="topicStore.id" :parent-name="topicStore.name"
-                            :user-is-creator-of-parent="topicStore.currentUserIsCreator" />
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
                     </template>
                     <template v-else>
                         <TopicContentGridTouchDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
                             :parent-id="topicStore.id" :parent-name="topicStore.name"
-                            :user-is-creator-of-parent="topicStore.currentUserIsCreator" />
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
                     </template>
                 </div>
 

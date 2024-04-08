@@ -5,6 +5,7 @@ import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopi
 import { useDragStore, TargetPosition, DragAndDropType, DropZoneData, MoveTopicTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
@@ -16,6 +17,7 @@ interface Props {
     toggleState: ToggleState
     parentId: number
     parentName: string
+    parentVisibility: Visibility
     disabled?: boolean
     userIsCreatorOfParent: boolean
 }
@@ -34,7 +36,7 @@ async function onDrop() {
     hoverBottomHalf.value = false
     dropIn.value = false
 
-    if (dragStore.transferData == null || dragStore.isMoveTopicTransferData)
+    if (dragStore.transferData == null || !dragStore.isMoveTopicTransferData)
         return
 
     const transferData = dragStore.transferData as MoveTopicTransferData
@@ -73,13 +75,43 @@ const dragging = ref(false)
 function handleDragStart(e: any) {
 
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
+        if (userStore.isLoggedIn)
+            snackbar.add({
+                type: 'error',
+                title: '',
+                text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
+                dismissible: true
+            })
+        else {
+            const snackbarCustomAction: SnackbarCustomAction = {
+                label: '',
+                action: () => {
+                    editTopicRelationStore.undoMoveTopic()
+                },
+                icon: ['fas', 'right-to-bracket']
+            }
+
+            snackbar.add({
+                type: 'error',
+                title: '',
+                text: {
+                    html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon
+                },
+                dismissible: false
+            })
+        }
+        return
+    }
+
+    if (props.parentVisibility == Visibility.All && !userStore.gridInfoShown) {
         snackbar.add({
-            type: 'error',
+            type: 'warning',
             title: '',
-            text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
+            text: { html: `Änderung im Thema <b>${props.parentName}</b> sind für alle sichtbar` },
             dismissible: true
         })
-        return
+
+        userStore.gridInfoShown = true
     }
 
     if (!dragStore.active) {
@@ -139,8 +171,22 @@ function handleDrag(e: MouseEvent | TouchEvent) {
         const x = e.changedTouches[0].pageX - el.left - 25
         const y = e.changedTouches[0].pageY - el.height - 100
         dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
+        handleScroll(e.changedTouches[0].clientY)
     }
 }
+
+
+function handleScroll(clientY: number) {
+
+    const threshold = 150
+    const distanceFromBottom = window.innerHeight - clientY
+    if (clientY <= threshold) {
+        window.scrollBy(0, -10)
+    } else if (distanceFromBottom <= threshold) {
+        window.scrollBy(0, 10)
+    }
+}
+
 
 function getDropZoneData(position: TargetPosition): string {
     const data = {
@@ -201,6 +247,7 @@ watch(() => dragStore.transferData, (t) => {
 
     }
 }, { deep: true })
+
 </script>
 
 <template>

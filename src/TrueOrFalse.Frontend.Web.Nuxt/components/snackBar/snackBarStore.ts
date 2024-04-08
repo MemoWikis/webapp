@@ -25,7 +25,7 @@ export interface SnackbarCustomAction {
 	id?: number
 	label: string
 	action: () => void
-	icon?: string
+	icon?: string[]
 }
 
 export const useSnackbarStore = defineStore('snackbarStore', {

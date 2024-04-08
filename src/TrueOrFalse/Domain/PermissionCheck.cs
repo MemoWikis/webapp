@@ -103,21 +103,19 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public bool CanMoveTopic(int topicId, int oldParentId, int newParentId) => CanMoveTopic(
-        EntityCache.GetCategory(topicId), EntityCache.GetCategory(oldParentId), EntityCache.GetCategory(newParentId));
+    public bool CanMoveTopic(int topicId, int oldParentId) => CanMoveTopic(
+        EntityCache.GetCategory(topicId), EntityCache.GetCategory(oldParentId));
 
-    public bool CanMoveTopic(CategoryCacheItem? movingTopic, CategoryCacheItem? oldParent, CategoryCacheItem? newParent)
+    public bool CanMoveTopic(CategoryCacheItem? movingTopic, CategoryCacheItem? oldParent)
     {   
         if (_userId == default
             || movingTopic == null
             || movingTopic.Id == 0
             || oldParent == null
-            || oldParent.Id == 0
-            || newParent == null
-            || newParent.Id == 0)
+            || oldParent.Id == 0)
             return false;
 
-        return _isInstallationAdmin || movingTopic.CreatorId == _userId || oldParent.CreatorId == _userId || newParent.CreatorId == _userId;
+        return _isInstallationAdmin || movingTopic.CreatorId == _userId || oldParent.CreatorId == _userId;
     }
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));

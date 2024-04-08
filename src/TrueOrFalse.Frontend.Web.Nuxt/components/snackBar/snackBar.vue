@@ -92,18 +92,23 @@ p {
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-article.vue3-snackbar-message {
+#vue3-snackbar--container {
+	margin: 0;
 
-	&.warning,
-	&.success {
-		color: @memo-blue;
-	}
+	article.vue3-snackbar-message {
 
-	&.info,
-	&.error {
-		a {
-			color: @memo-info;
+		&.warning,
+		&.success {
+			color: @memo-blue;
+		}
+
+		&.info,
+		&.error {
+			a {
+				color: @memo-info;
+			}
 		}
 	}
+
 }
 </style>

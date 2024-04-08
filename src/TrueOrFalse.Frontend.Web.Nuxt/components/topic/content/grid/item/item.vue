@@ -295,12 +295,14 @@ const { isDesktop } = useDevice()
         <template v-if="isDesktop">
             <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
                 :parent-id="props.topic.id" :parent-name="props.topic.name"
-                :user-is-creator-of-parent="props.topic.creatorId == userStore.id" />
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
         </template>
         <template v-else>
             <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
                 :parent-id="props.topic.id" :parent-name="props.topic.name"
-                :user-is-creator-of-parent="props.topic.creatorId == userStore.id" />
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
         </template>
     </div>
 
