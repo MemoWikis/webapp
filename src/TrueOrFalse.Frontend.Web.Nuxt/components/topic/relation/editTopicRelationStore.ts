@@ -83,7 +83,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 personalWiki: TopicItem,
                 recentlyUsedRelationTargetTopics: TopicItem[]
             }
-            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const id = EditTopicRelationType.AddParent ? this.childId : this.parentId
+            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
@@ -105,7 +106,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             const editTopicRelationData: EditRelationData = {
                 childId: id,
                 redirect: redirect,
-                editCategoryRelation: EditTopicRelationType.AddParent
+                editCategoryRelation: EditTopicRelationType.AddParent,
             }
 
             this.openModal(editTopicRelationData)

@@ -5,6 +5,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { useEditTopicRelationStore } from '~/components/topic/relation/editTopicRelationStore'
+import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
@@ -38,7 +39,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         server: true,
         retry: 3
     })
-console.log(topic)
+
 const tabSwitched = ref(false)
 
 const router = useRouter()
@@ -178,6 +179,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     }
 
 })
+
 </script>
 
 <template>

@@ -2,9 +2,8 @@
 import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
-import { useDragStore, TargetPosition } from '~~/components/shared/dragStore'
+import { useDragStore, TargetPosition, MoveTopicTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
-import { SnackbarData } from '~/components/snackBar/snackBarStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
@@ -30,7 +29,7 @@ function onDragOver(e: any) {
         dragOverTimer.value = Date.now()
     else {
         const diff = Date.now() - dragOverTimer.value
-        if (diff > 1000)
+        if (diff > 700)
             dropIn.value = true
     }
 }
@@ -38,12 +37,6 @@ function onDragLeave() {
     isDroppableItemActive.value = false
     dragOverTimer.value = null
     dropIn.value = false
-}
-
-interface TransferData {
-    movingTopicId: number
-    oldParentId: number
-    topicName: string
 }
 
 const snackbar = useSnackbar()
@@ -55,12 +48,11 @@ async function onDrop() {
     hoverBottomHalf.value = false
     dropIn.value = false
 
-    if (dragStore.transferData == null)
+    if (dragStore.transferData == null || dragStore.isMoveTopicTransferData)
         return
 
-    const transferData: TransferData = dragStore.transferData
+    const transferData = dragStore.transferData as MoveTopicTransferData
     const targetId = props.topic.id
-
     if (transferData.movingTopicId == targetId)
         return
 
@@ -76,16 +68,11 @@ async function onDrop() {
             editTopicRelationStore.undoMoveTopic()
         }
     }
-    const snackbarData: SnackbarData = {
-        type: 'info',
-        title: 'Thema wurde verschoben',
-        text: 'Testnachricht',
-        snackbarCustomAction: snackbarCustomAction
-    }
+
     snackbar.add({
-        type: snackbarData.type,
-        title: snackbarData.title,
-        text: { message: snackbarData.text, buttonLabel: snackbarData.snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction) },
+        type: 'info',
+        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
+        text: { message: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
         dismissible: true
     })
 }
@@ -103,7 +90,7 @@ function handleDragStart(e: DragEvent) {
     document.body.appendChild(cdi)
 
     e.dataTransfer?.setDragImage(cdi, 0, 0);
-    const data: TransferData = {
+    const data: MoveTopicTransferData = {
         movingTopicId: props.topic.id,
         oldParentId: props.parentId,
         topicName: props.topic.name
@@ -143,6 +130,15 @@ function handleDrag(e: DragEvent) {
     }
 }
 
+const placeHolderTopicName = ref('')
+
+watch(() => dragStore.transferData, (t) => {
+    if (dragStore.isMoveTopicTransferData) {
+        const m = t as MoveTopicTransferData
+        placeHolderTopicName.value = m.topicName
+
+    }
+}, { deep: true })
 </script>
 
 <template>
@@ -156,8 +152,8 @@ function handleDrag(e: DragEvent) {
                     class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
 
                     <div class="inner top">
-                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
-                            :name="dragStore.transferData?.topicName" />
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                            :name="placeHolderTopicName" />
                     </div>
 
                 </div>
@@ -192,8 +188,8 @@ function handleDrag(e: DragEvent) {
                     class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
-                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
-                            :name="dragStore.transferData?.topicName" />
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                            :name="placeHolderTopicName" />
                     </div>
 
                 </div>

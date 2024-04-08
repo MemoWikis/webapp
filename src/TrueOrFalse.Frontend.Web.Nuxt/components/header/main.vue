@@ -2,7 +2,7 @@
 import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { ImageFormat } from '../image/imageFormatEnum'
-import { SearchType } from '~~/components/search/searchHelper'
+import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import { BreadcrumbItem } from './breadcrumbItems'
@@ -22,10 +22,10 @@ const props = defineProps<Props>()
 
 const showSearch = ref(false)
 
-async function openUrl(val: any) {
+async function openUrl(val: TopicItem | QuestionItem | UserItem) {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
-    return navigateTo(val.Url)
+    return await navigateTo(val.url)
 }
 const userStore = useUserStore()
 
@@ -92,8 +92,8 @@ watch(() => openedModals, (val) => {
                     <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
                         ref="partialLeft">
                         <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
-                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
-                            :partial-left="partialLeft" />
+                            :question-page-data="props.questionPageData"
+                            :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                     </div>
                     <div class="partial end" ref="headerExtras">
                         <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
@@ -104,8 +104,9 @@ watch(() => openedModals, (val) => {
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
                             <div class="StickySearch">
-                                <Search :search-type="SearchType.all" :show-search="showSearch" v-on:select-item="openUrl"
-                                    placement="bottom-end" :main-search="true" :distance="distance" />
+                                <Search :search-type="SearchType.all" :show-search="showSearch"
+                                    v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
+                                    :distance="distance" />
                             </div>
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
@@ -189,7 +190,8 @@ watch(() => openedModals, (val) => {
                                 </div>
                                 <div class="StickySearch">
                                     <Search :search-type="SearchType.all" :show-search="showSearch"
-                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl" placement="bottom-end" />
+                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
+                                        placement="bottom-end" />
                                 </div>
                             </div>
                             <div class="login-btn" @click="userStore.openLoginModal()">

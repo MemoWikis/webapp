@@ -33,14 +33,6 @@ export class CustomPino {
             apiKey = config.public.seqClientApiKey
         }
 
-        const loggingContent = {
-            method: 'POST',
-            headers: {
-                'X-Seq-ApiKey': apiKey,
-            },
-            body: { Events: [log] },
-        }
-
         try {
             await $fetch(url, {
                 method: 'POST',
@@ -51,9 +43,6 @@ export class CustomPino {
             })
         } catch (error) {
             console.error('Error sending log to Seq:', error)
-            // console.log(loggingContent)
-            // console.log("Log: ", log)
-            // console.log({ ...log })
         }
     }
 

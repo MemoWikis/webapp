@@ -158,5 +158,4 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         return false;
-    }
-}
+    } }

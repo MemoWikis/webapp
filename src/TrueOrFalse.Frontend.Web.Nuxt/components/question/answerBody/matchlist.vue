@@ -61,7 +61,7 @@ function onDragLeave() {
 }
 function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
-    if (index != null) {
+    if (index != null && typeof dragStore.transferData == 'string') {
         pairs.value[index].ElementRight.Text = dragStore.transferData
         temp.value = null
     }
@@ -69,10 +69,9 @@ function onDrop(event: any) {
         pairs.value[movingAnswerIndex.value].ElementRight.Text = ''
         movingAnswerIndex.value = null
     }
-
-    isDroppableItemActive.value = false
     dragStarted.value = false
     dragStore.dragEnd()
+    isDroppableItemActive.value = false
 }
 
 const hover = ref<number | null>(null)
@@ -151,9 +150,9 @@ function handleDragEnd(i: number) {
                 </div>
                 <div class="col-sm-12">
                     <div class="row">
-                        <div id="matchlist-rightelements row">
-                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text"
-                                class="draggable-element col-xs-6" @dragstart="dragStart(e.Text)">
+                        <div id="matchlist-rightelements">
+                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text" class="draggable-element"
+                                @dragstart="dragStart(e.Text)">
                                 <div class="drag">
                                     {{ e.Text }}
                                 </div>
@@ -227,6 +226,7 @@ function handleDragEnd(i: number) {
 
 .draggable-element {
     margin: 4px;
+    width: 160px;
 }
 
 .drag {
@@ -281,5 +281,9 @@ function handleDragEnd(i: number) {
         background: lightblue;
         border: solid 1px grey;
     }
+}
+
+#matchlist-rightelements {
+    justify-content: flex-start;
 }
 </style>

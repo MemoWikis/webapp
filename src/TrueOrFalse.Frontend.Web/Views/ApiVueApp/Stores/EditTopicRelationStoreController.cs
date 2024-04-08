@@ -110,7 +110,7 @@ public class EditTopicRelationStoreController : BaseController
         if (!_sessionUser.IsLoggedIn)
             throw new Exception("NotLoggedIn");
 
-        if (!_permissionCheck.CanEditCategory(json.movingTopicId))
+        if (!_permissionCheck.CanMoveTopic(json.movingTopicId, json.oldParentId, json.newParentId))
             throw new Exception("NoRights");
 
         if (json.movingTopicId == json.newParentId)
@@ -133,7 +133,7 @@ public class EditTopicRelationStoreController : BaseController
         else if (json.position == TargetPosition.Inner)
             ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
         else if (json.position == TargetPosition.None)
-            throw new Exception("NoPosition");
+                throw new Exception("NoPosition");
 
         return new MoveTopicResult(json.oldParentId, json.newParentId, undoMoveTopicData);
     }

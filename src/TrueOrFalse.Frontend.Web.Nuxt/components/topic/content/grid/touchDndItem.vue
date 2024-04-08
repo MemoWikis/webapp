@@ -2,8 +2,7 @@
 import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
-import { useDragStore, TargetPosition, DragAndDropType, DropZoneData } from '~~/components/shared/dragStore'
-import { drop } from 'underscore';
+import { useDragStore, TargetPosition, DragAndDropType, DropZoneData, MoveTopicTransferData } from '~~/components/shared/dragStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
@@ -34,10 +33,10 @@ async function onDrop() {
     hoverBottomHalf.value = false
     dropIn.value = false
 
-    if (dragStore.transferData == null)
+    if (dragStore.transferData == null || dragStore.isMoveTopicTransferData)
         return
 
-    const transferData: TransferData = dragStore.transferData
+    const transferData = dragStore.transferData as MoveTopicTransferData
 
     if (dragStore.dropZoneData == null)
         return
@@ -172,9 +171,16 @@ watch(currentPosition, (val) => {
         currentPositionTimer.value = null
     }
 }, { immediate: true })
-onMounted(() => {
-    console.log('touchitem')
-})
+
+const placeHolderTopicName = ref('')
+
+watch(() => dragStore.transferData, (t) => {
+    if (dragStore.isMoveTopicTransferData) {
+        const m = t as MoveTopicTransferData
+        placeHolderTopicName.value = m.topicName
+
+    }
+}, { deep: true })
 </script>
 
 <template>
@@ -187,8 +193,8 @@ onMounted(() => {
                 :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
 
                 <div class="inner top">
-                    <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
-                        :name="dragStore.transferData?.topicName" />
+                    <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                        :name="placeHolderTopicName" />
                 </div>
 
             </div>
@@ -224,8 +230,8 @@ onMounted(() => {
                 :data-dropzonedata="getDropZoneData(TargetPosition.After)">
 
                 <div class="inner bottom">
-                    <LazyTopicContentGridDndPlaceholder v-if="dragStore.transferData?.topicName"
-                        :name="dragStore.transferData?.topicName" />
+                    <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                        :name="placeHolderTopicName" />
                 </div>
 
             </div>

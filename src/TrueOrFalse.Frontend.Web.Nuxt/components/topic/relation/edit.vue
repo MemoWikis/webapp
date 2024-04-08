@@ -118,14 +118,14 @@ const searchTerm = ref('')
 const selectedTopic = ref(null as TopicItem | null)
 const showSelectedTopic = ref(false)
 
-function selectTopic(t: any) {
+function selectTopic(t: TopicItem) {
     showDropdown.value = false
     lockDropdown.value = true
-    searchTerm.value = t.Name
+    searchTerm.value = t.name
     selectedTopic.value = t
-    selectedTopicId.value = t.Id
+    selectedTopicId.value = t.id
     showSelectedTopic.value = true
-    selectedParentInWikiId.value = t.Id;
+    selectedParentInWikiId.value = t.id;
 }
 
 const selectedParentInWikiId = ref(0)
@@ -374,11 +374,10 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.name }}
                                 </div>
-                                <div class="searchResultQuestionCount body-s">{{
-                                    editTopicRelationStore.personalWiki.questionCount
-                                }}
-                                    Frage<template
-                                        v-if="editTopicRelationStore.personalWiki.questionCount != 1">n</template></div>
+                                <div class="searchResultQuestionCount body-s">
+                                    {{ editTopicRelationStore.personalWiki.questionCount + `
+                                    Frage${editTopicRelationStore.personalWiki.questionCount != 1 ? 'n' : ''}` }}
+                                </div>
                             </div>
                             <div v-show="selectedParentInWikiId == editTopicRelationStore.personalWiki.id"
                                 class="selectedSearchResultItemContainer">
@@ -401,7 +400,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                 <div class="searchResultBody">
                                     <div class="searchResultLabel body-m">{{ previousTopic.name }}</div>
                                     <div class="searchResultQuestionCount body-s">{{ previousTopic.questionCount }}
-                                        Frage<template v-if="previousTopic.questionCount != 1">n</template></div>
+                                        Frage<template v-if="previousTopic.questionCount != 1">n</template>
+                                    </div>
                                 </div>
                                 <div v-show="selectedParentInWikiId == previousTopic.id"
                                     class="selectedSearchResultItemContainer">
@@ -443,7 +443,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                 <label>
                                     <div class="checkbox-container">
                                         <input type="checkbox" name="addToParent" class="hidden" />
-                                        <font-awesome-icon icon="fa-solid fa-square-check" class="checkbox-icon active" />
+                                        <font-awesome-icon icon="fa-solid fa-square-check"
+                                            class="checkbox-icon active" />
                                         <span class="checkbox-label">
                                             Nur im eigenen Wiki suchen
                                         </span>
@@ -457,7 +458,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
 
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}
+                    </NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>
@@ -495,7 +497,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}
+                    </NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>
@@ -516,7 +519,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}
+                    </NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>
