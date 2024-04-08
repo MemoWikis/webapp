@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Exception = System.Exception;
 
 namespace VueApp;
 
@@ -32,16 +32,21 @@ public class EditTopicRelationStoreController : BaseController
         _categoryRelationRepo = categoryRelationRepo;
     }
 
+    public record struct PersonalWikiData(
+        SearchTopicItem PersonalWiki,
+        SearchTopicItem[] RecentlyUsedRelationTargetTopics);
+
+    public record struct GetPersonalWikiDataResult(bool Success, string MessageKey, PersonalWikiData? Data);
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult GetPersonalWikiData([FromRoute] int id)
+    public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
     {
         if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
-            return Json(new RequestResult
+            return new GetPersonalWikiDataResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Category.LoopLink
-            });
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
+            };
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
@@ -62,15 +67,15 @@ public class EditTopicRelationStoreController : BaseController
             }
         }
 
-        return Json(new RequestResult
+        return new GetPersonalWikiDataResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new PersonalWikiData
             {
-                personalWiki = personalWikiItem,
-                recentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics.ToArray()
+                PersonalWiki = personalWikiItem,
+                RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics.ToArray()
             }
-        });
+        };
     }
 
     public readonly record struct RemoveTopicsJson(int parentId, int[] childIds);
