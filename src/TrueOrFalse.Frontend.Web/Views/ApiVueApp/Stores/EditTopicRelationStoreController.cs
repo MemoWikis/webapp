@@ -47,8 +47,8 @@ public class EditTopicRelationStoreController : BaseController
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .FillSearchCategoryItem(personalWiki, UserId);
-        var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
+            .FillSearchTopicItem(personalWiki, UserId);
+        var recentlyUsedRelationTargetTopics = new List<SearchTopicItem>();
 
         if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
@@ -58,7 +58,7 @@ public class EditTopicRelationStoreController : BaseController
                 recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                    .FillSearchCategoryItem(topicCacheItem, UserId));
+                    .FillSearchTopicItem(topicCacheItem, UserId));
             }
         }
 
