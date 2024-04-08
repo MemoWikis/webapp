@@ -3,9 +3,13 @@ import { ToggleState } from './toggleStateEnum'
 import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore, TargetPosition, DragAndDropType, DropZoneData, MoveTopicTransferData } from '~~/components/shared/dragStore'
+import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { useUserStore } from '~/components/user/userStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
+const snackbarStore = useSnackbarStore()
+const userStore = useUserStore()
 
 interface Props {
     topic: GridTopicItem
@@ -13,6 +17,7 @@ interface Props {
     parentId: number
     parentName: string
     disabled?: boolean
+    userIsCreatorOfParent: boolean
 }
 const props = defineProps<Props>()
 
@@ -20,11 +25,7 @@ const dropIn = ref(false)
 const dragOverTimer = ref()
 const isDroppableItemActive = ref(false)
 
-interface TransferData {
-    movingTopicId: number
-    oldParentId: number
-    topicName: string
-}
+const snackbar = useSnackbar()
 
 async function onDrop() {
     isDroppableItemActive.value = false
@@ -50,14 +51,39 @@ async function onDrop() {
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
-    editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+    await editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+
+    const snackbarCustomAction: SnackbarCustomAction = {
+        label: 'Zurücksetzen',
+        action: () => {
+            editTopicRelationStore.undoMoveTopic()
+        }
+    }
+
+    snackbar.add({
+        type: 'info',
+        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
+        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
+        dismissible: true
+    })
 }
 
 const dragging = ref(false)
 
 function handleDragStart(e: any) {
+
+    if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
+        snackbar.add({
+            type: 'error',
+            title: '',
+            text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
+            dismissible: true
+        })
+        return
+    }
+
     if (!dragStore.active) {
-        const data: TransferData = {
+        const data: MoveTopicTransferData = {
             movingTopicId: props.topic.id,
             oldParentId: props.parentId,
             topicName: props.topic.name
@@ -72,17 +98,12 @@ function handleDragStart(e: any) {
 const touchTimer = ref()
 
 function touchDown(e: TouchEvent) {
-    console.log('handleDragStart')
-
     touchTimer.value = setTimeout(() => {
-        console.log('handleDragStartTimer')
-
         handleDragStart(e)
     }, 500)
 }
 
 function touchRelease(e: TouchEvent) {
-    console.log('touchRelease')
     clearTimeout(touchTimer.value)
     touchTimer.value = null
     handleDragEnd()
@@ -102,7 +123,6 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
-    console.log('handleDragEnd')
     if (dragStore.active)
         onDrop()
     dragging.value = false

@@ -14,13 +14,13 @@ async function customFunction(id: number, dismiss?: any) {
 </script>
 
 <template>
-    <NuxtSnackbar :duration="4000">
+	<NuxtSnackbar :duration="4000">
 		<template #message-content="{ text, title }">
 			<strong v-if="title.url">
 				<NuxtLink :to="title.url">{{ title.text }}</NuxtLink>
 			</strong>
-			<strong v-text="title" v-else></strong>
-			<p v-text="text.message"></p>
+			<strong v-text="title" v-else-if="title"></strong>
+			<p v-if="text.html" v-html="text.html"></p>
 		</template>
 		<template #message-close-icon="{ message, dismiss }">
 			<div class="snackbar-content-btn">
@@ -29,13 +29,15 @@ async function customFunction(id: number, dismiss?: any) {
 						<font-awesome-icon icon="fa-solid fa-xmark" />
 					</div>
 				</div>
-				<div v-if="message.text.buttonId" @click="customFunction(message.text.buttonId, dismiss)" class="snackbar-btn-container" >
-					<font-awesome-icon v-if="message.text.buttonIcon" :icon="message.text.buttonIcon" class="snackbar-btn-icon"/>
+				<div v-if="message.text.buttonId" @click="customFunction(message.text.buttonId, dismiss)"
+					class="snackbar-btn-container">
+					<font-awesome-icon v-if="message.text.buttonIcon" :icon="message.text.buttonIcon"
+						class="snackbar-btn-icon" />
 					<div class="snackbar-btn">
 						{{ message.text.buttonLabel }}
 					</div>
 				</div>
-			</div >
+			</div>
 		</template>
 	</NuxtSnackbar>
 </template>
@@ -54,7 +56,7 @@ p {
 	margin-right: -10px;
 
 	.snackbar-btn-container {
-		display:flex;
+		display: flex;
 		justify-content: center;
 		align-items: center;
 		padding: 10px 14px;
@@ -64,7 +66,7 @@ p {
 		min-width: 40px;
 		transition: all ease-in 100ms;
 
-		.snackbar-btn-icon{
+		.snackbar-btn-icon {
 			margin-right: 8px;
 		}
 
@@ -72,10 +74,11 @@ p {
 			background-color: rgba(255, 255, 255, 0.15);
 			transition: all ease-in 10ms;
 		}
+
 		&:active {
 			background-color: rgba(255, 255, 255, 0.3);
 		}
-		
+
 		.snackbar-btn {
 			font-size: 14px;
 			font-weight: 500;
@@ -90,11 +93,14 @@ p {
 @import (reference) '~~/assets/includes/imports.less';
 
 article.vue3-snackbar-message {
-	&.warning, &.success {
+
+	&.warning,
+	&.success {
 		color: @memo-blue;
 	}
 
-	&.info, &.error {
+	&.info,
+	&.error {
 		a {
 			color: @memo-info;
 		}
