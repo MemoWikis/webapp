@@ -332,7 +332,6 @@ async function getQuestionData(id: number) {
         }
     })
     if (result != null) {
-        console.log(result)
         solutionType.value = result.solutionType as SolutionType
         initiateSolution(result.solution)
         questionHtml.value = result.text

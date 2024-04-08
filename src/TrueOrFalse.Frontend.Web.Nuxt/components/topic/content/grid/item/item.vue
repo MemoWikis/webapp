@@ -127,12 +127,14 @@ async function addTopic(newTopic: boolean) {
 editTopicRelationStore.$onAction(({ after, name }) => {
     if (name == 'addTopic') {
         after((result) => {
+
             if (result.parentId == props.topic.id) {
                 if (children.value.some(c => c.id == result.childId))
                     reloadGridItem(result.childId)
                 else
                     addGridItem(result.childId)
-            }
+            } else if (children.value.some(c => c.id == result.childId))
+                reloadGridItem(result.childId)
         })
     }
     if (name == 'removeTopic') {
@@ -292,11 +294,13 @@ const { isDesktop } = useDevice()
     <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
         <template v-if="isDesktop">
             <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-                :parent-id="props.topic.id" :parent-name="props.topic.name" />
+                :parent-id="props.topic.id" :parent-name="props.topic.name"
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id" />
         </template>
         <template v-else>
             <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-                :parent-id="props.topic.id" :parent-name="props.topic.name" />
+                :parent-id="props.topic.id" :parent-name="props.topic.name"
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id" />
         </template>
     </div>
 

@@ -4,10 +4,12 @@ import { GridTopicItem } from './item/gridTopicItem'
 import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
 import { useDragStore, TargetPosition, MoveTopicTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { useUserStore } from '~/components/user/userStore'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
 const snackbarStore = useSnackbarStore()
+const userStore = useUserStore()
 
 interface Props {
     topic: GridTopicItem
@@ -15,6 +17,7 @@ interface Props {
     parentId: number
     parentName: string
     disabled?: boolean
+    userIsCreatorOfParent: boolean
 }
 const props = defineProps<Props>()
 
@@ -48,7 +51,7 @@ async function onDrop() {
     hoverBottomHalf.value = false
     dropIn.value = false
 
-    if (dragStore.transferData == null || dragStore.isMoveTopicTransferData)
+    if (dragStore.transferData == null || !dragStore.isMoveTopicTransferData)
         return
 
     const transferData = dragStore.transferData as MoveTopicTransferData
@@ -72,7 +75,7 @@ async function onDrop() {
     snackbar.add({
         type: 'info',
         title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
-        text: { message: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
+        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
         dismissible: true
     })
 }
@@ -90,6 +93,17 @@ function handleDragStart(e: DragEvent) {
     document.body.appendChild(cdi)
 
     e.dataTransfer?.setDragImage(cdi, 0, 0);
+
+    if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
+        snackbar.add({
+            type: 'error',
+            title: '',
+            text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
+            dismissible: true
+        })
+        return
+    }
+
     const data: MoveTopicTransferData = {
         movingTopicId: props.topic.id,
         oldParentId: props.parentId,

@@ -76,7 +76,8 @@ editTopicRelationStore.$onAction(({ after, name }) => {
                 addGridItem(result.childId)
             } else if (topicStore.gridItems.some(c => c.id == result.parentId)) {
                 reloadGridItem(result.parentId)
-            }
+            } else if (topicStore.gridItems.some(c => c.id == result.childId))
+                reloadGridItem(result.childId)
 
         })
     }
@@ -211,11 +212,13 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 <div class="grid-items">
                     <template v-if="isDesktop">
                         <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
-                            :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                            :parent-id="topicStore.id" :parent-name="topicStore.name"
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator" />
                     </template>
                     <template v-else>
                         <TopicContentGridTouchDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
-                            :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                            :parent-id="topicStore.id" :parent-name="topicStore.name"
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator" />
                     </template>
                 </div>
 

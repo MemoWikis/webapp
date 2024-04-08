@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Exception = System.Exception;
 
 namespace VueApp;
 
@@ -32,23 +32,28 @@ public class EditTopicRelationStoreController : BaseController
         _categoryRelationRepo = categoryRelationRepo;
     }
 
+    public record struct PersonalWikiData(
+        SearchTopicItem PersonalWiki,
+        SearchTopicItem[] RecentlyUsedRelationTargetTopics);
+
+    public record struct GetPersonalWikiDataResult(bool Success, string MessageKey, PersonalWikiData? Data);
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult GetPersonalWikiData([FromRoute] int id)
+    public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
     {
         if (GraphService.Descendants(id).Any(c => c.Id == _sessionUser.User.StartTopicId))
-            return Json(new RequestResult
+            return new GetPersonalWikiDataResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.LoopLink
-            });
+            };
 
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .FillSearchCategoryItem(personalWiki, UserId);
-        var recentlyUsedRelationTargetTopics = new List<SearchCategoryItem>();
+            .FillSearchTopicItem(personalWiki, UserId);
+        var recentlyUsedRelationTargetTopics = new List<SearchTopicItem>();
 
         if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
@@ -58,19 +63,19 @@ public class EditTopicRelationStoreController : BaseController
                 recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                    .FillSearchCategoryItem(topicCacheItem, UserId));
+                    .FillSearchTopicItem(topicCacheItem, UserId));
             }
         }
 
-        return Json(new RequestResult
+        return new GetPersonalWikiDataResult
         {
             Success = true,
-            Data = new
+            Data = new PersonalWikiData
             {
-                personalWiki = personalWikiItem,
-                recentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics.ToArray()
+                PersonalWiki = personalWikiItem,
+                RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics.ToArray()
             }
-        });
+        };
     }
 
     public readonly record struct RemoveTopicsJson(int parentId, int[] childIds);
