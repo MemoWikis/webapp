@@ -102,7 +102,5 @@ namespace VueApp
                 topics = items,
             });
         }
-                        _questionReadingRepo).FillSearchCategoryItem(c, _sessionUser.UserId));
-                    .FillSearchCategoryItem(personalWiki, _sessionUser.UserId),
     }
 }

@@ -42,10 +42,7 @@ public class SearchHelper
             Visibility = (int)topic.Visibility
         };
     }
-
-            ImageUrl = new CategoryImageSettings(c.Id, 
-                .GetUrl_128px(asSquare: true).Url,
-                    _httpContextAccessor, 
+    
     public void AddQuestionItems(List<SearchQuestionItem> items,
         GlobalSearchResult elements,
         PermissionCheck permissionCheck,
