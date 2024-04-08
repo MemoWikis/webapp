@@ -178,6 +178,19 @@ async function moveTopicToNewParent() {
 }
 
 const { $urlHelper } = useNuxtApp()
+
+watch(() => editTopicRelationStore.type, (val) => {
+    if (val == EditTopicRelationType.AddToPersonalWiki && editTopicRelationStore.personalWiki) {
+        selectedTopicId.value = editTopicRelationStore.personalWiki.id
+    }
+})
+
+watch(() => editTopicRelationStore.personalWiki, (val) => {
+    if (val && editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki) {
+        selectedTopicId.value = editTopicRelationStore.personalWiki!.id
+    }
+})
+
 function getAddChildPayload() {
 
     if (editTopicRelationStore.type == EditTopicRelationType.AddChild)
