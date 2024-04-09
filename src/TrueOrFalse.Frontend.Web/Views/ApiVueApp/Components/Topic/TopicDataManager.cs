@@ -18,7 +18,8 @@ public class TopicDataManager(
         if (_permissionCheck.CanView(_sessionUser.UserId, topic))
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Category);
-            var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
+            var knowledgeSummary =
+                _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
             return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
@@ -37,7 +38,8 @@ public class TopicDataManager(
                     _httpContextAccessor)
                 .GetUrl_128px(true)
                 .Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+            MiniImageUrl = new ImageFrontendData(
+                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category).Url,
@@ -47,7 +49,10 @@ public class TopicDataManager(
         return miniTopicItem;
     }
 
-    private TopicDataResult CreateTopicDataObject(int id, CategoryCacheItem topic, ImageMetaData imageMetaData,
+    private TopicDataResult CreateTopicDataObject(
+        int id,
+        CategoryCacheItem topic,
+        ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
         return new TopicDataResult(
@@ -83,7 +88,8 @@ public class TopicDataManager(
                 return new Author(
                     authorId,
                     author.Name,
-                    new UserImageSettings(author.Id, _httpContextAccessor).GetUrl_20px_square(author).Url,
+                    new UserImageSettings(author.Id, _httpContextAccessor)
+                        .GetUrl_20px_square(author).Url,
                     author.Reputation,
                     author.ReputationPos
                 );
@@ -95,7 +101,9 @@ public class TopicDataManager(
             topic.GetCountQuestionsAggregated(_sessionUser.UserId, true, topic.Id),
             imageMetaData != null ? imageMetaData.Id : 0,
             FillMiniTopicItem(topic),
-            SeoUtils.ReplaceDoubleQuotes(topic.Content == null ? null : Regex.Replace(topic.Content, "<.*?>", ""))
+            SeoUtils.ReplaceDoubleQuotes(topic.Content == null
+                    ? null
+                    : Regex.Replace(topic.Content, "<.*?>", ""))
                 .Truncate(250, true),
             new KnowledgeSummarySlim(
                 knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
@@ -110,7 +118,8 @@ public class TopicDataManager(
                 _httpContextAccessor,
                 _knowledgeSummaryLoader,
                 _questionReadingRepo).GetChildren(id),
-            _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId).ChildRelations
+            _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId)
+                .ChildRelations
                 .Any(r => r.ChildId == topic.Id)
         );
     }
