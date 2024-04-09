@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Antlr.Runtime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -18,23 +19,25 @@ public class CancelController : Controller
         _httpContextAccessor = httpContextAccessor;
     }
 
+
+    
+
+    public readonly record struct TinyTopic(string Name, string Link);
     [HttpGet]
-    public JsonResult GetHelperTopics()
+    public List<TinyTopic> GetHelperTopics()
     {
         var count = RootCategory.MemuchoHelpIds.Count;
-        var list = new List<object>();
+        var list = new List<TinyTopic>();
         for (var i = 0; i < count; i++)
         {
             var category = EntityCache.GetCategory(RootCategory.MemuchoHelpIds[i]);
 
-            list.Add(new
-            {
-                name = category.Name,
-                link = new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(category)
-            });
+            list.Add(new TinyTopic
+            (
+                Name: category.Name,
+               Link: new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(category)
+            ));
         }
-
-        var standardFetch = new StandardFetchResult<List<object>>(list);
-        return Json(standardFetch);
+        return list;
     }
 }
