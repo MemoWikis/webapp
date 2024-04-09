@@ -174,20 +174,22 @@ function handleDrag(e: MouseEvent | TouchEvent) {
     if (dragging.value && 'touches' in e && touchDragComponent.value) {
         const el = touchDragComponent.value.getBoundingClientRect()
         const x = e.changedTouches[0].pageX - el.left - 25
-        const y = e.changedTouches[0].pageY - el.height - 100
+        const y = e.changedTouches[0].pageY - el.height - 50
         dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
         handleScroll(e.changedTouches[0].clientY)
     }
 }
 
 function handleScroll(clientY: number) {
-
     const threshold = 150
     const distanceFromBottom = window.innerHeight - clientY
+
     if (clientY <= threshold) {
-        window.scrollBy(0, -10)
+        const scrollSpeed = -10 - Math.ceil(((threshold - clientY) / 10))
+        window.scrollBy(0, scrollSpeed)
     } else if (distanceFromBottom <= threshold) {
-        window.scrollBy(0, 10)
+        const scrollSpeed = 10 + Math.ceil(((threshold - distanceFromBottom) / 10))
+        window.scrollBy(0, scrollSpeed)
     }
 }
 

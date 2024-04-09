@@ -178,16 +178,20 @@ function handleDrag(e: DragEvent) {
     }
 }
 
-function handleScroll(clientY: number) {
 
-    const threshold = 100
+function handleScroll(clientY: number) {
+    const threshold = 150
     const distanceFromBottom = window.innerHeight - clientY
+
     if (clientY <= threshold) {
-        window.scrollBy(0, -10)
+        const scrollSpeed = -10 - Math.ceil(((threshold - clientY) / 10))
+        window.scrollBy(0, scrollSpeed)
     } else if (distanceFromBottom <= threshold) {
-        window.scrollBy(0, 10)
+        const scrollSpeed = 10 + Math.ceil(((threshold - distanceFromBottom) / 10))
+        window.scrollBy(0, scrollSpeed)
     }
 }
+
 
 const placeHolderTopicName = ref('')
 
