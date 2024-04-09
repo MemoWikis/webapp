@@ -10,7 +10,8 @@ public class ImageUploadModalController
     private readonly PermissionCheck _permissionCheck;
     private readonly ImageStore _imageStore;
 
-    public ImageUploadModalController(SessionUser sessionUser,
+    public ImageUploadModalController(
+        SessionUser sessionUser,
         PermissionCheck permissionCheck,
         ImageStore imageStore) : base(sessionUser)
     {
@@ -19,18 +20,22 @@ public class ImageUploadModalController
     }
 
     public readonly record struct GetWikimediaPreviewJson(string url);
+
+    public readonly record struct WikimediaPreviewJson(bool ImageFound, string ImageThumbUrl);
+
     [HttpPost]
-    public JsonResult GetWikimediaPreview([FromBody] GetWikimediaPreviewJson json)
+    public WikimediaPreviewJson GetWikimediaPreview([FromBody] GetWikimediaPreviewJson json)
     {
         var result = WikiImageMetaLoader.Run(json.url, 200);
-        return Json(new
-        {
-            imageFound = !result.ImageNotFound,
-            imageThumbUrl = result.ImageUrl
-        });
+        return new
+        (
+            ImageFound: !result.ImageNotFound,
+            ImageThumbUrl: result.ImageUrl
+        );
     }
 
     public readonly record struct SaveWikimediaImageJson(int topicId, string url);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
@@ -38,7 +43,11 @@ public class ImageUploadModalController
         if (json.url == null || !_permissionCheck.CanEditCategory(json.topicId))
             return false;
 
-        _imageStore.RunWikimedia<CategoryImageSettings>(json.url, json.topicId, ImageType.Category, _sessionUser.UserId);
+        _imageStore.RunWikimedia<CategoryImageSettings>(
+            json.url,
+            json.topicId,
+            ImageType.Category,
+            _sessionUser.UserId);
         return true;
     }
 
@@ -48,6 +57,7 @@ public class ImageUploadModalController
         public string licenseGiverName { get; set; }
         public IFormFile file { get; set; }
     }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageJson form)
@@ -55,7 +65,11 @@ public class ImageUploadModalController
         if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
             return false;
 
-        _imageStore.RunUploaded<CategoryImageSettings>(form.file, form.topicId, _sessionUser.UserId, form.licenseGiverName);
+        _imageStore.RunUploaded<CategoryImageSettings>(
+            form.file,
+            +form.topicId,
+            _sessionUser.UserId,
+            form.licenseGiverName);
 
         return true;
     }
