@@ -60,8 +60,9 @@ namespace VueApp
             return result;
         }
         public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
+        public readonly record struct TopicInPersonalWikiJson(List<SearchTopicItem> Topics, int TotalCount);
         [HttpPost]
-        public async Task<JsonResult> Topic([FromBody] SearchTopicJson json)
+        public async Task<TopicInPersonalWikiJson> Topic([FromBody] SearchTopicJson json)
         {
             var items = new List<SearchTopicItem>();
             var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
@@ -71,15 +72,17 @@ namespace VueApp
                     _httpContextAccessor,
                     _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
-            return Json(new
-            {
-                totalCount = elements.CategoriesResultCount,
-                topics = items,
-            });
+            return new
+            (
+                TotalCount: elements.CategoriesResultCount,
+                Topics: items
+            );
         }
 
+
+       
         [HttpPost]
-        public async Task<JsonResult> TopicInPersonalWiki([FromBody] SearchTopicJson json)
+        public async Task<TopicInPersonalWikiJson> TopicInPersonalWiki([FromBody] SearchTopicJson json)
         {
             var items = new List<SearchTopicItem>();
             var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
@@ -96,11 +99,11 @@ namespace VueApp
             var wikiChildren = GraphService.Descendants(_sessionUser.User.StartTopicId);
             items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
-            return Json(new
-            {
-                totalCount = elements.CategoriesResultCount,
-                topics = items,
-            });
+            return new
+            (
+                TotalCount: elements.CategoriesResultCount,
+                Topics: items
+            );
         }
     }
 }
