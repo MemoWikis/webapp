@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Antlr.Runtime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
-using TrueOrFalse.Infrastructure;
 
 namespace VueApp;
 
@@ -18,9 +16,6 @@ public class CancelController : Controller
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
     }
-
-
-    
 
     public readonly record struct TinyTopic(string Name, string Link);
     [HttpGet]

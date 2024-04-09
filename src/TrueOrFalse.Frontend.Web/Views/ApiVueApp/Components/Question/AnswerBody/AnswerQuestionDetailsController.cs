@@ -85,6 +85,5 @@ public class AnswerQuestionDetailsController(SessionUser _sessionUser,
             )
         );
         return result;
-    
     }
 }
