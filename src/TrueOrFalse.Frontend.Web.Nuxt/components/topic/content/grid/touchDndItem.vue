@@ -128,9 +128,13 @@ function handleDragStart(e: any) {
 }
 
 const touchTimer = ref()
+function preventScroll(e: TouchEvent) {
+    e.preventDefault()
+}
 
 function touchDown(e: TouchEvent) {
     touchTimer.value = setTimeout(() => {
+        document.addEventListener('touchmove', preventScroll, { passive: false })
         handleDragStart(e)
     }, 500)
 }
@@ -138,6 +142,7 @@ function touchDown(e: TouchEvent) {
 function touchRelease(e: TouchEvent) {
     clearTimeout(touchTimer.value)
     touchTimer.value = null
+    document.removeEventListener('touchmove', preventScroll, { passive: false } as any)
     handleDragEnd()
 }
 
@@ -175,7 +180,6 @@ function handleDrag(e: MouseEvent | TouchEvent) {
     }
 }
 
-
 function handleScroll(clientY: number) {
 
     const threshold = 150
@@ -186,7 +190,6 @@ function handleScroll(clientY: number) {
         window.scrollBy(0, 10)
     }
 }
-
 
 function getDropZoneData(position: TargetPosition): string {
     const data = {
@@ -252,7 +255,7 @@ watch(() => dragStore.transferData, (t) => {
 
 <template>
     <div class="draggable" v-touch:press="touchDown" v-touch:release="touchRelease" v-touch:drag="handleDrag"
-        @dragstart.stop="handleDragStart" @dragend="handleDragEnd" style="touch-action: none" ref="touchDragComponent">
+        @dragstart.stop="handleDragStart" @dragend="handleDragEnd" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" v-on:mouseenter="hoverTopHalf = true" class="emptydropzone"
@@ -400,5 +403,6 @@ watch(() => dragStore.transferData, (t) => {
     &:active {
         cursor: grabbing;
     }
+
 }
 </style>
