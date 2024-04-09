@@ -5,12 +5,12 @@ using static TopicGridManager;
 namespace VueApp;
 
 public class GridController(
-        PermissionCheck _permissionCheck,
-        SessionUser _sessionUser,
-        ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-        IHttpContextAccessor _httpContextAccessor,
-        KnowledgeSummaryLoader _knowledgeSummaryLoader,
-        QuestionReadingRepo _questionReadingRepo) : Controller
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    QuestionReadingRepo _questionReadingRepo) : Controller
 {
     [HttpGet]
     public GetItemJson GetItem([FromRoute] int id)
@@ -33,5 +33,8 @@ public class GridController(
         return new GetItemJson(true, "", gridItem);
     }
 
-    public readonly struct GetItemJson(bool Success, string MessageKey = "", GridTopicItem Data = null);
+    public readonly struct GetItemJson(
+        bool Success,
+        string MessageKey = "",
+        GridTopicItem? Data = null);
 }
