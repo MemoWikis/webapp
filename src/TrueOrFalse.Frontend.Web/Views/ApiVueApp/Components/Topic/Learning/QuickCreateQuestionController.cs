@@ -10,6 +10,7 @@ using Seedworks.Web.State;
 using TrueOrFalse;
 
 namespace VueApp;
+
 public class QuickCreateQuestionController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
@@ -29,22 +30,23 @@ public class QuickCreateQuestionController : BaseController
     private readonly SessionUiData _sessionUiData;
     private readonly QuestionChangeRepo _questionChangeRepo;
 
-    public QuickCreateQuestionController(SessionUser sessionUser,
+    public QuickCreateQuestionController(
+        SessionUser sessionUser,
         LearningSessionCreator learningSessionCreator,
         QuestionInKnowledge questionInKnowledge,
         LearningSessionCache learningSessionCache,
         CategoryRepository categoryRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo, 
+        UserReadingRepo userReadingRepo,
         QuestionWritingRepo questionWritingRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
         IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo, 
-        QuestionChangeRepo questionChangeRepo, 
-        SessionUiData sessionUiData, 
-        ImageStore imageStore, 
+        QuestionReadingRepo questionReadingRepo,
+        QuestionChangeRepo questionChangeRepo,
+        SessionUiData sessionUiData,
+        ImageStore imageStore,
         PermissionCheck permissionCheck) : base(sessionUser)
     {
         _sessionUser = sessionUser;
@@ -65,6 +67,7 @@ public class QuickCreateQuestionController : BaseController
         _imageStore = imageStore;
         _permissionCheck = permissionCheck;
     }
+
     public readonly record struct CreateFlashcardParam(
         int TopicId,
         string TextHtml,
@@ -74,6 +77,7 @@ public class QuickCreateQuestionController : BaseController
         int LastIndex,
         LearningSessionConfig SessionConfig
     );
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public JsonResult CreateFlashcard([FromBody] CreateFlashcardParam param)
@@ -118,29 +122,20 @@ public class QuickCreateQuestionController : BaseController
         if (param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
-        var questionController = new VueEditQuestionController(_sessionUser,
-            _learningSessionCache,
-            _permissionCheck,
-            _learningSessionCreator,
-            _questionInKnowledge,
-            _categoryRepository,
-            _imageMetaDataReadingRepo,
-            _imageStore,
-            _sessionUiData,
-            _userReadingRepo,
-            _questionChangeRepo,
-            _questionWritingRepo,
-            _questionReadingRepo,
-            _sessionUserCache,
-            _httpContextAccessor,
-            _webHostEnvironment,
-            _actionContextAccessor); 
+        _learningSessionCreator.InsertNewQuestionToLearningSession(
+            EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
 
         return Json(new RequestResult
         {
             Success = true,
-            Data = questionController.LoadQuestion(question.Id).SessionIndex
+            Data = new QuestionLoader(
+                _sessionUser,
+                _sessionUserCache,
+                _httpContextAccessor,
+                _actionContextAccessor,
+                _imageMetaDataReadingRepo,
+                _questionReadingRepo,
+                _learningSessionCache).LoadQuestion(question.Id).SessionIndex
         });
     }
 

@@ -12,9 +12,6 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
 using RazorLight;
 using TrueOrFalse;
-using TrueOrFalse.Frontend.Web.Code;
-
-
 
 namespace VueApp;
 
@@ -39,7 +36,8 @@ public class VueEditQuestionController
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly IActionContextAccessor _actionContextAccessor;
 
-    public VueEditQuestionController(SessionUser sessionUser,
+    public VueEditQuestionController(
+        SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
         LearningSessionCreator learningSessionCreator,
@@ -81,15 +79,15 @@ public class VueEditQuestionController
     public JsonResult VueCreate(QuestionDataParam questionDataParam)
     {
         if (questionDataParam.SessionConfig?.CurrentUserId <= 0)
-            questionDataParam.SessionConfig.CurrentUserId = _sessionUser.UserId; 
-        
+            questionDataParam.SessionConfig.CurrentUserId = _sessionUser.UserId;
+
         var safeText = GetSafeText(questionDataParam.TextHtml);
         if (safeText.Length <= 0)
             return new JsonResult(new
             {
                 ErrorMsg = "Fehlender Fragetext",
             });
-           
+
         var question = new Question();
         var sessionUserAsUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUserAsUser;
@@ -99,8 +97,12 @@ public class VueEditQuestionController
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
-        if (questionDataParam.IsLearningTab) { }
-        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, questionDataParam.SessionIndex, questionDataParam.SessionConfig);
+        if (questionDataParam.IsLearningTab)
+        {
+        }
+
+        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem,
+            questionDataParam.SessionIndex, questionDataParam.SessionConfig);
 
         if (questionDataParam.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
@@ -108,7 +110,14 @@ public class VueEditQuestionController
         return Json(new RequestResult
         {
             Success = true,
-            Data = LoadQuestion(question.Id)
+            Data = new QuestionLoader(
+                _sessionUser,
+                _sessionUserCache,
+                _httpContextAccessor,
+                _actionContextAccessor,
+                _imageMetaDataReadingRepo,
+                _questionReadingRepo,
+                _learningSessionCache).LoadQuestion(question.Id)
         });
     }
 
@@ -130,12 +139,20 @@ public class VueEditQuestionController
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
         if (questionDataParam.IsLearningTab)
-            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(
+                EntityCache.GetQuestion(updatedQuestion.Id));
 
         return Json(new RequestResult
         {
             Success = true,
-            Data = LoadQuestion(updatedQuestion.Id)
+            Data = new QuestionLoader(
+                _sessionUser,
+                _sessionUserCache,
+                _httpContextAccessor,
+                _actionContextAccessor,
+                _imageMetaDataReadingRepo,
+                _questionReadingRepo,
+                _learningSessionCache).LoadQuestion(updatedQuestion.Id)
         });
     }
 
@@ -151,7 +168,6 @@ public class VueEditQuestionController
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
             });
 
-        
         var question = new Question();
 
         question.TextHtml = param.TextHtml;
@@ -182,11 +198,19 @@ public class VueEditQuestionController
         if (param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
+        _learningSessionCreator.InsertNewQuestionToLearningSession(
+            EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
         return Json(new RequestResult
         {
             Success = true,
-            Data = LoadQuestion(question.Id)
+            Data = new QuestionLoader(
+                _sessionUser,
+                _sessionUserCache,
+                _httpContextAccessor,
+                _actionContextAccessor,
+                _imageMetaDataReadingRepo,
+                _questionReadingRepo,
+                _learningSessionCache).LoadQuestion(question.Id)
         });
     }
 
@@ -204,12 +228,17 @@ public class VueEditQuestionController
         int LastIndex,
         LearningSessionConfig SessionConfig
     );
-    private Question UpdateQuestion(Question question, QuestionDataParam questionDataParam, string safeText)
+
+    private Question UpdateQuestion(
+        Question question,
+        QuestionDataParam questionDataParam,
+        string safeText)
     {
         question.TextHtml = questionDataParam.TextHtml;
         question.Text = safeText;
         question.DescriptionHtml = questionDataParam.DescriptionHtml;
-        question.SolutionType = (SolutionType)Enum.Parse(typeof(SolutionType), questionDataParam.SolutionType);
+        question.SolutionType =
+            (SolutionType)Enum.Parse(typeof(SolutionType), questionDataParam.SolutionType);
 
         var preEditedCategoryIds = question.Categories.Select(c => c.Id);
         var newCategoryIds = questionDataParam.CategoryIds.ToList();
@@ -236,7 +265,8 @@ public class VueEditQuestionController
 
         if (!String.IsNullOrEmpty(questionDataParam.ReferencesJson))
         {
-            var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question, _categoryRepository);
+            var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question,
+                _categoryRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -249,54 +279,14 @@ public class VueEditQuestionController
             ? LicenseQuestionRepo.GetById(questionDataParam.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        EntityCache.AddOrUpdate(questionCacheItem); 
-
-        return question;
-    }
-
-    public QuestionListJson.Question LoadQuestion(int questionId)
-    {
-        var user = _sessionUser.User;
-        var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
-        var q = EntityCache.GetQuestionById(questionId);
-        var question = new QuestionListJson.Question();
-        question.Id = q.Id;
-        question.Title = q.Text;
-
-        var links = new Links(_actionContextAccessor, _httpContextAccessor); 
-        question.LinkToQuestion = links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, 
-                    ImageType.Question),
-                _httpContextAccessor,
-                _questionReadingRepo)
-            .GetImageUrl(40, true)
-            .Url;
-        question.LinkToQuestion = links.GetUrl(q);
-        question.LinkToQuestionVersions = links.QuestionHistory(q.Id);
-        question.LinkToComment = links.GetUrl(q) + "#JumpLabel";
-        question.CorrectnessProbability = q.CorrectnessProbability;
-        question.Visibility = q.Visibility;
-
-        var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession != null)
-        {
-            var steps = learningSession.Steps;
-            var index = steps.IndexOf(s => s.Question.Id == q.Id);
-            question.SessionIndex = index;
-        }
-
-        if (userQuestionValuation.ContainsKey(q.Id) && user != null)
-        {
-            question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
-            question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
-            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
-        }
+        EntityCache.AddOrUpdate(questionCacheItem);
 
         return question;
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount([FromRoute] int topicId) => EntityCache.GetCategory(topicId).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
+    public int GetCurrentQuestionCount([FromRoute] int topicId) => EntityCache.GetCategory(topicId)
+        .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     public readonly record struct QuestionDataParam(
         int[] CategoryIds,
@@ -315,11 +305,14 @@ public class VueEditQuestionController
         LearningSessionConfig SessionConfig
     );
 
-    private List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) => GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
+    private List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) =>
+        GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
+
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var categories = new List<Category>();
-        var privateCategories = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+        var privateCategories =
+            question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         categories.AddRange(privateCategories);
 
         foreach (var categoryId in newCategoryIds)
@@ -337,14 +330,16 @@ public class VueEditQuestionController
         string uploadImageGuid,
         string uploadImageLicenseOwner,
         string markupEditor
-        )
+    )
     {
         int newQuestionId = -1;
         Question question;
         if (questionId == -1)
         {
             question = new Question();
-            question.Text = string.IsNullOrEmpty(Request.Query["Question"]) ? "Temporäre Frage" : Request.Query["Question"];
+            question.Text = string.IsNullOrEmpty(Request.Query["Question"])
+                ? "Temporäre Frage"
+                : Request.Query["Question"];
             question.Solution = "Temporäre Frage";
             var creator = _userReadingRepo.GetById(_sessionUser.UserId);
             question.Creator = creator;
@@ -368,13 +363,15 @@ public class VueEditQuestionController
         if (imageSource == "upload")
         {
             _imageStore.RunUploaded<QuestionImageSettings>(
-                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId, _sessionUser.UserId, uploadImageLicenseOwner);
+                _sessionUiData.TmpImagesStore.ByGuid(uploadImageGuid), questionId,
+                _sessionUser.UserId, uploadImageLicenseOwner);
         }
 
         question = _questionReadingRepo.GetById(questionId);
         _questionChangeRepo.AddUpdateEntry(question, imageWasChanged: true);
 
-        var imageSettings = new QuestionImageSettings(questionId, _httpContextAccessor, _questionReadingRepo);
+        var imageSettings =
+            new QuestionImageSettings(questionId, _httpContextAccessor, _questionReadingRepo);
 
         return new JsonResult(new
         {
@@ -405,8 +402,12 @@ public class VueEditQuestionController
         {
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
-                questionCacheItem.TotalRelevancePersonalEntries > (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache) ? 1 : 0);
-            if ((questionCacheItem.Creator.Id == _sessionUser.UserId && !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
+                questionCacheItem.TotalRelevancePersonalEntries >
+                (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache)
+                    ? 1
+                    : 0);
+            if ((questionCacheItem.Creator.Id == _sessionUser.UserId &&
+                 !otherUsersHaveQuestionInWuwi) || _sessionUser.IsInstallationAdmin)
             {
                 questionCacheItem.Visibility = QuestionVisibility.Owner;
                 EntityCache.AddOrUpdate(questionCacheItem);
