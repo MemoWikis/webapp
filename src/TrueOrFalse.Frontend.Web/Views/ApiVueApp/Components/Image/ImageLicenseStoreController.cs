@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,37 +12,51 @@ public class ImageLicenseStoreController : BaseController
     private readonly QuestionReadingRepo _questionReadingRepo;
 
     public ImageLicenseStoreController(SessionUser sessionUser,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo , 
-        IHttpContextAccessor httpContextAccessor, 
+        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
+        IHttpContextAccessor httpContextAccessor,
         QuestionReadingRepo questionReadingRepo) : base(sessionUser)
     {
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _questionReadingRepo = questionReadingRepo;
     }
+
+    public readonly record struct LicenseInfoJson(
+        bool ImageCanBeDisplayed,
+        string Url,
+        string Alt,
+        string Description,
+        string AttributionHtmlString);
+
     [HttpGet]
-    public JsonResult GetLicenseInfo([FromRoute] int id)
+    public LicenseInfoJson GetLicenseInfo([FromRoute] int id)
     {
-        var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo.GetById(id), 
-            _httpContextAccessor, 
+        var imageFrontendData = new ImageFrontendData(_imageMetaDataReadingRepo.GetById(id),
+            _httpContextAccessor,
             _questionReadingRepo);
         try
         {
-            var imageUrl = imageFrontendData.GetImageUrl(1000, false, false, imageFrontendData.ImageMetaData.Type);
+            var imageUrl = imageFrontendData.GetImageUrl(1000, false, false,
+                imageFrontendData.ImageMetaData.Type);
 
             if (imageFrontendData.ImageMetaDataExists && imageUrl.HasUploadedImage ||
-                imageFrontendData.ImageMetaData != null && imageFrontendData.ImageMetaData.IsYoutubePreviewImage)
+                imageFrontendData.ImageMetaData != null &&
+                imageFrontendData.ImageMetaData.IsYoutubePreviewImage)
             {
                 if (!imageFrontendData.ImageCanBeDisplayed)
-                    return Json(new
-                    {
-                        imageCanBeDisplayed = false,
-                        attributionHtmlString = imageFrontendData.AttributionHtmlString
-                    });
+                    return new LicenseInfoJson
+                    (
+                        ImageCanBeDisplayed: false,
+                        AttributionHtmlString: imageFrontendData.AttributionHtmlString,
+                        Url: "",
+                        Alt: "",
+                        Description: ""
+                    );
 
                 var dataIsYoutubeVideo = "";
                 if (imageFrontendData.ImageMetaData.IsYoutubePreviewImage)
-                    dataIsYoutubeVideo = $" data-is-youtube-video='{imageFrontendData.ImageMetaData.YoutubeKey}' ";
+                    dataIsYoutubeVideo =
+                        $" data-is-youtube-video='{imageFrontendData.ImageMetaData.YoutubeKey}' ";
 
                 var altDescription = String.IsNullOrEmpty(imageFrontendData.Description)
                     ? ""
@@ -56,31 +69,36 @@ public class ImageLicenseStoreController : BaseController
                         .StripHTMLTags()
                         .Truncate(120, true);
 
-                return Json(new
-                {
-                    imageCanBeDisplayed = true,
-                    url = imageUrl.Url,
-                    alt = altDescription,
-                    description = imageFrontendData.Description,
-                    attributionHtmlString = imageFrontendData.AttributionHtmlString
-                });
+                return new LicenseInfoJson
+                (
+                    ImageCanBeDisplayed: true,
+                    Url: imageUrl.Url,
+                    Alt: altDescription,
+                    Description: imageFrontendData.Description,
+                    AttributionHtmlString: imageFrontendData.AttributionHtmlString
+                );
             }
 
-            return Json(new
-            {
-                    imageCanBeDisplayed = false,
-                    attributionHtmlString = imageFrontendData.AttributionHtmlString
-
-            });
+            return new LicenseInfoJson
+            (
+                Url: "",
+                Alt: "",
+                Description: "",
+                ImageCanBeDisplayed: false,
+                AttributionHtmlString: imageFrontendData.AttributionHtmlString
+            );
         }
         catch (Exception e)
         {
             Logg.Error(e);
-            return Json(new
-            {
-                imageCanBeDisplayed = false
-            });
+            return new LicenseInfoJson
+            (
+                ImageCanBeDisplayed: false,
+                AttributionHtmlString: "",
+                Url: "",
+                Alt: "",
+                Description: ""
+            );
         }
     }
-
 }
