@@ -18,11 +18,13 @@ public class HistoryTopicOverviewController : BaseController
     private readonly IWebHostEnvironment _webHostEnvironment;
     private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
 
-    public HistoryTopicOverviewController(PermissionCheck permissionCheck,
+    public HistoryTopicOverviewController(
+        PermissionCheck permissionCheck,
         CategoryChangeRepo categoryChangeRepo,
         SessionUserCache sessionUserCache,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment, SessionUser sessionUser) : base(sessionUser)
+        IWebHostEnvironment webHostEnvironment,
+        SessionUser sessionUser) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _categoryChangeRepo = categoryChangeRepo;
@@ -31,8 +33,10 @@ public class HistoryTopicOverviewController : BaseController
         _webHostEnvironment = webHostEnvironment;
     }
 
+    public readonly record struct TinyTopic(string TopicName, Day[] Days);
+
     [HttpGet]
-    public JsonResult Get(int id)
+    public TinyTopic? Get(int id)
     {
         var topic = EntityCache.GetCategory(id);
 
@@ -48,14 +52,14 @@ public class HistoryTopicOverviewController : BaseController
                     group.OrderByDescending(g => g.DateCreated).ToArray())
                 ).ToArray();
 
-            return Json(new
+            return new TinyTopic
             {
-                topicName = topic.Name,
-                days = days
-            });
+                TopicName = topic.Name,
+                Days = days
+            };
         }
 
-        return Json(null);
+        return null;
     }
 
     public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
@@ -95,7 +99,8 @@ public class HistoryTopicOverviewController : BaseController
         var tempGroupChanges = new List<TempGroup>();
         foreach (var change in changes)
         {
-            if (tempGroupChanges.IsEmpty() || !ChangeCanBeGrouped(tempGroupChanges.LastOrDefault(), change))
+            if (tempGroupChanges.IsEmpty() ||
+                !ChangeCanBeGrouped(tempGroupChanges.LastOrDefault(), change))
             {
                 var newGroup = new TempGroup
                 {
@@ -104,17 +109,21 @@ public class HistoryTopicOverviewController : BaseController
                 tempGroupChanges.Add(newGroup);
                 continue;
             }
+
             tempGroupChanges.LastOrDefault()?.changes.Add(change);
         }
 
-        return tempGroupChanges.Select(@group => new GroupedChange { changes = @group.changes.ToArray() }).ToArray();
+        return tempGroupChanges
+            .Select(@group => new GroupedChange { changes = @group.changes.ToArray() }).ToArray();
     }
 
     private bool ChangeCanBeGrouped(TempGroup tempGroup, Change change)
     {
         var currentGroup = tempGroup.changes.LastOrDefault();
-        return currentGroup != null && currentGroup.topicId == change.topicId && change.topicChangeType == CategoryChangeType.Text &&
-               currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
+        return currentGroup != null && currentGroup.topicId == change.topicId &&
+               change.topicChangeType == CategoryChangeType.Text &&
+               currentGroup.topicChangeType == change.topicChangeType &&
+               currentGroup.author.id == change.author.id;
     }
 
     public Author GetAuthor(CategoryChange change)
@@ -129,7 +138,7 @@ public class HistoryTopicOverviewController : BaseController
             id = author.Id,
             name = author.Name,
             imgUrl = new UserImageSettings(author.Id,
-                _httpContextAccessor).GetUrl_50px_square(author)
+                    _httpContextAccessor).GetUrl_50px_square(author)
                 .Url,
         };
     }
@@ -150,16 +159,22 @@ public class HistoryTopicOverviewController : BaseController
             var previousChange = _allOrderedTopicChanges.LastOrDefault(c => c.Id < topicChange.Id);
             if (previousChange != null)
             {
-                var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data).CategoryRelations;
-                var currentRelations = CategoryEditData_V2.CreateFromJson(topicChange.Data).CategoryRelations;
+                var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data)
+                    .CategoryRelations;
+                var currentRelations = CategoryEditData_V2.CreateFromJson(topicChange.Data)
+                    .CategoryRelations;
 
                 if (previousRelations.Count > currentRelations.Count)
                 {
                     change.relationAdded = false;
-                    var lastRelationDifference = previousRelations.Except(currentRelations).LastOrDefault();
+                    var lastRelationDifference =
+                        previousRelations.Except(currentRelations).LastOrDefault();
 
-                    if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
-                        change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
+                    if (_permissionCheck.CanViewCategory(lastRelationDifference
+                            .RelatedCategoryId) && lastRelationDifference.CategoryId ==
+                        topicChange.Category.Id)
+                        change = GetAffectedTopicData(change,
+                            lastRelationDifference.RelatedCategoryId);
                     else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                         change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
                     else return null;
@@ -167,10 +182,14 @@ public class HistoryTopicOverviewController : BaseController
                 else if (previousRelations.Count < currentRelations.Count)
                 {
                     change.relationAdded = true;
-                    var lastRelationDifference = currentRelations.Except(previousRelations).LastOrDefault();
+                    var lastRelationDifference =
+                        currentRelations.Except(previousRelations).LastOrDefault();
 
-                    if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
-                        change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
+                    if (_permissionCheck.CanViewCategory(lastRelationDifference
+                            .RelatedCategoryId) && lastRelationDifference.CategoryId ==
+                        topicChange.Category.Id)
+                        change = GetAffectedTopicData(change,
+                            lastRelationDifference.RelatedCategoryId);
                     else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                         change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
                     else return null;
