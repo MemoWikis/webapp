@@ -3,22 +3,16 @@ import { useLearningSessionStore, AnswerState } from '~/components/topic/learnin
 import { useUserStore } from '~/components/user/userStore'
 import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
-import { useEditQuestionStore } from '../edit/editQuestionStore'
-import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { getHighlightedCode, random } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { useTopicStore } from '~~/components/topic/topicStore'
-import { useCommentsStore } from '~~/components/comment/commentsStore'
 
 const learningSessionStore = useLearningSessionStore()
-const deleteQuestionStore = useDeleteQuestionStore()
 const activityPointsStore = useActivityPointsStore()
 const topicStore = useTopicStore()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
-const editQuestionStore = useEditQuestionStore()
-const commentsStore = useCommentsStore()
 
 const answerIsCorrect = ref(false)
 const answerIsCorrectPopUp = ref(false)
@@ -39,12 +33,6 @@ watch(answerIsWrong, (val) => {
         answerIsWrongPopUp.value = false
     }, 1200)
 })
-
-
-function openCommentModal() {
-    if (answerBodyModel.value)
-        commentsStore.openModal(answerBodyModel.value?.id)
-}
 
 const amountOfTries = ref(0)
 const amountOfTriesText = ref('')
@@ -327,6 +315,14 @@ onMounted(() => {
                     loadAnswerBodyModel()
             })
         }
+
+        if (name == 'reloadAnswerBody') {
+
+            after((result) => {
+                if (result.id == answerBodyModel.value?.id && learningSessionStore.currentIndex == result.index)
+                    loadAnswerBodyModel()
+            })
+        }
     })
 
     watch(() => userStore.isLoggedIn, () => learningSessionStore.startNewSession())
@@ -475,7 +471,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
                                     <div
                                         v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
-        && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
+                                            && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
