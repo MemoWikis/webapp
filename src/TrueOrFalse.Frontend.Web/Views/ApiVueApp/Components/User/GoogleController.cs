@@ -5,35 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class GoogleController : BaseController
+public class GoogleController(
+    SessionUser _sessionUser,
+    UserReadingRepo _userReadingRepo,
+    VueSessionUser _vueSessionUser,
+    RegisterUser _registerUser) : Controller
 {
-    private readonly VueSessionUser _vueSessionUser;
-    private readonly RegisterUser _registerUser;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly MessageRepo _messageRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-
-    public GoogleController(SessionUser sessionUser,
-        UserReadingRepo userReadingRepo,
-        VueSessionUser vueSessionUser,
-        RegisterUser registerUser,
-        CategoryRepository categoryRepository,
-        JobQueueRepo jobQueueRepo,
-        MessageRepo messageRepo) : base(sessionUser)
-    {
-        _vueSessionUser = vueSessionUser;
-        _registerUser = registerUser;
-        _categoryRepository = categoryRepository;
-        _jobQueueRepo = jobQueueRepo;
-        _messageRepo = messageRepo;
-        _userReadingRepo = userReadingRepo;
-        _sessionUser = sessionUser;
-    }
-
     public readonly record struct LoginJson(string token);
+
+    public readonly record struct LoginResult(bool Success, string MessageKey, VueSessionUser Data);
+
     [HttpPost]
-    public async Task<JsonResult> Login([FromBody] LoginJson json)
+    public async Task<LoginResult> Login([FromBody] LoginJson json)
     {
         var googleUser = await GetGoogleUser(json.token);
         if (googleUser != null)
@@ -48,54 +31,68 @@ public class GoogleController : BaseController
                     UserName = googleUser.Name,
                     GoogleId = googleUser.Subject
                 };
-                return Json(CreateAndLogin(newUser));
+
+                var result = CreateAndLogin(newUser);
+                return new LoginResult
+                {
+                    Success = result.Success,
+                    MessageKey = result.MessageKey
+                };
             }
 
             _sessionUser.Login(user);
-            return Json(new RequestResult
-            {
-                Success = true,
-                Data = _vueSessionUser.GetCurrentUserData()
-            });
-        }
-
-        return Json(new RequestResult
-        {
-            Success = false,
-            MessageKey = FrontendMessageKeys.Error.Default
-        });
-
-    }
-
-    [HttpPost]
-    public JsonResult UserExists(string googleId)
-    {
-        return Json(_userReadingRepo.GoogleUserExists(googleId));
-    }
-
-    [HttpPost]
-    public RequestResult CreateAndLogin(GoogleUserCreateParameter googleUser)
-    {
-        var requestResult = _registerUser.SetGoogleUser(googleUser);
-        if (requestResult.Success)
-
-        {
-            return new RequestResult
+            return new LoginResult
             {
                 Success = true,
                 Data = _vueSessionUser.GetCurrentUserData()
             };
         }
-        return requestResult;
+
+        return new LoginResult
+        {
+            Success = false,
+            MessageKey = FrontendMessageKeys.Error.Default
+        };
     }
 
+    [HttpPost]
+    public bool UserExists(string googleId)
+    {
+        return _userReadingRepo.GoogleUserExists(googleId);
+    }
+
+    public readonly record struct CreateAndLoginResult(
+        bool Success,
+        VueSessionUser Data,
+        string MessageKey);
+
+    [HttpPost]
+    public CreateAndLoginResult CreateAndLogin(GoogleUserCreateParameter googleUser)
+    {
+        var requestResult = _registerUser.SetGoogleUser(googleUser);
+        if (requestResult.Success)
+
+        {
+            return new CreateAndLoginResult
+            {
+                Success = true,
+                Data = _vueSessionUser.GetCurrentUserData()
+            };
+        }
+
+        return new CreateAndLoginResult
+        {
+            Success = requestResult.Success,
+            MessageKey = requestResult.MessageKey
+        };
+    }
 
     public async Task<GoogleJsonWebSignature.Payload> GetGoogleUser(string token)
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
             Audience = new List<string>()
-                    { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
+                { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
         };
 
         try
@@ -104,6 +101,7 @@ public class GoogleController : BaseController
         }
         catch (InvalidJwtException e)
         {
+            Logg.r.Error(e.ToString());
             return null;
         }
     }
