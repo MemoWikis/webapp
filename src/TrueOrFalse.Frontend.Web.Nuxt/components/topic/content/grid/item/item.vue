@@ -23,6 +23,8 @@ interface Props {
     toggleState: ToggleState
     parentId: number
     parentName: string
+    isDragging: boolean
+    dropExpand: boolean
 }
 
 const props = defineProps<Props>()
@@ -45,6 +47,12 @@ watch(expanded, async (val) => {
     if (val && !childrenLoaded.value && props.topic.childrenCount > 0)
         await loadChildren()
 })
+
+watch(() => props.dropExpand, val => {
+    if (val && expanded.value == false)
+        expanded.value = true
+})
+
 const children = ref<GridTopicItem[]>([])
 const childrenLoaded = ref<boolean>(false)
 
@@ -119,14 +127,14 @@ async function addTopic(newTopic: boolean) {
 editTopicRelationStore.$onAction(({ after, name }) => {
     if (name == 'addTopic') {
         after((result) => {
-            console.log(result)
+
             if (result.parentId == props.topic.id) {
-                console.log('pId is rId')
                 if (children.value.some(c => c.id == result.childId))
                     reloadGridItem(result.childId)
                 else
                     addGridItem(result.childId)
-            }
+            } else if (children.value.some(c => c.id == result.childId))
+                reloadGridItem(result.childId)
         })
     }
     if (name == 'removeTopic') {
@@ -214,14 +222,43 @@ async function reloadGridItem(id: number) {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
+const dragActive = ref(false)
+watch(() => props.isDragging, (val) => {
+    dragActive.value = val
+}, { immediate: true })
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                if (result.oldParentId == props.topic.id || result.newParentId == props.topic.id)
+                    loadChildren(true)
+
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (children.value.find(c => c.id == result.oldParentId))
+                    reloadGridItem(result.oldParentId)
+                if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
+                    reloadGridItem(result.newParentId)
+            }
+        })
+    }
+})
+const { isDesktop } = useDevice()
 </script>
 
 <template>
     <div class="grid-item" @click="expanded = !expanded"
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
+        <slot name="topdropzone"></slot>
+        <slot name="bottomdropzone"
+            v-if="!expanded || ((children.length == 0 && childrenLoaded) || props.topic.childrenCount == 0)"></slot>
+        <slot name="dropinzone"></slot>
+
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="$props.topic.childrenCount > 0"
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
         </div>
 
@@ -254,10 +291,21 @@ async function reloadGridItem(id: number) {
             :parent-name="props.parentName" />
     </div>
 
-    <div v-if="props.topic.childrenCount > 0 && expanded" class="grid-item-children">
-        <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-            :parent-id="props.topic.id" :parent-name="props.topic.name" />
+    <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
+        <template v-if="isDesktop">
+            <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name"
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
+        </template>
+        <template v-else>
+            <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name"
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
+        </template>
     </div>
+
 </template>
 
 <style lang="less" scoped>
@@ -271,6 +319,7 @@ async function reloadGridItem(id: number) {
     padding: 10px 0px;
     background: white;
     border-top: solid 1px @memo-grey-light;
+    position: relative;
 
     &:hover {
         filter: brightness(0.975)
@@ -281,7 +330,6 @@ async function reloadGridItem(id: number) {
     }
 
     .grid-item-caret-container {
-        cursor: pointer;
         width: 32px;
         height: 100%;
         min-height: 40px;
@@ -306,7 +354,6 @@ async function reloadGridItem(id: number) {
     }
 
     .grid-item-body-container {
-        cursor: pointer;
         display: flex;
         justify-content: flex-start;
         flex-wrap: nowrap;
@@ -324,6 +371,10 @@ async function reloadGridItem(id: number) {
 
             .item-name {
                 font-size: 18px;
+
+                a {
+                    cursor: pointer;
+                }
             }
 
             .item-detaillabel {
@@ -335,24 +386,23 @@ async function reloadGridItem(id: number) {
     }
 
     &.no-children {
-        cursor: default;
 
-        &:hover {
-            filter: brightness(1)
-        }
+        // &:hover {
+        //     filter: brightness(1)
+        // }
 
-        &:active {
-            filter: brightness(1)
-        }
+        // &:active {
+        //     filter: brightness(1)
+        // }
 
-        .grid-item-caret-container {
-            color: @memo-grey-light;
-            cursor: default;
-        }
+        // .grid-item-caret-container {
+        //     color: @memo-grey-light;
+        //     cursor: default;
+        // }
 
-        .grid-item-body-container {
-            cursor: default;
-        }
+        // .grid-item-body-container {
+        //     cursor: default;
+        // }
     }
 }
 

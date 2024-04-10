@@ -1,18 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-public class GridController : BaseController
+public class GridController(PermissionCheck _permissionCheck, SessionUser _sessionUser, TopicGridManager _gridItemLogic) : BaseController(_sessionUser)
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly GridItemLogic _gridItemLogic;
-
-    public GridController(PermissionCheck permissionCheck,SessionUser sessionUser, GridItemLogic gridItemLogic) :base(sessionUser)
-    {
-        _permissionCheck = permissionCheck;
-        _gridItemLogic = gridItemLogic;
-        _sessionUser = sessionUser;
-    }
-
     [HttpGet]
     public JsonResult GetItem([FromRoute] int id)
     {

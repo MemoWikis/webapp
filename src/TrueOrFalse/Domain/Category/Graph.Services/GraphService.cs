@@ -78,33 +78,28 @@ public class GraphService
     {
         var allCategories = EntityCache.GetAllCategoriesList();
 
-        return allCategories.SelectMany(c => c.CategoryRelations
-            .Where(cr => cr.ChildCategoryId == categoryId && permissionCheck.CanViewCategory(cr.ParentCategoryId))
-                    .Select(cr => EntityCache.GetCategory(cr.ParentCategoryId))).ToList();
+        return allCategories.SelectMany(c => c.ParentRelations
+            .Where(cr => cr.ChildId == categoryId && permissionCheck.CanViewCategory(cr.ParentId))
+                    .Select(cr => EntityCache.GetCategory(cr.ParentId))).ToList();
 
     }
 
 
     public static List<int> ParentIds(CategoryCacheItem category)
     {
-        return category?.CategoryRelations?.Select(cr => cr.ParentCategoryId).ToList() ?? new List<int>();
+        return category?.ParentRelations?.Select(cr => cr.ParentId).ToList() ?? new List<int>();
     }
 
     public static List<CategoryCacheItem> VisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
     {
         var visibleChildren = new List<CategoryCacheItem>();
 
-        foreach (var category in EntityCache.Categories.Values)
+        var parent = EntityCache.GetCategory(categoryId);
+        foreach (var relation in parent.ChildRelations)
         {
-            foreach (var relation in category.CategoryRelations)
-            {
-                if (relation.ParentCategoryId != categoryId)
-                    continue;
-
-                if (EntityCache.Categories.TryGetValue(category.Id, out var childCategory) &&
-                    permissionCheck.CanView(userId, childCategory))
-                    visibleChildren.Add(childCategory);
-            }
+            if (EntityCache.Categories.TryGetValue(relation.ChildId, out var childCategory) &&
+                permissionCheck.CanView(userId, childCategory))
+                visibleChildren.Add(childCategory);
         }
 
         return visibleChildren;
@@ -137,15 +132,9 @@ public class GraphService
         return allDescendants.ToList();
     }
 
-    public static List<CategoryCacheItem> Children(CategoryCacheItem category) => Children(category.Id);
-    public static List<CategoryCacheItem> Children(int categoryId)
+    public static List<CategoryCacheItem> Children(CategoryCacheItem category)
     {
-        var childrenIds = EntityCache.Categories.Values
-            .SelectMany(c => c.CategoryRelations)
-            .Where(cr => cr.ParentCategoryId == categoryId)
-            .Select(cr => cr.ChildCategoryId)
-            .Distinct();
-
+        var childrenIds = category.ChildRelations.Select(r => r.ChildId);
         var children = childrenIds
             .Select(id => EntityCache.Categories.TryGetValue(id, out var childCategory) ? childCategory : null)
             .Where(c => c != null)
@@ -153,27 +142,38 @@ public class GraphService
         return children;
     }
 
+    public static List<CategoryCacheItem> Children(int categoryId) => Children(EntityCache.GetCategory(categoryId));
+
     public static IList<CategoryCacheItem> Descendants(int parentId)
     {
         var descendants = new List<CategoryCacheItem>();
-        var toProcess = new Queue<int>(new[] { parentId });
+        var toProcess = new Queue<int>();
+
+        if (EntityCache.Categories.TryGetValue(parentId, out var parentCategory))
+        {
+            foreach (var childRelation in parentCategory.ChildRelations)
+            {
+                toProcess.Enqueue(childRelation.ChildId);
+            }
+        }
 
         while (toProcess.Count > 0)
         {
             var currentId = toProcess.Dequeue();
-
-            if (currentId != parentId && EntityCache.Categories.TryGetValue(currentId, out var currentCategory))
+            if (EntityCache.Categories.TryGetValue(currentId, out var currentCategory))
+            {
                 descendants.Add(currentCategory);
 
-            foreach (var potentialChild in EntityCache.Categories.Values)
-            {
-                foreach (var relation in potentialChild.CategoryRelations)
+                foreach (var childRelation in currentCategory.ChildRelations)
                 {
-                    if (relation.ParentCategoryId == currentId && !descendants.Any(d => d.Id == potentialChild.Id) && !toProcess.Contains(potentialChild.Id))
-                        toProcess.Enqueue(potentialChild.Id);
+                    if (!descendants.Any(d => d.Id == childRelation.ChildId) && !toProcess.Contains(childRelation.ChildId))
+                    {
+                        toProcess.Enqueue(childRelation.ChildId);
+                    }
                 }
             }
         }
+
         return descendants;
     }
 }

@@ -37,7 +37,7 @@ public class ContextCategory : BaseTest
     public ContextCategory Add(
         string categoryName,
         CategoryType categoryType = CategoryType.Standard,
-        User creator = null,
+        User? creator = null,
         CategoryVisibility visibility = CategoryVisibility.All)
     {
 
@@ -58,26 +58,17 @@ public class ContextCategory : BaseTest
 
     public ContextCategory AddChild(Category parent, Category child)
     {
-        var parentFromDb = _categoryRepository.GetById(parent.Id);
-        var childFromDb = _categoryRepository.GetById(child.Id);
-
-        var newRelation = new CategoryRelation
-        {
-            Child = childFromDb,
-            Parent = parentFromDb,
-        };
-
-        R<CategoryRelationRepo>().Create(newRelation);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
+        modifyRelationsForCategory.AddChild(parent.Id, child.Id);
 
         return this;
     }
-
 
     public ContextCategory AddToEntityCache(Category category)
     {
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
-        var cacheUser = UserCacheItem.ToCacheUser(category.Creator); 
+        var cacheUser = UserCacheItem.ToCacheUser(category.Creator);
         EntityCache.AddOrUpdate(cacheUser);
         EntityCache.AddOrUpdate(categoryCacheItem);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
@@ -180,12 +171,17 @@ public class ContextCategory : BaseTest
         if (aggregatedCategorys.Any() == false)
             return false;
 
-        return aggregatedCategorys.TryGetValue(childId, out _); 
+        return aggregatedCategorys.TryGetValue(childId, out _);
     }
 
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
     {
-        return categoryCacheItem.CategoryRelations.Any(cr =>
-            cr.ParentCategoryId == deletedId || cr.ChildCategoryId == deletedId);
+        return categoryCacheItem.ParentRelations.Any(cr =>
+            cr.ParentId == deletedId || cr.ChildId == deletedId);
+    }
+
+    public Category GetTopicByName(string name)
+    {
+        return All.Single(c => c.Name == name);
     }
 }

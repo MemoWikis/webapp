@@ -34,7 +34,7 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, $"Error while pinning question id={id} for userId={sessionUser.UserId}");
+            Logg.r.Error(e, $"Error while pinning question Id={id} for userId={sessionUser.UserId}");
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
         }
 
@@ -55,7 +55,7 @@ public class QuestionPinStoreControllerLogic :IRegisterAsInstancePerLifetime
         }
         catch (Exception e)
         {
-            Logg.r.Error(e, $"Error while unpinning question id={id} for userId={sessionUser.UserId}");
+            Logg.r.Error(e, $"Error while unpinning question Id={id} for userId={sessionUser.UserId}");
             return new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Default };
         }
 

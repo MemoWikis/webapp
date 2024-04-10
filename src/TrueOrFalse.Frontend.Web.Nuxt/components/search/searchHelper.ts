@@ -1,46 +1,46 @@
 import { Visibility } from "../shared/visibilityEnum"
 
 export enum SearchType {
-    All = 0,
-    Category = 1,
-    Questions = 2,
-    Users = 3,
-    CategoryInWiki = 4,
+    all = 0,
+    category = 1,
+    questions = 2,
+    users = 3,
+    categoryInWiki = 4,
 
-    Topic = Category,
-    TopicInWiki = CategoryInWiki
+    topic = category,
+    topicInWiki = categoryInWiki
 }
 
 export interface TopicItem {
-    Type?: 'TopicItem'
-    Id: number
-    Name: string
-    Url: string | null
-    QuestionCount: number
-    ImageUrl: string
-    MiniImageUrl: string
-    Visibility: number
-    IsSpoiler?: boolean
+    type?: 'TopicItem'
+    id: number
+    name: string
+    url: string | null
+    questionCount: number
+    imageUrl: string
+    miniImageUrl: string
+    visibility: number
+    isSpoiler?: boolean
 }
 
 export interface QuestionItem {
-    Type?: 'QuestionItem'
-    Id: number
-    Name: string
-    Url: string | null
-    ImageUrl: string
-    Visibility: number
-    PrimaryTopicId: number
-    PrimaryTopicName: string
+    type?: 'QuestionItem'
+    id: number
+    name: string
+    url: string | null
+    imageUrl: string
+    visibility: number
+    primaryTopicId: number
+    primaryTopicName: string
 }
 
 export interface UserItem {
-    Type?: 'UserItem'
-    Id: number
-    Name: string
-    Url: string | null
-    ImageUrl: string
-    Visibility: number
+    type?: 'UserItem'
+    id: number
+    name: string
+    url: string | null
+    imageUrl: string
+    visibility: number
 }
 
 export type FullSearch = {

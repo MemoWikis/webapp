@@ -141,8 +141,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             }
         },
         loadNextQuestionInSession() {
-            console.log("currentIndex", this.currentIndex)
-            console.log("steps", this.steps)
+            // console.log("currentIndex", this.currentIndex)
+            // console.log("steps", this.steps)
             if (this.currentIndex < this.steps[this.steps.length - 1].index)
                 this.changeActiveQuestion(this.currentIndex + 1)
         },
@@ -181,6 +181,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         knowledgeStatusChanged(id: number) {
             return id
+        },
+        reloadAnswerBody(id:number, index: number) {
+            return {id: id, index: index}
         }
     },
 })

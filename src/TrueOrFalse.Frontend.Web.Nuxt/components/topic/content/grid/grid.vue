@@ -10,6 +10,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
+import { useDragStore } from '~/components/shared/dragStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -19,6 +20,7 @@ const alertStore = useAlertStore()
 const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
 const deleteTopicStore = useDeleteTopicStore()
+const dragStore = useDragStore()
 
 interface Props {
     children: GridTopicItem[]
@@ -32,14 +34,14 @@ const rootTopicItem = ref<TopicItem>()
 
 onMounted(() => {
     rootTopicItem.value = {
-        Type: 'TopicItem',
-        Id: rootTopicChipStore.id,
-        Name: rootTopicChipStore.name,
-        Url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
-        QuestionCount: 0,
-        ImageUrl: rootTopicChipStore.imgUrl,
-        MiniImageUrl: rootTopicChipStore.imgUrl,
-        Visibility: 0,
+        type: 'TopicItem',
+        id: rootTopicChipStore.id,
+        name: rootTopicChipStore.name,
+        url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
+        questionCount: 0,
+        imageUrl: rootTopicChipStore.imgUrl,
+        miniImageUrl: rootTopicChipStore.imgUrl,
+        visibility: 0,
     }
 })
 
@@ -74,7 +76,8 @@ editTopicRelationStore.$onAction(({ after, name }) => {
                 addGridItem(result.childId)
             } else if (topicStore.gridItems.some(c => c.id == result.parentId)) {
                 reloadGridItem(result.parentId)
-            }
+            } else if (topicStore.gridItems.some(c => c.id == result.childId))
+                reloadGridItem(result.childId)
 
         })
     }
@@ -142,7 +145,6 @@ async function loadGridItem(id: number) {
 
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
-
     if (result.success == true) {
         topicStore.gridItems = topicStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success == false)
@@ -154,7 +156,24 @@ function removeGridItem(id: number) {
     topicStore.gridItems = filteredGridItems
 }
 
-const { isMobile } = useDevice()
+const { isMobile, isDesktop } = useDevice()
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (props.children.find(c => c.id == result.oldParentId))
+                    reloadGridItem(result.oldParentId)
+                if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
+                    reloadGridItem(result.newParentId)
+            }
+        })
+    }
+})
+
 </script>
 
 <template>
@@ -191,9 +210,20 @@ const { isMobile } = useDevice()
                 </div>
 
                 <div class="grid-items">
-                    <TopicContentGridItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
-                        :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                    <template v-if="isDesktop">
+                        <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                            :parent-id="topicStore.id" :parent-name="topicStore.name"
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
+                    </template>
+                    <template v-else>
+                        <TopicContentGridTouchDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                            :parent-id="topicStore.id" :parent-name="topicStore.name"
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
+                    </template>
                 </div>
+
 
                 <div class="grid-footer">
                     <div class="grid-option overline-m no-line no-margin">
@@ -216,6 +246,10 @@ const { isMobile } = useDevice()
                 </div>
             </div>
         </div>
+
+        <LazyClientOnly>
+            <TopicContentGridGhost v-show="dragStore.active" />
+        </LazyClientOnly>
     </div>
 </template>
 
@@ -325,7 +359,6 @@ const { isMobile } = useDevice()
                 background: none;
             }
         }
-
     }
 }
 </style>

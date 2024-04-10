@@ -50,7 +50,7 @@ const { $urlHelper } = useNuxtApp()
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
                             <NuxtLink
-                                :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.Name!, userStore.personalWiki?.Id!) : $urlHelper.getTopicUrl(footerTopics.RootWiki.Name, footerTopics.RootWiki.Id)"
+                                :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getTopicUrl(footerTopics.rootWiki.name, footerTopics.rootWiki.id)"
                                 id="MasterFooterLogo">
                                 <Image src="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img"
                                     alt="memucho logo" />
@@ -76,16 +76,16 @@ const { $urlHelper } = useNuxtApp()
                         <div class="footer-group">
                             <div class="overline-m no-line">
                                 <NuxtLink @click="handleError()"
-                                    :to="$urlHelper.getTopicUrl(props.footerTopics.MemoWiki.Name, props.footerTopics.MemoWiki.Id)"
-                                    v-if="props.footerTopics?.MemoWiki">
-                                    {{ props.footerTopics.MemoWiki.Name }}
+                                    :to="$urlHelper.getTopicUrl(props.footerTopics.memoWiki.name, props.footerTopics.memoWiki.id)"
+                                    v-if="props.footerTopics?.memoWiki">
+                                    {{ props.footerTopics.memoWiki.name }}
                                 </NuxtLink>
                             </div>
-                            <template v-for="(t, i) in props.footerTopics.MemoTopics" v-if="props.footerTopics?.MemoTopics" :key="i">
-                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.Name, t.Id)">
-                                    {{ t.Name }}
+                            <template v-for="(t, i) in props.footerTopics.memoTopics" v-if="props.footerTopics?.memoTopics" :key="i">
+                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.name, t.id)">
+                                    {{ t.name }}
                                 </NuxtLink>
-                                <br v-if="i < props.footerTopics?.MemoTopics.length - 1" />
+                                <br v-if="i < props.footerTopics?.memoTopics.length - 1" />
                             </template>
 
                         </div>
@@ -110,11 +110,11 @@ const { $urlHelper } = useNuxtApp()
                         <div class="footer-group">
                             <div class="overline-m no-line">Hilfe & Kontakt</div>
 
-                            <template v-for="(t, i) in props.footerTopics.HelpTopics" v-if="props.footerTopics?.HelpTopics">
-                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.Name, t.Id)">
-                                    {{ t.Name }}
+                            <template v-for="(t, i) in props.footerTopics.helpTopics" v-if="props.footerTopics?.helpTopics">
+                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.name, t.id)">
+                                    {{ t.name }}
                                 </NuxtLink>
-                                <br v-if="i < props.footerTopics.HelpTopics.length - 1" />
+                                <br v-if="i < props.footerTopics.helpTopics.length - 1" />
                             </template>
                             <br />
 
@@ -137,28 +137,28 @@ const { $urlHelper } = useNuxtApp()
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <NuxtLink :to="$urlHelper.getTopicUrl(footerTopics.RootWiki.Name, footerTopics.RootWiki.Id)"
-                                    v-if="props.footerTopics?.RootWiki">
-                                    {{ props.footerTopics.RootWiki.Name }}
+                                <NuxtLink :to="$urlHelper.getTopicUrl(footerTopics.rootWiki.name, footerTopics.rootWiki.id)"
+                                    v-if="props.footerTopics?.rootWiki">
+                                    {{ props.footerTopics.rootWiki.name }}
                                 </NuxtLink>
 
                             </div>
-                            <template v-for="(t, i) in props.footerTopics.MainTopics" v-if="props.footerTopics?.MainTopics">
-                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.Name, t.Id)">
-                                    {{ t.Name }}
+                            <template v-for="(t, i) in props.footerTopics.mainTopics" v-if="props.footerTopics?.mainTopics">
+                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.name, t.id)">
+                                    {{ t.name }}
                                 </NuxtLink>
-                                <br v-if="i < props.footerTopics.MainTopics.length - 1" />
+                                <br v-if="i < props.footerTopics.mainTopics.length - 1" />
                             </template>
                         </div>
 
                         <div class="footer-group">
                             <div class="overline-m no-line">Beliebte Themen</div>
-                            <template v-for="(t, i) in props.footerTopics.PopularTopics"
-                                v-if="props.footerTopics?.PopularTopics">
-                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.Name, t.Id)">
-                                    {{ t.Name }}
+                            <template v-for="(t, i) in props.footerTopics.popularTopics"
+                                v-if="props.footerTopics?.popularTopics">
+                                <NuxtLink @click="handleError()" :to="$urlHelper.getTopicUrl(t.name, t.id)">
+                                    {{ t.name }}
                                 </NuxtLink>
-                                <br v-if="i < props.footerTopics.PopularTopics.length - 1" />
+                                <br v-if="i < props.footerTopics.popularTopics.length - 1" />
                             </template>
                         </div>
                     </div>

@@ -105,42 +105,5 @@ namespace VueApp
                 topics = items,
             });
         }
-
-        [AccessOnlyAsLoggedIn]
-        [HttpPost]
-        public JsonResult GetPersonalWikiData([FromRoute] int id)
-        {
-            if (GraphService.VisibleDescendants(id, _permissionCheck, _sessionUser.UserId).Any(c => c.Id == _sessionUser.User.StartTopicId))
-                return Json(new
-                {
-                    success = false,
-                });
-
-            var recentlyUsedRelationTargetTopicIds = new List<SearchCategoryItem>();
-
-            if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null &&
-                _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
-            {
-                foreach (var categoryId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
-                {
-                    var c = EntityCache.GetCategory(categoryId);
-                    recentlyUsedRelationTargetTopicIds.Add(new SearchHelper(_imageMetaDataReadingRepo,
-                        _httpContextAccessor,
-                        _questionReadingRepo).FillSearchCategoryItem(c, UserId));
-                }
-            }
-
-            var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
-
-            return Json(new
-            {
-                success = true,
-                personalWiki = new SearchHelper(_imageMetaDataReadingRepo,
-                        _httpContextAccessor,
-                        _questionReadingRepo)
-                    .FillSearchCategoryItem(personalWiki, UserId),
-                addToWikiHistory = recentlyUsedRelationTargetTopicIds.ToArray()
-            });
-        }
     }
 }

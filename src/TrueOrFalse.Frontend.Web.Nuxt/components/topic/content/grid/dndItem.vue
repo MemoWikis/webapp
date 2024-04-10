@@ -1,158 +1,353 @@
 <script lang="ts" setup>
+import { ToggleState } from './toggleStateEnum'
+import { GridTopicItem } from './item/gridTopicItem'
+import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopicRelationStore'
+import { useDragStore, TargetPosition, MoveTopicTransferData } from '~~/components/shared/dragStore'
+import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import { useUserStore } from '~/components/user/userStore'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
-interface Item {
-    name: string,
-    id: number,
-    children?: Item[]
-}
+const editTopicRelationStore = useEditTopicRelationStore()
+const dragStore = useDragStore()
+const snackbarStore = useSnackbarStore()
+const userStore = useUserStore()
+
 interface Props {
-    item: Item,
-    index: IndexPath,
-    items: Item[]
+    topic: GridTopicItem
+    toggleState: ToggleState
+    parentId: number
+    parentName: string
+    parentVisibility: Visibility
+    disabled?: boolean
+    userIsCreatorOfParent: boolean
 }
 const props = defineProps<Props>()
+
+const dropIn = ref(false)
+const dragOverTimer = ref()
 const isDroppableItemActive = ref(false)
-function onDragOver() {
+function onDragOver(e: any) {
+    e.preventDefault()
+
     isDroppableItemActive.value = true
+    if (dragOverTimer.value == null)
+        dragOverTimer.value = Date.now()
+    else {
+        const diff = Date.now() - dragOverTimer.value
+        if (diff > 700)
+            dropIn.value = true
+    }
 }
 function onDragLeave() {
     isDroppableItemActive.value = false
+    dragOverTimer.value = null
+    dropIn.value = false
 }
 
+const snackbar = useSnackbar()
 
-function removeElementAtPath(arr: Item[], indexPath: IndexPath): { element: Item, array: Item[] } | undefined {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
+async function onDrop() {
+    isDroppableItemActive.value = false
 
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            return undefined;
+    hoverTopHalf.value = false
+    hoverBottomHalf.value = false
+    dropIn.value = false
+
+    if (dragStore.transferData == null || !dragStore.isMoveTopicTransferData)
+        return
+
+    const transferData = dragStore.transferData as MoveTopicTransferData
+    const targetId = props.topic.id
+    if (transferData.movingTopicId == targetId)
+        return
+
+    const position = currentPosition.value
+    currentPosition.value = TargetPosition.None
+    dragOverTimer.value = null
+
+    await editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+
+    const snackbarCustomAction: SnackbarCustomAction = {
+        label: 'Zurücksetzen',
+        action: () => {
+            editTopicRelationStore.undoMoveTopic()
+        },
+        icon: ['fas', 'rotate-left']
+    }
+
+    snackbar.add({
+        type: 'info',
+        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
+        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon },
+        dismissible: true
+    })
+}
+
+const dragging = ref(false)
+const customDragImage = ref()
+function handleDragStart(e: DragEvent) {
+
+    const cdi = document.createElement('div')
+    cdi.textContent = ''
+    cdi.style.position = 'absolute'
+    cdi.style.top = '-99999px'
+    customDragImage.value = cdi
+
+    document.body.appendChild(cdi)
+
+    e.dataTransfer?.setDragImage(cdi, 0, 0)
+
+    if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
+        if (userStore.isLoggedIn)
+            snackbar.add({
+                type: 'error',
+                title: '',
+                text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
+                dismissible: true
+            })
+        else {
+            const snackbarCustomAction: SnackbarCustomAction = {
+                label: 'Anmelden',
+                action: () => {
+                    editTopicRelationStore.undoMoveTopic()
+                },
+                icon: ['fas', 'right-to-bracket']
+            }
+
+            snackbar.add({
+                type: 'error',
+                title: '',
+                text: {
+                    html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon
+                },
+                dismissible: true
+            })
         }
+        return
     }
 
-    if (targetIndex !== undefined && targetIndex < targetArray.length) {
-        let removedElement = targetArray.splice(targetIndex, 1);
-        return { element: removedElement[0], array: arr };
-    } else {
-        return undefined;
+    if (props.parentVisibility == Visibility.All && !userStore.gridInfoShown) {
+        snackbar.add({
+            type: 'warning',
+            title: '',
+            text: { html: `Änderung im Thema <b>${props.parentName}</b> sind für alle sichtbar` },
+            dismissible: true
+        })
+
+        userStore.gridInfoShown = true
+    }
+
+    const data: MoveTopicTransferData = {
+        movingTopicId: props.topic.id,
+        oldParentId: props.parentId,
+        topicName: props.topic.name
+    }
+    dragStore.dragStart(data)
+    dragging.value = true
+}
+
+const currentPosition = ref<TargetPosition>(TargetPosition.None)
+const hoverTopHalf = ref(false)
+const hoverBottomHalf = ref(false)
+
+watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
+    if (t)
+        currentPosition.value = TargetPosition.Before
+    else if (b && dropIn.value)
+        currentPosition.value = TargetPosition.Inner
+    else if (b && !dropIn.value)
+        currentPosition.value = TargetPosition.After
+})
+
+function handleDragEnd() {
+    dragging.value = false
+    dragStore.dragEnd()
+    currentPosition.value = TargetPosition.None
+    customDragImage.value.remove()
+}
+
+const dragComponent = ref<HTMLElement | null>(null)
+
+function handleDrag(e: DragEvent) {
+    if (dragComponent.value) {
+        const el = dragComponent.value.getBoundingClientRect()
+        const x = e.pageX - el.left
+        const y = e.pageY - el.height
+        dragStore.setMousePosition(x, y)
+        handleScroll(e.clientY)
     }
 }
 
-function addElementAtPath(arr: Item[], indexPath: IndexPath, element: Item): void {
-    let pathCopy = [...indexPath];
-    let targetIndex = pathCopy.pop();
 
-    let targetArray: Item[] = arr;
-    for (let index of pathCopy) {
-        if (index < targetArray.length && targetArray[index].children) {
-            targetArray = targetArray[index].children || [];
-        } else {
-            throw new Error("Invalid index path: encountered non-array element before reaching target location");
-        }
-    }
+function handleScroll(clientY: number) {
+    const threshold = 150
+    const distanceFromBottom = window.innerHeight - clientY
 
-    if (targetIndex !== undefined) {
-        targetArray.splice(targetIndex, 0, element);
-    } else {
-        throw new Error("Invalid index path: did not resolve to array element");
+    if (clientY <= threshold) {
+        const scrollSpeed = -10 - Math.ceil(((threshold - clientY) / 10))
+        window.scrollBy(0, scrollSpeed)
+    } else if (distanceFromBottom <= threshold) {
+        const scrollSpeed = 10 + Math.ceil(((threshold - distanceFromBottom) / 10))
+        window.scrollBy(0, scrollSpeed)
     }
 }
 
-function moveElement(arr: Item[], fromIndexPath: IndexPath, toIndexPath: IndexPath): Item[] {
-    let removed = removeElementAtPath(arr, fromIndexPath);
-    if (removed) {
-        addElementAtPath(removed.array, toIndexPath, removed.element);
-        return removed.array;
-    } else {
-        return arr;
+
+const placeHolderTopicName = ref('')
+
+watch(() => dragStore.transferData, (t) => {
+    if (dragStore.isMoveTopicTransferData) {
+        const m = t as MoveTopicTransferData
+        placeHolderTopicName.value = m.topicName
+
     }
-}
-const emit = defineEmits(['setNewArr'])
-
-const newArr = ref<Item[]>([])
-
-function onDrop(event: any) {
-    console.log('target', props.index)
-    const e = event.dataTransfer.getData('value')
-    console.log('drop', e)
-
-    newArr.value = moveElement(props.items, e, props.index)
-    emit('setNewArr', newArr)
-
-}
-// function getPayload(index: number) {
-//     const payload = {
-//         item: props.item.children![index],
-//         index: [...props.index, index]
-//     }
-//     return payload
-// }
-
-const open = ref(false)
+}, { deep: true })
 </script>
 
 <template>
-    <SharedDraggable :transfer-data="index" class="draggable">
-        <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }">
+    <div class="draggable" @dragstart.stop="handleDragStart" @dragend="handleDragEnd" :draggable="true"
+        ref="dragComponent" @drag.stop="handleDrag">
+        <div @dragover="onDragOver" @dragleave="onDragLeave" @drop.stop="onDrop">
 
-            <div class="item" @click.self="open = !open"
-                :class="{ 'open': open, 'isDroppableItemActive': isDroppableItemActive }">
-                {{ item.name }}
-                <div>
-                    <TopicContentGridDndItem v-for="c, i in props.item.children" :item="c" :index="[...index, i]"
-                        :items="props.items" @set-new-arr="emit('setNewArr', newArr)" />
+            <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
+
+                <div v-if="dragStore.active" @dragover="hoverTopHalf = true" @dragleave="hoverTopHalf = false"
+                    class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }">
+
+                    <div class="inner top">
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                            :name="placeHolderTopicName" />
+                    </div>
+
+                </div>
+
+                <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
+                    :parent-name="props.parentName" :active-dragging="dragStore.active" :is-dragging="dragging"
+                    :drop-expand="dropIn">
+
+                    <template #topdropzone>
+                        <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
+                            :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
+                            @dragleave="hoverTopHalf = false">
+                        </div>
+                    </template>
+                    <template #bottomdropzone>
+                        <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone bottom"
+                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
+                            @dragleave="hoverBottomHalf = false">
+                        </div>
+                    </template>
+                    <template #dropinzone>
+                        <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
+                            :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
+                            @dragleave="hoverBottomHalf = false">
+                            <div class="dropzone-label">Thema unterordnen</div>
+                        </div>
+                    </template>
+
+                </TopicContentGridItem>
+
+                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
+                    class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+
+                    <div class="inner bottom">
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
+                            :name="placeHolderTopicName" />
+                    </div>
+
                 </div>
             </div>
-        </SharedDroppable>
-    </SharedDraggable>
-
-    <!-- <Draggable :key="index.toString() + item.id" class="draggable">
-        <div class="item">
-            {{ item.name }}
-
-            <Container @drop="emit('onDndDrop', { event: $event, targetPath: index })" group-name="test"
-                :get-child-payload="getPayload">
-                <TopicContentGridItem v-for="c, i in item.children" :item="c" :index="[...index, i]"
-                    @on-dnd-drop="emit('onDndDrop', $event)" />
-            </Container>
         </div>
-    </Draggable> -->
+    </div>
 </template>
 
 <style lang="less" scoped>
-.draggable {
-    // transition: all 2s;
-    transform: scale(1);
+@import (reference) '~~/assets/includes/imports.less';
 
+.emptydropzone {
+    height: 0px;
+    transition: all 100ms ease-in;
+    opacity: 0;
 
-    .item {
+    &.open {
+        height: 80px;
+        opacity: 1;
+    }
+
+    &.inside {
+        padding-left: 30px;
+    }
+
+    .inner {
+        height: 100%;
         width: 100%;
-        border: solid 1px silver;
-        padding: 10px;
-        background: white;
-        margin-left: 10px;
-        transition: all 0.1s;
-        border-right: none;
-        margin-bottom: 10px;
-        // transform: scale(1);
+        border: 1px solid @memo-green;
 
-        &.open {
-            padding-top: 50px;
-            padding-bottom: 50px;
-
-            background-color: mediumspringgreen;
+        &.bottom {
+            z-index: 2;
         }
 
-        &.isDroppableItemActive {
-            background-color: lightpink;
+        &.top {
+            z-index: 3;
+        }
+    }
+}
+
+.dropzone {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition: all 100ms ease-in;
+
+    &.top {
+        height: 33%;
+        z-index: 4;
+        top: 0px;
+    }
+
+    &.bottom {
+        z-index: 3;
+        height: 67%;
+        top: 33%;
+    }
+
+    &.inner {
+        z-index: 3;
+        height: 100%;
+        top: 0px;
+        background: rgba(175, 213, 52, 0.5);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .dropzone-label {
+            font-size: 18px;
+            font-weight: bold;
         }
     }
 
-    .is-moving {
-        // transform: scale(0);
+    &.hover {
+        opacity: 1;
+    }
+}
+
+
+.draggable {
+    transition: all 0.5s;
+    cursor: grab;
+
+    .item {
+        opacity: 1;
+
+        &.dragging {
+            opacity: 0.2;
+        }
+
+    }
+
+    &:active {
+        cursor: grabbing;
     }
 }
 </style>

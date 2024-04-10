@@ -1,34 +1,34 @@
 import { UserTinyModel } from "./userTinyModel"
 
 export interface UserModel {
-    Name: string,
-    AmountCreatedQuestions: number,
-    AmountCreatedSets: number,
-    AmountCreatedCategories: number,
-    AmountWishCountQuestions: number,
-    AmountWishCountSets: number,
-    ImageUrl_250: string,
-    ImageIsCustom: boolean,
-    ReputationRank: number,
-    ReputationTotal: number,
-    Reputation: ReputationCalcResult,
-    IsMember: boolean,
-    IsCurrentUser: boolean,
-    User: UserTinyModel,
-    UserIdProfile: number,
-    DoIFollow: boolean,
+    name: string,
+    amountCreatedQuestions: number,
+    amountCreatedSets: number,
+    amountCreatedCategories: number,
+    amountWishCountQuestions: number,
+    amountWishCountSets: number,
+    imageUrl_250: string,
+    imageIsCustom: boolean,
+    reputationRank: number,
+    reputationTotal: number,
+    reputation: ReputationCalcResult,
+    isMember: boolean,
+    isCurrentUser: boolean,
+    user: UserTinyModel,
+    userIdProfile: number,
+    doIFollow: boolean,
     // CategoryCacheItem UserWiki;
-    UserWikiId: number,
-    UserWikiName: string,
-    ShowWiki: boolean
+    userWikiId: number,
+    userWikiName: string,
+    showWiki: boolean
   }
 
   export class ReputationCalcResult {
-    ForQuestionsCreated: number = 0
-    ForQuestionsInOtherWishKnowledge: number = 0
-    ForUsersFollowingMe: number = 0
-    ForPublicWishknowledge: number = 0
+    forQuestionsCreated: number = 0
+    forQuestionsInOtherWishKnowledge: number = 0
+    forUsersFollowingMe: number = 0
+    forPublicWishknowledge: number = 0
     TotalReputation() {
-        return this.ForQuestionsCreated + this.ForQuestionsInOtherWishKnowledge + this.ForUsersFollowingMe + this.ForPublicWishknowledge
+        return this.forQuestionsCreated + this.forQuestionsInOtherWishKnowledge + this.forUsersFollowingMe + this.forPublicWishknowledge
     }
   }

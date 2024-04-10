@@ -85,6 +85,10 @@
 		<PackageReference Include="ZstdNet" Version="1.4.5" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Domain\Category\TopicOrder\Persistence\" />
+	</ItemGroup>
+
 	<!--<ItemGroup>
 	  <Folder Include="Tools\Cache\Redis\" />
 	</ItemGroup>-->

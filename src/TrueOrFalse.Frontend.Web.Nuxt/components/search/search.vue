@@ -50,10 +50,10 @@ function inputValue(e: Event) {
 
 onBeforeMount(() => {
     switch (props.searchType) {
-        case SearchType.Category:
+        case SearchType.category:
             searchUrl.value = '/apiVue/Search/Topic'
             break;
-        case SearchType.CategoryInWiki:
+        case SearchType.categoryInWiki:
             searchUrl.value = '/apiVue/Search/TopicInPersonalWiki'
             break
         default:
@@ -83,7 +83,7 @@ async function search() {
     let data: BodyType = {
         term: searchTerm.value,
     }
-    if ((props.searchType == SearchType.Category || props.searchType == SearchType.CategoryInWiki))
+    if ((props.searchType == SearchType.category || props.searchType == SearchType.categoryInWiki))
         data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
 
     const result = await $fetch<FullSearch>(searchUrl.value, {
@@ -98,18 +98,18 @@ async function search() {
     if (result != null) {
         if (result.topics) {
             topics.value = result.topics
-            topics.value.forEach((t) => t.Type = 'TopicItem')
+            topics.value.forEach((t) => t.type = 'TopicItem')
             topicCount.value = result.topicCount
         }
         if (result.questions) {
             questions.value = result.questions
-            questions.value.forEach((q) => q.Type = 'QuestionItem')
+            questions.value.forEach((q) => q.type = 'QuestionItem')
 
             questionCount.value = result.questionCount
         }
         if (result.users) {
             users.value = result.users
-            users.value.forEach((u) => u.Type = 'UserItem')
+            users.value.forEach((u) => u.type = 'UserItem')
             userCount.value = result.userCount
         }
         noResults.value = result.topics?.length + result.questions?.length + result.users?.length <= 0
@@ -118,15 +118,15 @@ async function search() {
 }
 
 function selectItem(item: TopicItem | QuestionItem | UserItem) {
-    switch (item.Type) {
+    switch (item.type) {
         case 'TopicItem':
-            item.Url = $urlHelper.getTopicUrl(item.Name, item.Id)
+            item.url = $urlHelper.getTopicUrl(item.name, item.id)
             break;
         case 'QuestionItem':
-            item.Url = $urlHelper.getTopicUrlWithQuestionId(item.PrimaryTopicName, item.PrimaryTopicId, item.Id)
+            item.url = $urlHelper.getTopicUrlWithQuestionId(item.primaryTopicName, item.primaryTopicId, item.id)
             break;
         case 'UserItem':
-            item.Url = $urlHelper.getUserUrl(item.Name, item.Id)
+            item.url = $urlHelper.getUserUrl(item.name, item.id)
             break;
     }
     selectedItem.value = item
@@ -158,8 +158,8 @@ watch(() => props.showSearch, (val) => {
             <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
-                        <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }" type="text"
-                            v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
+                        <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }"
+                            type="text" v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
                             :placeholder="props.placeholderLabel" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
@@ -176,22 +176,22 @@ watch(() => props.showSearch, (val) => {
                             <div>Themen </div>
                             <div>{{ topicCount }} Treffer</div>
                         </div>
-                        <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.Name">
-                            <Image :src="t.ImageUrl" :format="ImageFormat.Topic" />
+                        <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.name">
+                            <Image :src="t.imageUrl" :format="ImageFormat.Topic" />
                             <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ t.Name }}</div>
-                                <div class="searchResultSubLabel body-s">{{ t.QuestionCount }} Frage<template
-                                        v-if="t.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ t.name }}</div>
+                                <div class="searchResultSubLabel body-s">{{ t.questionCount }} Frage<template
+                                        v-if="t.questionCount != 1">n</template></div>
                             </div>
                         </div>
                         <div v-if="questions.length > 0" class="searchBanner">
                             <div>Fragen </div>
                             <div>{{ questionCount }} Treffer</div>
                         </div>
-                        <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.Name">
-                            <Image :src="q.ImageUrl" />
+                        <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.name">
+                            <Image :src="q.imageUrl" />
                             <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ q.Name }}</div>
+                                <div class="searchResultLabel body-m">{{ q.name }}</div>
                                 <div class="searchResultSubLabel body-s"></div>
                             </div>
                         </div>
@@ -199,10 +199,10 @@ watch(() => props.showSearch, (val) => {
                             <div>Nutzer </div>
                             <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
                         </div>
-                        <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.Name">
-                            <Image :src="u.ImageUrl" :format="ImageFormat.Author" />
+                        <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.name">
+                            <Image :src="u.imageUrl" :format="ImageFormat.Author" />
                             <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ u.Name }}</div>
+                                <div class="searchResultLabel body-m">{{ u.name }}</div>
                                 <div class="searchResultSubLabel body-s"></div>
                             </div>
                         </div>

@@ -23,8 +23,6 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public virtual User Creator { get; set; }
 
-    public virtual IList<CategoryRelation> CategoryRelations { get; set; }
-
     public virtual bool IsUserStartTopic { get; set; }
 
     public virtual string AuthorIds { get; set; } = "";
@@ -33,15 +31,6 @@ public class Category : DomainEntity, ICreator, ICloneable
         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()
         .ToArray();
-
-    public virtual IList<Category> ParentCategories()
-    {
-        return CategoryRelations.Any()
-            ? CategoryRelations
-                .Select(x => x.Parent)
-                .ToList()
-            : new List<Category>();
-    }
 
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -88,7 +77,6 @@ public class Category : DomainEntity, ICreator, ICloneable
 
     public Category()
     {
-        CategoryRelations = new List<CategoryRelation>();
         Type = CategoryType.Standard;
     }
 
@@ -156,11 +144,6 @@ public class Category : DomainEntity, ICreator, ICloneable
 
         throw new Exception("Invalid type.");
     }
-
-    public virtual string ToLomXml(CategoryRepository categoryRepository, 
-        IActionContextAccessor actionContextAccessor, 
-        IHttpContextAccessor httpContextAccessor) => 
-        LomXml.From(this, categoryRepository, httpContextAccessor, actionContextAccessor);
 
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }

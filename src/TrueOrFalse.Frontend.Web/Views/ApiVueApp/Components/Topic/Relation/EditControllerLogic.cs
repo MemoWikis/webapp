@@ -23,6 +23,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly Logg _logg;
     private readonly QuestionReadingRepo _questionReadingRepo;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
 
     public EditControllerLogic(IGlobalSearch search,
         PermissionCheck permissionCheck,
@@ -35,7 +36,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         Logg logg,
-        QuestionReadingRepo questionReadingRepo)
+        QuestionReadingRepo questionReadingRepo, 
+        CategoryRelationRepo categoryRelationRepo)
     {
         _search = search;
         _permissionCheck = permissionCheck;
@@ -49,6 +51,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
         _webHostEnvironment = webHostEnvironment;
         _logg = logg;
         _questionReadingRepo = questionReadingRepo;
+        _categoryRelationRepo = categoryRelationRepo;
     }
 
     public RequestResult ValidateName(string name)
@@ -149,7 +152,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             };
         var parent = EntityCache.GetCategory(parentId);
 
-        if (parent.ChildrenIds.Any(id => id == childId))
+        if (parent.ChildRelations.Any(r => r.ChildId == childId))
             return new RequestResult
             {
                 success = false,
@@ -175,10 +178,8 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var child = EntityCache.GetCategory(childId);
-        ModifyRelationsEntityCache.AddParent(child, parentId);
-        JobScheduler.StartImmediately_ModifyCategoryRelation(childId, parentId, _sessionUser.UserId);
-        EntityCache.GetCategory(parentId).ChildrenIds = GraphService.Children(parentId).Select(cci => cci.Id).ToList();
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        modifyRelationsForCategory.AddChild(parentId, childId);
 
         return new RequestResult
         {
@@ -200,7 +201,10 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
                 messageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
-        var parentHasBeenRemoved = new ModifyRelationsForCategory(_categoryRepository).RemoveChildCategoryRelation(parentIdToRemove, childId, _permissionCheck);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(EntityCache.GetCategory(childId),
+            parentIdToRemove, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
+
         if (!parentHasBeenRemoved)
             return new RequestResult
             {
@@ -215,7 +219,7 @@ public class EditControllerLogic : IRegisterAsInstancePerLifetime
             _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Moved, affectedParentIdsByMove: affectedParentIdsByMove);
         else
             _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
-        EntityCache.GetCategory(parentIdToRemove).ChildrenIds = GraphService.Children(parentIdToRemove).Select(cci => cci.Id).ToList();
+
         return new RequestResult
         {
             success = true,

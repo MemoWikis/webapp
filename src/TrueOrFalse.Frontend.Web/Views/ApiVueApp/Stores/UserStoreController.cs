@@ -1,65 +1,25 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Domain.User;
-
 namespace VueApp;
 
-public class UserStoreController : BaseController
-{
-    private readonly VueSessionUser _vueSessionUser;
-    private readonly RegisterUser _registerUser;
-    private readonly PersistentLoginRepo _persistentLoginRepo;
-    private readonly GetUnreadMessageCount _getUnreadMessageCount;
-    private readonly PasswordRecovery _passwordRecovery;
-    private readonly Login _login;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly GridItemLogic _gridItemLogic;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryViewRepo _categoryViewRepo;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly JobQueueRepo _jobQueueRepo;
-
-    public UserStoreController(VueSessionUser vueSessionUser,
-        SessionUser sessionUser,
-        RegisterUser registerUser,
-        PersistentLoginRepo persistentLoginRepo,
-        GetUnreadMessageCount getUnreadMessageCount,
-        PasswordRecovery passwordRecovery,
-        Login login,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        PermissionCheck permissionCheck,
-        GridItemLogic gridItemLogic,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryViewRepo categoryViewRepo,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo,
-        JobQueueRepo jobQueueRepo) : base(sessionUser)
-    {
-        _vueSessionUser = vueSessionUser;
-        _registerUser = registerUser;
-        _persistentLoginRepo = persistentLoginRepo;
-        _getUnreadMessageCount = getUnreadMessageCount;
-        _passwordRecovery = passwordRecovery;
-        _login = login;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _permissionCheck = permissionCheck;
-        _gridItemLogic = gridItemLogic;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryViewRepo = categoryViewRepo;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionReadingRepo = questionReadingRepo;
-        _jobQueueRepo = jobQueueRepo;
-    }
+public class UserStoreController(
+    VueSessionUser _vueSessionUser,
+    SessionUser _sessionUser,
+    RegisterUser _registerUser,
+    PersistentLoginRepo _persistentLoginRepo,
+    GetUnreadMessageCount _getUnreadMessageCount,
+    PasswordRecovery _passwordRecovery,
+    Login _login,
+    IHttpContextAccessor _httpContextAccessor,
+    PermissionCheck _permissionCheck,
+    TopicGridManager _gridItemLogic,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    CategoryViewRepo _categoryViewRepo,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    UserReadingRepo _userReadingRepo,
+    QuestionReadingRepo _questionReadingRepo,
+    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser) {
 
     [HttpPost]
     public JsonResult Login([FromBody] LoginParam param)
@@ -156,7 +116,7 @@ public class UserStoreController : BaseController
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicControllerLogic(_sessionUser,
+                PersonalWiki = new TopicDataManager(_sessionUser,
                         _permissionCheck, 
                         _gridItemLogic, 
                         _knowledgeSummaryLoader, 
@@ -167,15 +127,6 @@ public class UserStoreController : BaseController
                     .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
         });
-    }
-    private static User CreateUserFromJson(RegisterJson json)
-
-    {
-        var user = new User();
-        user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();
-        user.Name = json.Name.TrimAndReplaceWhitespacesWithSingleSpace();
-        SetUserPassword.Run(json.Password.Trim(), user);
-        return user;
     }
 
     [AccessOnlyAsLoggedIn]

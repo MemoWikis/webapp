@@ -5,6 +5,7 @@ import { useUserStore } from '../../user/userStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { TargetPosition } from '~/components/shared/dragStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -25,6 +26,14 @@ export interface EditRelationData {
     topicIdToRemove?: number
 }
 
+interface MoveTarget {
+    movingTopicId: number,
+    targetId: number,
+    position: TargetPosition,
+    newParentId: number,
+    oldParentId: number
+}
+
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     state: () => {
         return {
@@ -37,7 +46,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             categoriesToFilter: [] as number[],
             personalWiki: null as TopicItem | null,
             recentlyUsedRelationTargetTopics: null as TopicItem[] | null,
-            topicIdToRemove: 0
+            topicIdToRemove: 0,
+            moveHistory: {} as MoveTarget
         }
     },
     actions: {
@@ -73,16 +83,17 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 personalWiki: TopicItem,
                 recentlyUsedRelationTargetTopics: TopicItem[]
             }
-            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const id = EditTopicRelationType.AddParent ? this.childId : this.parentId
+            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
                 this.categoriesToFilter = []
-                this.categoriesToFilter.push(this.personalWiki.Id)
+                this.categoriesToFilter.push(this.personalWiki.id)
 
                 this.recentlyUsedRelationTargetTopics = result.data.recentlyUsedRelationTargetTopics?.reverse()
                 this.recentlyUsedRelationTargetTopics?.forEach((el) => {
-                    this.categoriesToFilter.push(el.Id)
+                    this.categoriesToFilter.push(el.id)
                 })
             }
         },
@@ -95,7 +106,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             const editTopicRelationData: EditRelationData = {
                 childId: id,
                 redirect: redirect,
-                editCategoryRelation: EditTopicRelationType.AddParent
+                editCategoryRelation: EditTopicRelationType.AddParent,
             }
 
             this.openModal(editTopicRelationData)
@@ -211,8 +222,46 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                     removedChildIds: result.data
                 }
             }
-
         },
+
+        async moveTopic(movingTopicId: number, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
+
+            const userStore = useUserStore()
+
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
+
+            const data = {
+                movingTopicId: movingTopicId,
+                targetId: targetId,
+                position: position,
+                newParentId: newParentId,
+                oldParentId: oldParentId
+            }
+            interface MoveTopicResult {
+                oldParentId: number
+                newParentId: number
+                undoMove: MoveTarget
+            }
+            const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include",
+            })
+
+            if (result)
+                this.moveHistory = result.undoMove
+
+            return result
+        },
+
+        async undoMoveTopic() {
+
+            return this.moveTopic(this.moveHistory.movingTopicId, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+        }
     },
 })
 

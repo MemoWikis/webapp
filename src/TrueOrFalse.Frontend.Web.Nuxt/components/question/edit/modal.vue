@@ -14,7 +14,6 @@ import { useLearningSessionStore } from '~~/components/topic/learning/learningSe
 import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
 import { SearchType } from '../../search/searchHelper'
 import { QuestionListItem } from '~~/components/topic/learning/questionListItem'
-// import { FetchResult } from '~~/components/fetchResult'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
@@ -71,7 +70,7 @@ function removeTopic(t: TopicItem) {
         var index = selectedTopics.value.findIndex(s => s == t)
         selectedTopics.value.splice(index, 1)
 
-        var topicIdIndex = topicIds.value.findIndex(i => i == t.Id)
+        var topicIdIndex = topicIds.value.findIndex(i => i == t.id)
         topicIds.value.splice(topicIdIndex, 1)
     }
 }
@@ -124,9 +123,9 @@ function selectTopic(t: TopicItem) {
     lockDropdown.value = true
     searchTerm.value = ''
 
-    var index = topicIds.value.indexOf(t.Id)
+    var index = topicIds.value.indexOf(t.id)
     if (index < 0) {
-        topicIds.value.push(t.Id)
+        topicIds.value.push(t.id)
         selectedTopics.value.push(t)
     }
 }
@@ -228,19 +227,6 @@ async function save() {
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
-    // const testData = {
-    //     CategoryIds: topicIds.value,
-    //     TextHtml: questionHtml.value,
-    //     DescriptionHtml: descriptionHtml.value,
-    //     SolutionType: solutionType.value,
-    //     Visibility: visibility,
-    //     SolutionMetadataJson: solutionMetadataJson.value,
-    //     LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
-    //     SessionIndex: learningSessionStore.lastIndexInQuestionList,
-    //     IsLearningTab: tabsStore.activeTab == Tab.Learning,
-    //     SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
-    // }
-
     const result = await $fetch<FetchResult<QuestionListItem>>(url, {
         body: data,
         method: 'POST',
@@ -258,13 +244,14 @@ async function save() {
     if (result?.success) {
         if (editQuestionStore.edit) {
             learningSessionStore.updateQuestionList(result.data)
-        } else if (result.data.SessionIndex > 0) {
-            learningSessionStore.lastIndexInQuestionList = result.data.SessionIndex
+            learningSessionStore.reloadAnswerBody(result.data.id, result.data.sessionIndex)
+        } else if (result.data.sessionIndex > 0) {
+            learningSessionStore.lastIndexInQuestionList = result.data.sessionIndex
             learningSessionStore.getLastStepInQuestionList()
             learningSessionStore.addNewQuestionToList(learningSessionStore.lastIndexInQuestionList)
         }
 
-        if (result.data.SessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
+        if (result.data.sessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
             alertStore.openAlert(AlertType.Success, {
                 text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
             })
@@ -280,7 +267,7 @@ async function save() {
         editQuestionStore.showModal = false
         lockSaveButton.value = false
         updateQuestionCount()
-        editQuestionStore.questionEdited(result.data.Id)
+        editQuestionStore.questionEdited(result.data.id)
     } else if (result?.success == false) {
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
@@ -304,16 +291,16 @@ onMounted(() => {
 })
 
 type QuestionData = {
-    SolutionType: SolutionType
-    Solution: string
-    SolutionMetadataJson: string
-    Text: string
-    TextExtended: string
-    TopicIds: number[]
-    DescriptionHtml: string
-    Topics: TopicItem[]
-    LicenseId: number
-    Visibility: Visibility
+    solutionType: SolutionType
+    solution: string
+    solutionMetadataJson: string
+    text: string
+    textExtended: string
+    topicIds: number[]
+    descriptionHtml: string
+    topics: TopicItem[]
+    licenseId: number
+    visibility: Visibility
 }
 
 function initiateSolution(solution: string) {
@@ -346,16 +333,16 @@ async function getQuestionData(id: number) {
         }
     })
     if (result != null) {
-        solutionType.value = result.SolutionType as SolutionType
-        initiateSolution(result.Solution)
-        questionHtml.value = result.Text
-        questionExtensionHtml.value = result.TextExtended
-        descriptionHtml.value = result.DescriptionHtml
-        topicIds.value = result.TopicIds
-        selectedTopics.value = result.Topics
-        licenseId.value = result.LicenseId
-        solutionMetadataJson.value = result.SolutionMetadataJson
-        if (result.Visibility == 1)
+        solutionType.value = result.solutionType as SolutionType
+        initiateSolution(result.solution)
+        questionHtml.value = result.text
+        questionExtensionHtml.value = result.textExtended
+        descriptionHtml.value = result.descriptionHtml
+        topicIds.value = result.topicIds
+        selectedTopics.value = result.topics
+        licenseId.value = result.licenseId
+        solutionMetadataJson.value = result.solutionMetadataJson
+        if (result.visibility == 1)
             isPrivate.value = true
         else {
             isPrivate.value = false
@@ -428,7 +415,8 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         </div>
                     </div>
 
-                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi" v-if="!editQuestionStore.edit">
+                    <div class="heart-container wuwi-red" @click="addToWuwi = !addToWuwi"
+                        v-if="!editQuestionStore.edit">
                         <div>
                             <font-awesome-icon v-if="addToWuwi" icon="fa-solid fa-heart" />
                             <font-awesome-icon v-else icon="fa-regular fa-heart" />
@@ -467,16 +455,18 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>
                         <form class="" v-on:submit.prevent>
-                            <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                            <div class="form-group dropdown categorySearchAutocomplete"
+                                :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
-                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t" :index="index"
-                                        @removeTopic="removeTopic" :removable-chip="selectedTopics.length > 1" />
+                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
+                                        :index="index" @removeTopic="removeTopic"
+                                        :removable-chip="selectedTopics.length > 1" />
 
                                 </div>
-                                <Search :search-type="SearchType.Category" :show-search-icon="false" :show-search="true"
+                                <Search :search-type="SearchType.category" :show-search-icon="false" :show-search="true"
                                     :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
-                                    placeholder-label="Bitte gib den Namen des Themas ein" :show-default-search-icon="true"
-                                    @select-item="selectTopic" />
+                                    placeholder-label="Bitte gib den Namen des Themas ein"
+                                    :show-default-search-icon="true" @select-item="selectTopic" />
                             </div>
 
                         </form>
@@ -485,13 +475,14 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         <div class="overline-s no-line">
                             Sichtbarkeit
                         </div>
-                        <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
+                        <div class="privacy-selector"
+                            :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
                             <div class="checkbox-container">
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
-                                            class="fas fa-lock show-tooltip tooltip-min-200" title="" data-placement="top"
-                                            data-html="true" data-original-title="
+                                            class="fas fa-lock show-tooltip tooltip-min-200" title=""
+                                            data-placement="top" data-html="true" data-original-title="
                                             <ul class='show-tooltip-ul'>
                                                 <li>Die Frage kann nur von dir genutzt werden.</li>
                                                 <li>Niemand sonst kann die Frage sehen oder nutzen.</li>

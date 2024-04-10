@@ -3,17 +3,11 @@ using Microsoft.AspNetCore.Http;
 
 public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
-    public readonly IHttpContextAccessor _httpContextAccessor;
-    public readonly IWebHostEnvironment _webHostEnvironment;
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
 
-    public PermissionCheck(SessionUser sessionUser,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public PermissionCheck(SessionUser sessionUser)
     {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
     }
@@ -91,7 +85,6 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanDelete(CategoryCacheItem category)
     {
-     
         if (_userId == default || category == null || category.Id == 0)
             return false;
 
@@ -102,6 +95,21 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         return false;
+    }
+
+    public bool CanMoveTopic(int topicId, int oldParentId) => CanMoveTopic(
+        EntityCache.GetCategory(topicId), EntityCache.GetCategory(oldParentId));
+
+    public bool CanMoveTopic(CategoryCacheItem? movingTopic, CategoryCacheItem? oldParent)
+    {   
+        if (_userId == default
+            || movingTopic == null
+            || movingTopic.Id == 0
+            || oldParent == null
+            || oldParent.Id == 0)
+            return false;
+
+        return _isInstallationAdmin || movingTopic.CreatorId == _userId || oldParent.CreatorId == _userId;
     }
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
@@ -140,7 +148,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (question == null)
             return false;
 
-        if (question.IsCreator(_userId, _httpContextAccessor, _webHostEnvironment) || _isInstallationAdmin)
+        if (question.IsCreator(_userId) || _isInstallationAdmin)
             return false;
 
         return false;
@@ -158,5 +166,4 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         return false;
-    }
-}
+    } }

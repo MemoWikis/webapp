@@ -8,32 +8,12 @@ internal class UpdateToVs267
     {
         nhibernateSession
             .CreateSQLQuery(
-                @"ALTER TABLE questionview DROP FOREIGN KEY FK_WidgetView;"
+                @"ALTER TABLE relatedcategoriestorelatedcategories ADD Previous_id INT NULL;"
             ).ExecuteUpdate();
 
         nhibernateSession
             .CreateSQLQuery(
-                @"DROP TABLE widgetview;"
-            ).ExecuteUpdate();
-
-        nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE useractivity DROP COLUMN Date_id DROP COLUMN Gamer_id DROP COLUMN Set_id;"
-            ).ExecuteUpdate();
-
-        nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE questionview DROP COLUMN Round_id DROP COLUMN WidgetView_id DROP COLUMN Planer_id;"
-            ).ExecuteUpdate();
-
-       nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE message DROP COLUMN TrainingDate_id;"
-            ).ExecuteUpdate();
-
-       nhibernateSession
-            .CreateSQLQuery(
-                @"ALTER TABLE learningsession DROP COLUMN DateToLearn_id DROP COLUMN SetToLearn_id;"
+                @"ALTER TABLE relatedcategoriestorelatedcategories ADD Next_id INT NULL;"
             ).ExecuteUpdate();
     }
 }

@@ -118,14 +118,14 @@ const searchTerm = ref('')
 const selectedTopic = ref(null as TopicItem | null)
 const showSelectedTopic = ref(false)
 
-function selectTopic(t: any) {
+function selectTopic(t: TopicItem) {
     showDropdown.value = false
     lockDropdown.value = true
-    searchTerm.value = t.Name
+    searchTerm.value = t.name
     selectedTopic.value = t
-    selectedTopicId.value = t.Id
+    selectedTopicId.value = t.id
     showSelectedTopic.value = true
-    selectedParentInWikiId.value = t.Id;
+    selectedParentInWikiId.value = t.id;
 }
 
 const selectedParentInWikiId = ref(0)
@@ -148,7 +148,7 @@ async function moveTopicToNewParent() {
     const topicData = {
         childId: editTopicRelationStore.childId,
         parentIdToRemove: editTopicRelationStore.topicIdToRemove,
-        parentIdToAdd: selectedTopic.value?.Id
+        parentIdToAdd: selectedTopic.value?.id
     }
 
     const result = await $fetch<FetchResult<any>>('/apiVue/TopicRelationEdit/MoveChild', {
@@ -160,7 +160,7 @@ async function moveTopicToNewParent() {
     })
 
     if (result.success == true) {
-        editTopicRelationStore.parentId = selectedTopic.value?.Id!
+        editTopicRelationStore.parentId = selectedTopic.value?.id!
         editTopicRelationStore.addTopic(editTopicRelationStore.childId)
         editTopicRelationStore.removeTopic(editTopicRelationStore.childId, editTopicRelationStore.topicIdToRemove)
         editTopicRelationStore.showModal = false
@@ -178,6 +178,19 @@ async function moveTopicToNewParent() {
 }
 
 const { $urlHelper } = useNuxtApp()
+
+watch(() => editTopicRelationStore.type, (val) => {
+    if (val == EditTopicRelationType.AddToPersonalWiki && editTopicRelationStore.personalWiki) {
+        selectedTopicId.value = editTopicRelationStore.personalWiki.id
+    }
+})
+
+watch(() => editTopicRelationStore.personalWiki, (val) => {
+    if (val && editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki) {
+        selectedTopicId.value = editTopicRelationStore.personalWiki!.id
+    }
+})
+
 function getAddChildPayload() {
 
     if (editTopicRelationStore.type == EditTopicRelationType.AddChild)
@@ -260,7 +273,7 @@ async function search() {
     })
 
     if (result != null) {
-        topics.value = result.topics.filter(t => t.Id != editTopicRelationStore.parentId)
+        topics.value = result.topics.filter(t => t.id != editTopicRelationStore.parentId)
         totalCount.value = result.topicCount
     }
 }
@@ -268,7 +281,7 @@ async function search() {
 editTopicRelationStore.$onAction(({ name, after }) => {
     after(() => {
         if (name == 'initWikiData' && editTopicRelationStore.personalWiki) {
-            selectedParentInWikiId.value = editTopicRelationStore.personalWiki.Id
+            selectedParentInWikiId.value = editTopicRelationStore.personalWiki.id
         }
     })
 })
@@ -367,20 +380,19 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                 </div>
                 <div>
                     <div class="categorySearchAutocomplete mb-250" v-if="editTopicRelationStore.personalWiki != null"
-                        @click="selectedParentInWikiId = userStore.personalWiki?.Id ?? 0">
+                        @click="selectedParentInWikiId = userStore.personalWiki?.id ?? 0">
                         <div class="searchResultItem"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editTopicRelationStore.personalWiki.Id }">
-                            <img :src="editTopicRelationStore.personalWiki.MiniImageUrl" />
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editTopicRelationStore.personalWiki.id }">
+                            <img :src="editTopicRelationStore.personalWiki.miniImageUrl" />
                             <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.Name }}
+                                <div class="searchResultLabel body-m">{{ editTopicRelationStore.personalWiki.name }}
                                 </div>
-                                <div class="searchResultQuestionCount body-s">{{
-                                    editTopicRelationStore.personalWiki.QuestionCount
-                                }}
-                                    Frage<template
-                                        v-if="editTopicRelationStore.personalWiki.QuestionCount != 1">n</template></div>
+                                <div class="searchResultQuestionCount body-s">
+                                    {{ editTopicRelationStore.personalWiki.questionCount + `
+                                    Frage${editTopicRelationStore.personalWiki.questionCount != 1 ? 'n' : ''}` }}
+                                </div>
                             </div>
-                            <div v-show="selectedParentInWikiId == editTopicRelationStore.personalWiki.Id"
+                            <div v-show="selectedParentInWikiId == editTopicRelationStore.personalWiki.id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
@@ -395,15 +407,16 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                         <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Themen</div>
                         <template v-for="previousTopic in editTopicRelationStore.recentlyUsedRelationTargetTopics">
                             <div class="searchResultItem"
-                                :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousTopic.Id }"
-                                @click="selectedParentInWikiId = previousTopic.Id">
-                                <img :src="previousTopic.ImageUrl" />
+                                :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousTopic.id }"
+                                @click="selectedParentInWikiId = previousTopic.id">
+                                <img :src="previousTopic.imageUrl" />
                                 <div class="searchResultBody">
-                                    <div class="searchResultLabel body-m">{{ previousTopic.Name }}</div>
-                                    <div class="searchResultQuestionCount body-s">{{ previousTopic.QuestionCount }}
-                                        Frage<template v-if="previousTopic.QuestionCount != 1">n</template></div>
+                                    <div class="searchResultLabel body-m">{{ previousTopic.name }}</div>
+                                    <div class="searchResultQuestionCount body-s">{{ previousTopic.questionCount }}
+                                        Frage<template v-if="previousTopic.questionCount != 1">n</template>
+                                    </div>
                                 </div>
-                                <div v-show="selectedParentInWikiId == previousTopic.Id"
+                                <div v-show="selectedParentInWikiId == previousTopic.id"
                                     class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
                                         Ausgewählt
@@ -418,16 +431,16 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                     </div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.Id }"
-                            @click="selectedParentInWikiId = selectedTopic?.Id ?? 0" data-toggle="tooltip"
-                            data-placement="top" :title="selectedTopic?.Name">
-                            <img :src="selectedTopic?.ImageUrl" />
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.id }"
+                            @click="selectedParentInWikiId = selectedTopic?.id ?? 0" data-toggle="tooltip"
+                            data-placement="top" :title="selectedTopic?.name">
+                            <img :src="selectedTopic?.imageUrl" />
                             <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ selectedTopic?.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
-                                    Frage<template v-if="selectedTopic?.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic?.name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.questionCount }}
+                                    Frage<template v-if="selectedTopic?.questionCount != 1">n</template></div>
                             </div>
-                            <div v-show="selectedParentInWikiId == selectedTopic.Id"
+                            <div v-show="selectedParentInWikiId == selectedTopic.id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
@@ -435,7 +448,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                 </div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.TopicInWiki" :show-search="true" v-on:select-item="selectTopic"
+                        <Search :search-type="SearchType.topicInWiki" :show-search="true" v-on:select-item="selectTopic"
                             :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
 
                         <div class="swap-type-target">
@@ -443,7 +456,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                 <label>
                                     <div class="checkbox-container">
                                         <input type="checkbox" name="addToParent" class="hidden" />
-                                        <font-awesome-icon icon="fa-solid fa-square-check" class="checkbox-icon active" />
+                                        <font-awesome-icon icon="fa-solid fa-square-check"
+                                            class="checkbox-icon active" />
                                         <span class="checkbox-label">
                                             Nur im eigenen Wiki suchen
                                         </span>
@@ -457,7 +471,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
 
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}
+                    </NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>
@@ -468,15 +483,15 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                 <div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
-                            data-toggle="tooltip" data-placement="top" :title="selectedTopic.Name">
-                            <img :src="selectedTopic.ImageUrl" />
+                            data-toggle="tooltip" data-placement="top" :title="selectedTopic.name">
+                            <img :src="selectedTopic.imageUrl" />
                             <div>
-                                <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
-                                    Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic.name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.questionCount }}
+                                    Frage<template v-if="selectedTopic.questionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic"
+                        <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectTopic"
                             :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
 
                         <div class="swap-type-target">
@@ -495,7 +510,8 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}
+                    </NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>
@@ -503,20 +519,21 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                 <div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
-                            data-toggle="tooltip" data-placement="top" :title="selectedTopic.Name">
-                            <img :src="selectedTopic.ImageUrl" />
+                            data-toggle="tooltip" data-placement="top" :title="selectedTopic.name">
+                            <img :src="selectedTopic.imageUrl" />
                             <div>
-                                <div class="searchResultLabel body-m">{{ selectedTopic.Name }}</div>
-                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.QuestionCount }}
-                                    Frage<template v-if="selectedTopic.QuestionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ selectedTopic.name }}</div>
+                                <div class="searchResultQuestionCount body-s">{{ selectedTopic.questionCount }}
+                                    Frage<template v-if="selectedTopic.questionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.Topic" :show-search="true" v-on:select-item="selectTopic"
+                        <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectTopic"
                             :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">
-                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}</NuxtLink>
+                    <NuxtLink :to="existingTopicUrl" target="_blank" class="alert-link">{{ forbiddenTopicName }}
+                    </NuxtLink>
                     {{ errorMsg }}
                 </div>
             </template>

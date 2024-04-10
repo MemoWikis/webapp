@@ -13,7 +13,9 @@ using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using Stripe;
 using TrueOrFalse.Environment;
+using TrueOrFalse.Updates;
 using static System.Int32;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +34,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
 });
 
@@ -104,6 +106,9 @@ if (string.IsNullOrEmpty(env.WebRootPath))
 {
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
+
+var update = app.Services.GetRequiredService<Update>();
+update.Run();
 
 StripeConfiguration.ApiKey = Settings.StripeSecurityKey;
 Console.WriteLine("StripeKey: " + Settings.StripeSecurityKey);

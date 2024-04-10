@@ -11,10 +11,10 @@ export const useRootTopicChipStore = defineStore('rootTopicChipStore', {
     },
     actions: {
         setRootTopicData(topic: Topic) {
-            this.name = topic.Name
-            this.id = topic.Id
-            if (topic.ImageUrl.length > 0)
-                this.imgUrl = topic.ImageUrl
+            this.name = topic.name
+            this.id = topic.id
+            if (topic.imageUrl.length > 0)
+                this.imgUrl = topic.imageUrl
         }
     }
 })

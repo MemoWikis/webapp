@@ -221,19 +221,6 @@ public class QuestionCacheItem
         return questions.Select(q => ToCacheQuestion(q));
     }
 
-    public virtual string ToLomXml(CategoryRepository categoryRepository,
-        IActionContextAccessor contextAccessor,
-        IHttpContextAccessor httContextAccessor,
-        IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        return LomXml.From(this,
-            categoryRepository,
-            httContextAccessor,
-            actionContextAccessor,
-            webHostEnvironment);
-    }
-
     public virtual int TotalAnswers()
     {
         return TotalFalseAnswers + TotalTrueAnswers;
@@ -301,7 +288,7 @@ public class QuestionCacheItem
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
     }
-    public virtual bool IsCreator(int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public virtual bool IsCreator(int userId)
     {
         return userId == Creator?.Id;
     }

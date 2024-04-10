@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import { useDragStore } from '~/components/shared/dragStore'
 
+const dragStore = useDragStore()
 interface Props {
     solution: string
     showAnswer: boolean
@@ -17,7 +19,7 @@ interface Element {
 interface Solution {
     Pairs: Pair[]
     RightElements: Element[]
-    IsSolutionOrdered: boolean
+    isSolutionOrdered: boolean
 }
 onBeforeMount(() => {
     const solution: Solution = JSON.parse(props.solution)
@@ -59,18 +61,17 @@ function onDragLeave() {
 }
 function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
-    const e = event.dataTransfer.getData('value')
-    if (index != null) {
-        pairs.value[index].ElementRight.Text = e
+    if (index != null && typeof dragStore.transferData == 'string') {
+        pairs.value[index].ElementRight.Text = dragStore.transferData
         temp.value = null
     }
     if (movingAnswerIndex.value != null) {
         pairs.value[movingAnswerIndex.value].ElementRight.Text = ''
         movingAnswerIndex.value = null
     }
-
-    isDroppableItemActive.value = false
     dragStarted.value = false
+    dragStore.dragEnd()
+    isDroppableItemActive.value = false
 }
 
 const hover = ref<number | null>(null)
@@ -123,7 +124,7 @@ function handleDragEnd(i: number) {
     movingAnswerIndex.value = null
     dragStarted.value = false
 }
-</script>   
+</script>
 
 <template>
     <div class="row" id="MatchlistAnswerbody">
@@ -149,9 +150,9 @@ function handleDragEnd(i: number) {
                 </div>
                 <div class="col-sm-12">
                     <div class="row">
-                        <div id="matchlist-rightelements row">
-                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text"
-                                class="draggable-element col-xs-6" @dragstart="dragStart(e.Text)">
+                        <div id="matchlist-rightelements">
+                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text" class="draggable-element"
+                                @dragstart="dragStart(e.Text)">
                                 <div class="drag">
                                     {{ e.Text }}
                                 </div>
@@ -225,6 +226,7 @@ function handleDragEnd(i: number) {
 
 .draggable-element {
     margin: 4px;
+    width: 160px;
 }
 
 .drag {
@@ -279,5 +281,9 @@ function handleDragEnd(i: number) {
         background: lightblue;
         border: solid 1px grey;
     }
+}
+
+#matchlist-rightelements {
+    justify-content: flex-start;
 }
 </style>
