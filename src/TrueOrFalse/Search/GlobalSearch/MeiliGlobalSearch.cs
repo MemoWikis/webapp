@@ -28,13 +28,14 @@ public class MeiliGlobalSearch : IGlobalSearch
         return result;
     }
 
-    public async Task<GlobalSearchResult> GoAllCategories(
+    public async Task<GlobalSearchResult> GoAllCategoriesAsync(
         string term,
         int[] categoriesToFilter = null)
     {
         var result = new GlobalSearchResult();
         result.CategoriesResult =
-            await new MeiliSearchCategories(_permissionCheck, 10).RunAsync(term);
+            await new MeiliSearchCategories(_permissionCheck, 10).RunAsync(term)
+                .ConfigureAwait(false);
         return result;
     }
 

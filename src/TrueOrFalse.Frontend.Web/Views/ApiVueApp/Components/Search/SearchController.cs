@@ -7,18 +7,18 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp
 {
-    public class SearchController(IGlobalSearch _search,
+    public class SearchController(
+        IGlobalSearch _search,
         SessionUser _sessionUser,
         PermissionCheck _permissionCheck,
         ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
         IHttpContextAccessor _httpContextAccessor,
         QuestionReadingRepo _questionReadingRepo) : Controller
     {
-
         public readonly record struct SearchAllJson(string term);
 
         public readonly record struct AllJson(
-           List<SearchTopicItem> Topics,
+            List<SearchTopicItem> Topics,
             int TopicCount,
             List<SearchQuestionItem> Questions,
             int QuestionCount,
@@ -39,15 +39,16 @@ namespace VueApp
                 _questionReadingRepo);
 
             if (elements.Categories.Any())
-                searchHelper.AddTopicItems(topicItems, elements, _permissionCheck, _sessionUser.UserId);
+                searchHelper.AddTopicItems(topicItems, elements, _permissionCheck,
+                    _sessionUser.UserId);
 
             if (elements.Questions.Any())
-                searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck, _questionReadingRepo);
+                searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck,
+                    _questionReadingRepo);
 
             if (elements.Users.Any())
                 searchHelper.AddUserItems(userItems, elements);
             var result = new AllJson(
-            
                 Topics: topicItems,
                 TopicCount: elements.CategoriesResultCount,
                 Questions: questionItems,
@@ -59,18 +60,24 @@ namespace VueApp
 
             return result;
         }
+
         public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
-        public readonly record struct TopicInPersonalWikiJson(List<SearchTopicItem> Topics, int TotalCount);
+
+        public readonly record struct TopicInPersonalWikiJson(
+            List<SearchTopicItem> Topics,
+            int TotalCount);
+
         [HttpPost]
         public async Task<TopicInPersonalWikiJson> Topic([FromBody] SearchTopicJson json)
         {
             var items = new List<SearchTopicItem>();
-            var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
+            var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
 
             if (elements.Categories.Any())
                 new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
-                    _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
+                    _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck,
+                    _sessionUser.UserId);
 
             return new
             (
@@ -79,13 +86,12 @@ namespace VueApp
             );
         }
 
-
-       
         [HttpPost]
-        public async Task<TopicInPersonalWikiJson> TopicInPersonalWiki([FromBody] SearchTopicJson json)
+        public async Task<TopicInPersonalWikiJson> TopicInPersonalWiki(
+            [FromBody] SearchTopicJson json)
         {
             var items = new List<SearchTopicItem>();
-            var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
+            var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
 
             if (elements.Categories.Any())
                 new SearchHelper(_imageMetaDataReadingRepo,

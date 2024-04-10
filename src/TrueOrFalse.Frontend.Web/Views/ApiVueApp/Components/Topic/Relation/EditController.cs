@@ -25,38 +25,40 @@ namespace VueApp
         public readonly record struct ValidateNameParam(string Name);
 
         [HttpPost]
-        public JsonResult ValidateName([FromBody] ValidateNameParam param)
+        public ValidateNameResult ValidateName([FromBody] ValidateNameParam param)
         {
             var data = ValidateName(param.Name);
-            return Json(data);
+            return data;
         }
 
         public readonly record struct QuickCreateParam(string Name, int ParentTopicId);
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult QuickCreate([FromBody] QuickCreateParam param)
+        public CategoryCreator.CreateResult QuickCreate([FromBody] QuickCreateParam param)
         {
             var data = _categoryCreator.Create(param.Name, param.ParentTopicId, _sessionUser);
-            return Json(data);
+            return data;
         }
 
         public readonly record struct SearchParam(string term, int[] topicIdsToFilter);
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public async Task<JsonResult> SearchTopic([FromBody] SearchParam param)
+        public async Task<SearchTopicResult> SearchTopicAsync([FromBody] SearchParam param)
         {
-            var data = SearchTopic(param.term, param.topicIdsToFilter);
-            return Json(data);
+            var data = await SearchTopicAsync(param.term, param.topicIdsToFilter)
+                .ConfigureAwait(false);
+            return data;
         }
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public async Task<JsonResult> SearchTopicInPersonalWiki([FromBody] SearchParam param)
+        public async Task<SearchTopicInPersonalWikiResult> SearchTopicInPersonalWiki(
+            [FromBody] SearchParam param)
         {
-            var data = SearchTopicInPersonalWiki(param.term, param.topicIdsToFilter);
-            return Json(data);
+            var data = await SearchTopicInPersonalWikiAsync(param.term, param.topicIdsToFilter);
+            return data;
         }
 
         public readonly record struct MoveChildParam(
@@ -66,11 +68,11 @@ namespace VueApp
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult MoveChild([FromBody] MoveChildParam param)
+        public ChildModifierResult MoveChild([FromBody] MoveChildParam param)
         {
             var data = MoveChild(param.childId, param.parentIdToRemove,
                 param.parentIdToAdd);
-            return Json(data);
+            return data;
         }
 
         public readonly record struct AddChildParam(
@@ -81,7 +83,7 @@ namespace VueApp
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult AddChild([FromBody] AddChildParam param)
+        public ChildModifierResult AddChild([FromBody] AddChildParam param)
         {
             var data =
                 new ChildModifier(_permissionCheck,
@@ -97,7 +99,7 @@ namespace VueApp
                         param.ParentIdToRemove,
                         param.AddIdToWikiHistory);
 
-            return Json(data);
+            return data;
         }
 
         public readonly record struct RemoveParentParam(
@@ -107,7 +109,7 @@ namespace VueApp
 
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public JsonResult RemoveParent([FromBody] RemoveParentParam param)
+        public ChildModifierResult RemoveParent([FromBody] RemoveParentParam param)
         {
             var data = new ChildModifier(_permissionCheck,
                     _sessionUser,
@@ -120,19 +122,20 @@ namespace VueApp
                     param.parentIdToRemove,
                     param.childId,
                     param.affectedParentIdsByMove);
-            return Json(data);
+            return data;
         }
 
         public readonly record struct SearchTopicResult(
             int TotalCount,
             List<SearchTopicItem> Topics);
 
-        private async Task<SearchTopicResult> SearchTopic(
+        private async Task<SearchTopicResult> SearchTopicAsync(
             string term,
             int[] topicIdsToFilter = null)
         {
             var items = new List<SearchTopicItem>();
-            var elements = await _search.GoAllCategories(term, topicIdsToFilter);
+            var elements = await _search.GoAllCategoriesAsync(term, topicIdsToFilter)
+                .ConfigureAwait(false);
 
             if (elements.Categories.Any())
                 new SearchHelper(_imageMetaDataReadingRepo,
@@ -151,12 +154,14 @@ namespace VueApp
             int TotalCount,
             List<SearchTopicItem> Topics);
 
-        private async Task<SearchTopicInPersonalWikiResult> SearchTopicInPersonalWiki(
+        private async Task<SearchTopicInPersonalWikiResult> SearchTopicInPersonalWikiAsync(
             string term,
             int[] topicIdsToFilter = null)
         {
             var items = new List<SearchTopicItem>();
-            var elements = await _search.GoAllCategories(term, topicIdsToFilter);
+            var elements = await _search
+                .GoAllCategoriesAsync(term, topicIdsToFilter)
+                .ConfigureAwait(false);
 
             if (elements.Categories.Any())
                 new SearchHelper(_imageMetaDataReadingRepo,

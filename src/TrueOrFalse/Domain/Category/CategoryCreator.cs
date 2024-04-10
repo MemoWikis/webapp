@@ -1,14 +1,15 @@
-﻿using TrueOrFalse.Utilities.ScheduledJobs;
-
-public class CategoryCreator : IRegisterAsInstancePerLifetime
+﻿public class CategoryCreator : IRegisterAsInstancePerLifetime
 {
     private readonly Logg _logg;
     private readonly CategoryRepository _categoryRepository;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly CategoryRelationRepo _categoryRelationRepo;
 
-
-    public CategoryCreator(Logg logg, CategoryRepository categoryRepository, UserReadingRepo userReadingRepo, CategoryRelationRepo categoryRelationRepo)
+    public CategoryCreator(
+        Logg logg,
+        CategoryRepository categoryRepository,
+        UserReadingRepo userReadingRepo,
+        CategoryRelationRepo categoryRelationRepo)
     {
         _logg = logg;
         _categoryRepository = categoryRepository;
@@ -16,17 +17,24 @@ public class CategoryCreator : IRegisterAsInstancePerLifetime
         _categoryRelationRepo = categoryRelationRepo;
     }
 
-    public RequestResult Create(string name, int parentTopicId, SessionUser sessionUser)
+    public readonly record struct CreateResult(
+        bool Success,
+        string MessageKey,
+        TinyTopicItem Data);
+
+    public readonly record struct TinyTopicItem(bool CantSavePrivateTopic, string Name, int Id);
+
+    public CreateResult Create(string name, int parentTopicId, SessionUser sessionUser)
     {
         if (!new LimitCheck(_logg, sessionUser).CanSavePrivateTopic(true))
         {
-            return new RequestResult
+            return new CreateResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                Data = new
+                Data = new TinyTopicItem
                 {
-                    cantSavePrivateTopic = true
+                    CantSavePrivateTopic = true
                 }
             };
         }
@@ -38,16 +46,17 @@ public class CategoryCreator : IRegisterAsInstancePerLifetime
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
 
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
         modifyRelationsForCategory.AddChild(parentTopicId, topic.Id);
-        
-        return new RequestResult
+
+        return new CreateResult
         {
             Success = true,
-            Data = new
+            Data = new TinyTopicItem
             {
-                name = topic.Name,
-                id = topic.Id
+                Name = topic.Name,
+                Id = topic.Id
             }
         };
     }
