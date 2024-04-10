@@ -4,53 +4,22 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using ISession = NHibernate.ISession;
 
 namespace VueApp;
 
-public class HistoryTopicDetailController : BaseController
+public class HistoryTopicDetailController(
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser,
+    RestoreCategory _restoreCategory,
+    CategoryChangeRepo _categoryChangeRepo,
+    CategoryRepository _categoryRepository,
+    SessionUserCache _sessionUserCache,
+    IHttpContextAccessor _httpContextAccessor,
+    IWebHostEnvironment _webHostEnvironment,
+    IActionContextAccessor _actionContextAccessor,
+    QuestionReadingRepo _questionReadingRepo,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo) : Controller
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly RestoreCategory _restoreCategory;
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-
-    public HistoryTopicDetailController(
-        PermissionCheck permissionCheck,
-        ISession nhibernatesession,
-        SessionUser sessionUser,
-        RestoreCategory restoreCategory,
-        CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        CategoryRepository categoryRepository,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor,
-        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
-    {
-        _permissionCheck = permissionCheck;
-        _sessionUser = sessionUser;
-        _restoreCategory = restoreCategory;
-        _categoryChangeRepo = categoryChangeRepo;
-        _categoryRepository = categoryRepository;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _actionContextAccessor = actionContextAccessor;
-        _questionReadingRepo = questionReadingRepo;
-    }
-
     [HttpGet]
     public ChangeDetailResult Get(
         [FromQuery] int topicId,
