@@ -21,7 +21,8 @@ public class HistoryTopicDetailController : BaseController
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public HistoryTopicDetailController(PermissionCheck permissionCheck,
+    public HistoryTopicDetailController(
+        PermissionCheck permissionCheck,
         ISession nhibernatesession,
         SessionUser sessionUser,
         RestoreCategory restoreCategory,
@@ -51,9 +52,12 @@ public class HistoryTopicDetailController : BaseController
     }
 
     [HttpGet]
-    public JsonResult Get([FromQuery]int topicId, int currentRevisionId, int firstEditId = 0)
+    public ChangeDetailResult Get(
+        [FromQuery] int topicId,
+        int currentRevisionId,
+        int firstEditId = 0)
     {
-        if(!_permissionCheck.CanViewCategory(topicId))
+        if (!_permissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
 
         var listWithAllVersions = _categoryChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
@@ -61,7 +65,9 @@ public class HistoryTopicDetailController : BaseController
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == currentRevisionId);
 
-        var previousRevision = firstEditId <= 0 ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId) : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
+        var previousRevision = firstEditId <= 0
+            ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId)
+            : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
 
         if (currentRevision.Category.Id != previousRevision.Category.Id)
             throw new Exception("different topic ids");
@@ -92,7 +98,7 @@ public class HistoryTopicDetailController : BaseController
             previousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
             authorName = currentAuthor.Name,
             authorId = currentAuthor.Id,
-            authorImgUrl = new UserImageSettings(currentAuthor.Id, 
+            authorImgUrl = new UserImageSettings(currentAuthor.Id,
                     _httpContextAccessor)
                 .GetUrl_20px_square(currentAuthor)
                 .Url
@@ -134,10 +140,10 @@ public class HistoryTopicDetailController : BaseController
             result.previousRelations = topicHistoryDetailModel.PrevRelations;
         }
 
-        return Json(result);
+        return result;
     }
 
-    class ChangeDetailResult
+    public class ChangeDetailResult
     {
         public string topicName { get; set; }
         public bool imageWasUpdated { get; set; }
@@ -160,11 +166,12 @@ public class HistoryTopicDetailController : BaseController
         public string previousRelations { get; set; }
         public string currentDescription { get; set; }
         public string previousDescription { get; set; }
-
     }
 
-
-    public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(int categoryId, int firstEditId, int selectedRevId)
+    public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(
+        int categoryId,
+        int firstEditId,
+        int selectedRevId)
     {
         var listWithAllVersions = _categoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
@@ -192,9 +199,11 @@ public class HistoryTopicDetailController : BaseController
     public void RestoreTopic(int topicChangeId)
     {
         var topicChange = _categoryChangeRepo.GetByIdEager(topicChangeId);
-        var isCorrectType = topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
+        var isCorrectType =
+            topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
 
-        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) || !_permissionCheck.CanEditCategory(topicChange.Category.Id))
+        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) ||
+            !_permissionCheck.CanEditCategory(topicChange.Category.Id))
             throw new Exception("not allowed");
 
         _restoreCategory.Run(topicChangeId, _sessionUser.User);
