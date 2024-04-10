@@ -3,17 +3,11 @@ using Microsoft.AspNetCore.Http;
 
 public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
-    public readonly IHttpContextAccessor _httpContextAccessor;
-    public readonly IWebHostEnvironment _webHostEnvironment;
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
 
-    public PermissionCheck(SessionUser sessionUser,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public PermissionCheck(SessionUser sessionUser)
     {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
     }
@@ -154,7 +148,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (question == null)
             return false;
 
-        if (question.IsCreator(_userId, _httpContextAccessor, _webHostEnvironment) || _isInstallationAdmin)
+        if (question.IsCreator(_userId) || _isInstallationAdmin)
             return false;
 
         return false;

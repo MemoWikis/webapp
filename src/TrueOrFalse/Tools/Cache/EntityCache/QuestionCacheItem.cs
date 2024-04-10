@@ -288,7 +288,7 @@ public class QuestionCacheItem
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
     }
-    public virtual bool IsCreator(int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+    public virtual bool IsCreator(int userId)
     {
         return userId == Creator?.Id;
     }
