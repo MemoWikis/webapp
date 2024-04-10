@@ -1,42 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Exception = System.Exception;
 
 namespace VueApp;
 
-public class EditTopicRelationStoreController : BaseController
+public class EditTopicRelationStoreController(
+    SessionUser _sessionUser,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo,
+    PermissionCheck _permissionCheck,
+    CategoryRepository _categoryRepository,
+    CategoryRelationRepo _categoryRelationRepo,
+    UserWritingRepo _userWritingRepo,
+    IWebHostEnvironment _webHostEnvironment) : Controller
 {
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly EditControllerLogic _editControllerLogic;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
-
-    public EditTopicRelationStoreController(SessionUser sessionUser,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        EditControllerLogic editControllerLogic,
-        QuestionReadingRepo questionReadingRepo,
-        PermissionCheck permissionCheck, CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo) : base(sessionUser)
-    {
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _editControllerLogic = editControllerLogic;
-        _questionReadingRepo = questionReadingRepo;
-        _permissionCheck = permissionCheck;
-        _categoryRepository = categoryRepository;
-        _categoryRelationRepo = categoryRelationRepo;
-    }
-
     public record struct PersonalWikiData(
         SearchTopicItem PersonalWiki,
         SearchTopicItem[] RecentlyUsedRelationTargetTopics);
 
-    public record struct GetPersonalWikiDataResult(bool Success, string MessageKey, PersonalWikiData? Data);
+    public record struct GetPersonalWikiDataResult(
+        bool Success,
+        string MessageKey,
+        PersonalWikiData? Data);
+
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public GetPersonalWikiDataResult GetPersonalWikiData([FromRoute] int id)
@@ -52,18 +42,19 @@ public class EditTopicRelationStoreController : BaseController
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .FillSearchTopicItem(personalWiki, UserId);
+            .FillSearchTopicItem(personalWiki, _sessionUser.UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchTopicItem>();
 
-        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null &&
+            _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
             foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
                 var topicCacheItem = EntityCache.GetCategory(topicId);
                 recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
-                    _httpContextAccessor,
-                    _questionReadingRepo)
-                    .FillSearchTopicItem(topicCacheItem, UserId));
+                        _httpContextAccessor,
+                        _questionReadingRepo)
+                    .FillSearchTopicItem(topicCacheItem, _sessionUser.UserId));
             }
         }
 
@@ -79,24 +70,34 @@ public class EditTopicRelationStoreController : BaseController
     }
 
     public readonly record struct RemoveTopicsJson(int parentId, int[] childIds);
+
+    public readonly record struct RemoveTopicsResult(bool Success, List<int> Data);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveTopics([FromBody] RemoveTopicsJson json)
+    public RemoveTopicsResult RemoveTopics([FromBody] RemoveTopicsJson json)
     {
         var removedChildrenIds = new List<int>();
 
         foreach (var childId in json.childIds)
         {
-            var result = _editControllerLogic.RemoveParent(json.parentId, childId);
+            var result = new ChildModifier(
+                _permissionCheck,
+                _sessionUser,
+                _categoryRepository,
+                _userWritingRepo,
+                _httpContextAccessor,
+                _webHostEnvironment,
+                _categoryRelationRepo).RemoveParent(json.parentId, childId);
             if (result.Success)
                 removedChildrenIds.Add(childId);
         }
 
-        return Json(new RequestResult
+        return new RemoveTopicsResult
         {
             Success = true,
             Data = removedChildrenIds
-        });
+        };
     }
 
     public enum TargetPosition
@@ -106,8 +107,19 @@ public class EditTopicRelationStoreController : BaseController
         Inner,
         None
     }
-    public readonly record struct MoveTopicJson(int movingTopicId, int targetId, TargetPosition position, int newParentId, int oldParentId);
-    public readonly record struct MoveTopicResult(int oldParentId, int newParentId, MoveTopicJson undoMove);
+
+    public readonly record struct MoveTopicJson(
+        int movingTopicId,
+        int targetId,
+        TargetPosition position,
+        int newParentId,
+        int oldParentId);
+
+    public readonly record struct MoveTopicResult(
+        int oldParentId,
+        int newParentId,
+        MoveTopicJson undoMove);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public MoveTopicResult MoveTopic([FromBody] MoveTopicJson json)
@@ -121,96 +133,128 @@ public class EditTopicRelationStoreController : BaseController
         if (json.movingTopicId == json.newParentId)
             throw new Exception("CircularReference");
 
-        var relationToMove = EntityCache.GetCategory(json.oldParentId)?.ChildRelations.FirstOrDefault(r => r.ChildId == json.movingTopicId);
+        var relationToMove = EntityCache.GetCategory(json.oldParentId)?.ChildRelations
+            .FirstOrDefault(r => r.ChildId == json.movingTopicId);
 
         if (relationToMove == null)
             throw new Exception("NoRelationToMove");
 
-        var undoMoveTopicData = GetUndoMoveTopicData(relationToMove, json.newParentId, json.targetId);
+        var undoMoveTopicData =
+            GetUndoMoveTopicData(relationToMove, json.newParentId, json.targetId);
 
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
         if (json.position == TargetPosition.Before)
-            ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId,
+            ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId,
+                _sessionUser.UserId,
                 modifyRelationsForCategory);
         else if (json.position == TargetPosition.After)
-            ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
+            ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId,
+                _sessionUser.UserId, modifyRelationsForCategory);
         else if (json.position == TargetPosition.Inner)
-            ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
+            ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId,
+                modifyRelationsForCategory, _permissionCheck);
         else if (json.position == TargetPosition.None)
-                throw new Exception("NoPosition");
+            throw new Exception("NoPosition");
 
         return new MoveTopicResult(json.oldParentId, json.newParentId, undoMoveTopicData);
     }
 
-    private MoveTopicJson GetUndoMoveTopicData(CategoryCacheRelation relation, int newParentId, int targetId)
+    private MoveTopicJson GetUndoMoveTopicData(
+        CategoryCacheRelation relation,
+        int newParentId,
+        int targetId)
     {
-        if (relation.PreviousId != null && _permissionCheck.CanViewCategory((int)relation.PreviousId))
-            return new MoveTopicJson(relation.ChildId, (int)relation.PreviousId, TargetPosition.After, relation.ParentId,
+        if (relation.PreviousId != null &&
+            _permissionCheck.CanViewCategory((int)relation.PreviousId))
+            return new MoveTopicJson(relation.ChildId, (int)relation.PreviousId,
+                TargetPosition.After, relation.ParentId,
                 newParentId);
 
         if (relation.NextId != null && _permissionCheck.CanViewCategory((int)relation.NextId))
-            return new MoveTopicJson(relation.ChildId, (int)relation.NextId, TargetPosition.Before, relation.ParentId,
+            return new MoveTopicJson(relation.ChildId, (int)relation.NextId, TargetPosition.Before,
+                relation.ParentId,
                 newParentId);
-        
-        return new MoveTopicJson(relation.ChildId, relation.ParentId, TargetPosition.Inner, targetId, targetId);
+
+        return new MoveTopicJson(relation.ChildId, relation.ParentId, TargetPosition.Inner,
+            targetId, targetId);
     }
+
+    public readonly record struct PersonalWikiResult(
+        bool Success,
+        ChildModifier.ChildModifierResult Data,
+        string MessageKey);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult AddToPersonalWiki([FromRoute] int id)
+    public PersonalWikiResult AddToPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
         if (personalWiki == null)
-            return Json(new RequestResult
+            return new PersonalWikiResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
-            });
+            };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId == id))
         {
-            return Json(new RequestResult
+            return new PersonalWikiResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
-            });
+            };
         }
 
-        return Json(new RequestResult
+        return new PersonalWikiResult
         {
             Success = true,
-            Data = _editControllerLogic.AddChild(id, personalWiki.Id)
-        });
+            Data = new ChildModifier(_permissionCheck,
+                    _sessionUser,
+                    _categoryRepository,
+                    _userWritingRepo,
+                    _httpContextAccessor,
+                    _webHostEnvironment,
+                    _categoryRelationRepo)
+                .AddChild(id, personalWiki.Id)
+        };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RemoveFromPersonalWiki([FromRoute] int id)
+    public PersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
         if (personalWiki == null)
-            return Json(new RequestResult
+            return new PersonalWikiResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
-            });
+            };
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId != id))
         {
-            return Json(new RequestResult
+            return new PersonalWikiResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.IsNotAChild
-            });
+            };
         }
 
-        return Json(new RequestResult
+        return new PersonalWikiResult
         {
             Success = true,
-            Data = _editControllerLogic.RemoveParent(personalWiki.Id, id)
-        });
+            Data = new ChildModifier(_permissionCheck,
+                    _sessionUser,
+                    _categoryRepository,
+                    _userWritingRepo,
+                    _httpContextAccessor,
+                    _webHostEnvironment,
+                    _categoryRelationRepo)
+                .RemoveParent(personalWiki.Id, id)
+        };
     }
 }
