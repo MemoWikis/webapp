@@ -2,6 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /source
 
+# Check .NET Core SDK version
+RUN dotnet --info
+
 # Copy csproj and restore as distinct layers
 COPY TrueOrFalse/*.csproj TrueOrFalse/
 COPY TrueOrFalse.Frontend.Web/*.csproj TrueOrFalse.Frontend.Web/
