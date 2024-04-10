@@ -14,11 +14,12 @@ public class LimitCheck
         _sessionUser = sessionUser;
     }
 
+    public readonly record struct BasicLimits(
+        int MaxPrivateTopicCount,
+        int MaxPrivateQuestionCount,
+        int MaxWishknowledgeCount,
+        bool TestToBeDeleted = true);
 
-    public readonly record struct BasicLimits(int MaxPrivateTopicCount,
-    int MaxPrivateQuestionCount,
-    int MaxWishknowledgeCount,
-    bool TestToBeDeleted = true);
     public static BasicLimits GetBasicLimits()
     {
         return new BasicLimits
@@ -35,13 +36,13 @@ public class LimitCheck
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
-        
+
         var withinLimit = _sessionUser.User.WishCountQuestions < _wishCountKnowledge;
 
         if (!withinLimit && logExceedance)
         {
             LogExceededLimit("question in wishknowledge", _logg);
-    	}
+        }
 
         return withinLimit;
     }
@@ -51,7 +52,8 @@ public class LimitCheck
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
             return true;
 
-        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() < _privateQuestionsQuantity;
+        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() <
+                          _privateQuestionsQuantity;
 
         if (!withinLimit && logExceedance)
         {
@@ -59,7 +61,6 @@ public class LimitCheck
         }
 
         return withinLimit;
-
     }
 
     public bool CanSavePrivateTopic(bool logExceedance = false)
@@ -67,8 +68,9 @@ public class LimitCheck
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
-        
-        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() < _privateTopicsQuantity;
+
+        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() <
+                          _privateTopicsQuantity;
 
         if (!withinLimit && logExceedance)
         {
