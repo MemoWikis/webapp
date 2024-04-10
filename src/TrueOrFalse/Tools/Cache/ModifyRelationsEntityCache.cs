@@ -213,7 +213,7 @@ public class ModifyRelationsEntityCache
             PreviousId = insertAfter ? targetTopicId : null,
             NextId = !insertAfter ? targetTopicId : null,
         };
-        var targetPosition = relations.FindIndex(n => n.ChildId == targetTopicId);
+        var targetPosition = relations.FindIndex(r => r.ChildId == targetTopicId);
         if (targetPosition == -1)
         {
             throw new InvalidOperationException("Target node not found in the order.");

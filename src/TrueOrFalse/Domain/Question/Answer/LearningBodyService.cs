@@ -49,7 +49,7 @@ public class LearningBodyService(
     {
         var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.Steps.Count == 0)
+        if (learningSession == null || learningSession.Steps.Count == 0)
             return null;
         var step = learningSession.Steps[index];
 
