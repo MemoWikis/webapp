@@ -15,7 +15,7 @@ RUN dotnet restore TrueOrFalse.Frontend.Web/TrueOrFalse.Frontend.Web.csproj
 COPY TrueOrFalse/ TrueOrFalse/
 COPY TrueOrFalse.Frontend.Web/ TrueOrFalse.Frontend.Web
 WORKDIR /source/TrueOrFalse.Frontend.Web
-RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -c Release -o /app
+RUN dotnet publish TrueOrFalse.Frontend.Web.csproj --no-restore -c Release -o /app -p:LangVersion=12.0
 
 # Second stage: build the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
