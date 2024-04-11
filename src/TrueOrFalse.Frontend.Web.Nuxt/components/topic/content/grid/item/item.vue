@@ -34,6 +34,7 @@ watch(() => props.topic.id, async () => {
     children.value = []
     if (childrenLoaded.value)
         await loadChildren(true)
+    expanded.value = false
 })
 
 watch(() => props.toggleState, (state) => {
