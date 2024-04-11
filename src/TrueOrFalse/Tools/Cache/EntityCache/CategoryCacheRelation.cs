@@ -75,7 +75,7 @@ public class CategoryCacheRelation : IPersistable
 
         if (sortedList.Count < childRelations.Count)
         {
-            Logg.r.Error("CategoryRelations - Sort Fail - Id:{0}", topicId);
+            Logg.r.Error("CategoryRelations - Sort: Fail - Id:{0}", topicId);
 
             foreach (var r in childRelations)
             {
