@@ -71,17 +71,28 @@ public class CategoryCacheRelation : IPersistable
             addedRelationIds.Add(current.Id);
 
             current = childRelations.FirstOrDefault(x => x.ChildId == current.NextId);
+
+            if (sortedList.Count >= childRelations.Count && current != null)
+            {
+                Logg.r.Error("CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}", topicId);
+                break;
+            }
         }
 
         if (sortedList.Count < childRelations.Count)
         {
-            Logg.r.Error("CategoryRelations - Sort: Fail - Id:{0}", topicId);
+            Logg.r.Error("CategoryRelations - Sort: Broken Link Start - TopicId:{0}, RelationId:{1}", topicId, sortedList.LastOrDefault()?.Id);
 
             foreach (var r in childRelations)
             {
                 if (!addedRelationIds.Contains(r.Id))
+                {
                     sortedList.Add(r);
+                    Logg.r.Error("CategoryRelations - Sort: Broken Link - TopicId:{0}, RelationId:{1}", topicId, r.Id);
+                }
             }
+
+            Logg.r.Error("CategoryRelations - Sort: Broken Link End - TopicId:{0}", topicId);
         }
 
         return sortedList;
