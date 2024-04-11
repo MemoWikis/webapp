@@ -39,7 +39,7 @@ public class VueUserController(
         int PublicWishknowledges);
 
     [HttpGet]
-    public JsonResult Get([FromRoute] int id)
+    public GetResult? Get([FromRoute] int id)
     {
         var user = EntityCache.GetUserById(id);
 
@@ -92,10 +92,10 @@ public class VueUserController(
                 },
                 IsCurrentUser = isCurrentUser
             };
-            return Json(result);
+            return result;
         }
 
-        return Json(null);
+        return null;
     }
 
     public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiTopic[] Topics);

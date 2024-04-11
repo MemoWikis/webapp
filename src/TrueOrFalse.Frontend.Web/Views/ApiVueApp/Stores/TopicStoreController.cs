@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 namespace VueApp;
 
 public class TopicStoreController(
@@ -11,24 +12,31 @@ public class TopicStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
-    public readonly record struct SaveTopicParam(int id, string name, bool saveName, string content, bool saveContent);
+    public readonly record struct SaveTopicParam(
+        int id,
+        string name,
+        bool saveName,
+        string content,
+        bool saveContent);
+
+    public readonly record struct TopicResult(bool Success, string MessageKey);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult SaveTopic([FromBody] SaveTopicParam param)
+    public TopicResult SaveTopic([FromBody] SaveTopicParam param)
     {
         if (!_permissionCheck.CanEditCategory(param.id))
-            return Json(new RequestResult
+            return new TopicResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
-            });
+            };
 
         var categoryCacheItem = EntityCache.GetCategory(param.id);
         var category = _categoryRepository.GetById(param.id);
-
+        //todo(Jun) Please adjust, this return was Json(false). 
         if (categoryCacheItem == null || category == null)
-            return Json(false);
+            return new TopicResult { Success = false };
 
         if (param.saveName)
         {
@@ -41,37 +49,45 @@ public class TopicStoreController(
             categoryCacheItem.Content = param.content;
             category.Content = param.content;
         }
+
         EntityCache.AddOrUpdate(categoryCacheItem);
         _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
-        return Json(new RequestResult
+        return new TopicResult
         {
             Success = true
-        });
+        };
     }
 
     [HttpGet]
     public string GetTopicImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewCategory(id))
-            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url;
+            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true)
+                .Url;
 
         return "";
     }
 
+    public readonly record struct KnowledgeSummaryResult(
+        int NotLearned,
+        int NeedsLearning,
+        int NeedsConsolidation,
+        int Solid);
+
     [HttpGet]
-    public JsonResult GetUpdatedKnowledgeSummary([FromRoute] int id)
+    public KnowledgeSummaryResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
         var sessionuserId = _sessionUser == null ? -1 : _sessionUser.UserId;
         var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, sessionuserId);
 
-        return Json(new
+        return new KnowledgeSummaryResult
         {
-            notLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
-            needsLearning = knowledgeSummary.NeedsLearning,
-            needsConsolidation = knowledgeSummary.NeedsConsolidation,
-            solid = knowledgeSummary.Solid,
-        });
+            NotLearned = knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+            NeedsLearning = knowledgeSummary.NeedsLearning,
+            NeedsConsolidation = knowledgeSummary.NeedsConsolidation,
+            Solid = knowledgeSummary.Solid,
+        };
     }
 
     [HttpGet]
@@ -86,4 +102,3 @@ public class TopicStoreController(
             _questionReadingRepo).GetChildren(id);
     }
 }
-
