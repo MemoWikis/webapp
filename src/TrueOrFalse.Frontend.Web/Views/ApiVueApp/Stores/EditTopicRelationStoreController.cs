@@ -115,8 +115,13 @@ public class EditTopicRelationStoreController : BaseController
         if (!_sessionUser.IsLoggedIn)
             throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
-        if (!_permissionCheck.CanMoveTopic(json.movingTopicId, json.oldParentId))
+        if (!_permissionCheck.CanMoveTopic(json.movingTopicId, json.oldParentId, json.newParentId))
+        {
+            if (json.newParentId == RootCategory.RootCategoryId)
+                throw new SecurityException(FrontendMessageKeys.Error.Category.ParentIsRoot);
+
             throw new SecurityException(FrontendMessageKeys.Error.Category.MissingRights);
+        }
 
         if (json.movingTopicId == json.newParentId)
             throw new InvalidOperationException(FrontendMessageKeys.Error.Category.CircularReference);

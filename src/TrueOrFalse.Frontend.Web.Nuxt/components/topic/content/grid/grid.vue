@@ -159,10 +159,13 @@ function removeGridItem(id: number) {
 const { isMobile, isDesktop } = useDevice()
 
 editTopicRelationStore.$onAction(({ name, after }) => {
-    if (name == 'moveTopic') {
+    if (name == 'moveTopic' || name == 'cancelMoveTopic') {
 
         after(async (result) => {
             if (result) {
+                if (result?.oldParentId == topicStore.id || result?.newParentId == topicStore.id)
+                    topicStore.reloadGridItems()
+
                 const parentHasChanged = result.oldParentId != result.newParentId
 
                 if (props.children.find(c => c.id == result.oldParentId))

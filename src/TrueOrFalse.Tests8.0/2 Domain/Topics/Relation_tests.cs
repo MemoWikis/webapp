@@ -4,6 +4,8 @@ class Relation_tests : BaseTest
     [Test]
     public void Should_Add_Creation_ToDb_and_EntityCache()
     {
+        RecycleContainerAndEntityCache();
+
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
@@ -39,6 +41,8 @@ class Relation_tests : BaseTest
     [Test]
     public void Should_MoveRelation_Correctly_AfterSub3()
     {
+        RecycleContainerAndEntityCache();
+
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
@@ -104,6 +108,8 @@ class Relation_tests : BaseTest
     [Test]
     public void Should_MoveRelation_Correctly_BeforeSub1()
     {
+        RecycleContainerAndEntityCache();
+
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
@@ -171,6 +177,8 @@ class Relation_tests : BaseTest
     [Test]
     public void Should_MoveRelation_Correctly_AfterSub3_BeforeSub4()
     {
+        RecycleContainerAndEntityCache();
+
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
@@ -244,6 +252,8 @@ class Relation_tests : BaseTest
     [Test]
     public void Should_Fail_Move_CircularReference()
     {
+        RecycleContainerAndEntityCache();
+
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
@@ -283,6 +293,8 @@ class Relation_tests : BaseTest
     [Test]
     public void Should_correctly_Remove_and_Add_Parent_on_MoveIn()
     {
+        RecycleContainerAndEntityCache();
+
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
