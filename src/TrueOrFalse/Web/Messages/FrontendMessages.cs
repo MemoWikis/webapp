@@ -56,6 +56,7 @@
             public static readonly string TooPopular = "error_category_tooPopular";
             public static readonly string SaveImageError = "error_category_saveImageError";
             public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
+            public static readonly string CircularReference = "error_category_circularReference";
 
         }
 

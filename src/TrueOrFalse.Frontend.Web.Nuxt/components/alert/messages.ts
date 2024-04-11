@@ -43,7 +43,8 @@ export const messages: any = {
             missingRights: "Dir fehlen die notwendigen Rechte.",
             tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
-            pinnedQuestions: ""
+            pinnedQuestions: "",
+            circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden"
         },
         question: {
             missingText: "Der Fragetext fehlt.",

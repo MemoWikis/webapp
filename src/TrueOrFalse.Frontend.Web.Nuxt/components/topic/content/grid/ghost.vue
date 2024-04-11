@@ -20,7 +20,7 @@ const topicName = ref('')
 watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
-        topicName.value = m.topicName
+        topicName.value = m.topic.name
 
     }
 }, { deep: true })

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSnackbarStore } from './snackBarStore'
+import { SnackbarData, useSnackbarStore } from './snackBarStore'
 const snackbarStore = useSnackbarStore()
 
 async function customFunction(id: number, dismiss?: any) {
@@ -11,6 +11,19 @@ async function customFunction(id: number, dismiss?: any) {
 	}
 	dismiss()
 }
+const snackbar = useSnackbar()
+snackbarStore.$onAction(({ name, after }) => {
+	if (name == 'showSnackbar') {
+
+		after((data: SnackbarData) => {
+			snackbar.add({
+				type: data.type,
+				title: data.title ? data.title : '',
+				text: { html: data.text ? data.text : '' },
+			})
+		})
+	}
+})
 </script>
 
 <template>

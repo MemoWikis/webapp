@@ -58,14 +58,14 @@ async function onDrop() {
 
     const transferData = dragStore.transferData as MoveTopicTransferData
     const targetId = props.topic.id
-    if (transferData.movingTopicId == targetId)
+    if (transferData.topic.id == targetId)
         return
 
     const position = currentPosition.value
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
-    await editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+    await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
 
     const snackbarCustomAction: SnackbarCustomAction = {
         label: 'Zurücksetzen',
@@ -77,7 +77,7 @@ async function onDrop() {
 
     snackbar.add({
         type: 'info',
-        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
+        title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
         text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon },
         dismissible: true
     })
@@ -138,9 +138,8 @@ function handleDragStart(e: DragEvent) {
     }
 
     const data: MoveTopicTransferData = {
-        movingTopicId: props.topic.id,
-        oldParentId: props.parentId,
-        topicName: props.topic.name
+        topic: props.topic,
+        oldParentId: props.parentId
     }
     dragStore.dragStart(data)
     dragging.value = true
@@ -178,7 +177,6 @@ function handleDrag(e: DragEvent) {
     }
 }
 
-
 function handleScroll(clientY: number) {
     const threshold = 150
     const distanceFromBottom = window.innerHeight - clientY
@@ -192,14 +190,12 @@ function handleScroll(clientY: number) {
     }
 }
 
-
 const placeHolderTopicName = ref('')
 
 watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
-        placeHolderTopicName.value = m.topicName
-
+        placeHolderTopicName.value = m.topic.name
     }
 }, { deep: true })
 </script>

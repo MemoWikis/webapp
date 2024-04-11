@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { GridTopicItem } from '../topic/content/grid/item/gridTopicItem'
 
 export enum TargetPosition {
     Before,
@@ -18,9 +19,8 @@ export interface DropZoneData {
 }
 
 export interface MoveTopicTransferData {
-    movingTopicId: number
+	topic: GridTopicItem
     oldParentId: number
-    topicName: string
 }
 
 export const useDragStore = defineStore('dragStore', {
@@ -36,7 +36,7 @@ export const useDragStore = defineStore('dragStore', {
 		}
 	},
 	actions: {
-		dragStart(e: any) {
+		dragStart(e: MoveTopicTransferData | string) {
 			this.active = true
 			this.transferData = e
 		},
@@ -70,9 +70,8 @@ export const useDragStore = defineStore('dragStore', {
 			} else if (this.transferData === null) {
 				return 'null'
 			} else if (typeof this.transferData === 'object') {
-				if ('movingTopicId' in this.transferData && typeof this.transferData.movingTopicId === 'number' &&
-					'oldParentId' in this.transferData && typeof this.transferData.oldParentId === 'number' &&
-					'topicName' in this.transferData && typeof this.transferData.topicName === 'string') {
+				if ('topic' in this.transferData && typeof this.transferData.topic === 'object' &&
+					'oldParentId' in this.transferData && typeof this.transferData.oldParentId === 'number') {
 				return 'MoveTopicTransferData'
 				}
 			}

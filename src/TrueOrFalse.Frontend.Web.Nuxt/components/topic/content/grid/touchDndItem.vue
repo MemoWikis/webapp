@@ -46,14 +46,14 @@ async function onDrop() {
 
     const targetId = dragStore.dropZoneData.id
 
-    if (transferData.movingTopicId == targetId)
+    if (transferData.topic.id == targetId)
         return
 
     const position = dragStore.dropZoneData.position
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
-    await editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+    await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
 
     const snackbarCustomAction: SnackbarCustomAction = {
         label: 'Zurücksetzen',
@@ -64,7 +64,7 @@ async function onDrop() {
 
     snackbar.add({
         type: 'info',
-        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
+        title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
         text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
         dismissible: true
     })
@@ -116,9 +116,8 @@ function handleDragStart(e: any) {
 
     if (!dragStore.active) {
         const data: MoveTopicTransferData = {
-            movingTopicId: props.topic.id,
-            oldParentId: props.parentId,
-            topicName: props.topic.name
+            topic: props.topic,
+            oldParentId: props.parentId
         }
         dragStore.dragStart(data)
         dragging.value = true
@@ -248,7 +247,7 @@ const placeHolderTopicName = ref('')
 watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
-        placeHolderTopicName.value = m.topicName
+        placeHolderTopicName.value = m.topic.name
 
     }
 }, { deep: true })
