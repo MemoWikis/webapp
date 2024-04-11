@@ -33,7 +33,7 @@ class PermissionCheck_tests : BaseTest
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user.Id);
-        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id)));
+        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
     }
 
     [Test]
@@ -67,7 +67,7 @@ class PermissionCheck_tests : BaseTest
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user.Id);
-        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id)));
+        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
     }
 
     [Test]
@@ -101,7 +101,7 @@ class PermissionCheck_tests : BaseTest
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user2.Id);
-        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id)));
+        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
     }
 
     [Test]
@@ -137,6 +137,8 @@ class PermissionCheck_tests : BaseTest
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user3.Id);
-        Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id)));
+        Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
+        Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, root.Id)));
+
     }
 }
