@@ -96,14 +96,15 @@ public class VueUserSettingsController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public ChangeProfileInformationResult ChangeProfileInformation([FromForm] ProfileInformation form)
+    public ChangeProfileInformationResult ChangeProfileInformation(
+        [FromForm] ProfileInformation form)
     {
         if (form.id != _sessionUser.User.Id)
             return new ChangeProfileInformationResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
-            });
+            };
 
         if (form.email != null)
         {
@@ -134,9 +135,10 @@ public class VueUserSettingsController(
         else if (form.username != null && !IsUserNameAvailable.Yes(form.username, _userReadingRepo))
         {
             return new ChangeProfileInformationResult
-                { Success = false,
-                    MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
-                };
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
+            };
         }
 
         if (form.file != null)
@@ -172,9 +174,11 @@ public class VueUserSettingsController(
     public readonly record struct ChangeSupportLoginRightsJson(bool allowSupportiveLogin);
 
     public readonly record struct ChangeSupportLoginRightsResult(bool Success, string Message);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public ChangeSupportLoginRightsResult ChangeSupportLoginRights([FromBody] ChangeSupportLoginRightsJson json)
+    public ChangeSupportLoginRightsResult ChangeSupportLoginRights(
+        [FromBody] ChangeSupportLoginRightsJson json)
     {
         _sessionUser.User.AllowsSupportiveLogin = json.allowSupportiveLogin;
 
@@ -189,11 +193,13 @@ public class VueUserSettingsController(
     }
 
     public readonly record struct ChangeWuwiVisibilityJsonResult(bool Success, string Message);
+
     public readonly record struct ChangeWuwiVisibilityJson(bool showWuwi);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public ChangeWuwiVisibilityJsonResult ChangeWuwiVisibility([FromBody] ChangeWuwiVisibilityJson json)
+    public ChangeWuwiVisibilityJsonResult ChangeWuwiVisibility(
+        [FromBody] ChangeWuwiVisibilityJson json)
     {
         _sessionUser.User.ShowWishKnowledge = json.showWuwi;
 
