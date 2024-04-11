@@ -6,6 +6,7 @@ import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 import { TargetPosition } from '~/components/shared/dragStore'
+import { GridTopicItem } from '../content/grid/item/gridTopicItem'
 
 export enum EditTopicRelationType {
     Create,
@@ -27,7 +28,7 @@ export interface EditRelationData {
 }
 
 interface MoveTarget {
-    movingTopicId: number,
+    movingTopic: GridTopicItem,
     targetId: number,
     position: TargetPosition,
     newParentId: number,
@@ -224,7 +225,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
         },
 
-        async moveTopic(movingTopicId: number, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
+        async moveTopic(movingTopic: GridTopicItem, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
 
             const userStore = useUserStore()
 
@@ -233,18 +234,30 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 return
             }
 
+            this.tempInsert(movingTopic, targetId, oldParentId, newParentId, position)
+
             const data = {
-                movingTopicId: movingTopicId,
+                movingTopicId: movingTopic.id,
                 targetId: targetId,
                 position: position,
                 newParentId: newParentId,
                 oldParentId: oldParentId
             }
+            
             interface MoveTopicResult {
                 oldParentId: number
                 newParentId: number
-                undoMove: MoveTarget
+                undoMove: MoveTargetResult
             }
+
+            interface MoveTargetResult {
+                movingTopicId: number,
+                targetId: number,
+                position: TargetPosition,
+                newParentId: number,
+                oldParentId: number
+            }
+            
             const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
                 method: "POST",
                 body: data,
@@ -252,15 +265,31 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 credentials: "include",
             })
 
-            if (result)
-                this.moveHistory = result.undoMove
+            if (result) {
+                const newMoveTarget: MoveTarget = {
+                    movingTopic: movingTopic,
+                    targetId: result.undoMove.targetId,
+                    position: result.undoMove.position,
+                    newParentId: result.undoMove.newParentId,
+                    oldParentId: result.undoMove.oldParentId
+                }
+                this.moveHistory = newMoveTarget
+            }
 
             return result
         },
 
         async undoMoveTopic() {
-
-            return this.moveTopic(this.moveHistory.movingTopicId, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+            return this.moveTopic(this.moveHistory.movingTopic, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+        },
+        tempInsert(moveTopic: GridTopicItem, targetId: number, oldParentId: number, newParentId: number, position: TargetPosition) {
+            return {
+                moveTopic,
+                targetId,
+                oldParentId,
+                newParentId,
+                position
+            }
         }
     },
 })

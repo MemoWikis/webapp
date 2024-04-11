@@ -10,7 +10,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
-import { useDragStore } from '~/components/shared/dragStore'
+import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -169,6 +169,28 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                     reloadGridItem(result.oldParentId)
                 if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
                     reloadGridItem(result.newParentId)
+            }
+        })
+    }
+
+    if (name == 'tempInsert') {
+        after((result) => {
+
+            if (result.oldParentId == topicStore.id) {
+                const index = topicStore.gridItems.findIndex(c => c.id === result.moveTopic.id)
+                if (index !== -1) {
+                    topicStore.gridItems.splice(index, 1)
+                }
+            }
+
+            if (result.newParentId == topicStore.id) {
+                const index = topicStore.gridItems.findIndex(c => c.id == result.targetId)
+                if (result.position == TargetPosition.Before)
+                    topicStore.gridItems.splice(index, 0, result.moveTopic)
+                else if (result.position == TargetPosition.After)
+                    topicStore.gridItems.splice(index + 1, 0, result.moveTopic)
+                else if (result.position == TargetPosition.Inner)
+                    topicStore.gridItems.push(result.moveTopic)
             }
         })
     }
