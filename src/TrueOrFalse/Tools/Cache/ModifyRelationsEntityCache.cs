@@ -41,10 +41,16 @@ public class ModifyRelationsEntityCache
         var parentCategories = EntityCache.GetCategories(newParentRelationsIds);
 
         if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
+        {
+            Logg.r.Error("CategoryRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}", childCategory.Id, parentId);
             throw new Exception("No parents remaining");
+        }
 
         if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEdit(parent))
+        {
+            Logg.r.Error("CategoryRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}", childCategory.Id, parentId);
             throw new SecurityException("Not allowed to edit category");
+        }
 
         var relationToRemove = parent.ChildRelations.Where(r => r.ChildId == childCategory.Id).FirstOrDefault();
 
@@ -87,11 +93,11 @@ public class ModifyRelationsEntityCache
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
+            Logg.r.Error("CategoryRelations - moveIn: circular reference - childId:{0}, parentId:{1}", relation.ChildId, newParentId);
             throw new Exception("circular reference");
         }
 
         modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
-        var child = EntityCache.GetCategory(relation.ChildId);
         RemoveParent(EntityCache.GetCategory(relation.ChildId), relation.ParentId, authorId, modifyRelationsForCategory, permissionCheck);
     }
 
@@ -104,6 +110,7 @@ public class ModifyRelationsEntityCache
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
+            Logg.r.Error("CategoryRelations - MoveBefore: circular reference - childId:{0}, parentId:{1}", relation.ChildId, newParentId);
             throw new Exception("circular reference");
         }
 
@@ -122,6 +129,7 @@ public class ModifyRelationsEntityCache
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
+            Logg.r.Error("CategoryRelations - MoveAfter: circular reference - childId:{0}, parentId:{1}", relation.ChildId, newParentId);
             throw new Exception("circular reference");
         }
 
@@ -159,11 +167,9 @@ public class ModifyRelationsEntityCache
 
             relations.RemoveAt(relationIndex);
             RemoveRelationFromParentRelations(relation);
-            //JobScheduler.StartImmediately_ModifyTopicRelations(changedRelations, authorId);
             modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
 
             JobScheduler.StartImmediately_DeleteRelation(relation.Id, authorId);
-
         }
 
         return relations.ToList();
@@ -216,6 +222,7 @@ public class ModifyRelationsEntityCache
         var targetPosition = relations.FindIndex(r => r.ChildId == targetTopicId);
         if (targetPosition == -1)
         {
+            Logg.r.Error("CategoryRelations - Insert: Targetposition not found - parentId:{0}, targetTopicId:{1}", parentId, targetTopicId);
             throw new InvalidOperationException("Target node not found in the order.");
         }
 
@@ -270,36 +277,7 @@ public class ModifyRelationsEntityCache
 
         EntityCache.AddOrUpdate(currentRelation);
         modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
-        //JobScheduler.StartImmediately_ModifyTopicRelations(changedRelations, authorId);
 
         return relations;
-    }
-
-    public List<CategoryCacheRelation> SortTopics(List<CategoryCacheRelation> categoryRelations)
-    {
-        var sortedList = new List<CategoryCacheRelation>();
-        var addedIds = new HashSet<int>();
-        var current = categoryRelations.FirstOrDefault(x => x.PreviousId == null);
-
-        while (current != null)
-        {
-            sortedList.Add(current);
-            addedIds.Add(current.ChildId);
-            current = categoryRelations.FirstOrDefault(x => x.ChildId == current.NextId);
-        }
-
-        if (sortedList.Count != categoryRelations.Count)
-        {
-            Logg.r.Error("Topic Order Sort Error");
-            foreach (var relation in categoryRelations)
-            {
-                if (!addedIds.Contains(relation.ChildId))
-                {
-                    sortedList.Add(relation);
-                }
-            }
-        }
-
-        return sortedList;
     }
 }

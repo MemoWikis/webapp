@@ -1,9 +1,4 @@
-﻿using Stripe;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-
-public class ModifyRelationsForCategory
+﻿public class ModifyRelationsForCategory
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryRelationRepo _categoryRelationRepo;
