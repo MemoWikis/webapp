@@ -16,11 +16,10 @@ snackbarStore.$onAction(({ name, after }) => {
 	if (name == 'showSnackbar') {
 
 		after((data: SnackbarData) => {
-			console.log(data)
 			snackbar.add({
 				type: data.type,
 				title: data.title ? data.title : '',
-				text: { html: data.text },
+				text: { html: data.text ? data.text : '' },
 			})
 		})
 	}

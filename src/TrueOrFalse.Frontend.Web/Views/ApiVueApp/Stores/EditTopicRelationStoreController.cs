@@ -114,8 +114,6 @@ public class EditTopicRelationStoreController : BaseController
     [HttpPost]
     private MoveTopicResult TryMoveTopic([FromBody] MoveTopicJson json)
     {
-        throw new Exception(FrontendMessageKeys.Error.Default);
-
         if (!_sessionUser.IsLoggedIn)
             throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
