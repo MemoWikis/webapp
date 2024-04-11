@@ -15,7 +15,35 @@ public class VueSessionUser(
     QuestionReadingRepo _questionReadingRepo)
     : IRegisterAsInstancePerLifetime
 {
-    public dynamic GetCurrentUserData()
+    public readonly record struct CurrentUserData(
+        bool IsLoggedIn,
+        int Id,
+        string Name,
+        string Email,
+        bool IsAdmin,
+        int PersonalWikiId,
+        UserType Type,
+        string ImgUrl,
+        int Reputation,
+        int ReputationPos,
+        TopicDataManager.TopicDataResult PersonalWiki,
+        ActivityPoints ActivityPoints,
+        int UnreadMessagesCount,
+        SubscriptionType SubscriptionType,
+        bool HasStripeCustomerId,
+        string EndDate,
+        string SubscriptionStartDate,
+        bool IsSubscriptionCanceled,
+        bool IsEmailConfirmed);
+
+    public readonly record struct ActivityPoints(
+        int Points,
+        int Level,
+        bool LevelUp,
+        int ActivityPointsTillNextLevel,
+        int ActivityPointsPercentageOfNextLevel);
+
+    public CurrentUserData GetCurrentUserData()
     {
         var type = UserType.Anonymous;
         var user = _sessionUser.User;
@@ -33,11 +61,11 @@ public class VueSessionUser(
             var activityLevel = user.ActivityLevel;
             var subscriptionDate = user.EndDate;
 
-            return new
+            return new CurrentUserData
             {
-                _sessionUser.IsLoggedIn,
+                IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
-                user.Name,
+                Name = user.Name,
                 Email = user.EmailAddress,
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = user.StartTopicId,
@@ -45,8 +73,8 @@ public class VueSessionUser(
                 ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor)
                     .GetUrl_50px_square(_sessionUser.User)
                     .Url,
-                user.Reputation,
-                user.ReputationPos,
+                Reputation = user.Reputation,
+                ReputationPos = user.ReputationPos,
                 PersonalWiki = new TopicDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
@@ -54,16 +82,17 @@ public class VueSessionUser(
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo).GetTopicData(user.StartTopicId),
-                ActivityPoints = new
+                ActivityPoints = new ActivityPoints
                 {
-                    points = activityPoints,
-                    level = activityLevel,
-                    levelUp = false,
-                    activityPointsTillNextLevel =
+                    Points = activityPoints,
+                    Level = activityLevel,
+                    LevelUp = false,
+                    ActivityPointsTillNextLevel =
                         UserLevelCalculator.GetUpperLevelBound(activityLevel) - activityPoints,
-                    activityPointsPercentageOfNextLevel = activityPoints == 0
+                    ActivityPointsPercentageOfNextLevel = activityPoints == 0
                         ? 0
-                        : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
+                        : 100 * activityPoints /
+                          UserLevelCalculator.GetUpperLevelBound(activityLevel)
                 },
                 UnreadMessagesCount = _getUnreadMessageCount.Run(_sessionUser.UserId),
                 SubscriptionType = user.EndDate > DateTime.Now
@@ -71,7 +100,8 @@ public class VueSessionUser(
                     : SubscriptionType.Basic,
                 HasStripeCustomerId = !string.IsNullOrEmpty(user.StripeId),
                 EndDate = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
-                SubscriptionStartDate = user.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                SubscriptionStartDate =
+                    user.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 IsSubscriptionCanceled = subscriptionDate is
                 {
                     Year: < 9999
@@ -81,7 +111,7 @@ public class VueSessionUser(
         }
 
         var userLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
-        return new
+        return new CurrentUserData
         {
             IsLoggedIn = false,
             Id = -1,
@@ -100,18 +130,13 @@ public class VueSessionUser(
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetTopicData(RootCategory.RootCategoryId),
-            ActivityPoints = new
+            ActivityPoints = new ActivityPoints
             {
-                points = _sessionUser.GetTotalActivityPoints(),
-                level = userLevel,
-                levelUp = false,
-                activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)
+                Points = _sessionUser.GetTotalActivityPoints(),
+                Level = userLevel,
+                LevelUp = false,
+                ActivityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)
             }
         };
-    }
-
-    public void Test()
-    {
-        var user = _userReadingRepo.GetById(445);
     }
 }
