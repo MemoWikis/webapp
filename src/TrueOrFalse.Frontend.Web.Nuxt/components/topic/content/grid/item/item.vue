@@ -230,7 +230,7 @@ watch(() => props.isDragging, (val) => {
 }, { immediate: true })
 
 editTopicRelationStore.$onAction(({ name, after }) => {
-    if (name == 'moveTopic') {
+    if (name == 'moveTopic' || name == 'cancelMoveTopic') {
 
         after(async (result) => {
             if (result) {

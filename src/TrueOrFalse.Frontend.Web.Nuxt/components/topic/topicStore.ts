@@ -185,8 +185,6 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 		},
 		async reloadGridItems() {
-
-
 			const result = await $fetch<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {

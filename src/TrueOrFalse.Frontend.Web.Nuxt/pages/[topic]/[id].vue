@@ -169,17 +169,6 @@ watch(() => props.tab, (t) => {
 
 }, { immediate: true })
 
-editTopicRelationStore.$onAction(({ name, after }) => {
-    if (name == 'moveTopic') {
-
-        after(async (result) => {
-            if (result?.oldParentId == topicStore.id || result?.newParentId == topicStore.id)
-                topicStore.reloadGridItems()
-        })
-    }
-
-})
-
 </script>
 
 <template>
