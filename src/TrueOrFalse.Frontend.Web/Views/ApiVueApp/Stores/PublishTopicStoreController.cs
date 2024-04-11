@@ -4,29 +4,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
-    public class PublishTopicStoreController : BaseController
+    public class PublishTopicStoreController(
+        SessionUser _sessionUser,
+        PermissionCheck _permissionCheck,
+        CategoryRepository _categoryRepository,
+        QuestionReadingRepo _questionReadingRepo,
+        QuestionWritingRepo _questionWritingRepo,
+        SessionUserCache _sessionUserCache) : Controller
     {
-        private readonly PermissionCheck _permissionCheck;
-        private readonly CategoryRepository _categoryRepository;
-        private readonly QuestionReadingRepo _questionReadingRepo;
-        private readonly QuestionWritingRepo _questionWritingRepo;
-        private readonly SessionUserCache _sessionUserCache;
-
-        public PublishTopicStoreController(
-            SessionUser sessionUser,
-            PermissionCheck permissionCheck,
-            CategoryRepository categoryRepository,
-            QuestionReadingRepo questionReadingRepo,
-            QuestionWritingRepo questionWritingRepo,
-            SessionUserCache sessionUserCache) : base(sessionUser)
-        {
-            _permissionCheck = permissionCheck;
-            _categoryRepository = categoryRepository;
-            _questionReadingRepo = questionReadingRepo;
-            _questionWritingRepo = questionWritingRepo;
-            _sessionUserCache = sessionUserCache;
-        }
-
         public readonly record struct PublishTopicJson(int id);
 
         public readonly record struct PublishTopicResult(
