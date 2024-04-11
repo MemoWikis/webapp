@@ -110,9 +110,7 @@ public class EditTopicRelationStoreController : BaseController
     }
     public readonly record struct MoveTopicJson(int movingTopicId, int targetId, TargetPosition position, int newParentId, int oldParentId);
     public readonly record struct MoveTopicResult(int oldParentId, int newParentId, MoveTopicJson undoMove);
-    [AccessOnlyAsLoggedIn]
-    [HttpPost]
-    private MoveTopicResult TryMoveTopic([FromBody] MoveTopicJson json)
+    private MoveTopicResult TryMoveTopic(MoveTopicJson json)
     {
         if (!_sessionUser.IsLoggedIn)
             throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);

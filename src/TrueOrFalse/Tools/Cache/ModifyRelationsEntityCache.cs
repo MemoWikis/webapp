@@ -227,13 +227,6 @@ public class ModifyRelationsEntityCache
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
 
-        var childAlreadyExist = relations.Any(r => r.ChildId == childId);
-        if (childAlreadyExist)
-        {
-            Logg.r.Error("CategoryRelations - Insert: Child already exists - childId:{0}, parentId:{1}", childId, parentId);
-            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
-        }
-
         var positionToInsert = insertAfter ? targetPosition + 1 : targetPosition;
 
         relations.Insert(positionToInsert, relation);
