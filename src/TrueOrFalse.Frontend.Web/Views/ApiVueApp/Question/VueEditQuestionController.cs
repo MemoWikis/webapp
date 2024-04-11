@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
 using RazorLight;
 using TrueOrFalse;
+using static VueApp.VueEditQuestionController;
 
 namespace VueApp;
 
@@ -74,19 +75,27 @@ public class VueEditQuestionController
         _actionContextAccessor = actionContextAccessor;
     }
 
+    public readonly record struct VueEditQuestionResult(
+        QuestionListJson.Question Data,
+        bool Success,
+        string MessageKey,
+        string ErrorMsg,
+        bool Error,
+        string Key);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult VueCreate(QuestionDataParam questionDataParam)
+    public VueEditQuestionResult VueCreate(QuestionDataParam questionDataParam)
     {
         if (questionDataParam.SessionConfig?.CurrentUserId <= 0)
             questionDataParam.SessionConfig.CurrentUserId = _sessionUser.UserId;
 
         var safeText = GetSafeText(questionDataParam.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult(new
+            return new VueEditQuestionResult
             {
                 ErrorMsg = "Fehlender Fragetext",
-            });
+            };
 
         var question = new Question();
         var sessionUserAsUser = _userReadingRepo.GetById(_sessionUser.UserId);
@@ -107,7 +116,7 @@ public class VueEditQuestionController
         if (questionDataParam.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        return Json(new RequestResult
+        return new VueEditQuestionResult
         {
             Success = true,
             Data = new QuestionLoader(
@@ -118,20 +127,20 @@ public class VueEditQuestionController
                 _imageMetaDataReadingRepo,
                 _questionReadingRepo,
                 _learningSessionCache).LoadQuestion(question.Id)
-        });
+        };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult VueEdit(QuestionDataParam questionDataParam)
+    public VueEditQuestionResult VueEdit(QuestionDataParam questionDataParam)
     {
         var safeText = GetSafeText(questionDataParam.TextHtml);
         if (safeText.Length <= 0)
-            return new JsonResult(new
+            return new VueEditQuestionResult
             {
-                error = true,
-                key = "missingText",
-            });
+                Error = true,
+                Key = "missingText",
+            };
 
         var question = _questionReadingRepo.GetById(questionDataParam.QuestionId);
         var updatedQuestion = UpdateQuestion(question, questionDataParam, safeText);
@@ -142,7 +151,7 @@ public class VueEditQuestionController
             _learningSessionCache.EditQuestionInLearningSession(
                 EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return Json(new RequestResult
+        return new VueEditQuestionResult
         {
             Success = true,
             Data = new QuestionLoader(
@@ -153,20 +162,20 @@ public class VueEditQuestionController
                 _imageMetaDataReadingRepo,
                 _questionReadingRepo,
                 _learningSessionCache).LoadQuestion(updatedQuestion.Id)
-        });
+        };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult CreateFlashcard(CreateFlashcardParam param)
+    public VueEditQuestionResult CreateFlashcard(CreateFlashcardParam param)
     {
         var safeText = GetSafeText(param.TextHtml);
         if (safeText.Length <= 0)
-            return Json(new RequestResult
+            return new VueEditQuestionResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
-            });
+            };
 
         var question = new Question();
 
@@ -178,11 +187,11 @@ public class VueEditQuestionController
         solutionModelFlashCard.Text = param.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
-            return Json(new RequestResult
+            return new VueEditQuestionResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
-            });
+            };
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
 
@@ -200,7 +209,7 @@ public class VueEditQuestionController
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(
             EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
-        return Json(new RequestResult
+        return new VueEditQuestionResult
         {
             Success = true,
             Data = new QuestionLoader(
@@ -211,7 +220,7 @@ public class VueEditQuestionController
                 _imageMetaDataReadingRepo,
                 _questionReadingRepo,
                 _learningSessionCache).LoadQuestion(question.Id)
-        });
+        };
     }
 
     private string GetSafeText(string text)
@@ -229,6 +238,7 @@ public class VueEditQuestionController
         LearningSessionConfig SessionConfig
     );
 
+    //Todo(DaMa): Outsource to Backend significant effort
     private Question UpdateQuestion(
         Question question,
         QuestionDataParam questionDataParam,
@@ -321,9 +331,11 @@ public class VueEditQuestionController
         return categories;
     }
 
+    public readonly record struct StoreImageResult(string PreviewUrl, int NewQuestionId);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult StoreImage(
+    public StoreImageResult StoreImage(
         string imageSource,
         int questionId,
         string wikiFileName,
@@ -373,13 +385,15 @@ public class VueEditQuestionController
         var imageSettings =
             new QuestionImageSettings(questionId, _httpContextAccessor, _questionReadingRepo);
 
-        return new JsonResult(new
+        return new StoreImageResult
         {
             PreviewUrl = imageSettings.GetUrl_435px().UrlWithoutTime(),
             NewQuestionId = newQuestionId
-        });
+        };
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
     public void PublishQuestions(List<int> questionIds)
     {
         foreach (var questionId in questionIds)
@@ -396,6 +410,8 @@ public class VueEditQuestionController
         }
     }
 
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
     public void SetQuestionsToPrivate(List<int> questionIds)
     {
         foreach (var questionId in questionIds)
