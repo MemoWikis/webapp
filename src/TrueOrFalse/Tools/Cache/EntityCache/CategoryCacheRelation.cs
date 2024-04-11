@@ -51,10 +51,9 @@ public class CategoryCacheRelation : IPersistable
         return sortedList;
     }
 
-    public IList<CategoryCacheRelation> Sort(IList<CategoryCacheRelation> childRelations)
+    public IList<CategoryCacheRelation> Sort(int topicId)
     {
-        if (childRelations == null)
-            Logg.r.Error("CategoryRelations cannot be null");
+        var childRelations = EntityCache.GetChildRelationsByParentId(topicId);
 
         if (childRelations.Count <= 0 || childRelations == null)
         {
@@ -76,6 +75,8 @@ public class CategoryCacheRelation : IPersistable
 
         if (sortedList.Count < childRelations.Count)
         {
+            Logg.r.Error("CategoryRelations - Sort Fail - Id:{0}", topicId);
+
             foreach (var r in childRelations)
             {
                 if (!addedRelationIds.Contains(r.Id))
