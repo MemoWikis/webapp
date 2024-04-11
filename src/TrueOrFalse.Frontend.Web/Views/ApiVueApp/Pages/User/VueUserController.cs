@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain.Question.QuestionValuation;
@@ -7,30 +6,38 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueUserController : BaseController
+public class VueUserController(
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    ReputationCalc _rpReputationCalc,
+    IHttpContextAccessor _httpContextAccessor,
+    SessionUserCache _sessionUserCache) : Controller
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly ReputationCalc _rpReputationCalc;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly SessionUserCache _sessionUserCache;
+    public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser);
 
-    public VueUserController(SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        ReputationCalc rpReputationCalc,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        SessionUserCache sessionUserCache) : base(sessionUser)
-    {
-        _permissionCheck = permissionCheck;
-        _rpReputationCalc = rpReputationCalc;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _sessionUserCache = sessionUserCache;
-    }
+    public readonly record struct User(
+        int Id,
+        string Name,
+        string WikiUrl,
+        string ImageUrl,
+        int ReputationPoints,
+        int Rank,
+        bool ShowWuwi);
+
+    public readonly record struct Overview(
+        ActivityPoints ActivityPoints,
+        int PublicQuestionsCount,
+        int PrivateQuestionsCount,
+        int PublicTopicsCount,
+        int PrivateTopicsCount,
+        int WuwiCount);
+
+    public readonly record struct ActivityPoints(
+        int Total,
+        int QuestionsInOtherWishknowledges,
+        int QuestionsCreated,
+        int PublicWishknowledges);
+
     [HttpGet]
     public JsonResult Get([FromRoute] int id)
     {
@@ -41,52 +48,71 @@ public class VueUserController : BaseController
             var userWiki = EntityCache.GetCategory(user.StartTopicId);
             var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
             var isCurrentUser = _sessionUser.UserId == user.Id;
-            var allQuestionsCreatedByUser = EntityCache.GetAllQuestions().Where(q => q.Creator != null && q.CreatorId == user.Id);
-            var allTopicsCreatedByUser = EntityCache.GetAllCategoriesList().Where(c => c.Creator != null && c.CreatorId == user.Id);
-            var result = new
+            var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
+                .Where(q => q.Creator != null && q.CreatorId == user.Id);
+            var allTopicsCreatedByUser = EntityCache.GetAllCategoriesList()
+                .Where(c => c.Creator != null && c.CreatorId == user.Id);
+            var result = new GetResult
             {
-                user = new
+                User = new User
                 {
-                    id = user.Id,
-                    name = user.Name,
-                    wikiUrl = _permissionCheck.CanView(userWiki)
+                    Id = user.Id,
+                    Name = user.Name,
+                    WikiUrl = _permissionCheck.CanView(userWiki)
                         ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId
                         : null,
-                    imageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
+                    ImageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                         .GetUrl_256px_square(user)
                         .Url,
-                    reputationPoints = reputation.TotalReputation,
-                    rank = user.ReputationPos,
-                    showWuwi = user.ShowWishKnowledge
+                    ReputationPoints = reputation.TotalReputation,
+                    Rank = user.ReputationPos,
+                    ShowWuwi = user.ShowWishKnowledge
                 },
-                overview = new
+                Overview = new Overview
                 {
-                    activityPoints = new
+                    ActivityPoints = new ActivityPoints
                     {
-                        total = reputation.TotalReputation,
-                        questionsInOtherWishknowledges = reputation.ForQuestionsInOtherWishknowledge,
-                        questionsCreated = reputation.ForQuestionsCreated,
-                        publicWishknowledges = reputation.ForPublicWishknowledge
+                        Total = reputation.TotalReputation,
+                        QuestionsInOtherWishknowledges =
+                            reputation.ForQuestionsInOtherWishknowledge,
+                        QuestionsCreated = reputation.ForQuestionsCreated,
+                        PublicWishknowledges = reputation.ForPublicWishknowledge
                     },
-                    publicQuestionsCount = allQuestionsCreatedByUser.Count(q => q.Visibility == QuestionVisibility.All),
-                    privateQuestionsCount =
-                        allQuestionsCreatedByUser.Count(q => q.Visibility != QuestionVisibility.All),
-                    publicTopicsCount = allTopicsCreatedByUser.Count(c => c.Visibility == CategoryVisibility.All),
-                    privateTopicsCount = allTopicsCreatedByUser.Count(c => c.Visibility != CategoryVisibility.All),
-                    wuwiCount = user.WishCountQuestions
+                    PublicQuestionsCount =
+                        allQuestionsCreatedByUser.Count(q =>
+                            q.Visibility == QuestionVisibility.All),
+                    PrivateQuestionsCount =
+                        allQuestionsCreatedByUser.Count(q =>
+                            q.Visibility != QuestionVisibility.All),
+                    PublicTopicsCount =
+                        allTopicsCreatedByUser.Count(c => c.Visibility == CategoryVisibility.All),
+                    PrivateTopicsCount =
+                        allTopicsCreatedByUser.Count(c => c.Visibility != CategoryVisibility.All),
+                    WuwiCount = user.WishCountQuestions
                 },
-                isCurrentUser = isCurrentUser
+                IsCurrentUser = isCurrentUser
             };
             return Json(result);
-
-
         }
 
         return Json(null);
     }
 
+    public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiTopic[] Topics);
+
+    public readonly record struct WuwiQuestion(
+        string Title,
+        string PrimaryTopicName,
+        int? PrimaryTopicId,
+        int Id);
+
+    public readonly record struct WuwiTopic(
+        string Name,
+        int Id,
+        int QuestionCount);
+
     [HttpGet]
-    public JsonResult GetWuwi([FromRoute] int id)
+    public WuwiResult? GetWuwi([FromRoute] int id)
     {
         var user = EntityCache.GetUserById(id);
 
@@ -97,28 +123,32 @@ public class VueUserController : BaseController
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(question => _permissionCheck.CanView(question)
-                    && question.IsInWishknowledge(id, _sessionUserCache)
-                    && question.CategoriesVisibleToCurrentUser(_permissionCheck).Any());
+                                   && question.IsInWishknowledge(id, _sessionUserCache)
+                                   && question.CategoriesVisibleToCurrentUser(_permissionCheck)
+                                       .Any());
 
-            return Json(new
+            return new WuwiResult
             {
-                questions = wishQuestions.Select(q => new
+                Questions = wishQuestions.Select(q => new WuwiQuestion
                 {
-                    title = q.GetShortTitle(200),
-                    primaryTopicName = q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Name,
-                    primaryTopicId = q.CategoriesVisibleToCurrentUser(_permissionCheck).LastOrDefault()?.Id,
-                    id = q.Id
-
+                    Title = q.GetShortTitle(200),
+                    PrimaryTopicName = q.CategoriesVisibleToCurrentUser(_permissionCheck)
+                        .LastOrDefault()?.Name,
+                    PrimaryTopicId = q.CategoriesVisibleToCurrentUser(_permissionCheck)
+                        .LastOrDefault()?.Id,
+                    Id = q.Id
                 }).ToArray(),
-                topics = wishQuestions.QuestionsInCategories().Where(t => _permissionCheck.CanView(t.CategoryCacheItem)).Select(t => new
-                {
-                    name = t.CategoryCacheItem.Name,
-                    id = t.CategoryCacheItem.Id,
-                    questionCount = t.CategoryCacheItem.CountQuestions
-                }).ToArray()
-            });
+                Topics = wishQuestions.QuestionsInCategories()
+                    .Where(t => _permissionCheck.CanView(t.CategoryCacheItem)).Select(t =>
+                        new WuwiTopic
+                        {
+                            Name = t.CategoryCacheItem.Name,
+                            Id = t.CategoryCacheItem.Id,
+                            QuestionCount = t.CategoryCacheItem.CountQuestions
+                        }).ToArray()
+            };
         }
-        return Json(null);
-    }
 
+        return null;
+    }
 }

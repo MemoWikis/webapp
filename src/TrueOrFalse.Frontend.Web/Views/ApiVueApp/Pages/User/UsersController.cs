@@ -20,7 +20,8 @@ public class VueUsersController : BaseController
     private readonly IWebHostEnvironment _webHostEnvironment;
     private readonly SessionUserCache _sessionUserCache;
 
-    public VueUsersController(SessionUser sessionUser,
+    public VueUsersController(
+        SessionUser sessionUser,
         PermissionCheck permissionCheck,
         MeiliSearchUsers meiliSearchUsers,
         GetTotalUsers totalUsers,
@@ -62,9 +63,9 @@ public class VueUsersController : BaseController
     }
 
     [HttpGet]
-    public JsonResult GetTotalUserCount()
+    public int GetTotalUserCount()
     {
-        return Json(_totalUsers.Run());
+        return _totalUsers.Run();
     }
 
     public UserResult GetUserResult(UserCacheItem user)
@@ -77,7 +78,8 @@ public class VueUsersController : BaseController
             var valuations = new QuestionValuationCache(_sessionUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
-            var wishQuestions = EntityCache.GetQuestionsByIds(valuations).Where(_permissionCheck.CanView);
+            var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
+                .Where(_permissionCheck.CanView);
             wishQuestionCount = wishQuestions.Count();
             topicsWithWishQuestionCount = wishQuestions.QuestionsInCategories().Count();
         }
@@ -89,8 +91,9 @@ public class VueUsersController : BaseController
             reputationPoints = user.Reputation,
             rank = user.ReputationPos,
             createdQuestionsCount =
-               _userSummary.AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
-            createdTopicsCount = _userSummary.AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
+                _userSummary.AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
+            createdTopicsCount =
+                _userSummary.AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
             showWuwi = user.ShowWishKnowledge,
             wuwiQuestionsCount = wishQuestionCount,
             wuwiTopicsCount = topicsWithWishQuestionCount,
