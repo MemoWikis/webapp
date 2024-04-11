@@ -112,23 +112,25 @@ public class EditTopicRelationStoreController : BaseController
     public readonly record struct MoveTopicResult(int oldParentId, int newParentId, MoveTopicJson undoMove);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public MoveTopicResult MoveTopic([FromBody] MoveTopicJson json)
+    private MoveTopicResult TryMoveTopic([FromBody] MoveTopicJson json)
     {
+        throw new Exception(FrontendMessageKeys.Error.Default);
+
         if (!_sessionUser.IsLoggedIn)
-            throw new SecurityException("NotLoggedIn");
+            throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
         if (!_permissionCheck.CanMoveTopic(json.movingTopicId, json.oldParentId))
-            throw new SecurityException("NoRights");
+            throw new SecurityException(FrontendMessageKeys.Error.Category.MissingRights);
 
         if (json.movingTopicId == json.newParentId)
-            throw new InvalidOperationException("CircularReference");
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Category.CircularReference);
 
         var relationToMove = EntityCache.GetCategory(json.oldParentId)?.ChildRelations.FirstOrDefault(r => r.ChildId == json.movingTopicId);
 
         if (relationToMove == null)
         {
             Logg.r.Error("CategoryRelations - MoveTopic: no relation found to move - movingTopicId:{0}, parentId:{1}", json.movingTopicId, json.oldParentId);
-            throw new InvalidOperationException("NoRelationToMove");
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
 
         var undoMoveTopicData = GetUndoMoveTopicData(relationToMove, json.newParentId, json.targetId);
@@ -143,10 +145,25 @@ public class EditTopicRelationStoreController : BaseController
         else if (json.position == TargetPosition.Inner)
             ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
         else if (json.position == TargetPosition.None)
-                throw new InvalidOperationException("NoPosition");
+                throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
         return new MoveTopicResult(json.oldParentId, json.newParentId, undoMoveTopicData);
     }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public IActionResult MoveTopic([FromBody] MoveTopicJson json)
+    {
+        try
+        {
+            return Ok(TryMoveTopic(json));
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+
 
     private MoveTopicJson GetUndoMoveTopicData(CategoryCacheRelation relation, int newParentId, int targetId)
     {

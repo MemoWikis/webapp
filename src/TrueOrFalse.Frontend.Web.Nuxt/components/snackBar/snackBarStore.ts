@@ -43,5 +43,8 @@ export const useSnackbarStore = defineStore('snackbarStore', {
 		getRandomNumber(min: number, max: number): number {
 			return Math.floor(Math.random() * (max - min + 1)) + min;
 		},
+		showSnackbar(snackbarData: SnackbarData) {
+			return snackbarData
+		}
 	},
 })

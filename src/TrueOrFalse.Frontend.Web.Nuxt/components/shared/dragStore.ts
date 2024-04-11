@@ -37,7 +37,6 @@ export const useDragStore = defineStore('dragStore', {
 	},
 	actions: {
 		dragStart(e: MoveTopicTransferData | string) {
-			console.log(e)
 			this.active = true
 			this.transferData = e
 		},

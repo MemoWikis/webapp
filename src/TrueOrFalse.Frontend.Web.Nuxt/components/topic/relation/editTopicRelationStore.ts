@@ -7,6 +7,7 @@ import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 import { TargetPosition } from '~/components/shared/dragStore'
 import { GridTopicItem } from '../content/grid/item/gridTopicItem'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -263,6 +264,14 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 body: data,
                 mode: "cors",
                 credentials: "include",
+                async onResponseError({ response, }) {
+                    const snackbarStore = useSnackbarStore()
+                    const data: SnackbarData = {
+                        type: 'error',
+                        text: messages.getByCompositeKey(response._data.error)
+                    }
+                    snackbarStore.showSnackbar(data)
+                }
             })
 
             if (result) {

@@ -219,11 +219,19 @@ public class ModifyRelationsEntityCache
             PreviousId = insertAfter ? targetTopicId : null,
             NextId = !insertAfter ? targetTopicId : null,
         };
+
         var targetPosition = relations.FindIndex(r => r.ChildId == targetTopicId);
         if (targetPosition == -1)
         {
             Logg.r.Error("CategoryRelations - Insert: Targetposition not found - parentId:{0}, targetTopicId:{1}", parentId, targetTopicId);
-            throw new InvalidOperationException("Target node not found in the order.");
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
+        }
+
+        var childAlreadyExist = relations.Any(r => r.ChildId == childId);
+        if (childAlreadyExist)
+        {
+            Logg.r.Error("CategoryRelations - Insert: Child already exists - childId:{0}, parentId:{1}", childId, parentId);
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
 
         var positionToInsert = insertAfter ? targetPosition + 1 : targetPosition;
