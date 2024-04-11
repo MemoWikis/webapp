@@ -6,90 +6,134 @@ using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using TrueOrFalse;
 using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueQuestionController(SessionUser _sessionUser,
-PermissionCheck _permissionCheck,
-RestoreQuestion _restoreQuestion,
-LearningSessionCache _learningSessionCache,
-ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-UserReadingRepo _userReadingRepo,
-QuestionReadingRepo _questionReadingRepo,
-SessionUserCache _sessionUserCache,
-IHttpContextAccessor _httpContextAccessor,
-IActionContextAccessor _actionContextAccessor,
-TotalsPersUserLoader _totalsPersUserLoader) : Controller
+public class VueQuestionController(
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    RestoreQuestion _restoreQuestion,
+    LearningSessionCache _learningSessionCache,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    UserReadingRepo _userReadingRepo,
+    QuestionReadingRepo _questionReadingRepo,
+    SessionUserCache _sessionUserCache,
+    IHttpContextAccessor _httpContextAccessor,
+    IActionContextAccessor _actionContextAccessor,
+    TotalsPersUserLoader _totalsPersUserLoader) : Controller
 {
+    public readonly record struct TinyQuestion(
+        int Id,
+        string Text,
+        string TextExtended,
+        SolutionType SolutionType,
+        string Solution);
+
     [HttpGet]
-    public JsonResult GetQuestion([FromRoute] int id)
+    public TinyQuestion GetQuestion([FromRoute] int id)
     {
         var q = EntityCache.GetQuestionById(id);
         if (_permissionCheck.CanView(q))
         {
-            return Json(new
+            return new TinyQuestion
             {
                 Id = id,
-                q.Text,
-                q.TextExtended,
-                q.SolutionType,
+                Text = q.Text,
+                TextExtended = q.TextExtended,
+                SolutionType = q.SolutionType,
                 Solution = GetQuestionSolution.Run(q).GetCorrectAnswerAsHtml()
-            });
+            };
         }
 
-        return Json(new { });
+        return new TinyQuestion { };
     }
 
+    public readonly record struct QuestionPageResult(AnswerBodyModel AnswerBodyModel, SolutionData SolutionData,AnswerQuestionDetailsResult? AnswerQuestionDetailsModel);
+
+    public readonly record struct AnswerBodyModel(
+        int Id,
+        string Text,
+        string Title,
+        SolutionType SolutionType,
+        string RenderedQuestionTextExtended,
+        string Description,
+        bool HasTopics,
+        int? PrimaryTopicId,
+        string PrimaryTopicName,
+        string Solution,
+        bool IsCreator,
+        bool IsInWishknowledge,
+        Guid QuestionViewGuid,
+        bool IsLastStep);
+
+    public readonly record struct SolutionData(
+        string AnswerAsHTML,
+        string Answer,
+        string AnswerDescription,
+        AnswerReferences[] AnswerReferences);
+
+    public readonly record struct AnswerReferences(
+        int ReferenceId,
+        int? TopicId,
+        string ReferenceType,
+        string AdditionalInfo,
+        string ReferenceText);
+
     [HttpGet]
-    public JsonResult GetQuestionPage([FromRoute] int id)
+    public QuestionPageResult GetQuestionPage([FromRoute] int id)
     {
         var q = EntityCache.GetQuestion(id);
         var primaryTopic = q.Categories.LastOrDefault();
         var solution = GetQuestionSolution.Run(q);
 
         EscapeReferencesText(q.References);
-        return Json(new
+        return new QuestionPageResult
         {
-            answerBodyModel = new
+            AnswerBodyModel = new AnswerBodyModel
             {
-                id = q.Id,
-                text = q.Text,
-                title = Regex.Replace(q.Text, "<.*?>", string.Empty),
-                solutionType = q.SolutionType,
-                renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
-                description = q.Description,
-                hasTopics = q.Categories.Any(),
-                primaryTopicId = primaryTopic?.Id,
-                primaryTopicName = primaryTopic?.Name,
-                solution = q.Solution,  
-                isCreator = q.Creator.Id == _sessionUser.UserId,
-                isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
-                questionViewGuid = Guid.NewGuid(),
-                isLastStep = true
+                Id = q.Id,
+                Text = q.Text,
+                Title = Regex.Replace(q.Text, "<.*?>", string.Empty),
+                SolutionType = q.SolutionType,
+                RenderedQuestionTextExtended = q.TextExtended != null
+                    ? MarkdownMarkdig.ToHtml(q.TextExtended)
+                    : "",
+                Description = q.Description,
+                HasTopics = q.Categories.Any(),
+                PrimaryTopicId = primaryTopic?.Id,
+                PrimaryTopicName = primaryTopic?.Name,
+                Solution = q.Solution,
+                IsCreator = q.Creator.Id == _sessionUser.UserId,
+                IsInWishknowledge = _sessionUser.IsLoggedIn &&
+                                    q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
+                QuestionViewGuid = Guid.NewGuid(),
+                IsLastStep = true
             },
-            solutionData = new
-            {   
-                answerAsHTML = solution.GetCorrectAnswerAsHtml(),
-                answer = solution.CorrectAnswer(),
-                answerDescription = q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
-                answerReferences = q.References.Select(r => new
+            SolutionData = new SolutionData
+            {
+                AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
+                Answer = solution.CorrectAnswer(),
+                AnswerDescription =
+                    q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
+                AnswerReferences = q.References.Select(r => new AnswerReferences
                 {
-                    referenceId = r.Id,
-                    topicId = r.Category?.Id ?? null,
-                    referenceType = r.ReferenceType.GetName(),
-                    additionalInfo = r.AdditionalInfo ?? "",
-                    referenceText = r.ReferenceText ?? ""
+                    ReferenceId = r.Id,
+                    TopicId = r.Category?.Id ?? null,
+                    ReferenceType = r.ReferenceType.GetName(),
+                    AdditionalInfo = r.AdditionalInfo ?? "",
+                    ReferenceText = r.ReferenceText ?? ""
                 }).ToArray()
             },
-            answerQuestionDetailsModel = 
+            AnswerQuestionDetailsModel =
                 GetData(id)
         });
     }
 
-     public AnswerQuestionDetailsResult? GetData(int id)
+    public AnswerQuestionDetailsResult? GetData(int id)
     {
         var question = EntityCache.GetQuestionById(id);
 
@@ -102,15 +146,19 @@ TotalsPersUserLoader _totalsPersUserLoader) : Controller
             _totalsPersUserLoader,
             _sessionUserCache);
 
-        var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
+        var correctnessProbability =
+            answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-        var hasUserValuation = userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
+        var hasUserValuation =
+            userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
         var result = new AnswerQuestionDetailsResult(
-            KnowledgeStatus: hasUserValuation ? userQuestionValuation[question.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
+            KnowledgeStatus: hasUserValuation
+                ? userQuestionValuation[question.Id].KnowledgeStatus
+                : KnowledgeStatus.NotLearned,
             PersonalProbability: correctnessProbability.CPPersonal,
             PersonalColor: correctnessProbability.CPPColor,
             AvgProbability: correctnessProbability.CPAll,
@@ -120,36 +168,37 @@ TotalsPersUserLoader _totalsPersUserLoader) : Controller
             OverallAnswerCount: history.TimesAnsweredTotal,
             OverallAnsweredCorrectly: history.TimesAnsweredCorrect,
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
-            IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation.IsInWishKnowledge,
-            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t => new AnswerQuestionDetailsTopic(
-                Id: t.Id,
-                Name: t.Name,
-                Url: new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(t.Name, t.Id),
-                QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
-                ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url,
-                IconHtml: CategoryCachedData.GetIconHtml(t),
-                MiniImageUrl: new ImageFrontendData(
-                        _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
-                        _httpContextAccessor,
-                        _questionReadingRepo)
-                    .GetImageUrl(30, true, false, ImageType.Category).Url,
-                Visibility: (int)t.Visibility,
-                IsSpoiler:  IsSpoilerCategory.Yes(t.Name, question)
-            )).Distinct().ToArray(),
-
+            IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
+                .IsInWishKnowledge,
+            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
+                new AnswerQuestionDetailsTopic(
+                    Id: t.Id,
+                    Name: t.Name,
+                    Url: new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(
+                        t.Name, t.Id),
+                    QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
+                    ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor)
+                        .GetUrl_128px(asSquare: true).Url,
+                    IconHtml: CategoryCachedData.GetIconHtml(t),
+                    MiniImageUrl: new ImageFrontendData(
+                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
+                            _httpContextAccessor,
+                            _questionReadingRepo)
+                        .GetImageUrl(30, true, false, ImageType.Category).Url,
+                    Visibility: (int)t.Visibility,
+                    IsSpoiler: IsSpoilerCategory.Yes(t.Name, question)
+                )).Distinct().ToArray(),
             Visibility: question.Visibility,
             DateNow: dateNow,
             EndTimer: DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
             Creator: new MacroCreator(
-            
                 Id: question.CreatorId,
                 Name: question.Creator.Name
             ),
             CreationDate: DateTimeUtils.TimeElapsedAsText(question.DateCreated),
             TotalViewCount: question.TotalViews,
-            WishknowledgeCount:  question.TotalRelevancePersonalEntries,
+            WishknowledgeCount: question.TotalRelevancePersonalEntries,
             License: new License(
-            
                 IsDefault: question.License.IsDefault(),
                 ShortText: question.License.DisplayTextShort,
                 FullText: question.License.DisplayTextFull
@@ -158,11 +207,12 @@ TotalsPersUserLoader _totalsPersUserLoader) : Controller
         return result;
     }
 
-    public JsonResult LoadQuestion(int questionId)
+    public QuestionListJson.Question LoadQuestion(int questionId)
     {
-        var userQuestionValuation = _sessionUser.IsLoggedIn ? 
-            _sessionUserCache.GetItem(_sessionUser.UserId)
-                .QuestionValuations : null;
+        var userQuestionValuation = _sessionUser.IsLoggedIn
+            ? _sessionUserCache.GetItem(_sessionUser.UserId)
+                .QuestionValuations
+            : null;
 
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
@@ -170,8 +220,9 @@ TotalsPersUserLoader _totalsPersUserLoader) : Controller
         question.Title = q.Text;
         var links = new Links(_actionContextAccessor, _httpContextAccessor);
         question.LinkToQuestion = links.GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
-                _httpContextAccessor, 
+        question.ImageData = new ImageFrontendData(
+                _imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+                _httpContextAccessor,
                 _questionReadingRepo)
             .GetImageUrl(40, true).Url;
 
@@ -194,10 +245,11 @@ TotalsPersUserLoader _totalsPersUserLoader) : Controller
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
             question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
-            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+            question.HasPersonalAnswer =
+                userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }
 
-        return Json(question);
+        return question;
     }
 
     [RedirectToErrorPage_IfNotLoggedIn]
@@ -216,12 +268,14 @@ TotalsPersUserLoader _totalsPersUserLoader) : Controller
         {
             if (reference.ReferenceText != null)
             {
-                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>")
+                    .Replace("\\n", "<br/>");
             }
 
             if (reference.AdditionalInfo != null)
             {
-                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>")
+                    .Replace("\\n", "<br/>");
             }
         }
     }
