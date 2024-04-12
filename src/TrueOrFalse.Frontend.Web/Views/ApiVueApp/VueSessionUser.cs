@@ -7,7 +7,6 @@ public class VueSessionUser(
     SessionUser _sessionUser,
     GetUnreadMessageCount _getUnreadMessageCount,
     IHttpContextAccessor _httpContextAccessor,
-    UserReadingRepo _userReadingRepo,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     CategoryViewRepo _categoryViewRepo,

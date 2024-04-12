@@ -75,7 +75,7 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
         return _repo.GetAll();
     }
 
-    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    public List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var categories = new List<Category>();
         var privateCategories =

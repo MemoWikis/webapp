@@ -1,50 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
-public class QuestionWritingRepo : RepositoryDbBase<Question>
+public class QuestionWritingRepo(
+    UpdateQuestionCountForCategory _updateQuestionCountForCategory,
+    JobQueueRepo _jobQueueRepo,
+    ReputationUpdate _reputationUpdate,
+    UserReadingRepo _userReadingRepo,
+    UserActivityRepo _userActivityRepo,
+    QuestionChangeRepo _questionChangeRepo,
+    ISession _nhibernateSession,
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    CategoryRepository _categoryRepository,
+    QuestionReadingRepo _questionReadingRepo) : RepositoryDbBase<Question>(_nhibernateSession)
 {
-    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly ReputationUpdate _reputationUpdate;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserActivityRepo _userActivityRepo;
-    private readonly QuestionChangeRepo _questionChangeRepo;
-    private readonly ISession _nhibernateSession;
-    private readonly RepositoryDb<Question> _repo;
-    private readonly SessionUser _sessionUser;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryRepository _categoryRepository;
-
-    public QuestionWritingRepo(
-        UpdateQuestionCountForCategory updateQuestionCountForCategory,
-        JobQueueRepo jobQueueRepo,
-        ReputationUpdate reputationUpdate,
-        UserReadingRepo userReadingRepo,
-        UserActivityRepo userActivityRepo,
-        QuestionChangeRepo questionChangeRepo,
-        ISession nhibernateSession,
-        SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        CategoryRepository categoryRepository) : base(nhibernateSession)
-    {
-        _repo = new RepositoryDb<Question>(nhibernateSession);
-        _updateQuestionCountForCategory = updateQuestionCountForCategory;
-        _jobQueueRepo = jobQueueRepo;
-        _reputationUpdate = reputationUpdate;
-        _userReadingRepo = userReadingRepo;
-        _userActivityRepo = userActivityRepo;
-        _questionChangeRepo = questionChangeRepo;
-        _nhibernateSession = nhibernateSession;
-        _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        _categoryRepository = categoryRepository;
-    }
-
     public void Create(Question question, CategoryRepository categoryRepository)
     {
         if (question.Creator == null)
@@ -52,8 +25,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             throw new Exception("no creator");
         }
 
-        _repo.Create(question);
-        _repo.Flush();
+        Create(question);
+        Flush();
 
         _updateQuestionCountForCategory.Run(question.Categories);
 
@@ -165,7 +138,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             if (!_permissionCheck.CanViewCategory(categoryId))
                 newCategoryIds.Add(categoryId);
 
-        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
+        question.Categories =
+            _questionReadingRepo.GetAllParentsForQuestion(newCategoryIds, question);
         question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
