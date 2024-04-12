@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
+//todo:(DaMa) Move Stripe to the backend
+public class StripeSubscriptionManger : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly UserReadingRepo _userReadingRepo;
@@ -15,11 +14,12 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
 
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public StripeSubscriptionHelper(SessionUser sessionUser,
+    public StripeSubscriptionManger(
+        SessionUser sessionUser,
         UserReadingRepo userReadingRepo,
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) 
+        IWebHostEnvironment webHostEnvironment)
     {
         _sessionUser = sessionUser;
         _userReadingRepo = userReadingRepo;
@@ -57,17 +57,20 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         string customerId;
         if (sessionUser.StripeId == null)
         {
-            customerId = await CreateStripeCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
+            customerId = await CreateStripeCustomer(sessionUser.Name, sessionUser.EmailAddress,
+                sessionUser.Id);
         }
         else
         {
             customerId = sessionUser.StripeId;
         }
 
-        var stripeReturnUrlGenerator = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment);
+        var stripeReturnUrlGenerator =
+            new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment);
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string> { 
+            PaymentMethodTypes = new List<string>
+            {
                 "card",
                 "paypal"
                 //, "sofort"
@@ -110,7 +113,8 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         var options = new Stripe.BillingPortal.SessionCreateOptions
         {
             Customer = stripeId,
-            ReturnUrl = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment).Create("")
+            ReturnUrl = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment)
+                .Create("")
         };
         var service = new Stripe.BillingPortal.SessionService();
         var session = await service.CreateAsync(options);
@@ -120,10 +124,8 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
 
     public class SubscriptionItemOption
     {
-        [JsonProperty("price")]
-        public string PriceId { get; set; }
+        [JsonProperty("price")] public string PriceId { get; set; }
 
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        [JsonProperty("quantity")] public int Quantity { get; set; }
     }
 }

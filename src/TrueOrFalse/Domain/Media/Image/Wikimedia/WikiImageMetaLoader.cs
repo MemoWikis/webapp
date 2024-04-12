@@ -6,7 +6,10 @@ namespace TrueOrFalse
 {
     public class WikiImageMetaLoader
     {
-        public static WikiImageMeta Run(string fileNameOrUrl, int imgWidth = 1024, string host = "commons.wikimedia.org")
+        public static WikiImageMeta Run(
+            string fileNameOrUrl,
+            int imgWidth = 1024,
+            string host = "commons.wikimedia.org")
         {
             fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
 
@@ -37,10 +40,10 @@ namespace TrueOrFalse
 
             var jsonResult = JObject.Parse(resultString);
             var page = jsonResult["query"]["pages"];
-            var pageName = ((JObject)page).Properties().Select(p => p.Name).First();
 
             // if json result does not contain "imageinfo", try api from host same as the image file name host.
-            if (((ICollection<string>)page["GetDynamicMemberNames"].Value<ICollection<string>>()).All(x =>
+            if (((ICollection<string>)page["GetDynamicMemberNames"].Value<ICollection<string>>())
+                .All(x =>
                     x != "imageinfo"))
             {
                 if (WikiApiUtils.ExtractDomain(host) == "commons.wikimedia.org")
@@ -62,7 +65,8 @@ namespace TrueOrFalse
                 UserId = page["userid"].Value<string>(),
                 ImageTitle = page["title"].Value<string>(),
                 ImageRepository = page["imagerepository"].Value<string>(),
-                ImageTimeStamp = DateTime.Parse(page["imageinfo"][0]["timestamp"].Value<string>().Replace('T', ' ')
+                ImageTimeStamp = DateTime.Parse(page["imageinfo"][0]["timestamp"].Value<string>()
+                    .Replace('T', ' ')
                     .Replace('Z', ' ')),
                 ImageOriginalWidth = page["imageinfo"][0]["width"].Value<int>(),
                 ImageOriginalHeight = page["imageinfo"][0]["height"].Value<int>(),
@@ -77,7 +81,8 @@ namespace TrueOrFalse
 
         public static void SetUserAgent(HttpWebRequest webRequest)
         {
-            webRequest.UserAgent = "MemuchoBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemuchoImageLoaderLib/1.1";
+            webRequest.UserAgent =
+                "MemuchoBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemuchoImageLoaderLib/1.1";
         }
     }
 }

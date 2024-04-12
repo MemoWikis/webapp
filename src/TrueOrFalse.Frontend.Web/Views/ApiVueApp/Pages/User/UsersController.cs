@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -42,8 +43,10 @@ public class VueUsersController : BaseController
         _sessionUserCache = sessionUserCache;
     }
 
+    public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
+
     [HttpGet]
-    public async Task<JsonResult> Get(
+    public async Task<UsersResult> Get(
         int page,
         int pageSize,
         string searchTerm = "",
@@ -55,11 +58,11 @@ public class VueUsersController : BaseController
         var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
         var usersResult = users.Select(GetUserResult);
 
-        return Json(new
+        return new UsersResult
         {
-            users = usersResult.ToArray(),
-            totalItems = result.pager.TotalItems
-        });
+            Users = usersResult,
+            TotalItems = result.pager.TotalItems
+        };
     }
 
     [HttpGet]

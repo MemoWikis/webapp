@@ -20,44 +20,46 @@ public class UserStoreController(
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser) {
 
+
+    public readonly record struct LoginResult(VueSessionUser.CurrentUserData Data, string MessageKey, bool Success);
     [HttpPost]
-    public JsonResult Login([FromBody] LoginParam param)
+    public LoginResult Login([FromBody] LoginParam param)
     {
         var loginIsSuccessful = _login.UserLogin(param);
 
         if (loginIsSuccessful)
         {
-            return Json(new RequestResult
+            return new LoginResult
             {
                 Success = true,
                 Data = _vueSessionUser.GetCurrentUserData()
             });
         }
-        return Json(new RequestResult
+        return new LoginResult
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.User.LoginFailed
-        });
+        };
     }
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public JsonResult LogOut()
+    public LoginResult LogOut()
     {
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor);
         _sessionUser.Logout();
 
         if (!_sessionUser.IsLoggedIn)
-            return Json(new RequestResult
+            return new LoginResult
             {
                 Success = true,
-            });
+            };
 
-        return Json(new RequestResult
+        return new LoginResult
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.Default
-        });
+        };
     }
 
     [HttpGet]
@@ -68,38 +70,49 @@ public class UserStoreController(
     }
 
     [HttpPost]
-    public JsonResult ResetPassword(string email)
+    public LoginResult ResetPassword(string email)
     {
         var result = _passwordRecovery.RunForNuxt(email);
         //Don't reveal if email exists 
-        return Json(new RequestResult { Success = result.Success || result.EmailDoesNotExist });
+        return new LoginResult { Success = result.Success || result.EmailDoesNotExist };
     }
 
-    [HttpPost]
-    public JsonResult Register([FromBody] RegisterJson json)
-    {
-       
 
+    public readonly record struct RegisterResult(bool Success, RegisterDetails Data, string MessageKey);
+    public readonly record struct RegisterDetails(bool IsLoggedIn,
+    int Id ,
+    string Name ,
+    bool IsAdmin ,
+    int PersonalWikiId,
+    UserType Type ,
+    string ImgUrl,
+    int Reputation,
+    int ReputationPos ,
+    TopicDataManager.TopicDataResult PersonalWiki);
+
+    [HttpPost]
+    public RegisterResult Register([FromBody] RegisterJson json)
+    {
         if (!IsEmailAddressAvailable.Yes(json.Email, _userReadingRepo))
-            return Json(new RequestResult
+            return new RegisterResult
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.User.EmailInUse
-        });
+        };
 
         if (!IsUserNameAvailable.Yes(json.Email, _userReadingRepo))
-            return Json(new RequestResult
+            return new RegisterResult
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
-        });
+        };
 
         _registerUser.SetUser(json);
 
-        return Json(new RequestResult
+        return new RegisterResult
         {
             Success = true,
-            Data = new
+            Data = new RegisterDetails
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
@@ -124,19 +137,18 @@ public class UserStoreController(
                         _questionReadingRepo)
                     .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
             }
-        });
+        };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult RequestVerificationMail()
+    public LoginResult RequestVerificationMail()
     {
         SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
-        return Json(new RequestResult
+        return new LoginResult
         {
             Success = true,
             MessageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
-        });
+        };
     }
-
 }

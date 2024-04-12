@@ -18,7 +18,10 @@ public class FacebookUsersController(
 {
     public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
 
-    public readonly record struct LoginResult(bool Success, string MessageKey, VueSessionUser Data);
+    public readonly record struct LoginResult(
+        bool Success,
+        string MessageKey,
+        VueSessionUser.CurrentUserData Data);
 
     [HttpPost]
     public async Task<LoginResult> Login([FromBody] LoginJson json)
@@ -74,8 +77,8 @@ public class FacebookUsersController(
                 };
             }
 
-            var requestResult = _registerUser.SetFacebookUser(json.facebookUser);
-            if (requestResult.Success)
+            var registerResult = _registerUser.SetFacebookUser(json.facebookUser);
+            if (registerResult.Success)
             {
                 return new LoginResult
                 {
@@ -86,8 +89,8 @@ public class FacebookUsersController(
 
             return new LoginResult
             {
-                Success = requestResult.Success,
-                MessageKey = requestResult.MessageKey
+                Success = registerResult.Success,
+                MessageKey = registerResult.MessageKey
             };
         }
 

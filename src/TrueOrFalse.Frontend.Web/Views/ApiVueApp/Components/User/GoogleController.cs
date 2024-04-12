@@ -13,7 +13,10 @@ public class GoogleController(
 {
     public readonly record struct LoginJson(string token);
 
-    public readonly record struct LoginResult(bool Success, string MessageKey, VueSessionUser Data);
+    public readonly record struct LoginResult(
+        bool Success,
+        string MessageKey,
+        VueSessionUser.CurrentUserData Data);
 
     [HttpPost]
     public async Task<LoginResult> Login([FromBody] LoginJson json)
@@ -63,14 +66,14 @@ public class GoogleController(
 
     public readonly record struct CreateAndLoginResult(
         bool Success,
-        VueSessionUser Data,
+        VueSessionUser.CurrentUserData Data,
         string MessageKey);
 
     [HttpPost]
     public CreateAndLoginResult CreateAndLogin(GoogleUserCreateParameter googleUser)
     {
-        var requestResult = _registerUser.SetGoogleUser(googleUser);
-        if (requestResult.Success)
+        var registerResult = _registerUser.SetGoogleUser(googleUser);
+        if (registerResult.Success)
 
         {
             return new CreateAndLoginResult
@@ -82,8 +85,8 @@ public class GoogleController(
 
         return new CreateAndLoginResult
         {
-            Success = requestResult.Success,
-            MessageKey = requestResult.MessageKey
+            Success = registerResult.Success,
+            MessageKey = registerResult.MessageKey
         };
     }
 

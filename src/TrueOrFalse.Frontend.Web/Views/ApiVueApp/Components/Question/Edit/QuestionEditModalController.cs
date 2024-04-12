@@ -8,8 +8,11 @@ using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+
 namespace VueApp;
-public class QuestionEditModalController(SessionUser _sessionUser,
+
+public class QuestionEditModalController(
+    SessionUser _sessionUser,
     LearningSessionCache _learningSessionCache,
     PermissionCheck _permissionCheck,
     LearningSessionCreator _learningSessionCreator,
@@ -41,21 +44,29 @@ public class QuestionEditModalController(SessionUser _sessionUser,
         LearningSessionConfig SessionConfig
     );
 
+    public readonly record struct QuestionEditResult(
+        bool Success,
+        string MessageKey,
+        QuestionListJson.Question Data);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public RequestResult Create([FromBody] QuestionDataParam param)
+    public QuestionEditResult Create([FromBody] QuestionDataParam param)
     {
         if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true))
         {
-            return new RequestResult
-            { Success = false, MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion };
+            return new QuestionEditResult
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion
+            };
         }
 
         var safeText = RemoveHtmlTags(param.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new RequestResult
-            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+            return new QuestionEditResult
+                { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -70,28 +81,30 @@ public class QuestionEditModalController(SessionUser _sessionUser,
         {
         }
 
-        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem, param.SessionIndex,
+        _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem,
+            param.SessionIndex,
             param.SessionConfig);
 
         if (param.AddToWishknowledge != null && (bool)param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        return new RequestResult { Success = true, Data = LoadQuestion(question.Id) };
+        return new QuestionEditResult { Success = true, Data = LoadQuestion(question.Id) };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public RequestResult Edit([FromBody] QuestionDataParam param)
+    public QuestionEditResult Edit([FromBody] QuestionDataParam param)
     {
         var safeText = RemoveHtmlTags(param.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new RequestResult
-            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+            return new QuestionEditResult
+                { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         if (param.QuestionId == null)
-            return new RequestResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
+            return new QuestionEditResult
+                { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         var question = _questionReadingRepo.GetById((int)param.QuestionId);
         var updatedQuestion = UpdateQuestion(question, param, safeText);
@@ -99,23 +112,25 @@ public class QuestionEditModalController(SessionUser _sessionUser,
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
         if (param.IsLearningTab)
-            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(
+                EntityCache.GetQuestion(updatedQuestion.Id));
 
-        return new RequestResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
+        return new QuestionEditResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
     }
 
-    public record struct QuestionJson(int Id,
-    int SolutionType,
-    string Solution,
-    string SolutionMetadataJson,
-    string Text,
-    string TextExtended,
-    int[] PublicTopicIds,
-    string DescriptionHtml,
-    SearchTopicItem[] Topics,
-    int[] TopicIds,
-    int LicenseId,
-    QuestionVisibility Visibility);
+    public record struct QuestionJson(
+        int Id,
+        int SolutionType,
+        string Solution,
+        string SolutionMetadataJson,
+        string Text,
+        string TextExtended,
+        int[] PublicTopicIds,
+        string DescriptionHtml,
+        SearchTopicItem[] Topics,
+        int[] TopicIds,
+        int LicenseId,
+        QuestionVisibility Visibility);
 
     [HttpGet]
     public QuestionJson GetData([FromRoute] int id)
@@ -144,7 +159,8 @@ public class QuestionEditModalController(SessionUser _sessionUser,
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetCategory(id).GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
+    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetCategory(id)
+        .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     private QuestionListJson.Question LoadQuestion(int questionId)
     {
@@ -155,7 +171,8 @@ public class QuestionEditModalController(SessionUser _sessionUser,
         question.Id = q.Id;
         question.Title = q.Text;
         question.LinkToQuestion = new Links(_actionContextAccessor, _httpContextAccessor).GetUrl(q);
-        question.ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+        question.ImageData = new ImageFrontendData(
+                _imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                 _httpContextAccessor,
                 _questionReadingRepo)
             .GetImageUrl(40, true)
@@ -180,7 +197,8 @@ public class QuestionEditModalController(SessionUser _sessionUser,
         {
             question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
             question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
-            question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+            question.HasPersonalAnswer =
+                userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
         }
 
         return question;
@@ -195,7 +213,8 @@ public class QuestionEditModalController(SessionUser _sessionUser,
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor)
                 .GetUrl_128px(asSquare: true).Url,
-            MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+            MiniImageUrl = new ImageFrontendData(
+                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Category)
