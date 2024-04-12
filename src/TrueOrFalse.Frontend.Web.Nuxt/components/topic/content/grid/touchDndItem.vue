@@ -122,8 +122,6 @@ function handleDragStart(e: any) {
         dragStore.dragStart(data)
         dragging.value = true
     }
-
-    handleDrag(e)
 }
 
 const touchTimer = ref()
@@ -168,15 +166,13 @@ function handleDragEnd() {
 
 const touchDragComponent = ref<HTMLElement | null>(null)
 
-function handleDrag(e: MouseEvent | TouchEvent) {
+function handleDrag(e: TouchEvent) {
+    const x = e.changedTouches[0].pageX
+    const y = e.changedTouches[0].pageY - 85
+    dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
 
-    if (dragging.value && 'touches' in e && touchDragComponent.value) {
-        const el = touchDragComponent.value.getBoundingClientRect()
-        const x = e.changedTouches[0].pageX - el.left - 25
-        const y = e.changedTouches[0].pageY - el.height - 50
-        dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
+    if (dragging.value)
         handleScroll(e.changedTouches[0].clientY)
-    }
 }
 
 function handleScroll(clientY: number) {
@@ -201,7 +197,6 @@ function getDropZoneData(position: TargetPosition): string {
     return JSON.stringify(data)
 }
 
-
 watch(() => dragStore.dropZoneData, (data) => {
     if (data?.type == DragAndDropType.GridItem && data.id == props.topic.id) {
         isDroppableItemActive.value = true
@@ -213,22 +208,16 @@ watch(() => dragStore.dropZoneData, (data) => {
     }
 }, { immediate: true, deep: true })
 
-const currentPositionTimer = ref()
-
 watch(currentPosition, (val) => {
     if (isDroppableItemActive.value) {
         if (val == TargetPosition.Before) {
             hoverTopHalf.value = true
             hoverBottomHalf.value = false
-            currentPositionTimer.value = null
         }
         else if (val == TargetPosition.After) {
             hoverTopHalf.value = false
             hoverBottomHalf.value = true
-            currentPositionTimer.value = setTimeout(() => {
-                currentPosition.value = TargetPosition.Inner
-                dropIn.value = true
-            }, 300)
+
         }
         else if (val == TargetPosition.Inner) {
             hoverTopHalf.value = false
@@ -238,7 +227,7 @@ watch(currentPosition, (val) => {
     else {
         hoverTopHalf.value = false
         hoverBottomHalf.value = false
-        currentPositionTimer.value = null
+        dropIn.value = false
     }
 }, { immediate: true })
 
@@ -248,9 +237,41 @@ watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
         placeHolderTopicName.value = m.topic.name
-
     }
 }, { deep: true })
+
+const initialHoldPosition = reactive({
+    x: 0,
+    y: 0
+})
+const touchNotMovedTimer = ref()
+watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
+
+    const xDifference = Math.abs(initialHoldPosition.x - x)
+    const yDifference = Math.abs(initialHoldPosition.x - y)
+
+    if (xDifference > 5 || yDifference > 2) {
+        clearTimeout(touchTimer.value)
+    }
+
+    if (currentPosition.value != TargetPosition.None && dragStore.active) {
+
+        if (xDifference > 5 || yDifference > 2) {
+            clearTimeout(touchNotMovedTimer.value)
+        }
+
+        if (touchNotMovedTimer.value == null) {
+            if (currentPosition.value == TargetPosition.After)
+                setTimeout(() => {
+                    currentPosition.value = TargetPosition.Inner
+                    dropIn.value = true
+                }, 1000)
+        }
+
+        initialHoldPosition.x = x
+        initialHoldPosition.y = y
+    }
+}, { immediate: true })
 
 </script>
 
@@ -275,7 +296,7 @@ watch(() => dragStore.transferData, (t) => {
                 :drop-expand="dropIn">
 
                 <template #topdropzone>
-                    <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
+                    <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone top"
                         :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
                         @dragleave="hoverTopHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
                     </div>

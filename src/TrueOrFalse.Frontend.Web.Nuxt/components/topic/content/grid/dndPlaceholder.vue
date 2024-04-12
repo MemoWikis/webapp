@@ -72,19 +72,22 @@ const props = defineProps<Props>()
         .label-placeholder {
             min-height: 18px;
             height: 18px;
-            width: 250px;
+            max-width: 250px;
+            width: 100%;
             background: @memo-grey-lighter;
         }
 
         .knowledgebar-container {
-            width: 250px;
+            width: 100%;
+            max-width: 250px;
             height: 18px;
 
             padding-top: 6px;
 
             .knowledgebar-placeholder {
                 height: 6px;
-                width: 180px;
+                width: 100%;
+                max-width: 180px;
                 background: @memo-grey-lighter;
             }
         }

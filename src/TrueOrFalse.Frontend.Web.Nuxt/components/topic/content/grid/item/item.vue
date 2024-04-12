@@ -395,6 +395,7 @@ const { isDesktop } = useDevice()
 
             .item-name {
                 font-size: 18px;
+                word-break: break-all;
 
                 a {
                     cursor: pointer;

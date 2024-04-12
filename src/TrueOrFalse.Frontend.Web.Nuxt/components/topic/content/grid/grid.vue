@@ -372,6 +372,10 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         }
     }
 }
+
+#TopicGrid {
+    touch-action: pan-y;
+}
 </style>
 
 <style lang="less">

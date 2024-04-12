@@ -31,8 +31,8 @@ export const useDragStore = defineStore('dragStore', {
 			dropZoneData: null as DropZoneData | null,
 			x: 0,
 			y: 0,
-			screenX: 0,
-			screenY: 0,
+			touchX: 0,
+			touchY: 0,
 		}
 	},
 	actions: {
@@ -44,9 +44,9 @@ export const useDragStore = defineStore('dragStore', {
 			this.active = false
 			this.transferData = null
 		},
-		setMouseData(x: number, y: number, screenX?: number, screenY?: number) {
-			this.setMousePosition(x,y,screenX,screenY)
-			if (screenX && screenY) {
+		setMouseData(x: number, y: number, touchX?: number, touchY?: number) {
+			this.setMousePosition(x,y,touchX,touchY)
+			if (touchX && touchY) {
 				const el = document.elementFromPoint(x, y) as any
 				const jsonString = el?.getAttribute('data-dropzonedata')
 				if (jsonString)
@@ -58,8 +58,8 @@ export const useDragStore = defineStore('dragStore', {
 			this.y = y
 
 			if (screenX && screenY) {
-				this.screenX = screenX
-				this.screenY = screenY
+				this.touchX = screenX
+				this.touchY = screenY
 			}
 		}
 	},
