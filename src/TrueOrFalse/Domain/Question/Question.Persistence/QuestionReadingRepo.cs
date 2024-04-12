@@ -1,18 +1,22 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 public class QuestionReadingRepo : RepositoryDbBase<Question>
 {
     private readonly ISession _session;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryRepository _categoryRepository;
     private readonly RepositoryDb<Question> _repo;
 
-    public QuestionReadingRepo(ISession session) : base(session)
+    public QuestionReadingRepo(
+        ISession session,
+        PermissionCheck permissionCheck,
+        CategoryRepository categoryRepository) : base(session)
     {
-       _repo =  new RepositoryDbBase<Question>(session); 
-       _session = session;
+        _repo = new RepositoryDbBase<Question>(session);
+        _session = session;
+        _permissionCheck = permissionCheck;
+        _categoryRepository = categoryRepository;
     }
 
     public int TotalPublicQuestionCount()
@@ -70,5 +74,20 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
     {
         return _repo.GetAll();
     }
-}
 
+    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    {
+        var categories = new List<Category>();
+        var privateCategories =
+            question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+        categories.AddRange(privateCategories);
+
+        foreach (var categoryId in newCategoryIds)
+            categories.Add(_categoryRepository.GetById(categoryId));
+
+        return categories;
+    }
+
+    public List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) =>
+        GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
+}

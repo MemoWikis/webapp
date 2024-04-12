@@ -1,4 +1,7 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Seedworks.Lib.Persistence;
+using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
@@ -14,15 +17,20 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     private readonly ISession _nhibernateSession;
     private readonly RepositoryDb<Question> _repo;
     private readonly SessionUser _sessionUser;
+    private readonly PermissionCheck _permissionCheck;
+    private readonly CategoryRepository _categoryRepository;
 
-    public QuestionWritingRepo(UpdateQuestionCountForCategory updateQuestionCountForCategory,
+    public QuestionWritingRepo(
+        UpdateQuestionCountForCategory updateQuestionCountForCategory,
         JobQueueRepo jobQueueRepo,
         ReputationUpdate reputationUpdate,
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo,
         QuestionChangeRepo questionChangeRepo,
         ISession nhibernateSession,
-        SessionUser sessionUser) : base(nhibernateSession)
+        SessionUser sessionUser,
+        PermissionCheck permissionCheck,
+        CategoryRepository categoryRepository) : base(nhibernateSession)
     {
         _repo = new RepositoryDb<Question>(nhibernateSession);
         _updateQuestionCountForCategory = updateQuestionCountForCategory;
@@ -33,7 +41,10 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         _questionChangeRepo = questionChangeRepo;
         _nhibernateSession = nhibernateSession;
         _sessionUser = sessionUser;
+        _permissionCheck = permissionCheck;
+        _categoryRepository = categoryRepository;
     }
+
     public void Create(Question question, CategoryRepository categoryRepository)
     {
         if (question.Creator == null)
@@ -88,7 +99,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     public void UpdateOrMerge(Question question, bool withMerge)
     {
         var categoriesIds = _nhibernateSession
-            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
+            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" +
+                            question.Id)
             .List<int>();
         var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
                     " AND Category_id is not null";
@@ -105,9 +117,9 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .List();
 
         //UpdateOrMerge(question, withMerge);
-        if (withMerge) 
+        if (withMerge)
             Merge(question);
-        else 
+        else
             Update(question);
 
         Flush();
@@ -120,14 +132,92 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
-        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, _sessionUser.UserId);
+        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds,
+            _sessionUser.UserId);
         _questionChangeRepo.AddUpdateEntry(question);
 
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .UpdateAsync(question));
     }
+
     public void UpdateFieldsOnly(Question question)
     {
         base.Update(question);
     }
+
+    public Question UpdateQuestion(
+        Question question,
+        QuestionDataParam questionDataParam,
+        string safeText)
+    {
+        question.TextHtml = questionDataParam.TextHtml;
+        question.Text = safeText;
+        question.DescriptionHtml = questionDataParam.DescriptionHtml;
+        question.SolutionType =
+            (SolutionType)Enum.Parse(typeof(SolutionType), questionDataParam.SolutionType);
+
+        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
+        var newCategoryIds = questionDataParam.CategoryIds.ToList();
+
+        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+
+        foreach (var categoryId in categoriesToRemove)
+            if (!_permissionCheck.CanViewCategory(categoryId))
+                newCategoryIds.Add(categoryId);
+
+        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
+        question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
+
+        if (question.SolutionType == SolutionType.FlashCard)
+        {
+            var solutionModelFlashCard = new QuestionSolutionFlashCard();
+            solutionModelFlashCard.Text = questionDataParam.Solution;
+            question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
+        }
+        else
+            question.Solution = questionDataParam.Solution;
+
+        question.SolutionMetadataJson = questionDataParam.SolutionMetadataJson;
+
+        if (!String.IsNullOrEmpty(questionDataParam.ReferencesJson))
+        {
+            var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question,
+                _categoryRepository);
+            foreach (var reference in references)
+            {
+                reference.DateCreated = DateTime.Now;
+                reference.DateModified = DateTime.Now;
+                question.References.Add(reference);
+            }
+        }
+
+        question.License = _sessionUser.IsInstallationAdmin
+            ? LicenseQuestionRepo.GetById(questionDataParam.LicenseId)
+            : LicenseQuestionRepo.GetDefaultLicense();
+        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
+        EntityCache.AddOrUpdate(questionCacheItem);
+
+        return question;
+    }
+
+    [HttpGet]
+    public int GetCurrentQuestionCount([FromRoute] int topicId) => EntityCache.GetCategory(topicId)
+        .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
+
+    public readonly record struct QuestionDataParam(
+        int[] CategoryIds,
+        int QuestionId,
+        string TextHtml,
+        string DescriptionHtml,
+        dynamic Solution,
+        string SolutionMetadataJson,
+        int Visibility,
+        string SolutionType,
+        bool AddToWishknowledge,
+        int SessionIndex,
+        int LicenseId,
+        string ReferencesJson,
+        bool IsLearningTab,
+        LearningSessionConfig SessionConfig
+    );
 }
