@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-//todo:(DaMa) Move Stripe to the backend
 public class StripeSubscriptionManger : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;

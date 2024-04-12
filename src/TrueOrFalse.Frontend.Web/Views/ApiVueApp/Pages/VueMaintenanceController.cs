@@ -13,57 +13,24 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class VueMaintenanceController : BaseController
+public class VueMaintenanceController(
+    SessionUser _sessionUser,
+    ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll,
+    ProbabilityUpdate_Question _probabilityUpdateQuestion,
+    MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
+    UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
+    UpdateWishcount _updateWishcount,
+    MeiliSearchReIndexCategories _meiliSearchReIndexCategories,
+    MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers,
+    CategoryRepository _categoryRepository,
+    AnswerRepo _answerRepo,
+    UserReadingRepo _userReadingRepo,
+    UserWritingRepo _userWritingRepo,
+    IAntiforgery _antiforgery,
+    IHttpContextAccessor _httpContextAccessor,
+    IWebHostEnvironment _webHostEnvironment,
+    UpdateQuestionCountForCategory _updateQuestionCountForCategory) : Controller
 {
-    private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
-    private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
-    private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
-    private readonly UpdateQuestionAnswerCounts _updateQuestionAnswerCounts;
-    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly UpdateWishcount _updateWishcount;
-    private readonly MeiliSearchReIndexCategories _meiliSearchReIndexCategories;
-    private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly AnswerRepo _answerRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-    private readonly IAntiforgery _antiforgery;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public VueMaintenanceController(
-        SessionUser sessionUser,
-        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
-        ProbabilityUpdate_Question probabilityUpdateQuestion,
-        MeiliSearchReIndexAllQuestions meiliSearchReIndexAllQuestions,
-        UpdateQuestionAnswerCounts updateQuestionAnswerCounts,
-        UpdateWishcount updateWishcount,
-        MeiliSearchReIndexCategories meiliSearchReIndexCategories,
-        MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
-        CategoryRepository categoryRepository,
-        AnswerRepo answerRepo,
-        UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo,
-        IAntiforgery antiforgery,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
-    {
-        _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
-        _probabilityUpdateQuestion = probabilityUpdateQuestion;
-        _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
-        _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
-        _updateWishcount = updateWishcount;
-        _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
-        _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
-        _categoryRepository = categoryRepository;
-        _answerRepo = answerRepo;
-        _userReadingRepo = userReadingRepo;
-        _userWritingRepo = userWritingRepo;
-        _antiforgery = antiforgery;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
-
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
     [AccessOnlyAsAdmin]

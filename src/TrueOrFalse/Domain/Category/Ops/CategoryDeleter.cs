@@ -14,7 +14,6 @@ public class CategoryDeleter(
     CategoryRelationRepo _categoryRelationRepo)
     : IRegisterAsInstancePerLifetime
 {
-    ///todo:(DaMa)  Revise: Wrong place for SQL commands.
     private async Task<HasDeleted> Run(Category category, int userId, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);

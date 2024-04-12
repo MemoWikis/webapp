@@ -4,7 +4,6 @@ using VueApp;
 
 public class AppController(VueSessionUser _vueSessionUser) : Controller
 {
-    //todo: (Jun)
     public readonly record struct CurrentUserJson(
         VueSessionUser.CurrentUserData CurrentSessionUser);
 
