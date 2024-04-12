@@ -16,17 +16,19 @@ public class StripeAdminstrationController(StripeSubscriptionManger _stripeSubsc
     public readonly record struct CompletedSubscriptionJson(string priceId);
 
     public readonly record struct SubscriptionResult(bool Success, string Id);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public async Task<SubscriptionResult> CompletedSubscription([FromBody] CompletedSubscriptionJson json)
+    public async Task<SubscriptionResult> CompletedSubscription(
+        [FromBody] CompletedSubscriptionJson json)
     {
         var sessionId =
             await _stripeSubscriptionManger.CreateStripeSubscriptionSession(json.priceId);
         if (sessionId.Equals("-1"))
         {
-            return new SubscriptionResult { Success = false });
+            return new SubscriptionResult { Success = false };
         }
 
-        return new SubscriptionResult{ Success = true, Id = sessionId };
+        return new SubscriptionResult { Success = true, Id = sessionId };
     }
 }

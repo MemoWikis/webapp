@@ -14,13 +14,14 @@ public class AppController : BaseController
         _vueSessionUser = vueSessionUser;
     }
 
-
     //todo: (Jun)
-    public readonly record struct CurrentUserJson(VueSessionUser CurrentSessionUser);
+    public readonly record struct CurrentUserJson(
+        VueSessionUser.CurrentUserData CurrentSessionUser);
+
     [HttpGet]
     public CurrentUserJson GetCurrentUser()
     {
-        return new(_vueSessionUser.GetCurrentUserData());
+        return new CurrentUserJson(_vueSessionUser.GetCurrentUserData());
     }
 
     //todo: (Jun)
@@ -59,7 +60,6 @@ public class AppController : BaseController
                 Name: EntityCache.GetCategory(id).Name
             )).ToArray(),
             HelpTopics: RootCategory.MemuchoHelpIds.Select(id => new TinyTopicItem(
-            
                 Id: id,
                 Name: EntityCache.GetCategory(id).Name
             )).ToArray(),
@@ -68,7 +68,6 @@ public class AppController : BaseController
                 Name: EntityCache.GetCategory(id).Name
             )).ToArray(),
             Documentation: new TinyTopicItem(
-            
                 Id: RootCategory.IntroCategoryId,
                 Name: EntityCache.GetCategory(RootCategory.IntroCategoryId).Name
             )

@@ -52,7 +52,10 @@ public class VueQuestionController(
         return new TinyQuestion { };
     }
 
-    public readonly record struct QuestionPageResult(AnswerBodyModel AnswerBodyModel, SolutionData SolutionData,AnswerQuestionDetailsResult? AnswerQuestionDetailsModel);
+    public readonly record struct QuestionPageResult(
+        AnswerBodyModel AnswerBodyModel,
+        SolutionData SolutionData,
+        AnswerQuestionDetailsResult? AnswerQuestionDetailsModel);
 
     public readonly record struct AnswerBodyModel(
         int Id,
@@ -130,7 +133,7 @@ public class VueQuestionController(
             },
             AnswerQuestionDetailsModel =
                 GetData(id)
-        });
+        };
     }
 
     public AnswerQuestionDetailsResult? GetData(int id)

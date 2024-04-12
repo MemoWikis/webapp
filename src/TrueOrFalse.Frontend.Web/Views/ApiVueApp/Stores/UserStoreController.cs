@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain.User;
+
 namespace VueApp;
 
 public class UserStoreController(
@@ -18,10 +19,13 @@ public class UserStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser) {
+    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
+{
+    public readonly record struct LoginResult(
+        VueSessionUser.CurrentUserData Data,
+        string MessageKey,
+        bool Success);
 
-
-    public readonly record struct LoginResult(VueSessionUser.CurrentUserData Data, string MessageKey, bool Success);
     [HttpPost]
     public LoginResult Login([FromBody] LoginParam param)
     {
@@ -33,8 +37,9 @@ public class UserStoreController(
             {
                 Success = true,
                 Data = _vueSessionUser.GetCurrentUserData()
-            });
+            };
         }
+
         return new LoginResult
         {
             Success = false,
@@ -77,35 +82,39 @@ public class UserStoreController(
         return new LoginResult { Success = result.Success || result.EmailDoesNotExist };
     }
 
+    public readonly record struct RegisterResult(
+        bool Success,
+        RegisterDetails Data,
+        string MessageKey);
 
-    public readonly record struct RegisterResult(bool Success, RegisterDetails Data, string MessageKey);
-    public readonly record struct RegisterDetails(bool IsLoggedIn,
-    int Id ,
-    string Name ,
-    bool IsAdmin ,
-    int PersonalWikiId,
-    UserType Type ,
-    string ImgUrl,
-    int Reputation,
-    int ReputationPos ,
-    TopicDataManager.TopicDataResult PersonalWiki);
+    public readonly record struct RegisterDetails(
+        bool IsLoggedIn,
+        int Id,
+        string Name,
+        bool IsAdmin,
+        int PersonalWikiId,
+        UserType Type,
+        string ImgUrl,
+        int Reputation,
+        int ReputationPos,
+        TopicDataManager.TopicDataResult PersonalWiki);
 
     [HttpPost]
     public RegisterResult Register([FromBody] RegisterJson json)
     {
         if (!IsEmailAddressAvailable.Yes(json.Email, _userReadingRepo))
             return new RegisterResult
-        {
-            Success = false,
-            MessageKey = FrontendMessageKeys.Error.User.EmailInUse
-        };
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.EmailInUse
+            };
 
         if (!IsUserNameAvailable.Yes(json.Email, _userReadingRepo))
             return new RegisterResult
-        {
-            Success = false,
-            MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
-        };
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
+            };
 
         _registerUser.SetUser(json);
 
@@ -116,7 +125,7 @@ public class UserStoreController(
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
-                Name = _sessionUser.IsLoggedIn? _sessionUser.User.Name : "",
+                Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
                 Type = UserType.Normal,
@@ -129,10 +138,10 @@ public class UserStoreController(
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
                 PersonalWiki = new TopicDataManager(_sessionUser,
-                        _permissionCheck, 
-                        _knowledgeSummaryLoader, 
-                        _categoryViewRepo, 
-                        _imageMetaDataReadingRepo, 
+                        _permissionCheck,
+                        _knowledgeSummaryLoader,
+                        _categoryViewRepo,
+                        _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
                     .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
