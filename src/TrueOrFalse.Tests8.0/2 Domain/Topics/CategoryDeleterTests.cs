@@ -4,7 +4,7 @@
     {
         [Test]
         [Description("DeleteTopic and RemoveRelations for second child")]
-        public void Run_Test()
+        public async Task Run_Test()
         {
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
@@ -27,7 +27,8 @@
             contextTopic.AddChild(parent, firstChild);
 
             var categoryDeleter = R<CategoryDeleter>();
-            var deleteTopicResult = categoryDeleter.DeleteTopic(firstChild.Id);
+            var deleteTopicResult = await categoryDeleter.DeleteTopic(firstChild.Id)
+                .ConfigureAwait(false);
             Assert.IsNotNull(deleteTopicResult);
             Assert.IsTrue(deleteTopicResult.Success);
             Assert.IsFalse(deleteTopicResult.HasChildren);
@@ -37,7 +38,7 @@
 
         [Test]
         [Description("DeleteTopic and RemoveRelations for third child")]
-        public void Run1_Test()
+        public async Task Run1_Test()
         {
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
@@ -66,7 +67,8 @@
             contextTopic.AddChild(firstChild, secondChild);
 
             var categoryDeleter = R<CategoryDeleter>();
-            var deleteTopicResult = categoryDeleter.DeleteTopic(secondChild.Id);
+            var deleteTopicResult =
+                await categoryDeleter.DeleteTopic(secondChild.Id).ConfigureAwait(false);
             var categoryRepo = R<CategoryRepository>();
             var allAvailableTopics = categoryRepo.GetAll();
             var parentChildren =
@@ -90,7 +92,7 @@
 
         [Test]
         [Description("DeleteTopic and RemoveRelations for third child Test EntityCache")]
-        public void Run1EntityCache_Test()
+        public async Task Run1EntityCache_Test()
         {
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
@@ -119,7 +121,8 @@
             contextTopic.AddChild(firstChild, secondChild);
 
             var categoryDeleter = R<CategoryDeleter>();
-            var deleteTopicResult = categoryDeleter.DeleteTopic(secondChild.Id);
+            var deleteTopicResult = await categoryDeleter.DeleteTopic(secondChild.Id)
+                .ConfigureAwait(false);
             RecycleContainerAndEntityCache();
 
             var entityCache = EntityCache.GetAllCategoriesList();
@@ -145,7 +148,7 @@
 
         [Test]
         [Description("Delete topic has Child")]
-        public void Run2_Test()
+        public async Task Run2_Test()
         {
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
@@ -168,7 +171,8 @@
             contextTopic.AddChild(parent, firstChild);
 
             var categoryDeleter = R<CategoryDeleter>();
-            var deleteTopicResult = categoryDeleter.DeleteTopic(firstChild.Id);
+            var deleteTopicResult =
+                await categoryDeleter.DeleteTopic(firstChild.Id).ConfigureAwait(false);
             Assert.IsNotNull(deleteTopicResult);
             Assert.IsTrue(deleteTopicResult.Success);
             Assert.IsFalse(deleteTopicResult.HasChildren);

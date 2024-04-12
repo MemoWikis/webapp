@@ -1,18 +1,16 @@
-﻿using Stripe;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-
-public class ModifyRelationsForCategory
+﻿public class ModifyRelationsForCategory
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly CategoryRelationRepo _categoryRelationRepo;
 
-    public ModifyRelationsForCategory(CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo)
+    public ModifyRelationsForCategory(
+        CategoryRepository categoryRepository,
+        CategoryRelationRepo categoryRelationRepo)
     {
         _categoryRepository = categoryRepository;
         _categoryRelationRepo = categoryRelationRepo;
     }
+
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
@@ -24,13 +22,13 @@ public class ModifyRelationsForCategory
         IList<int> relatedCategorieIds)
     {
         var category = _categoryRepository.GetByIdEager(categoryId);
-
     }
 
     public void AddParentCategory(Category category, int parentId)
     {
         var relatedCategory = _categoryRepository.GetByIdEager(parentId);
-        var previousCachedRelation = EntityCache.GetCategory(parentId).ChildRelations.LastOrDefault();
+        var previousCachedRelation =
+            EntityCache.GetCategory(parentId).ChildRelations.LastOrDefault();
 
         if (previousCachedRelation != null)
         {
@@ -100,7 +98,9 @@ public class ModifyRelationsForCategory
     {
         foreach (var r in cachedRelations)
         {
-            Logg.r.Information("Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}", r.Id, r.ChildId, r.ParentId);
+            Logg.r.Information(
+                "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
+                r.Id, r.ChildId, r.ParentId);
 
             var relationToUpdate = r.Id > 0 ? _categoryRelationRepo.GetById(r.Id) : null;
             var child = _categoryRepository.GetById(r.ChildId);
@@ -127,6 +127,7 @@ public class ModifyRelationsForCategory
 
                 _categoryRelationRepo.Create(relation);
             }
+
             _categoryRepository.Update(child, authorId, type: CategoryChangeType.Relations);
             _categoryRepository.Update(parent, authorId, type: CategoryChangeType.Relations);
         }

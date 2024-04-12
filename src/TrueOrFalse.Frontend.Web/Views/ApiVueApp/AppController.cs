@@ -1,19 +1,9 @@
 ﻿using System.Linq;
-using Antlr.Runtime;
 using Microsoft.AspNetCore.Mvc;
-using NHibernate.Linq.Functions;
 using VueApp;
-using static AppController;
 
-public class AppController : BaseController
+public class AppController(VueSessionUser _vueSessionUser) : Controller
 {
-    private readonly VueSessionUser _vueSessionUser;
-
-    public AppController(SessionUser sessionUser, VueSessionUser vueSessionUser) : base(sessionUser)
-    {
-        _vueSessionUser = vueSessionUser;
-    }
-
     //todo: (Jun)
     public readonly record struct CurrentUserJson(
         VueSessionUser.CurrentUserData CurrentSessionUser);
@@ -24,7 +14,6 @@ public class AppController : BaseController
         return new CurrentUserJson(_vueSessionUser.GetCurrentUserData());
     }
 
-    //todo: (Jun)
     public readonly record struct FooterTopicsJson(
         TinyTopicItem RootWiki,
         TinyTopicItem[] MainTopics,
