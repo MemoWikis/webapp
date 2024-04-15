@@ -35,7 +35,7 @@ public class VueSessionUser(
         bool IsSubscriptionCanceled,
         bool IsEmailConfirmed);
 
-    public readonly record struct ActivityPoints(
+    public record struct ActivityPoints(
         int Points,
         int Level,
         bool LevelUp,

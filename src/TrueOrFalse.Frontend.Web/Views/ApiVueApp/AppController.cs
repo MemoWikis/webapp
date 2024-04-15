@@ -7,10 +7,69 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
     public readonly record struct CurrentUserJson(
         VueSessionUser.CurrentUserData CurrentSessionUser);
 
+    public readonly record struct GetCurrentUserResult(
+        bool IsLoggedIn,
+        int Id,
+        string Name,
+        string Email,
+        bool IsAdmin,
+        int PersonalWikiId,
+        UserType Type,
+        string ImgUrl,
+        int Reputation,
+        int ReputationPos,
+        TopicDataManager.TopicDataResult PersonalWiki,
+        ActivityPoints ActivityPoints,
+        int UnreadMessagesCount,
+        SubscriptionType SubscriptionType,
+        bool HasStripeCustomerId,
+        string EndDate,
+        string SubscriptionStartDate,
+        bool IsSubscriptionCanceled,
+        bool IsEmailConfirmed);
+
+    public record struct ActivityPoints(
+        int Points,
+        int Level,
+        bool LevelUp,
+        int ActivityPointsTillNextLevel,
+        int ActivityPointsPercentageOfNextLevel);
+
     [HttpGet]
-    public CurrentUserJson GetCurrentUser()
+    public GetCurrentUserResult GetCurrentUser()
     {
-        return new CurrentUserJson(_vueSessionUser.GetCurrentUserData());
+        var sessionUser = _vueSessionUser.GetCurrentUserData();
+
+        return new GetCurrentUserResult
+        {
+            IsLoggedIn = sessionUser.IsLoggedIn,
+            Id = sessionUser.Id,
+            Name = sessionUser.Name,
+            Email = sessionUser.Email,
+            IsAdmin = sessionUser.IsAdmin,
+            PersonalWikiId = sessionUser.PersonalWikiId,
+            Type = sessionUser.Type,
+            ImgUrl = sessionUser.ImgUrl,
+            Reputation = sessionUser.Reputation,
+            ReputationPos = sessionUser.ReputationPos,
+            PersonalWiki = sessionUser.PersonalWiki,
+            ActivityPoints = new ActivityPoints
+            {
+                Points = sessionUser.ActivityPoints.Points,
+                Level = sessionUser.ActivityPoints.Level,
+                LevelUp = sessionUser.ActivityPoints.LevelUp,
+                ActivityPointsPercentageOfNextLevel =
+                    sessionUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
+                ActivityPointsTillNextLevel = sessionUser.ActivityPoints.ActivityPointsTillNextLevel
+            },
+            UnreadMessagesCount = sessionUser.UnreadMessagesCount,
+            SubscriptionType = sessionUser.SubscriptionType,
+            HasStripeCustomerId = sessionUser.HasStripeCustomerId,
+            EndDate = sessionUser.EndDate,
+            SubscriptionStartDate = sessionUser.SubscriptionStartDate,
+            IsSubscriptionCanceled = sessionUser.IsSubscriptionCanceled,
+            IsEmailConfirmed = sessionUser.IsEmailConfirmed
+        };
     }
 
     public readonly record struct FooterTopicsJson(

@@ -89,36 +89,36 @@ public class VueUsersController : BaseController
 
         return new UserResult
         {
-            name = user.Name,
-            id = user.Id,
-            reputationPoints = user.Reputation,
-            rank = user.ReputationPos,
-            createdQuestionsCount =
+            Name = user.Name,
+            Id = user.Id,
+            ReputationPoints = user.Reputation,
+            Rank = user.ReputationPos,
+            CreatedQuestionsCount =
                 _userSummary.AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
-            createdTopicsCount =
+            CreatedTopicsCount =
                 _userSummary.AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
-            showWuwi = user.ShowWishKnowledge,
-            wuwiQuestionsCount = wishQuestionCount,
-            wuwiTopicsCount = topicsWithWishQuestionCount,
-            imgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
+            ShowWuwi = user.ShowWishKnowledge,
+            WuwiQuestionsCount = wishQuestionCount,
+            WuwiTopicsCount = topicsWithWishQuestionCount,
+            ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
-            wikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
+            WikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
         };
     }
 
     public class UserResult
     {
-        public int createdQuestionsCount { get; set; }
-        public int createdTopicsCount { get; set; }
-        public int id { get; set; }
-        public string imgUrl { get; set; }
-        public string name { get; set; }
-        public int rank { get; set; }
-        public int reputationPoints { get; set; }
-        public bool showWuwi { get; set; }
-        public int wikiId { get; set; }
-        public int wuwiQuestionsCount { get; set; }
-        public int wuwiTopicsCount { get; set; }
+        public int CreatedQuestionsCount { get; set; }
+        public int CreatedTopicsCount { get; set; }
+        public int Id { get; set; }
+        public string ImgUrl { get; set; }
+        public string Name { get; set; }
+        public int Rank { get; set; }
+        public int ReputationPoints { get; set; }
+        public bool ShowWuwi { get; set; }
+        public int WikiId { get; set; }
+        public int WuwiQuestionsCount { get; set; }
+        public int WuwiTopicsCount { get; set; }
     }
 }
