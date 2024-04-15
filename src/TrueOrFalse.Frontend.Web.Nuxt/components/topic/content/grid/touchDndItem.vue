@@ -176,13 +176,13 @@ function handleDrag(e: TouchEvent) {
 }
 
 function handleScroll(clientY: number) {
-    const threshold = 150
+    const threshold = 100
     const distanceFromBottom = window.innerHeight - clientY
 
     if (clientY <= threshold) {
         const scrollSpeed = -10 - Math.ceil(((threshold - clientY) / 10))
         window.scrollBy(0, scrollSpeed)
-    } else if (distanceFromBottom <= threshold) {
+    } else if (distanceFromBottom <= threshold - 50) {
         const scrollSpeed = 10 + Math.ceil(((threshold - distanceFromBottom) / 10))
         window.scrollBy(0, scrollSpeed)
     }
@@ -192,13 +192,14 @@ function getDropZoneData(position: TargetPosition): string {
     const data = {
         type: DragAndDropType.GridItem,
         id: props.topic.id,
-        position: position
+        position: position,
+        parentId: props.parentId
     } as DropZoneData
     return JSON.stringify(data)
 }
 
 watch(() => dragStore.dropZoneData, (data) => {
-    if (data?.type == DragAndDropType.GridItem && data.id == props.topic.id) {
+    if (data?.type == DragAndDropType.GridItem && data.id == props.topic.id && data.parentId == props.parentId) {
         isDroppableItemActive.value = true
         currentPosition.value = data.position
     }
@@ -214,14 +215,10 @@ watch(currentPosition, (val) => {
             hoverTopHalf.value = true
             hoverBottomHalf.value = false
         }
-        else if (val == TargetPosition.After) {
+        else if (val == TargetPosition.After || val == TargetPosition.Inner) {
             hoverTopHalf.value = false
             hoverBottomHalf.value = true
 
-        }
-        else if (val == TargetPosition.Inner) {
-            hoverTopHalf.value = false
-            hoverBottomHalf.value = true
         }
     }
     else {

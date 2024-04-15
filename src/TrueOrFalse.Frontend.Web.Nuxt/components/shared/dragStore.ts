@@ -15,7 +15,8 @@ export enum DragAndDropType {
 export interface DropZoneData {
 	type: DragAndDropType,
 	id: number,
-	position: TargetPosition
+	position: TargetPosition,
+	parentId: number
 }
 
 export interface MoveTopicTransferData {
@@ -43,6 +44,7 @@ export const useDragStore = defineStore('dragStore', {
 		dragEnd() {
 			this.active = false
 			this.transferData = null
+			this.dropZoneData = null
 		},
 		setMouseData(x: number, y: number, touchX?: number, touchY?: number) {
 			this.setMousePosition(x,y,touchX,touchY)
