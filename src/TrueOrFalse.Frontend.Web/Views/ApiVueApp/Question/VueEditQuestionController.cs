@@ -29,7 +29,8 @@ public class VueEditQuestionControllerVueEditQuestionController(
     QuestionReadingRepo _questionReadingRepo,
     SessionUserCache _sessionUserCache,
     IHttpContextAccessor _httpContextAccessor,
-    IActionContextAccessor _actionContextAccessor)
+    IActionContextAccessor _actionContextAccessor,
+    QuestionUpdater _questionUpdater)
     : Controller
 {
     public readonly record struct VueEditQuestionResult(
@@ -42,7 +43,7 @@ public class VueEditQuestionControllerVueEditQuestionController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public VueEditQuestionResult VueCreate(QuestionWritingRepo.QuestionDataParam questionDataParam)
+    public VueEditQuestionResult VueCreate(QuestionUpdater.QuestionDataParam questionDataParam)
     {
         if (questionDataParam.SessionConfig?.CurrentUserId <= 0)
             questionDataParam.SessionConfig.CurrentUserId = _sessionUser.UserId;
@@ -57,7 +58,7 @@ public class VueEditQuestionControllerVueEditQuestionController(
         var question = new Question();
         var sessionUserAsUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUserAsUser;
-        question = _questionWritingRepo.UpdateQuestion(question, questionDataParam, safeText);
+        question = _questionUpdater.UpdateQuestion(question, questionDataParam, safeText);
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
@@ -89,7 +90,7 @@ public class VueEditQuestionControllerVueEditQuestionController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public VueEditQuestionResult VueEdit(QuestionWritingRepo.QuestionDataParam questionDataParam)
+    public VueEditQuestionResult VueEdit(QuestionUpdater.QuestionDataParam questionDataParam)
     {
         var safeText = GetSafeText(questionDataParam.TextHtml);
         if (safeText.Length <= 0)
@@ -101,7 +102,7 @@ public class VueEditQuestionControllerVueEditQuestionController(
 
         var question = _questionReadingRepo.GetById(questionDataParam.QuestionId);
         var updatedQuestion =
-            _questionWritingRepo.UpdateQuestion(question, questionDataParam, safeText);
+            _questionUpdater.UpdateQuestion(question, questionDataParam, safeText);
 
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
@@ -156,7 +157,7 @@ public class VueEditQuestionControllerVueEditQuestionController(
         var sessionUserAsUser = _userReadingRepo.GetById(_sessionUser.UserId);
         question.Creator = sessionUserAsUser;
         question.Categories =
-            _questionReadingRepo.GetAllParentsForQuestion(param.CategoryId, question);
+            _questionUpdater.GetAllParentsForQuestion(param.CategoryId, question);
         var visibility = (QuestionVisibility)param.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();

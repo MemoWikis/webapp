@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using TrueOrFalse;
-using TrueOrFalse.Search;
+﻿using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
@@ -13,10 +10,7 @@ public class QuestionWritingRepo(
     UserActivityRepo _userActivityRepo,
     QuestionChangeRepo _questionChangeRepo,
     ISession _nhibernateSession,
-    SessionUser _sessionUser,
-    PermissionCheck _permissionCheck,
-    CategoryRepository _categoryRepository,
-    QuestionReadingRepo _questionReadingRepo) : RepositoryDbBase<Question>(_nhibernateSession)
+    SessionUser _sessionUser) : RepositoryDbBase<Question>(_nhibernateSession)
 {
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -89,7 +83,6 @@ public class QuestionWritingRepo(
             .IsIn(categoriesBeforeUpdateIds)
             .List();
 
-        //UpdateOrMerge(question, withMerge);
         if (withMerge)
             Merge(question);
         else
@@ -117,81 +110,4 @@ public class QuestionWritingRepo(
     {
         base.Update(question);
     }
-
-    public Question UpdateQuestion(
-        Question question,
-        QuestionDataParam questionDataParam,
-        string safeText)
-    {
-        question.TextHtml = questionDataParam.TextHtml;
-        question.Text = safeText;
-        question.DescriptionHtml = questionDataParam.DescriptionHtml;
-        question.SolutionType =
-            (SolutionType)Enum.Parse(typeof(SolutionType), questionDataParam.SolutionType);
-
-        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
-        var newCategoryIds = questionDataParam.CategoryIds.ToList();
-
-        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
-
-        foreach (var categoryId in categoriesToRemove)
-            if (!_permissionCheck.CanViewCategory(categoryId))
-                newCategoryIds.Add(categoryId);
-
-        question.Categories =
-            _questionReadingRepo.GetAllParentsForQuestion(newCategoryIds, question);
-        question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
-
-        if (question.SolutionType == SolutionType.FlashCard)
-        {
-            var solutionModelFlashCard = new QuestionSolutionFlashCard();
-            solutionModelFlashCard.Text = questionDataParam.Solution;
-            question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
-        }
-        else
-            question.Solution = questionDataParam.Solution;
-
-        question.SolutionMetadataJson = questionDataParam.SolutionMetadataJson;
-
-        if (!String.IsNullOrEmpty(questionDataParam.ReferencesJson))
-        {
-            var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question,
-                _categoryRepository);
-            foreach (var reference in references)
-            {
-                reference.DateCreated = DateTime.Now;
-                reference.DateModified = DateTime.Now;
-                question.References.Add(reference);
-            }
-        }
-
-        question.License = _sessionUser.IsInstallationAdmin
-            ? LicenseQuestionRepo.GetById(questionDataParam.LicenseId)
-            : LicenseQuestionRepo.GetDefaultLicense();
-        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        EntityCache.AddOrUpdate(questionCacheItem);
-
-        return question;
-    }
-
-    [HttpGet]
-    public int GetCurrentQuestionCount([FromRoute] int topicId) => EntityCache.GetCategory(topicId)
-        .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
-
-    public readonly record struct QuestionDataParam(
-        int[] CategoryIds,
-        int QuestionId,
-        string TextHtml,
-        string DescriptionHtml,
-        dynamic Solution,
-        string SolutionMetadataJson,
-        int Visibility,
-        string SolutionType,
-        bool AddToWishknowledge,
-        int SessionIndex,
-        int LicenseId,
-        string ReferencesJson,
-        bool IsLearningTab,
-        LearningSessionConfig SessionConfig
-    );
 }
