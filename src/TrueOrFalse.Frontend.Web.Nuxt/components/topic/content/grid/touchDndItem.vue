@@ -125,11 +125,14 @@ function handleDragStart(e: any) {
 }
 
 const touchTimer = ref()
+
 function preventScroll(e: TouchEvent) {
     e.preventDefault()
 }
-
 function touchDown(e: TouchEvent) {
+    initialHoldPosition.x = e.changedTouches[0].pageX
+    initialHoldPosition.y = e.changedTouches[0].pageY
+
     touchTimer.value = setTimeout(() => {
         document.addEventListener('touchmove', preventScroll, { passive: false })
         handleDragStart(e)
@@ -167,6 +170,10 @@ function handleDragEnd() {
 const touchDragComponent = ref<HTMLElement | null>(null)
 
 function handleDrag(e: TouchEvent) {
+    if (e.defaultPrevented) {
+        handleDragStart(e)
+    }
+
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
@@ -293,7 +300,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
                 :drop-expand="dropIn">
 
                 <template #topdropzone>
-                    <div v-if="dragStore.active && !dragging && !props.disabled && !dropIn" class="dropzone top"
+                    <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
                         :class="{ 'hover': hoverTopHalf && !dragging }" @dragover="hoverTopHalf = true"
                         @dragleave="hoverTopHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
                     </div>
@@ -368,7 +375,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
     z-index: 2;
 
     &.top {
-        height: 33%;
+        height: 40%;
         z-index: 4;
         top: 0px;
         // background: @memo-green;
@@ -377,8 +384,8 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
     &.bottom {
         z-index: 3;
-        height: 67%;
-        top: 33%;
+        height: 60%;
+        top: 40%;
         // background: @memo-green;
         // background: linear-gradient(0deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 5%, rgba(175, 213, 52, 0.33) 12.5%, rgba(175, 213, 52, 0) 25%);
     }

@@ -67,6 +67,8 @@ const props = defineProps<Props>()
             color: @memo-green;
             height: 26px;
             width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .label-placeholder {
