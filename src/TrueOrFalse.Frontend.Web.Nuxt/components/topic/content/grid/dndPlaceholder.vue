@@ -38,6 +38,7 @@ const props = defineProps<Props>()
     background: white;
     // border-top: solid 1px #DDDDDD;
     position: relative;
+    min-height: 78px;
     max-height: 78px;
 
     .left-spacer {

@@ -284,8 +284,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
         @dragstart.stop="handleDragStart" @dragend="handleDragEnd" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-            <div v-if="dragStore.active" v-on:mouseenter="hoverTopHalf = true" class="emptydropzone"
-                :class="{ 'open': hoverTopHalf && !dragging }"
+            <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
                 :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
 
                 <div class="inner top">
@@ -321,7 +320,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
             </TopicContentGridItem>
 
-            <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" class="emptydropzone"
+            <div v-if="dragStore.active" class="emptydropzone"
                 :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }"
                 :data-dropzonedata="getDropZoneData(TargetPosition.After)">
 
@@ -378,16 +377,21 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
         height: 40%;
         z-index: 4;
         top: 0px;
-        // background: @memo-green;
-        // background: linear-gradient(180deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 10%, rgba(175, 213, 52, 0.33) 25%, rgba(175, 213, 52, 0) 50%);
+
+        &.hover {
+            height: calc(40% + 80px);
+            top: -80px;
+        }
     }
 
     &.bottom {
         z-index: 3;
         height: 60%;
         top: 40%;
-        // background: @memo-green;
-        // background: linear-gradient(0deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 5%, rgba(175, 213, 52, 0.33) 12.5%, rgba(175, 213, 52, 0) 25%);
+
+        &.hover {
+            height: calc(60% + 80px);
+        }
     }
 
     &.inner {
