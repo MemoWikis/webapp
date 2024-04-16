@@ -1,42 +1,30 @@
 ﻿using System.Collections.Concurrent;
 using ConcurrentCollections;
 
-public class SessionUserCache : IRegisterAsInstancePerLifetime
+public class SessionUserCache(
+    CategoryValuationReadingRepo _categoryValuationReadingRepo,
+    QuestionValuationReadingRepo _questionValuationReadingRepo)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
+    private readonly object cacheLock = new();
     public const int ExpirationSpanInMinutes = 600;
-    private ConcurrentHashSet<string> _cacheKeys = new();
     private const string SessionUserCacheItemPrefix = "SessionUserCacheItem_";
-    private string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
-    private static object cacheLock = new object();
 
-    public SessionUserCache(CategoryValuationReadingRepo categoryValuationReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo)
-    {
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-    }
+    private string GetCacheKey(int userId) => SessionUserCacheItemPrefix + userId;
+
     public List<SessionUserCacheItem?> GetAllCacheItems()
     {
-        var allUserIds = _userReadingRepo.GetAllIds();
-        return allUserIds
-            .Select(uId => GetItem(uId))
-            .Where(suci => suci != null)
-          .ToList();
+        return EntityCache.GetAllUsers()
+            .Select(user => GetItem(user.Id))
+            .Where(sessionUserCacheItem => sessionUserCacheItem != null)
+            .ToList();
     }
 
     public SessionUserCacheItem? GetUser(int userId) =>
-      GetItem(userId);
+        GetItem(userId);
 
-    public SessionUserCacheItem? GetItem(int userId)
-    {
-        var user = Seedworks.Web.State.Cache.Get<SessionUserCacheItem>(GetCacheKey(userId)); 
-        return user;
-    }
+    public SessionUserCacheItem? GetItem(int userId) =>
+        Seedworks.Web.State.Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
 
     public bool ItemExists(int userId)
     {
@@ -56,8 +44,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     }
 
     public IList<QuestionValuationCacheItem> GetQuestionValuations(int userId) =>
-      GetItem(userId)?.QuestionValuations.Values
-          .ToList() ?? new List<QuestionValuationCacheItem>();
+        GetItem(userId)?.QuestionValuations.Values
+            .ToList() ?? new List<QuestionValuationCacheItem>();
 
     public IList<CategoryValuation> GetCategoryValuations(int userId)
     {
@@ -72,53 +60,36 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         return new List<CategoryValuation>();
     }
 
-
     public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 
         lock (cacheLock)
         {
-            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id, questionValuation,
-              (k, v) => questionValuation);
+            cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id,
+                questionValuation,
+                (k, v) => questionValuation);
         }
     }
 
-    public void AddOrUpdate(CategoryValuation categoryValuation)
-    {
-        var cacheItem = GetItem(categoryValuation.UserId);
-
-        lock (cacheLock)
-        {
-            cacheItem.CategoryValuations.AddOrUpdate(categoryValuation.CategoryId, categoryValuation,
-              (k, v) => categoryValuation);
-        }
-    }
+    private readonly object _addOrUpdateLock = new();
 
     public void AddOrUpdate(User user)
     {
-        var cacheItem = GetItem(user.Id);
-        if (cacheItem == null)
+        lock (_addOrUpdateLock)
         {
-            cacheItem = CreateSessionUserItemFromDatabase(user.Id); 
+            var cacheItem = GetItem(user.Id);
+            if (cacheItem == null)
+            {
+                cacheItem = CreateSessionUserItemFromDatabase(user);
+                cacheItem.AssignValues(user);
+                AddToCache(cacheItem);
+            }
+
+            Remove(user);
             cacheItem.AssignValues(user);
-            Add_UserCacheItem_to_cache(cacheItem);
+            AddToCache(cacheItem);
         }
-        Remove(user);
-        cacheItem.AssignValues(user);
-        Add_UserCacheItem_to_cache(cacheItem);
-    }
-    public void AddOrUpdate(SessionUserCacheItem user)
-    {
-        var cacheItem = GetItem(user.Id);
-        if (cacheItem == null)
-        {
-            cacheItem = CreateSessionUserItemFromDatabase(user.Id);
-            Add_UserCacheItem_to_cache(cacheItem);
-            return;
-        }
-        Remove(user.Id);
-        Add_UserCacheItem_to_cache(cacheItem);
     }
 
     public void RemoveQuestionForAllUsers(int questionId)
@@ -136,7 +107,6 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         }
     }
 
-
     /// <summary>
     /// Get all active UserCaches
     /// </summary>
@@ -153,7 +123,8 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
     }
 
     /// <summary> Used for category delete </summary>
-    public void RemoveAllForCategory(int categoryId,
+    public void RemoveAllForCategory(
+        int categoryId,
         CategoryValuationWritingRepo categoryValuationWritingRepo)
     {
         categoryValuationWritingRepo.DeleteCategoryValuation(categoryId);
@@ -173,25 +144,22 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         if (cacheItem != null)
         {
             Seedworks.Web.State.Cache.Remove(cacheKey);
-            _cacheKeys.TryRemove(cacheKey);
         }
     }
 
-
-    public SessionUserCacheItem CreateSessionUserItemFromDatabase(int userId)
+    public SessionUserCacheItem CreateSessionUserItemFromDatabase(User? user)
     {
-        var user = _userReadingRepo.GetById(userId);
-
-        if (user == null) return null;
+        if (user == null)
+            return null;
 
         var cacheItem = SessionUserCacheItem.CreateCacheItem(user);
 
         cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
-            _categoryValuationReadingRepo.GetByUser(userId, onlyActiveKnowledge: false)
+            _categoryValuationReadingRepo.GetByUser(user.Id, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
 
         cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
-            _questionValuationReadingRepo.GetByUserWithQuestion(userId)
+            _questionValuationReadingRepo.GetByUserWithQuestion(user.Id)
                 .Select(v =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(v.Question.Id,
                         QuestionValuationCacheItem.ToCacheItem(v))));
@@ -199,9 +167,10 @@ public class SessionUserCache : IRegisterAsInstancePerLifetime
         return cacheItem;
     }
 
-    private void Add_UserCacheItem_to_cache(SessionUserCacheItem cacheItem)
+    private void AddToCache(SessionUserCacheItem cacheItem)
     {
-        Seedworks.Web.State.Cache.Add(GetCacheKey(cacheItem.Id), cacheItem, TimeSpan.FromMinutes(ExpirationSpanInMinutes),
+        Seedworks.Web.State.Cache.Add(GetCacheKey(cacheItem.Id), cacheItem,
+            TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }
 }
