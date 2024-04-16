@@ -282,11 +282,6 @@ public class EntityCache
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
-
-    {
-        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
-    }
-
     private static void AddOrUpdate(
         ConcurrentDictionary<int, QuestionCacheItem> objectToCache,
         QuestionCacheItem obj)
@@ -302,10 +297,6 @@ public class EntityCache
     }
 
     private static void Remove(ConcurrentDictionary<int, CategoryCacheRelation> objectToCache, CategoryCacheRelation obj)
-    {
-        objectToCache.TryRemove(obj.Id, out _);
-    }
-
     {
         objectToCache.TryRemove(obj.Id, out _);
     }
