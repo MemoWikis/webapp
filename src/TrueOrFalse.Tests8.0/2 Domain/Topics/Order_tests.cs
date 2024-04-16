@@ -3,7 +3,7 @@
 class Order_tests : BaseTest
 {
     [Test]
-    public void SortTopics_ShouldCorrectlySortNodes()
+    public void SortTopics_ShouldCorrectlySortTopics()
     {
         var unsortedRelations = new List<CategoryCacheRelation>
         {
@@ -35,8 +35,7 @@ class Order_tests : BaseTest
     //    int beforeTopicId = 1;
     //    int parentId = 10;
 
-    //    var orderService = Resolve<TopicOrderer>();
-    //    var result = orderService.MoveBefore(relationToMove, beforeTopicId, parentId, parentId);
+    //    var result = TopicOrderer.MoveBefore(relationToMove, beforeTopicId, parentId, parentId);
 
     //    Assert.IsNotNull(result.UpdatedOldOrder);
     //    Assert.IsNotNull(result.UpdatedNewOrder);
@@ -63,8 +62,7 @@ class Order_tests : BaseTest
     //    int afterTopicId = 3;
     //    int parentId = 10;
 
-    //    var orderService = Resolve<TopicOrderer>();
-    //    var result = orderService.MoveAfter(relationToMove, afterTopicId, parentId, parentId);
+    //    var result = TopicOrderer.MoveAfter(relationToMove, afterTopicId, parentId, parentId);
 
     //    Assert.IsNotNull(result.UpdatedOldOrder);
     //    Assert.IsNotNull(result.UpdatedNewOrder);

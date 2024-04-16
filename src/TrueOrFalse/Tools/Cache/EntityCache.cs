@@ -1,9 +1,5 @@
 ﻿
 using System.Collections.Concurrent;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using static CategoryRepository;
 
 public class EntityCache
 {
