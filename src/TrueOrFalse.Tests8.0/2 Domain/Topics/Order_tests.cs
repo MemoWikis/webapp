@@ -1,6 +1,4 @@
-﻿
-
-class Order_tests : BaseTest
+﻿class Order_tests : BaseTest
 {
     [Test]
     public void ShouldCorrectlySortTopics()
@@ -16,7 +14,6 @@ class Order_tests : BaseTest
             .Persist()
             .All;
     }
-
 
     [Test]
     public void SortTopics_ShouldCorrectlySortNodes()
@@ -60,7 +57,8 @@ class Order_tests : BaseTest
 
         Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.ChildId == relationToMove.ChildId));
 
-        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.ChildId == relationToMove.ChildId);
+        var newNodeIndex =
+            result.UpdatedNewOrder.FindIndex(n => n.ChildId == relationToMove.ChildId);
         Assert.AreEqual(1, newNodeIndex);
         Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].ChildId);
         Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].ChildId);
@@ -88,7 +86,8 @@ class Order_tests : BaseTest
 
         Assert.IsFalse(result.UpdatedOldOrder.Any(n => n.ChildId == relationToMove.ChildId));
 
-        var newNodeIndex = result.UpdatedNewOrder.FindIndex(n => n.ChildId == relationToMove.ChildId);
+        var newNodeIndex =
+            result.UpdatedNewOrder.FindIndex(n => n.ChildId == relationToMove.ChildId);
         Assert.AreEqual(1, newNodeIndex);
         Assert.AreEqual(5, result.UpdatedNewOrder[newNodeIndex + 1].ChildId);
         Assert.AreEqual(4, result.UpdatedNewOrder[newNodeIndex - 1].ChildId);
