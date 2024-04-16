@@ -1,5 +1,4 @@
-﻿
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -10,14 +9,16 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     private readonly HttpContext _httpContext;
     private readonly SessionUserCache _sessionUserCache;
 
-    public SessionUser(IHttpContextAccessor httpContextAccessor,
+    public SessionUser(
+        IHttpContextAccessor httpContextAccessor,
         SessionUserCache sessionUserCache)
     {
-        _httpContext = httpContextAccessor.HttpContext; ;
+        _httpContext = httpContextAccessor.HttpContext;
+        ;
         _sessionUserCache = sessionUserCache;
     }
 
-    public bool SessionIsActive () => _httpContext.Session is not null;
+    public bool SessionIsActive() => _httpContext.Session is not null;
 
     public bool HasBetaAccess
     {
@@ -70,8 +71,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        var userCacheItem = _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
-        _sessionUserCache.AddOrUpdate(userCacheItem);
+        _sessionUserCache.CreateSessionUserItemFromDatabase(user);
+        _sessionUserCache.AddOrUpdate(user);
     }
 
     public async void Logout()
@@ -82,11 +83,12 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         CurrentWikiId = 1;
 
         if (_httpContext != null)
-           await _httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
-
-    public List<ActivityPoints> ActivityPoints => _httpContext.Session.Get<List<ActivityPoints>>("pointActivities") ?? new List<ActivityPoints>();
+    public List<ActivityPoints> ActivityPoints =>
+        _httpContext.Session.Get<List<ActivityPoints>>("pointActivities") ??
+        new List<ActivityPoints>();
 
     public void AddPointActivity(ActivityPoints activityPoints)
     {
@@ -102,10 +104,12 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
         return totalPoints;
     }
+
     public bool IsLoggedInUserOrAdmin()
     {
         return IsLoggedInUser(UserId) || IsInstallationAdmin;
     }
+
     public int CurrentWikiId
     {
         get => _httpContext.Session.GetInt32("currentWikiId") ?? 1;
@@ -113,7 +117,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     }
 
     public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    public void SetWikiId(int id) => CurrentWikiId = id;
 
-   
+    public void SetWikiId(int id) => CurrentWikiId = id;
 }
