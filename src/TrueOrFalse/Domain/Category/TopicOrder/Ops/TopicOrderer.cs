@@ -95,6 +95,7 @@ public class TopicOrderer
 
             relations.RemoveAt(relationIndex);
             RemoveRelationFromParentRelations(relation);
+            EntityCache.Remove(relation);
             modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
 
             JobScheduler.StartImmediately_DeleteRelation(relation.Id, authorId);

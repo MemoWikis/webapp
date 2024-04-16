@@ -51,7 +51,7 @@ public class ModifyRelationsEntityCache
             throw new SecurityException("Not allowed to edit category");
         }
 
-        var relationToRemove = parent.ChildRelations.Where(r => r.ChildId == childCategory.Id).FirstOrDefault();
+        var relationToRemove = parent?.ChildRelations.FirstOrDefault(r => r.ChildId == childCategory.Id);
 
         if (relationToRemove != null)
         {

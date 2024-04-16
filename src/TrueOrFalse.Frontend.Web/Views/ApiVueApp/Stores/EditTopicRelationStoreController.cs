@@ -8,32 +8,17 @@ using Exception = System.Exception;
 
 namespace VueApp;
 
-public class EditTopicRelationStoreController : BaseController
+public class EditTopicRelationStoreController(
+    SessionUser _sessionUser,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    EditControllerLogic _editControllerLogic,
+    QuestionReadingRepo _questionReadingRepo,
+    PermissionCheck _permissionCheck,
+    CategoryRepository _categoryRepository,
+    CategoryRelationRepo _categoryRelationRepo)
+    : BaseController(_sessionUser)
 {
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly EditControllerLogic _editControllerLogic;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
-
-    public EditTopicRelationStoreController(SessionUser sessionUser,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        EditControllerLogic editControllerLogic,
-        QuestionReadingRepo questionReadingRepo,
-        PermissionCheck permissionCheck, CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo) : base(sessionUser)
-    {
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _editControllerLogic = editControllerLogic;
-        _questionReadingRepo = questionReadingRepo;
-        _permissionCheck = permissionCheck;
-        _categoryRepository = categoryRepository;
-        _categoryRelationRepo = categoryRelationRepo;
-    }
-
     public record struct PersonalWikiData(
         SearchTopicItem PersonalWiki,
         SearchTopicItem[] RecentlyUsedRelationTargetTopics);
@@ -57,7 +42,7 @@ public class EditTopicRelationStoreController : BaseController
             .FillSearchTopicItem(personalWiki, UserId);
         var recentlyUsedRelationTargetTopics = new List<SearchTopicItem>();
 
-        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds != null && _sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
+        if (_sessionUser.User.RecentlyUsedRelationTargetTopicIds.Count > 0)
         {
             foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
@@ -108,63 +93,64 @@ public class EditTopicRelationStoreController : BaseController
         Inner,
         None
     }
-    public readonly record struct MoveTopicJson(int movingTopicId, int targetId, TargetPosition position, int newParentId, int oldParentId);
-    public readonly record struct MoveTopicResult(int oldParentId, int newParentId, MoveTopicJson undoMove);
-    private MoveTopicResult TryMoveTopic(MoveTopicJson json)
+    public readonly record struct MoveTopicJson(int MovingTopicId, int TargetId, TargetPosition Position, int NewParentId, int OldParentId);
+    public readonly record struct TryMoveTopicResult(int OldParentId, int NewParentId, MoveTopicJson UndoMove);
+    private TryMoveTopicResult TryMoveTopic(MoveTopicJson json)
     {
         if (!_sessionUser.IsLoggedIn)
             throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);
 
-        if (!_permissionCheck.CanMoveTopic(json.movingTopicId, json.oldParentId, json.newParentId))
+        if (!_permissionCheck.CanMoveTopic(json.MovingTopicId, json.OldParentId, json.NewParentId))
         {
-            if (json.newParentId == RootCategory.RootCategoryId)
+            if (json.NewParentId == RootCategory.RootCategoryId)
                 throw new SecurityException(FrontendMessageKeys.Error.Category.ParentIsRoot);
 
             throw new SecurityException(FrontendMessageKeys.Error.Category.MissingRights);
         }
 
-        if (json.movingTopicId == json.newParentId)
+        if (json.MovingTopicId == json.NewParentId)
             throw new InvalidOperationException(FrontendMessageKeys.Error.Category.CircularReference);
 
-        var relationToMove = EntityCache.GetCategory(json.oldParentId)?.ChildRelations.FirstOrDefault(r => r.ChildId == json.movingTopicId);
+        var relationToMove = EntityCache.GetCategory(json.OldParentId)?.ChildRelations.FirstOrDefault(r => r.ChildId == json.MovingTopicId);
 
         if (relationToMove == null)
         {
-            Logg.r.Error("CategoryRelations - MoveTopic: no relation found to move - movingTopicId:{0}, parentId:{1}", json.movingTopicId, json.oldParentId);
+            Logg.r.Error("CategoryRelations - MoveTopic: no relation found to move - movingTopicId:{0}, parentId:{1}", json.MovingTopicId, json.OldParentId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
 
-        var undoMoveTopicData = GetUndoMoveTopicData(relationToMove, json.newParentId, json.targetId);
+        var undoMoveTopicData = GetUndoMoveTopicData(relationToMove, json.NewParentId, json.TargetId);
 
         var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
-        if (json.position == TargetPosition.Before)
-            TopicOrderer.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId,
+        if (json.Position == TargetPosition.Before)
+            TopicOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId, _sessionUser.UserId,
                 modifyRelationsForCategory);
-        else if (json.position == TargetPosition.After)
-            TopicOrderer.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
-        else if (json.position == TargetPosition.Inner)
-            TopicOrderer.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
-        else if (json.position == TargetPosition.None)
+        else if (json.Position == TargetPosition.After)
+            TopicOrderer.MoveAfter(relationToMove, json.TargetId, json.NewParentId, _sessionUser.UserId, modifyRelationsForCategory);
+        else if (json.Position == TargetPosition.Inner)
+            TopicOrderer.MoveIn(relationToMove, json.TargetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
+        else if (json.Position == TargetPosition.None)
                 throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
-        return new MoveTopicResult(json.oldParentId, json.newParentId, undoMoveTopicData);
+        return new TryMoveTopicResult(json.OldParentId, json.NewParentId, undoMoveTopicData);
     }
 
+    public readonly record struct MoveTopicResult(bool Success, TryMoveTopicResult? Data, string Error);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public IActionResult MoveTopic([FromBody] MoveTopicJson json)
+    public MoveTopicResult MoveTopic([FromBody] MoveTopicJson json)
     {
         try
         {
-            return Ok(TryMoveTopic(json));
+            var result = TryMoveTopic(json);
+            return new MoveTopicResult(true, result, "");
         }
         catch (Exception ex)
         {
-            return BadRequest(new { error = ex.Message });
+            return new MoveTopicResult(false, null, ex.Message);
         }
     }
-
 
     private MoveTopicJson GetUndoMoveTopicData(CategoryCacheRelation relation, int newParentId, int targetId)
     {
