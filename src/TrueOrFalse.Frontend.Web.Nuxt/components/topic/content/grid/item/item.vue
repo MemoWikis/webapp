@@ -235,14 +235,14 @@ editTopicRelationStore.$onAction(({ name, after }) => {
         after(async (result) => {
             if (result) {
                 if (result.oldParentId == props.topic.id || result.newParentId == props.topic.id)
-                    loadChildren(true)
+                    await loadChildren(true)
 
                 const parentHasChanged = result.oldParentId != result.newParentId
 
                 if (children.value.find(c => c.id == result.oldParentId))
-                    reloadGridItem(result.oldParentId)
+                    await reloadGridItem(result.oldParentId)
                 if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
-                    reloadGridItem(result.newParentId)
+                    await reloadGridItem(result.newParentId)
             }
         })
     }

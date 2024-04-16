@@ -254,18 +254,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             interface MoveTopicData {
                 oldParentId: number
                 newParentId: number
-                undoMove: MoveTargetResult
+                undoMove: MoveTarget
             }
-
-            interface MoveTargetResult {
-                movingTopicId: number,
-                targetId: number,
-                position: TargetPosition,
-                newParentId: number,
-                oldParentId: number
-            }
-
-            const self = this as any
         
             const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
                 method: "POST",
@@ -287,17 +277,19 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
 
                 return result.data
             } else {
+                this.cancelMoveTopic(oldParentId, newParentId, result.error)
+            }
+        },
+        cancelMoveTopic(oldParentId: number, newParentId: number, errorMsg?: string) {
+            if (errorMsg) {
                 const snackbarStore = useSnackbarStore()
                 const data: SnackbarData = {
                     type: 'error',
-                    text: messages.getByCompositeKey(result.error)
+                    text: messages.getByCompositeKey(errorMsg)
                 }
                 snackbarStore.showSnackbar(data)
-
-                self.cancelMoveTopic(oldParentId,newParentId)
             }
-        },
-        cancelMoveTopic(oldParentId: number, newParentId: number) {
+
             return {
                 oldParentId: oldParentId,
                 newParentId: newParentId,
