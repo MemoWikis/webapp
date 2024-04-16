@@ -13,7 +13,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     public SessionUser(IHttpContextAccessor httpContextAccessor,
         SessionUserCache sessionUserCache)
     {
-        _httpContext = httpContextAccessor.HttpContext; ;
+        _httpContext = httpContextAccessor.HttpContext;
         _sessionUserCache = sessionUserCache;
     }
 

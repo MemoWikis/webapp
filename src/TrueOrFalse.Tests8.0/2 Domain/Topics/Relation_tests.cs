@@ -71,7 +71,7 @@ class Relation_tests : BaseTest
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<CategoryRelationRepo>();
         var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
-        ModifyRelationsEntityCache.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
+        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
 
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
 
@@ -138,7 +138,7 @@ class Relation_tests : BaseTest
         var relationToMove = cachedRoot.ChildRelations[2];
         var categoryRelationRepo = R<CategoryRelationRepo>();
         var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
-        ModifyRelationsEntityCache.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
+        TopicOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
 
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
 
@@ -210,7 +210,7 @@ class Relation_tests : BaseTest
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<CategoryRelationRepo>();
         var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
-        ModifyRelationsEntityCache.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
+        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
 
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(4));
 
@@ -283,10 +283,10 @@ class Relation_tests : BaseTest
         var categoryRelationRepo = R<CategoryRelationRepo>();
         var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
-        var ex = Assert.Throws<Exception>(() => ModifyRelationsEntityCache.MoveAfter(relationToMove, sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
+        var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove, sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
         Assert.That(ex.Message, Is.EqualTo("circular reference"));
 
-        var ex2 = Assert.Throws<Exception>(() => ModifyRelationsEntityCache.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1, modifyRelationsForCategory));
+        var ex2 = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1, modifyRelationsForCategory));
         Assert.That(ex2.Message, Is.EqualTo("circular reference"));
     }
 
@@ -324,7 +324,7 @@ class Relation_tests : BaseTest
         var categoryRelationRepo = R<CategoryRelationRepo>();
         var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
-        ModifyRelationsEntityCache.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory, R<PermissionCheck>());
+        TopicOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory, R<PermissionCheck>());
 
         Assert.That(cachedSub1.ChildRelations.Count, Is.EqualTo(0));
 

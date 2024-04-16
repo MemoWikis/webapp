@@ -139,12 +139,12 @@ public class EditTopicRelationStoreController : BaseController
         var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
         if (json.position == TargetPosition.Before)
-            ModifyRelationsEntityCache.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId,
+            TopicOrderer.MoveBefore(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId,
                 modifyRelationsForCategory);
         else if (json.position == TargetPosition.After)
-            ModifyRelationsEntityCache.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
+            TopicOrderer.MoveAfter(relationToMove, json.targetId, json.newParentId, _sessionUser.UserId, modifyRelationsForCategory);
         else if (json.position == TargetPosition.Inner)
-            ModifyRelationsEntityCache.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
+            TopicOrderer.MoveIn(relationToMove, json.targetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
         else if (json.position == TargetPosition.None)
                 throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
