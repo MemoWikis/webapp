@@ -353,16 +353,12 @@ watch(() => dragStore.transferData, (t) => {
         height: 33%;
         z-index: 4;
         top: 0px;
-        // background: @memo-green;
-        // background: linear-gradient(180deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 10%, rgba(175, 213, 52, 0.33) 25%, rgba(175, 213, 52, 0) 50%);
     }
 
     &.bottom {
         z-index: 3;
         height: 67%;
         top: 33%;
-        // background: @memo-green;
-        // background: linear-gradient(0deg, rgba(175, 213, 52, 1) 0%, rgba(175, 213, 52, 0.6) 5%, rgba(175, 213, 52, 0.33) 12.5%, rgba(175, 213, 52, 0) 25%);
     }
 
     &.inner {
