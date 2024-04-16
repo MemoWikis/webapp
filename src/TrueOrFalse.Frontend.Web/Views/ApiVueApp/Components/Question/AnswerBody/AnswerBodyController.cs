@@ -20,10 +20,15 @@ public class AnswerBodyController(
         return answerBody;
     }
 
-    public readonly record struct SendAnswerToLearningSessionJson(int Id, Guid QuestionViewGuid, string Answer, bool InTestMode);
+    public readonly record struct SendAnswerToLearningSessionJson(
+        int Id,
+        Guid QuestionViewGuid,
+        string Answer,
+        bool InTestMode);
 
     [HttpPost]
-    public LearningResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
+    public LearningResult SendAnswerToLearningSession(
+        [FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
     {
         return GetLearningResult(sendAnswerToLearningSession.Id,
             sendAnswerToLearningSession.QuestionViewGuid,
@@ -31,44 +36,66 @@ public class AnswerBodyController(
             sendAnswerToLearningSession.InTestMode);
     }
 
-    public readonly record struct MarkAsCorrectJson(int Id, Guid QuestionViewGuid, int AmountOfTries);
+    public readonly record struct MarkAsCorrectJson(
+        int Id,
+        Guid QuestionViewGuid,
+        int AmountOfTries);
+
     [HttpPost]
     public bool MarkAsCorrect([FromBody] MarkAsCorrectJson m)
     {
         var result = m.AmountOfTries == 0
-            ? _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, 1, countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, m.AmountOfTries, true);
+            ? _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, 1,
+                countUnansweredAsCorrect: true)
+            : _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, m.AmountOfTries,
+                true);
 
         return result != null;
     }
 
     [HttpPost]
-    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId,
-        int? learningSessionId, string learningSessionStepGuid) =>
-       CountLastAnswerAsCorrect(id, questionViewGuid, interactionNumber, testSessionId,
+    public void CountLastAnswerAsCorrect(
+        int id,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int? testSessionId,
+        int? learningSessionId,
+        string learningSessionStepGuid) =>
+        CountLastAnswerAsCorrect(id, questionViewGuid, interactionNumber, testSessionId,
             learningSessionId, learningSessionStepGuid);
 
     [HttpPost]
-    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber,
-        int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId,
+    public void CountUnansweredAsCorrect(
+        int id,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
+        string learningSessionStepGuid,
+        int? testSessionId,
         int? learningSessionId) =>
-       CountUnansweredAsCorrect(id, questionViewGuid, interactionNumber, millisecondsSinceQuestionView, learningSessionStepGuid, testSessionId,
+        CountUnansweredAsCorrect(id, questionViewGuid, interactionNumber,
+            millisecondsSinceQuestionView, learningSessionStepGuid, testSessionId,
             learningSessionId);
 
-    public readonly record struct GetSolutionJson(int Id, Guid QuestionViewGuid, int InteractionNumber, int MillisecondsSinceQuestionView, bool Unanswered);
+    public readonly record struct GetSolutionJson(
+        int Id,
+        Guid QuestionViewGuid,
+        int InteractionNumber,
+        int MillisecondsSinceQuestionView,
+        bool Unanswered);
 
     [HttpPost]
     public SolutionResult GetSolution([FromBody] GetSolutionJson g)
     {
         return GetSolutionResult(g.Id, g.QuestionViewGuid, g.InteractionNumber,
-             g.MillisecondsSinceQuestionView, g.Unanswered);
+            g.MillisecondsSinceQuestionView, g.Unanswered);
     }
 
     private LearningBody? GetLearningBody(int id)
     {
         var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.Steps.Count == 0)
+        if (learningSession == null || learningSession.Steps.Count == 0)
             return null;
         var step = learningSession.Steps[index];
 
@@ -81,20 +108,27 @@ public class AnswerBodyController(
             TextHtml: q.TextHtml,
             Title: title,
             SolutionType: q.SolutionType,
-            RenderedQuestionTextExtended: q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
+            RenderedQuestionTextExtended: q.TextExtended != null
+                ? MarkdownMarkdig.ToHtml(q.TextExtended)
+                : "",
             Description: q.Description,
             HasTopics: q.Categories.Any(),
             PrimaryTopicId: primaryTopic?.Id,
             PrimaryTopicName: primaryTopic?.Name,
             Solution: q.Solution,
             IsCreator: q.Creator.Id == _sessionUser.UserId,
-            IsInWishknowledge: _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
+            IsInWishknowledge: _sessionUser.IsLoggedIn &&
+                               q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
             QuestionViewGuid: Guid.NewGuid(),
             IsLastStep: learningSession.Steps.Last() == step);
         return learningBody;
     }
 
-    private LearningResult GetLearningResult(int id, Guid questionViewGuid, string answer, bool isTestMode)
+    private LearningResult GetLearningResult(
+        int id,
+        Guid questionViewGuid,
+        string answer,
+        bool isTestMode)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
@@ -105,7 +139,6 @@ public class AnswerBodyController(
         var solution = GetQuestionSolution.Run(question);
 
         return new LearningResult(
-
             Correct: result.IsCorrect,
             CorrectAnswer: result.CorrectAnswer,
             Choices: solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution)
@@ -116,7 +149,8 @@ public class AnswerBodyController(
         );
     }
 
-    private SolutionResult GetSolutionResult(int id,
+    private SolutionResult GetSolutionResult(
+        int id,
         Guid questionViewGuid,
         int interactionNumber,
         int millisecondsSinceQuestionView,
@@ -133,12 +167,12 @@ public class AnswerBodyController(
         EscapeReferencesText(question.References);
 
         return new SolutionResult(
-
             AnswerAsHTML: solution.GetCorrectAnswerAsHtml(),
             Answer: solution.CorrectAnswer(),
-            AnswerDescription: question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
+            AnswerDescription: question.Description != null
+                ? MarkdownMarkdig.ToHtml(question.Description)
+                : "",
             AnswerReferences: question.References.Select(r => new AnswerReferences(
-
                 ReferenceId: r.Id,
                 TopicId: r.Category?.Id ?? null,
                 ReferenceType: r.ReferenceType.GetName(),
@@ -152,9 +186,11 @@ public class AnswerBodyController(
         foreach (var reference in references)
         {
             if (reference.ReferenceText != null)
-                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>")
+                    .Replace("\\n", "<br/>");
             if (reference.AdditionalInfo != null)
-                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>")
+                    .Replace("\\n", "<br/>");
         }
     }
 
@@ -175,11 +211,13 @@ public class AnswerBodyController(
         Guid QuestionViewGuid,
         bool IsLastStep);
 
-    public record struct LearningResult(bool Correct,
+    public record struct LearningResult(
+        bool Correct,
         string CorrectAnswer,
         List<string> Choices,
         bool NewStepAdded,
         bool IsLastStep);
+
     public record struct SolutionResult(
         string AnswerAsHTML,
         string Answer,

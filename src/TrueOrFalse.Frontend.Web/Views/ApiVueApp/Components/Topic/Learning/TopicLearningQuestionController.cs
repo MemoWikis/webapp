@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -77,8 +78,14 @@ public class TopicLearningQuestionController(
     [HttpGet]
     public KnowledgeStatus GetKnowledgeStatus([FromRoute] int id)
     {
+        var sessionUser = _sessionUserCache.GetItem(_sessionUser.UserId);
+        if (sessionUser == null)
+        {
+            throw new NullReferenceException("sessionUser can't null");
+        }
+
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? sessionUser.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Seedworks.Lib.Persistence;
 using static System.String;
 
@@ -47,7 +45,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public int Reputation { get; set; }
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
-    public bool IsInstallationAdmin { get; set;  }
+    public bool IsInstallationAdmin { get; set; }
     public bool IsEmailConfirmed { get; set; }
 
     protected void AssignValues(User user)
