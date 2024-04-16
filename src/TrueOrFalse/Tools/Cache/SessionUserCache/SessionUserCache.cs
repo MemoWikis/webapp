@@ -23,9 +23,6 @@ public class SessionUserCache(
     public SessionUserCacheItem? GetUser(int userId) =>
         GetItem(userId);
 
-    public SessionUserCacheItem? GetItem(int userId) =>
-        Seedworks.Web.State.Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
-
     public bool ItemExists(int userId)
     {
         return Seedworks.Web.State.Cache.Contains(GetCacheKey(userId));
@@ -49,22 +46,33 @@ public class SessionUserCache(
 
     public IList<CategoryValuation> GetCategoryValuations(int userId)
     {
-        var item = GetItem(userId);
-
-        if (item != null)
+        lock (_addOrUpdateLock)
         {
-            return item.CategoryValuations.Values.ToList();
-        }
+            var item = GetItem(userId);
 
-        Logg.r.Error("sessionUserItem is null");
-        return new List<CategoryValuation>();
+            if (item != null)
+            {
+                return item.CategoryValuations.Values.ToList();
+            }
+
+            Logg.r.Error("sessionUserItem is null");
+            return new List<CategoryValuation>();
+        }
+    }
+
+    public SessionUserCacheItem? GetItem(int userId)
+    {
+        lock (_addOrUpdateLock)
+        {
+            return Seedworks.Web.State.Cache.Get<SessionUserCacheItem>(GetCacheKey(userId));
+        }
     }
 
     public void AddOrUpdate(QuestionValuationCacheItem questionValuation)
     {
         var cacheItem = GetItem(questionValuation.User.Id);
 
-        lock (cacheLock)
+        lock (_addOrUpdateLock)
         {
             cacheItem.QuestionValuations.AddOrUpdate(questionValuation.Question.Id,
                 questionValuation,
@@ -72,7 +80,7 @@ public class SessionUserCache(
         }
     }
 
-    private readonly object _addOrUpdateLock = new();
+    private readonly object _addOrUpdateLock = "dggskgsgölsag,möslägmsäglösgm,sdäö";
 
     public void AddOrUpdate(User user)
     {
@@ -84,6 +92,7 @@ public class SessionUserCache(
                 cacheItem = CreateSessionUserItemFromDatabase(user);
                 cacheItem.AssignValues(user);
                 AddToCache(cacheItem);
+                return;
             }
 
             Remove(user);
