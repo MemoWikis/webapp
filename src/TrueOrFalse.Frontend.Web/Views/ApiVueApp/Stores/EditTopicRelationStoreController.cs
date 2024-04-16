@@ -124,14 +124,13 @@ public class EditTopicRelationStoreController(
         var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
         if (json.Position == TargetPosition.Before)
-            TopicOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId, _sessionUser.UserId,
-                modifyRelationsForCategory);
+            TopicOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId, _sessionUser.UserId, modifyRelationsForCategory);
         else if (json.Position == TargetPosition.After)
             TopicOrderer.MoveAfter(relationToMove, json.TargetId, json.NewParentId, _sessionUser.UserId, modifyRelationsForCategory);
         else if (json.Position == TargetPosition.Inner)
             TopicOrderer.MoveIn(relationToMove, json.TargetId, _sessionUser.UserId, modifyRelationsForCategory, _permissionCheck);
         else if (json.Position == TargetPosition.None)
-                throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
+            throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
         return new TryMoveTopicResult(json.OldParentId, json.NewParentId, undoMoveTopicData);
     }

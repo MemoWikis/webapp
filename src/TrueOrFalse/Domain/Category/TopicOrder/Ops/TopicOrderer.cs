@@ -22,7 +22,7 @@ public class TopicOrderer
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error("CategoryRelations - moveIn: circular reference - childId:{0}, parentId:{1}", relation.ChildId, newParentId);
-            throw new Exception("circular reference");
+            throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
         modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
@@ -39,7 +39,7 @@ public class TopicOrderer
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error("CategoryRelations - MoveBefore: circular reference - childId:{0}, parentId:{1}", relation.ChildId, newParentId);
-            throw new Exception("circular reference");
+            throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
         var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId, modifyRelationsForCategory);
@@ -58,7 +58,7 @@ public class TopicOrderer
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error("CategoryRelations - MoveAfter: circular reference - childId:{0}, parentId:{1}", relation.ChildId, newParentId);
-            throw new Exception("circular reference");
+            throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
         var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId, modifyRelationsForCategory);
