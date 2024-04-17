@@ -33,7 +33,7 @@ public class GridController(
         return new GetItemJson(true, "", gridItem);
     }
 
-    public readonly struct GetItemJson(
+    public readonly record struct GetItemJson(
         bool Success,
         string MessageKey = "",
         GridTopicItem? Data = null);
