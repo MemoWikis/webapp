@@ -1,6 +1,4 @@
-﻿
-
-class PermissionCheck_tests : BaseTest
+﻿class PermissionCheck_tests : BaseTest
 {
     [Test]
     public void CanMoveTopic_MoveTopicCreator_And_ParentTopicCreator_IsUser()
@@ -139,6 +137,5 @@ class PermissionCheck_tests : BaseTest
         var permissionCheck = new PermissionCheck(user3.Id);
         Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
         Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, root.Id)));
-
     }
 }
