@@ -47,10 +47,10 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public int Reputation { get; set; }
     public int FollowerCount { get; set; }
     public bool ShowWishKnowledge { get; set; }
-    public bool IsInstallationAdmin { get; set;  }
+    public bool IsInstallationAdmin { get; set; }
     public bool IsEmailConfirmed { get; set; }
 
-    protected void AssignValues(User user)
+    protected void Populate(User user)
     {
         Id = user.Id;
         Name = user.Name;
@@ -85,7 +85,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
         if (user != null)
         {
-            userCacheItem.AssignValues(user);
+            userCacheItem.Populate(user);
         }
 
         return userCacheItem;
