@@ -16,8 +16,8 @@ public class UserWritingRepo
     private readonly SessionUserCache _sessionUserCache;
     private readonly RepositoryDb<User> _repo;
 
-
-    public UserWritingRepo(ISession session,
+    public UserWritingRepo(
+        ISession session,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
         ReputationUpdate reputationUpdate,
@@ -48,20 +48,24 @@ public class UserWritingRepo
     public virtual void AddFollower(User follower, User user)
     {
         user.Followers.Add(new FollowerInfo
-        { Follower = follower, User = user, DateCreated = DateTime.Now, DateModified = DateTime.Now });
+        {
+            Follower = follower, User = user, DateCreated = DateTime.Now,
+            DateModified = DateTime.Now
+        });
         _repo.Flush();
         UserActivityAdd.FollowedUser(follower, user, _userActivityRepo);
-        UserActivityUpdate.NewFollower(follower, user, _userActivityRepo, _repo.Session, _userReadingRepo);
+        UserActivityUpdate.NewFollower(follower, user, _userActivityRepo, _repo.Session,
+            _userReadingRepo);
         _reputationUpdate.ForUser(user);
     }
 
-
     public void Create(User user)
     {
-        Logg.r.Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        Logg.r.Information("user create {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
+            new StackTrace());
 
         _repo.Create(user);
-        _sessionUserCache.AddOrUpdate(user);
+        _sessionUserCache.Update(user);
 
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
@@ -79,7 +83,7 @@ public class UserWritingRepo
         _repo.Delete(id);
         _sessionUserCache.Remove(user);
         EntityCache.RemoveUser(id);
-        Task.Run(async () => 
+        Task.Run(async () =>
             await new MeiliSearchUsersDatabaseOperations()
                 .DeleteAsync(user));
     }
@@ -89,53 +93,70 @@ public class UserWritingRepo
         var user = _repo.Session.Get<User>(userId);
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
 
-        _repo.Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId").SetParameter("userId", userId)
+        _repo.Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId")
+            .SetParameter("userId", userId)
             .ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId").SetParameter("userId", userId)
+        _repo.Session.CreateSQLQuery("DELETE FROM activitypoints WHERE User_Id = :userId")
+            .SetParameter("userId", userId)
             .ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId").SetParameter("userId", userId)
+        _repo.Session.CreateSQLQuery("DELETE FROM messageemail WHERE User_Id = :userId")
+            .SetParameter("userId", userId)
             .ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Update questionValuation SET Userid = null WHERE UserId = :userId")
+        _repo.Session
+            .CreateSQLQuery("Update questionValuation SET Userid = null WHERE UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Update categoryValuation SET Userid = null WHERE UserId = :userId")
+        _repo.Session
+            .CreateSQLQuery("Update categoryValuation SET Userid = null WHERE UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("UPDATE learningSession SET User_Id = null WHERE User_id = :userId")
+        _repo.Session
+            .CreateSQLQuery("UPDATE learningSession SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("UPDATE category SET Creator_Id = null WHERE Creator_id = :userId")
+        _repo.Session
+            .CreateSQLQuery("UPDATE category SET Creator_Id = null WHERE Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
+        _repo.Session
+            .CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
+        _repo.Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId")
+            .SetParameter("userId", userId)
             .ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Update imagemetadata Set userid  = null Where userid =  :userId")
+        _repo.Session
+            .CreateSQLQuery("Update imagemetadata Set userid  = null Where userid =  :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Update comment Set Creator_id  = null Where Creator_id = :userId")
+        _repo.Session
+            .CreateSQLQuery("Update comment Set Creator_id  = null Where Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId").SetParameter("userId", userId)
+        _repo.Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId")
+            .SetParameter("userId", userId)
             .ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId")
+        _repo.Session
+            .CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session.CreateSQLQuery("UPDATE categoryChange c " +
-                               "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
-                               "WHERE u.id =  :userid;")
+                                     "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
+                                     "WHERE u.id =  :userid;")
             .SetParameter("userid", userId).ExecuteUpdate();
 
-        _repo.Session.CreateSQLQuery("Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
+        _repo.Session
+            .CreateSQLQuery(
+                "Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
             .SetParameter("userid", userId).ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery(
-            "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
+                "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
             .SetParameter("userid", userId).ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery(
-            "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
+                "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
             .SetParameter("userid", userId).ExecuteUpdate();
         _repo.Session.CreateSQLQuery(
                 "Delete ua.* From Useractivity ua  Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")
             .SetParameter("userid", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Delete From question where creator_id = :userid and visibility = 1")
+        _repo.Session
+            .CreateSQLQuery("Delete From question where creator_id = :userid and visibility = 1")
             .SetParameter("userid", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId")
+        _repo.Session
+            .CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId")
             .SetParameter("userId", userId)
             .ExecuteUpdate(); // visibility not necessary because everything has already been deleted
 
@@ -147,18 +168,19 @@ public class UserWritingRepo
                 "Delete ua.* From useractivity ua Left Join  user u ON u.id = ua.UserISFollowed_id Where u.id  =  :userId;")
             .SetParameter("userId", userId).ExecuteUpdate();
 
-        _repo.Session.CreateSQLQuery("Delete From user Where id =  :userId;").SetParameter("userId", userId).ExecuteUpdate();
+        _repo.Session.CreateSQLQuery("Delete From user Where id =  :userId;")
+            .SetParameter("userId", userId).ExecuteUpdate();
     }
-
 
     public void Update(User user)
     {
-        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
+            new StackTrace());
 
         _repo.Update(user);
-        _sessionUserCache.AddOrUpdate(user);
+        _sessionUserCache.Update(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
-        Task.Run(async () => 
+        Task.Run(async () =>
             await new MeiliSearchUsersDatabaseOperations()
                 .UpdateAsync(user));
     }
@@ -187,7 +209,8 @@ public class UserWritingRepo
         }
 
         var totalPointCount = 0;
-        foreach (var activityPoints in _activityPointsRepo.GetActivtyPointsByUser(_sessionUser.UserId))
+        foreach (var activityPoints in _activityPointsRepo.GetActivtyPointsByUser(_sessionUser
+                     .UserId))
         {
             totalPointCount += activityPoints.Amount;
         }
@@ -205,7 +228,8 @@ public class UserWritingRepo
         var userToUpdateCacheItem = EntityCache.GetUserById(userToUpdate.Id);
 
         var oldReputation = userToUpdate.Reputation;
-        var newReputation = userToUpdate.Reputation = _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;
+        var newReputation = userToUpdate.Reputation =
+            _reputationCalc.Run(userToUpdateCacheItem).TotalReputation;
 
         var users = _userReadingRepo.GetWhereReputationIsBetween(newReputation, oldReputation);
         foreach (User user in users)
@@ -244,7 +268,8 @@ public class UserWritingRepo
 
     public void UpdateOnlyDb(User user)
     {
-        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress, new StackTrace());
+        Logg.r.Information("user update {Id} {Email} {Stacktrace}", user.Id, user.EmailAddress,
+            new StackTrace());
         Update(user);
     }
 }

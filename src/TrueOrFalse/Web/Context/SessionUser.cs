@@ -72,7 +72,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
         _sessionUserCache.CreateSessionUserItemFromDatabase(user);
-        _sessionUserCache.AddOrUpdate(user);
+        _sessionUserCache.Add(user);
     }
 
     public async void Logout()

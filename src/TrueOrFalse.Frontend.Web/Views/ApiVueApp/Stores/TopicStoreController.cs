@@ -11,11 +11,13 @@ public class TopicStoreController : BaseController
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly TopicGridManager _gridItemLogic;
 
-    public TopicStoreController(SessionUser sessionUser,
+    public TopicStoreController(
+        SessionUser sessionUser,
         PermissionCheck permissionCheck,
         KnowledgeSummaryLoader knowledgeSummaryLoader,
         CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor, TopicGridManager gridItemLogic) : base(sessionUser)
+        IHttpContextAccessor httpContextAccessor,
+        TopicGridManager gridItemLogic) : base(sessionUser)
     {
         _permissionCheck = permissionCheck;
         _knowledgeSummaryLoader = knowledgeSummaryLoader;
@@ -24,7 +26,12 @@ public class TopicStoreController : BaseController
         _gridItemLogic = gridItemLogic;
     }
 
-    public readonly record struct SaveTopicParam(int id, string name, bool saveName, string content, bool saveContent);
+    public readonly record struct SaveTopicParam(
+        int id,
+        string name,
+        bool saveName,
+        string content,
+        bool saveContent);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
@@ -54,6 +61,7 @@ public class TopicStoreController : BaseController
             categoryCacheItem.Content = param.content;
             category.Content = param.content;
         }
+
         EntityCache.AddOrUpdate(categoryCacheItem);
         _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
@@ -67,17 +75,17 @@ public class TopicStoreController : BaseController
     public string GetTopicImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewCategory(id))
-            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true).Url;
+            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true)
+                .Url;
 
         return "";
     }
 
-
     [HttpGet]
     public JsonResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
-        var sessionuserId = _sessionUser == null ? -1 : _sessionUser.UserId;   
-        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id,  sessionuserId);
+        var sessionuserId = _sessionUser == null ? -1 : _sessionUser.UserId;
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, sessionuserId);
 
         return Json(new
         {
@@ -94,4 +102,3 @@ public class TopicStoreController : BaseController
         return _gridItemLogic.GetChildren(id);
     }
 }
-
