@@ -185,7 +185,7 @@ public class CategoryCacheItem : IPersistable
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(category.Id);
-        var childRelations = userEntityCacheCategoryRelations.Sort(category.Id);
+        var childRelations = TopicOrderer.Sort(category.Id);
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,

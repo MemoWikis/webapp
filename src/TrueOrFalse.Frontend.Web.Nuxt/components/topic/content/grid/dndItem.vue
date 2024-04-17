@@ -37,7 +37,10 @@ function onDragOver(e: any) {
         if (diff > 700)
             dropIn.value = true
     }
+
+    handleScroll(e.clientY)
 }
+
 function onDragLeave() {
     isDroppableItemActive.value = false
     dragOverTimer.value = null
@@ -173,19 +176,18 @@ function handleDrag(e: DragEvent) {
         const x = e.pageX - el.left
         const y = e.pageY - el.height
         dragStore.setMousePosition(x, y)
-        handleScroll(e.clientY)
     }
 }
 
 function handleScroll(clientY: number) {
-    const threshold = 150
+    const threshold = 100
     const distanceFromBottom = window.innerHeight - clientY
 
     if (clientY <= threshold) {
-        const scrollSpeed = -10 - Math.ceil(((threshold - clientY) / 10))
+        const scrollSpeed = - Math.ceil(((threshold - clientY) / 10))
         window.scrollBy(0, scrollSpeed)
     } else if (distanceFromBottom <= threshold) {
-        const scrollSpeed = 10 + Math.ceil(((threshold - distanceFromBottom) / 10))
+        const scrollSpeed = Math.ceil(((threshold - distanceFromBottom) / 10))
         window.scrollBy(0, scrollSpeed)
     }
 }
@@ -197,7 +199,7 @@ watch(() => dragStore.transferData, (t) => {
         const m = t as MoveTopicTransferData
         placeHolderTopicName.value = m.topic.name
     }
-}, { deep: true })
+}, { deep: true, immediate: true })
 </script>
 
 <template>
@@ -264,6 +266,7 @@ watch(() => dragStore.transferData, (t) => {
     height: 0px;
     transition: all 100ms ease-in;
     opacity: 0;
+    pointer-events: none;
 
     &.open {
         height: 80px;
@@ -293,18 +296,27 @@ watch(() => dragStore.transferData, (t) => {
     position: absolute;
     width: 100%;
     opacity: 0;
-    transition: all 100ms ease-in;
+    transition: all 90ms ease-in;
 
     &.top {
         height: 33%;
         z-index: 4;
         top: 0px;
+
+        &.hover {
+            height: calc(33% + 80px);
+            top: -80px;
+        }
     }
 
     &.bottom {
         z-index: 3;
         height: 67%;
         top: 33%;
+
+        &.hover {
+            height: calc(67% + 80px);
+        }
     }
 
     &.inner {

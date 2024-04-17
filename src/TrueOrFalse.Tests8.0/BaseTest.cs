@@ -19,10 +19,9 @@ public class BaseTest
     };
     static BaseTest()
     {
-#if DEBUG
+        #if DEBUG
         //            NHibernateProfiler.Initialize();
-#endif
-
+        #endif
     }
 
     [SetUp]
@@ -55,7 +54,6 @@ public class BaseTest
         MySQL5FlexibleDialect.Engine = "MEMORY";
         BuildContainer();
         ServiceLocator.Init(_container);
-        
     }
 
     public void RecycleContainerAndEntityCache()
