@@ -1,5 +1,4 @@
-﻿
-public class ContextCategory : BaseTest
+﻿public class ContextCategory : BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
@@ -40,14 +39,12 @@ public class ContextCategory : BaseTest
         User? creator = null,
         CategoryVisibility visibility = CategoryVisibility.All)
     {
-
         var category = new Category
         {
             Name = categoryName,
             Creator = creator ?? _contextUser.All.First(),
             Type = categoryType,
             Visibility = visibility
-
         };
 
         All.Add(category);
@@ -55,10 +52,10 @@ public class ContextCategory : BaseTest
         return this;
     }
 
-
     public ContextCategory AddChild(Category parent, Category child)
     {
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
         modifyRelationsForCategory.AddChild(parent.Id, child.Id);
 
         return this;
@@ -77,7 +74,6 @@ public class ContextCategory : BaseTest
         return this;
     }
 
-
     public ContextCategory QuestionCount(int questionCount)
     {
         All.Last().CountQuestions = questionCount;
@@ -91,7 +87,8 @@ public class ContextCategory : BaseTest
                 _categoryRepository.Create(cat);
             else
             {
-                _categoryRepository.Update(cat, authorId: cat.AuthorIds.First(), type: CategoryChangeType.Relations);
+                _categoryRepository.Update(cat, authorId: cat.AuthorIds.First(),
+                    type: CategoryChangeType.Relations);
             }
 
         return this;

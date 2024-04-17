@@ -13,14 +13,14 @@
             var creator = new User { Id = sessionUser.UserId };
 
             var parent = contextTopic.Add(
-                parentName,
-                CategoryType.Standard,
-                creator)
+                    parentName,
+                    CategoryType.Standard,
+                    creator)
                 .GetTopicByName(parentName);
 
             var firstChild = contextTopic.Add(firstChildName,
-                CategoryType.Standard,
-                creator)
+                    CategoryType.Standard,
+                    creator)
                 .GetTopicByName(firstChildName);
 
             contextTopic.Persist();
@@ -69,8 +69,10 @@
             var requestResult = categoryDeleter.DeleteTopic(secondChild.Id);
             var categoryRepo = R<CategoryRepository>();
             var allAvailableTopics = categoryRepo.GetAll();
-            var parentChildren = categoryRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, parent.Id);
-            var firstChildChildren = categoryRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, firstChild.Id);
+            var parentChildren =
+                categoryRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, parent.Id);
+            var firstChildChildren = categoryRepo.GetChildren(CategoryType.Standard,
+                CategoryType.Standard, firstChild.Id);
 
             Assert.IsNotNull(requestResult);
             Assert.IsTrue(requestResult.Success);
@@ -85,7 +87,6 @@
             Assert.That(firstChildName, Is.EqualTo(parentChildren.First().Name));
             Assert.IsEmpty(firstChildChildren);
         }
-
 
         [Test]
         [Description("DeleteTopic and RemoveRelations for third child Test EntityCache")]
@@ -135,7 +136,8 @@
             Assert.IsTrue(entityCache.Any(c => c.Id == firstChild.Id));
             Assert.False(entityCache.Any(c => c.Name.Equals(secondChildName)));
             Assert.IsNotEmpty(cacheParent.ChildRelations);
-            Assert.That(cacheFirstchild.Id, Is.EqualTo(cacheParent.ChildRelations.Single().ChildId));
+            Assert.That(cacheFirstchild.Id,
+                Is.EqualTo(cacheParent.ChildRelations.Single().ChildId));
             Assert.IsEmpty(cacheParent.ParentRelations);
             Assert.IsEmpty(cacheFirstchild.ChildRelations);
             Assert.That(cacheParent.Id, Is.EqualTo(cacheFirstchild.ParentRelations.Single().Id));

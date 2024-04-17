@@ -51,53 +51,6 @@ public class CategoryCacheRelation : IPersistable
         return sortedList;
     }
 
-    public IList<CategoryCacheRelation> Sort(int topicId)
-    {
-        var childRelations = EntityCache.GetChildRelationsByParentId(topicId);
-
-        if (childRelations.Count <= 0 || childRelations == null)
-        {
-            return childRelations;
-        }
-
-        var current = childRelations.FirstOrDefault(x => x.PreviousId == null);
-
-        var sortedList = new List<CategoryCacheRelation>();
-
-        var addedRelationIds = new HashSet<int>();
-        while (current != null)
-        {
-            sortedList.Add(current);
-            addedRelationIds.Add(current.Id);
-
-            current = childRelations.FirstOrDefault(x => x.ChildId == current.NextId);
-
-            if (sortedList.Count >= childRelations.Count && current != null)
-            {
-                Logg.r.Error("CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}", topicId);
-                break;
-            }
-        }
-
-        if (sortedList.Count < childRelations.Count)
-        {
-            Logg.r.Error("CategoryRelations - Sort: Broken Link Start - TopicId:{0}, RelationId:{1}", topicId, sortedList.LastOrDefault()?.Id);
-
-            foreach (var r in childRelations)
-            {
-                if (!addedRelationIds.Contains(r.Id))
-                {
-                    sortedList.Add(r);
-                    Logg.r.Error("CategoryRelations - Sort: Broken Link - TopicId:{0}, RelationId:{1}", topicId, r.Id);
-                }
-            }
-
-            Logg.r.Error("CategoryRelations - Sort: Broken Link End - TopicId:{0}", topicId);
-        }
-
-        return sortedList;
-    }
-
     public static IEnumerable<CategoryCacheRelation> ToCategoryCacheRelations(IEnumerable<CategoryRelation> allRelations)
     {
         return allRelations.Select(ToCategoryCacheRelation);

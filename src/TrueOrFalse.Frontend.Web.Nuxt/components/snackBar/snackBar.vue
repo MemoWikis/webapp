@@ -121,6 +121,16 @@ p {
 				color: @memo-info;
 			}
 		}
+
+		.vue3-snackbar-message-wrapper {
+			flex-grow: 1;
+
+			.vue3-snackbar-message-close {
+				display: flex;
+				justify-content: flex-end;
+				flex-grow: 1;
+			}
+		}
 	}
 
 }

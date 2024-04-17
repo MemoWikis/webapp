@@ -246,53 +246,50 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
             
             interface MoveTopicResult {
+                success: boolean
+                data?: MoveTopicData
+                error?: string
+            }
+
+            interface MoveTopicData {
                 oldParentId: number
                 newParentId: number
-                undoMove: MoveTargetResult
+                undoMove: MoveTarget
             }
-
-            interface MoveTargetResult {
-                movingTopicId: number,
-                targetId: number,
-                position: TargetPosition,
-                newParentId: number,
-                oldParentId: number
-            }
-
-            const self = this as any
         
             const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
                 method: "POST",
                 body: data,
                 mode: "cors",
-                credentials: "include",
-                async onResponseError({ response, }) {
-                    const snackbarStore = useSnackbarStore()
-                    const data: SnackbarData = {
-                        type: 'error',
-                        text: messages.getByCompositeKey(response._data.error)
-                    }
-                    snackbarStore.showSnackbar(data)
-
-                    self.cancelMoveTopic(oldParentId,newParentId)
-                }
+                credentials: "include"
             })
 
-            if (result) {
+            if (result.success && result.data) {
+                const data = result.data
                 const newMoveTarget: MoveTarget = {
                     movingTopic: movingTopic,
-                    targetId: result.undoMove.targetId,
-                    position: result.undoMove.position,
-                    newParentId: result.undoMove.newParentId,
-                    oldParentId: result.undoMove.oldParentId
+                    targetId: data.undoMove.targetId,
+                    position: data.undoMove.position,
+                    newParentId: data.undoMove.newParentId,
+                    oldParentId: data.undoMove.oldParentId
                 }
                 this.moveHistory = newMoveTarget
+
+                return result.data
+            } else {
+                this.cancelMoveTopic(oldParentId, newParentId, result.error)
+            }
+        },
+        cancelMoveTopic(oldParentId: number, newParentId: number, errorMsg?: string) {
+            if (errorMsg) {
+                const snackbarStore = useSnackbarStore()
+                const data: SnackbarData = {
+                    type: 'error',
+                    text: messages.getByCompositeKey(errorMsg)
+                }
+                snackbarStore.showSnackbar(data)
             }
 
-            return result
-        },
-        cancelMoveTopic(oldParentId: number, newParentId: number) {
-            console.log('cancelMoveTopic')
             return {
                 oldParentId: oldParentId,
                 newParentId: newParentId,
