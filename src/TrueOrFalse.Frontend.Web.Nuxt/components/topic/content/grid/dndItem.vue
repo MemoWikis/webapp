@@ -5,6 +5,7 @@ import { useEditTopicRelationStore } from '~~/components/topic/relation/editTopi
 import { useDragStore, TargetPosition, MoveTopicTransferData } from '~~/components/shared/dragStore'
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const editTopicRelationStore = useEditTopicRelationStore()
 const dragStore = useDragStore()
@@ -16,6 +17,7 @@ interface Props {
     toggleState: ToggleState
     parentId: number
     parentName: string
+    parentVisibility: Visibility
     disabled?: boolean
     userIsCreatorOfParent: boolean
 }
@@ -35,7 +37,10 @@ function onDragOver(e: any) {
         if (diff > 700)
             dropIn.value = true
     }
+
+    handleScroll(e.clientY)
 }
+
 function onDragLeave() {
     isDroppableItemActive.value = false
     dragOverTimer.value = null
@@ -56,26 +61,27 @@ async function onDrop() {
 
     const transferData = dragStore.transferData as MoveTopicTransferData
     const targetId = props.topic.id
-    if (transferData.movingTopicId == targetId)
+    if (transferData.topic.id == targetId)
         return
 
     const position = currentPosition.value
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
-    await editTopicRelationStore.moveTopic(transferData.movingTopicId, targetId, position, props.parentId, transferData.oldParentId)
+    await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
 
     const snackbarCustomAction: SnackbarCustomAction = {
         label: 'Zurücksetzen',
         action: () => {
             editTopicRelationStore.undoMoveTopic()
-        }
+        },
+        icon: ['fas', 'rotate-left']
     }
 
     snackbar.add({
         type: 'info',
-        title: { text: transferData.topicName, url: `/${transferData.topicName}/${transferData.movingTopicId}` },
-        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
+        title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
+        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon },
         dismissible: true
     })
 }
@@ -92,22 +98,51 @@ function handleDragStart(e: DragEvent) {
 
     document.body.appendChild(cdi)
 
-    e.dataTransfer?.setDragImage(cdi, 0, 0);
+    e.dataTransfer?.setDragImage(cdi, 0, 0)
 
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
-        snackbar.add({
-            type: 'error',
-            title: '',
-            text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
-            dismissible: true
-        })
+        if (userStore.isLoggedIn)
+            snackbar.add({
+                type: 'error',
+                title: '',
+                text: { html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben` },
+                dismissible: true
+            })
+        else {
+            const snackbarCustomAction: SnackbarCustomAction = {
+                label: 'Anmelden',
+                action: () => {
+                    editTopicRelationStore.undoMoveTopic()
+                },
+                icon: ['fas', 'right-to-bracket']
+            }
+
+            snackbar.add({
+                type: 'error',
+                title: '',
+                text: {
+                    html: `Leider hast du keine Rechte um <b>${props.topic.name}</b> zu verschieben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon
+                },
+                dismissible: true
+            })
+        }
         return
     }
 
+    if (props.parentVisibility == Visibility.All && !userStore.gridInfoShown) {
+        snackbar.add({
+            type: 'warning',
+            title: '',
+            text: { html: `Änderung im Thema <b>${props.parentName}</b> sind für alle sichtbar` },
+            dismissible: true
+        })
+
+        userStore.gridInfoShown = true
+    }
+
     const data: MoveTopicTransferData = {
-        movingTopicId: props.topic.id,
-        oldParentId: props.parentId,
-        topicName: props.topic.name
+        topic: props.topic,
+        oldParentId: props.parentId
     }
     dragStore.dragStart(data)
     dragging.value = true
@@ -144,15 +179,27 @@ function handleDrag(e: DragEvent) {
     }
 }
 
+function handleScroll(clientY: number) {
+    const threshold = 100
+    const distanceFromBottom = window.innerHeight - clientY
+
+    if (clientY <= threshold) {
+        const scrollSpeed = - Math.ceil(((threshold - clientY) / 10))
+        window.scrollBy(0, scrollSpeed)
+    } else if (distanceFromBottom <= threshold) {
+        const scrollSpeed = Math.ceil(((threshold - distanceFromBottom) / 10))
+        window.scrollBy(0, scrollSpeed)
+    }
+}
+
 const placeHolderTopicName = ref('')
 
 watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
-        placeHolderTopicName.value = m.topicName
-
+        placeHolderTopicName.value = m.topic.name
     }
-}, { deep: true })
+}, { deep: true, immediate: true })
 </script>
 
 <template>
@@ -219,6 +266,7 @@ watch(() => dragStore.transferData, (t) => {
     height: 0px;
     transition: all 100ms ease-in;
     opacity: 0;
+    pointer-events: none;
 
     &.open {
         height: 80px;
@@ -248,18 +296,27 @@ watch(() => dragStore.transferData, (t) => {
     position: absolute;
     width: 100%;
     opacity: 0;
-    transition: all 100ms ease-in;
+    transition: all 90ms ease-in;
 
     &.top {
         height: 33%;
         z-index: 4;
         top: 0px;
+
+        &.hover {
+            height: calc(33% + 80px);
+            top: -80px;
+        }
     }
 
     &.bottom {
         z-index: 3;
         height: 67%;
         top: 33%;
+
+        &.hover {
+            height: calc(67% + 80px);
+        }
     }
 
     &.inner {

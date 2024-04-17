@@ -9,6 +9,7 @@ import { useSpinnerStore } from '~/components/spinner/spinnerStore'
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
+import { TargetPosition } from '~/components/shared/dragStore'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -33,6 +34,7 @@ watch(() => props.topic.id, async () => {
     children.value = []
     if (childrenLoaded.value)
         await loadChildren(true)
+    expanded.value = false
 })
 
 watch(() => props.toggleState, (state) => {
@@ -228,19 +230,41 @@ watch(() => props.isDragging, (val) => {
 }, { immediate: true })
 
 editTopicRelationStore.$onAction(({ name, after }) => {
-    if (name == 'moveTopic') {
+    if (name == 'moveTopic' || name == 'cancelMoveTopic') {
 
         after(async (result) => {
             if (result) {
                 if (result.oldParentId == props.topic.id || result.newParentId == props.topic.id)
-                    loadChildren(true)
+                    await loadChildren(true)
 
                 const parentHasChanged = result.oldParentId != result.newParentId
 
                 if (children.value.find(c => c.id == result.oldParentId))
-                    reloadGridItem(result.oldParentId)
+                    await reloadGridItem(result.oldParentId)
                 if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
-                    reloadGridItem(result.newParentId)
+                    await reloadGridItem(result.newParentId)
+            }
+        })
+    }
+
+    if (name == 'tempInsert') {
+        after((result) => {
+
+            if (result.oldParentId == props.topic.id) {
+                const index = children.value.findIndex(c => c.id === result.moveTopic.id)
+                if (index !== -1) {
+                    children.value.splice(index, 1)
+                }
+            }
+
+            if (result.newParentId == props.topic.id) {
+                const index = children.value.findIndex(c => c.id == result.targetId)
+                if (result.position == TargetPosition.Before)
+                    children.value.splice(index, 0, result.moveTopic)
+                else if (result.position == TargetPosition.After)
+                    children.value.splice(index + 1, 0, result.moveTopic)
+                else if (result.position == TargetPosition.Inner)
+                    children.value.push(result.moveTopic)
             }
         })
     }
@@ -295,12 +319,14 @@ const { isDesktop } = useDevice()
         <template v-if="isDesktop">
             <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
                 :parent-id="props.topic.id" :parent-name="props.topic.name"
-                :user-is-creator-of-parent="props.topic.creatorId == userStore.id" />
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
         </template>
         <template v-else>
             <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
                 :parent-id="props.topic.id" :parent-name="props.topic.name"
-                :user-is-creator-of-parent="props.topic.creatorId == userStore.id" />
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
         </template>
     </div>
 
@@ -369,6 +395,7 @@ const { isDesktop } = useDevice()
 
             .item-name {
                 font-size: 18px;
+                word-break: break-all;
 
                 a {
                     cursor: pointer;

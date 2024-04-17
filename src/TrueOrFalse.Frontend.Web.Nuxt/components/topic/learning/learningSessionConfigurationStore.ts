@@ -175,24 +175,24 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         }
     },
     actions: {
-        setCounter(e: any) {
+        setCounter(e: QustionCounter) {
             if (e != null) {
-                this.questionFilterOptions.inWuwi.count = e.InWuwi
-                this.questionFilterOptions.notInWuwi.count = e.NotInWuwi
-                this.questionFilterOptions.createdByCurrentUser.count = e.CreatedByCurrentUser
-                this.questionFilterOptions.notCreatedByCurrentUser.count = e.NotCreatedByCurrentUser
-                this.questionFilterOptions.privateQuestions.count = e.Private
-                this.questionFilterOptions.publicQuestions.count = e.Public
+                this.questionFilterOptions.inWuwi.count = e.inWuwi
+                this.questionFilterOptions.notInWuwi.count = e.notInWuwi
+                this.questionFilterOptions.createdByCurrentUser.count = e.createdByCurrentUser
+                this.questionFilterOptions.notCreatedByCurrentUser.count = e.notCreatedByCurrentUser
+                this.questionFilterOptions.privateQuestions.count = e.private
+                this.questionFilterOptions.publicQuestions.count = e.public
 
-                this.knowledgeSummary.notLearned.count = e.NotLearned
-                this.knowledgeSummary.needsLearning.count = e.NeedsLearning
-                this.knowledgeSummary.needsConsolidation.count = e.NeedsConsolidation
-                this.knowledgeSummary.solid.count = e.Solid
+                this.knowledgeSummary.notLearned.count = e.notLearned
+                this.knowledgeSummary.needsLearning.count = e.needsLearning
+                this.knowledgeSummary.needsConsolidation.count = e.needsConsolidation
+                this.knowledgeSummary.solid.count = e.solid
 
-                this.maxSelectableQuestionCount = e.Max as number
+                this.maxSelectableQuestionCount = e.max as number
 
                 if (!this.userHasChangedMaxCount)
-                    this.selectedQuestionCount = e.Max as number
+                    this.selectedQuestionCount = e.max as number
 
                 if (this.maxQuestionCountIsZero)
                     this.showSelectionError = true
@@ -231,7 +231,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         async getQuestionCount() {
             const topicStore = useTopicStore()
             const sessionJson = this.buildSessionConfigJson(topicStore.id)
-            const count = await $fetch<QustionCounter>(`/apiVue/Learning/GetCount/`, {
+            const count = await $fetch<QustionCounter>(`/apiVue/LearningSessionConfigurationStore/GetCount/`, {
                 body: sessionJson,
                 method: 'POST',
                 mode: 'cors',

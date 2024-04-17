@@ -51,7 +51,7 @@
     public void AddChild(int parentId, int childId)
     {
         var cachedParent = EntityCache.GetCategory(parentId);
-        var previousCacheRelation = cachedParent.ChildRelations.LastOrDefault();
+        var previousCacheRelation = cachedParent?.ChildRelations.LastOrDefault();
 
         var child = _categoryRepository.GetById(childId);
         var parent = _categoryRepository.GetById(parentId);
@@ -60,7 +60,7 @@
         {
             Child = child,
             Parent = parent,
-            PreviousId = previousCacheRelation != null ? previousCacheRelation.ChildId : null,
+            PreviousId = previousCacheRelation?.ChildId,
             NextId = null,
         };
 
@@ -69,9 +69,11 @@
         if (previousCacheRelation != null)
         {
             var previousRelation = _categoryRelationRepo.GetById(previousCacheRelation.Id);
-            previousRelation.NextId = childId;
-
-            _categoryRelationRepo.Update(previousRelation);
+            if (previousRelation != null)
+            {
+                previousRelation.NextId = childId;
+                _categoryRelationRepo.Update(previousRelation);
+            }
         }
 
         ModifyRelationsEntityCache.AddChild(relation);
@@ -102,34 +104,23 @@
                 "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
                 r.Id, r.ChildId, r.ParentId);
 
-            var relationToUpdate = r.Id > 0 ? _categoryRelationRepo.GetById(r.Id) : null;
-            var child = _categoryRepository.GetById(r.ChildId);
-            var parent = _categoryRepository.GetById(r.ParentId);
+            var relationToUpdate = _categoryRelationRepo.GetById(r.Id);
 
             if (relationToUpdate != null)
             {
+                var child = _categoryRepository.GetById(r.ChildId);
+                var parent = _categoryRepository.GetById(r.ParentId);
+
                 relationToUpdate.Child = child;
                 relationToUpdate.Parent = parent;
                 relationToUpdate.PreviousId = r.PreviousId;
                 relationToUpdate.NextId = r.NextId;
 
                 _categoryRelationRepo.Update(relationToUpdate);
-            }
-            else
-            {
-                var relation = new CategoryRelation
-                {
-                    Child = child,
-                    Parent = parent,
-                    PreviousId = r.PreviousId,
-                    NextId = r.NextId,
-                };
 
-                _categoryRelationRepo.Create(relation);
+                _categoryRepository.Update(child, authorId, type: CategoryChangeType.Relations);
+                _categoryRepository.Update(parent, authorId, type: CategoryChangeType.Relations);
             }
-
-            _categoryRepository.Update(child, authorId, type: CategoryChangeType.Relations);
-            _categoryRepository.Update(parent, authorId, type: CategoryChangeType.Relations);
         }
     }
 }

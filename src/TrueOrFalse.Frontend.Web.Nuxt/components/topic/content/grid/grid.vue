@@ -10,7 +10,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
-import { useDragStore } from '~/components/shared/dragStore'
+import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -159,16 +159,41 @@ function removeGridItem(id: number) {
 const { isMobile, isDesktop } = useDevice()
 
 editTopicRelationStore.$onAction(({ name, after }) => {
-    if (name == 'moveTopic') {
+    if (name == 'moveTopic' || name == 'cancelMoveTopic') {
 
         after(async (result) => {
             if (result) {
+                if (result?.oldParentId == topicStore.id || result?.newParentId == topicStore.id)
+                    await topicStore.reloadGridItems()
+
                 const parentHasChanged = result.oldParentId != result.newParentId
 
                 if (props.children.find(c => c.id == result.oldParentId))
-                    reloadGridItem(result.oldParentId)
+                    await reloadGridItem(result.oldParentId)
                 if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
-                    reloadGridItem(result.newParentId)
+                    await reloadGridItem(result.newParentId)
+            }
+        })
+    }
+
+    if (name == 'tempInsert') {
+        after((result) => {
+
+            if (result.oldParentId == topicStore.id) {
+                const index = topicStore.gridItems.findIndex(c => c.id === result.moveTopic.id)
+                if (index !== -1) {
+                    topicStore.gridItems.splice(index, 1)
+                }
+            }
+
+            if (result.newParentId == topicStore.id) {
+                const index = topicStore.gridItems.findIndex(c => c.id == result.targetId)
+                if (result.position == TargetPosition.Before)
+                    topicStore.gridItems.splice(index, 0, result.moveTopic)
+                else if (result.position == TargetPosition.After)
+                    topicStore.gridItems.splice(index + 1, 0, result.moveTopic)
+                else if (result.position == TargetPosition.Inner)
+                    topicStore.gridItems.push(result.moveTopic)
             }
         })
     }
@@ -213,12 +238,14 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                     <template v-if="isDesktop">
                         <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
                             :parent-id="topicStore.id" :parent-name="topicStore.name"
-                            :user-is-creator-of-parent="topicStore.currentUserIsCreator" />
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
                     </template>
                     <template v-else>
                         <TopicContentGridTouchDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
                             :parent-id="topicStore.id" :parent-name="topicStore.name"
-                            :user-is-creator-of-parent="topicStore.currentUserIsCreator" />
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
                     </template>
                 </div>
 
@@ -344,6 +371,10 @@ editTopicRelationStore.$onAction(({ name, after }) => {
             }
         }
     }
+}
+
+#TopicGrid {
+    touch-action: pan-y;
 }
 </style>
 

@@ -1,9 +1,5 @@
 ﻿
 using System.Collections.Concurrent;
-using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using static CategoryRepository;
 
 public class EntityCache
 {
@@ -21,7 +17,8 @@ public class EntityCache
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions => Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
-    public static ConcurrentDictionary<int, CategoryCacheRelation> Relations => Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
+    public static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
+        Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
@@ -166,13 +163,13 @@ public class EntityCache
             .Where(relation => relation.ParentId == id)
             .ToList();
     }
+
     public static IList<CategoryCacheRelation> GetParentRelationsByChildId(int id)
     {
         return Relations.Values
             .Where(relation => relation.ChildId == id)
             .ToList();
     }
-
 
     public static void AddOrUpdate(UserCacheItem user)
     {
@@ -194,6 +191,11 @@ public class EntityCache
         Remove(Users, user);
     }
 
+    public static void Remove(CategoryCacheRelation relation)
+    {
+        Remove(Relations, relation);
+    }
+
     public static void AddOrUpdate(QuestionCacheItem question, List<int> categoriesIdsToRemove = null)
     {
         AddOrUpdate(Questions, question);
@@ -209,7 +211,6 @@ public class EntityCache
     public static void AddOrUpdate(CategoryCacheRelation categoryCacheRelation)
     {
         AddOrUpdate(Relations, categoryCacheRelation);
-
     }
 
     public static void AddOrUpdate(CategoryCacheItem categoryCacheItem)
@@ -261,12 +262,16 @@ public class EntityCache
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
 
-    private static void AddOrUpdate(ConcurrentDictionary<int, CategoryCacheRelation> objectToCache, CategoryCacheRelation obj)
+    private static void AddOrUpdate(
+        ConcurrentDictionary<int, CategoryCacheItem> objectToCache,
+        CategoryCacheItem obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
 
-    private static void AddOrUpdate(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
+    private static void AddOrUpdate(
+        ConcurrentDictionary<int, CategoryCacheRelation> objectToCache,
+        CategoryCacheRelation obj)
     {
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
@@ -281,12 +286,16 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    private static void Remove(ConcurrentDictionary<int, CategoryCacheRelation> objectToCache, CategoryCacheRelation obj)
+    private static void Remove(
+        ConcurrentDictionary<int, CategoryCacheItem> objectToCache,
+        CategoryCacheItem obj)
     {
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    private static void Remove(ConcurrentDictionary<int, CategoryCacheItem> objectToCache, CategoryCacheItem obj)
+    private static void Remove(
+        ConcurrentDictionary<int, CategoryCacheRelation> objectToCache,
+        CategoryCacheRelation obj)
     {
         objectToCache.TryRemove(obj.Id, out _);
     }

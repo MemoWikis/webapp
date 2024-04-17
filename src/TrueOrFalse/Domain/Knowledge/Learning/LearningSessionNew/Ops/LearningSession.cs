@@ -134,17 +134,15 @@ public class LearningSession
     }
 }
 
-public class QuestionCounter
-{
-    public int InWuwi { get; set; }
-    public int NotInWuwi { get; set; }
-    public int CreatedByCurrentUser { get; set; }
-    public int NotCreatedByCurrentUser { get; set; }
-    public int Private { get; set; }
-    public int Public { get; set; }
-    public int NotLearned { get; set; }
-    public int NeedsLearning { get; set; }
-    public int NeedsConsolidation { get; set; }
-    public int Solid { get; set; }
-    public int Max { get; set; }
-}
+public record struct QuestionCounter(
+    int InWuwi,
+    int NotInWuwi,
+    int CreatedByCurrentUser,
+    int NotCreatedByCurrentUser,
+    int Private,
+    int Public,
+    int NotLearned,
+    int NeedsLearning,
+    int NeedsConsolidation,
+    int Solid,
+    int Max);

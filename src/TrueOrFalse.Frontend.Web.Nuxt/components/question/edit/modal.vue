@@ -244,6 +244,7 @@ async function save() {
     if (result?.success) {
         if (editQuestionStore.edit) {
             learningSessionStore.updateQuestionList(result.data)
+            learningSessionStore.reloadAnswerBody(result.data.id, result.data.sessionIndex)
         } else if (result.data.sessionIndex > 0) {
             learningSessionStore.lastIndexInQuestionList = result.data.sessionIndex
             learningSessionStore.getLastStepInQuestionList()

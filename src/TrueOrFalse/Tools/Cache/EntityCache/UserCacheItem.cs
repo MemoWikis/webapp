@@ -48,7 +48,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsInstallationAdmin { get; set; }
     public bool IsEmailConfirmed { get; set; }
 
-    protected void AssignValues(User user)
+    protected void Populate(User user)
     {
         Id = user.Id;
         Name = user.Name;
@@ -83,7 +83,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
         if (user != null)
         {
-            userCacheItem.AssignValues(user);
+            userCacheItem.Populate(user);
         }
 
         return userCacheItem;

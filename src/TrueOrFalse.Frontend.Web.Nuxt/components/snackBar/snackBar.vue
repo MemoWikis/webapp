@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useSnackbarStore } from './snackBarStore'
+import { SnackbarData, useSnackbarStore } from './snackBarStore'
 const snackbarStore = useSnackbarStore()
 
 async function customFunction(id: number, dismiss?: any) {
@@ -11,6 +11,19 @@ async function customFunction(id: number, dismiss?: any) {
 	}
 	dismiss()
 }
+const snackbar = useSnackbar()
+snackbarStore.$onAction(({ name, after }) => {
+	if (name == 'showSnackbar') {
+
+		after((data: SnackbarData) => {
+			snackbar.add({
+				type: data.type,
+				title: data.title ? data.title : '',
+				text: { html: data.text ? data.text : '' },
+			})
+		})
+	}
+})
 </script>
 
 <template>
@@ -92,18 +105,33 @@ p {
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-article.vue3-snackbar-message {
+#vue3-snackbar--container {
+	margin: 0;
 
-	&.warning,
-	&.success {
-		color: @memo-blue;
-	}
+	article.vue3-snackbar-message {
 
-	&.info,
-	&.error {
-		a {
-			color: @memo-info;
+		&.warning,
+		&.success {
+			color: @memo-blue;
+		}
+
+		&.info,
+		&.error {
+			a {
+				color: @memo-info;
+			}
+		}
+
+		.vue3-snackbar-message-wrapper {
+			flex-grow: 1;
+
+			.vue3-snackbar-message-close {
+				display: flex;
+				justify-content: flex-end;
+				flex-grow: 1;
+			}
 		}
 	}
+
 }
 </style>

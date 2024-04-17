@@ -6,6 +6,8 @@ import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 import { TargetPosition } from '~/components/shared/dragStore'
+import { GridTopicItem } from '../content/grid/item/gridTopicItem'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -27,7 +29,7 @@ export interface EditRelationData {
 }
 
 interface MoveTarget {
-    movingTopicId: number,
+    movingTopic: GridTopicItem,
     targetId: number,
     position: TargetPosition,
     newParentId: number,
@@ -224,7 +226,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             }
         },
 
-        async moveTopic(movingTopicId: number, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
+        async moveTopic(movingTopic: GridTopicItem, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
 
             const userStore = useUserStore()
 
@@ -233,34 +235,77 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 return
             }
 
+            this.tempInsert(movingTopic, targetId, oldParentId, newParentId, position)
+
             const data = {
-                movingTopicId: movingTopicId,
+                movingTopicId: movingTopic.id,
                 targetId: targetId,
                 position: position,
                 newParentId: newParentId,
                 oldParentId: oldParentId
             }
+            
             interface MoveTopicResult {
+                success: boolean
+                data?: MoveTopicData
+                error?: string
+            }
+
+            interface MoveTopicData {
                 oldParentId: number
                 newParentId: number
                 undoMove: MoveTarget
             }
+        
             const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
                 method: "POST",
                 body: data,
                 mode: "cors",
-                credentials: "include",
+                credentials: "include"
             })
 
-            if (result)
-                this.moveHistory = result.undoMove
+            if (result.success && result.data) {
+                const data = result.data
+                const newMoveTarget: MoveTarget = {
+                    movingTopic: movingTopic,
+                    targetId: data.undoMove.targetId,
+                    position: data.undoMove.position,
+                    newParentId: data.undoMove.newParentId,
+                    oldParentId: data.undoMove.oldParentId
+                }
+                this.moveHistory = newMoveTarget
 
-            return result
+                return result.data
+            } else {
+                this.cancelMoveTopic(oldParentId, newParentId, result.error)
+            }
         },
+        cancelMoveTopic(oldParentId: number, newParentId: number, errorMsg?: string) {
+            if (errorMsg) {
+                const snackbarStore = useSnackbarStore()
+                const data: SnackbarData = {
+                    type: 'error',
+                    text: messages.getByCompositeKey(errorMsg)
+                }
+                snackbarStore.showSnackbar(data)
+            }
 
+            return {
+                oldParentId: oldParentId,
+                newParentId: newParentId,
+            }
+        },
         async undoMoveTopic() {
-
-            return this.moveTopic(this.moveHistory.movingTopicId, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+            return this.moveTopic(this.moveHistory.movingTopic, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+        },
+        tempInsert(moveTopic: GridTopicItem, targetId: number, oldParentId: number, newParentId: number, position: TargetPosition) {
+            return {
+                moveTopic,
+                targetId,
+                oldParentId,
+                newParentId,
+                position
+            }
         }
     },
 })
