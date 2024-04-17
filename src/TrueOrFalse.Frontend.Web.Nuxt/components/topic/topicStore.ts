@@ -196,7 +196,6 @@ export const useTopicStore = defineStore('topicStore', {
 			if (result)
 				this.gridItems = result
 		}
-
 	},
 	getters: {
 		getTopicName(): string {

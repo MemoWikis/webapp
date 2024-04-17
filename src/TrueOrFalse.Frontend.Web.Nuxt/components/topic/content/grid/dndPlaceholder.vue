@@ -38,6 +38,7 @@ const props = defineProps<Props>()
     background: white;
     // border-top: solid 1px #DDDDDD;
     position: relative;
+    min-height: 78px;
     max-height: 78px;
 
     .left-spacer {
@@ -67,24 +68,29 @@ const props = defineProps<Props>()
             color: @memo-green;
             height: 26px;
             width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .label-placeholder {
             min-height: 18px;
             height: 18px;
-            width: 250px;
+            max-width: 250px;
+            width: 100%;
             background: @memo-grey-lighter;
         }
 
         .knowledgebar-container {
-            width: 250px;
+            width: 100%;
+            max-width: 250px;
             height: 18px;
 
             padding-top: 6px;
 
             .knowledgebar-placeholder {
                 height: 6px;
-                width: 180px;
+                width: 100%;
+                max-width: 180px;
                 background: @memo-grey-lighter;
             }
         }

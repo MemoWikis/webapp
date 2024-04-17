@@ -122,16 +122,17 @@ function handleDragStart(e: any) {
         dragStore.dragStart(data)
         dragging.value = true
     }
-
-    handleDrag(e)
 }
 
 const touchTimer = ref()
+
 function preventScroll(e: TouchEvent) {
     e.preventDefault()
 }
-
 function touchDown(e: TouchEvent) {
+    initialHoldPosition.x = e.changedTouches[0].pageX
+    initialHoldPosition.y = e.changedTouches[0].pageY
+
     touchTimer.value = setTimeout(() => {
         document.addEventListener('touchmove', preventScroll, { passive: false })
         handleDragStart(e)
@@ -168,25 +169,27 @@ function handleDragEnd() {
 
 const touchDragComponent = ref<HTMLElement | null>(null)
 
-function handleDrag(e: MouseEvent | TouchEvent) {
-
-    if (dragging.value && 'touches' in e && touchDragComponent.value) {
-        const el = touchDragComponent.value.getBoundingClientRect()
-        const x = e.changedTouches[0].pageX - el.left - 25
-        const y = e.changedTouches[0].pageY - el.height - 50
-        dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
-        handleScroll(e.changedTouches[0].clientY)
+function handleDrag(e: TouchEvent) {
+    if (e.defaultPrevented) {
+        handleDragStart(e)
     }
+
+    const x = e.changedTouches[0].pageX
+    const y = e.changedTouches[0].pageY - 85
+    dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
+
+    if (dragging.value)
+        handleScroll(e.changedTouches[0].clientY)
 }
 
 function handleScroll(clientY: number) {
-    const threshold = 150
+    const threshold = 100
     const distanceFromBottom = window.innerHeight - clientY
 
     if (clientY <= threshold) {
         const scrollSpeed = -10 - Math.ceil(((threshold - clientY) / 10))
         window.scrollBy(0, scrollSpeed)
-    } else if (distanceFromBottom <= threshold) {
+    } else if (distanceFromBottom <= threshold - 50) {
         const scrollSpeed = 10 + Math.ceil(((threshold - distanceFromBottom) / 10))
         window.scrollBy(0, scrollSpeed)
     }
@@ -196,14 +199,14 @@ function getDropZoneData(position: TargetPosition): string {
     const data = {
         type: DragAndDropType.GridItem,
         id: props.topic.id,
-        position: position
+        position: position,
+        parentId: props.parentId
     } as DropZoneData
     return JSON.stringify(data)
 }
 
-
 watch(() => dragStore.dropZoneData, (data) => {
-    if (data?.type == DragAndDropType.GridItem && data.id == props.topic.id) {
+    if (data?.type == DragAndDropType.GridItem && data.id == props.topic.id && data.parentId == props.parentId) {
         isDroppableItemActive.value = true
         currentPosition.value = data.position
     }
@@ -213,32 +216,22 @@ watch(() => dragStore.dropZoneData, (data) => {
     }
 }, { immediate: true, deep: true })
 
-const currentPositionTimer = ref()
-
 watch(currentPosition, (val) => {
     if (isDroppableItemActive.value) {
         if (val == TargetPosition.Before) {
             hoverTopHalf.value = true
             hoverBottomHalf.value = false
-            currentPositionTimer.value = null
         }
-        else if (val == TargetPosition.After) {
+        else if (val == TargetPosition.After || val == TargetPosition.Inner) {
             hoverTopHalf.value = false
             hoverBottomHalf.value = true
-            currentPositionTimer.value = setTimeout(() => {
-                currentPosition.value = TargetPosition.Inner
-                dropIn.value = true
-            }, 300)
-        }
-        else if (val == TargetPosition.Inner) {
-            hoverTopHalf.value = false
-            hoverBottomHalf.value = true
+
         }
     }
     else {
         hoverTopHalf.value = false
         hoverBottomHalf.value = false
-        currentPositionTimer.value = null
+        dropIn.value = false
     }
 }, { immediate: true })
 
@@ -248,9 +241,41 @@ watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
         placeHolderTopicName.value = m.topic.name
-
     }
 }, { deep: true })
+
+const initialHoldPosition = reactive({
+    x: 0,
+    y: 0
+})
+const touchNotMovedTimer = ref()
+watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
+
+    const xDifference = Math.abs(initialHoldPosition.x - x)
+    const yDifference = Math.abs(initialHoldPosition.x - y)
+
+    if (xDifference > 5 || yDifference > 2) {
+        clearTimeout(touchTimer.value)
+    }
+
+    if (currentPosition.value != TargetPosition.None && dragStore.active) {
+
+        if (xDifference > 5 || yDifference > 2) {
+            clearTimeout(touchNotMovedTimer.value)
+        }
+
+        if (touchNotMovedTimer.value == null) {
+            if (currentPosition.value == TargetPosition.After)
+                setTimeout(() => {
+                    currentPosition.value = TargetPosition.Inner
+                    dropIn.value = true
+                }, 1000)
+        }
+
+        initialHoldPosition.x = x
+        initialHoldPosition.y = y
+    }
+}, { immediate: true })
 
 </script>
 
@@ -259,8 +284,7 @@ watch(() => dragStore.transferData, (t) => {
         @dragstart.stop="handleDragStart" @dragend="handleDragEnd" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
-            <div v-if="dragStore.active" v-on:mouseenter="hoverTopHalf = true" class="emptydropzone"
-                :class="{ 'open': hoverTopHalf && !dragging }"
+            <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
                 :data-dropzonedata="getDropZoneData(TargetPosition.Before)">
 
                 <div class="inner top">
@@ -296,7 +320,7 @@ watch(() => dragStore.transferData, (t) => {
 
             </TopicContentGridItem>
 
-            <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" class="emptydropzone"
+            <div v-if="dragStore.active" class="emptydropzone"
                 :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }"
                 :data-dropzonedata="getDropZoneData(TargetPosition.After)">
 
@@ -350,15 +374,24 @@ watch(() => dragStore.transferData, (t) => {
     z-index: 2;
 
     &.top {
-        height: 33%;
+        height: 40%;
         z-index: 4;
         top: 0px;
+
+        &.hover {
+            height: calc(40% + 80px);
+            top: -80px;
+        }
     }
 
     &.bottom {
         z-index: 3;
-        height: 67%;
-        top: 33%;
+        height: 60%;
+        top: 40%;
+
+        &.hover {
+            height: calc(60% + 80px);
+        }
     }
 
     &.inner {

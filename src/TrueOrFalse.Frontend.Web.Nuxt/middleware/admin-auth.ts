@@ -28,5 +28,5 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     if (isAdmin)
         return true
     else (!isAdmin)
-    throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
