@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain.User;
+
 namespace VueApp;
 
 public class UserStoreController(
@@ -19,8 +20,8 @@ public class UserStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser) {
-
+    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
+{
     [HttpPost]
     public JsonResult Login([FromBody] LoginParam param)
     {
@@ -34,6 +35,7 @@ public class UserStoreController(
                 data = _vueSessionUser.GetCurrentUserData()
             });
         }
+
         return Json(new RequestResult
         {
             success = false,
@@ -79,21 +81,19 @@ public class UserStoreController(
     [HttpPost]
     public JsonResult Register([FromBody] RegisterJson json)
     {
-       
-
         if (!IsEmailAddressAvailable.Yes(json.Email, _userReadingRepo))
             return Json(new RequestResult
-        {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.EmailInUse
-        });
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.EmailInUse
+            });
 
         if (!IsUserNameAvailable.Yes(json.Email, _userReadingRepo))
             return Json(new RequestResult
-        {
-            success = false,
-            messageKey = FrontendMessageKeys.Error.User.UserNameInUse
-        });
+            {
+                success = false,
+                messageKey = FrontendMessageKeys.Error.User.UserNameInUse
+            });
 
         _registerUser.SetUser(json);
 
@@ -104,7 +104,7 @@ public class UserStoreController(
             {
                 IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
-                Name = _sessionUser.IsLoggedIn? _sessionUser.User.Name : "",
+                Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
                 Type = UserType.Normal,
@@ -117,11 +117,11 @@ public class UserStoreController(
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
                 PersonalWiki = new TopicDataManager(_sessionUser,
-                        _permissionCheck, 
-                        _gridItemLogic, 
-                        _knowledgeSummaryLoader, 
-                        _categoryViewRepo, 
-                        _imageMetaDataReadingRepo, 
+                        _permissionCheck,
+                        _gridItemLogic,
+                        _knowledgeSummaryLoader,
+                        _categoryViewRepo,
+                        _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
                     .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
@@ -140,5 +140,4 @@ public class UserStoreController(
             messageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
         });
     }
-
 }

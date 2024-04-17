@@ -16,15 +16,15 @@ public class SessionUserCacheItem : UserCacheItem
 
         if (user != null)
         {
-            userCacheItem.AssignValues(user);
+            userCacheItem.Populate(user);
         }
 
         return userCacheItem;
     }
 
-    public new void AssignValues(User user)
+    public new void Populate(User user)
     {
-        base.AssignValues(user);
+        base.Populate(user);
         IsInstallationAdmin = user.IsInstallationAdmin;
 
         ActivityPoints = user.ActivityPoints;
