@@ -38,7 +38,7 @@ function onDragOver(e: any) {
             dropIn.value = true
     }
 
-    handleScroll(e)
+    handleScroll(e.clientY)
 }
 
 function onDragLeave() {
@@ -179,12 +179,12 @@ function handleDrag(e: DragEvent) {
     }
 }
 
-function handleScroll(e: DragEvent) {
+function handleScroll(clientY: number) {
     const threshold = 100
-    const distanceFromBottom = window.innerHeight - e.clientY
+    const distanceFromBottom = window.innerHeight - clientY
 
-    if (e.clientY <= threshold) {
-        const scrollSpeed = - Math.ceil(((threshold - e.clientY) / 10))
+    if (clientY <= threshold) {
+        const scrollSpeed = - Math.ceil(((threshold - clientY) / 10))
         window.scrollBy(0, scrollSpeed)
     } else if (distanceFromBottom <= threshold) {
         const scrollSpeed = Math.ceil(((threshold - distanceFromBottom) / 10))
