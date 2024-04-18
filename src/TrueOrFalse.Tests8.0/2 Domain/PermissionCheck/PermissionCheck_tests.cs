@@ -31,7 +31,7 @@
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user.Id);
-        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
+        Assert.IsTrue(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42));
     }
 
     [Test]
