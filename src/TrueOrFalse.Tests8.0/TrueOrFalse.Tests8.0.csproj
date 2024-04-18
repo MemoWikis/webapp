@@ -36,4 +36,8 @@
     <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj" />
   </ItemGroup>
 
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="copy &quot;$(UserProfile)\.nuget\packages\microsoft.extensions.configuration.abstractions\8.0.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll&quot; &quot;$(OutputPath)&quot;" />
+	</Target>
+
 </Project>
