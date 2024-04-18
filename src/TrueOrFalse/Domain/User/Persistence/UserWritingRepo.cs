@@ -65,8 +65,6 @@ public class UserWritingRepo
             new StackTrace());
 
         _repo.Create(user);
-        _sessionUserCache.Update(user);
-
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().CreateAsync(user));
     }
