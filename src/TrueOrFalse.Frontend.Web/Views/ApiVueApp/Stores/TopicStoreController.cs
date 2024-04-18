@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
@@ -90,15 +91,44 @@ public class TopicStoreController(
         };
     }
 
+    public readonly record struct GridTopicItem(
+        int Id,
+        string Name,
+        int QuestionCount,
+        int ChildrenCount,
+        string ImageUrl,
+        CategoryVisibility Visibility,
+        TopicGridManager.TinyTopicModel[] Parents,
+        TopicGridManager.KnowledgebarData KnowledgebarData,
+        bool IsChildOfPersonalWiki,
+        int CreatorId,
+        bool CanDelete
+    );
+
     [HttpGet]
-    public TopicGridManager.GridTopicItem[] GetGridTopicItems([FromRoute] int id)
+    public GridTopicItem[] GetGridTopicItems([FromRoute] int id)
     {
-        return new TopicGridManager(
+        var data = new TopicGridManager(
             _permissionCheck,
             _sessionUser,
             _imageMetaDataReadingRepo,
             _httpContextAccessor,
             _knowledgeSummaryLoader,
             _questionReadingRepo).GetChildren(id);
+
+        return data.Select(git => new GridTopicItem
+        {
+            CanDelete = git.CanDelete,
+            ChildrenCount = git.ChildrenCount,
+            CreatorId = git.CreatorId,
+            Id = git.Id,
+            ImageUrl = git.ImageUrl,
+            IsChildOfPersonalWiki = git.IsChildOfPersonalWiki,
+            KnowledgebarData = git.KnowledgebarData,
+            Name = git.Name,
+            Visibility = git.Visibility,
+            Parents = git.Parents,
+            QuestionCount = git.QuestionCount
+        }).ToArray();
     }
 }

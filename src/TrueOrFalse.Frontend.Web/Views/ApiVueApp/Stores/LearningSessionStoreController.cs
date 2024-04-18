@@ -1,16 +1,43 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using FluentNHibernate.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Rollbar.DTOs;
 
 public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache) : Controller
 {
+    public record struct LearningSessionResult()
+    {
+        public int Index { get; set; } = 0;
+
+        public LearningSessionCreator.Step[] Steps { get; set; } =
+            Array.Empty<LearningSessionCreator.Step>();
+
+        public LearningSessionCreator.Step? CurrentStep { get; set; } = null;
+        public int ActiveQuestionCount { get; set; } = 0;
+        public bool AnswerHelp { get; set; } = true;
+        public bool IsInTestMode { get; set; } = false;
+        public string? MessageKey { get; set; } = null;
+    }
+
     [HttpPost]
-    public LearningSessionCreator.LearningSessionResult NewSession(
+    public LearningSessionResult NewSession(
         [FromBody] LearningSessionConfig config)
     {
-        return _learningSessionCreator.GetLearningSessionResult(config);
+        var data = _learningSessionCreator.GetLearningSessionResult(config);
+        return new LearningSessionResult
+        {
+            MessageKey = data.MessageKey,
+            ActiveQuestionCount = data.ActiveQuestionCount,
+            AnswerHelp = data.AnswerHelp,
+            CurrentStep = data.CurrentStep,
+            Index = data.Index,
+            IsInTestMode = data.IsInTestMode,
+            Steps = data.Steps
+        };
     }
 
     public readonly record struct NewSessionWithJumpToQuestionData(
@@ -18,10 +45,20 @@ public class LearningSessionStoreController(
         int Id);
 
     [HttpPost]
-    public LearningSessionCreator.LearningSessionResult NewSessionWithJumpToQuestion(
+    public LearningSessionResult NewSessionWithJumpToQuestion(
         [FromBody] NewSessionWithJumpToQuestionData data)
     {
-        return _learningSessionCreator.GetLearningSessionResult(data.Config, data.Id);
+        var resultData = _learningSessionCreator.GetLearningSessionResult(data.Config, data.Id);
+        return new LearningSessionResult
+        {
+            MessageKey = resultData.MessageKey,
+            ActiveQuestionCount = resultData.ActiveQuestionCount,
+            AnswerHelp = resultData.AnswerHelp,
+            CurrentStep = resultData.CurrentStep,
+            Index = resultData.Index,
+            IsInTestMode = resultData.IsInTestMode,
+            Steps = resultData.Steps
+        };
     }
 
     public readonly record struct LastStepInQuestionListResult(
@@ -73,18 +110,38 @@ public class LearningSessionStoreController(
     }
 
     [HttpGet]
-    public LearningSessionCreator.LearningSessionResult GetCurrentSession()
+    public LearningSessionResult GetCurrentSession()
     {
-        return _learningSessionCreator.GetLearningSessionResult();
+        var data = _learningSessionCreator.GetLearningSessionResult();
+        return new LearningSessionResult
+        {
+            MessageKey = data.MessageKey,
+            ActiveQuestionCount = data.ActiveQuestionCount,
+            AnswerHelp = data.AnswerHelp,
+            CurrentStep = data.CurrentStep,
+            Index = data.Index,
+            IsInTestMode = data.IsInTestMode,
+            Steps = data.Steps
+        };
     }
 
     public readonly record struct LoadSpecificQuestionJson(int index);
 
     [HttpPost]
-    public LearningSessionCreator.LearningSessionResult LoadSpecificQuestion(
+    public LearningSessionResult LoadSpecificQuestion(
         [FromBody] LoadSpecificQuestionJson json)
     {
-        return _learningSessionCreator.GetStep(json.index);
+        var data = _learningSessionCreator.GetStep(json.index);
+        return new LearningSessionResult
+        {
+            MessageKey = data.MessageKey,
+            ActiveQuestionCount = data.ActiveQuestionCount,
+            AnswerHelp = data.AnswerHelp,
+            CurrentStep = data.CurrentStep,
+            Index = data.Index,
+            IsInTestMode = data.IsInTestMode,
+            Steps = data.Steps
+        };
     }
 
     public readonly record struct SkipStepJson(int index);

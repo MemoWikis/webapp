@@ -33,12 +33,34 @@ namespace VueApp
 
         public readonly record struct QuickCreateParam(string Name, int ParentTopicId);
 
+        public readonly record struct CreateResult(
+            bool Success,
+            string MessageKey,
+            CreateTinyTopicItem Data);
+
+        public readonly record struct CreateTinyTopicItem(
+            bool CantSavePrivateTopic,
+            string Name,
+            int Id);
+
         [AccessOnlyAsLoggedIn]
         [HttpPost]
-        public CategoryCreator.CreateResult QuickCreate([FromBody] QuickCreateParam param)
+        public CreateResult QuickCreate([FromBody] QuickCreateParam param)
         {
             var data = _categoryCreator.Create(param.Name, param.ParentTopicId, _sessionUser);
-            return data;
+            var result = new CreateResult
+            {
+                Success = data.Success,
+                MessageKey = data.MessageKey,
+                Data = new CreateTinyTopicItem
+                {
+                    Name = data.Data.Name,
+                    Id = data.Data.Id,
+                    CantSavePrivateTopic = data.Data.CantSavePrivateTopic
+                }
+            };
+
+            return result;
         }
 
         public readonly record struct SearchParam(string term, int[] topicIdsToFilter);
