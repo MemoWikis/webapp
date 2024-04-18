@@ -13,30 +13,12 @@ public class QuestionLoader(
     QuestionReadingRepo _questionReadingRepo,
     LearningSessionCache _learningSessionCache)
 {
-    public class Question
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int CorrectnessProbability { get; set; }
-        public string LinkToQuestion { get; set; }
-        public string ImageData { get; set; }
-        public bool IsInWishknowledge { get; set; }
-        public bool HasPersonalAnswer { get; set; }
-        public int LearningSessionStepCount { get; set; }
-        public string LinkToComment { get; set; }
-        public string LinkToQuestionVersions { get; set; }
-        public int SessionIndex { get; set; }
-        public QuestionVisibility Visibility { get; set; }
-        public int CreatorId { get; set; } = 0;
-        public KnowledgeStatus KnowledgeStatus { get; set; } = KnowledgeStatus.NotLearned;
-    }
-
-    public Question LoadQuestion(int questionId)
+    public QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
         var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
-        var question = new Question();
+        var question = new QuestionListJson.Question();
         question.Id = q.Id;
         question.Title = q.Text;
 

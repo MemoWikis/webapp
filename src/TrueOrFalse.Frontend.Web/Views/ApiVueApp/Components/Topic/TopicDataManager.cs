@@ -139,7 +139,7 @@ public class TopicDataManager(
         int NeedsConsolidation,
         int Solid);
 
-    public record struct TopicDataResult(
+    public record TopicDataResult(
         bool CanAccess,
         int Id,
         string Name,
