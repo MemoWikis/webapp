@@ -47,7 +47,7 @@ public class TopicController(
             MetaDescription = data.MetaDescription,
             ParentTopicCount = data.ParentTopicCount,
             Parents = data.Parents,
-            QuestionCount = data.DirectQuestionCount,
+            QuestionCount = data.QuestionCount,
             TopicItem = data.TopicItem,
             Views = data.Views,
             Visibility = data.Visibility,
