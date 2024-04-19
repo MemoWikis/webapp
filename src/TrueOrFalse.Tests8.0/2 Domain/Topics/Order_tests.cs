@@ -329,10 +329,10 @@ class Order_tests : BaseTest
         var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
         var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove, sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
-        Assert.That(ex.Message, Is.EqualTo("circular reference"));
+        Assert.That(ex.Message, Is.EqualTo(FrontendMessageKeys.Error.Category.CircularReference));
 
         var ex2 = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1, modifyRelationsForCategory));
-        Assert.That(ex2.Message, Is.EqualTo("circular reference"));
+        Assert.That(ex2.Message, Is.EqualTo(FrontendMessageKeys.Error.Category.CircularReference));
     }
 
     [Test]
