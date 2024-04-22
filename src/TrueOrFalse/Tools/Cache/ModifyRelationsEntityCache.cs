@@ -1,23 +1,16 @@
 ﻿
 using System.Security;
+using static TopicDataManager;
 
 public class ModifyRelationsEntityCache
 {
-    public static void RemoveRelations(CategoryCacheItem category)
+    public static void RemoveRelationsForCategoryDeleter(CategoryCacheItem category, int userId, ModifyRelationsForCategory modifyRelationsForCategory)
     {
-        var allParents = GraphService.Ascendants(category.Id);
-        foreach (var parent in allParents)
+        var allRelations = EntityCache.GetCacheRelationsByChildId(category.Id);
+        foreach (var relation in allRelations)
         {
-            for (var i = 0; i < parent.ParentRelations.Count; i++)
-            {
-                var relation = parent.ParentRelations[i];
-
-                if (relation.ParentId == category.Id)
-                {
-                    parent.ParentRelations.Remove(relation);
-                    break;
-                }
-            }
+            var parent = EntityCache.GetCategory(relation.ParentId);
+            RemoveParent(category, parent, userId, modifyRelationsForCategory);
         }
     }
 
@@ -51,11 +44,16 @@ public class ModifyRelationsEntityCache
             throw new SecurityException("Not allowed to edit category");
         }
 
-        var relationToRemove = parent?.ChildRelations.FirstOrDefault(r => r.ChildId == childCategory.Id);
+        return RemoveParent(childCategory, parent, authorId, modifyRelationsForCategory);
+    }
+
+    private static bool RemoveParent(CategoryCacheItem childCategory, CategoryCacheItem parent, int authorId, ModifyRelationsForCategory modifyRelationsForCategory)
+    {
+        var relationToRemove = parent.ChildRelations.FirstOrDefault(r => r.ChildId == childCategory.Id);
 
         if (relationToRemove != null)
         {
-            TopicOrderer.Remove(relationToRemove, parentId, authorId, modifyRelationsForCategory);
+            TopicOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
             childCategory.ParentRelations.Remove(relationToRemove);
             return true;
         }

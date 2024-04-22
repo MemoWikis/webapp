@@ -7,10 +7,10 @@ public class CategoryDeleter(
     CategoryRepository _categoryRepository,
     CategoryChangeRepo _categoryChangeRepo,
     CategoryValuationWritingRepo _categoryValuationWritingRepo,
-    PermissionCheck _permissionCheck,
     SessionUserCache _sessionUserCache,
-    CrumbtrailService crumbtrailService,
-    CategoryRepository categoryRepo)
+    CrumbtrailService _crumbtrailService,
+    CategoryRepository _categoryRepo,
+    CategoryRelationRepo _categoryRelationRepo)
     : IRegisterAsInstancePerLifetime
 {
 
@@ -42,8 +42,9 @@ public class CategoryDeleter(
         _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
         _categoryRepository.Delete(category);
 
-        ModifyRelationsEntityCache.RemoveRelations(categoryCacheItem);
-        EntityCache.Remove(categoryCacheItem, _permissionCheck, userId);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        ModifyRelationsEntityCache.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId, modifyRelationsForCategory);
+        EntityCache.Remove(categoryCacheItem, userId);
         _sessionUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
         hasDeleted.DeletedSuccessful = true;
@@ -55,19 +56,19 @@ public class CategoryDeleter(
     public DeleteTopicResult DeleteTopic(int id)
     {
         var redirectParent = GetRedirectTopic(id);
-        var topic = categoryRepo.GetById(id);
+        var topic = _categoryRepo.GetById(id);
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
         var parentIds =
             EntityCache.GetCategory(id).Parents().Select(c => c.Id)
                 .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
-        var parentTopics = categoryRepo.GetByIds(parentIds);
+        var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
         foreach (var parent in parentTopics)
         {
-            _categoryChangeRepo.AddUpdateEntry(categoryRepo, parent, _sessionUser.UserId, false);
+            _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
         }
 
         return new DeleteTopicResult(
@@ -84,7 +85,7 @@ public class CategoryDeleter(
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
-        var lastBreadcrumbItem = crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
+        var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
         if (lastBreadcrumbItem != null)
             return new RedirectParent(lastBreadcrumbItem.Category.Name, lastBreadcrumbItem.Category.Id);
