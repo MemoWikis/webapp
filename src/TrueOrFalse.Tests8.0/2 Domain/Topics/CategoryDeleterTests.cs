@@ -1,14 +1,18 @@
-﻿namespace TrueOrFalse.Tests8._0._2_Domain.Topics
+﻿using NUnit.Framework.Internal;
+using Stripe;
+using Ubiety.Dns.Core.Records;
+
+namespace TrueOrFalse.Tests8._0._2_Domain.Topics
 {
     public class CategoryDeleterTests : BaseTest
     {
         [Test]
-        [Description("DeleteTopic and RemoveRelations for second child")]
-        public void Run_Test()
+        public void Delete_topic_and_remove_child()
         {
+            //Arrange
             var contextTopic = ContextCategory.New();
-            var parentName = "Parent";
-            var firstChildName = "FirstChild";
+            var parentName = "parent name";
+            var childName = "child name";
             var sessionUser = R<SessionUser>();
             var creator = new User { Id = sessionUser.UserId };
 
@@ -18,16 +22,19 @@
                     creator)
                 .GetTopicByName(parentName);
 
-            var firstChild = contextTopic.Add(firstChildName,
+            var firstChild = contextTopic.Add(childName,
                     CategoryType.Standard,
                     creator)
-                .GetTopicByName(firstChildName);
+                .GetTopicByName(childName);
 
             contextTopic.Persist();
             contextTopic.AddChild(parent, firstChild);
 
+            //Act
             var categoryDeleter = R<CategoryDeleter>();
             var requestResult = categoryDeleter.DeleteTopic(firstChild.Id);
+
+            //Assert
             Assert.IsNotNull(requestResult);
             Assert.IsTrue(requestResult.Success);
             Assert.IsFalse(requestResult.HasChildren);
@@ -36,9 +43,9 @@
         }
 
         [Test]
-        [Description("DeleteTopic and RemoveRelations for third child")]
-        public void Run1_Test()
+        public void Delete_topic_and_remove_second_child()
         {
+            //Arrange
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
             var firstChildName = "FirstChild";
@@ -56,6 +63,7 @@
                     CategoryType.Standard,
                     creator)
                 .GetTopicByName(firstChildName);
+
             var secondChild = contextTopic.Add(secondChildName,
                     CategoryType.Standard,
                     creator)
@@ -65,8 +73,13 @@
             contextTopic.AddChild(parent, firstChild);
             contextTopic.AddChild(firstChild, secondChild);
 
+            RecycleContainer();
+
+            //Act
             var categoryDeleter = R<CategoryDeleter>();
             var requestResult = categoryDeleter.DeleteTopic(secondChild.Id);
+
+            //Assert
             var categoryRepo = R<CategoryRepository>();
             var allAvailableTopics = categoryRepo.GetAll();
             var parentChildren =
@@ -89,8 +102,7 @@
         }
 
         [Test]
-        [Description("DeleteTopic and RemoveRelations for third child Test EntityCache")]
-        public void Run1EntityCache_Test()
+        public void Delete_topic_and_remove_relations_for_third_child_test_EntityCache()
         {
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
@@ -144,8 +156,7 @@
         }
 
         [Test]
-        [Description("Delete topic has Child")]
-        public void Run2_Test()
+        public void Delete_topic_has_child()
         {
             var contextTopic = ContextCategory.New();
             var parentName = "Parent";
