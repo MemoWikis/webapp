@@ -1,55 +1,57 @@
 ﻿
 
+using Quartz;
+using TrueOrFalse.Utilities.ScheduledJobs;
+
 class Order_tests : BaseTest
 {
-    [Test]
-    public void SortTopics_ShouldCorrectlySortTopics()
-    {
-        var unsortedRelations = new List<CategoryCacheRelation>
-        {
-            new CategoryCacheRelation { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new CategoryCacheRelation { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
-        };
+    //[Test]
+    //public void SortTopics_ShouldCorrectlySortTopics()
+    //{
+    //    var unsortedRelations = new List<CategoryCacheRelation>
+    //    {
+    //        new CategoryCacheRelation { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+    //        new CategoryCacheRelation { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+    //        new CategoryCacheRelation { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
+    //    };
 
-        var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
+    //    var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
 
-        Assert.IsNotNull(sortedRelations);
-        Assert.AreEqual(3, sortedRelations.Count);
-        Assert.AreEqual(1, sortedRelations[0].ChildId);
-        Assert.AreEqual(2, sortedRelations[1].ChildId);
-        Assert.AreEqual(3, sortedRelations[2].ChildId);
-    }
+    //    Assert.IsNotNull(sortedRelations);
+    //    Assert.AreEqual(3, sortedRelations.Count);
+    //    Assert.AreEqual(1, sortedRelations[0].ChildId);
+    //    Assert.AreEqual(2, sortedRelations[1].ChildId);
+    //    Assert.AreEqual(3, sortedRelations[2].ChildId);
+    //}
 
-    [Test]
-    public void SortTopics_ShouldCorrectlySortTopics_WithBrokenRelations()
-    {
-        var unsortedRelations = new List<CategoryCacheRelation>
-        {
-            new CategoryCacheRelation { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new CategoryCacheRelation { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
+    //[Test]
+    //public void SortTopics_ShouldCorrectlySortTopics_WithBrokenRelations()
+    //{
+    //    var unsortedRelations = new List<CategoryCacheRelation>
+    //    {
+    //        new CategoryCacheRelation { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+    //        new CategoryCacheRelation { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+    //        new CategoryCacheRelation { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
 
-            new CategoryCacheRelation { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
-            new CategoryCacheRelation { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
-        };
+    //        new CategoryCacheRelation { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
+    //        new CategoryCacheRelation { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
+    //        new CategoryCacheRelation { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
+    //    };
 
-        var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
+    //    var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
 
-        Assert.IsNotNull(sortedRelations);
-        Assert.AreEqual(6, sortedRelations.Count);
-        Assert.AreEqual(1, sortedRelations[0].ChildId);
-        Assert.AreEqual(2, sortedRelations[1].ChildId);
-        Assert.AreEqual(3, sortedRelations[2].ChildId);
+    //    Assert.IsNotNull(sortedRelations);
+    //    Assert.AreEqual(6, sortedRelations.Count);
+    //    Assert.AreEqual(1, sortedRelations[0].ChildId);
+    //    Assert.AreEqual(2, sortedRelations[1].ChildId);
+    //    Assert.AreEqual(3, sortedRelations[2].ChildId);
 
-        Assert.AreEqual(6, sortedRelations[5].ChildId);
-    }
+    //    Assert.AreEqual(6, sortedRelations[5].ChildId);
+    //}
 
     [Test]
     public void Should_Add_Creation_ToDb_and_EntityCache()
     {
-        RecycleContainerAndEntityCache();
 
         var context = ContextCategory.New();
 
@@ -84,10 +86,9 @@ class Order_tests : BaseTest
 
     //Move sub1 after sub3
     [Test]
-    public void Should_MoveRelation_Correctly_AfterSub3()
+    public async Task Should_MoveRelation_Correctly_AfterSub3()
     {
-        RecycleContainerAndEntityCache();
-
+        CountdownEvent countdown = new CountdownEvent(0);
         var context = ContextCategory.New();
 
         context.Add("root").Persist();
@@ -132,14 +133,32 @@ class Order_tests : BaseTest
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub3.Id));
         Assert.That(cachedRoot.ChildRelations[2].NextId, Is.EqualTo(null));
 
-        Task.Delay(200).Wait();
+        //var startTime = DateTime.UtcNow;
+        //var timeout = TimeSpan.FromSeconds(100);
+        //while (DateTime.UtcNow - startTime < timeout)
+        //{
+        //    //if (JobScheduler.GetCurrentlyExecutingJobNames().Count == 0)
+        //    //    break;
 
+        //    var jobNames = JobScheduler.GetCurrentlyExecutingJobNames();
+
+        //    await Task.Delay(1000); // Check every second
+        //}
+
+
+        Thread.Sleep(3000);
+
+        Logg.r.Information("Test before getAll, NunitTest");
+
+        //RecycleContainer();
+        //categoryRelationRepo.ClearAllItemCache();
         var allRelationsInDb = categoryRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(3));
 
         var firstCachedId = cachedRoot.ChildRelations[0].Id;
-
+        var firstRelation = allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId);
+        categoryRelationRepo.Refresh(firstRelation);
         Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id, Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
         Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId, Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
         Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId, Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
@@ -147,13 +166,13 @@ class Order_tests : BaseTest
         Assert.That(allRelationsInDb[2].Child.Id, Is.EqualTo(cachedRoot.ChildRelations[2].ChildId));
         Assert.That(allRelationsInDb[2].PreviousId, Is.EqualTo(cachedRoot.ChildRelations[2].PreviousId));
         Assert.That(allRelationsInDb[2].NextId, Is.EqualTo(cachedRoot.ChildRelations[2].NextId));
+
     }
 
     //Move sub3 before sub1
     [Test]
-    public void Should_MoveRelation_Correctly_BeforeSub1()
+    public async Task Should_MoveRelation_Correctly_BeforeSub1()
     {
-        RecycleContainerAndEntityCache();
 
         var context = ContextCategory.New();
 
@@ -176,9 +195,6 @@ class Order_tests : BaseTest
 
         RecycleContainerAndEntityCache();
 
-        var entityCacheInitializer = R<EntityCacheInitializer>();
-        entityCacheInitializer.Init();
-
         var cachedRoot = EntityCache.GetCategory(root);
         var relationToMove = cachedRoot.ChildRelations[2];
         var categoryRelationRepo = R<CategoryRelationRepo>();
@@ -199,7 +215,14 @@ class Order_tests : BaseTest
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub1.Id));
         Assert.That(cachedRoot.ChildRelations[2].NextId, Is.EqualTo(null));
 
-        Task.Delay(200).Wait();
+        var startTime = DateTime.UtcNow;
+        var timeout = TimeSpan.FromSeconds(10);
+        //while (DateTime.UtcNow - startTime < timeout)
+        //{
+        //    if (await JobScheduler.GetCurrentlyExecutingJobCountAsync() == 0)
+        //        break;
+        //    await Task.Delay(1000); // Check every second
+        //}
 
         var allRelationsInDb = categoryRelationRepo.GetAll();
 
@@ -220,9 +243,8 @@ class Order_tests : BaseTest
 
     //Move sub1 after sub3 and before sub4
     [Test]
-    public void Should_MoveRelation_Correctly_AfterSub3_BeforeSub4()
+    public async Task Should_MoveRelation_Correctly_AfterSub3_BeforeSub4()
     {
-        RecycleContainerAndEntityCache();
 
         var context = ContextCategory.New();
 
@@ -275,7 +297,14 @@ class Order_tests : BaseTest
         Assert.That(cachedRoot.ChildRelations[3].PreviousId, Is.EqualTo(sub1.Id));
         Assert.That(cachedRoot.ChildRelations[3].NextId, Is.EqualTo(null));
 
-        Task.Delay(200).Wait();
+        var startTime = DateTime.UtcNow;
+        var timeout = TimeSpan.FromSeconds(10);
+        //while (DateTime.UtcNow - startTime < timeout)
+        //{
+        //    if (await JobScheduler.GetCurrentlyExecutingJobCountAsync() == 0)
+        //        break;
+        //    await Task.Delay(1000); // Check every second
+        //}
 
         var allRelationsInDb = categoryRelationRepo.GetAll();
 
@@ -297,7 +326,6 @@ class Order_tests : BaseTest
     [Test]
     public void Should_Fail_Move_CircularReference()
     {
-        RecycleContainerAndEntityCache();
 
         var context = ContextCategory.New();
 

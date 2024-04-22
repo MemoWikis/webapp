@@ -132,6 +132,35 @@ class EntityCache_tests : BaseTest
     }
 
     [Test]
+    public void Should_be_added_to_EntityCache()
+    {
+        var context = ContextCategory.New(false);
+        var category = new Category
+        {
+            Id = 15,
+            Name = "Test",
+            Creator = new User
+            {
+                Id = 2,
+                Name = "Daniel"
+            }
+        };
+        context.AddToEntityCache(category);
+
+        var cacheCategory = EntityCache.GetCategory(category);
+
+        Assert.NotNull(cacheCategory);
+        Assert.AreEqual(cacheCategory.Id, category.Id);
+        Assert.AreEqual(cacheCategory.Name, category.Name);
+        Assert.AreEqual(cacheCategory.Creator.Name, category.Creator.Name);
+        Assert.AreEqual(cacheCategory.Creator.Id, category.Creator.Id);
+        Assert.AreNotEqual(cacheCategory.Creator.Id, 0);
+        Assert.AreNotEqual(cacheCategory.Id, 0);
+        Assert.AreNotEqual(cacheCategory.Creator.Name, "");
+        Assert.AreNotEqual(cacheCategory.Name, "");
+    }
+
+    [Test]
     public void Should_get_children_even_if_relations_are_faulty()
     {
 

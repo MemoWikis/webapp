@@ -54,6 +54,8 @@ public class BaseTest
         MySQL5FlexibleDialect.Engine = "MEMORY";
         BuildContainer();
         ServiceLocator.Init(_container);
+
+        EntityCache.Clear();
     }
 
     public void RecycleContainerAndEntityCache()
@@ -61,7 +63,13 @@ public class BaseTest
         EntityCache.Clear();
         Resolve<SessionData>().Clear();
 
-        RecycleContainer();
+        App.Environment = null;
+        R<ISession>().Flush();
+        AutofacWebInitializer.Dispose();
+
+        MySQL5FlexibleDialect.Engine = "MEMORY";
+        BuildContainer();
+        ServiceLocator.Init(_container);
 
         var initializer = Resolve<EntityCacheInitializer>();
         initializer.Init(" (started in unit test) ");
