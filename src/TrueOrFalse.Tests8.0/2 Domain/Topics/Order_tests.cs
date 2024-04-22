@@ -86,7 +86,7 @@ class Order_tests : BaseTest
 
     //Move sub1 after sub3
     [Test]
-    public async Task Should_MoveRelation_Correctly_AfterSub3()
+    public void Should_MoveRelation_Correctly_AfterSub3()
     {
         CountdownEvent countdown = new CountdownEvent(0);
         var context = ContextCategory.New();
@@ -133,25 +133,7 @@ class Order_tests : BaseTest
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub3.Id));
         Assert.That(cachedRoot.ChildRelations[2].NextId, Is.EqualTo(null));
 
-        //var startTime = DateTime.UtcNow;
-        //var timeout = TimeSpan.FromSeconds(100);
-        //while (DateTime.UtcNow - startTime < timeout)
-        //{
-        //    //if (JobScheduler.GetCurrentlyExecutingJobNames().Count == 0)
-        //    //    break;
-
-        //    var jobNames = JobScheduler.GetCurrentlyExecutingJobNames();
-
-        //    await Task.Delay(1000); // Check every second
-        //}
-
-
-        Thread.Sleep(3000);
-
-        Logg.r.Information("Test before getAll, NunitTest");
-
-        //RecycleContainer();
-        //categoryRelationRepo.ClearAllItemCache();
+        Thread.Sleep(200);
         var allRelationsInDb = categoryRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(3));
@@ -171,7 +153,7 @@ class Order_tests : BaseTest
 
     //Move sub3 before sub1
     [Test]
-    public async Task Should_MoveRelation_Correctly_BeforeSub1()
+    public void Should_MoveRelation_Correctly_BeforeSub1()
     {
 
         var context = ContextCategory.New();
@@ -215,15 +197,7 @@ class Order_tests : BaseTest
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub1.Id));
         Assert.That(cachedRoot.ChildRelations[2].NextId, Is.EqualTo(null));
 
-        var startTime = DateTime.UtcNow;
-        var timeout = TimeSpan.FromSeconds(10);
-        //while (DateTime.UtcNow - startTime < timeout)
-        //{
-        //    if (await JobScheduler.GetCurrentlyExecutingJobCountAsync() == 0)
-        //        break;
-        //    await Task.Delay(1000); // Check every second
-        //}
-
+        Thread.Sleep(200);
         var allRelationsInDb = categoryRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(3));
@@ -243,7 +217,7 @@ class Order_tests : BaseTest
 
     //Move sub1 after sub3 and before sub4
     [Test]
-    public async Task Should_MoveRelation_Correctly_AfterSub3_BeforeSub4()
+    public void Should_MoveRelation_Correctly_AfterSub3_BeforeSub4()
     {
 
         var context = ContextCategory.New();
@@ -297,15 +271,7 @@ class Order_tests : BaseTest
         Assert.That(cachedRoot.ChildRelations[3].PreviousId, Is.EqualTo(sub1.Id));
         Assert.That(cachedRoot.ChildRelations[3].NextId, Is.EqualTo(null));
 
-        var startTime = DateTime.UtcNow;
-        var timeout = TimeSpan.FromSeconds(10);
-        //while (DateTime.UtcNow - startTime < timeout)
-        //{
-        //    if (await JobScheduler.GetCurrentlyExecutingJobCountAsync() == 0)
-        //        break;
-        //    await Task.Delay(1000); // Check every second
-        //}
-
+        Thread.Sleep(200);
         var allRelationsInDb = categoryRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(4));
@@ -326,7 +292,6 @@ class Order_tests : BaseTest
     [Test]
     public void Should_Fail_Move_CircularReference()
     {
-
         var context = ContextCategory.New();
 
         context.Add("root").Persist();

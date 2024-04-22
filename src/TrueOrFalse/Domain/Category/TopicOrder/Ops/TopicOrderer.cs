@@ -120,8 +120,7 @@ public class TopicOrderer
             RemoveRelationFromParentRelations(relation);
             EntityCache.Remove(relation);
             modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
-
-            JobScheduler.StartImmediately_DeleteRelation(relation.Id, authorId);
+            modifyRelationsForCategory.DeleteRelationInDb(relation.Id, authorId);
         }
 
         return relations.ToList();
