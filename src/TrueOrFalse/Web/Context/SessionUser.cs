@@ -71,7 +71,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        _sessionUserCache.CreateSessionUserItemFromDatabase(user);
         _sessionUserCache.Add(user);
     }
 

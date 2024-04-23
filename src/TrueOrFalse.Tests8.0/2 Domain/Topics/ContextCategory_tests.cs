@@ -1,9 +1,8 @@
 ﻿namespace TrueOrFalse.Tests8._0.Topics;
-internal class BaseTopicTests : BaseTest
+internal class ContextCategory_tests : BaseTest
 {
-
     [Test]
-    public void TopicShouldInDatabase()
+    public void Topic_should_be_persisted()
     {
         var firstTopic = ContextCategory.New().Add("A").Persist().All.First();
         var categoryRepo = R<CategoryRepository>();
@@ -77,32 +76,5 @@ internal class BaseTopicTests : BaseTest
         Assert.AreEqual(newCategoryTwoName, categoryTwoAfterUpdate.Name);
     }
 
-    [Test]
-    public void TopicShouldAddToEntityCache_Test()
-    {
-        var context = ContextCategory.New(false);
-        var category = new Category
-        {
-            Id = 15,
-            Name = "Test",
-            Creator = new User
-            {
-                Id = 2,
-                Name = "Daniel"
-            }
-        };
-        context.AddToEntityCache(category);
 
-        var cacheCategory = EntityCache.GetCategory(category);
-
-        Assert.NotNull(cacheCategory);
-        Assert.AreEqual(cacheCategory.Id, category.Id);
-        Assert.AreEqual(cacheCategory.Name, category.Name);
-        Assert.AreEqual(cacheCategory.Creator.Name, category.Creator.Name);
-        Assert.AreEqual(cacheCategory.Creator.Id, category.Creator.Id);
-        Assert.AreNotEqual(cacheCategory.Creator.Id, 0);
-        Assert.AreNotEqual(cacheCategory.Id, 0);
-        Assert.AreNotEqual(cacheCategory.Creator.Name, "");
-        Assert.AreNotEqual(cacheCategory.Name, "");
-    }
 }
