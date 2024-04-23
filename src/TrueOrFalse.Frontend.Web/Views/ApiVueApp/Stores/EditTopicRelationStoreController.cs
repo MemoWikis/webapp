@@ -212,7 +212,7 @@ public class EditTopicRelationStoreController(
 
     public readonly record struct PersonalWikiResult(
         bool Success,
-        ChildModifier.ChildModifierResult Data,
+        ChildModifier.AddChildResult Data,
         string MessageKey);
 
     [AccessOnlyAsLoggedIn]
@@ -250,15 +250,18 @@ public class EditTopicRelationStoreController(
                 .AddChild(id, personalWiki.Id)
         };
     }
-
+    public readonly record struct RemoveFromPersonalWikiResult(
+        bool Success,
+        ChildModifier.RemoveParentResult Data,
+        string MessageKey);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public PersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
+    public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
         if (personalWiki == null)
-            return new PersonalWikiResult
+            return new RemoveFromPersonalWikiResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
@@ -266,14 +269,14 @@ public class EditTopicRelationStoreController(
 
         if (personalWiki.ChildRelations.Any(r => r.ChildId != id))
         {
-            return new PersonalWikiResult
+            return new RemoveFromPersonalWikiResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.IsNotAChild
             };
         }
 
-        return new PersonalWikiResult
+        return new RemoveFromPersonalWikiResult
         {
             Success = true,
             Data = new ChildModifier(_permissionCheck,

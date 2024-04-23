@@ -6,7 +6,7 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueUserController(
+public class UserController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ReputationCalc _rpReputationCalc,

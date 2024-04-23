@@ -13,35 +13,35 @@ public class ChildModifier(
     IWebHostEnvironment _webHostEnvironment,
     CategoryRelationRepo _categoryRelationRepo)
 {
-    public readonly record struct ChildModifierResult(
+    public readonly record struct AddChildResult(
         bool Success,
         string MessageKey,
         TinyTopicItem Data);
 
     public readonly record struct TinyTopicItem(int Id, string Name);
 
-    public ChildModifierResult AddChild(
+    public AddChildResult AddChild(
         int childId,
         int parentId,
-        int parentIdToRemove = -1,
         bool addIdToWikiHistory = false)
     {
         if (childId == parentId)
-            return new ChildModifierResult
+            return new AddChildResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.LoopLink
             };
         if (parentId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
-            return new ChildModifierResult
+            return new AddChildResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
+
         var parent = EntityCache.GetCategory(parentId);
 
         if (parent.ChildRelations.Any(r => r.ChildId == childId))
-            return new ChildModifierResult
+            return new AddChildResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
@@ -52,7 +52,7 @@ public class ChildModifier(
         if (selectedTopicIsParent)
         {
             Logg.r.Error("Child is Parent ");
-            return new ChildModifierResult
+            return new AddChildResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.ChildIsParent
@@ -70,7 +70,7 @@ public class ChildModifier(
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
         modifyRelationsForCategory.AddChild(parentId, childId);
 
-        return new ChildModifierResult
+        return new AddChildResult
         {
             Success = true,
             Data = new TinyTopicItem
@@ -81,14 +81,19 @@ public class ChildModifier(
         };
     }
 
-    public ChildModifierResult RemoveParent(
+    public readonly record struct RemoveParentResult(
+        bool Success,
+        string MessageKey,
+        TinyTopicItem Data);
+
+    public RemoveParentResult RemoveParent(
         int parentIdToRemove,
         int childId,
         int[] affectedParentIdsByMove = null)
     {
         if (!_permissionCheck.CanEditCategory(parentIdToRemove) &&
             !_permissionCheck.CanEditCategory(childId))
-            return new ChildModifierResult
+            return new RemoveParentResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
@@ -102,7 +107,7 @@ public class ChildModifier(
             _permissionCheck);
 
         if (!parentHasBeenRemoved)
-            return new ChildModifierResult
+            return new RemoveParentResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.NoRemainingParents
@@ -120,7 +125,7 @@ public class ChildModifier(
             _categoryRepository.Update(child, _sessionUser.UserId,
                 type: CategoryChangeType.Relations);
 
-        return new ChildModifierResult
+        return new RemoveParentResult
         {
             Success = true,
             MessageKey = FrontendMessageKeys.Success.Category.Unlinked

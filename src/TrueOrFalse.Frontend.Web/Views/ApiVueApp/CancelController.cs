@@ -6,17 +6,9 @@ using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
-public class CancelController : Controller
+public class CancelController(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
+    : Controller
 {
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public CancelController(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
-    {
-        _actionContextAccessor = actionContextAccessor;
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     public readonly record struct TinyTopic(string Name, string Link);
     [HttpGet]
     public List<TinyTopic> GetHelperTopics()
@@ -30,7 +22,7 @@ public class CancelController : Controller
             list.Add(new TinyTopic
             (
                 Name: category.Name,
-               Link: new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(category)
+                Link: new Links(actionContextAccessor, httpContextAccessor).CategoryDetail(category)
             ));
         }
         return list;

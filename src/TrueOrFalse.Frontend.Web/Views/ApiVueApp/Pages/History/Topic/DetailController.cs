@@ -59,15 +59,15 @@ public class HistoryTopicDetailController(
         var currentAuthor = currentRevision.Author();
         var result = new ChangeDetailResult
         {
-            topicName = topicHistoryDetailModel.CategoryName,
-            imageWasUpdated = topicHistoryDetailModel.ImageWasUpdated,
-            isCurrent = !topicHistoryDetailModel.NextRevExists,
-            changeType = topicHistoryDetailModel.ChangeType,
-            currentChangeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
-            previousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
-            authorName = currentAuthor.Name,
-            authorId = currentAuthor.Id,
-            authorImgUrl = new UserImageSettings(currentAuthor.Id,
+            TopicName = topicHistoryDetailModel.CategoryName,
+            ImageWasUpdated = topicHistoryDetailModel.ImageWasUpdated,
+            IsCurrent = !topicHistoryDetailModel.NextRevExists,
+            ChangeType = topicHistoryDetailModel.ChangeType,
+            CurrentChangeDate = currentRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            PreviousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
+            AuthorName = currentAuthor.Name,
+            AuthorId = currentAuthor.Id,
+            AuthorImgUrl = new UserImageSettings(currentAuthor.Id,
                     _httpContextAccessor)
                 .GetUrl_20px_square(currentAuthor)
                 .Url
@@ -75,67 +75,66 @@ public class HistoryTopicDetailController(
 
         if (topicHistoryDetailModel.CurrentName != topicHistoryDetailModel.PrevName)
         {
-            result.currentName = topicHistoryDetailModel.CurrentName;
-            result.previousName = topicHistoryDetailModel.PrevName;
+            result.CurrentName = topicHistoryDetailModel.CurrentName;
+            result.PreviousName = topicHistoryDetailModel.PrevName;
         }
 
         if (topicHistoryDetailModel.CurrentMarkdown != topicHistoryDetailModel.PrevMarkdown)
         {
-            result.currentMarkdown = topicHistoryDetailModel.CurrentMarkdown;
-            result.previousMarkdown = topicHistoryDetailModel.PrevMarkdown;
+            result.CurrentMarkdown = topicHistoryDetailModel.CurrentMarkdown;
+            result.PreviousMarkdown = topicHistoryDetailModel.PrevMarkdown;
         }
 
         if (topicHistoryDetailModel.CurrentContent != topicHistoryDetailModel.PrevContent)
         {
-            result.currentContent = topicHistoryDetailModel.CurrentContent;
-            result.previousContent = topicHistoryDetailModel.PrevContent;
+            result.CurrentContent = topicHistoryDetailModel.CurrentContent;
+            result.PreviousContent = topicHistoryDetailModel.PrevContent;
         }
 
         if (topicHistoryDetailModel.CurrentSegments != topicHistoryDetailModel.PrevSegments)
         {
-            result.currentSegments = topicHistoryDetailModel.CurrentSegments;
-            result.previousSegments = topicHistoryDetailModel.PrevSegments;
+            result.CurrentSegments = topicHistoryDetailModel.CurrentSegments;
+            result.PreviousSegments = topicHistoryDetailModel.PrevSegments;
         }
 
         if (topicHistoryDetailModel.CurrentDescription != topicHistoryDetailModel.PrevDescription)
         {
-            result.currentDescription = topicHistoryDetailModel.CurrentDescription;
-            result.previousDescription = topicHistoryDetailModel.PrevDescription;
+            result.CurrentDescription = topicHistoryDetailModel.CurrentDescription;
+            result.PreviousDescription = topicHistoryDetailModel.PrevDescription;
         }
 
         if (topicHistoryDetailModel.CurrentRelations != topicHistoryDetailModel.PrevRelations)
         {
-            result.currentRelations = topicHistoryDetailModel.CurrentRelations;
-            result.previousRelations = topicHistoryDetailModel.PrevRelations;
+            result.CurrentRelations = topicHistoryDetailModel.CurrentRelations;
+            result.PreviousRelations = topicHistoryDetailModel.PrevRelations;
         }
 
         return result;
     }
 
-    public class ChangeDetailResult
-    {
-        public string topicName { get; set; }
-        public bool imageWasUpdated { get; set; }
-        public bool isCurrent { get; set; }
-        public CategoryChangeType changeType { get; set; }
-        public string authorName { get; set; }
-        public int authorId { get; set; }
-        public string authorImgUrl { get; set; }
-        public string currentChangeDate { get; set; }
-        public string previousChangeDate { get; set; }
-        public string currentName { get; set; }
-        public string previousName { get; set; }
-        public string currentMarkdown { get; set; }
-        public string previousMarkdown { get; set; }
-        public string currentContent { get; set; }
-        public string previousContent { get; set; }
-        public string currentSegments { get; set; }
-        public string previousSegments { get; set; }
-        public string currentRelations { get; set; }
-        public string previousRelations { get; set; }
-        public string currentDescription { get; set; }
-        public string previousDescription { get; set; }
-    }
+    public record struct ChangeDetailResult(
+        string TopicName,
+        bool ImageWasUpdated,
+        bool IsCurrent,
+        CategoryChangeType ChangeType,
+        string AuthorName,
+        int AuthorId,
+        string AuthorImgUrl,
+        string CurrentChangeDate,
+        string PreviousChangeDate,
+        string CurrentName,
+        string PreviousName,
+        string CurrentMarkdown,
+        string PreviousMarkdown,
+        string CurrentContent,
+        string PreviousContent,
+        string CurrentSegments,
+        string PreviousSegments,
+        string CurrentRelations,
+        string PreviousRelations,
+        string CurrentDescription,
+        string PreviousDescription
+    );
 
     public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(
         int categoryId,

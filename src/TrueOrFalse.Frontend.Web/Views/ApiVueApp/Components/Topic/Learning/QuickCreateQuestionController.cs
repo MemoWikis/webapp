@@ -33,15 +33,14 @@ public class QuickCreateQuestionController(
         LearningSessionConfig SessionConfig
     );
 
-    public readonly record struct FlashcardJson(bool Success, int Data, string MessageKey);
-
+    public readonly record struct CreateFlashcardResult(bool Success, int Data, string MessageKey);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public FlashcardJson CreateFlashcard([FromBody] CreateFlashcardParam param)
+    public CreateFlashcardResult CreateFlashcard([FromBody] CreateFlashcardParam param)
     {
         var safeText = GetSafeText(param.TextHtml);
         if (safeText.Length <= 0)
-            return new FlashcardJson
+            return new CreateFlashcardResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
@@ -57,7 +56,7 @@ public class QuickCreateQuestionController(
         solutionModelFlashCard.Text = param.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
-            return new FlashcardJson
+            return new CreateFlashcardResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
@@ -82,7 +81,7 @@ public class QuickCreateQuestionController(
         _learningSessionCreator.InsertNewQuestionToLearningSession(
             EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
 
-        return new FlashcardJson
+        return new CreateFlashcardResult
         {
             Success = true,
             Data = new QuestionLoader(

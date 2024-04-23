@@ -4,9 +4,6 @@ using VueApp;
 
 public class AppController(VueSessionUser _vueSessionUser) : Controller
 {
-    public readonly record struct CurrentUserJson(
-        VueSessionUser.CurrentUserData CurrentSessionUser);
-
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
         int Id,
@@ -72,7 +69,7 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
         };
     }
 
-    public readonly record struct FooterTopicsJson(
+    public readonly record struct GetFooterTopicsResult(
         TinyTopicItem RootWiki,
         TinyTopicItem[] MainTopics,
         TinyTopicItem MemoWiki,
@@ -84,9 +81,9 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
     public readonly record struct TinyTopicItem(int Id, string Name);
 
     [HttpGet]
-    public FooterTopicsJson GetFooterTopics()
+    public GetFooterTopicsResult GetFooterTopics()
     {
-        var footerTopics = new FooterTopicsJson
+        var footerTopics = new GetFooterTopicsResult
         (
             RootWiki: new TinyTopicItem
             (

@@ -149,12 +149,16 @@ public class UserStoreController(
         };
     }
 
+    public readonly record struct RequestVerificationMailResult(
+        string MessageKey,
+        bool Success);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public LoginResult RequestVerificationMail()
+    public RequestVerificationMailResult RequestVerificationMail()
     {
         SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
-        return new LoginResult
+        return new RequestVerificationMailResult
         {
             Success = true,
             MessageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent

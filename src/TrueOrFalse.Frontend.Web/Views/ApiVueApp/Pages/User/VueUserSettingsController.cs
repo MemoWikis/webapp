@@ -53,21 +53,21 @@ public class VueUserSettingsController(
 
     public readonly record struct ChangePasswordData(string currentPassword, string newPassword);
 
-    public readonly record struct PasswordDataResult(bool Success, string Message);
+    public readonly record struct ChangePasswordResult(bool Success, string Message);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public PasswordDataResult ChangePassword([FromBody] ChangePasswordData data)
+    public ChangePasswordResult ChangePassword([FromBody] ChangePasswordData data)
     {
         if (!_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, data.currentPassword))
-            return new PasswordDataResult
+            return new ChangePasswordResult
             {
                 Success = false,
                 Message = "passwordIsWrong"
             };
 
         if (data.currentPassword == data.newPassword)
-            return new PasswordDataResult
+            return new ChangePasswordResult
             {
                 Success = false,
                 Message = "samePassword"
@@ -76,7 +76,7 @@ public class VueUserSettingsController(
         var user = _userReadingRepo.GetById(_sessionUser.User.Id);
         SetUserPassword.Run(data.newPassword.Trim(), user);
 
-        return new PasswordDataResult
+        return new ChangePasswordResult
         {
             Success = true,
             Message = "passwordChanged"
@@ -94,30 +94,32 @@ public class VueUserSettingsController(
         string ImgUrl,
         string TinyImgUrl);
 
+    public record struct ProfileInformation(string? Email, IFormFile File, int Id, string? Username);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public ChangeProfileInformationResult ChangeProfileInformation(
         [FromForm] ProfileInformation form)
     {
-        if (form.id != _sessionUser.User.Id)
+        if (form.Id != _sessionUser.User.Id)
             return new ChangeProfileInformationResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
             };
 
-        if (form.email != null)
+        if (form.Email != null)
         {
-            var email = form.email.Trim();
+            var email = form.Email.Trim();
             if (email != _sessionUser.User.EmailAddress &&
-                IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
+                IsEmailAddressAvailable.Yes(form.Email, _userReadingRepo) &&
                 IsEmailAdressFormat.Valid(email))
             {
                 _sessionUser.User.EmailAddress = email;
                 _sessionUser.User.IsEmailConfirmed = false;
             }
 
-            else if (!IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
+            else if (!IsEmailAddressAvailable.Yes(form.Email, _userReadingRepo))
             {
                 return new ChangeProfileInformationResult
                 {
@@ -127,12 +129,12 @@ public class VueUserSettingsController(
             }
         }
 
-        if (form.username != null && form.username.Trim() != _sessionUser.User.Name &&
-            IsUserNameAvailable.Yes(form.username, _userReadingRepo))
+        if (form.Username != null && form.Username.Trim() != _sessionUser.User.Name &&
+            IsUserNameAvailable.Yes(form.Username, _userReadingRepo))
         {
-            _sessionUser.User.Name = form.username.Trim();
+            _sessionUser.User.Name = form.Username.Trim();
         }
-        else if (form.username != null && !IsUserNameAvailable.Yes(form.username, _userReadingRepo))
+        else if (form.Username != null && !IsUserNameAvailable.Yes(form.Username, _userReadingRepo))
         {
             return new ChangeProfileInformationResult
             {
@@ -141,8 +143,8 @@ public class VueUserSettingsController(
             };
         }
 
-        if (form.file != null)
-            UpdateUserImage.Run(form.file,
+        if (form.File != null)
+            UpdateUserImage.Run(form.File,
                 _sessionUser.UserId,
                 _httpContextAccessor,
                 _webHostEnvironment,
@@ -151,7 +153,7 @@ public class VueUserSettingsController(
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
 
-        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress &&
+        if (form.Email != null && form.Email.Trim() != _sessionUser.User.EmailAddress &&
             !_sessionUser.User.IsEmailConfirmed)
             SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
 
@@ -217,7 +219,7 @@ public class VueUserSettingsController(
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public string? DeleteUserImage()
+    public string DeleteUserImage()
     {
         var imageSettings = new UserImageSettings(_httpContextAccessor)
             .InitByType(new ImageMetaData
@@ -235,13 +237,5 @@ public class VueUserSettingsController(
     {
         var passwordRecoveryResult = _passwordRecovery.RunForNuxt(_sessionUser.User.EmailAddress);
         return passwordRecoveryResult.Success;
-    }
-
-    public class ProfileInformation
-    {
-        public string email { get; set; } = null;
-        public IFormFile file { get; set; }
-        public int id { get; set; }
-        public string username { get; set; } = null;
     }
 }

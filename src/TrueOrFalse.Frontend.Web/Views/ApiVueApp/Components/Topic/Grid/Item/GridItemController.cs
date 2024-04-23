@@ -11,17 +11,17 @@ public class GridItemController(
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
 {
-    public readonly record struct GridItemResult(
+    public readonly record struct GetChildrenResult(
         bool Success,
         string MessageKey = "",
         TopicGridManager.GridTopicItem[] Data = null);
 
     [HttpGet]
-    public GridItemResult GetChildren([FromRoute] int id)
+    public GetChildrenResult GetChildren([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return new GridItemResult(
+            return new GetChildrenResult(
                 Success: false, MessageKey: FrontendMessageKeys.Error.Category.MissingRights);
         var children = new TopicGridManager(
             _permissionCheck,
@@ -30,20 +30,20 @@ public class GridItemController(
             _httpContextAccessor,
             _knowledgeSummaryLoader,
             _questionReadingRepo).GetChildren(id);
-        return new GridItemResult(Success: true, MessageKey: "", Data: children);
+        return new GetChildrenResult(Success: true, MessageKey: "", Data: children);
     }
 
-    public readonly record struct ItemJson(
+    public readonly record struct GetItemResult(
         bool Success,
         string MessageKey,
         TopicGridManager.GridTopicItem Data);
 
     [HttpGet]
-    public ItemJson GetItem([FromRoute] int id)
+    public GetItemResult GetItem([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return new ItemJson
+            return new GetItemResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
@@ -56,6 +56,6 @@ public class GridItemController(
             _httpContextAccessor,
             _knowledgeSummaryLoader,
             _questionReadingRepo).BuildGridTopicItem(topic);
-        return new ItemJson { Success = true, Data = gridItem };
+        return new GetItemResult { Success = true, Data = gridItem };
     }
 }

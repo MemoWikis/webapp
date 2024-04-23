@@ -20,12 +20,11 @@ public class LearningSessionStoreController(
         public int ActiveQuestionCount { get; set; } = 0;
         public bool AnswerHelp { get; set; } = true;
         public bool IsInTestMode { get; set; } = false;
-        public string? MessageKey { get; set; } = null;
+        public string MessageKey { get; set; } = null;
     }
 
     [HttpPost]
-    public LearningSessionResult NewSession(
-        [FromBody] LearningSessionConfig config)
+    public LearningSessionResult NewSession([FromBody] LearningSessionConfig config)
     {
         var data = _learningSessionCreator.GetLearningSessionResult(config);
         return new LearningSessionResult
@@ -155,10 +154,10 @@ public class LearningSessionStoreController(
             learningSession.SkipStep();
             new StepResult
             {
-                state = learningSession.CurrentStep.AnswerState,
-                id = learningSession.CurrentStep.Question.Id,
-                index = learningSession.CurrentIndex,
-                isLastStep = learningSession.TestIsLastStep()
+                State = learningSession.CurrentStep.AnswerState,
+                Id = learningSession.CurrentStep.Question.Id,
+                Index = learningSession.CurrentIndex,
+                IsLastStep = learningSession.TestIsLastStep()
             };
         }
 
@@ -171,22 +170,17 @@ public class LearningSessionStoreController(
         var learningSession = _learningSessionCache.GetLearningSession();
         var result = learningSession.Steps.Select((s, index) => new StepResult
         {
-            id = s.Question.Id,
-            state = s.AnswerState,
-            index = index,
-            isLastStep = learningSession.Steps.Last() == s
+            Id = s.Question.Id,
+            State = s.AnswerState,
+            Index = index,
+            IsLastStep = learningSession.Steps.Last() == s
         }).ToArray();
 
         var serializedResult = JsonConvert.SerializeObject(result);
 
         return Content(serializedResult, "application/json");
     }
+
+    public record struct StepResult(AnswerState State, int Id, int Index, bool IsLastStep);
 }
 
-public class StepResult
-{
-    public AnswerState state { get; set; }
-    public int id { get; set; }
-    public int index { get; set; }
-    public bool isLastStep { get; set; }
-}

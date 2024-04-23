@@ -20,14 +20,14 @@ public class TopicStoreController(
         string content,
         bool saveContent);
 
-    public readonly record struct TopicResult(bool Success, string MessageKey);
+    public readonly record struct SaveTopicResult(bool Success, string MessageKey);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public TopicResult SaveTopic([FromBody] SaveTopicParam param)
+    public SaveTopicResult SaveTopic([FromBody] SaveTopicParam param)
     {
         if (!_permissionCheck.CanEditCategory(param.id))
-            return new TopicResult
+            return new SaveTopicResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
@@ -37,7 +37,7 @@ public class TopicStoreController(
         var category = _categoryRepository.GetById(param.id);
         //todo(Jun) Please adjust, this return was Json(false). 
         if (categoryCacheItem == null || category == null)
-            return new TopicResult { Success = false };
+            return new SaveTopicResult { Success = false };
 
         if (param.saveName)
         {
@@ -54,7 +54,7 @@ public class TopicStoreController(
         EntityCache.AddOrUpdate(categoryCacheItem);
         _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
-        return new TopicResult
+        return new SaveTopicResult
         {
             Success = true
         };

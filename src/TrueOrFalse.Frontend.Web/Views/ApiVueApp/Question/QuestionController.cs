@@ -13,7 +13,7 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueQuestionController(
+public class QuestionController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     RestoreQuestion _restoreQuestion,
@@ -26,32 +26,6 @@ public class VueQuestionController(
     IActionContextAccessor _actionContextAccessor,
     TotalsPersUserLoader _totalsPersUserLoader) : Controller
 {
-    public readonly record struct TinyQuestion(
-        int Id,
-        string Text,
-        string TextExtended,
-        SolutionType SolutionType,
-        string Solution);
-
-    [HttpGet]
-    public TinyQuestion GetQuestion([FromRoute] int id)
-    {
-        var q = EntityCache.GetQuestionById(id);
-        if (_permissionCheck.CanView(q))
-        {
-            return new TinyQuestion
-            {
-                Id = id,
-                Text = q.Text,
-                TextExtended = q.TextExtended,
-                SolutionType = q.SolutionType,
-                Solution = GetQuestionSolution.Run(q).GetCorrectAnswerAsHtml()
-            };
-        }
-
-        return new TinyQuestion { };
-    }
-
     public readonly record struct QuestionPageResult(
         AnswerBodyModel AnswerBodyModel,
         SolutionData SolutionData,
@@ -210,23 +184,22 @@ public class VueQuestionController(
         return result;
     }
 
-    public class Question
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public int CorrectnessProbability { get; set; }
-        public string LinkToQuestion { get; set; }
-        public string ImageData { get; set; }
-        public bool IsInWishknowledge { get; set; }
-        public bool HasPersonalAnswer { get; set; }
-        public int LearningSessionStepCount { get; set; }
-        public string LinkToComment { get; set; }
-        public string LinkToQuestionVersions { get; set; }
-        public int SessionIndex { get; set; }
-        public QuestionVisibility Visibility { get; set; }
-        public int CreatorId { get; set; } = 0;
-        public KnowledgeStatus KnowledgeStatus { get; set; } = KnowledgeStatus.NotLearned;
-    }
+    public record struct Question(
+        int Id,
+        string Title,
+        int CorrectnessProbability,
+        string LinkToQuestion,
+        string ImageData,
+        bool IsInWishknowledge,
+        bool HasPersonalAnswer,
+        int LearningSessionStepCount,
+        string LinkToComment,
+        string LinkToQuestionVersions,
+        int SessionIndex,
+        QuestionVisibility Visibility,
+        int CreatorId = 0,
+        KnowledgeStatus KnowledgeStatus = KnowledgeStatus.NotLearned
+    );
 
     public Question LoadQuestion(int questionId)
     {

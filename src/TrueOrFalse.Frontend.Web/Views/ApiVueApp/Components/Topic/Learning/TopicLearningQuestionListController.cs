@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,31 +21,88 @@ public class TopicLearningQuestionListController(
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
+
+    public record struct LoadQuestionsResult(
+        int Id,
+        string Title,
+        int CorrectnessProbability,
+        string LinkToQuestion,
+        string ImageData,
+        bool IsInWishknowledge,
+        bool HasPersonalAnswer,
+        int LearningSessionStepCount,
+        string LinkToComment,
+        string LinkToQuestionVersions,
+        int SessionIndex,
+        QuestionVisibility Visibility,
+        int CreatorId = 0,
+        KnowledgeStatus KnowledgeStatus = KnowledgeStatus.NotLearned
+    );
+
     public readonly record struct LoadQuestionsJson(
         int ItemCountPerPage,
         int PageNumber,
         int TopicId);
 
     [HttpPost]
-    public List<QuestionListJson.Question> LoadQuestions([FromBody] LoadQuestionsJson json)
+    public List<LoadQuestionsResult> LoadQuestions([FromBody] LoadQuestionsJson json)
     {
-        if (_learningSessionCache.GetLearningSession() == null || json.TopicId !=
-            _learningSessionCache.GetLearningSession()?.Config.CategoryId)
+        if (_learningSessionCache.GetLearningSession() == null || 
+            json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
             _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId, _sessionUser.UserId);
 
-        return new QuestionListModel(
-                _learningSessionCache,
-                _sessionUser,
-                _categoryValuationReadingRepo,
-                _imageMetaDataReadingRepo,
-                _userReadingRepo,
-                _questionValuationReadingRepo,
-                _sessionUserCache,
-                _actionContextAccessor,
-                _httpContextAccessor,
-                _webHostEnvironment,
-                _questionReadingRepo)
-            .PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);
+        return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);
+    }
+
+    private List<LoadQuestionsResult> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
+    {
+        var learningSession = _learningSessionCache.GetLearningSession();
+
+        var userQuestionValuation = _sessionUser.IsLoggedIn
+            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
+
+        var steps = learningSession.Steps;
+        var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
+        stepsOfCurrentPage.RemoveAll(s => s.Question.Id == 0);
+
+        var newQuestionList = new List<LoadQuestionsResult>();
+
+        foreach (var step in stepsOfCurrentPage)
+        {
+            var q = step.Question;
+
+            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn;
+            var links = new Links(_actionContextAccessor, _httpContextAccessor);
+            var question = new LoadQuestionsResult
+            {
+                Id = q.Id,
+                Title = q.Text,
+                LinkToQuestion = links.GetUrl(q),
+                ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+                        _httpContextAccessor,
+                        _questionReadingRepo)
+                    .GetImageUrl(40, true)
+                    .Url,
+                LearningSessionStepCount = steps.Count,
+                LinkToQuestionVersions = links.QuestionHistory(q.Id),
+                LinkToComment = links.GetUrl(q) + "#JumpLabel",
+                CorrectnessProbability = q.CorrectnessProbability,
+                Visibility = q.Visibility,
+                SessionIndex = steps.IndexOf(step),
+                KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
+            };
+
+            if (userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn)
+            {
+                question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
+                question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
+                question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+            }
+            newQuestionList.Add(question);
+        }
+
+        return newQuestionList;
     }
 
     public readonly record struct LoadNewQuestionJson(

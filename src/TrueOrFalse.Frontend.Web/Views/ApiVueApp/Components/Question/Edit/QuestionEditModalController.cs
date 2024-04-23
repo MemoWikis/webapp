@@ -44,18 +44,18 @@ public class QuestionEditModalController(
         LearningSessionConfig SessionConfig
     );
 
-    public readonly record struct QuestionEditResult(
+    public readonly record struct CreateResult(
         bool Success,
         string MessageKey,
         QuestionListJson.Question Data);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public QuestionEditResult Create([FromBody] QuestionDataParam param)
+    public CreateResult Create([FromBody] QuestionDataParam param)
     {
         if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true))
         {
-            return new QuestionEditResult
+            return new CreateResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateQuestion
@@ -65,8 +65,8 @@ public class QuestionEditModalController(
         var safeText = RemoveHtmlTags(param.TextHtml);
         if (safeText.Length <= 0)
         {
-            return new QuestionEditResult
-                { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+            return new CreateResult
+            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -88,9 +88,12 @@ public class QuestionEditModalController(
         if (param.AddToWishknowledge != null && (bool)param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        return new QuestionEditResult { Success = true, Data = LoadQuestion(question.Id) };
+        return new CreateResult { Success = true, Data = LoadQuestion(question.Id) };
     }
-
+    public readonly record struct QuestionEditResult(
+        bool Success,
+        string MessageKey,
+        QuestionListJson.Question Data);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public QuestionEditResult Edit([FromBody] QuestionDataParam param)
@@ -118,7 +121,7 @@ public class QuestionEditModalController(
         return new QuestionEditResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
     }
 
-    public record struct QuestionJson(
+    public record struct GetDataResult(
         int Id,
         int SolutionType,
         string Solution,
@@ -133,7 +136,7 @@ public class QuestionEditModalController(
         QuestionVisibility Visibility);
 
     [HttpGet]
-    public QuestionJson GetData([FromRoute] int id)
+    public GetDataResult GetData([FromRoute] int id)
     {
         var question = EntityCache.GetQuestionById(id);
         var solution = question.SolutionType == SolutionType.FlashCard
@@ -142,7 +145,7 @@ public class QuestionEditModalController(
         var topicsVisibleToCurrentUser =
             question.Categories.Where(_permissionCheck.CanView).Distinct();
 
-        return new QuestionJson(
+        return new GetDataResult(
             Id: id,
             SolutionType: (int)question.SolutionType,
             Solution: solution,

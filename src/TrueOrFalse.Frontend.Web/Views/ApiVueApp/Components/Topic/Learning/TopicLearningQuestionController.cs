@@ -13,7 +13,7 @@ public class TopicLearningQuestionController(
     IWebHostEnvironment _webHostEnvironment,
     SessionUserCache _sessionUserCache) : Controller
 {
-    public readonly record struct QuestionDataResult(bool Success, QuestionData Data);
+    public readonly record struct LoadQuestionDataResult(bool Success, QuestionData Data);
 
     public readonly record struct QuestionData(
         string Answer,
@@ -32,7 +32,7 @@ public class TopicLearningQuestionController(
         QuestionVisibility Visibility);
 
     [HttpPost]
-    public QuestionDataResult LoadQuestionData([FromRoute] int id)
+    public LoadQuestionDataResult LoadQuestionData([FromRoute] int id)
     {
         var question = EntityCache.GetQuestionById(id);
         var author = new UserTinyModel(question.Creator);
@@ -45,7 +45,7 @@ public class TopicLearningQuestionController(
             _sessionUserCache);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
-        var result = new QuestionDataResult
+        var result = new LoadQuestionDataResult
         {
             Success = true,
             Data = new QuestionData

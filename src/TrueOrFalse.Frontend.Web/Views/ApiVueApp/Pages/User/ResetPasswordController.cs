@@ -1,5 +1,4 @@
 ﻿using System;
-using Antlr.Runtime;
 using Microsoft.AspNetCore.Mvc;
 using NHibernate;
 
@@ -13,12 +12,12 @@ public class ResetPasswordController(
     UserWritingRepo _userWritingRepo,
     ISession _session) : Controller
 {
-    public record struct ResetPasswordResult(bool Success, string MessageKey);
+    public record struct ValidateTokenResult(bool Success, string MessageKey);
 
-    private ResetPasswordResult ValidateToken(string token)
+    private ValidateTokenResult ValidateToken(string token)
     {
         var passwordToken = _passwordRecoveryTokenValidator.Run(token);
-        var result = new ResetPasswordResult
+        var result = new ValidateTokenResult
         {
             Success = true
         };

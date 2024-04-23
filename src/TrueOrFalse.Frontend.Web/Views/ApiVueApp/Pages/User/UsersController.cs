@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Seedworks.Lib.Persistence;
@@ -10,39 +9,28 @@ using TrueOrFalse.Search;
 
 namespace VueApp;
 
-public class VueUsersController : BaseController
+public class UsersController(
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    MeiliSearchUsers _meiliSearchUsers,
+    GetTotalUsers _totalUsers,
+    UserSummary _userSummary,
+    IHttpContextAccessor _httpContextAccessor,
+    SessionUserCache _sessionUserCache) : Controller
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly MeiliSearchUsers _meiliSearchUsers;
-    private readonly GetTotalUsers _totalUsers;
-    private readonly UserSummary _userSummary;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly SessionUserCache _sessionUserCache;
-
-    public VueUsersController(
-        SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        MeiliSearchUsers meiliSearchUsers,
-        GetTotalUsers totalUsers,
-        UserSummary userSummary,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        SessionUserCache sessionUserCache) : base(sessionUser)
-    {
-        _sessionUser = sessionUser;
-        _permissionCheck = permissionCheck;
-        _meiliSearchUsers = meiliSearchUsers;
-        _totalUsers = totalUsers;
-        _userSummary = userSummary;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _sessionUserCache = sessionUserCache;
-    }
-
+    public record struct UserResult(
+        int CreatedQuestionsCount,
+        int CreatedTopicsCount,
+        int Id,
+        string ImgUrl,
+        string Name,
+        int Rank,
+        int ReputationPoints,
+        bool ShowWuwi,
+        int WikiId,
+        int WuwiQuestionsCount,
+        int WuwiTopicsCount
+    );
     public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
 
     [HttpGet]
@@ -105,20 +93,5 @@ public class VueUsersController : BaseController
                 .Url,
             WikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
         };
-    }
-
-    public class UserResult
-    {
-        public int CreatedQuestionsCount { get; set; }
-        public int CreatedTopicsCount { get; set; }
-        public int Id { get; set; }
-        public string ImgUrl { get; set; }
-        public string Name { get; set; }
-        public int Rank { get; set; }
-        public int ReputationPoints { get; set; }
-        public bool ShowWuwi { get; set; }
-        public int WikiId { get; set; }
-        public int WuwiQuestionsCount { get; set; }
-        public int WuwiTopicsCount { get; set; }
     }
 }
