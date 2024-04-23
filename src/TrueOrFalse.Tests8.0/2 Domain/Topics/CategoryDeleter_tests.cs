@@ -18,17 +18,20 @@
                     creator)
                 .GetTopicByName(parentName);
 
-            var firstChild = contextTopic.Add(childName,
+            var child = contextTopic.Add(childName,
                     CategoryType.Standard,
                     creator)
                 .GetTopicByName(childName);
 
             contextTopic.Persist();
-            contextTopic.AddChild(parent, firstChild);
+            contextTopic.AddChild(parent, child);
+
+            RecycleContainerAndEntityCache();
+
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(firstChild.Id);
+            var requestResult = categoryDeleter.DeleteTopic(child.Id);
 
             //Assert
             Assert.IsNotNull(requestResult);
@@ -69,13 +72,15 @@
             contextTopic.AddChild(parent, child);
             contextTopic.AddChild(child, childOfChild);
 
-            //RecycleContainerAndEntityCache();
+            RecycleContainerAndEntityCache();
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
             var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
 
             //Assert
+            RecycleContainerAndEntityCache();
+
             var categoryRepo = R<CategoryRepository>();
             var allAvailableTopics = categoryRepo.GetAll();
             var parentChildren =
@@ -126,6 +131,7 @@
             contextTopic.Persist();
             contextTopic.AddChild(parent, child);
             contextTopic.AddChild(child, childOfChild);
+            RecycleContainerAndEntityCache();
 
             var categoryDeleter = R<CategoryDeleter>();
 
@@ -188,6 +194,7 @@
             contextTopic.Persist();
             contextTopic.AddChild(parent, child);
             contextTopic.AddChild(child, childOfChild);
+            RecycleContainerAndEntityCache();
 
             var categoryDeleter = R<CategoryDeleter>();
 
@@ -228,6 +235,7 @@
 
             contextTopic.Persist();
             contextTopic.AddChild(parent, child);
+            RecycleContainerAndEntityCache();
 
             var categoryDeleter = R<CategoryDeleter>();
 
