@@ -1,29 +1,34 @@
-﻿
-using System.Security;
+﻿using System.Security;
 
 public class ModifyRelationsEntityCache
 {
-    public static void RemoveRelations(CategoryCacheItem category)
+    public static void RemoveRelationsForCategoryDeleter(
+        CategoryCacheItem category,
+        int userId,
+        ModifyRelationsForCategory modifyRelationsForCategory)
     {
-        var allParents = GraphService.Ascendants(category.Id);
-        foreach (var parent in allParents)
+        var allRelations = EntityCache.GetCacheRelationsByTopicId(category.Id);
+        foreach (var relation in allRelations)
         {
-            for (var i = 0; i < parent.ParentRelations.Count; i++)
+            if (relation.ChildId == category.Id)
             {
-                var relation = parent.ParentRelations[i];
-
-                if (relation.ParentId == category.Id)
-                {
-                    parent.ParentRelations.Remove(relation);
-                    break;
-                }
+                var parent = EntityCache.GetCategory(relation.ParentId);
+                RemoveParent(category, parent, userId, modifyRelationsForCategory);
+            }
+            else
+            {
+                var child = EntityCache.GetCategory(relation.ChildId);
+                RemoveParent(child, category, userId, modifyRelationsForCategory);
             }
         }
     }
 
-    private static bool CheckParentAvailability(IEnumerable<CategoryCacheItem> parentCategories, CategoryCacheItem childCategory)
+    private static bool CheckParentAvailability(
+        IEnumerable<CategoryCacheItem> parentCategories,
+        CategoryCacheItem childCategory)
     {
-        var allParentsArePrivate = parentCategories.All(c => c.Visibility != CategoryVisibility.All);
+        var allParentsArePrivate =
+            parentCategories.All(c => c.Visibility != CategoryVisibility.All);
         var childIsPublic = childCategory.Visibility == CategoryVisibility.All;
 
         if (!parentCategories.Any() || allParentsArePrivate && childIsPublic)
@@ -32,30 +37,51 @@ public class ModifyRelationsEntityCache
         return true;
     }
 
-    public static bool RemoveParent(CategoryCacheItem childCategory, int parentId, int authorId, ModifyRelationsForCategory modifyRelationsForCategory, PermissionCheck permissionCheck)
+    public static bool RemoveParent(
+        CategoryCacheItem childCategory,
+        int parentId,
+        int authorId,
+        ModifyRelationsForCategory modifyRelationsForCategory,
+        PermissionCheck permissionCheck)
     {
         var parent = EntityCache.GetCategory(parentId);
 
-        var newParentRelationsIds = childCategory.ParentRelations.Where(r => r.ParentId != parentId).Select(r => r.ParentId);
+        var newParentRelationsIds = childCategory.ParentRelations.Where(r => r.ParentId != parentId)
+            .Select(r => r.ParentId);
         var parentCategories = EntityCache.GetCategories(newParentRelationsIds);
 
-        if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
+        if (!childCategory.IsStartPage() &&
+            !CheckParentAvailability(parentCategories, childCategory))
         {
-            Logg.r.Error("CategoryRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}", childCategory.Id, parentId);
+            Logg.r.Error(
+                "CategoryRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
+                childCategory.Id, parentId);
             throw new Exception("No parents remaining");
         }
 
         if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEdit(parent))
         {
-            Logg.r.Error("CategoryRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}", childCategory.Id, parentId);
+            Logg.r.Error(
+                "CategoryRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
+                childCategory.Id, parentId);
             throw new SecurityException("Not allowed to edit category");
         }
 
-        var relationToRemove = parent?.ChildRelations.FirstOrDefault(r => r.ChildId == childCategory.Id);
+        return RemoveParent(childCategory, parent, authorId, modifyRelationsForCategory);
+    }
+
+    private static bool RemoveParent(
+        CategoryCacheItem childCategory,
+        CategoryCacheItem parent,
+        int authorId,
+        ModifyRelationsForCategory modifyRelationsForCategory)
+    {
+        var relationToRemove =
+            parent.ChildRelations.FirstOrDefault(r => r.ChildId == childCategory.Id);
 
         if (relationToRemove != null)
         {
-            TopicOrderer.Remove(relationToRemove, parentId, authorId, modifyRelationsForCategory);
+            TopicOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
             childCategory.ParentRelations.Remove(relationToRemove);
             return true;
         }
@@ -72,6 +98,4 @@ public class ModifyRelationsEntityCache
 
         return newRelation;
     }
-
-    
 }

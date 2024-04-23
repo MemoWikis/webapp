@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-
+﻿
 public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
     private readonly int _userId;
@@ -89,6 +87,20 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return false;
 
         if (category.IsStartPage())
+            return false;
+
+        if (category.Creator.Id == _userId || _isInstallationAdmin)
+            return true;
+
+        return false;
+    }
+
+    public bool CanDelete(Category category)
+    {
+        if (_userId == default || category == null || category.Id == 0)
+            return false;
+
+        if (category.Id == RootCategory.RootCategoryId || category.Id == category.Creator.StartTopicId)
             return false;
 
         if (category.Creator.Id == _userId || _isInstallationAdmin)

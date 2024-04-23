@@ -1,28 +1,18 @@
-﻿using NHibernate;
+﻿using MySql.Data.MySqlClient;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 
-public class CategoryRelationRepo(ISession session) : RepositoryDb<CategoryRelation>(session)
+public class CategoryRelationRepo : RepositoryDb<CategoryRelation>
 {
-    public async Task<int> DeleteByRelationIdAsync(int relationId)
+    public CategoryRelationRepo(ISession session) : base(session)
     {
-        return await _session.CreateSQLQuery(
-                "DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + relationId)
-            .ExecuteUpdateAsync()
-            .ConfigureAwait(false);
     }
 
-    public async Task<int> DeleteByCategoryIdAsync(int categoryId)
+    public List<CategoryRelation> GetByRelationId(int relationId)
     {
-        return await _session.CreateSQLQuery(
-            "DELETE FROM relatedcategoriestorelatedcategories where Category_id = " +
-            categoryId).ExecuteUpdateAsync().ConfigureAwait(false);
-    }
-
-    public async Task<int> DeleteQuestionRelationsFromTopic(int categoryId)
-    {
-        return await _session
-            .CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + categoryId)
-            .ExecuteUpdateAsync()
-            .ConfigureAwait(false);
+        return Session.QueryOver<CategoryRelation>()
+            .Where(r => r.Parent.Id == relationId)
+            .List()
+            .ToList();
     }
 }
