@@ -21,7 +21,7 @@ public class CategoryDeleter(
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
 
-        if (_permissionCheck.CanDelete(category))
+        if (!_permissionCheck.CanDelete(category))
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
