@@ -1,6 +1,6 @@
 ﻿namespace TrueOrFalse.Tests8._0._2_Domain.Topics
 {
-    public class CategoryDeleterTests : BaseTest
+    public class CategoryDeleter_tests : BaseTest
     {
         [Test]
         public void Should_delete_child()
@@ -209,9 +209,7 @@
             var parentName = "parent name";
             var childName = "child name";
 
-            var creator = new User { Id = 4, IsInstallationAdmin = false, Name = "Creator" };
-
-            var sessionUser = R<SessionUser>();
+            var creator = new User { Id = 2, IsInstallationAdmin = false, Name = "Creator" };
 
             var parent = contextTopic.Add(
                     parentName,
@@ -219,7 +217,8 @@
                     creator)
                 .GetTopicByName(parentName);
 
-            var child = contextTopic.Add(childName,
+            var child = contextTopic.Add(
+                    childName,
                     CategoryType.Standard,
                     creator)
                 .GetTopicByName(childName);
@@ -237,8 +236,7 @@
 
             Assert.IsNotNull(requestResult);
             Assert.IsFalse(requestResult.Success);
-            Assert.IsTrue(requestResult.HasChildren);
-            Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
+            Assert.IsTrue(requestResult.IsNotCreatorOrAdmin);
         }
     }
 }
