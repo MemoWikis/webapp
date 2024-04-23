@@ -10,7 +10,8 @@ public class CategoryDeleter(
     SessionUserCache _sessionUserCache,
     CrumbtrailService _crumbtrailService,
     CategoryRepository _categoryRepo,
-    CategoryRelationRepo _categoryRelationRepo)
+    CategoryRelationRepo _categoryRelationRepo,
+    PermissionCheck _permissionCheck)
     : IRegisterAsInstancePerLifetime
 {
 
@@ -20,9 +21,15 @@ public class CategoryDeleter(
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
 
-        if (!_sessionUser.IsInstallationAdmin && _sessionUser.UserId != categoryCacheItem.Creator.Id)
+        if (_permissionCheck.CanDelete(category))
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
+            return hasDeleted;
+        }
+
+        if (GraphService.Descendants(category.Id).Count > 0)
+        {
+            hasDeleted.HasChildren = true;
             return hasDeleted;
         }
 
@@ -60,9 +67,10 @@ public class CategoryDeleter(
         if (topic == null)
             throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        var parentIds =
-            EntityCache.GetCategory(id).Parents().Select(c => c.Id)
-                .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
+        var parentIds = EntityCache.GetCategory(id)
+            .Parents()
+            .Select(c => c.Id)
+            .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);

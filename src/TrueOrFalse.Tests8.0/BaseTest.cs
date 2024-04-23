@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
 [TestFixture]
@@ -55,7 +56,9 @@ public class BaseTest
         BuildContainer();
         ServiceLocator.Init(_container);
 
+        JobScheduler.Clear();
         EntityCache.Clear();
+        
     }
 
     public void RecycleContainerAndEntityCache()

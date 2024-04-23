@@ -1,13 +1,9 @@
-﻿using NUnit.Framework.Internal;
-using Stripe;
-using Ubiety.Dns.Core.Records;
-
-namespace TrueOrFalse.Tests8._0._2_Domain.Topics
+﻿namespace TrueOrFalse.Tests8._0._2_Domain.Topics
 {
     public class CategoryDeleterTests : BaseTest
     {
         [Test]
-        public void Delete_topic_and_remove_child()
+        public void Should_delete_child()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
@@ -29,9 +25,9 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
 
             contextTopic.Persist();
             contextTopic.AddChild(parent, firstChild);
+            var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var categoryDeleter = R<CategoryDeleter>();
             var requestResult = categoryDeleter.DeleteTopic(firstChild.Id);
 
             //Assert
@@ -43,13 +39,13 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
         }
 
         [Test]
-        public void Delete_topic_and_remove_second_child()
+        public void Should_delete_child_of_child_and_remove_relation()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
-            var parentName = "Parent";
-            var firstChildName = "FirstChild";
-            var secondChildName = "SecondChild";
+            var parentName = "parent name";
+            var childName = "child name";
+            var childOfChildName = "child of child name";
             var sessionUser = R<SessionUser>();
             var creator = new User { Id = sessionUser.UserId };
 
@@ -59,55 +55,56 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
                     creator)
                 .GetTopicByName(parentName);
 
-            var firstChild = contextTopic.Add(firstChildName,
+            var child = contextTopic.Add(childName,
                     CategoryType.Standard,
                     creator)
-                .GetTopicByName(firstChildName);
+                .GetTopicByName(childName);
 
-            var secondChild = contextTopic.Add(secondChildName,
+            var childOfChild = contextTopic.Add(childOfChildName,
                     CategoryType.Standard,
                     creator)
-                .GetTopicByName(secondChildName);
+                .GetTopicByName(childOfChildName);
 
             contextTopic.Persist();
-            contextTopic.AddChild(parent, firstChild);
-            contextTopic.AddChild(firstChild, secondChild);
+            contextTopic.AddChild(parent, child);
+            contextTopic.AddChild(child, childOfChild);
 
-            RecycleContainer();
+            //RecycleContainerAndEntityCache();
+            var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var categoryDeleter = R<CategoryDeleter>();
-            var requestResult = categoryDeleter.DeleteTopic(secondChild.Id);
+            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
 
             //Assert
             var categoryRepo = R<CategoryRepository>();
             var allAvailableTopics = categoryRepo.GetAll();
             var parentChildren =
                 categoryRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, parent.Id);
-            var firstChildChildren = categoryRepo.GetChildren(CategoryType.Standard,
-                CategoryType.Standard, firstChild.Id);
+            var childrenOfChild = categoryRepo.GetChildren(CategoryType.Standard,
+                CategoryType.Standard, child.Id);
 
             Assert.IsNotNull(requestResult);
             Assert.IsTrue(requestResult.Success);
             Assert.IsFalse(requestResult.HasChildren);
             Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
-            Assert.That(parent.Id, Is.EqualTo(requestResult.RedirectParent.Id));
+            Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
             Assert.IsTrue(allAvailableTopics.Any());
             Assert.IsTrue(allAvailableTopics.Contains(parent));
-            Assert.IsTrue(allAvailableTopics.Contains(firstChild));
+            Assert.IsTrue(allAvailableTopics.Contains(child));
             Assert.IsNotEmpty(parentChildren);
             Assert.IsTrue(parentChildren.Count == 1);
-            Assert.That(firstChildName, Is.EqualTo(parentChildren.First().Name));
-            Assert.IsEmpty(firstChildChildren);
+            Assert.That(childName, Is.EqualTo(parentChildren.First().Name));
+            Assert.IsEmpty(childrenOfChild);
         }
 
         [Test]
-        public void Delete_topic_and_remove_relations_for_third_child_test_EntityCache()
+        public void Should_delete_child_of_child_and_remove_relations_in_EntityCache()
         {
+            //Arrange
             var contextTopic = ContextCategory.New();
-            var parentName = "Parent";
-            var firstChildName = "FirstChild";
-            var secondChildName = "SecondChild";
+            var parentName = "parent name";
+            var childName = "child name";
+            var childOfChildName = "child of child name";
             var sessionUser = R<SessionUser>();
             var creator = new User { Id = sessionUser.UserId };
 
@@ -117,50 +114,56 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
                     creator)
                 .GetTopicByName(parentName);
 
-            var firstChild = contextTopic.Add(firstChildName,
+            var child = contextTopic.Add(childName,
                     CategoryType.Standard,
                     creator)
-                .GetTopicByName(firstChildName);
-            var secondChild = contextTopic.Add(secondChildName,
+                .GetTopicByName(childName);
+            var childOfChild = contextTopic.Add(childOfChildName,
                     CategoryType.Standard,
                     creator)
-                .GetTopicByName(secondChildName);
+                .GetTopicByName(childOfChildName);
 
             contextTopic.Persist();
-            contextTopic.AddChild(parent, firstChild);
-            contextTopic.AddChild(firstChild, secondChild);
+            contextTopic.AddChild(parent, child);
+            contextTopic.AddChild(child, childOfChild);
 
             var categoryDeleter = R<CategoryDeleter>();
-            var requestResult = categoryDeleter.DeleteTopic(secondChild.Id);
+
+            //Act
+            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
             RecycleContainerAndEntityCache();
 
+            //Assert
             var entityCache = EntityCache.GetAllCategoriesList();
             var cacheParent = EntityCache.GetCategory(parent.Id);
-            var cacheFirstchild = EntityCache.GetCategory(firstChild.Id);
+            var cachedFirstChild = EntityCache.GetCategory(child.Id);
 
             Assert.IsNotNull(requestResult);
             Assert.IsTrue(requestResult.Success);
             Assert.IsFalse(requestResult.HasChildren);
             Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
-            Assert.That(parent.Id, Is.EqualTo(requestResult.RedirectParent.Id));
+            Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
             Assert.IsTrue(entityCache.Any());
             Assert.IsTrue(entityCache.Any(c => c.Id == parent.Id));
-            Assert.IsTrue(entityCache.Any(c => c.Id == firstChild.Id));
-            Assert.False(entityCache.Any(c => c.Name.Equals(secondChildName)));
+            Assert.IsTrue(entityCache.Any(c => c.Id == child.Id));
+            Assert.False(entityCache.Any(c => c.Name.Equals(childOfChildName)));
             Assert.IsNotEmpty(cacheParent.ChildRelations);
-            Assert.That(cacheFirstchild.Id,
+            Assert.That(cachedFirstChild.Id,
                 Is.EqualTo(cacheParent.ChildRelations.Single().ChildId));
             Assert.IsEmpty(cacheParent.ParentRelations);
-            Assert.IsEmpty(cacheFirstchild.ChildRelations);
-            Assert.That(cacheParent.Id, Is.EqualTo(cacheFirstchild.ParentRelations.Single().Id));
+            Assert.IsEmpty(cachedFirstChild.ChildRelations);
+            Assert.That(cacheParent.Id, Is.EqualTo(cachedFirstChild.ParentRelations.Single().Id));
         }
 
         [Test]
-        public void Delete_topic_has_child()
+        [Description("child has a child, so it can't be deleted or removed")]
+        public void Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
         {
+            //Arrange
             var contextTopic = ContextCategory.New();
-            var parentName = "Parent";
-            var firstChildName = "FirstChild";
+            var parentName = "parent name";
+            var childName = "child name";
+            var childOfChildName = "child of child name";
             var sessionUser = R<SessionUser>();
             var creator = new User { Id = sessionUser.UserId };
 
@@ -170,21 +173,72 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
                     creator)
                 .GetTopicByName(parentName);
 
-            var firstChild = contextTopic.Add(firstChildName,
+            var child = contextTopic.Add(childName,
                     CategoryType.Standard,
                     creator)
-                .GetTopicByName(firstChildName);
+                .GetTopicByName(childName);
+            var childOfChild = contextTopic.Add(childOfChildName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(childOfChildName);
 
             contextTopic.Persist();
-            contextTopic.AddChild(parent, firstChild);
+            contextTopic.AddChild(parent, child);
+            contextTopic.AddChild(child, childOfChild);
 
             var categoryDeleter = R<CategoryDeleter>();
-            var requestResult = categoryDeleter.DeleteTopic(firstChild.Id);
+
+            //Act
+            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            RecycleContainerAndEntityCache();
+
+            //Assert
+
             Assert.IsNotNull(requestResult);
-            Assert.IsTrue(requestResult.Success);
-            Assert.IsFalse(requestResult.HasChildren);
+            Assert.IsFalse(requestResult.Success);
+            Assert.IsTrue(requestResult.HasChildren);
             Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
-            Assert.That(parent.Id, Is.EqualTo(requestResult.RedirectParent.Id));
+        }
+
+        [Test]
+        [Description("no rights")]
+        public void Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
+        {
+            //Arrange
+            var contextTopic = ContextCategory.New();
+            var parentName = "parent name";
+            var childName = "child name";
+
+            var creator = new User { Id = 4, IsInstallationAdmin = false, Name = "Creator" };
+
+            var sessionUser = R<SessionUser>();
+
+            var parent = contextTopic.Add(
+                    parentName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(parentName);
+
+            var child = contextTopic.Add(childName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(childName);
+
+            contextTopic.Persist();
+            contextTopic.AddChild(parent, child);
+
+            var categoryDeleter = R<CategoryDeleter>();
+
+            //Act
+            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            RecycleContainerAndEntityCache();
+
+            //Assert
+
+            Assert.IsNotNull(requestResult);
+            Assert.IsFalse(requestResult.Success);
+            Assert.IsTrue(requestResult.HasChildren);
+            Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
         }
     }
 }
