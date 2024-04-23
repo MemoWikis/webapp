@@ -1,15 +1,20 @@
-﻿namespace TrueOrFalse.Tests8._0.Domain.Topics
+﻿using NHibernate.Criterion;
+
+namespace TrueOrFalse.Tests8._0.Domain.Topics
 {
     internal class CreateTopicTests : BaseTest
     {
         [Test]
         public void CreateTopicInDatabase_Test()
         {
+            //Arrange
             var context = ContextCategory.New();
             var parentName = "Parent";
-            var parent = context.Add(parentName).Persist().All.Single(c => c.Name.Equals(parentName));
-            var sessionUser = R<SessionUser>();
 
+            var sessionUser = R<SessionUser>();
+            sessionUser.Login(_sessionUser);
+            var parent = context.Add(parentName, creator: _sessionUser).Persist().All
+                .Single(c => c.Name.Equals(parentName));
 
             var childName = "child";
             R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
@@ -18,20 +23,22 @@
 
             var childFromDatabase = R<CategoryRepository>().GetByName(childName).Single();
             DateTime referenceDate = DateTime.Now;
+            var relations = R<CategoryRelationRepo>().GetByRelationId(parent.Id);
 
-
+            //Assert
             Assert.IsNotNull(childFromDatabase);
             Assert.IsNotNull(sessionUser);
             Assert.IsNotNull(childFromDatabase.Creator);
             Assert.IsNotNull(childFromDatabase.DateCreated);
             Assert.IsNotNull(childFromDatabase.DateModified);
-            Assert.AreEqual(childName, childFromDatabase.Name);
-            Assert.AreEqual(sessionUser.User.Id, childFromDatabase.Creator.Id);
-            Assert.AreEqual(sessionUser.User.Name, childFromDatabase.Creator.Name);
-            Assert.That(childFromDatabase.DateCreated, Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
-            Assert.That(childFromDatabase.DateModified, Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1))); 
-            //Assert.AreEqual(childFromDatabase.ParentRelations.Count, 1);
-            //Assert.AreEqual(childFromDatabase.ParentRelations.First().Parent.Name, parent.Name);
+            Assert.That(childFromDatabase.Name, Is.EqualTo(childName));
+            Assert.That(childFromDatabase.Creator.Id, Is.EqualTo(sessionUser.User.Id));
+            Assert.That(childFromDatabase.Creator.Name, Is.EqualTo(sessionUser.User.Name));
+            Assert.That(childFromDatabase.DateCreated,
+                Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
+            Assert.That(childFromDatabase.DateModified,
+                Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
+            Assert.That(relations.First().Child.Id, Is.EqualTo(childFromDatabase.Id));
         }
 
         [Test]
@@ -39,26 +46,31 @@
         {
             var context = ContextCategory.New();
             var parentname = "Parent";
-            var parent = context.Add(parentname).Persist().All.Single(c => c.Name.Equals(parentname));
+            var parent = context.Add(parentname).Persist().All
+                .Single(c => c.Name.Equals(parentname));
             var sessionUser = R<SessionUser>();
+            sessionUser.Login(_sessionUser);
 
             var childName = "child";
             R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
 
             var childFromEntityCache = EntityCache.GetCategoryByName(childName).Single();
             DateTime referenceDate = DateTime.Now;
-            
 
             Assert.IsNotNull(childFromEntityCache);
             Assert.IsNotNull(sessionUser);
             Assert.IsNotNull(childFromEntityCache.Creator);
             Assert.IsNotNull(childFromEntityCache.DateCreated);
-            Assert.AreEqual(childName, childFromEntityCache.Name);
-            Assert.AreEqual(sessionUser.User.Id, childFromEntityCache.Creator.Id);
-            Assert.AreEqual(sessionUser.User.Name, childFromEntityCache.Creator.Name);
-            Assert.That(childFromEntityCache.DateCreated, Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
-            Assert.AreEqual(childFromEntityCache.ParentRelations.Count, 1);
-            Assert.AreEqual(GraphService.VisibleAscendants(childFromEntityCache.Id, R<PermissionCheck>()).First().Name, parent.Name);
+            Assert.That(childFromEntityCache.Name, Is.EqualTo(childName));
+            Assert.That(childFromEntityCache.Creator.Id, Is.EqualTo(sessionUser.User.Id));
+            Assert.That(childFromEntityCache.Creator.Name, Is.EqualTo(sessionUser.User.Name));
+            Assert.That(childFromEntityCache.DateCreated,
+                Is.InRange(referenceDate.AddHours(-1), referenceDate.AddHours(1)));
+            Assert.That(1, Is.EqualTo(childFromEntityCache.ParentRelations.Count));
+            Assert.That(
+                parent.Name, Is.EqualTo(GraphService
+                    .VisibleAscendants(childFromEntityCache.Id, R<PermissionCheck>())
+                    .First().Name));
         }
     }
 }
