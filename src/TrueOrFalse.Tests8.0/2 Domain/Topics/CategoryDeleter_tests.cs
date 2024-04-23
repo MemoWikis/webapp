@@ -134,7 +134,7 @@
             RecycleContainerAndEntityCache();
 
             //Assert
-            var entityCache = EntityCache.GetAllCategoriesList();
+            var allCategoriesInEntityCache = EntityCache.GetAllCategoriesList();
             var cacheParent = EntityCache.GetCategory(parent.Id);
             var cachedFirstChild = EntityCache.GetCategory(child.Id);
 
@@ -143,16 +143,19 @@
             Assert.IsFalse(requestResult.HasChildren);
             Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
             Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
-            Assert.IsTrue(entityCache.Any());
-            Assert.IsTrue(entityCache.Any(c => c.Id == parent.Id));
-            Assert.IsTrue(entityCache.Any(c => c.Id == child.Id));
-            Assert.False(entityCache.Any(c => c.Name.Equals(childOfChildName)));
+            Assert.IsTrue(allCategoriesInEntityCache.Any());
+            Assert.IsTrue(allCategoriesInEntityCache.Any(c => c.Id == parent.Id));
+            Assert.IsTrue(allCategoriesInEntityCache.Any(c => c.Id == child.Id));
+            Assert.False(allCategoriesInEntityCache.Any(c => c.Name.Equals(childOfChildName)));
             Assert.IsNotEmpty(cacheParent.ChildRelations);
             Assert.That(cachedFirstChild.Id,
                 Is.EqualTo(cacheParent.ChildRelations.Single().ChildId));
             Assert.IsEmpty(cacheParent.ParentRelations);
             Assert.IsEmpty(cachedFirstChild.ChildRelations);
             Assert.That(cacheParent.Id, Is.EqualTo(cachedFirstChild.ParentRelations.Single().Id));
+
+            var allRelationsInEntityCache = EntityCache.GetAllRelations();
+            Assert.False(allRelationsInEntityCache.Any(r => r.ChildId == childOfChild.Id));
         }
 
         [Test]
