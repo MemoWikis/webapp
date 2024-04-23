@@ -10,6 +10,8 @@ const tabsStore = useTabsStore()
 const textArea = ref()
 const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4))
 const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
+console.log(firstAuthors, "firstAutors")
+console.log(lastAuthors, "lastAuthors")
 
 function resize() {
     let element = textArea.value as VueElement
@@ -19,6 +21,10 @@ function resize() {
     }
 }
 
+function getAuthors() {
+    console.log(topicStore.authors.length, "authors length")
+    
+}
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
 
@@ -43,6 +49,7 @@ onBeforeMount(() => {
 onMounted(async () => {
     await nextTick()
     resize()
+    getAuthors()
 })
 
 onUnmounted(() => {
@@ -125,10 +132,10 @@ const topic = useState<Topic>('topic')
                 class="topic-detail-spacer"></div>
 
             <template v-for="author in firstAuthors">
-                <LazyNuxtLink v-if="author.Id > 0" :to="$urlHelper.getUserUrl(author.Name, author.Id)"
-                    v-tooltip="author.Name" class="header-author-icon-link">
-                    <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon"
-                        :alt="`${author.Name}'s profile picture'`" />
+                <LazyNuxtLink idif="author.Id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"
+                    v-tooltip="author.name" class="header-author-icon-link">
+                    <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="`${author.name}'s profile picture'`" />
                 </LazyNuxtLink>
             </template>
 
@@ -141,12 +148,12 @@ const topic = useState<Topic>('topic')
                 </button>
                 <template #popper>
                     <template v-for="author in lastAuthors">
-                        <LazyNuxtLink class="dropdown-row" v-if="author.Id > 0"
-                            :to="$urlHelper.getUserUrl(author.Name, author.Id)">
+                        <LazyNuxtLink class="dropdown-row" v-if="author.id > 0"
+                            :to="$urlHelper.getUserUrl(author.name, author.id)">
                             <div class="dropdown-icon">
-                                <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
+                                <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon" />
                             </div>
-                            <div class="dropdown-label">{{ author.Name }}</div>
+                            <div class="dropdown-label">{{ author.name }}</div>
                         </LazyNuxtLink>
                     </template>
                 </template>
