@@ -2,10 +2,10 @@
 
 namespace TrueOrFalse.Tests8._0.Domain.Topics
 {
-    internal class CreateTopicTests : BaseTest
+    internal class CreateTopic_tests : BaseTest
     {
         [Test]
-        public void CreateTopicInDatabase_Test()
+        public void Should_create_Topic_in_Db()
         {
             //Arrange
             var context = ContextCategory.New();
@@ -13,19 +13,23 @@ namespace TrueOrFalse.Tests8._0.Domain.Topics
 
             var sessionUser = R<SessionUser>();
             sessionUser.Login(_sessionUser);
-            var parent = context.Add(parentName, creator: _sessionUser).Persist().All
+            var parent = context
+                .Add(parentName, creator: _sessionUser)
+                .Persist().All
                 .Single(c => c.Name.Equals(parentName));
 
             var childName = "child";
+
+            //Act
             R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
 
-            RecycleContainer();
+            //Assert
+            RecycleContainerAndEntityCache();
 
             var childFromDatabase = R<CategoryRepository>().GetByName(childName).Single();
             DateTime referenceDate = DateTime.Now;
             var relations = R<CategoryRelationRepo>().GetByRelationId(parent.Id);
 
-            //Assert
             Assert.IsNotNull(childFromDatabase);
             Assert.IsNotNull(sessionUser);
             Assert.IsNotNull(childFromDatabase.Creator);
@@ -42,18 +46,25 @@ namespace TrueOrFalse.Tests8._0.Domain.Topics
         }
 
         [Test]
-        public void CreateTopicInEntityCache_Test()
+        public void Should_create_Topic_in_EntityCache()
         {
+            //Arrange
             var context = ContextCategory.New();
             var parentname = "Parent";
-            var parent = context.Add(parentname).Persist().All
+            var parent = context
+                .Add(parentname)
+                .Persist()
+                .All
                 .Single(c => c.Name.Equals(parentname));
             var sessionUser = R<SessionUser>();
             sessionUser.Login(_sessionUser);
 
             var childName = "child";
+
+            //Act
             R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
 
+            //Arrange
             var childFromEntityCache = EntityCache.GetCategoryByName(childName).Single();
             DateTime referenceDate = DateTime.Now;
 
