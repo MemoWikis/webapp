@@ -16,9 +16,6 @@ public class LearningSessionConfigurationStoreController : BaseController
     [HttpPost]
     public QuestionCounter GetCount([FromBody] LearningSessionConfig config)
     {
-        if (config.CurrentUserId == 0 && _sessionUser.IsLoggedIn)
-            config.CurrentUserId = _sessionUser.UserId;
-
         return _learningSessionCreator.GetQuestionCounterForLearningSession(config);
     }
 }
