@@ -48,7 +48,7 @@
 
         var modifyRelationsForCategory =
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        modifyRelationsForCategory.AddChild(parentTopicId, topic.Id);
+        modifyRelationsForCategory.AddChildAsync(parentTopicId, topic.Id);
 
         return new CreateResult
         {

@@ -1,10 +1,9 @@
 namespace Seedworks.Web.State
-{    
-    public class Cache 
+{
+    public class Cache
     {
         private static CacheAspNet _cache;
         private static readonly object _lock = new();
-  
 
         public static void Add(string key, object obj)
         {
@@ -13,9 +12,13 @@ namespace Seedworks.Web.State
 
         /// <summary>
         /// Add an object to the Cache (overwrite if already existent).<br/>
-        /// Remove the item from the cache after <paramref name="timeSpan"/> has elapsed.
+        /// RemoveAsync the item from the cache after <paramref name="timeSpan"/> has elapsed.
         /// </summary>
-        public static void Add(string key, object obj, TimeSpan timeSpan, bool slidingExpiration = false)
+        public static void Add(
+            string key,
+            object obj,
+            TimeSpan timeSpan,
+            bool slidingExpiration = false)
         {
             CacheAspNet.Add(key, obj, timeSpan, slidingExpiration);
         }

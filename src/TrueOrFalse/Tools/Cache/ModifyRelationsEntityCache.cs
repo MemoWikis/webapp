@@ -2,7 +2,7 @@
 
 public class ModifyRelationsEntityCache
 {
-    public static void RemoveRelationsForCategoryDeleter(
+    public static async Task RemoveRelationsForCategoryDeleter(
         CategoryCacheItem category,
         int userId,
         ModifyRelationsForCategory modifyRelationsForCategory)
@@ -13,12 +13,14 @@ public class ModifyRelationsEntityCache
             if (relation.ChildId == category.Id)
             {
                 var parent = EntityCache.GetCategory(relation.ParentId);
-                RemoveParent(category, parent, userId, modifyRelationsForCategory);
+                await RemoveParentAsync(category, parent, userId, modifyRelationsForCategory)
+                    .ConfigureAwait(false);
             }
             else
             {
                 var child = EntityCache.GetCategory(relation.ChildId);
-                RemoveParent(child, category, userId, modifyRelationsForCategory);
+                await RemoveParentAsync(child, category, userId, modifyRelationsForCategory)
+                    .ConfigureAwait(false);
             }
         }
     }
@@ -37,7 +39,7 @@ public class ModifyRelationsEntityCache
         return true;
     }
 
-    public static bool RemoveParent(
+    public static async Task<bool> RemoveParentAsync(
         CategoryCacheItem childCategory,
         int parentId,
         int authorId,
@@ -54,7 +56,7 @@ public class ModifyRelationsEntityCache
             !CheckParentAvailability(parentCategories, childCategory))
         {
             Logg.r.Error(
-                "CategoryRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
+                "CategoryRelations - RemoveParentAsync: No parents remaining - childId:{0}, parentIdToRemove:{1}",
                 childCategory.Id, parentId);
             throw new Exception("No parents remaining");
         }
@@ -62,15 +64,16 @@ public class ModifyRelationsEntityCache
         if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEdit(parent))
         {
             Logg.r.Error(
-                "CategoryRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
+                "CategoryRelations - RemoveParentAsync: No rights to edit - childId:{0}, parentId:{1}",
                 childCategory.Id, parentId);
             throw new SecurityException("Not allowed to edit category");
         }
 
-        return RemoveParent(childCategory, parent, authorId, modifyRelationsForCategory);
+        return await RemoveParentAsync(childCategory, parent, authorId, modifyRelationsForCategory)
+            .ConfigureAwait(false);
     }
 
-    private static bool RemoveParent(
+    private static async Task<bool> RemoveParentAsync(
         CategoryCacheItem childCategory,
         CategoryCacheItem parent,
         int authorId,
@@ -81,7 +84,9 @@ public class ModifyRelationsEntityCache
 
         if (relationToRemove != null)
         {
-            TopicOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
+            await TopicOrderer
+                .RemoveAsync(relationToRemove, parent.Id, authorId, modifyRelationsForCategory)
+                .ConfigureAwait(false);
             childCategory.ParentRelations.Remove(relationToRemove);
             return true;
         }

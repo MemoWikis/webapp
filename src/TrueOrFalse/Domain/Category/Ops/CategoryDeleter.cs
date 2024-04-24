@@ -11,11 +11,12 @@ public class CategoryDeleter(
     CrumbtrailService _crumbtrailService,
     CategoryRepository _categoryRepo,
     CategoryRelationRepo _categoryRelationRepo,
-    PermissionCheck _permissionCheck)
+    PermissionCheck _permissionCheck,
+    QuestionWritingRepo _questionWritingRepo)
     : IRegisterAsInstancePerLifetime
 {
     ///todo:(DaMa)  Revise: Wrong place for SQL commands.
-    private HasDeleted Run(Category category, int userId)
+    private async Task<HasDeleted> Run(Category category, int userId)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
@@ -38,10 +39,7 @@ public class CategoryDeleter(
             modifyRelationsForCategory);
         EntityCache.Remove(categoryCacheItem, userId);
 
-        _session
-            .CreateSQLQuery(
-                "DELETE FROM categories_to_questions where Category_id = " + category.Id)
-            .ExecuteUpdate();
+        await _questionWritingRepo.DeleteQuestionRelationsFromTopic(category.Id);
 
         _userActivityRepo.DeleteForCategory(category.Id);
 
@@ -106,7 +104,7 @@ public class CategoryDeleter(
         bool Success,
         RedirectParent RedirectParent);
 
-    public DeleteTopicResult DeleteTopic(int id)
+    public async Task<DeleteTopicResult> DeleteTopicAsync(int id)
     {
         var redirectParent = GetRedirectTopic(id);
         var topic = _categoryRepo.GetById(id);
@@ -120,7 +118,7 @@ public class CategoryDeleter(
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = _categoryRepo.GetByIds(parentIds);
 
-        var hasDeleted = Run(topic, _sessionUser.UserId);
+        var hasDeleted = await Run(topic, _sessionUser.UserId).ConfigureAwait(false);
 
         foreach (var parent in parentTopics)
             _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);

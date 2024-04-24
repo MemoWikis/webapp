@@ -24,19 +24,21 @@
         var category = _categoryRepository.GetByIdEager(categoryId);
     }
 
-    public void AddParentCategory(Category category, int parentId)
+    public async Task AddParentAsync(Category category, int parentId)
     {
         var relatedCategory = _categoryRepository.GetByIdEager(parentId);
         var previousCachedRelation =
             EntityCache.GetCategory(parentId).ChildRelations.LastOrDefault();
 
         if (previousCachedRelation != null)
-        {
-            var previousRelation = _categoryRelationRepo.GetById(previousCachedRelation.Id);
-            previousRelation.NextId = category.Id;
-
-            _categoryRelationRepo.Update(previousRelation);
-        }
+            await _categoryRelationRepo
+                .UpdateRelationAsync(
+                    previousCachedRelation.Id,
+                    previousCachedRelation.ChildId,
+                    previousCachedRelation.ParentId,
+                    previousCachedRelation.PreviousId,
+                    category.Id)
+                .ConfigureAwait(false);
 
         var categoryRelationToAdd = new CategoryRelation()
         {
@@ -48,7 +50,7 @@
         _categoryRelationRepo.Create(categoryRelationToAdd);
     }
 
-    public void AddChild(int parentId, int childId)
+    public async Task AddChildAsync(int parentId, int childId)
     {
         var cachedParent = EntityCache.GetCategory(parentId);
         var previousCacheRelation = cachedParent?.ChildRelations.LastOrDefault();
@@ -72,7 +74,14 @@
             if (previousRelation != null)
             {
                 previousRelation.NextId = childId;
-                _categoryRelationRepo.Update(previousRelation);
+                await _categoryRelationRepo
+                    .UpdateRelationAsync(
+                        previousRelation.Id,
+                        previousRelation.Child.Id,
+                        previousRelation.Parent.Id,
+                        previousRelation.PreviousId,
+                        childId)
+                    .ConfigureAwait(false);
             }
         }
 
@@ -96,7 +105,9 @@
         return relation.Id;
     }
 
-    public void UpdateRelationsInDb(List<CategoryCacheRelation> cachedRelations, int authorId)
+    public async Task UpdateRelationsInDbAsync(
+        List<CategoryCacheRelation> cachedRelations,
+        int authorId)
     {
         foreach (var r in cachedRelations)
         {
@@ -108,15 +119,17 @@
 
             if (relationToUpdate != null)
             {
+                await _categoryRelationRepo
+                    .UpdateRelationAsync(
+                        r.Id,
+                        r.ChildId,
+                        r.ParentId,
+                        r.PreviousId,
+                        r.NextId)
+                    .ConfigureAwait(false);
+
                 var child = _categoryRepository.GetById(r.ChildId);
                 var parent = _categoryRepository.GetById(r.ParentId);
-
-                relationToUpdate.Child = child;
-                relationToUpdate.Parent = parent;
-                relationToUpdate.PreviousId = r.PreviousId;
-                relationToUpdate.NextId = r.NextId;
-
-                _categoryRelationRepo.Update(relationToUpdate);
 
                 _categoryRepository.Update(child, authorId, type: CategoryChangeType.Relations);
                 _categoryRepository.Update(parent, authorId, type: CategoryChangeType.Relations);
@@ -124,17 +137,20 @@
         }
     }
 
-    public void DeleteRelationInDb(int relationId, int authorId)
+    public async Task DeleteRelationInDbAsync(int relationId, int authorId)
     {
         var relationToDelete = relationId > 0 ? _categoryRelationRepo.GetById(relationId) : null;
-        Logg.r.Information("Job started - DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}", relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
+        Logg.r.Information(
+            "Job started - DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
+            relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
 
         if (relationToDelete != null)
         {
-            _categoryRelationRepo.Delete(relationToDelete);
-            _categoryRepository.Update(relationToDelete.Child, authorId, type: CategoryChangeType.Relations);
-            _categoryRepository.Update(relationToDelete.Parent, authorId, type: CategoryChangeType.Relations);
+            await _categoryRelationRepo.DeleteByRelationId(relationId);
+            _categoryRepository.Update(relationToDelete.Child, authorId,
+                type: CategoryChangeType.Relations);
+            _categoryRepository.Update(relationToDelete.Parent, authorId,
+                type: CategoryChangeType.Relations);
         }
-
     }
 }

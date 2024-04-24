@@ -86,21 +86,27 @@ public class TopicRelationEditController(
         int childId,
         int parentIdToRemove,
         int parentIdToAdd);
+
     public readonly record struct MoveChildResult(
         bool Success,
         string MessageKey,
         TinyTopicItem Data);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public MoveChildResult MoveChild([FromBody] MoveChildParam param)
+    public async Task<MoveChildResult> MoveChild([FromBody] MoveChildParam param)
     {
-        return MoveChild(
-            param.childId, 
-            param.parentIdToRemove,
-            param.parentIdToAdd);
+        return await MoveChildAsync(
+                param.childId,
+                param.parentIdToRemove,
+                param.parentIdToAdd)
+            .ConfigureAwait(false);
     }
 
-    private MoveChildResult MoveChild(int childId, int parentIdToRemove, int parentIdToAdd)
+    private async Task<MoveChildResult> MoveChildAsync(
+        int childId,
+        int parentIdToRemove,
+        int parentIdToAdd)
     {
         if (childId == parentIdToRemove || childId == parentIdToAdd)
             return new MoveChildResult
@@ -126,13 +132,17 @@ public class TopicRelationEditController(
             _webHostEnvironment,
             _categoryRelationRepo);
 
-        var result = childmodifier
-            .AddChild(childId,
-                parentIdToAdd);
+        var result = await childmodifier
+            .AddChildAsync(childId,
+                parentIdToAdd)
+            .ConfigureAwait(false);
 
-        childmodifier.RemoveParent(parentIdToRemove,
-            childId,
-            new int[] { parentIdToAdd, parentIdToRemove });
+        await childmodifier
+            .RemoveParentAsync(
+                parentIdToRemove,
+                childId,
+                new int[] { parentIdToAdd, parentIdToRemove })
+            .ConfigureAwait(false);
         return new MoveChildResult(result.Success, result.MessageKey, result.Data);
     }
 
@@ -141,6 +151,7 @@ public class TopicRelationEditController(
         int ParentId,
         int ParentIdToRemove,
         bool AddIdToWikiHistory);
+
     public readonly record struct AddChildResult(
         bool Success,
         string MessageKey,
@@ -148,20 +159,23 @@ public class TopicRelationEditController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public AddChildResult AddChild([FromBody] AddChildParam param)
+    public async Task<AddChildResult> AddChild([FromBody] AddChildParam param)
     {
-        var result =
-            new ChildModifier(_permissionCheck,
-                    _sessionUser,
-                    _categoryRepository,
-                    _userWritingRepo,
-                    _httpContextAccessor,
-                    _webHostEnvironment,
-                    _categoryRelationRepo)
-                .AddChild(
-                    param.ChildId,
-                    param.ParentId,
-                    param.AddIdToWikiHistory);
+        var childModifier = new ChildModifier(
+            _permissionCheck,
+            _sessionUser,
+            _categoryRepository,
+            _userWritingRepo,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _categoryRelationRepo);
+
+        var result = await childModifier
+            .AddChildAsync(
+                param.ChildId,
+                param.ParentId,
+                param.AddIdToWikiHistory)
+            .ConfigureAwait(false);
 
         return new AddChildResult(result.Success, result.MessageKey, result.Data);
     }
@@ -170,6 +184,7 @@ public class TopicRelationEditController(
         int parentIdToRemove,
         int childId,
         int[] affectedParentIdsByMove = null);
+
     public readonly record struct RemoveParentResult(
         bool Success,
         string MessageKey,
@@ -177,19 +192,23 @@ public class TopicRelationEditController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public RemoveParentResult RemoveParent([FromBody] RemoveParentParam param)
+    public async Task<RemoveParentResult> RemoveParent([FromBody] RemoveParentParam param)
     {
-        var result = new ChildModifier(_permissionCheck,
-                _sessionUser,
-                _categoryRepository,
-                _userWritingRepo,
-                _httpContextAccessor,
-                _webHostEnvironment,
-                _categoryRelationRepo)
-            .RemoveParent(
+        var childModifier = new ChildModifier(
+            _permissionCheck,
+            _sessionUser,
+            _categoryRepository,
+            _userWritingRepo,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _categoryRelationRepo);
+
+        var result = await childModifier
+            .RemoveParentAsync(
                 param.parentIdToRemove,
                 param.childId,
-                param.affectedParentIdsByMove);
+                param.affectedParentIdsByMove)
+            .ConfigureAwait(false);
         return new RemoveParentResult(result.Success, result.MessageKey, result.Data);
     }
 

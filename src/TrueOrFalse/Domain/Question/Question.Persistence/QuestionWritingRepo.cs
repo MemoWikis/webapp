@@ -110,4 +110,12 @@ public class QuestionWritingRepo(
     {
         base.Update(question);
     }
+
+    public async Task<int> DeleteQuestionRelationsFromTopic(int categoryId)
+    {
+        return await _session
+            .CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + categoryId)
+            .ExecuteUpdateAsync()
+            .ConfigureAwait(false);
+    }
 }

@@ -98,7 +98,7 @@
 
     //Move sub1 after sub3
     [Test]
-    public void Should_move_relation_after_sub3()
+    public async Task Should_move_relation_after_sub3()
     {
         //Arrange
         var context = ContextCategory.New();
@@ -132,8 +132,8 @@
             new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
-            modifyRelationsForCategory);
+        await TopicOrderer.MoveAfterAsync(relationToMove, sub3.Id, cachedRoot.Id, 1,
+            modifyRelationsForCategory).ConfigureAwait(false);
 
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
@@ -173,7 +173,7 @@
 
     //Move sub3 before sub1
     [Test]
-    public void Should_move_relation_before_sub1()
+    public async Task Should_move_relation_before_sub1()
     {
         //Arrange
         var context = ContextCategory.New();
@@ -204,8 +204,8 @@
             new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
-            modifyRelationsForCategory);
+        await TopicOrderer.MoveBeforeAsync(relationToMove, sub1.Id, cachedRoot.Id, 1,
+            modifyRelationsForCategory).ConfigureAwait(false);
 
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
@@ -247,7 +247,7 @@
 
     //Move sub1 after sub3 and before sub4
     [Test]
-    public void Should_move_relation_after_sub3_and_before_sub4()
+    public async Task Should_move_relation_after_sub3_and_before_sub4()
     {
         //Arrange
         var context = ContextCategory.New();
@@ -284,8 +284,8 @@
             new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
-            modifyRelationsForCategory);
+        await TopicOrderer.MoveAfterAsync(relationToMove, sub3.Id, cachedRoot.Id, 1,
+            modifyRelationsForCategory).ConfigureAwait(false);
 
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(4));
@@ -330,7 +330,7 @@
     }
 
     [Test]
-    public void Should_fail_move_relation_caused_by_circularReference()
+    public async Task Should_fail_move_relation_caused_by_circularReference()
     {
         //Arrange
         var context = ContextCategory.New();
@@ -364,19 +364,20 @@
             new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
         //Act & Assert
-        var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove,
+        var ex = Assert.ThrowsAsync<Exception>(async () => await TopicOrderer.MoveAfterAsync(
+            relationToMove,
             sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
 
         Assert.That(ex.Message, Is.EqualTo(FrontendMessageKeys.Error.Category.CircularReference));
 
-        var ex2 = Assert.Throws<Exception>(() =>
-            TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
+        var ex2 = Assert.ThrowsAsync<Exception>(async () =>
+            await TopicOrderer.MoveAfterAsync(relationToMove, sub1sub1.Id, sub1.Id, 1,
                 modifyRelationsForCategory));
         Assert.That(ex2.Message, Is.EqualTo(FrontendMessageKeys.Error.Category.CircularReference));
     }
 
     [Test]
-    public void Should_remove_old_parent_and_add_new_parent_on_MoveIn()
+    public async Task Should_remove_old_parent_and_add_new_parent_on_MoveIn()
     {
         //Arrange
         var context = ContextCategory.New();
@@ -410,8 +411,8 @@
             new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
-            R<PermissionCheck>());
+        await TopicOrderer.MoveInAsync(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
+            R<PermissionCheck>()).ConfigureAwait(false);
 
         //Assert
         Assert.That(cachedSub1.ChildRelations.Count, Is.EqualTo(0));

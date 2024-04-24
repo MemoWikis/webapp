@@ -27,5 +27,6 @@ public class DeleteTopicStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public DeleteTopicResult Delete([FromRoute] int id) => categoryDeleter.DeleteTopic(id);
+    public async Task<DeleteTopicResult> Delete([FromRoute] int id) =>
+        await categoryDeleter.DeleteTopicAsync(id).ConfigureAwait(false);
 }

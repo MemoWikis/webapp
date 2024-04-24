@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
 using System.Security;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Exception = System.Exception;
@@ -76,20 +77,23 @@ public class EditTopicRelationStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public RemoveTopicsResult RemoveTopics([FromBody] RemoveTopicsJson json)
+    public async Task<RemoveTopicsResult> RemoveTopics([FromBody] RemoveTopicsJson json)
     {
         var removedChildrenIds = new List<int>();
+        var childModifier = new ChildModifier(
+            _permissionCheck,
+            _sessionUser,
+            _categoryRepository,
+            _userWritingRepo,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _categoryRelationRepo);
 
         foreach (var childId in json.childIds)
         {
-            var result = new ChildModifier(
-                _permissionCheck,
-                _sessionUser,
-                _categoryRepository,
-                _userWritingRepo,
-                _httpContextAccessor,
-                _webHostEnvironment,
-                _categoryRelationRepo).RemoveParent(json.parentId, childId);
+            var result = await childModifier
+                .RemoveParentAsync(json.parentId, childId)
+                .ConfigureAwait(false);
             if (result.Success)
                 removedChildrenIds.Add(childId);
         }
@@ -121,7 +125,7 @@ public class EditTopicRelationStoreController(
         int NewParentId,
         MoveTopicJson UndoMove);
 
-    private TryMoveTopicResult TryMoveTopic(MoveTopicJson json)
+    private async Task<TryMoveTopicResult> MoveTopicAsync(MoveTopicJson json)
     {
         if (!_sessionUser.IsLoggedIn)
             throw new SecurityException(FrontendMessageKeys.Error.User.NotLoggedIn);
@@ -156,14 +160,31 @@ public class EditTopicRelationStoreController(
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
         if (json.Position == TargetPosition.Before)
-            TopicOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId,
-                _sessionUser.UserId, modifyRelationsForCategory);
+            await TopicOrderer
+                .MoveBeforeAsync(relationToMove,
+                    json.TargetId,
+                    json.NewParentId,
+                    _sessionUser.UserId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
         else if (json.Position == TargetPosition.After)
-            TopicOrderer.MoveAfter(relationToMove, json.TargetId, json.NewParentId,
-                _sessionUser.UserId, modifyRelationsForCategory);
+            await TopicOrderer
+                .MoveAfterAsync(
+                    relationToMove,
+                    json.TargetId,
+                    json.NewParentId,
+                    _sessionUser.UserId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
         else if (json.Position == TargetPosition.Inner)
-            TopicOrderer.MoveIn(relationToMove, json.TargetId, _sessionUser.UserId,
-                modifyRelationsForCategory, _permissionCheck);
+            await TopicOrderer
+                .MoveInAsync(
+                    relationToMove,
+                    json.TargetId,
+                    _sessionUser.UserId,
+                    modifyRelationsForCategory,
+                    _permissionCheck)
+                .ConfigureAwait(false);
         else if (json.Position == TargetPosition.None)
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 
@@ -177,11 +198,11 @@ public class EditTopicRelationStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public MoveTopicResult MoveTopic([FromBody] MoveTopicJson json)
+    public async Task<MoveTopicResult> MoveTopic([FromBody] MoveTopicJson json)
     {
         try
         {
-            var result = TryMoveTopic(json);
+            var result = await MoveTopicAsync(json).ConfigureAwait(false);
             return new MoveTopicResult(true, result, "");
         }
         catch (Exception ex)
@@ -217,7 +238,7 @@ public class EditTopicRelationStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public PersonalWikiResult AddToPersonalWiki([FromRoute] int id)
+    public async Task<PersonalWikiResult> AddToPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
@@ -237,26 +258,31 @@ public class EditTopicRelationStoreController(
             };
         }
 
+        var childModifier = new ChildModifier(
+            _permissionCheck,
+            _sessionUser,
+            _categoryRepository,
+            _userWritingRepo,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _categoryRelationRepo);
         return new PersonalWikiResult
         {
             Success = true,
-            Data = new ChildModifier(_permissionCheck,
-                    _sessionUser,
-                    _categoryRepository,
-                    _userWritingRepo,
-                    _httpContextAccessor,
-                    _webHostEnvironment,
-                    _categoryRelationRepo)
-                .AddChild(id, personalWiki.Id)
+            Data = await childModifier
+                .AddChildAsync(id, personalWiki.Id)
+                .ConfigureAwait(false)
         };
     }
+
     public readonly record struct RemoveFromPersonalWikiResult(
         bool Success,
         ChildModifier.RemoveParentResult Data,
         string MessageKey);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
+    public async Task<RemoveFromPersonalWikiResult> RemoveFromPersonalWiki([FromRoute] int id)
     {
         var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
 
@@ -276,17 +302,20 @@ public class EditTopicRelationStoreController(
             };
         }
 
+        var childModifier = new ChildModifier(_permissionCheck,
+            _sessionUser,
+            _categoryRepository,
+            _userWritingRepo,
+            _httpContextAccessor,
+            _webHostEnvironment,
+            _categoryRelationRepo);
+
         return new RemoveFromPersonalWikiResult
         {
             Success = true,
-            Data = new ChildModifier(_permissionCheck,
-                    _sessionUser,
-                    _categoryRepository,
-                    _userWritingRepo,
-                    _httpContextAccessor,
-                    _webHostEnvironment,
-                    _categoryRelationRepo)
-                .RemoveParent(personalWiki.Id, id)
+            Data = await childModifier
+                .RemoveParentAsync(personalWiki.Id, id)
+                .ConfigureAwait(false)
         };
     }
 }

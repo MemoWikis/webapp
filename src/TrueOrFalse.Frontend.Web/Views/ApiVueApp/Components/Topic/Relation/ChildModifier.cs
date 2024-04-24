@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
@@ -20,7 +21,7 @@ public class ChildModifier(
 
     public readonly record struct TinyTopicItem(int Id, string Name);
 
-    public AddChildResult AddChild(
+    public async Task<AddChildResult> AddChildAsync(
         int childId,
         int parentId,
         bool addIdToWikiHistory = false)
@@ -68,7 +69,7 @@ public class ChildModifier(
 
         var modifyRelationsForCategory =
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        modifyRelationsForCategory.AddChild(parentId, childId);
+        await modifyRelationsForCategory.AddChildAsync(parentId, childId).ConfigureAwait(false);
 
         return new AddChildResult
         {
@@ -86,7 +87,7 @@ public class ChildModifier(
         string MessageKey,
         TinyTopicItem Data);
 
-    public RemoveParentResult RemoveParent(
+    public async Task<RemoveParentResult> RemoveParentAsync(
         int parentIdToRemove,
         int childId,
         int[] affectedParentIdsByMove = null)
@@ -101,10 +102,14 @@ public class ChildModifier(
 
         var modifyRelationsForCategory =
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(
-            EntityCache.GetCategory(childId),
-            parentIdToRemove, _sessionUser.UserId, modifyRelationsForCategory,
-            _permissionCheck);
+        var parentHasBeenRemoved = await ModifyRelationsEntityCache
+            .RemoveParentAsync(
+                EntityCache.GetCategory(childId),
+                parentIdToRemove,
+                _sessionUser.UserId,
+                modifyRelationsForCategory,
+                _permissionCheck)
+            .ConfigureAwait(false);
 
         if (!parentHasBeenRemoved)
             return new RemoveParentResult

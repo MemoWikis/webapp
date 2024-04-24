@@ -16,45 +16,51 @@ namespace Seedworks.Web.State
             {
                 settings.WithDictionaryHandle()
                     .EnablePerformanceCounters()
-                    .WithExpiration(ExpirationMode.Sliding, TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin));
+                    .WithExpiration(ExpirationMode.Sliding,
+                        TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin));
             });
             _cacheResetToken = new CancellationTokenSource();
         }
 
         /// <summary>
         /// Add an object to the Cache (overwrite if already existent).<br/>
-        /// Remove the item from the cache after <paramref name="expiration"/> has elapsed.
+        /// RemoveAsync the item from the cache after <paramref name="expiration"/> has elapsed.
         /// </summary>
         /// <param name="key"></param>
         /// <param name="obj"></param>
         /// <param name="expiration"></param>
         /// <param name="slidingExpiration"></param>
-        public static void Add(string key, object obj, TimeSpan? expiration = null, bool slidingExpiration = false)
+        public static void Add(
+            string key,
+            object obj,
+            TimeSpan? expiration = null,
+            bool slidingExpiration = false)
         {
             //code block below does nothing
-                //var cacheEntryOptions = new MemoryCacheEntryOptions
-                //{
-                //    ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
-                //};
+            //var cacheEntryOptions = new MemoryCacheEntryOptions
+            //{
+            //    ExpirationTokens = { new CancellationChangeToken(_cacheResetToken.Token) }
+            //};
 
-                //if (expiration.HasValue)
-                //{
-                //    if (slidingExpiration)
-                //    {
-                //        cacheEntryOptions.SlidingExpiration = expiration.Value;
-                //    }
-                //    else
-                //    {
-                //        cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
-                //    }
-                //}
+            //if (expiration.HasValue)
+            //{
+            //    if (slidingExpiration)
+            //    {
+            //        cacheEntryOptions.SlidingExpiration = expiration.Value;
+            //    }
+            //    else
+            //    {
+            //        cacheEntryOptions.AbsoluteExpirationRelativeToNow = expiration.Value;
+            //    }
+            //}
 
             _cache.Add(key, obj);
         }
 
         public static object? Get(string key)
         {
-            return _cache.Get<object>(key); ;
+            return _cache.Get<object>(key);
+            ;
         }
 
         public static T Get<T>(string key)

@@ -9,10 +9,10 @@ namespace Seedworks.Lib
 {
     [Serializable]
     public enum StringEnsureOptions
-	{
-		None = 0,
-		IgnoreNullOrEmpty = 1
-	}
+    {
+        None = 0,
+        IgnoreNullOrEmpty = 1
+    }
 
     public static class StringExtension
     {
@@ -40,8 +40,9 @@ namespace Seedworks.Lib
                 {
                     // get the largest index in the line for which the char is a space
                     // and the index is smaller than the max line length
-                    var length = longLine.Select((chr, i) => (chr == ' ' && i <= maxLineLength) ? i : -1).Max();
-                    
+                    var length = longLine
+                        .Select((chr, i) => (chr == ' ' && i <= maxLineLength) ? i : -1).Max();
+
                     // If no space found, force wrap in the middle of a word.
                     if (length == -1)
                         length = maxLineLength;
@@ -49,15 +50,16 @@ namespace Seedworks.Lib
                     var newLine1 = longLine.Substring(0, length);
                     var newLine2 = longLine.Substring(length);
 
-                    // Remove space at beginning of wrapped line. Looks better.
+                    // RemoveAsync space at beginning of wrapped line. Looks better.
                     if (newLine2[0] == ' ')
                         newLine2 = newLine2.Substring(1);
 
                     lines.InsertRange(lines.IndexOf(longLine),
-                                      new[] { newLine1, newLine2 });
+                        new[] { newLine1, newLine2 });
                     lines.Remove(longLine);
                 }
             }
+
             return lines;
         }
 
@@ -89,28 +91,31 @@ namespace Seedworks.Lib
         {
             var regex = new Regex(@"^\-?[0-9]+$");
             return regex.IsMatch(value);
-		}
+        }
 
-		public static int ToInt(this string value)
-		{
-			return Int32.Parse(value);
-		}
+        public static int ToInt(this string value)
+        {
+            return Int32.Parse(value);
+        }
 
         public static int ToInt32(this string value)
         {
             return Int32.Parse(value);
         }
 
-    	/// <summary>
-		/// Returns a new string which is guaranteed to end with the given suffix.
-		/// If the suffix is already present, the same string is returned.
-		/// </summary>
-		public static string EnsureEndsWith(this string value, string suffix)
-		{
-    	    return EnsureEndsWith(value, suffix, StringEnsureOptions.None);
-		}
+        /// <summary>
+        /// Returns a new string which is guaranteed to end with the given suffix.
+        /// If the suffix is already present, the same string is returned.
+        /// </summary>
+        public static string EnsureEndsWith(this string value, string suffix)
+        {
+            return EnsureEndsWith(value, suffix, StringEnsureOptions.None);
+        }
 
-        public static string EnsureEndsWith(this string value, string suffix, StringEnsureOptions options)
+        public static string EnsureEndsWith(
+            this string value,
+            string suffix,
+            StringEnsureOptions options)
         {
             if (options == StringEnsureOptions.IgnoreNullOrEmpty && string.IsNullOrEmpty(value))
                 return value;

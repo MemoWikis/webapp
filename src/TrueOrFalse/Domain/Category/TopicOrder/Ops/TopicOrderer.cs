@@ -13,7 +13,7 @@ public class TopicOrderer
         return true;
     }
 
-    public static void MoveIn(
+    public static async Task MoveInAsync(
         CategoryCacheRelation relation,
         int newParentId,
         int authorId,
@@ -28,60 +28,87 @@ public class TopicOrderer
             throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
-        modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
-        ModifyRelationsEntityCache.RemoveParent(EntityCache.GetCategory(relation.ChildId),
+        await modifyRelationsForCategory
+            .AddChildAsync(newParentId, relation.ChildId)
+            .ConfigureAwait(false);
+        ModifyRelationsEntityCache.RemoveParentAsync(EntityCache.GetCategory(relation.ChildId),
             relation.ParentId, authorId, modifyRelationsForCategory, permissionCheck);
     }
 
-    public static (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation>
-        UpdatedNewOrder) MoveBefore(
-            CategoryCacheRelation relation,
-            int beforeTopicId,
-            int newParentId,
-            int authorId,
-            ModifyRelationsForCategory modifyRelationsForCategory)
+    public static async Task<(
+        List<CategoryCacheRelation> UpdatedOldOrder,
+        List<CategoryCacheRelation> UpdatedNewOrder)> MoveBeforeAsync(
+        CategoryCacheRelation relation,
+        int beforeTopicId,
+        int newParentId,
+        int authorId,
+        ModifyRelationsForCategory modifyRelationsForCategory)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error(
-                "CategoryRelations - MoveBefore: circular reference - childId:{0}, parentId:{1}",
+                "CategoryRelations - MoveBeforeAsync: circular reference - childId:{0}, parentId:{1}",
                 relation.ChildId, newParentId);
             throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
-        var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId,
-            modifyRelationsForCategory);
+        var updatedNewOrder =
+            await AddBeforeAsync(
+                    relation.ChildId,
+                    beforeTopicId,
+                    newParentId,
+                    authorId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
         var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
+            await RemoveAsync(
+                    relation,
+                    relation.ParentId,
+                    authorId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
 
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    public static (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation>
-        UpdatedNewOrder) MoveAfter(
-            CategoryCacheRelation relation,
-            int afterTopicId,
-            int newParentId,
-            int authorId,
-            ModifyRelationsForCategory modifyRelationsForCategory)
+    public static async Task<(
+        List<CategoryCacheRelation> UpdatedOldOrder,
+        List<CategoryCacheRelation> UpdatedNewOrder)> MoveAfterAsync(
+        CategoryCacheRelation relation,
+        int afterTopicId,
+        int newParentId,
+        int authorId,
+        ModifyRelationsForCategory modifyRelationsForCategory)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error(
-                "CategoryRelations - MoveAfter: circular reference - childId:{0}, parentId:{1}",
+                "CategoryRelations - MoveAfterAsync: circular reference - childId:{0}, parentId:{1}",
                 relation.ChildId, newParentId);
             throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
-        var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId,
-            modifyRelationsForCategory);
+        var updatedNewOrder =
+            await AddAfterAsync(
+                    relation.ChildId,
+                    afterTopicId,
+                    newParentId,
+                    authorId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
+
         var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
+            await RemoveAsync(
+                    relation,
+                    relation.ParentId,
+                    authorId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
 
         return (updatedOldOrder, updatedNewOrder);
     }
 
-    public static List<CategoryCacheRelation> Remove(
+    public static async Task<List<CategoryCacheRelation>> RemoveAsync(
         CategoryCacheRelation relation,
         int oldParentId,
         int authorId,
@@ -119,8 +146,12 @@ public class TopicOrderer
             relations.RemoveAt(relationIndex);
             RemoveRelationFromParentRelations(relation);
             EntityCache.Remove(relation);
-            modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
-            modifyRelationsForCategory.DeleteRelationInDb(relation.Id, authorId);
+            await modifyRelationsForCategory
+                .UpdateRelationsInDbAsync(changedRelations, authorId)
+                .ConfigureAwait(false);
+            await modifyRelationsForCategory
+                .DeleteRelationInDbAsync(relation.Id, authorId)
+                .ConfigureAwait(false);
         }
 
         return relations.ToList();
@@ -136,7 +167,7 @@ public class TopicOrderer
             relations.RemoveAt(relationIndex);
     }
 
-    private static List<CategoryCacheRelation> AddBefore(
+    private static async Task<List<CategoryCacheRelation>> AddBeforeAsync(
         int topicId,
         int beforeTopicId,
         int parentId,
@@ -147,20 +178,21 @@ public class TopicOrderer
 
         var relations = parent.ChildRelations.ToList();
         var newRelations =
-            Insert(
-                topicId,
-                beforeTopicId,
-                parentId,
-                relations,
-                false,
-                authorId,
-                modifyRelationsForCategory);
+            await InsertAsync(
+                    topicId,
+                    beforeTopicId,
+                    parentId,
+                    relations,
+                    false,
+                    authorId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
 
         parent.ChildRelations = newRelations;
         return newRelations;
     }
 
-    private static List<CategoryCacheRelation> AddAfter(
+    private static async Task<List<CategoryCacheRelation>> AddAfterAsync(
         int topicId,
         int afterTopicId,
         int parentId,
@@ -171,20 +203,21 @@ public class TopicOrderer
 
         var relations = parent.ChildRelations.ToList();
         var newRelations =
-            Insert(
-                topicId,
-                afterTopicId,
-                parentId,
-                relations,
-                true,
-                authorId,
-                modifyRelationsForCategory);
+            await InsertAsync(
+                    topicId,
+                    afterTopicId,
+                    parentId,
+                    relations,
+                    true,
+                    authorId,
+                    modifyRelationsForCategory)
+                .ConfigureAwait(false);
 
         parent.ChildRelations = newRelations;
         return newRelations;
     }
 
-    private static List<CategoryCacheRelation> Insert(
+    private static async Task<List<CategoryCacheRelation>> InsertAsync(
         int childId,
         int targetTopicId,
         int parentId,
@@ -205,7 +238,7 @@ public class TopicOrderer
         if (targetPosition == -1)
         {
             Logg.r.Error(
-                "CategoryRelations - Insert: Targetposition not found - parentId:{0}, targetTopicId:{1}",
+                "CategoryRelations - InsertAsync: Targetposition not found - parentId:{0}, targetTopicId:{1}",
                 parentId, targetTopicId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
@@ -238,7 +271,9 @@ public class TopicOrderer
         currentRelation.Id = newRelationId;
 
         EntityCache.AddOrUpdate(currentRelation);
-        modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
+        await modifyRelationsForCategory
+            .UpdateRelationsInDbAsync(changedRelations, authorId)
+            .ConfigureAwait(false);
 
         return relations;
     }

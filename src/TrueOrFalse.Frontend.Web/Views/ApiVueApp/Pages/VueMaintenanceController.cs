@@ -152,7 +152,7 @@ public class VueMaintenanceController(
         };
     }
 
-    //todo: Remove when Meilisearch is active
+    //todo: RemoveAsync when Meilisearch is active
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
@@ -167,7 +167,7 @@ public class VueMaintenanceController(
         };
     }
 
-    //todo: Remove when Meilisearch is active
+    //todo: RemoveAsync when Meilisearch is active
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
@@ -182,7 +182,7 @@ public class VueMaintenanceController(
         };
     }
 
-    //todo: Remove when Meilisearch is active
+    //todo: RemoveAsync when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
     public async Task<VueMaintenanceResult> ReIndexAllUsers()

@@ -3,7 +3,7 @@
     public class CategoryDeleter_tests : BaseTest
     {
         [Test]
-        public void Should_delete_child()
+        public async Task Should_delete_child_async()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
@@ -31,7 +31,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            var requestResult = await categoryDeleter.DeleteTopicAsync(child.Id);
 
             //Assert
             Assert.IsNotNull(requestResult);
@@ -42,7 +42,7 @@
         }
 
         [Test]
-        public void Should_delete_child_of_child_and_remove_relation()
+        public async Task Should_delete_child_of_child_and_remove_relation_async()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
@@ -76,7 +76,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
+            var requestResult = await categoryDeleter.DeleteTopicAsync(childOfChild.Id);
 
             //Assert
             RecycleContainerAndEntityCache();
@@ -103,7 +103,7 @@
         }
 
         [Test]
-        public void Should_delete_child_of_child_and_remove_relations_in_EntityCache()
+        public async Task Should_delete_child_of_child_and_remove_relations_in_EntityCache()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
@@ -136,7 +136,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
+            var requestResult = await categoryDeleter.DeleteTopicAsync(childOfChild.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
@@ -166,7 +166,8 @@
 
         [Test]
         [Description("child has a child, so it can't be deleted or removed")]
-        public void Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
+        public async Task
+            Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
@@ -199,7 +200,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            var requestResult = await categoryDeleter.DeleteTopicAsync(child.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
@@ -212,7 +213,7 @@
 
         [Test]
         [Description("no rights")]
-        public void Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
+        public async Task Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
         {
             //Arrange
             var contextTopic = ContextCategory.New();
@@ -240,7 +241,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            var requestResult = await categoryDeleter.DeleteTopicAsync(child.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
