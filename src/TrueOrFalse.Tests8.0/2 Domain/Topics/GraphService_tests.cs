@@ -1,7 +1,4 @@
-﻿
-using NHibernate;
-
-class GraphService_tests : BaseTest
+﻿class GraphService_tests : BaseTest
 {
     [Test]
     public void Should_get_all_parents()
@@ -27,8 +24,8 @@ class GraphService_tests : BaseTest
         context.AddChild(context.All.ByName("Sub1"), context.All.ByName("SubSub1"));
 
         context.AddChild(root, context.All.ByName("Sub2"));
-        context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub2")); 
-        
+        context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub2"));
+
         context.AddChild(context.All.ByName("Sub1"), context.All.ByName("SubSub1and2"));
         context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub1and2"));
 

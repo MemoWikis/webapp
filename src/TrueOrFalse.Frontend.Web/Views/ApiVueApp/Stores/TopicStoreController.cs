@@ -3,29 +3,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class TopicStoreController : BaseController
+public class TopicStoreController(
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    CategoryRepository _categoryRepository,
+    IHttpContextAccessor _httpContextAccessor,
+    TopicGridManager _gridItemLogic) : BaseController(_sessionUser)
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly TopicGridManager _gridItemLogic;
-
-    public TopicStoreController(
-        SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        KnowledgeSummaryLoader knowledgeSummaryLoader,
-        CategoryRepository categoryRepository,
-        IHttpContextAccessor httpContextAccessor,
-        TopicGridManager gridItemLogic) : base(sessionUser)
-    {
-        _permissionCheck = permissionCheck;
-        _knowledgeSummaryLoader = knowledgeSummaryLoader;
-        _categoryRepository = categoryRepository;
-        _httpContextAccessor = httpContextAccessor;
-        _gridItemLogic = gridItemLogic;
-    }
-
     public readonly record struct SaveTopicParam(
         int id,
         string name,

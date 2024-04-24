@@ -1,16 +1,8 @@
-﻿public class LimitCheck
+﻿public class LimitCheck(Logg _logg, SessionUser _sessionUser)
 {
-    private readonly Logg _logg;
-    private readonly SessionUser _sessionUser;
     private static readonly int _privateQuestionsQuantity = 20;
     private static readonly int _privateTopicsQuantity = 10;
     private static readonly int _wishCountKnowledge = 50;
-
-    public LimitCheck(Logg logg, SessionUser sessionUser)
-    {
-        _logg = logg;
-        _sessionUser = sessionUser;
-    }
 
     public static dynamic GetBasicLimits()
     {
@@ -28,13 +20,13 @@
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
-        
+
         var withinLimit = _sessionUser.User.WishCountQuestions < _wishCountKnowledge;
 
         if (!withinLimit && logExceedance)
         {
             LogExceededLimit("question in wishknowledge", _logg);
-    	}
+        }
 
         return withinLimit;
     }
@@ -44,7 +36,8 @@
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
             return true;
 
-        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() < _privateQuestionsQuantity;
+        var withinLimit = EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() <
+                          _privateQuestionsQuantity;
 
         if (!withinLimit && logExceedance)
         {
@@ -52,7 +45,6 @@
         }
 
         return withinLimit;
-
     }
 
     public bool CanSavePrivateTopic(bool logExceedance = false)
@@ -60,8 +52,9 @@
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
-        
-        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() < _privateTopicsQuantity;
+
+        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() <
+                          _privateTopicsQuantity;
 
         if (!withinLimit && logExceedance)
         {

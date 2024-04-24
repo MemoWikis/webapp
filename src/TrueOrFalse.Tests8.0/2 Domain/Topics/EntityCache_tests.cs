@@ -1,7 +1,4 @@
-﻿
-using NHibernate;
-
-class EntityCache_tests : BaseTest
+﻿class EntityCache_tests : BaseTest
 {
     [Test]
     public void Should_get_direct_children()
@@ -39,7 +36,7 @@ class EntityCache_tests : BaseTest
         var children = context
             .Add("Sub1")
             .Add("SubSub1")
-            .Add("Sub2", visibility:CategoryVisibility.Owner)
+            .Add("Sub2", visibility: CategoryVisibility.Owner)
             .Persist()
             .All;
 
@@ -53,7 +50,8 @@ class EntityCache_tests : BaseTest
         var defaultUserId = -1;
         var permissionCheck = new PermissionCheck(defaultUserId);
 
-        var directChildren = GraphService.VisibleChildren(root.Id, permissionCheck, defaultUserId).First();
+        var directChildren = GraphService.VisibleChildren(root.Id, permissionCheck, defaultUserId)
+            .First();
         Assert.That(directChildren.Name, Is.EqualTo("Sub1"));
     }
 
@@ -109,8 +107,8 @@ class EntityCache_tests : BaseTest
         context.AddChild(context.All.ByName("Sub1"), context.All.ByName("SubSub1"));
 
         context.AddChild(root, context.All.ByName("Sub2"));
-        context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub2")); 
-        
+        context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub2"));
+
         context.AddChild(context.All.ByName("Sub1"), context.All.ByName("SubSub1and2"));
         context.AddChild(context.All.ByName("Sub2"), context.All.ByName("SubSub1and2"));
 
@@ -134,7 +132,6 @@ class EntityCache_tests : BaseTest
     [Test]
     public void Should_get_children_even_if_relations_are_faulty()
     {
-
     }
 
     //[Test]
@@ -159,7 +156,6 @@ class EntityCache_tests : BaseTest
     //    Assert.That(allChildren.Count(c => c.Name == "Sub1"), Is.EqualTo(1));
     //    Assert.That(allChildren.Count(c => c.Name == "SubSub1"), Is.EqualTo(1));
     //}
-
 
     //[Test]
     //public void Should_delete_all_child_of_relations()
@@ -190,7 +186,6 @@ class EntityCache_tests : BaseTest
 
     //    var question1 = contextQuestion.AddQuestion().Persist().All.First();
     //    question1.Categories.Add(rootCategory);
-
 
     //    R<QuestionWritingRepo>().UpdateOrMerge(question1, false);
 
@@ -272,7 +267,6 @@ class EntityCache_tests : BaseTest
     //    Assert.That(ContextCategory.HasCorrectChild(EntityCache.GetCategory(categories.ByName("E").Id), GetCategoryId("I", context)), Is.EqualTo(true));
     //    Assert.That(EntityCache.GetAllChildren(categories.ByName("X").Id).Count, Is.EqualTo(1));
 
-
     //    Assert.That(EntityCache.GetAllChildren(categories.ByName("D").Id).Count, Is.EqualTo(0));
     //    Assert.That(EntityCache.GetAllChildren(categories.ByName("F").Id).Count, Is.EqualTo(0));
     //    Assert.That(EntityCache.GetAllChildren(categories.ByName("H").Id).Count, Is.EqualTo(0));
@@ -285,5 +279,4 @@ class EntityCache_tests : BaseTest
     //{
     //    return categoryContext.All.Single(c => c.Name.Equals(topicName)).Id; 
     //}
-
 }

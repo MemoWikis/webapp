@@ -13,14 +13,13 @@ public class CategoryDeleter(
     CategoryRepository categoryRepo)
     : IRegisterAsInstancePerLifetime
 {
-
-    ///todo:(DaMa)  Revise: Wrong place for SQL commands.
     private HasDeleted Run(Category category, int userId, bool isTestCase = false)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
         var hasDeleted = new HasDeleted();
 
-        if (!_sessionUser.IsInstallationAdmin && _sessionUser.UserId != categoryCacheItem.Creator.Id)
+        if (!_sessionUser.IsInstallationAdmin &&
+            _sessionUser.UserId != categoryCacheItem.Creator.Id)
         {
             hasDeleted.IsNotCreatorOrAdmin = true;
             return hasDeleted;
@@ -29,10 +28,13 @@ public class CategoryDeleter(
         if (!isTestCase)
         {
             _session.CreateSQLQuery(
-                "DELETE FROM relatedcategoriestorelatedcategories where Related_id = " + category.Id).ExecuteUpdate();
-            _session.CreateSQLQuery("DELETE FROM relatedcategoriestorelatedcategories where Category_id = " +
-                                    category.Id).ExecuteUpdate();
-            _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " + category.Id)
+                "DELETE FROM relatedcategoriestorelatedcategories where Related_id = " +
+                category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery(
+                "DELETE FROM relatedcategoriestorelatedcategories where Category_id = " +
+                category.Id).ExecuteUpdate();
+            _session.CreateSQLQuery("DELETE FROM categories_to_questions where Category_id = " +
+                                    category.Id)
                 .ExecuteUpdate();
         }
 
@@ -50,14 +52,19 @@ public class CategoryDeleter(
         return hasDeleted;
     }
 
-    public record DeleteTopicResult(bool HasChildren, bool IsNotCreatorOrAdmin, bool Success, RedirectParent RedirectParent);
+    public record DeleteTopicResult(
+        bool HasChildren,
+        bool IsNotCreatorOrAdmin,
+        bool Success,
+        RedirectParent RedirectParent);
 
     public DeleteTopicResult DeleteTopic(int id)
     {
         var redirectParent = GetRedirectTopic(id);
         var topic = categoryRepo.GetById(id);
         if (topic == null)
-            throw new Exception("Category couldn't be deleted. Category with specified Id cannot be found.");
+            throw new Exception(
+                "Category couldn't be deleted. Category with specified Id cannot be found.");
 
         var parentIds =
             EntityCache.GetCategory(id).Parents().Select(c => c.Id)
@@ -78,18 +85,20 @@ public class CategoryDeleter(
         );
     }
 
-    public  record RedirectParent(string Name, int Id);
+    public record RedirectParent(string Name, int Id);
 
     private RedirectParent GetRedirectTopic(int id)
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
-        var lastBreadcrumbItem = crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
+        var lastBreadcrumbItem =
+            crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items.LastOrDefault();
 
         if (lastBreadcrumbItem != null)
-            return new RedirectParent(lastBreadcrumbItem.Category.Name, lastBreadcrumbItem.Category.Id);
+            return new RedirectParent(lastBreadcrumbItem.Category.Name,
+                lastBreadcrumbItem.Category.Id);
 
-        return new RedirectParent(currentWiki.Name, currentWiki.Id); 
+        return new RedirectParent(currentWiki.Name, currentWiki.Id);
     }
 
     private class HasDeleted

@@ -1,20 +1,24 @@
 public class UserActivityAdd
 {
-    public static void CreatedQuestion(Question question, UserReadingRepo userReadingRepo, UserActivityRepo userActivityRepo)
+    public static void CreatedQuestion(
+        Question question,
+        UserReadingRepo userReadingRepo,
+        UserActivityRepo userActivityRepo)
     {
-        if(question.Creator == null)
+        if (question.Creator == null)
             return;
-
-        var userCreator = userReadingRepo.GetById(question.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        var userCreator = userReadingRepo.GetById(question.Creator.Id);
         foreach (var follower in userCreator.Followers)
         {
-            userActivityRepo.Create(new UserActivity {
-                    UserConcerned = follower.Follower,
-                    At = DateTime.Now,
-                    Type = UserActivityType.CreatedQuestion,
-                    Question = question,
-                    UserCauser = question.Creator
-                }); 
+            userActivityRepo.Create(new UserActivity
+            {
+                UserConcerned = follower.Follower,
+                At = DateTime.Now,
+                Type = UserActivityType.CreatedQuestion,
+                Question = question,
+                UserCauser = question.Creator
+            });
         }
     }
 
@@ -22,12 +26,15 @@ public class UserActivityAdd
     /// Add Category to UserActivityRepo
     /// </summary>
     /// <param name="category"></param>
-    public static void CreatedCategory(Category category, UserReadingRepo userReadingRepo, UserActivityRepo userActivityRepo)
+    public static void CreatedCategory(
+        Category category,
+        UserReadingRepo userReadingRepo,
+        UserActivityRepo userActivityRepo)
     {
-        if(category.Creator == null)
+        if (category.Creator == null)
             return;
-
-        var userCreator = userReadingRepo.GetById(category.Creator.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        //need to reload user, because no session here, so lazy-load would prevent visibility of followers
+        var userCreator = userReadingRepo.GetById(category.Creator.Id);
         foreach (var follower in userCreator.Followers)
         {
             userActivityRepo.Create(new UserActivity
@@ -41,7 +48,10 @@ public class UserActivityAdd
         }
     }
 
-    public static void FollowedUser(User userFollows, User userIsFollowed, UserActivityRepo userActivityRepo)
+    public static void FollowedUser(
+        User userFollows,
+        User userIsFollowed,
+        UserActivityRepo userActivityRepo)
     {
         //var userFollowsFromDb = Sl.R<UserReadingRepo>().GetById(userFollows.Id); //need to reload user, because no session here, so lazy-load would prevent visibility of followers
         foreach (var follower in userFollows.Followers)
@@ -58,5 +68,4 @@ public class UserActivityAdd
         //not yet implemented: following the other way around (A follows B, C now follows B -> A so far does not get UserActivity [but: who would be Causer, C or B?])
         //when implementing this, sort out doubles (A follows B and C, C now follows B -> A should get only one UserActivity)
     }
-        
 }

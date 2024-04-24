@@ -1,59 +1,26 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using ISession = NHibernate.ISession;
 
 namespace VueApp;
 
-public class HistoryTopicDetailController : BaseController
+public class HistoryTopicDetailController(
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser,
+    RestoreCategory _restoreCategory,
+    CategoryChangeRepo _categoryChangeRepo,
+    CategoryRepository _categoryRepository,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    IActionContextAccessor _actionContextAccessor,
+    QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly RestoreCategory _restoreCategory;
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-
-    public HistoryTopicDetailController(PermissionCheck permissionCheck,
-        ISession nhibernatesession,
-        SessionUser sessionUser,
-        RestoreCategory restoreCategory,
-        CategoryChangeRepo categoryChangeRepo,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        CategoryRepository categoryRepository,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        IActionContextAccessor actionContextAccessor,
-        QuestionReadingRepo questionReadingRepo) : base(sessionUser)
-    {
-        _permissionCheck = permissionCheck;
-        _sessionUser = sessionUser;
-        _restoreCategory = restoreCategory;
-        _categoryChangeRepo = categoryChangeRepo;
-        _categoryRepository = categoryRepository;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _actionContextAccessor = actionContextAccessor;
-        _questionReadingRepo = questionReadingRepo;
-    }
-
     [HttpGet]
-    public JsonResult Get([FromQuery]int topicId, int currentRevisionId, int firstEditId = 0)
+    public JsonResult Get([FromQuery] int topicId, int currentRevisionId, int firstEditId = 0)
     {
-        if(!_permissionCheck.CanViewCategory(topicId))
+        if (!_permissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
 
         var listWithAllVersions = _categoryChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
@@ -61,7 +28,9 @@ public class HistoryTopicDetailController : BaseController
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == currentRevisionId);
 
-        var previousRevision = firstEditId <= 0 ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId) : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
+        var previousRevision = firstEditId <= 0
+            ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId)
+            : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
 
         if (currentRevision.Category.Id != previousRevision.Category.Id)
             throw new Exception("different topic ids");
@@ -75,9 +44,7 @@ public class HistoryTopicDetailController : BaseController
             _categoryChangeRepo,
             _categoryRepository,
             _imageMetaDataReadingRepo,
-            _sessionUserCache,
             _httpContextAccessor,
-            _webHostEnvironment,
             _actionContextAccessor,
             _questionReadingRepo);
 
@@ -92,7 +59,7 @@ public class HistoryTopicDetailController : BaseController
             previousChangeDate = previousRevision.DateCreated.ToString("dd.MM.yyyy HH:mm:ss"),
             authorName = currentAuthor.Name,
             authorId = currentAuthor.Id,
-            authorImgUrl = new UserImageSettings(currentAuthor.Id, 
+            authorImgUrl = new UserImageSettings(currentAuthor.Id,
                     _httpContextAccessor)
                 .GetUrl_20px_square(currentAuthor)
                 .Url
@@ -160,11 +127,12 @@ public class HistoryTopicDetailController : BaseController
         public string previousRelations { get; set; }
         public string currentDescription { get; set; }
         public string previousDescription { get; set; }
-
     }
 
-
-    public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(int categoryId, int firstEditId, int selectedRevId)
+    public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(
+        int categoryId,
+        int firstEditId,
+        int selectedRevId)
     {
         var listWithAllVersions = _categoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
@@ -180,9 +148,7 @@ public class HistoryTopicDetailController : BaseController
             _categoryChangeRepo,
             _categoryRepository,
             _imageMetaDataReadingRepo,
-            _sessionUserCache,
             _httpContextAccessor,
-            _webHostEnvironment,
             _actionContextAccessor,
             _questionReadingRepo);
     }
@@ -192,9 +158,11 @@ public class HistoryTopicDetailController : BaseController
     public void RestoreTopic(int topicChangeId)
     {
         var topicChange = _categoryChangeRepo.GetByIdEager(topicChangeId);
-        var isCorrectType = topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
+        var isCorrectType =
+            topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
 
-        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) || !_permissionCheck.CanEditCategory(topicChange.Category.Id))
+        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) ||
+            !_permissionCheck.CanEditCategory(topicChange.Category.Id))
             throw new Exception("not allowed");
 
         _restoreCategory.Run(topicChangeId, _sessionUser.User);

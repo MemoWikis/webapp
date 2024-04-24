@@ -5,7 +5,9 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchToQuestionMap
     {
-        public static MeiliSearchQuestionMap Run(Question question, IList<QuestionValuationCacheItem> questionValuations)
+        public static MeiliSearchQuestionMap Run(
+            Question question,
+            IList<QuestionValuationCacheItem> questionValuations)
         {
             return new MeiliSearchQuestionMap
             {

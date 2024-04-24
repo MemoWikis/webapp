@@ -1,38 +1,25 @@
 ﻿using Seedworks.Lib.Persistence;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
 public class Category : DomainEntity, ICreator
 {
     public virtual string Name { get; set; }
-
     public virtual string Description { get; set; }
-
     public virtual string WikipediaURL { get; set; }
-
     public virtual string Url { get; set; }
-
     public virtual string UrlLinkText { get; set; }
-
     public virtual bool DisableLearningFunctions { get; set; }
-
     public virtual User Creator { get; set; }
-
     public virtual bool IsUserStartTopic { get; set; }
-
     public virtual string AuthorIds { get; set; } = "";
+    public virtual string CategoriesToExcludeIdsString { get; set; }
 
     public virtual int[] AuthorIdsInts => AuthorIds?
         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()
         .ToArray();
-
-    public virtual string CategoriesToExcludeIdsString { get; set; }
 
     private IEnumerable<int> _categoriesToExcludeIds;
 
@@ -63,18 +50,15 @@ public class Category : DomainEntity, ICreator
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }
-
     public virtual CategoryType Type { get; set; }
-
     public virtual string TypeJson { get; set; }
-
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
-
     public virtual int TotalRelevancePersonalEntries { get; set; }
     public virtual bool IsHistoric { get; set; }
-
     public virtual CategoryVisibility Visibility { get; set; }
+    public virtual int FormerSetId { get; set; }
+    public virtual bool SkipMigration { get; set; }
 
     public Category()
     {
@@ -86,7 +70,4 @@ public class Category : DomainEntity, ICreator
         Name = name;
         AuthorIds = userId + ",";
     }
-
-    public virtual int FormerSetId { get; set; }
-    public virtual bool SkipMigration { get; set; }
 }

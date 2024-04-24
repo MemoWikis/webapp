@@ -1,15 +1,16 @@
-﻿
-
-class Order_tests : BaseTest
+﻿class Order_tests : BaseTest
 {
     [Test]
     public void SortTopics_ShouldCorrectlySortTopics()
     {
         var unsortedRelations = new List<CategoryCacheRelation>
         {
-            new CategoryCacheRelation { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new CategoryCacheRelation { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
+            new CategoryCacheRelation
+                { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new CategoryCacheRelation
+                { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new CategoryCacheRelation
+                { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
         };
 
         var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
@@ -26,13 +27,19 @@ class Order_tests : BaseTest
     {
         var unsortedRelations = new List<CategoryCacheRelation>
         {
-            new CategoryCacheRelation { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new CategoryCacheRelation { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
+            new CategoryCacheRelation
+                { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
+            new CategoryCacheRelation
+                { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
+            new CategoryCacheRelation
+                { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
 
-            new CategoryCacheRelation { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
-            new CategoryCacheRelation { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
+            new CategoryCacheRelation
+                { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
+            new CategoryCacheRelation
+                { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
+            new CategoryCacheRelation
+                { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
         };
 
         var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
@@ -115,8 +122,10 @@ class Order_tests : BaseTest
         var cachedRoot = EntityCache.GetCategory(root);
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<CategoryRelationRepo>();
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
-        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
+            modifyRelationsForCategory);
 
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
 
@@ -140,12 +149,16 @@ class Order_tests : BaseTest
 
         var firstCachedId = cachedRoot.ChildRelations[0].Id;
 
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id, Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId, Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId, Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id,
+            Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId,
+            Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId,
+            Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
 
         Assert.That(allRelationsInDb[2].Child.Id, Is.EqualTo(cachedRoot.ChildRelations[2].ChildId));
-        Assert.That(allRelationsInDb[2].PreviousId, Is.EqualTo(cachedRoot.ChildRelations[2].PreviousId));
+        Assert.That(allRelationsInDb[2].PreviousId,
+            Is.EqualTo(cachedRoot.ChildRelations[2].PreviousId));
         Assert.That(allRelationsInDb[2].NextId, Is.EqualTo(cachedRoot.ChildRelations[2].NextId));
     }
 
@@ -182,8 +195,10 @@ class Order_tests : BaseTest
         var cachedRoot = EntityCache.GetCategory(root);
         var relationToMove = cachedRoot.ChildRelations[2];
         var categoryRelationRepo = R<CategoryRelationRepo>();
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
-        TopicOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+        TopicOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
+            modifyRelationsForCategory);
 
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
 
@@ -207,15 +222,21 @@ class Order_tests : BaseTest
 
         var firstCachedId = cachedRoot.ChildRelations[0].Id;
 
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id, Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId, Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId, Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id,
+            Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId,
+            Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId,
+            Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
 
         var lastCachedId = cachedRoot.ChildRelations.LastOrDefault()?.Id;
 
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.Child.Id, Is.EqualTo(cachedRoot.ChildRelations[2].ChildId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.PreviousId, Is.EqualTo(cachedRoot.ChildRelations[2].PreviousId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.NextId, Is.EqualTo(cachedRoot.ChildRelations[2].NextId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.Child.Id,
+            Is.EqualTo(cachedRoot.ChildRelations[2].ChildId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.PreviousId,
+            Is.EqualTo(cachedRoot.ChildRelations[2].PreviousId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.NextId,
+            Is.EqualTo(cachedRoot.ChildRelations[2].NextId));
     }
 
     //Move sub1 after sub3 and before sub4
@@ -254,8 +275,10 @@ class Order_tests : BaseTest
         var cachedRoot = EntityCache.GetCategory(root);
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<CategoryRelationRepo>();
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
-        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1, modifyRelationsForCategory);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
+            modifyRelationsForCategory);
 
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(4));
 
@@ -283,15 +306,21 @@ class Order_tests : BaseTest
 
         var firstCachedId = cachedRoot.ChildRelations[0].Id;
 
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id, Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId, Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId, Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id,
+            Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.PreviousId,
+            Is.EqualTo(cachedRoot.ChildRelations[0].PreviousId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.NextId,
+            Is.EqualTo(cachedRoot.ChildRelations[0].NextId));
 
         var lastCachedId = cachedRoot.ChildRelations.LastOrDefault()?.Id;
 
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.Child.Id, Is.EqualTo(cachedRoot.ChildRelations[3].ChildId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.PreviousId, Is.EqualTo(cachedRoot.ChildRelations[3].PreviousId));
-        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.NextId, Is.EqualTo(cachedRoot.ChildRelations[3].NextId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.Child.Id,
+            Is.EqualTo(cachedRoot.ChildRelations[3].ChildId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.PreviousId,
+            Is.EqualTo(cachedRoot.ChildRelations[3].PreviousId));
+        Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == lastCachedId)?.NextId,
+            Is.EqualTo(cachedRoot.ChildRelations[3].NextId));
     }
 
     [Test]
@@ -326,12 +355,16 @@ class Order_tests : BaseTest
         var cachedRoot = EntityCache.GetCategory(root);
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<CategoryRelationRepo>();
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
-        var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove, sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
+        var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove,
+            sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
         Assert.That(ex.Message, Is.EqualTo("circular reference"));
 
-        var ex2 = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1, modifyRelationsForCategory));
+        var ex2 = Assert.Throws<Exception>(() =>
+            TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
+                modifyRelationsForCategory));
         Assert.That(ex2.Message, Is.EqualTo("circular reference"));
     }
 
@@ -367,9 +400,11 @@ class Order_tests : BaseTest
         var cachedSub1 = EntityCache.GetCategory(sub1);
         var relationToMove = cachedSub1.ChildRelations[0];
         var categoryRelationRepo = R<CategoryRelationRepo>();
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
 
-        TopicOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory, R<PermissionCheck>());
+        TopicOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
+            R<PermissionCheck>());
 
         Assert.That(cachedSub1.ChildRelations.Count, Is.EqualTo(0));
 

@@ -1,21 +1,9 @@
-﻿using TrueOrFalse.Utilities.ScheduledJobs;
-
-public class CategoryCreator : IRegisterAsInstancePerLifetime
+﻿public class CategoryCreator(
+    Logg _logg,
+    CategoryRepository _categoryRepository,
+    UserReadingRepo _userReadingRepo,
+    CategoryRelationRepo _categoryRelationRepo) : IRegisterAsInstancePerLifetime
 {
-    private readonly Logg _logg;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
-
-
-    public CategoryCreator(Logg logg, CategoryRepository categoryRepository, UserReadingRepo userReadingRepo, CategoryRelationRepo categoryRelationRepo)
-    {
-        _logg = logg;
-        _categoryRepository = categoryRepository;
-        _userReadingRepo = userReadingRepo;
-        _categoryRelationRepo = categoryRelationRepo;
-    }
-
     public RequestResult Create(string name, int parentTopicId, SessionUser sessionUser)
     {
         if (!new LimitCheck(_logg, sessionUser).CanSavePrivateTopic(true))
@@ -38,9 +26,10 @@ public class CategoryCreator : IRegisterAsInstancePerLifetime
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
 
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
         modifyRelationsForCategory.AddChild(parentTopicId, topic.Id);
-        
+
         return new RequestResult
         {
             success = true,

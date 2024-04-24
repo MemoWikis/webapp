@@ -12,16 +12,18 @@ public class BaseTest
 {
     private static IContainer _container;
     protected ILifetimeScope LifetimeScope;
+
     private static User _sessionUser => new User
     {
         Name = "SessionUser",
         Id = 1
     };
+
     static BaseTest()
     {
-        #if DEBUG
+#if DEBUG
         //            NHibernateProfiler.Initialize();
-        #endif
+#endif
     }
 
     [SetUp]
@@ -38,6 +40,7 @@ public class BaseTest
                 Console.WriteLine(service);
             }
         }
+
         var initializer = Resolve<EntityCacheInitializer>();
         initializer.Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
@@ -77,7 +80,9 @@ public class BaseTest
 
     private static void BuildContainer()
     {
-        _container = AutofacWebInitializer.GetTestContainer(SetWebHostEnvironment(), SetHttpContextAccessor());
+        _container =
+            AutofacWebInitializer.GetTestContainer(SetWebHostEnvironment(),
+                SetHttpContextAccessor());
         Console.WriteLine(_container.GetHashCode());
     }
 
@@ -88,6 +93,7 @@ public class BaseTest
         A.CallTo(() => fakeWebHostEnvironment.EnvironmentName).Returns("TestEnvironment");
         return fakeWebHostEnvironment;
     }
+
     private static IHttpContextAccessor SetHttpContextAccessor()
     {
         var httpContextAccessor = A.Fake<IHttpContextAccessor>();
@@ -96,7 +102,7 @@ public class BaseTest
         A.CallTo(() => httpContextAccessor.HttpContext).Returns(httpContext);
         A.CallTo(() => httpContext.Session).Returns(session);
 
-        SetSessionValues(session); 
+        SetSessionValues(session);
 
         return httpContextAccessor;
     }
@@ -120,5 +126,6 @@ public class BaseTest
     }
 
     public static T Resolve<T>() where T : notnull => _container.Resolve<T>();
+
     public static T R<T>() where T : notnull => _container.Resolve<T>();
 }
