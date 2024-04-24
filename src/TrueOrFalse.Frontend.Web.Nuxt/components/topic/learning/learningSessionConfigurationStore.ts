@@ -390,6 +390,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
         buildSessionConfigJson(id: number = 0, isInLearningTab = true) {
             const topicStore = useTopicStore()
+            const userStore = useUserStore()
 
             const json: { [key: string]: any; } = {}
             const base: { [key: string]: any; } = {
@@ -402,7 +403,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 NotCreatedByCurrentUser: this.questionFilterOptions.notCreatedByCurrentUser.isSelected,
                 PrivateQuestions: this.questionFilterOptions.privateQuestions.isSelected,
                 PublicQuestions: this.questionFilterOptions.publicQuestions.isSelected,
-
+                CurrentUserId: userStore.id,
                 NotLearned: this.knowledgeSummary.notLearned.isSelected,
                 NeedsLearning: this.knowledgeSummary.needsLearning.isSelected,
                 NeedsConsolidation: this.knowledgeSummary.needsConsolidation.isSelected,

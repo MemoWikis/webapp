@@ -7,7 +7,9 @@ public class LearningSessionConfigurationStoreController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
 
-    public LearningSessionConfigurationStoreController(SessionUser sessionUser, LearningSessionCreator learningSessionCreator) : base(sessionUser)
+    public LearningSessionConfigurationStoreController(
+        SessionUser sessionUser,
+        LearningSessionCreator learningSessionCreator) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
     }
@@ -15,10 +17,6 @@ public class LearningSessionConfigurationStoreController : BaseController
     [HttpPost]
     public QuestionCounter GetCount([FromBody] LearningSessionConfig config)
     {
-        if (config.CurrentUserId == 0 && _sessionUser.IsLoggedIn)
-            config.CurrentUserId = _sessionUser.UserId;
-
         return _learningSessionCreator.GetQuestionCounterForLearningSession(config);
     }
-
 }
