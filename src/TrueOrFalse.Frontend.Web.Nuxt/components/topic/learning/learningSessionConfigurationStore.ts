@@ -394,20 +394,20 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             const json: { [key: string]: any; } = {}
             const base: { [key: string]: any; } = {
-                CategoryId: topicStore.id,
+                categoryId: topicStore.id,
                 maxQuestionCount: this.selectedQuestionCount,
 
-                InWuwi: this.questionFilterOptions.inWuwi.isSelected,
-                NotInWuwi: this.questionFilterOptions.notInWuwi.isSelected,
-                CreatedByCurrentUser: this.questionFilterOptions.createdByCurrentUser.isSelected,
-                NotCreatedByCurrentUser: this.questionFilterOptions.notCreatedByCurrentUser.isSelected,
-                PrivateQuestions: this.questionFilterOptions.privateQuestions.isSelected,
-                PublicQuestions: this.questionFilterOptions.publicQuestions.isSelected,
-                CurrentUserId: userStore.id,
-                NotLearned: this.knowledgeSummary.notLearned.isSelected,
-                NeedsLearning: this.knowledgeSummary.needsLearning.isSelected,
-                NeedsConsolidation: this.knowledgeSummary.needsConsolidation.isSelected,
-                Solid: this.knowledgeSummary.solid.isSelected,
+                inWuwi: this.questionFilterOptions.inWuwi.isSelected,
+                notInWuwi: this.questionFilterOptions.notInWuwi.isSelected,
+                createdByCurrentUser: this.questionFilterOptions.createdByCurrentUser.isSelected,
+                notCreatedByCurrentUser: this.questionFilterOptions.notCreatedByCurrentUser.isSelected,
+                privateQuestions: this.questionFilterOptions.privateQuestions.isSelected,
+                publicQuestions: this.questionFilterOptions.publicQuestions.isSelected,
+                currentUserId: userStore.id,
+                notLearned: this.knowledgeSummary.notLearned.isSelected,
+                needsLearning: this.knowledgeSummary.needsLearning.isSelected,
+                needsConsolidation: this.knowledgeSummary.needsConsolidation.isSelected,
+                solid: this.knowledgeSummary.solid.isSelected,
                 isInLearningTab: isInLearningTab
             }
 
@@ -416,9 +416,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             if (this.isPracticeMode) {
                 const practiceJson: { [key: string]: any; } = {
-                    QuestionOrder: this.practiceOptions.questionOrder,
-                    Repetition: this.practiceOptions.repetition,
-                    AnswerHelp: this.practiceOptions.answerHelp
+                    questionOrder: this.practiceOptions.questionOrder,
+                    repetition: this.practiceOptions.repetition,
+                    answerHelp: this.practiceOptions.answerHelp
                 }
 
                 Object.keys(practiceJson)
@@ -427,10 +427,10 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             } else if (this.isTestMode) {
 
                 const testJson: { [key: string]: any; } = {
-                    QuestionOrder: this.testOptions.questionOrder,
-                    Repetition: 0,
-                    AnswerHelp: false,
-                    TimeLimit: this.testOptions.timeLimit
+                    questionOrder: this.testOptions.questionOrder,
+                    repetition: 0,
+                    answerHelp: false,
+                    timeLimit: this.testOptions.timeLimit
                 }
 
                 Object.keys(testJson)
