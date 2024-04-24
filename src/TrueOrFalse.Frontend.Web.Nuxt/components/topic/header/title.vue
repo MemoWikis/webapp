@@ -23,7 +23,7 @@ function resize() {
 
 function getAuthors() {
     console.log(topicStore.authors.length, "authors length")
-    
+
 }
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
@@ -75,8 +75,8 @@ const topic = useState<Topic>('topic')
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle">
-            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea" v-model="topicStore.name"
-                v-if="topicStore" :readonly="readonly"></textarea>
+            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
+                v-model="topicStore.name" v-if="topicStore" :readonly="readonly"></textarea>
             <template v-else-if="topic">
                 {{ topic.name }}
             </template>
@@ -163,9 +163,23 @@ const topic = useState<Topic>('topic')
         </div>
     </div>
 </template>
-                           
+
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+.header-author-icon {
+    height: 20px;
+    width: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    margin: 0 4px;
+    max-height: 20px;
+    max-width: 20px;
+
+    .img {
+        object-fit: cover;
+    }
+}
 
 #TopicHeaderContainer {
     padding-left: 20px;
