@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using NHibernate;
 using NHibernate.SqlCommand;
 
@@ -56,10 +55,10 @@ namespace Seedworks.Lib.Persistence
                 criteria.CreateAlias(alias.Key, alias.Value, JoinType.LeftOuterJoin);
         }
 
-		public virtual void Reset()
-		{
-			ForEach(cond => cond.Reset());
-			Clear();
-		}
+        public virtual void Reset()
+        {
+            ForEach(cond => cond.Reset());
+            Clear();
+        }
     }
 }

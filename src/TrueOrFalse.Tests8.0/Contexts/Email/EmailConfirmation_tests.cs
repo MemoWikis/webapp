@@ -1,20 +1,19 @@
-﻿using System;
-using NHibernate;
-
-public class EmailConfirmationServiceTests : BaseTest
+﻿public class EmailConfirmationServiceTests : BaseTest
 {
     private readonly EmailConfirmationService _emailConfirmationService;
 
     public EmailConfirmationServiceTests()
 
     {
-        _emailConfirmationService = new EmailConfirmationService(R<UserReadingRepo>(), R<UserWritingRepo>());
+        _emailConfirmationService =
+            new EmailConfirmationService(R<UserReadingRepo>(), R<UserWritingRepo>());
     }
 
     [Test]
     public void CreateEmailConfirmationToken_ReturnsExpectedFormat()
     {
-        var user = new User { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        var user = new User
+            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
 
         // Split the token and make sure there are two parts
@@ -28,7 +27,8 @@ public class EmailConfirmationServiceTests : BaseTest
     [Test]
     public void TryConfirmEmailTest_ReturnsTrue_WhenTokenIsValid()
     {
-        var user = new User { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        var user = new User
+            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
 
         var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
@@ -39,7 +39,8 @@ public class EmailConfirmationServiceTests : BaseTest
     [Test]
     public void TryConfirmEmailTest_ReturnsFalse_WhenTokenIsInvalid()
     {
-        var user = new User { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        var user = new User
+            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
         var token = "invalid-token";
 
         var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
@@ -50,14 +51,15 @@ public class EmailConfirmationServiceTests : BaseTest
     [Test]
     public void Run_ReturnsExpectedUrl()
     {
-        var user = new User { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
-        var expectedUrl = "https://memucho.de/EmailBestaetigen/" + EmailConfirmationService.CreateEmailConfirmationToken(user);
+        var user = new User
+            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        var expectedUrl = "https://memucho.de/EmailBestaetigen/" +
+                          EmailConfirmationService.CreateEmailConfirmationToken(user);
 
         var result = CreateEmailConfirmationLink.Run(user);
 
         Assert.That(expectedUrl, Is.EqualTo(result));
     }
-
 
     [Test]
     public void CreateEmailConfirmationToken_ShouldReturnValidToken_WhenDateCreatedIsISOFormat()
@@ -134,7 +136,8 @@ public class EmailConfirmationServiceTests : BaseTest
 
         var tokenIso = EmailConfirmationService.CreateEmailConfirmationToken(userIsoFormat);
         var tokenSimple = EmailConfirmationService.CreateEmailConfirmationToken(userSimpleFormat);
-        var tokenDayFirst = EmailConfirmationService.CreateEmailConfirmationToken(userDayFirstFormat);
+        var tokenDayFirst =
+            EmailConfirmationService.CreateEmailConfirmationToken(userDayFirstFormat);
 
         Assert.That(tokenIso, Is.EqualTo(tokenSimple));
         Assert.That(tokenSimple, Is.EqualTo(tokenDayFirst));

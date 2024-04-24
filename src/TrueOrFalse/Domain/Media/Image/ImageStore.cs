@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Web;
 using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
@@ -17,9 +16,8 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         IHttpContextAccessor httpContextAccessor,
         QuestionReadingRepo questionReadingRepo,
         IWebHostEnvironment webHostEnvironment
-        )
+    )
     {
-
         _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
         _logg = logg;
         _httpContextAccessor = httpContextAccessor;
@@ -29,9 +27,9 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
     public void RunWikimedia(
         string imageWikiFileName,
-        int typeId, 
+        int typeId,
         ImageType imageType,
-        int userId, 
+        int userId,
         IImageSettings imageSettings)
     {
         var wikiMetaData = WikiImageMetaLoader.Run(imageWikiFileName, 1024);
@@ -49,8 +47,8 @@ public class ImageStore : IRegisterAsInstancePerLifetime
     }
 
     public void RunWikimedia<T>(
-        string imageWikiFileName, 
-        int typeId, 
+        string imageWikiFileName,
+        int typeId,
         ImageType imageType,
         int userId) where T : IImageSettings
     {
@@ -59,7 +57,12 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         RunWikimedia(imageWikiFileName, typeId, imageType, userId, imageSettings);
     }
 
-    public void RunUploaded<T>(TmpImage tmpImage, int typeId, int userId, string licenseGiverName, string relocateUrl = null) where T : IImageSettings
+    public void RunUploaded<T>(
+        TmpImage tmpImage,
+        int typeId,
+        int userId,
+        string licenseGiverName,
+        string relocateUrl = null) where T : IImageSettings
     {
         var imageSettings = Activator.CreateInstance<T>();
         imageSettings.Init(typeId);
@@ -80,11 +83,12 @@ public class ImageStore : IRegisterAsInstancePerLifetime
             }
         }
 
-
-        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType,
+            licenseGiverName);
     }
 
-    public void RunUploaded<T>(IFormFile imageFile, int typeId, int userId, string licenseGiverName) where T : IImageSettings
+    public void RunUploaded<T>(IFormFile imageFile, int typeId, int userId, string licenseGiverName)
+        where T : IImageSettings
     {
         var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
             .Create<T>(typeId);
@@ -99,6 +103,7 @@ public class ImageStore : IRegisterAsInstancePerLifetime
 
         SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
 
-        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType, licenseGiverName);
+        _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType,
+            licenseGiverName);
     }
 }

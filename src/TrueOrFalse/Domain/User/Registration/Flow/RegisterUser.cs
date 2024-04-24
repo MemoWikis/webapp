@@ -12,7 +12,8 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly CategoryRepository _categoryRepository;
 
-    public RegisterUser(ISession session,
+    public RegisterUser(
+        ISession session,
         JobQueueRepo jobQueueRepo,
         UserReadingRepo userReadingRepo,
         MessageRepo messageRepo,
@@ -29,31 +30,33 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         _categoryRepository = categoryRepository;
     }
 
-    private RequestResult RegisterAndLogin(User user)
+    public readonly record struct RegisterResult(bool Success, string MessageKey);
+
+    private RegisterResult RegisterAndLogin(User user)
     {
         using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
         {
             if (IsEmailAddressAvailable.No(user.EmailAddress, _userReadingRepo))
-                return new RequestResult
+                return new RegisterResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.EmailInUse
                 };
 
             if (IsEmailAdressFormat.NotValid(user.EmailAddress))
-                return new RequestResult
+                return new RegisterResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.FalseEmailFormat
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.FalseEmailFormat
                 };
 
             if (!user.IsFacebookUser &&
                 !user.IsGoogleUser &&
                 IsUserNameAvailable.No(user.Name, _userReadingRepo))
-                return new RequestResult
+                return new RegisterResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.UserNameInUse
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
                 };
 
             InitializeReputation(user);
@@ -73,13 +76,13 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
         _userWritingRepo.Update(user);
 
-        return new RequestResult
+        return new RegisterResult
         {
-            success = true,
+            Success = true,
         };
     }
 
-    public RequestResult SetFacebookUser(FacebookUserCreateParameter facebookUser)
+    public RegisterResult SetFacebookUser(FacebookUserCreateParameter facebookUser)
     {
         var user = new User
         {
@@ -91,7 +94,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         return RegisterAndLogin(user);
     }
 
-    public RequestResult SetGoogleUser(GoogleUserCreateParameter googleUser)
+    public RegisterResult SetGoogleUser(GoogleUserCreateParameter googleUser)
     {
         var user = new User
         {
@@ -113,7 +116,8 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
                         .Add(Projections.Max<User>(u => u.ReputationPos)))
                 .SingleOrDefault<int>() + 1;
     }
-    public RequestResult SetUser(RegisterJson json)
+
+    public RegisterResult SetUser(RegisterJson json)
     {
         var user = new User();
         user.EmailAddress = json.Email.TrimAndReplaceWhitespacesWithSingleSpace();

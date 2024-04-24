@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Seedworks.Web.State;
+﻿using System.Xml.Linq;
 
 public class OverwrittenConfig
 {
@@ -40,14 +35,12 @@ public class OverwrittenConfig
         if (_xDoc == null)
         {
             string filePath = Path.Combine(AppContext.BaseDirectory, "Web.overwritten.config");
-            
 
             if (!File.Exists(filePath))
                 return new OverwrittenConfigValueResult(false, null);
 
             _xDoc = XDocument.Load(filePath);
         }
-
 
         if (_xDoc.Root.Element(itemName) == null)
             return new OverwrittenConfigValueResult(false, null);

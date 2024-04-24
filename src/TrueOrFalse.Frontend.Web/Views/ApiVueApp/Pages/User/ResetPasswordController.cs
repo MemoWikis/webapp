@@ -4,77 +4,76 @@ using NHibernate;
 
 namespace VueApp;
 
-public class ResetPasswordController : BaseController
+public class ResetPasswordController(
+    PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator,
+    SessionUser _sessionUser,
+    VueSessionUser _vueSessionUser,
+    UserReadingRepo _userReadingRepo,
+    UserWritingRepo _userWritingRepo,
+    ISession _session) : Controller
 {
-    private readonly PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator;
-    private readonly VueSessionUser _vueSessionUser;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-    private readonly ISession _session;
+    public record struct ValidateTokenResult(bool Success, string MessageKey);
 
-    public ResetPasswordController(PasswordRecoveryTokenValidator passwordRecoveryTokenValidator,
-        SessionUser sessionUser, 
-        VueSessionUser vueSessionUser,
-        UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo,
-        ISession session) :base(sessionUser)
-    {
-        _passwordRecoveryTokenValidator = passwordRecoveryTokenValidator;
-        _vueSessionUser = vueSessionUser;
-        _userReadingRepo = userReadingRepo;
-        _userWritingRepo = userWritingRepo;
-        _session = session;
-    }
-
-    private RequestResult ValidateToken(string token)
+    private ValidateTokenResult ValidateToken(string token)
     {
         var passwordToken = _passwordRecoveryTokenValidator.Run(token);
-        var result = new RequestResult
+        var result = new ValidateTokenResult
         {
-            success = true
+            Success = true
         };
 
         if (passwordToken == null)
         {
-            result.success = false;
-            result.messageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsInvalid;
+            result.Success = false;
+            result.MessageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsInvalid;
         }
         else if ((DateTime.Now - passwordToken.DateCreated).TotalDays > 3)
         {
-            result.success = false;
-            result.messageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsExpired;
+            result.Success = false;
+            result.MessageKey = FrontendMessageKeys.Error.User.PasswordResetTokenIsExpired;
         }
 
         return result;
     }
 
+    public readonly record struct ValidateResult(bool Success, string MessageKey);
+
     [HttpGet]
-    public JsonResult Validate([FromRoute] string token)
+    public ValidateResult Validate([FromRoute] string token)
     {
-        return Json(ValidateToken(token));
+        var validateToken = ValidateToken(token);
+        return new ValidateResult
+            { Success = validateToken.Success, MessageKey = validateToken.MessageKey };
     }
 
     public readonly record struct SetNewPasswordJson(string token, string password);
+
+    public readonly record struct SetNewPasswordResult(
+        bool Success,
+        VueSessionUser.CurrentUserData Data,
+        string MessageKey);
+
     [HttpPost]
-    public JsonResult SetNewPassword([FromBody] SetNewPasswordJson json)
+    public SetNewPasswordResult SetNewPassword([FromBody] SetNewPasswordJson json)
     {
         var validationResult = ValidateToken(json.token);
-        if (validationResult.success == false)
+        if (validationResult.Success == false)
         {
-            return Json(validationResult);
+            return new SetNewPasswordResult
+                { Success = validationResult.Success, MessageKey = validationResult.MessageKey };
         }
+
         var result = PasswordResetPrepare.Run(json.token, _session);
+
         if (json.password.Trim().Length < 5)
         {
-            return Json(new RequestResult
+            return new SetNewPasswordResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.PasswordTooShort
-            });
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.PasswordTooShort
+            };
         }
 
-
-       
         var user = _userReadingRepo.GetByEmail(result.Email);
 
         if (user == null)
@@ -84,10 +83,10 @@ public class ResetPasswordController : BaseController
         _userWritingRepo.Update(user);
 
         _sessionUser.Login(user);
-        return Json(new RequestResult
+        return new SetNewPasswordResult
         {
-            success = true,
-            data = _vueSessionUser.GetCurrentUserData()
-        });
+            Success = true,
+            Data = _vueSessionUser.GetCurrentUserData()
+        };
     }
 }

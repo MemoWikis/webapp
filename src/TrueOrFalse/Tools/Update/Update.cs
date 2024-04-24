@@ -10,8 +10,9 @@ public class Update : IRegisterAsInstancePerLifetime
     private UserReadingRepo _userReadingRepo;
     private UserWritingRepo _userWritingRepo;
 
-    public Update(UpdateStepExecuter updateStepExecuter,
-        ISession nhibernateSession, 
+    public Update(
+        UpdateStepExecuter updateStepExecuter,
+        ISession nhibernateSession,
         CategoryRepository categoryRepository,
         UserWritingRepo userWritingRepo,
         UserReadingRepo userReadingRepo)
@@ -41,7 +42,7 @@ public class Update : IRegisterAsInstancePerLifetime
             .Add(251, () => UpdateToVs251.Run(_nhibernateSession))
             .Add(252, () => UpdateToVs252.Run(_nhibernateSession))
             .Add(253, () => UpdateToVs253.Run(_nhibernateSession))
-            .Add(254, () => UpdateToVs254.Run(_nhibernateSession))                               
+            .Add(254, () => UpdateToVs254.Run(_nhibernateSession))
             .Add(255, () => UpdateToVs255.Run(_nhibernateSession))
             .Add(256, () => UpdateToVs256.Run(_nhibernateSession))
             .Add(257, () => UpdateToVs257.Run(_nhibernateSession))
@@ -53,7 +54,8 @@ public class Update : IRegisterAsInstancePerLifetime
             .Add(263, () => UpdateToVs263.Run(_nhibernateSession))
             .Add(264, () => UpdateToVs264.Run(_nhibernateSession))
             .Add(265, () => UpdateToVs265.Run(_nhibernateSession))
-            .Add(266, () => UpdateToVs266.Run(_categoryRepository, _userWritingRepo, _userReadingRepo))
+            .Add(266,
+                () => UpdateToVs266.Run(_categoryRepository, _userWritingRepo, _userReadingRepo))
             .Add(267, () => UpdateToVs267.Run(_nhibernateSession))
             .Add(268, () => UpdateToVs268.Run(_nhibernateSession))
             .Run();

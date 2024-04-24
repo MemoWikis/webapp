@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Web.Context
@@ -18,13 +17,14 @@ namespace TrueOrFalse.Web.Context
             {
                 return false;
             }
+
             return BitConverter.ToBoolean(data, 0);
         }
 
         public static T? Get<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ?  default : JsonSerializer.Deserialize<T>(value);
+            return value == null ? default : JsonSerializer.Deserialize<T>(value);
         }
 
         public static void Set<T>(this ISession session, string key, T value)

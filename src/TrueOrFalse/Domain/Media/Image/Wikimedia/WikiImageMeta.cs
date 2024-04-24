@@ -1,11 +1,10 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 
 namespace TrueOrFalse
 {
     public class WikiImageMeta
     {
-        public string ApiHost; 
+        public string ApiHost;
 
         public bool ImageNotFound;
 
@@ -18,11 +17,13 @@ namespace TrueOrFalse
 
         /// <summary>Original Image Width</summary>
         public int ImageOriginalWidth;
+
         /// <summary>Original Image Height</summary>
         public int ImageOriginalHeight;
+
         /// <summary>Original Image URL</summary>
         public string ImageOriginalUrl;
-        
+
         public string ImageUrlDescription;
 
         public int ImageWidth;
@@ -35,7 +36,7 @@ namespace TrueOrFalse
         public string JSonResult;
 
         public Stream GetThumbImageStream()
-        { 
+        {
             var request = (HttpWebRequest)WebRequest.Create(ImageUrl);
             WikiImageMetaLoader.SetUserAgent(request);
             var response = (HttpWebResponse)request.GetResponse();

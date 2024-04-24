@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using static System.String;
 
 namespace TrueOrFalse.WikiMarkup
@@ -20,7 +18,7 @@ namespace TrueOrFalse.WikiMarkup
 
         public Parameter(List<string> currentParameterTokens)
         {
-            Raw = currentParameterTokens.Aggregate((a,b) => a + ' ' + b);
+            Raw = currentParameterTokens.Aggregate((a, b) => a + ' ' + b);
             Tokens = currentParameterTokens;
 
             if (Raw.Contains("="))
@@ -46,7 +44,7 @@ namespace TrueOrFalse.WikiMarkup
                 if (Key != null) Key = Key.Trim();
                 if (Value != null) Value = Value.Trim();
             }
-            else//!Raw.Contains("=")
+            else //!Raw.Contains("=")
             {
                 Value = Raw;
             }

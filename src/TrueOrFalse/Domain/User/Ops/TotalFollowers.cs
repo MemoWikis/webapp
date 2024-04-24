@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using NHibernate;
+﻿using NHibernate;
 
 public class TotalFollowers : IRegisterAsInstancePerLifetime
 {
@@ -9,6 +8,7 @@ public class TotalFollowers : IRegisterAsInstancePerLifetime
     {
         _nhibernateSession = nhibernateSession;
     }
+
     public int Run(int userId)
     {
         return Convert.ToInt32(_nhibernateSession.CreateSQLQuery(

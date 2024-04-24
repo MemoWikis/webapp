@@ -1,15 +1,15 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse.Search;
+
 public class MeiliGlobalSearch : IGlobalSearch
 {
     private readonly PermissionCheck _permissionCheck;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public MeiliGlobalSearch(PermissionCheck permissionCheck,
+    public MeiliGlobalSearch(
+        PermissionCheck permissionCheck,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
@@ -17,6 +17,7 @@ public class MeiliGlobalSearch : IGlobalSearch
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
     }
+
     public async Task<GlobalSearchResult> Go(string term)
     {
         var result = new GlobalSearchResult();
@@ -27,17 +28,22 @@ public class MeiliGlobalSearch : IGlobalSearch
         return result;
     }
 
-    public async Task<GlobalSearchResult> GoAllCategories(string term, int[] categoriesToFilter = null)
+    public async Task<GlobalSearchResult> GoAllCategoriesAsync(
+        string term,
+        int[] categoriesToFilter = null)
     {
         var result = new GlobalSearchResult();
-        result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck, 10).RunAsync(term);
+        result.CategoriesResult =
+            await new MeiliSearchCategories(_permissionCheck, 10).RunAsync(term)
+                .ConfigureAwait(false);
         return result;
     }
 
     public async Task<GlobalSearchResult> GoNumberOfCategories(string term, int size)
     {
         var result = new GlobalSearchResult();
-        result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck, size).RunAsync(term);
+        result.CategoriesResult =
+            await new MeiliSearchCategories(_permissionCheck, size).RunAsync(term);
         return result;
     }
 }

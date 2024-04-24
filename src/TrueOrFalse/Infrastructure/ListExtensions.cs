@@ -1,6 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using Seedworks.Lib.Persistence;
 
@@ -51,20 +49,27 @@ public static class ListExtensions
         return -1;
     }
 
-    public static ConcurrentDictionary<int, TElement> ToConcurrentDictionary<TElement>(this IList<TElement> list)
+    public static ConcurrentDictionary<int, TElement> ToConcurrentDictionary<TElement>(
+        this IList<TElement> list)
         where TElement : IPersistable
     {
         return new ConcurrentDictionary<int, TElement>(
             list.Select(item => new KeyValuePair<int, TElement>(item.Id, item))
         );
     }
-    public static ConcurrentDictionary<int, QuestionCacheItem> ToConcurrentDictionary(this IList<QuestionCacheItem> list)
+
+    public static ConcurrentDictionary<int, QuestionCacheItem> ToConcurrentDictionary(
+        this IList<QuestionCacheItem> list)
     {
-        return new ConcurrentDictionary<int, QuestionCacheItem>(list.Select(UserCacheQuestion => new KeyValuePair<int, QuestionCacheItem>(UserCacheQuestion.Id, UserCacheQuestion)));
+        return new ConcurrentDictionary<int, QuestionCacheItem>(list.Select(UserCacheQuestion =>
+            new KeyValuePair<int, QuestionCacheItem>(UserCacheQuestion.Id, UserCacheQuestion)));
     }
 
-    public static ConcurrentDictionary<(int, int), ImageMetaData> ToConcurrentDictionary(this IList<ImageMetaData> list)
+    public static ConcurrentDictionary<(int, int), ImageMetaData> ToConcurrentDictionary(
+        this IList<ImageMetaData> list)
     {
-        return new ConcurrentDictionary<(int, int), ImageMetaData>(list.Select(imageMetaData => new KeyValuePair<(int, int), ImageMetaData>((imageMetaData.TypeId, (int)imageMetaData.Type), imageMetaData)));
+        return new ConcurrentDictionary<(int, int), ImageMetaData>(list.Select(imageMetaData =>
+            new KeyValuePair<(int, int), ImageMetaData>(
+                (imageMetaData.TypeId, (int)imageMetaData.Type), imageMetaData)));
     }
 }

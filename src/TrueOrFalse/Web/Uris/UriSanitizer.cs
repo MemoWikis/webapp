@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using static System.String;
@@ -13,25 +12,25 @@ namespace TrueOrFalse.Web
                 name = "_";
 
             name = new string(name.Where(IsValidChar)
-                                  .SelectMany(Transform)
-                                  .Take(maxLength).ToArray());
+                .SelectMany(Transform)
+                .Take(maxLength).ToArray());
 
             name = name.Replace("---", "-").Replace("--", "-");
 
-            return HttpUtility.UrlEncode(name); 
+            return HttpUtility.UrlEncode(name);
         }
 
         private static bool IsValidChar(char chr)
         {
             if (Regex.IsMatch(chr.ToString(), "[a-zA-Z0-9-_ ÄäÜüÖöß]", RegexOptions.Compiled))
                 return true;
-            
+
             return false;
         }
 
         private static char[] Transform(char chr)
         {
-            if (chr == 'ä') return new[] { 'a', 'e'};
+            if (chr == 'ä') return new[] { 'a', 'e' };
             if (chr == 'Ä') return new[] { 'A', 'e' };
             if (chr == 'ü') return new[] { 'u', 'e' };
             if (chr == 'Ü') return new[] { 'U', 'e' };
@@ -45,7 +44,7 @@ namespace TrueOrFalse.Web
             if (chr == '_')
                 return new[] { '-' };
 
-            return new []{chr};
+            return new[] { chr };
         }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TrueOrFalse.Web;
 using static CategoryDeleter;
 
 public class DeleteTopicStoreController(

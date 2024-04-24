@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Web;
 
 public class RemovePersistentLoginFromCookie
 {
-    public static void Run(PersistentLoginRepo persistentLoginRepo, IHttpContextAccessor httpContextAccessor)
+    public static void Run(
+        PersistentLoginRepo persistentLoginRepo,
+        IHttpContextAccessor httpContextAccessor)
     {
         var persistentCookieValue = PersistentLoginCookie.GetValues(httpContextAccessor);
 
@@ -12,7 +13,8 @@ public class RemovePersistentLoginFromCookie
 
         persistentLoginRepo.Delete(persistentCookieValue.UserId);
 
-        var existingCookieValue = httpContextAccessor.HttpContext?.Request.Cookies[PersistentLoginCookie.Key];
+        var existingCookieValue =
+            httpContextAccessor.HttpContext?.Request.Cookies[PersistentLoginCookie.Key];
         if (existingCookieValue != null)
         {
             httpContextAccessor.HttpContext?.Response.Cookies.Delete(PersistentLoginCookie.Key);

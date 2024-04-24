@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿namespace TrueOrFalse.Search;
 
-namespace TrueOrFalse.Search; 
 public class GlobalSearchResult
 {
     public ISearchCategoriesResult CategoriesResult;
@@ -18,6 +16,5 @@ public class GlobalSearchResult
     public IList<UserCacheItem> Users => _users ??= UsersResult.GetUsers();
     public int UsersResultCount => UsersResult.Count;
 
-     public int TotalElements  =>  Categories.Count + Questions.Count + Users.Count;
-
+    public int TotalElements => Categories.Count + Questions.Count + Users.Count;
 }

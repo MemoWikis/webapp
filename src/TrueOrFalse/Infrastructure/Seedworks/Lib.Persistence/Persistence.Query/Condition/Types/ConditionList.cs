@@ -1,30 +1,37 @@
-using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Criterion;
 
 namespace Seedworks.Lib.Persistence
 {
     [Serializable]
-    public abstract class ConditionList<T> : Condition 
+    public abstract class ConditionList<T> : Condition
     {
-        public int ItemCount { get { return _items.Count; } }
-        
-        private readonly List<T> _items = new List<T>();
-        public List<T>  Items { get { return _items; } }
-
-        public ConditionList(ConditionContainer conditions, string propertyName) : base(conditions, propertyName)
+        public int ItemCount
         {
-            if (Conditions != null) 
-				Conditions.Add(this);
-		}
+            get { return _items.Count; }
+        }
 
-		public void Set(List<T> items)
-		{
-			Clear();
-			Add(items);
-			if (!Conditions.Contains(this))
-				Conditions.Add(this);
-		}
+        private readonly List<T> _items = new List<T>();
+
+        public List<T> Items
+        {
+            get { return _items; }
+        }
+
+        public ConditionList(ConditionContainer conditions, string propertyName) : base(conditions,
+            propertyName)
+        {
+            if (Conditions != null)
+                Conditions.Add(this);
+        }
+
+        public void Set(List<T> items)
+        {
+            Clear();
+            Add(items);
+            if (!Conditions.Contains(this))
+                Conditions.Add(this);
+        }
 
         public void Add(params T[] values)
         {
@@ -40,7 +47,7 @@ namespace Seedworks.Lib.Persistence
 
         public void Add(T value)
         {
-            if (typeof(T) != typeof(Int32) && 
+            if (typeof(T) != typeof(Int32) &&
                 typeof(T) != typeof(String) &&
                 typeof(T) != typeof(bool) &&
                 !typeof(T).IsEnum)
@@ -72,13 +79,13 @@ namespace Seedworks.Lib.Persistence
         }
 
         public abstract ICriterion GetCriterion(T item);
+
         protected abstract Junction GetInitializedJunction();
 
-		public override void Reset()
+        public override void Reset()
         {
             Items.Clear();
             Conditions.Remove(this);
         }
     }
-
 }

@@ -8,7 +8,8 @@ public class PasswordRecoveryTokenValidator : IRegisterAsInstancePerLifetime
     {
         _session = session;
     }
-    public virtual PasswordRecoveryToken Run(string token)
+
+    public virtual PasswordRecoveryToken? Run(string token)
     {
         var passwordToken = _session.QueryOver<PasswordRecoveryToken>()
             .Where(x => x.Token == token)

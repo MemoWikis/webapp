@@ -4,82 +4,74 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
-
-    public class PublishTopicStoreController : BaseController
+    public class PublishTopicStoreController(
+        SessionUser _sessionUser,
+        PermissionCheck _permissionCheck,
+        CategoryRepository _categoryRepository,
+        QuestionReadingRepo _questionReadingRepo,
+        QuestionWritingRepo _questionWritingRepo,
+        SessionUserCache _sessionUserCache) : Controller
     {
-        private readonly PermissionCheck _permissionCheck;
-        private readonly CategoryRepository _categoryRepository;
-        private readonly QuestionReadingRepo _questionReadingRepo;
-        private readonly QuestionWritingRepo _questionWritingRepo;
-        private readonly SessionUserCache _sessionUserCache;
-      
-
-        public PublishTopicStoreController(SessionUser sessionUser,
-            PermissionCheck permissionCheck,
-            CategoryRepository categoryRepository,
-            QuestionReadingRepo questionReadingRepo,
-            QuestionWritingRepo questionWritingRepo,
-            SessionUserCache sessionUserCache) : base(sessionUser)
-        {
-            _permissionCheck = permissionCheck;
-            _categoryRepository = categoryRepository;
-            _questionReadingRepo = questionReadingRepo;
-            _questionWritingRepo = questionWritingRepo;
-            _sessionUserCache = sessionUserCache;
-        }
-
         public readonly record struct PublishTopicJson(int id);
-        [HttpPost] 
+
+        public readonly record struct PublishTopicResult(
+            bool Success,
+            string MessageKey,
+            List<int> Data);
+
+        [HttpPost]
         [AccessOnlyAsLoggedIn]
-        public JsonResult PublishTopic([FromBody] PublishTopicJson json)
+        public PublishTopicResult PublishTopic([FromBody] PublishTopicJson json)
         {
             var topicCacheItem = EntityCache.GetCategory(json.id);
 
             if (topicCacheItem != null)
             {
-
-                if (topicCacheItem.HasPublicParent() || topicCacheItem.Creator.StartTopicId == json.id)
+                if (topicCacheItem.HasPublicParent() ||
+                    topicCacheItem.Creator.StartTopicId == json.id)
                 {
-                    if (topicCacheItem.Parents().Any(c => c.Id == 1) && !_sessionUser.IsInstallationAdmin)
-                        return Json(new RequestResult
+                    if (topicCacheItem.Parents().Any(c => c.Id == 1) &&
+                        !_sessionUser.IsInstallationAdmin)
+                        return new PublishTopicResult
                         {
-                            success = false,
-                            messageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
-                        });
+                            Success = false,
+                            MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                        };
 
                     topicCacheItem.Visibility = CategoryVisibility.All;
                     var topic = _categoryRepository.GetById(json.id);
                     topic.Visibility = CategoryVisibility.All;
-                    _categoryRepository.Update(topic, _sessionUser.UserId, type: CategoryChangeType.Published);
+                    _categoryRepository.Update(topic, _sessionUser.UserId,
+                        type: CategoryChangeType.Published);
 
-                    return Json(new RequestResult
+                    return new PublishTopicResult
                     {
-                        success = true,
-                    });
-                } 
+                        Success = true,
+                    };
+                }
 
-                return Json(new RequestResult
+                return new PublishTopicResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
-                    data = topicCacheItem.Parents().Select(c => c.Id).ToList()
-                });
-
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
+                    Data = topicCacheItem.Parents().Select(c => c.Id).ToList()
+                };
             }
 
-            return Json(new RequestResult
+            return new PublishTopicResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
-            });
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
+            };
         }
+
         public readonly record struct PublishQuestionsJson(List<int> questionIds);
 
         [HttpPost]
         [AccessOnlyAsLoggedIn]
         public void PublishQuestions([FromBody] PublishQuestionsJson json)
-        { 
-            foreach (var questionId in json.questionIds) 
+        {
+            foreach (var questionId in json.questionIds)
             {
                 var questionCacheItem =
                     EntityCache.GetQuestionById(questionId);
@@ -94,18 +86,24 @@ namespace VueApp
             }
         }
 
+        public readonly record struct TinyTopic(
+            bool Success,
+            string Name,
+            List<int> QuestionIds,
+            int QuestionCount);
+
         [HttpGet]
         [AccessOnlyAsLoggedIn]
-        public JsonResult Get([FromRoute] int id)
+        public TinyTopic Get([FromRoute] int id)
         {
             var topicCacheItem = EntityCache.GetCategory(id);
             var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
 
             if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
-                return Json(new
+                return new TinyTopic
                 {
-                    success = false,
-                });
+                    Success = false,
+                };
 
             var filteredAggregatedQuestions = topicCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
@@ -116,13 +114,13 @@ namespace VueApp
                     _permissionCheck.CanEdit(q))
                 .Select(q => q.Id).ToList();
 
-            return Json(new
+            return new TinyTopic
             {
-                success = true,
-                name = topicCacheItem.Name,
-                questionIds = filteredAggregatedQuestions,
-                questionCount = filteredAggregatedQuestions.Count
-            });
+                Success = true,
+                Name = topicCacheItem.Name,
+                QuestionIds = filteredAggregatedQuestions,
+                QuestionCount = filteredAggregatedQuestions.Count
+            };
         }
     }
 }

@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
 using Seedworks.Lib.Persistence;
 using static System.String;
 
 public class UserCacheItem : IUserTinyModel, IPersistable
 {
     public int ReputationPos;
-
     public int StartTopicId;
     public int WishCountQuestions;
     public bool IsMemuchoUser => Settings.MemuchoUserId == Id;
@@ -17,25 +14,19 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         .ToList();
 
     public bool AllowsSupportiveLogin { get; set; }
-
     public int CorrectnessProbability { get; set; }
     public DateTime? EndDate { get; set; }
-
     public IList<int> FollowerIds { get; set; }
 
     /// <summary>Users I follow</summary>
     public IList<int> FollowingIds { get; set; }
 
     public bool IsMember { get; set; }
-
     public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
-
     public virtual string RecentlyUsedRelationTargetTopics { get; set; }
     public string StripeId { get; set; }
     public DateTime? SubscriptionStartDate { get; set; }
-
     public int TotalInOthersWishknowledge { get; set; }
-
     public virtual string WidgetHostsSpaceSeparated { get; set; }
     public int Id { get; set; }
     public string Name { get; set; }

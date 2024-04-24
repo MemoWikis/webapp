@@ -6,6 +6,7 @@ using Seedworks.Lib.Persistence;
 public class CategoryCacheItem : IPersistable
 {
     public int CreatorId;
+
     public CategoryCacheItem()
     {
     }
@@ -17,6 +18,7 @@ public class CategoryCacheItem : IPersistable
 
     public virtual UserCacheItem Creator =>
         EntityCache.GetUserById(CreatorId);
+
     public virtual int[] AuthorIds { get; set; }
     public virtual string CategoriesToExcludeIdsString { get; set; }
     public virtual string CategoriesToIncludeIdsString { get; set; }
@@ -63,7 +65,9 @@ public class CategoryCacheItem : IPersistable
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
-    public Dictionary<int, CategoryCacheItem> AggregatedCategories(PermissionCheck permissionCheck, bool includingSelf = true)
+    public Dictionary<int, CategoryCacheItem> AggregatedCategories(
+        PermissionCheck permissionCheck,
+        bool includingSelf = true)
     {
         var visibleVisited = VisibleChildCategories(this, permissionCheck);
 
@@ -92,7 +96,6 @@ public class CategoryCacheItem : IPersistable
 
         if (fullList)
         {
-
             questions = AggregatedCategories(
                     new PermissionCheck(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))

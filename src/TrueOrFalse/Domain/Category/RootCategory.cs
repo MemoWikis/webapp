@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class RootCategory
+﻿public class RootCategory
 {
     public const int RootCategoryId = 1;
     public static CategoryCacheItem Get => EntityCache.GetCategory(RootCategoryId);
     public static IReadOnlyList<int> LockedCategoryIds => GetLockedCategoryIds();
-    public static bool LockedCategory(int categoryId) => LockedCategoryIds.Any(c => c == categoryId);
+
+    public static bool LockedCategory(int categoryId) =>
+        LockedCategoryIds.Any(c => c == categoryId);
 
     public const int IntroCategoryId = 1864;
     public const int MemuchoWikiId = 1890;

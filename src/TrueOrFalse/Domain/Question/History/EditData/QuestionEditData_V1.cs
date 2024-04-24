@@ -1,13 +1,16 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using NHibernate;
 
 public class QuestionEditData_V1 : QuestionEditData
 {
     private readonly ISession _nhibernateSession;
-    public QuestionEditData_V1(){}
 
-    public QuestionEditData_V1(Question question,
+    public QuestionEditData_V1()
+    {
+    }
+
+    public QuestionEditData_V1(
+        Question question,
         bool imageWasChanged,
         ISession nhibernateSession)
     {
@@ -40,7 +43,7 @@ public class QuestionEditData_V1 : QuestionEditData
         question.Categories.ToList();
         question.References.ToList();
 
-       _nhibernateSession.Evict(question);
+        _nhibernateSession.Evict(question);
 
         question.Text = this.QuestionText;
         question.TextExtended = this.QuestionTextExtended;

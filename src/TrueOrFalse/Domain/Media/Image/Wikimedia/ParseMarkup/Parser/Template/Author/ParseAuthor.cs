@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using static System.String;
 
@@ -8,8 +7,10 @@ namespace TrueOrFalse.WikiMarkup
     {
         public static void SetAuthor_FromTemplate(ParseImageMarkupResult result)
         {
-            var paramAuthor = result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
-            var paramAuthorUrl = result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterNameUrl);
+            var paramAuthor =
+                result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterName);
+            var paramAuthorUrl =
+                result.Template.ParamByKey(result.InfoBoxTemplate.AuthorParameterNameUrl);
 
             //$temp: Cases left to match:
 
@@ -38,7 +39,8 @@ namespace TrueOrFalse.WikiMarkup
             //$temp:
             //Message setzen, wenn paramAuthor == null
 
-            var imageParsingNotifications = ImageParsingNotifications.FromJson(result.Notifications);
+            var imageParsingNotifications =
+                ImageParsingNotifications.FromJson(result.Notifications);
 
             if (paramAuthor == null)
             {
@@ -73,13 +75,17 @@ namespace TrueOrFalse.WikiMarkup
 
             foreach (var regex in new[] { "{{(User:(.*))}}", "[[(User:(.*))]" })
             {
-                var regexMatch_UserAttributionTemplate = Regex.Match(authorText, regex, RegexOptions.IgnoreCase);
-                if (regexMatch_UserAttributionTemplate.Success && regexMatch_UserAttributionTemplate.Groups.Count == 3)
+                var regexMatch_UserAttributionTemplate =
+                    Regex.Match(authorText, regex, RegexOptions.IgnoreCase);
+                if (regexMatch_UserAttributionTemplate.Success &&
+                    regexMatch_UserAttributionTemplate.Groups.Count == 3)
                 {
-                    var authorUrl = $"<a href='http://commons.wikimedia.org/wiki/{regexMatch_UserAttributionTemplate.Groups[1]}'>{regexMatch_UserAttributionTemplate.Groups[2]}</a>";
+                    var authorUrl =
+                        $"<a href='http://commons.wikimedia.org/wiki/{regexMatch_UserAttributionTemplate.Groups[1]}'>{regexMatch_UserAttributionTemplate.Groups[2]}</a>";
                     result.AuthorName = authorUrl;
                     result.AuthorName_Raw = authorText;
-                    imageParsingNotifications.Author.Add(new Notification{
+                    imageParsingNotifications.Author.Add(new Notification
+                    {
                         Name = "Custom wiki user template",
                         NotificationText = "Bitte url prüfen"
                     });

@@ -1,16 +1,13 @@
-﻿using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text.Json;
+﻿using System.Text.Json;
 
 public static class ObjectExtensions
 {
-        public static T DeepClone<T>(this T input) where T : class
-        {
-            if (input == null)
-                return default;
+    public static T DeepClone<T>(this T input) where T : class
+    {
+        if (input == null)
+            return default;
 
-            var json = JsonSerializer.Serialize(input);
-            return JsonSerializer.Deserialize<T>(json);
-        }
+        var json = JsonSerializer.Serialize(input);
+        return JsonSerializer.Deserialize<T>(json);
+    }
 }
-

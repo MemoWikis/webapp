@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using NHibernate;
 using NHibernate.Transform;
 using Seedworks.Lib.Persistence;
@@ -11,8 +9,8 @@ public class CategoryValuationReadingRepo(ISession _session) : IRegisterAsInstan
 
     public CategoryValuation GetBy(int categoryId, int userId) =>
         _repo.Session.QueryOver<CategoryValuation>()
-                .Where(q => q.UserId == userId && q.CategoryId == categoryId)
-                .SingleOrDefault();
+            .Where(q => q.UserId == userId && q.CategoryId == categoryId)
+            .SingleOrDefault();
 
     public IList<CategoryValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
     {
@@ -21,7 +19,7 @@ public class CategoryValuationReadingRepo(ISession _session) : IRegisterAsInstan
 
         if (onlyActiveKnowledge)
             query.Where(q => q.RelevancePersonal >= -1);
-            
+
         return query.List<CategoryValuation>();
     }
 
@@ -47,7 +45,7 @@ public class CategoryValuationReadingRepo(ISession _session) : IRegisterAsInstan
         sb.Append(")");
 
         return _repo.Session.CreateSQLQuery(sb.ToString())
-                        .SetResultTransformer(Transformers.AliasToBean(typeof(CategoryValuation)))
-                        .List<CategoryValuation>();
+            .SetResultTransformer(Transformers.AliasToBean(typeof(CategoryValuation)))
+            .List<CategoryValuation>();
     }
 }

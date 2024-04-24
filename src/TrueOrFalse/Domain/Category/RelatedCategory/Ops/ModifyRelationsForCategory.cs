@@ -1,16 +1,7 @@
-﻿public class ModifyRelationsForCategory
+﻿public class ModifyRelationsForCategory(
+    CategoryRepository _categoryRepository,
+    CategoryRelationRepo _categoryRelationRepo)
 {
-    private readonly CategoryRepository _categoryRepository;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
-
-    public ModifyRelationsForCategory(
-        CategoryRepository categoryRepository,
-        CategoryRelationRepo categoryRelationRepo)
-    {
-        _categoryRepository = categoryRepository;
-        _categoryRelationRepo = categoryRelationRepo;
-    }
-
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
