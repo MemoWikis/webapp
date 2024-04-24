@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 public class ReferenceJson
 {
@@ -10,7 +8,10 @@ public class ReferenceJson
     public string AdditionalText;
     public string ReferenceText;
 
-    public static IList<Reference> LoadFromJson(string json, Question question, CategoryRepository categoryRepository)
+    public static IList<Reference> LoadFromJson(
+        string json,
+        Question question,
+        CategoryRepository categoryRepository)
     {
         var referencesJson = JsonConvert.DeserializeObject<IEnumerable<ReferenceJson>>(json);
 
@@ -27,5 +28,4 @@ public class ReferenceJson
             };
         }).ToList();
     }
-
 }

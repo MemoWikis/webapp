@@ -1,6 +1,5 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
-using System;
 
 namespace TrueOrFalse.Infrastructure.Persistence
 {

@@ -1,7 +1,5 @@
-﻿using System.Collections.Concurrent;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TrueOrFalse.Frontend.Web.Code;
 
 namespace TrueOrFalse.Domain.Question.Answer;
 
@@ -28,6 +26,7 @@ public record struct AnswerQuestionDetailsResult(
     License License);
 
 public record struct MacroCreator(int Id, string Name);
+
 public record struct AnswerQuestionDetailsTopic(
     int Id,
     string Name,
@@ -43,7 +42,9 @@ public record struct License(
     bool IsDefault,
     string ShortText,
     string FullText);
-public class AnswerQuestionDetailsService(SessionUser _sessionUser,
+
+public class AnswerQuestionDetailsService(
+    SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     TotalsPersUserLoader _totalsPersUserLoader,
@@ -53,5 +54,4 @@ public class AnswerQuestionDetailsService(SessionUser _sessionUser,
     QuestionReadingRepo _questionReadingRepo) : IRegisterAsInstancePerLifetime
 
 {
-    
 }

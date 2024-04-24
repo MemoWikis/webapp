@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FluentNHibernate.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Rollbar.DTOs;
 
 public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
@@ -183,4 +181,3 @@ public class LearningSessionStoreController(
 
     public record struct StepResult(AnswerState State, int Id, int Index, bool IsLastStep);
 }
-

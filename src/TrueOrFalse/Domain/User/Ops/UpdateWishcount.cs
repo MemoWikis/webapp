@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-
-public class UpdateWishcount : IRegisterAsInstancePerLifetime
+﻿public class UpdateWishcount : IRegisterAsInstancePerLifetime
 {
     private readonly UserReadingRepo _userReadingRepo;
     private readonly GetWishQuestionCount _getWishQuestionCount;
     private readonly UserWritingRepo _userWritingRepo;
 
-    public UpdateWishcount(UserReadingRepo userReadingRepo, 
+    public UpdateWishcount(
+        UserReadingRepo userReadingRepo,
         GetWishQuestionCount getWishQuestionCount,
         UserWritingRepo userWritingRepo)
     {
@@ -14,6 +13,7 @@ public class UpdateWishcount : IRegisterAsInstancePerLifetime
         _getWishQuestionCount = getWishQuestionCount;
         _userWritingRepo = userWritingRepo;
     }
+
     public void Run()
     {
         Run(_userReadingRepo.GetAll());

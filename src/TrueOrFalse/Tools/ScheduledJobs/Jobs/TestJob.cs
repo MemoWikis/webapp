@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
@@ -12,6 +11,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
@@ -23,6 +23,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             return Task.CompletedTask;
         }
     }
+
     public class TestJobCacheInitializer : IJob
     {
         private readonly EntityCacheInitializer _entityCacheInitializer;
@@ -31,17 +32,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _entityCacheInitializer = entityCacheInitializer;
         }
+
         public Task Execute(IJobExecutionContext context)
         {
-            JobExecute.Run(scope =>
-            {
-                _entityCacheInitializer.Init(" (in JobScheduler) ");
-            }, "RefreshEntityCache");
+            JobExecute.Run(scope => { _entityCacheInitializer.Init(" (in JobScheduler) "); },
+                "RefreshEntityCache");
 
             return Task.CompletedTask;
         }
     }
-
 
     public class TestJob2 : IJob
     {
@@ -51,6 +50,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             _httpContextAccessor = httpContextAccessor;
         }
+
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>

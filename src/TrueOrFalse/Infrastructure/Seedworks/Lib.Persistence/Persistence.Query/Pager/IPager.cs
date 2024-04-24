@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-
 namespace Seedworks.Lib.Persistence
 {
     public interface IPager
@@ -53,11 +48,14 @@ namespace Seedworks.Lib.Persistence
         void PreviousPage(int amountOfPages);
 
         void PreviousPage();
+
         void LastPage();
+
         void FirstPage();
 
-    	bool HasNextPage();
-    	bool HasPreviousPage();
+        bool HasNextPage();
+
+        bool HasPreviousPage();
 
         /// <summary>
         /// 

@@ -1,15 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using NHibernate;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 using ISession = NHibernate.ISession;
-
 
 public class UserReadingRepo : RepositoryDb<User>
 {
     public UserReadingRepo(ISession session) : base(session)
     {
-      
     }
 
     public bool FacebookUserExists(string facebookId)
@@ -22,12 +17,12 @@ public class UserReadingRepo : RepositoryDb<User>
 
     public IList<User> GetAll()
     {
-        return base.GetAll(); 
+        return base.GetAll();
     }
 
     public IList<int> GetAllIds()
     {
-        return base.GetAllIds(); 
+        return base.GetAllIds();
     }
 
     public User GetByEmail(string emailAddress)
@@ -48,7 +43,8 @@ public class UserReadingRepo : RepositoryDb<User>
                 $"Following user ids from meilisearch not found: {string.Join(",", missingUsersIds.OrderBy(id => id))}");
         }
 
-        return userIds.Select(t => users.FirstOrDefault(u => u.Id == t)).Where(x => x != null).ToList();
+        return userIds.Select(t => users.FirstOrDefault(u => u.Id == t)).Where(x => x != null)
+            .ToList();
     }
 
     public User GetByName(string name)

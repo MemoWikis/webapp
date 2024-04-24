@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class ProbabilityCalc_Question : IRegisterAsInstancePerLifetime
+﻿public class ProbabilityCalc_Question : IRegisterAsInstancePerLifetime
 {
     public static int Run(IList<Answer> answers, bool useFirstAnswerPerUserOnly = false)
     {
@@ -9,9 +6,10 @@ public class ProbabilityCalc_Question : IRegisterAsInstancePerLifetime
             return 30;
 
         if (useFirstAnswerPerUserOnly)
-            answers = answers.GroupBy(a => a.UserId).Select(g => g.OrderBy(a => a.DateCreated).First()).ToList();
+            answers = answers.GroupBy(a => a.UserId)
+                .Select(g => g.OrderBy(a => a.DateCreated).First()).ToList();
 
-        decimal answeredCorrectly = 
+        decimal answeredCorrectly =
             answers.Count(x => x.AnswerredCorrectly != AnswerCorrectness.False);
 
         return (int)((answeredCorrectly / answers.Count()) * 100);

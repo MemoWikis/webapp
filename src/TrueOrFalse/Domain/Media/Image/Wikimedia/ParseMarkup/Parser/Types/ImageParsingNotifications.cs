@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 [Serializable]
 public class ImageParsingNotifications
 {
-    public List<Notification> InfoTemplate = new(); 
+    public List<Notification> InfoTemplate = new();
     public List<Notification> Author = new();
     public List<Notification> Description = new();
 
@@ -35,9 +33,9 @@ public class ImageParsingNotifications
 
     public static ImageParsingNotifications FromJson(string json)
     {
-        return JsonConvert.DeserializeObject<ImageParsingNotifications>(json ?? "") ?? new ImageParsingNotifications();
+        return JsonConvert.DeserializeObject<ImageParsingNotifications>(json ?? "") ??
+               new ImageParsingNotifications();
     }
-
 }
 
 [Serializable]

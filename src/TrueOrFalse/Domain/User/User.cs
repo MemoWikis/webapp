@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 using static System.String;
-
 
 [Serializable]
 [DebuggerDisplay("Id={Id} Name={Name}")]
@@ -30,7 +27,7 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
-    
+
     /// <summary>
     /// End of premium period
     /// </summary>

@@ -1,10 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TrueOrFalse.Frontend.Web.Code;
 
 public class QuestionListModel
 {
@@ -21,7 +17,8 @@ public class QuestionListModel
     private readonly QuestionReadingRepo _questionReadingRepo;
     public int CategoryId;
 
-    public QuestionListModel(LearningSessionCache learningSessionCache,
+    public QuestionListModel(
+        LearningSessionCache learningSessionCache,
         SessionUser sessionUser,
         CategoryValuationReadingRepo categoryValuationReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
@@ -45,5 +42,4 @@ public class QuestionListModel
         _webHostEnvironment = webHostEnvironment;
         _questionReadingRepo = questionReadingRepo;
     }
-
 }

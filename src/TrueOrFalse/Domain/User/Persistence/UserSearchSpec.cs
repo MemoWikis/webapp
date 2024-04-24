@@ -1,11 +1,9 @@
 ﻿using Seedworks.Lib.Persistence;
-using TrueOrFalse.Search;
 
 [Serializable]
 public class UserSearchSpec : SearchSpecificationBase<UserFilter, UserOrderBy>
 {
     public string SearchTerm;
-
 }
 
 [Serializable]
@@ -13,7 +11,8 @@ public class UserFilter : ConditionContainer
 {
     public readonly ConditionString EmailAddress;
 
-    public UserFilter(){
+    public UserFilter()
+    {
         EmailAddress = new ConditionString(this, "EmailAddress");
     }
 }

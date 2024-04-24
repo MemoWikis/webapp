@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Criterion;
 
 namespace Seedworks.Lib.Persistence
 {
-	[Serializable]
-	public class ConditionString : Condition
+    [Serializable]
+    public class ConditionString : Condition
     {
         private string _value;
         private bool _isNotNullOrEmpty = false;
@@ -15,9 +14,20 @@ namespace Seedworks.Lib.Persistence
         /// <summary>
         /// The search criteria value of this condition
         /// </summary>
-        public string Value { get { return _value; } }
-        public bool IsNotNullOrEmpty { get { return _isNotNullOrEmpty; } }
-        public bool IsLike { get { return _isLike; } }
+        public string Value
+        {
+            get { return _value; }
+        }
+
+        public bool IsNotNullOrEmpty
+        {
+            get { return _isNotNullOrEmpty; }
+        }
+
+        public bool IsLike
+        {
+            get { return _isLike; }
+        }
 
         public ConditionString(ConditionContainer conditions, string propertyName)
             : base(conditions)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
 [Serializable]
 public class ReferenceCacheItem : DomainEntity
@@ -23,17 +21,20 @@ public class ReferenceCacheItem : DomainEntity
             return ReferenceType.UrlReference;
 
         throw new Exception("invalid type");
-
     }
-    public static IEnumerable<ReferenceCacheItem> ToReferenceCacheItems(IList<Reference> references) =>
+
+    public static IEnumerable<ReferenceCacheItem>
+        ToReferenceCacheItems(IList<Reference> references) =>
         references.Select(reference => ToReferenceCacheItem(reference));
+
     public static ReferenceCacheItem ToReferenceCacheItem(Reference reference)
     {
         if (reference.Category != null)
             return new ReferenceCacheItem()
             {
                 Question = EntityCache.GetQuestion(reference.Question.Id),
-                Category = EntityCache.GetCategory(reference.Category.Id) ?? new CategoryCacheItem("Empty"),
+                Category = EntityCache.GetCategory(reference.Category.Id) ??
+                           new CategoryCacheItem("Empty"),
                 ReferenceType = reference.ReferenceType,
                 AdditionalInfo = reference.AdditionalInfo,
                 ReferenceText = reference.ReferenceText
@@ -48,4 +49,3 @@ public class ReferenceCacheItem : DomainEntity
         };
     }
 }
-

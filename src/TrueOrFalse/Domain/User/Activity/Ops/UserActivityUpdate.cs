@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
-using NHibernate;
+﻿using NHibernate;
 
 class UserActivityUpdate
-{   
-    public static void NewFollower(User userFollower, User userIsFollowed, UserActivityRepo userActivityRepo, ISession nhibernateSession, UserReadingRepo userReadingRepo)
+{
+    public static void NewFollower(
+        User userFollower,
+        User userIsFollowed,
+        UserActivityRepo userActivityRepo,
+        ISession nhibernateSession,
+        UserReadingRepo userReadingRepo)
     {
         var userActivities = new List<UserActivity>();
         AddCreatedQuestions(ref userActivities, userFollower, userIsFollowed, nhibernateSession);
@@ -13,9 +17,13 @@ class UserActivityUpdate
         userActivityRepo.Create(userActivities);
     }
 
-    private static void AddCreatedQuestions(ref List<UserActivity> userActivities, User userFollower, User userCauser, ISession nhibernateSession)
+    private static void AddCreatedQuestions(
+        ref List<UserActivity> userActivities,
+        User userFollower,
+        User userCauser,
+        ISession nhibernateSession)
     {
-        var amount = 10; 
+        var amount = 10;
         var questions = nhibernateSession.QueryOver<Question>()
             .OrderBy(x => x.DateCreated).Desc
             .Where(q => q.Creator == userCauser && q.Visibility == QuestionVisibility.All)
@@ -34,7 +42,12 @@ class UserActivityUpdate
             });
         }
     }
-    private static void AddCreatedCategory(ref List<UserActivity> userActivities, User userFollower, User userCauser, ISession nhibernateSession)
+
+    private static void AddCreatedCategory(
+        ref List<UserActivity> userActivities,
+        User userFollower,
+        User userCauser,
+        ISession nhibernateSession)
     {
         var amount = 10;
         var categories = nhibernateSession.QueryOver<Category>()
@@ -56,9 +69,15 @@ class UserActivityUpdate
         }
     }
 
-    private static void AddFollowedUser(ref List<UserActivity> userActivities, User userFollower, User userIsFollowed, UserReadingRepo userReadingRepo)
+    private static void AddFollowedUser(
+        ref List<UserActivity> userActivities,
+        User userFollower,
+        User userIsFollowed,
+        UserReadingRepo userReadingRepo)
     {
-        var userIsFollowedFromDB = userReadingRepo.GetById(userIsFollowed.Id); //needs to update userIsFollowed, because otherwise followers wouldn't be visible here (no session)
+        var userIsFollowedFromDB =
+            userReadingRepo.GetById(userIsFollowed
+                .Id); //needs to update userIsFollowed, because otherwise followers wouldn't be visible here (no session)
         foreach (var follower in userIsFollowedFromDB.Following)
         {
             userActivities.Add(new UserActivity

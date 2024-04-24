@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using TrueOrFalse;
+﻿using Newtonsoft.Json;
 
 [Serializable]
 public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIssue>
@@ -12,6 +7,8 @@ public class CategoryTypeMagazineIssue : CategoryTypeBase<CategoryTypeMagazineIs
     public string Title;
 
     [JsonIgnore]
-    public override CategoryType Type { get { return CategoryType.MagazineIssue; } }
+    public override CategoryType Type
+    {
+        get { return CategoryType.MagazineIssue; }
+    }
 }
-

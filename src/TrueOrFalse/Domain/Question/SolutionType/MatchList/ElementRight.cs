@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TrueOrFalse.Domain.Question.SolutionType.MatchList
+﻿namespace TrueOrFalse.Domain.Question.SolutionType.MatchList
 {
     public class ElementRight
     {

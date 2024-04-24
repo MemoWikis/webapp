@@ -1,5 +1,4 @@
-﻿using Org.BouncyCastle.Asn1.Ocsp;
-using Quartz;
+﻿using Quartz;
 using System.Text.Json;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
@@ -8,9 +7,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     {
         private readonly CategoryRepository _categoryRepository;
         private readonly CategoryRelationRepo _categoryRelationRepo;
-        private int _authorId; 
+        private int _authorId;
 
-        public AddOrUpdateRelationsInDb(CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo)
+        public AddOrUpdateRelationsInDb(
+            CategoryRepository categoryRepository,
+            CategoryRelationRepo categoryRelationRepo)
         {
             _categoryRepository = categoryRepository;
             _categoryRelationRepo = categoryRelationRepo;
@@ -21,7 +22,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var dataMap = context.JobDetail.JobDataMap;
             var relationsJson = dataMap.GetString("relations");
             var relations = JsonSerializer.Deserialize<List<CategoryCacheRelation>>(relationsJson);
-            _authorId = dataMap.GetInt("authorId"); 
+            _authorId = dataMap.GetInt("authorId");
 
             await Run(relations);
             Logg.r.Information("Job ended - ModifyRelations");
@@ -31,7 +32,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         {
             foreach (var r in relations)
             {
-                Logg.r.Information("Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}", r.Id, r.ChildId, r.ParentId);
+                Logg.r.Information(
+                    "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
+                    r.Id, r.ChildId, r.ParentId);
 
                 var relationToUpdate = r.Id > 0 ? _categoryRelationRepo.GetById(r.Id) : null;
                 var child = _categoryRepository.GetById(r.ChildId);
@@ -58,6 +61,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
                     _categoryRelationRepo.Create(relation);
                 }
+
                 _categoryRepository.Update(child, _authorId, type: CategoryChangeType.Relations);
                 _categoryRepository.Update(parent, _authorId, type: CategoryChangeType.Relations);
             }

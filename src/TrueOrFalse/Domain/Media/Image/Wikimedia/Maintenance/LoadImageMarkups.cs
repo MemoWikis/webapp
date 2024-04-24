@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace TrueOrFalse.Maintenance
+﻿namespace TrueOrFalse.Maintenance
 {
     public class LoadImageMarkups : IRegisterAsInstancePerLifetime
     {
@@ -18,13 +15,13 @@ namespace TrueOrFalse.Maintenance
 
         public void Run(ImageMetaData imageMetaData, bool loadMarkupFromWikipedia = true)
         {
-            if(imageMetaData.Source != ImageSource.WikiMedia) return;
+            if (imageMetaData.Source != ImageSource.WikiMedia) return;
 
             var fileName = imageMetaData.SourceUrl.Split('/').Last();
 
-            var licenseInfo = loadMarkupFromWikipedia ? 
-                _wikiImageLicenseLoader.Run(fileName, imageMetaData.ApiHost) : 
-                WikiImageLicenseInfo.ParseMarkup(imageMetaData.Markup);
+            var licenseInfo = loadMarkupFromWikipedia
+                ? _wikiImageLicenseLoader.Run(fileName, imageMetaData.ApiHost)
+                : WikiImageLicenseInfo.ParseMarkup(imageMetaData.Markup);
 
             imageMetaData.AuthorParsed = licenseInfo.AuthorName;
             imageMetaData.DescriptionParsed = licenseInfo.Description;

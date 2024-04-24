@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using TrueOrFalse.Infrastructure;
 
 public class AsyncExe
 {
@@ -9,7 +8,8 @@ public class AsyncExe
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public AsyncExe(ILifetimeScope lifetimeScope,
+    public AsyncExe(
+        ILifetimeScope lifetimeScope,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
@@ -46,7 +46,8 @@ public class AsyncExe
             }
             catch (Exception e)
             {
-                Logg.r.Error(e, "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
+                Logg.r.Error(e,
+                    "Error in AsyncRunner in HostingEnvironment.QueueBackgroundWorkItem");
             }
         }
         catch (Exception e)

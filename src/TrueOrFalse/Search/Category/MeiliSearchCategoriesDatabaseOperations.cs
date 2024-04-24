@@ -1,6 +1,4 @@
 ﻿using Meilisearch;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Search
 {

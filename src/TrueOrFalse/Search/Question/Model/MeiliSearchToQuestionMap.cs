@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace TrueOrFalse.Search
+﻿namespace TrueOrFalse.Search
 {
     public class MeiliSearchToQuestionMap
     {

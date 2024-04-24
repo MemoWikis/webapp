@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TrueOrFalse.MultipleChoice
+﻿namespace TrueOrFalse.MultipleChoice
 {
     public class Choice
     {

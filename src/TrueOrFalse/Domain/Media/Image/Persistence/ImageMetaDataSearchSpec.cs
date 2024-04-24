@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
 [Serializable]
 public class ImageMetaDataSearchSpec : Pager

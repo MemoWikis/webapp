@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-
 public class QuestionSolutionMultipleChoice_SingleSolution : QuestionSolution
 {
     public List<string> Choices;
