@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class ValueWithResultAction
+﻿public class ValueWithResultAction
 {
     public int AbsoluteValue;
     public Action<int> ActionForPercentage;
@@ -42,6 +39,7 @@ public class PercentageShares
                 percent += sign;
                 error -= sign;
             }
+
             results[i] = percent;
         }
 

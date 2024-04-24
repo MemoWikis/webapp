@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 
 public class RecentlyUsedRelationTargets
 {
-    public static void Add(int userId, int topicId,
+    public static void Add(
+        int userId,
+        int topicId,
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
@@ -17,7 +15,10 @@ public class RecentlyUsedRelationTargets
         if (userCacheItem.StartTopicId == topicId)
             return;
 
-        var recentlyUsedRelationTargetTopicIds = userCacheItem.RecentlyUsedRelationTargetTopicIds == null ? new List<int>() : new List<int>(userCacheItem.RecentlyUsedRelationTargetTopicIds);
+        var recentlyUsedRelationTargetTopicIds =
+            userCacheItem.RecentlyUsedRelationTargetTopicIds == null
+                ? new List<int>()
+                : new List<int>(userCacheItem.RecentlyUsedRelationTargetTopicIds);
 
         if (recentlyUsedRelationTargetTopicIds.Count >= 3)
             recentlyUsedRelationTargetTopicIds.RemoveAt(0);
@@ -27,9 +28,7 @@ public class RecentlyUsedRelationTargets
         var recentlyUsedRelationTargetTopics = string.Join(",", recentlyUsedRelationTargetTopicIds);
 
         userCacheItem.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics;
-        userWritingRepo.ApplyChangeAndUpdate(userId, user =>
-        {
-            user.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics;
-        });
+        userWritingRepo.ApplyChangeAndUpdate(userId,
+            user => { user.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics; });
     }
 }

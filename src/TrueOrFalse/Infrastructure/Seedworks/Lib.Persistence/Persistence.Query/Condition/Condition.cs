@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -9,12 +8,12 @@ namespace Seedworks.Lib.Persistence
     {
         public string PropertyName { get; set; }
         private readonly ConditionContainer _conditions;
+
         public ConditionContainer Conditions
         {
             get { return _conditions; }
         }
 
-        
         public Condition(ConditionContainer conditions)
         {
             _conditions = conditions;
@@ -25,16 +24,16 @@ namespace Seedworks.Lib.Persistence
             _conditions = conditions;
             PropertyName = propertyName;
         }
-        
+
         /// <summary>
         /// Entfernt diese <see cref="Condition"/> aus der Liste.
         /// </summary>
-		public void Remove()
+        public void Remove()
         {
             if (_conditions.Contains(PropertyName))
             {
-				_conditions.Remove(this);
-				Reset();
+                _conditions.Remove(this);
+                Reset();
             }
         }
 
@@ -67,6 +66,7 @@ namespace Seedworks.Lib.Persistence
         }
 
         public abstract void AddToCriteria(ICriteria criteria);
+
         public abstract ICriterion GetCriterion();
 
         public virtual void Reset()
@@ -79,7 +79,10 @@ namespace Seedworks.Lib.Persistence
             return _conditions.Contains(this);
         }
 
-        public static Condition ForType(Type type, ConditionContainer conditions, string propertyName)
+        public static Condition ForType(
+            Type type,
+            ConditionContainer conditions,
+            string propertyName)
         {
             if (type == typeof(bool))
                 return new ConditionBoolean(conditions, propertyName);
@@ -90,12 +93,13 @@ namespace Seedworks.Lib.Persistence
             if (type == typeof(int))
                 return new ConditionInteger(conditions, propertyName);
 
-            throw new ArgumentException(string.Format("There is no condition for type {0}.", type), "type");
+            throw new ArgumentException(string.Format("There is no condition for type {0}.", type),
+                "type");
         }
 
         public static List<Type> SupportedTypes()
         {
-            return new List<Type> {typeof(bool), typeof(string), typeof(int)};
+            return new List<Type> { typeof(bool), typeof(string), typeof(int) };
         }
     }
 }

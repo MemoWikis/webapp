@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class ProbabilityCalc_Category
+﻿public class ProbabilityCalc_Category
 {
     public static int Run(IList<Answer> answers)
     {

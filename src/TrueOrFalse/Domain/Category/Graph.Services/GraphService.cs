@@ -1,5 +1,4 @@
-﻿
-/// <summary>
+﻿/// <summary>
 /// Works on the entity cache
 /// </summary>
 public class GraphService
@@ -42,9 +41,12 @@ public class GraphService
         return allParents;
     }
 
-    public static IList<CategoryCacheItem> VisibleAscendants(int childId, PermissionCheck permissionCheck)
+    public static IList<CategoryCacheItem> VisibleAscendants(
+        int childId,
+        PermissionCheck permissionCheck)
     {
-        var currentGeneration = new HashSet<CategoryCacheItem>(VisibleParents(childId, permissionCheck));
+        var currentGeneration =
+            new HashSet<CategoryCacheItem>(VisibleParents(childId, permissionCheck));
         var ascendants = new HashSet<CategoryCacheItem>();
 
         while (currentGeneration.Count > 0)
@@ -73,24 +75,26 @@ public class GraphService
         return ascendants.ToList();
     }
 
-
-    public static List<CategoryCacheItem> VisibleParents(int categoryId, PermissionCheck permissionCheck)
+    public static List<CategoryCacheItem> VisibleParents(
+        int categoryId,
+        PermissionCheck permissionCheck)
     {
         var allCategories = EntityCache.GetAllCategoriesList();
 
         return allCategories.SelectMany(c => c.ParentRelations
             .Where(cr => cr.ChildId == categoryId && permissionCheck.CanViewCategory(cr.ParentId))
-                    .Select(cr => EntityCache.GetCategory(cr.ParentId))).ToList();
-
+            .Select(cr => EntityCache.GetCategory(cr.ParentId))).ToList();
     }
-
 
     public static List<int> ParentIds(CategoryCacheItem category)
     {
         return category?.ParentRelations?.Select(cr => cr.ParentId).ToList() ?? new List<int>();
     }
 
-    public static List<CategoryCacheItem> VisibleChildren(int categoryId, PermissionCheck permissionCheck, int userId)
+    public static List<CategoryCacheItem> VisibleChildren(
+        int categoryId,
+        PermissionCheck permissionCheck,
+        int userId)
     {
         var visibleChildren = new List<CategoryCacheItem>();
 
@@ -105,7 +109,10 @@ public class GraphService
         return visibleChildren;
     }
 
-    public static IList<CategoryCacheItem> VisibleDescendants(int categoryId, PermissionCheck permissionCheck, int userId)
+    public static IList<CategoryCacheItem> VisibleDescendants(
+        int categoryId,
+        PermissionCheck permissionCheck,
+        int userId)
     {
         var allDescendants = new HashSet<CategoryCacheItem>();
         var visitedCategories = new HashSet<int>();
@@ -136,13 +143,17 @@ public class GraphService
     {
         var childrenIds = category.ChildRelations.Select(r => r.ChildId);
         var children = childrenIds
-            .Select(id => EntityCache.Categories.TryGetValue(id, out var childCategory) ? childCategory : null)
+            .Select(id =>
+                EntityCache.Categories.TryGetValue(id, out var childCategory)
+                    ? childCategory
+                    : null)
             .Where(c => c != null)
             .ToList();
         return children;
     }
 
-    public static List<CategoryCacheItem> Children(int categoryId) => Children(EntityCache.GetCategory(categoryId));
+    public static List<CategoryCacheItem> Children(int categoryId) =>
+        Children(EntityCache.GetCategory(categoryId));
 
     public static IList<CategoryCacheItem> Descendants(int parentId)
     {
@@ -166,7 +177,8 @@ public class GraphService
 
                 foreach (var childRelation in currentCategory.ChildRelations)
                 {
-                    if (!descendants.Any(d => d.Id == childRelation.ChildId) && !toProcess.Contains(childRelation.ChildId))
+                    if (!descendants.Any(d => d.Id == childRelation.ChildId) &&
+                        !toProcess.Contains(childRelation.ChildId))
                     {
                         toProcess.Enqueue(childRelation.ChildId);
                     }

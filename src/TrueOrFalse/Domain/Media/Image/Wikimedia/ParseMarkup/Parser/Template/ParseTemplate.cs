@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace TrueOrFalse.WikiMarkup
@@ -17,7 +15,7 @@ namespace TrueOrFalse.WikiMarkup
                     return template;
             }
 
-            return new Template("", templateNames.Aggregate((a,b) => a + " " + b));
+            return new Template("", templateNames.Aggregate((a, b) => a + " " + b));
         }
 
         public static Template GetTemplateByName(string markup, string templateName)
@@ -55,8 +53,9 @@ namespace TrueOrFalse.WikiMarkup
             return new Template(sbCollected.ToString(), templateName);
         }
 
-
-        public static List<Template> GetAllMatchingTemplates(string markup, List<string> templateNames)
+        public static List<Template> GetAllMatchingTemplates(
+            string markup,
+            List<string> templateNames)
         {
             string[] markupTokenized = TokenizeMarkup(markup);
 
@@ -145,16 +144,18 @@ namespace TrueOrFalse.WikiMarkup
                     {
                         collectToken = false;
                         collectRawText = false;
-                        parsedTemplates.Add(new Template(tokenCollected.ToString(), ""));//sic: what seemed to be token must be raw text, no token present
+                        parsedTemplates.Add(new Template(tokenCollected.ToString(),
+                            "")); //sic: what seemed to be token must be raw text, no token present
                         rawTextCollected = new StringBuilder();
                         tokenCollected = new StringBuilder();
                         continue;
                     }
-                    
+
                     if (indent == 0 && collectRawText)
                     {
                         collectRawText = false;
-                        parsedTemplates.Add(new Template(rawTextCollected.ToString(), tokenCollected.ToString()));
+                        parsedTemplates.Add(new Template(rawTextCollected.ToString(),
+                            tokenCollected.ToString()));
                         rawTextCollected = new StringBuilder();
                         tokenCollected = new StringBuilder();
                         continue;
@@ -166,7 +167,6 @@ namespace TrueOrFalse.WikiMarkup
 
                 if (collectToken)
                     tokenCollected.Append(token);
-
             }
 
             return parsedTemplates;
@@ -174,8 +174,9 @@ namespace TrueOrFalse.WikiMarkup
 
         public static string[] TokenizeMarkup(string markup)
         {
-            return String.IsNullOrEmpty(markup) ? new string[] {}: (Regex.Split(markup, "({{|}}|\\r|\\n|\\|)"));
-        } 
+            return String.IsNullOrEmpty(markup)
+                ? new string[] { }
+                : (Regex.Split(markup, "({{|}}|\\r|\\n|\\|)"));
+        }
     }
 }
-

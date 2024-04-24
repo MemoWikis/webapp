@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using static System.String;
 
 namespace TrueOrFalse.WikiMarkup

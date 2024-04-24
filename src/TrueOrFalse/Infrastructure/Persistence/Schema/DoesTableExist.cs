@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NHibernate;
+﻿using NHibernate;
 
 namespace TrueOrFalse.Infrastructure.Persistence
 {
@@ -9,7 +6,10 @@ namespace TrueOrFalse.Infrastructure.Persistence
     {
         private readonly ISession _session;
 
-        public DoesTableExist(ISession session){ _session = session; }
+        public DoesTableExist(ISession session)
+        {
+            _session = session;
+        }
 
         public bool Run(string tableName)
         {
@@ -17,12 +17,12 @@ namespace TrueOrFalse.Infrastructure.Persistence
 
             var result =
                 _session.CreateSQLQuery(
-                    String.Format(@"SELECT COUNT(table_name)
+                        String.Format(@"SELECT COUNT(table_name)
                                     FROM information_schema.tables
                                     WHERE table_schema = '{0}'
-                                    AND table_name = '{1}'", 
-                                    _session.Connection.Database, 
-                                    tableName))
+                                    AND table_name = '{1}'",
+                            _session.Connection.Database,
+                            tableName))
                     .UniqueResult<object>();
 
             return Convert.ToInt32(result) == 1;

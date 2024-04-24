@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TrueOrFalse.View.Web.Views.ApiVueApp.Stores;
 
@@ -7,7 +6,9 @@ public class LearningSessionConfigurationStoreController : BaseController
 {
     private readonly LearningSessionCreator _learningSessionCreator;
 
-    public LearningSessionConfigurationStoreController(SessionUser sessionUser, LearningSessionCreator learningSessionCreator) : base(sessionUser)
+    public LearningSessionConfigurationStoreController(
+        SessionUser sessionUser,
+        LearningSessionCreator learningSessionCreator) : base(sessionUser)
     {
         _learningSessionCreator = learningSessionCreator;
     }
@@ -20,5 +21,4 @@ public class LearningSessionConfigurationStoreController : BaseController
 
         return _learningSessionCreator.GetQuestionCounterForLearningSession(config);
     }
-
 }

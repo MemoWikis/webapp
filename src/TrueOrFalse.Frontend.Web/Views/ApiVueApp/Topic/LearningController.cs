@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -29,16 +28,16 @@ public class LearningController(
         var questionCounter = _learningSessionCreator.GetQuestionCounterForLearningSession(config);
 
         return new GetCountResult(
-                questionCounter.InWuwi,
-                questionCounter.NotInWuwi,
-                questionCounter.CreatedByCurrentUser,
-                questionCounter.NotCreatedByCurrentUser,
-                questionCounter.Private,
-                questionCounter.Public,
-                questionCounter.NotLearned,
-                questionCounter.NeedsLearning,
-                questionCounter.NeedsConsolidation,
-                questionCounter.Solid,
-                questionCounter.Max);
+            questionCounter.InWuwi,
+            questionCounter.NotInWuwi,
+            questionCounter.CreatedByCurrentUser,
+            questionCounter.NotCreatedByCurrentUser,
+            questionCounter.Private,
+            questionCounter.Public,
+            questionCounter.NotLearned,
+            questionCounter.NeedsLearning,
+            questionCounter.NeedsConsolidation,
+            questionCounter.Solid,
+            questionCounter.Max);
     }
 }

@@ -1,12 +1,11 @@
-﻿using System.Collections.Specialized;
-using TrueOrFalse.Web;
+﻿using TrueOrFalse.Web;
 
 public class QuestionSolutionFlashCard : QuestionSolution
 {
     public string Text;
 
     public override bool IsCorrect(string answer)
-    {   
+    {
         return answer == "(Antwort gewusst)";
     }
 

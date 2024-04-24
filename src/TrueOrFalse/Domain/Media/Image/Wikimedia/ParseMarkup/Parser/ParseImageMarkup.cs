@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace TrueOrFalse.WikiMarkup
 {
@@ -10,7 +8,8 @@ namespace TrueOrFalse.WikiMarkup
         {
             var result = new ParseImageMarkupResult
             {
-                AllRegisteredLicenses = LicenseImage.ToLicenseIdList(LicenseParser.ParseAllRegisteredLicenses(markup))
+                AllRegisteredLicenses =
+                    LicenseImage.ToLicenseIdList(LicenseParser.ParseAllRegisteredLicenses(markup))
             };
 
             var templateFound = false;
@@ -18,14 +17,16 @@ namespace TrueOrFalse.WikiMarkup
             {
                 if (ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName).IsSet)
                 {
-                    result.Template = ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName);
+                    result.Template =
+                        ParseTemplate.GetTemplateByName(markup, infoBoxTemplate.TemplateName);
                     result.InfoBoxTemplate = infoBoxTemplate;
                     templateFound = true;
                     break;
                 }
             }
 
-            if (templateFound) {
+            if (templateFound)
+            {
                 ParseDescription.SetDescription_FromTemplate(result);
                 ParseAuthor.SetAuthor_FromTemplate(result);
 
@@ -36,9 +37,10 @@ namespace TrueOrFalse.WikiMarkup
             imageParsingNotifications.InfoTemplate.Add(new Notification
             {
                 Name = "No information template found",
-                NotificationText = "Autor und Beschreibung konnten nicht automatisch geparsed werden: " +
-                                   "Es wurde kein Information template gefunden. " +
-                                   "Bitte Template ergänzen (Klasse InfoBoxTemplate) und/oder Angaben manuell übernehmen.",
+                NotificationText =
+                    "Autor und Beschreibung konnten nicht automatisch geparsed werden: " +
+                    "Es wurde kein Information template gefunden. " +
+                    "Bitte Template ergänzen (Klasse InfoBoxTemplate) und/oder Angaben manuell übernehmen.",
             });
             result.Notifications = imageParsingNotifications.ToJson();
             return result;
@@ -51,7 +53,8 @@ namespace TrueOrFalse.WikiMarkup
 
         public static List<Template> GetDescriptionInAllAvailableLanguages(string dscrTemplate)
         {
-            return ParseTemplate.GetAllMatchingTemplates(dscrTemplate, WikiLanguage.GetAllLanguages().Select(l => l.LanguageToken).ToList());
+            return ParseTemplate.GetAllMatchingTemplates(dscrTemplate,
+                WikiLanguage.GetAllLanguages().Select(l => l.LanguageToken).ToList());
         }
     }
 }

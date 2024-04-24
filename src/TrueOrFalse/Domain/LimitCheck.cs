@@ -1,6 +1,4 @@
-﻿using Antlr.Runtime;
-
-public class LimitCheck
+﻿public class LimitCheck
 {
     private readonly Logg _logg;
     private readonly SessionUser _sessionUser;

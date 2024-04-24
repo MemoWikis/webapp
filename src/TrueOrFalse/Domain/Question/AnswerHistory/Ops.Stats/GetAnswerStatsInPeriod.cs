@@ -1,43 +1,51 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 
 public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
 
-    public GetAnswerStatsInPeriod(ISession session){
+    public GetAnswerStatsInPeriod(ISession session)
+    {
         _session = session;
     }
 
-    public GetAnswerStatsInPeriodResult RunForThisWeek(int userId){
+    public GetAnswerStatsInPeriodResult RunForThisWeek(int userId)
+    {
         //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfThisWeek(), DateTime.Now)[0];
     }
 
-    public GetAnswerStatsInPeriodResult RunForThisMonth(int userId){
+    public GetAnswerStatsInPeriodResult RunForThisMonth(int userId)
+    {
         //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfThisMonth(), DateTime.Now)[0];
     }
 
-    public GetAnswerStatsInPeriodResult RunForThisYear(int userId){
+    public GetAnswerStatsInPeriodResult RunForThisYear(int userId)
+    {
         //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
         return Run(userId, DateTimeUtils.FirstDayOfThisYear(), DateTime.Now)[0];
     }
 
-    public GetAnswerStatsInPeriodResult RunForLastWeek(int userId){
+    public GetAnswerStatsInPeriodResult RunForLastWeek(int userId)
+    {
         //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
-        return Run(userId, DateTimeUtils.FirstDayOfLastWeek(), DateTimeUtils.FirstDayOfThisWeek())[0];
+        return Run(userId, DateTimeUtils.FirstDayOfLastWeek(),
+            DateTimeUtils.FirstDayOfThisWeek())[0];
     }
 
-    public GetAnswerStatsInPeriodResult RunForLastMonth(int userId){
+    public GetAnswerStatsInPeriodResult RunForLastMonth(int userId)
+    {
         //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
-        return Run(userId, DateTimeUtils.FirstDayOfLastMonth(), DateTimeUtils.FirstDayOfThisMonth())[0];
+        return Run(userId, DateTimeUtils.FirstDayOfLastMonth(),
+            DateTimeUtils.FirstDayOfThisMonth())[0];
     }
 
-    public GetAnswerStatsInPeriodResult RunForLastYear(int userId){
+    public GetAnswerStatsInPeriodResult RunForLastYear(int userId)
+    {
         //not used so far. If used, be aware that result includes AnswerCorrectness.IsView
-        return Run(userId, DateTimeUtils.FirstDayOfLastYear(), DateTimeUtils.FirstDayOfThisYear())[0];
+        return Run(userId, DateTimeUtils.FirstDayOfLastYear(),
+            DateTimeUtils.FirstDayOfThisYear())[0];
     }
 
     public GetAnswerStatsInPeriodResult Run(int userId)
@@ -49,7 +57,8 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
     public IList<GetAnswerStatsInPeriodResult> GetLast30Days(int userId)
     {
         var result = new List<GetAnswerStatsInPeriodResult>();
-        var rowsFromDb = Run(userId, DateTime.Now.AddDays(-30).Date, DateTime.Now, groupByDate: true, excludeAnswerViews: true);
+        var rowsFromDb = Run(userId, DateTime.Now.AddDays(-30).Date, DateTime.Now,
+            groupByDate: true, excludeAnswerViews: true);
         for (var i = 1; i <= 30; i++)
         {
             var entryDate = DateTime.Now.AddDays(-(30 - i)).Date;
@@ -70,8 +79,9 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
     }
 
     public IList<GetAnswerStatsInPeriodResult> Run(
-        int userId, 
-        DateTime? from, DateTime? to,
+        int userId,
+        DateTime? from,
+        DateTime? to,
         bool groupByDate = false,
         bool onlyLearningSessions = false,
         int? startHour = null,
@@ -88,7 +98,7 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         if (excludeAnswerViews)
             query += "AND AnswerredCorrectly != 3 ";
 
-        if(startHour != null && endHour != null)
+        if (startHour != null && endHour != null)
             query +=
                 @" AND TIME(DateCreated) >= MAKETIME({0}, 0, 0)
                    AND TIME(DateCreated) <= MAKETIME({1}, 0, 0) ";
@@ -96,9 +106,9 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         if (from.HasValue && to.HasValue)
         {
             query += String.Format(
-                    "AND DateCreated >= '" + ((DateTime)from).ToString("yyy-MM-dd HH:mm:ss") + "' " +
-                    "AND DateCreated < '" + ((DateTime)to).ToString("yyy-MM-dd HH:mm:ss") + "'",
-                        startHour, endHour);    
+                "AND DateCreated >= '" + ((DateTime)from).ToString("yyy-MM-dd HH:mm:ss") + "' " +
+                "AND DateCreated < '" + ((DateTime)to).ToString("yyy-MM-dd HH:mm:ss") + "'",
+                startHour, endHour);
         }
 
         if (groupByDate)
@@ -111,7 +121,7 @@ public class GetAnswerStatsInPeriod : IRegisterAsInstancePerLifetime
         var result = new List<GetAnswerStatsInPeriodResult>();
         foreach (var row in rows)
         {
-            var values = (object[]) row;
+            var values = (object[])row;
             result.Add(new GetAnswerStatsInPeriodResult
             {
                 TotalAnswers = Convert.ToInt32(values[0]),

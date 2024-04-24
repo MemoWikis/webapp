@@ -50,9 +50,7 @@ public class HistoryTopicDetailController(
             _categoryChangeRepo,
             _categoryRepository,
             _imageMetaDataReadingRepo,
-            _sessionUserCache,
             _httpContextAccessor,
-            _webHostEnvironment,
             _actionContextAccessor,
             _questionReadingRepo);
 
@@ -155,9 +153,7 @@ public class HistoryTopicDetailController(
             _categoryChangeRepo,
             _categoryRepository,
             _imageMetaDataReadingRepo,
-            _sessionUserCache,
             _httpContextAccessor,
-            _webHostEnvironment,
             _actionContextAccessor,
             _questionReadingRepo);
     }

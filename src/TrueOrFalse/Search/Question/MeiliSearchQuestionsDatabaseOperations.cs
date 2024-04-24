@@ -1,9 +1,4 @@
 ﻿using Meilisearch;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 namespace TrueOrFalse.Search
 {
@@ -14,12 +9,16 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public async Task CreateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
+        public async Task CreateAsync(
+            Question question,
+            string indexConstant = MeiliSearchKonstanten.Questions)
         {
             var questionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
-            var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
-             .ConfigureAwait(false);
-            await CheckStatus(taskInfo).ConfigureAwait(false); 
+            var taskInfo = await index
+                .AddDocumentsAsync(new List<MeiliSearchQuestionMap> { questionMapAndIndex })
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -27,13 +26,15 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public async Task UpdateAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
+        public async Task UpdateAsync(
+            Question question,
+            string indexConstant = MeiliSearchKonstanten.Questions)
         {
-        
-                var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
-               var taskInfo =  await index.UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex })
-                    .ConfigureAwait(false);
-               await CheckStatus(taskInfo).ConfigureAwait(false);
+            var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+            var taskInfo = await index
+                .UpdateDocumentsAsync(new List<MeiliSearchQuestionMap> { QuestionMapAndIndex })
+                .ConfigureAwait(false);
+            await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -41,19 +42,27 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(Question question, string indexConstant = MeiliSearchKonstanten.Questions)
+        public async Task DeleteAsync(
+            Question question,
+            string indexConstant = MeiliSearchKonstanten.Questions)
         {
-            
-                var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
-                 var taskInfo = await index
-                    .DeleteOneDocumentAsync(QuestionMapAndIndex.Id.ToString())
-                    .ConfigureAwait(false);
-                 await CheckStatus(taskInfo).ConfigureAwait(false);
+            var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
+            var taskInfo = await index
+                .DeleteOneDocumentAsync(QuestionMapAndIndex.Id.ToString())
+                .ConfigureAwait(false);
+
+            await CheckStatus(taskInfo).ConfigureAwait(false);
         }
 
-        private MeiliSearchQuestionMap CreateQuestionMap(Question question, string indexConstant, out Meilisearch.Index index)
+        private MeiliSearchQuestionMap CreateQuestionMap(
+            Question question,
+            string indexConstant,
+            out Meilisearch.Index index)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            var client = new MeilisearchClient(
+                MeiliSearchKonstanten.Url,
+                MeiliSearchKonstanten.MasterKey);
+
             index = client.Index(indexConstant);
             var questionMap = new MeiliSearchQuestionMap
             {

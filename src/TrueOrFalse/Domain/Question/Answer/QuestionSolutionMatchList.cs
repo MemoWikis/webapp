@@ -1,5 +1,4 @@
 using System.Collections.Specialized;
-using System.Text.Json;
 using Newtonsoft.Json;
 using TrueOrFalse.Domain.Question.SolutionType.MatchList;
 
@@ -14,41 +13,42 @@ public class QuestionSolutionMatchList : QuestionSolution
     public void FillFromPostData(NameValueCollection postData)
     {
         List<string> leftElementText =
-        (
-            from key in postData.AllKeys
-            where key.StartsWith("LeftElement-")
-            select postData.Get(key.Trim())
-        )
-        .ToList();
+            (
+                from key in postData.AllKeys
+                where key.StartsWith("LeftElement-")
+                select postData.Get(key.Trim())
+            )
+            .ToList();
 
         List<string> rightPairElementText =
-        (
-            from key in postData.AllKeys
-            where key.StartsWith("RightPairElement-")
-            select postData.Get(key.Trim()).Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
-        )
-        .ToList();
+            (
+                from key in postData.AllKeys
+                where key.StartsWith("RightPairElement-")
+                select postData.Get(key.Trim())
+                    .Replace(" ", " ") //Replaces non-breaking-spaces with normal spaces
+            )
+            .ToList();
 
         List<string> rightElementText =
-        (
-            from key in postData.AllKeys
-            where key.StartsWith("RightElement-")
-            select postData.Get(key.Trim())
-        )
-        .ToList();
+            (
+                from key in postData.AllKeys
+                where key.StartsWith("RightElement-")
+                select postData.Get(key.Trim())
+            )
+            .ToList();
 
         for (int i = 0; i < leftElementText.Count; i++)
         {
             Pairs.Add(new Pair
             {
-                ElementLeft = new ElementLeft {Text = leftElementText[i]},
-                ElementRight = new ElementRight {Text = rightPairElementText[i]}
+                ElementLeft = new ElementLeft { Text = leftElementText[i] },
+                ElementRight = new ElementRight { Text = rightPairElementText[i] }
             });
         }
 
         foreach (var singleRightElementText in rightElementText)
         {
-            RightElements.Add(new ElementRight {Text = singleRightElementText});
+            RightElements.Add(new ElementRight { Text = singleRightElementText });
         }
 
         IsSolutionOrdered = postData["isSolutionRandomlyOrdered"] != "";
@@ -86,13 +86,16 @@ public class QuestionSolutionMatchList : QuestionSolution
         {
             for (int i = 0; i < questionPairs.Count; i++)
             {
-                bool isSameElementLeft = questionPairs[i].ElementLeft.Text == answerPairs[i].ElementLeft.Text;
-                bool isSameElementRight = questionPairs[i].ElementRight.Text == answerPairs[i].ElementRight.Text;
+                bool isSameElementLeft =
+                    questionPairs[i].ElementLeft.Text == answerPairs[i].ElementLeft.Text;
+                bool isSameElementRight = questionPairs[i].ElementRight.Text ==
+                                          answerPairs[i].ElementRight.Text;
                 if (isSameElementLeft && isSameElementRight)
                     continue;
                 answerCorrect = false;
             }
         }
+
         return answerCorrect;
     }
 
@@ -101,7 +104,8 @@ public class QuestionSolutionMatchList : QuestionSolution
         TrimElementTexts();
         string correctAnswerMessage = PairSeperator;
         foreach (var pair in Pairs)
-            correctAnswerMessage += pair.ElementLeft.Text + ElementSeperator + pair.ElementRight.Text + PairSeperator;
+            correctAnswerMessage += pair.ElementLeft.Text + ElementSeperator +
+                                    pair.ElementRight.Text + PairSeperator;
 
         return correctAnswerMessage;
     }
@@ -110,7 +114,8 @@ public class QuestionSolutionMatchList : QuestionSolution
     {
         var htmlListItems = CorrectAnswer()
             .Split(new[] { PairSeperator }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(a => $"<li>{String.Join(" - ",a.Split(new [] { ElementSeperator }, StringSplitOptions.RemoveEmptyEntries))}</li>")
+            .Select(a =>
+                $"<li>{String.Join(" - ", a.Split(new[] { ElementSeperator }, StringSplitOptions.RemoveEmptyEntries))}</li>")
             .Aggregate((a, b) => a + b);
 
         return $"<ul>{htmlListItems}</ul>";

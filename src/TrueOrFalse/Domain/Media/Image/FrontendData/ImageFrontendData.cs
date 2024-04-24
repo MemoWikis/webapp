@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using static System.String;
 
@@ -23,8 +22,9 @@ public class ImageFrontendData
     public string LicenseShortDescriptionLink;
     public string AttributionHtmlString;
     public ImageParsingNotifications ImageParsingNotifications;
-        
-    public ImageFrontendData(ImageMetaData imageMetaData,
+
+    public ImageFrontendData(
+        ImageMetaData imageMetaData,
         IHttpContextAccessor httpContextAccessor,
         QuestionReadingRepo questionReadingRepo)
     {
@@ -35,13 +35,14 @@ public class ImageFrontendData
 
         ImageMetaDataExists = true;
         ImageMetaData = imageMetaData;
-     
+
         MainLicenseInfo = !IsNullOrEmpty(ImageMetaData.MainLicenseInfo)
             ? MainLicenseInfo.FromJson(ImageMetaData.MainLicenseInfo)
             : null;
 
         if (ImageMetaData.Source == ImageSource.WikiMedia)
-            OriginalFileLink = LicenseParser.GetWikiDetailsPageFromSourceUrl(ImageMetaData.SourceUrl);
+            OriginalFileLink =
+                LicenseParser.GetWikiDetailsPageFromSourceUrl(ImageMetaData.SourceUrl);
 
         ManualImageEvaluation = imageMetaData.ManualEntriesFromJson().ManualImageEvaluation;
         ImageCanBeDisplayed = ManualImageEvaluation != ManualImageEvaluation.ImageManuallyRuledOut;
@@ -52,10 +53,12 @@ public class ImageFrontendData
 
         if (!ImageCanBeDisplayed)
         {
-            AttributionHtmlString = "Das Bild kann aus lizenzrechtlichen Gründen leider zur Zeit nicht angezeigt werden. ";
+            AttributionHtmlString =
+                "Das Bild kann aus lizenzrechtlichen Gründen leider zur Zeit nicht angezeigt werden. ";
 
             if (!IsNullOrEmpty(OriginalFileLink))
-                AttributionHtmlString += $"Hier findest du die <a href='{OriginalFileLink}' target='_blank'>Originaldatei</a>.";
+                AttributionHtmlString +=
+                    $"Hier findest du die <a href='{OriginalFileLink}' target='_blank'>Originaldatei</a>.";
         }
         else //Image can be displayed
         {
@@ -87,7 +90,8 @@ public class ImageFrontendData
 
     private bool IsAuthorizedLicense()
     {
-        return MainLicenseInfo != null && ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized;
+        return MainLicenseInfo != null && ManualImageEvaluation ==
+            ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized;
     }
 
     private void FillFor_Authorized_License()
@@ -120,11 +124,13 @@ public class ImageFrontendData
         {
             if (!IsNullOrEmpty(LicenseLink))
             {
-                AttributionHtmlString += $", Lizenz: <a href='{LicenseLink}' target='_blank'>{LicenseName}</a>";
+                AttributionHtmlString +=
+                    $", Lizenz: <a href='{LicenseLink}' target='_blank'>{LicenseName}</a>";
 
                 if (!IsNullOrEmpty(LicenseShortDescriptionLink))
                 {
-                    AttributionHtmlString += $" (<a href='{LicenseShortDescriptionLink}' target='_blank'>Kurzfassung</a>)";
+                    AttributionHtmlString +=
+                        $" (<a href='{LicenseShortDescriptionLink}' target='_blank'>Kurzfassung</a>)";
                 }
             }
             else if (MainLicense != null && MainLicense.LicenseLinkRequired == true)
@@ -160,7 +166,11 @@ public class ImageFrontendData
         }
     }
 
-    public ImageUrl GetImageUrl(int width, bool asSquare = false, bool getDummy = false, ImageType imageTypeForDummy = ImageType.Question)
+    public ImageUrl GetImageUrl(
+        int width,
+        bool asSquare = false,
+        bool getDummy = false,
+        ImageType imageTypeForDummy = ImageType.Question)
     {
         IImageSettings imageSettings;
         var typeId = getDummy ? -1 : (ImageMetaDataExists ? ImageMetaData.TypeId : -1);
@@ -175,7 +185,8 @@ public class ImageFrontendData
                 imageSettings = new UserImageSettings(typeId, _httpContextAccessor);
                 break;
             default:
-                imageSettings = new QuestionImageSettings(typeId, _httpContextAccessor, _questionReadingRepo);
+                imageSettings =
+                    new QuestionImageSettings(typeId, _httpContextAccessor, _questionReadingRepo);
                 break;
         }
 
@@ -186,10 +197,10 @@ public class ImageFrontendData
     }
 
     public string RenderHtmlImageBasis(
-        int width, 
-        bool asSquare, 
-        ImageType imageTypeForDummies, 
-        string insertLicenseLinkAfterAncestorOfClass = "ImageContainer", 
+        int width,
+        bool asSquare,
+        ImageType imageTypeForDummies,
+        string insertLicenseLinkAfterAncestorOfClass = "ImageContainer",
         string additionalCssClasses = "",
         string linkToItem = "",
         bool noFollow = false,
@@ -229,18 +240,20 @@ public class ImageFrontendData
                     " src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url +
                     "' " + //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
                     "class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses + "' " +
-                    "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url + "' " +
+                    "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url +
+                    "' " +
                     dataIsYoutubeVide +
                     "data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' " +
                     "alt='" + altDescription + "'/>",
                     linkToItem, noFollow);
             }
+
             return AddLink( //if no image, then display dummy picture
                 "<img " + headerId +
-                    "src='" + imageUrl.Url
-                             + "' class='ItemImage JS-InitImage" + additionalCssClasses
-                             + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
-                             + "' alt=''/>",
+                "src='" + imageUrl.Url
+                + "' class='ItemImage JS-InitImage" + additionalCssClasses
+                + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
+                + "' alt=''/>",
                 linkToItem, noFollow);
         }
         catch (Exception e)
@@ -252,11 +265,10 @@ public class ImageFrontendData
 
     private static string AddLink(string html, string link, bool noFollow = false)
     {
-        if(link == "")
+        if (link == "")
             return html;
 
         var noFollowString = noFollow ? " rel='nofollow'" : "";
         return $"<a href='{link}'{noFollowString}>{html}</a>";
-
     }
 }

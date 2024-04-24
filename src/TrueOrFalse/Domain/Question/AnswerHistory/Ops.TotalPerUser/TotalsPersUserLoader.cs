@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using NHibernate;
 
 public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
 
-    public TotalsPersUserLoader(ISession session){
+    public TotalsPersUserLoader(ISession session)
+    {
         _session = session;
     }
 
     public TotalPerUser Run(int userId, int questionId)
     {
-        var result = Run(userId, new List<int> {questionId});
-        if(!result.Any())
+        var result = Run(userId, new List<int> { questionId });
+        if (!result.Any())
             return new TotalPerUser();
 
         return result[0];
@@ -28,25 +27,24 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
     public IList<TotalPerUser> Run(int userId, IEnumerable<int> questionIds)
     {
         if (!questionIds.Any())
-            return new TotalPerUser[]{};
-
+            return new TotalPerUser[] { };
 
         var totals = new List<TotalPerUser>();
 
-        if(userId > -1)
-        { 
+        if (userId > -1)
+        {
             var sbQuestionIdRestriction = new StringBuilder();
 
             var firstHit = true;
             foreach (var questionId in questionIds)
-                if(firstHit)
+                if (firstHit)
                 {
                     sbQuestionIdRestriction.AppendLine("AND QuestionId = " + questionId);
                     firstHit = false;
                 }
                 else
                     sbQuestionIdRestriction.AppendLine("OR QuestionId = " + questionId);
-            
+
             var query = String.Format(
                 @"SELECT 
 	                    QuestionId,
@@ -59,20 +57,18 @@ public class TotalsPersUserLoader : IRegisterAsInstancePerLifetime
                     {1}", userId, sbQuestionIdRestriction);
 
             totals = _session.CreateSQLQuery(query)
-                            .List<object>()
-                            .Select(item => new TotalPerUser
-                                {
-                                    QuestionId = Convert.ToInt32(((object[])item)[0]),
-                                    TotalTrue = Convert.ToInt32(((object[])item)[1]),
-                                    TotalFalse = Convert.ToInt32(((object[])item)[2]),
-                                })
-                            .ToList();
-
+                .List<object>()
+                .Select(item => new TotalPerUser
+                {
+                    QuestionId = Convert.ToInt32(((object[])item)[0]),
+                    TotalTrue = Convert.ToInt32(((object[])item)[1]),
+                    TotalFalse = Convert.ToInt32(((object[])item)[2]),
+                })
+                .ToList();
         }
 
-
         foreach (var questionId in questionIds)
-            if(totals.All(t => t.QuestionId != questionId))
+            if (totals.All(t => t.QuestionId != questionId))
                 totals.Add(new TotalPerUser
                 {
                     QuestionId = questionId,

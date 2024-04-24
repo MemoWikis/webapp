@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-
-public class LearningSessionCreator : IRegisterAsInstancePerLifetime
+﻿public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;

@@ -1,8 +1,5 @@
 using System.Diagnostics;
-using System.IO;
-using System.Web;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 public class StoreSound
 {
@@ -12,6 +9,7 @@ public class StoreSound
     {
         _webHostEnvironment = webHostEnvironment;
     }
+
     public void Run(Stream inputStream, string filename)
     {
         File.Delete(filename);
@@ -23,7 +21,10 @@ public class StoreSound
         }
 
         var ffmpegPath = Path.Combine(_webHostEnvironment.WebRootPath, "/bin/ffmpeg.exe");
-        if (!File.Exists(ffmpegPath)) throw new FileNotFoundException(string.Format("Please copy ffmpeg.exe from http://ffmpeg.zeranoe.com/builds/ to {0}.", ffmpegPath));
+        if (!File.Exists(ffmpegPath))
+            throw new FileNotFoundException(string.Format(
+                "Please copy ffmpeg.exe from http://ffmpeg.zeranoe.com/builds/ to {0}.",
+                ffmpegPath));
         var ffmpeg = Process.Start(ffmpegPath, string.Format("-i {0} {1}", tempFileName, filename));
         if (ffmpeg != null) ffmpeg.WaitForExit();
 
