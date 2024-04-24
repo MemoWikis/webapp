@@ -1,4 +1,4 @@
-﻿
+﻿using System.Diagnostics;
 
 [Serializable]
 public class LearningSession
@@ -8,22 +8,24 @@ public class LearningSession
 
     public QuestionCounter QuestionCounter;
 
-    public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
+    public LearningSession(
+        List<LearningSessionStep> learningSessionSteps,
+        LearningSessionConfig config)
     {
         if (Config == null)
         {
-            Logg.r.Error("LearningSessionConfig is null");
+            var stacktrace = new StackTrace();
+            Logg.r.Error("LearningSessionConfig is null\n" + stacktrace);
         }
 
         Steps = learningSessionSteps;
         Config = config;
-        Config.Category = EntityCache.GetCategory(Config.CategoryId) ?? throw new InvalidOperationException();
+        Config.Category = EntityCache.GetCategory(Config.CategoryId) ??
+                          throw new InvalidOperationException();
     }
 
-    public LearningSessionStep? CurrentStep => 
-        CurrentIndex <= 0 ?
-            Steps.Any() ? Steps[0] : null : 
-            Steps[CurrentIndex];
+    public LearningSessionStep? CurrentStep =>
+        CurrentIndex <= 0 ? Steps.Any() ? Steps[0] : null : Steps[CurrentIndex];
 
     public int CurrentIndex { get; private set; }
     public bool IsLastStep { get; private set; }
@@ -33,7 +35,7 @@ public class LearningSession
         if (CurrentStep == null)
         {
             Logg.r.Error("CurrentStep in LearningSession is null");
-            throw new NullReferenceException(); 
+            throw new NullReferenceException();
         }
 
         CurrentStep.AnswerState = answer.IsCorrect ? AnswerState.Correct : AnswerState.False;
@@ -52,7 +54,6 @@ public class LearningSession
     {
         return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
     }
-
 
     public virtual bool LimitForThisQuestionHasBeenReached(LearningSessionStep step)
     {
@@ -87,7 +88,7 @@ public class LearningSession
 
     public void SetCurrentStepAsCorrect()
     {
-        if(CurrentStep == null)
+        if (CurrentStep == null)
             return;
 
         CurrentStep.AnswerState = AnswerState.Correct;

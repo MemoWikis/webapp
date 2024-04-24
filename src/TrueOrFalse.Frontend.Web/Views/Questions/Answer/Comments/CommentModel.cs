@@ -34,16 +34,13 @@ public class CommentModel
         IWebHostEnvironment webHostEnvironment,
         bool showSettled = false)
     {
-
         Id = comment.Id;
         CreatorName = comment.Creator.Name;
         CreationDate = comment.DateCreated.ToString("U");
         CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(comment.DateCreated);
         CreatorUrl = "/Nutzer/" + comment.Creator.Name + "/" + comment.Creator.Id;
-        ImageUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor).GetUrl_128px_square(comment.Creator).Url;
         Title = comment.Title ?? "";
         Text = comment.Text;
-
         ShouldBeImproved = comment.ShouldImprove;
         ShouldBeDeleted = comment.ShouldRemove;
         ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(comment.ShouldKeys);
@@ -51,6 +48,8 @@ public class CommentModel
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
         ShowSettledAnswers = showSettled;
+        ImageUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor).GetUrl_128px_square(comment.Creator).Url;
+
 
         if (comment.Answers != null)
         {

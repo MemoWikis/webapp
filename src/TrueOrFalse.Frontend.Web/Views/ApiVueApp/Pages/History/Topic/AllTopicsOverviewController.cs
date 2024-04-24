@@ -11,16 +11,15 @@ public class HistoryTopicAllTopicsOverviewController(
     AllTopicsHistory _allTopicsHistory,
     PermissionCheck _permissionCheck,
     CategoryChangeRepo _categoryChangeRepo,
-    IHttpContextAccessor _httpContextAccessor,
-    SessionUser _sessionUser) : BaseController(_sessionUser)
+    IHttpContextAccessor _httpContextAccessor) : Controller
 {
     [HttpGet]
-    public JsonResult Get(int page)
+    public Day[] Get(int page)
     {
         const int revisionsToShow = 100;
         var days = GetDays(page, revisionsToShow);
 
-        return Json(days);
+        return days;
     }
 
     private Day[] GetDays(int page, int revisionsToShow)
@@ -51,16 +50,14 @@ public class HistoryTopicAllTopicsOverviewController(
         return day;
     }
 
-    public class GroupedChange
-    {
-        public bool collapsed { get; set; } = true;
-        public Change[] changes { get; set; }
-    }
+    public readonly record struct GroupedChange(
+        Change[] Changes,
+        bool Collapsed = true);
 
     public class TempGroup
     {
-        public IList<Change> changes;
-    }
+        public IList<Change> Changes { get; set; }
+    };
 
     private GroupedChange[] BuildGroupedChanges(List<Change> changes)
     {
@@ -72,22 +69,22 @@ public class HistoryTopicAllTopicsOverviewController(
             {
                 var newGroup = new TempGroup
                 {
-                    changes = new List<Change> { change }
+                    Changes = new List<Change> { change }
                 };
                 tempGroupChanges.Add(newGroup);
                 continue;
             }
 
-            tempGroupChanges.LastOrDefault()?.changes.Add(change);
+            tempGroupChanges.LastOrDefault()?.Changes.Add(change);
         }
 
         return tempGroupChanges
-            .Select(@group => new GroupedChange { changes = @group.changes.ToArray() }).ToArray();
+            .Select(@group => new GroupedChange { Changes = @group.Changes.ToArray() }).ToArray();
     }
 
     private bool ChangeCanBeGrouped(TempGroup tempGroup, Change change)
     {
-        var currentGroup = tempGroup.changes.LastOrDefault();
+        var currentGroup = tempGroup.Changes.LastOrDefault();
         return currentGroup != null && currentGroup.topicId == change.topicId &&
                change.topicChangeType == CategoryChangeType.Text &&
                currentGroup.topicChangeType == change.topicChangeType &&

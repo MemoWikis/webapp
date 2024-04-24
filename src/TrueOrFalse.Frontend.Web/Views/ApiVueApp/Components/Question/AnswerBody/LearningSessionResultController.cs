@@ -1,85 +1,88 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Linq;
 
-public class VueLearningSessionResultController
-    : BaseController
+public class VueLearningSessionResultController(LearningSessionCache _learningSessionCache,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo) : Controller
 {
-    private readonly LearningSessionCache _learningSessionCache;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly QuestionReadingRepo _questionReadingRepo;
+    public record struct LearningSessionResult(
+        int UniqueQuestionCount, 
+        CorrectWrongOrNotAnswered Correct,
+        CorrectWrongOrNotAnswered CorrectAfterRepetition,
+        CorrectWrongOrNotAnswered Wrong,
+        CorrectWrongOrNotAnswered NotAnswered,
+        string TopicName,
+        int TopicId,
+        bool InWuwi,
+        TinyQuestion[] Questions);
+    public record struct CorrectWrongOrNotAnswered(int Percentage, int Count);
+    public record struct TinyQuestion(
+        string CorrectAnswerHtml,
+        int Id,
+        string ImgUrl,
+        string Title,
+        Step[] Steps);
 
-    public VueLearningSessionResultController(LearningSessionCache learningSessionCache,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        IActionContextAccessor actionContextAccessor,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo, SessionUser sessionUser) : base(sessionUser)
-    {
-        _learningSessionCache = learningSessionCache;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _actionContextAccessor = actionContextAccessor;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _questionReadingRepo = questionReadingRepo;
-    }
+    public record struct Step(AnswerState AnswerState, string AnswerAsHtml); 
+
     [HttpGet]
-    public JsonResult Get()
+    public LearningSessionResult Get() => GetLearningSessionResult();
+
+    private LearningSessionResult GetLearningSessionResult()
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        var model = new LearningSessionResultModel(learningSession, _httpContextAccessor, _webHostEnvironment);
-        var questions = model.AnsweredStepsGrouped.Where(g => g.First().Question.Id != 0).Select(g =>
-        {
-            var question = g.First().Question;
-            return new {
-                    correctAnswerHtml = GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
-                    id = question.Id,
-                    imgUrl = GetQuestionImageFrontendData.Run(question,
-                        _imageMetaDataReadingRepo, 
-                        _httpContextAccessor, 
-                        _webHostEnvironment,
-                        _questionReadingRepo)
+        var model = new LearningSessionResultModel(learningSession);
+        var tinyQuestions = model.AnsweredStepsGrouped
+            .Where(g => g.First().Question.Id != 0)
+            .Select(g =>
+            {
+                var question = g.First().Question;
+                return new TinyQuestion(
+                    CorrectAnswerHtml: GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml(),
+                    Id: question.Id,
+                    ImgUrl: GetQuestionImageFrontendData.Run(
+                            question,
+                            _imageMetaDataReadingRepo,
+                            _httpContextAccessor,
+                            _questionReadingRepo)
                         .GetImageUrl(128, true).Url,
-                    title = question.GetShortTitle(),
-                    steps = g.Select(s => new {
-                        answerState = s.AnswerState,
-                        answerAsHtml = Question.AnswersAsHtml(s.Answer, question.SolutionType)
-                    }).ToArray(),
-                };
-        }).ToArray();
+                    Title: question.GetShortTitle(),
+                    Steps: g.Select(s => new Step(
+                    
+                        AnswerState: s.AnswerState,
+                        AnswerAsHtml: Question.AnswersAsHtml(s.Answer, question.SolutionType)
+                    )).ToArray()
+                );
+            }).ToArray();
 
-        return Json(new
-        {
-            uniqueQuestionCount = model.NumberUniqueQuestions,
-            correct = new
-            {
-                percentage = model.NumberCorrectPercentage,
-                count = model.NumberCorrectAnswers
-            },
-            correctAfterRepetition = new
-            {
-                percentage = model.NumberCorrectAfterRepetitionPercentage,
-                count = model.NumberCorrectAfterRepetitionAnswers
-            },
-            wrong = new
-            {
-                percentage = model.NumberWrongAnswersPercentage,
-                count = model.NumberWrongAnswers
-            },
-            notAnswered = new
-            {
-                percentage = model.NumberNotAnsweredPercentage,
-                count = model.NumberNotAnswered
-            },
-            topicName = learningSession.Config.Category.Name,
-            topicId = learningSession.Config.Category.Id,
-            inWuwi = learningSession.Config.InWuwi,
-            questions = questions
-        });
+        return new LearningSessionResult(
+            UniqueQuestionCount: model.NumberUniqueQuestions,
+            Correct: new CorrectWrongOrNotAnswered(
+            
+                Percentage: model.NumberCorrectPercentage,
+                Count: model.NumberCorrectAnswers
+            ),
+            CorrectAfterRepetition: new CorrectWrongOrNotAnswered(
+            
+                Percentage: model.NumberCorrectAfterRepetitionPercentage,
+                Count: model.NumberCorrectAfterRepetitionAnswers
+            ),
+            Wrong: new CorrectWrongOrNotAnswered(
+            
+                Percentage: model.NumberWrongAnswersPercentage,
+                Count: model.NumberWrongAnswers
+            ),
+            NotAnswered: new CorrectWrongOrNotAnswered(
+            
+                Percentage: model.NumberNotAnsweredPercentage,
+                Count: model.NumberNotAnswered
+            ),
+            TopicName: learningSession.Config.Category.Name,
+            TopicId: learningSession.Config.Category.Id,
+            InWuwi: learningSession.Config.InWuwi,
+            Questions:  tinyQuestions
+        );
     }
 }

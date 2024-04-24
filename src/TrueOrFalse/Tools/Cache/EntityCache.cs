@@ -249,13 +249,9 @@ public class EntityCache
         }
     }
 
-    public static void Remove(int id, PermissionCheck permissionCheck, int userId) =>
-        Remove(GetCategory(id), permissionCheck, userId);
+    public static void Remove(int id, int userId) => Remove(GetCategory(id), userId);
 
-    public static void Remove(
-        CategoryCacheItem category,
-        PermissionCheck permissionCheck,
-        int userId)
+    public static void Remove(CategoryCacheItem category, int userId)
     {
         Remove(Categories, category);
         var connectedQuestions = category.GetAggregatedQuestionsFromMemoryCache(userId);
@@ -380,6 +376,17 @@ public class EntityCache
         Relations.TryGetValue(relationId, out var relation);
         return relation;
     }
+
+    public static IList<CategoryCacheRelation> GetAllRelations() => Relations.Values.ToList();
+
+    public static List<CategoryCacheRelation> GetCacheRelationsByChildId(int childId) =>
+        GetAllRelations().Where(r => r.ChildId == childId).ToList();
+
+    public static List<CategoryCacheRelation> GetCacheRelationsByParentId(int parentId) =>
+        GetAllRelations().Where(r => r.ParentId == parentId).ToList();
+
+    public static List<CategoryCacheRelation> GetCacheRelationsByTopicId(int topicId) =>
+        GetAllRelations().Where(r => r.ParentId == topicId || r.ChildId == topicId).ToList();
 
     public static void Clear()
     {

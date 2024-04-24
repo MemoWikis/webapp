@@ -1,20 +1,40 @@
-﻿public class CategoryCreator(
-    Logg _logg,
-    CategoryRepository _categoryRepository,
-    UserReadingRepo _userReadingRepo,
-    CategoryRelationRepo _categoryRelationRepo) : IRegisterAsInstancePerLifetime
+﻿public class CategoryCreator : IRegisterAsInstancePerLifetime
 {
-    public RequestResult Create(string name, int parentTopicId, SessionUser sessionUser)
+    private readonly Logg _logg;
+    private readonly CategoryRepository _categoryRepository;
+    private readonly UserReadingRepo _userReadingRepo;
+    private readonly CategoryRelationRepo _categoryRelationRepo;
+
+    public CategoryCreator(
+        Logg logg,
+        CategoryRepository categoryRepository,
+        UserReadingRepo userReadingRepo,
+        CategoryRelationRepo categoryRelationRepo)
+    {
+        _logg = logg;
+        _categoryRepository = categoryRepository;
+        _userReadingRepo = userReadingRepo;
+        _categoryRelationRepo = categoryRelationRepo;
+    }
+
+    public readonly record struct CreateResult(
+        bool Success,
+        string MessageKey,
+        TinyTopicItem Data);
+
+    public readonly record struct TinyTopicItem(bool CantSavePrivateTopic, string Name, int Id);
+
+    public CreateResult Create(string name, int parentTopicId, SessionUser sessionUser)
     {
         if (!new LimitCheck(_logg, sessionUser).CanSavePrivateTopic(true))
         {
-            return new RequestResult
+            return new CreateResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                data = new
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
+                Data = new TinyTopicItem
                 {
-                    cantSavePrivateTopic = true
+                    CantSavePrivateTopic = true
                 }
             };
         }
@@ -30,13 +50,13 @@
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
         modifyRelationsForCategory.AddChild(parentTopicId, topic.Id);
 
-        return new RequestResult
+        return new CreateResult
         {
-            success = true,
-            data = new
+            Success = true,
+            Data = new TinyTopicItem
             {
-                name = topic.Name,
-                id = topic.Id
+                Name = topic.Name,
+                Id = topic.Id
             }
         };
     }

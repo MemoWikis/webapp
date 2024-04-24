@@ -1,39 +1,17 @@
-﻿using Seedworks.Lib.Persistence;
-using TrueOrFalse.Search;
+﻿using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
-public class QuestionWritingRepo : RepositoryDbBase<Question>
+public class QuestionWritingRepo(
+    UpdateQuestionCountForCategory _updateQuestionCountForCategory,
+    JobQueueRepo _jobQueueRepo,
+    ReputationUpdate _reputationUpdate,
+    UserReadingRepo _userReadingRepo,
+    UserActivityRepo _userActivityRepo,
+    QuestionChangeRepo _questionChangeRepo,
+    ISession _nhibernateSession,
+    SessionUser _sessionUser) : RepositoryDbBase<Question>(_nhibernateSession)
 {
-    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly ReputationUpdate _reputationUpdate;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserActivityRepo _userActivityRepo;
-    private readonly QuestionChangeRepo _questionChangeRepo;
-    private readonly ISession _nhibernateSession;
-    private readonly RepositoryDb<Question> _repo;
-    private readonly SessionUser _sessionUser;
-
-    public QuestionWritingRepo(UpdateQuestionCountForCategory updateQuestionCountForCategory,
-        JobQueueRepo jobQueueRepo,
-        ReputationUpdate reputationUpdate,
-        UserReadingRepo userReadingRepo,
-        UserActivityRepo userActivityRepo,
-        QuestionChangeRepo questionChangeRepo,
-        ISession nhibernateSession,
-        SessionUser sessionUser) : base(nhibernateSession)
-    {
-        _repo = new RepositoryDb<Question>(nhibernateSession);
-        _updateQuestionCountForCategory = updateQuestionCountForCategory;
-        _jobQueueRepo = jobQueueRepo;
-        _reputationUpdate = reputationUpdate;
-        _userReadingRepo = userReadingRepo;
-        _userActivityRepo = userActivityRepo;
-        _questionChangeRepo = questionChangeRepo;
-        _nhibernateSession = nhibernateSession;
-        _sessionUser = sessionUser;
-    }
     public void Create(Question question, CategoryRepository categoryRepository)
     {
         if (question.Creator == null)
@@ -41,8 +19,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             throw new Exception("no creator");
         }
 
-        _repo.Create(question);
-        _repo.Flush();
+        Create(question);
+        Flush();
 
         _updateQuestionCountForCategory.Run(question.Categories);
 
@@ -88,7 +66,8 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
     public void UpdateOrMerge(Question question, bool withMerge)
     {
         var categoriesIds = _nhibernateSession
-            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" + question.Id)
+            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" +
+                            question.Id)
             .List<int>();
         var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
                     " AND Category_id is not null";
@@ -104,10 +83,9 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
             .IsIn(categoriesBeforeUpdateIds)
             .List();
 
-        //UpdateOrMerge(question, withMerge);
-        if (withMerge) 
+        if (withMerge)
             Merge(question);
-        else 
+        else
             Update(question);
 
         Flush();
@@ -120,12 +98,14 @@ public class QuestionWritingRepo : RepositoryDbBase<Question>
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
-        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, _sessionUser.UserId);
+        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds,
+            _sessionUser.UserId);
         _questionChangeRepo.AddUpdateEntry(question);
 
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .UpdateAsync(question));
     }
+
     public void UpdateFieldsOnly(Question question)
     {
         base.Update(question);

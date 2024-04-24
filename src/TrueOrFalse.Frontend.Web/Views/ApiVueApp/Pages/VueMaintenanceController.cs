@@ -13,69 +13,41 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 
 namespace VueApp;
 
-public class VueMaintenanceController : BaseController
+public class VueMaintenanceController(
+    SessionUser _sessionUser,
+    ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll,
+    ProbabilityUpdate_Question _probabilityUpdateQuestion,
+    MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
+    UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
+    UpdateWishcount _updateWishcount,
+    MeiliSearchReIndexCategories _meiliSearchReIndexCategories,
+    MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers,
+    CategoryRepository _categoryRepository,
+    AnswerRepo _answerRepo,
+    UserReadingRepo _userReadingRepo,
+    UserWritingRepo _userWritingRepo,
+    IAntiforgery _antiforgery,
+    IHttpContextAccessor _httpContextAccessor,
+    IWebHostEnvironment _webHostEnvironment,
+    UpdateQuestionCountForCategory _updateQuestionCountForCategory) : Controller
 {
-    private readonly ProbabilityUpdate_ValuationAll _probabilityUpdateValuationAll;
-    private readonly ProbabilityUpdate_Question _probabilityUpdateQuestion;
-    private readonly MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions;
-    private readonly UpdateQuestionAnswerCounts _updateQuestionAnswerCounts;
-    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly UpdateWishcount _updateWishcount;
-    private readonly MeiliSearchReIndexCategories _meiliSearchReIndexCategories;
-    private readonly MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly AnswerRepo _answerRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-    private readonly IAntiforgery _antiforgery;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public VueMaintenanceController(SessionUser sessionUser,
-        ProbabilityUpdate_ValuationAll probabilityUpdateValuationAll,
-        ProbabilityUpdate_Question probabilityUpdateQuestion,
-        MeiliSearchReIndexAllQuestions meiliSearchReIndexAllQuestions,
-        UpdateQuestionAnswerCounts updateQuestionAnswerCounts,
-        UpdateWishcount updateWishcount,
-        MeiliSearchReIndexCategories meiliSearchReIndexCategories,
-        MeiliSearchReIndexAllUsers meiliSearchReIndexAllUsers,
-        CategoryRepository categoryRepository,
-        AnswerRepo answerRepo,
-        UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo,
-        IAntiforgery antiforgery,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(sessionUser)
-    {
-        _probabilityUpdateValuationAll = probabilityUpdateValuationAll;
-        _probabilityUpdateQuestion = probabilityUpdateQuestion;
-        _meiliSearchReIndexAllQuestions = meiliSearchReIndexAllQuestions;
-        _updateQuestionAnswerCounts = updateQuestionAnswerCounts;
-        _updateWishcount = updateWishcount;
-        _meiliSearchReIndexCategories = meiliSearchReIndexCategories;
-        _meiliSearchReIndexAllUsers = meiliSearchReIndexAllUsers;
-        _categoryRepository = categoryRepository;
-        _answerRepo = answerRepo;
-        _userReadingRepo = userReadingRepo;
-        _userWritingRepo = userWritingRepo;
-        _antiforgery = antiforgery;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
+    public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
     [AccessOnlyAsAdmin]
     [HttpGet]
-    public JsonResult Get()
+    public VueMaintenanceResult Get()
     {
         if (_sessionUser.IsInstallationAdmin)
         {
             var tokens = _antiforgery.GetAndStoreTokens(HttpContext);
-            Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = true });
+            Response.Cookies.Append("X-CSRF-TOKEN", tokens.RequestToken,
+                new CookieOptions { HttpOnly = true });
 
-            return Json(new
+            return new VueMaintenanceResult
             {
-                success = true,
-                data = tokens.RequestToken
-            });
+                Success = true,
+                Data = tokens.RequestToken
+            };
         }
 
         throw new SecurityException("Not allowed");
@@ -84,191 +56,192 @@ public class VueMaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult RecalculateAllKnowledgeItems()
+    public VueMaintenanceResult RecalculateAllKnowledgeItems()
     {
         _probabilityUpdateValuationAll.Run();
         _probabilityUpdateQuestion.Run();
 
-       new ProbabilityUpdate_Category(
-           _categoryRepository, 
-           _answerRepo, 
-           _httpContextAccessor, 
-           _webHostEnvironment)
-           .Run();
+        new ProbabilityUpdate_Category(
+                _categoryRepository,
+                _answerRepo,
+                _httpContextAccessor,
+                _webHostEnvironment)
+            .Run();
 
-       ProbabilityUpdate_User.Initialize(
-           _userReadingRepo, 
-           _userWritingRepo, 
-           _answerRepo, 
-           _httpContextAccessor,
-           _webHostEnvironment);
+        ProbabilityUpdate_User.Initialize(
+            _userReadingRepo,
+            _userWritingRepo,
+            _answerRepo,
+            _httpContextAccessor,
+            _webHostEnvironment);
 
-       ProbabilityUpdate_User.Instance.Run();
+        ProbabilityUpdate_User.Instance.Run();
 
-        return Json(new
-            {
-                success = true,
-                data = "Antwortwahrscheinlichkeiten wurden neu berechnet."
-            });
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Antwortwahrscheinlichkeiten wurden neu berechnet."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult CalcAggregatedValuesQuestions()
+    public VueMaintenanceResult CalcAggregatedValuesQuestions()
     {
         _updateQuestionAnswerCounts.Run();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Aggregierte Werte wurden aktualisiert."
-        });
+            Success = true,
+            Data = "Aggregierte Werte wurden aktualisiert."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult UpdateFieldQuestionCountForTopics()
+    public VueMaintenanceResult UpdateFieldQuestionCountForTopics()
     {
         _updateQuestionCountForCategory.All(_categoryRepository);
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Feld: AnzahlFragen für Themen wurde aktualisiert."
-        });
+            Success = true,
+            Data = "Feld: AnzahlFragen für Themen wurde aktualisiert."
+        };
     }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult UpdateUserReputationAndRankings()
+    public VueMaintenanceResult UpdateUserReputationAndRankings()
     {
         _userWritingRepo.ReputationUpdateForAll();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Reputation and Rankings wurden aktualisiert."
-        });
+            Success = true,
+            Data = "Reputation and Rankings wurden aktualisiert."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult UpdateUserWishCount()
+    public VueMaintenanceResult UpdateUserWishCount()
     {
         _updateWishcount.Run();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
-        });
+            Success = true,
+            Data = "Wunschwissen-Antwortwahrscheinlichkeit wurde aktualisiert."
+        };
     }
 
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult DeleteUser(int userId)
+    public VueMaintenanceResult DeleteUser(int userId)
     {
         _userWritingRepo.DeleteFromAllTables(userId);
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Der User wurde gelöscht"
-        });
+            Success = true,
+            Data = "Der User wurde gelöscht"
+        };
     }
 
     //todo: Remove when Meilisearch is active
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<JsonResult> ReIndexAllQuestions()
-    {
-       await _meiliSearchReIndexAllQuestions.Go();
-
-        return Json(new
-        {
-            success = true,
-            data = "Fragen wurden neu indiziert."
-        });
-    }
-
-    //todo: Remove when Meilisearch is active
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<JsonResult> ReIndexAllTopics()
-    {
-        await _meiliSearchReIndexCategories.Go();
-
-        return Json(new
-        {
-            success = true,
-            data = "Themen wurden neu indiziert."
-        });
-    }
-    //todo: Remove when Meilisearch is active
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<JsonResult> ReIndexAllUsers()
-    {
-        await _meiliSearchReIndexAllUsers.Run();
-
-        return Json(new
-        {
-            success = true,
-            data = "Nutzer wurden neu indiziert."
-        });
-    }
-
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<JsonResult> MeiliReIndexAllQuestions()
+    public async Task<VueMaintenanceResult> ReIndexAllQuestions()
     {
         await _meiliSearchReIndexAllQuestions.Go();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Fragen wurden neu indiziert."
-        });
+            Success = true,
+            Data = "Fragen wurden neu indiziert."
+        };
     }
 
+    //todo: Remove when Meilisearch is active
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<JsonResult> MeiliReIndexAllTopics()
+    public async Task<VueMaintenanceResult> ReIndexAllTopics()
     {
         await _meiliSearchReIndexCategories.Go();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Themen wurden neu indiziert."
-        });
+            Success = true,
+            Data = "Themen wurden neu indiziert."
+        };
     }
 
-    [AccessOnlyAsAdmin]
+    //todo: Remove when Meilisearch is active
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<JsonResult> MeiliReIndexAllUsers()
+    public async Task<VueMaintenanceResult> ReIndexAllUsers()
     {
         await _meiliSearchReIndexAllUsers.Run();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Nutzer wurden neu indiziert."
-        });
+            Success = true,
+            Data = "Nutzer wurden neu indiziert."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult CheckForDuplicateInteractionNumbers()
+    public async Task<VueMaintenanceResult> MeiliReIndexAllQuestions()
+    {
+        await _meiliSearchReIndexAllQuestions.Go();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Fragen wurden neu indiziert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> MeiliReIndexAllTopics()
+    {
+        await _meiliSearchReIndexCategories.Go();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Themen wurden neu indiziert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> MeiliReIndexAllUsers()
+    {
+        await _meiliSearchReIndexAllUsers.Run();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Nutzer wurden neu indiziert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public VueMaintenanceResult CheckForDuplicateInteractionNumbers()
     {
         var duplicates = _answerRepo.GetAll()
             .Where(a => a.QuestionViewGuid != Guid.Empty)
@@ -279,18 +252,18 @@ public class VueMaintenanceController : BaseController
 
         var message = duplicates.Any() ? "Es gibt Dubletten." : "Es gibt keine Dubletten.";
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = message
-        });
+            Success = true,
+            Data = message
+        };
     }
 
     //Tools
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult Throw500()
+    public VueMaintenanceResult Throw500()
     {
         throw new Exception("Some random exception");
     }
@@ -298,63 +271,63 @@ public class VueMaintenanceController : BaseController
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult CleanUpWorkInProgressQuestions()
+    public VueMaintenanceResult CleanUpWorkInProgressQuestions()
     {
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Job: 'Cleanup work in progress' wird ausgeführt."
-        });
+            Success = true,
+            Data = "Job: 'Cleanup work in progress' wird ausgeführt."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult ReloadListFromIgnoreCrawlers()
+    public VueMaintenanceResult ReloadListFromIgnoreCrawlers()
     {
         if (_httpContextAccessor.HttpContext.Request.IsLocal())
         {
             IgnoreLog.LoadNewList();
 
-            return Json(new
+            return new VueMaintenanceResult
             {
-                success = true,
-                data = "Die Liste wird neu geladen."
-            });
+                Success = true,
+                Data = "Die Liste wird neu geladen."
+            };
         }
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Sie sind nicht berechtigt die Liste neu zu laden."
-        });
+            Success = true,
+            Data = "Sie sind nicht berechtigt die Liste neu zu laden."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public JsonResult Start100TestJobs()
+    public VueMaintenanceResult Start100TestJobs()
     {
         JobScheduler.StartImmediately<TestJobCacheInitializer>();
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = "Started 100 test jobs."
-        });
+            Success = true,
+            Data = "Started 100 test jobs."
+        };
     }
 
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public ActionResult RemoveAdminRights()
+    public VueMaintenanceResult RemoveAdminRights()
     {
         _sessionUser.IsInstallationAdmin = false;
 
-        return Json(new
+        return new VueMaintenanceResult
         {
-            success = true,
-            data = ""
-        });
+            Success = true,
+            Data = ""
+        };
     }
 }

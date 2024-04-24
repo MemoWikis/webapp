@@ -9,6 +9,11 @@ public class ContextUser
         _userWritingRepo = userWritingRepo;
     }
 
+    public User? UserGetByName(string name)
+    {
+        return All.SingleOrDefault(u => u.Name == name);
+    }
+
     public static ContextUser New(UserWritingRepo userWritingRepo)
     {
         return new ContextUser(userWritingRepo);

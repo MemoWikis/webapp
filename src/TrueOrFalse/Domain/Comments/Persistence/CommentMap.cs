@@ -6,7 +6,7 @@ public class CommentMap : ClassMap<Comment>
     {
         Id(x => x.Id);
 
-        Map(x => x.Type);
+        Map(x => x.Type).CustomType<CommentType>();
         Map(x => x.TypeId);
 
         References(x => x.AnswerTo).Column("AnswerTo").Cascade.None();
@@ -19,7 +19,7 @@ public class CommentMap : ClassMap<Comment>
         Map(x => x.IsSettled);
           
         References(x => x.Creator);
-        Map(x => x.Title);
+        Map(x => x.Title); 
         Map(x => x.Text);
 
         Map(x => x.DateCreated);

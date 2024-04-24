@@ -114,4 +114,18 @@
             }
         }
     }
+
+    public void DeleteRelationInDb(int relationId, int authorId)
+    {
+        var relationToDelete = relationId > 0 ? _categoryRelationRepo.GetById(relationId) : null;
+        Logg.r.Information("Job started - DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}", relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
+
+        if (relationToDelete != null)
+        {
+            _categoryRelationRepo.Delete(relationToDelete);
+            _categoryRepository.Update(relationToDelete.Child, authorId, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(relationToDelete.Parent, authorId, type: CategoryChangeType.Relations);
+        }
+
+    }
 }

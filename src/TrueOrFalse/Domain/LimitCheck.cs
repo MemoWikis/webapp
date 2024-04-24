@@ -1,17 +1,33 @@
-﻿public class LimitCheck(Logg _logg, SessionUser _sessionUser)
+﻿using Antlr.Runtime;
+
+public class LimitCheck
 {
+    private readonly Logg _logg;
+    private readonly SessionUser _sessionUser;
     private static readonly int _privateQuestionsQuantity = 20;
     private static readonly int _privateTopicsQuantity = 10;
     private static readonly int _wishCountKnowledge = 50;
 
-    public static dynamic GetBasicLimits()
+    public LimitCheck(Logg logg, SessionUser sessionUser)
     {
-        return new
+        _logg = logg;
+        _sessionUser = sessionUser;
+    }
+
+    public readonly record struct BasicLimits(
+        int MaxPrivateTopicCount,
+        int MaxPrivateQuestionCount,
+        int MaxWishknowledgeCount,
+        bool TestToBeDeleted = true);
+
+    public static BasicLimits GetBasicLimits()
+    {
+        return new BasicLimits
         {
-            maxPrivateTopicCount = _privateTopicsQuantity,
-            maxPrivateQuestionCount = _privateQuestionsQuantity,
-            maxWishknowledgeCount = _wishCountKnowledge,
-            testToBeDeleted = true
+            MaxPrivateTopicCount = _privateTopicsQuantity,
+            MaxPrivateQuestionCount = _privateQuestionsQuantity,
+            MaxWishknowledgeCount = _wishCountKnowledge,
+            TestToBeDeleted = true
         };
     }
 

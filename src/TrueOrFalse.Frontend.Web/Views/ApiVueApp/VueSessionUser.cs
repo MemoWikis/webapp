@@ -3,27 +3,46 @@ using Microsoft.AspNetCore.Http;
 
 namespace VueApp;
 
-public class VueSessionUser : IRegisterAsInstancePerLifetime
+public class VueSessionUser(
+    SessionUser _sessionUser,
+    GetUnreadMessageCount _getUnreadMessageCount,
+    IHttpContextAccessor _httpContextAccessor,
+    PermissionCheck _permissionCheck,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    CategoryViewRepo _categoryViewRepo,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    QuestionReadingRepo _questionReadingRepo)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
-    private readonly TopicDataManager _topicDataManager;
-    private readonly GetUnreadMessageCount _getUnreadMessageCount;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly UserReadingRepo _userReadingRepo;
+    public readonly record struct CurrentUserData(
+        bool IsLoggedIn,
+        int Id,
+        string Name,
+        string Email,
+        bool IsAdmin,
+        int PersonalWikiId,
+        UserType Type,
+        string ImgUrl,
+        int Reputation,
+        int ReputationPos,
+        TopicDataManager.TopicDataResult PersonalWiki,
+        ActivityPoints ActivityPoints,
+        int UnreadMessagesCount,
+        SubscriptionType SubscriptionType,
+        bool HasStripeCustomerId,
+        string EndDate,
+        string SubscriptionStartDate,
+        bool IsSubscriptionCanceled,
+        bool IsEmailConfirmed);
 
-    public VueSessionUser(SessionUser sessionUser,
-        TopicDataManager topicDataManager,
-        GetUnreadMessageCount getUnreadMessageCount,
-        IHttpContextAccessor httpContextAccessor,
-        UserReadingRepo userReadingRepo)
-    {
-        _sessionUser = sessionUser;
-        _topicDataManager = topicDataManager;
-        _getUnreadMessageCount = getUnreadMessageCount;
-        _httpContextAccessor = httpContextAccessor;
-        _userReadingRepo = userReadingRepo;
-    }
-    public dynamic GetCurrentUserData()
+    public record struct ActivityPoints(
+        int Points,
+        int Level,
+        bool LevelUp,
+        int ActivityPointsTillNextLevel,
+        int ActivityPointsPercentageOfNextLevel);
+
+    public CurrentUserData GetCurrentUserData()
     {
         var type = UserType.Anonymous;
         var user = _sessionUser.User;
@@ -41,11 +60,11 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
             var activityLevel = user.ActivityLevel;
             var subscriptionDate = user.EndDate;
 
-            return new
+            return new CurrentUserData
             {
-                _sessionUser.IsLoggedIn,
+                IsLoggedIn = _sessionUser.IsLoggedIn,
                 Id = _sessionUser.UserId,
-                user.Name,
+                Name = user.Name,
                 Email = user.EmailAddress,
                 IsAdmin = _sessionUser.IsInstallationAdmin,
                 PersonalWikiId = user.StartTopicId,
@@ -53,19 +72,26 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                 ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor)
                     .GetUrl_50px_square(_sessionUser.User)
                     .Url,
-                user.Reputation,
-                user.ReputationPos,
-                PersonalWiki =_topicDataManager.GetTopicData(user.StartTopicId),
-                ActivityPoints = new
+                Reputation = user.Reputation,
+                ReputationPos = user.ReputationPos,
+                PersonalWiki = new TopicDataManager(_sessionUser,
+                    _permissionCheck,
+                    _knowledgeSummaryLoader,
+                    _categoryViewRepo,
+                    _imageMetaDataReadingRepo,
+                    _httpContextAccessor,
+                    _questionReadingRepo).GetTopicData(user.StartTopicId),
+                ActivityPoints = new ActivityPoints
                 {
-                    points = activityPoints,
-                    level = activityLevel,
-                    levelUp = false,
-                    activityPointsTillNextLevel =
+                    Points = activityPoints,
+                    Level = activityLevel,
+                    LevelUp = false,
+                    ActivityPointsTillNextLevel =
                         UserLevelCalculator.GetUpperLevelBound(activityLevel) - activityPoints,
-                    activityPointsPercentageOfNextLevel = activityPoints == 0
+                    ActivityPointsPercentageOfNextLevel = activityPoints == 0
                         ? 0
-                        : 100 * activityPoints / UserLevelCalculator.GetUpperLevelBound(activityLevel)
+                        : 100 * activityPoints /
+                          UserLevelCalculator.GetUpperLevelBound(activityLevel)
                 },
                 UnreadMessagesCount = _getUnreadMessageCount.Run(_sessionUser.UserId),
                 SubscriptionType = user.EndDate > DateTime.Now
@@ -73,7 +99,8 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
                     : SubscriptionType.Basic,
                 HasStripeCustomerId = !string.IsNullOrEmpty(user.StripeId),
                 EndDate = subscriptionDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
-                SubscriptionStartDate = user.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
+                SubscriptionStartDate =
+                    user.SubscriptionStartDate?.ToString("yyyy-MM-ddTHH:mm:ss.fffZ"),
                 IsSubscriptionCanceled = subscriptionDate is
                 {
                     Year: < 9999
@@ -83,32 +110,32 @@ public class VueSessionUser : IRegisterAsInstancePerLifetime
         }
 
         var userLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
-        return new
+        return new CurrentUserData
         {
             IsLoggedIn = false,
             Id = -1,
             Name = "",
             IsAdmin = false,
-            PersonalWikiId = RootCategory.RootCategoryId,   
+            PersonalWikiId = RootCategory.RootCategoryId,
             Type = type,
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = _topicDataManager
-             .GetTopicData(RootCategory.RootCategoryId),
-            ActivityPoints = new
+            PersonalWiki = new TopicDataManager(_sessionUser,
+                    _permissionCheck,
+                    _knowledgeSummaryLoader,
+                    _categoryViewRepo,
+                    _imageMetaDataReadingRepo,
+                    _httpContextAccessor,
+                    _questionReadingRepo)
+                .GetTopicData(RootCategory.RootCategoryId),
+            ActivityPoints = new ActivityPoints
             {
-                points = _sessionUser.GetTotalActivityPoints(),
-                level = userLevel,
-                levelUp = false,
-                activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)
+                Points = _sessionUser.GetTotalActivityPoints(),
+                Level = userLevel,
+                LevelUp = false,
+                ActivityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)
             }
         };
     }
-
-    public void Test()
-    {
-        var user = _userReadingRepo.GetById(445); 
-    }
- 
 }
