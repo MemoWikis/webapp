@@ -9,13 +9,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
     private readonly UserReadingRepo _userReadingRepo;
     private readonly UserActivityRepo _userActivityRepo;
 
-    public enum CreateDeleteUpdate
-    {
-        Create = 1,
-        Delete = 2,
-        Update = 3
-    }
-
     public CategoryRepository(
         NHibernate.ISession session,
         CategoryChangeRepo categoryChangeRepo,
@@ -29,7 +22,6 @@ public class CategoryRepository : RepositoryDbBase<Category>
         _userReadingRepo = userReadingRepo;
         _userActivityRepo = userActivityRepo;
     }
-
 
     public void Create(Category category, int parentId)
     {
@@ -92,12 +84,13 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
             }
         }
+
         return result;
     }
 
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
-        var query = _session.QueryOver<Category>(); 
+        var query = _session.QueryOver<Category>();
         if (categoryIds != null)
         {
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
@@ -116,6 +109,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         return result;
     }
+
     public IList<Category> GetByIdsFromString(string idsString)
     {
         return idsString
@@ -177,7 +171,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (includingSelf)
         {
-            includingCategories = includingCategories.Union(new List<Category> { category }).ToList();
+            includingCategories =
+                includingCategories.Union(new List<Category> { category }).ToList();
         }
 
         return includingCategories;
@@ -205,7 +200,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (authorId != 0 && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type,
+                affectedParentIdsByMove);
         }
 
         Flush();
@@ -217,6 +213,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .ConfigureAwait(false);
         });
     }
+
     public void CreateOnlyDb(Category category)
     {
         base.Create(category);
@@ -224,6 +221,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         _categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
     }
+
     public void UpdateOnlyDb(
         Category category,
         SessionUserCacheItem author = null,
@@ -237,7 +235,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (author != null && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type,
+                affectedParentIdsByMove);
         }
 
         Flush();
@@ -257,6 +256,4 @@ public class CategoryRepository : RepositoryDbBase<Category>
                   " WHERE Id = " + category.Id;
         _session.CreateSQLQuery(sql).ExecuteUpdate();
     }
-
-
 }

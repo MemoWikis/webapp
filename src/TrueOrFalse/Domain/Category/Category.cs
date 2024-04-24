@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
-public class Category : DomainEntity, ICreator, ICloneable
+public class Category : DomainEntity, ICreator
 {
     public virtual string Name { get; set; }
 
@@ -35,14 +35,15 @@ public class Category : DomainEntity, ICreator, ICloneable
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
     private IEnumerable<int> _categoriesToExcludeIds;
+
     public virtual IEnumerable<int> CategoriesToExcludeIds() =>
         _categoriesToExcludeIds ??= CategoriesToExcludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(x => Convert.ToInt32(x));
 
-
     private IEnumerable<int> _categoriesToIncludeIds;
     public virtual string CategoriesToIncludeIdsString { get; set; }
+
     public virtual IEnumerable<int> CategoriesToIncludeIds() =>
         _categoriesToIncludeIds ??= CategoriesToIncludeIdsString
             .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -86,70 +87,6 @@ public class Category : DomainEntity, ICreator, ICloneable
         AuthorIds = userId + ",";
     }
 
-    public virtual bool IsSpoiler(QuestionCacheItem question) =>
-        IsSpoilerCategory.Yes(Name, question);
-
-    public virtual object GetTypeModel()
-    {
-        if (Type == CategoryType.Standard)
-            return CategoryTypeStandard.FromJson(this);
-
-        if (Type == CategoryType.Book)
-            return CategoryTypeBook.FromJson(this);
-
-        if (Type == CategoryType.Daily)
-            return CategoryTypeDaily.FromJson(this);
-
-        if (Type == CategoryType.DailyArticle)
-            return CategoryTypeDailyArticle.FromJson(this);
-
-        if (Type == CategoryType.DailyIssue)
-            return CategoryTypeDailyIssue.FromJson(this);
-
-        if (Type == CategoryType.Magazine)
-            return CategoryTypeMagazine.FromJson(this);
-
-        if (Type == CategoryType.MagazineArticle)
-            return CategoryTypeMagazineArticle.FromJson(this);
-
-        if (Type == CategoryType.MagazineIssue)
-            return CategoryTypeMagazineIssue.FromJson(this);
-
-        if (Type == CategoryType.VolumeChapter)
-            return CategoryTypeVolumeChapter.FromJson(this);
-
-        if (Type == CategoryType.Website)
-            return CategoryTypeWebsite.FromJson(this);
-
-        if (Type == CategoryType.WebsiteArticle)
-            return CategoryTypeWebsiteArticle.FromJson(this);
-
-        if (Type == CategoryType.WebsiteVideo)
-            return CategoryTypeWebsiteVideo.FromJson(this);
-
-        if (Type == CategoryType.SchoolSubject)
-            return CategoryTypeSchoolSubject.FromJson(this);
-
-        if (Type == CategoryType.FieldOfStudy)
-            return CategoryTypeFieldOfStudy.FromJson(this);
-
-        if (Type == CategoryType.FieldOfTraining)
-            return CategoryTypeFieldOfTraining.FromJson(this);
-
-        if (Type == CategoryType.EducationProvider)
-            return CategoryTypeEducationProvider.FromJson(this);
-
-        if (Type == CategoryType.Course)
-            return CategoryTypeCourse.FromJson(this);
-
-        throw new Exception("Invalid type.");
-    }
-
     public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
-
-    public virtual object Clone()
-    {
-        return this.MemberwiseClone();
-    }
 }
