@@ -175,10 +175,6 @@ const topic = useState<Topic>('topic')
     margin: 0 4px;
     max-height: 20px;
     max-width: 20px;
-
-    .img {
-        object-fit: cover;
-    }
 }
 
 #TopicHeaderContainer {
