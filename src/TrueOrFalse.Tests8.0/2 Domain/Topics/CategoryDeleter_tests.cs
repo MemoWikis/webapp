@@ -141,8 +141,8 @@
 
             //Assert
             var allCategoriesInEntityCache = EntityCache.GetAllCategoriesList();
-            var cacheParent = EntityCache.GetCategory(parent.Id);
-            var cachedFirstChild = EntityCache.GetCategory(child.Id);
+            var cachedParent = EntityCache.GetCategory(parent.Id);
+            var cachedChild = EntityCache.GetCategory(child.Id);
 
             Assert.IsNotNull(requestResult);
             Assert.IsTrue(requestResult.Success);
@@ -153,15 +153,69 @@
             Assert.IsTrue(allCategoriesInEntityCache.Any(c => c.Id == parent.Id));
             Assert.IsTrue(allCategoriesInEntityCache.Any(c => c.Id == child.Id));
             Assert.False(allCategoriesInEntityCache.Any(c => c.Name.Equals(childOfChildName)));
-            Assert.IsNotEmpty(cacheParent.ChildRelations);
-            Assert.That(cachedFirstChild.Id,
-                Is.EqualTo(cacheParent.ChildRelations.Single().ChildId));
-            Assert.IsEmpty(cacheParent.ParentRelations);
-            Assert.IsEmpty(cachedFirstChild.ChildRelations);
-            Assert.That(cacheParent.Id, Is.EqualTo(cachedFirstChild.ParentRelations.Single().Id));
+            Assert.IsNotEmpty(cachedParent.ChildRelations);
+            Assert.That(cachedChild.Id,
+                Is.EqualTo(cachedParent.ChildRelations.Single().ChildId));
+            Assert.IsEmpty(cachedParent.ParentRelations);
+            Assert.IsEmpty(cachedChild.ChildRelations);
+            Assert.That(cachedParent.Id, Is.EqualTo(cachedChild.ParentRelations.Single().Id));
 
             var allRelationsInEntityCache = EntityCache.GetAllRelations();
             Assert.False(allRelationsInEntityCache.Any(r => r.ChildId == childOfChild.Id));
+        }
+
+        [Test]
+        [Description("child of child has extra parent")]
+        public void
+            Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
+        {
+            //Arrange
+            var contextTopic = ContextCategory.New();
+            var parentName = "parent name";
+            var firstChildName = "first child name";
+            var secondChildName = "second child name";
+            var childOfChildName = "child of child name";
+            var sessionUser = R<SessionUser>();
+            var creator = new User { Id = sessionUser.UserId };
+
+            var parent = contextTopic.Add(
+                    parentName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(parentName);
+
+            var firstChild = contextTopic.Add(firstChildName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(firstChildName);
+
+            var secondChild = contextTopic.Add(secondChildName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(secondChildName);
+
+            var childOfChild = contextTopic.Add(childOfChildName,
+                    CategoryType.Standard,
+                    creator)
+                .GetTopicByName(childOfChildName);
+
+            contextTopic.Persist();
+            contextTopic.AddChild(parent, firstChild);
+            contextTopic.AddChild(parent, secondChild);
+            contextTopic.AddChild(firstChild, childOfChild);
+            contextTopic.AddChild(secondChild, childOfChild);
+            RecycleContainerAndEntityCache();
+
+            var categoryDeleter = R<CategoryDeleter>();
+
+            //Act
+            var requestResult = categoryDeleter.DeleteTopic(firstChild.Id);
+            RecycleContainerAndEntityCache();
+
+            //Assert
+
+            Assert.IsNotNull(requestResult);
+            Assert.IsTrue(requestResult.Success);
         }
 
         [Test]

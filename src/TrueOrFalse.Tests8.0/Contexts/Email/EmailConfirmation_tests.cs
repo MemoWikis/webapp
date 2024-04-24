@@ -1,4 +1,6 @@
-﻿public class EmailConfirmationServiceTests : BaseTest
+﻿using System.Globalization;
+
+public class EmailConfirmationServiceTests : BaseTest
 {
     private readonly EmailConfirmationService _emailConfirmationService;
 
@@ -129,7 +131,8 @@
 
         var userDayFirstFormat = new User
         {
-            DateCreated = DateTime.Parse("23/09/2023 00:36:27"),
+            DateCreated = DateTime.ParseExact("23/09/2023 00:36:27", "dd/MM/yyyy HH:mm:ss",
+                CultureInfo.InvariantCulture),
             PasswordHashedAndSalted = "abcdef",
             Id = 1
         };
