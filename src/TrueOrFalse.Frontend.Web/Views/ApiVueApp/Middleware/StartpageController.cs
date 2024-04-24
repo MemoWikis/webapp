@@ -1,17 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-
-public class MiddlewareStartpageController : BaseController
+public class MiddlewareStartpageController(SessionUser _sessionUser) : Controller
 {
-    public MiddlewareStartpageController(SessionUser sessionUser) : base(sessionUser)
-    {
-        _sessionUser = sessionUser;
-    }
+    public readonly record struct TinyTopic(int Id, string Name);
 
     [HttpGet]
-    public JsonResult Get()
+    public TinyTopic Get()
     {
-        var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
-        return Json(new { name = topic.Name, id = topic.Id });
+        var topic = _sessionUser.IsLoggedIn
+            ? EntityCache.GetCategory(_sessionUser.User.StartTopicId)
+            : RootCategory.Get;
+        return new TinyTopic { Name = topic.Name, Id = topic.Id };
     }
-}   
+}

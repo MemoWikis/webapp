@@ -1,33 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Stripe;
 using Stripe.Checkout;
 
-public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
+public class StripeSubscriptionManger(
+    SessionUser sessionUser,
+    UserReadingRepo userReadingRepo,
+    UserWritingRepo userWritingRepo,
+    IHttpContextAccessor httpContextAccessor,
+    IWebHostEnvironment webHostEnvironment)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public StripeSubscriptionHelper(SessionUser sessionUser,
-        UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) 
-    {
-        _sessionUser = sessionUser;
-        _userReadingRepo = userReadingRepo;
-        _userWritingRepo = userWritingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
-
     private async Task<string> CreateStripeCustomer(string username, string email, int userId)
     {
         var optionsUser = new CustomerCreateOptions
@@ -43,31 +27,34 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
         var serviceUser = new CustomerService();
         var customer = await serviceUser.CreateAsync(optionsUser);
 
-        var user = _userReadingRepo.GetById(userId);
+        var user = userReadingRepo.GetById(userId);
         user.StripeId = customer.Id;
-        _userWritingRepo.Update(user);
+        userWritingRepo.Update(user);
 
         return customer.Id;
     }
 
     public async Task<string> CreateStripeSubscriptionSession(string priceId)
     {
-        var sessionUser = _sessionUser.User;
+        var user = sessionUser.User;
 
         string customerId;
-        if (sessionUser.StripeId == null)
+        if (user.StripeId == null)
         {
-            customerId = await CreateStripeCustomer(sessionUser.Name, sessionUser.EmailAddress, sessionUser.Id);
+            customerId = await CreateStripeCustomer(user.Name, user.EmailAddress,
+                user.Id);
         }
         else
         {
-            customerId = sessionUser.StripeId;
+            customerId = user.StripeId;
         }
 
-        var stripeReturnUrlGenerator = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment);
+        var stripeReturnUrlGenerator =
+            new StripeReturnUrlGenerator(httpContextAccessor, webHostEnvironment);
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string> { 
+            PaymentMethodTypes = new List<string>
+            {
                 "card",
                 "paypal"
                 //, "sofort"
@@ -106,11 +93,12 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
 
     public async Task<string> GetCancelPlanSessionUrl()
     {
-        var stripeId = _sessionUser.User.StripeId;
+        var stripeId = sessionUser.User.StripeId;
         var options = new Stripe.BillingPortal.SessionCreateOptions
         {
             Customer = stripeId,
-            ReturnUrl = new StripeReturnUrlGenerator(_httpContextAccessor, _webHostEnvironment).Create("")
+            ReturnUrl = new StripeReturnUrlGenerator(httpContextAccessor, webHostEnvironment)
+                .Create("")
         };
         var service = new Stripe.BillingPortal.SessionService();
         var session = await service.CreateAsync(options);
@@ -120,10 +108,8 @@ public class  StripeSubscriptionHelper :  IRegisterAsInstancePerLifetime
 
     public class SubscriptionItemOption
     {
-        [JsonProperty("price")]
-        public string PriceId { get; set; }
+        [JsonProperty("price")] public string PriceId { get; set; }
 
-        [JsonProperty("quantity")]
-        public int Quantity { get; set; }
+        [JsonProperty("quantity")] public int Quantity { get; set; }
     }
 }

@@ -1,18 +1,10 @@
-﻿using System.Globalization;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
-public class EmailConfirmationService: IRegisterAsInstancePerLifetime
+public class EmailConfirmationService(
+    UserReadingRepo userReadingRepo, 
+    UserWritingRepo userWritingRepo) : IRegisterAsInstancePerLifetime
 {
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-
-    public EmailConfirmationService(UserReadingRepo userReadingRepo, UserWritingRepo userWritingRepo)
-    {
-        _userReadingRepo = userReadingRepo;
-        _userWritingRepo = userWritingRepo;
-    }
-
     public static string CreateEmailConfirmationToken(User user)
     {
         DateTime formattedDateTime = DateTime.Parse(user.DateCreated.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -42,14 +34,14 @@ public class EmailConfirmationService: IRegisterAsInstancePerLifetime
     public bool TryConfirmEmail(string token)
     {
         int userId = ExtractUserIdFromToken(token);
-        User user = _userReadingRepo.GetById(userId);
+        User user = userReadingRepo.GetById(userId);
         if (user != null || userId < 1)
         {
             string recreatedToken = CreateEmailConfirmationToken(user);
             if (recreatedToken == token)
             {
                 user.IsEmailConfirmed = true;
-                _userWritingRepo.Update(user);
+                userWritingRepo.Update(user);
                 return true;
             }
         }

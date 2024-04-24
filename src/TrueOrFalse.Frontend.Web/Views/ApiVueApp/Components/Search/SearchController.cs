@@ -5,105 +5,107 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
-namespace VueApp
+namespace VueApp;
+
+public class SearchController(
+    IGlobalSearch _search,
+    SessionUser _sessionUser,
+    PermissionCheck _permissionCheck,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo) : Controller
 {
-    public class SearchController : BaseController
+    public readonly record struct SearchAllJson(string term);
+
+    public readonly record struct AllResult(
+        List<SearchTopicItem> Topics,
+        int TopicCount,
+        List<SearchQuestionItem> Questions,
+        int QuestionCount,
+        List<SearchUserItem> Users,
+        int UserCount,
+        string UserSearchUrl);
+
+    [HttpPost]
+    public async Task<AllResult> All([FromBody] SearchAllJson json)
     {
-        private readonly PermissionCheck _permissionCheck;
-        private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly QuestionReadingRepo _questionReadingRepo;
-        private readonly IGlobalSearch _search;
+        var topicItems = new List<SearchTopicItem>();
+        var questionItems = new List<SearchQuestionItem>();
+        var userItems = new List<SearchUserItem>();
+        var elements = await _search.Go(json.term);
 
-        public SearchController(IGlobalSearch search,
-            SessionUser sessionUser,
-            PermissionCheck permissionCheck,
-            ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-            IHttpContextAccessor httpContextAccessor,
-            QuestionReadingRepo questionReadingRepo) :base(sessionUser)
-        {
-            _search = search;
-            _permissionCheck = permissionCheck;
-            _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _questionReadingRepo = questionReadingRepo;
-        }
-        public readonly record struct SearchAllJson(string term);
-        [HttpPost]
-        public async Task<JsonResult> All([FromBody] SearchAllJson json)
-        {
-            var topicItems = new List<SearchTopicItem>();
-            var questionItems = new List<SearchQuestionItem>();
-            var userItems = new List<SearchUserItem>();
-            var elements = await _search.Go(json.term);
+        var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
+            _httpContextAccessor,
+            _questionReadingRepo);
 
-            var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
-                _httpContextAccessor,
+        if (elements.Categories.Any())
+            searchHelper.AddTopicItems(topicItems, elements, _permissionCheck,
+                _sessionUser.UserId);
+
+        if (elements.Questions.Any())
+            searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck,
                 _questionReadingRepo);
 
-            if (elements.Categories.Any())
-                searchHelper.AddTopicItems(topicItems, elements, _permissionCheck, UserId);
+        if (elements.Users.Any())
+            searchHelper.AddUserItems(userItems, elements);
+        var result = new AllResult(
+            Topics: topicItems,
+            TopicCount: elements.CategoriesResultCount,
+            Questions: questionItems,
+            QuestionCount: elements.QuestionsResultCount,
+            Users: userItems,
+            UserCount: elements.UsersResultCount,
+            UserSearchUrl: Links.UsersSearch(json.term)
+        );
 
-            if (elements.Questions.Any())
-                searchHelper.AddQuestionItems(questionItems, elements, _permissionCheck, _questionReadingRepo);
+        return result;
+    }
 
-            if (elements.Users.Any())
-                searchHelper.AddUserItems(userItems, elements);
-            var result = Json(new
-            {
-                topics = topicItems,
-                topicCount = elements.CategoriesResultCount,
-                questions = questionItems,
-                questionCount = elements.QuestionsResultCount,
-                users = userItems,
-                userCount = elements.UsersResultCount,
-                userSearchUrl = Links.UsersSearch(json.term)
-            });
+    public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
+    public readonly record struct TopicResult(List<SearchTopicItem> Topics, int TotalCount);
 
-            return result;
-        }
-        public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
-        [HttpPost]
-        public async Task<JsonResult> Topic([FromBody] SearchTopicJson json)
-        { 
-            var items = new List<SearchTopicItem>();
-            var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
+    [HttpPost]
+    public async Task<TopicResult> Topic([FromBody] SearchTopicJson json)
+    {
+        var items = new List<SearchTopicItem>();
+        var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
 
-            if (elements.Categories.Any())
-                new SearchHelper(_imageMetaDataReadingRepo,
+        if (elements.Categories.Any())
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _httpContextAccessor,
+                _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck,
+                _sessionUser.UserId);
+
+        return new
+        (
+            TotalCount: elements.CategoriesResultCount,
+            Topics: items
+        );
+    }
+
+    [HttpPost]
+    public async Task<TopicResult> TopicInPersonalWiki(
+        [FromBody] SearchTopicJson json)
+    {
+        var items = new List<SearchTopicItem>();
+        var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
+
+        if (elements.Categories.Any())
+            new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
-                    _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck, UserId);
+                    _questionReadingRepo)
+                .AddTopicItems(items,
+                    elements,
+                    _permissionCheck,
+                    _sessionUser.UserId);
 
-            return Json(new
-            {
-                totalCount = elements.CategoriesResultCount,
-                topics = items,
-            });
-        }
+        var wikiChildren = GraphService.Descendants(_sessionUser.User.StartTopicId);
+        items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
-        [HttpPost]
-        public async Task<JsonResult> TopicInPersonalWiki([FromBody] SearchTopicJson json)
-        {
-            var items = new List<SearchTopicItem>();
-            var elements = await _search.GoAllCategories(json.term, json.topicIdsToFilter);
-
-            if (elements.Categories.Any())
-                new SearchHelper(_imageMetaDataReadingRepo,
-                        _httpContextAccessor,
-                        _questionReadingRepo)
-                    .AddTopicItems(items,
-                        elements,
-                        _permissionCheck,
-                        UserId);
-
-            var wikiChildren = GraphService.Descendants(_sessionUser.User.StartTopicId);
-            items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
-
-            return Json(new
-            {
-                totalCount = elements.CategoriesResultCount,
-                topics = items,
-            });
-        }
+        return new
+        (
+            TotalCount: elements.CategoriesResultCount,
+            Topics: items
+        );
     }
 }

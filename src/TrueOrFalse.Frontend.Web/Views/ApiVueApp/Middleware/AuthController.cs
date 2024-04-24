@@ -2,17 +2,13 @@
 
 namespace VueApp;
 
-public class MiddlewareAuthController : BaseController
+public class MiddlewareAuthController(SessionUser _sessionUser) : Controller
 {
-    public MiddlewareAuthController(SessionUser sessionUser) :base(sessionUser)
-    {
-        
-    }
     [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
     [HttpGet]
-    public JsonResult Get()
+    public bool Get()
     {
-        return Json(_sessionUser.IsInstallationAdmin);
+        return _sessionUser.IsInstallationAdmin;
     }
-}   
+}

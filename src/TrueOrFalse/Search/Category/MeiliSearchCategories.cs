@@ -28,11 +28,13 @@ namespace TrueOrFalse.Search
         public async Task<ISearchCategoriesResult> RunAsync(
             string searchTerm)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
+                MeiliSearchKonstanten.MasterKey);
             var index = client.Index(MeiliSearchKonstanten.Categories);
             _result = new MeiliSearchCategoriesResult();
 
-            _result.CategoryIds.AddRange(await LoadSearchResults(searchTerm, index));
+            _result.CategoryIds.AddRange(await LoadSearchResults(searchTerm, index)
+                .ConfigureAwait(false));
 
             return _result;
         }
@@ -47,8 +49,8 @@ namespace TrueOrFalse.Search
             _result.Count = categoryMaps.Count;
 
             var categoryMapsSkip = categoryMaps
-             .Skip(_count - 20)
-             .ToList();
+                .Skip(_count - 20)
+                .ToList();
 
             FilterCacheItems(categoryMapsSkip);
 
@@ -56,7 +58,9 @@ namespace TrueOrFalse.Search
             {
                 _count += 20;
                 await LoadSearchResults(searchTerm, index);
-            };
+            }
+
+            ;
 
             return _categories
                 .Select(c => c.Id)
@@ -71,7 +75,7 @@ namespace TrueOrFalse.Search
                 .Where(_permissionCheck.CanView)
                 .ToList();
             _categories.AddRange(categoriesTemp);
-           _categories = _categories
+            _categories = _categories
                 .Distinct()
                 .ToList();
         }

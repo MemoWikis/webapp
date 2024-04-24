@@ -28,6 +28,7 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 	}
 })
 if (currentUser.value != null) {
+	console.log(currentUser.value)
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)
 }

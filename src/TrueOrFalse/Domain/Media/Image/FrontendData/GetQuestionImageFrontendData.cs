@@ -7,7 +7,6 @@ public class GetQuestionImageFrontendData
     public static ImageFrontendData Run(QuestionCacheItem question, 
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment, 
         QuestionReadingRepo questionReadingRepo)
     {
         var imageMetaData = imageMetaDataReadingRepo.GetBy(question.Id, ImageType.Question);

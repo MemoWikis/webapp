@@ -63,7 +63,7 @@ interface ProfileData {
     isCurrentUser: boolean
 }
 
-const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/VueUser/Get/${route.params.id ? route.params.id : userStore.id}`, {
+const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -84,7 +84,7 @@ onBeforeMount(() => {
         throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
 })
 
-const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/VueUser/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
+const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -232,8 +232,8 @@ userStore.$onAction(({ name, after }) => {
                     </div>
                 </div>
                 <div class="row">
-                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount" @set-tab="tab = $event"
-                        :is-current-user="isCurrentUser" />
+                    <UserTabs :tab="tab" :badge-count="badgeCount" :max-badge-count="maxBadgeCount"
+                        @set-tab="tab = $event" :is-current-user="isCurrentUser" />
                 </div>
 
                 <Transition>
@@ -370,8 +370,8 @@ userStore.$onAction(({ name, after }) => {
                     </div>
                 </Transition>
                 <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
-                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content"
-                        @update-profile="refreshProfile" />
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
+                        :content="props.content" @update-profile="refreshProfile" />
                 </Transition>
 
             </div>
