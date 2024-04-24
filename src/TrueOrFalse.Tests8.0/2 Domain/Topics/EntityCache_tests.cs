@@ -1,6 +1,4 @@
-﻿using NHibernate;
-
-class EntityCache_tests : BaseTest
+﻿class EntityCache_tests : BaseTest
 {
     [Test]
     public void Should_get_direct_children()

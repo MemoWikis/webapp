@@ -18,12 +18,13 @@ public class Links
 
     /*Category*/
     public const string CategoryController = "Category";
+
     /*Question*/
     public const string Questions = "Questions";
 
-
-
-    public Links(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
+    public Links(
+        IActionContextAccessor actionContextAccessor,
+        IHttpContextAccessor httpContextAccessor)
     {
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
@@ -36,7 +37,11 @@ public class Links
         string pagerKey = "",
         string categoryFilter = "")
     {
-        return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
+        return AnswerQuestion(question.Text,
+            question.Id,
+            paramElementOnPage,
+            pagerKey,
+            categoryFilter);
     }
 
     public string AnswerQuestion(
@@ -45,7 +50,11 @@ public class Links
         string pagerKey = "",
         string categoryFilter = "")
     {
-        return AnswerQuestion(question.Text, question.Id, paramElementOnPage, pagerKey, categoryFilter);
+        return AnswerQuestion(question.Text,
+            question.Id,
+            paramElementOnPage,
+            pagerKey,
+            categoryFilter);
     }
 
     public string AnswerQuestion(
@@ -92,7 +101,8 @@ public class Links
 
     public string CategoryDetail(string name, int id)
     {
-        var url = GetUrlHelper().UrlAction("Category", CategoryController, new { text = UriSanitizer.Run(name), id });
+        var url = GetUrlHelper()
+            .UrlAction("Category", CategoryController, new { text = UriSanitizer.Run(name), id });
         return url;
     }
 
@@ -135,7 +145,11 @@ public class Links
 
     public IUrlHelper GetUrlHelper()
     {
-        var urlHelperFactory = _httpContextAccessor.HttpContext?.RequestServices.GetRequiredService<IUrlHelperFactory>();
+        var urlHelperFactory = _httpContextAccessor
+            .HttpContext?
+            .RequestServices
+            .GetRequiredService<IUrlHelperFactory>();
+
         var urlHelper = urlHelperFactory.GetUrlHelper(_actionContextAccessor.ActionContext);
         urlHelper.RemoveRoutes(new[] { "version" });
         return urlHelper;
@@ -156,4 +170,3 @@ public class Links
         return "/Nutzer/Suche/" + searchTerm;
     }
 }
-

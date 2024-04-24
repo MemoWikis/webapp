@@ -42,10 +42,11 @@ function getChangeTypeText(change: Change) {
         case TopicChangeType.Published:
             return 'Veröffentlicht'
         case TopicChangeType.Relations:
-            if (change.relationAdded)
-                return 'Verknüpfung hinzugefügt'
-            else
-                return 'Verknüpfung entfernt'
+            return 'Verknüpfung geändert'
+        // if (change.relationAdded)
+        //     return 'Verknüpfung hinzugefügt'
+        // else
+        //     return 'Verknüpfung entfernt'
         case TopicChangeType.Renamed:
             return 'Umbenannt'
         case TopicChangeType.Restore:
@@ -84,7 +85,8 @@ const { $urlHelper } = useNuxtApp()
 
             <button class="memo-button btn btn-primary" v-if="change.topicChangeType == TopicChangeType.Text"
                 v-on:click.stop>
-                <NuxtLink v-if="firstEditId" :to="`/Historie/Thema/${route.params.id}/${change.revisionId}/${firstEditId}`">
+                <NuxtLink v-if="firstEditId"
+                    :to="`/Historie/Thema/${route.params.id}/${change.revisionId}/${firstEditId}`">
                     Ansehen
                 </NuxtLink>
                 <NuxtLink v-else :to="`/Historie/Thema/${route.params.id}/${change.revisionId}/`">

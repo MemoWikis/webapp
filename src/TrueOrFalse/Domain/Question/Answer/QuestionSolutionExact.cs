@@ -1,19 +1,15 @@
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 
 public class QuestionSolutionExact : QuestionSolution
 {
-    [DisplayName("Antwort")]
-    public string Text { get; set; }
+    [DisplayName("Antwort")] public string Text { get; set; }
 
     public string MetadataSolutionJson { get; set; }
 
     public override bool IsCorrect(string answer)
     {
         answer = answer.Trim();
-        var solutionMetadata = new SolutionMetadata{Json = MetadataSolutionJson};
+        var solutionMetadata = new SolutionMetadata { Json = MetadataSolutionJson };
         if (solutionMetadata.IsDate)
         {
             var metaDate = solutionMetadata.GetForDate();
@@ -37,18 +33,21 @@ public class QuestionSolutionExact : QuestionSolution
             {
                 answer = answer.ToLower();
 
-                var answerWords = answer.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-                var solutionWords = Text.ToLower().Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                var answerWords =
+                    answer.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                var solutionWords = Text.ToLower()
+                    .Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                 var removableWords = new[] { "der", "die", "das", "ein", "einer", "eine" };
 
-                if(answerWords.All(word => removableWords.Any(removable => removable == word)))
+                if (answerWords.All(word => removableWords.Any(removable => removable == word)))
                     return Text.ToLower() == answer;
 
                 Func<IEnumerable<string>, string> fnWithoutRemovableWords = x => x
                     .Where(word => removableWords.All(removable => removable != word))
                     .Aggregate((a, b) => a + " " + b);
 
-                return fnWithoutRemovableWords(solutionWords) == fnWithoutRemovableWords(answerWords);
+                return fnWithoutRemovableWords(solutionWords) ==
+                       fnWithoutRemovableWords(answerWords);
             }
         }
 

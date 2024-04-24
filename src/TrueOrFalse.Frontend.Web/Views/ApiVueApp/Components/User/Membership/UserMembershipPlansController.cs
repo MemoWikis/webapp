@@ -1,18 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
-using TrueOrFalse.Domain;
+using static LimitCheck;
 
 namespace VueApp;
 
-public class UserMembershipPlansController : BaseController
+public class UserMembershipPlansController : Controller
 {
-    public UserMembershipPlansController(SessionUser sessionUser) : base(sessionUser)
-    {
-    }
-
     [HttpGet]
-    public JsonResult GetBasicLimits()
+    public BasicLimits GetBasicLimits()
     {
         var limits = LimitCheck.GetBasicLimits();
-        return Json(limits);
+        return limits;
     }
 }

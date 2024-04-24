@@ -1,6 +1,4 @@
-﻿using TrueOrFalse.Utilities.ScheduledJobs;
-
-public class TopicOrderer
+﻿public class TopicOrderer
 {
     public static bool CanBeMoved(int childId, int parentId)
     {

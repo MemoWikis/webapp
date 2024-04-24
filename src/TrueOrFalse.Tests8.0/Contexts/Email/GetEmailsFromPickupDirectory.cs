@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-
-public class GetEmailsFromPickupDirectory
+﻿public class GetEmailsFromPickupDirectory
 {
     public static IEnumerable<string> Run()
     {

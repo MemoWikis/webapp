@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meilisearch;
+﻿using Meilisearch;
 
 namespace TrueOrFalse.Search
 {
@@ -11,7 +8,8 @@ namespace TrueOrFalse.Search
         private readonly QuestionReadingRepo _questionReadingRepo;
         private readonly MeilisearchClient _client;
 
-        public MeiliSearchReIndexAllQuestions(QuestionValuationReadingRepo questionValuationReadingRepo,
+        public MeiliSearchReIndexAllQuestions(
+            QuestionValuationReadingRepo questionValuationReadingRepo,
             QuestionReadingRepo questionReadingRepo)
         {
             _questionValuationReadingRepo = questionValuationReadingRepo;
@@ -20,7 +18,8 @@ namespace TrueOrFalse.Search
 
         public MeiliSearchReIndexAllQuestions()
         {
-            _client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            _client = new MeilisearchClient(MeiliSearchKonstanten.Url,
+                MeiliSearchKonstanten.MasterKey);
         }
 
         public async Task Go()
@@ -38,7 +37,8 @@ namespace TrueOrFalse.Search
                     .Where(qv => qv.Question.Id == question.Id)
                     .Select(qv => qv.ToCacheItem())
                     .ToList();
-                meiliSearchQuestions.Add(MeiliSearchToQuestionMap.Run(question, questionValuations));
+                meiliSearchQuestions.Add(
+                    MeiliSearchToQuestionMap.Run(question, questionValuations));
             }
 
             var index = _client.Index(MeiliSearchKonstanten.Questions);

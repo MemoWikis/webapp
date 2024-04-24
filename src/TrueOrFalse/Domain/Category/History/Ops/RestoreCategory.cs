@@ -25,7 +25,8 @@ public class RestoreCategory(
 
         EntityCache.AddOrUpdate(categoryCacheItem);
         var authorSessionUserCacheItem = SessionUserCacheItem.CreateCacheItem(author);
-        _categoryRepository.Update(category, authorSessionUserCacheItem.Id, type: CategoryChangeType.Restore);
+        _categoryRepository
+            .Update(category, authorSessionUserCacheItem.Id, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }
@@ -58,7 +59,7 @@ public class RestoreCategory(
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
         SendEmail(Constants.MemuchoAdminUserId, subject, body);
-        if (category.Creator != null && currentUser.Id != category.Creator.Id) 
+        if (category.Creator != null && currentUser.Id != category.Creator.Id)
             SendEmail(category.Creator.Id, subject, body);
     }
 

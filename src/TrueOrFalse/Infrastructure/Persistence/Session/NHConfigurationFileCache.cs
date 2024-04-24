@@ -1,8 +1,5 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using System.Reflection;
 using System.Text.Json;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using NHibernate.Cfg;
 using Seedworks.Web.State;

@@ -1,35 +1,61 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-public class GridItemController(PermissionCheck _permissionCheck, SessionUser _sessionUser, TopicGridManager _gridItemLogic) : BaseController(_sessionUser)
+
+public class GridItemController(
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
 {
+    public readonly record struct GetChildrenResult(
+        bool Success,
+        string MessageKey = "",
+        TopicGridManager.GridTopicItem[] Data = null);
+
     [HttpGet]
-    public JsonResult GetChildren([FromRoute] int id)
+    public GetChildrenResult GetChildren([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights });
-
-
-        var children = _gridItemLogic.GetChildren(id);
-        return Json(new RequestResult { success = true, data = children });
+            return new GetChildrenResult(
+                Success: false, MessageKey: FrontendMessageKeys.Error.Category.MissingRights);
+        var children = new TopicGridManager(
+            _permissionCheck,
+            _sessionUser,
+            _imageMetaDataReadingRepo,
+            _httpContextAccessor,
+            _knowledgeSummaryLoader,
+            _questionReadingRepo).GetChildren(id);
+        return new GetChildrenResult(Success: true, MessageKey: "", Data: children);
     }
 
+    public readonly record struct GetItemResult(
+        bool Success,
+        string MessageKey,
+        TopicGridManager.GridTopicItem Data);
+
     [HttpGet]
-    public JsonResult GetItem([FromRoute] int id)
+    public GetItemResult GetItem([FromRoute] int id)
     {
         var topic = EntityCache.GetCategory(id);
         if (!_permissionCheck.CanView(topic))
-            return Json(new RequestResult { success = false, messageKey = FrontendMessageKeys.Error.Category.MissingRights });
+            return new GetItemResult
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+            };
 
-
-        var gridItem = _gridItemLogic.BuildGridTopicItem(topic);
-        return Json(new RequestResult { success = true, data = gridItem });
+        var gridItem = new TopicGridManager(
+            _permissionCheck,
+            _sessionUser,
+            _imageMetaDataReadingRepo,
+            _httpContextAccessor,
+            _knowledgeSummaryLoader,
+            _questionReadingRepo).BuildGridTopicItem(topic);
+        return new GetItemResult { Success = true, Data = gridItem };
     }
 }
-
-
-
-
-
-

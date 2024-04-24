@@ -4,44 +4,49 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class UserMessagesController : BaseController
+public class UserMessagesController(
+    SessionUser _sessionUser,
+    MessageRepo _messageRepo) : Controller
 {
-    private readonly MessageRepo _messageRepo;
+    public readonly record struct GetResult(Message[] Messages, int ReadCount, bool? NotLoggedIn);
 
-    public UserMessagesController(SessionUser sessionUser,
-        MessageRepo messageRepo) :base(sessionUser)
-    {
-        _messageRepo = messageRepo;
-    }
+    public readonly record struct Message(
+        int Id,
+        bool Read,
+        string Subject,
+        string Body,
+        string TimeElapsed,
+        string Date);
+
     [HttpGet]
-    public JsonResult Get()
+    public GetResult Get()
     {
         if (_sessionUser.IsLoggedIn)
         {
             var messages = _messageRepo
-            .GetForUser(_sessionUser.UserId, false)
-            .Select(m => new 
-            {
-                id = m.Id,
-                read = m.IsRead,
-                subject = m.Subject,
-                body = m.Body,
-                timeElapsed = DateTimeUtils.TimeElapsedAsText(m.DateCreated),
-                date = m.DateCreated.ToString("", new CultureInfo("de-DE"))
-            })
-            .ToArray();
+                .GetForUser(_sessionUser.UserId)
+                .Select(m => new Message
+                {
+                    Id = m.Id,
+                    Read = m.IsRead,
+                    Subject = m.Subject,
+                    Body = m.Body,
+                    TimeElapsed = DateTimeUtils.TimeElapsedAsText(m.DateCreated),
+                    Date = m.DateCreated.ToString("", new CultureInfo("de-DE"))
+                })
+                .ToArray();
 
             var readMessagesCount = _messageRepo.GetNumberOfReadMessages(_sessionUser.UserId);
-            return Json(new
+            return new GetResult
             {
-                messages = messages,
-                readCount = readMessagesCount   
-            });
+                Messages = messages,
+                ReadCount = readMessagesCount
+            };
         }
 
-        return Json(new
+        return new GetResult
         {
-            notLoggedIn = true,
-        });
+            NotLoggedIn = true,
+        };
     }
 }

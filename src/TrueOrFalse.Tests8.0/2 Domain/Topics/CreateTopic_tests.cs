@@ -1,6 +1,4 @@
-﻿using NHibernate.Criterion;
-
-namespace TrueOrFalse.Tests8._0.Domain.Topics
+﻿namespace TrueOrFalse.Tests8._0.Domain.Topics
 {
     internal class CreateTopic_tests : BaseTest
     {

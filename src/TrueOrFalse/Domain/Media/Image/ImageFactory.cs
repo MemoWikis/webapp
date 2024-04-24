@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 public class ImageSettingsFactory
 {
     public readonly QuestionReadingRepo _questionReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ImageSettingsFactory(IHttpContextAccessor httpContextAccessor,
+    public ImageSettingsFactory(
+        IHttpContextAccessor httpContextAccessor,
         QuestionReadingRepo questionReadingRepo)
     {
         _httpContextAccessor = httpContextAccessor;
@@ -20,18 +20,17 @@ public class ImageSettingsFactory
             return (T)(IImageSettings)new CategoryImageSettings(typeId, _httpContextAccessor);
         }
 
-       if (typeof(T) == typeof(QuestionImageSettings))
+        if (typeof(T) == typeof(QuestionImageSettings))
         {
             return (T)(IImageSettings)new QuestionImageSettings(_questionReadingRepo,
                 _httpContextAccessor);
         }
 
-       if (typeof(T) == typeof(UserImageSettings))
-       {
-           return (T)(IImageSettings)new UserImageSettings(
-               _httpContextAccessor);
-       }
-
+        if (typeof(T) == typeof(UserImageSettings))
+        {
+            return (T)(IImageSettings)new UserImageSettings(
+                _httpContextAccessor);
+        }
 
         throw new NotSupportedException($"Type {typeof(T).Name} not supported");
     }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 using Seedworks.Lib.Persistence;
 
 public class AnswerRepo : RepositoryDb<Answer>
@@ -37,7 +35,8 @@ public class AnswerRepo : RepositoryDb<Answer>
             return GetByIds(ids.ToArray());
         }
 
-        return GetByIds(ids.ToArray()).Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView).ToList();
+        return GetByIds(ids.ToArray()).Where(a => a.AnswerredCorrectly != AnswerCorrectness.IsView)
+            .ToList();
     }
 
     public IList<Answer> GetByQuestion(int questionId, bool includingSolutionViews = false)
@@ -47,7 +46,10 @@ public class AnswerRepo : RepositoryDb<Answer>
             .List<Answer>();
     }
 
-    public IList<Answer> GetByQuestion(int questionId, int userId, bool includingSolutionViews = false)
+    public IList<Answer> GetByQuestion(
+        int questionId,
+        int userId,
+        bool includingSolutionViews = false)
     {
         return Query(includingSolutionViews)
             .Where(i => i.Question.Id == questionId && i.UserId == userId)

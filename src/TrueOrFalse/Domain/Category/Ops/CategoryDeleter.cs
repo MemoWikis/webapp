@@ -114,17 +114,16 @@ public class CategoryDeleter(
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        var parentIds = EntityCache.GetCategory(id)
+        var parentIds = EntityCache.GetCategory(id)?
             .Parents()
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
         var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
+
         foreach (var parent in parentTopics)
-        {
             _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
-        }
 
         return new DeleteTopicResult(
             hasDeleted.HasChildren,

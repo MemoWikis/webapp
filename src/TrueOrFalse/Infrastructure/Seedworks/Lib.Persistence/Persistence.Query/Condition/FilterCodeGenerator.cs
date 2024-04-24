@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
@@ -19,13 +18,13 @@ namespace Seedworks.Lib.Persistence
 
             var listInitString = new StringBuilder();
 
-            foreach(MemberInfo member in members)
+            foreach (MemberInfo member in members)
             {
-                foreach(object attribute in member.GetCustomAttributes(true))
+                foreach (object attribute in member.GetCustomAttributes(true))
                 {
-                    if(attribute.GetType() == typeof(FilterBooleanAttribute))
+                    if (attribute.GetType() == typeof(FilterBooleanAttribute))
                         AddToGenerate(member, "ConditionBoolean");
-                    
+
                     if (attribute.GetType() == typeof(FilterIntegerAttribute))
                         AddToGenerate(member, "ConditionInteger");
 
@@ -37,30 +36,32 @@ namespace Seedworks.Lib.Persistence
 
                     if (attribute.GetType() == typeof(FilterBooleanAttribute) ||
                         attribute.GetType() == typeof(FilterIntegerAttribute) ||
-                        attribute.GetType() == typeof(FilterSingleAttribute)  ||
+                        attribute.GetType() == typeof(FilterSingleAttribute) ||
                         attribute.GetType() == typeof(FilterDecimalAttribute))
 
-                    listInitString.Append(member.Name).Append(",\r\n");
-
+                        listInitString.Append(member.Name).Append(",\r\n");
                 }
             }
-            foreach(string memberToGenerate in _membersToGenerate)
+
+            foreach (string memberToGenerate in _membersToGenerate)
                 Console.WriteLine(memberToGenerate);
 
             Console.WriteLine();
             Console.WriteLine();
 
             foreach (string statementToGenerate in _constructorStatementsToGenerate)
-                Console.WriteLine(statementToGenerate);            
-            
-            Console.WriteLine("AllConditions = new List<Condition> {0};", "{" + listInitString + "}");
+                Console.WriteLine(statementToGenerate);
+
+            Console.WriteLine("AllConditions = new List<Condition> {0};",
+                "{" + listInitString + "}");
         }
 
         private static void AddToGenerate(MemberInfo member, string className)
         {
             _membersToGenerate.Add("public " + className + " " + member.Name + ";");
             _constructorStatementsToGenerate.Add(
-                String.Format("{0} = new "+ className +"(this, \"{1}\");",member.Name, member.Name));
+                String.Format("{0} = new " + className + "(this, \"{1}\");", member.Name,
+                    member.Name));
         }
     }
 }

@@ -1,7 +1,4 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 
 public class FollowerCounts : IRegisterAsInstancePerLifetime
 {
@@ -11,6 +8,7 @@ public class FollowerCounts : IRegisterAsInstancePerLifetime
     {
         _nhibernateSession = nhibernateSession;
     }
+
     private readonly Dictionary<int, int> _followers = new Dictionary<int, int>();
     private bool _initialized;
 
@@ -42,7 +40,7 @@ public class FollowerCounts : IRegisterAsInstancePerLifetime
 
     public int ByUserId(int userId)
     {
-        if(!_initialized)
+        if (!_initialized)
             throw new Exception("call Init(IList<int> userIds) first");
 
         if (!_followers.ContainsKey(userId))

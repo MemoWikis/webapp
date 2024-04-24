@@ -1,18 +1,16 @@
 ﻿using NHibernate;
 using Seedworks.Lib.Persistence;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 
 public class QuestionReadingRepo : RepositoryDbBase<Question>
 {
     private readonly ISession _session;
     private readonly RepositoryDb<Question> _repo;
 
-    public QuestionReadingRepo(ISession session) : base(session)
+    public QuestionReadingRepo(
+        ISession session) : base(session)
     {
-       _repo =  new RepositoryDbBase<Question>(session); 
-       _session = session;
+        _repo = new RepositoryDbBase<Question>(session);
+        _session = session;
     }
 
     public int TotalPublicQuestionCount()
@@ -71,4 +69,3 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
         return _repo.GetAll();
     }
 }
-

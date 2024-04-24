@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
-using NHibernate.Linq;
+﻿using NHibernate;
 using Seedworks.Lib.Persistence;
 
 public class MessageRepo : RepositoryDb<Message>
@@ -20,6 +17,7 @@ public class MessageRepo : RepositoryDb<Message>
                 .OrderBy(x => x.DateCreated).Desc
                 .List<Message>();
         }
+
         return _session.QueryOver<Message>()
             .Where(x => x.ReceiverId == userId)
             .OrderBy(x => x.DateCreated).Desc

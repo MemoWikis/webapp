@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class QuestionsCreatedPerDayResult
+﻿public class QuestionsCreatedPerDayResult
 {
     public DateTime DateTime;
 
     public int CountByMemucho;
     public int CountByOthers;
 
-    public static List<QuestionsCreatedPerDayResult> FillUpListWithZeros(List<QuestionsCreatedPerDayResult> list, DateTime from, DateTime to)
+    public static List<QuestionsCreatedPerDayResult> FillUpListWithZeros(
+        List<QuestionsCreatedPerDayResult> list,
+        DateTime from,
+        DateTime to)
     {
         if (from.Date > to.Date)
             return list;
@@ -24,7 +24,7 @@ public class QuestionsCreatedPerDayResult
                 });
             curDay = curDay.AddDays(1);
         }
+
         return list.OrderBy(i => i.DateTime).ToList();
     }
-
 }

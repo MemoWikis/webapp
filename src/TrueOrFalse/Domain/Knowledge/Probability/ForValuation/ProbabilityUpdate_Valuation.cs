@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using NHibernate.Util;
+﻿using NHibernate.Util;
 using ISession = NHibernate.ISession;
 
 namespace TrueOrFalse
@@ -12,7 +10,8 @@ namespace TrueOrFalse
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
 
-        public ProbabilityUpdate_Valuation(ISession session,
+        public ProbabilityUpdate_Valuation(
+            ISession session,
             QuestionValuationReadingRepo questionValuationReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo)
@@ -25,9 +24,9 @@ namespace TrueOrFalse
 
         public void Run(int userId)
         {
-           _questionValuationReadingRepo
+            _questionValuationReadingRepo
                 .GetByUser(userId, onlyActiveKnowledge: false)
-                .ForEach(qv=> Run(qv));
+                .ForEach(qv => Run(qv));
         }
 
         private void Run(QuestionValuation questionValuation)
@@ -37,33 +36,35 @@ namespace TrueOrFalse
             _questionValuationReadingRepo.CreateOrUpdate(questionValuation);
         }
 
-        public void Run(int questionId, 
+        public void Run(
+            int questionId,
             int userId,
             QuestionReadingRepo questionReadingRepo,
             UserReadingRepo userReadingRepo)
         {
             var user = userReadingRepo.GetById(userId);
 
-            if(user == null)
+            if (user == null)
                 return;
 
             Run(EntityCache.GetQuestion(questionId),
                 user,
                 questionReadingRepo
-                );
+            );
         }
 
-        public void Run(QuestionCacheItem question,
+        public void Run(
+            QuestionCacheItem question,
             User user,
             QuestionReadingRepo questionReadingRepo)
         {
             var questionValuation =
                 _questionValuationReadingRepo.GetBy(question.Id, user.Id) ??
-                    new QuestionValuation
-                    {
-                        Question = questionReadingRepo.GetById(question.Id),
-                        User = user
-                    };
+                new QuestionValuation
+                {
+                    Question = questionReadingRepo.GetById(question.Id),
+                    User = user
+                };
 
             Run(questionValuation);
         }
@@ -73,9 +74,9 @@ namespace TrueOrFalse
             var question = questionValuation.Question;
             var user = EntityCache.GetUserById(questionValuation.User.Id);
 
-            var probabilityResult =  _probabilityCalcSimple1
+            var probabilityResult = _probabilityCalcSimple1
                 .Run(EntityCache.GetQuestionById(question.Id)
-                , user, _session, _answerRepo);
+                    , user, _session, _answerRepo);
 
             questionValuation.CorrectnessProbability = probabilityResult.Probability;
             questionValuation.CorrectnessProbabilityAnswerCount = probabilityResult.AnswerCount;

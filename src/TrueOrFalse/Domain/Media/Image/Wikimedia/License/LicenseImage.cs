@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Seedworks.Lib;
 
 public class LicenseImage
@@ -15,16 +13,18 @@ public class LicenseImage
     public bool? AuthorRequired;
     public bool? LicenseLinkRequired;
     public bool? ChangesNotAllowed;
+
     /// <summary>
     /// Page where the license can be found online
     /// </summary>
     public string LicenseLink;
+
     public string LicenseShortDescriptionLink;
     public bool? CopyOfLicenseTextRequired;
     public string CopyOfLicenseTextUrl;
 
     public LicenseRequirementsType LicenseRequirementsType;
-    
+
     public void InitLicenseSettings()
     {
         //Init requirements settings
@@ -49,21 +49,30 @@ public class LicenseImage
             CopyOfLicenseTextRequired = false;
         }
 
-        else if (LicenseRequirementsType == LicenseRequirementsType.GPL)//https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/licenses#GNU_GPL_and_LGPL
+        else if
+            (LicenseRequirementsType ==
+             LicenseRequirementsType
+                 .GPL) //https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia/licenses#GNU_GPL_and_LGPL
         {
             AuthorRequired = true;
             LicenseLinkRequired = true;
             CopyOfLicenseTextRequired = false;
         }
 
-        else if (LicenseRequirementsType == LicenseRequirementsType.GFDL)//http://commons.wikimedia.org/wiki/Commons:Weiterverwendung#GFDL
+        else if
+            (LicenseRequirementsType ==
+             LicenseRequirementsType
+                 .GFDL) //http://commons.wikimedia.org/wiki/Commons:Weiterverwendung#GFDL
         {
             AuthorRequired = true;
             LicenseLinkRequired = true;
             CopyOfLicenseTextRequired = true;
         }
 
-        else if (LicenseRequirementsType == LicenseRequirementsType.PD)//http://commons.wikimedia.org/wiki/Commons:Weiterverwendung#Rechtefreie_.28gemeinfreie.29_Inhalte
+        else if
+            (LicenseRequirementsType ==
+             LicenseRequirementsType
+                 .PD) //http://commons.wikimedia.org/wiki/Commons:Weiterverwendung#Rechtefreie_.28gemeinfreie.29_Inhalte
         {
             AuthorRequired = false;
             LicenseLinkRequired = false;
@@ -115,7 +124,7 @@ public class LicenseImage
     public static string ToLicenseIdList(List<LicenseImage> licenses)
     {
         return string.Join(",", licenses.Select(x => x.Id.ToString()));
-    } 
+    }
 }
 
 public class GetCcLicenseComponents
@@ -135,8 +144,11 @@ public class GetCcLicenseComponents
              license.LicenseRequirementsType == LicenseRequirementsType.Cc_Sa))
         {
             IsCC = true;
-            CcVersion = Regex.Match(license.WikiSearchString, "(?<=cc-([a-z]{2}-){1,2})\\d\\.\\d\\b", RegexOptions.IgnoreCase).Value;
-            CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString, "(?<=cc-([a-z]{2}-){1,2}\\d\\.\\d-)[a-z]{2,}\\b", RegexOptions.IgnoreCase).Value.ToLower();
+            CcVersion = Regex.Match(license.WikiSearchString,
+                "(?<=cc-([a-z]{2}-){1,2})\\d\\.\\d\\b", RegexOptions.IgnoreCase).Value;
+            CcJurisdictionPortsToken = Regex.Match(license.WikiSearchString,
+                    "(?<=cc-([a-z]{2}-){1,2}\\d\\.\\d-)[a-z]{2,}\\b", RegexOptions.IgnoreCase).Value
+                .ToLower();
         }
     }
 }
@@ -144,12 +156,12 @@ public class GetCcLicenseComponents
 public enum LicenseRequirementsType
 {
     //Order by priority (order can be changed, not written to db, adjust test), add requirements to InitLicenseSettings() (and maybe identifier method to ParseLicenseRequirementsType):
-    
+
     NoCategory = 0, //Rank: 999
 
     Cc_By = 1,
     Cc_By_Sa = 2,
-    Cc_Sa = 3,//License is retired
+    Cc_Sa = 3, //License is retired
     Cc0 = 4,
     PD = 5,
     GFDL = 6,
@@ -162,13 +174,12 @@ public static class LicenseRequirementsTypeExts
 {
     public static int GetIntValue(this LicenseRequirementsType e)
     {
-        return (int)Enum.Parse(typeof(LicenseRequirementsType), Enum.GetName(typeof(LicenseRequirementsType), e));
+        return (int)Enum.Parse(typeof(LicenseRequirementsType),
+            Enum.GetName(typeof(LicenseRequirementsType), e));
     }
 
     public static int GetRank(this LicenseRequirementsType e)
     {
         return e.GetIntValue() == 0 ? 999 : e.GetIntValue();
     }
-
 }
-

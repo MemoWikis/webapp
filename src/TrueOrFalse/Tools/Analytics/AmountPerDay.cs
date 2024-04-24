@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public class AmountPerDay
+﻿public class AmountPerDay
 {
     public DateTime DateTime;
     public int Value;
 
-    public static List<AmountPerDay> FillUpDatesWithZeros(List<AmountPerDay> list, DateTime from, DateTime to)
+    public static List<AmountPerDay> FillUpDatesWithZeros(
+        List<AmountPerDay> list,
+        DateTime from,
+        DateTime to)
     {
         if (from.Date > to.Date)
             return list;
@@ -21,6 +21,7 @@ public class AmountPerDay
                 });
             curDay = curDay.AddDays(1);
         }
+
         return list.OrderBy(i => i.DateTime).ToList();
     }
 }

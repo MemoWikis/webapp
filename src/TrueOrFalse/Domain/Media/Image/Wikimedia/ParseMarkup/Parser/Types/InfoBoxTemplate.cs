@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-public class InfoBoxTemplate
+﻿public class InfoBoxTemplate
 {
     public string TemplateName;
     public string DescriptionParamaterName = "Description";
@@ -38,5 +36,5 @@ public class InfoBoxTemplate
                 DescriptionParamaterName = "title",
             }
         };
-    } 
+    }
 }

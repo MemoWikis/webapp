@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using NHibernate;
+﻿using NHibernate;
 
 public class FollowerIAm : IRegisterAsInstancePerLifetime
 {
@@ -10,6 +8,7 @@ public class FollowerIAm : IRegisterAsInstancePerLifetime
     {
         _nhibernateSession = nhibernateSession;
     }
+
     private bool _initialized;
 
     private IList<int> _whoIFollow = new List<int>();

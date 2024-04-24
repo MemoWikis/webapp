@@ -5,17 +5,17 @@ using Seedworks.Lib.Persistence;
 
 namespace TrueOrFalse.Search
 {
-    //todo(DaMa) IRegisterAsInstancePerLifetime is needed ??
     public class MeiliSearchUsers : MeiliSearchHelper, IRegisterAsInstancePerLifetime
     {
-
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private List<UserCacheItem> _users = new();
 
         private MeiliSearchUsersResult _result;
 
-        public MeiliSearchUsers(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+        public MeiliSearchUsers(
+            IHttpContextAccessor httpContextAccessor,
+            IWebHostEnvironment webHostEnvironment)
         {
             _httpContextAccessor = httpContextAccessor;
             _webHostEnvironment = webHostEnvironment;
@@ -24,9 +24,10 @@ namespace TrueOrFalse.Search
         public async Task<ISearchUsersResult> RunAsync(
             string searchTerm)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
+                MeiliSearchKonstanten.MasterKey);
             var index = client.Index(MeiliSearchKonstanten.Users);
-            _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment );
+            _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment);
 
             _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));
 
@@ -54,7 +55,9 @@ namespace TrueOrFalse.Search
             {
                 _count += 20;
                 await LoadSearchResults(searchTerm, index);
-            };
+            }
+
+            ;
             _result.Count = _users.Count;
             return _users
                 .Select(c => c.Id)
@@ -73,9 +76,11 @@ namespace TrueOrFalse.Search
                 .ToList();
         }
 
-        public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)> GetUsersByPagerAsync(string searchTerm, Pager pager,SearchUsersOrderBy orderBy)
+        public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
+            GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
+                MeiliSearchKonstanten.MasterKey);
             var index = client.Index(MeiliSearchKonstanten.Users);
 
             var sq = new SearchQuery
@@ -84,10 +89,10 @@ namespace TrueOrFalse.Search
             };
 
             var userMaps =
-                    (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
-                    .Hits;
+                (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
+                .Hits;
 
-             var userMapsOrdered = new List<MeiliSearchUserMap>(); 
+            var userMapsOrdered = new List<MeiliSearchUserMap>();
             switch (orderBy)
             {
                 case SearchUsersOrderBy.None:
@@ -100,7 +105,7 @@ namespace TrueOrFalse.Search
                     userMapsOrdered = userMaps.OrderBy(um => um.WishCountQuestions).ToList();
                     break;
             }
-             
+
             var userMapsSkip = userMapsOrdered
                 .Skip(pager.LowerBound - 1)
                 .Take(pager.PageSize)

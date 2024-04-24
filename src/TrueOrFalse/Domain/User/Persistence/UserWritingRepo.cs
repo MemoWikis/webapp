@@ -8,8 +8,6 @@ public class UserWritingRepo
     private readonly SessionUser _sessionUser;
 
     private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly ReputationUpdate _reputationUpdate;
-    private readonly UserActivityRepo _userActivityRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly ReputationCalc _reputationCalc;
     private readonly GetWishQuestionCount _getWishQuestionCount;
@@ -20,8 +18,6 @@ public class UserWritingRepo
         ISession session,
         SessionUser sessionUser,
         ActivityPointsRepo activityPointsRepo,
-        ReputationUpdate reputationUpdate,
-        UserActivityRepo userActivityRepo,
         UserReadingRepo userReadingRepo,
         ReputationCalc reputationCalc,
         GetWishQuestionCount getWishQuestionCount,
@@ -30,8 +26,6 @@ public class UserWritingRepo
         _repo = new RepositoryDb<User>(session);
         _sessionUser = sessionUser;
         _activityPointsRepo = activityPointsRepo;
-        _reputationUpdate = reputationUpdate;
-        _userActivityRepo = userActivityRepo;
         _userReadingRepo = userReadingRepo;
         _reputationCalc = reputationCalc;
         _getWishQuestionCount = getWishQuestionCount;
@@ -43,20 +37,6 @@ public class UserWritingRepo
         var user = _repo.GetById(userId);
         change(user);
         Update(user);
-    }
-
-    public virtual void AddFollower(User follower, User user)
-    {
-        user.Followers.Add(new FollowerInfo
-        {
-            Follower = follower, User = user, DateCreated = DateTime.Now,
-            DateModified = DateTime.Now
-        });
-        _repo.Flush();
-        UserActivityAdd.FollowedUser(follower, user, _userActivityRepo);
-        UserActivityUpdate.NewFollower(follower, user, _userActivityRepo, _repo.Session,
-            _userReadingRepo);
-        _reputationUpdate.ForUser(user);
     }
 
     public void Create(User user)

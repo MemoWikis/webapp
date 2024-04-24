@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 public class QuestionImageSettings : ImageSettings, IImageSettings
 {
@@ -15,13 +14,15 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     private Question? __question;
     private Question _question => __question ??= _questionReadingRepo.GetById(Id);
 
-    public QuestionImageSettings(QuestionReadingRepo questionReadingRepo,
-        IHttpContextAccessor httpContextAccessor) :base(httpContextAccessor)
+    public QuestionImageSettings(
+        QuestionReadingRepo questionReadingRepo,
+        IHttpContextAccessor httpContextAccessor) : base(httpContextAccessor)
     {
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public QuestionImageSettings(int questionId,
+    public QuestionImageSettings(
+        int questionId,
         IHttpContextAccessor httpContextAccessor,
         QuestionReadingRepo questionReadingRepo) : base(httpContextAccessor)
     {
@@ -29,14 +30,15 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public void Init(int questionId){
+    public void Init(int questionId)
+    {
         Id = questionId;
     }
 
-    public ImageUrl GetUrl_50px_square() => 
+    public ImageUrl GetUrl_50px_square() =>
         GetUrl_WithCategoriesFailover(50, isSquare: true);
 
-    private ImageUrl GetUrl_WithCategoriesFailover(int width, bool isSquare )
+    private ImageUrl GetUrl_WithCategoriesFailover(int width, bool isSquare)
     {
         var imageUrl = GetUrl(50, isSquare: true);
 
@@ -50,9 +52,18 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
         return imageUrl;
     }
 
-    public ImageUrl GetUrl_128px_square() { return GetUrl(128, isSquare: true); }
-    public ImageUrl GetUrl_435px() { return GetUrl(435); }
-    private ImageUrl GetUrl(int width, bool isSquare = false){
+    public ImageUrl GetUrl_128px_square()
+    {
+        return GetUrl(128, isSquare: true);
+    }
+
+    public ImageUrl GetUrl_435px()
+    {
+        return GetUrl(435);
+    }
+
+    private ImageUrl GetUrl(int width, bool isSquare = false)
+    {
         return new ImageUrl(_contextAccessor)
             .Get(this, width, isSquare, arg => BaseDummyUrl + width + ".png");
     }
