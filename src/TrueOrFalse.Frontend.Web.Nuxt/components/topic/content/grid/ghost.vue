@@ -8,10 +8,10 @@ const dragStore = useDragStore()
 const { isDesktop } = useDevice()
 const style = computed(() => {
 
-    const x = isDesktop ? dragStore.x : dragStore.touchX
-    const y = isDesktop ? dragStore.y : dragStore.touchY - 85
+    const x = isDesktop ? dragStore.x : dragStore.x
+    const y = isDesktop ? dragStore.y : dragStore.y - 85
 
-    const str = `top:${y - (userStore.showBanner ? 96 : 0)}px; left:${x}px; position: absolute; z-index: 2000 !important;`
+    const str = `top:${y - (userStore.showBanner ? 96 : 0)}px; left:${x}px; position: fixed; z-index: 2000 !important;`
     return str
 })
 

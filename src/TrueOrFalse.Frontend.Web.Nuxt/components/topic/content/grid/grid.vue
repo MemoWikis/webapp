@@ -274,6 +274,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
 
         <LazyClientOnly>
             <TopicContentGridGhost v-show="dragStore.active" />
+            <TopicContentGridDragStartIndicator v-if="dragStore.showTouchSpinner" />
         </LazyClientOnly>
     </div>
 </template>

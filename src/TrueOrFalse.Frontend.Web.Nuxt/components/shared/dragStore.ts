@@ -34,6 +34,9 @@ export const useDragStore = defineStore('dragStore', {
 			y: 0,
 			touchX: 0,
 			touchY: 0,
+			showTouchSpinner: false,
+			touchClientX: 0,
+			touchClientY: 0
 		}
 	},
 	actions: {
@@ -56,14 +59,18 @@ export const useDragStore = defineStore('dragStore', {
 				else this.dropZoneData = null
 			}
 		},
-		setMousePosition(x: number, y: number, screenX?: number, screenY?: number) {
+		setMousePosition(x: number, y: number, touchX?: number, touchY?: number) {
 			this.x = x
 			this.y = y
 
-			if (screenX && screenY) {
-				this.touchX = screenX
-				this.touchY = screenY
+			if (touchX && touchY) {
+				this.touchX = touchX
+				this.touchY = touchY
 			}
+		},
+		setTouchPositionForDrag(x: number, y: number) {
+			this.touchClientX = x
+			this.touchClientY = y
 		}
 	},
 	getters: {
