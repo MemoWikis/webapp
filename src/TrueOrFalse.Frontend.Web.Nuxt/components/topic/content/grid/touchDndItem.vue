@@ -129,22 +129,29 @@ const touchTimer = ref()
 
 function preventScroll(e: TouchEvent) {
     console.log('try prevent scroll', e.cancelable)
-
     if (e.cancelable)
         e.preventDefault()
+}
+function onOpeningContextMenu() {
+    console.log('onOpeningContextMenu')
+    touchRelease()
+    document.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const showTouchIndicatorTimer = ref()
 async function handlePress(e: TouchEvent) {
+    console.log('press')
+
+    document.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
+
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
     dragStore.setTouchPositionForDrag(x, y)
     showTouchIndicatorTimer.value = setTimeout(() => {
         dragStore.showTouchSpinner = true
+        document.addEventListener('touchmove', preventScroll, { passive: false })
     }, 100)
-    console.log('press')
 
-    document.addEventListener('touchmove', preventScroll, { passive: false })
 
     initialHoldPosition.x = e.changedTouches[0].pageX
     initialHoldPosition.y = e.changedTouches[0].pageY
@@ -156,12 +163,13 @@ async function handlePress(e: TouchEvent) {
 }
 
 function touchRelease() {
+    handleDragEnd()
+
     dragStore.showTouchSpinner = false
     clearTimeout(touchTimer.value)
     clearTimeout(showTouchIndicatorTimer.value)
     touchTimer.value = null
     document.removeEventListener('touchmove', preventScroll, { passive: false } as any)
-    handleDragEnd()
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -187,8 +195,12 @@ function handleDragEnd() {
 
 const touchDragComponent = ref<HTMLElement | null>(null)
 
-function handleDragOnce(e: TouchEvent) {
-    console.log(e)
+async function handleDragOnce(e: TouchEvent) {
+    if (e.cancelable) {
+        document.addEventListener('touchmove', preventScroll, { passive: false })
+    }
+    await nextTick()
+    console.log(e, e.defaultPrevented)
     if (e.defaultPrevented) {
         console.log('shouldHandleDragStart')
         handleDragStart(e)
