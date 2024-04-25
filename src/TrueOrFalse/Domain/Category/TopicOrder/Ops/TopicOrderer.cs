@@ -4,7 +4,7 @@
     {
         if (childId == parentId)
             return false;
-
+                
         if (GraphService.Descendants(childId).Any(r => r.Id == parentId))
             return false;
 
@@ -302,11 +302,24 @@
         var currentRelation = childRelations.FirstOrDefault(r => r.PreviousId == null);
         var sortedRelations = new List<CategoryCacheRelation>();
         var addedRelationIds = new HashSet<int>();
+        var addedChildIds = new HashSet<int>();
 
         while (currentRelation != null)
         {
+            if (addedChildIds.Contains(currentRelation.ChildId))
+            {
+                addedRelationIds.Add(currentRelation.Id);
+                addedChildIds.Add(currentRelation.ChildId);
+
+                Logg.r.Error(
+                    "CategoryRelations - Sort: Force continue 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
+                    topicId, currentRelation.Id);
+                continue;
+            }
+
             sortedRelations.Add(currentRelation);
             addedRelationIds.Add(currentRelation.Id);
+            addedChildIds.Add(currentRelation.ChildId);
 
             currentRelation =
                 childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
@@ -314,8 +327,8 @@
             if (sortedRelations.Count >= childRelations.Count && currentRelation != null)
             {
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}",
-                    topicId);
+                    "CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}, RelationId: {1}",
+                    topicId, currentRelation.Id);
                 break;
             }
         }
