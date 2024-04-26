@@ -307,27 +307,23 @@
         while (currentRelation != null)
         {
             var nextCurrentRelation = childRelations.FirstOrDefault(r =>
-                r.ChildId == currentRelation.NextId && !addedRelationIds.Contains(r.Id));
+                r.ChildId == currentRelation.NextId);
 
-            if (addedChildIds.Contains(currentRelation.ChildId) && !addedRelationIds.Contains(currentRelation.Id))
+            if (addedChildIds.Contains(currentRelation.ChildId))
             {
                 addedRelationIds.Add(currentRelation.Id);
 
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force continue 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
+                    "CategoryRelations - Sort: Force break 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
                     topicId, currentRelation.Id);
 
-                currentRelation = nextCurrentRelation;
-                continue;
+                break;
             }
 
             addedRelationIds.Add(currentRelation.Id);
             addedChildIds.Add(currentRelation.ChildId);
 
-            if (!addedChildIds.Contains(currentRelation.ChildId))
-            {
-                sortedRelations.Add(currentRelation);
-            }
+            sortedRelations.Add(currentRelation);
 
             currentRelation = nextCurrentRelation;
 
@@ -342,7 +338,7 @@
         }
 
         if (sortedRelations.Count < childRelations.Count)
-            AppendMissingRelations(topicId, sortedRelations, childRelations, addedRelationIds);
+            AppendMissingRelations(topicId, sortedRelations, childRelations, addedRelationIds, addedChildIds);
 
         return sortedRelations;
     }
@@ -351,7 +347,8 @@
         int topicId,
         List<CategoryCacheRelation> sortedRelations,
         IList<CategoryCacheRelation> childRelations,
-        HashSet<int> addedRelationIds)
+        HashSet<int> addedRelationIds,
+        HashSet<int> addedChildIds)
     {
         Logg.r.Error("CategoryRelations - Sort: Broken Link Start - TopicId:{0}, RelationId:{1}",
             topicId, sortedRelations.LastOrDefault()?.Id);
@@ -360,7 +357,9 @@
         {
             if (!addedRelationIds.Contains(childRelation.Id))
             {
-                sortedRelations.Add(childRelation);
+                if (!addedChildIds.Contains(childRelation.ChildId))
+                    sortedRelations.Add(childRelation);
+
                 Logg.r.Error("CategoryRelations - Sort: Broken Link - TopicId:{0}, RelationId:{1}",
                     topicId, childRelation.Id);
             }
