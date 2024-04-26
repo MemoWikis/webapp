@@ -278,6 +278,13 @@ watch(currentPosition, (val) => {
 
 const placeHolderTopicName = ref('')
 
+onMounted(() => {
+    if (dragStore.isMoveTopicTransferData) {
+        const m = dragStore.transferData as MoveTopicTransferData
+        placeHolderTopicName.value = m.topic.name
+    }
+})
+
 watch(() => dragStore.transferData, (t) => {
     if (dragStore.isMoveTopicTransferData) {
         const m = t as MoveTopicTransferData
