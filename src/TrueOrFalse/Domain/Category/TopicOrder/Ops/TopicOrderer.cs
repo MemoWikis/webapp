@@ -306,7 +306,7 @@
 
         while (currentRelation != null)
         {
-            if (addedChildIds.Contains(currentRelation.ChildId))
+            if (addedChildIds.Contains(currentRelation.ChildId) && !addedRelationIds.Contains(currentRelation.Id))
             {
                 addedRelationIds.Add(currentRelation.Id);
                 addedChildIds.Add(currentRelation.ChildId);
