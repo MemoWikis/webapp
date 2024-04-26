@@ -310,6 +310,8 @@
             {
                 addedRelationIds.Add(currentRelation.Id);
                 addedChildIds.Add(currentRelation.ChildId);
+                currentRelation =
+                    childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
 
                 Logg.r.Error(
                     "CategoryRelations - Sort: Force continue 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
