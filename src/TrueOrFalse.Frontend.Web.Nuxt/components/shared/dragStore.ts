@@ -40,6 +40,9 @@ export const useDragStore = defineStore('dragStore', {
 		}
 	},
 	actions: {
+		setTransferData(e: MoveTopicTransferData | string) {
+			this.transferData = e
+		},
 		dragStart(e: MoveTopicTransferData | string) {
 			this.active = true
 			this.transferData = e

@@ -156,7 +156,7 @@ async function getBreadcrumb() {
 		currentCategoryId: topicStore.id,
 	}
 
-	if (props.page == Page.Topic) {
+	if (props.page == Page.Topic && topicStore.id > 0) {
 		const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
@@ -272,7 +272,8 @@ const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
-	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
+	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl"
+		:style="breadcrumbWidth"
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': isUpdating }"
 		v-show="!shrinkBreadcrumb">
 

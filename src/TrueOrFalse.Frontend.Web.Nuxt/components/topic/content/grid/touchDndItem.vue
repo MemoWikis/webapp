@@ -30,51 +30,50 @@ const isDroppableItemActive = ref(false)
 const snackbar = useSnackbar()
 
 async function onDrop() {
-    console.log('onDrop')
-    // isDroppableItemActive.value = false
+    isDroppableItemActive.value = false
 
-    // hoverTopHalf.value = false
-    // hoverBottomHalf.value = false
-    // dropIn.value = false
+    hoverTopHalf.value = false
+    hoverBottomHalf.value = false
+    dropIn.value = false
 
-    // if (dragStore.transferData == null || !dragStore.isMoveTopicTransferData)
-    //     return
+    if (dragStore.transferData == null || !dragStore.isMoveTopicTransferData)
+        return
 
-    // const transferData = dragStore.transferData as MoveTopicTransferData
+    const transferData = dragStore.transferData as MoveTopicTransferData
 
-    // if (dragStore.dropZoneData == null)
-    //     return
+    if (dragStore.dropZoneData == null)
+        return
 
-    // const targetId = dragStore.dropZoneData.id
+    const targetId = dragStore.dropZoneData.id
 
-    // if (transferData.topic.id == targetId)
-    //     return
+    if (transferData.topic.id == targetId)
+        return
 
-    // const position = dragStore.dropZoneData.position
-    // currentPosition.value = TargetPosition.None
-    // dragOverTimer.value = null
+    const position = dragStore.dropZoneData.position
+    currentPosition.value = TargetPosition.None
+    dragOverTimer.value = null
 
-    // await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
+    await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
 
-    // const snackbarCustomAction: SnackbarCustomAction = {
-    //     label: '',
-    //     action: () => {
-    //         editTopicRelationStore.undoMoveTopic()
-    //     }
-    // }
+    const snackbarCustomAction: SnackbarCustomAction = {
+        label: '',
+        action: () => {
+            editTopicRelationStore.undoMoveTopic()
+        }
+    }
 
-    // snackbar.add({
-    //     type: 'info',
-    //     title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
-    //     text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
-    //     dismissible: true
-    // })
+    snackbar.add({
+        type: 'info',
+        title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
+        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction?.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: ['fas', 'rotate-left'] },
+        dismissible: true
+    })
 }
 
 const dragging = ref(false)
 
-function handleDragStart(e: any) {
-    dragStore.showTouchSpinner = false
+async function prepareDragStart(e: any) {
+
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
         if (userStore.isLoggedIn)
             snackbar.add({
@@ -115,61 +114,65 @@ function handleDragStart(e: any) {
         userStore.gridInfoShown = true
     }
 
-    if (!dragStore.active) {
-        const data: MoveTopicTransferData = {
-            topic: props.topic,
-            oldParentId: props.parentId
-        }
-        dragStore.dragStart(data)
-        dragging.value = true
+
+    const data: MoveTopicTransferData = {
+        topic: props.topic,
+        oldParentId: props.parentId
     }
+    dragStore.setTransferData(data)
 }
 
 const touchTimer = ref()
 
+const scrollPrevented = ref(false)
+
 function preventScroll(e: TouchEvent) {
-    console.log('try prevent scroll', e.cancelable)
-    if (e.cancelable)
+    if (e.cancelable) {
         e.preventDefault()
+        scrollPrevented.value = true
+    }
 }
 function onOpeningContextMenu() {
-    console.log('onOpeningContextMenu')
-    touchRelease()
+    handleRelease()
     document.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const showTouchIndicatorTimer = ref()
 async function handlePress(e: TouchEvent) {
-    console.log('press')
-
     document.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
 
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
     dragStore.setTouchPositionForDrag(x, y)
+
     showTouchIndicatorTimer.value = setTimeout(() => {
         dragStore.showTouchSpinner = true
-        document.addEventListener('touchmove', preventScroll, { passive: false })
     }, 100)
-
 
     initialHoldPosition.x = e.changedTouches[0].pageX
     initialHoldPosition.y = e.changedTouches[0].pageY
-
-    touchTimer.value = setTimeout(() => {
-        // document.addEventListener('touchmove', preventScroll, { passive: false })
-        handleDragStart(e)
-    }, 1100)
 }
 
-function touchRelease() {
-    handleDragEnd()
+async function handleHold(e: TouchEvent) {
+    document.addEventListener('touchmove', preventScroll, { passive: false })
+    await nextTick()
+    prepareDragStart(e)
+}
 
+function handleDragOnce(e: TouchEvent) {
+    if (scrollPrevented.value)
+        handleDragStart(e)
+    else handleRelease()
+}
+
+function handleRelease() {
+    handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(touchTimer.value)
     clearTimeout(showTouchIndicatorTimer.value)
     touchTimer.value = null
     document.removeEventListener('touchmove', preventScroll, { passive: false } as any)
+    document.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -185,6 +188,14 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
         currentPosition.value = TargetPosition.After
 })
 
+function handleDragStart(e: TouchEvent) {
+    dragStore.showTouchSpinner = false
+
+    if (scrollPrevented.value) {
+        dragStore.active = true
+        dragging.value = true
+    }
+}
 function handleDragEnd() {
     if (dragStore.active)
         onDrop()
@@ -195,25 +206,12 @@ function handleDragEnd() {
 
 const touchDragComponent = ref<HTMLElement | null>(null)
 
-async function handleDragOnce(e: TouchEvent) {
-    if (e.cancelable) {
-        document.addEventListener('touchmove', preventScroll, { passive: false })
-    }
-    await nextTick()
-    console.log(e, e.defaultPrevented)
-    if (e.defaultPrevented) {
-        console.log('shouldHandleDragStart')
-        handleDragStart(e)
-    }
-}
-
 function handleDrag(e: TouchEvent) {
 
     dragStore.showTouchSpinner = false
 
-    if (!e.defaultPrevented) {
+    if (!scrollPrevented.value)
         clearTimeout(touchTimer.value)
-    }
 
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY - 85
@@ -266,7 +264,6 @@ watch(currentPosition, (val) => {
         else if (val == TargetPosition.After || val == TargetPosition.Inner) {
             hoverTopHalf.value = false
             hoverBottomHalf.value = true
-
         }
     }
     else {
@@ -328,8 +325,9 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 </script>
 
 <template>
-    <div class="draggable" v-touch:press="handlePress" v-touch:release="touchRelease" v-touch:drag="handleDrag"
-        v-touch.drag.once="handleDragOnce" ref="touchDragComponent">
+    <div class="draggable" v-touch:press="handlePress" v-touch:release="handleRelease" v-on:touchend="handleRelease"
+        v-on:touchcancel="handleRelease" v-touch:drag.once="handleDragOnce" v-touch:drag="handleDrag"
+        v-touch:hold="handleHold" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
