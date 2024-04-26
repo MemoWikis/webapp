@@ -308,16 +308,17 @@
         {
             if (addedChildIds.Contains(currentRelation.ChildId) && !addedRelationIds.Contains(currentRelation.Id))
             {
-                currentRelation = EnsureUniqueChildIdInRelations(childRelations, topicId, addedRelationIds, currentRelation, addedChildIds);
+                currentRelation = HandleDuplicateChildrenInRelation(childRelations, topicId, addedRelationIds, currentRelation, addedChildIds);
                 continue;
             }
 
-            sortedRelations.Add(currentRelation);
             addedRelationIds.Add(currentRelation.Id);
             addedChildIds.Add(currentRelation.ChildId);
 
-            currentRelation =
-                childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
+            if (!addedChildIds.Contains(currentRelation.ChildId))
+                sortedRelations.Add(currentRelation);
+
+            currentRelation = childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
 
             if (sortedRelations.Count >= childRelations.Count && currentRelation != null)
             {
@@ -334,18 +335,16 @@
         return sortedRelations;
     }
 
-    private static CategoryCacheRelation? EnsureUniqueChildIdInRelations(IList<CategoryCacheRelation> childRelations, int topicId,
+    private static CategoryCacheRelation? HandleDuplicateChildrenInRelation(IList<CategoryCacheRelation> childRelations, int topicId,
         HashSet<int> addedRelationIds, CategoryCacheRelation currentRelation, HashSet<int> addedChildIds)
     {
         addedRelationIds.Add(currentRelation.Id);
-        addedChildIds.Add(currentRelation.ChildId);
-        var nextCurrentRelation = childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
 
         Logg.r.Error(
             "CategoryRelations - Sort: Force continue 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
             topicId, currentRelation.Id);
 
-        return nextCurrentRelation;
+        return childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId && !addedRelationIds.Contains(r.Id));
     }
 
     private static void AppendMissingRelations(
