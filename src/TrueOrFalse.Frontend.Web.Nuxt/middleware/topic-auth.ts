@@ -8,6 +8,5 @@ export default defineNuxtRouteMiddleware((to, from) => {
             return `/apiVue/Topic/GetTopic/${userStore.personalWiki?.id}`
         else return `/apiVue/Topic/GetTopic/1`
     }
-
     return
 })

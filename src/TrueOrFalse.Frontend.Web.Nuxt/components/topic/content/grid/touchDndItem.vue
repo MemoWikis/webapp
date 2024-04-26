@@ -122,8 +122,6 @@ async function prepareDragStart(e: any) {
     dragStore.setTransferData(data)
 }
 
-const touchTimer = ref()
-
 const scrollPrevented = ref(false)
 
 function preventScroll(e: TouchEvent) {
@@ -168,9 +166,7 @@ function handleDragOnce(e: TouchEvent) {
 function handleRelease() {
     handleDragEnd()
     dragStore.showTouchSpinner = false
-    clearTimeout(touchTimer.value)
     clearTimeout(showTouchIndicatorTimer.value)
-    touchTimer.value = null
     document.removeEventListener('touchmove', preventScroll, { passive: false } as any)
     document.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
@@ -209,9 +205,6 @@ const touchDragComponent = ref<HTMLElement | null>(null)
 function handleDrag(e: TouchEvent) {
 
     dragStore.showTouchSpinner = false
-
-    if (!scrollPrevented.value)
-        clearTimeout(touchTimer.value)
 
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY - 85
@@ -298,10 +291,6 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
     const xDifference = Math.abs(initialHoldPosition.x - x)
     const yDifference = Math.abs(initialHoldPosition.x - y)
-
-    if (xDifference > 5 || yDifference > 2) {
-        clearTimeout(touchTimer.value)
-    }
 
     if (currentPosition.value != TargetPosition.None && dragStore.active) {
 
