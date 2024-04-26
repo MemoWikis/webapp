@@ -308,14 +308,7 @@
         {
             if (addedChildIds.Contains(currentRelation.ChildId) && !addedRelationIds.Contains(currentRelation.Id))
             {
-                addedRelationIds.Add(currentRelation.Id);
-                addedChildIds.Add(currentRelation.ChildId);
-                currentRelation =
-                    childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
-
-                Logg.r.Error(
-                    "CategoryRelations - Sort: Force continue 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
-                    topicId, currentRelation.Id);
+                currentRelation = EnsureUniqueChildIdInRelations(childRelations, topicId, addedRelationIds, currentRelation, addedChildIds);
                 continue;
             }
 
@@ -339,6 +332,20 @@
             AppendMissingRelations(topicId, sortedRelations, childRelations, addedRelationIds);
 
         return sortedRelations;
+    }
+
+    private static CategoryCacheRelation? EnsureUniqueChildIdInRelations(IList<CategoryCacheRelation> childRelations, int topicId,
+        HashSet<int> addedRelationIds, CategoryCacheRelation currentRelation, HashSet<int> addedChildIds)
+    {
+        addedRelationIds.Add(currentRelation.Id);
+        addedChildIds.Add(currentRelation.ChildId);
+        var nextCurrentRelation = childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
+
+        Logg.r.Error(
+            "CategoryRelations - Sort: Force continue 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
+            topicId, currentRelation.Id);
+
+        return nextCurrentRelation;
     }
 
     private static void AppendMissingRelations(
