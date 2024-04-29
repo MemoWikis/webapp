@@ -68,22 +68,24 @@ async function onDrop() {
     currentPosition.value = TargetPosition.None
     dragOverTimer.value = null
 
-    await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
+    const result = await editTopicRelationStore.moveTopic(transferData.topic, targetId, position, props.parentId, transferData.oldParentId)
 
-    const snackbarCustomAction: SnackbarCustomAction = {
-        label: 'Zurücksetzen',
-        action: () => {
-            editTopicRelationStore.undoMoveTopic()
-        },
-        icon: ['fas', 'rotate-left']
+    if (result) {
+        const snackbarCustomAction: SnackbarCustomAction = {
+            label: 'Zurücksetzen',
+            action: () => {
+                editTopicRelationStore.undoMoveTopic()
+            },
+            icon: ['fas', 'rotate-left']
+        }
+
+        snackbar.add({
+            type: 'info',
+            title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
+            text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon },
+            dismissible: true
+        })
     }
-
-    snackbar.add({
-        type: 'info',
-        title: { text: transferData.topic.name, url: `/${transferData.topic.name}/${transferData.topic.id}` },
-        text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon },
-        dismissible: true
-    })
 }
 
 const dragging = ref(false)
