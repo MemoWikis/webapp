@@ -117,7 +117,6 @@ async function prepareDragStart(e: any) {
         userStore.gridInfoShown = true
     }
 
-
     const data: MoveTopicTransferData = {
         topic: props.topic,
         oldParentId: props.parentId
@@ -140,6 +139,8 @@ function onOpeningContextMenu() {
 
 const showTouchIndicatorTimer = ref()
 async function handlePress(e: TouchEvent) {
+    e.stopPropagation()
+
     document.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
 
     const x = e.changedTouches[0].clientX
@@ -155,18 +156,22 @@ async function handlePress(e: TouchEvent) {
 }
 
 async function handleHold(e: TouchEvent) {
+    e.stopPropagation()
     document.addEventListener('touchmove', preventScroll, { passive: false })
     await nextTick()
     prepareDragStart(e)
 }
 
 function handleDragOnce(e: TouchEvent) {
+    e.stopPropagation()
+
     if (scrollPrevented.value)
         handleDragStart(e)
     else handleRelease()
 }
 
 function handleRelease() {
+
     handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(showTouchIndicatorTimer.value)
@@ -188,6 +193,7 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragStart(e: TouchEvent) {
+    e.stopPropagation()
     dragStore.showTouchSpinner = false
 
     if (scrollPrevented.value) {
@@ -206,7 +212,7 @@ function handleDragEnd() {
 const touchDragComponent = ref<HTMLElement | null>(null)
 
 function handleDrag(e: TouchEvent) {
-
+    e.stopPropagation()
     dragStore.showTouchSpinner = false
 
     const x = e.changedTouches[0].pageX
