@@ -127,21 +127,23 @@ async function prepareDragStart(e: any) {
 const scrollPrevented = ref(false)
 
 function preventScroll(e: TouchEvent) {
+    console.log('preventScroll', e.cancelable)
     if (e.cancelable) {
         e.preventDefault()
-        scrollPrevented.value = true
+        if (e.defaultPrevented)
+            scrollPrevented.value = true
     }
 }
 function onOpeningContextMenu() {
     handleRelease()
-    document.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
+    document.getElementById('TopicGrid')?.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const showTouchIndicatorTimer = ref()
-async function handlePress(e: TouchEvent) {
-    e.stopPropagation()
+async function handleTouchStart(e: TouchEvent) {
 
-    document.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
+    document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
+    e.stopPropagation()
 
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
@@ -155,26 +157,45 @@ async function handlePress(e: TouchEvent) {
     initialHoldPosition.y = e.changedTouches[0].pageY
 }
 
-async function handleHold(e: TouchEvent) {
-    document.addEventListener('touchmove', preventScroll, { passive: false })
+watch(scrollPrevented, val => console.log(val))
 
-    e.stopImmediatePropagation()
+async function handleHold(e: TouchEvent) {
+    document.getElementById('TopicGrid')?.addEventListener('touchmove', preventScroll, { passive: false })
+
+    e.stopPropagation()
     await nextTick()
+    const x = e.changedTouches[0].pageX
+    const y = e.changedTouches[0].pageY - 85
+    dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
     prepareDragStart(e)
+
+    if (scrollPrevented.value)
+        handleDragStart(e)
+
 }
 
 function handleDragOnce(e: TouchEvent) {
     if (scrollPrevented.value)
         handleDragStart(e)
-    else handleRelease()
+    else
+        handleRelease()
+}
+
+function handleDragStart(e: TouchEvent) {
+    dragStore.showTouchSpinner = false
+
+    if (scrollPrevented.value) {
+        dragStore.active = true
+        dragging.value = true
+    }
 }
 
 function handleRelease() {
     handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(showTouchIndicatorTimer.value)
-    document.removeEventListener('touchmove', preventScroll, { passive: false } as any)
-    document.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
+    document.getElementById('TopicGrid')?.removeEventListener('touchmove', preventScroll, { passive: false } as any)
+    document.getElementById('TopicGrid')?.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -190,14 +211,6 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
         currentPosition.value = TargetPosition.After
 })
 
-function handleDragStart(e: TouchEvent) {
-    dragStore.showTouchSpinner = false
-
-    if (scrollPrevented.value) {
-        dragStore.active = true
-        dragging.value = true
-    }
-}
 function handleDragEnd() {
     if (dragStore.active)
         onDrop()
@@ -215,7 +228,10 @@ function handleDrag(e: TouchEvent) {
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
 
-    if (dragging.value && e.defaultPrevented)
+    if (!scrollPrevented.value)
+        handleRelease()
+
+    if (dragging.value && scrollPrevented.value)
         handleScroll(e.changedTouches[0].clientY)
 }
 
@@ -319,9 +335,9 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 </script>
 
 <template>
-    <div class="draggable" v-touch:press="handlePress" v-touch:release="handleRelease" v-on:touchend="handleRelease"
-        v-on:touchcancel="handleRelease" v-touch:drag.once="handleDragOnce" v-touch:drag="handleDrag"
-        v-touch:hold="handleHold" ref="touchDragComponent">
+    <div class="draggable" v-on:touchstart="handleTouchStart" v-touch:release="handleRelease"
+        v-on:touchend="handleRelease" v-on:touchcancel="handleRelease" v-touch:drag.once="handleDragOnce"
+        v-touch:drag="handleDrag" v-touch:hold="handleHold" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
@@ -353,7 +369,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
                 <template #dropinzone>
                     <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
                         :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
-                        @dragleave="hoverBottomHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+                        @dragleave="hoverBottomHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.Inner)">
                         <div class="dropzone-label">Thema unterordnen</div>
                     </div>
                 </template>
