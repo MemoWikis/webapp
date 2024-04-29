@@ -351,8 +351,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
             </div>
 
             <TopicContentGridItem :topic="topic" :toggle-state="props.toggleState" :parent-id="props.parentId"
-                :parent-name="props.parentName" :active-dragging="dragStore.active" :is-dragging="dragging"
-                :drop-expand="dropIn">
+                :parent-name="props.parentName" :is-dragging="dragging" :drop-expand="dropIn">
 
                 <template #topdropzone>
                     <div v-if="dragStore.active && !dragging && !props.disabled" class="dropzone top"
