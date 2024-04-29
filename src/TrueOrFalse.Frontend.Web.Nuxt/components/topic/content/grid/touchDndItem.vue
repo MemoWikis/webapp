@@ -156,22 +156,20 @@ async function handlePress(e: TouchEvent) {
 }
 
 async function handleHold(e: TouchEvent) {
-    e.stopPropagation()
     document.addEventListener('touchmove', preventScroll, { passive: false })
+
+    e.stopImmediatePropagation()
     await nextTick()
     prepareDragStart(e)
 }
 
 function handleDragOnce(e: TouchEvent) {
-    e.stopPropagation()
-
     if (scrollPrevented.value)
         handleDragStart(e)
     else handleRelease()
 }
 
 function handleRelease() {
-
     handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(showTouchIndicatorTimer.value)
@@ -193,7 +191,6 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragStart(e: TouchEvent) {
-    e.stopPropagation()
     dragStore.showTouchSpinner = false
 
     if (scrollPrevented.value) {
@@ -212,7 +209,6 @@ function handleDragEnd() {
 const touchDragComponent = ref<HTMLElement | null>(null)
 
 function handleDrag(e: TouchEvent) {
-    e.stopPropagation()
     dragStore.showTouchSpinner = false
 
     const x = e.changedTouches[0].pageX
