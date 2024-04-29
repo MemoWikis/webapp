@@ -53,7 +53,6 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 }
             }
             const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
-            //console.log(result)
             if (!!result && result.success) {                 
                 const { $urlHelper } = useNuxtApp()
                 this.redirectURL = $urlHelper.getTopicUrl(result.redirectParent.name, result.redirectParent.id)

@@ -10,8 +10,6 @@ export class Google {
 
         window.google?.accounts.id.prompt((res: any) => {
             if (res.isNotDisplayed()) {
-                // console.log('no prompt')
-                // console.log(res.getNotDisplayedReason())
                 window.google.accounts.oauth2.initTokenClient({
                     client_id: config.public.gsiClientKey,
                     itp_support: false,

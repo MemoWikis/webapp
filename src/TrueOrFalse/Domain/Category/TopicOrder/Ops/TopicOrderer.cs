@@ -4,7 +4,7 @@
     {
         if (childId == parentId)
             return false;
-
+                
         if (GraphService.Descendants(childId).Any(r => r.Id == parentId))
             return false;
 
@@ -302,26 +302,43 @@
         var currentRelation = childRelations.FirstOrDefault(r => r.PreviousId == null);
         var sortedRelations = new List<CategoryCacheRelation>();
         var addedRelationIds = new HashSet<int>();
+        var addedChildIds = new HashSet<int>();
 
         while (currentRelation != null)
         {
-            sortedRelations.Add(currentRelation);
+            var nextCurrentRelation = childRelations.FirstOrDefault(r =>
+                r.ChildId == currentRelation.NextId);
+
+            if (addedChildIds.Contains(currentRelation.ChildId))
+            {
+                addedRelationIds.Add(currentRelation.Id);
+
+                Logg.r.Error(
+                    "CategoryRelations - Sort: Force break 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
+                    topicId, currentRelation.Id);
+
+                break;
+            }
+
             addedRelationIds.Add(currentRelation.Id);
+            addedChildIds.Add(currentRelation.ChildId);
 
-            currentRelation =
-                childRelations.FirstOrDefault(r => r.ChildId == currentRelation.NextId);
+            sortedRelations.Add(currentRelation);
 
-            if (sortedRelations.Count >= childRelations.Count && currentRelation != null)
+            currentRelation = nextCurrentRelation;
+
+
+            if (addedRelationIds.Count >= childRelations.Count && currentRelation != null)
             {
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}",
-                    topicId);
+                    "CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}, RelationId: {1}",
+                    topicId, currentRelation.Id);
                 break;
             }
         }
 
         if (sortedRelations.Count < childRelations.Count)
-            AppendMissingRelations(topicId, sortedRelations, childRelations, addedRelationIds);
+            AppendMissingRelations(topicId, sortedRelations, childRelations, addedRelationIds, addedChildIds);
 
         return sortedRelations;
     }
@@ -330,7 +347,8 @@
         int topicId,
         List<CategoryCacheRelation> sortedRelations,
         IList<CategoryCacheRelation> childRelations,
-        HashSet<int> addedRelationIds)
+        HashSet<int> addedRelationIds,
+        HashSet<int> addedChildIds)
     {
         Logg.r.Error("CategoryRelations - Sort: Broken Link Start - TopicId:{0}, RelationId:{1}",
             topicId, sortedRelations.LastOrDefault()?.Id);
@@ -339,7 +357,9 @@
         {
             if (!addedRelationIds.Contains(childRelation.Id))
             {
-                sortedRelations.Add(childRelation);
+                if (!addedChildIds.Contains(childRelation.ChildId))
+                    sortedRelations.Add(childRelation);
+
                 Logg.r.Error("CategoryRelations - Sort: Broken Link - TopicId:{0}, RelationId:{1}",
                     topicId, childRelation.Id);
             }

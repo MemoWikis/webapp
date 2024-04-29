@@ -10,8 +10,6 @@ const tabsStore = useTabsStore()
 const textArea = ref()
 const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4))
 const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
-console.log(firstAuthors, "firstAutors")
-console.log(lastAuthors, "lastAuthors")
 
 function resize() {
     let element = textArea.value as VueElement
@@ -21,10 +19,6 @@ function resize() {
     }
 }
 
-function getAuthors() {
-    console.log(topicStore.authors.length, "authors length")
-
-}
 const readonly = ref(false)
 watch(() => tabsStore.activeTab, (val: any) => {
 
@@ -49,7 +43,6 @@ onBeforeMount(() => {
 onMounted(async () => {
     await nextTick()
     resize()
-    getAuthors()
 })
 
 onUnmounted(() => {
@@ -245,7 +238,9 @@ const topic = useState<Topic>('topic')
         min-height: 21px;
 
         &.is-mobile {
-            .topic-detail {
+
+            .topic-detail,
+            .topic-detail-spacer {
                 margin-bottom: 8px;
             }
         }
