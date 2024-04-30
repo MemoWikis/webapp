@@ -139,15 +139,26 @@ function preventScroll(e: TouchEvent) {
     }
 }
 function onOpeningContextMenu() {
+    try {
+        // Intentionally throw an error to capture the stack trace
+        throw new Error("Capturing stack");
+    } catch (error: any) {
+        // Access the stack trace from the Error object
+        const stack = error.stack;
+
+        $logger.error(`touchDnd: onOpeningContextMenu`, [{ 'stack': stack }])
+    }
     handleRelease()
     document.getElementById('TopicGrid')?.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const showTouchIndicatorTimer = ref()
-async function handleTouchStart(e: TouchEvent) {
+async function handlePress(e: TouchEvent) {
+    e.preventDefault();
+    $logger.error(`touchDnd: handleTouchStart`)
+    document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
 
     e.stopPropagation()
-
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
     dragStore.setTouchPositionForDrag(x, y)
@@ -162,41 +173,45 @@ async function handleTouchStart(e: TouchEvent) {
 
 watch(scrollPrevented, val => console.log(val))
 
-async function handleHold(e: TouchEvent) {
+function handleHold(e: TouchEvent) {
+    $logger.error(`touchDnd: handleHold`)
+    e.preventDefault();
     document.getElementById('TopicGrid')?.addEventListener('touchmove', preventScroll, { passive: false })
 
     e.stopPropagation()
-    await nextTick()
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
     prepareDragStart(e)
     document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
-
-    if (scrollPrevented.value)
-        handleDragStart(e)
-
 }
 
-function handleDragOnce(e: TouchEvent) {
+async function handleDragOnce(e: TouchEvent) {
+    await nextTick()
+    $logger.error(`touchDnd: handleDragStart`)
     $logger.info('handleDragOnce', [{ 'scrollprevented': scrollPrevented.value, 'topicId': props.topic.id }])
     dragStart.value = false
-    if (scrollPrevented.value)
-        handleDragStart(e)
-    else
-        handleRelease()
-}
 
-function handleDragStart(e: TouchEvent) {
     dragStore.showTouchSpinner = false
 
     if (scrollPrevented.value) {
         dragStore.active = true
         dragging.value = true
-    }
+    } else
+        handleRelease()
 }
 
 function handleRelease() {
+    try {
+        // Intentionally throw an error to capture the stack trace
+        throw new Error("Capturing stack");
+    } catch (error: any) {
+        // Access the stack trace from the Error object
+        const stack = error.stack;
+
+        $logger.error(`touchDnd: handleRelease`, [{ 'stack': stack }])
+    }
+
     handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(showTouchIndicatorTimer.value)
@@ -218,6 +233,8 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
+    $logger.error(`touchDnd: handleDragEnd`)
+
     if (dragStore.active)
         onDrop()
     dragging.value = false
@@ -350,9 +367,8 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 </script>
 
 <template>
-    <div class="draggable" v-on:touchstart="handleTouchStart" v-touch:release="handleRelease"
-        v-on:touchend="handleRelease" v-on:touchcancel="handleRelease" v-touch:drag="handleDrag"
-        v-touch:hold="handleHold" ref="touchDragComponent">
+    <div class="draggable" v-touch:press="handlePress" v-touch:release="handleRelease"
+        v-touch:drag.once="handleDragOnce" v-touch:drag="handleDrag" v-touch:hold="handleHold" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
