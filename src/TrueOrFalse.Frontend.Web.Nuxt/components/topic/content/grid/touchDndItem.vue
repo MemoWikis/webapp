@@ -12,6 +12,8 @@ const dragStore = useDragStore()
 const snackbarStore = useSnackbarStore()
 const userStore = useUserStore()
 
+const { $logger } = useNuxtApp()
+
 interface Props {
     topic: GridTopicItem
     toggleState: ToggleState
@@ -127,6 +129,8 @@ async function prepareDragStart(e: any) {
 const scrollPrevented = ref(false)
 
 function preventScroll(e: TouchEvent) {
+    $logger.info('preventScroll', [{ 'e': e }])
+
     console.log('preventScroll', e.cancelable)
     if (e.cancelable) {
         e.preventDefault()
@@ -142,7 +146,6 @@ function onOpeningContextMenu() {
 const showTouchIndicatorTimer = ref()
 async function handleTouchStart(e: TouchEvent) {
 
-    document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
     e.stopPropagation()
 
     const x = e.changedTouches[0].clientX
@@ -168,6 +171,7 @@ async function handleHold(e: TouchEvent) {
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
     prepareDragStart(e)
+    document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
 
     if (scrollPrevented.value)
         handleDragStart(e)
@@ -175,6 +179,8 @@ async function handleHold(e: TouchEvent) {
 }
 
 function handleDragOnce(e: TouchEvent) {
+    $logger.info('handleDragOnce', [{ 'scrollprevented': scrollPrevented.value, 'topicId': props.topic.id }])
+    dragStart.value = false
     if (scrollPrevented.value)
         handleDragStart(e)
     else
@@ -217,11 +223,20 @@ function handleDragEnd() {
     dragging.value = false
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
+    dragStart.value = false
 }
 
 const touchDragComponent = ref<HTMLElement | null>(null)
 
-function handleDrag(e: TouchEvent) {
+const dragStart = ref(true)
+
+async function handleDrag(e: TouchEvent) {
+
+    if (dragStart.value)
+        handleDragOnce(e)
+
+    $logger.info('handleDrag')
+
     dragStore.showTouchSpinner = false
 
     const x = e.changedTouches[0].pageX
@@ -336,8 +351,8 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
 <template>
     <div class="draggable" v-on:touchstart="handleTouchStart" v-touch:release="handleRelease"
-        v-on:touchend="handleRelease" v-on:touchcancel="handleRelease" v-touch:drag.once="handleDragOnce"
-        v-touch:drag="handleDrag" v-touch:hold="handleHold" ref="touchDragComponent">
+        v-on:touchend="handleRelease" v-on:touchcancel="handleRelease" v-touch:drag="handleDrag"
+        v-touch:hold="handleHold" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
