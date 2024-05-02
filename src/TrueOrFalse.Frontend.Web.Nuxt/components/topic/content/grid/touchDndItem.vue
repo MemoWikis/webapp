@@ -244,10 +244,10 @@ async function handleTouchMove(e: TouchEvent) {
 
     const now = e.timeStamp
     const throttle = 25
-    if (touchDragTime.value == null || now > (touchDragTime.value + throttle)) {
-        touchDragTime.value = now
+    if (now < (touchDragTime.value + throttle)) {
         return
     }
+    touchDragTime.value = now
 
     console.log('handleTouchMove', shouldDrag.value)
 
