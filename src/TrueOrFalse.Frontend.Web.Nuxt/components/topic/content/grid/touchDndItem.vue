@@ -369,10 +369,13 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
     }
 }, { immediate: true })
 
+function contextmenu(e: MouseEvent) {
+    e.preventDefault();
+}
 </script>
 
 <template>
-    <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd" v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" ref="touchDragComponent">
+    <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd" v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" v-on:contextmenu="contextmenu" ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
