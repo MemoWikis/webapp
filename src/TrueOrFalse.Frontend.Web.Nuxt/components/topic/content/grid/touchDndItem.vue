@@ -133,6 +133,7 @@ async function prepareDragStart(e: any) {
 const showTouchIndicatorTimer = ref()
 const holdTimer = ref()
 async function handleTouchStart(e: TouchEvent) {
+
     console.log('handleTouchStart')
     $logger.error(`touchDnd: handleTouchStart`)
     e.stopPropagation()
@@ -142,12 +143,13 @@ async function handleTouchStart(e: TouchEvent) {
     initialHoldPosition.y = e.changedTouches[0].pageY
     dragStore.setTouchPositionForDrag(x, y)
 
+    showTouchIndicatorTimer.value = setTimeout(() => {
+        dragStore.showTouchSpinner = true
+    }, 100)
+
     holdTimer.value = setTimeout(() => {
         handleHold(e)
-    }, 300)
-
-    await nextTick()
-    dragStore.showTouchSpinner = true
+    }, 700)
 }
 
 const shouldDrag = ref(false)
@@ -198,6 +200,7 @@ function handleTouchEnd() {
 
     handleDragEnd()
     dragStore.showTouchSpinner = false
+    clearTimeout(holdTimer.value)
     clearTimeout(showTouchIndicatorTimer.value)
 }
 

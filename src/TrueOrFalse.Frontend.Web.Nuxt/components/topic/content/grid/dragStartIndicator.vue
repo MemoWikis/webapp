@@ -49,7 +49,7 @@ const style = computed(() => {
         inset: -10px;
         border-radius: 50%;
         border: 10px solid @memo-green;
-        animation: prixClipFix 0.3s 1 linear;
+        animation: prixClipFix 0.55s 1 linear;
     }
 
     @keyframes prixClipFix {
