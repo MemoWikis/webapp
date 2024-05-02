@@ -72,13 +72,15 @@ async function onDrop() {
             dismissible: true
         })
     }
-
 }
 
 const dragging = ref(false)
 
 async function prepareDragStart(e: any) {
 
+    $logger.error("prepare-topicName: "+ props.topic.name)
+    $logger.error("prepare-parentName: "+ props.parentName)
+   
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
         if (userStore.isLoggedIn)
             snackbar.add({
@@ -139,32 +141,9 @@ function preventScroll(e: TouchEvent) {
     }
 }
 
-function contextMenuCleanup() {
-    handleTouchEnd()
-    document.getElementById('TopicGrid')?.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
-    document.removeEventListener('touchstart', contextMenuCleanup)
-    document.removeEventListener('keydown', contextMenuCleanup)
-}
-
-function onOpeningContextMenu() {
-    try {
-        // Intentionally throw an error to capture the stack trace
-        throw new Error("Capturing stack");
-    } catch (error: any) {
-        // Access the stack trace from the Error object
-        const stack = error.stack;
-
-        $logger.error(`touchDnd: onOpeningContextMenu`, [{ 'stack': stack }])
-    }
-    document.addEventListener('touchstart', contextMenuCleanup, { once: true });
-    document.addEventListener('keydown', contextMenuCleanup, { once: true });
-}
-
 const showTouchIndicatorTimer = ref()
 async function handleTouchStart(e: TouchEvent) {
     $logger.error(`touchDnd: handleTouchStart`)
-    document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false, once: true })
-
     e.stopPropagation()
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
@@ -188,7 +167,6 @@ function handleHold(e: TouchEvent) {
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
     prepareDragStart(e)
-    document.getElementById('TopicGrid')?.addEventListener('contextmenu', onOpeningContextMenu, { passive: false })
 }
 
 async function handleDragOnce(e: TouchEvent) {
@@ -221,7 +199,6 @@ function handleTouchEnd() {
     dragStore.showTouchSpinner = false
     clearTimeout(showTouchIndicatorTimer.value)
     document.getElementById('TopicGrid')?.removeEventListener('touchmove', preventScroll, { passive: false } as any)
-    document.getElementById('TopicGrid')?.removeEventListener('contextmenu', onOpeningContextMenu, { passive: false } as any)
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -369,13 +346,10 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
     }
 }, { immediate: true })
 
-function contextmenu(e: MouseEvent) {
-    e.preventDefault();
-}
 </script>
 
 <template>
-    <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd" v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" v-on:contextmenu="contextmenu" ref="touchDragComponent">
+    <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd" v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" v-on:contextmenu.prevent ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
