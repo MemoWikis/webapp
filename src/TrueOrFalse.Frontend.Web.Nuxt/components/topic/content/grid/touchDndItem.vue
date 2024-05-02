@@ -78,9 +78,9 @@ const dragging = ref(false)
 
 async function prepareDragStart(e: any) {
 
-    $logger.error("prepare-topicName: "+ props.topic.name)
-    $logger.error("prepare-parentName: "+ props.parentName)
-   
+    $logger.error("prepare-topicName: " + props.topic.name)
+    $logger.error("prepare-parentName: " + props.parentName)
+
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
         if (userStore.isLoggedIn)
             snackbar.add({
@@ -222,7 +222,7 @@ function handleDragEnd() {
     dragging.value = false
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
-    dragStart.value = false
+    dragStart.value = true
 }
 
 const touchDragComponent = ref<HTMLElement | null>(null)
@@ -230,9 +230,12 @@ const touchDragComponent = ref<HTMLElement | null>(null)
 const dragStart = ref(true)
 
 async function handleDrag(e: TouchEvent) {
+    $logger.info('handleDrag', [{ 'dragstartvalue': dragStart.value }])
 
     if (dragStart.value)
         handleDragOnce(e)
+
+    dragStart.value = false
 
     $logger.info('handleDrag')
 
@@ -349,7 +352,9 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 </script>
 
 <template>
-    <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd" v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" v-on:contextmenu.prevent ref="touchDragComponent">
+    <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd"
+        v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" v-on:contextmenu.prevent
+        ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
             <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverTopHalf && !dragging }"
