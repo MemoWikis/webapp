@@ -8,7 +8,7 @@ const style = computed(() => {
     const x = dragStore.touchClientX
     const y = dragStore.touchClientY
 
-    const str = `top:${y - 40}px; left:${x - 40}px;`
+    const str = `top:${y - 55}px; left:${x - 55}px;`
     return str
 })
 
@@ -31,11 +31,11 @@ const style = computed(() => {
     z-index: 100;
 
     .loader {
-        min-width: 80px;
-        min-height: 80px;
-        max-width: 80px;
-        max-height: 80px;
-        border: 5px solid #9e9e9e70;
+        min-width: 110px;
+        min-height: 110px;
+        max-width: 110px;
+        max-height: 110px;
+        border: 10px solid #9e9e9e70;
         border-radius: 50%;
         position: relative;
         transform: rotate(45deg);
@@ -46,9 +46,9 @@ const style = computed(() => {
         content: "";
         position: absolute;
         box-sizing: border-box;
-        inset: -5px;
+        inset: -10px;
         border-radius: 50%;
-        border: 5px solid @memo-green;
+        border: 10px solid @memo-green;
         animation: prixClipFix 0.3s 1 linear;
     }
 
