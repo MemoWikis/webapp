@@ -126,23 +126,14 @@ async function prepareDragStart(e: any) {
         oldParentId: props.parentId
     }
     dragStore.setTransferData(data)
-}
 
-const scrollPrevented = ref(false)
-
-function preventScroll(e: TouchEvent) {
-    $logger.info('preventScroll', [{ 'e': e }])
-
-    console.log('preventScroll', e.cancelable)
-    if (e.cancelable) {
-        e.preventDefault()
-        if (e.defaultPrevented)
-            scrollPrevented.value = true
-    }
+    shouldDrag.value = true
 }
 
 const showTouchIndicatorTimer = ref()
+const holdTimer = ref()
 async function handleTouchStart(e: TouchEvent) {
+    console.log('handleTouchStart')
     $logger.error(`touchDnd: handleTouchStart`)
     e.stopPropagation()
     const x = e.changedTouches[0].clientX
@@ -151,33 +142,42 @@ async function handleTouchStart(e: TouchEvent) {
     initialHoldPosition.y = e.changedTouches[0].pageY
     dragStore.setTouchPositionForDrag(x, y)
 
+    holdTimer.value = setTimeout(() => {
+        handleHold(e)
+    }, 300)
+
     await nextTick()
     dragStore.showTouchSpinner = true
 }
 
-watch(scrollPrevented, val => console.log(val))
-
+const shouldDrag = ref(false)
 function handleHold(e: TouchEvent) {
+    console.log('handleHold')
     $logger.error(`touchDnd: handleHold`)
-    e.preventDefault();
-    document.getElementById('TopicGrid')?.addEventListener('touchmove', preventScroll, { passive: false })
+    // e.preventDefault();
+
+    // document
+    //     .getElementById('TopicGrid')
+    //     ?.addEventListener('touchmove', preventScroll, { passive: false })
 
     e.stopPropagation()
+
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
+
     prepareDragStart(e)
 }
 
 async function handleDragOnce(e: TouchEvent) {
-    await nextTick()
+    console.log('handleDragOnce')
     $logger.error(`touchDnd: handleDragStart`)
-    $logger.info('handleDragOnce', [{ 'scrollprevented': scrollPrevented.value, 'topicId': props.topic.id }])
-    dragStart.value = false
+    $logger.info('handleDragOnce', [{ 'shouldDrag': shouldDrag.value, 'topicId': props.topic.id }])
+    isDragStart.value = false
 
     dragStore.showTouchSpinner = false
 
-    if (scrollPrevented.value) {
+    if (shouldDrag.value) {
         dragStore.active = true
         dragging.value = true
     } else
@@ -193,12 +193,12 @@ function handleTouchEnd() {
         const stack = error.stack;
 
         $logger.error(`touchDnd: handleRelease`, [{ 'stack': stack }])
+        console.log('touchend', stack)
     }
 
     handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(showTouchIndicatorTimer.value)
-    document.getElementById('TopicGrid')?.removeEventListener('touchmove', preventScroll, { passive: false } as any)
 }
 
 const currentPosition = ref<TargetPosition>(TargetPosition.None)
@@ -215,6 +215,7 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
+    console.log('handleDragEnd')
     $logger.error(`touchDnd: handleDragEnd`)
 
     if (dragStore.active)
@@ -222,22 +223,36 @@ function handleDragEnd() {
     dragging.value = false
     dragStore.dragEnd()
     currentPosition.value = TargetPosition.None
-    dragStart.value = true
+    isDragStart.value = true
+    shouldDrag.value = false
 }
 
 const touchDragComponent = ref<HTMLElement | null>(null)
 
-const dragStart = ref(true)
+const isDragStart = ref(true)
+const touchDragTime = ref(0)
+async function handleTouchMove(e: TouchEvent) {
 
-async function handleDrag(e: TouchEvent) {
-    $logger.info('handleDrag', [{ 'dragstartvalue': dragStart.value }])
+    if (shouldDrag.value)
+        e.preventDefault()
 
-    if (dragStart.value)
+    if (isDragStart.value)
         handleDragOnce(e)
 
-    dragStart.value = false
+    const now = e.timeStamp
+    const throttle = 25
+    if (touchDragTime.value == null || now > (touchDragTime.value + throttle)) {
+        touchDragTime.value = now
+        return
+    }
 
-    $logger.info('handleDrag')
+    console.log('handleTouchMove', shouldDrag.value)
+
+    // $logger.info('handleDrag', [{ 'dragstartvalue': dragStart.value }])
+
+
+
+    // $logger.info('handleDrag')
 
     dragStore.showTouchSpinner = false
 
@@ -245,10 +260,10 @@ async function handleDrag(e: TouchEvent) {
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
 
-    if (!scrollPrevented.value)
+    if (!shouldDrag.value)
         handleTouchEnd()
 
-    if (dragging.value && scrollPrevented.value)
+    if (dragging.value && shouldDrag.value)
         handleScroll(e.changedTouches[0].clientY)
 }
 
@@ -353,7 +368,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
 <template>
     <div class="draggable" v-on:touchstart="handleTouchStart" v-on:touchcancel="handleTouchEnd"
-        v-on:touchend="handleTouchEnd" v-touch:drag="handleDrag" v-touch:hold="handleHold" v-on:contextmenu.prevent
+        v-on:touchend="handleTouchEnd" v-on:touchmove="handleTouchMove" v-on:contextmenu.prevent
         ref="touchDragComponent">
         <div class="item" :class="{ 'active-drag': isDroppableItemActive, 'dragging': dragging }">
 
