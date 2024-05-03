@@ -41,7 +41,7 @@ watch(() => dragStore.transferData, (t) => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .ghost-container {
-    background: white;
+    background: rgba(99, 199, 238, 0.555);
     padding: 12px 24px;
     border: solid 1px @memo-grey-light;
     border-radius: 4px;
