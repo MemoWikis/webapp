@@ -12,8 +12,6 @@ const dragStore = useDragStore()
 const snackbarStore = useSnackbarStore()
 const userStore = useUserStore()
 
-const { $logger } = useNuxtApp()
-
 interface Props {
     topic: GridTopicItem
     toggleState: ToggleState
@@ -76,11 +74,7 @@ async function onDrop() {
 
 const dragging = ref(false)
 
-async function prepareDragStart(e: any) {
-
-    $logger.error("prepare-topicName: " + props.topic.name)
-    $logger.error("prepare-parentName: " + props.parentName)
-
+async function prepareDragStart() {
     if (!userStore.isAdmin && (!props.userIsCreatorOfParent && props.topic.creatorId != userStore.id)) {
         if (userStore.isLoggedIn)
             snackbar.add({
@@ -133,9 +127,6 @@ async function prepareDragStart(e: any) {
 const showTouchIndicatorTimer = ref()
 const holdTimer = ref()
 async function handleTouchStart(e: TouchEvent) {
-
-    console.log('handleTouchStart')
-    $logger.error(`touchDnd: handleTouchStart`)
     e.stopPropagation()
     const x = e.changedTouches[0].clientX
     const y = e.changedTouches[0].clientY
@@ -154,27 +145,16 @@ async function handleTouchStart(e: TouchEvent) {
 
 const shouldDrag = ref(false)
 function handleHold(e: TouchEvent) {
-    console.log('handleHold')
-    $logger.error(`touchDnd: handleHold`)
-    // e.preventDefault();
-
-    // document
-    //     .getElementById('TopicGrid')
-    //     ?.addEventListener('touchmove', preventScroll, { passive: false })
-
     e.stopPropagation()
 
     const x = e.changedTouches[0].pageX
     const y = e.changedTouches[0].pageY - 85
     dragStore.setMouseData(e.changedTouches[0].clientX, e.changedTouches[0].clientY, x, y)
 
-    prepareDragStart(e)
+    prepareDragStart()
 }
 
-async function handleDragOnce(e: TouchEvent) {
-    console.log('handleDragOnce')
-    $logger.error(`touchDnd: handleDragStart`)
-    $logger.info('handleDragOnce', [{ 'shouldDrag': shouldDrag.value, 'topicId': props.topic.id }])
+async function handleDragOnce() {
     isDragStart.value = false
 
     dragStore.showTouchSpinner = false
@@ -187,17 +167,6 @@ async function handleDragOnce(e: TouchEvent) {
 }
 
 function handleTouchEnd() {
-    try {
-        // Intentionally throw an error to capture the stack trace
-        throw new Error("Capturing stack");
-    } catch (error: any) {
-        // Access the stack trace from the Error object
-        const stack = error.stack;
-
-        $logger.error(`touchDnd: handleRelease`, [{ 'stack': stack }])
-        console.log('touchend', stack)
-    }
-
     handleDragEnd()
     dragStore.showTouchSpinner = false
     clearTimeout(holdTimer.value)
@@ -218,9 +187,6 @@ watch([hoverTopHalf, hoverBottomHalf], ([t, b]) => {
 })
 
 function handleDragEnd() {
-    console.log('handleDragEnd')
-    $logger.error(`touchDnd: handleDragEnd`)
-
     if (dragStore.active)
         onDrop()
     dragging.value = false
@@ -240,7 +206,7 @@ async function handleTouchMove(e: TouchEvent) {
         e.preventDefault()
 
     if (isDragStart.value)
-        handleDragOnce(e)
+        handleDragOnce()
 
     const now = e.timeStamp
     const throttle = 25
@@ -248,14 +214,6 @@ async function handleTouchMove(e: TouchEvent) {
         return
     }
     touchDragTime.value = now
-
-    console.log('handleTouchMove', shouldDrag.value)
-
-    // $logger.info('handleDrag', [{ 'dragstartvalue': dragStart.value }])
-
-
-
-    // $logger.info('handleDrag')
 
     dragStore.showTouchSpinner = false
 
