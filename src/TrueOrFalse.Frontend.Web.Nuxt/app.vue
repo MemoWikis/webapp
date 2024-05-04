@@ -150,7 +150,7 @@ useHead(() => ({
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<ClientOnly>
-		<BannerInfo v-if="footerTopics" :documentation="footerTopics?.documentation" />
+		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
 	</ClientOnly>
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
 		:documentation="footerTopics?.documentation" :class="{ 'open-modal': modalIsOpen }" />

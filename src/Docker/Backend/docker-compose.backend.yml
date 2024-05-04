@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   mem-backend:
-    image: ghcr.io/memowikis/mem-backend:latest
+    image: ghcr.io/memowikis/mem-backend:${BUILD_NUMBER:-error}
     ports:
       - "${BACKEND_PORT:-7000}:5069"
     extra_hosts:

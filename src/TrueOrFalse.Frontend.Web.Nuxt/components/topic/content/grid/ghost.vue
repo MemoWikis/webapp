@@ -5,13 +5,31 @@ import { useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
 const dragStore = useDragStore()
 
-const { isDesktop } = useDevice()
+const ghostContainer = ref()
+
+const coordinates = reactive({
+    x: 0,
+    y: 0
+})
 const style = computed(() => {
 
-    const x = isDesktop ? dragStore.x : dragStore.x
-    const y = isDesktop ? dragStore.y : dragStore.y - 85
+    if (ghostContainer.value == null)
+        return
 
-    const str = `top:${y - (userStore.showBanner ? 96 : 0)}px; left:${x}px; position: fixed; z-index: 2000 !important;`
+    const ghostWidthOffset = ghostContainer.value.clientWidth / 2
+    const newX = dragStore.x - ghostWidthOffset
+
+    const topOffset = 85
+    const ghostHeightOffset = ghostContainer.value.clientHeight / 2
+    const newY = dragStore.y - topOffset - ghostHeightOffset
+
+
+    if (newX > 0)
+        coordinates.x = newX
+    if (newY > 0)
+        coordinates.y = newY
+
+    const str = `top:${coordinates.y - (userStore.showBanner ? 96 : 0)}px; left:${coordinates.x}px; position: fixed; z-index: 2000 !important;`
     return str
 })
 
@@ -28,7 +46,7 @@ watch(() => dragStore.transferData, (t) => {
 </script>
 
 <template>
-    <div class="ghost-container" :style="style">
+    <div class="ghost-container" :style="style" ref="ghostContainer">
         <div class="ghost-body">
             <div class="name">
                 {{ topicName }}
@@ -48,12 +66,23 @@ watch(() => dragStore.transferData, (t) => {
     box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
     pointer-events: none;
     margin-top: 50px;
+    max-width: 260px;
+    height: 56px;
 
     .ghost-body {
-        // display: flex;
-        // flex-wrap: nowrap;
-        // justify-content: center;
-        // align-items: center;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+
+        .name {
+            max-width: 212px;
+            text-overflow: ellipsis;
+            text-wrap: nowrap;
+            overflow: hidden;
+        }
     }
 }
 </style>
