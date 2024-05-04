@@ -166,8 +166,8 @@ watch(() => openedModals, (val) => {
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
 
-                                        <LazyNuxtLink to="/Maintenance" @click="hide()">
-                                            <div class="user-dropdown-label" @click="hide()" v-if="userStore.isAdmin">
+                                        <LazyNuxtLink to="/Maintenance" @click="hide()" v-if="userStore.isAdmin">
+                                            <div class="user-dropdown-label" @click="hide()">
                                                 Administrativ
                                             </div>
                                         </LazyNuxtLink>
