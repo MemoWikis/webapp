@@ -19,7 +19,8 @@ public class TopicLearningQuestionListController(
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
     IActionContextAccessor _actionContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo,
+    PermissionCheck _permissionCheck) : Controller
 {
 
     public record struct LoadQuestionsResult(
@@ -47,11 +48,15 @@ public class TopicLearningQuestionListController(
     [HttpPost]
     public List<LoadQuestionsResult> LoadQuestions([FromBody] LoadQuestionsJson json)
     {
-        if (_learningSessionCache.GetLearningSession() == null || 
-            json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
-            _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId, _sessionUser.UserId);
+        if (_permissionCheck.CanViewCategory(json.TopicId)) {
+            if (_learningSessionCache.GetLearningSession() == null ||
+                json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
+                _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId, _sessionUser.UserId);
 
-        return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);
+            return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);
+        }
+
+        return new List<LoadQuestionsResult>();
     }
 
     private List<LoadQuestionsResult> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)

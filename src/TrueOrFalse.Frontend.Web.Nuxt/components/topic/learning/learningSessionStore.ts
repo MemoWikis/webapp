@@ -74,7 +74,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 credentials: 'include'
             })
 
-            if (result.steps.length > 0) {
+            if (result.success && result.steps.length > 0) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
                 this.setCurrentStep(result.currentStep)
