@@ -8,8 +8,8 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum'
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
-const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4))
-const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
+const firstAuthor = computed(() => topicStore.authors[0]);
+const lastAuthors = computed(() => topicStore.authors.length > 1 ? topicStore.authors.slice(1, topicStore.authors.length + 1) : [] as Author[])
 
 function resize() {
     let element = textArea.value as VueElement
@@ -115,29 +115,28 @@ const topic = useState<Topic>('topic')
             <div class="topic-detail-spacer"
                 v-if="topicStore.views > 0 && (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)">
             </div>
-
             <div v-if="topicStore.views > 0" class="topic-detail">
                 <font-awesome-icon icon="fa-solid fa-eye" />
                 <div class="topic-detail-label">{{ topicStore.views }}</div>
             </div>
-            <div v-if="isMobile" class="topic-detail-flex-breaker"></div>
+            <!-- <div v-if="isMobile" class="topic-detail-flex-breaker"></div> -->
             <div v-if="isDesktopOrTablet && (topicStore.views > 0 || (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0))"
-                class="topic-detail-spacer"></div>
+                class="topic-detail-spacer">
+            </div>
 
-            <template v-for="author in firstAuthors">
-                <LazyNuxtLink idif="author.Id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"
-                    v-tooltip="author.name" class="header-author-icon-link">
-                    <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
-                        :alt="`${author.name}'s profile picture'`" />
+            <div class="topic-detail">
+                <LazyNuxtLink if="author.Id > 0" :to="$urlHelper.getUserUrl(firstAuthor.name, firstAuthor.id)"
+                    v-tooltip="firstAuthor.name">
+                    <Image :src="firstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="`${firstAuthor.name}'s profile picture'`" />
                 </LazyNuxtLink>
-            </template>
-
+            </div>
             <VDropdown :distance="6">
                 <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn"
                     :class="{ 'long': lastAuthors.length > 9 }">
-                    <span>
+                    <div v-if="lastAuthors.length > 1">
                         +{{ lastAuthors.length }}
-                    </span>
+                    </div>
                 </button>
                 <template #popper>
                     <template v-for="author in lastAuthors">
@@ -151,8 +150,6 @@ const topic = useState<Topic>('topic')
                     </template>
                 </template>
             </VDropdown>
-
-
         </div>
     </div>
 </template>
@@ -246,6 +243,7 @@ const topic = useState<Topic>('topic')
         }
 
 
+
         .header-author-icon-link {
             margin-right: 8px;
         }
@@ -278,6 +276,10 @@ const topic = useState<Topic>('topic')
 
                 transition: color ease-in-out 0.2s;
             }
+        }
+
+        .author-first {
+            margin-bottom: 0px;
         }
 
         .topic-detail-spacer {
