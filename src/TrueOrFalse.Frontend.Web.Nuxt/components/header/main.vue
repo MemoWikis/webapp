@@ -113,7 +113,7 @@ watch(() => openedModals, (val) => {
                             <div class="header-btn">
                                 <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
                                     :alt="`${userStore.name}'s profile picture'`" />
-                                <div class="header-user-name">
+                                <div class="header-user-name" v-if="!isMobile">
                                     {{ userStore.name }}
                                 </div>
                                 <div class="user-dropdown-chevron">
@@ -122,8 +122,19 @@ watch(() => openedModals, (val) => {
                             </div>
                             <template #popper="{ hide }">
                                 <div class="user-dropdown">
+                                    <template v-if="isMobile">
+                                        <div class="user-dropdown-name" >
+                                            <div class="user-dropdown-label word-break">
+                                                {{ userStore.name }}
+                                            </div>
+                                        </div>
+                                        <div class="divider"></div>
+                                    </template>
+                                    
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
+
+                                       
                                         <div class="user-dropdown-container level-info">
                                             <div class="primary-info">
                                                 Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
@@ -246,7 +257,6 @@ watch(() => openedModals, (val) => {
         position: unset;
     }
 }
-
 .StickySearchContainer {
     display: flex;
     flex-direction: row-reverse;
@@ -421,7 +431,6 @@ watch(() => openedModals, (val) => {
             filter: brightness(0.95)
         }
 
-
         &:active {
             filter: brightness(0.85)
         }
@@ -459,6 +468,9 @@ watch(() => openedModals, (val) => {
 }
 
 .user-dropdown {
+    .word-break{
+        word-break: break-all;
+    }
     .user-dropdown-label {
         padding: 10px 25px;
 
@@ -490,8 +502,6 @@ watch(() => openedModals, (val) => {
                 }
             }
         }
-
-
     }
 
     .user-dropdown-container {
