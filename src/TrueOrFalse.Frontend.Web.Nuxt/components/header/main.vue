@@ -124,6 +124,10 @@ watch(() => openedModals, (val) => {
                                 <div class="user-dropdown">
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
+
+                                        <div class="user-dropdown-label header-user-name-mobile ">
+                                            {{ userStore.name }}
+                                         </div>
                                         <div class="user-dropdown-container level-info">
                                             <div class="primary-info">
                                                 Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
@@ -421,7 +425,6 @@ watch(() => openedModals, (val) => {
             filter: brightness(0.95)
         }
 
-
         &:active {
             filter: brightness(0.85)
         }
@@ -430,6 +433,21 @@ watch(() => openedModals, (val) => {
             font-weight: 600;
             padding: 0 4px;
         }
+
+        @media (min-width: 691px) {
+            .header-user-name {
+            font-weight: 600;
+            padding: 0 4px;
+            }
+        }
+
+        @media (max-width: 690px) {
+            .header-user-name {
+            display: none;
+            }
+        }
+
+        //normal
 
         .unread-msg-badge-container {
             position: relative;
@@ -490,8 +508,6 @@ watch(() => openedModals, (val) => {
                 }
             }
         }
-
-
     }
 
     .user-dropdown-container {
@@ -506,6 +522,18 @@ watch(() => openedModals, (val) => {
 }
 
 .user-dropdown-info {
+
+  //mobile
+  .header-user-name-mobile {
+        font-size: 12px;
+    }
+        
+
+    @media (min-width: 691px) {
+        .header-user-name-mobile {
+        display: none;
+        }
+    }
 
     .user-dropdown-label {
         display: flex;
