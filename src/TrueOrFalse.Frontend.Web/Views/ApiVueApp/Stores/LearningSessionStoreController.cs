@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using static Org.BouncyCastle.Math.EC.ECCurve;
 
 public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
