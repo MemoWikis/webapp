@@ -134,7 +134,6 @@ watch(() => openedModals, (val) => {
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
 
-
                                         <div class="user-dropdown-container level-info">
                                             <div class="primary-info">
                                                 Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
