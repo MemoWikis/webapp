@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿#nullable enable
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Web;
@@ -18,7 +19,7 @@ public class VueUserSettingsController(
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo) : Controller
 {
-    public readonly record struct ChangeNotificationIntervalPreferencesResult(
+    public record struct ChangeNotificationIntervalPreferencesResult(
         UIMessage Message,
         bool Success);
 
@@ -51,7 +52,11 @@ public class VueUserSettingsController(
         };
     }
 
-    public readonly record struct ChangePasswordData(string currentPassword, string newPassword);
+    public class ChangePasswordData
+    {
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+    };
 
     public readonly record struct ChangePasswordResult(bool Success, string Message);
 
@@ -59,14 +64,14 @@ public class VueUserSettingsController(
     [HttpPost]
     public ChangePasswordResult ChangePassword([FromBody] ChangePasswordData data)
     {
-        if (!_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, data.currentPassword))
+        if (!_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, data.CurrentPassword))
             return new ChangePasswordResult
             {
                 Success = false,
                 Message = "passwordIsWrong"
             };
 
-        if (data.currentPassword == data.newPassword)
+        if (data.CurrentPassword == data.NewPassword)
             return new ChangePasswordResult
             {
                 Success = false,
@@ -74,7 +79,7 @@ public class VueUserSettingsController(
             };
 
         var user = _userReadingRepo.GetById(_sessionUser.User.Id);
-        SetUserPassword.Run(data.newPassword.Trim(), user);
+        SetUserPassword.Run(data.NewPassword.Trim(), user);
 
         return new ChangePasswordResult
         {
@@ -94,7 +99,13 @@ public class VueUserSettingsController(
         string ImgUrl,
         string TinyImgUrl);
 
-    public record struct ProfileInformation(string? Email, IFormFile File, int Id, string? Username);
+    public class ProfileInformation
+    {
+        public string? Email { get; set; }
+        public IFormFile File { get; set; }
+        public int Id { get; set; }
+        public string? Username { get; set; }
+    };
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -173,7 +184,10 @@ public class VueUserSettingsController(
         };
     }
 
-    public readonly record struct ChangeSupportLoginRightsJson(bool allowSupportiveLogin);
+    public class ChangeSupportLoginRightsJson
+    {
+        public bool AllowSupportiveLogin { get; set; }
+    };
 
     public readonly record struct ChangeSupportLoginRightsResult(bool Success, string Message);
 
@@ -182,7 +196,7 @@ public class VueUserSettingsController(
     public ChangeSupportLoginRightsResult ChangeSupportLoginRights(
         [FromBody] ChangeSupportLoginRightsJson json)
     {
-        _sessionUser.User.AllowsSupportiveLogin = json.allowSupportiveLogin;
+        _sessionUser.User.AllowsSupportiveLogin = json.AllowSupportiveLogin;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
@@ -196,7 +210,10 @@ public class VueUserSettingsController(
 
     public readonly record struct ChangeWuwiVisibilityJsonResult(bool Success, string Message);
 
-    public readonly record struct ChangeWuwiVisibilityJson(bool showWuwi);
+    public class ChangeWuwiVisibilityJson
+    {
+        public bool showWuwi { get; set; }
+    }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
