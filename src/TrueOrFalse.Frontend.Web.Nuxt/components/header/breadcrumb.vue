@@ -45,42 +45,44 @@ const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
 function handleResize() {
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 	updateBreadcrumb()
 }
 
 function handleScroll() {
-	if (userStore.isLoggedIn || window?.pageYOffset > 105)
+	if (userStore.isLoggedIn || window?.scrollY > 105)
 		return
 	updateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
 const isUpdating = ref(false)
 async function updateBreadcrumb() {
+	clearTimeout(updateBreadcrumbTimer.value)
 
 	isUpdating.value = true
 
 	await nextTick()
-	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
+	if (breadcrumbEl.value != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
 
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - (document.getElementById('BreadCrumb')!.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
+		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - breadcrumbEl.value.clientHeight - 30 : props.partialLeft.clientWidth - (breadcrumbEl.value.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
 
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 
-		if (document.getElementById('BreadCrumb')!.clientHeight > 30) {
+		if (breadcrumbEl.value.clientHeight > 30) {
 			shiftToStackedBreadcrumbItems()
-		} else if (document.getElementById('BreadCrumb')!.clientHeight <= 30) {
+		} else if (breadcrumbEl.value.clientHeight <= 30) {
 			insertToBreadcrumbItems()
 			await nextTick()
-			if (breadcrumbEl.value && document.getElementById('BreadCrumb')!.clientHeight > 30) {
+			if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 30) {
 				shiftToStackedBreadcrumbItems(false)
 			}
 		}
 	}
 	await nextTick()
 	isUpdating.value = false
+	maxWidth.value = computedMaxWidth.value
 }
 
 const rootWikiIsStacked = ref(false)
@@ -141,7 +143,7 @@ async function getBreadcrumb() {
 
 	await nextTick()
 
-	var sessionStorage = window.sessionStorage
+	var sessionStorage = window?.sessionStorage
 
 	if (topicStore.isWiki)
 		sessionStorage.setItem('currentWikiId', topicStore.id.toString())
@@ -192,6 +194,9 @@ async function getBreadcrumb() {
 
 	setPageTitle()
 	updateBreadcrumb()
+
+	await nextTick()
+	updateBreadcrumbTimer.value = setTimeout(() => updateBreadcrumb(), 400)
 }
 
 function setPageTitle() {
@@ -239,17 +244,23 @@ watch(() => props.showSearch, (val) => {
 
 const { isMobile } = useDevice()
 const windowInnerWidth = ref(0)
+
+const updateBreadcrumbTimer = ref()
+
 onMounted(async () => {
 	await nextTick()
-
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 	await nextTick()
 	updateBreadcrumb()
+	await nextTick()
+	updateBreadcrumbTimer.value = setTimeout(() => updateBreadcrumb(), 400)
 })
+
+onBeforeUnmount(() => clearTimeout(updateBreadcrumbTimer.value))
 
 const shrinkBreadcrumb = ref(false)
 watch(() => props.showSearch, (val) => {
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 
 	if (isMobile && val) {
 		shrinkBreadcrumb.value = true
@@ -260,7 +271,7 @@ watch(() => props.showSearch, (val) => {
 
 watch(() => userStore.isLoggedIn, async () => {
 
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 	await nextTick()
 	updateBreadcrumb()
 	await nextTick()
@@ -269,6 +280,26 @@ watch(() => userStore.isLoggedIn, async () => {
 })
 
 const { $urlHelper } = useNuxtApp()
+
+const lastBreadcrumbItem = ref()
+const computedMaxWidth = computed(() => {
+	let width = 150
+	if (lastBreadcrumbItem.value && !isUpdating.value && window != null) {
+		const leftOffset = lastBreadcrumbItem.value.getBoundingClientRect().left > 100 ? lastBreadcrumbItem.value.getBoundingClientRect().left : 100
+		const scrollTop = window.scrollY
+		let rightOffset = 10
+		if (userStore.isLoggedIn) {
+			rightOffset = 150
+		} else if (scrollTop > 59)
+			rightOffset = 100
+		const result = window.screen.width - leftOffset - rightOffset
+		if (result > 150)
+			return result
+	}
+	return width
+})
+
+const maxWidth = ref(150)
 </script>
 
 <template>
@@ -316,10 +347,10 @@ const { $urlHelper } = useNuxtApp()
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
 			</div>
 
-			<template #popper>
+			<template #popper="{ hide }">
 
 				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.name, s.id)" :key="s.id"
-					v-tooltip="s.name" :aria-label="s.name">
+					@click="hide" v-tooltip="s.name" :aria-label="s.name">
 					<div class="dropdown-row">
 						{{ s.name }}
 					</div>
@@ -337,8 +368,9 @@ const { $urlHelper } = useNuxtApp()
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
 			</div>
 		</template>
-
-		<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id">
+		<div ref="lastBreadcrumbItem"></div>
+		<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id"
+			:style="`max-width: ${maxWidth}px`">
 			{{ topicStore.name }}
 		</div>
 	</div>

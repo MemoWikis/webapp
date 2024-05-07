@@ -61,7 +61,7 @@ const headerContainer = ref<VueElement>()
 const headerExtras = ref<VueElement>()
 
 onMounted(async () => {
-    if (!userStore.isLoggedIn || window.innerWidth < 769 || isMobile) {
+    if (!userStore.isLoggedIn || window?.innerWidth < 769 || isMobile) {
         showSearch.value = false
     }
     if (typeof window != "undefined") {
@@ -82,6 +82,13 @@ watch(() => openedModals, (val) => {
     else modalIsOpen.value = false
 }, { deep: true, immediate: true })
 
+const hidePartial = computed(() => {
+    if (typeof window != "undefined" && window.scrollY > 59)
+        return false
+    else if (userStore.isLoggedIn)
+        return false
+    else return true
+})
 </script>
 
 <template>
@@ -95,7 +102,7 @@ watch(() => openedModals, (val) => {
                             :question-page-data="props.questionPageData"
                             :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                     </div>
-                    <div class="partial end" ref="headerExtras">
+                    <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
                         <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
                             <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -123,18 +130,18 @@ watch(() => openedModals, (val) => {
                             <template #popper="{ hide }">
                                 <div class="user-dropdown">
                                     <template v-if="isMobile">
-                                        <div class="user-dropdown-name" >
+                                        <div class="user-dropdown-name">
                                             <div class="user-dropdown-label word-break">
                                                 {{ userStore.name }}
                                             </div>
                                         </div>
                                         <div class="divider"></div>
                                     </template>
-                                    
+
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
 
-                                       
+
                                         <div class="user-dropdown-container level-info">
                                             <div class="primary-info">
                                                 Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
@@ -257,6 +264,7 @@ watch(() => openedModals, (val) => {
         position: unset;
     }
 }
+
 .StickySearchContainer {
     display: flex;
     flex-direction: row-reverse;
@@ -358,6 +366,12 @@ watch(() => openedModals, (val) => {
                 justify-content: flex-end;
                 min-width: 45px;
                 flex-grow: 0;
+
+                &.hide-partial {
+                    min-width: 0px;
+                    width: 0p;
+                    max-width: 0px;
+                }
             }
         }
 
@@ -468,9 +482,10 @@ watch(() => openedModals, (val) => {
 }
 
 .user-dropdown {
-    .word-break{
+    .word-break {
         word-break: break-all;
     }
+
     .user-dropdown-label {
         padding: 10px 25px;
 
