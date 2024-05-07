@@ -295,11 +295,8 @@ watch(() => props.showSearch, (val) => {
     display: flex;
     flex-direction: row-reverse;
     flex-wrap: nowrap;
-    min-width: 250px;
 
-    @media (max-width: 330px) {
-        min-width: 200px;
-    }
+
 
     .hasSearchIcon {
         padding-right: 54px;
