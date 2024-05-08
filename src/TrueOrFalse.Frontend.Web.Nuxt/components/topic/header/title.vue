@@ -8,8 +8,23 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum'
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
-const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4))
-const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
+
+const mobileFirstAuthor = ref<Author>()
+const firstAuthors = computed(() => {
+    if (isMobile) {
+        mobileFirstAuthor.value = topicStore.authors[0]
+        return [] as Author[]
+    }
+    else
+        return topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4)
+})
+
+const groupedAuthors = computed(() => {
+    if (isMobile)
+        return topicStore.authors
+    else
+        return topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[]
+})
 
 function resize() {
     let element = textArea.value as VueElement
@@ -60,9 +75,10 @@ async function scrollToChildTopics() {
         s.scrollIntoView({ behavior: 'smooth' })
 }
 
-const { isDesktopOrTablet, isMobile } = useDevice()
+const { isMobile } = useDevice()
 
 const topic = useState<Topic>('topic')
+
 </script>
 
 <template>
@@ -120,12 +136,13 @@ const topic = useState<Topic>('topic')
                 <font-awesome-icon icon="fa-solid fa-eye" />
                 <div class="topic-detail-label">{{ topicStore.views }}</div>
             </div>
-            <div v-if="isMobile" class="topic-detail-flex-breaker"></div>
-            <div v-if="isDesktopOrTablet && (topicStore.views > 0 || (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0))"
-                class="topic-detail-spacer"></div>
+
+            <div v-if="topicStore.views > 0 ||
+                    (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)" class="topic-detail-spacer">
+            </div>
 
             <template v-for="author in firstAuthors">
-                <LazyNuxtLink idif="author.Id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"
+                <LazyNuxtLink v-if="author.id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"
                     v-tooltip="author.name" class="header-author-icon-link">
                     <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
                         :alt="`${author.name}'s profile picture'`" />
@@ -133,14 +150,20 @@ const topic = useState<Topic>('topic')
             </template>
 
             <VDropdown :distance="6">
-                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn"
-                    :class="{ 'long': lastAuthors.length > 9 }">
+                <div v-if="isMobile && groupedAuthors.length == 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0"
+                    :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)"
+                    class="header-author-icon-link">
+                    <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
+                </div>
+                <div v-else-if="groupedAuthors.length > 1" class="additional-authors-btn"
+                    :class="{ 'long': groupedAuthors.length > 9 }">
                     <span>
-                        +{{ lastAuthors.length }}
+                        +{{ groupedAuthors.length }}
                     </span>
-                </button>
+                </div>
                 <template #popper>
-                    <template v-for="author in lastAuthors">
+                    <template v-for="author in groupedAuthors">
                         <LazyNuxtLink class="dropdown-row" v-if="author.id > 0"
                             :to="$urlHelper.getUserUrl(author.name, author.id)">
                             <div class="dropdown-icon">
@@ -236,15 +259,6 @@ const topic = useState<Topic>('topic')
         flex-wrap: wrap;
         align-items: center;
         min-height: 21px;
-
-        &.is-mobile {
-
-            .topic-detail,
-            .topic-detail-spacer {
-                margin-bottom: 8px;
-            }
-        }
-
 
         .header-author-icon-link {
             margin-right: 8px;

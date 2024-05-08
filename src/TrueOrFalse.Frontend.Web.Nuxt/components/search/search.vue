@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<Props>(), {
     distance: 6
 })
 
-
 const emit = defineEmits(['selectItem', 'navigateToUrl'])
 
 const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
@@ -143,7 +142,6 @@ onMounted(() => {
     }
 })
 
-
 const searchInput = ref()
 
 watch(() => props.showSearch, (val) => {
@@ -155,7 +153,7 @@ watch(() => props.showSearch, (val) => {
 <template>
     <LazyClientOnly>
         <div class="search-category-component">
-            <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch }">
+            <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch, 'open': props.showSearch }">
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }"
@@ -237,6 +235,17 @@ watch(() => props.showSearch, (val) => {
 
 .main-search {
     position: relative;
+
+    .searchInputContainer {
+        width: 0px;
+        min-width: 0px;
+    }
+
+    &.open {
+        .searchInputContainer {
+            width: 250px;
+        }
+    }
 
     .searchAutocomplete {
         position: absolute;

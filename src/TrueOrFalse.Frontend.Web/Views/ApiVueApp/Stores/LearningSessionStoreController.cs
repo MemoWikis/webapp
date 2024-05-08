@@ -5,7 +5,8 @@ using Newtonsoft.Json;
 
 public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
-    LearningSessionCache _learningSessionCache) : Controller
+    LearningSessionCache _learningSessionCache,
+    PermissionCheck _permissionCheck) : Controller
 {
     public record struct LearningSessionResult()
     {
@@ -19,11 +20,19 @@ public class LearningSessionStoreController(
         public bool AnswerHelp { get; set; } = true;
         public bool IsInTestMode { get; set; } = false;
         public string MessageKey { get; set; } = null;
+        public bool Success { get; set; } = false;
     }
 
     [HttpPost]
     public LearningSessionResult NewSession([FromBody] LearningSessionConfig config)
     {
+        if (config == null || config.CategoryId < 1 || !_permissionCheck.CanViewCategory(config.CategoryId))
+            return new LearningSessionResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Default,
+                Success = false
+            };
+
         var data = _learningSessionCreator.GetLearningSessionResult(config);
         return new LearningSessionResult
         {
@@ -33,7 +42,8 @@ public class LearningSessionStoreController(
             CurrentStep = data.CurrentStep,
             Index = data.Index,
             IsInTestMode = data.IsInTestMode,
-            Steps = data.Steps
+            Steps = data.Steps,
+            Success = true
         };
     }
 
@@ -45,6 +55,13 @@ public class LearningSessionStoreController(
     public LearningSessionResult NewSessionWithJumpToQuestion(
         [FromBody] NewSessionWithJumpToQuestionData data)
     {
+        if (data.Config == null || data.Config.CategoryId < 1 || !_permissionCheck.CanViewCategory(data.Config.CategoryId))
+            return new LearningSessionResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Default,
+                Success = false
+            };
+
         var resultData = _learningSessionCreator.GetLearningSessionResult(data.Config, data.Id);
         return new LearningSessionResult
         {
@@ -54,7 +71,8 @@ public class LearningSessionStoreController(
             CurrentStep = resultData.CurrentStep,
             Index = resultData.Index,
             IsInTestMode = resultData.IsInTestMode,
-            Steps = resultData.Steps
+            Steps = resultData.Steps,
+            Success = true
         };
     }
 

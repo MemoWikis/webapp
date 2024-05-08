@@ -12,10 +12,11 @@ public class TopicController(
     : Controller
 {
     [HttpGet]
-    public TopicDataResult? GetTopic([FromRoute] int id)
+    public TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
@@ -25,7 +26,11 @@ public class TopicController(
                 _httpContextAccessor,
                 _questionReadingRepo)
             .GetTopicData(id);
-        var result = new TopicDataResult
+
+        if (data == null)
+            return new TopicDataResult();
+
+        return new TopicDataResult
         {
             Name = data.Name,
             Id = data.Id,
@@ -52,8 +57,6 @@ public class TopicController(
             Views = data.Views,
             Visibility = data.Visibility,
         };
-
-        return result;
     }
 
     public record struct TopicDataResult(
