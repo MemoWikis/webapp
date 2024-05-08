@@ -7,8 +7,8 @@ import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 import { useRootTopicChipStore } from './rootTopicChipStore'
 
 interface Props {
-	page: Page,
-	showSearch: boolean,
+	page: Page
+	showSearch: boolean
 	questionPageData?: {
 		primaryTopicName: string
 		primaryTopicUrl: string
@@ -55,9 +55,21 @@ function handleScroll() {
 	updateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
+
 const isUpdating = ref(false)
+const shouldCalc = ref(true)
+const whiteOut = ref(true)
+const whiteOutTimer = ref()
+watch([isUpdating, shouldCalc], ([i, v]) => {
+	clearTimeout(whiteOutTimer.value)
+	if (i && v)
+		whiteOut.value = true
+	else
+		whiteOutTimer.value = setTimeout(() => {
+			whiteOut.value = false
+		}, 100)
+})
 async function updateBreadcrumb() {
-	clearTimeout(updateBreadcrumbTimer.value)
 
 	isUpdating.value = true
 
@@ -65,8 +77,9 @@ async function updateBreadcrumb() {
 	if (breadcrumbEl.value != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
 
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - breadcrumbEl.value.clientHeight - 30 : props.partialLeft.clientWidth - (breadcrumbEl.value.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
-
+		const width = userStore.isLoggedIn ?
+			props.partialLeft.clientWidth - breadcrumbEl.value.clientHeight - 30 :
+			props.partialLeft.clientWidth - (breadcrumbEl.value.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 
@@ -129,7 +142,7 @@ watch(() => topicStore.id, (newId, oldId) => {
 	if (newId > 0 && newId != oldId && props.page == Page.Topic) {
 		getBreadcrumb()
 	}
-})
+}, { immediate: true })
 
 watch(() => props.page, (newPage, oldPage) => {
 	if (oldPage != newPage && (newPage == Page.Topic && topicStore.id > 0))
@@ -138,26 +151,24 @@ watch(() => props.page, (newPage, oldPage) => {
 const rootTopicChipStore = useRootTopicChipStore()
 
 async function getBreadcrumb() {
+	shouldCalc.value = true
+
+	rootWikiIsStacked.value = false
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
 
 	await nextTick()
 
-	var sessionStorage = window?.sessionStorage
+	const sessionStorage = window?.sessionStorage
 
 	if (topicStore.isWiki)
 		sessionStorage.setItem('currentWikiId', topicStore.id.toString())
-	var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId')!)
-
-	var currentWikiId = 0;
-	if (!isNaN(sessionWikiId))
-		currentWikiId = sessionWikiId
+	const sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId')!)
 
 	const data = {
-		wikiId: currentWikiId,
+		wikiId: !isNaN(sessionWikiId) ? sessionWikiId : 0,
 		currentCategoryId: topicStore.id,
 	}
-
 	if (props.page == Page.Topic && topicStore.id > 0) {
 		const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
@@ -196,7 +207,10 @@ async function getBreadcrumb() {
 	updateBreadcrumb()
 
 	await nextTick()
-	updateBreadcrumbTimer.value = setTimeout(() => updateBreadcrumb(), 300)
+	updateBreadcrumbTimer.value = setTimeout(() => {
+		updateBreadcrumb()
+		shouldCalc.value = false
+	}, 300)
 }
 
 function setPageTitle() {
@@ -253,7 +267,10 @@ onMounted(async () => {
 	await nextTick()
 	updateBreadcrumb()
 	await nextTick()
-	updateBreadcrumbTimer.value = setTimeout(() => updateBreadcrumb(), 400)
+	updateBreadcrumbTimer.value = setTimeout(() => {
+		updateBreadcrumb()
+		shouldCalc.value = false
+	}, 300)
 })
 
 onBeforeUnmount(() => clearTimeout(updateBreadcrumbTimer.value))
@@ -305,7 +322,7 @@ const maxWidth = ref(150)
 <template>
 	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl"
 		:style="breadcrumbWidth"
-		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': isUpdating }"
+		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">
 
 		<VDropdown :distance="0" v-if="breadcrumb.personalWiki && topicStore.id == personalWiki?.id">
@@ -319,7 +336,7 @@ const maxWidth = ref(150)
 				</span>
 			</NuxtLink>
 			<template #popper>
-				<div class="breadcrumb-dropdown" v-if="topicStore.id == personalWiki?.id">
+				<div class="breadcrumb-dropdown dropdown-row" v-if="topicStore.id == personalWiki?.id">
 					{{ topicStore.name }}
 				</div>
 			</template>
@@ -392,7 +409,7 @@ const maxWidth = ref(150)
 				{{ topicStore.name }}
 			</div>
 			<template #popper>
-				<div class="breadcrumb-dropdown">
+				<div class="breadcrumb-dropdown dropdown-row">
 					{{ topicStore.name }}
 				</div>
 			</template>

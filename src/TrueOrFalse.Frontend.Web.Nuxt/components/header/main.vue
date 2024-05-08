@@ -89,6 +89,7 @@ const hidePartial = computed(() => {
         return false
     else return true
 })
+
 </script>
 
 <template>
