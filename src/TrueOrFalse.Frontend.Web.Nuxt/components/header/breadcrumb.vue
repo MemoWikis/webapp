@@ -308,9 +308,27 @@ const maxWidth = ref(150)
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': isUpdating }"
 		v-show="!shrinkBreadcrumb">
 
+		<VDropdown :distance="0" v-if="breadcrumb.personalWiki && topicStore.id == personalWiki?.id">
+			<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
+				class="breadcrumb-item root-topic" :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }"
+				aria-label="home button">
+				<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
+				<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
+				<span class="root-topic-label">
+					{{ topicStore.name }}
+				</span>
+			</NuxtLink>
+			<template #popper>
+				<div class="breadcrumb-dropdown" v-if="topicStore.id == personalWiki?.id">
+					{{ topicStore.name }}
+				</div>
+			</template>
+		</VDropdown>
+
 		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
-			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.name" v-if="breadcrumb.personalWiki"
-			:class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }" aria-label="home button">
+			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.name"
+			v-else-if="breadcrumb.personalWiki" :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }"
+			aria-label="home button">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
 			<span class="root-topic-label" v-if="topicStore.id == personalWiki?.id">
@@ -368,17 +386,18 @@ const maxWidth = ref(150)
 			</div>
 		</template>
 		<div ref="lastBreadcrumbItem"></div>
-		<VDropdown :distance="0">
-			<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id"
-				:style="`max-width: ${maxWidth}px`">
+
+		<VDropdown :distance="0" v-if="topicStore.id != personalWiki?.id">
+			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`">
 				{{ topicStore.name }}
 			</div>
 			<template #popper>
-				<div class="breadcrumb popper" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id">
+				<div class="breadcrumb-dropdown">
 					{{ topicStore.name }}
 				</div>
 			</template>
 		</VDropdown>
+
 	</div>
 	<div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
 		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.name, personalWiki.id)" class="breadcrumb-item"
@@ -504,6 +523,11 @@ const maxWidth = ref(150)
 		border-radius: 4px;
 		min-width: 1px;
 	}
+}
+
+.breadcrumb-dropdown {
+	padding: 10px 25px;
+
 }
 </style>
 
