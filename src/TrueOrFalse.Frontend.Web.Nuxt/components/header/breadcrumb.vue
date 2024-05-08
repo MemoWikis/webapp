@@ -348,7 +348,6 @@ const maxWidth = ref(150)
 			</div>
 
 			<template #popper="{ hide }">
-
 				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.name, s.id)" :key="s.id"
 					@click="hide" v-tooltip="s.name" :aria-label="s.name">
 					<div class="dropdown-row">
@@ -369,10 +368,17 @@ const maxWidth = ref(150)
 			</div>
 		</template>
 		<div ref="lastBreadcrumbItem"></div>
-		<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id"
-			:style="`max-width: ${maxWidth}px`">
-			{{ topicStore.name }}
-		</div>
+		<VDropdown :distance="0">
+			<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id"
+				:style="`max-width: ${maxWidth}px`">
+				{{ topicStore.name }}
+			</div>
+			<template #popper>
+				<div class="breadcrumb popper" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.id">
+					{{ topicStore.name }}
+				</div>
+			</template>
+		</VDropdown>
 	</div>
 	<div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
 		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.name, personalWiki.id)" class="breadcrumb-item"
