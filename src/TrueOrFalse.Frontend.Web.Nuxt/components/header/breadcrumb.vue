@@ -196,7 +196,7 @@ async function getBreadcrumb() {
 	updateBreadcrumb()
 
 	await nextTick()
-	updateBreadcrumbTimer.value = setTimeout(() => updateBreadcrumb(), 400)
+	updateBreadcrumbTimer.value = setTimeout(() => updateBreadcrumb(), 300)
 }
 
 function setPageTitle() {
@@ -289,9 +289,9 @@ const computedMaxWidth = computed(() => {
 		const scrollTop = window.scrollY
 		let rightOffset = 10
 		if (userStore.isLoggedIn) {
-			rightOffset = 150
+			rightOffset = 90
 		} else if (scrollTop > 59)
-			rightOffset = 100
+			rightOffset = 80
 		const result = window.screen.width - leftOffset - rightOffset
 		if (result > 150)
 			return result
