@@ -10,7 +10,7 @@ services:
       - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
       
   redis:
-    image: redis:v7.2.4
+    image: redis:7.2.4
     ports:
       - "${REDIS_PORT}:6379"
     restart: always
