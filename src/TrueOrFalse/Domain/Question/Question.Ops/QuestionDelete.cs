@@ -1,27 +1,12 @@
 ﻿using TrueOrFalse.Utilities.ScheduledJobs;
 
-public class QuestionDelete : IRegisterAsInstancePerLifetime
+public class QuestionDelete(
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser,
+    QuestionReadingRepo _questionReadingRepo,
+    QuestionValuationReadingRepo _questionValuationReadingRepo,
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly SessionUser _sessionUser;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly ExtendedUserCache _extendedUserCache;
-
-    public QuestionDelete(
-        PermissionCheck permissionCheck,
-        SessionUser sessionUser,
-        QuestionReadingRepo questionReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        ExtendedUserCache extendedUserCache)
-    {
-        _permissionCheck = permissionCheck;
-        _sessionUser = sessionUser;
-        _questionReadingRepo = questionReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _extendedUserCache = extendedUserCache;
-    }
-
     public void Run(int questionId)
     {
         var question = _questionReadingRepo.GetById(questionId);

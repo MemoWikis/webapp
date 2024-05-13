@@ -3,7 +3,7 @@ using NHibernate;
 
 public class QuestionValuationWritingRepo(
     ISession _session,
-    ExtendedUserCache extendedUserCache)
+    ExtendedUserCache _extendedUserCache)
     : RepositoryDb<QuestionValuation>(_session)
 {
     public override void Create(IList<QuestionValuation> questionValuations)
@@ -11,19 +11,19 @@ public class QuestionValuationWritingRepo(
         base.Create(questionValuations);
 
         foreach (var questionValuation in questionValuations)
-            extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
+            _extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public override void Create(QuestionValuation questionValuation)
     {
         base.Create(questionValuation);
-        extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
+        _extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public override void CreateOrUpdate(QuestionValuation questionValuation)
     {
         base.CreateOrUpdate(questionValuation);
-        extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
+        _extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 
     public void DeleteForQuestion(int questionId)
@@ -32,12 +32,12 @@ public class QuestionValuationWritingRepo(
             .CreateSQLQuery("DELETE FROM questionvaluation WHERE QuestionId = :questionId")
             .SetParameter("questionId", questionId).ExecuteUpdate();
 
-        extendedUserCache.RemoveQuestionForAllUsers(questionId);
+        _extendedUserCache.RemoveQuestionForAllUsers(questionId);
     }
 
     public override void Update(QuestionValuation questionValuation)
     {
         base.Update(questionValuation);
-        extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
+        _extendedUserCache.AddOrUpdate(questionValuation.ToCacheItem());
     }
 }

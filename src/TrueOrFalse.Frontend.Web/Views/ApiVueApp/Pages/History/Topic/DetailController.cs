@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -13,9 +12,7 @@ public class HistoryTopicDetailController(
     RestoreCategory _restoreCategory,
     CategoryChangeRepo _categoryChangeRepo,
     CategoryRepository _categoryRepository,
-    ExtendedUserCache extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo) : Controller

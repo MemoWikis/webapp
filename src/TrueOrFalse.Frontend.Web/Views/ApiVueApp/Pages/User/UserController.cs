@@ -11,7 +11,7 @@ public class UserController(
     PermissionCheck _permissionCheck,
     ReputationCalc _rpReputationCalc,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : Controller
 {
     public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser);
 
@@ -118,12 +118,12 @@ public class UserController(
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = new QuestionValuationCache(extendedUserCache)
+            var valuations = new QuestionValuationCache(_extendedUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(question => _permissionCheck.CanView(question)
-                                   && question.IsInWishknowledge(id, extendedUserCache)
+                                   && question.IsInWishknowledge(id, _extendedUserCache)
                                    && question.CategoriesVisibleToCurrentUser(_permissionCheck)
                                        .Any());
 

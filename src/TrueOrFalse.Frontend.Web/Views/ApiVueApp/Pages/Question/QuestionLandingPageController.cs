@@ -19,7 +19,7 @@ public class QuestionLandingPageController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    ExtendedUserCache extendedUserCache,
+    ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
@@ -104,7 +104,7 @@ public class QuestionLandingPageController(
                 Solution = q.Solution,
                 IsCreator = q.Creator.Id == _sessionUser.UserId,
                 IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    q.IsInWishknowledge(_sessionUser.UserId, extendedUserCache),
+                                    q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
                 questionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
                 ImgUrl = GetQuestionImageFrontendData.Run(q,
@@ -145,14 +145,14 @@ public class QuestionLandingPageController(
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            extendedUserCache);
+            _extendedUserCache);
 
         var correctnessProbability =
             answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation =
             userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;

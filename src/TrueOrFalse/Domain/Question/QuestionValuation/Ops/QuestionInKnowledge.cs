@@ -1,54 +1,20 @@
 ﻿using System.Text;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.QuestionValuation;
-using TrueOrFalse.Environment;
 using ISession = NHibernate.ISession;
 
-public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
+public class QuestionInKnowledge(
+    SessionUser _sessionUser,
+    ISession _nhibernateSession,
+    ReputationUpdate _reputationUpdate,
+    QuestionReadingRepo _questionReadingRepo,
+    QuestionValuationReadingRepo _questionValuationReadingRepo,
+    QuestionValuationWritingRepo _questionValuationWritingRepo,
+    ProbabilityCalc_Simple1 _probabilityCalcSimple1,
+    AnswerRepo _answerRepo,
+    UserReadingRepo _userReadingRepo,
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
-    private readonly ISession _nhibernateSession;
-    private readonly ReputationUpdate _reputationUpdate;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
-    private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
-    private readonly AnswerRepo _answerRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly ExtendedUserCache _extendedUserCache;
-
-    public QuestionInKnowledge(
-        SessionUser sessionUser,
-        ISession nhibernateSession,
-        ReputationUpdate reputationUpdate,
-        QuestionReadingRepo questionReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        QuestionValuationWritingRepo questionValuationWritingRepo,
-        ProbabilityCalc_Simple1 probabilityCalcSimple1,
-        AnswerRepo answerRepo,
-        UserReadingRepo userReadingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        ExtendedUserCache extendedUserCache)
-    {
-        _sessionUser = sessionUser;
-        _nhibernateSession = nhibernateSession;
-        _reputationUpdate = reputationUpdate;
-        _questionReadingRepo = questionReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _questionValuationWritingRepo = questionValuationWritingRepo;
-        _probabilityCalcSimple1 = probabilityCalcSimple1;
-        _answerRepo = answerRepo;
-        _userReadingRepo = userReadingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = WebHostEnvironmentProvider.GetWebHostEnvironment();
-        ;
-        _extendedUserCache = extendedUserCache;
-    }
-
     public void Pin(int questionId, int userId)
     {
         UpdateRelevancePersonal(questionId, userId);

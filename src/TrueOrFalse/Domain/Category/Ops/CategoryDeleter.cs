@@ -7,7 +7,7 @@ public class CategoryDeleter(
     CategoryRepository _categoryRepository,
     CategoryChangeRepo _categoryChangeRepo,
     CategoryValuationWritingRepo _categoryValuationWritingRepo,
-    ExtendedUserCache extendedUserCache,
+    ExtendedUserCache _extendedUserCache,
     CrumbtrailService _crumbtrailService,
     CategoryRepository _categoryRepo,
     CategoryRelationRepo _categoryRelationRepo,
@@ -49,7 +49,7 @@ public class CategoryDeleter(
         _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
         _categoryRepository.Delete(category);
 
-        extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
+        _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;

@@ -13,7 +13,7 @@ public class AnswerQuestionDetailsController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache extendedUserCache,
+    ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
@@ -29,12 +29,12 @@ public class AnswerQuestionDetailsController(
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            extendedUserCache);
+            _extendedUserCache);
 
         var correctnessProbability =
             answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
-        var sessionUser = extendedUserCache.GetItem(_sessionUser.UserId);
+        var sessionUser = _extendedUserCache.GetItem(_sessionUser.UserId);
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? sessionUser.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();

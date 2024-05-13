@@ -39,12 +39,12 @@
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
-        ExtendedUserCache extendedUserCache)
+        ExtendedUserCache _extendedUserCache)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
-        _extendedUserCache = extendedUserCache;
+        this._extendedUserCache = _extendedUserCache;
     }
 
     // For Tests

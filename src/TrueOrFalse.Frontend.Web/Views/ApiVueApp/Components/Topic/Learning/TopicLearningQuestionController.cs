@@ -11,7 +11,7 @@ public class TopicLearningQuestionController(
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    ExtendedUserCache extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : Controller
 {
     public readonly record struct LoadQuestionDataResult(bool Success, QuestionData Data);
 
@@ -42,7 +42,7 @@ public class TopicLearningQuestionController(
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            extendedUserCache);
+            _extendedUserCache);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var result = new LoadQuestionDataResult
@@ -78,7 +78,7 @@ public class TopicLearningQuestionController(
     [HttpGet]
     public KnowledgeStatus GetKnowledgeStatus([FromRoute] int id)
     {
-        var sessionUser = extendedUserCache.GetItem(_sessionUser.UserId);
+        var sessionUser = _extendedUserCache.GetItem(_sessionUser.UserId);
         if (sessionUser == null)
         {
             throw new NullReferenceException("sessionUser can't null");

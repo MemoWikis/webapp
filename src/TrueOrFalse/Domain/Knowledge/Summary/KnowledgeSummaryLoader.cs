@@ -1,24 +1,10 @@
 ﻿using TrueOrFalse.Domain.Question.QuestionValuation;
 
-public class KnowledgeSummaryLoader : IRegisterAsInstancePerLifetime
+public class KnowledgeSummaryLoader(
+    CategoryValuationReadingRepo _categoryValuationReadingRepo,
+    CategoryRepository _categoryRepository,
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
-    private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly ExtendedUserCache _extendedUserCache;
-
-    public KnowledgeSummaryLoader(
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        QuestionValuationReadingRepo questionValuationReadingRepo,
-        CategoryRepository categoryRepository,
-        ExtendedUserCache extendedUserCache)
-    {
-        _categoryValuationReadingRepo = categoryValuationReadingRepo;
-        _questionValuationReadingRepo = questionValuationReadingRepo;
-        _categoryRepository = categoryRepository;
-        _extendedUserCache = extendedUserCache;
-    }
-
     public KnowledgeSummary RunFromDbCache(Category category, int userId)
     {
         var categoryValuation = _categoryValuationReadingRepo.GetBy(category.Id, userId);

@@ -1,14 +1,7 @@
 ﻿namespace TrueOrFalse.Domain.Question.QuestionValuation
 {
-    public class QuestionValuationCache
+    public class QuestionValuationCache(ExtendedUserCache _extendedUserCache)
     {
-        private readonly ExtendedUserCache _extendedUserCache;
-
-        public QuestionValuationCache(ExtendedUserCache extendedUserCache)
-        {
-            _extendedUserCache = extendedUserCache;
-        }
-
         public QuestionValuationCacheItem GetByFromCache(int questionId, int userId)
         {
             return _extendedUserCache.GetItem(userId)?.QuestionValuations

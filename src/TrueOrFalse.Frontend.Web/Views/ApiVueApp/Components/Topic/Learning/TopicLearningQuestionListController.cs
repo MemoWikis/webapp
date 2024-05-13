@@ -11,13 +11,9 @@ public class TopicLearningQuestionListController(
     SessionUser _sessionUser,
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache,
-    CategoryValuationReadingRepo _categoryValuationReadingRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    UserReadingRepo _userReadingRepo,
-    QuestionValuationReadingRepo _questionValuationReadingRepo,
-    ExtendedUserCache extendedUserCache,
+    ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
     PermissionCheck _permissionCheck) : Controller
@@ -65,7 +61,7 @@ public class TopicLearningQuestionListController(
         var learningSession = _learningSessionCache.GetLearningSession();
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;
@@ -140,7 +136,7 @@ public class TopicLearningQuestionListController(
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation != null &&

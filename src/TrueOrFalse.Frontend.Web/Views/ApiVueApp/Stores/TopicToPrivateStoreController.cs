@@ -10,7 +10,7 @@ public class TopicToPrivateStoreController(
     CategoryRepository _categoryRepository,
     QuestionReadingRepo _questionReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    ExtendedUserCache extendedUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : Controller
 {
     public readonly record struct PersonalTopic(
         string Name,
@@ -27,7 +27,7 @@ public class TopicToPrivateStoreController(
     public GetResult Get([FromRoute] int id)
     {
         var topicCacheItem = EntityCache.GetCategory(id);
-        var userCacheItem = extendedUserCache.GetItem(_sessionUser.UserId);
+        var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
         if (topicCacheItem == null)
             return new GetResult
             {
@@ -196,7 +196,7 @@ public class TopicToPrivateStoreController(
             var questionCacheItem = EntityCache.GetQuestionById(questionId);
             var otherUsersHaveQuestionInWuwi =
                 questionCacheItem.TotalRelevancePersonalEntries >
-                (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, extendedUserCache)
+                (questionCacheItem.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache)
                     ? 1
                     : 0);
             if ((questionCacheItem.Creator.Id == _sessionUser.UserId &&

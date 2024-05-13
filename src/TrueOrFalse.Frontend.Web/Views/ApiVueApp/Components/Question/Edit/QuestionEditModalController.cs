@@ -23,7 +23,7 @@ public class QuestionEditModalController(
     QuestionWritingRepo _questionWritingRepo,
     QuestionReadingRepo _questionReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache extendedUserCache,
+    ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
     Logg _logg) : Controller
 {
@@ -170,7 +170,7 @@ public class QuestionEditModalController(
     private QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = extendedUserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = _extendedUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

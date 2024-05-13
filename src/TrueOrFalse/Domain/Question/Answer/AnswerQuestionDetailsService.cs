@@ -42,16 +42,3 @@ public record struct License(
     bool IsDefault,
     string ShortText,
     string FullText);
-
-public class AnswerQuestionDetailsService(
-    SessionUser _sessionUser,
-    PermissionCheck _permissionCheck,
-    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    TotalsPersUserLoader _totalsPersUserLoader,
-    IHttpContextAccessor _httpContextAccessor,
-    ExtendedUserCache extendedUserCache,
-    IActionContextAccessor _actionContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : IRegisterAsInstancePerLifetime
-
-{
-}
