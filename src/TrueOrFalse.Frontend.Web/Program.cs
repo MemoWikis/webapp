@@ -47,7 +47,7 @@ if (Settings.UseRedisSession)
     builder.Services.AddStackExchangeRedisCache(options =>
     {
         options.Configuration =
-            "localhost:6379";
+            $"localhost:{Settings.RedisPort}";
     });
 
 builder.Services.AddSession(options =>
