@@ -43,6 +43,7 @@ public class Settings
 
     public static bool UseRedisSession => _configuration.GetValue<bool>("Redis:Use");
     public static string RedisPort => _configuration.GetValue<int>("Redis:Port").ToString();
+    public static string RedisHost => _configuration.GetValue<string>("Redis:Host");
 
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
