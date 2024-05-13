@@ -104,7 +104,10 @@ public class QuestionEditModalController(
         if (safeText.Length <= 0)
         {
             return new QuestionEditResult
-                { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Question.MissingText
+            };
         }
 
         if (param.QuestionId == null)

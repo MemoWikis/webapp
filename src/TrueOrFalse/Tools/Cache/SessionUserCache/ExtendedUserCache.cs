@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 
 public class ExtendedUserCache(
     UserReadingRepo _userReadingRepo,
@@ -21,20 +22,24 @@ public class ExtendedUserCache(
 
     public ExtendedUserCacheItem GetUser(int userId)
     {
-        var extendedUser = GetItem(userId);
-        if (extendedUser == null)
+        if (userId < 1)
         {
-            var user = _userReadingRepo.GetById(userId);
-            if (user == null)
-            {
-                Logg.r.Error("user should not be null here + GetUser()");
-                throw new NullReferenceException();
-            }
-
-            return Add(user);
+            Logg.r.Error($"userid < 1, {Environment.StackTrace} ");
+            throw new Exception("userId does not exist");
         }
 
-        return extendedUser;
+        var extendedUser = GetItem(userId);
+        if (extendedUser != null)
+            return extendedUser;
+
+        var user = _userReadingRepo.GetById(userId);
+        if (user == null)
+        {
+            Logg.r.Error("user should not be null here + GetUser()");
+            throw new NullReferenceException();
+        }
+
+        return Add(user);
     }
 
     public bool ItemExists(int userId)
