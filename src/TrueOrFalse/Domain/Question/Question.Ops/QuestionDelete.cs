@@ -6,20 +6,22 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
     private readonly SessionUser _sessionUser;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
 
-    public QuestionDelete(PermissionCheck permissionCheck,
+    public QuestionDelete(
+        PermissionCheck permissionCheck,
         SessionUser sessionUser,
         QuestionReadingRepo questionReadingRepo,
         QuestionValuationReadingRepo questionValuationReadingRepo,
-        SessionUserCache sessionUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         _permissionCheck = permissionCheck;
         _sessionUser = sessionUser;
         _questionReadingRepo = questionReadingRepo;
         _questionValuationReadingRepo = questionValuationReadingRepo;
-        _sessionUserCache = sessionUserCache;
+        _extendedUserCache = extendedUserCache;
     }
+
     public void Run(int questionId)
     {
         var question = _questionReadingRepo.GetById(questionId);
@@ -29,11 +31,12 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         var canBeDeletedResult = CanBeDeleted(_sessionUser.UserId, question);
         if (!canBeDeletedResult.Yes)
         {
-            throw new Exception("Question cannot be deleted: Question is " + canBeDeletedResult.WuwiCount + "x in Wishknowledge");
+            throw new Exception("Question cannot be deleted: Question is " +
+                                canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
 
         EntityCache.Remove(questionCacheItem);
-        _sessionUserCache.RemoveQuestionForAllUsers(questionId);
+        _extendedUserCache.RemoveQuestionForAllUsers(questionId);
 
         JobScheduler.StartImmediately_DeleteQuestion(questionId, _sessionUser.UserId);
     }
@@ -44,7 +47,9 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
         {
             if (!_sessionUser.IsInstallationAdmin)
             {
-                var howOftenInOtherPeopleWuwi = _questionValuationReadingRepo.HowOftenInOtherPeoplesWuwi(currentUserId, question.Id);
+                var howOftenInOtherPeopleWuwi =
+                    _questionValuationReadingRepo.HowOftenInOtherPeoplesWuwi(currentUserId,
+                        question.Id);
                 if (howOftenInOtherPeopleWuwi > 0)
                 {
                     return new CanBeDeletedResult
@@ -57,6 +62,7 @@ public class QuestionDelete : IRegisterAsInstancePerLifetime
 
             return new CanBeDeletedResult { Yes = true };
         }
+
         return new CanBeDeletedResult
         {
             Yes = false,

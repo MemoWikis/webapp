@@ -21,7 +21,7 @@ public class QuestionController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     TotalsPersUserLoader _totalsPersUserLoader) : Controller
@@ -86,7 +86,7 @@ public class QuestionController(
                 Solution = q.Solution,
                 IsCreator = q.Creator.Id == _sessionUser.UserId,
                 IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
+                                    q.IsInWishknowledge(_sessionUser.UserId, extendedUserCache),
                 QuestionViewGuid = Guid.NewGuid(),
                 IsLastStep = true
             },
@@ -121,14 +121,14 @@ public class QuestionController(
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            _sessionUserCache);
+            extendedUserCache);
 
         var correctnessProbability =
             answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation =
             userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
@@ -204,7 +204,7 @@ public class QuestionController(
     public Question LoadQuestion(int questionId)
     {
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId)
+            ? extendedUserCache.GetItem(_sessionUser.UserId)
                 .QuestionValuations
             : null;
 

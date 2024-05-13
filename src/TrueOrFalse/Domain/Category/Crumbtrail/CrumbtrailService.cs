@@ -1,15 +1,16 @@
 ﻿public class CrumbtrailService : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
 
     public CrumbtrailService(
         PermissionCheck permissionCheck,
-        SessionUserCache sessionUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         _permissionCheck = permissionCheck;
-        _sessionUserCache = sessionUserCache;
+        _extendedUserCache = extendedUserCache;
     }
+
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
@@ -37,36 +38,47 @@
         return result;
     }
 
-    private void BreadCrumbtrailCorrectnessCheck(IList<CrumbtrailItem> crumbtrailItems, CategoryCacheItem category)
+    private void BreadCrumbtrailCorrectnessCheck(
+        IList<CrumbtrailItem> crumbtrailItems,
+        CategoryCacheItem category)
     {
         if (crumbtrailItems == null || crumbtrailItems.Count == 0)
             return;
 
         if (category.Parents().All(c => c.Id != crumbtrailItems[0].Category.Id))
-            Logg.r.Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, category.Id, crumbtrailItems[0].Category.Id);
-        
+            Logg.r.Error(
+                "Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}",
+                category.Id, category.Id, crumbtrailItems[0].Category.Id);
+
         for (int i = 0; i < crumbtrailItems.Count - 1; i++)
         {
             var categoryCacheItem = crumbtrailItems[i].Category;
             var nextItemId = crumbtrailItems[i + 1].Category.Id;
 
             if (!_permissionCheck.CanView(categoryCacheItem))
-                Logg.r.Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
+                Logg.r.Error("Breadcrumb - {currentCategoryId}: visibility/permission",
+                    category.Id);
 
             if (categoryCacheItem.Parents().All(c => c.Id != nextItemId))
-                Logg.r.Error("Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}", category.Id, categoryCacheItem.Id, nextItemId);
+                Logg.r.Error(
+                    "Breadcrumb - {currentCategoryId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}",
+                    category.Id, categoryCacheItem.Id, nextItemId);
         }
     }
 
     private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
     {
-        var isLinkedToRoot = GraphService.VisibleAscendants(category.Id,_permissionCheck).Any(c => c == root);
+        var isLinkedToRoot = GraphService.VisibleAscendants(category.Id, _permissionCheck)
+            .Any(c => c == root);
         if (isLinkedToRoot)
             return true;
         return false;
     }
 
-    private void AddBreadcrumbParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
+    private void AddBreadcrumbParent(
+        Crumbtrail crumbtrail,
+        CategoryCacheItem categoryCacheItem,
+        CategoryCacheItem root)
     {
         if (_permissionCheck.CanView(categoryCacheItem))
             crumbtrail.Add(categoryCacheItem);
@@ -75,9 +87,9 @@
         if (root == categoryCacheItem)
             return;
 
-        var parents = GraphService.VisibleParents(categoryCacheItem.Id,_permissionCheck);
+        var parents = GraphService.VisibleParents(categoryCacheItem.Id, _permissionCheck);
         parents = OrderParentList(parents, root.Creator.Id);
-        
+
         if (parents.Any(c => c.Id == root.Id))
             crumbtrail.Add(root);
         else
@@ -96,13 +108,16 @@
                 if (IsLinkedToRoot(parent, root))
                     AddBreadcrumbParent(crumbtrail, parent, root);
             }
-
     }
 
-    private static List<CategoryCacheItem> OrderParentList(IList<CategoryCacheItem> parents, int wikiCreatorId)
+    private static List<CategoryCacheItem> OrderParentList(
+        IList<CategoryCacheItem> parents,
+        int wikiCreatorId)
     {
-        var parentsWithWikiCreator = parents.Where(c => c.Creator.Id == wikiCreatorId).Select(c => c);
-        var parentsWithoutWikiCreator = parents.Where(c => c.Creator.Id != wikiCreatorId).Select(c => c);
+        var parentsWithWikiCreator =
+            parents.Where(c => c.Creator.Id == wikiCreatorId).Select(c => c);
+        var parentsWithoutWikiCreator =
+            parents.Where(c => c.Creator.Id != wikiCreatorId).Select(c => c);
         var orderedParents = new List<CategoryCacheItem>();
         orderedParents.AddRange(parentsWithWikiCreator);
         orderedParents.AddRange(parentsWithoutWikiCreator);
@@ -117,7 +132,8 @@
             return categoryCacheItem;
 
         var parents = GraphService.VisibleAscendants(categoryCacheItem.Id, _permissionCheck);
-        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 || !_permissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
+        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 ||
+            !_permissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
         {
             if (categoryCacheItem.Creator != null)
             {
@@ -132,7 +148,8 @@
 
                     if (sessionUser.IsLoggedIn)
                     {
-                        var userWikiId = _sessionUserCache.GetUser(sessionUser.UserId).StartTopicId;
+                        var userWikiId =
+                            _extendedUserCache.GetUser(sessionUser.UserId).StartTopicId;
                         var userWiki = EntityCache.GetCategory(userWikiId);
                         if (parents.Any(c => c == userWiki))
                             return userWiki;

@@ -7,15 +7,15 @@ using TrueOrFalse.Web.Context;
 public class SessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
 
     public SessionUser(
         IHttpContextAccessor httpContextAccessor,
-        SessionUserCache sessionUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         _httpContext = httpContextAccessor.HttpContext;
         ;
-        _sessionUserCache = sessionUserCache;
+        _extendedUserCache = extendedUserCache;
     }
 
     public bool SessionIsActive() => _httpContext.Session is not null;
@@ -46,8 +46,18 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
-    //public SessionUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
+    public ExtendedUserCacheItem User
+    {
+        get
+        {
+            if (_userId > 0)
+                return _extendedUserCache.GetUser(_userId);
+
+            throw new Exception("user is not logged in");
+        }
+    }
+
+    //public ExtendedUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
 
     public bool IsLoggedInUser(int userId)
     {
@@ -71,7 +81,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        _sessionUserCache.Add(user);
+        _extendedUserCache.Add(user);
     }
 
     public async void Logout()

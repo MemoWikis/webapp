@@ -10,7 +10,7 @@ public class QuestionListModel
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly UserReadingRepo _userReadingRepo;
     private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
     private readonly IActionContextAccessor _actionContextAccessor;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
@@ -24,7 +24,7 @@ public class QuestionListModel
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         UserReadingRepo userReadingRepo,
         QuestionValuationReadingRepo questionValuationReadingRepo,
-        SessionUserCache sessionUserCache,
+        ExtendedUserCache extendedUserCache,
         IActionContextAccessor actionContextAccessor,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
@@ -36,7 +36,7 @@ public class QuestionListModel
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _userReadingRepo = userReadingRepo;
         _questionValuationReadingRepo = questionValuationReadingRepo;
-        _sessionUserCache = sessionUserCache;
+        _extendedUserCache = extendedUserCache;
         _actionContextAccessor = actionContextAccessor;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;

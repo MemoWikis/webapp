@@ -3,7 +3,7 @@
 public class CategoryInKnowledge(
     QuestionInKnowledge _questionInKnowledge,
     UserReadingRepo _userReadingRepo,
-    SessionUserCache _sessionUserCache)
+    ExtendedUserCache extendedUserCache)
     : IRegisterAsInstancePerLifetime
 {
     private IList<int> QuestionsInValuatedCategories(
@@ -14,7 +14,7 @@ public class CategoryInKnowledge(
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = _sessionUserCache
+        var valuatedCategories = extendedUserCache
             .GetCategoryValuations(userId)
             .Where(v => v.IsInWishKnowledge());
 

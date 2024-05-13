@@ -15,14 +15,13 @@ public class TopicLearningQuestionListController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
     PermissionCheck _permissionCheck) : Controller
 {
-
     public record struct LoadQuestionsResult(
         int Id,
         string Title,
@@ -48,10 +47,12 @@ public class TopicLearningQuestionListController(
     [HttpPost]
     public List<LoadQuestionsResult> LoadQuestions([FromBody] LoadQuestionsJson json)
     {
-        if (_permissionCheck.CanViewCategory(json.TopicId)) {
+        if (_permissionCheck.CanViewCategory(json.TopicId))
+        {
             if (_learningSessionCache.GetLearningSession() == null ||
                 json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
-                _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId, _sessionUser.UserId);
+                _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId,
+                    _sessionUser.UserId);
 
             return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);
         }
@@ -64,11 +65,12 @@ public class TopicLearningQuestionListController(
         var learningSession = _learningSessionCache.GetLearningSession();
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var steps = learningSession.Steps;
-        var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1)).Take(itemCountPerPage).ToList();
+        var stepsOfCurrentPage = steps.Skip(itemCountPerPage * (currentPage - 1))
+            .Take(itemCountPerPage).ToList();
         stepsOfCurrentPage.RemoveAll(s => s.Question.Id == 0);
 
         var newQuestionList = new List<LoadQuestionsResult>();
@@ -77,14 +79,16 @@ public class TopicLearningQuestionListController(
         {
             var q = step.Question;
 
-            var hasUserValuation = userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn;
+            var hasUserValuation =
+                userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn;
             var links = new Links(_actionContextAccessor, _httpContextAccessor);
             var question = new LoadQuestionsResult
             {
                 Id = q.Id,
                 Title = q.Text,
                 LinkToQuestion = links.GetUrl(q),
-                ImageData = new ImageFrontendData(_imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
+                ImageData = new ImageFrontendData(
+                        _imageMetaDataReadingRepo.GetBy(q.Id, ImageType.Question),
                         _httpContextAccessor,
                         _questionReadingRepo)
                     .GetImageUrl(40, true)
@@ -95,15 +99,20 @@ public class TopicLearningQuestionListController(
                 CorrectnessProbability = q.CorrectnessProbability,
                 Visibility = q.Visibility,
                 SessionIndex = steps.IndexOf(step),
-                KnowledgeStatus = hasUserValuation ? userQuestionValuation[q.Id].KnowledgeStatus : KnowledgeStatus.NotLearned,
+                KnowledgeStatus = hasUserValuation
+                    ? userQuestionValuation[q.Id].KnowledgeStatus
+                    : KnowledgeStatus.NotLearned,
             };
 
             if (userQuestionValuation.ContainsKey(q.Id) && _sessionUser.IsLoggedIn)
             {
-                question.CorrectnessProbability = userQuestionValuation[q.Id].CorrectnessProbability;
+                question.CorrectnessProbability =
+                    userQuestionValuation[q.Id].CorrectnessProbability;
                 question.IsInWishknowledge = userQuestionValuation[q.Id].IsInWishKnowledge;
-                question.HasPersonalAnswer = userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
+                question.HasPersonalAnswer =
+                    userQuestionValuation[q.Id].CorrectnessProbabilityAnswerCount > 0;
             }
+
             newQuestionList.Add(question);
         }
 
@@ -131,7 +140,7 @@ public class TopicLearningQuestionListController(
         var question = steps[index].Question;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+            ? extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation != null &&

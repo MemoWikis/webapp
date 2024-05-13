@@ -19,7 +19,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
     private readonly UserReadingRepo _userReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
 
     public QuestionInKnowledge(
         SessionUser sessionUser,
@@ -32,7 +32,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         AnswerRepo answerRepo,
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor,
-        SessionUserCache sessionUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         _sessionUser = sessionUser;
         _nhibernateSession = nhibernateSession;
@@ -46,7 +46,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = WebHostEnvironmentProvider.GetWebHostEnvironment();
         ;
-        _sessionUserCache = sessionUserCache;
+        _extendedUserCache = extendedUserCache;
     }
 
     public void Pin(int questionId, int userId)
@@ -189,7 +189,7 @@ public class QuestionInKnowledge : IRegisterAsInstancePerLifetime
 
     public void UpdateTotalRelevancePersonalInCache(IList<QuestionCacheItem> questions)
     {
-        var questionValuations = new QuestionValuationCache(_sessionUserCache)
+        var questionValuations = new QuestionValuationCache(_extendedUserCache)
             .GetByQuestionsFromCache(questions);
         foreach (var question in questions)
         {

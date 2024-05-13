@@ -10,7 +10,7 @@ namespace VueApp
         CategoryRepository _categoryRepository,
         QuestionReadingRepo _questionReadingRepo,
         QuestionWritingRepo _questionWritingRepo,
-        SessionUserCache _sessionUserCache) : Controller
+        ExtendedUserCache extendedUserCache) : Controller
     {
         public readonly record struct PublishTopicJson(int id);
 
@@ -97,7 +97,7 @@ namespace VueApp
         public TinyTopic Get([FromRoute] int id)
         {
             var topicCacheItem = EntityCache.GetCategory(id);
-            var userCacheItem = _sessionUserCache.GetItem(_sessionUser.UserId);
+            var userCacheItem = extendedUserCache.GetItem(_sessionUser.UserId);
 
             if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
                 return new TinyTopic

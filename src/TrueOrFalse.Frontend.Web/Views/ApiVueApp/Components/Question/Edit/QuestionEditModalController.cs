@@ -23,7 +23,7 @@ public class QuestionEditModalController(
     QuestionWritingRepo _questionWritingRepo,
     QuestionReadingRepo _questionReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
     Logg _logg) : Controller
 {
@@ -66,7 +66,7 @@ public class QuestionEditModalController(
         if (safeText.Length <= 0)
         {
             return new CreateResult
-            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+                { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -90,10 +90,12 @@ public class QuestionEditModalController(
 
         return new CreateResult { Success = true, Data = LoadQuestion(question.Id) };
     }
+
     public readonly record struct QuestionEditResult(
         bool Success,
         string MessageKey,
         QuestionListJson.Question Data);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public QuestionEditResult Edit([FromBody] QuestionDataParam param)
@@ -168,7 +170,7 @@ public class QuestionEditModalController(
     private QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = extendedUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

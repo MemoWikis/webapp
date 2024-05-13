@@ -13,7 +13,7 @@ public class HistoryTopicDetailController(
     RestoreCategory _restoreCategory,
     CategoryChangeRepo _categoryChangeRepo,
     CategoryRepository _categoryRepository,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
     IActionContextAccessor _actionContextAccessor,

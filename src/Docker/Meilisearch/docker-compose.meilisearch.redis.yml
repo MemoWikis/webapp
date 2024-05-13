@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  meilisearch:
+    image: getmeili/meilisearch:v0.30
+    command: ["meilisearch", "--master-key=${MEILI_MASTER_KEY}"]
+    restart: always
+    ports:
+      - "${MEILI_PORT}:7700"
+    volumes:
+      - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
+
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    restart: always
+  

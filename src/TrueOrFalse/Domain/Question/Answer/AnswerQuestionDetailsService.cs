@@ -49,7 +49,7 @@ public class AnswerQuestionDetailsService(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : IRegisterAsInstancePerLifetime
 

@@ -193,7 +193,7 @@ public class CategoryRepository(
 
     public void UpdateOnlyDb(
         Category category,
-        SessionUserCacheItem author = null,
+        ExtendedUserCacheItem author = null,
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,

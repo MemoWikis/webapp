@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-public class SessionUserCacheItem : UserCacheItem
+public class ExtendedUserCacheItem : UserCacheItem
 {
     public bool IsInstallationAdmin;
 
@@ -10,16 +10,16 @@ public class SessionUserCacheItem : UserCacheItem
     public ConcurrentDictionary<int, CategoryValuation> CategoryValuations = new();
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
 
-    public static SessionUserCacheItem CreateCacheItem(User user)
+    public static ExtendedUserCacheItem CreateCacheItem(User user)
     {
-        var userCacheItem = new SessionUserCacheItem();
+        var sessionUserCacheItem = new ExtendedUserCacheItem();
 
         if (user != null)
         {
-            userCacheItem.Populate(user);
+            sessionUserCacheItem.Populate(user);
         }
 
-        return userCacheItem;
+        return sessionUserCacheItem;
     }
 
     public new void Populate(User user)
