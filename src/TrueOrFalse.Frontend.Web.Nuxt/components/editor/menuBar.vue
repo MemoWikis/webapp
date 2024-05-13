@@ -1,6 +1,10 @@
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3';
+import { Editor } from '@tiptap/vue-3'
+import { Indent } from './indent';
 
+declare global {
+    interface Window { editi: any; }
+}
 interface Props {
     editor: Editor
     heading?: boolean
@@ -58,7 +62,6 @@ async function command(commandString: string, e: Event) {
                     .extendMarkRange('link')
                     .unsetLink()
                     .run()
-
                 return
             }
 
@@ -85,6 +88,13 @@ async function command(commandString: string, e: Event) {
             break
         case 'redo':
             props.editor.commands.redo()
+            break
+        case 'outdent':
+            props.editor.commands.outdent()
+            break
+        case 'indent':
+            window.editi = props.editor
+            props.editor.commands.indent()
             break
     }
     await nextTick()
@@ -139,6 +149,20 @@ const { isMobile } = useDevice()
                     <b>H2</b>
                 </button>
 
+                <button class="menubar__button" @mousedown="command('outdent', $event)">
+                    <font-awesome-layers>
+                        <font-awesome-icon :icon="['fas', 'arrow-left']" transform="left-4" />
+                        <font-awesome-icon :icon="['far', 'window-minimize']" transform="rotate-90 left-8" />
+                    </font-awesome-layers>
+                </button>
+
+                <button class="menubar__button" @mousedown="command('indent', $event)">
+                    <font-awesome-layers>
+                        <font-awesome-icon :icon="['fas', 'arrow-right']" transform="left-8" />
+                        <font-awesome-icon :icon="['far', 'window-minimize']" transform="rotate-90 right-6" />
+                    </font-awesome-layers>
+                </button>
+
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
                     @mousedown="command('bulletList', $event)">
                     <font-awesome-icon icon="fa-solid fa-list-ul" />
@@ -179,7 +203,7 @@ const { isMobile } = useDevice()
                 </button>
 
                 <button class="menubar__button" @mousedown="command('horizontalRule', $event)">
-                    <font-awesome-icon icon="fa-solid fa-window-minimize" />
+                    <font-awesome-icon :icon="['far', 'window-minimize']" transform="top-4" />
                 </button>
 
                 <button class="menubar__button" @mousedown="command('undo', $event)">

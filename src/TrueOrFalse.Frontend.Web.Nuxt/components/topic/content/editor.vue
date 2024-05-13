@@ -14,6 +14,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
+import { Indent } from '../../editor/indent'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -54,7 +55,8 @@ const editor = useEditor({
         TaskList,
         TaskItem.configure({
             nested: true,
-        })
+        }),
+        Indent
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
@@ -155,4 +157,3 @@ onMounted(() => {
     }
 }
 </style>
-
