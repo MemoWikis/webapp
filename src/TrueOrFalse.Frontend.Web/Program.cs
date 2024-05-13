@@ -43,11 +43,18 @@ builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
 
+if (Settings.UseRedisSession)
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration =
+            "localhost:6379";
+    });
+
 builder.Services.AddSession(options =>
 {
-    options.Cookie.IsEssential = true;
-    options.Cookie.HttpOnly = true;
     options.IdleTimeout = TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 builder.Services.Configure<FormOptions>(options =>
@@ -121,8 +128,8 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Images"
 });
 
-app.UseRouting();
 app.UseSession();
+app.UseRouting();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<SessionStartMiddleware>();
 
