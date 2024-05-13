@@ -55,6 +55,7 @@ public class TopicDataManager(
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
+        var sessionUser = _sessionUser.UserId == 0 ? null : _sessionUser.User;
         return new TopicDataResult(
             true,
             id,
@@ -95,8 +96,8 @@ public class TopicDataManager(
                 );
             }).ToArray(),
             topic.IsStartPage(),
-            _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
-            _sessionUser.User != null && _permissionCheck.CanDelete(topic),
+            sessionUser != null && _sessionUser.UserId == topic.Creator?.Id,
+            sessionUser != null && _permissionCheck.CanDelete(topic),
             topic.GetCountQuestionsAggregated(_sessionUser.UserId),
             topic.GetCountQuestionsAggregated(_sessionUser.UserId, true, topic.Id),
             imageMetaData != null ? imageMetaData.Id : 0,

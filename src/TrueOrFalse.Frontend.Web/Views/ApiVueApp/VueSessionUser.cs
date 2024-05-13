@@ -45,7 +45,7 @@ public class VueSessionUser(
     public CurrentUserData GetCurrentUserData()
     {
         var type = UserType.Anonymous;
-        var user = _sessionUser.User;
+        var user = _sessionUser.UserId == 0 ? null : _sessionUser.User;
 
         if (_sessionUser.IsLoggedIn)
         {

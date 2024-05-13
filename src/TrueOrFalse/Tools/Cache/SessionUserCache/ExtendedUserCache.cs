@@ -21,15 +21,20 @@ public class ExtendedUserCache(
 
     public ExtendedUserCacheItem GetUser(int userId)
     {
-        var user = _userReadingRepo.GetById(userId);
-        if (user == null)
+        var extendedUser = GetItem(userId);
+        if (extendedUser == null)
         {
-            Logg.r.Error("user should not be null here + GetUser()");
-            throw new NullReferenceException();
+            var user = _userReadingRepo.GetById(userId);
+            if (user == null)
+            {
+                Logg.r.Error("user should not be null here + GetUser()");
+                throw new NullReferenceException();
+            }
+
+            return Add(user);
         }
 
-        return
-            GetItem(userId) ?? Add(user);
+        return extendedUser;
     }
 
     public bool ItemExists(int userId)
