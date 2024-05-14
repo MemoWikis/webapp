@@ -44,7 +44,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsInstallationAdmin { get; set; }
     public bool IsEmailConfirmed { get; set; }
 
-    protected void Populate(User user)
+    public void Populate(User user)
     {
         Id = user.Id;
         Name = user.Name;
@@ -67,6 +67,37 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
         FollowerIds = user.Followers.Select(f => f.Follower.Id).ToList();
         FollowingIds = user.Following.Select(f => f.User.Id).ToList();
+        StripeId = user.StripeId;
+        EndDate = user.EndDate;
+        SubscriptionStartDate = user.SubscriptionStartDate;
+        IsEmailConfirmed = user.IsEmailConfirmed;
+        ActivityLevel = user.ActivityLevel;
+        ActivityPoints = user.ActivityPoints;
+    }
+
+    public void Populate(UserCacheItem user)
+    {
+        Id = user.Id;
+        Name = user.Name;
+        EmailAddress = user.EmailAddress;
+        FacebookId = user.FacebookId;
+        GoogleId = user.GoogleId;
+        Reputation = user.Reputation;
+        ReputationPos = user.ReputationPos;
+        FollowerCount = user.FollowerCount;
+        ShowWishKnowledge = user.ShowWishKnowledge;
+        IsInstallationAdmin = user.IsInstallationAdmin;
+
+        StartTopicId = user.StartTopicId;
+        WishCountQuestions = user.WishCountQuestions;
+        AllowsSupportiveLogin = user.AllowsSupportiveLogin;
+        KnowledgeReportInterval = user.KnowledgeReportInterval;
+        RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics;
+        WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
+        CorrectnessProbability = user.CorrectnessProbability;
+        TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
+        FollowerIds = user.FollowerIds;
+        FollowingIds = FollowingIds;
         StripeId = user.StripeId;
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;

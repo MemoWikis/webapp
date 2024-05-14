@@ -1,8 +1,6 @@
 ﻿using System.Collections.Concurrent;
-using System.Diagnostics;
 
 public class ExtendedUserCache(
-    UserReadingRepo _userReadingRepo,
     CategoryValuationReadingRepo _categoryValuationReadingRepo,
     QuestionValuationReadingRepo _questionValuationReadingRepo)
     : IRegisterAsInstancePerLifetime
@@ -109,7 +107,7 @@ public class ExtendedUserCache(
             if (sessionUserCacheItem != null)
                 return sessionUserCacheItem;
 
-            var cacheItem = CreateSessionUserItemFromDatabase(userId);
+            var cacheItem = CreateExtendedUserCacheItem(userId);
 
             AddToCache(cacheItem);
             return cacheItem;
@@ -158,9 +156,17 @@ public class ExtendedUserCache(
         }
     }
 
-    public ExtendedUserCacheItem CreateSessionUserItemFromDatabase(int userId)
+    public ExtendedUserCacheItem CreateCacheItem(UserCacheItem userCacheItem)
     {
-        var cacheItem = ExtendedUserCacheItem.CreateCacheItem(EntityCache.GetUserById(userId));
+        var sessionUserCacheItem = new ExtendedUserCacheItem();
+        sessionUserCacheItem.Populate(userCacheItem);
+
+        return sessionUserCacheItem;
+    }
+
+    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId)
+    {
+        var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
         cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
             _categoryValuationReadingRepo
