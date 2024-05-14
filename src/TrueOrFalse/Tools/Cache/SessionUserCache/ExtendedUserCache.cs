@@ -32,14 +32,7 @@ public class ExtendedUserCache(
         if (extendedUser != null)
             return extendedUser;
 
-        var user = _userReadingRepo.GetById(userId);
-        if (user == null)
-        {
-            Logg.r.Error("user should not be null here + GetUser()");
-            throw new NullReferenceException();
-        }
-
-        return Add(user);
+        return Add(userId);
     }
 
     public bool ItemExists(int userId)
@@ -107,18 +100,17 @@ public class ExtendedUserCache(
             Seedworks.Web.State.Cache.Remove(cacheKey);
     }
 
-    public ExtendedUserCacheItem Add(User user)
+    public ExtendedUserCacheItem Add(int userId)
     {
-        lock ("2ba84bee-5294-420b-bd43-1decaa0d2d3e" + user.Id)
+        lock ("2ba84bee-5294-420b-bd43-1decaa0d2d3e" + userId)
         {
-            var sessionUserCacheItem = GetItem(user.Id);
+            var sessionUserCacheItem = GetItem(userId);
 
             if (sessionUserCacheItem != null)
                 return sessionUserCacheItem;
 
-            var cacheItem = CreateSessionUserItemFromDatabase(user);
+            var cacheItem = CreateSessionUserItemFromDatabase(userId);
 
-            cacheItem.Populate(user);
             AddToCache(cacheItem);
             return cacheItem;
         }
@@ -166,18 +158,18 @@ public class ExtendedUserCache(
         }
     }
 
-    public ExtendedUserCacheItem CreateSessionUserItemFromDatabase(User user)
+    public ExtendedUserCacheItem CreateSessionUserItemFromDatabase(int userId)
     {
-        var cacheItem = ExtendedUserCacheItem.CreateCacheItem(user);
+        var cacheItem = ExtendedUserCacheItem.CreateCacheItem(EntityCache.GetUserById(userId));
 
         cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
             _categoryValuationReadingRepo
-                .GetByUser(user.Id, onlyActiveKnowledge: false)
+                .GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
 
         cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             _questionValuationReadingRepo
-                .GetByUserWithQuestion(user.Id)
+                .GetByUserWithQuestion(userId)
                 .Select(valuation =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(
                         valuation.Question.Id,

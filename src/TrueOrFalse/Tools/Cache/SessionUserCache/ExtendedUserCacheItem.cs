@@ -30,4 +30,24 @@ public class ExtendedUserCacheItem : UserCacheItem
         ActivityPoints = user.ActivityPoints;
         ActivityLevel = user.ActivityLevel;
     }
+
+    public static ExtendedUserCacheItem CreateCacheItem(UserCacheItem userCacheItem)
+    {
+        var sessionUserCacheItem = new ExtendedUserCacheItem();
+
+        if (userCacheItem != null)
+        {
+            sessionUserCacheItem.Populate(userCacheItem);
+        }
+
+        return sessionUserCacheItem;
+    }
+
+    public void Populate(UserCacheItem userCacheItem)
+    {
+        IsInstallationAdmin = userCacheItem.IsInstallationAdmin;
+
+        ActivityPoints = userCacheItem.ActivityPoints;
+        ActivityLevel = userCacheItem.ActivityLevel;
+    }
 }

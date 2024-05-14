@@ -81,7 +81,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        _extendedUserCache.Add(user);
+        _extendedUserCache.Add(user.Id);
     }
 
     public async void Logout()

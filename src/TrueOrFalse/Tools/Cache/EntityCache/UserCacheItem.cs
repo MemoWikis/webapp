@@ -21,6 +21,9 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     /// <summary>Users I follow</summary>
     public IList<int> FollowingIds { get; set; }
 
+    public int ActivityPoints { get; set; }
+    public int ActivityLevel { get; set; }
+
     public bool IsMember { get; set; }
     public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
     public virtual string RecentlyUsedRelationTargetTopics { get; set; }
@@ -68,6 +71,8 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;
         IsEmailConfirmed = user.IsEmailConfirmed;
+        ActivityLevel = user.ActivityLevel;
+        ActivityPoints = user.ActivityPoints;
     }
 
     public static UserCacheItem ToCacheUser(User user)

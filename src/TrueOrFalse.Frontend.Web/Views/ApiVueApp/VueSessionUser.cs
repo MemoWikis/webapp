@@ -45,7 +45,7 @@ public class VueSessionUser(
     public CurrentUserData GetCurrentUserData()
     {
         var type = UserType.Anonymous;
-        var user = _sessionUser.UserId == 0 ? null : _sessionUser.User;
+        var user = GetSessionUserUser();
 
         if (_sessionUser.IsLoggedIn)
         {
@@ -137,5 +137,13 @@ public class VueSessionUser(
                 ActivityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(userLevel)
             }
         };
+    }
+
+    private ExtendedUserCacheItem GetSessionUserUser()
+    {
+        if (_sessionUser.IsLoggedIn == false)
+            return null;
+
+        return _sessionUser.User;
     }
 }
