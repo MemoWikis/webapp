@@ -78,14 +78,8 @@ public class TopicLearningQuestionController(
     [HttpGet]
     public KnowledgeStatus GetKnowledgeStatus([FromRoute] int id)
     {
-        var sessionUser = _sessionUserCache.GetItem(_sessionUser.UserId);
-        if (sessionUser == null)
-        {
-            throw new NullReferenceException("sessionUser can't null");
-        }
-
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? sessionUser.QuestionValuations
+            ? _sessionUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
         var hasUserValuation = userQuestionValuation.ContainsKey(id) && _sessionUser.IsLoggedIn;
