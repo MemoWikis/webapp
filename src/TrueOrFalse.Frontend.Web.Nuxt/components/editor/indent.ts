@@ -175,7 +175,6 @@ const updateIndentLevel = (
   })
   return tr
 }
-
 export const getIndent: () => KeyboardShortcutCommand = () => ({ editor }) => {
   if (editor.can().sinkListItem('listItem')) {
     return editor.chain().focus().sinkListItem('listItem').run()

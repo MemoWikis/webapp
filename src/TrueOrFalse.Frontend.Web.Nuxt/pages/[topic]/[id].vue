@@ -73,9 +73,6 @@ function setTopic() {
                     router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id, Tab.Analytics))
             })
 
-            watch(() => route, (val) => {
-            }, { deep: true, immediate: true })
-
             watch(() => topicStore.name, () => {
                 useHead({
                     title: topicStore.name,
@@ -87,7 +84,13 @@ function setTopic() {
         }
     }
 }
-onBeforeMount(() => setTopic())
+
+onMounted(() => {
+    watch(() => route, (val) => {
+    }, { deep: true, immediate: true })
+})
+setTopic()
+
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 

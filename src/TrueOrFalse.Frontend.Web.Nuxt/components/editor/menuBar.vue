@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import { Editor } from '@tiptap/vue-3'
-import { Indent } from './indent';
 
-declare global {
-    interface Window { editi: any; }
-}
 interface Props {
     editor: Editor
     heading?: boolean
@@ -90,11 +86,16 @@ async function command(commandString: string, e: Event) {
             props.editor.commands.redo()
             break
         case 'outdent':
-            props.editor.commands.outdent()
+            if (props.editor.can().liftListItem('listItem'))
+                props.editor.chain().focus().liftListItem('listItem').run()
+            else
+                props.editor.chain().focus().outdent().run()
             break
         case 'indent':
-            window.editi = props.editor
-            props.editor.commands.indent()
+            if (props.editor.can().sinkListItem('listItem'))
+                props.editor.chain().focus().sinkListItem('listItem').run()
+            else
+                props.editor.chain().focus().indent().run()
             break
     }
     await nextTick()

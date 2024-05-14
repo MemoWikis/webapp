@@ -19,13 +19,7 @@ const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionData'])
-declare global {
-    interface Window { Indent: any; }
-}
-onMounted(() => {
-    window.Indent = Indent
 
-})
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
