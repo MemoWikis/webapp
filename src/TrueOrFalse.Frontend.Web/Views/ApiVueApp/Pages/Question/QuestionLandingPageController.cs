@@ -103,8 +103,7 @@ public class QuestionLandingPageController(
                 PrimaryTopicName = primaryTopic?.Name,
                 Solution = q.Solution,
                 IsCreator = q.Creator.Id == _sessionUser.UserId,
-                IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                IsInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
                 questionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
                 ImgUrl = GetQuestionImageFrontendData.Run(q,
@@ -118,8 +117,9 @@ public class QuestionLandingPageController(
             {
                 AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 Answer = solution.CorrectAnswer(),
-                AnswerDescription =
-                    q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
+                AnswerDescription = q.Description != null 
+                    ? MarkdownMarkdig.ToHtml(q.Description) 
+                    : "",
                 AnswerReferences = q.References.Select(r => new AnswerReference
                 {
                     ReferenceId = r.Id,
