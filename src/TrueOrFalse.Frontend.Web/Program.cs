@@ -46,8 +46,7 @@ Settings.Initialize(builder.Configuration);
 if (Settings.UseRedisSession)
     builder.Services.AddStackExchangeRedisCache(options =>
     {
-        options.Configuration =
-            $"{Settings.RedisHost}:{Settings.RedisPort}";
+        options.Configuration = Settings.RedisUrl;
     });
 
 builder.Services.AddSession(options =>
