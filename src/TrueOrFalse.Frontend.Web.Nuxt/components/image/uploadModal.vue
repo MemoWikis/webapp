@@ -182,7 +182,8 @@ function resetModal() {
         </template>
         <template v-slot:body>
             <div class="alert alert-info">
-                <b>Achtung:</b> Bildrechte sind ein sensibles Thema. Bitte lade nur Bilder hoch, die gemeinfrei sind, die
+                <b>Achtung:</b> Bildrechte sind ein sensibles Thema. Bitte lade nur Bilder hoch, die gemeinfrei sind,
+                die
                 unter einer entsprechenden Lizenz stehen oder die du selbst erstellt hast.
             </div>
             <div class="imagetype-select-container">
@@ -203,7 +204,8 @@ function resetModal() {
             <Transition name="fade">
                 <div v-if="selectedImageUploadMode == ImageUploadMode.Wikimedia" class="content">
                     <p>
-                        Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können. Auf
+                        Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können.
+                        Auf
                         <NuxtLink to="https://commons.wikimedia.org/wiki/Hauptseite?uselang=de" :external="true">
                             Wikimedia-Commons</NuxtLink> kannst du gezielt nach Inhalten suchen.
                     </p>
@@ -213,13 +215,15 @@ function resetModal() {
                         oder
                         <NuxtLink to="https://commons.wikimedia.org/wiki/Hauptseite?uselang=de" :external="true">
                             Wikimedia-Commons</NuxtLink> auf das gewünschte Bild klickst, kommst du zur
-                        Detailansicht. (Bei manchen Karten musst du auf das "i"-Logo in der rechten unteren Ecke klicken.)
+                        Detailansicht. (Bei manchen Karten musst du auf das "i"-Logo in der rechten unteren Ecke
+                        klicken.)
                         Kopiere einfach die Url dieser Seite.
                     </p>
 
                     <div class="form-group">
                         <input class="form-control wikimedia-url-input" v-model="wikimediaUrl" placeholder="http://" />
-                        <small class="form-text text-muted">Wikimedia-URL <font-awesome-icon :icon="['fas', 'circle-info']"
+                        <small class="form-text text-muted">Wikimedia-URL <font-awesome-icon
+                                :icon="['fas', 'circle-info']"
                                 v-tooltip="'Hier kann für Bilder von Wikipedia/ Wikimedia wahlweise die Url der Detailseite, die Url der Bildanzeige im Media Viewer, die Url der Bilddatei oder der Dateiname (inkl. Dateiendung) angegeben werden.'" /></small>
                     </div>
                     <div v-if="showWikimediaError" class="alert alert-warning">
@@ -233,12 +237,13 @@ function resetModal() {
                             :square="true" />
                     </div>
                 </div>
-                <div v-else-if="selectedImageUploadMode == ImageUploadMode.Custom" class="imageupload-dropzone-container">
+                <div v-else-if="selectedImageUploadMode == ImageUploadMode.Custom"
+                    class="imageupload-dropzone-container">
                     <label for="imageUpload" class="imageupload-dropzone" @drop.prevent="handleImageChange"
                         :class="{ 'active': onDragOver }" @dragover.prevent="onDragOver = true"
                         @dragleave.prevent="onDragOver = false">
-                        <input type="file" class="imageupload-dropzone-input" :accept="imageTypes.join(', ')" name="file"
-                            id="imageUpload" v-on:change="handleImageChange" />
+                        <input type="file" class="imageupload-dropzone-input" :accept="imageTypes.join(', ')"
+                            name="file" id="imageUpload" v-on:change="handleImageChange" />
                         <div>
                             <h4>
                                 <font-awesome-icon icon="fa-solid fa-upload" />
@@ -266,7 +271,8 @@ function resetModal() {
                     <div v-if="imageLoaded" class="license-container">
                         <b>Urheberrechtsinformation:</b>
                         <p>
-                            Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können, dass
+                            Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können,
+                            dass
                             Inhalte auf memucho frei weiterverwendet werden können. memucho folgt dem Wikipedia Prinzip.
                         </p>
 

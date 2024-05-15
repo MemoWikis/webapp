@@ -10,14 +10,14 @@ public class ImageUploadModalController(
     ImageStore imageStore)
     : BaseController(sessionUser)
 {
-    public readonly record struct GetWikimediaPreviewJson(string url);
+    public readonly record struct GetWikimediaPreviewJson(string Url);
 
     public readonly record struct GetWikimediaPreviewResult(bool ImageFound, string ImageThumbUrl);
 
     [HttpPost]
     public GetWikimediaPreviewResult GetWikimediaPreview([FromBody] GetWikimediaPreviewJson json)
     {
-        var result = WikiImageMetaLoader.Run(json.url, 200);
+        var result = WikiImageMetaLoader.Run(json.Url, 200);
         return new
         (
             ImageFound: !result.ImageNotFound,
@@ -25,42 +25,35 @@ public class ImageUploadModalController(
         );
     }
 
-    public readonly record struct SaveWikimediaImageJson(int topicId, string url);
-
+    public readonly record struct SaveWikimediaImageJson(int TopicId, string Url);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
     {
-        if (json.url == null || !permissionCheck.CanEditCategory(json.topicId))
+        if (json.Url == null || !permissionCheck.CanEditCategory(json.TopicId))
             return false;
 
         imageStore.RunWikimedia<CategoryImageSettings>(
-            json.url,
-            json.topicId,
+            json.Url,
+            json.TopicId,
             ImageType.Category,
             _sessionUser.UserId);
         return true;
     }
 
-    public class SaveCustomImageJson
-    {
-        public int topicId { get; set; }
-        public string licenseGiverName { get; set; }
-        public IFormFile file { get; set; }
-    }
-
+    public readonly record struct SaveCustomImageForm(int TopicId, string LicenseGiverName, IFormFile File);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveCustomImage([FromForm] SaveCustomImageJson form)
+    public bool SaveCustomImage([FromForm] SaveCustomImageForm form)
     {
-        if (form.file == null || !permissionCheck.CanEditCategory(form.topicId))
+        if (form.File == null || !permissionCheck.CanEditCategory(form.TopicId))
             return false;
 
         imageStore.RunUploaded<CategoryImageSettings>(
-            form.file,
-            +form.topicId,
+            form.File,
+            form.TopicId,
             _sessionUser.UserId,
-            form.licenseGiverName);
+            form.LicenseGiverName);
 
         return true;
     }
