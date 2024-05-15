@@ -4,14 +4,12 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-import { useEditTopicRelationStore } from '~/components/topic/relation/editTopicRelationStore'
-import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const topicStore = useTopicStore()
 const spinnerStore = useSpinnerStore()
-const editTopicRelationStore = useEditTopicRelationStore()
 
 interface Props {
     tab?: Tab,
@@ -75,9 +73,6 @@ function setTopic() {
                     router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id, Tab.Analytics))
             })
 
-            watch(() => route, (val) => {
-            }, { deep: true, immediate: true })
-
             watch(() => topicStore.name, () => {
                 useHead({
                     title: topicStore.name,
@@ -89,6 +84,11 @@ function setTopic() {
         }
     }
 }
+
+onMounted(() => {
+    watch(() => route, (val) => {
+    }, { deep: true, immediate: true })
+})
 setTopic()
 
 const emit = defineEmits(['setPage'])
@@ -99,13 +99,13 @@ function setTab() {
         switch (props.tab) {
             case Tab.Learning:
                 tabsStore.activeTab = Tab.Learning
-                break;
+                break
             case Tab.Feed:
                 tabsStore.activeTab = Tab.Feed
-                break;
+                break
             case Tab.Analytics:
                 tabsStore.activeTab = Tab.Analytics
-                break;
+                break
             default: tabsStore.activeTab = Tab.Topic
         }
     }
@@ -121,7 +121,7 @@ watch(topic, async (oldTopic, newTopic) => {
         setTopic()
     }
     loginStateHasChanged.value = false
-}, { deep: true })
+}, { deep: true, immediate: true })
 
 useHead(() => ({
     link: [
@@ -161,14 +161,6 @@ watch(() => props.tab, (t) => {
     }
 
 }, { immediate: true })
-
-watch(() => props.tab, (t) => {
-    if (t != null) {
-        tabsStore.activeTab = t
-    }
-
-}, { immediate: true })
-
 </script>
 
 <template>

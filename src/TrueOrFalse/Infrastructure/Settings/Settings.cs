@@ -9,9 +9,9 @@ public class Settings
     {
         _configuration = configuration;
     }
-    
-    [ThreadStatic]
-    public static bool UseWebConfig;
+
+    [ThreadStatic] public static bool UseWebConfig;
+
     // LoginProvider properties
     public static string FacebookAppId => _configuration["LoginProvider:FacebookAppId"];
     public static string FacebookAppSecret => _configuration["LoginProvider:FacebookAppSecret"];
@@ -33,10 +33,17 @@ public class Settings
     public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
 
     // Settings properties
-    public static bool WithNHibernateStatistics => bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
-    public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
-    public static int SessionStateTimeoutInMin => Convert.ToInt32(_configuration["Settings:SessionStateTimeoutInMin"]);
+    public static bool WithNHibernateStatistics =>
+        bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
 
+    public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
+
+    public static int SessionStateTimeoutInMin =>
+        Convert.ToInt32(_configuration["Settings:SessionStateTimeoutInMin"]);
+
+    public static bool UseRedisSession => _configuration.GetValue<bool>("Redis:Use");
+    public static string RedisPort => _configuration.GetValue<string>("Redis:Port");
+    public static string RedisHost => _configuration.GetValue<string>("Redis:Host");
 
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
@@ -44,9 +51,12 @@ public class Settings
 
     // Paths properties
     public static string LomExportPath => _configuration["Paths:LomExportPath"];
-    public static string ImagePath => string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])
-        ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath, "Images")
-        : _configuration["Paths:AbsoluteImagePath"];
+
+    public static string ImagePath =>
+        string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])
+            ? Path.Combine(WebHostEnvironmentProvider.GetWebHostEnvironment().ContentRootPath,
+                "Images")
+            : _configuration["Paths:AbsoluteImagePath"];
 
     // Connection properties
     public static string ConnectionString => _configuration["General:ConnectionString"];

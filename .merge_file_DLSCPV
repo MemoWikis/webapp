@@ -8,11 +8,3 @@ services:
       - "${MEILI_PORT}:7700"
     volumes:
       - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
-
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    restart: always
-  

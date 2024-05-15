@@ -95,6 +95,7 @@ public class ModifyRelationsEntityCache
 
         EntityCache.GetCategory(newRelation.ParentId)?.ChildRelations.Add(newRelation);
         EntityCache.GetCategory(newRelation.ChildId)?.ParentRelations.Add(newRelation);
+        EntityCache.AddOrUpdate(newRelation);
 
         return newRelation;
     }

@@ -16,8 +16,6 @@ using TrueOrFalse.Environment;
 using TrueOrFalse.Updates;
 using static System.Int32;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
-using TrueOrFalse.View.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,18 +43,19 @@ builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
 
-var useRedis = builder.Configuration.GetValue<bool>("Redis:Use");
-if (useRedis)
-    Redis.Configuration(builder.Services);
-else
-{
-    builder.Services.AddSession(options =>
+if (Settings.UseRedisSession)
+    builder.Services.AddStackExchangeRedisCache(options =>
     {
-        options.Cookie.IsEssential = true;
-        options.Cookie.HttpOnly = true;
-        options.IdleTimeout = TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin);
+        options.Configuration =
+            $"{Settings.RedisHost}:{Settings.RedisPort}";
     });
-}
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.Configure<FormOptions>(options =>
 {
@@ -129,13 +128,7 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Images"
 });
 
-if (useRedis)
-    Redis.UsingRedisSession(app);
-else
-{
-    app.UseSession();
-}
-
+app.UseSession();
 app.UseRouting();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<SessionStartMiddleware>();

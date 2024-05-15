@@ -385,8 +385,8 @@ public class EntityCache
     public static List<CategoryCacheRelation> GetCacheRelationsByParentId(int parentId) =>
         GetAllRelations().Where(r => r.ParentId == parentId).ToList();
 
-    public static List<CategoryCacheRelation> GetCacheRelationsByTopicId(int topicId) =>
-        GetAllRelations().Where(r => r.ParentId == topicId || r.ChildId == topicId).ToList();
+    public static IEnumerable<CategoryCacheRelation> GetCacheRelationsByTopicId(int topicId) =>
+        GetAllRelations().Where(r => r.ParentId == topicId || r.ChildId == topicId);
 
     public static void Clear()
     {
