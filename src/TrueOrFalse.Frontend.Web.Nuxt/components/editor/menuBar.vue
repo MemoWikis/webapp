@@ -138,6 +138,8 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-underline" />
                 </button>
 
+                <div class="menubar__divider"></div>
+
                 <button v-if="heading" class="menubar__button"
                     :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
                     @mousedown="command('h2', $event)">
@@ -150,18 +152,14 @@ const { isMobile } = useDevice()
                     <b>H2</b>
                 </button>
 
+                <div class="menubar__divider"></div>
+
                 <button class="menubar__button" @mousedown="command('outdent', $event)">
-                    <font-awesome-layers>
-                        <font-awesome-icon :icon="['fas', 'arrow-left']" transform="left-4" />
-                        <font-awesome-icon :icon="['far', 'window-minimize']" transform="rotate-90 left-8" />
-                    </font-awesome-layers>
+                    <font-awesome-icon :icon="['fas', 'outdent']" />
                 </button>
 
                 <button class="menubar__button" @mousedown="command('indent', $event)">
-                    <font-awesome-layers>
-                        <font-awesome-icon :icon="['fas', 'arrow-right']" transform="left-8" />
-                        <font-awesome-icon :icon="['far', 'window-minimize']" transform="rotate-90 right-6" />
-                    </font-awesome-layers>
+                    <font-awesome-icon :icon="['fas', 'indent']" />
                 </button>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
@@ -178,6 +176,8 @@ const { isMobile } = useDevice()
                     @mousedown="command('taskList', $event)">
                     <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
+
+                <div class="menubar__divider"></div>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
                     @mousedown="command('blockquote', $event)">
@@ -206,6 +206,8 @@ const { isMobile } = useDevice()
                 <button class="menubar__button" @mousedown="command('horizontalRule', $event)">
                     <font-awesome-icon :icon="['far', 'window-minimize']" transform="top-4" />
                 </button>
+
+                <div class="menubar__divider"></div>
 
                 <button class="menubar__button" @mousedown="command('undo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-left" />
@@ -292,6 +294,14 @@ const { isMobile } = useDevice()
         transition: visibility .2s, opacity .2s;
         pointer-events: auto !important;
     }
+}
+
+.menubar__divider {
+    height: calc(100% - 12px);
+    width: 1px;
+    background: @memo-grey-lighter;
+    min-height: 12px;
+    margin: 6px;
 }
 
 .menubar__button {
