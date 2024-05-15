@@ -8,21 +8,9 @@ services:
       - "${MEILI_PORT}:7700"
     volumes:
       - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
-<<<<<<<< HEAD:src/Docker/Services/docker-compose.meilisearch.redis.yml
 
-
-  redis:
-    image: redis:latest
-    ports:
-      - "6379:6379"
-    restart: always
-  
-========
-      
   redis:
     image: redis:7.2.4
     ports:
       - "${REDIS_PORT}:6379"
     restart: always
-  
->>>>>>>> origin/main:src/Docker/Services/docker-compose.services.yml

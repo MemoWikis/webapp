@@ -11,7 +11,7 @@ public class TopicLearningQuestionController(
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    SessionUserCache _sessionUserCache) : Controller
+    ExtendedUserCache _sessionUserCache) : Controller
 {
     public readonly record struct LoadQuestionDataResult(bool Success, QuestionData Data);
 
