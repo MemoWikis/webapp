@@ -41,7 +41,12 @@ public class ImageUploadModalController(
         return true;
     }
 
-    public readonly record struct SaveCustomImageForm(int TopicId, string LicenseGiverName, IFormFile File);
+    public class SaveCustomImageForm
+    {
+        public int TopicId { get; set; }
+        public string LicenseGiverName { get; set; }
+        public IFormFile File { get; set; }
+    }
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageForm form)
