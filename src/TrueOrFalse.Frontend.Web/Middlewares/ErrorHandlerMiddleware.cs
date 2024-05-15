@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace TrueOrFalse.Frontend.Web1.Middlewares
 {
@@ -19,7 +20,7 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
 
             if (httpContext.Response.StatusCode == 404)
             {
-                Logg.r.Error("404 Resource Not Found {@Headers}", httpContext.Request.Headers);
+                Logg.r.Error("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(), httpContext.Request.Headers["Referer"]);
             }
             else if (httpContext.Response.StatusCode == 500)
             {

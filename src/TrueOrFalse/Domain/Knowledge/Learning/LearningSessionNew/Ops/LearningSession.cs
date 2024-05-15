@@ -1,10 +1,8 @@
-﻿using System.Diagnostics;
-
-[Serializable]
+﻿[Serializable]
 public class LearningSession
 {
-    public IList<LearningSessionStep> Steps;
-    public LearningSessionConfig Config;
+    public IList<LearningSessionStep> Steps { get; set; }
+    public LearningSessionConfig Config { get; set; }
 
     public QuestionCounter QuestionCounter;
 
@@ -12,12 +10,7 @@ public class LearningSession
         List<LearningSessionStep> learningSessionSteps,
         LearningSessionConfig config)
     {
-        if (Config == null)
-        {
-            var stacktrace = new StackTrace();
-            Logg.r.Error("LearningSessionConfig is null\n" + stacktrace);
-        }
-
+        
         Steps = learningSessionSteps;
         Config = config;
         Config.Category = EntityCache.GetCategory(Config.CategoryId) ??
