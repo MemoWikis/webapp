@@ -55,17 +55,18 @@ public class TopicDataManager(
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
+        var authorIds = topic.AuthorIds.Distinct();
         return new TopicDataResult(
-            true,
-            id,
-            topic.Name,
-            new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
-            topic.Content,
-            topic.Parents()
+            CanAccess: true,
+            Id: id,
+            Name: topic.Name,
+            ImageUrl: new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
+            Content: topic.Content,
+            ParentTopicCount: topic.Parents()
                 .Where(_permissionCheck.CanView)
                 .ToList()
                 .Count,
-            topic.Parents()
+            Parents: topic.Parents()
                 .Where(_permissionCheck.CanView)
                 .Select(p =>
                     new Parent
@@ -77,12 +78,14 @@ public class TopicDataManager(
                             .Url
                     })
                 .ToArray(),
-            GraphService.VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            GraphService.VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            _categoryViewRepo.GetViewCount(id),
-            topic.Visibility,
-            topic.AuthorIds.Distinct().ToArray(),
-            topic.AuthorIds.Distinct().Select(authorId =>
+            ChildTopicCount: GraphService
+                .VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+            DirectVisibleChildTopicCount: GraphService
+                .VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+            Views: _categoryViewRepo.GetViewCount(id),
+            Visibility: topic.Visibility,
+            AuthorIds: authorIds.ToArray(),
+            Authors: authorIds.Select(authorId =>
             {
                 var author = EntityCache.GetUserById(authorId);
                 return new Author(
@@ -94,34 +97,44 @@ public class TopicDataManager(
                     author.ReputationPos
                 );
             }).ToArray(),
-            topic.IsStartPage(),
-            _sessionUser.User != null && _sessionUser.UserId == topic.Creator?.Id,
-            _sessionUser.User != null && _permissionCheck.CanDelete(topic),
-            topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            topic.GetCountQuestionsAggregated(_sessionUser.UserId, true, topic.Id),
-            imageMetaData != null ? imageMetaData.Id : 0,
-            FillMiniTopicItem(topic),
-            SeoUtils.ReplaceDoubleQuotes(topic.Content == null
+            IsWiki: topic.IsStartPage(),
+            CurrentUserIsCreator: CurrentUserIsCreator(topic),
+            CanBeDeleted: _permissionCheck.CanDelete(topic),
+            QuestionCount: topic.GetCountQuestionsAggregated(_sessionUser.UserId),
+            DirectQuestionCount: topic.GetCountQuestionsAggregated(_sessionUser.UserId, true,
+                topic.Id),
+            ImageId: imageMetaData != null ? imageMetaData.Id : 0,
+            TopicItem: FillMiniTopicItem(topic),
+            MetaDescription: SeoUtils.ReplaceDoubleQuotes(topic.Content == null
                     ? null
                     : Regex.Replace(topic.Content, "<.*?>", ""))
                 .Truncate(250, true),
-            new KnowledgeSummarySlim(
+            KnowledgeSummary: new KnowledgeSummarySlim(
                 knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
                 knowledgeSummary.NeedsLearning,
                 knowledgeSummary.NeedsConsolidation,
                 knowledgeSummary.Solid
             ),
-            new TopicGridManager(
+            GridItems: new TopicGridManager(
                 _permissionCheck,
                 _sessionUser,
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _knowledgeSummaryLoader,
                 _questionReadingRepo).GetChildren(id),
-            _sessionUser.IsLoggedIn && EntityCache.GetCategory(_sessionUser.User.StartTopicId)
+            IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache
+                .GetCategory(_sessionUser.User.StartTopicId)
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id)
         );
+    }
+
+    private bool CurrentUserIsCreator(CategoryCacheItem topic)
+    {
+        if (_sessionUser.IsLoggedIn == false)
+            return false;
+
+        return _sessionUser.UserId == topic.Creator?.Id;
     }
 
     public record Author(int Id, string Name, string ImgUrl, int Reputation, int ReputationPos);

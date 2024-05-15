@@ -1,36 +1,29 @@
-﻿
-
-namespace TrueOrFalse.Domain.Question.QuestionValuation
+﻿namespace TrueOrFalse.Domain.Question.QuestionValuation
 {
-    public class QuestionValuationCache
+    public class QuestionValuationCache(ExtendedUserCache _extendedUserCache)
     {
-        private readonly SessionUserCache _sessionUserCache;
-
-        public QuestionValuationCache(SessionUserCache sessionUserCache)
-        {
-            _sessionUserCache = sessionUserCache;
-        }
-
         public QuestionValuationCacheItem GetByFromCache(int questionId, int userId)
         {
-            return _sessionUserCache.GetItem(userId)?.QuestionValuations
+            return _extendedUserCache.GetItem(userId)?.QuestionValuations
                 .Where(v => v.Value.Question.Id == questionId)
                 .Select(v => v.Value)
                 .FirstOrDefault();
         }
 
-        public IList<QuestionValuationCacheItem> GetByQuestionsFromCache(IList<QuestionCacheItem> questions)
+        public IList<QuestionValuationCacheItem> GetByQuestionsFromCache(
+            IList<QuestionCacheItem> questions)
         {
-            var questionValuations = _sessionUserCache.GetAllCacheItems().Select(c => c.QuestionValuations.Values)
+            var questionValuations = _extendedUserCache.GetAllCacheItems()
+                .Select(c => c.QuestionValuations.Values)
                 .SelectMany(l => l);
 
-            return questionValuations.Where(v => questions.GetIds().Contains(v.Question.Id)).ToList();
+            return questionValuations.Where(v => questions.GetIds().Contains(v.Question.Id))
+                .ToList();
         }
-
 
         public IList<QuestionValuationCacheItem> GetByUserFromCache(int userId)
         {
-            var cacheItem = _sessionUserCache.GetItem(userId);
+            var cacheItem = _extendedUserCache.GetItem(userId);
 
             if (cacheItem == null)
                 return new List<QuestionValuationCacheItem>();

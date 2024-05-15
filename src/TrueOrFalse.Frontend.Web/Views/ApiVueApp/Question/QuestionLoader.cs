@@ -6,7 +6,7 @@ namespace VueApp;
 
 public class QuestionLoader(
     SessionUser _sessionUser,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -16,7 +16,7 @@ public class QuestionLoader(
     public QuestionListJson.Question LoadQuestion(int questionId)
     {
         var user = _sessionUser.User;
-        var userQuestionValuation = _sessionUserCache.GetItem(user.Id).QuestionValuations;
+        var userQuestionValuation = _extendedUserCache.GetItem(user.Id).QuestionValuations;
         var q = EntityCache.GetQuestionById(questionId);
         var question = new QuestionListJson.Question();
         question.Id = q.Id;

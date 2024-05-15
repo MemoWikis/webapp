@@ -11,7 +11,7 @@ public class UserWritingRepo
     private readonly UserReadingRepo _userReadingRepo;
     private readonly ReputationCalc _reputationCalc;
     private readonly GetWishQuestionCount _getWishQuestionCount;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
     private readonly RepositoryDb<User> _repo;
 
     public UserWritingRepo(
@@ -21,7 +21,7 @@ public class UserWritingRepo
         UserReadingRepo userReadingRepo,
         ReputationCalc reputationCalc,
         GetWishQuestionCount getWishQuestionCount,
-        SessionUserCache sessionUserCache)
+        ExtendedUserCache extendedUserCache)
     {
         _repo = new RepositoryDb<User>(session);
         _sessionUser = sessionUser;
@@ -29,7 +29,7 @@ public class UserWritingRepo
         _userReadingRepo = userReadingRepo;
         _reputationCalc = reputationCalc;
         _getWishQuestionCount = getWishQuestionCount;
-        _sessionUserCache = sessionUserCache;
+        _extendedUserCache = extendedUserCache;
     }
 
     public void ApplyChangeAndUpdate(int userId, Action<User> change)
@@ -59,7 +59,7 @@ public class UserWritingRepo
         }
 
         _repo.Delete(id);
-        _sessionUserCache.Remove(user);
+        _extendedUserCache.Remove(user);
         EntityCache.RemoveUser(id);
         Task.Run(async () =>
             await new MeiliSearchUsersDatabaseOperations()
@@ -156,7 +156,7 @@ public class UserWritingRepo
             new StackTrace());
 
         _repo.Update(user);
-        _sessionUserCache.Update(user);
+        _extendedUserCache.Update(user);
         EntityCache.AddOrUpdate(UserCacheItem.ToCacheUser(user));
         Task.Run(async () =>
             await new MeiliSearchUsersDatabaseOperations()

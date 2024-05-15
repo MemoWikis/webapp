@@ -3,7 +3,7 @@
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
     private readonly PermissionCheck _permissionCheck;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
 
     public record struct QuestionProperties
     {
@@ -39,12 +39,12 @@
         SessionUser sessionUser,
         LearningSessionCache learningSessionCache,
         PermissionCheck permissionCheck,
-        SessionUserCache sessionUserCache)
+        ExtendedUserCache _extendedUserCache)
     {
         _sessionUser = sessionUser;
         _learningSessionCache = learningSessionCache;
         _permissionCheck = permissionCheck;
-        _sessionUserCache = sessionUserCache;
+        this._extendedUserCache = _extendedUserCache;
     }
 
     // For Tests
@@ -229,7 +229,7 @@
             config.CurrentUserId = _sessionUser.UserId;
 
         var questionCounter = new QuestionCounter();
-        var allQuestionValuations = _sessionUserCache.GetQuestionValuations(_sessionUser.UserId);
+        var allQuestionValuations = _extendedUserCache.GetQuestionValuations(_sessionUser.UserId);
 
         IList<QuestionCacheItem> filteredQuestions = new List<QuestionCacheItem>();
         IList<KnowledgeSummaryDetail> knowledgeSummaryDetails = new List<KnowledgeSummaryDetail>();
@@ -357,7 +357,7 @@
         if (learningSession != null)
         {
             var allQuestionValuation =
-                _sessionUserCache.GetQuestionValuations(config.CurrentUserId);
+                _extendedUserCache.GetQuestionValuations(config.CurrentUserId);
 
             var questionProps = BuildQuestionProperties(question, config, allQuestionValuation);
 

@@ -19,7 +19,7 @@ public class QuestionLandingPageController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
@@ -103,8 +103,7 @@ public class QuestionLandingPageController(
                 PrimaryTopicName = primaryTopic?.Name,
                 Solution = q.Solution,
                 IsCreator = q.Creator.Id == _sessionUser.UserId,
-                IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
+                IsInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
                 questionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
                 ImgUrl = GetQuestionImageFrontendData.Run(q,
@@ -118,8 +117,9 @@ public class QuestionLandingPageController(
             {
                 AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 Answer = solution.CorrectAnswer(),
-                AnswerDescription =
-                    q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
+                AnswerDescription = q.Description != null 
+                    ? MarkdownMarkdig.ToHtml(q.Description) 
+                    : "",
                 AnswerReferences = q.References.Select(r => new AnswerReference
                 {
                     ReferenceId = r.Id,
@@ -145,14 +145,14 @@ public class QuestionLandingPageController(
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
             _totalsPersUserLoader,
-            _sessionUserCache);
+            _extendedUserCache);
 
         var correctnessProbability =
             answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 
         var userQuestionValuation = _sessionUser.IsLoggedIn
-            ? _sessionUserCache.GetItem(_sessionUser.UserId).QuestionValuations
+            ? _extendedUserCache.GetItem(_sessionUser.UserId).QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
         var hasUserValuation =
             userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;

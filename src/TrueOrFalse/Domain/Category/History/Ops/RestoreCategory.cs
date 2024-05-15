@@ -24,14 +24,14 @@ public class RestoreCategory(
         categoryCacheItem.Content = historicCategory.Content;
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        var authorSessionUserCacheItem = SessionUserCacheItem.CreateCacheItem(author);
+        var authorSessionUserCacheItem = ExtendedUserCacheItem.CreateCacheItem(author);
         _categoryRepository
             .Update(category, authorSessionUserCacheItem.Id, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }
 
-    public void Run(int categoryChangeId, SessionUserCacheItem author)
+    public void Run(int categoryChangeId, ExtendedUserCacheItem author)
     {
         var categoryChange = _categoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();

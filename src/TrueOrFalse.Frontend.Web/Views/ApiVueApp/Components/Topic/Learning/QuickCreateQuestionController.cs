@@ -18,7 +18,7 @@ public class QuickCreateQuestionController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
@@ -34,6 +34,7 @@ public class QuickCreateQuestionController(
     );
 
     public readonly record struct CreateFlashcardResult(bool Success, int Data, string MessageKey);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public CreateFlashcardResult CreateFlashcard([FromBody] CreateFlashcardParam param)
@@ -86,7 +87,7 @@ public class QuickCreateQuestionController(
             Success = true,
             Data = new QuestionLoader(
                 _sessionUser,
-                _sessionUserCache,
+                _extendedUserCache,
                 _httpContextAccessor,
                 _actionContextAccessor,
                 _imageMetaDataReadingRepo,

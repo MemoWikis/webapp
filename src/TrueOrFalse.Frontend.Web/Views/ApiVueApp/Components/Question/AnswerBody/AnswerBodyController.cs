@@ -9,7 +9,7 @@ using TrueOrFalse.Web;
 public class AnswerBodyController(
     LearningSessionCache _learningSessionCache,
     SessionUser _sessionUser,
-    SessionUserCache _sessionUserCache,
+    ExtendedUserCache _extendedUserCache,
     AnswerQuestion _answerQuestion,
     AnswerLog _answerLog) : Controller
 {
@@ -118,7 +118,7 @@ public class AnswerBodyController(
             Solution: q.Solution,
             IsCreator: q.Creator.Id == _sessionUser.UserId,
             IsInWishknowledge: _sessionUser.IsLoggedIn &&
-                               q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
+                               q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
             QuestionViewGuid: Guid.NewGuid(),
             IsLastStep: learningSession.Steps.Last() == step);
         return learningBody;

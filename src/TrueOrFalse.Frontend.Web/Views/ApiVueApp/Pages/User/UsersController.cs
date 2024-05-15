@@ -16,7 +16,7 @@ public class UsersController(
     GetTotalUsers _totalUsers,
     UserSummary _userSummary,
     IHttpContextAccessor _httpContextAccessor,
-    SessionUserCache _sessionUserCache) : Controller
+    ExtendedUserCache _extendedUserCache) : Controller
 {
     public record struct UserResult(
         int CreatedQuestionsCount,
@@ -31,6 +31,7 @@ public class UsersController(
         int WuwiQuestionsCount,
         int WuwiTopicsCount
     );
+
     public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
 
     [HttpGet]
@@ -66,7 +67,7 @@ public class UsersController(
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
-            var valuations = new QuestionValuationCache(_sessionUserCache)
+            var valuations = new QuestionValuationCache(_extendedUserCache)
                 .GetByUserFromCache(user.Id)
                 .QuestionIds().ToList();
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
