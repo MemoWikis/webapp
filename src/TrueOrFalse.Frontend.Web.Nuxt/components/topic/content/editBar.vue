@@ -70,7 +70,7 @@ const showSaveMsg = ref(false)
 const saveMsg = ref('')
 
 const userStore = useUserStore()
-
+const { isMobile } = useDevice()
 </script>
 
 <template>
@@ -79,17 +79,26 @@ const userStore = useUserStore()
             <template v-if="tabsStore.activeTab == Tab.Topic">
                 <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged">
                     <div class="toolbar"
-                        :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand, 'not-logged-in': !userStore.isLoggedIn }"
-                        z>
+                        :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand, 'not-logged-in': !userStore.isLoggedIn }">
                         <div class="toolbar-btn-container">
-                            <div class="btn-left">
-                            </div>
-                            <div class="centerText" v-show="!userStore.isLoggedIn">
-                                <div>
-                                    Um zu speichern, musst du&nbsp;<span
-                                        @click="userStore.openLoginModal()">angemeldet</span>&nbsp;sein.
+                            <div class="centerText mobile" v-if="isMobile && !userStore.isLoggedIn">
+                                <div @click="userStore.openLoginModal()">
+                                    Um zu speichern, <br />
+                                    musst du angemeldet sein.
                                 </div>
                             </div>
+                            <template v-else>
+                                <div class="btn-left">
+                                </div>
+                                <div class="centerText" v-show="!userStore.isLoggedIn">
+                                    <div>
+                                        Um zu speichern, musst du&nbsp;
+                                        <span @click="userStore.openLoginModal()">angemeldet</span>&nbsp;
+                                        sein.
+                                    </div>
+                                </div>
+                            </template>
+
 
                             <div v-if="showSaveMsg" class="saveMsg">
                                 <div>
@@ -97,30 +106,29 @@ const userStore = useUserStore()
                                 </div>
                             </div>
 
-                            <div class="btn-right" v-show="topicStore.contentHasChanged" v-else>
-                                <template v-if="userStore.isLoggedIn">
-                                    <div class="button" @click.prevent="topicStore.saveTopic()"
-                                        :class="{ expanded: editMode }">
-                                        <div class="icon">
-                                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                                        </div>
-                                        <div class="btn-label">
-                                            Speichern
-                                        </div>
+                            <div class="btn-right" v-show="topicStore.contentHasChanged"
+                                v-else-if="userStore.isLoggedIn">
+                                <div class="button" @click.prevent="topicStore.saveTopic()"
+                                    :class="{ expanded: editMode }">
+                                    <div class="icon">
+                                        <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                                     </div>
-
-                                    <div class="button" @click.prevent="topicStore.resetContent()"
-                                        :class="{ expanded: editMode }">
-                                        <div class="icon">
-                                            <font-awesome-icon icon="fa-solid fa-xmark" />
-                                        </div>
-                                        <div class="btn-label">
-                                            Verwerfen
-                                        </div>
+                                    <div class="btn-label">
+                                        Speichern
                                     </div>
-                                </template>
+                                </div>
 
+                                <div class="button" @click.prevent="topicStore.resetContent()"
+                                    :class="{ expanded: editMode }">
+                                    <div class="icon">
+                                        <font-awesome-icon icon="fa-solid fa-xmark" />
+                                    </div>
+                                    <div class="btn-label">
+                                        Verwerfen
+                                    </div>
+                                </div>
                             </div>
+                            <div class="btn-right" v-else-if="!isMobile"></div>
 
                         </div>
                     </div>
@@ -438,6 +446,13 @@ const userStore = useUserStore()
                     font-size: 14px;
                     text-transform: uppercase;
                     font-weight: 600;
+
+                    &.mobile {
+                        width: 100%;
+                        padding: 0 40px;
+                        text-align: center;
+                        font-size: 12px;
+                    }
                 }
 
                 .saveMsg {
@@ -499,4 +514,3 @@ const userStore = useUserStore()
     }
 }
 </style>
-

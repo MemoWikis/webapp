@@ -179,7 +179,7 @@ watch(() => props.tab, (t) => {
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
                                     <div class="col-xs-12">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
-                                            id="TopicContentPlaceholder">
+                                            id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
                                     </div>
                                 </div>
@@ -226,9 +226,16 @@ watch(() => props.tab, (t) => {
 
 #TopicContentPlaceholder {
     padding: 0px;
+    margin-bottom: 70px;
 
     p {
         min-height: 30px;
+    }
+
+    &.is-mobile {
+        p {
+            min-height: 21px;
+        }
     }
 
     ul,

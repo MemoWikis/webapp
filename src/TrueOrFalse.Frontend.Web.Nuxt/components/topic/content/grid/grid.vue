@@ -283,7 +283,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
 @import (reference) '~~/assets/includes/imports.less';
 
 .grid-row {
-    margin-top: 45px;
+    margin-top: 20px;
     max-width: calc(100vw - 20px);
     margin-bottom: 45px;
 
