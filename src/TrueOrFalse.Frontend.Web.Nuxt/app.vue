@@ -140,7 +140,7 @@ useHead(() => ({
 		}
 	]
 }))
-
+const { isMobile } = useDevice()
 </script>
 
 <template>
@@ -153,7 +153,8 @@ useHead(() => ({
 		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
 	</ClientOnly>
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.documentation" :class="{ 'open-modal': modalIsOpen }" />
+		:documentation="footerTopics?.documentation"
+		:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />
@@ -165,3 +166,18 @@ useHead(() => ({
 	</ClientOnly>
 	<Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>
+
+<style lang="less">
+.mobile-headings {
+	h2 {
+		font-size: 28px;
+		line-height: 1.2;
+		font-weight: unset;
+	}
+
+	h3 {
+		font-size: 22px;
+		line-height: 1.2;
+	}
+}
+</style>
