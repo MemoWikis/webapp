@@ -29,7 +29,7 @@ const groupedAuthors = computed(() => {
 function resize() {
     let element = textArea.value as VueElement
     if (element) {
-        element.style.height = "56px"
+        element.style.height = "42px"
         element.style.height = element.scrollHeight + "px"
     }
 }
@@ -52,7 +52,6 @@ onBeforeMount(() => {
             topicStore.contentHasChanged = true
         }
     })
-
 })
 
 onMounted(async () => {
@@ -91,11 +90,44 @@ const viewsLabel = computed(() => {
     }
     return `${viewCount} Aufrufe`
 })
+
+function getLetterValuation(str: string) {
+    const slimLetters = ['I', 'J', 'f', 'i', 'j', 'l', 'r', 't']
+    let points = 0
+    for (let i = 0; i < str.length; i++) {
+        const currentLetterIsSmall = slimLetters.includes(str[i])
+
+        if (currentLetterIsSmall)
+            points += 1
+        else
+            points += 2
+
+        continue
+    }
+    return points
+}
+
+const topicTitle = ref()
+
+const titleFontSizeStyle = computed(() => {
+    if (topicTitle.value == null)
+        return
+
+    const points = getLetterValuation(topicStore.name)
+    const rating = (topicTitle.value.clientWidth - (topicTitle.value.clientWidth / 10) + 5) / points
+
+    if (rating > 10)
+        return "font-size: 35px;"
+    else if (rating <= 10 && rating > 4)
+        return "font-size: 28px;"
+    return "font-size: 24px"
+})
+
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
-        <h1 id="TopicTitle">
+        <h1 id="TopicTitle" ref="topicTitle" :style="titleFontSizeStyle">
             <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
                 v-model="topicStore.name" v-if="topicStore" :readonly="readonly"></textarea>
             <template v-else-if="topic">
@@ -105,7 +137,7 @@ const viewsLabel = computed(() => {
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
             <div v-if="topicStore.childTopicCount > 0 && !isMobile" class="topic-detail clickable"
                 @click="scrollToChildTopics()" v-tooltip="'Alle Unterthemen'">
-                <font-awesome-icon icon="fa-solid fa-sitemap" />
+                <font-awesome-icon icon="fa-solid fa-sitemap" class="topic-fa-icon" />
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
 
@@ -116,7 +148,7 @@ const viewsLabel = computed(() => {
                 <button v-show="topicStore.parentTopicCount > 1" class="parent-tree-btn">
 
                     <div class="topic-detail">
-                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
+                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" class="topic-fa-icon" />
                         <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
                     </div>
 
@@ -207,19 +239,20 @@ const viewsLabel = computed(() => {
     color: @memo-grey-dark;
 
     #TopicTitle {
-        min-height: 60px;
+        min-height: 49px;
         margin: 0;
+        line-height: 1.1;
 
         textarea {
+            line-height: 1.1;
             width: 100%;
             border: none;
             outline: none;
             min-height: 18px;
             resize: none;
-            margin-top: -8px;
             padding: 0;
             padding-left: 0;
-            height: 54px;
+            height: 42px;
             overflow: hidden;
         }
     }
@@ -287,8 +320,12 @@ const viewsLabel = computed(() => {
             flex-wrap: nowrap;
             align-items: center;
 
+            .topic-fa-icon {
+                margin-right: 6px;
+            }
+
             .topic-detail-label {
-                padding-left: 6px;
+                padding-left: 0px;
             }
 
             &.clickable {
