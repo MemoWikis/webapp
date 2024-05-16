@@ -79,6 +79,18 @@ const { isMobile } = useDevice()
 
 const topic = useState<Topic>('topic')
 
+const viewsLabel = computed(() => {
+    if (topicStore.views === 1)
+        return `1 Aufruf`
+
+    let viewCount = topicStore.views.toString()
+
+    if (topicStore.views >= 10000) {
+        const formatter = new Intl.NumberFormat('de-DE')
+        viewCount = formatter.format(topicStore.views)
+    }
+    return `${viewCount} Aufrufe`
+})
 </script>
 
 <template>
@@ -91,8 +103,8 @@ const topic = useState<Topic>('topic')
             </template>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
-                v-tooltip="'Alle Unterthemen'">
+            <div v-if="topicStore.childTopicCount > 0 && !isMobile" class="topic-detail clickable"
+                @click="scrollToChildTopics()" v-tooltip="'Alle Unterthemen'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" />
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
@@ -100,12 +112,8 @@ const topic = useState<Topic>('topic')
             <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
             </div>
 
-            <!-- <div v-if="topicStore.parentTopicCount > 0" class="topic-detail ">
-                <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
-                <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
-            </div> -->
             <VDropdown :distance="6">
-                <button v-show="topicStore.parentTopicCount > 0" class="parent-tree-btn">
+                <button v-show="topicStore.parentTopicCount > 1" class="parent-tree-btn">
 
                     <div class="topic-detail">
                         <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
@@ -124,21 +132,21 @@ const topic = useState<Topic>('topic')
                         </LazyNuxtLink>
                     </template>
 
-
                 </template>
             </VDropdown>
 
             <div class="topic-detail-spacer"
-                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)">
+                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 1 && !isMobile || topicStore.parentTopicCount > 1)">
             </div>
 
             <div v-if="topicStore.views > 0" class="topic-detail">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-                <div class="topic-detail-label">{{ topicStore.views }}</div>
+                <div class="topic-detail-label">
+                    {{ viewsLabel }}
+                </div>
             </div>
 
             <div v-if="topicStore.views > 0 ||
-                    (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)" class="topic-detail-spacer">
+                (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)" class="topic-detail-spacer">
             </div>
 
             <template v-for="author in firstAuthors">
