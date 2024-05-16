@@ -42,7 +42,7 @@ public class Settings
         Convert.ToInt32(_configuration["Settings:SessionStateTimeoutInMin"]);
 
     public static bool UseRedisSession => _configuration.GetValue<bool>("Redis:Use");
-    public static string RedisUrl => _configuration.GetValue<string>("Redis:Url");
+    public static string RedisUrl => _configuration["Redis:Url"];
 
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
