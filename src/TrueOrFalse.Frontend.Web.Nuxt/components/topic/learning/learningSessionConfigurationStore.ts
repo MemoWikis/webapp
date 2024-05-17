@@ -171,7 +171,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
     },
     getters: {
         maxQuestionCountIsZero(): boolean {
-            return this.maxSelectableQuestionCount == 0
+            return this.maxSelectableQuestionCount === 0
         }
     },
     actions: {
@@ -290,9 +290,9 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
             }
 
-            if (force)
+            if (force === true)
                 summary.isSelected = true
-            else if (!force)
+            else if (force === false)
                 summary.isSelected = false
             else
                 summary.isSelected = !summary.isSelected
@@ -346,12 +346,12 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
                 return
             }
 
-            if (force == null)
-                option.isSelected = !option.isSelected
-            else if (force)
+            if (force === true)
                 option.isSelected = true
-            else if (!force)
+            else if (force === false)
                 option.isSelected = false
+            else
+                option.isSelected = !option.isSelected
 
             this.checkQuestionFilterSelection()
             this.activeCustomSettings = true
@@ -526,7 +526,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         },
         selectPracticeOption(key: string, val: number) {
             const userStore = useUserStore()
-            if (!userStore.isLoggedIn && val == 2 && key == 'questionOrder') {
+            if (!userStore.isLoggedIn && val === 2 && key === 'questionOrder') {
                 userStore.openLoginModal()
                 return
             }
