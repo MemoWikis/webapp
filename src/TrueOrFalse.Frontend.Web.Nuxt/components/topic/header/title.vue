@@ -29,7 +29,7 @@ const groupedAuthors = computed(() => {
 function resize() {
     let element = textArea.value as VueElement
     if (element) {
-        element.style.height = "56px"
+        element.style.height = "42px"
         element.style.height = element.scrollHeight + "px"
     }
 }
@@ -52,7 +52,6 @@ onBeforeMount(() => {
             topicStore.contentHasChanged = true
         }
     })
-
 })
 
 onMounted(async () => {
@@ -79,11 +78,56 @@ const { isMobile } = useDevice()
 
 const topic = useState<Topic>('topic')
 
+const viewsLabel = computed(() => {
+    if (topicStore.views === 1)
+        return `1 Aufruf`
+
+    let viewCount = topicStore.views.toString()
+
+    if (topicStore.views >= 10000) {
+        const formatter = new Intl.NumberFormat('de-DE')
+        viewCount = formatter.format(topicStore.views)
+    }
+    return `${viewCount} Aufrufe`
+})
+
+function getLetterValuation(str: string) {
+    const slimLetters = ['I', 'J', 'f', 'i', 'j', 'l', 'r', 't']
+    let points = 0
+    for (let i = 0; i < str.length; i++) {
+        const currentLetterIsSmall = slimLetters.includes(str[i])
+
+        if (currentLetterIsSmall)
+            points += 1
+        else
+            points += 2
+
+        continue
+    }
+    return points
+}
+
+const topicTitle = ref()
+
+const titleFontSizeStyle = computed(() => {
+    if (topicTitle.value == null)
+        return
+
+    const points = getLetterValuation(topicStore.name)
+    const rating = (topicTitle.value.clientWidth - (topicTitle.value.clientWidth / 10) + 5) / points
+
+    if (rating > 10)
+        return "font-size: 35px;"
+    else if (rating <= 10 && rating > 4)
+        return "font-size: 28px;"
+    return "font-size: 24px"
+})
+
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
-        <h1 id="TopicTitle">
+        <h1 id="TopicTitle" ref="topicTitle" :style="titleFontSizeStyle">
             <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
                 v-model="topicStore.name" v-if="topicStore" :readonly="readonly"></textarea>
             <template v-else-if="topic">
@@ -91,24 +135,20 @@ const topic = useState<Topic>('topic')
             </template>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
-                v-tooltip="'Alle Unterthemen'">
-                <font-awesome-icon icon="fa-solid fa-sitemap" />
+            <div v-if="topicStore.childTopicCount > 0 && !isMobile" class="topic-detail clickable"
+                @click="scrollToChildTopics()" v-tooltip="'Alle Unterthemen'">
+                <font-awesome-icon icon="fa-solid fa-sitemap" class="topic-fa-icon" />
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
 
             <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
             </div>
 
-            <!-- <div v-if="topicStore.parentTopicCount > 0" class="topic-detail ">
-                <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
-                <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
-            </div> -->
             <VDropdown :distance="6">
-                <button v-show="topicStore.parentTopicCount > 0" class="parent-tree-btn">
+                <button v-show="topicStore.parentTopicCount > 1" class="parent-tree-btn">
 
                     <div class="topic-detail">
-                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
+                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" class="topic-fa-icon" />
                         <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
                     </div>
 
@@ -124,21 +164,21 @@ const topic = useState<Topic>('topic')
                         </LazyNuxtLink>
                     </template>
 
-
                 </template>
             </VDropdown>
 
             <div class="topic-detail-spacer"
-                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)">
+                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 1 && !isMobile || topicStore.parentTopicCount > 1)">
             </div>
 
             <div v-if="topicStore.views > 0" class="topic-detail">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-                <div class="topic-detail-label">{{ topicStore.views }}</div>
+                <div class="topic-detail-label">
+                    {{ viewsLabel }}
+                </div>
             </div>
 
             <div v-if="topicStore.views > 0 ||
-                    (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)" class="topic-detail-spacer">
+                (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)" class="topic-detail-spacer">
             </div>
 
             <template v-for="author in firstAuthors">
@@ -199,19 +239,20 @@ const topic = useState<Topic>('topic')
     color: @memo-grey-dark;
 
     #TopicTitle {
-        min-height: 60px;
+        min-height: 49px;
         margin: 0;
+        line-height: 1.1;
 
         textarea {
+            line-height: 1.1;
             width: 100%;
             border: none;
             outline: none;
             min-height: 18px;
             resize: none;
-            margin-top: -8px;
             padding: 0;
             padding-left: 0;
-            height: 54px;
+            height: 42px;
             overflow: hidden;
         }
     }
@@ -279,8 +320,12 @@ const topic = useState<Topic>('topic')
             flex-wrap: nowrap;
             align-items: center;
 
+            .topic-fa-icon {
+                margin-right: 6px;
+            }
+
             .topic-detail-label {
-                padding-left: 6px;
+                padding-left: 0px;
             }
 
             &.clickable {
