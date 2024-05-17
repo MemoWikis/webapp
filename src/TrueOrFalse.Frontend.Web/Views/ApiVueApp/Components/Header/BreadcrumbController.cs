@@ -7,13 +7,13 @@ public class BreadcrumbController(
     SessionUser _sessionUser,
     CrumbtrailService _crumbtrailService) : Controller
 {
-    public readonly record struct GetBreadcrumbParam(int wikiId, int currentCategoryId);
+    public readonly record struct GetBreadcrumbParam(int WikiId, int CurrentCategoryId);
 
     [HttpPost]
     public Breadcrumb GetBreadcrumb([FromBody] GetBreadcrumbParam param)
     {
-        var wikiId = param.wikiId;
-        int currentCategoryId = param.currentCategoryId;
+        var wikiId = param.WikiId;
+        int currentCategoryId = param.CurrentCategoryId;
 
         var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
@@ -56,7 +56,7 @@ public class BreadcrumbController(
         {
             var personalWikiId = _sessionUser.User.StartTopicId;
             personalWiki.Id = personalWikiId;
-            personalWiki.Name = EntityCache.GetCategory(personalWikiId).Name;
+            personalWiki.Name = EntityCache.GetCategory(personalWikiId)?.Name;
         }
         else
         {
@@ -84,19 +84,15 @@ public class BreadcrumbController(
         };
     }
 
-    public class Breadcrumb
-    {
-        public int NewWikiId { get; set; }
-        public BreadcrumbItem PersonalWiki { get; set; }
-        public List<BreadcrumbItem> Items { get; set; }
-        public BreadcrumbItem RootTopic { get; set; }
-        public BreadcrumbItem CurrentTopic { get; set; }
-        public bool BreadcrumbHasGlobalWiki { get; set; }
-        public bool IsInPersonalWiki { get; set; }
-    }
-    public record struct BreadcrumbItem
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-    }
+    public record struct Breadcrumb(
+        int NewWikiId,
+        BreadcrumbItem PersonalWiki,
+        List<BreadcrumbItem> Items,
+        BreadcrumbItem RootTopic,
+        BreadcrumbItem CurrentTopic,
+        bool BreadcrumbHasGlobalWiki,
+        bool IsInPersonalWiki);
+
+    public record struct BreadcrumbItem(string Name, int Id);
+
 }
