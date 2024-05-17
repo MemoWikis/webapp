@@ -1,30 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
-public class ImageStore : IRegisterAsInstancePerLifetime
+public class ImageStore(
+    ImageMetaDataWritingRepo _imgMetaDataWritingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo) : IRegisterAsInstancePerLifetime
 {
-    private readonly ImageMetaDataWritingRepo _imgMetaDataWritingRepo;
-    private readonly Logg _logg;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public ImageStore(
-        ImageMetaDataWritingRepo imgMetaDataWritingRepo,
-        Logg logg,
-        IHttpContextAccessor httpContextAccessor,
-        QuestionReadingRepo questionReadingRepo,
-        IWebHostEnvironment webHostEnvironment
-    )
-    {
-        _imgMetaDataWritingRepo = imgMetaDataWritingRepo;
-        _logg = logg;
-        _httpContextAccessor = httpContextAccessor;
-        _questionReadingRepo = questionReadingRepo;
-        _webHostEnvironment = webHostEnvironment;
-    }
-
     public void RunWikimedia(
         string imageWikiFileName,
         int typeId,
@@ -52,8 +33,8 @@ public class ImageStore : IRegisterAsInstancePerLifetime
         ImageType imageType,
         int userId) where T : IImageSettings
     {
-        var imageSettings = Activator.CreateInstance<T>();
-
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
+            .Create<T>(typeId);
         RunWikimedia(imageWikiFileName, typeId, imageType, userId, imageSettings);
     }
 

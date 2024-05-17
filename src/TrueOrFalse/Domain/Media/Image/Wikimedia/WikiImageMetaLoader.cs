@@ -1,87 +1,85 @@
-﻿using System.Net;
+﻿using System.Globalization;
+using System.Net;
 using System.Web;
 using Newtonsoft.Json.Linq;
 
-namespace TrueOrFalse;
-
-public class WikiImageMetaLoader
+namespace TrueOrFalse
 {
-    public static WikiImageMeta Run(
-        string fileNameOrUrl,
-        int imgWidth = 1024,
-        string host = "commons.wikimedia.org")
+    public class WikiImageMetaLoader
     {
-        fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
-
-        if (String.IsNullOrEmpty(fileNameOrUrl))
-            return new WikiImageMeta { ImageNotFound = true };
-
-        var fileName = WikiApiUtils.ExtractFileNameFromUrl(fileNameOrUrl);
-        var url =
-            "http://" + host + "/w/api.php?action=query" +
-            "&prop=imageinfo" +
-            "&format=json" +
-            "&iiprop=timestamp|user|userid|url|size|metadata|sha1" +
-            "&iilimit=1" + //return 1 revision
-            "&iiextmetadatalanguage=de" +
-            "&iiurlwidth=688" +
-            "&titles=File:" + HttpUtility.UrlEncode(fileName);
-        System.Net.ServicePointManager.SecurityProtocol =
-            System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls12;
-        var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
-        SetUserAgent(webRequest);
-
-        string resultString;
-        using (var response = webRequest.GetResponse())
+        public static WikiImageMeta Run(
+            string fileNameOrUrl,
+            int imgWidth = 1024,
+            string host = "commons.wikimedia.org")
         {
-            var stream = new StreamReader(response.GetResponseStream());
-            resultString = stream.ReadToEnd();
-        }
+            fileNameOrUrl = HttpUtility.UrlDecode(fileNameOrUrl);
 
-        var jsonResult = JObject.Parse(resultString);
-        var page = jsonResult["query"]["pages"];
+            if (string.IsNullOrEmpty(fileNameOrUrl))
+                return new WikiImageMeta { ImageNotFound = true };
 
-        // if json result does not contain "imageinfo", try api from host same as the image file name host.
-        if (((ICollection<string>)page["GetDynamicMemberNames"].Value<ICollection<string>>())
-            .All(x =>
-                x != "imageinfo"))
-        {
-            if (WikiApiUtils.ExtractDomain(host) == "commons.wikimedia.org")
+            var fileName = WikiApiUtils.ExtractFileNameFromUrl(fileNameOrUrl);
+            var url =
+                $"https://{host}/w/api.php?action=query&prop=imageinfo&format=json" +
+                "&iiprop=timestamp|user|userid|url|size|metadata|sha1" +
+                "&iilimit=1&iiextmetadatalanguage=de" +
+                $"&iiurlwidth={imgWidth}" +
+                $"&titles=File:{HttpUtility.UrlEncode(fileName)}";
+
+            var webRequest = (HttpWebRequest)WebRequest.Create(url);
+            SetUserAgent(webRequest);
+
+            string resultString;
+            using (var response = webRequest.GetResponse())
+            using (var stream = new StreamReader(response.GetResponseStream()))
             {
-                var newTryHost = WikiApiUtils.ExtractDomain(fileNameOrUrl);
-                if (!String.IsNullOrEmpty(newTryHost) && newTryHost != "commons.wikimedia.org")
-                    return Run(fileNameOrUrl, imgWidth, newTryHost);
+                resultString = stream.ReadToEnd();
             }
 
-            return new WikiImageMeta { ImageNotFound = true };
+            var jsonResult = JObject.Parse(resultString);
+            var page = jsonResult["query"]["pages"].First;
+
+            // Handle no imageinfo in JSON
+            if (page.First["imageinfo"] == null)
+            {
+                var newTryHost = WikiApiUtils.ExtractDomain(fileNameOrUrl);
+                if (!string.IsNullOrEmpty(newTryHost) && newTryHost != host)
+                    return Run(fileNameOrUrl, imgWidth, newTryHost);
+
+                return new WikiImageMeta { ImageNotFound = true };
+            }
+
+            var imageInfo = page.First["imageinfo"].First;
+            var timestamp = (string)imageInfo["timestamp"];
+
+            CultureInfo culture = CultureInfo.InvariantCulture;
+            DateTime dateTime = DateTime.ParseExact(timestamp, "MM/dd/yyyy HH:mm:ss", culture);
+
+            return new WikiImageMeta
+            {
+                ApiHost = host,
+                PageId = (int)page.First["pageid"],
+                PageNamespace = (int)page.First["ns"],
+                User = (string)imageInfo["user"],
+                UserId = (string)imageInfo["userid"],
+                ImageTitle = (string)page.First["title"],
+                ImageRepository = (string)page.First["imagerepository"],
+                ImageTimeStamp = dateTime,
+                ImageOriginalWidth = (int)imageInfo["width"],
+                ImageOriginalHeight = (int)imageInfo["height"],
+                ImageOriginalUrl = (string)imageInfo["url"],
+                ImageUrlDescription = (string)imageInfo["descriptionurl"],
+                ImageWidth = imgWidth,
+                ImageHeight = (int)imageInfo["height"] * imgWidth / (int)imageInfo["width"],
+                ImageUrl = (string)imageInfo["thumburl"],
+                JSonResult = resultString
+            };
         }
 
-        return new WikiImageMeta
+        public static void SetUserAgent(HttpWebRequest webRequest)
         {
-            ApiHost = host,
-            PageId = page["pageid"].Value<int>(),
-            PageNamespace = page["pageName"].Value<int>(),
-            User = page["pageName"].Value<string>(),
-            UserId = page["userid"].Value<string>(),
-            ImageTitle = page["title"].Value<string>(),
-            ImageRepository = page["imagerepository"].Value<string>(),
-            ImageTimeStamp = DateTime.Parse(page["imageinfo"][0]["timestamp"].Value<string>()
-                .Replace('T', ' ')
-                .Replace('Z', ' ')),
-            ImageOriginalWidth = page["imageinfo"][0]["width"].Value<int>(),
-            ImageOriginalHeight = page["imageinfo"][0]["height"].Value<int>(),
-            ImageOriginalUrl = page["imageinfo"][0]["url"].Value<string>(),
-            ImageUrlDescription = page["imageinfo"][0]["descriptionurl"].Value<string>(),
-            ImageWidth = page["imageinfo"][0]["thumbwidth"].Value<int>(),
-            ImageHeight = page["imageinfo"][0]["thumbheight"].Value<int>(),
-            ImageUrl = page["imageinfo"][0]["thumburl"].Value<string>(),
-            JSonResult = resultString
-        };
-    }
-
-    public static void SetUserAgent(HttpWebRequest webRequest)
-    {
-        webRequest.UserAgent =
-            "MemuchoBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemuchoImageLoaderLib/1.1";
+            webRequest.UserAgent =
+                "MemuchoBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemuchoImageLoaderLib/1.1";
+            webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+        }
     }
 }
