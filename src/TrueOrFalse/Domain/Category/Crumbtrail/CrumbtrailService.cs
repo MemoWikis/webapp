@@ -62,17 +62,18 @@
         }
     }
 
-    private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
-    {
-        return GraphService.VisibleAscendants(category.Id, _permissionCheck).Any(c => c == root);
-    }
+    private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root) =>
+      GraphService
+          .VisibleAscendants(category.Id, _permissionCheck)
+          .Any(c => c == root);
+
 
     private void AddBreadcrumbParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
     {
-        if (_permissionCheck.CanView(categoryCacheItem))
-            crumbtrail.Add(categoryCacheItem);
-        else
+        if (_permissionCheck.CanView(categoryCacheItem) == false)
             return;
+
+        crumbtrail.Add(categoryCacheItem);
 
         if (root == categoryCacheItem)
             return;
@@ -88,8 +89,8 @@
 
     private static List<CategoryCacheItem> OrderParentList(IList<CategoryCacheItem> parents, int wikiCreatorId)
     {
-        var parentsWithWikiCreator = parents.Where(c => c.Creator.Id == wikiCreatorId).ToList();
-        var parentsWithoutWikiCreator = parents.Where(c => c.Creator.Id != wikiCreatorId).ToList();
+        var parentsWithWikiCreator = parents.Where(c => c.Creator.Id == wikiCreatorId);
+        var parentsWithoutWikiCreator = parents.Where(c => c.Creator.Id != wikiCreatorId);
 
         var orderedParents = new List<CategoryCacheItem>();
         orderedParents.AddRange(parentsWithWikiCreator);
@@ -114,7 +115,7 @@
 
     private bool IsCurrentWikiValid(int currentWikiId, IList<CategoryCacheItem> parents) =>
         parents.Any(c => c.Id == currentWikiId)
-        && currentWikiId > 0 
+        && currentWikiId > 0
         && _permissionCheck.CanView(EntityCache.GetCategory(currentWikiId));
 
 
