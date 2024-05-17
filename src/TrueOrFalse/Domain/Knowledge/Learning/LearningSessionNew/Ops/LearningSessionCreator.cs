@@ -331,12 +331,10 @@
 
         if (_sessionUser.IsLoggedIn)
         {
-            var questionValuation =
-                allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == question.Id);
+            var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == question.Id);
 
             questionProperties = FilterByWuwi(questionValuation, config, questionProperties);
-            questionProperties =
-                FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
+            questionProperties = FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
         }
         else
         {
