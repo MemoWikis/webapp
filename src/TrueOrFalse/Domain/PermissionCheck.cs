@@ -26,9 +26,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     //setter is for tests
     public bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public bool CanView(CategoryCacheItem category) => CanView(_userId, category);
+    public bool CanView(CategoryCacheItem? category) => CanView(_userId, category);
 
-    public bool CanView(int userId, CategoryCacheItem category)
+    public bool CanView(int userId, CategoryCacheItem? category)
     {
         if (category == null)
             return false;

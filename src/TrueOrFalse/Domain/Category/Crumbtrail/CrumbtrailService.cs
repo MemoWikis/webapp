@@ -5,23 +5,19 @@
     public Crumbtrail BuildCrumbtrail(CategoryCacheItem category, CategoryCacheItem root)
     {
         var result = new Crumbtrail(category, root);
+
         if (!category.IsStartPage())
         {
             var parents = category.Parents();
             var rootWikiParent = parents.FirstOrDefault(c => c == root);
             parents = OrderParentList(parents, root.Creator.Id);
+
             if (rootWikiParent != null)
                 AddBreadcrumbParent(result, rootWikiParent, root);
             else
-                foreach (var parent in parents)
-                {
-                    if (result.Rootfound)
-                        break;
-                    if (IsLinkedToRoot(parent, root))
-                        AddBreadcrumbParent(result, parent, root);
-                }
+                AddBreadcrumbParents(result, parents, root);
 
-            BreadCrumbtrailCorrectnessCheck(result.Items, category);
+            CheckBreadcrumbTrailCorrectness(result.Items, category);
         }
 
         result.Items = result.Items.Reverse().ToList();
@@ -29,11 +25,9 @@
         return result;
     }
 
-    private void BreadCrumbtrailCorrectnessCheck(
-        IList<CrumbtrailItem> crumbtrailItems,
-        CategoryCacheItem category)
+    private void CheckBreadcrumbTrailCorrectness(IList<CrumbtrailItem> crumbtrailItems, CategoryCacheItem category)
     {
-        if (crumbtrailItems == null || crumbtrailItems.Count == 0)
+        if (crumbtrailItems.Count == 0)
             return;
 
         if (category.Parents().All(c => c.Id != crumbtrailItems[0].Category.Id))
@@ -47,8 +41,7 @@
             var nextItemId = crumbtrailItems[i + 1].Category.Id;
 
             if (!_permissionCheck.CanView(categoryCacheItem))
-                Logg.r.Error("Breadcrumb - {currentCategoryId}: visibility/permission",
-                    category.Id);
+                Logg.r.Error("Breadcrumb - {currentCategoryId}: visibility/permission", category.Id);
 
             if (categoryCacheItem.Parents().All(c => c.Id != nextItemId))
                 Logg.r.Error(
@@ -57,23 +50,30 @@
         }
     }
 
-    private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root)
+    private void AddBreadcrumbParents(Crumbtrail crumbtrail, IList<CategoryCacheItem> parents, CategoryCacheItem root)
     {
-        var isLinkedToRoot = GraphService.VisibleAscendants(category.Id, _permissionCheck)
-            .Any(c => c == root);
-        if (isLinkedToRoot)
-            return true;
-        return false;
+        foreach (var parent in parents)
+        {
+            if (crumbtrail.Rootfound)
+                break;
+
+            if (IsLinkedToRoot(parent, root))
+                AddBreadcrumbParent(crumbtrail, parent, root);
+        }
     }
 
-    private void AddBreadcrumbParent(
-        Crumbtrail crumbtrail,
-        CategoryCacheItem categoryCacheItem,
-        CategoryCacheItem root)
+    private bool IsLinkedToRoot(CategoryCacheItem category, CategoryCacheItem root) =>
+      GraphService
+          .VisibleAscendants(category.Id, _permissionCheck)
+          .Any(c => c == root);
+
+
+    private void AddBreadcrumbParent(Crumbtrail crumbtrail, CategoryCacheItem categoryCacheItem, CategoryCacheItem root)
     {
-        if (_permissionCheck.CanView(categoryCacheItem))
-            crumbtrail.Add(categoryCacheItem);
-        else return;
+        if (_permissionCheck.CanView(categoryCacheItem) == false)
+            return;
+
+        crumbtrail.Add(categoryCacheItem);
 
         if (root == categoryCacheItem)
             return;
@@ -84,31 +84,14 @@
         if (parents.Any(c => c.Id == root.Id))
             crumbtrail.Add(root);
         else
-            foreach (var parent in parents)
-            {
-                if (crumbtrail.Rootfound)
-                    break;
-
-                if (parent == root)
-                {
-                    if (_permissionCheck.CanView(parent))
-                        crumbtrail.Add(parent);
-                    break;
-                }
-
-                if (IsLinkedToRoot(parent, root))
-                    AddBreadcrumbParent(crumbtrail, parent, root);
-            }
+            AddBreadcrumbParents(crumbtrail, parents, root);
     }
 
-    private static List<CategoryCacheItem> OrderParentList(
-        IList<CategoryCacheItem> parents,
-        int wikiCreatorId)
+    private static List<CategoryCacheItem> OrderParentList(IList<CategoryCacheItem> parents, int wikiCreatorId)
     {
-        var parentsWithWikiCreator =
-            parents.Where(c => c.Creator.Id == wikiCreatorId).Select(c => c);
-        var parentsWithoutWikiCreator =
-            parents.Where(c => c.Creator.Id != wikiCreatorId).Select(c => c);
+        var parentsWithWikiCreator = parents.Where(c => c.Creator.Id == wikiCreatorId);
+        var parentsWithoutWikiCreator = parents.Where(c => c.Creator.Id != wikiCreatorId);
+
         var orderedParents = new List<CategoryCacheItem>();
         orderedParents.AddRange(parentsWithWikiCreator);
         orderedParents.AddRange(parentsWithoutWikiCreator);
@@ -119,38 +102,48 @@
     public CategoryCacheItem GetWiki(CategoryCacheItem categoryCacheItem, SessionUser sessionUser)
     {
         var currentWikiId = sessionUser.CurrentWikiId;
+
         if (categoryCacheItem.IsStartPage())
             return categoryCacheItem;
 
         var parents = GraphService.VisibleAscendants(categoryCacheItem.Id, _permissionCheck);
-        if (parents.All(c => c.Id != currentWikiId) || currentWikiId <= 0 ||
-            !_permissionCheck.CanView(EntityCache.GetCategory(currentWikiId)))
-        {
-            if (categoryCacheItem.Creator != null)
-            {
-                var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
-                if (_permissionCheck.CanView(EntityCache.GetCategory(creatorWikiId)))
-                {
-                    if (parents.Any(c => c.Id == creatorWikiId))
-                    {
-                        var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId);
-                        return newWiki;
-                    }
-
-                    if (sessionUser.IsLoggedIn)
-                    {
-                        var userWikiId =
-                            _extendedUserCache.GetUser(sessionUser.UserId).StartTopicId;
-                        var userWiki = EntityCache.GetCategory(userWikiId);
-                        if (parents.Any(c => c == userWiki))
-                            return userWiki;
-                    }
-                }
-            }
-
-            return RootCategory.Get;
-        }
+        if (!IsCurrentWikiValid(currentWikiId, parents))
+            return GetAlternativeWiki(categoryCacheItem, sessionUser, parents);
 
         return EntityCache.GetCategory(currentWikiId);
     }
+
+    private bool IsCurrentWikiValid(int currentWikiId, IList<CategoryCacheItem> parents) =>
+        parents.Any(c => c.Id == currentWikiId)
+        && currentWikiId > 0
+        && _permissionCheck.CanView(EntityCache.GetCategory(currentWikiId));
+
+
+    private CategoryCacheItem GetAlternativeWiki(CategoryCacheItem categoryCacheItem, SessionUser sessionUser, IList<CategoryCacheItem> parents)
+    {
+        var creatorWikiId = categoryCacheItem.Creator.StartTopicId;
+        if (_permissionCheck.CanView(EntityCache.GetCategory(creatorWikiId)))
+        {
+            var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId) ?? GetUserWiki(sessionUser, parents);
+            if (newWiki != null)
+                return newWiki;
+        }
+
+        return parents.FirstOrDefault(p => p.IsStartPage()) ?? RootCategory.Get;
+    }
+
+    private CategoryCacheItem? GetUserWiki(SessionUser sessionUser, IList<CategoryCacheItem> parents)
+    {
+        if (!sessionUser.IsLoggedIn)
+            return null;
+
+        var userWikiId = _extendedUserCache.GetUser(sessionUser.UserId).StartTopicId;
+        var userWiki = EntityCache.GetCategory(userWikiId);
+
+        if (parents.Any(c => c.Id == userWiki?.Id))
+            return userWiki;
+
+        return null;
+    }
+
 }

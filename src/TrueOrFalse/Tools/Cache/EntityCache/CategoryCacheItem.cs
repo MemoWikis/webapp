@@ -150,16 +150,12 @@ public class CategoryCacheItem : IPersistable
     public bool IsStartPage()
     {
         if (Id == RootCategory.RootCategoryId)
-        {
             return true;
-        }
 
-        if (Creator != null)
-        {
-            return Id == Creator.StartTopicId;
-        }
+        if (Parents().Count == 0)
+            return true;
 
-        return false;
+        return Id == Creator.StartTopicId;
     }
 
     public virtual List<CategoryCacheItem> Parents()
