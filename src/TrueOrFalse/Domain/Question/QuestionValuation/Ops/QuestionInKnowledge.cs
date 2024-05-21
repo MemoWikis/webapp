@@ -20,11 +20,6 @@ public class QuestionInKnowledge(
         UpdateRelevancePersonal(questionId, userId);
     }
 
-    public void Pin(IList<QuestionCacheItem> questions, User user)
-    {
-        UpdateRelevancePersonal(questions, user, 50);
-    }
-
     public void Unpin(int questionId, int userId)
     {
         UpdateRelevancePersonal(questionId, userId, -1);
@@ -64,37 +59,6 @@ public class QuestionInKnowledge(
                 " 1 where id = " +
                 question.Creator.Id + ";")
             .ExecuteUpdate();
-    }
-
-    private void UpdateRelevancePersonal(
-        IList<QuestionCacheItem> questions,
-        User user,
-        int relevance = 50)
-    {
-        var questionValuations =
-            _questionValuationReadingRepo.GetByQuestionIds(questions.GetIds(), user.Id);
-
-        foreach (var question in questions)
-        {
-            CreateOrUpdateValuation(question, questionValuations.ByQuestionId(question.Id), user.Id,
-                relevance);
-            ChangeTotalInOthersWishknowledge(relevance == 50, user.Id, question);
-            _nhibernateSession.CreateSQLQuery(GenerateRelevancePersonal(question.Id))
-                .ExecuteUpdate();
-
-            new ProbabilityUpdate_Valuation(_nhibernateSession,
-                    _questionValuationReadingRepo,
-                    _probabilityCalcSimple1,
-                    _answerRepo)
-                .Run(question, user, _questionReadingRepo);
-        }
-
-        UpdateTotalRelevancePersonalInCache(questions);
-        SetUserWishCountQuestions(user.Id);
-
-        var creatorGroups = questions.Select(q => new UserTinyModel(q.Creator)).GroupBy(c => c.Id);
-        foreach (var creator in creatorGroups)
-            _reputationUpdate.ForUser(creator.First());
     }
 
     private void UpdateRelevancePersonal(int questionId, int userId, int relevance = 50)
@@ -217,7 +181,7 @@ public class QuestionInKnowledge(
             };
 
             _questionValuationReadingRepo.Create(newQuestionVal);
-            ;
+            ExtendedUserCacheItem.AddOrUpdateQuestionValuations(_sessionUser.User, newQuestionVal.ToCacheItem());
         }
         else
         {
@@ -225,6 +189,7 @@ public class QuestionInKnowledge(
                 questionValuation.RelevancePersonal = relevancePersonal;
 
             _questionValuationWritingRepo.Update(questionValuation);
+            ExtendedUserCacheItem.AddOrUpdateQuestionValuations(_sessionUser.User, questionValuation!.ToCacheItem());
         }
 
         _questionValuationReadingRepo.Flush();

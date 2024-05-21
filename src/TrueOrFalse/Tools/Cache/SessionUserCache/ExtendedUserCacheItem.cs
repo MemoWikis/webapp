@@ -16,4 +16,33 @@ public class ExtendedUserCacheItem : UserCacheItem
 
         return sessionUserCacheItem;
     }
+
+    public static void AddOrUpdateQuestionValuations(ExtendedUserCacheItem extendedUser,
+        QuestionValuationCacheItem questionValuationCacheItem)
+    {
+        extendedUser.QuestionValuations.TryGetValue(questionValuationCacheItem.Question.Id, out var valuation);
+        bool result;
+
+        if (valuation == null)
+        {
+            result = extendedUser.QuestionValuations.TryAdd(questionValuationCacheItem.Question.Id, questionValuationCacheItem);
+
+            if (result == false)
+                Logg.r.Error(
+                    $"QuestionValuationCacheItem with Id {questionValuationCacheItem.Question.Id}" +
+                    $" could not be added in {nameof(AddOrUpdateQuestionValuations)}");
+        }
+        else
+        {
+            result = extendedUser.QuestionValuations.TryUpdate(
+                questionValuationCacheItem.Question.Id,
+                questionValuationCacheItem,
+                valuation);
+
+            if (result == false)
+                Logg.r.Error(
+                    $"QuestionValuationCacheItem with Id {questionValuationCacheItem.Question.Id} " +
+                    $"could not be updated in {nameof(AddOrUpdateQuestionValuations)}");
+        }
+    }
 }
