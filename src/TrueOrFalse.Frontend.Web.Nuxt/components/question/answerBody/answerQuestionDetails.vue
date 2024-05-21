@@ -772,6 +772,8 @@ async function initData(e: AnswerQuestionDetailsResult) {
 const { $logger } = useNuxtApp()
 
 async function loadData() {
+    await nextTick()
+    return
     if (props.id == deleteQuestionStore.deletedQuestionId)
         return
     const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
@@ -970,7 +972,8 @@ watch(() => userStore.isLoggedIn, () => {
                             <div class="tooltip-header">
                                 Infos zur Lizenz: {{ license.shortText }}
                             </div>
-                            Autor: <NuxtLink v-if="creator.id > 0" :to="$urlHelper.getUserUrl(creator.name, creator.id)">
+                            Autor: <NuxtLink v-if="creator.id > 0"
+                                :to="$urlHelper.getUserUrl(creator.name, creator.id)">
                                 {{ creator.name }} </NuxtLink>
                             <div v-html="license.fullText"></div>
                         </template>

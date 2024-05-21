@@ -20,62 +20,38 @@ public class AnswerBodyController(
         return answerBody;
     }
 
-    public readonly record struct SendAnswerToLearningSessionJson(
+    public readonly record struct SendAnswerToLearningSessionParam(
         int Id,
         Guid QuestionViewGuid,
         string Answer,
         bool InTestMode);
 
     [HttpPost]
-    public LearningResult SendAnswerToLearningSession(
-        [FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
+    public LearningResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionParam param)
     {
-        return GetLearningResult(sendAnswerToLearningSession.Id,
-            sendAnswerToLearningSession.QuestionViewGuid,
-            sendAnswerToLearningSession.Answer,
-            sendAnswerToLearningSession.InTestMode);
+        return GetLearningResult(
+            param.Id,
+            param.QuestionViewGuid,
+            param.Answer,
+            param.InTestMode);
     }
 
-    public readonly record struct MarkAsCorrectJson(
+    public readonly record struct MarkAsCorrectParam(
         int Id,
         Guid QuestionViewGuid,
         int AmountOfTries);
 
     [HttpPost]
-    public bool MarkAsCorrect([FromBody] MarkAsCorrectJson m)
+    public bool MarkAsCorrect([FromBody] MarkAsCorrectParam param)
     {
-        var result = m.AmountOfTries == 0
-            ? _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, 1,
+        var result = param.AmountOfTries == 0
+            ? _answerQuestion.SetCurrentStepAsCorrect(param.Id, _sessionUser.UserId, param.QuestionViewGuid,
                 countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, m.AmountOfTries,
-                true);
+            : _answerQuestion.SetCurrentStepAsCorrect(param.Id, _sessionUser.UserId, param.QuestionViewGuid,
+                countLastAnswerAsCorrect: true);
 
         return result != null;
     }
-
-    [HttpPost]
-    public void CountLastAnswerAsCorrect(
-        int id,
-        Guid questionViewGuid,
-        int interactionNumber,
-        int? testSessionId,
-        int? learningSessionId,
-        string learningSessionStepGuid) =>
-        CountLastAnswerAsCorrect(id, questionViewGuid, interactionNumber, testSessionId,
-            learningSessionId, learningSessionStepGuid);
-
-    [HttpPost]
-    public void CountUnansweredAsCorrect(
-        int id,
-        Guid questionViewGuid,
-        int interactionNumber,
-        int millisecondsSinceQuestionView,
-        string learningSessionStepGuid,
-        int? testSessionId,
-        int? learningSessionId) =>
-        CountUnansweredAsCorrect(id, questionViewGuid, interactionNumber,
-            millisecondsSinceQuestionView, learningSessionStepGuid, testSessionId,
-            learningSessionId);
 
     public readonly record struct GetSolutionJson(
         int Id,
@@ -133,8 +109,13 @@ public class AnswerBodyController(
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
-        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, questionViewGuid, 0,
-            0, 0, new Guid(), isTestMode);
+        var result = _answerQuestion.Run(
+            id, 
+            answer, 
+            _sessionUser.UserId, 
+            questionViewGuid, 
+            0,
+            0);
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
 
