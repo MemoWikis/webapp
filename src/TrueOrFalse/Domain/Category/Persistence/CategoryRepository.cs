@@ -2,77 +2,33 @@
 using NHibernate.Criterion;
 using TrueOrFalse.Search;
 
-public class CategoryRepository : RepositoryDbBase<Category>
+public class CategoryRepository(
+    ISession session,
+    CategoryChangeRepo categoryChangeRepo,
+    UpdateQuestionCountForCategory updateQuestionCountForCategory,
+    UserReadingRepo userReadingRepo,
+    UserActivityRepo userActivityRepo)
+    : RepositoryDbBase<Category>(session)
 {
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly UpdateQuestionCountForCategory _updateQuestionCountForCategory;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly UserActivityRepo _userActivityRepo;
-
-    public enum CreateDeleteUpdate
-    {
-        Create = 1,
-        Delete = 2,
-        Update = 3
-    }
-
-    public CategoryRepository(
-        NHibernate.ISession session,
-        CategoryChangeRepo categoryChangeRepo,
-        UpdateQuestionCountForCategory updateQuestionCountForCategory,
-        UserReadingRepo userReadingRepo,
-        UserActivityRepo userActivityRepo)
-        : base(session)
-    {
-        _categoryChangeRepo = categoryChangeRepo;
-        _updateQuestionCountForCategory = updateQuestionCountForCategory;
-        _userReadingRepo = userReadingRepo;
-        _userActivityRepo = userActivityRepo;
-    }
-
     /// <summary>
     ///     Add Category in Database,
     /// </summary>
     /// <param name="category"></param>
     public override void Create(Category category)
     {
-        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
-        {
-            related.DateModified = related.DateCreated = DateTime.Now;
-        }
-
         base.Create(category);
         Flush();
 
-        UserActivityAdd.CreatedCategory(category, _userReadingRepo, _userActivityRepo);
+        UserActivityAdd.CreatedCategory(category, userReadingRepo, userActivityRepo);
 
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        _categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
-
-        if (category.ParentCategories().Count != 1)
-        {
-            Logg.r.Warning("the parentcounter is != 1");
-        }
-
-        var parentCategories = category.ParentCategories();
-
-        if (parentCategories.Count != 0)
-        {
-            _categoryChangeRepo.AddUpdateEntry(this, category, category.Creator?.Id ?? default, false,
-                 CategoryChangeType.Relations);
-        }
+        categoryChangeRepo.AddCreateEntry(this, category, category.Creator?.Id ?? -1);
 
         Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
             .CreateAsync(category)
             .ConfigureAwait(false));
-    }
-
-
-    public bool Exists(string categoryName)
-    {
-        return GetByName(categoryName).Any(x => x.Type == CategoryType.Standard);
     }
 
     public IList<Category> GetAllEager()
@@ -107,6 +63,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
             }
         }
+
         return result;
     }
 
@@ -118,8 +75,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
             query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
         }
 
-        var result = query.Left.JoinQueryOver<CategoryRelation>(s => s.CategoryRelations)
-            .Left.JoinQueryOver(x => x.RelatedCategory)
+        var result = query
             .List()
             .GroupBy(c => c.Id)
             .Select(c => c.First())
@@ -128,20 +84,9 @@ public class CategoryRepository : RepositoryDbBase<Category>
         foreach (var category in result)
         {
             NHibernateUtil.Initialize(category.Creator);
-            NHibernateUtil.Initialize(category.CategoryRelations);
         }
 
         return result;
-    }
-
-    public IList<Category> GetByIdsFromString(string idsString)
-    {
-        return idsString
-            .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(x => Convert.ToInt32(x))
-            .Select(GetById)
-            .Where(set => set != null)
-            .ToList();
     }
 
     public IList<Category> GetByName(string categoryName)
@@ -156,10 +101,10 @@ public class CategoryRepository : RepositoryDbBase<Category>
     public IList<Category> GetCategoriesIdsForRelatedCategory(Category relatedCategory)
     {
         var query = _session.QueryOver<CategoryRelation>()
-            .Where(r => r.RelatedCategory == relatedCategory);
+            .Where(r => r.Parent == relatedCategory);
 
         return query.List()
-            .Select(r => r.Category)
+            .Select(r => r.Child)
             .ToList();
     }
 
@@ -174,8 +119,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         var query = Session
             .QueryOver<CategoryRelation>()
-            .JoinAlias(c => c.RelatedCategory, () => relatedCategoryAlias)
-            .JoinAlias(c => c.Category, () => categoryAlias)
+            .JoinAlias(c => c.Parent, () => relatedCategoryAlias)
+            .JoinAlias(c => c.Child, () => categoryAlias)
             .Where(r => relatedCategoryAlias.Type == parentType
                         && relatedCategoryAlias.Id == parentId
                         && categoryAlias.Type == childrenType);
@@ -186,7 +131,7 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .IsLike(searchTerm);
         }
 
-        return query.Select(r => r.Category).List<Category>();
+        return query.Select(r => r.Child).List<Category>();
     }
 
     public IList<Category> GetIncludingCategories(Category category, bool includingSelf = true)
@@ -195,7 +140,8 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (includingSelf)
         {
-            includingCategories = includingCategories.Union(new List<Category> { category }).ToList();
+            includingCategories =
+                includingCategories.Union(new List<Category> { category }).ToList();
         }
 
         return includingCategories;
@@ -223,11 +169,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (authorId != 0 && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
+            categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type,
+                affectedParentIdsByMove);
         }
 
         Flush();
-        _updateQuestionCountForCategory.RunForJob(category, authorId);
+        updateQuestionCountForCategory.RunForJob(category, authorId);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -235,21 +182,18 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .ConfigureAwait(false);
         });
     }
+
     public void CreateOnlyDb(Category category)
     {
-        foreach (var related in category.ParentCategories().Where(x => x.DateCreated == default))
-        {
-            related.DateModified = related.DateCreated = DateTime.UtcNow.AddHours(2);
-        }
-
         base.Create(category);
         Flush();
 
-        _categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
+        categoryChangeRepo.AddCreateEntryDbOnly(this, category, category.Creator);
     }
+
     public void UpdateOnlyDb(
         Category category,
-        SessionUserCacheItem author = null,
+        ExtendedUserCacheItem author = null,
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,
@@ -260,11 +204,12 @@ public class CategoryRepository : RepositoryDbBase<Category>
 
         if (author != null && createCategoryChange)
         {
-            _categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type, affectedParentIdsByMove);
+            categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type,
+                affectedParentIdsByMove);
         }
 
         Flush();
-        _updateQuestionCountForCategory.RunOnlyDb(category);
+        updateQuestionCountForCategory.RunOnlyDb(category);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()
@@ -272,14 +217,4 @@ public class CategoryRepository : RepositoryDbBase<Category>
                 .ConfigureAwait(false);
         });
     }
-
-    public void UpdateAuthors(Category category)
-    {
-        var sql = "UPDATE category " +
-                  "SET AuthorIds = " + "'" + category.AuthorIds + "'" +
-                  " WHERE Id = " + category.Id;
-        _session.CreateSQLQuery(sql).ExecuteUpdate();
-    }
-
-
 }

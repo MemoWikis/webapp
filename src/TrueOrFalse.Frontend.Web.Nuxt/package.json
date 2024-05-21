@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -47,6 +47,7 @@
     "hast-util-to-html": "^8.0.3",
     "less-loader": "^11.1.0",
     "lowlight": "^2.7.0",
+    "nuxt-snackbar": "^1.0.4",
     "pinia": "^2.0.24",
     "pino": "^8.14.1",
     "pino-seq": "^1.0.0",
@@ -57,6 +58,6 @@
     "vue-final-modal": "^4.0.0-rc.7",
     "vue-tsc": "^1.0.9",
     "vue3-perfect-scrollbar": "^1.6.1",
-    "vue3-smooth-dnd": "^0.0.5"
+    "vue3-touch-events": "^4.1.8"
   }
 }

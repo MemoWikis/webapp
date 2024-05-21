@@ -1,11 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Hosting;
 using TrueOrFalse;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
@@ -96,7 +91,8 @@ public class QuestionCacheItem
                 }
 
                 var formattedMatchListAnswer = answerObject.Pairs.Aggregate("</br><ul>",
-                    (current, pair) => current + "<li>" + pair.ElementLeft.Text + " - " + pair.ElementRight.Text +
+                    (current, pair) => current + "<li>" + pair.ElementLeft.Text + " - " +
+                                       pair.ElementRight.Text +
                                        "</li>");
                 formattedMatchListAnswer += "</ul>";
                 return formattedMatchListAnswer;
@@ -116,8 +112,6 @@ public class QuestionCacheItem
 
         return answerText;
     }
-
-   
 
     public virtual string GetShortTitle(int length = 96)
     {
@@ -139,13 +133,16 @@ public class QuestionCacheItem
     {
         return false;
     }
-    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser(PermissionCheck permissionCheck)
+
+    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser(
+        PermissionCheck permissionCheck)
     {
         return Categories.Where(permissionCheck.CanView);
     }
-    public virtual bool IsInWishknowledge(int userId, SessionUserCache sessionUserCache)
+
+    public virtual bool IsInWishknowledge(int userId, ExtendedUserCache extendedUserCache)
     {
-        return sessionUserCache.IsQuestionInWishknowledge(userId, Id);
+        return extendedUserCache.IsQuestionInWishknowledge(userId, Id);
     }
 
     public virtual bool IsMediumQuestion()
@@ -205,7 +202,8 @@ public class QuestionCacheItem
         };
         if (!EntityCache.IsFirstStart)
         {
-            questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
+            questionCacheItem.References =
+                ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
         }
 
         return questionCacheItem;
@@ -219,19 +217,6 @@ public class QuestionCacheItem
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions)
     {
         return questions.Select(q => ToCacheQuestion(q));
-    }
-
-    public virtual string ToLomXml(CategoryRepository categoryRepository,
-        IActionContextAccessor contextAccessor,
-        IHttpContextAccessor httContextAccessor,
-        IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
-    {
-        return LomXml.From(this,
-            categoryRepository,
-            httContextAccessor,
-            actionContextAccessor,
-            webHostEnvironment);
     }
 
     public virtual int TotalAnswers()
@@ -272,9 +257,12 @@ public class QuestionCacheItem
     public virtual void UpdateReferences(IList<Reference> references)
     {
         var newReferences = ReferenceCacheItem
-            .ToReferenceCacheItems(references.Where(r => r.Id == -1 || r.Id == 0).ToList()).ToArray();
-        var removedReferences = References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
-        var existingReferenes = references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
+            .ToReferenceCacheItems(references.Where(r => r.Id == -1 || r.Id == 0).ToList())
+            .ToArray();
+        var removedReferences =
+            References.Where(r => references.All(r2 => r2.Id != r.Id)).ToArray();
+        var existingReferenes =
+            references.Where(r => References.Any(r2 => r2.Id == r.Id)).ToArray();
 
         newReferences.ToList().ForEach(r =>
         {
@@ -301,7 +289,8 @@ public class QuestionCacheItem
             reference.ReferenceText = existingReferenes[i].ReferenceText;
         }
     }
-    public virtual bool IsCreator(int userId, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
+
+    public virtual bool IsCreator(int userId)
     {
         return userId == Creator?.Id;
     }

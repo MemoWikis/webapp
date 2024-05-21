@@ -35,7 +35,7 @@
             return Id.Equals(default(int)) ? base.GetHashCode() : Id.GetHashCode();
         }
 
-        public static bool operator ==(Entity left, Entity right)
+        public static bool operator ==(Entity left, Entity? right)
         {
             return Equals(left, right);
         }

@@ -9,12 +9,18 @@ public class CategoryEditData_V2 : CategoryEditData
     private readonly ISession _nhibernateSession;
 
     //empty constructor is used for the JsonSerializer
-    public CategoryEditData_V2() { }
+    public CategoryEditData_V2()
+    {
+    }
+
     public CategoryEditData_V2(CategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
     }
-    public CategoryEditData_V2(Category category, bool imageWasUpdated, 
+
+    public CategoryEditData_V2(
+        Category category,
+        bool imageWasUpdated,
         int[] affectedParentIdsByMove,
         ISession nhibernateSession)
     {
@@ -25,13 +31,11 @@ public class CategoryEditData_V2 : CategoryEditData
         CustomSegments = category.CustomSegments;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-        CategoryRelations = category.CategoryRelations
-            .Select(cr => new CategoryRelation_EditData_V2(cr))
-            .ToList();
+        CategoryRelations = null;
         ImageWasUpdated = imageWasUpdated;
         _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;
-        AffectedParentIds = affectedParentIdsByMove ?? new int[]{};
+        AffectedParentIds = affectedParentIdsByMove ?? new int[] { };
     }
 
     public override string ToJson()

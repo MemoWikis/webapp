@@ -7,8 +7,8 @@ import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 import { useRootTopicChipStore } from './rootTopicChipStore'
 
 interface Props {
-	page: Page,
-	showSearch: boolean,
+	page: Page
+	showSearch: boolean
 	questionPageData?: {
 		primaryTopicName: string
 		primaryTopicUrl: string
@@ -23,8 +23,8 @@ const props = defineProps<Props>()
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 interface BreadcrumbItem {
-	Name: string
-	Id: number
+	name: string
+	id: number
 	width?: number
 }
 interface Breadcrumb {
@@ -45,42 +45,57 @@ const breadcrumbEl = ref<VueElement>()
 const breadcrumbWidth = ref('')
 
 function handleResize() {
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 	updateBreadcrumb()
 }
 
 function handleScroll() {
-	if (userStore.isLoggedIn || window?.pageYOffset > 105)
+	if (userStore.isLoggedIn || window?.scrollY > 105)
 		return
 	updateBreadcrumb()
 }
 const personalWiki = ref<BreadcrumbItem | null>(null)
+
 const isUpdating = ref(false)
+const shouldCalc = ref(true)
+const whiteOut = ref(true)
+const whiteOutTimer = ref()
+watch([isUpdating, shouldCalc], ([i, v]) => {
+	clearTimeout(whiteOutTimer.value)
+	if (i && v)
+		whiteOut.value = true
+	else
+		whiteOutTimer.value = setTimeout(() => {
+			whiteOut.value = false
+		}, 100)
+})
 async function updateBreadcrumb() {
 
 	isUpdating.value = true
 
 	await nextTick()
-	if (document.getElementById('BreadCrumb') != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
+	if (breadcrumbEl.value != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
 
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ? props.partialLeft.clientWidth - document.getElementById('BreadCrumb')!.clientHeight - 30 : props.partialLeft.clientWidth - (document.getElementById('BreadCrumb')!.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
-
+		const width = userStore.isLoggedIn ?
+			props.partialLeft.clientWidth - breadcrumbEl.value.clientHeight - 30 :
+			props.partialLeft.clientWidth - (breadcrumbEl.value.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 
-		if (document.getElementById('BreadCrumb')!.clientHeight > 30) {
+		if (breadcrumbEl.value.clientHeight > 30) {
 			shiftToStackedBreadcrumbItems()
-		} else if (document.getElementById('BreadCrumb')!.clientHeight <= 30) {
+		} else if (breadcrumbEl.value.clientHeight <= 30) {
 			insertToBreadcrumbItems()
 			await nextTick()
-			if (breadcrumbEl.value && document.getElementById('BreadCrumb')!.clientHeight > 30) {
+			if (breadcrumbEl.value && breadcrumbEl.value.clientHeight > 30) {
 				shiftToStackedBreadcrumbItems(false)
 			}
 		}
 	}
 	await nextTick()
 	isUpdating.value = false
+	maxWidth.value = computedMaxWidth.value
 }
 
 const rootWikiIsStacked = ref(false)
@@ -127,7 +142,7 @@ watch(() => topicStore.id, (newId, oldId) => {
 	if (newId > 0 && newId != oldId && props.page == Page.Topic) {
 		getBreadcrumb()
 	}
-})
+}, { immediate: true })
 
 watch(() => props.page, (newPage, oldPage) => {
 	if (oldPage != newPage && (newPage == Page.Topic && topicStore.id > 0))
@@ -136,27 +151,25 @@ watch(() => props.page, (newPage, oldPage) => {
 const rootTopicChipStore = useRootTopicChipStore()
 
 async function getBreadcrumb() {
+	shouldCalc.value = true
+
+	rootWikiIsStacked.value = false
 	breadcrumbItems.value = []
 	stackedBreadcrumbItems.value = []
 
 	await nextTick()
 
-	var sessionStorage = window.sessionStorage
+	const sessionStorage = window?.sessionStorage
 
 	if (topicStore.isWiki)
 		sessionStorage.setItem('currentWikiId', topicStore.id.toString())
-	var sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId')!)
-
-	var currentWikiId = 0;
-	if (!isNaN(sessionWikiId))
-		currentWikiId = sessionWikiId
+	const sessionWikiId = parseInt(sessionStorage.getItem('currentWikiId')!)
 
 	const data = {
-		wikiId: currentWikiId,
+		wikiId: !isNaN(sessionWikiId) ? sessionWikiId : 0,
 		currentCategoryId: topicStore.id,
 	}
-
-	if (props.page == Page.Topic) {
+	if (props.page == Page.Topic && topicStore.id > 0) {
 		const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
@@ -186,12 +199,18 @@ async function getBreadcrumb() {
 		personalWiki.value = result
 
 	}
-	if (personalWiki.value?.Id == 1 || breadcrumbItems.value.some(i => i.Id == 1))
+	if (personalWiki.value?.id == 1 || breadcrumbItems.value.some(i => i.id == 1))
 		rootTopicChipStore.showRootTopicChip = false
 	else rootTopicChipStore.showRootTopicChip = true
 
 	setPageTitle()
 	updateBreadcrumb()
+
+	await nextTick()
+	updateBreadcrumbTimer.value = setTimeout(() => {
+		updateBreadcrumb()
+		shouldCalc.value = false
+	}, 300)
 }
 
 function setPageTitle() {
@@ -239,17 +258,26 @@ watch(() => props.showSearch, (val) => {
 
 const { isMobile } = useDevice()
 const windowInnerWidth = ref(0)
+
+const updateBreadcrumbTimer = ref()
+
 onMounted(async () => {
 	await nextTick()
-
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 	await nextTick()
 	updateBreadcrumb()
+	await nextTick()
+	updateBreadcrumbTimer.value = setTimeout(() => {
+		updateBreadcrumb()
+		shouldCalc.value = false
+	}, 300)
 })
+
+onBeforeUnmount(() => clearTimeout(updateBreadcrumbTimer.value))
 
 const shrinkBreadcrumb = ref(false)
 watch(() => props.showSearch, (val) => {
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 
 	if (isMobile && val) {
 		shrinkBreadcrumb.value = true
@@ -260,7 +288,7 @@ watch(() => props.showSearch, (val) => {
 
 watch(() => userStore.isLoggedIn, async () => {
 
-	windowInnerWidth.value = window.innerWidth
+	windowInnerWidth.value = window?.innerWidth
 	await nextTick()
 	updateBreadcrumb()
 	await nextTick()
@@ -269,38 +297,77 @@ watch(() => userStore.isLoggedIn, async () => {
 })
 
 const { $urlHelper } = useNuxtApp()
+
+const lastBreadcrumbItem = ref()
+const computedMaxWidth = computed(() => {
+	let width = 150
+	if (lastBreadcrumbItem.value && !isUpdating.value && window != null) {
+		const leftOffset = lastBreadcrumbItem.value.getBoundingClientRect().left > 100 ? lastBreadcrumbItem.value.getBoundingClientRect().left : 100
+		const scrollTop = window.scrollY
+		let rightOffset = 10
+		if (userStore.isLoggedIn) {
+			rightOffset = 90
+		} else if (scrollTop > 59)
+			rightOffset = 80
+		const result = window.screen.width - leftOffset - rightOffset
+		if (result > 150)
+			return result
+	}
+	return width
+})
+
+const maxWidth = ref(150)
 </script>
 
 <template>
-	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl" :style="breadcrumbWidth"
-		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': isUpdating }"
+	<div v-if="breadcrumb != null && props.page == Page.Topic" id="BreadCrumb" ref="breadcrumbEl"
+		:style="breadcrumbWidth"
+		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">
 
-		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.Name, breadcrumb.personalWiki.Id)"
-			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.Name" v-if="breadcrumb.personalWiki"
-			:class="{ 'is-in-root-topic': topicStore.id == personalWiki?.Id }" aria-label="home button">
+		<VDropdown :distance="0" v-if="breadcrumb.personalWiki && topicStore.id == personalWiki?.id">
+			<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
+				class="breadcrumb-item root-topic" :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }"
+				aria-label="home button">
+				<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
+				<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
+				<span class="root-topic-label">
+					{{ topicStore.name }}
+				</span>
+			</NuxtLink>
+			<template #popper>
+				<div class="breadcrumb-dropdown dropdown-row" v-if="topicStore.id == personalWiki?.id">
+					{{ topicStore.name }}
+				</div>
+			</template>
+		</VDropdown>
+
+		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
+			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.name"
+			v-else-if="breadcrumb.personalWiki" :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }"
+			aria-label="home button">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
-			<span class="root-topic-label" v-if="topicStore.id == personalWiki?.Id">
+			<span class="root-topic-label" v-if="topicStore.id == personalWiki?.id">
 				{{ topicStore.name }}
 			</span>
 		</NuxtLink>
 
 		<template v-if="breadcrumb.rootTopic">
 			<div
-				v-if="breadcrumb.currentTopic && breadcrumb.rootTopic.Id != breadcrumb.currentTopic.Id && breadcrumb.isInPersonalWiki">
+				v-if="breadcrumb.currentTopic && breadcrumb.rootTopic.id != breadcrumb.currentTopic.id && breadcrumb.isInPersonalWiki">
 				<div>
 					<font-awesome-icon icon="fa-solid fa-chevron-right" />
 				</div>
 			</div>
 
 			<template
-				v-else-if="breadcrumb.personalWiki && breadcrumb.rootTopic.Id != breadcrumb.personalWiki.Id && !breadcrumb.isInPersonalWiki">
+				v-else-if="breadcrumb.personalWiki && breadcrumb.rootTopic.id != breadcrumb.personalWiki.id && !breadcrumb.isInPersonalWiki">
 				<div class="breadcrumb-divider"></div>
-				<template v-if="topicStore.id != breadcrumb.rootTopic.Id && !rootWikiIsStacked">
-					<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.rootTopic.Name, breadcrumb.rootTopic.Id)"
-						class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.Name" :aria-label="'root topic button'">
-						{{ breadcrumb.rootTopic.Name }}
+				<template v-if="topicStore.id != breadcrumb.rootTopic.id && !rootWikiIsStacked">
+					<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.rootTopic.name, breadcrumb.rootTopic.id)"
+						class="breadcrumb-item" v-tooltip="breadcrumb.rootTopic.name" :aria-label="'root topic button'">
+						{{ breadcrumb.rootTopic.name }}
 					</NuxtLink>
 					<div>
 						<font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -315,12 +382,11 @@ const { $urlHelper } = useNuxtApp()
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
 			</div>
 
-			<template #popper>
-
-				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.Name, s.Id)" :key="s.Id"
-					v-tooltip="s.Name" :aria-label="s.Name">
+			<template #popper="{ hide }">
+				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="$urlHelper.getTopicUrl(s.name, s.id)" :key="s.id"
+					@click="hide" v-tooltip="s.name" :aria-label="s.name">
 					<div class="dropdown-row">
-						{{ s.Name }}
+						{{ s.name }}
 					</div>
 				</NuxtLink>
 				<div></div>
@@ -328,22 +394,31 @@ const { $urlHelper } = useNuxtApp()
 		</VDropdown>
 
 		<template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
-			<NuxtLink :to="$urlHelper.getTopicUrl(b.Name, b.Id)" class="breadcrumb-item" v-tooltip="b.Name"
-				:aria-label="b.Name">
-				{{ b.Name }}
+			<NuxtLink :to="$urlHelper.getTopicUrl(b.name, b.id)" class="breadcrumb-item" v-tooltip="b.name"
+				:aria-label="b.name">
+				{{ b.name }}
 			</NuxtLink>
 			<div>
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
 			</div>
 		</template>
+		<div ref="lastBreadcrumbItem"></div>
 
-		<div class="breadcrumb-item last" v-tooltip="topicStore.name" v-if="topicStore.id != personalWiki?.Id">
-			{{ topicStore.name }}
-		</div>
+		<VDropdown :distance="0" v-if="topicStore.id != personalWiki?.id">
+			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`">
+				{{ topicStore.name }}
+			</div>
+			<template #popper>
+				<div class="breadcrumb-dropdown dropdown-row">
+					{{ topicStore.name }}
+				</div>
+			</template>
+		</VDropdown>
+
 	</div>
 	<div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
-		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.Name, personalWiki.Id)" class="breadcrumb-item"
-			v-tooltip="personalWiki.Name" aria-label="personal home button">
+		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.name, personalWiki.id)" class="breadcrumb-item"
+			v-tooltip="personalWiki.name" aria-label="personal home button">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
 		</NuxtLink>
@@ -465,6 +540,11 @@ const { $urlHelper } = useNuxtApp()
 		border-radius: 4px;
 		min-width: 1px;
 	}
+}
+
+.breadcrumb-dropdown {
+	padding: 10px 25px;
+
 }
 </style>
 

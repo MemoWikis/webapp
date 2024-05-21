@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Seedworks.Lib.Persistence;
 
 [DebuggerDisplay("Id={Id} Text={Text}")]
 public class Comment : DomainEntity
 {
-    public virtual CommentType Type  { get; set; }
+    public virtual CommentType Type { get; set; }
     public virtual int TypeId { get; set; }
 
     public virtual Comment AnswerTo { get; set; }
@@ -24,7 +23,7 @@ public class Comment : DomainEntity
 
     public virtual bool IsSettled { get; set; }
 
-    public Comment ()
+    public Comment()
     {
         Type = CommentType.AnswerQuestion;
     }

@@ -24,7 +24,6 @@ function openImage() {
 }
 
 const imgSrc = ref('')
-const config = useRuntimeConfig()
 function setImgSrc() {
 	if (props.src.startsWith('/Images/Categories/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/'))
 		imgSrc.value = props.src

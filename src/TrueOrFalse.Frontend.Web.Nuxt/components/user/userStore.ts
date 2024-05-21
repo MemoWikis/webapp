@@ -7,31 +7,31 @@ import * as Subscription from '~~/components/user/membership/subscription'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 
 export interface CurrentUser {
-    IsLoggedIn: boolean
-    Id: number
-    Name: string
-    Email?: string
-    IsAdmin: boolean
-    WikiId: number
-    Type: UserType
-    ImgUrl: string
-    Reputation: number
-    ReputationPos: number
-    PersonalWiki: Topic
-    ActivityPoints: {
+    isLoggedIn: boolean
+    id: number
+    name: string
+    email?: string
+    isAdmin: boolean
+    wikiId: number
+    type: UserType
+    imgUrl: string
+    reputation: number
+    reputationPos: number
+    personalWiki: Topic
+    activityPoints: {
         points: number
         level: number
         levelUp: boolean
         activityPointsTillNextLevel: number
         activityPointsPercentageOfNextLevel?: number
     }
-    UnreadMessagesCount?: number
-    SubscriptionType?: Subscription.Type
-    HasStripeCustomerId: boolean
-    EndDate?: Date
-    SubscriptionStartDate?: Date
-    IsSubscriptionCanceled: boolean
-    IsEmailConfirmed: boolean
+    unreadMessagesCount?: number
+    subscriptionType?: Subscription.Type
+    hasStripeCustomerId: boolean
+    endDate?: Date
+    subscriptionStartDate?: Date
+    isSubscriptionCanceled: boolean
+    isEmailConfirmed: boolean
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -54,30 +54,32 @@ export const useUserStore = defineStore('userStore', {
             EndDate: null as Date | null,
             isSubscriptionCanceled: false,
             subscriptionStartDate: null as Date | null,
-            isEmailConfirmed: false
+            isEmailConfirmed: false,
+            showBanner: false,
+            gridInfoShown: false
         }
     },
     actions: {
         initUser(currentUser: CurrentUser) {
-            this.isLoggedIn = currentUser.IsLoggedIn
-            this.id = currentUser.Id
-            this.name = currentUser.Name
-            this.isAdmin = currentUser.IsAdmin
-            this.type = currentUser.Type
-            this.imgUrl = currentUser.ImgUrl
-            this.reputation = currentUser.Reputation
-            this.reputationPos = currentUser.ReputationPos
-            this.personalWiki = currentUser.PersonalWiki
-            this.email = currentUser.Email ? currentUser.Email : ''
-            this.unreadMessagesCount = currentUser.UnreadMessagesCount ? currentUser.UnreadMessagesCount : 0
-            this.subscriptionType = currentUser.SubscriptionType != null ? currentUser.SubscriptionType : null
-            this.hasStripeCustomerId = currentUser.HasStripeCustomerId
-            this.EndDate = currentUser.EndDate != null ? new Date(currentUser.EndDate) : null
-            this.isSubscriptionCanceled = currentUser.IsSubscriptionCanceled
-            this.subscriptionStartDate = currentUser.SubscriptionStartDate != null ? new Date(currentUser.SubscriptionStartDate) : null
+            this.isLoggedIn = currentUser.isLoggedIn
+            this.id = currentUser.id
+            this.name = currentUser.name
+            this.isAdmin = currentUser.isAdmin
+            this.type = currentUser.type
+            this.imgUrl = currentUser.imgUrl
+            this.reputation = currentUser.reputation
+            this.reputationPos = currentUser.reputationPos
+            this.personalWiki = currentUser.personalWiki
+            this.email = currentUser.email ? currentUser.email : ''
+            this.unreadMessagesCount = currentUser.unreadMessagesCount ? currentUser.unreadMessagesCount : 0
+            this.subscriptionType = currentUser.subscriptionType != null ? currentUser.subscriptionType : null
+            this.hasStripeCustomerId = currentUser.hasStripeCustomerId
+            this.EndDate = currentUser.endDate != null ? new Date(currentUser.endDate) : null
+            this.isSubscriptionCanceled = currentUser.isSubscriptionCanceled
+            this.subscriptionStartDate = currentUser.subscriptionStartDate != null ? new Date(currentUser.subscriptionStartDate) : null
             const activityPointsStore = useActivityPointsStore()
-            activityPointsStore.setData(currentUser.ActivityPoints)
-            this.isEmailConfirmed = currentUser.IsEmailConfirmed
+            activityPointsStore.setData(currentUser.activityPoints)
+            this.isEmailConfirmed = currentUser.isEmailConfirmed
             return
         },
         async login(loginData: {
@@ -86,7 +88,6 @@ export const useUserStore = defineStore('userStore', {
             PersistentLogin: boolean
         }) {
             const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
-
             if (!!result && result.success) {
                 this.showLoginModal = false
                 this.initUser(result.data)

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.RegularExpressions;
 using TrueOrFalse.Infrastructure;
 
@@ -10,29 +7,23 @@ namespace TrueOrFalse.Updates
     public class UpdateStepExecuter : IRegisterAsInstancePerLifetime
     {
         private readonly DbSettingsRepo _dbSettingsRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly Dictionary<int, Action> _actions = new();
 
-        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo,
-            IHttpContextAccessor httpContextAccessor,
-            IWebHostEnvironment webHostEnvironment)
+        public UpdateStepExecuter(DbSettingsRepo dbSettingsRepo)
         {
             _dbSettingsRepo = dbSettingsRepo;
-            _httpContextAccessor = httpContextAccessor;
-            _webHostEnvironment = webHostEnvironment;
         }
 
         public UpdateStepExecuter Add(Action action)
         {
             var declaringType = action.GetMethodInfo().DeclaringType;
             if (declaringType == null)
-                throw new Exception("no declaring type - stepNo overload");       
+                throw new Exception("no declaring type - stepNo overload");
 
             var typeName = declaringType.Name;
 
             var captures = Regex.Match(typeName, "[0-9]*$").Captures;
-            if(captures.Count != 1)
+            if (captures.Count != 1)
                 throw new Exception("type does not end with a number '" + typeName + "'");
 
             _actions.Add(Convert.ToInt32(captures[0].Value), action);
@@ -46,7 +37,7 @@ namespace TrueOrFalse.Updates
         }
 
         public void Run()
-        {                
+        {
             var appVersion = _dbSettingsRepo.GetAppVersion();
 
             foreach (var dictionaryItem in _actions)
@@ -56,7 +47,7 @@ namespace TrueOrFalse.Updates
                     dictionaryItem.Value();
                     Logg.r.Information("update to {0} - END", dictionaryItem.Key);
                     _dbSettingsRepo.UpdateAppVersion(dictionaryItem.Key);
-                }   
+                }
         }
     }
 }

@@ -1,19 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-
+﻿
 public class PermissionCheck : IRegisterAsInstancePerLifetime
 {
-    public readonly IHttpContextAccessor _httpContextAccessor;
-    public readonly IWebHostEnvironment _webHostEnvironment;
     private readonly int _userId;
     private readonly bool _isInstallationAdmin;
 
-    public PermissionCheck(SessionUser sessionUser,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+    public PermissionCheck(SessionUser sessionUser)
     {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         _userId = sessionUser.SessionIsActive() ? sessionUser.UserId : default;
         _isInstallationAdmin = sessionUser.SessionIsActive() && sessionUser.IsInstallationAdmin;
     }
@@ -34,9 +26,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     //setter is for tests
     public bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
     public bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public bool CanView(CategoryCacheItem category) => CanView(_userId, category);
+    public bool CanView(CategoryCacheItem? category) => CanView(_userId, category);
 
-    public bool CanView(int userId, CategoryCacheItem category)
+    public bool CanView(int userId, CategoryCacheItem? category)
     {
         if (category == null)
             return false;
@@ -91,7 +83,6 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanDelete(CategoryCacheItem category)
     {
-     
         if (_userId == default || category == null || category.Id == 0)
             return false;
 
@@ -102,6 +93,38 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         return false;
+    }
+
+    public bool CanDelete(Category category)
+    {
+        if (_userId == default || category == null || category.Id == 0)
+            return false;
+
+        if (category.Id == RootCategory.RootCategoryId || category.Id == category.Creator.StartTopicId)
+            return false;
+
+        if (category.Creator.Id == _userId || _isInstallationAdmin)
+            return true;
+
+        return false;
+    }
+
+    public bool CanMoveTopic(int topicId, int oldParentId, int newParentId) => CanMoveTopic(
+        EntityCache.GetCategory(topicId), EntityCache.GetCategory(oldParentId), newParentId);
+
+    public bool CanMoveTopic(CategoryCacheItem? movingTopic, CategoryCacheItem? oldParent, int newParentId)
+    {   
+        if (_userId == default
+            || movingTopic == null
+            || movingTopic.Id == 0
+            || oldParent == null
+            || oldParent.Id == 0)
+            return false;
+
+        if (RootCategory.RootCategoryId == newParentId && !_isInstallationAdmin && movingTopic.Visibility == CategoryVisibility.All)
+            return false;
+
+        return _isInstallationAdmin || movingTopic.CreatorId == _userId || oldParent.CreatorId == _userId;
     }
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
@@ -140,7 +163,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (question == null)
             return false;
 
-        if (question.IsCreator(_userId, _httpContextAccessor, _webHostEnvironment) || _isInstallationAdmin)
+        if (question.IsCreator(_userId) || _isInstallationAdmin)
             return false;
 
         return false;
@@ -158,5 +181,4 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         return false;
-    }
-}
+    } }

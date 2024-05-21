@@ -1,8 +1,5 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using TrueOrFalse;
-
 public class GetQuestionSolution
 {
     public static QuestionSolution? Run(int questionId)

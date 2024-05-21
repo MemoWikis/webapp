@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 [JsonObject(MemberSerialization.OptIn)]
 public class KnowledgeSummary

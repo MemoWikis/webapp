@@ -3,17 +3,13 @@
         {{ text }}
     </div>
 </template>
-  
+
 <script setup lang="ts">
 interface Props {
     text: string
 }
 const { text } = defineProps<Props>();
 
-onMounted(() => {
-
-    console.log('aaahhhhhh')
-})
 </script>
 
 <style scoped>

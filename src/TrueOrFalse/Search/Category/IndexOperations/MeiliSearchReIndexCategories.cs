@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Meilisearch;
+﻿using Meilisearch;
 
 namespace TrueOrFalse.Search;
 

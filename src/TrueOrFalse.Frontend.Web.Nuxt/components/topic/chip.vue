@@ -27,8 +27,8 @@ const showName = ref(true)
 //         showName.value = false
 // })
 
-showImage.value = !props.topic.MiniImageUrl.includes('no-category-picture')
-name.value = props.topic.Name.length > 30 ? props.topic.Name.substring(0, 26) + ' ...' : props.topic.Name
+showImage.value = !props.topic.miniImageUrl.includes('no-category-picture')
+name.value = props.topic.name.length > 30 ? props.topic.name.substring(0, 26) + ' ...' : props.topic.name
 if (props.isSpoiler)
     showName.value = false
 
@@ -39,15 +39,15 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="topic-chip-component">
         <div class="topic-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <NuxtLink :to="$urlHelper.getTopicUrl(topic.Name, topic.Id)" v-if="showName">
-                <div class="topic-chip" :v-tooltip="topic.Name" :class="{ 'label-hidden': props.hideLabel }">
+            <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName">
+                <div class="topic-chip" :v-tooltip="topic.name" :class="{ 'label-hidden': props.hideLabel }">
 
-                    <img v-if="showImage" :src="topic.MiniImageUrl" :alt="`image for ${topic.Name}`" />
+                    <img v-if="showImage" :src="topic.miniImageUrl" :alt="`image for ${topic.name}`" />
 
                     <div class="topic-chip-label" v-if="!props.hideLabel">
                         {{ name }}
                     </div>
-                    <font-awesome-icon v-if="topic.Visibility == 1" icon="fa-solid fa-lock" class="lock" />
+                    <font-awesome-icon v-if="topic.visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
             </NuxtLink>
             <div class="topic-chip spoiler" v-else @click="showName = true">
@@ -57,7 +57,7 @@ const { $urlHelper } = useNuxtApp()
             </div>
         </div>
         <div class="topic-chip-deleteBtn" v-if="props.removableChip"
-            @click="emit('removeTopic', { index: props.index, topicId: props.topic.Id })">
+            @click="emit('removeTopic', { index: props.index, topicId: props.topic.id })">
             <font-awesome-icon icon="fa-solid fa-xmark" />
         </div>
     </div>

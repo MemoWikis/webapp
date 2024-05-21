@@ -3,158 +3,231 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using TrueOrFalse;
 using TrueOrFalse.Web;
 
-public class AnswerBodyController : BaseController {
-    private readonly AnswerQuestion _answerQuestion;
-    private readonly LearningSessionCache _learningSessionCache;
-    private readonly AnswerLog _answerLog;
-    private readonly SessionUserCache _sessionUserCache;
-
-    public AnswerBodyController(AnswerQuestion answerQuestion,
-        SessionUser sessionUser,
-        LearningSessionCache learningSessionCache,
-        AnswerLog answerLog,
-        SessionUserCache sessionUserCache) : base(sessionUser)
+public class AnswerBodyController(
+    LearningSessionCache _learningSessionCache,
+    SessionUser _sessionUser,
+    ExtendedUserCache _extendedUserCache,
+    AnswerQuestion _answerQuestion,
+    AnswerLog _answerLog) : Controller
+{
+    [HttpGet]
+    public LearningBody? Get([FromRoute] int id)
     {
-        _answerQuestion = answerQuestion;
-        _sessionUser = sessionUser;
-        _learningSessionCache = learningSessionCache;
-        _answerLog = answerLog;
-        _sessionUserCache = sessionUserCache;
+        var answerBody = GetLearningBody(id);
+        return answerBody;
     }
 
-    [HttpGet]
-    public JsonResult Get([FromRoute] int id)
+    public readonly record struct SendAnswerToLearningSessionJson(
+        int Id,
+        Guid QuestionViewGuid,
+        string Answer,
+        bool InTestMode);
+
+    [HttpPost]
+    public LearningResult SendAnswerToLearningSession(
+        [FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
+    {
+        return GetLearningResult(sendAnswerToLearningSession.Id,
+            sendAnswerToLearningSession.QuestionViewGuid,
+            sendAnswerToLearningSession.Answer,
+            sendAnswerToLearningSession.InTestMode);
+    }
+
+    public readonly record struct MarkAsCorrectJson(
+        int Id,
+        Guid QuestionViewGuid,
+        int AmountOfTries);
+
+    [HttpPost]
+    public bool MarkAsCorrect([FromBody] MarkAsCorrectJson m)
+    {
+        var result = m.AmountOfTries == 0
+            ? _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, 1,
+                countUnansweredAsCorrect: true)
+            : _answerQuestion.Run(m.Id, _sessionUser.UserId, m.QuestionViewGuid, m.AmountOfTries,
+                true);
+
+        return result != null;
+    }
+
+    [HttpPost]
+    public void CountLastAnswerAsCorrect(
+        int id,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int? testSessionId,
+        int? learningSessionId,
+        string learningSessionStepGuid) =>
+        CountLastAnswerAsCorrect(id, questionViewGuid, interactionNumber, testSessionId,
+            learningSessionId, learningSessionStepGuid);
+
+    [HttpPost]
+    public void CountUnansweredAsCorrect(
+        int id,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
+        string learningSessionStepGuid,
+        int? testSessionId,
+        int? learningSessionId) =>
+        CountUnansweredAsCorrect(id, questionViewGuid, interactionNumber,
+            millisecondsSinceQuestionView, learningSessionStepGuid, testSessionId,
+            learningSessionId);
+
+    public readonly record struct GetSolutionJson(
+        int Id,
+        Guid QuestionViewGuid,
+        int InteractionNumber,
+        int MillisecondsSinceQuestionView,
+        bool Unanswered);
+
+    [HttpPost]
+    public SolutionResult GetSolution([FromBody] GetSolutionJson g)
+    {
+        return GetSolutionResult(g.Id, g.QuestionViewGuid, g.InteractionNumber,
+            g.MillisecondsSinceQuestionView, g.Unanswered);
+    }
+
+    private LearningBody? GetLearningBody(int id)
     {
         var index = id;
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.Steps.Count == 0)
-            return Json(null);
+        if (learningSession == null || learningSession.Steps.Count == 0)
+            return null;
         var step = learningSession.Steps[index];
 
         var q = step.Question;
         var primaryTopic = q.Categories.LastOrDefault();
         var title = Regex.Replace(q.Text, "<.*?>", String.Empty);
-        var model = new
-        {
-            id = q.Id,
-            text = q.Text,
-            textHtml = q.TextHtml,
-            title = title,
-            solutionType = q.SolutionType,
-            renderedQuestionTextExtended = q.TextExtended != null ? MarkdownMarkdig.ToHtml(q.TextExtended) : "",
-            description = q.Description,
-            hasTopics = q.Categories.Any(),
-            primaryTopicId = primaryTopic?.Id,
-            primaryTopicName = primaryTopic?.Name,
-            solution = q.Solution,
-
-            isCreator = q.Creator.Id == _sessionUser.UserId,
-            isInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _sessionUserCache),
-
-            questionViewGuid = Guid.NewGuid(),
-            isLastStep = learningSession.Steps.Last() == step
-        };
-        return Json(model);
+        var learningBody = new LearningBody(
+            Id: q.Id,
+            Text: q.Text,
+            TextHtml: q.TextHtml,
+            Title: title,
+            SolutionType: q.SolutionType,
+            RenderedQuestionTextExtended: q.TextExtended != null
+                ? MarkdownMarkdig.ToHtml(q.TextExtended)
+                : "",
+            Description: q.Description,
+            HasTopics: q.Categories.Any(),
+            PrimaryTopicId: primaryTopic?.Id,
+            PrimaryTopicName: primaryTopic?.Name,
+            Solution: q.Solution,
+            IsCreator: q.Creator.Id == _sessionUser.UserId,
+            IsInWishknowledge: _sessionUser.IsLoggedIn &&
+                               q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+            QuestionViewGuid: Guid.NewGuid(),
+            IsLastStep: learningSession.Steps.Last() == step);
+        return learningBody;
     }
 
-    public readonly record struct SendAnswerToLearningSessionJson(int Id, Guid QuestionViewGuid, string Answer, bool InTestMode);
-
-    [HttpPost]
-    public JsonResult SendAnswerToLearningSession([FromBody] SendAnswerToLearningSessionJson sendAnswerToLearningSession)
+    private LearningResult GetLearningResult(
+        int id,
+        Guid questionViewGuid,
+        string answer,
+        bool isTestMode)
     {
-        var answer = sendAnswerToLearningSession.Answer;
-        var id = sendAnswerToLearningSession.Id;
-
         var learningSession = _learningSessionCache.GetLearningSession();
         learningSession.CurrentStep.Answer = answer;
 
-        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, sendAnswerToLearningSession.QuestionViewGuid, 0,
-            0, 0, new Guid(), sendAnswerToLearningSession.InTestMode);
+        var result = _answerQuestion.Run(id, answer, _sessionUser.UserId, questionViewGuid, 0,
+            0, 0, new Guid(), isTestMode);
         var question = EntityCache.GetQuestion(id);
         var solution = GetQuestionSolution.Run(question);
 
-        return Json(new
-        {
-            correct = result.IsCorrect,
-            correctAnswer = result.CorrectAnswer,
-            choices = solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution)
+        return new LearningResult(
+            Correct: result.IsCorrect,
+            CorrectAnswer: result.CorrectAnswer,
+            Choices: solution.GetType() == typeof(QuestionSolutionMultipleChoice_SingleSolution)
                 ? ((QuestionSolutionMultipleChoice_SingleSolution)solution).Choices
                 : null,
-            newStepAdded = result.NewStepAdded,
-            isLastStep = learningSession.TestIsLastStep()
-        });
+            NewStepAdded: result.NewStepAdded,
+            IsLastStep: learningSession.TestIsLastStep()
+        );
     }
 
-    public readonly record struct MarkAsCorrectJson(int Id, Guid QuestionViewGuid, int AmountOfTries);
-    [HttpPost]
-    public bool MarkAsCorrect([FromBody] MarkAsCorrectJson markAsCorrectData)
+    private SolutionResult GetSolutionResult(
+        int id,
+        Guid questionViewGuid,
+        int interactionNumber,
+        int millisecondsSinceQuestionView,
+        bool unanswered)
     {
-        var id = markAsCorrectData.Id;
-        var questionViewGuid = markAsCorrectData.QuestionViewGuid;
+        var question = EntityCache.GetQuestion(id);
+        var solution = GetQuestionSolution.Run(question);
+        if (!unanswered)
+            _answerLog.LogAnswerView(question, _sessionUser.UserId,
+                questionViewGuid,
+                interactionNumber,
+                millisecondsSinceQuestionView > 0 ? millisecondsSinceQuestionView : -1);
 
-        var result = markAsCorrectData.AmountOfTries == 0
-            ? _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, 1, countUnansweredAsCorrect: true)
-            : _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, markAsCorrectData.AmountOfTries, true);
+        EscapeReferencesText(question.References);
 
-        return result != null;
+        return new SolutionResult(
+            AnswerAsHTML: solution.GetCorrectAnswerAsHtml(),
+            Answer: solution.CorrectAnswer(),
+            AnswerDescription: question.Description != null
+                ? MarkdownMarkdig.ToHtml(question.Description)
+                : "",
+            AnswerReferences: question.References.Select(r => new AnswerReferences(
+                ReferenceId: r.Id,
+                TopicId: r.Category?.Id ?? null,
+                ReferenceType: r.ReferenceType.GetName(),
+                AdditionalInfo: r.AdditionalInfo ?? "",
+                ReferenceText: r.ReferenceText ?? ""
+            )).ToArray());
     }
-
-
-    [HttpPost]
-    public void CountLastAnswerAsCorrect(int id, Guid questionViewGuid, int interactionNumber, int? testSessionId,
-        int? learningSessionId, string learningSessionStepGuid) =>
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
-            learningSessionId, learningSessionStepGuid, countLastAnswerAsCorrect: true);
-
-    [HttpPost]
-    public void CountUnansweredAsCorrect(int id, Guid questionViewGuid, int interactionNumber,
-        int millisecondsSinceQuestionView, string learningSessionStepGuid, int? testSessionId,
-        int? learningSessionId) =>
-        _answerQuestion.Run(id, _sessionUser.UserId, questionViewGuid, interactionNumber, testSessionId,
-            learningSessionId, learningSessionStepGuid, millisecondsSinceQuestionView, countUnansweredAsCorrect: true);
 
     private static void EscapeReferencesText(IList<ReferenceCacheItem> references)
     {
         foreach (var reference in references)
         {
             if (reference.ReferenceText != null)
-                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+                reference.ReferenceText = reference.ReferenceText.Replace("\n", "<br/>")
+                    .Replace("\\n", "<br/>");
             if (reference.AdditionalInfo != null)
-                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>").Replace("\\n", "<br/>");
+                reference.AdditionalInfo = reference.AdditionalInfo.Replace("\n", "<br/>")
+                    .Replace("\\n", "<br/>");
         }
     }
 
-    public readonly record struct GetSolutionJson(int Id, Guid QuestionViewGuid, int InteractionNumber, int MillisecondsSinceQuestionView, bool Unanswered);
+    public record struct LearningBody(
+        int Id,
+        string Text,
+        string TextHtml,
+        string Title,
+        SolutionType SolutionType,
+        string RenderedQuestionTextExtended,
+        string Description,
+        bool HasTopics,
+        int? PrimaryTopicId,
+        string? PrimaryTopicName,
+        string Solution,
+        bool IsCreator,
+        bool IsInWishknowledge,
+        Guid QuestionViewGuid,
+        bool IsLastStep);
 
-    [HttpPost]
-    public JsonResult GetSolution([FromBody] GetSolutionJson getSolutionData)
-    {
-        var question = EntityCache.GetQuestion(getSolutionData.Id);
-        var solution = GetQuestionSolution.Run(question);
-        if (!getSolutionData.Unanswered)
-            _answerLog.LogAnswerView(question, _sessionUser.UserId,
-                getSolutionData.QuestionViewGuid, 
-                getSolutionData.InteractionNumber,
-                getSolutionData.MillisecondsSinceQuestionView > 0 ? getSolutionData.MillisecondsSinceQuestionView : -1);
+    public record struct LearningResult(
+        bool Correct,
+        string CorrectAnswer,
+        List<string> Choices,
+        bool NewStepAdded,
+        bool IsLastStep);
 
-        EscapeReferencesText(question.References);
+    public record struct SolutionResult(
+        string AnswerAsHTML,
+        string Answer,
+        string AnswerDescription,
+        AnswerReferences[] AnswerReferences);
 
-        return Json(new
-            {
-                answerAsHTML = solution.GetCorrectAnswerAsHtml(),
-                answer = solution.CorrectAnswer(),
-                answerDescription = question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
-                answerReferences = question.References.Select(r => new
-                {
-                    referenceId = r.Id,
-                    topicId = r.Category?.Id ?? null,
-                    referenceType = r.ReferenceType.GetName(),
-                    additionalInfo = r.AdditionalInfo ?? "",
-                    referenceText = r.ReferenceText ?? ""
-                }).ToArray()
-            }
-        );
-    }
+    public record struct AnswerReferences(
+        int ReferenceId,
+        int? TopicId,
+        string ReferenceType,
+        string AdditionalInfo,
+        string ReferenceText);
 }

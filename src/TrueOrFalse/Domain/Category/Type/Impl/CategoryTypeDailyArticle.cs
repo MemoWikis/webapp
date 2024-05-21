@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
-
+﻿using Newtonsoft.Json;
 
 [Serializable]
 public class CategoryTypeDailyArticle : CategoryTypeBase<CategoryTypeDailyArticle>
@@ -9,6 +7,8 @@ public class CategoryTypeDailyArticle : CategoryTypeBase<CategoryTypeDailyArticl
     public string Author;
 
     [JsonIgnore]
-    public override CategoryType Type { get { return CategoryType.DailyArticle; } }
+    public override CategoryType Type
+    {
+        get { return CategoryType.DailyArticle; }
+    }
 }
-

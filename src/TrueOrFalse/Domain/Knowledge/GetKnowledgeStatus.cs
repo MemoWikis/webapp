@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-public class GetKnowledgeStatus
+﻿public class GetKnowledgeStatus
 {
     public static KnowledgeStatus Run(IList<Answer> answers)
     {
@@ -22,6 +17,7 @@ public class GetKnowledgeStatus
         {
             return KnowledgeStatus.NotLearned;
         }
+
         if (!answers.Last().AnsweredCorrectly())
         {
             return KnowledgeStatus.NeedsLearning;
@@ -34,14 +30,16 @@ public class GetKnowledgeStatus
             return KnowledgeStatus.NeedsLearning;
         }
 
-        var lastStreak = answers.OrderByDescending(a => a.DateCreated).TakeWhile(a => a.AnsweredCorrectly()).ToList();
+        var lastStreak = answers.OrderByDescending(a => a.DateCreated)
+            .TakeWhile(a => a.AnsweredCorrectly()).ToList();
         //var tmp_lengthStreak = lastStreak.First().DateCreated - lastStreak.Last().DateCreated;
         //var tmp_DistanceSinceLastStreak = DateTime.Now - lastStreak.First().DateCreated;
         //var tmp_4Times = TimeSpan.FromTicks(tmp_DistanceSinceLastStreak.Ticks*4);
 
         if ((lastStreak.Count >= 3) &&
             (DateTime.Now - lastStreak.First().DateCreated) <
-            TimeSpan.FromTicks((lastStreak.First().DateCreated - lastStreak.Last().DateCreated).Ticks * 4))
+            TimeSpan.FromTicks((lastStreak.First().DateCreated - lastStreak.Last().DateCreated)
+                .Ticks * 4))
         {
             return KnowledgeStatus.Solid;
         }

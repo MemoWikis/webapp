@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
 using Seedworks.Lib.Persistence;
-using Serilog;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
 public class CategoryCacheItem : IPersistable
 {
     public int CreatorId;
+
     public CategoryCacheItem()
     {
     }
@@ -18,10 +18,13 @@ public class CategoryCacheItem : IPersistable
 
     public virtual UserCacheItem Creator =>
         EntityCache.GetUserById(CreatorId);
+
     public virtual int[] AuthorIds { get; set; }
     public virtual string CategoriesToExcludeIdsString { get; set; }
     public virtual string CategoriesToIncludeIdsString { get; set; }
-    public virtual IList<CategoryCacheRelation> CategoryRelations { get; set; }
+    public virtual IList<CategoryCacheRelation> ParentRelations { get; set; }
+    public virtual IList<CategoryCacheRelation> ChildRelations { get; set; }
+
     public virtual string Content { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
@@ -33,8 +36,6 @@ public class CategoryCacheItem : IPersistable
 
     public virtual DateTime DateCreated { get; set; }
     public virtual string Description { get; set; }
-
-    public virtual IList<int> DirectChildrenIds { get; set; }
 
     public virtual bool DisableLearningFunctions { get; set; }
 
@@ -64,7 +65,9 @@ public class CategoryCacheItem : IPersistable
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
-    public Dictionary<int, CategoryCacheItem> AggregatedCategories(PermissionCheck permissionCheck, bool includingSelf = true)
+    public Dictionary<int, CategoryCacheItem> AggregatedCategories(
+        PermissionCheck permissionCheck,
+        bool includingSelf = true)
     {
         var visibleVisited = VisibleChildCategories(this, permissionCheck);
 
@@ -93,7 +96,6 @@ public class CategoryCacheItem : IPersistable
 
         if (fullList)
         {
-
             questions = AggregatedCategories(
                     new PermissionCheck(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForCategory(c.Key))
@@ -142,30 +144,27 @@ public class CategoryCacheItem : IPersistable
 
     public virtual bool HasPublicParent()
     {
-        return ParentCategories().Any(c => c.Visibility == CategoryVisibility.All);
+        return Parents().Any(c => c.Visibility == CategoryVisibility.All);
     }
 
     public bool IsStartPage()
     {
         if (Id == RootCategory.RootCategoryId)
-        {
             return true;
-        }
 
-        if (Creator != null)
-        {
-            return Id == Creator.StartTopicId;
-        }
+        if (Parents().Count == 0)
+            return true;
 
-        return false;
+        return Id == Creator.StartTopicId;
     }
 
-    public virtual IList<CategoryCacheItem> ParentCategories(bool getFromEntityCache = false)
+    public virtual List<CategoryCacheItem> Parents()
     {
-        return CategoryRelations != null && CategoryRelations.Any()
-            ? CategoryRelations
-                .Select(x => EntityCache.GetCategory(x.RelatedCategoryId))
-                .ToList()
+        return ParentRelations.Any()
+            ? ParentRelations
+                .Select(x => EntityCache.GetCategory(x.ParentId))
+                .Where(x => x != null)
+                .ToList()!
             : new List<CategoryCacheItem>();
     }
 
@@ -184,10 +183,13 @@ public class CategoryCacheItem : IPersistable
         var userEntityCacheCategoryRelations = new CategoryCacheRelation();
 
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
+        var parentRelations = EntityCache.GetParentRelationsByChildId(category.Id);
+        var childRelations = TopicOrderer.Sort(category.Id);
         var categoryCacheItem = new CategoryCacheItem
         {
             Id = category.Id,
-            CategoryRelations = userEntityCacheCategoryRelations.ToListCategoryRelations(category.CategoryRelations),
+            ChildRelations = childRelations,
+            ParentRelations = parentRelations,
             CategoriesToExcludeIdsString = category.CategoriesToExcludeIdsString,
             CategoriesToIncludeIdsString = category.CategoriesToIncludeIdsString,
             Content = category.Content,
@@ -228,27 +230,22 @@ public class CategoryCacheItem : IPersistable
         Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
     {
         var visibleVisited = new Dictionary<int, CategoryCacheItem>();
-        if (parentCacheItem.DirectChildrenIds == null)
-        {
-            parentCacheItem.DirectChildrenIds = EntityCache.GetChildren(parentCacheItem).Select(cci => cci.Id).ToList();
-            EntityCache.AddOrUpdate(parentCacheItem);
-        }
 
         if (_previousVisibleVisited != null)
         {
             visibleVisited = _previousVisibleVisited;
         }
 
-        if (parentCacheItem.DirectChildrenIds != null)
+        if (parentCacheItem.ChildRelations != null)
         {
-            foreach (var childId in parentCacheItem.DirectChildrenIds)
+            foreach (var r in parentCacheItem.ChildRelations)
             {
-                if (!visibleVisited.ContainsKey(childId))
+                if (!visibleVisited.ContainsKey(r.ChildId))
                 {
-                    var child = EntityCache.GetCategory(childId);
+                    var child = EntityCache.GetCategory(r.ChildId);
                     if (permissionCheck.CanView(child))
                     {
-                        visibleVisited.Add(childId, child);
+                        visibleVisited.Add(r.ChildId, child);
                         VisibleChildCategories(child, permissionCheck, visibleVisited);
                     }
                 }

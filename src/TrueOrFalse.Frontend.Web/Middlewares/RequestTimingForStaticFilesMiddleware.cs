@@ -7,13 +7,13 @@ public class RequestTimingForStaticFilesMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IHttpContextAccessor _contextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
-    public RequestTimingForStaticFilesMiddleware(RequestDelegate next, IHttpContextAccessor contextAccessor, IWebHostEnvironment webHostEnvironment)
+    public RequestTimingForStaticFilesMiddleware(
+        RequestDelegate next,
+        IHttpContextAccessor contextAccessor)
     {
         _next = next;
         _contextAccessor = contextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -39,7 +39,9 @@ public class RequestTimingForStaticFilesMiddleware
             stopwatch = _contextAccessor.HttpContext.Items["requestStopwatch"] as Stopwatch;
             stopwatch.Stop();
             var elapsed = stopwatch.Elapsed;
-            Logg.r.Information("=== End Request: {pathAndQuery} {elapsed}==", _contextAccessor.HttpContext.Request.Path + _contextAccessor.HttpContext.Request.QueryString, elapsed);
+            Logg.r.Information("=== End Request: {pathAndQuery} {elapsed}==",
+                _contextAccessor.HttpContext.Request.Path +
+                _contextAccessor.HttpContext.Request.QueryString, elapsed);
         }
 #endif
     }

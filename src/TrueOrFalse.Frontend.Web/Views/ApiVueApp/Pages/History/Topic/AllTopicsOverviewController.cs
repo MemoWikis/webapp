@@ -7,33 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class HistoryTopicAllTopicsOverviewController : BaseController
+public class HistoryTopicAllTopicsOverviewController(
+    AllTopicsHistory _allTopicsHistory,
+    PermissionCheck _permissionCheck,
+    CategoryChangeRepo _categoryChangeRepo,
+    IHttpContextAccessor _httpContextAccessor) : Controller
 {
-    private readonly AllTopicsHistory _allTopicsHistory;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public HistoryTopicAllTopicsOverviewController(AllTopicsHistory allTopicsHistory,
-        PermissionCheck permissionCheck, CategoryChangeRepo categoryChangeRepo,
-        SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor, SessionUser sessionUser) : base(sessionUser)
-    {
-        _allTopicsHistory = allTopicsHistory;
-        _permissionCheck = permissionCheck;
-        _categoryChangeRepo = categoryChangeRepo;
-        _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     [HttpGet]
-    public JsonResult Get(int page)
+    public Day[] Get(int page)
     {
         const int revisionsToShow = 100;
         var days = GetDays(page, revisionsToShow);
 
-        return Json(days);
+        return days;
     }
 
     private Day[] GetDays(int page, int revisionsToShow)
@@ -64,42 +50,45 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
         return day;
     }
 
-    public class GroupedChange
-    {
-        public bool collapsed { get; set; } = true;
-        public Change[] changes { get; set; }
-    }
+    public readonly record struct GroupedChange(
+        Change[] Changes,
+        bool Collapsed = true);
 
     public class TempGroup
     {
-        public IList<Change> changes;
-    }
+        public IList<Change> Changes { get; set; }
+    };
 
     private GroupedChange[] BuildGroupedChanges(List<Change> changes)
     {
         var tempGroupChanges = new List<TempGroup>();
         foreach (var change in changes)
         {
-            if (tempGroupChanges.IsEmpty() || !ChangeCanBeGrouped(tempGroupChanges.LastOrDefault(), change))
+            if (tempGroupChanges.IsEmpty() ||
+                !ChangeCanBeGrouped(tempGroupChanges.LastOrDefault(), change))
             {
                 var newGroup = new TempGroup
                 {
-                    changes = new List<Change> { change }
+                    Changes = new List<Change> { change }
                 };
                 tempGroupChanges.Add(newGroup);
                 continue;
             }
-            tempGroupChanges.LastOrDefault()?.changes.Add(change);
+
+            tempGroupChanges.LastOrDefault()?.Changes.Add(change);
         }
 
-        return tempGroupChanges.Select(@group => new GroupedChange { changes = @group.changes.ToArray() }).ToArray();
+        return tempGroupChanges
+            .Select(@group => new GroupedChange { Changes = @group.Changes.ToArray() }).ToArray();
     }
 
     private bool ChangeCanBeGrouped(TempGroup tempGroup, Change change)
     {
-        var currentGroup = tempGroup.changes.LastOrDefault();
-        return currentGroup != null && currentGroup.topicId == change.topicId && change.topicChangeType == CategoryChangeType.Text &&
-               currentGroup.topicChangeType == change.topicChangeType && currentGroup.author.id == change.author.id;
+        var currentGroup = tempGroup.Changes.LastOrDefault();
+        return currentGroup != null && currentGroup.topicId == change.topicId &&
+               change.topicChangeType == CategoryChangeType.Text &&
+               currentGroup.topicChangeType == change.topicChangeType &&
+               currentGroup.author.id == change.author.id;
     }
 
     public Author GetAuthor(CategoryChange change)
@@ -118,13 +107,12 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
     public Change BuildChange(CategoryChange topicChange)
     {
-
         var change = new Change
         {
             topicId = topicChange.Category.Id,
             topicName = topicChange.Category.Name,
             topicImgUrl = new CategoryImageSettings(topicChange.Category.Id,
-                _httpContextAccessor)
+                    _httpContextAccessor)
                 .GetUrl(50)
                 .Url,
             author = GetAuthor(topicChange),
@@ -135,20 +123,25 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
-            var previousChange = _categoryChangeRepo.GetForTopic(topicChange.Category.Id).OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
-            
-            if (previousChange == null) 
+            var previousChange = _categoryChangeRepo.GetForTopic(topicChange.Category.Id)
+                .OrderBy(c => c.Id).LastOrDefault(c => c.Id < topicChange.Id);
+
+            if (previousChange == null)
                 return change;
 
-            var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data).CategoryRelations;
-            var currentRelations = CategoryEditData_V2.CreateFromJson(topicChange.Data).CategoryRelations;
+            var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data)
+                .CategoryRelations;
+            var currentRelations =
+                CategoryEditData_V2.CreateFromJson(topicChange.Data).CategoryRelations;
 
             if (previousRelations.Count > currentRelations.Count)
             {
                 change.relationAdded = false;
-                var lastRelationDifference = previousRelations.Except(currentRelations).LastOrDefault();
+                var lastRelationDifference =
+                    previousRelations.Except(currentRelations).LastOrDefault();
 
-                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
+                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
+                    lastRelationDifference.CategoryId == topicChange.Category.Id)
                     change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
                 else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                     change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
@@ -156,9 +149,11 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
             else if (previousRelations.Count < currentRelations.Count)
             {
                 change.relationAdded = true;
-                var lastRelationDifference = currentRelations.Except(previousRelations).LastOrDefault();
+                var lastRelationDifference =
+                    currentRelations.Except(previousRelations).LastOrDefault();
 
-                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) && lastRelationDifference.CategoryId == topicChange.Category.Id)
+                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
+                    lastRelationDifference.CategoryId == topicChange.Category.Id)
                     change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
                 else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
                     change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
@@ -176,7 +171,6 @@ public class HistoryTopicAllTopicsOverviewController : BaseController
 
         return change;
     }
-
 
     public class Day
     {

@@ -1,7 +1,5 @@
 ﻿//SEE: http://stackoverflow.com/questions/188120/can-i-specify-my-explicit-type-comparator-inline
 
-using System.Collections.Generic;
-
 /// <summary>
 /// Non-generic class to produce instances of the generic class,
 /// optionally using type inference.
@@ -17,7 +15,8 @@ public static class ProjectionEqualityComparer
     /// <param name="projection">Projection to use when determining the key of an element</param>
     /// <returns>A comparer which will compare elements by projecting 
     /// each element to its key, and comparing keys</returns>
-    public static ProjectionEqualityComparer<TSource, TKey> Create<TSource, TKey>(Func<TSource, TKey> projection)
+    public static ProjectionEqualityComparer<TSource, TKey> Create<TSource, TKey>(
+        Func<TSource, TKey> projection)
     {
         return new ProjectionEqualityComparer<TSource, TKey>(projection);
     }
@@ -33,13 +32,12 @@ public static class ProjectionEqualityComparer
     /// <param name="projection">Projection to use when determining the key of an element</param>
     /// <returns>A comparer which will compare elements by projecting
     /// each element to its key, and comparing keys</returns>
-    public static ProjectionEqualityComparer<TSource, TKey> Create<TSource, TKey>
-        (TSource ignored,
-         Func<TSource, TKey> projection)
+    public static ProjectionEqualityComparer<TSource, TKey> Create<TSource, TKey>(
+        TSource ignored,
+        Func<TSource, TKey> projection)
     {
         return new ProjectionEqualityComparer<TSource, TKey>(projection);
     }
-
 }
 
 /// <summary>
@@ -56,7 +54,8 @@ public static class ProjectionEqualityComparer<TSource>
     /// <param name="projection">Projection to use when determining the key of an element</param>
     /// <returns>A comparer which will compare elements by projecting each element to its key,
     /// and comparing keys</returns>        
-    public static ProjectionEqualityComparer<TSource, TKey> Create<TKey>(Func<TSource, TKey> projection)
+    public static ProjectionEqualityComparer<TSource, TKey> Create<TKey>(
+        Func<TSource, TKey> projection)
     {
         return new ProjectionEqualityComparer<TSource, TKey>(projection);
     }
@@ -91,12 +90,15 @@ public class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSour
     /// <param name="projection">Projection to use during comparisons</param>
     /// <param name="comparer">The comparer to use on the keys. May be null, in
     /// which case the default comparer will be used.</param>
-    public ProjectionEqualityComparer(Func<TSource, TKey> projection, IEqualityComparer<TKey> comparer)
+    public ProjectionEqualityComparer(
+        Func<TSource, TKey> projection,
+        IEqualityComparer<TKey> comparer)
     {
         if (projection == null)
         {
             throw new ArgumentNullException("projection");
         }
+
         this.comparer = comparer ?? EqualityComparer<TKey>.Default;
         this.projection = projection;
     }
@@ -112,10 +114,12 @@ public class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSour
         {
             return true;
         }
+
         if (x == null || y == null)
         {
             return false;
         }
+
         return comparer.Equals(projection(x), projection(y));
     }
 
@@ -130,6 +134,7 @@ public class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSour
         {
             throw new ArgumentNullException("obj");
         }
+
         return comparer.GetHashCode(projection(obj));
     }
 }

@@ -6,6 +6,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { Indent } from '../../editor/indent'
 import { lowlight } from 'lowlight/lib/core'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
@@ -43,7 +44,8 @@ const editor = useEditor({
         Image.configure({
             inline: true,
             allowBase64: true,
-        })
+        }),
+        Indent
     ],
     editorProps: {
         handleClick: (view, pos, event) => {

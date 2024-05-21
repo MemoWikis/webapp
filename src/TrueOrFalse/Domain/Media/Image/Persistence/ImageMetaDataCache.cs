@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-public class ImageMetaDataCache : BaseEntityCache
+public class ImageMetaDataCache
 {
 
     private static readonly string _imageMetaDatasQuestionsKey = "imageMetaDatasQuestion";
@@ -45,14 +45,14 @@ public class ImageMetaDataCache : BaseEntityCache
         ImageMetaDataReadingRepo imageMetaDataReadingRepo)
     {
 
-        var cache = (ConcurrentDictionary<(int, int), ImageMetaData>)_cache.Get(cacheKey);
+        var cache = (ConcurrentDictionary<(int, int), ImageMetaData>)Cache.Mgr.Get(cacheKey);
         if (cache == null || cache.Any() == false)
         {
             var metadata = imageMetaDataReadingRepo.GetAll();
-            IntoForeverCache(cacheKey, metadata.ToConcurrentDictionary());
+            Cache.IntoForeverCache(cacheKey, metadata.ToConcurrentDictionary());
         }
 
-        return _cache.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
+        return Cache.Mgr.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
     }
 
     private static ImageType GetImageType(string key)

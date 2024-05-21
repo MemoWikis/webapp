@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TrueOrFalse.Search
+﻿namespace TrueOrFalse.Search
 {
     public class MeiliSearchQuestionMap : IRegisterAsInstancePerLifetime
     {
@@ -9,10 +7,9 @@ namespace TrueOrFalse.Search
         public string Description { get; set; }
         public string Solution { get; set; }
         public int SolutionType { get; set; }
-   
+
         public int? CreatorId { get; set; }
         public ICollection<string> Categories { get; set; }
         public ICollection<int> CategoryIds { get; set; }
-
     }
 }

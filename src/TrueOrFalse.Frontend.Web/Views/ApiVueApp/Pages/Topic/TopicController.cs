@@ -1,24 +1,88 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using VueApp;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
-public class TopicController : BaseController
+public class TopicController(
+    SessionUser _sessionUser,
+    CategoryViewRepo _categoryViewRepo,
+    PermissionCheck _permissionCheck,
+    KnowledgeSummaryLoader _knowledgeSummaryLoader,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo)
+    : Controller
 {
-    private readonly TopicControllerLogic _topicControllerLogic;
-    private readonly CategoryViewRepo _categoryViewRepo;
-
-    public TopicController(SessionUser sessionUser,
-        TopicControllerLogic topicControllerLogic, CategoryViewRepo categoryViewRepo) : base(sessionUser)
-    {
-        _topicControllerLogic = topicControllerLogic;
-        _categoryViewRepo = categoryViewRepo;
-    }
-
     [HttpGet]
-    public JsonResult GetTopic([FromRoute] int id)
+    public TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-        return Json(_topicControllerLogic.GetTopicData(id));
-    }
-}
 
+        var data = new TopicDataManager(
+                _sessionUser,
+                _permissionCheck,
+                _knowledgeSummaryLoader,
+                _categoryViewRepo,
+                _imageMetaDataReadingRepo,
+                _httpContextAccessor,
+                _questionReadingRepo)
+            .GetTopicData(id);
+
+        if (data == null)
+            return new TopicDataResult();
+
+        return new TopicDataResult
+        {
+            Name = data.Name,
+            Id = data.Id,
+            Authors = data.Authors,
+            AuthorIds = data.AuthorIds,
+            CanAccess = data.CanAccess,
+            CanBeDeleted = data.CanBeDeleted,
+            ChildTopicCount = data.ChildTopicCount,
+            Content = data.Content,
+            CurrentUserIsCreator = data.CurrentUserIsCreator,
+            DirectQuestionCount = data.DirectQuestionCount,
+            DirectVisibleChildTopicCount = data.DirectVisibleChildTopicCount,
+            GridItems = data.GridItems,
+            ImageId = data.ImageId,
+            ImageUrl = data.ImageUrl,
+            IsChildOfPersonalWiki = data.IsChildOfPersonalWiki,
+            IsWiki = data.IsWiki,
+            KnowledgeSummary = data.KnowledgeSummary,
+            MetaDescription = data.MetaDescription,
+            ParentTopicCount = data.ParentTopicCount,
+            Parents = data.Parents,
+            QuestionCount = data.QuestionCount,
+            TopicItem = data.TopicItem,
+            Views = data.Views,
+            Visibility = data.Visibility,
+        };
+    }
+
+    public record struct TopicDataResult(
+        bool CanAccess,
+        int Id,
+        string Name,
+        string ImageUrl,
+        string Content,
+        int ParentTopicCount,
+        TopicDataManager.Parent[] Parents,
+        int ChildTopicCount,
+        int DirectVisibleChildTopicCount,
+        int Views,
+        CategoryVisibility Visibility,
+        int[] AuthorIds,
+        TopicDataManager.Author[] Authors,
+        bool IsWiki,
+        bool CurrentUserIsCreator,
+        bool CanBeDeleted,
+        int QuestionCount,
+        int DirectQuestionCount,
+        int ImageId,
+        SearchTopicItem TopicItem,
+        string MetaDescription,
+        TopicDataManager.KnowledgeSummarySlim KnowledgeSummary,
+        TopicGridManager.GridTopicItem[] GridItems,
+        bool IsChildOfPersonalWiki
+    );
+}

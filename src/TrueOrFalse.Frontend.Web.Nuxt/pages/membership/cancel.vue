@@ -33,13 +33,16 @@ if (result.value?.success == true) {
                 zögern Sie bitte nicht, uns zu kontaktieren.
                 Unser freundliches Support-Team steht Ihnen gerne zur Verfügung.</p>
             <div class="helper-links">
-                <a href="https://discord.com/invite/nXKwGrN" target="_blank"><i class="fab fa-discord"
-                        aria-hidden="true"></i>Discord</a>
 
-                <nuxt-link v-for="(nameAndLink) in  topicArray " :to="nameAndLink.link" target="_blank" :key="nameAndLink.link"
-                    v-if="result?.success == true">{{
-                        nameAndLink.name
-                    }}</nuxt-link><br />
+                <NuxtLink to="https://discord.com/invite/nXKwGrN" external>
+                    <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
+                </NuxtLink>
+
+                <NuxtLink v-for="(nameAndLink) in topicArray " :to="nameAndLink.link" target="_blank"
+                    :key="nameAndLink.link" v-if="result?.success == true">
+                    {{ nameAndLink.name }}
+                </NuxtLink>
+                <br />
             </div>
         </div>
     </div>

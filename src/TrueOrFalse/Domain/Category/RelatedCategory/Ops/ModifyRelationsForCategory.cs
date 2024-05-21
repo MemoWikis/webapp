@@ -1,15 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-
-public class ModifyRelationsForCategory
+﻿public class ModifyRelationsForCategory(
+    CategoryRepository _categoryRepository,
+    CategoryRelationRepo _categoryRelationRepo)
 {
-    private readonly CategoryRepository _categoryRepository;
-
-    public ModifyRelationsForCategory(CategoryRepository categoryRepository)
-    {
-        _categoryRepository = categoryRepository;
-    }
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
@@ -21,88 +13,119 @@ public class ModifyRelationsForCategory
         IList<int> relatedCategorieIds)
     {
         var category = _categoryRepository.GetByIdEager(categoryId);
-        var relatedCategoriesAsCategories = _categoryRepository.GetByIdsEager(relatedCategorieIds);
-        var existingRelationsOfType = GetExistingRelations(category).ToList();
     }
 
     public void AddParentCategory(Category category, int parentId)
     {
         var relatedCategory = _categoryRepository.GetByIdEager(parentId);
+        var previousCachedRelation =
+            EntityCache.GetCategory(parentId).ChildRelations.LastOrDefault();
+
+        if (previousCachedRelation != null)
+        {
+            var previousRelation = _categoryRelationRepo.GetById(previousCachedRelation.Id);
+            previousRelation.NextId = category.Id;
+
+            _categoryRelationRepo.Update(previousRelation);
+        }
+
         var categoryRelationToAdd = new CategoryRelation()
         {
-            Category = category,
-            RelatedCategory = relatedCategory,
+            Child = category,
+            Parent = relatedCategory,
+            PreviousId = previousCachedRelation?.ChildId
         };
-        if (!category.CategoryRelations.Any(cr =>
-                cr.Category == categoryRelationToAdd.Category &&
-                cr.RelatedCategory == categoryRelationToAdd.RelatedCategory))
-        {
-            category.CategoryRelations.Add(categoryRelationToAdd);
-        }
+
+        _categoryRelationRepo.Create(categoryRelationToAdd);
     }
 
-    public static IEnumerable<CategoryRelation> GetExistingRelations(Category category)
+    public void AddChild(int parentId, int childId)
     {
-        return category.CategoryRelations.Any()
-            ? category.CategoryRelations?.Where(r => r.RelatedCategory.Id == category.Id).ToList()
-            : new List<CategoryRelation>();
-    }
+        var cachedParent = EntityCache.GetCategory(parentId);
+        var previousCacheRelation = cachedParent?.ChildRelations.LastOrDefault();
 
-    public static void RemoveRelation(Category category, Category relatedCategory)
-    {
-        for (int i = 0; i < category.CategoryRelations.Count; i++)
+        var child = _categoryRepository.GetById(childId);
+        var parent = _categoryRepository.GetById(parentId);
+
+        var relation = new CategoryRelation
         {
-            var relation = category.CategoryRelations[i];
-            if (relation.Category.Id == category.Id &&
-                relation.RelatedCategory.Id == relatedCategory.Id)
+            Child = child,
+            Parent = parent,
+            PreviousId = previousCacheRelation?.ChildId,
+            NextId = null,
+        };
+
+        _categoryRelationRepo.Create(relation);
+
+        if (previousCacheRelation != null)
+        {
+            var previousRelation = _categoryRelationRepo.GetById(previousCacheRelation.Id);
+            if (previousRelation != null)
             {
-                category.CategoryRelations.RemoveAt(i);
-                break;
+                previousRelation.NextId = childId;
+                _categoryRelationRepo.Update(previousRelation);
+            }
+        }
+
+        ModifyRelationsEntityCache.AddChild(relation);
+    }
+
+    public int CreateNewRelationAndGetId(int parentId, int childId, int? nextId, int? previousId)
+    {
+        var child = _categoryRepository.GetById(childId);
+        var parent = _categoryRepository.GetById(parentId);
+
+        var relation = new CategoryRelation
+        {
+            Child = child,
+            Parent = parent,
+            PreviousId = previousId,
+            NextId = nextId,
+        };
+
+        _categoryRelationRepo.Create(relation);
+        return relation.Id;
+    }
+
+    public void UpdateRelationsInDb(List<CategoryCacheRelation> cachedRelations, int authorId)
+    {
+        foreach (var r in cachedRelations)
+        {
+            Logg.r.Information(
+                "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
+                r.Id, r.ChildId, r.ParentId);
+
+            var relationToUpdate = _categoryRelationRepo.GetById(r.Id);
+
+            if (relationToUpdate != null)
+            {
+                var child = _categoryRepository.GetById(r.ChildId);
+                var parent = _categoryRepository.GetById(r.ParentId);
+
+                relationToUpdate.Child = child;
+                relationToUpdate.Parent = parent;
+                relationToUpdate.PreviousId = r.PreviousId;
+                relationToUpdate.NextId = r.NextId;
+
+                _categoryRelationRepo.Update(relationToUpdate);
+
+                _categoryRepository.Update(child, authorId, type: CategoryChangeType.Relations);
+                _categoryRepository.Update(parent, authorId, type: CategoryChangeType.Relations);
             }
         }
     }
 
-    public bool RemoveChildCategoryRelation(int parentCategoryIdToRemove, int childCategoryId, PermissionCheck permissionCheck)
+    public void DeleteRelationInDb(int relationId, int authorId)
     {
-        var childCategory = EntityCache.GetCategory(childCategoryId);
-        var parentCategories = childCategory.ParentCategories().Where(c => c.Id != parentCategoryIdToRemove);
-        var parentCategoryAsCategory = _categoryRepository.GetById(parentCategoryIdToRemove);
+        var relationToDelete = relationId > 0 ? _categoryRelationRepo.GetById(relationId) : null;
+        Logg.r.Information("Job started - DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}", relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
 
-        if (!childCategory.IsStartPage() && !CheckParentAvailability(parentCategories, childCategory))
-            return false;
+        if (relationToDelete != null)
+        {
+            _categoryRelationRepo.Delete(relationToDelete);
+            _categoryRepository.Update(relationToDelete.Child, authorId, type: CategoryChangeType.Relations);
+            _categoryRepository.Update(relationToDelete.Parent, authorId, type: CategoryChangeType.Relations);
+        }
 
-        if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEditCategory(parentCategoryIdToRemove))  
-            throw new SecurityException("Not allowed to edit category");
-
-        var childCategoryAsCategory = _categoryRepository.GetById(childCategory.Id);
-
-        RemoveRelation(
-            childCategoryAsCategory,
-            parentCategoryAsCategory);
-
-        RemoveRelation(
-            parentCategoryAsCategory,
-            childCategoryAsCategory);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            childCategory,
-            parentCategoryIdToRemove);
-
-        ModifyRelationsEntityCache.RemoveRelation(
-            EntityCache.GetCategory(parentCategoryIdToRemove),
-            childCategoryId);
-
-        return true;
-    }
-
-    private static bool CheckParentAvailability(IEnumerable<CategoryCacheItem> parentCategories, CategoryCacheItem childCategory)
-    {
-        var allParentsArePrivate = parentCategories.All(c => c.Visibility != CategoryVisibility.All);
-        var childIsPublic = childCategory.Visibility == CategoryVisibility.All;
-
-        if (!parentCategories.Any() || allParentsArePrivate && childIsPublic)
-            return false;
-
-        return true;
     }
 }

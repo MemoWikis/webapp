@@ -1,5 +1,4 @@
-﻿
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -8,16 +7,18 @@ using TrueOrFalse.Web.Context;
 public class SessionUser : IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
-    private readonly SessionUserCache _sessionUserCache;
+    private readonly ExtendedUserCache _extendedUserCache;
 
-    public SessionUser(IHttpContextAccessor httpContextAccessor,
-        SessionUserCache sessionUserCache)
+    public SessionUser(
+        IHttpContextAccessor httpContextAccessor,
+        ExtendedUserCache extendedUserCache)
     {
-        _httpContext = httpContextAccessor.HttpContext; ;
-        _sessionUserCache = sessionUserCache;
+        _httpContext = httpContextAccessor.HttpContext;
+        ;
+        _extendedUserCache = extendedUserCache;
     }
 
-    public bool SessionIsActive () => _httpContext.Session is not null;
+    public bool SessionIsActive() => _httpContext.Session is not null;
 
     public bool HasBetaAccess
     {
@@ -45,8 +46,18 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-    public SessionUserCacheItem User => _userId < 0 ? null : _sessionUserCache.GetUser(_userId);
-    //public SessionUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
+    public ExtendedUserCacheItem User
+    {
+        get
+        {
+            if (_userId > 0)
+                return _extendedUserCache.GetUser(_userId);
+
+            throw new Exception("user is not logged in");
+        }
+    }
+
+    //public ExtendedUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
 
     public bool IsLoggedInUser(int userId)
     {
@@ -70,8 +81,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString())
         };
-        var userCacheItem = _sessionUserCache.CreateSessionUserItemFromDatabase(user.Id);
-        _sessionUserCache.AddOrUpdate(userCacheItem);
+        _extendedUserCache.Add(user.Id);
     }
 
     public async void Logout()
@@ -82,11 +92,12 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         CurrentWikiId = 1;
 
         if (_httpContext != null)
-           await _httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
-
-    public List<ActivityPoints> ActivityPoints => _httpContext.Session.Get<List<ActivityPoints>>("pointActivities") ?? new List<ActivityPoints>();
+    public List<ActivityPoints> ActivityPoints =>
+        _httpContext.Session.Get<List<ActivityPoints>>("pointActivities") ??
+        new List<ActivityPoints>();
 
     public void AddPointActivity(ActivityPoints activityPoints)
     {
@@ -102,10 +113,12 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
         return totalPoints;
     }
+
     public bool IsLoggedInUserOrAdmin()
     {
         return IsLoggedInUser(UserId) || IsInstallationAdmin;
     }
+
     public int CurrentWikiId
     {
         get => _httpContext.Session.GetInt32("currentWikiId") ?? 1;
@@ -113,7 +126,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     }
 
     public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
-    public void SetWikiId(int id) => CurrentWikiId = id;
 
-   
+    public void SetWikiId(int id) => CurrentWikiId = id;
 }

@@ -1,5 +1,4 @@
-﻿
-public class ContextCategory : BaseTest
+﻿public class ContextCategory : BaseTest
 {
     private readonly CategoryRepository _categoryRepository;
     private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
@@ -37,15 +36,15 @@ public class ContextCategory : BaseTest
     public ContextCategory Add(
         string categoryName,
         CategoryType categoryType = CategoryType.Standard,
-        User creator = null)
+        User? creator = null,
+        CategoryVisibility visibility = CategoryVisibility.All)
     {
-
         var category = new Category
         {
             Name = categoryName,
             Creator = creator ?? _contextUser.All.First(),
             Type = categoryType,
-
+            Visibility = visibility
         };
 
         All.Add(category);
@@ -53,30 +52,20 @@ public class ContextCategory : BaseTest
         return this;
     }
 
-
-    public ContextCategory AddParentToCategory(Category child, Category parent)
+    public ContextCategory AddChild(Category parent, Category child)
     {
-        var childFromDb = _categoryRepository.GetById(child.Id);
-        var parentFromDb = _categoryRepository.GetById(parent.Id);
-
-        if (parentFromDb != null) // set parent
-        {
-            childFromDb.CategoryRelations.Add(new CategoryRelation
-            {
-                Category = childFromDb,
-                RelatedCategory = parentFromDb,
-            });
-        }
+        var modifyRelationsForCategory =
+            new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
+        modifyRelationsForCategory.AddChild(parent.Id, child.Id);
 
         return this;
     }
 
-
-    public ContextCategory AddToEntityCache( Category category)
+    public ContextCategory AddToEntityCache(Category category)
     {
         var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
 
-        var cacheUser = UserCacheItem.ToCacheUser(category.Creator); 
+        var cacheUser = UserCacheItem.ToCacheUser(category.Creator);
         EntityCache.AddOrUpdate(cacheUser);
         EntityCache.AddOrUpdate(categoryCacheItem);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
@@ -84,7 +73,6 @@ public class ContextCategory : BaseTest
         All.Add(category);
         return this;
     }
-
 
     public ContextCategory QuestionCount(int questionCount)
     {
@@ -99,7 +87,8 @@ public class ContextCategory : BaseTest
                 _categoryRepository.Create(cat);
             else
             {
-                _categoryRepository.Update(cat, authorId: cat.AuthorIds.First(), type: CategoryChangeType.Relations);
+                _categoryRepository.Update(cat, authorId: cat.AuthorIds.First(),
+                    type: CategoryChangeType.Relations);
             }
 
         return this;
@@ -179,12 +168,17 @@ public class ContextCategory : BaseTest
         if (aggregatedCategorys.Any() == false)
             return false;
 
-        return aggregatedCategorys.TryGetValue(childId, out _); 
+        return aggregatedCategorys.TryGetValue(childId, out _);
     }
 
     public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
     {
-        return categoryCacheItem.CategoryRelations.Any(cr =>
-            cr.RelatedCategoryId == deletedId || cr.CategoryId == deletedId);
+        return categoryCacheItem.ParentRelations.Any(cr =>
+            cr.ParentId == deletedId || cr.ChildId == deletedId);
+    }
+
+    public Category GetTopicByName(string name)
+    {
+        return All.Single(c => c.Name == name);
     }
 }

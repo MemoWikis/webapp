@@ -1,70 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
-using Seedworks.Web.State;
 using TrueOrFalse;
 
 namespace VueApp;
-public class QuickCreateQuestionController : BaseController
-{
-    private readonly LearningSessionCreator _learningSessionCreator;
-    private readonly QuestionInKnowledge _questionInKnowledge;
-    private readonly LearningSessionCache _learningSessionCache;
-    private readonly CategoryRepository _categoryRepository;
-    private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionWritingRepo _questionWritingRepo;
-    private readonly SessionUserCache _sessionUserCache;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IActionContextAccessor _actionContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly PermissionCheck _permissionCheck;
-    private readonly ImageStore _imageStore;
-    private readonly SessionUiData _sessionUiData;
-    private readonly QuestionChangeRepo _questionChangeRepo;
 
-    public QuickCreateQuestionController(SessionUser sessionUser,
-        LearningSessionCreator learningSessionCreator,
-        QuestionInKnowledge questionInKnowledge,
-        LearningSessionCache learningSessionCache,
-        CategoryRepository categoryRepository,
-        ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        UserReadingRepo userReadingRepo, 
-        QuestionWritingRepo questionWritingRepo,
-        SessionUserCache sessionUserCache,
-        IHttpContextAccessor httpContextAccessor,
-        IActionContextAccessor actionContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        QuestionReadingRepo questionReadingRepo, 
-        QuestionChangeRepo questionChangeRepo, 
-        SessionUiData sessionUiData, 
-        ImageStore imageStore, 
-        PermissionCheck permissionCheck) : base(sessionUser)
-    {
-        _sessionUser = sessionUser;
-        _learningSessionCreator = learningSessionCreator;
-        _questionInKnowledge = questionInKnowledge;
-        _learningSessionCache = learningSessionCache;
-        _categoryRepository = categoryRepository;
-        _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
-        _userReadingRepo = userReadingRepo;
-        _questionWritingRepo = questionWritingRepo;
-        _sessionUserCache = sessionUserCache;
-        _httpContextAccessor = httpContextAccessor;
-        _actionContextAccessor = actionContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _questionReadingRepo = questionReadingRepo;
-        _questionChangeRepo = questionChangeRepo;
-        _sessionUiData = sessionUiData;
-        _imageStore = imageStore;
-        _permissionCheck = permissionCheck;
-    }
+public class QuickCreateQuestionController(
+    SessionUser _sessionUser,
+    LearningSessionCreator _learningSessionCreator,
+    QuestionInKnowledge _questionInKnowledge,
+    LearningSessionCache _learningSessionCache,
+    CategoryRepository _categoryRepository,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    UserReadingRepo _userReadingRepo,
+    QuestionWritingRepo _questionWritingRepo,
+    ExtendedUserCache _extendedUserCache,
+    IHttpContextAccessor _httpContextAccessor,
+    IActionContextAccessor _actionContextAccessor,
+    QuestionReadingRepo _questionReadingRepo) : Controller
+{
     public readonly record struct CreateFlashcardParam(
         int TopicId,
         string TextHtml,
@@ -74,17 +32,20 @@ public class QuickCreateQuestionController : BaseController
         int LastIndex,
         LearningSessionConfig SessionConfig
     );
+
+    public readonly record struct CreateFlashcardResult(bool Success, int Data, string MessageKey);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult CreateFlashcard([FromBody] CreateFlashcardParam param)
+    public CreateFlashcardResult CreateFlashcard([FromBody] CreateFlashcardParam param)
     {
         var safeText = GetSafeText(param.TextHtml);
         if (safeText.Length <= 0)
-            return Json(new RequestResult
+            return new CreateFlashcardResult
             {
-                success = false,
-                data = FrontendMessageKeys.Error.Question.MissingText
-            });
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Question.MissingText
+            };
 
         var question = new Question();
 
@@ -96,11 +57,11 @@ public class QuickCreateQuestionController : BaseController
         solutionModelFlashCard.Text = param.Answer;
 
         if (solutionModelFlashCard.Text.Length <= 0)
-            return Json(new RequestResult
+            return new CreateFlashcardResult
             {
-                success = false,
-                data = FrontendMessageKeys.Error.Question.MissingAnswer
-            });
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
+            };
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
 
@@ -118,30 +79,21 @@ public class QuickCreateQuestionController : BaseController
         if (param.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        _learningSessionCreator.InsertNewQuestionToLearningSession(EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
-        var questionController = new VueEditQuestionController(_sessionUser,
-            _learningSessionCache,
-            _permissionCheck,
-            _learningSessionCreator,
-            _questionInKnowledge,
-            _categoryRepository,
-            _imageMetaDataReadingRepo,
-            _imageStore,
-            _sessionUiData,
-            _userReadingRepo,
-            _questionChangeRepo,
-            _questionWritingRepo,
-            _questionReadingRepo,
-            _sessionUserCache,
-            _httpContextAccessor,
-            _webHostEnvironment,
-            _actionContextAccessor); 
+        _learningSessionCreator.InsertNewQuestionToLearningSession(
+            EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
 
-        return Json(new RequestResult
+        return new CreateFlashcardResult
         {
-            success = true,
-            data = questionController.LoadQuestion(question.Id).SessionIndex
-        });
+            Success = true,
+            Data = new QuestionLoader(
+                _sessionUser,
+                _extendedUserCache,
+                _httpContextAccessor,
+                _actionContextAccessor,
+                _imageMetaDataReadingRepo,
+                _questionReadingRepo,
+                _learningSessionCache).LoadQuestion(question.Id).SessionIndex
+        };
     }
 
     private string GetSafeText(string text)

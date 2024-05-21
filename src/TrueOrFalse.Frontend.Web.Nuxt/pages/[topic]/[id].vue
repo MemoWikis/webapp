@@ -4,6 +4,7 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
@@ -43,7 +44,7 @@ const router = useRouter()
 
 function setTopic() {
     if (topic.value != null) {
-        if (topic.value?.CanAccess) {
+        if (topic.value?.canAccess) {
 
             topicStore.setTopic(topic.value)
 
@@ -53,27 +54,24 @@ function setTopic() {
             })
 
             useHead({
-                title: topic.value.Name,
+                title: topic.value.name,
             })
             watch(() => tabsStore.activeTab, (t) => {
                 tabSwitched.value = true
                 if (topic.value == null)
                     return
                 if (t == Tab.Topic)
-                    router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id))
+                    router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id))
 
                 else if (t == Tab.Learning && route.params.questionId != null)
-                    router.push($urlHelper.getTopicUrlWithQuestionId(topic.value.Name, topic.value.Id, route.params.questionId.toString()))
+                    router.push($urlHelper.getTopicUrlWithQuestionId(topic.value.name, topic.value.id, route.params.questionId.toString()))
 
                 else if (t == Tab.Learning)
-                    router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Learning))
+                    router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id, Tab.Learning))
 
                 else if (t == Tab.Analytics)
-                    router.push($urlHelper.getTopicUrl(topic.value.Name, topic.value.Id, Tab.Analytics))
+                    router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id, Tab.Analytics))
             })
-
-            watch(() => route, (val) => {
-            }, { deep: true, immediate: true })
 
             watch(() => topicStore.name, () => {
                 useHead({
@@ -86,6 +84,11 @@ function setTopic() {
         }
     }
 }
+
+onMounted(() => {
+    watch(() => route, (val) => {
+    }, { deep: true, immediate: true })
+})
 setTopic()
 
 const emit = defineEmits(['setPage'])
@@ -96,13 +99,13 @@ function setTab() {
         switch (props.tab) {
             case Tab.Learning:
                 tabsStore.activeTab = Tab.Learning
-                break;
+                break
             case Tab.Feed:
                 tabsStore.activeTab = Tab.Feed
-                break;
+                break
             case Tab.Analytics:
                 tabsStore.activeTab = Tab.Analytics
-                break;
+                break
             default: tabsStore.activeTab = Tab.Topic
         }
     }
@@ -113,32 +116,32 @@ onMounted(() => setTab())
 const loginStateHasChanged = ref<boolean>(false)
 watch(() => userStore.isLoggedIn, () => loginStateHasChanged.value = true)
 watch(topic, async (oldTopic, newTopic) => {
-    if (oldTopic?.Id == newTopic?.Id && loginStateHasChanged.value && process.client) {
+    if (oldTopic?.id == newTopic?.id && loginStateHasChanged.value && process.client) {
         await nextTick()
         setTopic()
     }
     loginStateHasChanged.value = false
-}, { deep: true })
+}, { deep: true, immediate: true })
 
 useHead(() => ({
     link: [
         {
             rel: 'canonical',
-            href: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
+            href: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.name!, topic.value?.id!)}`
         },
     ],
     meta: [
         {
             name: 'description',
-            content: topic.value?.MetaDescription
+            content: topic.value?.metaDescription
         },
         {
             property: 'og:title',
-            content: topic.value?.Name
+            content: topic.value?.name
         },
         {
             property: 'og:url',
-            content: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.Name!, topic.value?.Id!)}`
+            content: `${config.public.officialBase}${$urlHelper.getTopicUrl(topic.value?.name!, topic.value?.id!)}`
         },
         {
             property: 'og:type',
@@ -146,7 +149,7 @@ useHead(() => ({
         },
         {
             property: 'og:image',
-            content: topic.value?.ImageUrl
+            content: topic.value?.imageUrl
         }
     ]
 }))
@@ -158,20 +161,12 @@ watch(() => props.tab, (t) => {
     }
 
 }, { immediate: true })
-
-watch(() => props.tab, (t) => {
-    if (t != null) {
-        tabsStore.activeTab = t
-    }
-
-}, { immediate: true })
-
 </script>
 
 <template>
     <div class="container">
         <div class="row topic-container main-page">
-            <template v-if="topic?.CanAccess">
+            <template v-if="topic?.canAccess">
                 <div class="col-lg-9 col-md-12 container">
                     <TopicHeader />
 
@@ -184,56 +179,18 @@ watch(() => props.tab, (t) => {
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
                                     <div class="col-xs-12">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
-                                            id="TopicContentPlaceholder">
+                                            id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
                                     </div>
                                 </div>
                             </template>
                         </ClientOnly>
-
-                        <!-- <DevOnly>
-                            <ClientOnly>
-                                <div>   
-                                    DevGrid
-                                </div>
-                                <TopicContentGridDndGrid
-                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topicStore.gridItems" />
-                                <template #fallback>
-                                    <TopicContentGridDndGrid
-                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                        :children="topic.gridItems" />
-                                </template>
-                            </ClientOnly>
-
-                            <template #fallback>
-                                <ClientOnly>
-                                    <TopicContentGrid
-                                        v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                        :children="topicStore.gridItems" />
-                                    <template #fallback>
-                                        <TopicContentGrid
-                                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                            :children="topic.gridItems" />
-                                    </template>
-                                </ClientOnly>
-                            </template>
-
-                        </DevOnly> -->
                         <div id="EditBarAnchor"></div>
+
                         <TopicContentGrid
                             v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
                             :children="topicStore.gridItems" />
-                        <!-- <ClientOnly>
-                            <TopicContentGrid
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                :children="topicStore.gridItems" />
-                            <template #fallback>
-                                <TopicContentGrid
-                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                                    :children="topic.gridItems" />
-                            </template>
-                        </ClientOnly> -->
+
                         <ClientOnly>
                             <TopicTabsQuestions
                                 v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
@@ -253,7 +210,6 @@ watch(() => props.tab, (t) => {
                             <TopicToPrivateModal />
                             <TopicDeleteModal />
                         </ClientOnly>
-
                     </template>
                 </div>
                 <Sidebar :documentation="props.documentation" class="is-topic" />
@@ -270,9 +226,16 @@ watch(() => props.tab, (t) => {
 
 #TopicContentPlaceholder {
     padding: 0px;
+    margin-bottom: 70px;
 
     p {
         min-height: 30px;
+    }
+
+    &.is-mobile {
+        p {
+            min-height: 21px;
+        }
     }
 
     ul,

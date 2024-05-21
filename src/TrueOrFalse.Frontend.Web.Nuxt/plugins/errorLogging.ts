@@ -30,7 +30,6 @@ export default defineNuxtPlugin((nuxtApp) => {
                 message: error.message ?? "unknown message",
                 stack: error.stack ?? "no stack",
             }
-
             logger.error(`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
         } else
             logger.error(`NUXT ERROR`, [{ error: 'An unknown error occured', route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])

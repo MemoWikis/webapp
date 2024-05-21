@@ -1,10 +1,9 @@
-using System.Linq;
 using System.Xml;
 using TrueOrFalse.WikiMarkup;
 
 namespace TrueOrFalse
 {
-    public class WikiImageLicenseInfo   
+    public class WikiImageLicenseInfo
     {
         public string AuthorName;
         public string Description;

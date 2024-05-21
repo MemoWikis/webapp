@@ -1,154 +1,161 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿#nullable enable
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class VueUserSettingsController : BaseController
+public class VueUserSettingsController(
+    SessionUser _sessionUser,
+    ReputationUpdate _reputationUpdate,
+    CredentialsAreValid _credentialsAreValid,
+    UserReadingRepo _userReadingRepo,
+    PasswordRecovery _passwordRecovery,
+    UserWritingRepo _userWritingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    IWebHostEnvironment _webHostEnvironment,
+    Logg _logg,
+    QuestionReadingRepo _questionReadingRepo,
+    JobQueueRepo _jobQueueRepo) : Controller
 {
-    private readonly ReputationUpdate _reputationUpdate;
-    private readonly CredentialsAreValid _credentialsAreValid;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly PasswordRecovery _passwordRecovery;
-    private readonly UserWritingRepo _userWritingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly Logg _logg;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly JobQueueRepo _jobQueueRepo;
-
-    public VueUserSettingsController(SessionUser sessionUser,
-        ReputationUpdate reputationUpdate,
-        CredentialsAreValid credentialsAreValid,
-        UserReadingRepo userReadingRepo,
-        PasswordRecovery passwordRecovery,
-        UserWritingRepo userWritingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
-        Logg logg,
-        QuestionReadingRepo questionReadingRepo,
-        JobQueueRepo jobQueueRepo) : base(sessionUser)
-    {
-        _reputationUpdate = reputationUpdate;
-        _credentialsAreValid = credentialsAreValid;
-        _userReadingRepo = userReadingRepo;
-        _passwordRecovery = passwordRecovery;
-        _userWritingRepo = userWritingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-        _logg = logg;
-        _questionReadingRepo = questionReadingRepo;
-        _jobQueueRepo = jobQueueRepo;
-    }
+    public record struct ChangeNotificationIntervalPreferencesResult(
+        UIMessage Message,
+        bool Success);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeNotificationIntervalPreferences([FromBody] UserSettingNotificationInterval notificationInterval)
+    public ChangeNotificationIntervalPreferencesResult ChangeNotificationIntervalPreferences(
+        [FromBody] UserSettingNotificationInterval notificationInterval)
     {
         var result = new UpdateKnowledgeReportIntervalResult();
         var updatedResult =
-            UpdateKnowledgeReportInterval.Run(_userReadingRepo.GetById(_sessionUser.UserId), notificationInterval, result, _userWritingRepo);
+            UpdateKnowledgeReportInterval.Run(_userReadingRepo.GetById(_sessionUser.UserId),
+                notificationInterval, result, _userWritingRepo);
         var message = updatedResult.ResultMessage;
         if (result.Success && _sessionUser.User.Id == result.AffectedUser.Id)
         {
-            _sessionUser.User.KnowledgeReportInterval = updatedResult.AffectedUser.KnowledgeReportInterval;
+            _sessionUser.User.KnowledgeReportInterval =
+                updatedResult.AffectedUser.KnowledgeReportInterval;
             EntityCache.AddOrUpdate(_sessionUser.User);
             _userWritingRepo.Update(_sessionUser.User);
-            return Json(new
+            return new ChangeNotificationIntervalPreferencesResult
             {
-                success = true,
-                message
-            });
+                Success = true,
+                Message = message
+            };
         }
 
-        return Json(new
+        return new ChangeNotificationIntervalPreferencesResult
         {
-            success = false
-        });
+            Success = false
+        };
     }
 
-    public readonly record struct ChangePasswordData(string currentPassword, string newPassword);
+    public class ChangePasswordData
+    {
+        public string CurrentPassword { get; set; }
+        public string NewPassword { get; set; }
+    };
+
+    public readonly record struct ChangePasswordResult(bool Success, string Message);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangePassword([FromBody] ChangePasswordData data)
+    public ChangePasswordResult ChangePassword([FromBody] ChangePasswordData data)
     {
-        if (!_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, data.currentPassword))
-            return Json(new
+        if (!_credentialsAreValid.Yes(_sessionUser.User.EmailAddress, data.CurrentPassword))
+            return new ChangePasswordResult
             {
-                success = false,
-                message = "passwordIsWrong"
-            });
+                Success = false,
+                Message = "passwordIsWrong"
+            };
 
-        if (data.currentPassword == data.newPassword)
-            return Json(new
+        if (data.CurrentPassword == data.NewPassword)
+            return new ChangePasswordResult
             {
-                success = false,
-                message = "samePassword"
-            });
+                Success = false,
+                Message = "samePassword"
+            };
 
         var user = _userReadingRepo.GetById(_sessionUser.User.Id);
-        SetUserPassword.Run(data.newPassword.Trim(), user);
+        SetUserPassword.Run(data.NewPassword.Trim(), user);
 
-        return Json(new
+        return new ChangePasswordResult
         {
-            success = true,
-            message = "passwordChanged"
-        });
-
-
+            Success = true,
+            Message = "passwordChanged"
+        };
     }
+
+    public readonly record struct ChangeProfileInformationResult(
+        bool Success,
+        string MessageKey,
+        UserResult Data);
+
+    public readonly record struct UserResult(
+        string Name,
+        string Email,
+        string ImgUrl,
+        string TinyImgUrl);
+
+    public class ProfileInformation
+    {
+        public string? Email { get; set; }
+        public IFormFile File { get; set; }
+        public int Id { get; set; }
+        public string? Username { get; set; }
+    };
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeProfileInformation([FromForm] ProfileInformation form)
+    public ChangeProfileInformationResult ChangeProfileInformation(
+        [FromForm] ProfileInformation form)
     {
-        if (form.id != _sessionUser.User.Id)
-            return Json(new RequestResult
+        if (form.Id != _sessionUser.User.Id)
+            return new ChangeProfileInformationResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.Default
-            });
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
+            };
 
-        if (form.email != null)
+        if (form.Email != null)
         {
-            var email = form.email.Trim();
+            var email = form.Email.Trim();
             if (email != _sessionUser.User.EmailAddress &&
-                IsEmailAddressAvailable.Yes(form.email, _userReadingRepo) &&
+                IsEmailAddressAvailable.Yes(form.Email, _userReadingRepo) &&
                 IsEmailAdressFormat.Valid(email))
             {
                 _sessionUser.User.EmailAddress = email;
                 _sessionUser.User.IsEmailConfirmed = false;
             }
 
-            else if (!IsEmailAddressAvailable.Yes(form.email, _userReadingRepo))
+            else if (!IsEmailAddressAvailable.Yes(form.Email, _userReadingRepo))
             {
-                return Json(new
+                return new ChangeProfileInformationResult
                 {
-                    success = false,
-                    messageKey = FrontendMessageKeys.Error.User.EmailInUse
-                });
+                    Success = false,
+                    MessageKey = FrontendMessageKeys.Error.User.EmailInUse
+                };
             }
         }
 
-
-        if (form.username != null && form.username.Trim() != _sessionUser.User.Name &&
-            IsUserNameAvailable.Yes(form.username, _userReadingRepo))
+        if (form.Username != null && form.Username.Trim() != _sessionUser.User.Name &&
+            IsUserNameAvailable.Yes(form.Username, _userReadingRepo))
         {
-            _sessionUser.User.Name = form.username.Trim();
+            _sessionUser.User.Name = form.Username.Trim();
         }
-        else if (form.username != null && !IsUserNameAvailable.Yes(form.username, _userReadingRepo))
+        else if (form.Username != null && !IsUserNameAvailable.Yes(form.Username, _userReadingRepo))
         {
-            return Json(new
+            return new ChangeProfileInformationResult
             {
-                success = false,
-                messageKey = FrontendMessageKeys.Error.User.UserNameInUse
-            }
-            );
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.User.UserNameInUse
+            };
         }
 
-        if (form.file != null)
-            UpdateUserImage.Run(form.file,
+        if (form.File != null)
+            UpdateUserImage.Run(form.File,
                 _sessionUser.UserId,
                 _httpContextAccessor,
                 _webHostEnvironment,
@@ -157,46 +164,61 @@ public class VueUserSettingsController : BaseController
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
 
-        if (form.email != null && form.email.Trim() != _sessionUser.User.EmailAddress && !_sessionUser.User.IsEmailConfirmed)
+        if (form.Email != null && form.Email.Trim() != _sessionUser.User.EmailAddress &&
+            !_sessionUser.User.IsEmailConfirmed)
             SendConfirmationEmail.Run(_sessionUser.User.Id, _jobQueueRepo, _userReadingRepo);
 
         var userImageSettings = new UserImageSettings(_sessionUser.UserId,
             _httpContextAccessor);
-        return Json(new
+        return new ChangeProfileInformationResult
         {
-            success = true,
-            messageKey = FrontendMessageKeys.Success.User.ProfileUpdate,
-            data = new
+            Success = true,
+            MessageKey = FrontendMessageKeys.Success.User.ProfileUpdate,
+            Data = new UserResult
             {
-                name = _sessionUser.User.Name,
-                email = _sessionUser.User.EmailAddress,
-                imgUrl = userImageSettings.GetUrl_256px_square(_sessionUser.User).Url,
-                tinyImgUrl = userImageSettings.GetUrl_50px_square(_sessionUser.User).Url
+                Name = _sessionUser.User.Name,
+                Email = _sessionUser.User.EmailAddress,
+                ImgUrl = userImageSettings.GetUrl_256px_square(_sessionUser.User).Url,
+                TinyImgUrl = userImageSettings.GetUrl_50px_square(_sessionUser.User).Url
             }
-        });
+        };
     }
 
-    public readonly record struct ChangeSupportLoginRightsJson(bool allowSupportiveLogin);
+    public class ChangeSupportLoginRightsJson
+    {
+        public bool AllowSupportiveLogin { get; set; }
+    };
+
+    public readonly record struct ChangeSupportLoginRightsResult(bool Success, string Message);
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeSupportLoginRights([FromBody] ChangeSupportLoginRightsJson json)
+    public ChangeSupportLoginRightsResult ChangeSupportLoginRights(
+        [FromBody] ChangeSupportLoginRightsJson json)
     {
-        _sessionUser.User.AllowsSupportiveLogin = json.allowSupportiveLogin;
+        _sessionUser.User.AllowsSupportiveLogin = json.AllowSupportiveLogin;
 
         EntityCache.AddOrUpdate(_sessionUser.User);
         _userWritingRepo.Update(_sessionUser.User);
 
-        return Json(new
+        return new ChangeSupportLoginRightsResult
         {
-            success = true,
-            message = "supportLoginUpdated"
-        });
+            Success = true,
+            Message = "supportLoginUpdated"
+        };
     }
 
-    public readonly record struct ChangeWuwiVisibilityJson(bool showWuwi);
+    public readonly record struct ChangeWuwiVisibilityJsonResult(bool Success, string Message);
+
+    public class ChangeWuwiVisibilityJson
+    {
+        public bool showWuwi { get; set; }
+    }
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public JsonResult ChangeWuwiVisibility([FromBody] ChangeWuwiVisibilityJson json)
+    public ChangeWuwiVisibilityJsonResult ChangeWuwiVisibility(
+        [FromBody] ChangeWuwiVisibilityJson json)
     {
         _sessionUser.User.ShowWishKnowledge = json.showWuwi;
 
@@ -205,16 +227,16 @@ public class VueUserSettingsController : BaseController
         _reputationUpdate.ForUser(_sessionUser
             .User); //setting of ShowWishKnowledge affects reputation of user -> needs recalculation
 
-        return Json(new
+        return new ChangeWuwiVisibilityJsonResult
         {
-            success = true,
-            message = "wuwiChanged"
-        });
+            Success = true,
+            Message = "wuwiChanged"
+        };
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public JsonResult DeleteUserImage()
+    public string DeleteUserImage()
     {
         var imageSettings = new UserImageSettings(_httpContextAccessor)
             .InitByType(new ImageMetaData
@@ -223,21 +245,14 @@ public class VueUserSettingsController : BaseController
                 TypeId = _sessionUser.User.Id
             }, _questionReadingRepo);
         imageSettings.DeleteFiles();
-        return Json(new UserImageSettings(_httpContextAccessor).GetUrl_256px_square(_sessionUser.User).Url);
+        return new UserImageSettings(_httpContextAccessor)
+            .GetUrl_256px_square(_sessionUser.User).Url;
     }
 
     [HttpPost]
-    public JsonResult ResetPassword()
+    public bool ResetPassword()
     {
         var passwordRecoveryResult = _passwordRecovery.RunForNuxt(_sessionUser.User.EmailAddress);
-        return Json(passwordRecoveryResult.Success);
-    }
-
-    public class ProfileInformation
-    {
-        public string email { get; set; } = null;
-        public IFormFile file { get; set; }
-        public int id { get; set; }
-        public string username { get; set; } = null;
+        return passwordRecoveryResult.Success;
     }
 }

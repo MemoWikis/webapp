@@ -81,8 +81,8 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         Category aliasCategory = null;
         var categoryCacheItem = EntityCache.GetCategory(categoryId);
         var childIds = categoryCacheItem
-            .CategoryRelations
-            .Select(cr => cr.RelatedCategoryId)
+            .ParentRelations
+            .Select(cr => cr.ParentId)
             .ToList();
 
         var query = _session

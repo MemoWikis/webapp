@@ -1,7 +1,5 @@
-﻿using System.Web;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using TrueOrFalse.Search;
 using ISession = NHibernate.ISession;
 
 public class SaveQuestionView : IRegisterAsInstancePerLifetime
@@ -12,13 +10,13 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
     private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SaveQuestionView(
-        QuestionViewRepository questionViewRepo, 
+        QuestionViewRepository questionViewRepo,
         ISession session,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
         _questionViewRepo = questionViewRepo;
-        
+
         _session = session;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
@@ -51,7 +49,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
             UserAgent = userAgent
         });
 
-        _session.CreateSQLQuery("UPDATE Question SET TotalViews = " + _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " + question.Id).
-            ExecuteUpdate();
+        _session.CreateSQLQuery("UPDATE Question SET TotalViews = " +
+                                _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " +
+                                question.Id).ExecuteUpdate();
     }
 }

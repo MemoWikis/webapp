@@ -1,17 +1,33 @@
 <script lang="ts" setup>
+import { useDragStore, MoveTopicTransferData } from './dragStore'
 interface Props {
-    transferData: any
+    transferData: MoveTopicTransferData | string
     disabled?: boolean
 }
 const props = defineProps<Props>()
-function handleDragStart(event: any) {
-    event.dataTransfer.setData('value', props.transferData)
+const dragStore = useDragStore()
+
+function handleDragStart() {
+    dragStore.dragStart(props.transferData)
+    emit('selfDragStarted')
 }
-const emit = defineEmits(['dragEnded'])
+
+function handleDragEnd() {
+    emit('dragEnded')
+    dragStore.dragEnd()
+}
+
+const emit = defineEmits(['dragEnded', 'selfDragStarted'])
 </script>
 
 <template>
-    <span :draggable="!disabled" @dragstart="handleDragStart" @dragend="emit('dragEnded')">
+    <span :draggable="!disabled" @dragstart="handleDragStart" @dragend="handleDragEnd" class="draggable">
         <slot />
     </span>
 </template>
+
+<style lang="less">
+.draggable {
+    cursor: grab;
+}
+</style>

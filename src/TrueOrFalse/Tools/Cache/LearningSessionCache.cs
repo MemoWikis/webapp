@@ -10,6 +10,7 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
     {
         _httpContext = httpContextAccessor.HttpContext!;
     }
+
     public void AddOrUpdate(LearningSession learningSession)
     {
         _httpContext.Session.ForceInit();
@@ -35,8 +36,6 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
             AddOrUpdate(learningSession);
             return learningSession;
         }
-
-        //throw new NullReferenceException("learningSession is null");
         return null;
     }
 

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace TrueOrFalse.WikiMarkup
 {
     public class ParseTemplateParameters
     {
-        enum States { Detault, ParameterStarted }
+        enum States
+        {
+            Detault,
+            ParameterStarted
+        }
 
         public static List<Parameter> Run(string section)
         {
@@ -26,14 +28,12 @@ namespace TrueOrFalse.WikiMarkup
                 if (new[] { "[[", "{{" }.Any(x => x == token))
                     level++;
 
-
                 if (new[] { "]]", "}}" }.Any(x => x == token))
                     level--;
 
                 //parameter started
                 if (token == "|" && level == 0)
                 {
-
                     if (currentParameterTokens.Any())
                         result.Add(new Parameter(currentParameterTokens));
 

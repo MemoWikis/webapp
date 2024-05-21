@@ -7,7 +7,8 @@ public class CategoryEditData_V1 : CategoryEditData
     private readonly CategoryRepository _categoryRepository;
     public IList<CategoryRelation_EditData_V1> CategoryRelations;
 
-    public CategoryEditData_V1(Category category,
+    public CategoryEditData_V1(
+        Category category,
         ISession nhibernateSession,
         CategoryRepository categoryRepository)
     {
@@ -20,9 +21,7 @@ public class CategoryEditData_V1 : CategoryEditData
         CustomSegments = category.CustomSegments;
         WikipediaURL = category.WikipediaURL;
         DisableLearningFunctions = category.DisableLearningFunctions;
-        CategoryRelations = category.CategoryRelations
-            .Select(cr => new CategoryRelation_EditData_V1(cr))
-            .ToList();
+        CategoryRelations = null;
         Visibility = category.Visibility;
     }
 
@@ -55,7 +54,6 @@ public class CategoryEditData_V1 : CategoryEditData
 
     public override string ToJson() => JsonConvert.SerializeObject(this);
 
-    public static CategoryEditData_V1 CreateFromJson(string json) => JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
-
-  
+    public static CategoryEditData_V1 CreateFromJson(string json) =>
+        JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
 }

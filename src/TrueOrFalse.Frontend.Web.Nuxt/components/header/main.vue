@@ -2,7 +2,7 @@
 import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { ImageFormat } from '../image/imageFormatEnum'
-import { SearchType } from '~~/components/search/searchHelper'
+import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import { BreadcrumbItem } from './breadcrumbItems'
@@ -22,10 +22,10 @@ const props = defineProps<Props>()
 
 const showSearch = ref(false)
 
-async function openUrl(val: any) {
+async function openUrl(val: TopicItem | QuestionItem | UserItem) {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
-    return navigateTo(val.Url)
+    return await navigateTo(val.url)
 }
 const userStore = useUserStore()
 
@@ -61,7 +61,7 @@ const headerContainer = ref<VueElement>()
 const headerExtras = ref<VueElement>()
 
 onMounted(async () => {
-    if (!userStore.isLoggedIn || window.innerWidth < 769 || isMobile) {
+    if (!userStore.isLoggedIn || window?.innerWidth < 769 || isMobile) {
         showSearch.value = false
     }
     if (typeof window != "undefined") {
@@ -82,6 +82,14 @@ watch(() => openedModals, (val) => {
     else modalIsOpen.value = false
 }, { deep: true, immediate: true })
 
+const hidePartial = computed(() => {
+    if (typeof window != "undefined" && window.scrollY > 59)
+        return false
+    else if (userStore.isLoggedIn)
+        return false
+    else return true
+})
+
 </script>
 
 <template>
@@ -92,10 +100,10 @@ watch(() => openedModals, (val) => {
                     <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
                         ref="partialLeft">
                         <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
-                            :question-page-data="props.questionPageData" :custom-breadcrumb-items="props.breadcrumbItems"
-                            :partial-left="partialLeft" />
+                            :question-page-data="props.questionPageData"
+                            :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                     </div>
-                    <div class="partial end" ref="headerExtras">
+                    <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
                         <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                             :class="{ 'showSearch': showSearch }">
                             <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -104,15 +112,16 @@ watch(() => openedModals, (val) => {
                                 <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                             </div>
                             <div class="StickySearch">
-                                <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
-                                    placement="bottom-end" :main-search="true" :distance="distance" />
+                                <Search :search-type="SearchType.all" :show-search="showSearch"
+                                    v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
+                                    :distance="distance" />
                             </div>
                         </div>
                         <VDropdown :distance="6" v-if="userStore.isLoggedIn">
                             <div class="header-btn">
                                 <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
                                     :alt="`${userStore.name}'s profile picture'`" />
-                                <div class="header-user-name">
+                                <div class="header-user-name" v-if="!isMobile">
                                     {{ userStore.name }}
                                 </div>
                                 <div class="user-dropdown-chevron">
@@ -121,8 +130,19 @@ watch(() => openedModals, (val) => {
                             </div>
                             <template #popper="{ hide }">
                                 <div class="user-dropdown">
+                                    <template v-if="isMobile">
+                                        <div class="user-dropdown-name">
+                                            <div class="user-dropdown-label word-break">
+                                                {{ userStore.name }}
+                                            </div>
+                                        </div>
+                                        <div class="divider"></div>
+                                    </template>
+
                                     <div class="user-dropdown-info">
                                         <div class="user-dropdown-label">Deine Lernpunkte</div>
+
+
                                         <div class="user-dropdown-container level-info">
                                             <div class="primary-info">
                                                 Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
@@ -165,8 +185,8 @@ watch(() => openedModals, (val) => {
                                             <div class="user-dropdown-label">Konto-Einstellungen</div>
                                         </NuxtLink>
 
-                                        <LazyNuxtLink to="/Maintenance" @click="hide()">
-                                            <div class="user-dropdown-label" @click="hide()" v-if="userStore.isAdmin">
+                                        <LazyNuxtLink to="/Maintenance" @click="hide()" v-if="userStore.isAdmin">
+                                            <div class="user-dropdown-label" @click="hide()">
                                                 Administrativ
                                             </div>
                                         </LazyNuxtLink>
@@ -188,8 +208,9 @@ watch(() => openedModals, (val) => {
                                     <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
                                 </div>
                                 <div class="StickySearch">
-                                    <Search :search-type="SearchType.All" :show-search="showSearch"
-                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl" placement="bottom-end" />
+                                    <Search :search-type="SearchType.all" :show-search="showSearch"
+                                        v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
+                                        placement="bottom-end" />
                                 </div>
                             </div>
                             <div class="login-btn" @click="userStore.openLoginModal()">
@@ -346,6 +367,12 @@ watch(() => openedModals, (val) => {
                 justify-content: flex-end;
                 min-width: 45px;
                 flex-grow: 0;
+
+                &.hide-partial {
+                    min-width: 0px;
+                    width: 0p;
+                    max-width: 0px;
+                }
             }
         }
 
@@ -419,7 +446,6 @@ watch(() => openedModals, (val) => {
             filter: brightness(0.95)
         }
 
-
         &:active {
             filter: brightness(0.85)
         }
@@ -457,6 +483,10 @@ watch(() => openedModals, (val) => {
 }
 
 .user-dropdown {
+    .word-break {
+        word-break: break-all;
+    }
+
     .user-dropdown-label {
         padding: 10px 25px;
 
@@ -488,8 +518,6 @@ watch(() => openedModals, (val) => {
                 }
             }
         }
-
-
     }
 
     .user-dropdown-container {

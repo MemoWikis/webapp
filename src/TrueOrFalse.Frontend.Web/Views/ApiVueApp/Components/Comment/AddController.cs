@@ -2,21 +2,32 @@
 
 namespace VueApp;
 
-public class CommentAddController : BaseController
+public class CommentAddController(
+    SessionUser _sessionUser,
+    CommentRepository _commentRepository, 
+    UserReadingRepo _userReadingRepo) : Controller
 {
-    private readonly AddCommentService _addCommentService;
-
-    public CommentAddController(SessionUser sessionUser, AddCommentService addCommentService) :base(sessionUser)
-    {
-        _addCommentService = addCommentService;
-    }
+    
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveComment([FromBody] AddCommentJson json)
     {
-        _addCommentService.SaveComment(CommentType.AnswerQuestion, json, UserId);
+      SaveComment(CommentType.AnswerQuestion, json, _sessionUser.UserId);
         return true;
     }
+
+    private void SaveComment(CommentType type, AddCommentJson json, int userId )
+    {
+        var comment = new Comment();
+        comment.Type = type;
+        comment.TypeId = json.id;
+        comment.Text = json.text;
+        comment.Title = json.title;
+        comment.Creator = _userReadingRepo.GetById(userId);
+
+        _commentRepository.Create(comment);
+    }
+
 }
 public readonly record struct AddCommentJson(int id, string text, string title);

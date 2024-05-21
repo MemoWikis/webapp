@@ -11,7 +11,6 @@ const { isMobile } = useDevice()
 
 const topicLabelEl = ref()
 const learningLabelEl = ref()
-const feedLabelEl = ref()
 const analyticsLabelEl = ref()
 
 function getWidth(e: VueElement) {
@@ -121,7 +120,8 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								</VTooltip>
 							</div>
 							<div class="tab-label tab-analytics"
-								:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+								:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
+								ref="analyticsLabelEl">
 								<template v-if="!isMobile">
 									Analytics
 								</template>
@@ -168,7 +168,11 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Topic" style="width:90px"
+					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Topic && isMobile" style="width:82px"
+						:style="getWidth(topicLabelEl)">
+						Thema
+					</div>
+					<div class="tab-label active" v-else-if="tabsStore.activeTab == Tab.Topic" style="width:90px"
 						:style="getWidth(topicLabelEl)">
 						Thema
 					</div>
@@ -216,8 +220,8 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 						</template>
 						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
-					<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
-						ref="analyticsLabelEl">
+					<div class="tab-label tab-analytics"
+						:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							Analytics
 						</template>

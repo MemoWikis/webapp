@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-[Serializable]
+﻿[Serializable]
 public class CategoryCachedData
 {
     private List<int> _childrenIds = new();
@@ -47,6 +44,7 @@ public class CategoryCachedData
                 iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
                 break;
         }
+
         if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
             iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
 

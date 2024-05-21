@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Meilisearch;
-
+﻿using Meilisearch;
 
 namespace TrueOrFalse.Search;
 
@@ -16,10 +12,12 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
     {
         _permissionCheck = permissionCheck;
     }
+
     public async Task<ISearchQuestionsResult> RunAsync(
-             string searchTerm)
+        string searchTerm)
     {
-        var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+        var client =
+            new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
         var index = client.Index(MeiliSearchKonstanten.Questions);
         _result = new MeiliSearchQuestionsResult();
 
@@ -40,8 +38,8 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
             .Hits;
 
         var questionMapsSkip = questionMaps
-         .Skip(_count - 20)
-         .ToList();
+            .Skip(_count - 20)
+            .ToList();
 
         FilterCacheItems(questionMapsSkip);
 
@@ -49,7 +47,9 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
         {
             _count += 20;
             await LoadSearchResults(searchTerm, index);
-        };
+        }
+
+        ;
         _result.Count = _questions.Count;
         return _questions
             .Select(c => c.Id)
@@ -65,7 +65,7 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
             .ToList();
         _questions.AddRange(questionsTemp);
         _questions = _questions
-             .Distinct()
-             .ToList();
+            .Distinct()
+            .ToList();
     }
 }

@@ -27,7 +27,6 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 		throw createError({ statusMessage: context.error?.message })
 	}
 })
-
 if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)
@@ -117,8 +116,8 @@ userStore.$onAction(({ name, after }) => {
 async function handleLogin() {
 	if (page.value == Page.Error)
 		return
-	if ((page.value == Page.Topic || page.value == Page.Register) && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.Id != rootTopicChipStore.id)
-		await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.Name, userStore.personalWiki.Id))
+	if ((page.value == Page.Topic || page.value == Page.Register) && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootTopicChipStore.id)
+		await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
 }
@@ -141,6 +140,7 @@ useHead(() => ({
 		}
 	]
 }))
+const { isMobile } = useDevice()
 </script>
 
 <template>
@@ -150,17 +150,34 @@ useHead(() => ({
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<ClientOnly>
-		<BannerInfo v-if="footerTopics" :documentation="footerTopics?.Documentation" />
+		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
 	</ClientOnly>
 	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.Documentation" :class="{ 'open-modal': modalIsOpen }" />
+		:documentation="footerTopics?.documentation"
+		:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />
 		<LazyAlert />
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
-	</ClientOnly>
+		<SnackBar />
 
+	</ClientOnly>
 	<Footer :footer-topics="footerTopics" v-if="footerTopics" />
 </template>
+
+<style lang="less">
+.mobile-headings {
+	h2 {
+		font-size: 28px;
+		line-height: 1.2;
+		font-weight: unset;
+	}
+
+	h3 {
+		font-size: 22px;
+		line-height: 1.2;
+	}
+}
+</style>

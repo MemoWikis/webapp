@@ -1,7 +1,7 @@
 export class Author {
-    Id: number = 0
-    ImgUrl: string = ''
-    Reputation: number = 0
-    Name: string = ''
-    ReputationPos: number = 0
+    id: number = 0
+    imgUrl: string = ''
+    reputation: number = 0
+    name: string = ''
+    reputationPos: number = 0
 }

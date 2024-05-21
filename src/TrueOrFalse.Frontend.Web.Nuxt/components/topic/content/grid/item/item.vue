@@ -9,6 +9,7 @@ import { useSpinnerStore } from '~/components/spinner/spinnerStore'
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
+import { TargetPosition } from '~/components/shared/dragStore'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -23,6 +24,8 @@ interface Props {
     toggleState: ToggleState
     parentId: number
     parentName: string
+    isDragging: boolean
+    dropExpand: boolean
 }
 
 const props = defineProps<Props>()
@@ -31,6 +34,7 @@ watch(() => props.topic.id, async () => {
     children.value = []
     if (childrenLoaded.value)
         await loadChildren(true)
+    expanded.value = false
 })
 
 watch(() => props.toggleState, (state) => {
@@ -45,6 +49,12 @@ watch(expanded, async (val) => {
     if (val && !childrenLoaded.value && props.topic.childrenCount > 0)
         await loadChildren()
 })
+
+watch(() => props.dropExpand, val => {
+    if (val && expanded.value == false)
+        expanded.value = true
+})
+
 const children = ref<GridTopicItem[]>([])
 const childrenLoaded = ref<boolean>(false)
 
@@ -71,22 +81,17 @@ async function loadChildren(force: boolean = false) {
 }
 
 const { $urlHelper } = useNuxtApp()
-const computedChildrenCount = computed(() => {
-    const { childrenCount } = props.topic
 
-    return childrenLoaded.value ? children.value.length : childrenCount
-
-})
 const detailLabel = computed(() => {
-    const { questionCount } = props.topic
+    const { questionCount, childrenCount } = props.topic
 
-    const childrenLabel = `${computedChildrenCount.value} ${computedChildrenCount.value === 1 ? 'Unterthema' : 'Unterthemen'}`
+    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterthema' : 'Unterthemen'}`
     const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
 
-    if (computedChildrenCount.value > 0 && questionCount > 0)
+    if (childrenCount > 0 && questionCount > 0)
         return `${childrenLabel} und ${questionLabel}`
 
-    if (computedChildrenCount.value > 0)
+    if (childrenCount > 0)
         return childrenLabel
 
     if (questionCount > 0)
@@ -124,12 +129,14 @@ async function addTopic(newTopic: boolean) {
 editTopicRelationStore.$onAction(({ after, name }) => {
     if (name == 'addTopic') {
         after((result) => {
+
             if (result.parentId == props.topic.id) {
                 if (children.value.some(c => c.id == result.childId))
                     reloadGridItem(result.childId)
                 else
                     addGridItem(result.childId)
-            }
+            } else if (children.value.some(c => c.id == result.childId))
+                reloadGridItem(result.childId)
         })
     }
     if (name == 'removeTopic') {
@@ -217,14 +224,65 @@ async function reloadGridItem(id: number) {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
+const dragActive = ref(false)
+watch(() => props.isDragging, (val) => {
+    dragActive.value = val
+}, { immediate: true })
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic' || name == 'cancelMoveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                if (result.oldParentId == props.topic.id || result.newParentId == props.topic.id)
+                    await loadChildren(true)
+
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (children.value.find(c => c.id == result.oldParentId))
+                    await reloadGridItem(result.oldParentId)
+                if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
+                    await reloadGridItem(result.newParentId)
+            }
+        })
+    }
+
+    if (name == 'tempInsert') {
+        after((result) => {
+
+            if (result.oldParentId == props.topic.id) {
+                const index = children.value.findIndex(c => c.id === result.moveTopic.id)
+                if (index !== -1) {
+                    children.value.splice(index, 1)
+                }
+            }
+
+            if (result.newParentId == props.topic.id) {
+                const index = children.value.findIndex(c => c.id == result.targetId)
+                if (result.position == TargetPosition.Before)
+                    children.value.splice(index, 0, result.moveTopic)
+                else if (result.position == TargetPosition.After)
+                    children.value.splice(index + 1, 0, result.moveTopic)
+                else if (result.position == TargetPosition.Inner)
+                    children.value.push(result.moveTopic)
+            }
+        })
+    }
+})
+const { isDesktop } = useDevice()
 </script>
 
 <template>
     <div class="grid-item" @click="expanded = !expanded"
         :class="{ 'no-children': props.topic.childrenCount <= 0 && children.length <= 0 }">
 
+        <slot name="topdropzone"></slot>
+        <slot name="bottomdropzone"
+            v-if="!expanded || ((children.length == 0 && childrenLoaded) || props.topic.childrenCount == 0)"></slot>
+        <slot name="dropinzone"></slot>
+
         <div class="grid-item-caret-container">
-            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="computedChildrenCount > 0"
+            <font-awesome-icon :icon="['fas', 'caret-right']" class="expand-caret" v-if="props.topic.childrenCount > 0"
                 :class="{ 'expanded': expanded }" />
         </div>
 
@@ -257,10 +315,21 @@ async function reloadGridItem(id: number) {
             :parent-name="props.parentName" />
     </div>
 
-    <div v-if="computedChildrenCount > 0 && expanded" class="grid-item-children">
-        <TopicContentGridItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
-            :parent-id="props.topic.id" :parent-name="props.topic.name" />
+    <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
+        <template v-if="isDesktop">
+            <TopicContentGridDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name"
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
+        </template>
+        <template v-else>
+            <TopicContentGridTouchDndItem v-for="child in children" :topic="child" :toggle-state="props.toggleState"
+                :parent-id="props.topic.id" :parent-name="props.topic.name"
+                :user-is-creator-of-parent="props.topic.creatorId == userStore.id"
+                :parent-visibility="props.topic.visibility" />
+        </template>
     </div>
+
 </template>
 
 <style lang="less" scoped>
@@ -274,6 +343,7 @@ async function reloadGridItem(id: number) {
     padding: 10px 0px;
     background: white;
     border-top: solid 1px @memo-grey-light;
+    position: relative;
 
     &:hover {
         filter: brightness(0.975)
@@ -284,7 +354,6 @@ async function reloadGridItem(id: number) {
     }
 
     .grid-item-caret-container {
-        cursor: pointer;
         width: 32px;
         height: 100%;
         min-height: 40px;
@@ -309,7 +378,6 @@ async function reloadGridItem(id: number) {
     }
 
     .grid-item-body-container {
-        cursor: pointer;
         display: flex;
         justify-content: flex-start;
         flex-wrap: nowrap;
@@ -327,6 +395,11 @@ async function reloadGridItem(id: number) {
 
             .item-name {
                 font-size: 18px;
+                word-break: break-all;
+
+                a {
+                    cursor: pointer;
+                }
             }
 
             .item-detaillabel {
@@ -338,24 +411,23 @@ async function reloadGridItem(id: number) {
     }
 
     &.no-children {
-        cursor: default;
 
-        &:hover {
-            filter: brightness(1)
-        }
+        // &:hover {
+        //     filter: brightness(1)
+        // }
 
-        &:active {
-            filter: brightness(1)
-        }
+        // &:active {
+        //     filter: brightness(1)
+        // }
 
-        .grid-item-caret-container {
-            color: @memo-grey-light;
-            cursor: default;
-        }
+        // .grid-item-caret-container {
+        //     color: @memo-grey-light;
+        //     cursor: default;
+        // }
 
-        .grid-item-body-container {
-            cursor: default;
-        }
+        // .grid-item-body-container {
+        //     cursor: default;
+        // }
     }
 }
 

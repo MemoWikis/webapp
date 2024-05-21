@@ -10,6 +10,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 import { usePublishTopicStore } from '~/components/topic/publish/publishTopicStore'
 import { useTopicToPrivateStore } from '~/components/topic/toPrivate/topicToPrivateStore'
 import { useDeleteTopicStore } from '~/components/topic/delete/deleteTopicStore'
+import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
 
 const topicStore = useTopicStore()
 const rootTopicChipStore = useRootTopicChipStore()
@@ -19,6 +20,7 @@ const alertStore = useAlertStore()
 const publishTopicStore = usePublishTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
 const deleteTopicStore = useDeleteTopicStore()
+const dragStore = useDragStore()
 
 interface Props {
     children: GridTopicItem[]
@@ -32,14 +34,14 @@ const rootTopicItem = ref<TopicItem>()
 
 onMounted(() => {
     rootTopicItem.value = {
-        Type: 'TopicItem',
-        Id: rootTopicChipStore.id,
-        Name: rootTopicChipStore.name,
-        Url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
-        QuestionCount: 0,
-        ImageUrl: rootTopicChipStore.imgUrl,
-        MiniImageUrl: rootTopicChipStore.imgUrl,
-        Visibility: 0,
+        type: 'TopicItem',
+        id: rootTopicChipStore.id,
+        name: rootTopicChipStore.name,
+        url: $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id),
+        questionCount: 0,
+        imageUrl: rootTopicChipStore.imgUrl,
+        miniImageUrl: rootTopicChipStore.imgUrl,
+        visibility: 0,
     }
 })
 
@@ -72,7 +74,11 @@ editTopicRelationStore.$onAction(({ after, name }) => {
         after((result) => {
             if (result.parentId == topicStore.id) {
                 addGridItem(result.childId)
-            }
+            } else if (topicStore.gridItems.some(c => c.id == result.parentId)) {
+                reloadGridItem(result.parentId)
+            } else if (topicStore.gridItems.some(c => c.id == result.childId))
+                reloadGridItem(result.childId)
+
         })
     }
     if (name == 'removeTopic') {
@@ -139,7 +145,6 @@ async function loadGridItem(id: number) {
 
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
-
     if (result.success == true) {
         topicStore.gridItems = topicStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success == false)
@@ -151,7 +156,49 @@ function removeGridItem(id: number) {
     topicStore.gridItems = filteredGridItems
 }
 
-const { isMobile } = useDevice()
+const { isMobile, isDesktop } = useDevice()
+
+editTopicRelationStore.$onAction(({ name, after }) => {
+    if (name == 'moveTopic' || name == 'cancelMoveTopic') {
+
+        after(async (result) => {
+            if (result) {
+                if (result?.oldParentId == topicStore.id || result?.newParentId == topicStore.id)
+                    await topicStore.reloadGridItems()
+
+                const parentHasChanged = result.oldParentId != result.newParentId
+
+                if (props.children.find(c => c.id == result.oldParentId))
+                    await reloadGridItem(result.oldParentId)
+                if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
+                    await reloadGridItem(result.newParentId)
+            }
+        })
+    }
+
+    if (name == 'tempInsert') {
+        after((result) => {
+
+            if (result.oldParentId == topicStore.id) {
+                const index = topicStore.gridItems.findIndex(c => c.id === result.moveTopic.id)
+                if (index !== -1) {
+                    topicStore.gridItems.splice(index, 1)
+                }
+            }
+
+            if (result.newParentId == topicStore.id) {
+                const index = topicStore.gridItems.findIndex(c => c.id == result.targetId)
+                if (result.position == TargetPosition.Before)
+                    topicStore.gridItems.splice(index, 0, result.moveTopic)
+                else if (result.position == TargetPosition.After)
+                    topicStore.gridItems.splice(index + 1, 0, result.moveTopic)
+                else if (result.position == TargetPosition.Inner)
+                    topicStore.gridItems.push(result.moveTopic)
+            }
+        })
+    }
+})
+
 </script>
 
 <template>
@@ -160,7 +207,7 @@ const { isMobile } = useDevice()
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Themen' }} ({{ topicStore.directChildTopicCount }})
+                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Themen' }} ({{ topicStore.childTopicCount }})
                     </div>
 
                     <div class="grid-options">
@@ -188,9 +235,20 @@ const { isMobile } = useDevice()
                 </div>
 
                 <div class="grid-items">
-                    <TopicContentGridItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
-                        :parent-id="topicStore.id" :parent-name="topicStore.name" />
+                    <template v-if="isDesktop">
+                        <TopicContentGridDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                            :parent-id="topicStore.id" :parent-name="topicStore.name"
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
+                    </template>
+                    <template v-else>
+                        <TopicContentGridTouchDndItem v-for="c in props.children" :topic="c" :toggle-state="toggleState"
+                            :parent-id="topicStore.id" :parent-name="topicStore.name"
+                            :user-is-creator-of-parent="topicStore.currentUserIsCreator"
+                            :parent-visibility="topicStore.visibility!" />
+                    </template>
                 </div>
+
 
                 <div class="grid-footer">
                     <div class="grid-option overline-m no-line no-margin">
@@ -213,6 +271,11 @@ const { isMobile } = useDevice()
                 </div>
             </div>
         </div>
+
+        <LazyClientOnly>
+            <TopicContentGridGhost v-show="dragStore.active" />
+            <TopicContentGridDragStartIndicator v-if="dragStore.showTouchSpinner" />
+        </LazyClientOnly>
     </div>
 </template>
 
@@ -220,7 +283,7 @@ const { isMobile } = useDevice()
 @import (reference) '~~/assets/includes/imports.less';
 
 .grid-row {
-    margin-top: 45px;
+    margin-top: 20px;
     max-width: calc(100vw - 20px);
     margin-bottom: 45px;
 
@@ -310,6 +373,10 @@ const { isMobile } = useDevice()
         }
     }
 }
+
+#TopicGrid {
+    touch-action: pan-y;
+}
 </style>
 
 <style lang="less">
@@ -322,7 +389,6 @@ const { isMobile } = useDevice()
                 background: none;
             }
         }
-
     }
 }
 </style>

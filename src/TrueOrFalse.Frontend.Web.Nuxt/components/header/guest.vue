@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SearchType } from '~~/components/search/searchHelper'
+import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
 import { useRootTopicChipStore } from './rootTopicChipStore'
 
@@ -13,10 +13,10 @@ const userStore = useUserStore()
 
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
-async function openUrl(val: any) {
+async function openUrl(val: TopicItem | QuestionItem | UserItem) {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
-    return navigateTo(val.Url)
+    return navigateTo(val.url)
 }
 const { isDesktopOrTablet, isMobile } = useDevice()
 
@@ -53,23 +53,24 @@ const rootTopicChipStore = useRootTopicChipStore()
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
-                        :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.Name!, userStore.personalWiki?.Id!) : $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)"
+                        :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)"
                         alt="homepage">
                         <div id="Logo">
                             <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />
-                            <Image src="/Images/Logo/LogoSmall.png" class="hidden-sm hidden-md hidden-lg hidden-xl small"
-                                alt="small memucho logo" />
+                            <Image src="/Images/Logo/LogoSmall.png"
+                                class="hidden-sm hidden-md hidden-lg hidden-xl small" alt="small memucho logo" />
                         </div>
                     </NuxtLink>
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
                     <div id="HeaderSearch" class="" v-if="!props.isError">
-                        <div class="search-button" :class="{ 'showSearch': showSearch }" @click="showSearch = !showSearch">
+                        <div class="search-button" :class="{ 'showSearch': showSearch }"
+                            @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
                         </div>
                         <div class="SearchContainer" :class="{ 'showSearch': showSearch }">
-                            <Search :search-type="SearchType.All" :show-search="showSearch" v-on:select-item="openUrl"
+                            <Search :search-type="SearchType.all" :show-search="showSearch" v-on:select-item="openUrl"
                                 id="SmallHeaderSearchComponent" />
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Editor } from '@tiptap/vue-3';
+import { Editor } from '@tiptap/vue-3'
 
 interface Props {
     editor: Editor
@@ -58,7 +58,6 @@ async function command(commandString: string, e: Event) {
                     .extendMarkRange('link')
                     .unsetLink()
                     .run()
-
                 return
             }
 
@@ -85,6 +84,18 @@ async function command(commandString: string, e: Event) {
             break
         case 'redo':
             props.editor.commands.redo()
+            break
+        case 'outdent':
+            if (props.editor.can().liftListItem('listItem'))
+                props.editor.chain().focus().liftListItem('listItem').run()
+            else
+                props.editor.chain().focus().outdent().run()
+            break
+        case 'indent':
+            if (props.editor.can().sinkListItem('listItem'))
+                props.editor.chain().focus().sinkListItem('listItem').run()
+            else
+                props.editor.chain().focus().indent().run()
             break
     }
     await nextTick()
@@ -127,6 +138,8 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-underline" />
                 </button>
 
+                <div class="menubar__divider"></div>
+
                 <button v-if="heading" class="menubar__button"
                     :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
                     @mousedown="command('h2', $event)">
@@ -137,6 +150,16 @@ const { isMobile } = useDevice()
                     :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
                     @mousedown="command('h3', $event)">
                     <b>H2</b>
+                </button>
+
+                <div class="menubar__divider"></div>
+
+                <button class="menubar__button" @mousedown="command('outdent', $event)">
+                    <font-awesome-icon :icon="['fas', 'outdent']" />
+                </button>
+
+                <button class="menubar__button" @mousedown="command('indent', $event)">
+                    <font-awesome-icon :icon="['fas', 'indent']" />
                 </button>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
@@ -153,6 +176,8 @@ const { isMobile } = useDevice()
                     @mousedown="command('taskList', $event)">
                     <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
+
+                <div class="menubar__divider"></div>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
                     @mousedown="command('blockquote', $event)">
@@ -179,8 +204,10 @@ const { isMobile } = useDevice()
                 </button>
 
                 <button class="menubar__button" @mousedown="command('horizontalRule', $event)">
-                    <font-awesome-icon icon="fa-solid fa-window-minimize" />
+                    <font-awesome-icon :icon="['far', 'window-minimize']" transform="top-4" />
                 </button>
+
+                <div class="menubar__divider"></div>
 
                 <button class="menubar__button" @mousedown="command('undo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-left" />
@@ -267,6 +294,14 @@ const { isMobile } = useDevice()
         transition: visibility .2s, opacity .2s;
         pointer-events: auto !important;
     }
+}
+
+.menubar__divider {
+    height: calc(100% - 12px);
+    width: 1px;
+    background: @memo-grey-lighter;
+    min-height: 12px;
+    margin: 6px;
 }
 
 .menubar__button {

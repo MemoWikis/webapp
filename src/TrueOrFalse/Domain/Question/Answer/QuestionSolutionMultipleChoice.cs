@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using TrueOrFalse.MultipleChoice;
 
 public class QuestionSolutionMultipleChoice : QuestionSolution
@@ -10,8 +7,12 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
 
     public override bool IsCorrect(string answer)
     {
-        var answers = answer.Split(new string[] {"%seperate&xyz%"}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
-        var solutions = CorrectAnswer().Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
+        var answers = answer
+            .Split(new string[] { "%seperate&xyz%" }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim());
+        var solutions = CorrectAnswer()
+            .Split(new[] { AnswerListDelimiter }, StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim());
         return answers.OrderBy(t => t).SequenceEqual(solutions.OrderBy(t => t));
     }
 
@@ -27,6 +28,7 @@ public class QuestionSolutionMultipleChoice : QuestionSolution
                     correctAnswer += AnswerListDelimiter;
             }
         }
+
         return correctAnswer;
     }
 

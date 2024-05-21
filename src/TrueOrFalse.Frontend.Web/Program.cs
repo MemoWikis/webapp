@@ -13,7 +13,9 @@ using TrueOrFalse.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using Stripe;
 using TrueOrFalse.Environment;
+using TrueOrFalse.Updates;
 using static System.Int32;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,20 +33,27 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.PropertyNamingPolicy = null;
-    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
-});
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        options.JsonSerializerOptions.DefaultIgnoreCondition =
+            System.Text.Json.Serialization.JsonIgnoreCondition.Never;
+    });
 
 builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
 
+if (Settings.UseRedisSession)
+    builder.Services.AddStackExchangeRedisCache(options =>
+    {
+        options.Configuration = Settings.RedisUrl;
+    });
+
 builder.Services.AddSession(options =>
 {
-    options.Cookie.IsEssential = true;
-    options.Cookie.HttpOnly = true;
     options.IdleTimeout = TimeSpan.FromMinutes(Settings.SessionStateTimeoutInMin);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
 });
 
 builder.Services.Configure<FormOptions>(options =>
@@ -66,11 +75,11 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
+    {
+        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    })
     .AddCookie();
 
 builder.Services.AddAntiforgery(_ => { });
@@ -81,7 +90,6 @@ builder.WebHost.ConfigureServices(services =>
 {
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
 });
-
 
 var app = builder.Build();
 var env = app.Environment;
@@ -105,6 +113,9 @@ if (string.IsNullOrEmpty(env.WebRootPath))
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
+var update = app.Services.GetRequiredService<Update>();
+update.Run();
+
 StripeConfiguration.ApiKey = Settings.StripeSecurityKey;
 Console.WriteLine("StripeKey: " + Settings.StripeSecurityKey);
 Console.Out.Flush();
@@ -116,8 +127,8 @@ app.UseStaticFiles(new StaticFileOptions
     RequestPath = "/Images"
 });
 
-app.UseRouting();
 app.UseSession();
+app.UseRouting();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 app.UseMiddleware<SessionStartMiddleware>();
 

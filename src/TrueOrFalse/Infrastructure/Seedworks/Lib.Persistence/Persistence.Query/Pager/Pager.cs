@@ -1,17 +1,15 @@
-using System.Collections.Generic;
-
 namespace Seedworks.Lib.Persistence
 {
     [Serializable]
     public class Pager : IPager
     {
-    	public Pager()
-    	{
-    		TotalItems = 0;
-    		QueryAll = true;
-    	}
+        public Pager()
+        {
+            TotalItems = 0;
+            QueryAll = true;
+        }
 
-    	/// <summary>
+        /// <summary>
         /// The total amount of items the query would return without paging
         /// </summary>
         public int TotalItems { get; set; }
@@ -43,6 +41,7 @@ namespace Seedworks.Lib.Persistence
         //////////////////////////////
 
         protected int _pageSize = 10;
+
         public int PageSize
         {
             get
@@ -60,12 +59,14 @@ namespace Seedworks.Lib.Persistence
         }
 
         protected int _currentPage = 1;
+
         public int CurrentPage
         {
             get
             {
                 if (_isInSingleItemMode)
-                    throw new InvalidOperationException("CurrentPage is invalid when in NavigationPagerMode.");
+                    throw new InvalidOperationException(
+                        "CurrentPage is invalid when in NavigationPagerMode.");
 
                 if (!IgnorePageCount)
                 {
@@ -182,7 +183,6 @@ namespace Seedworks.Lib.Persistence
                 NextPage();
         }
 
-
         public void NextPage()
         {
             if (CurrentPage + 1 <= PageCount)
@@ -219,7 +219,6 @@ namespace Seedworks.Lib.Persistence
             CurrentPage = 1;
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -251,7 +250,6 @@ namespace Seedworks.Lib.Persistence
             return GetPages(CurrentPage - halfTotalToShow, totalToShow);
         }
 
-
         private List<int> GetPages(int startPage, int totalToShow)
         {
             var result = new List<int>();
@@ -260,16 +258,16 @@ namespace Seedworks.Lib.Persistence
                 result.Add(currentPage);
 
             return result;
-		}
+        }
 
         public bool HasNextPage()
-		{
-			return !IsLastPage;
-		}          
-        
-		public bool HasPreviousPage()
-		{
-			return !IsFirstPage;
-		}
+        {
+            return !IsLastPage;
+        }
+
+        public bool HasPreviousPage()
+        {
+            return !IsFirstPage;
+        }
     }
 }

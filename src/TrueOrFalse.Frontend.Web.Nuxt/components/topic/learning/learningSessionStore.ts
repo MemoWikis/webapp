@@ -74,7 +74,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 credentials: 'include'
             })
 
-            if (result.steps.length > 0) {
+            if (result.success && result.steps.length > 0) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
                 this.setCurrentStep(result.currentStep)
@@ -141,8 +141,6 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             }
         },
         loadNextQuestionInSession() {
-            console.log("currentIndex", this.currentIndex)
-            console.log("steps", this.steps)
             if (this.currentIndex < this.steps[this.steps.length - 1].index)
                 this.changeActiveQuestion(this.currentIndex + 1)
         },
@@ -181,6 +179,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         knowledgeStatusChanged(id: number) {
             return id
+        },
+        reloadAnswerBody(id:number, index: number) {
+            return {id: id, index: index}
         }
     },
 })

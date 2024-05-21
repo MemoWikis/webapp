@@ -68,7 +68,7 @@ const hoverLock = ref(false)
                         </div>
                     </div>
 
-                    <div v-if="!topicStore.isChildOfPersonalWiki && topicStore.id != userStore.personalWiki?.Id"
+                    <div v-if="!topicStore.isChildOfPersonalWiki && topicStore.id != userStore.personalWiki?.id"
                         class="dropdown-row" @click="editTopicRelationStore.addToPersonalWiki(topicStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-layers>

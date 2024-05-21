@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-public static class ProbabilityCalc_Curve
+﻿public static class ProbabilityCalc_Curve
 {
     public static int GetProbability(double minutes, int stability, int startValue = 100)
     {
         if (minutes == 0 && stability == 0)
             return startValue;
 
-        return (int) Math.Round(Math.Pow(Math.E, -(1d * minutes / stability)) * startValue, 0);
+        return (int)Math.Round(Math.Pow(Math.E, -(1d * minutes / stability)) * startValue, 0);
     }
 }
 
@@ -21,11 +18,12 @@ public class ProbabilityCalc_Curve_HalfLife_24h
         IList<Answer> previousAnswers,
         Question question,
         User user,
-        int offsetInMinutes, 
+        int offsetInMinutes,
         int startValue)
     {
         var stability = Stability + GetStabilityModificator(previousAnswers.ToList<IAnswered>());
-        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability, startValue: startValue);
+        return ProbabilityCalc_Curve.GetProbability(offsetInMinutes, stability,
+            startValue: startValue);
     }
 
     ///naive implementation!
@@ -34,7 +32,8 @@ public class ProbabilityCalc_Curve_HalfLife_24h
         return previousAnswers.Sum(a =>
         {
             var offsetInMinutes = a.GetAnswerOffsetInMinutes();
-            var probability = ProbabilityCalc_Curve.GetProbability(offsetInMinutes, Stability, startValue: 100);
+            var probability =
+                ProbabilityCalc_Curve.GetProbability(offsetInMinutes, Stability, startValue: 100);
 
             if (a.AnsweredCorrectly())
                 return 100 * probability;

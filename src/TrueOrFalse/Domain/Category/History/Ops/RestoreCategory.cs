@@ -24,13 +24,14 @@ public class RestoreCategory(
         categoryCacheItem.Content = historicCategory.Content;
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        var authorSessionUserCacheItem = SessionUserCacheItem.CreateCacheItem(author);
-        _categoryRepository.Update(category, authorSessionUserCacheItem.Id, type: CategoryChangeType.Restore);
+        var authorSessionUserCacheItem = ExtendedUserCacheItem.CreateCacheItem(author);
+        _categoryRepository
+            .Update(category, authorSessionUserCacheItem.Id, type: CategoryChangeType.Restore);
 
         NotifyAboutRestore(categoryChange);
     }
 
-    public void Run(int categoryChangeId, SessionUserCacheItem author)
+    public void Run(int categoryChangeId, ExtendedUserCacheItem author)
     {
         var categoryChange = _categoryChangeRepo.GetByIdEager(categoryChangeId);
         var historicCategory = categoryChange.ToHistoricCategory();
@@ -58,7 +59,7 @@ public class RestoreCategory(
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
         SendEmail(Constants.MemuchoAdminUserId, subject, body);
-        if (category.Creator != null && currentUser.Id != category.Creator.Id) 
+        if (category.Creator != null && currentUser.Id != category.Creator.Id)
             SendEmail(category.Creator.Id, subject, body);
     }
 

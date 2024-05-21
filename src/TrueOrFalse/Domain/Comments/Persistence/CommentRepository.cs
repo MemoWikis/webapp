@@ -12,7 +12,7 @@ public class CommentRepository : RepositoryDb<Comment>
 
     public CommentRepository(ISession session,
         MessageRepo messageRepo,
-        QuestionReadingRepo questionReadingRepo, 
+        QuestionReadingRepo questionReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor) : base(session)
     {
@@ -27,24 +27,28 @@ public class CommentRepository : RepositoryDb<Comment>
         base.Create(comment);
         CommentMsg.Send(comment,
             _questionReadingRepo,
-            _messageRepo, 
-            _httpContextAccessor, 
+            _messageRepo,
+            _httpContextAccessor,
             _actionContextAccessor);
     }
 
     public IList<Comment> GetForDisplay(int questionId)
     {
+    
+     
+
         return _session.QueryOver<Comment>()
-            .Where(
-                x => x.TypeId == questionId && 
-                x.Type == CommentType.AnswerQuestion &&
-                x.AnswerTo == null)
+            .Where(x => x.TypeId == questionId &&
+                        x.Type == CommentType.AnswerQuestion &&
+                        x.AnswerTo == null)
             .Fetch(x => x.Answers).Eager
-            .List<Comment>()
+            // Execute the query and process the results as part of the same operation chain.
+            .List()
             .GroupBy(x => x.Id)
             .Select(x => x.First())
             .ToList();
     }
+
 
     public void DeleteForQuestion(int questionId)
     {

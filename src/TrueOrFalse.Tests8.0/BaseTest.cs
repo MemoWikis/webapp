@@ -2,10 +2,10 @@
 using FakeItEasy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Seedworks.Web.State;
 using TrueOrFalse;
 using TrueOrFalse.Infrastructure;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
 [TestFixture]
@@ -13,17 +13,18 @@ public class BaseTest
 {
     private static IContainer _container;
     protected ILifetimeScope LifetimeScope;
-    private static User _sessionUser => new User
+
+    protected static User _sessionUser => new User
     {
         Name = "SessionUser",
         Id = 1
     };
+
     static BaseTest()
     {
 #if DEBUG
         //            NHibernateProfiler.Initialize();
 #endif
-
     }
 
     [SetUp]
@@ -40,20 +41,43 @@ public class BaseTest
                 Console.WriteLine(service);
             }
         }
-        var initilizer = Resolve<EntityCacheInitializer>();
-        initilizer.Init(" (started in unit test) ");
+
+        var initializer = Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
-        SetSessionUserInDatabase(_sessionUser);
+        SetSessionUserInDatabase();
     }
 
     [TearDown]
     public void RecycleContainer()
     {
         App.Environment = null;
-        EntityCache.Clear();
-        Resolve<SessionData>().Clear();
         R<ISession>().Flush();
         AutofacWebInitializer.Dispose();
+
+        MySQL5FlexibleDialect.Engine = "MEMORY";
+        BuildContainer();
+        ServiceLocator.Init(_container);
+
+        JobScheduler.Clear();
+        EntityCache.Clear();
+    }
+
+    public void RecycleContainerAndEntityCache()
+    {
+        EntityCache.Clear();
+        Resolve<SessionData>().Clear();
+
+        App.Environment = null;
+        R<ISession>().Flush();
+        AutofacWebInitializer.Dispose();
+
+        MySQL5FlexibleDialect.Engine = "MEMORY";
+        BuildContainer();
+        ServiceLocator.Init(_container);
+
+        var initializer = Resolve<EntityCacheInitializer>();
+        initializer.Init(" (started in unit test) ");
     }
 
     public static void InitializeContainer()
@@ -66,7 +90,10 @@ public class BaseTest
 
     private static void BuildContainer()
     {
-        _container = AutofacWebInitializer.GetTestContainer(SetWebHostEnvironment(), SetHttpContextAccessor());
+        _container =
+            AutofacWebInitializer.GetTestContainer(SetWebHostEnvironment(),
+                SetHttpContextAccessor());
+        Console.WriteLine(_container.GetHashCode());
     }
 
     private static IWebHostEnvironment SetWebHostEnvironment()
@@ -76,6 +103,7 @@ public class BaseTest
         A.CallTo(() => fakeWebHostEnvironment.EnvironmentName).Returns("TestEnvironment");
         return fakeWebHostEnvironment;
     }
+
     private static IHttpContextAccessor SetHttpContextAccessor()
     {
         var httpContextAccessor = A.Fake<IHttpContextAccessor>();
@@ -84,7 +112,7 @@ public class BaseTest
         A.CallTo(() => httpContextAccessor.HttpContext).Returns(httpContext);
         A.CallTo(() => httpContext.Session).Returns(session);
 
-        SetSessionValues(session); 
+        SetSessionValues(session);
 
         return httpContextAccessor;
     }
@@ -94,20 +122,20 @@ public class BaseTest
         byte[] userIdBytes = BitConverter.GetBytes(1);
         if (BitConverter.IsLittleEndian)
         {
-            Array.Reverse(userIdBytes);
+            Array.Reverse(userIdBytes); //// hier
         }
 
         A.CallTo(() => session.TryGetValue("userId", out userIdBytes)).Returns(true);
     }
 
-    private static void SetSessionUserInDatabase(User user)
+    private static void SetSessionUserInDatabase()
     {
         ContextUser.New(R<UserWritingRepo>())
             .Add(_sessionUser)
             .Persist();
     }
 
-
     public static T Resolve<T>() where T : notnull => _container.Resolve<T>();
+
     public static T R<T>() where T : notnull => _container.Resolve<T>();
 }

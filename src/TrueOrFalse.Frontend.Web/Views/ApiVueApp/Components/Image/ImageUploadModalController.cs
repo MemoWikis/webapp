@@ -4,58 +4,61 @@ using TrueOrFalse;
 
 namespace VueApp;
 
-public class ImageUploadModalController
-    : BaseController
+public class ImageUploadModalController(
+    SessionUser sessionUser,
+    PermissionCheck permissionCheck,
+    ImageStore imageStore)
+    : BaseController(sessionUser)
 {
-    private readonly PermissionCheck _permissionCheck;
-    private readonly ImageStore _imageStore;
+    public readonly record struct GetWikimediaPreviewJson(string Url);
 
-    public ImageUploadModalController(SessionUser sessionUser,
-        PermissionCheck permissionCheck,
-        ImageStore imageStore) : base(sessionUser)
-    {
-        _permissionCheck = permissionCheck;
-        _imageStore = imageStore;
-    }
+    public readonly record struct GetWikimediaPreviewResult(bool ImageFound, string ImageThumbUrl);
 
-    public readonly record struct GetWikimediaPreviewJson(string url);
     [HttpPost]
-    public JsonResult GetWikimediaPreview([FromBody] GetWikimediaPreviewJson json)
+    public GetWikimediaPreviewResult GetWikimediaPreview([FromBody] GetWikimediaPreviewJson json)
     {
-        var result = WikiImageMetaLoader.Run(json.url, 200);
-        return Json(new
-        {
-            imageFound = !result.ImageNotFound,
-            imageThumbUrl = result.ImageUrl
-        });
+        var result = WikiImageMetaLoader.Run(json.Url, 200);
+        return new
+        (
+            ImageFound: !result.ImageNotFound,
+            ImageThumbUrl: result.ImageUrl
+        );
     }
 
-    public readonly record struct SaveWikimediaImageJson(int topicId, string url);
+    public readonly record struct SaveWikimediaImageJson(int TopicId, string Url);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
     {
-        if (json.url == null || !_permissionCheck.CanEditCategory(json.topicId))
+        if (json.Url == null || !permissionCheck.CanEditCategory(json.TopicId))
             return false;
 
-        _imageStore.RunWikimedia<CategoryImageSettings>(json.url, json.topicId, ImageType.Category, _sessionUser.UserId);
+        imageStore.RunWikimedia<CategoryImageSettings>(
+            json.Url,
+            json.TopicId,
+            ImageType.Category,
+            _sessionUser.UserId);
         return true;
     }
 
-    public class SaveCustomImageJson
+    public class SaveCustomImageForm
     {
-        public int topicId { get; set; }
-        public string licenseGiverName { get; set; }
-        public IFormFile file { get; set; }
+        public int TopicId { get; set; }
+        public string LicenseGiverName { get; set; }
+        public IFormFile File { get; set; }
     }
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveCustomImage([FromForm] SaveCustomImageJson form)
+    public bool SaveCustomImage([FromForm] SaveCustomImageForm form)
     {
-        if (form.file == null || !_permissionCheck.CanEditCategory(form.topicId))
+        if (form.File == null || !permissionCheck.CanEditCategory(form.TopicId))
             return false;
 
-        _imageStore.RunUploaded<CategoryImageSettings>(form.file, form.topicId, _sessionUser.UserId, form.licenseGiverName);
+        imageStore.RunUploaded<CategoryImageSettings>(
+            form.File,
+            form.TopicId,
+            _sessionUser.UserId,
+            form.LicenseGiverName);
 
         return true;
     }

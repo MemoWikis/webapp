@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using ISession = NHibernate.ISession;
 
@@ -16,7 +15,8 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
     public const int PointsPerUserFollowingMe = 20;
     public const int PointsForPublicWishknowledge = 30;
 
-    public ReputationCalc(ISession session,
+    public ReputationCalc(
+        ISession session,
         TotalFollowers totalFollowers,
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor,
@@ -45,11 +45,14 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
         var countQuestionsInOtherWishknowledge = _userReadingRepo.GetByIds(user.Id);
-        result.ForQuestionsInOtherWishknowledge = countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
+        result.ForQuestionsInOtherWishknowledge =
+            countQuestionsInOtherWishknowledge[0].TotalInOthersWishknowledge *
+            PointsPerQuestionInOtherWishknowledge;
 
         /* Calculate Reputation for other things */
 
-        result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForPublicWishknowledge =
+            result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
         result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;
@@ -70,11 +73,13 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
 
         /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
 
-        result.ForQuestionsInOtherWishknowledge = user.TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
+        result.ForQuestionsInOtherWishknowledge =
+            user.TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;
 
         /* Calculate Reputation for other things */
 
-        result.ForPublicWishknowledge = result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
+        result.ForPublicWishknowledge =
+            result.User.ShowWishKnowledge ? PointsForPublicWishknowledge : 0;
         result.ForUsersFollowingMe = _totalFollowers.Run(result.User.Id) * PointsPerUserFollowingMe;
 
         return result;

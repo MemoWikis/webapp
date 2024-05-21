@@ -28,7 +28,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const questionTitleId = ref("#QuestionTitle-" + props.question.Id)
+const questionTitleId = ref("#QuestionTitle-" + props.question.id)
 
 const questionTitleHtml = ref<any>()
 
@@ -84,7 +84,7 @@ interface QuestionDataResult {
 const { $logger } = useNuxtApp()
 async function loadQuestionData() {
 
-    const result = await $fetch<FetchResult<QuestionDataResult>>(`/apiVue/TopicLearningQuestion/LoadQuestionData/${props.question.Id}`, {
+    const result = await $fetch<FetchResult<QuestionDataResult>>(`/apiVue/TopicLearningQuestion/LoadQuestionData/${props.question.id}`, {
         method: 'POST',
         credentials: 'include',
 
@@ -160,19 +160,19 @@ function loadSpecificQuestion() {
     }
 
 }
-const extendedQuestionId = ref('#eqId-' + props.question.Id)
-const answerId = ref('#aId' + props.question.Id)
-const extendedAnswerId = ref('#eaId' + props.question.Id)
+const extendedQuestionId = ref('#eqId-' + props.question.id)
+const answerId = ref('#aId' + props.question.id)
+const extendedAnswerId = ref('#eaId' + props.question.id)
 const correctnessProbability = ref('')
 const correctnessProbabilityLabel = ref('Nicht gelernt')
 
 function showCommentModal() {
-    commentsStore.openModal(props.question.Id)
+    commentsStore.openModal(props.question.id)
 }
 
 const editQuestionStore = useEditQuestionStore()
 function editQuestion() {
-    editQuestionStore.editQuestion(props.question.Id, props.question.SessionIndex)
+    editQuestionStore.editQuestion(props.question.id, props.question.sessionIndex)
 }
 
 const isInWishknowledge = ref(false)
@@ -217,21 +217,21 @@ watch(currentKnowledgeStatus, () => {
 })
 const showLock = ref(false)
 onBeforeMount(() => {
-    showLock.value = props.question.Visibility != Visibility.All
+    showLock.value = props.question.visibility != Visibility.All
 
-    isInWishknowledge.value = props.question.IsInWishknowledge
-    hasPersonalAnswer.value = props.question.HasPersonalAnswer
-    currentKnowledgeStatus.value = props.question.KnowledgeStatus
+    isInWishknowledge.value = props.question.isInWishknowledge
+    hasPersonalAnswer.value = props.question.hasPersonalAnswer
+    currentKnowledgeStatus.value = props.question.knowledgeStatus
 })
 
-onMounted(() => setTitle(props.question.Title))
+onMounted(() => setTitle(props.question.title))
 
 function setTitle(title: string) {
     questionTitleHtml.value = `<div class='body-m bold margin-bottom-0'>${title}</div>`
 }
 
 async function getNewKnowledgeStatus() {
-    currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus/${props.question.Id}`, {
+    currentKnowledgeStatus.value = await $fetch<KnowledgeStatus>(`/apiVue/TopicLearningQuestion/GetKnowledgeStatus/${props.question.id}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
@@ -242,7 +242,7 @@ async function getNewKnowledgeStatus() {
 learningSessionStore.$onAction(({ name, after }) => {
     if (name == 'knowledgeStatusChanged')
         after((result) => {
-            if (result == props.question.Id) {
+            if (result == props.question.id) {
                 getNewKnowledgeStatus()
             }
         })
@@ -251,7 +251,7 @@ learningSessionStore.$onAction(({ name, after }) => {
 editQuestionStore.$onAction(({ name, after }) => {
     if (name == 'questionEdited')
         after((result) => {
-            if (result == props.question.Id) {
+            if (result == props.question.id) {
                 loadQuestionData()
             }
         })
@@ -278,7 +278,7 @@ function hasContent(str: string) {
             <div class="questionContainer">
                 <div class="questionBodyTop row">
                     <div class="questionImg col-xs-1" @click="expandQuestionContainer()">
-                        <Image :src="props.question.ImageData" />
+                        <Image :src="props.question.imageData" />
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader">
@@ -296,11 +296,11 @@ function hasContent(str: string) {
                                     <font-awesome-icon icon="fa-solid fa-angle-down" class="rotateIcon"
                                         :class="{ open: showFullQuestion }" />
                                 </div>
-                                <QuestionPin :is-in-wishknowledge="isInWishknowledge" :question-id="props.question.Id"
+                                <QuestionPin :is-in-wishknowledge="isInWishknowledge" :question-id="props.question.id"
                                     class="iconContainer" @set-wuwi-state="setWuwiState" />
                                 <div class="go-to-question iconContainer">
                                     <font-awesome-icon icon="fa-solid fa-play"
-                                        :class="{ 'activeQ': props.question.Id == learningSessionStore.currentStep?.id }"
+                                        :class="{ 'activeQ': props.question.id == learningSessionStore.currentStep?.id }"
                                         @click="loadSpecificQuestion()" />
                                 </div>
                             </div>
@@ -360,7 +360,7 @@ function hasContent(str: string) {
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestion">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.linkToQuestion">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
@@ -371,7 +371,7 @@ function hasContent(str: string) {
                                         </div>
                                     </NuxtLink>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.LinkToQuestionVersions">
+                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.linkToQuestionVersions">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
@@ -392,7 +392,7 @@ function hasContent(str: string) {
                                     </div>
 
                                     <div class="dropdown-row" v-if="isCreator || userStore.isAdmin"
-                                        @click="deleteQuestionStore.openModal(props.question.Id); hide()">
+                                        @click="deleteQuestionStore.openModal(props.question.id); hide()">
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>

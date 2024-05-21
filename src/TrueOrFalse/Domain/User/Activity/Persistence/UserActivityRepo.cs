@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NHibernate;
+﻿using NHibernate;
 using Seedworks.Lib.Persistence;
 
 public class UserActivityRepo : RepositoryDb<UserActivity>

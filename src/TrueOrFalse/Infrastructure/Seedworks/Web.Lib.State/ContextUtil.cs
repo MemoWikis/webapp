@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Web;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace Seedworks.Web.State
 {
@@ -14,6 +10,7 @@ namespace Seedworks.Web.State
         {
             _httpContext = httpContext;
         }
+
         public bool UseWebConfig => Settings.UseWebConfig;
 
         public bool IsWebContext => _httpContext != null;
@@ -23,6 +20,4 @@ namespace Seedworks.Web.State
             return Path.Combine(AppContext.BaseDirectory, $@"~/{fileName}");
         }
     }
-
-
 }

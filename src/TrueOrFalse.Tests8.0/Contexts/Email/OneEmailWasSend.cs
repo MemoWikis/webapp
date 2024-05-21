@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-public class OneEmailWasSend
+﻿public class OneEmailWasSend
 {
     public static bool IsTrue()
     {

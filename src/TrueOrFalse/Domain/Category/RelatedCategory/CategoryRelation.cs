@@ -2,11 +2,13 @@
 using Seedworks.Lib.Persistence;
 
 
-[DebuggerDisplay("{Category.Name}({CategoryId.Id}) {RelatedCategoryId.Name}({RelatedCategory.Id})")]
+[DebuggerDisplay("{Child.Name}({Child.Id}) {Parent.Name}({Parent.Id})")]
 [Serializable]
 public class CategoryRelation : DomainEntity
 {
-    public virtual Category Category { get; set; } //Child
+    public virtual required Category Child { get; set; } //Child
+    public virtual required Category Parent { get; set; } //Parent
 
-    public virtual Category RelatedCategory { get; set; } //Parent
+    public virtual int? PreviousId { get; set; }
+    public virtual int? NextId { get; set; }
 }

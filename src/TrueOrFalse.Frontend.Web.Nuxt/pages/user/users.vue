@@ -26,7 +26,7 @@ interface UsersResult {
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 
-const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/VueUsers/GetTotalUserCount', {
+const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTotalUserCount', {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -40,7 +40,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/VueUsers/Ge
 const { $logger } = useNuxtApp()
 
 const url = computed(() => {
-    return `/apiVue/VueUsers/Get?page=${currentPage.value}&pageSize=${usersPerPageCount.value}&searchTerm=${searchTerm.value}&orderBy=${orderBy.value}`
+    return `/apiVue/Users/Get?page=${currentPage.value}&pageSize=${usersPerPageCount.value}&searchTerm=${searchTerm.value}&orderBy=${orderBy.value}`
 })
 // pageData gets refreshed by executing the request again whenever data changes in the computed url value
 // nuxt uses the url in useFetch/useLazyFetch 
@@ -122,7 +122,8 @@ const getSelectedOrderLabel = computed(() => {
                         <div class="search-section">
                             <div class="search-container">
                                 <input type="text" v-model="searchTerm" class="search-input" placeholder="Suche" />
-                                <div class="search-icon reset-icon" v-if="searchTerm.length > 0" @click="searchTerm = ''">
+                                <div class="search-icon reset-icon" v-if="searchTerm.length > 0"
+                                    @click="searchTerm = ''">
                                     <font-awesome-icon icon="fa-solid fa-xmark" />
                                 </div>
                                 <div class="search-icon" v-else>
@@ -153,7 +154,8 @@ const getSelectedOrderLabel = computed(() => {
                                                 Rang
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
+                                        <div class="dropdown-row"
+                                            @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
                                             :class="{ 'active': orderBy == SearchUsersOrderBy.WishCount }">
                                             <div class="dropdown-label select-option">
                                                 Wunschwissen
@@ -171,7 +173,8 @@ const getSelectedOrderLabel = computed(() => {
                         </TransitionGroup>
                     </div>
 
-                    <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
+                    <div class="col-xs-12 empty-page-container"
+                        v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
                             Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
                         </div>

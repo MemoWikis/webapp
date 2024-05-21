@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
 public class ImageMetaData : DomainEntity
 {
@@ -20,8 +18,9 @@ public class ImageMetaData : DomainEntity
     public virtual string AllRegisteredLicenses { get; set; }
     public virtual string Notifications { get; set; }
     public virtual ImageLicenseState LicenseState { get; set; }
-        
-    public virtual ManualImageData ManualEntriesFromJson() => ManualImageData.FromJson(ManualEntries);
+
+    public virtual ManualImageData ManualEntriesFromJson() =>
+        ManualImageData.FromJson(ManualEntries);
 
     public virtual bool IsYoutubePreviewImage { get; set; }
     public virtual string YoutubeKey { get; set; }

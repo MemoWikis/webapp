@@ -5,6 +5,9 @@ import { useUserStore } from '../../user/userStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { isEqual } from 'underscore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { TargetPosition } from '~/components/shared/dragStore'
+import { GridTopicItem } from '../content/grid/item/gridTopicItem'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 export enum EditTopicRelationType {
     Create,
@@ -25,6 +28,14 @@ export interface EditRelationData {
     topicIdToRemove?: number
 }
 
+interface MoveTarget {
+    movingTopic: GridTopicItem,
+    targetId: number,
+    position: TargetPosition,
+    newParentId: number,
+    oldParentId: number
+}
+
 export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
     state: () => {
         return {
@@ -37,7 +48,8 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             categoriesToFilter: [] as number[],
             personalWiki: null as TopicItem | null,
             recentlyUsedRelationTargetTopics: null as TopicItem[] | null,
-            topicIdToRemove: 0
+            topicIdToRemove: 0,
+            moveHistory: {} as MoveTarget
         }
     },
     actions: {
@@ -73,16 +85,17 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                 personalWiki: TopicItem,
                 recentlyUsedRelationTargetTopics: TopicItem[]
             }
-            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${this.parentId}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const id = EditTopicRelationType.AddParent ? this.childId : this.parentId
+            const result = await $fetch<FetchResult<personalWikiDataResult>>(`/apiVue/EditTopicRelationStore/GetPersonalWikiData/${id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
                 this.categoriesToFilter = []
-                this.categoriesToFilter.push(this.personalWiki.Id)
+                this.categoriesToFilter.push(this.personalWiki.id)
 
                 this.recentlyUsedRelationTargetTopics = result.data.recentlyUsedRelationTargetTopics?.reverse()
                 this.recentlyUsedRelationTargetTopics?.forEach((el) => {
-                    this.categoriesToFilter.push(el.Id)
+                    this.categoriesToFilter.push(el.id)
                 })
             }
         },
@@ -95,7 +108,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             const editTopicRelationData: EditRelationData = {
                 childId: id,
                 redirect: redirect,
-                editCategoryRelation: EditTopicRelationType.AddParent
+                editCategoryRelation: EditTopicRelationType.AddParent,
             }
 
             this.openModal(editTopicRelationData)
@@ -211,8 +224,89 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
                     removedChildIds: result.data
                 }
             }
-
         },
+
+        async moveTopic(movingTopic: GridTopicItem, targetId: number, position: TargetPosition, newParentId: number, oldParentId: number) {
+
+            const userStore = useUserStore()
+
+            if (!userStore.isLoggedIn) {
+                userStore.openLoginModal()
+                return
+            }
+
+            this.tempInsert(movingTopic, targetId, oldParentId, newParentId, position)
+
+            const data = {
+                movingTopicId: movingTopic.id,
+                targetId: targetId,
+                position: position,
+                newParentId: newParentId,
+                oldParentId: oldParentId
+            }
+            
+            interface MoveTopicResult {
+                success: boolean
+                data?: MoveTopicData
+                error?: string
+            }
+
+            interface MoveTopicData {
+                oldParentId: number
+                newParentId: number
+                undoMove: MoveTarget
+            }
+        
+            const result = await $fetch<MoveTopicResult>("/apiVue/EditTopicRelationStore/MoveTopic", {
+                method: "POST",
+                body: data,
+                mode: "cors",
+                credentials: "include"
+            })
+
+            if (result.success && result.data) {
+                const data = result.data
+                const newMoveTarget: MoveTarget = {
+                    movingTopic: movingTopic,
+                    targetId: data.undoMove.targetId,
+                    position: data.undoMove.position,
+                    newParentId: data.undoMove.newParentId,
+                    oldParentId: data.undoMove.oldParentId
+                }
+                this.moveHistory = newMoveTarget
+
+                return result.data
+            } else {
+                this.cancelMoveTopic(oldParentId, newParentId, result.error)
+            }
+        },
+        cancelMoveTopic(oldParentId: number, newParentId: number, errorMsg?: string) {
+            if (errorMsg) {
+                const snackbarStore = useSnackbarStore()
+                const data: SnackbarData = {
+                    type: 'error',
+                    text: messages.getByCompositeKey(errorMsg)
+                }
+                snackbarStore.showSnackbar(data)
+            }
+
+            return {
+                oldParentId: oldParentId,
+                newParentId: newParentId,
+            }
+        },
+        async undoMoveTopic() {
+            return this.moveTopic(this.moveHistory.movingTopic, this.moveHistory.targetId, this.moveHistory.position, this.moveHistory.newParentId, this.moveHistory.oldParentId)
+        },
+        tempInsert(moveTopic: GridTopicItem, targetId: number, oldParentId: number, newParentId: number, position: TargetPosition) {
+            return {
+                moveTopic,
+                targetId,
+                oldParentId,
+                newParentId,
+                position
+            }
+        }
     },
 })
 

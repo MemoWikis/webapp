@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 
 namespace TrueOrFalse.Frontend.Web1.Middlewares
 {
@@ -15,11 +16,11 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
 
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            await _next(httpContext);  
+            await _next(httpContext);
 
             if (httpContext.Response.StatusCode == 404)
             {
-                Logg.Error(new NotFoundException("Ressource Not Found"));
+                Logg.r.Error("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(), httpContext.Request.Headers["Referer"]);
             }
             else if (httpContext.Response.StatusCode == 500)
             {
@@ -29,11 +30,13 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
             {
                 Logg.Error(new NotFoundException("Server unavailable"));
             }
-
         }
     }
 }
+
 public class NotFoundException : Exception
 {
-    public NotFoundException(string message) : base(message) { }
+    public NotFoundException(string message) : base(message)
+    {
+    }
 }

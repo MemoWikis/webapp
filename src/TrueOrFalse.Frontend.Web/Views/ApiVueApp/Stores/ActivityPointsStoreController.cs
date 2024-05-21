@@ -1,24 +1,25 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 
-public class ActivityPointsStoreController : BaseController
+public class ActivityPointsStoreController(
+    SessionUser _sessionUser,
+    ActivityPointsRepo _activityPointsRepo,
+    UserWritingRepo _userWritingRepo) : Controller
 {
-    private readonly ActivityPointsRepo _activityPointsRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-
-    public ActivityPointsStoreController(SessionUser sessionUser,
-        ActivityPointsRepo activityPointsRepo,
-        UserWritingRepo userWritingRepo) : base(sessionUser)
-    {
-        _activityPointsRepo = activityPointsRepo;
-        _userWritingRepo = userWritingRepo;
-    }
-
     public readonly record struct AddJson(string ActivityTypeString, int Points);
+
+    public readonly record struct AddResult(
+        int Points,
+        int Level,
+        bool LevelUp,
+        int ActivityPointsTillNextLevel,
+        int ActivityPointsPercentageOfNextLevel);
+
     [HttpPost]
-    public JsonResult Add([FromBody] AddJson activityPointsData)
+    public AddResult Add([FromBody] AddJson activityPointsData)
     {
-        var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
+        var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType),
+            activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints
         {
             Amount = activityPointsData.Points,
@@ -35,31 +36,34 @@ public class ActivityPointsStoreController : BaseController
 
             var activityLevel = _sessionUser.User.ActivityLevel;
             var activityPointsAtNextLevel = UserLevelCalculator.GetUpperLevelBound(activityLevel);
-            var activityPointsTillNextLevel = activityPointsAtNextLevel - _sessionUser.User.ActivityPoints;
-            var activityPointsPercentageOfNextLevel = _sessionUser.User.ActivityPoints == 0 ? 0 : 100 * _sessionUser.User.ActivityPoints / activityPointsAtNextLevel;
+            var activityPointsTillNextLevel =
+                activityPointsAtNextLevel - _sessionUser.User.ActivityPoints;
+            var activityPointsPercentageOfNextLevel = _sessionUser.User.ActivityPoints == 0
+                ? 0
+                : 100 * _sessionUser.User.ActivityPoints / activityPointsAtNextLevel;
 
-            return Json(new 
-                {
-                    points = _sessionUser.User.ActivityPoints,
-                    level = activityLevel,
-                    levelUp = oldUserLevel < activityLevel,
-                    activityPointsTillNextLevel = activityPointsTillNextLevel,
-                    activityPointsPercentageOfNextLevel
-                });
-        } 
-        else 
+            return new AddResult
+            {
+                Points = _sessionUser.User.ActivityPoints,
+                Level = activityLevel,
+                LevelUp = oldUserLevel < activityLevel,
+                ActivityPointsTillNextLevel = activityPointsTillNextLevel,
+                ActivityPointsPercentageOfNextLevel = activityPointsPercentageOfNextLevel
+            };
+        }
+        else
         {
             var oldUserLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
             _sessionUser.AddPointActivity(activityPoints);
             var newUserLevel = UserLevelCalculator.GetLevel(_sessionUser.GetTotalActivityPoints());
 
-            return Json(new
-                {
-                    points = _sessionUser.GetTotalActivityPoints(),
-                    level = newUserLevel,
-                    levelUp = oldUserLevel < newUserLevel,
-                    activityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(newUserLevel)
-                });
+            return new AddResult
+            {
+                Points = _sessionUser.GetTotalActivityPoints(),
+                Level = newUserLevel,
+                LevelUp = oldUserLevel < newUserLevel,
+                ActivityPointsTillNextLevel = UserLevelCalculator.GetUpperLevelBound(newUserLevel)
+            };
         }
     }
 }

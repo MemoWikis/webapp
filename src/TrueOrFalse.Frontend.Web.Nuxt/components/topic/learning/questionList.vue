@@ -42,7 +42,7 @@ async function loadQuestions(page: number) {
     })
     if (result) {
         questions.value = result
-        learningSessionStore.lastIndexInQuestionList = result.length > 0 ? questions.value[questions.value.length - 1].SessionIndex : 0
+        learningSessionStore.lastIndexInQuestionList = result.length > 0 ? questions.value[questions.value.length - 1].sessionIndex : 0
     }
     spinnerStore.hideSpinner()
 }
@@ -81,7 +81,7 @@ learningSessionStore.$onAction(({ name, after }) => {
     if (name == 'updateQuestionList')
         after((updatedQuestion) => {
             questions.value.forEach((q) => {
-                if (q.Id == updatedQuestion.Id) {
+                if (q.id == updatedQuestion.id) {
                     q = updatedQuestion
                 }
             })
@@ -92,7 +92,7 @@ deleteQuestionStore.$onAction(({ name, after }) => {
     if (name == 'questionDeleted') {
         after((id) => {
             questions.value = questions.value.filter((q) => {
-                return q.Id != id
+                return q.id != id
             })
         })
     }
@@ -125,7 +125,7 @@ async function loadNewQuestion(index: number) {
     <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
         <TopicLearningQuestion v-for="(q, index) in questions" :question="q" :is-last-item="index == (questions.length - 1)"
-            :session-index="q.SessionIndex" :expand-question="props.expandQuestion" :key="`${index}-${q.Id}`" />
+            :session-index="q.sessionIndex" :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 

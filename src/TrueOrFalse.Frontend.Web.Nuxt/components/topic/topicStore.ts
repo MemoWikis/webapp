@@ -7,29 +7,29 @@ import { GridTopicItem } from './content/grid/item/gridTopicItem'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 
 export class Topic {
-	CanAccess: boolean = false
-	Id: number = 0
-	Name: string = ''
-	ImageUrl: string = ''
-	ImageId: number = 0
-	Content: string = ''
-	ParentTopicCount: number = 0
-	Parents: TinyTopicModel[] = []
-	ChildTopicCount: number = 0
-	DirectChildTopicCount: number = 0
-	Views: number = 0
-	CommentCount: number = 0
-	Visibility: Visibility = Visibility.Owner
-	AuthorIds: number[] = []
-	IsWiki: boolean = false
-	CurrentUserIsCreator: boolean = false
-	CanBeDeleted: boolean = false
-	QuestionCount: number = 0
-	DirectQuestionCount: number = 0
-	Authors: Author[] = []
-	TopicItem: TopicItem | null = null
-	MetaDescription: string = ''
-	KnowledgeSummary: KnowledgeSummary = {
+	canAccess: boolean = false
+	id: number = 0
+	name: string = ''
+	imageUrl: string = ''
+	imageId: number = 0
+	content: string = ''
+	parentTopicCount: number = 0
+	parents: TinyTopicModel[] = []
+	childTopicCount: number = 0
+	directVisibleChildTopicCount: number = 0
+	views: number = 0
+	commentCount: number = 0
+	visibility: Visibility = Visibility.Owner
+	authorIds: number[] = []
+	isWiki: boolean = false
+	currentUserIsCreator: boolean = false
+	canBeDeleted: boolean = false
+	questionCount: number = 0
+	directQuestionCount: number = 0
+	authors: Author[] = []
+	topicItem: TopicItem | null = null
+	metaDescription: string = ''
+	knowledgeSummary: KnowledgeSummary = {
 		solid: 0,
 		needsConsolidation: 0,
 		needsLearning: 0,
@@ -47,13 +47,13 @@ export interface KnowledgeSummary {
 }
 
 export interface FooterTopics {
-	RootWiki: Topic
-	MainTopics: Topic[]
-	MemoWiki: Topic
-	MemoTopics: Topic[]
-	HelpTopics: Topic[]
-	PopularTopics: Topic[]
-	Documentation: Topic
+	rootWiki: Topic
+	mainTopics: Topic[]
+	memoWiki: Topic
+	memoTopics: Topic[]
+	helpTopics: Topic[]
+	popularTopics: Topic[]
+	documentation: Topic
 }
 
 export interface TinyTopicModel {
@@ -78,7 +78,7 @@ export const useTopicStore = defineStore('topicStore', {
 			parentTopicCount: 0,
 			parents: [] as TinyTopicModel[],
 			childTopicCount: 0,
-			directChildTopicCount: 0,
+			directVisibleChildTopicCount: 0,
 			views: 0,
 			commentCount: 0,
 			visibility: null as Visibility | null,
@@ -96,34 +96,34 @@ export const useTopicStore = defineStore('topicStore', {
 	actions: {
 		setTopic(topic: Topic) {
 			if (topic != null) {
-				this.id = topic.Id
-				this.name = topic.Name
-				this.initialName = topic.Name
-				this.imgUrl = topic.ImageUrl
-				this.imgId = topic.ImageId
-				this.content = topic.Content
-				this.initialContent = topic.Content
+				this.id = topic.id
+				this.name = topic.name
+				this.initialName = topic.name
+				this.imgUrl = topic.imageUrl
+				this.imgId = topic.imageId
+				this.content = topic.content
+				this.initialContent = topic.content
 
-				this.parentTopicCount = topic.ParentTopicCount
-				this.parents = topic.Parents
-				this.childTopicCount = topic.ChildTopicCount
-				this.directChildTopicCount = topic.DirectChildTopicCount
+				this.parentTopicCount = topic.parentTopicCount
+				this.parents = topic.parents
+				this.childTopicCount = topic.childTopicCount
+				this.directVisibleChildTopicCount = topic.directVisibleChildTopicCount
 
-				this.views = topic.Views
-				this.commentCount = topic.CommentCount
-				this.visibility = topic.Visibility
+				this.views = topic.views
+				this.commentCount = topic.commentCount
+				this.visibility = topic.visibility
 
-				this.authorIds = topic.AuthorIds
-				this.isWiki = topic.IsWiki
-				this.currentUserIsCreator = topic.CurrentUserIsCreator
-				this.canBeDeleted = topic.CanBeDeleted
+				this.authorIds = topic.authorIds
+				this.isWiki = topic.isWiki
+				this.currentUserIsCreator = topic.currentUserIsCreator
+				this.canBeDeleted = topic.canBeDeleted
 
-				this.questionCount = topic.QuestionCount
-				this.directQuestionCount = topic.DirectQuestionCount
+				this.questionCount = topic.questionCount
+				this.directQuestionCount = topic.directQuestionCount
 
-				this.authors = topic.Authors
-				this.searchTopicItem = topic.TopicItem
-				this.knowledgeSummary = topic.KnowledgeSummary
+				this.authors = topic.authors
+				this.searchTopicItem = topic.topicItem
+				this.knowledgeSummary = topic.knowledgeSummary
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
 			}
@@ -183,8 +183,19 @@ export const useTopicStore = defineStore('topicStore', {
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
 				}
 			})
-		}
+		},
+		async reloadGridItems() {
+			const result = await $fetch<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
+				method: 'GET', mode: 'cors', credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+				}
+			})
 
+			if (result)
+				this.gridItems = result
+		}
 	},
 	getters: {
 		getTopicName(): string {

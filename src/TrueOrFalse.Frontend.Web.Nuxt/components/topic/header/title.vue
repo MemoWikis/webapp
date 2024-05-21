@@ -8,13 +8,28 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum'
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const textArea = ref()
-const firstAuthors = computed(() => topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4))
-const lastAuthors = computed(() => topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[])
+
+const mobileFirstAuthor = ref<Author>()
+const firstAuthors = computed(() => {
+    if (isMobile) {
+        mobileFirstAuthor.value = topicStore.authors[0]
+        return [] as Author[]
+    }
+    else
+        return topicStore.authors.length <= 4 ? topicStore.authors : topicStore.authors.slice(0, 4)
+})
+
+const groupedAuthors = computed(() => {
+    if (isMobile)
+        return topicStore.authors
+    else
+        return topicStore.authors.length > 4 ? topicStore.authors.slice(4, topicStore.authors.length + 1) : [] as Author[]
+})
 
 function resize() {
     let element = textArea.value as VueElement
     if (element) {
-        element.style.height = "56px"
+        element.style.height = "42px"
         element.style.height = element.scrollHeight + "px"
     }
 }
@@ -37,7 +52,6 @@ onBeforeMount(() => {
             topicStore.contentHasChanged = true
         }
     })
-
 })
 
 onMounted(async () => {
@@ -60,39 +74,81 @@ async function scrollToChildTopics() {
         s.scrollIntoView({ behavior: 'smooth' })
 }
 
-const { isDesktopOrTablet, isMobile } = useDevice()
+const { isMobile } = useDevice()
 
 const topic = useState<Topic>('topic')
+
+const viewsLabel = computed(() => {
+    if (topicStore.views === 1)
+        return `1 Aufruf`
+
+    let viewCount = topicStore.views.toString()
+
+    if (topicStore.views >= 10000) {
+        const formatter = new Intl.NumberFormat('de-DE')
+        viewCount = formatter.format(topicStore.views)
+    }
+    return `${viewCount} Aufrufe`
+})
+
+function getLetterValuation(str: string) {
+    const slimLetters = ['I', 'J', 'f', 'i', 'j', 'l', 'r', 't']
+    let points = 0
+    for (let i = 0; i < str.length; i++) {
+        const currentLetterIsSmall = slimLetters.includes(str[i])
+
+        if (currentLetterIsSmall)
+            points += 1
+        else
+            points += 2
+
+        continue
+    }
+    return points
+}
+
+const topicTitle = ref()
+
+const titleFontSizeStyle = computed(() => {
+    if (topicTitle.value == null)
+        return
+
+    const points = getLetterValuation(topicStore.name)
+    const rating = (topicTitle.value.clientWidth - (topicTitle.value.clientWidth / 10) + 5) / points
+
+    if (rating > 10)
+        return "font-size: 35px;"
+    else if (rating <= 10 && rating > 4)
+        return "font-size: 28px;"
+    return "font-size: 24px"
+})
+
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
-        <h1 id="TopicTitle">
-            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea" v-model="topicStore.name"
-                v-if="topicStore" :readonly="readonly"></textarea>
+        <h1 id="TopicTitle" ref="topicTitle" :style="titleFontSizeStyle">
+            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
+                v-model="topicStore.name" v-if="topicStore" :readonly="readonly"></textarea>
             <template v-else-if="topic">
-                {{ topic.Name }}
+                {{ topic.name }}
             </template>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="topicStore.childTopicCount > 0" class="topic-detail clickable" @click="scrollToChildTopics()"
-                v-tooltip="'Alle Unterthemen'">
-                <font-awesome-icon icon="fa-solid fa-sitemap" />
+            <div v-if="topicStore.childTopicCount > 0 && !isMobile" class="topic-detail clickable"
+                @click="scrollToChildTopics()" v-tooltip="'Alle Unterthemen'">
+                <font-awesome-icon icon="fa-solid fa-sitemap" class="topic-fa-icon" />
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
 
             <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
             </div>
 
-            <!-- <div v-if="topicStore.parentTopicCount > 0" class="topic-detail ">
-                <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
-                <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
-            </div> -->
             <VDropdown :distance="6">
-                <button v-show="topicStore.parentTopicCount > 0" class="parent-tree-btn">
+                <button v-show="topicStore.parentTopicCount > 1" class="parent-tree-btn">
 
                     <div class="topic-detail">
-                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" />
+                        <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" class="topic-fa-icon" />
                         <div class="topic-detail-label">{{ topicStore.parentTopicCount }}</div>
                     </div>
 
@@ -108,45 +164,52 @@ const topic = useState<Topic>('topic')
                         </LazyNuxtLink>
                     </template>
 
-
                 </template>
             </VDropdown>
 
             <div class="topic-detail-spacer"
-                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)">
+                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 1 && !isMobile || topicStore.parentTopicCount > 1)">
             </div>
 
             <div v-if="topicStore.views > 0" class="topic-detail">
-                <font-awesome-icon icon="fa-solid fa-eye" />
-                <div class="topic-detail-label">{{ topicStore.views }}</div>
+                <div class="topic-detail-label">
+                    {{ viewsLabel }}
+                </div>
             </div>
-            <div v-if="isMobile" class="topic-detail-flex-breaker"></div>
-            <div v-if="isDesktopOrTablet && (topicStore.views > 0 || (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0))"
-                class="topic-detail-spacer"></div>
+
+            <div v-if="topicStore.views > 0 ||
+                (topicStore.childTopicCount > 0 || topicStore.parentTopicCount > 0)" class="topic-detail-spacer">
+            </div>
 
             <template v-for="author in firstAuthors">
-                <LazyNuxtLink v-if="author.Id > 0" :to="$urlHelper.getUserUrl(author.Name, author.Id)"
-                    v-tooltip="author.Name" class="header-author-icon-link">
-                    <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon"
-                        :alt="`${author.Name}'s profile picture'`" />
+                <LazyNuxtLink v-if="author.id > 0" :to="$urlHelper.getUserUrl(author.name, author.id)"
+                    v-tooltip="author.name" class="header-author-icon-link">
+                    <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="`${author.name}'s profile picture'`" />
                 </LazyNuxtLink>
             </template>
 
             <VDropdown :distance="6">
-                <button v-show="(lastAuthors.length > 1)" class="additional-authors-btn"
-                    :class="{ 'long': lastAuthors.length > 9 }">
+                <div v-if="isMobile && groupedAuthors.length == 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0"
+                    :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)"
+                    class="header-author-icon-link">
+                    <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
+                        :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
+                </div>
+                <div v-else-if="groupedAuthors.length > 1" class="additional-authors-btn"
+                    :class="{ 'long': groupedAuthors.length > 9 }">
                     <span>
-                        +{{ lastAuthors.length }}
+                        +{{ groupedAuthors.length }}
                     </span>
-                </button>
+                </div>
                 <template #popper>
-                    <template v-for="author in lastAuthors">
-                        <LazyNuxtLink class="dropdown-row" v-if="author.Id > 0"
-                            :to="$urlHelper.getUserUrl(author.Name, author.Id)">
+                    <template v-for="author in groupedAuthors">
+                        <LazyNuxtLink class="dropdown-row" v-if="author.id > 0"
+                            :to="$urlHelper.getUserUrl(author.name, author.id)">
                             <div class="dropdown-icon">
-                                <Image :src="author.ImgUrl" :format="ImageFormat.Author" class="header-author-icon" />
+                                <Image :src="author.imgUrl" :format="ImageFormat.Author" class="header-author-icon" />
                             </div>
-                            <div class="dropdown-label">{{ author.Name }}</div>
+                            <div class="dropdown-label">{{ author.name }}</div>
                         </LazyNuxtLink>
                     </template>
                 </template>
@@ -156,9 +219,19 @@ const topic = useState<Topic>('topic')
         </div>
     </div>
 </template>
-                           
+
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
+
+.header-author-icon {
+    height: 20px;
+    width: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    margin: 0 4px;
+    max-height: 20px;
+    max-width: 20px;
+}
 
 #TopicHeaderContainer {
     padding-left: 20px;
@@ -166,19 +239,20 @@ const topic = useState<Topic>('topic')
     color: @memo-grey-dark;
 
     #TopicTitle {
-        min-height: 60px;
+        min-height: 49px;
         margin: 0;
+        line-height: 1.1;
 
         textarea {
+            line-height: 1.1;
             width: 100%;
             border: none;
             outline: none;
             min-height: 18px;
             resize: none;
-            margin-top: -8px;
             padding: 0;
             padding-left: 0;
-            height: 54px;
+            height: 42px;
             overflow: hidden;
         }
     }
@@ -227,13 +301,6 @@ const topic = useState<Topic>('topic')
         align-items: center;
         min-height: 21px;
 
-        &.is-mobile {
-            .topic-detail {
-                margin-bottom: 8px;
-            }
-        }
-
-
         .header-author-icon-link {
             margin-right: 8px;
         }
@@ -253,8 +320,12 @@ const topic = useState<Topic>('topic')
             flex-wrap: nowrap;
             align-items: center;
 
+            .topic-fa-icon {
+                margin-right: 6px;
+            }
+
             .topic-detail-label {
-                padding-left: 6px;
+                padding-left: 0px;
             }
 
             &.clickable {

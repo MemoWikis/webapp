@@ -1,29 +1,24 @@
-﻿
-
-[Serializable]
+﻿[Serializable]
 public class LearningSession
 {
-    public IList<LearningSessionStep> Steps;
-    public LearningSessionConfig Config;
+    public IList<LearningSessionStep> Steps { get; set; }
+    public LearningSessionConfig Config { get; set; }
 
     public QuestionCounter QuestionCounter;
 
-    public LearningSession(List<LearningSessionStep> learningSessionSteps, LearningSessionConfig config)
+    public LearningSession(
+        List<LearningSessionStep> learningSessionSteps,
+        LearningSessionConfig config)
     {
-        if (Config == null)
-        {
-            Logg.r.Error("LearningSessionConfig is null");
-        }
-
+        
         Steps = learningSessionSteps;
         Config = config;
-        Config.Category = EntityCache.GetCategory(Config.CategoryId) ?? throw new InvalidOperationException();
+        Config.Category = EntityCache.GetCategory(Config.CategoryId) ??
+                          throw new InvalidOperationException();
     }
 
-    public LearningSessionStep? CurrentStep => 
-        CurrentIndex <= 0 ?
-            Steps.Any() ? Steps[0] : null : 
-            Steps[CurrentIndex];
+    public LearningSessionStep? CurrentStep =>
+        CurrentIndex <= 0 ? Steps.Any() ? Steps[0] : null : Steps[CurrentIndex];
 
     public int CurrentIndex { get; private set; }
     public bool IsLastStep { get; private set; }
@@ -33,7 +28,7 @@ public class LearningSession
         if (CurrentStep == null)
         {
             Logg.r.Error("CurrentStep in LearningSession is null");
-            throw new NullReferenceException(); 
+            throw new NullReferenceException();
         }
 
         CurrentStep.AnswerState = answer.IsCorrect ? AnswerState.Correct : AnswerState.False;
@@ -52,7 +47,6 @@ public class LearningSession
     {
         return Steps.Count >= Steps.Select(s => s.Question).Distinct().Count() * 2;
     }
-
 
     public virtual bool LimitForThisQuestionHasBeenReached(LearningSessionStep step)
     {
@@ -87,7 +81,7 @@ public class LearningSession
 
     public void SetCurrentStepAsCorrect()
     {
-        if(CurrentStep == null)
+        if (CurrentStep == null)
             return;
 
         CurrentStep.AnswerState = AnswerState.Correct;
@@ -133,17 +127,15 @@ public class LearningSession
     }
 }
 
-public class QuestionCounter
-{
-    public int InWuwi { get; set; }
-    public int NotInWuwi { get; set; }
-    public int CreatedByCurrentUser { get; set; }
-    public int NotCreatedByCurrentUser { get; set; }
-    public int Private { get; set; }
-    public int Public { get; set; }
-    public int NotLearned { get; set; }
-    public int NeedsLearning { get; set; }
-    public int NeedsConsolidation { get; set; }
-    public int Solid { get; set; }
-    public int Max { get; set; }
-}
+public record struct QuestionCounter(
+    int InWuwi,
+    int NotInWuwi,
+    int CreatedByCurrentUser,
+    int NotCreatedByCurrentUser,
+    int Private,
+    int Public,
+    int NotLearned,
+    int NeedsLearning,
+    int NeedsConsolidation,
+    int Solid,
+    int Max);

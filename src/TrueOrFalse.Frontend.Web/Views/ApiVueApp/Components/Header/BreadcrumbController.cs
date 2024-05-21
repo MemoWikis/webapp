@@ -1,33 +1,44 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
-
-public class BreadcrumbController : BaseController
+public class BreadcrumbController(
+    SessionUser _sessionUser,
+    CrumbtrailService _crumbtrailService) : Controller
 {
-    private readonly CrumbtrailService _crumbtrailService;
+    public readonly record struct GetBreadcrumbParam(int WikiId, int CurrentCategoryId);
 
-    public BreadcrumbController(SessionUser sessionUser, CrumbtrailService crumbtrailService) : base(sessionUser)
-    {
-        _crumbtrailService = crumbtrailService;
-    }
-
-    public readonly record struct GetBreadcrumbParam(int wikiId, int currentCategoryId);
     [HttpPost]
-    public JsonResult GetBreadcrumb([FromBody] GetBreadcrumbParam param)
+    public Breadcrumb GetBreadcrumb([FromBody] GetBreadcrumbParam param)
     {
-        var wikiId = param.wikiId;
-        int currentCategoryId = param.currentCategoryId;
+        var wikiId = param.WikiId;
+        int currentCategoryId = param.CurrentCategoryId;
 
-        var defaultWikiId = IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
+        var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
         var category = EntityCache.GetCategory(currentCategoryId);
-        var currentWiki = _crumbtrailService.GetWiki(category,_sessionUser);
+        var currentWiki = _crumbtrailService.GetWiki(category, _sessionUser);
         _sessionUser.SetWikiId(currentWiki);
 
         var breadcrumb = _crumbtrailService.BuildCrumbtrail(category, currentWiki);
 
+        return GetBreadcrumbItems(breadcrumb, currentWiki);
+    }
+
+    [HttpGet]
+    public BreadcrumbItem GetPersonalWiki()
+    {
+        var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
+        return new BreadcrumbItem
+        {
+            Name = topic.Name,
+            Id = topic.Id
+        };
+    }
+
+    private Breadcrumb GetBreadcrumbItems(Crumbtrail breadcrumb, CategoryCacheItem currentWiki)
+    {
         var breadcrumbItems = new List<BreadcrumbItem>();
 
         foreach (var item in breadcrumb.Items)
@@ -45,7 +56,7 @@ public class BreadcrumbController : BaseController
         {
             var personalWikiId = _sessionUser.User.StartTopicId;
             personalWiki.Id = personalWikiId;
-            personalWiki.Name = EntityCache.GetCategory(personalWikiId).Name;
+            personalWiki.Name = EntityCache.GetCategory(personalWikiId)?.Name;
         }
         else
         {
@@ -53,51 +64,35 @@ public class BreadcrumbController : BaseController
             personalWiki.Name = RootCategory.Get.Name;
         }
 
-        return Json(new Breadcrumb
+        return new Breadcrumb
         {
-            newWikiId = currentWiki.Id,
-            items = breadcrumbItems,
-            personalWiki = personalWiki,
-            rootTopic = new BreadcrumbItem
+            NewWikiId = currentWiki.Id,
+            Items = breadcrumbItems,
+            PersonalWiki = personalWiki,
+            RootTopic = new BreadcrumbItem
             {
                 Name = breadcrumb.Root.Text,
                 Id = breadcrumb.Root.Category.Id
             },
-            currentTopic = new BreadcrumbItem
+            CurrentTopic = new BreadcrumbItem
             {
                 Name = breadcrumb.Current.Text,
                 Id = breadcrumb.Current.Category.Id
             },
-            breadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
-            isInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
-        });
+            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
+            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
+        };
     }
 
-    [HttpGet]
-    public JsonResult GetPersonalWiki()
-    {
-        var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
-        return Json(new BreadcrumbItem
-        {
-            Name = topic.Name,
-            Id = topic.Id
-        });
-    }
+    public record struct Breadcrumb(
+        int NewWikiId,
+        BreadcrumbItem PersonalWiki,
+        List<BreadcrumbItem> Items,
+        BreadcrumbItem RootTopic,
+        BreadcrumbItem CurrentTopic,
+        bool BreadcrumbHasGlobalWiki,
+        bool IsInPersonalWiki);
 
-    public class Breadcrumb
-    {
-        public int newWikiId { get; set; }
-        public BreadcrumbItem personalWiki { get; set; }
-        public List<BreadcrumbItem> items { get; set; }
-        public BreadcrumbItem rootTopic { get; set; }
-        public BreadcrumbItem currentTopic { get; set; }
-        public bool breadcrumbHasGlobalWiki { get; set; }
-        public bool isInPersonalWiki { get; set; }
-    }
+    public record struct BreadcrumbItem(string Name, int Id);
 
-    public class BreadcrumbItem
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-    }
 }
