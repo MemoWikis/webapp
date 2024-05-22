@@ -57,7 +57,9 @@ public class QuestionLandingPageController(
         bool IsInWishknowledge,
         Guid questionViewGuid,
         bool IsLastStep,
-        string ImgUrl);
+        string ImgUrl,
+        string TextHtml);
+
 
     public readonly record struct SolutionData(
         string AnswerAsHTML,
@@ -86,12 +88,14 @@ public class QuestionLandingPageController(
         var solution = GetQuestionSolution.Run(q);
         var title = Regex.Replace(q.Text, "<.*?>", String.Empty);
         EscapeReferencesText(q.References);
+
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel
             {
                 Id = q.Id,
                 Text = q.Text,
+                TextHtml = q.TextHtml,
                 Title = title,
                 SolutionType = q.SolutionType,
                 RenderedQuestionTextExtended = q.TextExtended != null
@@ -117,8 +121,8 @@ public class QuestionLandingPageController(
             {
                 AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 Answer = solution.CorrectAnswer(),
-                AnswerDescription = q.Description != null 
-                    ? MarkdownMarkdig.ToHtml(q.Description) 
+                AnswerDescription = q.Description != null
+                    ? MarkdownMarkdig.ToHtml(q.Description)
                     : "",
                 AnswerReferences = q.References.Select(r => new AnswerReference
                 {
