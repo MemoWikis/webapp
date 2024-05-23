@@ -20,7 +20,7 @@ public class EntityCache
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
         Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
-    public static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
+    private static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
 
     /// <summary>
@@ -44,7 +44,7 @@ public class EntityCache
     }
 
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>>
-        GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
+        GetCategoryQuestionsListForCacheInitilizer(IList<QuestionCacheItem> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
@@ -60,7 +60,7 @@ public class EntityCache
         return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
     }
 
-    public static IList<int> GetQuestionsIdsForCategory(int categoryId)
+    public static List<int> GetQuestionsIdsForCategory(int categoryId)
     {
         CategoryQuestionsList.TryGetValue(categoryId, out var questionIds);
 
@@ -136,6 +136,15 @@ public class EntityCache
             }
         }
     }
+
+    public static void AddQuestionsToCategory(int categoryId, List<int> questionIds)
+    {
+        foreach (int questionId in questionIds)
+        {
+            CategoryQuestionsList[categoryId]?.AddOrUpdate(questionId, 0, (k, v) => 0);
+        }
+    }
+
 
     private static void AddQuestionToCategories(
         QuestionCacheItem question,

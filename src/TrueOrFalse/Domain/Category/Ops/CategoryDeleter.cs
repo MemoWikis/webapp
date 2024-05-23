@@ -1,20 +1,18 @@
 ﻿using ISession = NHibernate.ISession;
 
 public class CategoryDeleter(
-    ISession _session,
     SessionUser _sessionUser,
     UserActivityRepo _userActivityRepo,
-    CategoryRepository _categoryRepository,
     CategoryChangeRepo _categoryChangeRepo,
     CategoryValuationWritingRepo _categoryValuationWritingRepo,
     ExtendedUserCache _extendedUserCache,
     CrumbtrailService _crumbtrailService,
     CategoryRepository _categoryRepo,
     CategoryRelationRepo _categoryRelationRepo,
-    PermissionCheck _permissionCheck)
+    PermissionCheck _permissionCheck,
+    CategoryToQuestionRepo _categoryToQuestionRepo)
     : IRegisterAsInstancePerLifetime
 {
-    ///todo:(DaMa)  Revise: Wrong place for SQL commands.
     private HasDeleted Run(Category category, int userId)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
@@ -33,21 +31,17 @@ public class CategoryDeleter(
         }
 
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+            new ModifyRelationsForCategory(_categoryRepo, _categoryRelationRepo);
+
         ModifyRelationsEntityCache.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
             modifyRelationsForCategory);
         EntityCache.Remove(categoryCacheItem, userId);
-
-        _session
-            .CreateSQLQuery(
-                "DELETE FROM categories_to_questions where Category_id = " + category.Id)
-            .ExecuteUpdate();
-
+        _categoryToQuestionRepo.DeleteByCategoryId(category.Id);
         _userActivityRepo.DeleteForCategory(category.Id);
 
         _categoryChangeRepo.AddDeleteEntry(category, userId);
         _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
-        _categoryRepository.Delete(category);
+        _categoryRepo.Delete(category);
 
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
@@ -118,6 +112,8 @@ public class CategoryDeleter(
             .Parents()
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
+
+        MoveQuestionsToParent(id, parentIds);
         var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
@@ -131,6 +127,52 @@ public class CategoryDeleter(
             hasDeleted.DeletedSuccessful,
             redirectParent
         );
+    }
+
+    private void MoveQuestionsToParent(int topicToDeleteId, List<int> parentIds)
+    {
+        if (!parentIds.Any())
+        {
+            Logg.r.Error("parent must exist in Method ${nameof(MoveQuestionsToParent)}");
+            throw new NullReferenceException("parent is null");
+        }
+
+        var newParentId = DetermineNewParentForQuestions(parentIds);
+
+        var questionIdsFromTopicToDelete = EntityCache.GetQuestionsIdsForCategory(topicToDeleteId);
+        _categoryToQuestionRepo.AddQuestionsToCategory(newParentId, questionIdsFromTopicToDelete);
+        EntityCache.AddQuestionsToCategory(newParentId, questionIdsFromTopicToDelete);
+    }
+
+    private int DetermineNewParentForQuestions(List<int> parentIds)
+    {
+        if (parentIds.Count == 1)
+        {
+            return parentIds.First();
+        }
+
+        var potentialNewParents = EntityCache.GetCategories(parentIds).ToList();
+        var filteredParents = GetParentsWithMaxRelevance(potentialNewParents).ToList();
+
+        if (filteredParents.Count == 1)
+        {
+            return filteredParents.First().Id;
+        }
+
+        filteredParents = GetParentsWithMaxQuestions(filteredParents).ToList();
+        return filteredParents.First().Id;
+    }
+
+    private IEnumerable<CategoryCacheItem> GetParentsWithMaxRelevance(List<CategoryCacheItem> potentialNewParents)
+    {
+        var maxRelevance = potentialNewParents.Max(p => p.TotalRelevancePersonalEntries);
+        return potentialNewParents.Where(p => p.TotalRelevancePersonalEntries == maxRelevance);
+    }
+
+    private IEnumerable<CategoryCacheItem> GetParentsWithMaxQuestions(List<CategoryCacheItem> potentialNewParents)
+    {
+        var maxQuestions = potentialNewParents.Max(p => p.CountQuestions);
+        return potentialNewParents.Where(p => p.CountQuestions == maxQuestions);
     }
 
     public record RedirectParent(string Name, int Id);

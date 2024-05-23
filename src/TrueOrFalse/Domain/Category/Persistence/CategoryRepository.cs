@@ -41,11 +41,6 @@ public class CategoryRepository(
         return GetByIdsEager(new[] { categoryId }).FirstOrDefault();
     }
 
-    public Category GetByIdEager(CategoryCacheItem category)
-    {
-        return GetByIdsEager(new[] { category.Id }).FirstOrDefault();
-    }
-
     public IList<Category> GetByIds(List<int> questionIds)
     {
         return GetByIds(questionIds.ToArray());
