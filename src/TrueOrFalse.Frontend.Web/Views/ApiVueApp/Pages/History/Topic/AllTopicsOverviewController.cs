@@ -107,7 +107,7 @@ public class HistoryTopicAllTopicsOverviewController(
 
     public Change BuildChange(CategoryChange topicChange)
     {
-        var change = GetNewChange(topicChange);
+        var change = CreateChangeObject(topicChange);
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
@@ -155,7 +155,7 @@ public class HistoryTopicAllTopicsOverviewController(
         return change;
     }
 
-    private Change GetNewChange(CategoryChange topicChange)
+    private Change CreateChangeObject(CategoryChange topicChange)
     {
         return new Change
         {
