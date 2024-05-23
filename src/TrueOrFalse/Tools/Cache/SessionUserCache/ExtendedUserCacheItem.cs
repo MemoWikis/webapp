@@ -17,15 +17,14 @@ public class ExtendedUserCacheItem : UserCacheItem
         return sessionUserCacheItem;
     }
 
-    public static void AddOrUpdateQuestionValuations(ExtendedUserCacheItem extendedUser,
-        QuestionValuationCacheItem questionValuationCacheItem)
+    public void AddOrUpdateQuestionValuations(QuestionValuationCacheItem questionValuationCacheItem)
     {
-        extendedUser.QuestionValuations.TryGetValue(questionValuationCacheItem.Question.Id, out var valuation);
-        bool result;
+        QuestionValuations.TryGetValue(questionValuationCacheItem.Question.Id, out var valuation);
 
         if (valuation == null)
         {
-            result = extendedUser.QuestionValuations.TryAdd(questionValuationCacheItem.Question.Id, questionValuationCacheItem);
+            var result = QuestionValuations
+                .TryAdd(questionValuationCacheItem.Question.Id, questionValuationCacheItem);
 
             if (result == false)
                 Logg.r.Error(
@@ -34,7 +33,7 @@ public class ExtendedUserCacheItem : UserCacheItem
         }
         else
         {
-            result = extendedUser.QuestionValuations.TryUpdate(
+            var result = QuestionValuations.TryUpdate(
                 questionValuationCacheItem.Question.Id,
                 questionValuationCacheItem,
                 valuation);

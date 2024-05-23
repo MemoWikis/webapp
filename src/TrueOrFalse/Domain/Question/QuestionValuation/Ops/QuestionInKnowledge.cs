@@ -161,36 +161,40 @@ public class QuestionInKnowledge(
         var questionValuation = _questionValuationReadingRepo.GetBy(questionId, userId);
         var question = EntityCache.GetQuestion(questionId);
 
-        CreateOrUpdateValuation(question, questionValuation, userId, relevancePersonal);
+        if (questionValuation == null)
+            CreateOrUpdateValuation(question, userId, relevancePersonal);
+        else
+            CreateOrUpdateValuation(questionValuation, relevancePersonal);
     }
 
     private void CreateOrUpdateValuation(
         QuestionCacheItem question,
-        QuestionValuation questionValuation,
         int userId,
         int relevancePersonal = -2)
     {
-        if (questionValuation == null)
+        var newQuestionVal = new QuestionValuation
         {
-            var newQuestionVal = new QuestionValuation
-            {
-                Question = _questionReadingRepo.GetById(question.Id),
-                User = _userReadingRepo.GetById(userId),
-                RelevancePersonal = relevancePersonal,
-                CorrectnessProbability = question.CorrectnessProbability
-            };
+            Question = _questionReadingRepo.GetById(question.Id),
+            User = _userReadingRepo.GetById(userId),
+            RelevancePersonal = relevancePersonal,
+            CorrectnessProbability = question.CorrectnessProbability
+        };
 
-            _questionValuationReadingRepo.Create(newQuestionVal);
-            ExtendedUserCacheItem.AddOrUpdateQuestionValuations(_sessionUser.User, newQuestionVal.ToCacheItem());
-        }
-        else
-        {
-            if (relevancePersonal != -2)
-                questionValuation.RelevancePersonal = relevancePersonal;
+        _questionValuationReadingRepo.Create(newQuestionVal);
+        _sessionUser.User.AddOrUpdateQuestionValuations(newQuestionVal.ToCacheItem());
 
-            _questionValuationWritingRepo.Update(questionValuation);
-            ExtendedUserCacheItem.AddOrUpdateQuestionValuations(_sessionUser.User, questionValuation!.ToCacheItem());
-        }
+        _questionValuationReadingRepo.Flush();
+    }
+
+    private void CreateOrUpdateValuation(
+        QuestionValuation questionValuation,
+        int relevancePersonal = -2)
+    {
+        if (relevancePersonal != -2)
+            questionValuation.RelevancePersonal = relevancePersonal;
+
+        _questionValuationWritingRepo.Update(questionValuation);
+        _sessionUser.User.AddOrUpdateQuestionValuations(questionValuation.ToCacheItem());
 
         _questionValuationReadingRepo.Flush();
     }
