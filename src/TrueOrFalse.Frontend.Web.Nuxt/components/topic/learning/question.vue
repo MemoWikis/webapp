@@ -315,7 +315,8 @@ function hasContent(str: string) {
                                     Richtige Antwort:
                                     <div v-html="answer"></div>
                                 </div>
-                                <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)" :id="extendedAnswerId">
+                                <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)"
+                                    :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
                                     <div :v-html="extendedAnswer"></div>
                                 </div>
@@ -327,22 +328,22 @@ function hasContent(str: string) {
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
                             <span class="percentageLabel" :class="backgroundColor">{{
-                                correctnessProbability
-                            }}</span>
+        correctnessProbability
+    }}</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
                             {{ answerCount }} mal beantwortet | {{
-                                correctAnswers
-                            }} richtig / {{ wrongAnswers }} falsch
+        correctAnswers
+    }} richtig / {{ wrongAnswers }} falsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div class="commentIcon" @click.stop="showCommentModal()">
                             <font-awesome-icon icon="fa-solid fa-comment" />
                             <span> {{
-                                commentCount
-                            }}
+        commentCount
+    }}
                             </span>
                         </div>
                         <div class="Button dropdown">
@@ -360,7 +361,8 @@ function hasContent(str: string) {
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.linkToQuestion">
+                                    <NuxtLink v-if="userStore.isAdmin"
+                                        :to="$urlHelper.getQuestionUrl(props.question.title, props.question.id)">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
