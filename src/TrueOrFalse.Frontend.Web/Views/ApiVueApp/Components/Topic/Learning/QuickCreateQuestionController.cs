@@ -40,32 +40,41 @@ public class QuickCreateQuestionController(
     public CreateFlashcardResult CreateFlashcard([FromBody] CreateFlashcardParam param)
     {
         var safeText = GetSafeText(param.TextHtml);
-        if (safeText.Length <= 0)
+
+        if (string.IsNullOrEmpty(safeText))
+        {
             return new CreateFlashcardResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
             };
+        }
 
-        var question = new Question();
+        var question = new Question
+        {
+            TextHtml = param.TextHtml,
+            Text = safeText,
+            SolutionType = SolutionType.FlashCard
+        };
 
-        question.TextHtml = param.TextHtml;
-        question.Text = safeText;
-        question.SolutionType = SolutionType.FlashCard;
+        var solutionModelFlashCard = new QuestionSolutionFlashCard
+        {
+            Text = param.Answer
+        };
 
-        var solutionModelFlashCard = new QuestionSolutionFlashCard();
-        solutionModelFlashCard.Text = param.Answer;
-
-        if (solutionModelFlashCard.Text.Length <= 0)
+        if (string.IsNullOrEmpty(solutionModelFlashCard.Text))
+        {
             return new CreateFlashcardResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
             };
+        }
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
 
-        question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
+        question.Creator = _userReadingRepo.GetById(_sessionUser.UserId)!;
+
         question.Categories = new List<Category>
         {
             _categoryRepository.GetById(param.TopicId)
@@ -77,7 +86,9 @@ public class QuickCreateQuestionController(
         _questionWritingRepo.Create(question, _categoryRepository);
 
         if (param.AddToWishknowledge)
+        {
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
+        }
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(
             EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
