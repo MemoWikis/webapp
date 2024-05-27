@@ -284,9 +284,9 @@ function hasContent(str: string) {
                         <div class="questionHeader">
                             <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId"
                                 @click="expandQuestionContainer()">
-                                <div v-html="questionTitleHtml" v-if="questionTitleHtml != null">
+                                <p v-html="questionTitleHtml" v-if="questionTitleHtml != null">
 
-                                </div>
+                                </p>
                                 <div v-if="showLock" class="privateQuestionIcon question-lock">
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
                                 </div>
