@@ -336,9 +336,9 @@ const maxWidth = ref(150)
 				</span>
 			</NuxtLink>
 			<template #popper>
-				<div class="breadcrumb-dropdown dropdown-row" v-if="topicStore.id == personalWiki?.id">
+				<p class="breadcrumb-dropdown dropdown-row" v-if="topicStore.id == personalWiki?.id">
 					{{ topicStore.name }}
-				</div>
+				</p>
 			</template>
 		</VDropdown>
 
@@ -409,9 +409,9 @@ const maxWidth = ref(150)
 				{{ topicStore.name }}
 			</div>
 			<template #popper>
-				<div class="breadcrumb-dropdown dropdown-row">
+				<p class="breadcrumb-dropdown dropdown-row">
 					{{ topicStore.name }}
-				</div>
+				</p>
 			</template>
 		</VDropdown>
 
