@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
 using Microsoft.AspNetCore.Mvc;
+
 using static CategoryDeleter;
 
 public class DeleteTopicStoreController(
     SessionUser sessionUser,
-    CategoryDeleter categoryDeleter) : BaseController(sessionUser)
+    CategoryDeleter categoryDeleter,
+    CrumbtrailService _crumbtrailService) : BaseController(sessionUser)
 {
-    public readonly record struct DeleteData(string Name, bool HasChildren);
+    public readonly record struct DeleteData(string Name, bool HasChildren, BreadcrumbItem Parent);
+
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
@@ -19,10 +25,32 @@ public class DeleteTopicStoreController(
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        return new DeleteData(topic.Name, hasChildren);
+        var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
+
+        var parents = _crumbtrailService.BuildCrumbtrail(topic, currentWiki);
+        var breadcrumbItem = GetLastBreadcrumbItem(parents);
+        return new DeleteData(topic.Name, hasChildren, breadcrumbItem);
     }
+
+
+    public readonly record struct DeleteJson(int id, int parentForQuestionsId);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public DeleteTopicResult Delete([FromRoute] int id) => categoryDeleter.DeleteTopic(id);
+    public DeleteTopicResult Delete([FromBody] DeleteJson deleteJson) =>
+        categoryDeleter.DeleteTopic(deleteJson.id, deleteJson.parentForQuestionsId);
+
+    private BreadcrumbItem GetLastBreadcrumbItem(Crumbtrail breadcrumb)
+    {
+        var breadcrumbItem = breadcrumb.Items.Last();
+
+        return new BreadcrumbItem
+        {
+            Name = breadcrumbItem.Text,
+            Id = breadcrumbItem.Category.Id
+        };
+    }
+
+
+    public record struct BreadcrumbItem(string Name, int Id);
 }
