@@ -1,6 +1,9 @@
 import { defineStore } from "pinia"
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
+import { Parent } from '~~/components/topic/delete/parent';
+
+
 export const useDeleteTopicStore = defineStore('deleteTopicStore', {
     state() {
         return {
@@ -10,7 +13,9 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             errorMsg: '',
             topicDeleted: false,
             redirectURL: '',
-            redirect: false
+            redirect: false,
+            parent: <Parent | null>(null),
+            selectedParent: 0
         }
     },
     actions: {
@@ -21,6 +26,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             this.id = id
             this.redirectURL = ''
             this.redirect = redirect
+            
             if (await this.initDeleteData())
                 this.showModal = true
         },
@@ -29,20 +35,22 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 name: string
                 canBeDeleted: boolean
                 hasChildren: boolean
+                parent: Parent
             }
             const result = await $fetch<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
-
             if (result != null) {
+                this.parent = result.parent
                 this.name = result.name
                 if (result.hasChildren) {
                     const alertStore = useAlertStore()
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.category.notLastChild }, 'Verstanden', undefined, `Das Thema '${this.name}' kann nicht gelößcht werden`)
+                    alertStore.openAlert(AlertType.Error, { text: messages.error.category.notLastChild }, 'Verstanden', undefined, `Das Thema '${this.name}' kann nicht gelöscht werden`)
                     return false
                 }
                 return true
             }
         },
-        async deleteTopic() {
+        async deleteTopic(selectedParentId: number) {
+            console.log(selectedParentId)
             interface DeleteResult {
                 success: boolean
                 hasChildren: boolean
@@ -52,16 +60,27 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                     id: number
                 }
             }
-            const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
+        const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete`, { 
+            method: 'POST', 
+            mode: 'cors', 
+            credentials: 'include',
+            body: JSON.stringify({
+            id: this.id,
+            parentForQuestionsId: selectedParentId
+            })
+      });
             if (!!result && result.success) {                 
                 const { $urlHelper } = useNuxtApp()
                 this.redirectURL = $urlHelper.getTopicUrl(result.redirectParent.name, result.redirectParent.id)
                 this.topicDeleted = true
-
+ 
                 return {
-                    id: this.id
+                    id: this.id 
                 }
             }
+        },
+        setSelectedParent(id: number) { 
+            this.selectedParent = id;
         }
     }
 })
