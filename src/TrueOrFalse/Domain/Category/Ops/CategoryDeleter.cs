@@ -1,4 +1,6 @@
-﻿using ISession = NHibernate.ISession;
+﻿using Microsoft.IdentityModel.Tokens;
+
+using ISession = NHibernate.ISession;
 
 public class CategoryDeleter(
     SessionUser _sessionUser,
@@ -35,6 +37,7 @@ public class CategoryDeleter(
 
         ModifyRelationsEntityCache.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
             modifyRelationsForCategory);
+
         EntityCache.Remove(categoryCacheItem, userId);
         _categoryToQuestionRepo.DeleteByCategoryId(category.Id);
         _userActivityRepo.DeleteForCategory(category.Id);
@@ -60,11 +63,13 @@ public class CategoryDeleter(
         {
             var allVisibleChildren =
                 GraphService.VisibleChildren(category.Id, _permissionCheck, userId);
+
             if (allVisibleChildren.Count > 0)
             {
                 foreach (var child in allVisibleChildren)
                 {
                     visitedChildrenIds.Add(child.Id);
+
                     var visibleParents = GraphService
                         .VisibleParents(child.Id, _permissionCheck)
                         .Where(p => p.Id != category.Id)
@@ -85,6 +90,7 @@ public class CategoryDeleter(
                 foreach (var child in privateChildren)
                 {
                     var hasExtraParent = GraphService.ParentIds(child).Any(i => i != category.Id);
+
                     if (!hasExtraParent)
                         return false;
                 }
@@ -100,10 +106,11 @@ public class CategoryDeleter(
         bool Success,
         RedirectParent RedirectParent);
 
-    public DeleteTopicResult DeleteTopic(int id)
+    public DeleteTopicResult DeleteTopic(int id, int parentId)
     {
         var redirectParent = GetRedirectTopic(id);
         var topic = _categoryRepo.GetById(id);
+
         if (topic == null)
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
@@ -113,7 +120,7 @@ public class CategoryDeleter(
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
-        MoveQuestionsToParent(id, parentIds);
+        MoveQuestionsToParent(id, parentId);
         var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
@@ -129,50 +136,21 @@ public class CategoryDeleter(
         );
     }
 
-    private void MoveQuestionsToParent(int topicToDeleteId, List<int> parentIds)
+    private void MoveQuestionsToParent(int topicToDeleteId, int parentId)
     {
-        if (!parentIds.Any())
+        if (parentId == 0)
         {
-            Logg.r.Error("parent must exist in Method ${nameof(MoveQuestionsToParent)}");
             throw new NullReferenceException("parent is null");
         }
 
-        var newParentId = DetermineNewParentForQuestions(parentIds);
-
+        var parent = _categoryRepo.GetById(parentId);
         var questionIdsFromTopicToDelete = EntityCache.GetQuestionsIdsForCategory(topicToDeleteId);
-        _categoryToQuestionRepo.AddQuestionsToCategory(newParentId, questionIdsFromTopicToDelete);
-        EntityCache.AddQuestionsToCategory(newParentId, questionIdsFromTopicToDelete);
-    }
 
-    private int DetermineNewParentForQuestions(List<int> parentIds)
-    {
-        if (parentIds.Count == 1)
-        {
-            return parentIds.First();
-        }
+        if (questionIdsFromTopicToDelete.Any())
+            _categoryToQuestionRepo.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
 
-        var potentialNewParents = EntityCache.GetCategories(parentIds).ToList();
-        var filteredParents = GetParentsWithMaxRelevance(potentialNewParents).ToList();
-
-        if (filteredParents.Count == 1)
-        {
-            return filteredParents.First().Id;
-        }
-
-        filteredParents = GetParentsWithMaxQuestions(filteredParents).ToList();
-        return filteredParents.First().Id;
-    }
-
-    private IEnumerable<CategoryCacheItem> GetParentsWithMaxRelevance(List<CategoryCacheItem> potentialNewParents)
-    {
-        var maxRelevance = potentialNewParents.Max(p => p.TotalRelevancePersonalEntries);
-        return potentialNewParents.Where(p => p.TotalRelevancePersonalEntries == maxRelevance);
-    }
-
-    private IEnumerable<CategoryCacheItem> GetParentsWithMaxQuestions(List<CategoryCacheItem> potentialNewParents)
-    {
-        var maxQuestions = potentialNewParents.Max(p => p.CountQuestions);
-        return potentialNewParents.Where(p => p.CountQuestions == maxQuestions);
+        EntityCache.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
+        _categoryRepo.Update(parent);
     }
 
     public record RedirectParent(string Name, int Id);
@@ -181,6 +159,7 @@ public class CategoryDeleter(
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
+
         var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items
             .LastOrDefault();
 
