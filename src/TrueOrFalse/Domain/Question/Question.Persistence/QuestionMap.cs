@@ -6,12 +6,15 @@ public class QuestionMap : ClassMap<Question>
     public QuestionMap()
     {
         Id(x => x.Id);
-        Map(x => x.Text).Length(Constants.VarCharMaxLength);
-        Map(x => x.TextHtml);
-        Map(x => x.TextExtended).Length(Constants.VarCharMaxLength);
-        Map(x => x.TextExtendedHtml);
-        Map(x => x.Description).Length(Constants.VarCharMaxLength);
-        Map(x => x.DescriptionHtml);
+
+        Map(x => x.Text)
+            .CustomSqlType("VARCHAR(3000)").Length(Constants.VarCharMaxLength3000);
+
+        Map(x => x.TextHtml).CustomSqlType("MEDIUMTEXT");
+        Map(x => x.TextExtended).CustomSqlType("TEXT");
+        Map(x => x.TextExtendedHtml).CustomSqlType("TEXT");
+        Map(x => x.Description).CustomSqlType("TEXT");
+        Map(x => x.DescriptionHtml).CustomSqlType("TEXT");
         Map(x => x.LicenseId).Column("License");
         Map(x => x.Visibility).CustomType<QuestionVisibility>();
         References(x => x.Creator);
@@ -32,9 +35,9 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
 
-        Map(x => x.Solution);
+        Map(x => x.Solution).CustomSqlType("MEDIUMTEXT");
         Map(x => x.SolutionType).CustomType<SolutionType>();
-        Map(x => x.SolutionMetadataJson);
+        Map(x => x.SolutionMetadataJson).CustomSqlType("VARCHAR(7000)").Length(7000);
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();
         HasManyToMany(x => x.Categories)
