@@ -67,7 +67,7 @@
             }
         }
 
-        ModifyRelationsEntityCache.AddChild(relation);
+        ModifyRelationsEntityCacheAndDb.AddChild(relation);
     }
 
     public int CreateNewRelationAndGetId(int parentId, int childId, int? nextId, int? previousId)

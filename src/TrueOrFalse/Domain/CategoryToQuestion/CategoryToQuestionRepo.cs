@@ -1,7 +1,6 @@
 ﻿
 
 using System.Text;
-
 using NHibernate;
 
 public class CategoryToQuestionRepo(ISession _session)
@@ -9,8 +8,8 @@ public class CategoryToQuestionRepo(ISession _session)
     public void DeleteByCategoryId(int categoryId)
     {
         _session
-            .CreateSQLQuery(
-                "DELETE FROM categories_to_questions where Category_id = " + categoryId)
+            .CreateSQLQuery("DELETE FROM categories_to_questions WHERE Category_id = :categoryId")
+            .SetParameter("categoryId", categoryId)
             .ExecuteUpdate();
 
         _session.Flush();

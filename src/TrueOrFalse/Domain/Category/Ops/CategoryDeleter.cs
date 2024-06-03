@@ -44,9 +44,9 @@ public class CategoryDeleter(
 
         _categoryChangeRepo.AddDeleteEntry(category, userId);
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
-        _categoryRepo.Delete(category);
 
-        _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
+        _categoryRepo.Delete(category.Id);
+
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;
@@ -121,9 +121,9 @@ public class CategoryDeleter(
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
         MoveQuestionsToParent(id, parentId);
-        var parentTopics = _categoryRepo.GetByIds(parentIds);
-
         var hasDeleted = Run(topic, _sessionUser.UserId);
+
+        var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         foreach (var parent in parentTopics)
             _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
@@ -148,9 +148,9 @@ public class CategoryDeleter(
 
         if (questionIdsFromTopicToDelete.Any())
             _categoryToQuestionRepo.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
+        _categoryRepo.Update(parent);
 
         EntityCache.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
-        _categoryRepo.Update(parent);
     }
 
     public record RedirectParent(string Name, int Id);

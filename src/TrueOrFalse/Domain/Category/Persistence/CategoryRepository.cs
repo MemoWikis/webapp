@@ -31,6 +31,18 @@ public class CategoryRepository(
             .ConfigureAwait(false));
     }
 
+    public void Delete(int id)
+    {
+        var categoryToDelete = GetByIdEager(id);
+
+        if (categoryToDelete == null)
+        {
+            throw new NullReferenceException("Category is null");
+        }
+
+        base.Delete(categoryToDelete);
+    }
+
     public IList<Category> GetAllEager()
     {
         return GetByIdsEager();
