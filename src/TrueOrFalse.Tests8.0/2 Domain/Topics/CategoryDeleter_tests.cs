@@ -31,7 +31,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
 
             //Assert
             Assert.IsNotNull(requestResult);
@@ -76,7 +76,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
+            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id, parent.Id);
 
             //Assert
             RecycleContainerAndEntityCache();
@@ -136,7 +136,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id);
+            var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id, parent.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
@@ -209,7 +209,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(firstChild.Id);
+            var requestResult = categoryDeleter.DeleteTopic(firstChild.Id, parent.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
@@ -253,7 +253,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
@@ -294,7 +294,7 @@
             var categoryDeleter = R<CategoryDeleter>();
 
             //Act
-            var requestResult = categoryDeleter.DeleteTopic(child.Id);
+            var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
             RecycleContainerAndEntityCache();
 
             //Assert
