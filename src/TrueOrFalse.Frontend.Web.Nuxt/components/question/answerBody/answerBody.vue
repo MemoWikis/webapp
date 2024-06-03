@@ -495,14 +495,16 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                             Hab ich gewusst!
                                         </button>
                                     </div>
+                                    <Transition name="fade">
 
-                                    <div
-                                        v-else-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state === AnswerState.Skipped || learningSessionStore.currentStep?.state === AnswerState.ShowedSolutionOnly)">
-                                        <button @click="loadResult()" class="btn btn-primary memo-button"
-                                            rel="nofollow">
-                                            Zum Ergebnis
-                                        </button>
-                                    </div>
+                                        <div
+                                            v-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state === AnswerState.Skipped || learningSessionStore.currentStep?.state === AnswerState.ShowedSolutionOnly)">
+                                            <button @click="loadResult()" class="btn btn-primary memo-button"
+                                                rel="nofollow">
+                                                Zum Ergebnis
+                                            </button>
+                                        </div>
+                                    </Transition>
 
                                     <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
                                         id="buttons-answer-again" class="ButtonGroup">
@@ -698,4 +700,17 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 }
 </style>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.fade-enter-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-leave-active {
+    transition: opacity 0;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>
