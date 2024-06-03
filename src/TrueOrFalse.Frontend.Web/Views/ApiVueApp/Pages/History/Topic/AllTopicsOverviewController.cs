@@ -107,19 +107,7 @@ public class HistoryTopicAllTopicsOverviewController(
 
     public Change BuildChange(CategoryChange topicChange)
     {
-        var change = new Change
-        {
-            topicId = topicChange.Category.Id,
-            topicName = topicChange.Category.Name,
-            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id,
-                    _httpContextAccessor)
-                .GetUrl(50)
-                .Url,
-            author = GetAuthor(topicChange),
-            timeCreated = topicChange.DateCreated.ToString("HH:mm"),
-            topicChangeType = topicChange.Type,
-            revisionId = topicChange.Id,
-        };
+        var change = CreateChangeObject(topicChange);
 
         if (topicChange.Type == CategoryChangeType.Relations)
         {
@@ -142,9 +130,13 @@ public class HistoryTopicAllTopicsOverviewController(
 
                 if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
                     lastRelationDifference.CategoryId == topicChange.Category.Id)
+                {
                     change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
+                }
                 else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
+                {
                     change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                }
             }
             else if (previousRelations.Count < currentRelations.Count)
             {
@@ -161,6 +153,23 @@ public class HistoryTopicAllTopicsOverviewController(
         }
 
         return change;
+    }
+
+    private Change CreateChangeObject(CategoryChange topicChange)
+    {
+        return new Change
+        {
+            topicId = topicChange.Category.Id,
+            topicName = topicChange.Category.Name,
+            topicImgUrl = new CategoryImageSettings(topicChange.Category.Id,
+                    _httpContextAccessor)
+                .GetUrl(50)
+                .Url,
+            author = GetAuthor(topicChange),
+            timeCreated = topicChange.DateCreated.ToString("HH:mm"),
+            topicChangeType = topicChange.Type,
+            revisionId = topicChange.Id,
+        };
     }
 
     private Change GetAffectedTopicData(Change change, int id)

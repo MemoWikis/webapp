@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+
 using TrueOrFalse.Web.Context;
 
 public class SessionUser : IRegisterAsInstancePerLifetime
@@ -14,7 +16,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         ExtendedUserCache extendedUserCache)
     {
         _httpContext = httpContextAccessor.HttpContext;
-        ;
         _extendedUserCache = extendedUserCache;
     }
 
@@ -57,8 +58,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         }
     }
 
-    //public ExtendedUserCacheItem User => _userId < 0 ? null : GetOrCreateUserFromSessionCache();
-
     public bool IsLoggedInUser(int userId)
     {
         if (!IsLoggedIn)
@@ -99,25 +98,17 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         _httpContext.Session.Get<List<ActivityPoints>>("pointActivities") ??
         new List<ActivityPoints>();
 
-    public void AddPointActivity(ActivityPoints activityPoints)
-    {
+    public void AddPointActivity(ActivityPoints activityPoints) =>
         ActivityPoints.Add(activityPoints);
-    }
 
-    public int GetTotalActivityPoints()
-    {
-        int totalPoints = 0;
 
-        foreach (var activity in ActivityPoints)
-            totalPoints += activity.Amount;
+    public int GetTotalActivityPoints() =>
+        ActivityPoints.Sum(activity => activity.Amount);
 
-        return totalPoints;
-    }
 
-    public bool IsLoggedInUserOrAdmin()
-    {
-        return IsLoggedInUser(UserId) || IsInstallationAdmin;
-    }
+    public bool IsLoggedInUserOrAdmin() =>
+        IsLoggedInUser(UserId) || IsInstallationAdmin;
+
 
     public int CurrentWikiId
     {

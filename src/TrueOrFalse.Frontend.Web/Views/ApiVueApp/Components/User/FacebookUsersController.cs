@@ -2,8 +2,11 @@ using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
+
 using Microsoft.AspNetCore.Mvc;
+
 using System.Threading.Tasks;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -38,7 +41,7 @@ public class FacebookUsersController(
         }
 
         if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken,
-                json.facebookUserId))
+            json.facebookUserId))
         {
             _sessionUser.Login(user);
 
@@ -64,12 +67,14 @@ public class FacebookUsersController(
     public async Task<LoginResult> CreateAndLogin([FromBody] CreateAndLoginJson json)
     {
         if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken,
-                json.facebookUser.id))
+            json.facebookUser.id))
         {
             var user = _userReadingRepo.UserGetByFacebookId(json.facebookUser.id);
+
             if (user != null)
             {
                 _sessionUser.Login(user);
+
                 return new LoginResult
                 {
                     Success = true,
@@ -78,6 +83,7 @@ public class FacebookUsersController(
             }
 
             var registerResult = _registerUser.SetFacebookUser(json.facebookUser);
+
             if (registerResult.Success)
             {
                 return new LoginResult
@@ -111,6 +117,7 @@ public class FacebookUsersController(
     public string DataDeletionCallback(string jsonUserData)
     {
         JObject userData = JObject.Parse(jsonUserData);
+
         if (String.IsNullOrEmpty(GetHashString(userData["user_id"]?.ToString())))
         {
             return "Error";
@@ -125,12 +132,14 @@ public class FacebookUsersController(
             $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}.");
 
         SendEmail.Run(mailMessage, _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
+
         var requestAnswer = new
         {
             url = "http://localhost:26590/FacebookUsersApi/UserExistsString?facebookId=" +
-                  userData["user_id"],
+                userData["user_id"],
             confirmation_code = confirmationCode
         };
+
         return JsonConvert.SerializeObject(requestAnswer);
         ;
     }
@@ -138,6 +147,7 @@ public class FacebookUsersController(
     public static string GetHashString(string inputString)
     {
         StringBuilder sb = new StringBuilder();
+
         foreach (byte b in GetHash(inputString))
             sb.Append(b.ToString("X2"));
 

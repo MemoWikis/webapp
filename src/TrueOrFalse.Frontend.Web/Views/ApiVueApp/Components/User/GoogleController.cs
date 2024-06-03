@@ -35,11 +35,13 @@ public class GoogleController(
                     GoogleId = googleUser.Subject
                 };
 
-                var result = CreateAndLogin(newUser);
+                var result = _registerUser.CreateAndLogin(newUser);
+
                 return new LoginResult
                 {
                     Success = result.Success,
-                    MessageKey = result.MessageKey
+                    MessageKey = result.MessageKey,
+                    Data = _vueSessionUser.GetCurrentUserData()
                 };
             }
 
@@ -62,32 +64,6 @@ public class GoogleController(
     public bool UserExists(string googleId)
     {
         return _userReadingRepo.GoogleUserExists(googleId);
-    }
-
-    public readonly record struct CreateAndLoginResult(
-        bool Success,
-        VueSessionUser.CurrentUserData Data,
-        string MessageKey);
-
-    [HttpPost]
-    public CreateAndLoginResult CreateAndLogin(GoogleUserCreateParameter googleUser)
-    {
-        var registerResult = _registerUser.SetGoogleUser(googleUser);
-        if (registerResult.Success)
-
-        {
-            return new CreateAndLoginResult
-            {
-                Success = true,
-                Data = _vueSessionUser.GetCurrentUserData()
-            };
-        }
-
-        return new CreateAndLoginResult
-        {
-            Success = registerResult.Success,
-            MessageKey = registerResult.MessageKey
-        };
     }
 
     public async Task<GoogleJsonWebSignature.Payload> GetGoogleUser(string token)

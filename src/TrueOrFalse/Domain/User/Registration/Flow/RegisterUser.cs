@@ -135,6 +135,30 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
         WelcomeMsg.Send(user.Id, _userReadingRepo, _messageRepo);
     }
+
+    public readonly record struct CreateAndLoginResult(
+        bool Success,
+        string MessageKey);
+
+    public CreateAndLoginResult CreateAndLogin(GoogleUserCreateParameter googleUser)
+    {
+        var registerResult = SetGoogleUser(googleUser);
+
+        if (registerResult.Success)
+
+        {
+            return new CreateAndLoginResult
+            {
+                Success = true,
+            };
+        }
+
+        return new CreateAndLoginResult
+        {
+            Success = false,
+            MessageKey = registerResult.MessageKey
+        };
+    }
 }
 
 public class RegisterJson

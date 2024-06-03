@@ -43,6 +43,8 @@ class UrlHelper {
                 return ['-'];
             case '_':
                 return ['-'];
+            case '?':
+                return [''];
             default:
                 return [chr];
         }

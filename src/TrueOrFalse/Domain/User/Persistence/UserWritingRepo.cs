@@ -68,7 +68,7 @@ public class UserWritingRepo
 
     public void DeleteFromAllTables(int userId)
     {
-        var user = _repo.Session.Get<User>(userId);
+        var user = _repo.GetById(userId);
         Task.Run(async () => await new MeiliSearchUsersDatabaseOperations().DeleteAsync(user));
 
         _repo.Session.CreateSQLQuery("DELETE FROM persistentlogin WHERE UserId = :userId")
