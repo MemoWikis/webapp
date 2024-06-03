@@ -125,7 +125,6 @@ namespace Seedworks.Lib.Persistence
 
             _session.Save(domainObject);
             ClearAllItemCache();
-            _session.Clear();
 
             if (OnItemCreated != null)
                 OnItemCreated(this, new RepositoryDbEventArgs(domainObject));
