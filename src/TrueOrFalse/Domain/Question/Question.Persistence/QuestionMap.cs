@@ -8,7 +8,7 @@ public class QuestionMap : ClassMap<Question>
         Id(x => x.Id);
 
         Map(x => x.Text)
-            .CustomSqlType("VARCHAR(3000)").Length(Constants.VarCharMaxLength3000);
+            .CustomSqlType("VARCHAR(3000)").Length(3000);
 
         Map(x => x.TextHtml).CustomSqlType("MEDIUMTEXT");
         Map(x => x.TextExtended).CustomSqlType("TEXT");
@@ -40,7 +40,6 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.SolutionMetadataJson).CustomSqlType("VARCHAR(7000)").Length(7000);
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();
-
         HasManyToMany(x => x.Categories)
             .Table("categories_to_questions")
             .Cascade.SaveUpdate();

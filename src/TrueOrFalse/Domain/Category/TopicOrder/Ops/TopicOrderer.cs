@@ -27,7 +27,6 @@
         }
 
         modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
-
         ModifyRelationsEntityCacheAndDb.RemoveParent(EntityCache.GetCategory(relation.ChildId),
             relation.ParentId, authorId, modifyRelationsForCategory, permissionCheck);
     }
