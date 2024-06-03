@@ -497,7 +497,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                     </div>
 
                                     <div
-                                        v-else-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state === AnswerState.Skipped)">
+                                        v-else-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state === AnswerState.Skipped || learningSessionStore.currentStep?.state === AnswerState.ShowedSolutionOnly)">
                                         <button @click="loadResult()" class="btn btn-primary memo-button"
                                             rel="nofollow">
                                             Zum Ergebnis
