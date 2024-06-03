@@ -87,7 +87,8 @@
         {
             id = s.Question.Id,
             state = s.AnswerState,
-            index = index
+            index = index,
+            isLastStep = learningSession.Steps.Last() == s
         }).ToArray();
 
         result.ActiveQuestionCount = learningSession.Steps.DistinctBy(s => s.Question).Count();
@@ -158,8 +159,7 @@
             return result;
 
         if (learningSession.Steps.Any(s => s.Question.Id == questionId))
-            learningSession.LoadSpecificQuestion(
-                learningSession.Steps.IndexOf(s => s.Question.Id == questionId));
+            learningSession.LoadSpecificQuestion(learningSession.Steps.IndexOf(s => s.Question.Id == questionId));
         else if (result.MessageKey == null)
             result.MessageKey = FrontendMessageKeys.Info.Question.NotInFilter;
 

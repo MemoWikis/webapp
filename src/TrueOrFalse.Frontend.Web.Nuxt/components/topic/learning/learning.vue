@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
 import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
@@ -64,7 +63,7 @@ watch(() => userStore.isLoggedIn, async () => {
     }
 })
 
-watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], ([c, s]) => {
+watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], () => {
     calculateProgress()
 }, { deep: true })
 
@@ -75,6 +74,7 @@ function calculateProgress() {
     const answered = learningSessionStore.steps.filter(s =>
         s.state != AnswerState.Unanswered
     ).length
+
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
 
     answeredWidth.value = `width: ${progressPercentage.value}%`

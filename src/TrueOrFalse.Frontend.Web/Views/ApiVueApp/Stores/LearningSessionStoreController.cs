@@ -160,6 +160,7 @@ public class LearningSessionStoreController(
     }
 
     public readonly record struct SkipStepJson(int index);
+    public record struct StepResult(AnswerState State, int Id, int Index, bool IsLastStep);
 
     [HttpPost]
     public StepResult? SkipStep([FromBody] SkipStepJson json)
@@ -181,7 +182,7 @@ public class LearningSessionStoreController(
     }
 
     [HttpGet]
-    public IActionResult LoadSteps()
+    public StepResult[] LoadSteps()
     {
         var learningSession = _learningSessionCache.GetLearningSession();
         var result = learningSession.Steps.Select((s, index) => new StepResult
@@ -192,10 +193,7 @@ public class LearningSessionStoreController(
             IsLastStep = learningSession.Steps.Last() == s
         }).ToArray();
 
-        var serializedResult = JsonConvert.SerializeObject(result);
-
-        return Content(serializedResult, "application/json");
+        return result;
     }
 
-    public record struct StepResult(AnswerState State, int Id, int Index, bool IsLastStep);
 }

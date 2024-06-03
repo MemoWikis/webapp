@@ -55,9 +55,11 @@ public class QuestionLandingPageController(
         string Solution,
         bool IsCreator,
         bool IsInWishknowledge,
-        Guid questionViewGuid,
+        Guid QuestionViewGuid,
         bool IsLastStep,
-        string ImgUrl);
+        string ImgUrl,
+        string TextHtml);
+
 
     public readonly record struct SolutionData(
         string AnswerAsHTML,
@@ -79,19 +81,22 @@ public class QuestionLandingPageController(
 
         if (!_permissionCheck.CanView(q))
         {
+            Logg.r.Error($"Not allowed to view question in function {nameof(GetQuestionPage)}");
             throw new SecurityException("Not allowed to view question");
         }
 
         var primaryTopic = q.Categories.LastOrDefault();
         var solution = GetQuestionSolution.Run(q);
-        var title = Regex.Replace(q.Text, "<.*?>", String.Empty);
+        var title = Regex.Replace(q.Text, "<.*?>", string.Empty);
         EscapeReferencesText(q.References);
+
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel
             {
                 Id = q.Id,
                 Text = q.Text,
+                TextHtml = q.TextHtml,
                 Title = title,
                 SolutionType = q.SolutionType,
                 RenderedQuestionTextExtended = q.TextExtended != null
@@ -104,7 +109,7 @@ public class QuestionLandingPageController(
                 Solution = q.Solution,
                 IsCreator = q.Creator.Id == _sessionUser.UserId,
                 IsInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
-                questionViewGuid = Guid.NewGuid(),
+                QuestionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
                 ImgUrl = GetQuestionImageFrontendData.Run(q,
                         _imageMetaDataReadingRepo,
@@ -117,8 +122,8 @@ public class QuestionLandingPageController(
             {
                 AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 Answer = solution.CorrectAnswer(),
-                AnswerDescription = q.Description != null 
-                    ? MarkdownMarkdig.ToHtml(q.Description) 
+                AnswerDescription = q.Description != null
+                    ? MarkdownMarkdig.ToHtml(q.Description)
                     : "",
                 AnswerReferences = q.References.Select(r => new AnswerReference
                 {

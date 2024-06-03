@@ -122,10 +122,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 mode: 'cors',
                 credentials: 'include'
             })
-            if (result != null) {
+            if (result != null)
                 this.steps = result
-                return true
-            } else return false
         },
         async changeActiveQuestion(index: number) {
             const result = await $fetch<LearningSessionResult>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {

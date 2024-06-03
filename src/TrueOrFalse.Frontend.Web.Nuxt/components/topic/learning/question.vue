@@ -315,7 +315,8 @@ function hasContent(str: string) {
                                     Richtige Antwort:
                                     <div v-html="answer"></div>
                                 </div>
-                                <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)" :id="extendedAnswerId">
+                                <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)"
+                                    :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
                                     <div :v-html="extendedAnswer"></div>
                                 </div>
@@ -360,7 +361,8 @@ function hasContent(str: string) {
                                         <div class="dropdown-label">Frage bearbeiten</div>
                                     </div>
 
-                                    <NuxtLink v-if="userStore.isAdmin" :to="props.question.linkToQuestion">
+                                    <NuxtLink v-if="userStore.isAdmin"
+                                        :to="$urlHelper.getQuestionUrl(props.question.title, props.question.id)">
                                         <div class="dropdown-row">
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-file" />
