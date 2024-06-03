@@ -138,19 +138,21 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-underline" />
                 </button>
 
-                <div class="menubar__divider"></div>
+                <template v-if="heading">
+                    <div class="menubar__divider"></div>
 
-                <button v-if="heading" class="menubar__button"
-                    :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
-                    @mousedown="command('h2', $event)">
-                    <b>H1</b>
-                </button>
+                    <button class="menubar__button"
+                        :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
+                        @mousedown="command('h2', $event)">
+                        <b>H1</b>
+                    </button>
 
-                <button v-if="heading" class="menubar__button"
-                    :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
-                    @mousedown="command('h3', $event)">
-                    <b>H2</b>
-                </button>
+                    <button class="menubar__button"
+                        :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
+                        @mousedown="command('h3', $event)">
+                        <b>H2</b>
+                    </button>
+                </template>
 
                 <div class="menubar__divider"></div>
 
