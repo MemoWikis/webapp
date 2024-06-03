@@ -125,6 +125,7 @@ namespace Seedworks.Lib.Persistence
 
             _session.Save(domainObject);
             ClearAllItemCache();
+            _session.Clear();
 
             if (OnItemCreated != null)
                 OnItemCreated(this, new RepositoryDbEventArgs(domainObject));
@@ -367,6 +368,24 @@ namespace Seedworks.Lib.Persistence
                 .SetProjection(Projections.Property("Id")); // guaranteed to exist by IPersistable
 
             return criteria.List<int>();
+        }
+
+        public void ClearNHibernateCaches()
+        {
+            _session.Clear(); // Clear the first-level cache (session cache)
+
+            var sessionFactory = _session.SessionFactory;
+            foreach (var collectionMetadata in sessionFactory.GetAllCollectionMetadata())
+            {
+                sessionFactory.EvictCollection(collectionMetadata.Key);
+            }
+
+            foreach (var classMetadata in sessionFactory.GetAllClassMetadata())
+            {
+                sessionFactory.EvictEntity(classMetadata.Key);
+            }
+
+            sessionFactory.EvictQueries();
         }
     }
 }

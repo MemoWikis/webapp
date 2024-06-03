@@ -37,17 +37,9 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
                 true);
 
             questionContext.AddQuestion("Frage1", creator: creator, categories: new List<Category> { child });
-
-            RecycleContainerAndEntityCache();
-            var catRepo = R<CategoryRepository>();
-            catRepo.ClearAllItemCache();
-            R<ISession>().Clear();
-
-
             var categoryDeleter = R<CategoryDeleter>();
             //Act
             var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
-            var allQuestions = EntityCache.GetAllQuestions();
 
 
             //Assert

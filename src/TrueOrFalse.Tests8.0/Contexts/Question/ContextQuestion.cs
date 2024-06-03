@@ -1,4 +1,6 @@
-﻿using TrueOrFalse;
+﻿using System;
+using System.Collections.Generic;
+using TrueOrFalse;
 
 public class ContextQuestion
 {
@@ -50,7 +52,7 @@ public class ContextQuestion
         string solutionText = "defaultSolution",
         int id = 0,
         bool withId = false,
-        User creator = null,
+        User? creator = null,
         IList<Category> categories = null,
         int correctnessProbability = 0,
         bool persistImmediately = false)
@@ -115,17 +117,19 @@ public class ContextQuestion
         CategoryRepository categoryRepository,
         QuestionWritingRepo questionWritingRepo)
     {
-        return New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository).AddQuestion().Persist().All[0];
+        return New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository).AddQuestion()
+            .Persist().All[0];
     }
 
     public static ContextQuestion New(QuestionWritingRepo questionWritingRepo,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository, 
+        CategoryRepository categoryRepository,
         bool persistImmediately = false)
     {
-        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository);
+        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo,
+            categoryRepository);
 
         if (persistImmediately)
         {
@@ -196,14 +200,17 @@ public class ContextQuestion
 
         //SessionUserCache.AddOrUpdate(users.FirstOrDefault());
 
-        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userReadingRepo,
+            questionValuationRepo);
 
         //return SessionUserCache.GetAllCacheItems();
 
         throw new NotImplementedException();
     }
 
-    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users, CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo, QuestionValuationReadingRepo questionValuationRepo)
+    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users,
+        CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo,
+        QuestionValuationReadingRepo questionValuationRepo)
     {
         var rand = new Random();
         for (var i = 0; i < questions.Count; i++)
@@ -221,6 +228,9 @@ public class ContextQuestion
             {
                 questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
             }
+
+            //questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
+            //SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
 
             throw new NotImplementedException();
         }
