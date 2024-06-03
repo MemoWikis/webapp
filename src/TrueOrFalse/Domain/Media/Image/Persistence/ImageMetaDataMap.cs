@@ -14,7 +14,7 @@ public class ImageMetaDataMap : ClassMap<ImageMetaData>
         Map(x => x.Source).CustomType<ImageSource>();
         Map(x => x.SourceUrl);
 
-        Map(x => x.ApiResult).Length(Constants.VarCharMaxLength);
+        Map(x => x.ApiResult).Length(Constants.VarCharMaxLength8000);
         Map(x => x.ApiHost);
 
         Map(x => x.AuthorParsed).Column("Author");

@@ -12,6 +12,8 @@ public class CategoryToQuestionRepo(ISession _session)
             .CreateSQLQuery(
                 "DELETE FROM categories_to_questions where Category_id = " + categoryId)
             .ExecuteUpdate();
+
+        _session.Flush();
     }
 
     public void AddQuestionsToCategory(int categoryId, List<int> questionIds)
