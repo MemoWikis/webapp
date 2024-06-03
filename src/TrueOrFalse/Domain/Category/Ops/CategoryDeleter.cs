@@ -35,7 +35,7 @@ public class CategoryDeleter(
         var modifyRelationsForCategory =
             new ModifyRelationsForCategory(_categoryRepo, _categoryRelationRepo);
 
-        ModifyRelationsEntityCache.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
+        ModifyRelationsEntityCacheAndDb.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
             modifyRelationsForCategory);
 
         EntityCache.Remove(categoryCacheItem, userId);
