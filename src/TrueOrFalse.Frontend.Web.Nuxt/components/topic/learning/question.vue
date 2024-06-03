@@ -328,22 +328,22 @@ function hasContent(str: string) {
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
                             <span class="percentageLabel" :class="backgroundColor">{{
-        correctnessProbability
-    }}</span>
+                                correctnessProbability
+                            }}</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
                             {{ answerCount }} mal beantwortet | {{
-        correctAnswers
-    }} richtig / {{ wrongAnswers }} falsch
+                                correctAnswers
+                            }} richtig / {{ wrongAnswers }} falsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div class="commentIcon" @click.stop="showCommentModal()">
                             <font-awesome-icon icon="fa-solid fa-comment" />
                             <span> {{
-        commentCount
-    }}
+                                commentCount
+                            }}
                             </span>
                         </div>
                         <div class="Button dropdown">

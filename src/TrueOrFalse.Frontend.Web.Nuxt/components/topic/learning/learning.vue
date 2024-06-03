@@ -63,13 +63,7 @@ watch(() => userStore.isLoggedIn, async () => {
     }
 })
 
-watch(() => learningSessionStore.currentStep, (c) => {
-    console.log('s', c, Date.now())
-    calculateProgress()
-}, { deep: true })
-
-watch(() => learningSessionStore.steps, (s) => {
-    console.log('c', s, Date.now())
+watch([() => learningSessionStore.currentStep, () => learningSessionStore.steps], () => {
     calculateProgress()
 }, { deep: true })
 
@@ -77,12 +71,10 @@ const progressPercentage = ref(0)
 const answeredWidth = ref<string>('width: 0%')
 const unansweredWidth = ref('width: 100%')
 function calculateProgress() {
-    console.log('calculateProgress', Date.now())
     const answered = learningSessionStore.steps.filter(s =>
         s.state != AnswerState.Unanswered
     ).length
 
-    console.log(answered, Date.now())
     progressPercentage.value = Math.round(100 / learningSessionStore.steps.length * answered * 100) / 100
 
     answeredWidth.value = `width: ${progressPercentage.value}%`

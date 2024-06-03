@@ -773,7 +773,7 @@ const { $logger } = useNuxtApp()
 
 async function loadData() {
     await nextTick()
-    return
+
     if (props.id == deleteQuestionStore.deletedQuestionId)
         return
     const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
