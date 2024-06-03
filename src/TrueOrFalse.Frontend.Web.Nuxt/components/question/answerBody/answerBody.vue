@@ -94,7 +94,7 @@ const { $logger, $urlHelper } = useNuxtApp()
 async function answer() {
     showWrongAnswers.value = false
 
-    if (answerBodyModel.value?.solutionType == SolutionType.Text && text.value.getAnswerText().trim().length == 0) {
+    if (answerBodyModel.value?.solutionType === SolutionType.Text && text.value.getAnswerText().trim().length === 0) {
         wrongAnswerMsg.value = 'Du könntest es ja wenigstens probieren ... (Wird nicht als Antwortversuch gewertet.)'
         showWrongAnswers.value = true
         return
@@ -165,11 +165,11 @@ async function answer() {
         if (learningSessionStore.isInTestMode
             || answerIsCorrect.value
             || (answerBodyModel.value?.solutionType != SolutionType.MultipleChoice && amountOfTries.value > 1)
-            || (answerBodyModel.value?.solutionType == SolutionType.MultipleChoice && allMultipleChoiceCombinationTried.value))
+            || (answerBodyModel.value?.solutionType === SolutionType.MultipleChoice && allMultipleChoiceCombinationTried.value))
             loadSolution()
 
         if (result.newStepAdded)
-            learningSessionStore.loadSteps()
+            await learningSessionStore.loadSteps()
 
         learningSessionStore.currentStep!.isLastStep = result.isLastStep
     }
@@ -220,20 +220,20 @@ async function loadAnswerBodyModel() {
 
         await nextTick()
         highlightCode()
-        if (tabsStore.activeTab == Tab.Learning)
+        if (tabsStore.activeTab === Tab.Learning)
             handleUrl()
     }
 }
 
 const router = useRouter()
 async function handleUrl() {
-    if (tabsStore.activeTab == Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)) {
+    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)) {
         const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
         router.push(newPath)
     }
 }
 watch(() => tabsStore.activeTab, (tab) => {
-    if (tab == Tab.Learning) {
+    if (tab === Tab.Learning) {
         handleUrl()
     }
 })
@@ -266,7 +266,7 @@ const solutionData = ref<SolutionData | null>(null)
 
 async function loadSolution(answered: boolean = true) {
     showAnswerButtons.value = false
-    if (answerBodyModel.value?.solutionType == SolutionType.Text) {
+    if (answerBodyModel.value?.solutionType === SolutionType.Text) {
         showWrongAnswers.value = true
     }
     showAnswer.value = true
@@ -288,7 +288,7 @@ async function loadSolution(answered: boolean = true) {
             }
         })
     if (solutionResult != null) {
-        if (answerBodyModel.value!.solutionType == SolutionType.MultipleChoice && solutionResult.answer == null) {
+        if (answerBodyModel.value!.solutionType === SolutionType.MultipleChoice && solutionResult.answer == null) {
             solutionResult.answer = 'Keine der Antworten ist richtig!'
             solutionResult.answerAsHTML = solutionResult.answer
         }
@@ -308,7 +308,7 @@ onMounted(() => {
     })
 
     learningSessionStore.$onAction(({ name, after }) => {
-        if (name == 'startNewSession') {
+        if (name === 'startNewSession') {
 
             after((newSession) => {
                 if (newSession)
@@ -316,10 +316,10 @@ onMounted(() => {
             })
         }
 
-        if (name == 'reloadAnswerBody') {
+        if (name === 'reloadAnswerBody') {
 
             after((result) => {
-                if (result.id == answerBodyModel.value?.id && learningSessionStore.currentIndex == result.index)
+                if (result.id === answerBodyModel.value?.id && learningSessionStore.currentIndex === result.index)
                     loadAnswerBodyModel()
             })
         }
@@ -339,7 +339,7 @@ function startNewSession() {
 }
 
 const allMultipleChoiceCombinationTried = computed(() => {
-    if (answerBodyModel.value?.solutionType == SolutionType.MultipleChoice) {
+    if (answerBodyModel.value?.solutionType === SolutionType.MultipleChoice) {
         interface Choice {
             Text: string,
             IsCorrect: boolean
@@ -393,7 +393,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
             <div id="AnswerAndSolutionCol">
                 <div id="AnswerAndSolution">
                     <div class="row"
-                        :class="{ 'hasFlashCard': answerBodyModel.solutionType == SolutionType.FlashCard }">
+                        :class="{ 'hasFlashCard': answerBodyModel.solutionType === SolutionType.FlashCard }">
                         <div id="AnswerInputSection">
                             <template v-if="answerBodyModel.solutionType != SolutionType.FlashCard">
                                 <Transition name="fade">
@@ -409,18 +409,18 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                             </template>
 
                             <QuestionAnswerBodyFlashcard :key="answerBodyModel.id + 'flashcard'"
-                                v-if="answerBodyModel.solutionType == SolutionType.FlashCard" ref="flashcard"
+                                v-if="answerBodyModel.solutionType === SolutionType.FlashCard" ref="flashcard"
                                 :solution="answerBodyModel.solution" :front-content="answerBodyModel.textHtml"
                                 :marked-as-correct="markFlashCardAsCorrect" @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMatchlist :key="answerBodyModel.id + 'matchlist'"
-                                v-else-if="answerBodyModel.solutionType == SolutionType.MatchList" ref="matchList"
+                                v-else-if="answerBodyModel.solutionType === SolutionType.MatchList" ref="matchList"
                                 :solution="answerBodyModel.solution" :show-answer="showAnswer"
                                 @flipped="amountOfTries++" />
                             <QuestionAnswerBodyMultipleChoice :key="answerBodyModel.id + 'multiplechoice'"
-                                v-else-if="answerBodyModel.solutionType == SolutionType.MultipleChoice"
+                                v-else-if="answerBodyModel.solutionType === SolutionType.MultipleChoice"
                                 :solution="answerBodyModel.solution" :show-answer="showAnswer" ref="multipleChoice" />
                             <QuestionAnswerBodyText :key="answerBodyModel.id + 'text'"
-                                v-else-if="answerBodyModel.solutionType == SolutionType.Text" ref="text"
+                                v-else-if="answerBodyModel.solutionType === SolutionType.Text" ref="text"
                                 :show-answer="showAnswer" />
 
                         </div>
@@ -429,10 +429,10 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                 <div id="Buttons">
 
                                     <template
-                                        v-if="answerBodyModel.solutionType == SolutionType.FlashCard && !flashCardAnswered">
+                                        v-if="answerBodyModel.solutionType === SolutionType.FlashCard && !flashCardAnswered">
 
                                         <button class="btn btn-warning memo-button" @click="flip()"
-                                            v-if="amountOfTries == 0">
+                                            v-if="amountOfTries === 0">
                                             Umdrehen
                                         </button>
                                         <div id="buttons-answer" class="ButtonGroup flashCardAnswerButtons" v-else>
@@ -471,7 +471,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
                                     <div
                                         v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
-                                            && (amountOfTries == 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
+                                            && (amountOfTries === 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
@@ -487,7 +487,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                         </button>
 
                                         <button
-                                            v-if="answerBodyModel.solutionType == SolutionType.Text && !learningSessionStore.isInTestMode && learningSessionStore.answerHelp && answerIsWrong"
+                                            v-if="answerBodyModel.solutionType === SolutionType.Text && !learningSessionStore.isInTestMode && learningSessionStore.answerHelp && answerIsWrong"
                                             href="#" id="aCountAsCorrect"
                                             class="SecAction btn btn-link show-tooltip memo-button"
                                             title="Drücke hier und die Frage wird als richtig beantwortet gewertet"
@@ -495,14 +495,16 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                             Hab ich gewusst!
                                         </button>
                                     </div>
+                                    <Transition name="fade">
 
-                                    <div
-                                        v-else-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state == AnswerState.Skipped)">
-                                        <button @click="loadResult()" class="btn btn-primary memo-button"
-                                            rel="nofollow">
-                                            Zum Ergebnis
-                                        </button>
-                                    </div>
+                                        <div
+                                            v-if="learningSessionStore.currentStep?.isLastStep && (amountOfTries > 0 || learningSessionStore.currentStep?.state === AnswerState.Skipped || learningSessionStore.currentStep?.state === AnswerState.ShowedSolutionOnly)">
+                                            <button @click="loadResult()" class="btn btn-primary memo-button"
+                                                rel="nofollow">
+                                                Zum Ergebnis
+                                            </button>
+                                        </div>
+                                    </Transition>
 
                                     <div v-if="answerBodyModel.solutionType != SolutionType.FlashCard"
                                         id="buttons-answer-again" class="ButtonGroup">
@@ -549,7 +551,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
                                             <div id="divWrongAnswers" v-if="showWrongAnswers">
                                                 <span class="WrongAnswersHeading">
-                                                    Deine {{ answersSoFar.length == 1 ? 'Antwort' : 'Antworten' }}:
+                                                    Deine {{ answersSoFar.length === 1 ? 'Antwort' : 'Antworten' }}:
                                                 </span>
                                                 <ul id="ulAnswerHistory">
                                                     <li v-for="answer in answersSoFar">
@@ -597,7 +599,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
         </div>
         <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyModel.id" />
     </div>
-    <div v-else-if="learningSessionStore.showResult == true">
+    <div v-else-if="learningSessionStore.showResult === true">
         <QuestionAnswerBodyLearningSessionResult @start-new-session="startNewSession" />
     </div>
 </template>
@@ -698,4 +700,17 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 }
 </style>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.fade-enter-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-leave-active {
+    transition: opacity 0;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+</style>
