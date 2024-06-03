@@ -43,7 +43,7 @@ public class CategoryDeleter(
         _userActivityRepo.DeleteForCategory(category.Id);
 
         _categoryChangeRepo.AddDeleteEntry(category, userId);
-        _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
+        _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
         _categoryRepo.Delete(category);
 
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
