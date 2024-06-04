@@ -96,7 +96,8 @@ public class AnswerBodyController(
             IsInWishknowledge: _sessionUser.IsLoggedIn &&
                                q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
             QuestionViewGuid: Guid.NewGuid(),
-            IsLastStep: learningSession.Steps.Last() == step);
+            IsLastStep: learningSession.Steps.Last() == step,
+            IsPrivate: q.IsPrivate());
         return learningBody;
     }
 
@@ -190,7 +191,8 @@ public class AnswerBodyController(
         bool IsCreator,
         bool IsInWishknowledge,
         Guid QuestionViewGuid,
-        bool IsLastStep);
+        bool IsLastStep,
+        bool IsPrivate);
 
     public record struct LearningResult(
         bool Correct,
