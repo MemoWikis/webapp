@@ -8,7 +8,7 @@ import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
@@ -18,8 +18,8 @@ import { Indent } from '../../editor/indent'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
+const lowlight = createLowlight(all)
 const editor = useEditor({
-
     content: topicStore.initialContent,
     extensions: [
         StarterKit.configure({

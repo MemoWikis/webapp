@@ -1,10 +1,16 @@
-import { lowlight } from 'lowlight/lib/core'
 import { toHtml } from 'hast-util-to-html'
+import {all, createLowlight } from 'lowlight'
+
+const lowlight = createLowlight(all)
 
 export function getHighlightedCode(oldHtml: string) {
-    const lowlightNode = lowlight.highlightAuto(oldHtml)
-    const newHtml = toHtml(lowlightNode)
-    return newHtml
+    const root = lowlight.highlightAuto(oldHtml)
+    const newHtml = toHtml(root)
+    console.log(root, newHtml, oldHtml)
+    if (newHtml.length < oldHtml.length)
+        return oldHtml
+    else 
+        return newHtml
 }
 
 export function random(minVal: any, maxVal: any, floatVal: any = 'undefined'): number {
