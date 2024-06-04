@@ -1,6 +1,6 @@
 ﻿using System.Security;
 
-public class ModifyRelationsEntityCacheAndDb
+public class ModifyRelationsEntityCache
 {
     public static void RemoveRelationsForCategoryDeleter(
         CategoryCacheItem category,

@@ -1,8 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-
-using ISession = NHibernate.ISession;
-
-public class CategoryDeleter(
+﻿public class CategoryDeleter(
     SessionUser _sessionUser,
     UserActivityRepo _userActivityRepo,
     CategoryChangeRepo _categoryChangeRepo,
@@ -35,7 +31,7 @@ public class CategoryDeleter(
         var modifyRelationsForCategory =
             new ModifyRelationsForCategory(_categoryRepo, _categoryRelationRepo);
 
-        ModifyRelationsEntityCacheAndDb.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
+        ModifyRelationsEntityCache.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
             modifyRelationsForCategory);
 
         EntityCache.Remove(categoryCacheItem, userId);
@@ -44,7 +40,6 @@ public class CategoryDeleter(
 
         _categoryChangeRepo.AddDeleteEntry(category, userId);
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
-
         _categoryRepo.Delete(category.Id);
 
 

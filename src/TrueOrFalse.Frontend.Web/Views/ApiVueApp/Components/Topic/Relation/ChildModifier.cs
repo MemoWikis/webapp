@@ -102,7 +102,7 @@ public class ChildModifier(
         var modifyRelationsForCategory =
             new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
-        var parentHasBeenRemoved = ModifyRelationsEntityCacheAndDb.RemoveParent(
+        var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(
             EntityCache.GetCategory(childId),
             parentIdToRemove, _sessionUser.UserId, modifyRelationsForCategory,
             _permissionCheck);

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.AspNetCore.Mvc;
-
-using static CategoryDeleter;
 
 public class DeleteTopicStoreController(
     SessionUser sessionUser,
@@ -37,7 +33,7 @@ public class DeleteTopicStoreController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public DeleteTopicResult Delete([FromBody] DeleteJson deleteJson) =>
+    public CategoryDeleter.DeleteTopicResult Delete([FromBody] DeleteJson deleteJson) =>
         categoryDeleter.DeleteTopic(deleteJson.id, deleteJson.parentForQuestionsId);
 
     private BreadcrumbItem GetLastBreadcrumbItem(Crumbtrail breadcrumb)
@@ -50,7 +46,6 @@ public class DeleteTopicStoreController(
             Id = breadcrumbItem.Category.Id
         };
     }
-
 
     public record struct BreadcrumbItem(string Name, int Id);
 }
