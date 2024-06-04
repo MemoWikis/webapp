@@ -381,9 +381,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                 </div>
                 <QuestionAnswerBodyOptions v-if="answerBodyModel" :id="answerBodyModel.id"
                     :title="answerBodyModel.title" :can-edit="answerBodyModel.isCreator || userStore.isAdmin" />
-
             </div>
-
         </div>
 
         <div class="row">
