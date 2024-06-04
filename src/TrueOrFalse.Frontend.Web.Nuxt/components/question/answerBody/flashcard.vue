@@ -74,7 +74,7 @@ const emit = defineEmits((['flipped']))
         </div>
     </div>
 </template>
- 
+
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
@@ -141,5 +141,14 @@ const emit = defineEmits((['flipped']))
     bottom: 0;
     right: 0;
     padding: 12px;
+}
+</style>
+
+
+<style lang="less">
+.question-text {
+    pre {
+        text-align: left;
+    }
 }
 </style>
