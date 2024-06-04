@@ -96,6 +96,13 @@ public class SearchController(
                 _httpContextAccessor,
                 _questionReadingRepo).AddMoveQuestionsTopics(items, elements, _permissionCheck,
                 _sessionUser.UserId, json.topicIdsToFilter.First());
+        else
+        {
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _httpContextAccessor,
+                _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck,
+                _sessionUser.UserId);
+        }
 
         return new
         (
