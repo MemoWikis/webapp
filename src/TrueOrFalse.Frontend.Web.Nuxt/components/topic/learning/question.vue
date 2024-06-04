@@ -282,11 +282,11 @@ function hasContent(str: string) {
                     </div>
                     <div class="questionContainerTopSection col-xs-11">
                         <div class="questionHeader">
-                            <div class="questionTitle col-xs-9" ref="questionTitle" :id="questionTitleId"
+                            <div class="questionTitleContainer col-xs-9" ref="questionTitle" :id="questionTitleId"
                                 @click="expandQuestionContainer()">
-                                <p v-html="questionTitleHtml" v-if="questionTitleHtml != null">
+                                <div v-html="questionTitleHtml" v-if="questionTitleHtml != null" class="questionTitle">
 
-                                </p>
+                                </div>
                                 <div v-if="showLock" class="privateQuestionIcon question-lock">
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
                                 </div>
@@ -327,24 +327,17 @@ function hasContent(str: string) {
                 <div class="questionBodyBottom" v-show="showFullQuestion">
                     <div class="questionStats questionStatsInQuestionList">
                         <div class="probabilitySection">
-                            <span class="percentageLabel" :class="backgroundColor">{{
-                                correctnessProbability
-                            }}</span>
+                            <span class="percentageLabel" :class="backgroundColor">{{ correctnessProbability }}</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerCountFooter">
-                            {{ answerCount }} mal beantwortet | {{
-                                correctAnswers
-                            }} richtig / {{ wrongAnswers }} falsch
+                            {{ answerCount }} mal beantwortet | {{ correctAnswers }} richtig / {{ wrongAnswers }} falsch
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
                         <div class="commentIcon" @click.stop="showCommentModal()">
                             <font-awesome-icon icon="fa-solid fa-comment" />
-                            <span> {{
-                                commentCount
-                            }}
-                            </span>
+                            <span> {{ commentCount }} </span>
                         </div>
                         <div class="Button dropdown">
 
@@ -504,7 +497,7 @@ function hasContent(str: string) {
                             cursor: pointer;
                         }
 
-                        .questionTitle {
+                        .questionTitleContainer {
                             padding: 8px;
                             min-width: 0;
                             color: @memo-grey-darker;
@@ -516,25 +509,21 @@ function hasContent(str: string) {
                                 padding-left: 8px;
                                 padding-right: 8px;
                             }
-                        }
 
-                        @media (max-width: 640px) {
-                            .col-xs-3 {
-                                width: 33%;
-                            }
-
-                            .col-xs-9 {
-                                width: 66%;
+                            .questionTitle {
+                                word-break: break-all;
                             }
                         }
 
                         @media (max-width: @screen-sm-min) {
                             .col-xs-3 {
-                                width: 50%;
+                                width: 33%;
+                                min-width: 120px;
                             }
 
                             .col-xs-9 {
-                                width: 50%;
+                                width: calc(100% - 33%);
+                                max-width: calc(100% - 120px);
                             }
                         }
                     }
