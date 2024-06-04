@@ -13,7 +13,8 @@ public class SearchController(
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo
+) : Controller
 {
     public readonly record struct SearchAllJson(string term);
 
@@ -82,6 +83,27 @@ public class SearchController(
             Topics: items
         );
     }
+
+
+    [HttpPost]
+    public async Task<TopicResult> MoveQuestions([FromBody] SearchTopicJson json)
+    {
+        var items = new List<SearchTopicItem>();
+        var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
+
+        if (elements.Categories.Any())
+            new SearchHelper(_imageMetaDataReadingRepo,
+                _httpContextAccessor,
+                _questionReadingRepo).AddMoveQuestionsTopics(items, elements, _permissionCheck,
+                _sessionUser.UserId, json.topicIdsToFilter.First());
+
+        return new
+        (
+            TotalCount: elements.CategoriesResultCount,
+            Topics: items
+        );
+    }
+
 
     [HttpPost]
     public async Task<TopicResult> TopicInPersonalWiki(

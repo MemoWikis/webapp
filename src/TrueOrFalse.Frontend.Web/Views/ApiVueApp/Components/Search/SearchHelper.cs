@@ -19,12 +19,41 @@ public class SearchHelper
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public void AddTopicItems(List<SearchTopicItem> items, GlobalSearchResult elements, PermissionCheck permissionCheck,
-        int userId)
+    public void AddTopicItems(
+        List<SearchTopicItem> items,
+        GlobalSearchResult elements,
+        PermissionCheck permissionCheck,
+        int userId) => items.AddRange(
+        elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
+
+
+    public void AddMoveQuestionsTopics(
+        List<SearchTopicItem> items,
+        GlobalSearchResult elements,
+        PermissionCheck permissionCheck,
+        int userId,
+        int toDeleteCategoryId)
     {
-        items.AddRange(
-            elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
+        var questions = EntityCache
+            .GetCategory(toDeleteCategoryId)
+            .GetAggregatedQuestionsFromMemoryCache(userId, false, true, toDeleteCategoryId)
+            .Where(q => q.Visibility == QuestionVisibility.All);
+        if (questions.Any())
+        {
+            items.AddRange(
+                elements.Categories
+                    .Where(c => c.Visibility == CategoryVisibility.All)
+                    .Select(c => FillSearchTopicItem(c, userId)));
+        }
+        else
+        {
+            items.AddRange(
+                elements.Categories
+                    .Where(permissionCheck.CanView)
+                    .Select(c => FillSearchTopicItem(c, userId)));
+        }
     }
+
 
     public SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic, int userId)
     {
