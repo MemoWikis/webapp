@@ -55,7 +55,8 @@ public class ContextQuestion
         User? creator = null,
         IList<Category> categories = null,
         int correctnessProbability = 0,
-        bool persistImmediately = false)
+        bool persistImmediately = false,
+        QuestionVisibility questionVisibility = QuestionVisibility.Owner)
 
     {
         var question = new Question();
@@ -70,7 +71,7 @@ public class ContextQuestion
         question.SolutionMetadataJson = new SolutionMetadataText { IsCaseSensitive = true, IsExactInput = false }.Json;
         question.Creator = creator ?? _contextUser.All.First();
         question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
-
+        question.Visibility = questionVisibility;
         if (categories != null)
         {
             question.Categories = categories;
