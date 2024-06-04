@@ -6,7 +6,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
@@ -19,6 +19,7 @@ const alertStore = useAlertStore()
 
 const emit = defineEmits(['setAnswer'])
 
+const lowlight = createLowlight(all)
 const editor = useEditor({
     extensions: [
         StarterKit.configure({

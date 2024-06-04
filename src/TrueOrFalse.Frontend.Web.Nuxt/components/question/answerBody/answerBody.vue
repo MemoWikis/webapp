@@ -188,10 +188,14 @@ function highlightCode() {
     const el = document.getElementById('AnswerBody')
     if (el != null)
         el.querySelectorAll('code').forEach(block => {
-            if (block.textContent != null)
-                block.innerHTML = getHighlightedCode(block.textContent)
+            console.log(block)
+            if (block.textContent != null) {
+                const highlighted = getHighlightedCode(block.textContent)
+                block.innerHTML = highlighted
+            }
         })
 }
+
 const answerBodyModel = ref<AnswerBodyModel>()
 
 async function loadAnswerBodyModel() {
