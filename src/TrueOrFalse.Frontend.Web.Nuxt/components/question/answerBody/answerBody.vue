@@ -368,7 +368,11 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
             </div>
 
             <div class="AnswerQuestionBodyMenu">
-
+                <div class="answerbody-btn visibility" v-if="answerBodyModel.isPrivate">
+                    <div class="answerbody-btn-inner no-btn">
+                        <font-awesome-icon :icon="['fas', 'lock']" />
+                    </div>
+                </div>
                 <div class="Pin answerbody-btn" :data-question-id="answerBodyModel.id">
                     <div class="answerbody-btn-inner">
                         <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
@@ -662,6 +666,18 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
             &:active {
                 filter: brightness(0.85)
+            }
+
+            &.no-btn {
+                cursor: default;
+
+                &:hover {
+                    filter: brightness(1)
+                }
+
+                &:active {
+                    filter: brightness(1)
+                }
             }
         }
     }
