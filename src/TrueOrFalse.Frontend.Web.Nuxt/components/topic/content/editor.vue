@@ -111,7 +111,7 @@ onMounted(() => {
 
 <template>
     <template v-if="editor">
-        <EditorMenuBar :editor="editor" :heading="true" />
+        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" />
         <editor-content :editor="editor" class="col-xs-12" />
     </template>
 </template>

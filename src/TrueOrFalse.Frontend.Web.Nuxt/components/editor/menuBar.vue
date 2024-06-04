@@ -4,6 +4,7 @@ import { Editor } from '@tiptap/vue-3'
 interface Props {
     editor: Editor
     heading?: boolean
+    isTopicContent?: boolean
 }
 const props = defineProps<Props>()
 const focused = ref(false)
@@ -175,7 +176,7 @@ const { isMobile } = useDevice()
                 </button>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('taskList') }"
-                    @mousedown="command('taskList', $event)">
+                    v-if="props.isTopicContent" @mousedown="command('taskList', $event)">
                     <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
 

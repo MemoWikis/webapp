@@ -612,6 +612,18 @@ function hasContent(str: string) {
                             overflow-wrap: break-word;
                         }
                     }
+
+                    .questionBody {
+                        .answer {
+                            padding: 0 8px;
+                        }
+
+                        :deep(li) {
+                            p {
+                                margin: 0;
+                            }
+                        }
+                    }
                 }
             }
 
