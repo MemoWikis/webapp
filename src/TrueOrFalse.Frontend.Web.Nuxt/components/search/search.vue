@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
+import { SessionConfig } from '../topic/learning/learningSessionConfigurationStore';
 
 interface Props {
     searchType: SearchType
@@ -55,6 +56,9 @@ onBeforeMount(() => {
         case SearchType.categoryInWiki:
             searchUrl.value = '/apiVue/Search/TopicInPersonalWiki'
             break
+        case SearchType.moveQuestions:
+            searchUrl.value = '/apiVue/Search/MoveQuestions'
+            break
         default:
             searchUrl.value = '/apiVue/Search/All'
     }
@@ -82,7 +86,9 @@ async function search() {
     let data: BodyType = {
         term: searchTerm.value,
     }
-    if ((props.searchType == SearchType.category || props.searchType == SearchType.categoryInWiki))
+    if ((props.searchType == SearchType.category ||
+        props.searchType == SearchType.categoryInWiki ||
+        props.searchType == SearchType.moveQuestions))
         data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
 
     const result = await $fetch<FullSearch>(searchUrl.value, {

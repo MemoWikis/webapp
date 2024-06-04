@@ -6,6 +6,7 @@ export enum SearchType {
     questions = 2,
     users = 3,
     categoryInWiki = 4,
+    moveQuestions = 5,
 
     topic = category,
     topicInWiki = categoryInWiki

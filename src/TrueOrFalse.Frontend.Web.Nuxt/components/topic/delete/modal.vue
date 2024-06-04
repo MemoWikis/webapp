@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { Parent } from "~~/components/topic/delete/parent"
+import { Parent as NewQuestionTopic } from "~~/components/topic/delete/parent"
 import { useDeleteTopicStore } from './deleteTopicStore'
 import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
 
 const deleteTopicStore = useDeleteTopicStore()
 const showSearch = ref(true)
 
-const parent = ref<Parent | null>(null)
+const parent = ref<NewQuestionTopic | null>(null)
 const primaryBtnLabel = ref('Thema löschen')
 const selectedParent = ref(0);
 watch(() => deleteTopicStore.topicDeleted, (val) => {
@@ -32,8 +32,8 @@ async function handlePrimaryAction() {
     }
 }
 
-function setCategoryId(item: TopicItem) {
-    var parentTemp: Parent = {
+function setNewTopicId(item: TopicItem) {
+    var parentTemp: NewQuestionTopic = {
         id: item.id,
         name: item.name
     }
@@ -76,7 +76,8 @@ function setCategoryId(item: TopicItem) {
                 </div>
                 <div class="StickySearch">
                     <Search :placeholderLabel="'Suche hier...'" :showDefaultSearchIcon="true"
-                        :search-type="SearchType.category" :show-search="showSearch" v-on:select-item="setCategoryId" />
+                        :search-type="SearchType.moveQuestions" :show-search="showSearch"
+                        v-on:select-item="setNewTopicId" :topicIdsToFilter="[deleteTopicStore.id]" />
                 </div>
             </template>
         </template>
