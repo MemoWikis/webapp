@@ -110,10 +110,10 @@ public class TopicDataManager(
                     : Regex.Replace(topic.Content, "<.*?>", ""))
                 .Truncate(250, true),
             KnowledgeSummary: new KnowledgeSummarySlim(
-                knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
-                knowledgeSummary.NeedsLearning,
-                knowledgeSummary.NeedsConsolidation,
-                knowledgeSummary.Solid
+                NotLearned: knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
+                NeedsLearning: knowledgeSummary.NeedsLearning,
+                NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
+                Solid: knowledgeSummary.Solid
             ),
             GridItems: new TopicGridManager(
                 _permissionCheck,
@@ -146,7 +146,7 @@ public class TopicDataManager(
         public string ImgUrl { get; set; }
     }
 
-    public class KnowledgeSummarySlim(
+    public record struct KnowledgeSummarySlim(
         int NotLearned,
         int NeedsLearning,
         int NeedsConsolidation,
