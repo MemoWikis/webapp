@@ -1,12 +1,12 @@
 import { toHtml } from 'hast-util-to-html'
-import {all, createLowlight } from 'lowlight'
+import { all, createLowlight } from 'lowlight'
 
 const lowlight = createLowlight(all)
 
 export function getHighlightedCode(oldHtml: string) {
     const root = lowlight.highlightAuto(oldHtml)
     const newHtml = toHtml(root)
-    console.log(root, newHtml, oldHtml)
+
     if (newHtml.length < oldHtml.length)
         return oldHtml
     else 
