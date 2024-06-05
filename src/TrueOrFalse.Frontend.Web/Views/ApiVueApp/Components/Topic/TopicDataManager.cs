@@ -125,7 +125,8 @@ public class TopicDataManager(
             IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache
                 .GetCategory(_sessionUser.User.StartTopicId)
                 .ChildRelations
-                .Any(r => r.ChildId == topic.Id)
+                .Any(r => r.ChildId == topic.Id),
+            IsHideText: topic.IsHideText
         );
     }
 
@@ -176,6 +177,7 @@ public class TopicDataManager(
         string MetaDescription,
         KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
-        bool IsChildOfPersonalWiki
+        bool IsChildOfPersonalWiki,
+        bool IsHideText
     );
 }
