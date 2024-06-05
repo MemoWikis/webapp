@@ -19,9 +19,8 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
                 .Persist()
                 .GetTopicByName(categoryName);
 
-            var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, visibletopic.Id);
-            //NotVisibleTopic
 
+            //NotVisibleTopic
             var creator1 = new User { Name = "Daniel" };
             ContextUser.New(R<UserWritingRepo>()).Add(creator1).Persist();
             var categoryNameNotVisible = "category2";
@@ -30,10 +29,11 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
                 .Persist()
                 .GetTopicByName(categoryNameNotVisible);
 
-            var resultNotVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, notVisibletopic.Id);
-
 
             //Act
+            var resultNotVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, notVisibletopic.Id);
+            var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, visibletopic.Id);
+
             var dbCategory = R<CategoryRepository>().GetById(visibletopic.Id);
             var cacheCategory = EntityCache.GetCategory(visibletopic.Id);
             //Assert
