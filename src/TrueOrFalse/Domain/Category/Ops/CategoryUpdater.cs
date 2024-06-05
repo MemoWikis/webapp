@@ -6,7 +6,7 @@
     {
         var cacheTopic = EntityCache.GetCategory(categoryId);
         if (permissionCheck.CanView(cacheTopic) == false)
-            return false;
+            throw new AccessViolationException($"{nameof(HideOrShowTopicText)}: No permission for user");
 
         cacheTopic.IsHideText = isHideText;
         EntityCache.AddOrUpdate(cacheTopic);
@@ -15,7 +15,7 @@
         DbTopic.IsHideText = isHideText;
         _categoryRepository.BaseUpdate(DbTopic);
 
-        return true;
+        return cacheTopic.IsHideText;
     }
 }
 
