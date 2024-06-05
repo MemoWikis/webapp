@@ -6,9 +6,7 @@
     {
         var cacheTopic = EntityCache.GetCategory(categoryId);
         if (cacheTopic == null)
-        {
             throw new NullReferenceException($"{nameof(HideOrShowTopicText)}: topicCacheItem is null");
-        }
 
         if (permissionCheck.CanView(cacheTopic) == false)
             throw new AccessViolationException($"{nameof(HideOrShowTopicText)}: No permission for user");
