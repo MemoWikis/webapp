@@ -48,7 +48,7 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Search
 
 
         [Test]
-        public async Task One_question_()
+        public async Task One_question_is_public()
         {
             //Arrange
             var sessionUser = R<SessionUser>();

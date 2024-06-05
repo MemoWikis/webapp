@@ -62,7 +62,11 @@ public class SearchController(
         return result;
     }
 
-    public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
+    public readonly record struct SearchTopicJson(
+        string term,
+        int[] topicIdsToFilter,
+        bool includePrivateTopics = true);
+
     public readonly record struct TopicResult(List<SearchTopicItem> Topics, int TotalCount);
 
     [HttpPost]
@@ -72,10 +76,15 @@ public class SearchController(
         var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo,
-                _httpContextAccessor,
-                _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck,
-                _sessionUser.UserId);
+        {
+            if (json.includePrivateTopics)
+                new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
+                    .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
+            else
+                new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
+                    .AddPublicTopicItems(items, elements, _sessionUser.UserId);
+        }
+
 
         return new
         (
@@ -91,11 +100,12 @@ public class SearchController(
         var items = new List<SearchTopicItem>();
         var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
 
+        var deleteCategory = json.topicIdsToFilter.First();
         if (elements.Categories.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo).AddMoveQuestionsTopics(items, elements, _permissionCheck,
-                _sessionUser.UserId, json.topicIdsToFilter.First());
+                _sessionUser.UserId, deleteCategory);
         else
         {
             new SearchHelper(_imageMetaDataReadingRepo,

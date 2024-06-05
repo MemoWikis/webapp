@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
-import { SessionConfig } from '../topic/learning/learningSessionConfigurationStore';
 
 interface Props {
     searchType: SearchType
@@ -14,6 +13,7 @@ interface Props {
     showDefaultSearchIcon?: boolean
     mainSearch?: boolean
     distance?: number
+    publicOnly?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -81,6 +81,7 @@ async function search() {
     type BodyType = {
         term: string
         topicIdsToFilter?: number[]
+        includePrivateTopics?: boolean
     }
 
     let data: BodyType = {
@@ -90,6 +91,9 @@ async function search() {
         props.searchType == SearchType.categoryInWiki ||
         props.searchType == SearchType.moveQuestions))
         data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
+
+    if (props.publicOnly)
+        data = { ...data, includePrivateTopics: false }
 
     const result = await $fetch<FullSearch>(searchUrl.value, {
         method: 'POST',

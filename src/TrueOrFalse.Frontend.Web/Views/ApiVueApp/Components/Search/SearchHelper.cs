@@ -26,6 +26,12 @@ public class SearchHelper
         int userId) => items.AddRange(
         elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
 
+    public void AddPublicTopicItems(
+        List<SearchTopicItem> items,
+        GlobalSearchResult elements,
+        int userId) => items.AddRange(
+        elements.Categories.Where(c => c.Visibility == CategoryVisibility.All)
+            .Select(c => FillSearchTopicItem(c, userId)));
 
     public void AddMoveQuestionsTopics(
         List<SearchTopicItem> items,
@@ -54,6 +60,24 @@ public class SearchHelper
         }
     }
 
+    public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
+    {
+        CrumbtrailItem breadcrumbItem;
+
+        if (hasPublicQuestion)
+        {
+            if (breadcrumb.Items.Any(i => i.Category.Visibility == CategoryVisibility.All))
+            {
+                breadcrumbItem = breadcrumb.Items.Last(i => i.Category.Visibility == CategoryVisibility.All);
+                return breadcrumbItem.Category.Id;
+            }
+
+            return null;
+        }
+
+        breadcrumbItem = breadcrumb.Items.Last();
+        return breadcrumbItem.Category.Id;
+    }
 
     public SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic, int userId)
     {

@@ -95,11 +95,12 @@
         return true;
     }
 
-    public record DeleteTopicResult(
-        bool HasChildren,
-        bool IsNotCreatorOrAdmin,
-        bool Success,
-        RedirectParent RedirectParent);
+    public record struct DeleteTopicResult(
+        bool HasChildren = false,
+        bool IsNotCreatorOrAdmin = false,
+        bool Success = false,
+        RedirectParent? RedirectParent = null,
+        string? MessageKey = null);
 
     public DeleteTopicResult DeleteTopic(int id, int parentId)
     {
@@ -124,11 +125,10 @@
             _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
 
         return new DeleteTopicResult(
-            hasDeleted.HasChildren,
-            hasDeleted.IsNotCreatorOrAdmin,
-            hasDeleted.DeletedSuccessful,
-            redirectParent
-        );
+            HasChildren: hasDeleted.HasChildren,
+            IsNotCreatorOrAdmin: hasDeleted.IsNotCreatorOrAdmin,
+            Success: hasDeleted.DeletedSuccessful,
+            RedirectParent: redirectParent);
     }
 
     private void MoveQuestionsToParent(int topicToDeleteId, int parentId)

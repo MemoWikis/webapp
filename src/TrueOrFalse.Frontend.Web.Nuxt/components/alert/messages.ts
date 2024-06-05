@@ -44,7 +44,8 @@ export const messages: any = {
             tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
             pinnedQuestions: "",
-            circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden"
+            circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
+            topicNotSelected: "Du hast kein Thema ausgewählt"
         },
         question: {
             missingText: "Der Fragetext fehlt.",

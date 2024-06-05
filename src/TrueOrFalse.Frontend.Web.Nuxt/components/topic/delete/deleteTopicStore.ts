@@ -1,8 +1,6 @@
 import { defineStore } from "pinia"
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
-
-import { Parent } from '~~/components/topic/delete/parent';
-
+import { TopicItem } from "~/components/search/searchHelper"
 
 export const useDeleteTopicStore = defineStore('deleteTopicStore', {
     state() {
@@ -14,8 +12,10 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             topicDeleted: false,
             redirectURL: '',
             redirect: false,
-            parent: <Parent | null>(null),
-            selectedParent: 0
+            suggestedNewParent: null as TopicItem | null,
+            hasPublicQuestion: false,
+            messageKey: '',
+            showErrorMsg: false
         }
     },
     actions: {
@@ -26,6 +26,8 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             this.id = id
             this.redirectURL = ''
             this.redirect = redirect
+            this.suggestedNewParent = null
+            this.hasPublicQuestion = false
             
             if (await this.initDeleteData())
                 this.showModal = true
@@ -35,12 +37,14 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 name: string
                 canBeDeleted: boolean
                 hasChildren: boolean
-                parent: Parent
+                suggestedNewParent: TopicItem | null
+                hasPublicQuestion: boolean
             }
             const result = await $fetch<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
             if (result != null) {
-                this.parent = result.parent
+                this.suggestedNewParent = result.suggestedNewParent
                 this.name = result.name
+                this.hasPublicQuestion = result.hasPublicQuestion
                 if (result.hasChildren) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(AlertType.Error, { text: messages.error.category.notLastChild }, 'Verstanden', undefined, `Das Thema '${this.name}' kann nicht gelöscht werden`)
@@ -49,38 +53,38 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 return true
             }
         },
-        async deleteTopic(selectedParentId: number) {
-            console.log(selectedParentId)
+        async deleteTopic() {
             interface DeleteResult {
-                success: boolean
+                success: boolean,
                 hasChildren: boolean
                 isNotCreatorOrAdmin: boolean
-                redirectParent: {
+                redirectParent: { 
                     name: string
                     id: number
-                }
+                },
+                messageKey: string
             }
-        const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete`, { 
-            method: 'POST', 
-            mode: 'cors', 
-            credentials: 'include',
-            body: JSON.stringify({
-            id: this.id,
-            parentForQuestionsId: selectedParentId
-            })
-      });
+            const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete`, { 
+                method: 'POST', 
+                mode: 'cors', 
+                credentials: 'include',
+                body: JSON.stringify({
+                    id: this.id,
+                    parentForQuestionsId: this.suggestedNewParent?.id
+                })
+            });
             if (!!result && result.success) {                 
                 const { $urlHelper } = useNuxtApp()
                 this.redirectURL = $urlHelper.getTopicUrl(result.redirectParent.name, result.redirectParent.id)
                 this.topicDeleted = true
- 
+        
                 return {
                     id: this.id 
                 }
-            }
+            }else if (!!result && result.success == false) {
+                this.messageKey = messages.getByCompositeKey(result.messageKey)
+                this.showErrorMsg = true
+            }  
         },
-        setSelectedParent(id: number) { 
-            this.selectedParent = id;
-        }
     }
 })
