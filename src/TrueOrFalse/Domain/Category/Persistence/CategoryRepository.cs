@@ -41,11 +41,6 @@ public class CategoryRepository(
         return GetByIdsEager(new[] { categoryId }).FirstOrDefault();
     }
 
-    public Category GetByIdEager(CategoryCacheItem category)
-    {
-        return GetByIdsEager(new[] { category.Id }).FirstOrDefault();
-    }
-
     public IList<Category> GetByIds(List<int> questionIds)
     {
         return GetByIds(questionIds.ToArray());
@@ -65,6 +60,13 @@ public class CategoryRepository(
         }
 
         return result;
+    }
+
+    public Category GetById(int categoryId)
+    {
+        return _session.QueryOver<Category>()
+            .Where(c => c.Id == categoryId)
+            .SingleOrDefault();
     }
 
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
@@ -153,6 +155,11 @@ public class CategoryRepository(
     public override void Update(Category category)
     {
         Update(category);
+    }
+
+    public void BaseUpdate(Category category)
+    {
+        base.Update(category);
     }
 
     // ReSharper disable once MethodOverloadWithOptionalParameter

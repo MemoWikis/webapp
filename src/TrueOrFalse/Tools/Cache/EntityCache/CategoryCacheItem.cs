@@ -38,6 +38,7 @@ public class CategoryCacheItem : IPersistable
     public virtual string Description { get; set; }
 
     public virtual bool DisableLearningFunctions { get; set; }
+    public virtual bool IsHideText { get; set; }
 
     public virtual int FormerSetId { get; set; }
     public virtual int Id { get; set; }
@@ -214,7 +215,8 @@ public class CategoryCacheItem : IPersistable
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            AuthorIds = category.AuthorIdsInts ?? new[] { creatorId }
+            AuthorIds = category.AuthorIdsInts ?? new[] { creatorId },
+            IsHideText = category.IsHideText,
         };
         return categoryCacheItem;
     }
