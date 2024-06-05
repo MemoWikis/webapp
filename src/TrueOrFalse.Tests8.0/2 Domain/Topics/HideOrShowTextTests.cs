@@ -1,9 +1,4 @@
-﻿
-using TrueOrFalse.Domain.Category.Ops;
-
-namespace TrueOrFalse.Tests8._0._2_Domain.Topics
-{
-    public class HideOrShowTextTests : BaseTest
+﻿public class HideOrShowTextTests : BaseTest
     {
         [Test]
         public void TestIsHide_text_value_cache_and_database_consistency()
@@ -13,29 +8,29 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
             var sessionUser = R<SessionUser>();
             var creator = new User { Id = sessionUser.UserId };
             var contextCategory = ContextCategory.New(false);
-            var categoryName = "category1";
-            var visibletopic = contextCategory
-                .Add(categoryName, creator: creator)
+            var publicTopicName = "category1";
+            var publicTopic = contextCategory
+                .Add(publicTopicName, creator: creator)
                 .Persist()
-                .GetTopicByName(categoryName);
+                .GetTopicByName(publicTopicName);
 
 
             //NotVisibleTopic
             var creator1 = new User { Name = "Daniel" };
             ContextUser.New(R<UserWritingRepo>()).Add(creator1).Persist();
-            var categoryNameNotVisible = "category2";
-            var notVisibletopic = contextCategory
-                .Add(categoryNameNotVisible, creator: creator1, visibility: CategoryVisibility.Owner)
+            var privateTopicName = "category2";
+            var privateTopic = contextCategory
+                .Add(privateTopicName, creator: creator1, visibility: CategoryVisibility.Owner)
                 .Persist()
-                .GetTopicByName(categoryNameNotVisible);
+                .GetTopicByName(privateTopicName);
 
 
             //Act
-            var resultNotVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, notVisibletopic.Id);
-            var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, visibletopic.Id);
+            var resultNotVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, privateTopic.Id);
+            var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, publicTopic.Id);
 
-            var dbCategory = R<CategoryRepository>().GetById(visibletopic.Id);
-            var cacheCategory = EntityCache.GetCategory(visibletopic.Id);
+            var dbCategory = R<CategoryRepository>().GetById(publicTopic.Id);
+            var cacheCategory = EntityCache.GetCategory(publicTopic.Id);
             //Assert
             Assert.NotNull(dbCategory);
             Assert.NotNull(cacheCategory);
@@ -43,9 +38,9 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
             Assert.True(dbCategory.IsHideText);
             Assert.True(cacheCategory.IsHideText);
 
-            Assert.NotNull(notVisibletopic);
-            Assert.AreEqual(notVisibletopic.Visibility, CategoryVisibility.Owner);
-            Assert.AreNotEqual(notVisibletopic.Creator.Id, sessionUser.UserId);
+            Assert.NotNull(privateTopic);
+            Assert.AreEqual(privateTopic.Visibility, CategoryVisibility.Owner);
+            Assert.AreNotEqual(privateTopic.Creator.Id, sessionUser.UserId);
             Assert.False(resultNotVisibleTopic);
         }
     }
