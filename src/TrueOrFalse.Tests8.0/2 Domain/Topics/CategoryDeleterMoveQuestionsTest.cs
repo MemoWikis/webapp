@@ -58,12 +58,12 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Topics
             Assert.NotNull(questionChange);
             Assert.AreEqual(QuestionChangeType.Create, questionChange.Type);
 
-            Assert.AreEqual(parentFromDb.CountQuestions, 1);
+            Assert.AreEqual(parentFromDb.CountQuestionsAggregated, 1);
             Assert.AreEqual(parentFromDb.Id, questionFromDb.Categories.First().Id);
             Assert.AreEqual(questionFromDb.Categories.Count(), 1);
 
             Assert.IsNotNull(parentFromCache);
-            Assert.AreEqual(parentFromCache.CountQuestions, 1);
+            Assert.AreEqual(parentFromCache.CountQuestionsAggregated, 1);
             Assert.AreEqual(parentFromCache.Id, questionFromDb.Categories.First().Id);
             Assert.AreEqual(questionFromCache.Categories.Count(), 1);
         }
