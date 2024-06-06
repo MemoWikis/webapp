@@ -114,7 +114,7 @@ const showDropdown = ref(true)
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="deleteTopicStore.showErrorMsg">
-                    {{ deleteTopicStore.errorMsg }}
+                    {{ deleteTopicStore.messageKey }}
                 </div>
             </template>
         </template>
