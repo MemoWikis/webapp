@@ -16,7 +16,7 @@ services:
     ports:
       - "${MEILI_PORT_TEST}:7700"
     volumes:
-      - C:/Meilisearch/${MEM_ENVIRONMENT_TEST}:/meili_data_test
+      - C:/Meilisearch/${MEM_ENVIRONMENT_TEST}:/meili_data
 
   redis:
     image: redis:7.2.4
