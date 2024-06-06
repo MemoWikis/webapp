@@ -65,18 +65,6 @@ const showDropdown = ref(true)
                 Das Thema '<strong>{{ deleteTopicStore.name }}</strong>' wurde erfolgreich gelöscht.
             </template>
             <template v-else>
-                <!-- <div>
-                    <label class="flex">
-                        <input type="radio" :value="parent?.id" v-model="selectedParent">
-                        <div class="radio-button-description"> {{ parent?.name }}</div>
-                    </label>
-                </div>
-                <div class="StickySearch">
-                    <Search :placeholderLabel="'Suche hier...'" :showDefaultSearchIcon="true"
-                        :search-type="SearchType.moveQuestions" :show-search="showSearch"
-                        v-on:select-item="setNewTopicId" :topicIdsToFilter="[deleteTopicStore.id]" />
-                </div> -->
-
                 <div>
                     <div class="body-m">Möchtest Du '<strong>{{ deleteTopicStore.name }}</strong>' unwiderruflich
                         löschen?

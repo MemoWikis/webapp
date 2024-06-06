@@ -56,9 +56,6 @@ onBeforeMount(() => {
         case SearchType.categoryInWiki:
             searchUrl.value = '/apiVue/Search/TopicInPersonalWiki'
             break
-        case SearchType.moveQuestions:
-            searchUrl.value = '/apiVue/Search/MoveQuestions'
-            break
         default:
             searchUrl.value = '/apiVue/Search/All'
     }
@@ -88,8 +85,7 @@ async function search() {
         term: searchTerm.value,
     }
     if ((props.searchType == SearchType.category ||
-        props.searchType == SearchType.categoryInWiki ||
-        props.searchType == SearchType.moveQuestions))
+        props.searchType == SearchType.categoryInWiki))
         data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
 
     if (props.publicOnly)
