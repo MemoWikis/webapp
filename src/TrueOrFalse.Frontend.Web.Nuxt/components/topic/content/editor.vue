@@ -16,9 +16,44 @@ import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 import { Indent } from '../../editor/indent'
 
+
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
 const lowlight = createLowlight(all)
+
+function base64ToBlob(base64: string) {
+    const byteCharacters = atob(base64.split(',')[1])
+    const byteNumbers = new Array(byteCharacters.length)
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i)
+    }
+
+    const byteArray = new Uint8Array(byteNumbers)
+
+    return new Blob([byteArray], { type: 'image/png' })
+}
+
+async function getImgUrl(base64string: string) {
+    const blob = base64ToBlob(base64string)
+    const formData = new FormData()
+    formData.append('file', blob, 'image.png')
+    console.log(blob)
+    return await uploadImage(formData)
+}
+
+async function uploadImage(formData: FormData) {
+    console.log(formData)
+    const result = await $fetch<string>(`/apiVue/ImageUploadModal/SaveEditorImage`, {
+        body: formData,
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+    })
+    console.log('uploadResult', result)
+    return result
+}
+
 const editor = useEditor({
     content: topicStore.initialContent,
     extensions: [
@@ -81,11 +116,12 @@ const editor = useEditor({
             const firstNode = event.content.firstChild
             if (firstNode != null && firstNode.type.name == 'image') {
                 if (!isEmpty(firstNode.attrs)) {
-                    let src = firstNode.attrs.src;
+                    let src = firstNode.attrs.src
                     if (src.length > 1048576 && src.startsWith('data:image')) {
                         alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
                         return true
                     }
+                    getImgUrl(src)
                 }
             }
 
@@ -107,6 +143,10 @@ const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
 })
+
+
+
+
 </script>
 
 <template>

@@ -62,4 +62,18 @@ public class ImageUploadModalController(
 
         return true;
     }
+
+    public class SaveEditorImageForm
+    {
+        public IFormFile File { get; set; }
+    }
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public string SaveEditorImage([FromForm] SaveEditorImageForm form)
+    {
+        if (form.File == null)
+            return "";
+
+        return "testUrl";
+    }
 }
