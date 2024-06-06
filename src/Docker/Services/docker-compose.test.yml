@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  meilisearchTest:
+    image: getmeili/meilisearch:v0.30
+    command: ["meilisearch", "--master-key=${MEILI_TEST_KEY}"]
+    restart: always
+    ports:
+      - "${MEILI_PORT_TEST}:7700"
+    volumes:
+      - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data_test
