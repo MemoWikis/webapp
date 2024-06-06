@@ -9,14 +9,14 @@ services:
     volumes:
       - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
 
-    meilisearchTest:
-      image: getmeili/meilisearch:v0.30
-      command: ["meilisearch", "--master-key=nuxt1234"]
-      restart: always
-      ports:
-        - "7001:7700"
-      volumes:
-        - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data_test
+  meilisearchTest:
+    image: getmeili/meilisearch:v0.30
+    command: ["meilisearch", "--master-key=${MEILI_TEST_KEY}4"]
+    restart: always
+    ports:
+      - "${MEILI_PORT_TEST}:7700"
+    volumes:
+      - C:/Meilisearch/${MEM_ENVIRONMENT_TEST}:/meili_data_test
 
   redis:
     image: redis:7.2.4
