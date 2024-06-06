@@ -95,34 +95,6 @@ public class SearchController(
 
 
     [HttpPost]
-    public async Task<TopicResult> MoveQuestions([FromBody] SearchTopicJson json)
-    {
-        var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
-
-        var deleteCategory = json.topicIdsToFilter.First();
-        if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo,
-                _httpContextAccessor,
-                _questionReadingRepo).AddMoveQuestionsTopics(items, elements, _permissionCheck,
-                _sessionUser.UserId, deleteCategory);
-        else
-        {
-            new SearchHelper(_imageMetaDataReadingRepo,
-                _httpContextAccessor,
-                _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck,
-                _sessionUser.UserId);
-        }
-
-        return new
-        (
-            TotalCount: elements.CategoriesResultCount,
-            Topics: items
-        );
-    }
-
-
-    [HttpPost]
     public async Task<TopicResult> TopicInPersonalWiki(
         [FromBody] SearchTopicJson json)
     {

@@ -82,8 +82,7 @@ namespace TrueOrFalse.Tests8._0._2_Domain.Search
             var items = new List<SearchTopicItem>();
             new SearchHelper(R<ImageMetaDataReadingRepo>(),
                 R<IHttpContextAccessor>(),
-                R<QuestionReadingRepo>()).AddMoveQuestionsTopics(items, topics, R<PermissionCheck>(),
-                creator.Id, questionCategory.Id);
+                R<QuestionReadingRepo>()).AddPublicTopicItems(items, topics, creator.Id);
 
             //Assert
             Assert.AreEqual(topics.Categories.Count, 3);

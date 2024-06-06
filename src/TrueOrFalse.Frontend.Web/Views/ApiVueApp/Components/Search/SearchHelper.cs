@@ -33,33 +33,6 @@ public class SearchHelper
         elements.Categories.Where(c => c.Visibility == CategoryVisibility.All)
             .Select(c => FillSearchTopicItem(c, userId)));
 
-    public void AddMoveQuestionsTopics(
-        List<SearchTopicItem> items,
-        GlobalSearchResult elements,
-        PermissionCheck permissionCheck,
-        int userId,
-        int toDeleteCategoryId)
-    {
-        var questions = EntityCache
-            .GetCategory(toDeleteCategoryId)
-            .GetAggregatedQuestionsFromMemoryCache(userId, false, true, toDeleteCategoryId)
-            .Where(q => q.Visibility == QuestionVisibility.All);
-        if (questions.Any())
-        {
-            items.AddRange(
-                elements.Categories
-                    .Where(c => c.Visibility == CategoryVisibility.All)
-                    .Select(c => FillSearchTopicItem(c, userId)));
-        }
-        else
-        {
-            items.AddRange(
-                elements.Categories
-                    .Where(permissionCheck.CanView)
-                    .Select(c => FillSearchTopicItem(c, userId)));
-        }
-    }
-
     public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
     {
         CrumbtrailItem breadcrumbItem;
@@ -95,7 +68,7 @@ public class SearchHelper
             Visibility = (int)topic.Visibility
         };
     }
-    
+
     public void AddQuestionItems(List<SearchQuestionItem> items,
         GlobalSearchResult elements,
         PermissionCheck permissionCheck,
@@ -128,5 +101,4 @@ public class SearchHelper
                     .Url
             }));
     }
-
 }

@@ -6,7 +6,6 @@ export enum SearchType {
     questions = 2,
     users = 3,
     categoryInWiki = 4,
-    moveQuestions = 5,
 
     topic = category,
     topicInWiki = categoryInWiki
@@ -24,7 +23,7 @@ export interface TopicItem {
     isSpoiler?: boolean
 }
 
-export interface QuestionItem {
+export interface QuestionItem { 
     type?: 'QuestionItem'
     id: number
     name: string
