@@ -57,7 +57,7 @@
             public static readonly string SaveImageError = "error_category_saveImageError";
             public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
             public static readonly string CircularReference = "error_category_circularReference";
-
+            public static readonly string TopicNotSelected = "error_category_topicNotSelected";
         }
 
         public static class Question

@@ -13,6 +13,7 @@ interface Props {
     showDefaultSearchIcon?: boolean
     mainSearch?: boolean
     distance?: number
+    publicOnly?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,13 +78,18 @@ async function search() {
     type BodyType = {
         term: string
         topicIdsToFilter?: number[]
+        includePrivateTopics?: boolean
     }
 
     let data: BodyType = {
         term: searchTerm.value,
     }
-    if ((props.searchType == SearchType.category || props.searchType == SearchType.categoryInWiki))
+    if ((props.searchType == SearchType.category ||
+        props.searchType == SearchType.categoryInWiki))
         data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
+
+    if (props.publicOnly)
+        data = { ...data, includePrivateTopics: false }
 
     const result = await $fetch<FullSearch>(searchUrl.value, {
         method: 'POST',

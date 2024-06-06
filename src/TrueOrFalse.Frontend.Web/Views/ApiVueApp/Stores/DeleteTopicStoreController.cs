@@ -1,12 +1,48 @@
 ﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static CategoryDeleter;
 
 public class DeleteTopicStoreController(
     SessionUser sessionUser,
-    CategoryDeleter categoryDeleter) : BaseController(sessionUser)
+    CategoryDeleter categoryDeleter,
+    CrumbtrailService _crumbtrailService,
+    ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionReadingRepo _questionReadingRepo) : BaseController(sessionUser)
 {
-    public readonly record struct DeleteData(string Name, bool HasChildren);
+    public record struct SuggestedNewParent(
+        int Id,
+        string Name,
+        int QuestionCount,
+        string ImageUrl,
+        string MiniImageUrl,
+        CategoryVisibility Visibility);
+
+    private SuggestedNewParent FillSuggestedNewParent(CategoryCacheItem topic)
+    {
+        return new SuggestedNewParent
+        {
+            Id = topic.Id,
+            Name = topic.Name,
+            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
+            ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor)
+                .GetUrl_128px(asSquare: true).Url,
+            MiniImageUrl = new ImageFrontendData(
+                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+                    _httpContextAccessor,
+                    _questionReadingRepo)
+                .GetImageUrl(30, true, false, ImageType.Category)
+                .Url,
+            Visibility = topic.Visibility
+        };
+    }
+
+    public readonly record struct DeleteData(
+        string Name,
+        bool HasChildren,
+        SuggestedNewParent? SuggestedNewParent,
+        bool hasPublicQuestions);
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
@@ -19,10 +55,36 @@ public class DeleteTopicStoreController(
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        return new DeleteData(topic.Name, hasChildren);
+        var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
+
+        var hasPublicQuestion = EntityCache
+            .GetCategory(id)
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false)
+            .Any(q => q.Visibility == QuestionVisibility.All);
+
+        var parents = _crumbtrailService.BuildCrumbtrail(topic, currentWiki);
+        var newParentId =
+            new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
+                .SuggestNewParent(parents, hasPublicQuestion);
+
+        if (newParentId == null)
+            return new DeleteData(topic.Name, hasChildren, null, hasPublicQuestion);
+
+        var suggestedNewParent = FillSuggestedNewParent(EntityCache.GetCategory((int)newParentId));
+
+        return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasPublicQuestion);
     }
+
+    public readonly record struct DeleteJson(int id, int parentForQuestionsId);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public DeleteTopicResult Delete([FromRoute] int id) => categoryDeleter.DeleteTopic(id);
+    public CategoryDeleter.DeleteTopicResult Delete([FromBody] DeleteJson deleteJson)
+    {
+        if (deleteJson.parentForQuestionsId == 0)
+            return new CategoryDeleter.DeleteTopicResult(Success: false,
+                MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected);
+
+        return categoryDeleter.DeleteTopic(deleteJson.id, deleteJson.parentForQuestionsId);
+    }
 }

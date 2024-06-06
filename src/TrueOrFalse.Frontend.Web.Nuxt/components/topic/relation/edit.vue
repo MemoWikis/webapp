@@ -336,6 +336,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
     <LazyModal @close="editTopicRelationStore.showModal = false" :show="editTopicRelationStore.showModal"
         v-if="editTopicRelationStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handleMainBtn()"
         :show-cancel-btn="true">
+
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">
                 Neues Thema erstellen
@@ -351,6 +352,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                 Neues Oberthema verknüpfen
             </h4>
         </template>
+
         <template v-slot:body>
             <template v-if="editTopicRelationStore.type == EditTopicRelationType.Create">
                 <form v-on:submit.prevent="addTopic">

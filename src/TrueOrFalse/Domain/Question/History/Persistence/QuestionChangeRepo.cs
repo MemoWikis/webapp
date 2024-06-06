@@ -77,4 +77,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             .Left.JoinQueryOver(q => q.Question)
             .SingleOrDefault();
     }
+
+    public QuestionChange? GetByQuestionId(int questionId) =>
+        _session.QueryOver<QuestionChange>().Where(cc => cc.Question.Id == questionId).SingleOrDefault();
 }
