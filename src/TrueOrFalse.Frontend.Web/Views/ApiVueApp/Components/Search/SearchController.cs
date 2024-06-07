@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -13,7 +13,8 @@ public class SearchController(
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo
+) : Controller
 {
     public readonly record struct SearchAllJson(string term);
 
@@ -61,7 +62,12 @@ public class SearchController(
         return result;
     }
 
-    public readonly record struct SearchTopicJson(string term, int[] topicIdsToFilter);
+    public readonly record struct SearchTopicJson(
+        string term,
+        int[] topicIdsToFilter,
+        bool includePrivateTopics = true
+    );
+
     public readonly record struct TopicResult(List<SearchTopicItem> Topics, int TotalCount);
 
     [HttpPost]
@@ -71,10 +77,14 @@ public class SearchController(
         var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
 
         if (elements.Categories.Any())
-            new SearchHelper(_imageMetaDataReadingRepo,
-                _httpContextAccessor,
-                _questionReadingRepo).AddTopicItems(items, elements, _permissionCheck,
-                _sessionUser.UserId);
+        {
+            if (json.includePrivateTopics)
+                new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
+                    .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
+            else
+                new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
+                    .AddPublicTopicItems(items, elements, _sessionUser.UserId);
+        }
 
         return new
         (
@@ -82,6 +92,7 @@ public class SearchController(
             Topics: items
         );
     }
+
 
     [HttpPost]
     public async Task<TopicResult> TopicInPersonalWiki(

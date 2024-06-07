@@ -36,9 +36,16 @@ public class CategoryRepository(
         return GetByIdsEager();
     }
 
-    public Category GetByIdEager(int categoryId)
+    public Category GetByIdEager(int categoryId) =>
+        GetByIdsEager(new[] { categoryId }).FirstOrDefault();
+
+
+    public override void Delete(int categoryId)
     {
-        return GetByIdsEager(new[] { categoryId }).FirstOrDefault();
+        _session.CreateSQLQuery("DELETE FROM category WHERE Id = :categoryId")
+            .SetParameter("categoryId", categoryId)
+            .ExecuteUpdate();
+        ClearAllItemCache();
     }
 
     public IList<Category> GetByIds(List<int> questionIds)

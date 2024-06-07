@@ -143,18 +143,6 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public bool CanEdit(Question question)
-    {
-        if (_userId == default)
-            return false;
-        if (question == null)
-            return false;
-        if (question.IsCreator(_userId) || _isInstallationAdmin)
-            return false;
-
-        return false;
-    }
-
     public bool CanEdit(QuestionCacheItem question)
     {
         if (_userId == default)

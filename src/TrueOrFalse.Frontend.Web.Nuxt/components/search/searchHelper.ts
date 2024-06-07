@@ -23,7 +23,7 @@ export interface TopicItem {
     isSpoiler?: boolean
 }
 
-export interface QuestionItem {
+export interface QuestionItem { 
     type?: 'QuestionItem'
     id: number
     name: string

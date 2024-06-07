@@ -138,4 +138,23 @@ public class BaseTest
     public static T Resolve<T>() where T : notnull => _container.Resolve<T>();
 
     public static T R<T>() where T : notnull => _container.Resolve<T>();
+
+    public void ClearNHibernateCaches()
+    {
+        var session = R<ISession>();
+        session.Clear(); // Clear the first-level cache (session cache)
+
+        var sessionFactory = session.SessionFactory;
+        foreach (var collectionMetadata in sessionFactory.GetAllCollectionMetadata())
+        {
+            sessionFactory.EvictCollection(collectionMetadata.Key);
+        }
+
+        foreach (var classMetadata in sessionFactory.GetAllClassMetadata())
+        {
+            sessionFactory.EvictEntity(classMetadata.Key);
+        }
+
+        sessionFactory.EvictQueries();
+    }
 }
