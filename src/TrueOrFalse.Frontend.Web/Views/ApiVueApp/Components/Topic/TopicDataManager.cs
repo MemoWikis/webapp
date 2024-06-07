@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.AspNetCore.Http;
+using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
 
 public class TopicDataManager(
     SessionUser _sessionUser,
@@ -125,7 +125,8 @@ public class TopicDataManager(
             IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache
                 .GetCategory(_sessionUser.User.StartTopicId)
                 .ChildRelations
-                .Any(r => r.ChildId == topic.Id)
+                .Any(r => r.ChildId == topic.Id),
+            TextIsHidden: topic.TextIsHidden
         );
     }
 
@@ -176,6 +177,7 @@ public class TopicDataManager(
         string MetaDescription,
         KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
-        bool IsChildOfPersonalWiki
+        bool IsChildOfPersonalWiki,
+        bool TextIsHidden
     );
 }

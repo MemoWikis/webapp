@@ -42,6 +42,7 @@ public class CategoryMap : ClassMap<Category>
         Map(x => x.SkipMigration);
         Map(x => x.Visibility).CustomType<CategoryVisibility>();
         Map(x => x.IsUserStartTopic);
+        Map(x => x.TextIsHidden).CustomType<bool>();
 
         Map(x => x.AuthorIds);
     }

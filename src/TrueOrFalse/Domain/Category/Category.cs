@@ -13,6 +13,7 @@ public class Category : DomainEntity, ICreator
     public virtual bool DisableLearningFunctions { get; set; }
     public virtual User Creator { get; set; }
     public virtual bool IsUserStartTopic { get; set; }
+    public virtual bool TextIsHidden { get; set; }
     public virtual string AuthorIds { get; set; } = "";
     public virtual string CategoriesToExcludeIdsString { get; set; }
 

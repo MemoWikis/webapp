@@ -69,6 +69,13 @@ public class CategoryRepository(
         return result;
     }
 
+    public Category GetById(int categoryId)
+    {
+        return _session.QueryOver<Category>()
+            .Where(c => c.Id == categoryId)
+            .SingleOrDefault();
+    }
+
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
     {
         var query = _session.QueryOver<Category>();
@@ -155,6 +162,11 @@ public class CategoryRepository(
     public override void Update(Category category)
     {
         Update(category);
+    }
+
+    public void BaseUpdate(Category category)
+    {
+        base.Update(category);
     }
 
     // ReSharper disable once MethodOverloadWithOptionalParameter
