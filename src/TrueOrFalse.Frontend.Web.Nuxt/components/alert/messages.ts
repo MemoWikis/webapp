@@ -84,7 +84,7 @@ export const messages: any = {
     },
     info: {
         category: {
-            toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt.",
+            toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Themen ohne Textinhalt.",
         },
         question: {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.',

@@ -202,6 +202,8 @@ export const useTopicStore = defineStore('topicStore', {
 				this.gridItems = result
 		},
 		async hideOrShowText() {
+			if (!!this.content && this.content.length > 0)
+				return
 
 			const data = {
 				hideText: !this.textIsHidden,

@@ -29,7 +29,8 @@ const hoverLock = ref(false)
                 </div>
                 <template #popper="{ hide }">
 
-                    <div @click="topicStore.hideOrShowText()" class="dropdown-row hide-text-option">
+                    <div @click="topicStore.hideOrShowText()" class="dropdown-row hide-text-option"
+                        :class="{ 'topic-has-content': topicStore.content?.length > 0 }">
                         <div class="dropdown-label">
                             Keine Texteingabe <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
                                 v-tooltip="messages.info.category.toggleHideText" />
@@ -227,6 +228,29 @@ li {
 
         .toggle-inactive {
             color: @memo-grey-dark;
+        }
+    }
+
+    &.topic-has-content {
+        color: @memo-grey-dark;
+        user-select: none;
+        pointer-events: none;
+
+        .toggle-inactive {
+            color: @memo-grey-light;
+        }
+
+        .toggle-info {
+            pointer-events: all;
+        }
+
+        &:hover {
+            color: @memo-grey-dark;
+            filter: none;
+        }
+
+        &:active {
+            filter: none;
         }
     }
 }
