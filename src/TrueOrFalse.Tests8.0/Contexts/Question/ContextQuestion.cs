@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TrueOrFalse;
+﻿using TrueOrFalse;
 
 public class ContextQuestion
 {
@@ -18,13 +16,9 @@ public class ContextQuestion
     private bool _persistQuestionsImmediately;
     private readonly Random Rand = new();
 
-    private ContextQuestion(QuestionWritingRepo questionWritingRepo,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository)
+    private ContextQuestion()
     {
-        _contextUser = ContextUser.New(userWritingRepo);
+        _contextUser = ContextUser.New(BaseTest.R<UserWritingRepo>());
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
         _answerRepo = answerRepo;
@@ -111,26 +105,15 @@ public class ContextQuestion
         return this;
     }
 
-    public static Question GetQuestion(
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository,
-        QuestionWritingRepo questionWritingRepo)
+    public static Question GetQuestion()
     {
-        return New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository).AddQuestion()
+        return New().AddQuestion()
             .Persist().All[0];
     }
 
-    public static ContextQuestion New(QuestionWritingRepo questionWritingRepo,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository,
-        bool persistImmediately = false)
+    public static ContextQuestion New(bool persistImmediately = false)
     {
-        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo,
-            categoryRepository);
+        var result = new ContextQuestion();
 
         if (persistImmediately)
         {

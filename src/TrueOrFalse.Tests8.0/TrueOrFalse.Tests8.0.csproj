@@ -35,4 +35,8 @@
     <ProjectReference Include="..\TrueOrFalse\TrueOrFalse.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="2 Domain\Search\" />
+  </ItemGroup>
+
 </Project>

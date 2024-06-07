@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
@@ -65,7 +65,8 @@ public class SearchController(
     public readonly record struct SearchTopicJson(
         string term,
         int[] topicIdsToFilter,
-        bool includePrivateTopics = true);
+        bool includePrivateTopics = true
+    );
 
     public readonly record struct TopicResult(List<SearchTopicItem> Topics, int TotalCount);
 
@@ -84,7 +85,6 @@ public class SearchController(
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
                     .AddPublicTopicItems(items, elements, _sessionUser.UserId);
         }
-
 
         return new
         (
