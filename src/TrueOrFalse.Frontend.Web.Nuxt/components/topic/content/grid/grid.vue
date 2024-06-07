@@ -299,6 +299,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     }
 
     .grid-header {
+        min-height: 40px;
+        height: 40px;
         justify-content: space-between;
 
         .grid-options {

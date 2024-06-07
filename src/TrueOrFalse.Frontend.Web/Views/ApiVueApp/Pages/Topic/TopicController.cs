@@ -56,7 +56,7 @@ public class TopicController(
             TopicItem = data.TopicItem,
             Views = data.Views,
             Visibility = data.Visibility,
-            IsHideText = data.IsHideText
+            TextIsHidden = data.TextIsHidden
         };
     }
 
@@ -85,5 +85,5 @@ public class TopicController(
         TopicDataManager.KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki,
-        bool IsHideText);
+        bool TextIsHidden);
 }

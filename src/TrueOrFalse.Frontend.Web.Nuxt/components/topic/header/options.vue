@@ -7,6 +7,7 @@ import { useEditTopicRelationStore } from '../relation/editTopicRelationStore'
 import { useTopicToPrivateStore } from '../toPrivate/topicToPrivateStore'
 import { usePublishTopicStore } from '../publish/publishTopicStore'
 import { useDeleteTopicStore } from '../delete/deleteTopicStore'
+import { messages } from '~/components/alert/messages'
 
 const userStore = useUserStore()
 const topicStore = useTopicStore()
@@ -22,12 +23,24 @@ const hoverLock = ref(false)
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <VDropdown :distance="0" :popperHideTriggers="(triggers: any) => [...triggers, 'click']" :arrow-padding="300"
-                placement="auto">
+            <VDropdown :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
                 <template #popper="{ hide }">
+
+                    <div @click="topicStore.hideOrShowText()" class="dropdown-row hide-text-option">
+                        <div class="dropdown-label">
+                            Keine Texteingabe <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
+                                v-tooltip="messages.info.category.toggleHideText" />
+                        </div>
+                        <div class="toggle-icon-container">
+                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="topicStore.textIsHidden"
+                                class="toggle-active" />
+                            <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="toggle-inactive" />
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
 
                     <NuxtLink :to="`/Historie/Thema/${topicStore.id}`" class="dropdown-row">
                         <div class="dropdown-icon">
@@ -83,8 +96,8 @@ const hoverLock = ref(false)
                         </div>
                     </div>
 
-                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All" class="dropdown-row"
-                        @click="topicToPrivateStore.openModal(topicStore.id); hide()">
+                    <div v-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.All"
+                        class="dropdown-row" @click="topicToPrivateStore.openModal(topicStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
@@ -185,5 +198,42 @@ li {
         display: flex;
         flex-wrap: nowrap;
     }
+}
+
+.hide-text-option {
+
+    // background: @memo-grey-lighter !important;
+    justify-content: space-between;
+
+    .dropdown-label {
+        padding-left: 0px !important;
+    }
+
+    .toggle-info {
+        margin-left: 4px;
+        color: @memo-grey-light;
+        outline: none;
+    }
+
+    .toggle-icon-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+
+        .toggle-active {
+            color: @memo-blue-link;
+        }
+
+        .toggle-inactive {
+            color: @memo-grey-dark;
+        }
+    }
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: @memo-grey-lighter;
+    margin: 10px 0px;
 }
 </style>

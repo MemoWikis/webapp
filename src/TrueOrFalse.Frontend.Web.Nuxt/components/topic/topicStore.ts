@@ -37,6 +37,7 @@ export class Topic {
 	}
 	gridItems: GridTopicItem[] = []
 	isChildOfPersonalWiki: boolean = false
+	textIsHidden: boolean = false
 }
 
 export interface KnowledgeSummary {
@@ -90,7 +91,8 @@ export const useTopicStore = defineStore('topicStore', {
 			searchTopicItem: null as null | TopicItem,
 			knowledgeSummary: {} as KnowledgeSummary,
 			gridItems: [] as GridTopicItem[],
-			isChildOfPersonalWiki: false
+			isChildOfPersonalWiki: false,
+			textIsHidden: false,
 		}
 	},
 	actions: {
@@ -126,6 +128,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.knowledgeSummary = topic.knowledgeSummary
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
+				this.textIsHidden = topic.textIsHidden
 			}
 		},
 		async saveTopic() {
@@ -186,7 +189,9 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 		async reloadGridItems() {
 			const result = await $fetch<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
-				method: 'GET', mode: 'cors', credentials: 'include',
+				method: 'GET', 
+				mode: 'cors', 
+				credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -195,7 +200,27 @@ export const useTopicStore = defineStore('topicStore', {
 
 			if (result)
 				this.gridItems = result
+		},
+		async hideOrShowText() {
+
+			const data = {
+				hideText: !this.textIsHidden,
+				topicId: this.id
+			}
+			const result = await $fetch<boolean>(`/apiVue/TopicStore/HideOrShowText/`, {
+				body: data,
+				method: 'POST', 
+				mode: 'cors', 
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
+
+			this.textIsHidden = result
 		}
+
 	},
 	getters: {
 		getTopicName(): string {

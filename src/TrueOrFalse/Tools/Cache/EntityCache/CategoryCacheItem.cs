@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
+using System.Diagnostics;
 
 [DebuggerDisplay("Id={Id} Name={Name}")]
 [Serializable]
@@ -38,7 +38,7 @@ public class CategoryCacheItem : IPersistable
     public virtual string Description { get; set; }
 
     public virtual bool DisableLearningFunctions { get; set; }
-    public virtual bool IsHideText { get; set; }
+    public virtual bool TextIsHidden { get; set; }
 
     public virtual int FormerSetId { get; set; }
     public virtual int Id { get; set; }
@@ -216,7 +216,7 @@ public class CategoryCacheItem : IPersistable
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
             AuthorIds = category.AuthorIdsInts ?? new[] { creatorId },
-            IsHideText = category.IsHideText,
+            TextIsHidden = category.TextIsHidden,
         };
         return categoryCacheItem;
     }

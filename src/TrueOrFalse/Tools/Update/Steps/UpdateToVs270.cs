@@ -8,7 +8,7 @@ internal class UpdateToVs270
     {
         nhibernateSession
             .CreateSQLQuery(
-                @"ALTER TABLE category ADD COLUMN IsHideText TINYINT(1) DEFAULT 0;"
+                @"ALTER TABLE category ADD COLUMN TextIsHidden TINYINT(1) DEFAULT 0;"
             ).ExecuteUpdate();
     }
 }

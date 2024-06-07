@@ -173,9 +173,11 @@ watch(() => props.tab, (t) => {
                     <template v-if="topicStore?.id != 0">
                         <ClientOnly>
                             <TopicTabsContent
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :text-is-hidden="topicStore.textIsHidden" />
                             <template #fallback>
                                 <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
+                                    v-if="!topicStore.textIsHidden"
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
                                     <div class="col-xs-12">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"

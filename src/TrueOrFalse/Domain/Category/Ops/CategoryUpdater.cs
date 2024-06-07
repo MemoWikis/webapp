@@ -2,7 +2,7 @@
     CategoryRepository _categoryRepository,
     PermissionCheck permissionCheck) : IRegisterAsInstancePerLifetime
 {
-    public bool HideOrShowTopicText(bool isHideText, int categoryId)
+    public bool HideOrShowTopicText(bool hideText, int categoryId)
     {
         var cacheTopic = EntityCache.GetCategory(categoryId);
         if (cacheTopic == null)
@@ -11,14 +11,14 @@
         if (permissionCheck.CanView(cacheTopic) == false)
             throw new AccessViolationException($"{nameof(HideOrShowTopicText)}: No permission for user");
 
-        cacheTopic.IsHideText = isHideText;
+        cacheTopic.TextIsHidden = hideText;
         EntityCache.AddOrUpdate(cacheTopic);
 
         var DbTopic = _categoryRepository.GetById(categoryId);
-        DbTopic.IsHideText = isHideText;
+        DbTopic.TextIsHidden = hideText;
         _categoryRepository.BaseUpdate(DbTopic);
 
-        return cacheTopic.IsHideText;
+        return cacheTopic.TextIsHidden;
     }
 }
 

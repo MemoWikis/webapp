@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TrueOrFalse.Domain.Category.Ops;
+using System.Linq;
 
 namespace VueApp;
 
@@ -107,11 +106,11 @@ public class TopicStoreController(
         bool CanDelete
     );
 
-    public readonly record struct HideOrShowItem(bool IsHideText, int categoryId);
+    public readonly record struct HideOrShowItem(bool hideText, int topicId);
 
-    [HttpGet]
+    [HttpPost]
     public bool HideOrShowText([FromBody] HideOrShowItem hideOrShowItem) =>
-        _categoryUpdater.HideOrShowTopicText(hideOrShowItem.IsHideText, hideOrShowItem.categoryId);
+        _categoryUpdater.HideOrShowTopicText(hideOrShowItem.hideText, hideOrShowItem.topicId);
 
     [HttpGet]
     public GridTopicItem[] GetGridTopicItems([FromRoute] int id)
