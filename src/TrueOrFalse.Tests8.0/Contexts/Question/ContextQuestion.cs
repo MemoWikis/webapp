@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using TrueOrFalse;
+﻿using TrueOrFalse;
 
 public class ContextQuestion
 {
@@ -18,19 +16,15 @@ public class ContextQuestion
     private bool _persistQuestionsImmediately;
     private readonly Random Rand = new();
 
-    private ContextQuestion(QuestionWritingRepo questionWritingRepo,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository)
+    private ContextQuestion()
     {
-        _contextUser = ContextUser.New(userWritingRepo);
+        _contextUser = ContextUser.New(BaseTest.R<UserWritingRepo>());
         _contextUser.Add("Creator").Persist();
         _contextUser.Add("Learner").Persist();
-        _answerRepo = answerRepo;
-        _answerQuestion = answerQuestion;
-        _categoryRepository = categoryRepository;
-        _questionWritingRepo = questionWritingRepo;
+        _answerRepo = BaseTest.R<AnswerRepo>();
+        _answerQuestion = BaseTest.R<AnswerQuestion>();
+        _categoryRepository = BaseTest.R<CategoryRepository>();
+        _questionWritingRepo = BaseTest.R<QuestionWritingRepo>();
     }
 
     public User Creator => _contextUser.All[0];
@@ -111,26 +105,15 @@ public class ContextQuestion
         return this;
     }
 
-    public static Question GetQuestion(
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository,
-        QuestionWritingRepo questionWritingRepo)
+    public static Question GetQuestion()
     {
-        return New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository).AddQuestion()
+        return New().AddQuestion()
             .Persist().All[0];
     }
 
-    public static ContextQuestion New(QuestionWritingRepo questionWritingRepo,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        CategoryRepository categoryRepository,
-        bool persistImmediately = false)
+    public static ContextQuestion New(bool persistImmediately = false)
     {
-        var result = new ContextQuestion(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo,
-            categoryRepository);
+        var result = new ContextQuestion();
 
         if (persistImmediately)
         {
@@ -169,8 +152,7 @@ public class ContextQuestion
         ContextCategory.New(false).AddToEntityCache(category).Persist();
         var categories = categoryRepository.GetAllEager();
 
-        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository)
-            .AddRandomQuestions(amount, null, true, categories).All;
+        var questions = New().AddRandomQuestions(amount, null, true, categories).All;
 
         var categoryIds = new List<int> { 1 };
 
@@ -195,8 +177,7 @@ public class ContextQuestion
         var categoryList = ContextCategory.New().Add("Daniel").All;
         categoryList.First().Id = 1;
 
-        var questions = New(questionWritingRepo, answerRepo, answerQuestion, userWritingRepo, categoryRepository)
-            .AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
+        var questions = New().AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
         users.ForEach(u => userWritingRepo.Create(u));
 
         //SessionUserCache.AddOrUpdate(users.FirstOrDefault());

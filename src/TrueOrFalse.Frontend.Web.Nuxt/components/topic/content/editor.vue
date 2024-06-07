@@ -107,6 +107,7 @@ const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
 })
+
 </script>
 
 <template>
