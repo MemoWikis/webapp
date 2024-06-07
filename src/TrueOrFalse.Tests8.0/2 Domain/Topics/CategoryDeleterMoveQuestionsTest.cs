@@ -78,13 +78,7 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
 
         var categoryRepo = R<CategoryRepository>();
 
-        var questionContext = ContextQuestion.New(
-            R<QuestionWritingRepo>(),
-            R<AnswerRepo>(),
-            R<AnswerQuestion>(),
-            R<UserWritingRepo>(),
-            categoryRepo,
-            true);
+        var questionContext = ContextQuestion.New();
 
 
         questionContext.AddQuestion("question1", creator: creator, categories: new List<Category> { child });
