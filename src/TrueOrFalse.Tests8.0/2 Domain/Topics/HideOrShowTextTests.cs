@@ -1,7 +1,7 @@
 ﻿public class HideOrShowTextTests : BaseTest
 {
     [Test]
-    public void TestIsHide_text_value_cache_and_database_consistency()
+    public void Ensure_TextIsHidden_consistency_between_cache_and_db()
     {
         //Arrange
         //visibleTopic
@@ -14,7 +14,6 @@
             .Persist()
             .GetTopicByName(publicTopicName);
 
-
         //NotVisibleTopic
         var creator1 = new User { Name = "Daniel" };
         ContextUser.New(R<UserWritingRepo>()).Add(creator1).Persist();
@@ -24,10 +23,8 @@
             .Persist()
             .GetTopicByName(privateTopicName);
 
-
         //Act
-        var resultNotVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, privateTopic.Id);
-        var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(true, publicTopic.Id);
+        var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(hideText: true, publicTopic.Id);
 
         var dbCategory = R<CategoryRepository>().GetById(publicTopic.Id);
         var cacheCategory = EntityCache.GetCategory(publicTopic.Id);
@@ -38,10 +35,8 @@
         Assert.True(dbCategory.TextIsHidden);
         Assert.True(cacheCategory.TextIsHidden);
 
-        Assert.NotNull(privateTopic);
-        Assert.AreEqual(privateTopic.Visibility, CategoryVisibility.Owner);
-        Assert.AreNotEqual(privateTopic.Creator.Id, sessionUser.UserId);
-        Assert.False(resultNotVisibleTopic);
+        var ex = Assert.Throws<AccessViolationException>(() => R<CategoryUpdater>().HideOrShowTopicText(hideText: true, privateTopic.Id));
+        Assert.That(ex.Message, Is.EqualTo($"{nameof(CategoryUpdater.HideOrShowTopicText)}: No permission for user"));
     }
 }
 
