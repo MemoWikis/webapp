@@ -45,16 +45,16 @@
         return withinLimit;
     }
 
-    
+
     public bool VerifyUserAccessDuration(int count)
     {
         var accountAgeInDays = (DateTime.Now - _sessionUser.AccountCreated).TotalDays;
-        var lastEdit = (DateTime.Now - _sessionUser.LastEdit).TotalHours;  
+        var lastEdit = (DateTime.Now - _sessionUser.LastEdit).TotalHours;
         if (accountAgeInDays < 7 || _sessionUser.LastEdit < 24)
             return count <= 2;
 
         if (accountAgeInDays < 182)
-            return count <= 5; 
+            return count <= 5;
     }
 
     public bool CanSavePrivateQuestion(bool logExceedance = false)
