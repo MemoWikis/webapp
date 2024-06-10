@@ -35,7 +35,7 @@ public class RedisConnectionMonitor : IHostedService, IDisposable
             }
             else
             {
-                Logg.r.Warning("Redis is not reachable: Connection is not established");
+                Logg.r.Error("Redis is not reachable: Connection is not established");
             }
         }
         catch (Exception ex)
