@@ -29,6 +29,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public virtual string RecentlyUsedRelationTargetTopics { get; set; }
     public string StripeId { get; set; }
     public DateTime? SubscriptionStartDate { get; set; }
+    public DateTime AccountCreated { get; set; }
     public int TotalInOthersWishknowledge { get; set; }
     public virtual string WidgetHostsSpaceSeparated { get; set; }
     public int Id { get; set; }
@@ -73,6 +74,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         IsEmailConfirmed = user.IsEmailConfirmed;
         ActivityLevel = user.ActivityLevel;
         ActivityPoints = user.ActivityPoints;
+        AccountCreated = user.DateCreated;
     }
 
     public void Populate(UserCacheItem user)

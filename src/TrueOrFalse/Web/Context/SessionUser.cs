@@ -1,9 +1,8 @@
-﻿using System.Security.Claims;
-
+﻿using System.Runtime.InteropServices.JavaScript;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
-
 using TrueOrFalse.Web.Context;
 
 public class SessionUser : IRegisterAsInstancePerLifetime
@@ -46,6 +45,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         get => _httpContext.Session.GetInt32("userId") ?? 0;
         set => _httpContext.Session.SetInt32("userId", value);
     }
+
+    public DateTime AccountCreated => EntityCache.GetUserById(UserId).AccountCreated;
 
     public ExtendedUserCacheItem User
     {
