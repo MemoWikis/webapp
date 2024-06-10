@@ -39,13 +39,12 @@ public class CategoryInKnowledge(
 
     public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
     {
-        var user = _userReadingRepo.GetByIds(userId).First();
         var questionsInCategory = EntityCache.GetCategory(categoryId)
             .GetAggregatedQuestionsFromMemoryCache(userId);
         var questionIds = questionsInCategory.GetIds();
 
         var questionsInPinnedCategories =
-            QuestionsInValuatedCategories(user.Id, questionIds, exeptCategoryId: categoryId);
+            QuestionsInValuatedCategories(userId, questionIds, exeptCategoryId: categoryId);
 
         var questionInOtherPinnedEntitites = questionsInPinnedCategories;
         var questionsToUnpin = questionsInCategory
@@ -53,9 +52,9 @@ public class CategoryInKnowledge(
             .ToList();
 
         foreach (var question in questionsToUnpin)
-            _questionInKnowledge.Unpin(question.Id, user.Id);
+            _questionInKnowledge.Unpin(question.Id, userId);
 
         _questionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
-        _questionInKnowledge.SetUserWishCountQuestions(user.Id);
+        _questionInKnowledge.SetUserWishCountQuestions(userId);
     }
 }
