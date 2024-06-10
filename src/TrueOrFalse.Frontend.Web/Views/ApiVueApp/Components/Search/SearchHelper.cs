@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Seedworks.Lib;
+using System.Collections.Generic;
+using System.Linq;
 using TrueOrFalse.Search;
 
 public class SearchHelper
@@ -23,15 +23,24 @@ public class SearchHelper
         List<SearchTopicItem> items,
         GlobalSearchResult elements,
         PermissionCheck permissionCheck,
-        int userId) => items.AddRange(
-        elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
+        int userId,
+        int[] topicIdsToFilter = null) => items.AddRange(
+            elements.Categories
+                .Where(c => permissionCheck.CanView(c) &&
+                    (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
+                .Select(c => FillSearchTopicItem(c, userId))
+            );
 
     public void AddPublicTopicItems(
         List<SearchTopicItem> items,
         GlobalSearchResult elements,
-        int userId) => items.AddRange(
-        elements.Categories.Where(c => c.Visibility == CategoryVisibility.All)
-            .Select(c => FillSearchTopicItem(c, userId)));
+        int userId,
+        int[] topicIdsToFilter = null) => items.AddRange(
+        elements.Categories
+            .Where(c => c.Visibility == CategoryVisibility.All &&
+                        (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
+            .Select(c => FillSearchTopicItem(c, userId))
+    );
 
     public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
     {

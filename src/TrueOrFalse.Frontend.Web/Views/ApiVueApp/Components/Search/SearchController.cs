@@ -74,7 +74,7 @@ public class SearchController(
     public async Task<TopicResult> Topic([FromBody] SearchTopicJson json)
     {
         var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
+        var elements = await _search.GoAllCategoriesAsync(json.term);
 
         if (elements.Categories.Any())
         {
@@ -82,10 +82,10 @@ public class SearchController(
 
             if (includePrivateTopics)
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
+                    .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId, json.topicIdsToFilter);
             else
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddPublicTopicItems(items, elements, _sessionUser.UserId);
+                    .AddPublicTopicItems(items, elements, _sessionUser.UserId, json.topicIdsToFilter);
         }
 
         return new
@@ -101,7 +101,7 @@ public class SearchController(
         [FromBody] SearchTopicJson json)
     {
         var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term, json.topicIdsToFilter);
+        var elements = await _search.GoAllCategoriesAsync(json.term);
 
         if (elements.Categories.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
@@ -110,7 +110,8 @@ public class SearchController(
                 .AddTopicItems(items,
                     elements,
                     _permissionCheck,
-                    _sessionUser.UserId);
+                    _sessionUser.UserId,
+                    json.topicIdsToFilter);
 
         var wikiChildren = GraphService.Descendants(_sessionUser.User.StartTopicId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();

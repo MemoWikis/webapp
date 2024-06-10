@@ -29,8 +29,7 @@ public class MeiliGlobalSearch : IGlobalSearch
     }
 
     public async Task<GlobalSearchResult> GoAllCategoriesAsync(
-        string term,
-        int[] categoriesToFilter = null)
+        string term)
     {
         var result = new GlobalSearchResult();
         result.CategoriesResult =

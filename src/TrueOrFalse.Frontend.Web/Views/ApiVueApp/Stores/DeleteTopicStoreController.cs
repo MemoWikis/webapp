@@ -85,6 +85,10 @@ public class DeleteTopicStoreController(
             return new CategoryDeleter.DeleteTopicResult(Success: false,
                 MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected);
 
+        if (deleteJson.parentForQuestionsId == deleteJson.id)
+            return new CategoryDeleter.DeleteTopicResult(Success: false,
+                MessageKey: FrontendMessageKeys.Error.Category.NewTopicIdIsTopicIdToBeDeleted);
+
         return categoryDeleter.DeleteTopic(deleteJson.id, deleteJson.parentForQuestionsId);
     }
 }
