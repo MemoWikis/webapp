@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 public class DeleteTopicStoreController(
     SessionUser sessionUser,
@@ -42,7 +42,7 @@ public class DeleteTopicStoreController(
         string Name,
         bool HasChildren,
         SuggestedNewParent? SuggestedNewParent,
-        bool hasPublicQuestions);
+        bool hasPublicQuestion);
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]

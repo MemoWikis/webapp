@@ -65,7 +65,7 @@ public class SearchController(
     public readonly record struct SearchTopicJson(
         string term,
         int[] topicIdsToFilter,
-        bool includePrivateTopics = true
+        bool? includePrivateTopics = null
     );
 
     public readonly record struct TopicResult(List<SearchTopicItem> Topics, int TotalCount);
@@ -78,7 +78,9 @@ public class SearchController(
 
         if (elements.Categories.Any())
         {
-            if (json.includePrivateTopics)
+            bool includePrivateTopics = json.includePrivateTopics ?? true;
+
+            if (includePrivateTopics)
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
                     .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
             else
