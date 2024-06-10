@@ -69,14 +69,13 @@ const showDropdown = ref(true)
                     <div class="body-m">Möchtest Du '<strong>{{ deleteTopicStore.name }}</strong>' unwiderruflich
                         löschen?
                     </div>
-                    <div class="body-m">
-                        Du kannst das vorausgewählte Thema nehmen oder dir ein Thema aussuchen wohin deine Fragen
-                        verschoben
-                        werden sollen
+                    <div class="body-s">
+                        Fragen werden nicht gelöscht. <br />
+                        Wähle ein neues Thema für die Fragen aus.
                     </div>
-                    <div class="body-s">Fragen werden nicht gelöscht.</div>
-                    <div class="body-s" v-if="deleteTopicStore.hasPublicQuestion">Du musst ein Thema auswählen, wohin
-                        dene Fragen verschoben werden sollen!</div>
+                    <div class="body-s" v-if="deleteTopicStore.hasPublicQuestion">
+                        Es gibt öffentliche Fragen in diesem Thema. Es können nur öffentliche Themen ausgewählt werden.
+                    </div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && newParentForQuestions != null" class="searchResultItem mb-125"
                             data-toggle="tooltip" data-placement="top" :title="newParentForQuestions.name">
