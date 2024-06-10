@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 public class RedisConnectionMonitor : IHostedService, IDisposable
 {
@@ -15,7 +16,7 @@ public class RedisConnectionMonitor : IHostedService, IDisposable
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        _timer = new Timer(CheckRedisHealth, null, TimeSpan.Zero, TimeSpan.FromSeconds(5));
+        _timer = new Timer(CheckRedisHealth, null, TimeSpan.Zero, TimeSpan.FromSeconds(60));
         return Task.CompletedTask;
     }
 
@@ -35,12 +36,12 @@ public class RedisConnectionMonitor : IHostedService, IDisposable
             }
             else
             {
-                Logg.r.Error("Redis is not reachable: Connection is not established");
+                Logg.r.Error("Redis: Redis is not reachable: Connection is not established");
             }
         }
         catch (Exception ex)
         {
-            Logg.r.Error($"Redis is not reachable: {ex.Message}");
+            Logg.r.Error($"Redis: Redis is not reachable: {ex.Message}");
         }
     }
 
@@ -57,22 +58,29 @@ public class RedisConnectionMonitor : IHostedService, IDisposable
 
     public static void CreateConnection(WebApplicationBuilder builder, string redisUrl)
     {
+        var maxRetries = 20;
+        var logger = new LoggerConfiguration()
+            .Enrich.WithProperty("Environment", builder.Environment.EnvironmentName)
+            .WriteTo.Seq(Settings.SeqUrl)
+            .CreateLogger();
+
         IConnectionMultiplexer redis = null;
         var retryDelay = TimeSpan.FromSeconds(5);
-        while (true)
+        while (maxRetries > 0)
         {
             try
             {
                 redis = ConnectionMultiplexer.Connect(redisUrl);
-                Console.Write("Connected to Redis");
                 break;
             }
             catch (Exception ex)
             {
-                Console.Write($"Redis connected failed by start: {ex.Message}");
+                logger.Error(ex, "Redis: Could not connected to Redis");
 
                 Thread.Sleep(retryDelay);
             }
+
+            maxRetries--;
         }
 
         builder.Services.AddSingleton(redis);

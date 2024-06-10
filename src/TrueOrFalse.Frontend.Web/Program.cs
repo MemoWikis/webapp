@@ -16,6 +16,7 @@ using TrueOrFalse.Environment;
 using TrueOrFalse.Updates;
 using static System.Int32;
 using System.Text.Json;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
+
 
 if (Settings.UseRedisSession)
 {
@@ -86,6 +88,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAntiforgery(_ => { });
 
 builder.Services.AddHealthChecks();
+
 
 builder.WebHost.ConfigureServices(services =>
 {
