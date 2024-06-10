@@ -34,6 +34,7 @@
 		<PackageReference Include="MeiliSearch" Version="0.14.3" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.6" />
 		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="6.34.0" />
 		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.34.0" />
 		<PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.34.0" />
@@ -42,6 +43,7 @@
 		<PackageReference Include="Rollbar.NetCore.AspNet" Version="5.2.0" />
 		<PackageReference Include="SkiaSharp" Version="2.88.6" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
+		<PackageReference Include="StackExchange.Redis" Version="2.7.33" />
 		<PackageReference Include="System.ServiceModel" Version="1.0.0" />
 		<PackageReference Include="MySql.Data" Version="8.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

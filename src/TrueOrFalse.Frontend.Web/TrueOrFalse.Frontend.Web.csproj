@@ -62,8 +62,8 @@
 		<PackageReference Include="Meilisearch" Version="0.14.3" />
 		<PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="7.0.13" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
 		<PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="6.34.0" />
 		<PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.34.0" />
 		<PackageReference Include="Microsoft.IdentityModel.Logging" Version="6.34.0" />

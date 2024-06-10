@@ -44,10 +44,11 @@ builder.Services.AddHttpContextAccessor();
 Settings.Initialize(builder.Configuration);
 
 if (Settings.UseRedisSession)
-    builder.Services.AddStackExchangeRedisCache(options =>
-    {
-        options.Configuration = Settings.RedisUrl;
-    });
+{
+    builder.Services.AddStackExchangeRedisCache(options => { options.Configuration = Settings.RedisUrl; });
+    var redisUrl = string.IsNullOrWhiteSpace(Settings.RedisUrl) ? "localhost: 6379" : Settings.RedisUrl;
+    RedisConnectionMonitor.CreateConnection(builder, redisUrl);
+}
 
 builder.Services.AddSession(options =>
 {
