@@ -45,7 +45,8 @@ export const messages: any = {
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
             pinnedQuestions: "",
             circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
-            topicNotSelected: "Du hast kein Thema ausgewählt"
+            topicNotSelected: "Du hast kein Thema ausgewählt",
+            newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
         },
         question: {
             missingText: "Der Fragetext fehlt.",

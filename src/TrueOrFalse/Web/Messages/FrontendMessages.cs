@@ -58,6 +58,7 @@
             public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
             public static readonly string CircularReference = "error_category_circularReference";
             public static readonly string TopicNotSelected = "error_category_topicNotSelected";
+            public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_category_newTopicIdIsTopicIdToBeDeleted";
         }
 
         public static class Question
@@ -119,7 +120,7 @@
         public static readonly string GoogleLogin = "info_googleLogin";
         public static readonly string FacebookLogin = "info_facebookLogin";
         public static readonly string QuestionNotInFilter = "info_questionNotInFilter";
-        
+
         public static readonly string PasswordResetRequested = "info_passwordResetRequested";
     }
 }
