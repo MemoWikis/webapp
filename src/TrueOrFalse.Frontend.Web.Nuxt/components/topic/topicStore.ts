@@ -202,7 +202,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.gridItems = result
 		},
 		async hideOrShowText() {
-			if (!!this.content && this.content.length > 0)
+			if ((!!this.content && this.content.length > 0) || this.contentHasChanged)
 				return
 
 			const data = {

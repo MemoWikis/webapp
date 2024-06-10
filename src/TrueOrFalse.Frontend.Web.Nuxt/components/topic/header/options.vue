@@ -30,7 +30,7 @@ const hoverLock = ref(false)
                 <template #popper="{ hide }">
 
                     <div @click="topicStore.hideOrShowText()" class="dropdown-row hide-text-option"
-                        :class="{ 'topic-has-content': topicStore.content?.length > 0 }">
+                        :class="{ 'topic-has-content': topicStore.content?.length > 0 || topicStore.contentHasChanged }">
                         <div class="dropdown-label">
                             Keine Texteingabe <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
                                 v-tooltip="messages.info.category.toggleHideText" />

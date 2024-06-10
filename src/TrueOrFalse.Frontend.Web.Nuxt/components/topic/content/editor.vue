@@ -60,7 +60,10 @@ const editor = useEditor({
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
-        topicStore.content = editor.getHTML()
+        if (editor.isEmpty)
+            topicStore.content = ''
+        else
+            topicStore.content = editor.getHTML()
     },
     editorProps: {
         // handleKeyDown: (e, k) => {
@@ -107,7 +110,6 @@ const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
 })
-
 </script>
 
 <template>
