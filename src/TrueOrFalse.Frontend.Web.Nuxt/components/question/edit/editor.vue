@@ -10,6 +10,7 @@ import { Indent } from '../../editor/indent'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
+import ImageResize from 'tiptap-extension-resize-image'
 
 interface Props {
     highlightEmptyFields: boolean

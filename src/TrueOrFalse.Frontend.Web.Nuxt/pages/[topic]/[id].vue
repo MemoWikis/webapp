@@ -232,7 +232,17 @@ watch(() => props.tab, (t) => {
 
     p {
         min-height: 30px;
+
+        img {
+
+            // Apply styles to p if it contains img
+            & {
+                display: flex;
+            }
+        }
+
     }
+
 
     &.is-mobile {
         p {

@@ -226,6 +226,8 @@ const { isMobile } = useDevice()
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .ps__rail-x {
     pointer-events: none;
 
@@ -239,6 +241,73 @@ const { isMobile } = useDevice()
 #AddQuestionBody {
     .menubar-container {
         max-width: calc(100vw - 62px)
+    }
+}
+
+.tiptap-image-container {
+    display: flex;
+
+    &.image-left {
+        justify-content: flex-start;
+    }
+
+    &.image-center {
+        justify-content: center;
+    }
+
+    &.image-right {
+        justify-content: flex-end;
+    }
+}
+
+.position-controller {
+    font-size: 0;
+    height: 36px;
+    display: flex;
+    flex-wrap: nowrap;
+    background: white;
+    width: 100%;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 126px; // 3x 42px (button width)
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+
+    .menubar_button {
+        background: white;
+        border: hidden;
+        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        margin: 0px;
+        color: @memo-grey-darker;
+        text-align: center;
+        padding: 0px 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: filter 0.1s;
+
+        &:hover {
+            filter: brightness(0.85);
+        }
+
+        &.is-active {
+            background: @memo-grey-light;
+        }
+
+        &:active {
+            filter: brightness(0.7);
+        }
+
+        &.last-btn {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
     }
 }
 </style>
@@ -273,8 +342,6 @@ const { isMobile } = useDevice()
         }
     }
 }
-
-
 
 .menubar {
     font-size: 0;

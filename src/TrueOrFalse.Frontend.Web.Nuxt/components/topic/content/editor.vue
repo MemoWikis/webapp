@@ -15,6 +15,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 import { Indent } from '../../editor/indent'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -45,7 +46,7 @@ const editor = useEditor({
             showOnlyCurrent: true,
         }),
         Underline,
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         }),
@@ -56,7 +57,8 @@ const editor = useEditor({
         TaskItem.configure({
             nested: true,
         }),
-        Indent
+        Indent,
+
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true

@@ -15,6 +15,7 @@ import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertS
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { Question } from '~/components/question/question'
+import ImageResize from 'tiptap-extension-resize-image'
 
 const highlightEmptyFields = ref(false)
 
