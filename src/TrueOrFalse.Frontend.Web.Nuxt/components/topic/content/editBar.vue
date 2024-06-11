@@ -39,7 +39,7 @@ function footerCheck() {
     }
 }
 
-function handleSaveShortcut(e) {
+function handleSaveShortcut(e: KeyboardEvent) {
     if (e.ctrlKey && e.key === 's') {
         e.preventDefault()
         topicStore.saveTopic()
