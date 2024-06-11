@@ -5,6 +5,7 @@ import { Author } from '../author/author'
 import { TopicItem } from '../search/searchHelper'
 import { GridTopicItem } from './content/grid/item/gridTopicItem'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
 
 export class Topic {
 	canAccess: boolean = false
@@ -133,6 +134,8 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 		async saveTopic() {
 			const userStore = useUserStore()
+			const snackbarStore = useSnackbarStore()
+
 			if (!userStore.isLoggedIn) {
 				userStore.openLoginModal()
 				return
@@ -152,8 +155,14 @@ export const useTopicStore = defineStore('topicStore', {
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
-			if (result.success == true)
+			if (result.success == true) {
+				const data: SnackbarData = {
+                    type: 'success',
+                    text: messages.success.category.saved
+                }
+                snackbarStore.showSnackbar(data)
 				this.contentHasChanged = false
+			}
 			else if (result.success == false) {
 				const alertStore = useAlertStore()
 				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })

@@ -5,7 +5,8 @@ export const messages: any = {
             setToPrivate: "Das Thema wurde erfolgreich auf 'Privat' gesetzt.",
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
             addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt.",
-            saveImage: "Das neue Themenbild wurde gespeichert"
+            saveImage: "Das neue Themenbild wurde gespeichert",
+            saved: 'Das Thema wurde erfolgreich gespeichert.'
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
