@@ -14,7 +14,6 @@ import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
-import { Question } from '~/components/question/question'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
 const highlightEmptyFields = ref(false)

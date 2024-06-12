@@ -238,6 +238,7 @@ watch(() => props.tab, (t) => {
             // Apply styles to p if it contains img
             & {
                 display: flex;
+                margin-bottom: 40px !important;
             }
         }
 

@@ -68,20 +68,6 @@ const editor = useEditor({
             topicStore.content = editor.getHTML()
     },
     editorProps: {
-        // handleKeyDown: (e, k) => {
-        //     this.contentIsChanged = true;
-        // },
-        handleClick: (view, pos, event) => {
-            // var _a;
-            // var attrs = this.editor.getAttributes('link');
-            // var href = Site.IsMobile ? event.target.href : attrs.href;
-            // var link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
-            // if (link && href) {
-            //     window.open(href, event.ctrlKey ? '_blank' : '_self');
-            //     return true;
-            // }
-            // return false;
-        },
         handlePaste: (view, pos, event) => {
             const firstNode = event.content.firstChild
             if (firstNode != null && firstNode.type.name == 'image') {
@@ -125,7 +111,7 @@ onMounted(() => {
 .ProseMirror {
     .content-placeholder {
         :deep(p:empty) {
-            min-height: 20px
+            min-height: 20px;
         }
     }
 

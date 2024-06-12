@@ -1,7 +1,7 @@
 //based on: https://github.com/bae-sh/tiptap-extension-resize-image
 
 import Image from '@tiptap/extension-image'
-import {color} from '~~/components/shared/colors'
+import { color } from '~~/components/shared/colors'
 
 const borderStyle = `1px dashed ${color.memoGreen}`
 const resizeHandle = `position: absolute; width: 9px; height: 9px; border: 2px solid ${color.memoGreyDarker}; border-radius: 50%;`
