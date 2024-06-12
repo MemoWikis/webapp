@@ -39,8 +39,20 @@ function footerCheck() {
     }
 }
 
-watch(() => topicStore.contentHasChanged, () => {
-    footerCheck
+function handleSaveShortcut(e: KeyboardEvent) {
+    if (e.ctrlKey && e.key === 's') {
+        e.preventDefault()
+        topicStore.saveTopic()
+    }
+}
+
+watch(() => topicStore.contentHasChanged, (val) => {
+    footerCheck()
+    if (userStore.isLoggedIn) {
+        if (val)
+            document.addEventListener('keydown', handleSaveShortcut)
+        else document.removeEventListener('keydown', handleSaveShortcut)
+    }
 })
 
 watch(() => topicStore.id, () => {
