@@ -10,7 +10,6 @@ import { KnowledgeStatus } from '~~/components/question/knowledgeStatusEnum'
 import { useDeleteQuestionStore } from '~~/components/question/edit/delete/deleteQuestionStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useAlertStore, messages, AlertType } from '~/components/alert/alertStore'
-import { result } from 'underscore'
 
 const alertStore = useAlertStore()
 const commentsStore = useCommentsStore()

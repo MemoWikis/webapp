@@ -4,7 +4,6 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
@@ -42,7 +41,10 @@ const editor = useEditor({
             placeholder: 'Rückseite der Karteikarte',
             showOnlyCurrent: true,
         }),
-        Image
+        ImageResize.configure({
+            inline: true,
+            allowBase64: true,
+        })
     ],
     content: content.value,
     onUpdate: ({ editor }) => {
