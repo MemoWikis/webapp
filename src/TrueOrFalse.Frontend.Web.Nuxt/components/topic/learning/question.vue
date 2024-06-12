@@ -317,7 +317,7 @@ function hasContent(str: string) {
                                 <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)"
                                     :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
-                                    <div :v-html="extendedAnswer"></div>
+                                    <div v-html="extendedAnswer"></div>
                                 </div>
                             </div>
                         </div>
@@ -592,6 +592,21 @@ function hasContent(str: string) {
 
                     .extendedAnswer {
                         padding-top: 16px;
+
+                        strong {
+                            padding: 0 8px;
+                        }
+
+                        :deep(p) {
+                            padding: 0 8px;
+
+                            img {
+                                & {
+                                    display: flex;
+                                    flex-direction: column;
+                                }
+                            }
+                        }
                     }
 
                     .notes {

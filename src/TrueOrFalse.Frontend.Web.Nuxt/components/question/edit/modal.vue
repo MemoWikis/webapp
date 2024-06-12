@@ -47,6 +47,7 @@ const descriptionHtml = ref('')
 function setDescriptionData(editor: Editor) {
     descriptionJson.value = editor.getJSON()
     descriptionHtml.value = editor.getHTML()
+    console.log(descriptionHtml.value)
 }
 
 const textSolution = ref<string>()
@@ -451,7 +452,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
                         <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
-                            :content="descriptionHtml" @setDescriptionData="setDescriptionData" />
+                            :content="descriptionHtml" @set-description-data="setDescriptionData" />
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>

@@ -17,7 +17,7 @@ interface Props {
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
-const emit = defineEmits(['setQuestionDescriptionData'])
+const emit = defineEmits(['setDescriptionData'])
 const showDescription = ref(false)
 const lowlight = createLowlight(all)
 
@@ -66,7 +66,7 @@ const editor = useEditor({
         }
     },
     onUpdate: ({ editor }) => {
-        emit('setQuestionDescriptionData', editor)
+        emit('setDescriptionData', editor)
     },
 })
 watch(() => props.content, (o, n) => {
