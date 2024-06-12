@@ -2,31 +2,29 @@
 
 public class LoginFromCookie
 {
-    public static bool Run(SessionUser sessionUser, 
-        PersistentLoginRepo persistentLoginRepo, 
+    public static bool Run(SessionUser sessionUser,
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor)
     {
-        var cookieValues = PersistentLoginCookie.GetValues(httpContextAccessor);
+        //var cookieValues = PersistentLoginCookie.GetValues(httpContextAccessor);
 
-        if (!cookieValues.Exists())
-            return false;
+        //if (!cookieValues.Exists())
+        //    return false;
 
-        var persistentLogin = persistentLoginRepo.Get(cookieValues.UserId, cookieValues.LoginGuid);
+        //var persistentLogin = persistentLoginRepo.Get(cookieValues.UserId, cookieValues.LoginGuid);
 
-        if (persistentLogin == null)
-            return false;
+        //if (persistentLogin == null)
+        //    return false;
 
-        var user = userReadingRepo.GetById(cookieValues.UserId);
-        if (user == null)
-            return false;
+        //var user = userReadingRepo.GetById(cookieValues.UserId);
+        //if (user == null)
+        //    return false;
 
-        persistentLoginRepo.Delete(persistentLogin);
-        WritePersistentLoginToCookie.Run(cookieValues.UserId,
-            persistentLoginRepo, 
-            httpContextAccessor);
+        //persistentLoginRepo.Delete(persistentLogin);
+        //WritePersistentLoginToCookie.Run(cookieValues.UserId,
+        //    httpContextAccessor);
 
-        sessionUser.Login(user);            
+        //sessionUser.Login(user);            
 
         return true;
     }

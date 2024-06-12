@@ -2,17 +2,18 @@
 
 public class WritePersistentLoginToCookie
 {
-    public static void Run(int userId, PersistentLoginRepo persistentLoginRepo, IHttpContextAccessor httpContextAccessor)
+    public static void Run(int userId, IHttpContextAccessor httpContextAccessor)
     {
         var cookieOptions = new CookieOptions
         {
-            Expires = DateTime.Now.AddDays(45),
+            Expires = DateTime.Now.AddDays(365),
             IsEssential = true,
         };
-        var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
+        var encryptUserId = CreatePersistentLogin.EncryptUserId(userId);
+        var encryptDate = CreatePersistentLogin.EncryptDate();
 
-        httpContextAccessor.HttpContext.Response.Cookies.Delete(PersistentLoginCookie.Key);
-        httpContextAccessor.HttpContext.Response.Cookies.Append(PersistentLoginCookie.Key, userId + "-x-" + loginGuid, cookieOptions);
-
+        httpContextAccessor.HttpContext.Response.Cookies.Delete(Settings.AuthCookieName);
+        httpContextAccessor.HttpContext.Response.Cookies.Append(Settings.AuthCookieName,
+            encryptUserId + PersistentLoginCookie.StringSeparator + encryptDate);
     }        
 }

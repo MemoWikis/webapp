@@ -31,6 +31,8 @@ public class Settings
     public static int MemuchoUserId => int.Parse(_configuration["General:MemuchoUserId"]);
     public static string Environment => _configuration["General:Environment"];
     public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
+    public static string AuthCookieEncryptionKey => _configuration["Cookie:AuthCookieEncryptionKey"];
+    public static string AuthCookieName => _configuration["Cookie:AuthCookieName"];
 
     // Settings properties
     public static bool WithNHibernateStatistics =>

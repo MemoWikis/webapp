@@ -16,7 +16,7 @@ public class SessionStartMiddleware
 
     public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
     {
-        var cookieValue = _httpContextAccessor.HttpContext?.Request.Cookies[PersistentLoginCookie.Key];
+        var cookieValue = _httpContextAccessor.HttpContext?.Request.Cookies[Settings.AuthCookieName];
         if (cookieValue != null)
         {
             // Autofac
@@ -26,9 +26,7 @@ public class SessionStartMiddleware
                 if (!sessionUser.IsLoggedIn)
                 {
                     var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-                    var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-
-                    LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, _httpContextAccessor);
+                    LoginFromCookie.Run(sessionUser, userReadingRepo, _httpContextAccessor);
                 }
             }
         }

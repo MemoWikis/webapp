@@ -8,21 +8,18 @@ namespace TrueOrFalse.Domain.User
         private readonly UserWritingRepo _userWritingRepo;
         private readonly SessionUser _sessionUser;
         private readonly ActivityPointsRepo _activityPointsRepo;
-        private readonly PersistentLoginRepo _persistentLoginRepo;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public Login(CredentialsAreValid credentialsAreValid,
             UserWritingRepo userWritingRepo,
             SessionUser sessionUser,
             ActivityPointsRepo activityPointsRepo,
-            PersistentLoginRepo persistentLoginRepo,
             IHttpContextAccessor httpContextAccessor)
         {
             _credentialsAreValid = credentialsAreValid;
             _userWritingRepo = userWritingRepo;
             _sessionUser = sessionUser;
             _activityPointsRepo = activityPointsRepo;
-            _persistentLoginRepo = persistentLoginRepo;
             _httpContextAccessor = httpContextAccessor;
         }
 
@@ -30,11 +27,9 @@ namespace TrueOrFalse.Domain.User
         {
             if (_credentialsAreValid.Yes(param.EmailAddress, param.Password))
             {
-
                 if (param.PersistentLogin)
                 {
                     WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id,
-                        _persistentLoginRepo, 
                         _httpContextAccessor);
                 }
 

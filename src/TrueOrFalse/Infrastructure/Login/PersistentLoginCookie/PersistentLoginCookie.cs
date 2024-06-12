@@ -2,16 +2,16 @@
 
 public class PersistentLoginCookie
 {
-    public const string Key = "persistentLogin";
-    
+    public const string StringSeparator = "-x-";
+
     public static PersistentLoginCookieGetValuesResult GetValues(IHttpContextAccessor httpContextAccessor)
     {
-        var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Key];
+        var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Settings.AuthCookieName];
 
         if (string.IsNullOrEmpty(cookieValue))
             return new PersistentLoginCookieGetValuesResult();
 
-        var item = cookieValue.Split(new[] { "-x-" }, StringSplitOptions.None);
+        var item = cookieValue.Split(new[] { StringSeparator }, StringSplitOptions.None);
 
         return new PersistentLoginCookieGetValuesResult
         {

@@ -1,10 +1,9 @@
 ﻿public class CreatePersistentLogin
 {
-    public static string Run(int userId, PersistentLoginRepo persistentLoginRepo)
-    {
-        var newGuid = Guid.NewGuid().ToString();
-        var persistentLogin = new PersistentLogin { UserId = userId, LoginGuid = newGuid };
-        persistentLoginRepo.Create(persistentLogin);
-        return newGuid;
-    }
+    public static string EncryptDate() =>
+        new EncryptionHelper().EncryptString(DateTime.Now.AddDays(30).ToString());
+
+
+    public static string EncryptUserId(int userId)
+        => new EncryptionHelper().EncryptString(userId.ToString());
 }

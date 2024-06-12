@@ -8,7 +8,6 @@ public class UserStoreController(
     VueSessionUser _vueSessionUser,
     SessionUser _sessionUser,
     RegisterUser _registerUser,
-    PersistentLoginRepo _persistentLoginRepo,
     GetUnreadMessageCount _getUnreadMessageCount,
     PasswordRecovery _passwordRecovery,
     Login _login,
@@ -51,7 +50,7 @@ public class UserStoreController(
     [AccessOnlyAsLoggedIn]
     public LoginResult LogOut()
     {
-        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor);
+        RemovePersistentLoginFromCookie.Run(_httpContextAccessor);
         _sessionUser.Logout();
 
         if (!_sessionUser.IsLoggedIn)
