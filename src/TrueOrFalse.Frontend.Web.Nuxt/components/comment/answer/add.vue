@@ -9,7 +9,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
-import ImageResize from 'tiptap-extension-resize-image'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -42,7 +42,7 @@ const editor = useEditor({
             placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         })

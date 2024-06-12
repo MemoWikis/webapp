@@ -10,7 +10,7 @@ import { Indent } from '../../editor/indent'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
-import ImageResize from 'tiptap-extension-resize-image'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -43,7 +43,7 @@ const editor = useEditor({
             placeholder: 'Gib den Fragetext ein',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         }),

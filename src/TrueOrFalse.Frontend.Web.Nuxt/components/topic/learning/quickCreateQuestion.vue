@@ -15,7 +15,7 @@ import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertS
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { Question } from '~/components/question/question'
-import ImageResize from 'tiptap-extension-resize-image'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 const highlightEmptyFields = ref(false)
 
@@ -62,7 +62,7 @@ const editor = useEditor({
             placeholder: 'Vorderseite der Karteikarte',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         })

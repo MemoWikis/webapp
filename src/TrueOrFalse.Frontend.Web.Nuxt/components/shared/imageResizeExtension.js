@@ -22,8 +22,6 @@ const defaultIconStyle = `
             transition: filter 0.1s;        
             `
 
-let currentStyle = ''
-
 const ImageResize = Image.extend({   
     addAttributes() {
         return {
@@ -141,21 +139,16 @@ const ImageResize = Image.extend({
                 const rightIcon = document.createElement('i');
                 rightIcon.classList.add('fa-solid', 'fa-align-right');
                 $rightController.appendChild(rightIcon);
-
-                // $postionController.setAttribute('style', 'position: absolute; top: 0%; left: 50%; width: 100px; height: 25px; z-index: 999; background-color: white; border-radius: 4px; border: 2px solid #6C6C6C; cursor: pointer; transform: translate(-50%, -50%); display: flex; justify-content: space-between; align-items: center; padding: 0 10px;');
                 
                 $leftController.addEventListener('click', () => {
-                    currentStyle = `margin: 0 auto 0 0;`
                     $img.setAttribute('style', `${$img.style.cssText} margin: 0 auto 0 0;`);
                     dispatchNodeView();
                 });
                 $centerController.addEventListener('click', () => {
-                    currentStyle = `margin: 0 auto;`
                     $img.setAttribute('style', `${$img.style.cssText} margin: 0 auto;`);
                     dispatchNodeView();
                 });
                 $rightController.addEventListener('click', () => {
-                    currentStyle = `margin: 0 0 0 auto;`
                     $img.setAttribute('style', `${$img.style.cssText} margin: 0 0 0 auto;`);
                     dispatchNodeView();
                 });
@@ -191,7 +184,8 @@ const ImageResize = Image.extend({
                     }
                 }
                 paintPositionContoller();
-                $container.setAttribute('style', `position: relative; outline: ${borderStyle}; ${currentStyle} cursor: pointer;`);
+                
+                $container.setAttribute('style', `position: relative; outline: ${borderStyle}; ${style} cursor: pointer;`);
                 Array.from({ length: 4 }, (_, index) => {
                     const $dot = document.createElement('div');
                     $dot.setAttribute('style', `${resizeHandle} ${dotsPosition[index]}`);
