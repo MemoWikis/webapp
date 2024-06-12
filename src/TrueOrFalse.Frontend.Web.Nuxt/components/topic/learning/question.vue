@@ -622,6 +622,19 @@ function hasContent(str: string) {
                                 margin: 0;
                             }
                         }
+
+                        .extendedQuestion {
+                            :deep(p) {
+                                padding: 0 8px;
+
+                                img {
+                                    & {
+                                        display: flex;
+                                        flex-direction: column;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
