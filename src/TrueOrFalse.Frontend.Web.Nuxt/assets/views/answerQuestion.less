@@ -823,6 +823,15 @@
     line-height: 22px;
     max-width: 600px;
     color: @memo-grey-darker;
+
+    p {
+        img {
+            & {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
 }
 
 .pointer {
@@ -853,6 +862,15 @@
 .commentText {
     color: @memo-grey-darker;
     width: 800px;
+
+    p {
+        img {
+            & {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
 }
 
 .settledCommentsDescription {
@@ -1352,5 +1370,16 @@ commentAnswersCount {
 
     p{
         margin: 0;
+    }
+}
+
+#ExtendedQuestionContainer {
+    p {
+        img {
+            & {
+                display: flex;
+                flex-direction: column;
+            }
+        }
     }
 }

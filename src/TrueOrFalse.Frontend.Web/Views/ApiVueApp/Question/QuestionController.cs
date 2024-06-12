@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Frontend.Web.Code;
@@ -63,30 +63,28 @@ public class QuestionController(
     [HttpGet]
     public QuestionPageResult GetQuestionPage([FromRoute] int id)
     {
-        var q = EntityCache.GetQuestion(id);
-        var primaryTopic = q.Categories.LastOrDefault();
-        var solution = GetQuestionSolution.Run(q);
+        var question = EntityCache.GetQuestion(id);
+        var primaryTopic = question.Categories.LastOrDefault();
+        var solution = GetQuestionSolution.Run(question);
 
-        EscapeReferencesText(q.References);
+        EscapeReferencesText(question.References);
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel
             {
-                Id = q.Id,
-                Text = q.Text,
-                Title = Regex.Replace(q.Text, "<.*?>", string.Empty),
-                SolutionType = q.SolutionType,
-                RenderedQuestionTextExtended = q.TextExtended != null
-                    ? MarkdownMarkdig.ToHtml(q.TextExtended)
-                    : "",
-                Description = q.Description,
-                HasTopics = q.Categories.Any(),
+                Id = question.Id,
+                Text = question.Text,
+                Title = Regex.Replace(question.Text, "<.*?>", string.Empty),
+                SolutionType = question.SolutionType,
+                RenderedQuestionTextExtended = question.GetRenderedQuestionTextExtended(),
+                Description = question.Description,
+                HasTopics = question.Categories.Any(),
                 PrimaryTopicId = primaryTopic?.Id,
                 PrimaryTopicName = primaryTopic?.Name,
-                Solution = q.Solution,
-                IsCreator = q.Creator.Id == _sessionUser.UserId,
+                Solution = question.Solution,
+                IsCreator = question.Creator.Id == _sessionUser.UserId,
                 IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                                    question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
                 QuestionViewGuid = Guid.NewGuid(),
                 IsLastStep = true
             },
@@ -95,8 +93,8 @@ public class QuestionController(
                 AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 Answer = solution.CorrectAnswer(),
                 AnswerDescription =
-                    q.Description != null ? MarkdownMarkdig.ToHtml(q.Description) : "",
-                AnswerReferences = q.References.Select(r => new AnswerReferences
+                    question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
+                AnswerReferences = question.References.Select(r => new AnswerReferences
                 {
                     ReferenceId = r.Id,
                     TopicId = r.Category?.Id ?? null,
@@ -109,6 +107,7 @@ public class QuestionController(
                 GetData(id)
         };
     }
+
 
     public AnswerQuestionDetailsResult? GetData(int id)
     {

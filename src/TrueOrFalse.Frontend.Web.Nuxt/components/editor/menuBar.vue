@@ -5,8 +5,14 @@ interface Props {
     editor: Editor
     heading?: boolean
     isTopicContent?: boolean
+    allowImages?: boolean
 }
-const props = defineProps<Props>()
+
+const props = withDefaults(defineProps<Props>(), {
+    heading: true,
+    isTopicContent: false,
+    allowImages: true
+})
 const focused = ref(false)
 
 async function command(commandString: string, e: Event) {
@@ -202,7 +208,7 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-link-slash" />
                 </button>
 
-                <button class="menubar__button" @mousedown="command('addImage', $event)">
+                <button class="menubar__button" @mousedown="command('addImage', $event)" v-if="props.allowImages">
                     <font-awesome-icon icon="fa-solid fa-image" />
                 </button>
 

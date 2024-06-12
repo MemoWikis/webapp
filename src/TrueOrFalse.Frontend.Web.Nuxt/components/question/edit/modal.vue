@@ -182,6 +182,7 @@ function getData() {
     const dataExtension = {
         CategoryIds: topicIds.value,
         TextHtml: questionHtml.value,
+        QuestionExtensionHtml: questionExtensionHtml.value,
         DescriptionHtml: descriptionHtml.value,
         Solution: solution.toString(),
         SolutionType: solutionType.value,

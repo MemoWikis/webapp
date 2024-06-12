@@ -4,12 +4,10 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../alert/alertStore'
-import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -41,10 +39,6 @@ const editor = useEditor({
             emptyNodeClass: 'is-empty',
             placeholder: 'Gib den Fragetext ein',
             showOnlyCurrent: true,
-        }),
-        ImageResize.configure({
-            inline: true,
-            allowBase64: true,
         })
     ],
     editorProps: {
@@ -77,6 +71,7 @@ watch(() => props.content, (c) => {
 
 <template>
     <div v-if="editor">
+        <EditorMenuBar :editor="editor" :allow-images="false" />
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 10" class="field-error">

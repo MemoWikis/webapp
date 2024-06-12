@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using TrueOrFalse.Frontend.Web.Code;
 
 namespace VueApp;
 
@@ -31,6 +31,7 @@ public class QuestionEditModalController(
         int[] CategoryIds,
         int? QuestionId,
         string TextHtml,
+        string QuestionExtensionHtml,
         string DescriptionHtml,
         string Solution,
         string SolutionMetadataJson,
@@ -66,7 +67,7 @@ public class QuestionEditModalController(
         if (safeText.Length <= 0)
         {
             return new CreateResult
-                { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
+            { Success = false, MessageKey = FrontendMessageKeys.Error.Question.MissingText };
         }
 
         var question = new Question();
@@ -112,7 +113,7 @@ public class QuestionEditModalController(
 
         if (param.QuestionId == null)
             return new QuestionEditResult
-                { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
+            { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         var question = _questionReadingRepo.GetById((int)param.QuestionId);
         var updatedQuestion = UpdateQuestion(question, param, safeText);
@@ -242,6 +243,7 @@ public class QuestionEditModalController(
     {
         question.TextHtml = param.TextHtml;
         question.Text = safeText;
+        question.TextExtendedHtml = param.QuestionExtensionHtml;
         question.DescriptionHtml = param.DescriptionHtml;
         question.SolutionType = param.SolutionType;
 

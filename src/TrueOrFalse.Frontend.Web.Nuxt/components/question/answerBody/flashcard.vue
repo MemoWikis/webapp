@@ -75,6 +75,19 @@ const emit = defineEmits((['flipped']))
     </div>
 </template>
 
+<style lang="less">
+.question-text {
+    p {
+        img {
+            & {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+}
+</style>
+
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 

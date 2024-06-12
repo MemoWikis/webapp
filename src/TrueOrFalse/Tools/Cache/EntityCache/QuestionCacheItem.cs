@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
+using TrueOrFalse.Web;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
@@ -293,5 +294,17 @@ public class QuestionCacheItem
     public virtual bool IsCreator(int userId)
     {
         return userId == Creator?.Id;
+    }
+
+    public virtual string GetRenderedQuestionTextExtended()
+    {
+        var str = "";
+
+        if (TextExtendedHtml?.Length > 0)
+            str = TextExtendedHtml;
+        else if (TextExtended?.Length > 0)
+            str = MarkdownMarkdig.ToHtml(TextExtended);
+
+        return str;
     }
 }
