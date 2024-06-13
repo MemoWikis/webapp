@@ -428,7 +428,10 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-                        <QuestionEditEditor :highlight-empty-fields="highlightEmptyFields"
+                        <QuestionEditFlashcardFront v-if="solutionType == SolutionType.FlashCard"
+                            :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
+                            ref="questionEditor" :content="questionHtml" />
+                        <QuestionEditEditor v-else :highlight-empty-fields="highlightEmptyFields"
                             @set-question-data="setQuestionData" ref="questionEditor" :content="questionHtml" />
                     </div>
 

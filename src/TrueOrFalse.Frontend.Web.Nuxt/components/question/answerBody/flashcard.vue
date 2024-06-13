@@ -76,14 +76,11 @@ const emit = defineEmits((['flipped']))
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .question-text {
     p {
-        img {
-            & {
-                display: flex;
-                flex-direction: column;
-            }
-        }
+        .tiptapImgMixin(true);
     }
 }
 </style>

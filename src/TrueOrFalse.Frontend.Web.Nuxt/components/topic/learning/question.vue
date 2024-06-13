@@ -600,12 +600,7 @@ function hasContent(str: string) {
                         :deep(p) {
                             padding: 0 8px;
 
-                            img {
-                                & {
-                                    display: flex;
-                                    flex-direction: column;
-                                }
-                            }
+                            .tiptapImgMixin(true);
                         }
                     }
 
@@ -642,12 +637,7 @@ function hasContent(str: string) {
                             :deep(p) {
                                 padding: 0 8px;
 
-                                img {
-                                    & {
-                                        display: flex;
-                                        flex-direction: column;
-                                    }
-                                }
+                                .tiptapImgMixin(true);
                             }
                         }
                     }
