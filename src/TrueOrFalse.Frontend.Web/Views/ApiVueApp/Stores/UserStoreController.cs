@@ -51,7 +51,7 @@ public class UserStoreController(
     [AccessOnlyAsLoggedIn]
     public LoginResult LogOut()
     {
-        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor);
+        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
         _sessionUser.Logout();
 
         if (!_sessionUser.IsLoggedIn)

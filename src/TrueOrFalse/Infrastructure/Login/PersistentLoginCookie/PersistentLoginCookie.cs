@@ -3,10 +3,10 @@
 public class PersistentLoginCookie
 {
     public const string Key = "persistentLogin";
-    
-    public static PersistentLoginCookieGetValuesResult GetValues(IHttpContextAccessor httpContextAccessor)
+
+    public static PersistentLoginCookieGetValuesResult GetValues(HttpContext httpContext)
     {
-        var cookieValue = httpContextAccessor.HttpContext?.Request.Cookies[Key];
+        var cookieValue = httpContext?.Request.Cookies[Key];
 
         if (string.IsNullOrEmpty(cookieValue))
             return new PersistentLoginCookieGetValuesResult();
