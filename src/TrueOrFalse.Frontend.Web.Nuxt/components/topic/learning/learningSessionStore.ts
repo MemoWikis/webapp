@@ -80,6 +80,10 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.setCurrentStep(result.currentStep)
                 this.answerHelp = result.answerHelp
                 this.isInTestMode = result.isInTestMode
+            } else if (result.success && result.steps.length == 0) {
+                this.steps = []
+                this.currentStep = null
+                this.currentIndex = 0
             }
 
             const errorMsg = result.messageKey ? messages.getByCompositeKey(result.messageKey) : null
