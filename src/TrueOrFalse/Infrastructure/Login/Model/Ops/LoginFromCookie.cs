@@ -23,7 +23,7 @@ public class LoginFromCookie
 
         sessionUser.Login(user);
 
-        //persistentLoginRepo.Delete(persistentLogin);
+        persistentLoginRepo.Delete(persistentLogin);
 
         WritePersistentLoginToCookie.Run(cookieValues.UserId,
             persistentLoginRepo,
