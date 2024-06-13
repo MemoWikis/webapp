@@ -71,7 +71,7 @@ async function saveAnswer() {
         commentId: props.comment.id,
         text: answerText.value
     }
-    const result = await $fetch<CommentModel>(`/apiVue/Comment/SaveAnswer/`, {
+    const result = await $fetch<CommentModel | null>(`/apiVue/Comment/SaveAnswer/`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
@@ -157,7 +157,8 @@ async function saveAnswer() {
 
                 <div v-if="foldOut || !props.comment.isSettled">
                     <div class="commentTextContainer">
-                        <span class="commentText" v-if="props.comment.text.length < 350" v-html="props.comment.text"></span>
+                        <span class="commentText" v-if="props.comment.text.length < 350"
+                            v-html="props.comment.text"></span>
                         <span v-else class="commentText">
                             <span v-if="readMore" v-html="props.comment.text">
                             </span>
@@ -188,8 +189,9 @@ async function saveAnswer() {
             <CommentAnswer v-if="showCommentAnswers" v-for="(answer, index) in props.comment.answers" :answer="answer"
                 :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 == index" />
 
-            <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled" :parentCommentId="props.comment.id"
-                :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" :content="answerText" />
+            <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled"
+                :parentCommentId="props.comment.id" :highlight-empty-fields="highlightEmptyAnswer"
+                @set-answer="setAnswer" :content="answerText" />
 
             <div class="commentButtonsContainer row" style=""
                 v-if="userStore.isLoggedIn && !props.comment.isSettled || userStore.isAdmin">

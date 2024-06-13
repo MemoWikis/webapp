@@ -1674,3 +1674,20 @@
 .Button {
     word-break: normal;
 }
+
+.tiptapImgMixin(@useFlexDirection: false) when (@useFlexDirection = true) {
+    img {
+        & {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+.tiptapImgMixin(@useFlexDirection: false) when (@useFlexDirection = false) {
+    img {
+        & {
+            display: flex;
+        }
+    }
+}

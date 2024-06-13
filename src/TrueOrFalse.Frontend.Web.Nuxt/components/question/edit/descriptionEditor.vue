@@ -4,11 +4,12 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import ImageResize from '~~/components/shared/imageResizeExtension'
+
 interface Props {
     highlightEmptyFields: boolean
     content: string
@@ -16,7 +17,7 @@ interface Props {
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
-const emit = defineEmits(['setQuestionDescriptionData'])
+const emit = defineEmits(['setDescriptionData'])
 const showDescription = ref(false)
 const lowlight = createLowlight(all)
 
@@ -41,7 +42,7 @@ const editor = useEditor({
             placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         })
@@ -65,7 +66,7 @@ const editor = useEditor({
         }
     },
     onUpdate: ({ editor }) => {
-        emit('setQuestionDescriptionData', editor)
+        emit('setDescriptionData', editor)
     },
 })
 watch(() => props.content, (o, n) => {

@@ -221,6 +221,8 @@ watch(() => props.tab, (t) => {
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 #InlineEdit {
     padding: 0px;
     border: none;
@@ -232,7 +234,18 @@ watch(() => props.tab, (t) => {
 
     p {
         min-height: 30px;
+
+        img {
+
+            // Apply styles to p if it contains img
+            & {
+                margin-bottom: 40px !important;
+            }
+        }
+
+        .tiptapImgMixin(false)
     }
+
 
     &.is-mobile {
         p {
