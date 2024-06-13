@@ -86,7 +86,7 @@ watch(() => props.content, (c) => {
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte
-            formuliere eine Frage.</div>
+            Bitte formuliere eine Frage.
+        </div>
     </div>
 </template>

@@ -66,8 +66,10 @@ const editor = useEditor({
         emit('setQuestionData', editor)
     },
 })
-onMounted(() => {
+onMounted(async () => {
     editor.value?.commands.setContent(props.content)
+    await nextTick()
+    emit('setQuestionData', editor.value)
 })
 watch(() => props.content, (c) => {
     if (c != editor.value?.getHTML())
@@ -81,7 +83,7 @@ watch(() => props.content, (c) => {
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte
-            formuliere eine Frage.</div>
+            Bitte formuliere eine Frage.
+        </div>
     </div>
 </template>
