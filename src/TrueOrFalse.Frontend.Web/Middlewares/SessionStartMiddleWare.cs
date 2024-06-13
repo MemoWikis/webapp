@@ -6,17 +6,15 @@ using Microsoft.Extensions.DependencyInjection;
 public class SessionStartMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public SessionStartMiddleware(RequestDelegate next, IHttpContextAccessor httpContextAccessor)
+    public SessionStartMiddleware(RequestDelegate next)
     {
         _next = next;
-        _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task InvokeAsync(HttpContext context, IServiceProvider serviceProvider)
+    public async Task InvokeAsync(HttpContext httpContext, IServiceProvider serviceProvider)
     {
-        var cookieValue = _httpContextAccessor.HttpContext?.Request.Cookies[PersistentLoginCookie.Key];
+        var cookieValue = httpContext?.Request.Cookies[PersistentLoginCookie.Key];
         if (cookieValue != null)
         {
             // Autofac
@@ -27,12 +25,11 @@ public class SessionStartMiddleware
                 {
                     var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
                     var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-
-                    LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, _httpContextAccessor);
+                    LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, httpContext);
                 }
             }
         }
 
-        await _next(context);
+        await _next(httpContext);
     }
 }
