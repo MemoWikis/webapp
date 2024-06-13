@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 public class SessionStartMiddleware
 {
+    public static readonly Object _lock = new object();
     private readonly RequestDelegate _next;
 
     public SessionStartMiddleware(RequestDelegate next)
@@ -17,15 +18,18 @@ public class SessionStartMiddleware
         var cookieValue = httpContext?.Request.Cookies[PersistentLoginCookie.Key];
         if (cookieValue != null)
         {
-            // Autofac
-            using (var scope = serviceProvider.CreateScope())
+            lock (_lock)
             {
-                var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
-                if (!sessionUser.IsLoggedIn)
+                // Autofac
+                using (var scope = serviceProvider.CreateScope())
                 {
-                    var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-                    var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-                    LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, httpContext);
+                    var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
+                    if (!sessionUser.IsLoggedIn)
+                    {
+                        var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
+                        var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+                        LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, httpContext);
+                    }
                 }
             }
         }

@@ -22,12 +22,12 @@ public class LoginFromCookie
             return false;
 
         sessionUser.Login(user);
-
         persistentLoginRepo.Delete(persistentLogin);
 
         WritePersistentLoginToCookie.Run(cookieValues.UserId,
             persistentLoginRepo,
             httpContext);
+
 
         return true;
     }

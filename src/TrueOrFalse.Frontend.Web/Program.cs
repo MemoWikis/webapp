@@ -16,6 +16,7 @@ using TrueOrFalse.Environment;
 using TrueOrFalse.Updates;
 using static System.Int32;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,23 +24,21 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.Limits.MaxRequestBodySize = 1073741824;
 });
-
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
         containerBuilder.RegisterModule<AutofacCoreModule>();
     });
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        options.JsonSerializerOptions.DefaultIgnoreCondition =
-            System.Text.Json.Serialization.JsonIgnoreCondition.Never;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
     });
-
-builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
 
@@ -80,9 +79,15 @@ builder.Services.AddAuthentication(options =>
         options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
         options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     })
-    .AddCookie();
+    .AddCookie(options =>
+    {
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.Name = ".MyApp.AuthCookie";
+    });
 
-builder.Services.AddAntiforgery(_ => { });
+builder.Services.AddAntiforgery(options => { options.HeaderName = "X-CSRF-TOKEN"; });
 
 builder.Services.AddHealthChecks();
 
@@ -98,12 +103,12 @@ App.Environment = env;
 if (!env.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 if (env.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseCors("LocalhostCorsPolicy");
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -129,8 +134,14 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseSession();
 app.UseRouting();
-app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
+
+app.UseCors("LocalhostCorsPolicy"); // CORS vor Authentication und Authorization
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseMiddleware<SessionStartMiddleware>();
+app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
@@ -138,12 +149,9 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "apiVue/{controller}/{action}/{id?}");
 
-    endpoints.MapHealthChecks(
-        "healthcheck_backend"
-    );
+    endpoints.MapHealthChecks("healthcheck_backend");
 });
 
-app.UseDeveloperExceptionPage();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Urls.Add("http://*:5069");

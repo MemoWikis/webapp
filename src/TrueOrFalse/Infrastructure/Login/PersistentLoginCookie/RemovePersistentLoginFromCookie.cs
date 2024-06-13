@@ -11,7 +11,7 @@ public class RemovePersistentLoginFromCookie
         if (!persistentCookieValue.Exists())
             return;
 
-        persistentLoginRepo.Delete(persistentCookieValue.UserId);
+        persistentLoginRepo.Delete(persistentCookieValue);
 
         var existingCookieValue =
             httpContext?.Request.Cookies[PersistentLoginCookie.Key];
