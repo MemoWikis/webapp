@@ -47,7 +47,6 @@ const descriptionHtml = ref('')
 function setDescriptionData(editor: Editor) {
     descriptionJson.value = editor.getJSON()
     descriptionHtml.value = editor.getHTML()
-    console.log(descriptionHtml.value)
 }
 
 const textSolution = ref<string>()
