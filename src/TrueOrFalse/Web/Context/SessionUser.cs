@@ -75,11 +75,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
-
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id.ToString())
-        };
         _extendedUserCache.Add(user.Id);
     }
 
