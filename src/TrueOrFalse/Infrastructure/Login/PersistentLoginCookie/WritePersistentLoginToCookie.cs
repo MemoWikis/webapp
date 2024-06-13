@@ -6,7 +6,11 @@ public class WritePersistentLoginToCookie
     {
         var cookieOptions = new CookieOptions
         {
-            Expires = DateTime.Now.AddDays(7)
+            Path = "/",
+            HttpOnly = false,
+            Secure = false, // Set to true if using HTTPS
+            SameSite = SameSiteMode.Lax,
+            Expires = DateTimeOffset.UtcNow.AddHours(1)
         };
         var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
 

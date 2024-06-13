@@ -16,7 +16,7 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
-	mode: 'no-cors',
+	mode: 'cors',
 	onRequest({ options }) {
 		if (process.server) {
 			options.headers = headers
