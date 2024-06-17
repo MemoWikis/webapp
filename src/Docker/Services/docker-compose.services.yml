@@ -14,3 +14,5 @@ services:
     restart: always
     ports:
       - "${REDIS_PORT}:6379"
+    volumes:
+      - C:/redis-data/${MEM_ENVIRONMENT}:/data
