@@ -9,7 +9,7 @@ namespace TrueOrFalse.Search
 
         public MeiliSearch()
         {
-            Client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            Client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
         }
            
     }

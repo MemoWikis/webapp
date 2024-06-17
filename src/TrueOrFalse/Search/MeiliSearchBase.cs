@@ -8,8 +8,8 @@ namespace TrueOrFalse.Search
 
         internal MeiliSearchBase()
         {
-            _client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
+            _client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
         }
 
         /// <summary>

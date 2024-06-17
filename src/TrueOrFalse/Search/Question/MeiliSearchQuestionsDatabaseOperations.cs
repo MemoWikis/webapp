@@ -11,7 +11,7 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task CreateAsync(
             Question question,
-            string indexConstant = MeiliSearchKonstanten.Questions)
+            string indexConstant = MeiliSearchConstants.Questions)
         {
             var questionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
             var taskInfo = await index
@@ -28,7 +28,7 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task UpdateAsync(
             Question question,
-            string indexConstant = MeiliSearchKonstanten.Questions)
+            string indexConstant = MeiliSearchConstants.Questions)
         {
             var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
             var taskInfo = await index
@@ -44,7 +44,7 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task DeleteAsync(
             Question question,
-            string indexConstant = MeiliSearchKonstanten.Questions)
+            string indexConstant = MeiliSearchConstants.Questions)
         {
             var QuestionMapAndIndex = CreateQuestionMap(question, indexConstant, out var index);
             var taskInfo = await index
@@ -60,8 +60,8 @@ namespace TrueOrFalse.Search
             out Meilisearch.Index index)
         {
             var client = new MeilisearchClient(
-                MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
+                MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
 
             index = client.Index(indexConstant);
             var questionMap = new MeiliSearchQuestionMap

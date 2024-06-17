@@ -1,6 +1,6 @@
 ﻿namespace TrueOrFalse.Search
 {
-    public static class MeiliSearchKonstanten
+    public static class MeiliSearchConstants
     {
         public const string Categories = "Categories";
         public const string Questions = "Questions";
