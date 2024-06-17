@@ -12,7 +12,7 @@ public class TopicController(
     : Controller
 {
     [HttpGet]
-    public TopicDataResult GetTopic([FromRoute] int id)
+    public TopicDataResult? GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
@@ -28,7 +28,7 @@ public class TopicController(
             .GetTopicData(id);
 
         if (data == null)
-            return new TopicDataResult();
+            return null;
 
         return new TopicDataResult
         {

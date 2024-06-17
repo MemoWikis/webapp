@@ -79,7 +79,7 @@ function setTopic() {
                 })
             })
         } else {
-            $logger.error(`Topic: NoAccess - routeId: ${route.params.id}`)
+            $logger.warn(`Topic: NoAccess - routeId: ${route.params.id}`)
             throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         }
     }
