@@ -15,10 +15,11 @@ public class SessionStartMiddleware
 
     public async Task InvokeAsync(HttpContext httpContext, IServiceProvider serviceProvider)
     {
-        var cookieValue = httpContext?.Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieValue != null)
+        if (httpContext.Request.Headers.TryGetValue("X-Execute-Middleware", out var executeMiddlewareHeader) &&
+            executeMiddlewareHeader == "true")
         {
-            lock (_lock)
+            var cookieValue = httpContext?.Request.Cookies[PersistentLoginCookie.Key];
+            if (cookieValue != null)
             {
                 // Autofac
                 using (var scope = serviceProvider.CreateScope())

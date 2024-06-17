@@ -11,16 +11,16 @@ public class PersistentLoginRepo
 
     public PersistentLogin Get(int userId, string guid)
     {
-        //var hashedGuid = HashPassword.Run(guid, Settings.SaltCookie);
+        var hashedGuid = HashPassword.Run(guid, Settings.SaltCookie);
         return _session.QueryOver<PersistentLogin>()
             .Where(x => x.UserId == userId &&
-                        x.LoginGuid == guid)
+                        x.LoginGuid == hashedGuid)
             .SingleOrDefault();
     }
 
     public void Create(PersistentLogin persistentLogin)
     {
-        //persistentLogin.LoginGuid = HashPassword.Run(persistentLogin.LoginGuid, Settings.SaltCookie);
+        persistentLogin.LoginGuid = HashPassword.Run(persistentLogin.LoginGuid, Settings.SaltCookie);
         persistentLogin.Created = DateTime.Now;
         _session.Save(persistentLogin);
     }
@@ -32,10 +32,13 @@ public class PersistentLoginRepo
             LoginGuid = persistentLogin.LoginGuid,
             UserId = persistentLogin.UserId
         };
+        Delete(persistentLoginCookieGetValuesResult);
     }
 
     public void Delete(PersistentLoginCookieGetValuesResult persistentLogin)
     {
+        persistentLogin.LoginGuid = HashPassword.Run(persistentLogin.LoginGuid, Settings.SaltCookie);
+
         _session.CreateQuery("DELETE FROM PersistentLogin WHERE UserId = :userId AND LoginGuid = :loginGuid")
             .SetParameter("userId", persistentLogin.UserId)
             .SetParameter("loginGuid", persistentLogin.LoginGuid)

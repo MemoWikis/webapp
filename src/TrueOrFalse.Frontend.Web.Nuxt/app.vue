@@ -17,6 +17,10 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 	method: 'GET',
 	credentials: 'include',
 	mode: 'cors',
+	headers: {
+		'X-Execute-Middleware': 'true',
+		'Content-Type': 'application/json'
+	},
 	onRequest({ options }) {
 		if (process.server) {
 			options.headers = headers
