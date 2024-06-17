@@ -5,22 +5,24 @@ import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { Indent } from '../../editor/indent'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
-    solution?: string
+    content: string
 }
+
 const props = defineProps<Props>()
-const emit = defineEmits(['setFlashCardContent'])
 const alertStore = useAlertStore()
-const content = ref(null)
+
+const emit = defineEmits(['setQuestionData'])
 const lowlight = createLowlight(all)
+
 const editor = useEditor({
-    editable: true,
     extensions: [
         StarterKit.configure({
             codeBlock: false,
@@ -38,72 +40,53 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Rückseite der Karteikarte',
+            placeholder: 'Gib den Fragetext ein',
             showOnlyCurrent: true,
         }),
+        Indent,
         ImageResize.configure({
             inline: true,
             allowBase64: true,
         })
     ],
-    content: content.value,
-    onUpdate: ({ editor }) => {
-        setFlashCardContent()
-    },
     editorProps: {
+        handleClick: (view, pos, event) => {
+        },
         handlePaste: (view, pos, event) => {
             let eventContent = event.content as any
             let content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src
-                if (src?.length > 1048576 && src.startsWith('data:image')) {
+                let src = content[0].attrs.src;
+                if (src.length > 1048576 && src.startsWith('data:image')) {
                     alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
                     return true
                 }
             }
         },
-    }
-})
-
-function initSolution() {
-    if (props.solution && props.solution.trim() != editor.value?.getHTML().trim()) {
-        editor.value?.commands.setContent(props.solution)
-        setFlashCardContent()
-    }
-}
-onMounted(() => initSolution())
-watch(() => props.solution, () => initSolution())
-
-function setFlashCardContent() {
-    if (editor.value) {
-        const content = {
-            solution: editor.value.getHTML(),
-            solutionIsValid: editor.value.state.doc.textContent.length > 0
+        attributes: {
+            id: 'QuestionInputField',
         }
-        emit('setFlashCardContent', content)
-    }
-
-}
-
-function clearFlashCard() {
-    editor.value?.commands.setContent('')
-}
-
-defineExpose({ clearFlashCard })
+    },
+    onUpdate: ({ editor }) => {
+        emit('setQuestionData', editor)
+    },
+})
+onMounted(() => {
+    editor.value?.commands.setContent(props.content)
+})
+watch(() => props.content, (c) => {
+    if (c != editor.value?.getHTML())
+        editor.value?.commands.setContent(c)
+})
 </script>
 
 <template>
-    <div class="input-container">
-        <div class="overline-s no-line">Antwort</div>
-        <template v-if="editor">
-            <EditorMenuBar :editor="editor" />
-        </template>
-        <template v-if="editor">
-            <editor-content :editor="editor"
-                :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
-        </template>
-        <div v-if="highlightEmptyFields && editor && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte gib eine Antwort an.
+    <div v-if="editor">
+        <EditorMenuBar :editor="editor" :allow-images="true" />
+        <editor-content :editor="editor"
+            :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
+        <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
+            Bitte formuliere eine Frage.
         </div>
     </div>
 </template>

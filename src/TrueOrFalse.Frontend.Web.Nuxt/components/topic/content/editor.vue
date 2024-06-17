@@ -4,7 +4,6 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
@@ -15,6 +14,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 import { Indent } from '../../editor/indent'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -45,7 +45,7 @@ const editor = useEditor({
             showOnlyCurrent: true,
         }),
         Underline,
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         }),
@@ -56,7 +56,8 @@ const editor = useEditor({
         TaskItem.configure({
             nested: true,
         }),
-        Indent
+        Indent,
+
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
@@ -66,20 +67,6 @@ const editor = useEditor({
             topicStore.content = editor.getHTML()
     },
     editorProps: {
-        // handleKeyDown: (e, k) => {
-        //     this.contentIsChanged = true;
-        // },
-        handleClick: (view, pos, event) => {
-            // var _a;
-            // var attrs = this.editor.getAttributes('link');
-            // var href = Site.IsMobile ? event.target.href : attrs.href;
-            // var link = (_a = event.target) === null || _a === void 0 ? void 0 : _a.closest('a');
-            // if (link && href) {
-            //     window.open(href, event.ctrlKey ? '_blank' : '_self');
-            //     return true;
-            // }
-            // return false;
-        },
         handlePaste: (view, pos, event) => {
             const firstNode = event.content.firstChild
             if (firstNode != null && firstNode.type.name == 'image') {
@@ -123,7 +110,7 @@ onMounted(() => {
 .ProseMirror {
     .content-placeholder {
         :deep(p:empty) {
-            min-height: 20px
+            min-height: 20px;
         }
     }
 

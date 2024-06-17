@@ -10,14 +10,14 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
     public MeiliSearchReIndexCategories(CategoryRepository categoryRepository)
     {
         _categoryRepository = categoryRepository;
-        _client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+        _client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
     }
 
     public MeilisearchClient _client { get; }
 
-    public async Task Go()
+    public async Task Run()
     {
-        await _client.DeleteIndexAsync(MeiliSearchKonstanten.Categories);
+        await _client.DeleteIndexAsync(MeiliSearchConstants.Categories);
         var allCateogoriesFromDb = _categoryRepository.GetAll();
 
         var meiliSearchCategories = allCateogoriesFromDb.Select(c => new MeiliSearchCategoryMap
@@ -30,7 +30,7 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
             QuestionCount = c.CountQuestions
         });
 
-        var index = _client.Index(MeiliSearchKonstanten.Categories);
+        var index = _client.Index(MeiliSearchConstants.Categories);
         await index.AddDocumentsAsync(meiliSearchCategories);
     }
 }

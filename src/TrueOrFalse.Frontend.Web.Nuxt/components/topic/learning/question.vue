@@ -10,7 +10,6 @@ import { KnowledgeStatus } from '~~/components/question/knowledgeStatusEnum'
 import { useDeleteQuestionStore } from '~~/components/question/edit/delete/deleteQuestionStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useAlertStore, messages, AlertType } from '~/components/alert/alertStore'
-import { result } from 'underscore'
 
 const alertStore = useAlertStore()
 const commentsStore = useCommentsStore()
@@ -318,7 +317,7 @@ function hasContent(str: string) {
                                 <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)"
                                     :id="extendedAnswerId">
                                     <strong>Ergänzungen zur Antwort:</strong><br />
-                                    <div :v-html="extendedAnswer"></div>
+                                    <div v-html="extendedAnswer"></div>
                                 </div>
                             </div>
                         </div>
@@ -593,6 +592,16 @@ function hasContent(str: string) {
 
                     .extendedAnswer {
                         padding-top: 16px;
+
+                        strong {
+                            padding: 0 8px;
+                        }
+
+                        :deep(p) {
+                            padding: 0 8px;
+
+                            .tiptapImgMixin(true);
+                        }
                     }
 
                     .notes {
@@ -621,6 +630,14 @@ function hasContent(str: string) {
                         :deep(li) {
                             p {
                                 margin: 0;
+                            }
+                        }
+
+                        .extendedQuestion {
+                            :deep(p) {
+                                padding: 0 8px;
+
+                                .tiptapImgMixin(true);
                             }
                         }
                     }

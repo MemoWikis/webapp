@@ -7,10 +7,12 @@ services:
     ports:
       - "${MEILI_PORT}:7700"
     volumes:
-      - C:/Meilisearch/${MEM_ENVIRONMENT}:/meili_data
+      - C:/Meilisearch/${ENVIRONMENT}:/meili_data
 
   redis:
     image: redis:7.2.4
     restart: always
     ports:
       - "${REDIS_PORT}:6379"
+    volumes:
+      - C:/redis-data/${ENVIRONMENT}:/data

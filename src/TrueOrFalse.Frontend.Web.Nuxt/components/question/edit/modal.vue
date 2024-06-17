@@ -182,6 +182,7 @@ function getData() {
     const dataExtension = {
         CategoryIds: topicIds.value,
         TextHtml: questionHtml.value,
+        QuestionExtensionHtml: questionExtensionHtml.value,
         DescriptionHtml: descriptionHtml.value,
         Solution: solution.toString(),
         SolutionType: solutionType.value,
@@ -427,7 +428,10 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-                        <QuestionEditEditor :highlight-empty-fields="highlightEmptyFields"
+                        <QuestionEditFlashcardFront v-if="solutionType == SolutionType.FlashCard"
+                            :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
+                            ref="questionEditor" :content="questionHtml" />
+                        <QuestionEditEditor v-else :highlight-empty-fields="highlightEmptyFields"
                             @set-question-data="setQuestionData" ref="questionEditor" :content="questionHtml" />
                     </div>
 
@@ -450,7 +454,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
                         <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
-                            :content="descriptionHtml" @setDescriptionData="setDescriptionData" />
+                            :content="descriptionHtml" @set-description-data="setDescriptionData" />
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>

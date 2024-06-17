@@ -12,7 +12,7 @@ namespace TrueOrFalse.Search
         /// <param name="user"></param>
         /// <param name="indexConstant"></param>
         /// <returns></returns>
-        public async Task CreateAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
+        public async Task CreateAsync(User user, string indexConstant = MeiliSearchConstants.Users)
         {
 
             var userMap = CreateUserMap(user, indexConstant, out var index);
@@ -29,7 +29,7 @@ namespace TrueOrFalse.Search
         /// <param name="user"></param>
         /// <param name="indexConstant"></param>
         /// <returns></returns>
-        public async Task UpdateAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
+        public async Task UpdateAsync(User user, string indexConstant = MeiliSearchConstants.Users)
         {
 
             var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
@@ -46,7 +46,7 @@ namespace TrueOrFalse.Search
         /// <param name="user"></param>
         /// <param name="indexConstant"></param>
         /// <returns></returns>
-        public async Task DeleteAsync(User user, string indexConstant = MeiliSearchKonstanten.Users)
+        public async Task DeleteAsync(User user, string indexConstant = MeiliSearchConstants.Users)
         {
             var userMapAndIndex = CreateUserMap(user, indexConstant, out var index);
             var taskInfo = await index
@@ -58,7 +58,7 @@ namespace TrueOrFalse.Search
 
         private static MeiliSearchUserMap CreateUserMap(User user, string indexConstant, out Meilisearch.Index index)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
             index = client.Index(indexConstant);
             var userMap = new MeiliSearchUserMap
             {

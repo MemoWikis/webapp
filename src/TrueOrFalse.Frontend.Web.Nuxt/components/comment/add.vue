@@ -90,7 +90,8 @@ async function saveComment() {
                             <button class="btn btn-primary memo-button pull-right" @click="saveComment()">
                                 Diskussion hinzufügen
                             </button>
-                            <button class="btn btn-lg btn-link memo-button pull-right " @click="commentsStore.show = false">
+                            <button class="btn btn-lg btn-link memo-button pull-right "
+                                @click="commentsStore.show = false">
                                 Abbrechen
                             </button>
                         </div>

@@ -823,6 +823,10 @@
     line-height: 22px;
     max-width: 600px;
     color: @memo-grey-darker;
+
+    p {
+        .tiptapImgMixin(true);
+    }
 }
 
 .pointer {
@@ -853,6 +857,10 @@
 .commentText {
     color: @memo-grey-darker;
     width: 800px;
+
+    p {
+        .tiptapImgMixin(true);
+    }
 }
 
 .settledCommentsDescription {
@@ -1352,5 +1360,11 @@ commentAnswersCount {
 
     p{
         margin: 0;
+    }
+}
+
+#ExtendedQuestionContainer {
+    p {
+        .tiptapImgMixin(true);
     }
 }

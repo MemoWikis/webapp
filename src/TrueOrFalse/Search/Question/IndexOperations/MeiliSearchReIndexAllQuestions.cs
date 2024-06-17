@@ -14,17 +14,14 @@ namespace TrueOrFalse.Search
         {
             _questionValuationReadingRepo = questionValuationReadingRepo;
             _questionReadingRepo = questionReadingRepo;
+            _client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
         }
 
-        public MeiliSearchReIndexAllQuestions()
-        {
-            _client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
-        }
 
-        public async Task Go()
+        public async Task Run()
         {
-            var taskId = (await _client.DeleteIndexAsync(MeiliSearchKonstanten.Questions)).TaskUid;
+            var taskId = (await _client.DeleteIndexAsync(MeiliSearchConstants.Questions)).TaskUid;
             await _client.WaitForTaskAsync(taskId);
 
             var allQuestionsFromDb = _questionReadingRepo.GetAll().Where(q => !q.IsWorkInProgress);
@@ -33,15 +30,16 @@ namespace TrueOrFalse.Search
 
             foreach (var question in allQuestionsFromDb)
             {
+                var id = question.Id;
                 var questionValuations = allValuations
-                    .Where(qv => qv.Question.Id == question.Id)
+                    .Where(qv => qv.Question.Id == question.Id && qv.User != null)
                     .Select(qv => qv.ToCacheItem())
                     .ToList();
                 meiliSearchQuestions.Add(
                     MeiliSearchToQuestionMap.Run(question, questionValuations));
             }
 
-            var index = _client.Index(MeiliSearchKonstanten.Questions);
+            var index = _client.Index(MeiliSearchConstants.Questions);
             await index.AddDocumentsAsync(meiliSearchQuestions);
         }
     }

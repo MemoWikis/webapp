@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
+using System.Diagnostics;
 
 [DebuggerDisplay("QuestionId={Question.Id}, IsInWuwi: {IsInWishKnowledge()}")]
 public class QuestionValuation : IPersistable, WithDateCreated
@@ -20,8 +20,8 @@ public class QuestionValuation : IPersistable, WithDateCreated
 
     public virtual KnowledgeStatus KnowledgeStatus { get; set; }
 
-    public virtual bool IsSetQuality(){ return Quality != -1;}
-    public virtual bool IsSetRelevanceForAll(){ return RelevanceForAll != -1;}
+    public virtual bool IsSetQuality() { return Quality != -1; }
+    public virtual bool IsSetRelevanceForAll() { return RelevanceForAll != -1; }
     public virtual bool IsInWishKnowledge() { return RelevancePersonal > -1; }
 
     public QuestionValuation()

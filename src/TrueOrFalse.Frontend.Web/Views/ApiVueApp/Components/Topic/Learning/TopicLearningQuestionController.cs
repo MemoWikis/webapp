@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Linq;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Concurrent;
+using System.Linq;
 
 public class TopicLearningQuestionController(
     SessionUser _sessionUser,
@@ -55,10 +55,10 @@ public class TopicLearningQuestionController(
                 AuthorName = author.Name,
                 AuthorId = author.Id,
                 AuthorImageUrl = authorImage.Url,
-                ExtendedQuestion = question.TextExtendedHtml ?? "",
+                ExtendedQuestion = question.GetRenderedQuestionTextExtended(),
                 CommentCount = _commentRepository.GetForDisplay(question.Id)
                     .Where(c => !c.IsSettled)
-                    .Select(c => new CommentModel(c, _httpContextAccessor, _webHostEnvironment))
+                    .Select(c => new CommentModel(c, _httpContextAccessor))
                     .ToList()
                     .Count(),
                 IsCreator = author.Id == _sessionUser.UserId,

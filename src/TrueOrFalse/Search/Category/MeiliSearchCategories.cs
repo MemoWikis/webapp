@@ -28,9 +28,9 @@ namespace TrueOrFalse.Search
         public async Task<ISearchCategoriesResult> RunAsync(
             string searchTerm)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
-            var index = client.Index(MeiliSearchKonstanten.Categories);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
+            var index = client.Index(MeiliSearchConstants.Categories);
             _result = new MeiliSearchCategoriesResult();
 
             _result.CategoryIds.AddRange(await LoadSearchResults(searchTerm, index)

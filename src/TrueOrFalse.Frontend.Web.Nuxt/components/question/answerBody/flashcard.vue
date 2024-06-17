@@ -29,7 +29,7 @@ function flip() {
 watch(flipped, () => emit('flipped'))
 
 async function getAnswerDataString(): Promise<string> {
-    await nextTick();
+    await nextTick()
     return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
 }
 
@@ -74,6 +74,16 @@ const emit = defineEmits((['flipped']))
         </div>
     </div>
 </template>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.question-text {
+    p {
+        .tiptapImgMixin(true);
+    }
+}
+</style>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
