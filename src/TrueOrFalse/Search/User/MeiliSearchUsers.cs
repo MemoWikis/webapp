@@ -24,9 +24,9 @@ namespace TrueOrFalse.Search
         public async Task<ISearchUsersResult> RunAsync(
             string searchTerm)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
-            var index = client.Index(MeiliSearchKonstanten.Users);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
+            var index = client.Index(MeiliSearchConstants.Users);
             _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment);
 
             _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));
@@ -79,9 +79,9 @@ namespace TrueOrFalse.Search
         public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
             GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
-            var index = client.Index(MeiliSearchKonstanten.Users);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
+            var index = client.Index(MeiliSearchConstants.Users);
 
             var sq = new SearchQuery
             {
