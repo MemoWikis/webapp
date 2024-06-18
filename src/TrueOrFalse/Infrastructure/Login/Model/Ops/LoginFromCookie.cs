@@ -2,7 +2,7 @@
 
 public class LoginFromCookie
 {
-    public static bool Run(SessionUser sessionUser,
+    public static void Run(SessionUser sessionUser,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
         HttpContext httpContext)
@@ -10,25 +10,20 @@ public class LoginFromCookie
         var cookieValues = PersistentLoginCookie.GetValues(httpContext);
 
         if (!cookieValues.Exists())
-            return false;
+            return;
 
         var persistentLogin = persistentLoginRepo.Get(cookieValues.UserId, cookieValues.LoginGuid);
 
         if (persistentLogin == null)
-            return false;
+            return;
 
         var user = userReadingRepo.GetById(cookieValues.UserId);
         if (user == null)
-            return false;
+            return;
 
         sessionUser.Login(user);
         persistentLoginRepo.Delete(persistentLogin);
 
-        WritePersistentLoginToCookie.Run(cookieValues.UserId,
-            persistentLoginRepo,
-            httpContext);
-
-
-        return true;
+        WritePersistentLoginToCookie.Run(cookieValues.UserId, persistentLoginRepo, httpContext);
     }
 }

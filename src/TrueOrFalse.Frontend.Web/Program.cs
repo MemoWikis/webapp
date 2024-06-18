@@ -1,22 +1,22 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Hosting;
+using System.Text.Json;
+using TrueOrFalse.Environment;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
-using Microsoft.AspNetCore.Http.Features;
-using Stripe;
-using TrueOrFalse.Environment;
 using TrueOrFalse.Updates;
 using static System.Int32;
-using System.Text.Json;
-using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -140,7 +140,6 @@ app.UseCors("LocalhostCorsPolicy"); // CORS vor Authentication und Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseMiddleware<SessionStartMiddleware>();
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 
 app.UseEndpoints(endpoints =>

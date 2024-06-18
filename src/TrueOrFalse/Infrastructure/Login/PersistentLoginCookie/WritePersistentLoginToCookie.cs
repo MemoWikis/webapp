@@ -17,5 +17,5 @@ public class WritePersistentLoginToCookie
 
         httpContext.Response.Cookies.Delete(PersistentLoginCookie.Key);
         httpContext.Response.Cookies.Append(PersistentLoginCookie.Key, userId + "-x-" + loginGuid, cookieOptions);
-    }        
+    }
 }

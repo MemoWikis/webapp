@@ -1,31 +1,22 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using VueApp;
 
-public class AppController(VueSessionUser _vueSessionUser) : Controller
+public class AppController(
+    VueSessionUser _vueSessionUser,
+    SessionUser _sessionUser,
+    PersistentLoginRepo _persistentLoginRepo,
+    UserReadingRepo _userReadingRepo,
+    IHttpContextAccessor _httpContextAccessor) : BaseController(_sessionUser)
 {
     [HttpGet]
     public void SessionStart()
     {
-        var cookieValue = Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieValue != null)
-        {
-            return;
-            //// Autofac
-            //using (var scope = _serviceProvider.CreateScope())
-            //{
-            //    var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
-            //    if (!sessionUser.IsLoggedIn)
-            //    {
-            //        var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-            //        var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-            //        LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, _httpContext);
-            //    }
-            //}
-        }
+        var cookieString = Request.Cookies[PersistentLoginCookie.Key];
+        if (cookieString != null && !IsLoggedIn)
+            LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, _httpContextAccessor.HttpContext);
     }
-
 
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
@@ -58,54 +49,37 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
     [HttpGet]
     public GetCurrentUserResult GetCurrentUser()
     {
-        //var cookieValue = Request.Cookies[PersistentLoginCookie.Key];
-        //if (cookieValue != null)
-        //{
-        //    // Autofac
-        //    using (var scope = _serviceProvider.CreateScope())
-        //    {
-        //        var _sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
-        //        if (!_sessionUser.IsLoggedIn)
-        //        {
-        //            var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-        //            var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-        //            LoginFromCookie.Run(_sessionUser, persistentLoggingRepo, userReadingRepo, _httpContext);
-        //        }
-        //    }
-        //}
-
-
-        var sessionUser = _vueSessionUser.GetCurrentUserData();
+        var currentUser = _vueSessionUser.GetCurrentUserData();
 
         return new GetCurrentUserResult
         {
-            IsLoggedIn = sessionUser.IsLoggedIn,
-            Id = sessionUser.Id,
-            Name = sessionUser.Name,
-            Email = sessionUser.Email,
-            IsAdmin = sessionUser.IsAdmin,
-            PersonalWikiId = sessionUser.PersonalWikiId,
-            Type = sessionUser.Type,
-            ImgUrl = sessionUser.ImgUrl,
-            Reputation = sessionUser.Reputation,
-            ReputationPos = sessionUser.ReputationPos,
-            PersonalWiki = sessionUser.PersonalWiki,
+            IsLoggedIn = currentUser.IsLoggedIn,
+            Id = currentUser.Id,
+            Name = currentUser.Name,
+            Email = currentUser.Email,
+            IsAdmin = currentUser.IsAdmin,
+            PersonalWikiId = currentUser.PersonalWikiId,
+            Type = currentUser.Type,
+            ImgUrl = currentUser.ImgUrl,
+            Reputation = currentUser.Reputation,
+            ReputationPos = currentUser.ReputationPos,
+            PersonalWiki = currentUser.PersonalWiki,
             ActivityPoints = new ActivityPoints
             {
-                Points = sessionUser.ActivityPoints.Points,
-                Level = sessionUser.ActivityPoints.Level,
-                LevelUp = sessionUser.ActivityPoints.LevelUp,
+                Points = currentUser.ActivityPoints.Points,
+                Level = currentUser.ActivityPoints.Level,
+                LevelUp = currentUser.ActivityPoints.LevelUp,
                 ActivityPointsPercentageOfNextLevel =
-                    sessionUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
-                ActivityPointsTillNextLevel = sessionUser.ActivityPoints.ActivityPointsTillNextLevel
+                    currentUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
+                ActivityPointsTillNextLevel = currentUser.ActivityPoints.ActivityPointsTillNextLevel
             },
-            UnreadMessagesCount = sessionUser.UnreadMessagesCount,
-            SubscriptionType = sessionUser.SubscriptionType,
-            HasStripeCustomerId = sessionUser.HasStripeCustomerId,
-            EndDate = sessionUser.EndDate,
-            SubscriptionStartDate = sessionUser.SubscriptionStartDate,
-            IsSubscriptionCanceled = sessionUser.IsSubscriptionCanceled,
-            IsEmailConfirmed = sessionUser.IsEmailConfirmed
+            UnreadMessagesCount = currentUser.UnreadMessagesCount,
+            SubscriptionType = currentUser.SubscriptionType,
+            HasStripeCustomerId = currentUser.HasStripeCustomerId,
+            EndDate = currentUser.EndDate,
+            SubscriptionStartDate = currentUser.SubscriptionStartDate,
+            IsSubscriptionCanceled = currentUser.IsSubscriptionCanceled,
+            IsEmailConfirmed = currentUser.IsEmailConfirmed
         };
     }
 

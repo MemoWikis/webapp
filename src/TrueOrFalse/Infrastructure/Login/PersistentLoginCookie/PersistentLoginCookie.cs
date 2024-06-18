@@ -19,4 +19,18 @@ public class PersistentLoginCookie
             LoginGuid = item[1]
         };
     }
+
+    public static PersistentLoginCookieGetValuesResult GetValues(string? cookieString)
+    {
+        if (string.IsNullOrEmpty(cookieString))
+            return new PersistentLoginCookieGetValuesResult();
+
+        var item = cookieString.Split(new[] { "-x-" }, StringSplitOptions.None);
+
+        return new PersistentLoginCookieGetValuesResult
+        {
+            UserId = Convert.ToInt32(item[0]),
+            LoginGuid = item[1]
+        };
+    }
 }
