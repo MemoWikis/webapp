@@ -14,6 +14,11 @@ public class TopicDataManager(
     public TopicDataResult GetTopicData(int id)
     {
         var topic = EntityCache.GetCategory(id);
+        if (topic == null)
+            return new TopicDataResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Category.NotFound
+            };
 
         if (_permissionCheck.CanView(_sessionUser.UserId, topic))
         {
@@ -24,7 +29,10 @@ public class TopicDataManager(
             return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
 
-        return null;
+        return new TopicDataResult
+        {
+            MessageKey = FrontendMessageKeys.Error.Category.NoRights
+        };
     }
 
     private SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)
@@ -56,17 +64,18 @@ public class TopicDataManager(
         KnowledgeSummary knowledgeSummary)
     {
         var authorIds = topic.AuthorIds.Distinct();
-        return new TopicDataResult(
-            CanAccess: true,
-            Id: id,
-            Name: topic.Name,
-            ImageUrl: new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
-            Content: topic.Content,
-            ParentTopicCount: topic.Parents()
+        return new TopicDataResult
+        {
+            CanAccess = true,
+            Id = id,
+            Name = topic.Name,
+            ImageUrl = new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
+            Content = topic.Content,
+            ParentTopicCount = topic.Parents()
                 .Where(_permissionCheck.CanView)
                 .ToList()
                 .Count,
-            Parents: topic.Parents()
+            Parents = topic.Parents()
                 .Where(_permissionCheck.CanView)
                 .Select(p =>
                     new Parent
@@ -78,14 +87,14 @@ public class TopicDataManager(
                             .Url
                     })
                 .ToArray(),
-            ChildTopicCount: GraphService
+            ChildTopicCount = GraphService
                 .VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            DirectVisibleChildTopicCount: GraphService
+            DirectVisibleChildTopicCount = GraphService
                 .VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            Views: _categoryViewRepo.GetViewCount(id),
-            Visibility: topic.Visibility,
-            AuthorIds: authorIds.ToArray(),
-            Authors: authorIds.Select(authorId =>
+            Views = _categoryViewRepo.GetViewCount(id),
+            Visibility = topic.Visibility,
+            AuthorIds = authorIds.ToArray(),
+            Authors = authorIds.Select(authorId =>
             {
                 var author = EntityCache.GetUserById(authorId);
                 return new Author(
@@ -97,37 +106,37 @@ public class TopicDataManager(
                     author.ReputationPos
                 );
             }).ToArray(),
-            IsWiki: topic.IsStartPage(),
-            CurrentUserIsCreator: CurrentUserIsCreator(topic),
-            CanBeDeleted: _permissionCheck.CanDelete(topic),
-            QuestionCount: topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            DirectQuestionCount: topic.GetCountQuestionsAggregated(_sessionUser.UserId, true,
+            IsWiki = topic.IsStartPage(),
+            CurrentUserIsCreator = CurrentUserIsCreator(topic),
+            CanBeDeleted = _permissionCheck.CanDelete(topic),
+            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
+            DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId, true,
                 topic.Id),
-            ImageId: imageMetaData != null ? imageMetaData.Id : 0,
-            TopicItem: FillMiniTopicItem(topic),
-            MetaDescription: SeoUtils.ReplaceDoubleQuotes(topic.Content == null
+            ImageId = imageMetaData != null ? imageMetaData.Id : 0,
+            TopicItem = FillMiniTopicItem(topic),
+            MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null
                     ? null
                     : Regex.Replace(topic.Content, "<.*?>", ""))
                 .Truncate(250, true),
-            KnowledgeSummary: new KnowledgeSummarySlim(
+            KnowledgeSummary = new KnowledgeSummarySlim(
                 NotLearned: knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
                 NeedsLearning: knowledgeSummary.NeedsLearning,
                 NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
                 Solid: knowledgeSummary.Solid
             ),
-            GridItems: new TopicGridManager(
+            GridItems = new TopicGridManager(
                 _permissionCheck,
                 _sessionUser,
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _knowledgeSummaryLoader,
                 _questionReadingRepo).GetChildren(id),
-            IsChildOfPersonalWiki: _sessionUser.IsLoggedIn && EntityCache
+            IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache
                 .GetCategory(_sessionUser.User.StartTopicId)
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id),
-            TextIsHidden: topic.TextIsHidden
-        );
+            TextIsHidden = topic.TextIsHidden,
+        };
     }
 
     private bool CurrentUserIsCreator(CategoryCacheItem topic)
@@ -153,7 +162,7 @@ public class TopicDataManager(
         int NeedsConsolidation,
         int Solid);
 
-    public record TopicDataResult(
+    public record struct TopicDataResult(
         bool CanAccess,
         int Id,
         string Name,
@@ -178,6 +187,7 @@ public class TopicDataManager(
         KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki,
-        bool TextIsHidden
+        bool TextIsHidden,
+        string MessageKey
     );
 }
