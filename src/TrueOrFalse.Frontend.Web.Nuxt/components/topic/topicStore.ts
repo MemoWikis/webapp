@@ -39,6 +39,7 @@ export class Topic {
 	gridItems: GridTopicItem[] = []
 	isChildOfPersonalWiki: boolean = false
 	textIsHidden: boolean = false
+	messageKey: string = ""
 }
 
 export interface KnowledgeSummary {

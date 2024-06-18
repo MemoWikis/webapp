@@ -15,6 +15,9 @@ interface Props {
     tab?: Tab,
     documentation: Topic
 }
+
+
+
 const props = defineProps<Props>()
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -42,9 +45,10 @@ const tabSwitched = ref(false)
 
 const router = useRouter()
 
+
 function setTopic() {
     if (topic.value != null) {
-        if (topic.value?.canAccess) {
+        if (topic.value?.messageKey === "") {
 
             topicStore.setTopic(topic.value)
 
@@ -88,9 +92,9 @@ function setTopic() {
 onMounted(() => {
     watch(() => route, (val) => {
     }, { deep: true, immediate: true })
+
 })
 setTopic()
-
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 

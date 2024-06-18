@@ -39,7 +39,7 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="topic-chip-component">
         <div class="topic-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName">
+            <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName" external>
                 <div class="topic-chip" :v-tooltip="topic.name" :class="{ 'label-hidden': props.hideLabel }">
 
                     <img v-if="showImage" :src="topic.miniImageUrl" :alt="`image for ${topic.name}`" />

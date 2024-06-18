@@ -28,7 +28,7 @@ interface Question {
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
 	{
 		credentials: 'include',
-		mode: 'no-cors',
+		mode: 'cors',
 		onRequest({ options }) {
 			if (process.server) {
 				options.headers = headers
@@ -148,12 +148,14 @@ onBeforeMount(() => {
 										:class="{ 'hasFlashCard': question.answerBodyModel.solutionType == SolutionType.FlashCard }">
 										<div id="AnswerInputSection">
 
-											<QuestionAnswerBodyFlashcard :key="question.answerBodyModel.id + 'flashcard'"
+											<QuestionAnswerBodyFlashcard
+												:key="question.answerBodyModel.id + 'flashcard'"
 												v-if="question.answerBodyModel.solutionType == SolutionType.FlashCard"
 												ref="flashcard" :solution="question.answerBodyModel.solution"
 												:front-content="question.answerBodyModel.textHtml"
 												:marked-as-correct="true" />
-											<QuestionAnswerBodyMatchlist :key="question.answerBodyModel.id + 'matchlist'"
+											<QuestionAnswerBodyMatchlist
+												:key="question.answerBodyModel.id + 'matchlist'"
 												v-else-if="question.answerBodyModel.solutionType == SolutionType.MatchList"
 												ref="matchList" :solution="question.answerBodyModel.solution"
 												:show-answer="true" />
@@ -174,8 +176,8 @@ onBeforeMount(() => {
 
 														<NuxtLink v-if="question.answerBodyModel.hasTopics"
 															:to="$urlHelper.getTopicUrlWithQuestionId(question.answerBodyModel.primaryTopicName, question.answerBodyModel.primaryTopicId, question.answerBodyModel.id)"
-															id="btnStartTestSession" class="btn btn-primary show-tooltip"
-															rel="nofollow"
+															id="btnStartTestSession"
+															class="btn btn-primary show-tooltip" rel="nofollow"
 															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + question.answerBodyModel.primaryTopicName">
 															<b>Weiterlernen</b>
 														</NuxtLink>
@@ -219,7 +221,8 @@ onBeforeMount(() => {
 							</div>
 						</div>
 
-						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage :model="question.answerQuestionDetailsModel" />
+						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage
+							:model="question.answerQuestionDetailsModel" />
 
 					</div>
 				</div>
