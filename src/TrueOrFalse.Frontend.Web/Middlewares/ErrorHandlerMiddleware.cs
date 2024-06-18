@@ -20,7 +20,8 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
 
             if (httpContext.Response.StatusCode == 404)
             {
-                Logg.r.Error("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(), httpContext.Request.Headers["Referer"]);
+                Logg.r.Warning("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(),
+                    httpContext.Request.Headers["Referer"]);
             }
             else if (httpContext.Response.StatusCode == 500)
             {

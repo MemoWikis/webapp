@@ -59,6 +59,8 @@
             public static readonly string CircularReference = "error_category_circularReference";
             public static readonly string TopicNotSelected = "error_category_topicNotSelected";
             public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_category_newTopicIdIsTopicIdToBeDeleted";
+            public static readonly string NotFound = "error_category_notFound";
+            public static readonly string NoRights = "error_category_noRights";
         }
 
         public static class Question

@@ -27,8 +27,6 @@ public class TopicController(
                 _questionReadingRepo)
             .GetTopicData(id);
 
-        if (data == null)
-            return new TopicDataResult();
 
         return new TopicDataResult
         {
@@ -56,7 +54,8 @@ public class TopicController(
             TopicItem = data.TopicItem,
             Views = data.Views,
             Visibility = data.Visibility,
-            TextIsHidden = data.TextIsHidden
+            TextIsHidden = data.TextIsHidden,
+            MessageKey = data.MessageKey,
         };
     }
 
@@ -85,5 +84,6 @@ public class TopicController(
         TopicDataManager.KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki,
-        bool TextIsHidden);
+        bool TextIsHidden,
+        string MessageKey);
 }
