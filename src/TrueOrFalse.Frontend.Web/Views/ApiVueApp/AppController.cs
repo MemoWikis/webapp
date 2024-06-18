@@ -1,9 +1,32 @@
-﻿using System.Linq;
+﻿
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using VueApp;
 
 public class AppController(VueSessionUser _vueSessionUser) : Controller
 {
+    [HttpGet]
+    public void SessionStart()
+    {
+        var cookieValue = Request.Cookies[PersistentLoginCookie.Key];
+        if (cookieValue != null)
+        {
+            return;
+            //// Autofac
+            //using (var scope = _serviceProvider.CreateScope())
+            //{
+            //    var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
+            //    if (!sessionUser.IsLoggedIn)
+            //    {
+            //        var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
+            //        var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+            //        LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, _httpContext);
+            //    }
+            //}
+        }
+    }
+
+
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
         int Id,
@@ -35,6 +58,23 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
     [HttpGet]
     public GetCurrentUserResult GetCurrentUser()
     {
+        //var cookieValue = Request.Cookies[PersistentLoginCookie.Key];
+        //if (cookieValue != null)
+        //{
+        //    // Autofac
+        //    using (var scope = _serviceProvider.CreateScope())
+        //    {
+        //        var _sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
+        //        if (!_sessionUser.IsLoggedIn)
+        //        {
+        //            var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
+        //            var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+        //            LoginFromCookie.Run(_sessionUser, persistentLoggingRepo, userReadingRepo, _httpContext);
+        //        }
+        //    }
+        //}
+
+
         var sessionUser = _vueSessionUser.GetCurrentUserData();
 
         return new GetCurrentUserResult

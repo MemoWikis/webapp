@@ -12,7 +12,37 @@ const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
 const rootTopicChipStore = useRootTopicChipStore()
 
+const { $urlHelper, $vfm } = useNuxtApp()
+
+// hook('app:created', async () => {
+// 	// if (hasRun.value)
+// 	//     navigateTo(to.path, { replace: false })
+// 	console.log('appCreated')
+// 	if (process.client) {
+// 		// const userStore = useUserStore()
+// 		// if (!userStore.isLoggedIn) {
+// 		//     throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+// 		// }
+// 	}
+
+// 	const headers = useRequestHeaders(['cookie']) as HeadersInit
+
+
+// })
+
 const headers = useRequestHeaders(['cookie']) as HeadersInit
+// await useFetch<any>('/apiVue/App/SessionStart', {
+// 	method: 'GET',
+
+// 	credentials: 'include',
+// 	mode: 'cors',
+// 	onRequest({ options }) {
+// 		if (process.server) {
+// 			options.headers = headers
+// 			options.baseURL = config.public.serverBase
+// 		}
+// 	},
+// })
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
@@ -35,6 +65,7 @@ if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)
 }
+
 
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
@@ -79,7 +110,6 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
 const route = useRoute()
-const { $urlHelper } = useNuxtApp()
 userStore.$onAction(({ name, after }) => {
 	if (name == 'logout') {
 
@@ -126,7 +156,6 @@ async function handleLogin() {
 		await refreshNuxtData()
 }
 
-const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm
 const modalIsOpen = ref(false)
 watch(() => openedModals, (val) => {

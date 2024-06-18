@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const headers = useRequestHeaders(['cookie']) as HeadersInit
     const { $config } = useNuxtApp()
 
-    await $fetch<boolean>('/apiVue/MiddlewareSessionStart/Get',
+    await $fetch<boolean>('/apiVue/App/SessionStart',
         {
             credentials: 'include',
             mode: 'cors',
@@ -25,6 +25,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                     options.headers = headers
                     options.baseURL = $config.public.serverBase
                 }
+            },
+            onResponseError(context) {
+                throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
             },
         })
     hasRun.value = true
