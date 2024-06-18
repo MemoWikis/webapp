@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// import { useUserStore } from '~/components/user/userStore'
 import { Page } from './components/shared/pageEnum'
 import { ErrorCode } from './components/shared/errorCodeEnum'
 import type { NuxtError } from '#app'
@@ -8,27 +7,13 @@ const props = defineProps({
     error: Object as () => NuxtError
 })
 
-
-// const props = defineProps<{ errorCode: ErrorCode }>();
-
-// const userStore = useUserStore()
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Error)
-
-function handleError() {
-    clearError({ redirect: '/' })
-}
-// watch(() => userStore.isLoggedIn, (val) => {
-//     if (val)
-//         handleError()
-// })
-// const route = useRoute();
-// console.log(route);
-
 
 onMounted(() => {
     if (props.error?.statusCode)
         setErrorData(props.error?.statusCode)
+    description.value = props.error?.message
 })
 
 function setErrorData(statusCode: number) {
@@ -36,11 +21,6 @@ function setErrorData(statusCode: number) {
         [ErrorCode.NotFound]: '/Images/memo-404_german_600.png',
         [ErrorCode.Unauthorized]: '/Images/Error/memo-401_german_600.png',
         [ErrorCode.Error]: '/Images/Error/memo-500_german_600.png'
-    }[statusCode]
-
-    description.value = {
-        [ErrorCode.NotFound]: 'Hups diese Seite existiert nicht',
-        [ErrorCode.Unauthorized]: 'Dir fehlen die Rechte um diese Seite anzuzeigen'
     }[statusCode]
 }
 

@@ -136,6 +136,7 @@ public class TopicDataManager(
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id),
             TextIsHidden = topic.TextIsHidden,
+            MessageKey = ""
         };
     }
 

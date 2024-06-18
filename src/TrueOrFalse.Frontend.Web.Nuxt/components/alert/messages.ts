@@ -48,6 +48,8 @@ export const messages: any = {
             circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
             topicNotSelected: "Du hast kein Thema ausgewählt",
             newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
+            notFound: "Das Thema wurde nicht gefunden",
+            noRights: "Du hast keine Rechte diese Themenseite anzuzeigen"
         },
         question: {
             missingText: "Der Fragetext fehlt.",

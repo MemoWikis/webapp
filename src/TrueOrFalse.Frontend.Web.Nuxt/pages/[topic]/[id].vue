@@ -4,6 +4,7 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+import { create } from '../../components/shared/createErrorFromMessageKey'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -84,7 +85,7 @@ function setTopic() {
             })
         } else {
             $logger.error(`Topic: NoAccess - routeId: ${route.params.id}`)
-            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+            throw create(topic.value.messageKey)
         }
     }
 }
