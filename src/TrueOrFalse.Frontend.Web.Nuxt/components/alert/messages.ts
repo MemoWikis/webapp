@@ -48,8 +48,9 @@ export const messages: any = {
             circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
             topicNotSelected: "Du hast kein Thema ausgewählt",
             newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
-            notFound: "Das Thema wurde nicht gefunden",
-            noRights: "Du hast keine Rechte diese Themenseite anzuzeigen"
+            notFound: "Oh no. Diese Seite existiert nicht",
+            noRights: "Diese Seite ist privat und du bist nicht berechtigt die Seit zu sehen.",
+            unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         question: {
             missingText: "Der Fragetext fehlt.",
@@ -59,7 +60,10 @@ export const messages: any = {
             isInWuwi: (count: number | string) =>
                 `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
-            errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
+            errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
+            notFound: "Oh no. Diese Seite existiert nicht",
+            noRights: "Diese Seite ist privat und du bist nicht berechtigt die Seit zu sehen.",
+            unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         user: {
             notLoggedIn: "Bitte logge dich ein.",
@@ -76,7 +80,10 @@ export const messages: any = {
             invalidFBToken: "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
             emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
             passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein.",
-            loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
+            loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort.",
+            notFound: "Oh no. Diese Seite existiert nicht",
+            noRights: "Diese Seite ist privat und du bist nicht berechtigt die Seit zu sehen.",
+            unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         image: {

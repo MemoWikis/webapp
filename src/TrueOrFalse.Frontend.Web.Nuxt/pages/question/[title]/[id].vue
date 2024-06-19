@@ -6,6 +6,7 @@ import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
+import { createFromMessageKey } from '~/components/shared/createErrorFromMessageKey'
 
 const userStore = useUserStore()
 
@@ -22,7 +23,8 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 interface Question {
 	answerBodyModel: AnswerBodyModel
 	solutionData: SolutionData
-	answerQuestionDetailsModel: AnswerQuestionDetailsResult
+	answerQuestionDetailsModel: AnswerQuestionDetailsResult,
+	messageKey: string
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
@@ -39,6 +41,11 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 			throw createError({ statusMessage: context.error?.message })
 		},
 	})
+if (question.value && question.value?.messageKey != "") {
+	throw createFromMessageKey(question.value?.messageKey)
+}
+
+
 function highlightCode(id: string) {
 
 	const el = document.getElementById(id)
@@ -105,8 +112,10 @@ useHead(() => ({
 }))
 
 onBeforeMount(() => {
-	if (question.value == null || question.value.answerBodyModel == null)
+	if (question.value == null || question.value.answerBodyModel == null) {
 		throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
+	}
+
 })
 
 </script>

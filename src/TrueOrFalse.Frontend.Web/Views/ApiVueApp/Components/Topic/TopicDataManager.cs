@@ -29,6 +29,12 @@ public class TopicDataManager(
             return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
 
+        if (_sessionUser.IsLoggedIn == false)
+            return new TopicDataResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Category.Unauthorized
+            };
+
         return new TopicDataResult
         {
             MessageKey = FrontendMessageKeys.Error.Category.NoRights

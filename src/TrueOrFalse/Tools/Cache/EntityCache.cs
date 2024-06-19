@@ -375,7 +375,7 @@ public class EntityCache
         .Where(q => q.Creator.Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 
-    public static QuestionCacheItem GetQuestion(int questionId)
+    public static QuestionCacheItem? GetQuestion(int questionId)
     {
         Questions.TryGetValue(questionId, out var question);
         return question;
