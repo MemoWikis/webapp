@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NHibernate;
+using System;
 
 namespace VueApp;
 
 public class ResetPasswordController(
     PasswordRecoveryTokenValidator _passwordRecoveryTokenValidator,
     SessionUser _sessionUser,
-    VueSessionUser _vueSessionUser,
+    FrontEndUserData _frontEndUserData,
     UserReadingRepo _userReadingRepo,
     UserWritingRepo _userWritingRepo,
     ISession _session) : Controller
@@ -43,14 +43,14 @@ public class ResetPasswordController(
     {
         var validateToken = ValidateToken(token);
         return new ValidateResult
-            { Success = validateToken.Success, MessageKey = validateToken.MessageKey };
+        { Success = validateToken.Success, MessageKey = validateToken.MessageKey };
     }
 
     public readonly record struct SetNewPasswordJson(string token, string password);
 
     public readonly record struct SetNewPasswordResult(
         bool Success,
-        VueSessionUser.CurrentUserData Data,
+        FrontEndUserData.CurrentUserData Data,
         string MessageKey);
 
     [HttpPost]
@@ -60,7 +60,7 @@ public class ResetPasswordController(
         if (validationResult.Success == false)
         {
             return new SetNewPasswordResult
-                { Success = validationResult.Success, MessageKey = validationResult.MessageKey };
+            { Success = validationResult.Success, MessageKey = validationResult.MessageKey };
         }
 
         var result = PasswordResetPrepare.Run(json.token, _session);
@@ -86,7 +86,7 @@ public class ResetPasswordController(
         return new SetNewPasswordResult
         {
             Success = true,
-            Data = _vueSessionUser.GetCurrentUserData()
+            Data = _frontEndUserData.Get()
         };
     }
 }

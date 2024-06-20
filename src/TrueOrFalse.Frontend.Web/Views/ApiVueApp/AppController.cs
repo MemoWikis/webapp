@@ -4,7 +4,7 @@ using System.Linq;
 using VueApp;
 
 public class AppController(
-    VueSessionUser _vueSessionUser,
+    FrontEndUserData _frontEndUserData,
     SessionUser _sessionUser,
     PersistentLoginRepo _persistentLoginRepo,
     UserReadingRepo _userReadingRepo,
@@ -49,7 +49,7 @@ public class AppController(
     [HttpGet]
     public GetCurrentUserResult GetCurrentUser()
     {
-        var currentUser = _vueSessionUser.GetCurrentUserData();
+        var currentUser = _frontEndUserData.Get();
 
         return new GetCurrentUserResult
         {
