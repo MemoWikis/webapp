@@ -2,7 +2,6 @@ import { createError, NuxtError } from 'nuxt/app';
 import { ErrorCode } from './errorCodeEnum';
 import { messages } from '../alert/alertStore'
 import { getLastElement } from './utils'
-const { $logger} = useNuxtApp()
 
 export const createFromMessageKey = (messageKey: string) =>  {
     let statusCodeTemp: number;
