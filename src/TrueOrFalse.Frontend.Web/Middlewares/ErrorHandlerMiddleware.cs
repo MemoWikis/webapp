@@ -25,11 +25,11 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
             }
             else if (httpContext.Response.StatusCode == 500)
             {
-                Logg.Error(new NotFoundException("Internal Error"));
+                Logg.Error(new Exception("Internal Error"));
             }
             else if (httpContext.Response.StatusCode == 503)
             {
-                Logg.Error(new NotFoundException("Server unavailable"));
+                Logg.Error(new Exception("Server unavailable"));
             }
         }
     }

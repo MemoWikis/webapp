@@ -5,6 +5,8 @@ import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
 import { Page } from '~/components/shared/pageEnum'
+import { createFromMessageKey } from '~/components/shared/createErrorFromMessageKey'
+import { messages } from '~/components/alert/messages'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -60,7 +62,8 @@ interface User {
 interface ProfileData {
     user: User
     overview: Overview
-    isCurrentUser: boolean
+    isCurrentUser: boolean,
+    messageKey: string
 }
 
 const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
@@ -79,10 +82,11 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
     },
 })
 
-onBeforeMount(() => {
-    if (profile.value == null || profile.value.user.id <= 0)
-        throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-})
+if (profile.value && profile.value?.messageKey != "") {
+
+    console.log(profile.value.messageKey)
+    throw createFromMessageKey(profile.value.messageKey)
+}
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
@@ -154,6 +158,8 @@ function handleBreadcrumb(t: Tab) {
         emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
     }
 }
+
+
 
 onMounted(() => {
     emit('setPage', Page.User)

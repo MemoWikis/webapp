@@ -110,14 +110,6 @@ useHead(() => ({
 		}
 	]
 }))
-
-onBeforeMount(() => {
-	if (question.value == null || question.value.answerBodyModel == null) {
-		throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-	}
-
-})
-
 </script>
 
 <template>

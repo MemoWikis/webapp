@@ -94,6 +94,7 @@
             public static readonly string PasswordTooShort = "error_user_passwordTooShort";
             public static readonly string LoginFailed = "error_user_loginFailed";
             public static readonly string FalseEmailFormat = "error_user_falseEmailFormat";
+            public static readonly string NotFound = "error_user_notFound";
         }
 
         public static readonly string Default = "error_default";

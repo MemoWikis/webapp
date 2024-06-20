@@ -18,7 +18,7 @@ onMounted(() => {
 
 function setErrorData(statusCode: number) {
     errorImgSrc.value = {
-        [ErrorCode.NotFound]: '/Images/memo-404_german_600.png',
+        [ErrorCode.NotFound]: '/Images/Error/memo-404_german_600.png',
         [ErrorCode.Unauthorized]: '/Images/Error/memo-401_german_600.png',
         [ErrorCode.Error]: '/Images/Error/memo-500_german_600.png'
     }[statusCode]
@@ -33,37 +33,74 @@ const description = ref<string | undefined>('')
     <div class="col-xs-12 container">
         <div class="error-page">
             <Image v-if="errorImgSrc" :src="errorImgSrc" class="error-image" />
-            <div class="error-message">
-                <p>Oder schicke eine E-Mail an team@memucho.de.</p>
-                <strong>{{ description }}</strong>
-
-                <ul>
-                    <li>Wir wurden per E-Mail informiert.</li>
-                    <li>Bei dringenden Fragen kannst du Robert unter 0178-1866848 erreichen.</li>
-                    <li>Oder schicke eine E-Mail an team@memucho.de.</li>
-                </ul>
-            </div>
+            <NuxtLink to="/">
+                <button navigate class="btn back-btn">
+                    Zurück zur Startseite
+                </button>
+            </NuxtLink>
+            <h2 class="error-message">{{ description }}</h2>
+            <p class="email">Oder schicke eine E-Mail an team@memucho.de.</p>
+            <ul>
+                <li>Wir wurden per E-Mail informiert.</li>
+                <li>Bei dringenden Fragen kannst du Robert unter 0178-1866848 erreichen.</li>
+                <li>Oder schicke eine E-Mail an team@memucho.de.</li>
+            </ul>
         </div>
     </div>
 </template>
 
-
 <style lang="less" scoped>
+@import (reference) './assets/includes/imports.less';
+
 .error-page {
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding-top: 60px;
-    padding-bottom: 60px;
     flex-direction: column;
+    padding: 60px 20px;
+    align-items: center;
+    text-align: center;
+
+    .back-btn {
+        background: @memo-green;
+        margin-bottom: 20px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+
+        &:hover {
+            background: darken(@memo-green, 10%);
+        }
+    }
 
     .error-image {
-        max-width: 600px;
-        margin-bottom: 60px;
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 40px;
     }
 
     .error-message {
-        width: 100%;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .email {
+        font-size: 16px;
+        margin-bottom: 40px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        font-size: 16px;
+
+        li {
+            margin-bottom: 10px;
+        }
     }
 }
 </style>

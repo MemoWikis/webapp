@@ -35,6 +35,12 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
+    public static UserCacheItem? GetUserByIdNullable(int userId)
+    {
+        Users.TryGetValue(userId, out var user);
+        return user;
+    }
+
     public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))

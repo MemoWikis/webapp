@@ -13,7 +13,7 @@ public class UserController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache) : Controller
 {
-    public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser);
+    public readonly record struct GetResult(User User, Overview Overview, bool IsCurrentUser, string MessageKey);
 
     public readonly record struct User(
         int Id,
@@ -41,12 +41,18 @@ public class UserController(
     [HttpGet]
     public GetResult? Get([FromRoute] int id)
     {
-        var user = EntityCache.GetUserById(id);
+        var user = EntityCache.GetUserByIdNullable(id);
 
-        if (user != null)
+        if (user == null)
         {
-            var userWiki = EntityCache.GetCategory(user.StartTopicId);
-            var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
+            return new GetResult
+            {
+                MessageKey = FrontendMessageKeys.Error.User.NotFound
+            };
+        }
+
+        var userWiki = EntityCache.GetCategory(user.StartTopicId);
+        var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
             var isCurrentUser = _sessionUser.UserId == user.Id;
             var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
                 .Where(q => q.Creator != null && q.CreatorId == user.Id);
@@ -93,9 +99,6 @@ public class UserController(
                 IsCurrentUser = isCurrentUser
             };
             return result;
-        }
-
-        return null;
     }
 
     public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiTopic[] Topics);
