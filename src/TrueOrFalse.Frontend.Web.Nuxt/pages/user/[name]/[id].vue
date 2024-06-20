@@ -65,7 +65,7 @@ interface ProfileData {
 
 const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
-    mode: 'cors',
+    mode: 'no-cors',
     onRequest({ options }) {
         if (process.server) {
             options.headers = headers
@@ -86,7 +86,7 @@ onBeforeMount(() => {
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
-    mode: 'cors',
+    mode: 'no-cors',
     onRequest({ options }) {
         if (process.server) {
             options.headers = headers
