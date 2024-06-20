@@ -37,8 +37,6 @@ public class PersistentLoginRepo
 
     public void Delete(PersistentLoginCookieGetValuesResult persistentLogin)
     {
-        persistentLogin.LoginGuid = HashPassword.Run(persistentLogin.LoginGuid, Settings.SaltCookie);
-
         _session.CreateQuery("DELETE FROM PersistentLogin WHERE UserId = :userId AND LoginGuid = :loginGuid")
             .SetParameter("userId", persistentLogin.UserId)
             .SetParameter("loginGuid", persistentLogin.LoginGuid)
