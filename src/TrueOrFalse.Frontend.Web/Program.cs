@@ -84,7 +84,6 @@ builder.Services.AddAuthentication(options =>
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
         options.Cookie.SameSite = SameSiteMode.Lax;
-        options.Cookie.Name = ".MyApp.AuthCookie";
     });
 
 builder.Services.AddAntiforgery(options => { options.HeaderName = "X-CSRF-TOKEN"; });
@@ -134,11 +133,6 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseSession();
 app.UseRouting();
-
-app.UseCors("LocalhostCorsPolicy"); // CORS vor Authentication und Authorization
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 
