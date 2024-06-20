@@ -99,17 +99,16 @@ var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;
 
-if (!env.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-
 if (env.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 if (string.IsNullOrEmpty(env.WebRootPath))
