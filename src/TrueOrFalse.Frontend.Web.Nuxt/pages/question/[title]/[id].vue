@@ -7,7 +7,7 @@ import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 import { createFromMessageKey } from '~/components/shared/createErrorFromMessageKey'
-
+const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
 interface Props {
@@ -42,6 +42,7 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 		},
 	})
 if (question.value && question.value?.messageKey != "") {
+	$logger.warn(`Question: ${question.value.messageKey} route ${route.fullPath}`)
 	throw createFromMessageKey(question.value?.messageKey)
 }
 

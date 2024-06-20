@@ -84,7 +84,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 
 if (profile.value && profile.value?.messageKey != "") {
 
-    console.log(profile.value.messageKey)
+    $logger.warn(`User: ${profile.value.messageKey} route ${route.fullPath}`)
     throw createFromMessageKey(profile.value.messageKey)
 }
 

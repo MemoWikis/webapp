@@ -84,7 +84,7 @@ function setTopic() {
                 })
             })
         } else {
-            $logger.error(`Topic: NoAccess - routeId: ${route.params.id}`)
+            $logger.warn(`Topic: ${topic.value.messageKey} route ${route.fullPath}`)
             throw createFromMessageKey(topic.value.messageKey)
         }
     }
