@@ -46,7 +46,6 @@ public class Category : DomainEntity, ICreator
             CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated(userId);
     }
 
-    public virtual int CountQuestions { get; set; }
     public virtual int CountSets { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }

@@ -196,7 +196,6 @@ public class CategoryCacheItem : IPersistable
             Content = category.Content,
             CorrectnessProbability = category.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
-            CountQuestions = category.CountQuestions,
             CountQuestionsAggregated = category.CountQuestionsAggregated,
             CreatorId = creatorId,
             CustomSegments = category.CustomSegments,

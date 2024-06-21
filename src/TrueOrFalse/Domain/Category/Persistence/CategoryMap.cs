@@ -25,7 +25,6 @@ public class CategoryMap : ClassMap<Category>
 
         Map(x => x.CountQuestionsAggregated);
 
-        Map(x => x.CountQuestions);
         Map(x => x.CountSets);
 
         Map(x => x.Type).CustomType<CategoryType>();
