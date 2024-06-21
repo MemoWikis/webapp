@@ -1,8 +1,4 @@
-﻿using System.Security.Claims;
-
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 using TrueOrFalse.Web.Context;
 
@@ -84,9 +80,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         IsInstallationAdmin = false;
         _userId = -1;
         CurrentWikiId = 1;
-
-        if (_httpContext != null)
-            await _httpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
     public List<ActivityPoints> ActivityPoints =>
