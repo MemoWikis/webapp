@@ -19,7 +19,8 @@ export default defineNuxtConfig({
             seqServerPort: undefined,
             seqServerUrl: undefined,
             seqClientApiKey: "",
-            facebookAppId: ""
+            facebookAppId: "",
+            environment: ""
         },
     },
     ssr: true,
@@ -46,6 +47,11 @@ export default defineNuxtConfig({
         shim: false,
         typeCheck: true,
         // strict: false
+        tsConfig: {
+            compilerOptions: {
+                verbatimModuleSyntax: false
+        }
+    }
     },
     build: {
         transpile: [

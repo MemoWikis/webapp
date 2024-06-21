@@ -40,7 +40,7 @@ function getClass(): string {
     let str = ''
     if (isMobile)
         str += 'is-mobile'
-    if (process.server)
+    if (import.meta.server)
         return str
     else return !learningSessionConfigurationStore.showFilter ? `${str} no-questions` : str
 }

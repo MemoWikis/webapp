@@ -13,7 +13,7 @@ const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/ap
         credentials: 'include',
         mode: 'cors',
         onRequest({ options }) {
-            if (process.server) {
+            if (import.meta.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
@@ -163,8 +163,6 @@ async function removeAdminRights() {
                                 <h4>Nutzer löschen (ID)</h4>
 
                                 <div class="delete-user-input">
-                                    <input type="number" v-model="userIdToDelete" placeholder="Nutzer Id" width="100%" />
-                                    <button @click="deleteUser" class="memo-button btn btn-primary">Nutzer löschen</button>
                                 </div>
 
                             </div>

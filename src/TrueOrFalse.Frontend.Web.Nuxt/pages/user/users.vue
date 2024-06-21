@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Page } from '~/components/shared/pageEnum';
+import { Page } from '~/components/shared/pageEnum'
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { UserResult } from '~~/components/users/userResult'
@@ -30,7 +30,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -48,7 +48,7 @@ const { data: pageData, pending: pageDataPending } = await useFetch<UsersResult>
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
