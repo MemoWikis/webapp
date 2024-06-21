@@ -13,9 +13,15 @@ public class WritePersistentLoginToCookie
             Expires = DateTimeOffset.UtcNow.AddDays(30)
         };
         var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
-
-
-        httpContext.Response.Cookies.Delete(PersistentLoginCookie.Key);
         httpContext.Response.Cookies.Append(PersistentLoginCookie.Key, userId + "-x-" + loginGuid, cookieOptions);
+    }
+
+    public record struct CookieResult(string LoginGuid, DateTimeOffset ExpiryDate);
+    public static CookieResult Run(int userId, PersistentLoginRepo persistentLoginRepo)
+    {
+        var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
+        var expiryDate = DateTimeOffset.UtcNow.AddDays(30);
+
+        return new CookieResult(userId + "-x-" + loginGuid, expiryDate);
     }
 }

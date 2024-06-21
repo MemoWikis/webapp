@@ -1,21 +1,32 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
-using VueApp;
+
+namespace VueApp;
 
 public class AppController(
     FrontEndUserData _frontEndUserData,
     SessionUser _sessionUser,
     PersistentLoginRepo _persistentLoginRepo,
-    UserReadingRepo _userReadingRepo,
-    IHttpContextAccessor _httpContextAccessor) : BaseController(_sessionUser)
+    UserReadingRepo _userReadingRepo) : BaseController(_sessionUser)
 {
-    [HttpGet]
-    public void SessionStart()
+    public record struct SessionStartResult(bool success, string? loginGuid = null, DateTimeOffset? expiryDate = null);
+
+    public record struct SessionStartParam(string sessionStartGuid);
+    [HttpPost]
+    public SessionStartResult SessionStart([FromBody] SessionStartParam param)
     {
         var cookieString = Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieString != null && !IsLoggedIn)
-            LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, _httpContextAccessor.HttpContext);
+        if (cookieString != null && !IsLoggedIn && param.sessionStartGuid == Settings.NuxtSessionStartGuid)
+        {
+            var loginResult = LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, cookieString);
+            if (loginResult.Success)
+                return new SessionStartResult(true, loginResult.LoginGuid, loginResult.ExpiryDate);
+
+            return new SessionStartResult(false);
+        }
+        return new SessionStartResult(false);
+
     }
 
     public readonly record struct GetCurrentUserResult(

@@ -13,6 +13,9 @@ public class PersistentLoginCookie
 
         var item = cookieValue.Split(new[] { "-x-" }, StringSplitOptions.None);
 
+        if (item.Length != 2 || !int.TryParse(item[0], out int userId))
+            return new PersistentLoginCookieGetValuesResult();
+
         return new PersistentLoginCookieGetValuesResult
         {
             UserId = Convert.ToInt32(item[0]),
@@ -26,6 +29,9 @@ public class PersistentLoginCookie
             return new PersistentLoginCookieGetValuesResult();
 
         var item = cookieString.Split(new[] { "-x-" }, StringSplitOptions.None);
+
+        if (item.Length != 2 || !int.TryParse(item[0], out int userId))
+            return new PersistentLoginCookieGetValuesResult();
 
         return new PersistentLoginCookieGetValuesResult
         {

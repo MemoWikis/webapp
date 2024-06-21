@@ -53,6 +53,8 @@ public class UserStoreController(
     {
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
         _sessionUser.Logout();
+        //delete aspnetsession cookie
+        //_httpContextAccessor.HttpContext.Response.Cookies.Delete("key");
 
         if (!_sessionUser.IsLoggedIn)
             return new LoginResult

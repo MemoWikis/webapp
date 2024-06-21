@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         seqServerApiKey: "",
         seqRawUrl: "http://localhost:5341/api/events/raw",
+        sessionStartGuid: "",
         public: {
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",

@@ -12,31 +12,72 @@ const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
 const rootTopicChipStore = useRootTopicChipStore()
 
-const { $urlHelper, $vfm } = useNuxtApp()
+const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-await useFetch<any>('/apiVue/App/SessionStart', {
-	method: 'GET',
 
-	credentials: 'include',
-	mode: 'cors',
-	onRequest({ options }) {
-		if (process.server) {
+if (import.meta.server && !!useCookie('persistentLogin').value) {
+
+	interface SessionStartResult {
+		success: boolean
+		loginGuid?: string
+		expiryDate?: string
+	}
+
+	const { data: result } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
+		method: 'POST',
+		credentials: 'include',
+		mode: 'no-cors',
+		body: {
+			sessionStartGuid: config.sessionStartGuid
+		},
+		onRequest({ options }) {
 			options.headers = headers
 			options.baseURL = config.public.serverBase
+		},
+		onResponseError(context) {
+			throw createError({ statusMessage: context.error?.message })
 		}
-	},
-})
+	})
+
+	if (result.value?.success) {
+
+		const loginGuid = result.value.loginGuid
+		const expiryDate = result.value.expiryDate
+
+		if (loginGuid && expiryDate) {
+			setPersistentLoginCookie(loginGuid, expiryDate)
+		}
+	}
+}
+
+function setPersistentLoginCookie(loginGuid: string, expiryDate: string) {
+	refreshCookie('persistentLogin')
+
+	useCookie('persistentLogin', {
+		expires: new Date(expiryDate),
+		sameSite: 'lax',
+		secure: config.public.environment != 'development',
+		httpOnly: true
+	}).value = loginGuid
+
+	refreshCookie('persistentLogin')
+}
 
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
-	mode: 'cors',
+	mode: 'no-cors',
 	onRequest({ options }) {
-		if (process.server) {
+		if (import.meta.server) {
 			options.headers = headers
 			options.baseURL = config.public.serverBase
 		}
+	},
+	onResponse({ response }) {
+		const cookies = response.headers.get('set-cookie')
+		$logger.info('cookieProblem: app.vue GetCurrentUser sessionHeader', [{ cookies: cookies }])
+
 	},
 	onResponseError(context) {
 		throw createError({ statusMessage: context.error?.message })
@@ -52,7 +93,7 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFoot
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
-		if (process.server) {
+		if (import.meta.server) {
 			options.baseURL = config.public.serverBase
 		}
 	},

@@ -9,7 +9,7 @@ public class PersistentLoginRepo
         _session = session;
     }
 
-    public PersistentLogin Get(int userId, string guid)
+    public PersistentLogin? Get(int userId, string guid)
     {
         var hashedGuid = HashPassword.Run(guid, Settings.SaltCookie);
         return _session.QueryOver<PersistentLogin>()
