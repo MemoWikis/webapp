@@ -22,6 +22,7 @@ if (import.meta.server && !!useCookie('persistentLogin').value) {
 		success: boolean
 		loginGuid?: string
 		expiryDate?: string
+		alreadyLoggedIn?: boolean
 	}
 
 	const { data: result } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
@@ -48,7 +49,14 @@ if (import.meta.server && !!useCookie('persistentLogin').value) {
 		if (loginGuid && expiryDate) {
 			setPersistentLoginCookie(loginGuid, expiryDate)
 		}
+	} else if (result.value?.success == false && result.value.alreadyLoggedIn == false) {
+		deletePersistentLoginCookie()
 	}
+}
+
+function deletePersistentLoginCookie() {
+	useCookie('persistentLogin', { maxAge: -1 }).value = ""
+	refreshCookie('persistentLogin')
 }
 
 function setPersistentLoginCookie(loginGuid: string, expiryDate: string) {

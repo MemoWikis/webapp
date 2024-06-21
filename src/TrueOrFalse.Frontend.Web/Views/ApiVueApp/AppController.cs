@@ -10,7 +10,7 @@ public class AppController(
     PersistentLoginRepo _persistentLoginRepo,
     UserReadingRepo _userReadingRepo) : BaseController(_sessionUser)
 {
-    public record struct SessionStartResult(bool success, string? loginGuid = null, DateTimeOffset? expiryDate = null);
+    public record struct SessionStartResult(bool success, string? loginGuid = null, DateTimeOffset? expiryDate = null, bool alreadyLoggedIn = false);
 
     public record struct SessionStartParam(string sessionStartGuid);
     [HttpPost]
@@ -24,6 +24,10 @@ public class AppController(
                 return new SessionStartResult(true, loginResult.LoginGuid, loginResult.ExpiryDate);
 
             return new SessionStartResult(false);
+        }
+        if (IsLoggedIn)
+        {
+            return new SessionStartResult(false, alreadyLoggedIn: true);
         }
         return new SessionStartResult(false);
 
