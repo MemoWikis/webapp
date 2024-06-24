@@ -70,7 +70,6 @@ namespace TrueOrFalse.Search
                 Description = category.Description ?? "",
                 Name = category.Name,
                 Id = category.Id,
-                QuestionCount = category.CountQuestions
             };
             return categoryMap;
         }

@@ -46,8 +46,6 @@ public class Category : DomainEntity, ICreator
             CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated(userId);
     }
 
-    public virtual int CountQuestions { get; set; }
-    public virtual int CountSets { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }
@@ -58,7 +56,6 @@ public class Category : DomainEntity, ICreator
     public virtual int TotalRelevancePersonalEntries { get; set; }
     public virtual bool IsHistoric { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
 
     public Category()
