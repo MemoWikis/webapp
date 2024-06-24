@@ -16,8 +16,20 @@ using TrueOrFalse.Environment;
 using TrueOrFalse.Updates;
 using static System.Int32;
 using System.Text.Json;
+using Serilog;
+using Serilog.Exceptions;
+
 
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Error()
+    .Enrich.WithExceptionDetails()
+    .WriteTo.Console()
+    .WriteTo.Seq("http://localhost:5341")
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
