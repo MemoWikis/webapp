@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Security;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Antiforgery;
+﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Security;
+using System.Threading.Tasks;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
@@ -158,7 +158,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> ReIndexAllQuestions()
     {
-        await _meiliSearchReIndexAllQuestions.Go();
+        await _meiliSearchReIndexAllQuestions.Run();
 
         return new VueMaintenanceResult
         {
@@ -173,7 +173,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> ReIndexAllTopics()
     {
-        await _meiliSearchReIndexCategories.Go();
+        await _meiliSearchReIndexCategories.Run();
 
         return new VueMaintenanceResult
         {
@@ -201,7 +201,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllQuestions()
     {
-        await _meiliSearchReIndexAllQuestions.Go();
+        await _meiliSearchReIndexAllQuestions.Run();
 
         return new VueMaintenanceResult
         {
@@ -215,7 +215,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllTopics()
     {
-        await _meiliSearchReIndexCategories.Go();
+        await _meiliSearchReIndexCategories.Run();
 
         return new VueMaintenanceResult
         {

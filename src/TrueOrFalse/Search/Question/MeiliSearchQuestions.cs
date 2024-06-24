@@ -17,8 +17,8 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
         string searchTerm)
     {
         var client =
-            new MeilisearchClient(MeiliSearchKonstanten.Url, MeiliSearchKonstanten.MasterKey);
-        var index = client.Index(MeiliSearchKonstanten.Questions);
+            new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
+        var index = client.Index(MeiliSearchConstants.Questions);
         _result = new MeiliSearchQuestionsResult();
 
         _result.QuestionIds.AddRange(await LoadSearchResults(searchTerm, index));

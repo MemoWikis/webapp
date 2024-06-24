@@ -11,13 +11,13 @@ namespace TrueOrFalse.Search
 
         {
             _userReadingRepo = userReadingRepo;
-            _client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
+            _client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
         }
 
         public async Task Run()
         {
-            await _client.DeleteIndexAsync(MeiliSearchKonstanten.Users);
+            await _client.DeleteIndexAsync(MeiliSearchConstants.Users);
             await _client.DeleteIndexAsync("MeiliSearchCategory");
 
             var allUser = _userReadingRepo.GetAll();
@@ -26,8 +26,8 @@ namespace TrueOrFalse.Search
             foreach (var user in allUser)
                 listMeilieSearchUser.Add(MeiliSearchToUserMap.Run(user));
 
-            await _client.CreateIndexAsync(MeiliSearchKonstanten.Users);
-            var index = _client.Index(MeiliSearchKonstanten.Users);
+            await _client.CreateIndexAsync(MeiliSearchConstants.Users);
+            var index = _client.Index(MeiliSearchConstants.Users);
             await index.AddDocumentsAsync(listMeilieSearchUser);
         }
     }
