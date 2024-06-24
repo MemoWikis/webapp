@@ -86,6 +86,9 @@ export const messages: any = {
             unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
+        route: {
+            notFound: "Diese Route ist nicht vorhanden"
+        },
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
         },
