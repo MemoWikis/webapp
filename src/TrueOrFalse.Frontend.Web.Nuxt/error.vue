@@ -17,14 +17,23 @@ onMounted(() => {
 })
 
 function setErrorData(statusCode: number) {
-    errorImgSrc.value = {
-        [ErrorCode.NotFound]: '/Images/Error/memo-404_german_600.png',
-        [ErrorCode.Unauthorized]: '/Images/Error/memo-401_german_600.png',
-        [ErrorCode.Error]: '/Images/Error/memo-500_german_600.png'
-    }[statusCode]
+    switch (statusCode) {
+        case ErrorCode.NotFound:
+            errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
+            break;
+        case ErrorCode.Unauthorized:
+            errorImgSrc.value = '/Images/Error/memo-401_german_600.png'
+            break;
+        case ErrorCode.Error:
+            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
+            break
+        default:
+            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
+            break
+    }
 }
 
-const errorImgSrc = ref<string | undefined>('')
+const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
 const description = ref<string | undefined>('')
 
 function handleError() {
