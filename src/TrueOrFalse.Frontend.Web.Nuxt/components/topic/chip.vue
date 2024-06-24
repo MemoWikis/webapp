@@ -1,5 +1,3 @@
-<!-- eslint-disable no-undef -->
-<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
 import { TopicItem } from '../search/searchHelper'
 
@@ -13,7 +11,6 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits(['removeTopic'])
 
-/*eslint no-undef: "error"*/
 const hover = ref(false)
 const name = ref('')
 
@@ -32,14 +29,15 @@ name.value = props.topic.name.length > 30 ? props.topic.name.substring(0, 26) + 
 if (props.isSpoiler)
     showName.value = false
 
-/*eslint no-undef: "error"*/
 const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
     <div class="topic-chip-component">
         <div class="topic-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName" external>
+            <!-- <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName"> -->
+            <LazyNuxtLink :to="'/test/213812831'" v-if="showName">
+
                 <div class="topic-chip" :v-tooltip="topic.name" :class="{ 'label-hidden': props.hideLabel }">
 
                     <img v-if="showImage" :src="topic.miniImageUrl" :alt="`image for ${topic.name}`" />
@@ -49,7 +47,7 @@ const { $urlHelper } = useNuxtApp()
                     </div>
                     <font-awesome-icon v-if="topic.visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
-            </NuxtLink>
+            </LazyNuxtLink>
             <div class="topic-chip spoiler" v-else @click="showName = true">
                 <div class="topic-chip-label">
                     Spoiler anzeigen

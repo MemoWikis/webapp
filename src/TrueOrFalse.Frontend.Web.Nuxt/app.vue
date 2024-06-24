@@ -141,6 +141,9 @@ useHead(() => ({
 	]
 }))
 const { isMobile } = useDevice()
+function logError() {
+	console.error('error')
+}
 </script>
 
 <template>
@@ -152,9 +155,19 @@ const { isMobile } = useDevice()
 	<ClientOnly>
 		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
 	</ClientOnly>
-	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.documentation"
-		:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+	<NuxtErrorBoundary @error="logError">
+		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+			@set-breadcrumb="setBreadcrumb" :documentation="footerTopics?.documentation"
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" /> <template
+			#error="{ error, clearError }">
+			You can display the error locally here: {{ error }}
+			<button @click="clearError">
+				This will clear the error.
+			</button>
+		</template>
+	</NuxtErrorBoundary>
+
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

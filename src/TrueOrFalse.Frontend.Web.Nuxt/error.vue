@@ -12,7 +12,7 @@ emit('setPage', Page.Error)
 
 onMounted(() => {
     if (props.error?.statusCode)
-        setErrorData(props.error?.statusCode)
+        setErrorData(props.error.statusCode)
     description.value = props.error?.message
 })
 
@@ -25,8 +25,6 @@ function setErrorData(statusCode: number) {
             errorImgSrc.value = '/Images/Error/memo-401_german_600.png'
             break;
         case ErrorCode.Error:
-            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
-            break
         default:
             errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
             break
