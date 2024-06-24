@@ -205,7 +205,7 @@ export default <RouterConfig>{
         {
             name: 'catchAll',
             path: '/:catchAll(.*)',
-            component: () => import('~/pages/error.vue'),
+            component: () => import('~/pages/catchAll.vue'),
             hidden: true
         },
     ],

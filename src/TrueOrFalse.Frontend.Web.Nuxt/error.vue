@@ -17,27 +17,37 @@ onMounted(() => {
 })
 
 function setErrorData(statusCode: number) {
-    errorImgSrc.value = {
-        [ErrorCode.NotFound]: '/Images/Error/memo-404_german_600.png',
-        [ErrorCode.Unauthorized]: '/Images/Error/memo-401_german_600.png',
-        [ErrorCode.Error]: '/Images/Error/memo-500_german_600.png'
-    }[statusCode]
+    switch (statusCode) {
+        case ErrorCode.NotFound:
+            errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
+            break;
+        case ErrorCode.Unauthorized:
+            errorImgSrc.value = '/Images/Error/memo-401_german_600.png'
+            break;
+        case ErrorCode.Error:
+            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
+            break
+        default:
+            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
+            break
+    }
 }
 
-const errorImgSrc = ref<string | undefined>('')
-const description = ref<string | undefined>('')
+const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
+const description = ref<string | ''>('')
 
+function handleError() {
+    clearError({ redirect: '/' })
+} 
 </script>
 
 <template>
     <div class="col-xs-12 container">
         <div class="error-page">
             <Image v-if="errorImgSrc" :src="errorImgSrc" class="error-image" />
-            <NuxtLink to="/">
-                <button navigate class="btn back-btn">
-                    Zurück zur Startseite
-                </button>
-            </NuxtLink>
+            <button navigate class="btn back-btn" @click="handleError">
+                Zurück zur Startseite
+            </button>
             <h2 class="error-message">{{ description }}</h2>
             <p class="email">Oder schicke eine E-Mail an team@memucho.de.</p>
             <ul>
