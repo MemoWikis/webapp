@@ -25,7 +25,7 @@ Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Error()
     .Enrich.WithExceptionDetails()
     .WriteTo.Console()
-    .WriteTo.Seq("http://localhost:5341")
+    .WriteTo.Seq(Settings.SeqUrl)
     .CreateLogger();
 
 builder.Host.UseSerilog();
