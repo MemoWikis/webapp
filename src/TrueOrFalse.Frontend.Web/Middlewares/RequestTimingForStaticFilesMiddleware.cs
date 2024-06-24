@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 

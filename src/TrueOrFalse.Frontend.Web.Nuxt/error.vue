@@ -32,7 +32,7 @@ function setErrorData(statusCode: number) {
 }
 
 const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
-const description = ref<string | undefined>('')
+const description = ref<string | undefined>('unbekannter Fehler')
 
 function handleError() {
     clearError({ redirect: '/' })
