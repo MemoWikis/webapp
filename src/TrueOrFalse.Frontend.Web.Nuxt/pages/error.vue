@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { createFromMessageKey } from "~/components/shared/createErrorFromMessageKey"
-throw createError({ statusCode: 404, message: "Die Route existiert nicht" });
+const error = useError()
+console.log(error)
 
 </script>
 <template>
