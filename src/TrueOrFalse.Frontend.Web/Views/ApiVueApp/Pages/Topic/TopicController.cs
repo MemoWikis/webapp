@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NHibernate.Loader.Custom;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -16,7 +18,6 @@ public class TopicController(
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
