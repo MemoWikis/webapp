@@ -27,17 +27,18 @@ function setErrorData(statusCode: number) {
 const errorImgSrc = ref<string | undefined>('')
 const description = ref<string | undefined>('')
 
+function handleError() {
+    clearError({ redirect: '/' })
+} 
 </script>
 
 <template>
     <div class="col-xs-12 container">
         <div class="error-page">
             <Image v-if="errorImgSrc" :src="errorImgSrc" class="error-image" />
-            <NuxtLink to="/">
-                <button navigate class="btn back-btn">
-                    Zurück zur Startseite
-                </button>
-            </NuxtLink>
+            <button navigate class="btn back-btn" @click="handleError">
+                Zurück zur Startseite
+            </button>
             <h2 class="error-message">{{ description }}</h2>
             <p class="email">Oder schicke eine E-Mail an team@memucho.de.</p>
             <ul>
