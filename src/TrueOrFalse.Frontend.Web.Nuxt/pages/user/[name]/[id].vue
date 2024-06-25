@@ -67,7 +67,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -88,7 +88,7 @@ const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/U
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }

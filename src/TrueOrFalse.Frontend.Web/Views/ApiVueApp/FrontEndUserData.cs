@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
 namespace VueApp;
 
-public class VueSessionUser(
+public class FrontEndUserData(
     SessionUser _sessionUser,
     GetUnreadMessageCount _getUnreadMessageCount,
     IHttpContextAccessor _httpContextAccessor,
@@ -42,7 +42,7 @@ public class VueSessionUser(
         int ActivityPointsTillNextLevel,
         int ActivityPointsPercentageOfNextLevel);
 
-    public CurrentUserData GetCurrentUserData()
+    public CurrentUserData Get()
     {
         var type = UserType.Anonymous;
         var user = GetSessionUserUser();

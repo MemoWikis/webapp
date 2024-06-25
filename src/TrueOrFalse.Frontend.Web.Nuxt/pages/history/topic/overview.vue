@@ -28,7 +28,7 @@ const { pending, data: historyResult } = await useLazyFetch<HistoryResult>(`/api
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -133,9 +133,4 @@ function handleClick(g: GroupedChanges) {
         filter: brightness(0.85)
     }
 }
-
-// .link-to-all {
-//     border: 1px solid @memo-grey-light;
-//     text-decoration: none;
-// }
 </style>

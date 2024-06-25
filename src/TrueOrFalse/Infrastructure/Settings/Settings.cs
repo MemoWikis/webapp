@@ -62,4 +62,7 @@ public class Settings
 
     //Seq
     public static string SeqUrl => _configuration["General:SeqUrl"];
+
+    public static string NuxtSessionStartGuid => _configuration["Nuxt:SessionStartGuid"];
+
 }

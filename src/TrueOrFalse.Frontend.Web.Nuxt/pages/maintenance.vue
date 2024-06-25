@@ -13,7 +13,7 @@ const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/ap
         credentials: 'include',
         mode: 'cors',
         onRequest({ options }) {
-            if (process.server) {
+            if (import.meta.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
@@ -141,13 +141,11 @@ async function removeAdminRights() {
                     v-if="isAdmin && userStore.isAdmin && antiForgeryToken != null && antiForgeryToken?.length > 0">
                     <h1>Adminseite</h1>
                     <div class="row">
-
                         <div class="alert alert-warning alert-dismissible" role="alert" v-if="resultMsg.length > 0">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"
                                 @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
                             {{ resultMsg }}
                         </div>
-
                         <MaintenanceSection title="Fragen" :methods="questionMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
@@ -161,19 +159,13 @@ async function removeAdminRights() {
                             :icon="['fas', 'retweet']">
                             <div class="delete-user-container">
                                 <h4>Nutzer löschen (ID)</h4>
-
-                                <div class="delete-user-input">
-                                    <input type="number" v-model="userIdToDelete" placeholder="Nutzer Id" width="100%" />
-                                    <button @click="deleteUser" class="memo-button btn btn-primary">Nutzer löschen</button>
-                                </div>
-
+                                <div class="delete-user-input"></div>
                             </div>
                         </MaintenanceSection>
                         <MaintenanceSection title="Sonstige" :methods="miscMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Tools" :methods="toolsMethods" @method-clicked="handleClick"
                             :icon="['fas', 'hammer']" />
-
                         <div class="remove-admin-rights-section col-xs-12 col-lg-6">
                             <h3>Adminrechte abgeben</h3>
                             <div>
@@ -181,13 +173,9 @@ async function removeAdminRights() {
                                     Adminrechte abgeben
                                 </button>
                             </div>
-
-
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

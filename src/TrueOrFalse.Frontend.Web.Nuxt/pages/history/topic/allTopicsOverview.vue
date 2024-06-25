@@ -51,7 +51,7 @@ const { pending, data: days } = await useLazyFetch<Day[]>(url, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -101,8 +101,8 @@ function handleClick(g: GroupedChanges) {
 
                             <TopicHistoryAllChange :change="g.changes[0]" :group-index="gcIndex"
                                 :class="{ 'is-group': g.changes.length > 1 }"
-                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed" @click="handleClick(g)"
-                                :first-edit-id="g.changes[g.changes.length - 1].revisionId">
+                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
+                                @click="handleClick(g)" :first-edit-id="g.changes[g.changes.length - 1].revisionId">
                                 <template v-slot:extras v-if="g.changes.length > 1">
                                     <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
                                     <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />
