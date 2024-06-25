@@ -199,6 +199,12 @@ useHead(() => ({
 	]
 }))
 const { isMobile } = useDevice()
+
+const { $logger } = useNuxtApp()
+
+function logError(e: any) {
+	$logger.info('Nuxt non Fatal Error', [{ error: e }])
+}
 </script>
 
 <template>
@@ -210,9 +216,17 @@ const { isMobile } = useDevice()
 	<ClientOnly>
 		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
 	</ClientOnly>
-	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.documentation"
-		:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+	<NuxtErrorBoundary @error="logError">
+		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+			@set-breadcrumb="setBreadcrumb" :documentation="footerTopics?.documentation"
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+		<template #error="{ error, clearError }">
+			<ErrorContent :error="error" :in-error-boundary="true" @clear-error="clearError" />
+		</template>
+	</NuxtErrorBoundary>
+
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

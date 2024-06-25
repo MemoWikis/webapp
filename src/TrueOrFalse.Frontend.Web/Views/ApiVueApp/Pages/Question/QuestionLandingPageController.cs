@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +39,8 @@ public class QuestionLandingPageController(
     public readonly record struct QuestionPageResult(
         AnswerBodyModel AnswerBodyModel,
         SolutionData SolutionData,
-        AnswerQuestionDetailsResult? AnswerQuestionDetailsModel);
+        AnswerQuestionDetailsResult? AnswerQuestionDetailsModel,
+        string MessageKey);
 
     public readonly record struct AnswerBodyModel(
         int Id,
@@ -60,7 +60,6 @@ public class QuestionLandingPageController(
         string ImgUrl,
         string TextHtml);
 
-
     public readonly record struct SolutionData(
         string AnswerAsHTML,
         string Answer,
@@ -78,11 +77,32 @@ public class QuestionLandingPageController(
     public QuestionPageResult GetQuestionPage([FromRoute] int id)
     {
         var q = EntityCache.GetQuestion(id);
-
-        if (!_permissionCheck.CanView(q))
+        if (q == null)
         {
-            Logg.r.Error($"Not allowed to view question in function {nameof(GetQuestionPage)}");
-            throw new SecurityException("Not allowed to view question");
+            Logg.r.Warning($"questions: Not found the question in function {nameof(GetQuestionPage)}");
+            return new QuestionPageResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Question.NotFound
+            };
+        }
+
+        var canView = _permissionCheck.CanView(q);
+        if (_sessionUser.IsLoggedIn == false && canView == false)
+        {
+            Logg.r.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
+            return new QuestionPageResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Question.Unauthorized
+            };
+        }
+
+        if (canView == false)
+        {
+            Logg.r.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
+            return new QuestionPageResult
+            {
+                MessageKey = FrontendMessageKeys.Error.Question.NoRights
+            };
         }
 
         var primaryTopic = q.Categories.LastOrDefault();
@@ -108,7 +128,8 @@ public class QuestionLandingPageController(
                 PrimaryTopicName = primaryTopic?.Name,
                 Solution = q.Solution,
                 IsCreator = q.Creator.Id == _sessionUser.UserId,
-                IsInWishknowledge = _sessionUser.IsLoggedIn && q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                IsInWishknowledge = _sessionUser.IsLoggedIn &&
+                                    q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
                 QuestionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
                 ImgUrl = GetQuestionImageFrontendData.Run(q,
@@ -135,7 +156,8 @@ public class QuestionLandingPageController(
                 }).ToArray()
             },
             AnswerQuestionDetailsModel =
-                GetData(id)
+                GetData(id),
+            MessageKey = ""
         };
     }
 

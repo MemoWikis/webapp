@@ -27,9 +27,11 @@ public class QuestionController(
     TotalsPersUserLoader _totalsPersUserLoader) : Controller
 {
     public readonly record struct QuestionPageResult(
-        AnswerBodyModel AnswerBodyModel,
-        SolutionData SolutionData,
-        AnswerQuestionDetailsResult? AnswerQuestionDetailsModel);
+        AnswerBodyModel? AnswerBodyModel,
+        SolutionData? SolutionData,
+        AnswerQuestionDetailsResult? AnswerQuestionDetailsModel,
+        string? MessageKey,
+        NuxtErrorPageType? ErrorCode);
 
     public readonly record struct AnswerBodyModel(
         int Id,
@@ -64,47 +66,74 @@ public class QuestionController(
     public QuestionPageResult GetQuestionPage([FromRoute] int id)
     {
         var question = EntityCache.GetQuestion(id);
-        var primaryTopic = question.Categories.LastOrDefault();
-        var solution = GetQuestionSolution.Run(question);
+        if (question == null)
+        {
+            return new QuestionPageResult
+            {
+                ErrorCode = NuxtErrorPageType.NotFound,
+                MessageKey = FrontendMessageKeys.Error.Question.NotFound
+            };
+        }
 
-        EscapeReferencesText(question.References);
+        if (_permissionCheck.CanViewQuestion(id))
+        {
+            var primaryTopic = question.Categories.LastOrDefault();
+            var solution = GetQuestionSolution.Run(question);
+
+            EscapeReferencesText(question.References);
+            return new QuestionPageResult
+            {
+                AnswerBodyModel = new AnswerBodyModel
+                {
+                    Id = question.Id,
+                    Text = question.Text,
+                    Title = Regex.Replace(question.Text, "<.*?>", string.Empty),
+                    SolutionType = question.SolutionType,
+                    RenderedQuestionTextExtended = question.GetRenderedQuestionTextExtended(),
+                    Description = question.Description,
+                    HasTopics = question.Categories.Any(),
+                    PrimaryTopicId = primaryTopic?.Id,
+                    PrimaryTopicName = primaryTopic?.Name,
+                    Solution = question.Solution,
+                    IsCreator = question.Creator.Id == _sessionUser.UserId,
+                    IsInWishknowledge = _sessionUser.IsLoggedIn &&
+                                        question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                    QuestionViewGuid = Guid.NewGuid(),
+                    IsLastStep = true
+                },
+                SolutionData = new SolutionData
+                {
+                    AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
+                    Answer = solution.CorrectAnswer(),
+                    AnswerDescription =
+                        question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
+                    AnswerReferences = question.References.Select(r => new AnswerReferences
+                    {
+                        ReferenceId = r.Id,
+                        TopicId = r.Category?.Id ?? null,
+                        ReferenceType = r.ReferenceType.GetName(),
+                        AdditionalInfo = r.AdditionalInfo ?? "",
+                        ReferenceText = r.ReferenceText ?? ""
+                    }).ToArray()
+                },
+                AnswerQuestionDetailsModel =
+                    GetData(id)
+            };
+        }
+
+        if (_sessionUser.IsLoggedIn)
+        {
+            return new QuestionPageResult
+            {
+                ErrorCode = NuxtErrorPageType.Unauthorized,
+                MessageKey = FrontendMessageKeys.Error.Question.NoRights
+            };
+        }
+
         return new QuestionPageResult
         {
-            AnswerBodyModel = new AnswerBodyModel
-            {
-                Id = question.Id,
-                Text = question.Text,
-                Title = Regex.Replace(question.Text, "<.*?>", string.Empty),
-                SolutionType = question.SolutionType,
-                RenderedQuestionTextExtended = question.GetRenderedQuestionTextExtended(),
-                Description = question.Description,
-                HasTopics = question.Categories.Any(),
-                PrimaryTopicId = primaryTopic?.Id,
-                PrimaryTopicName = primaryTopic?.Name,
-                Solution = question.Solution,
-                IsCreator = question.Creator.Id == _sessionUser.UserId,
-                IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
-                QuestionViewGuid = Guid.NewGuid(),
-                IsLastStep = true
-            },
-            SolutionData = new SolutionData
-            {
-                AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
-                Answer = solution.CorrectAnswer(),
-                AnswerDescription =
-                    question.Description != null ? MarkdownMarkdig.ToHtml(question.Description) : "",
-                AnswerReferences = question.References.Select(r => new AnswerReferences
-                {
-                    ReferenceId = r.Id,
-                    TopicId = r.Category?.Id ?? null,
-                    ReferenceType = r.ReferenceType.GetName(),
-                    AdditionalInfo = r.AdditionalInfo ?? "",
-                    ReferenceText = r.ReferenceText ?? ""
-                }).ToArray()
-            },
-            AnswerQuestionDetailsModel =
-                GetData(id)
+            ErrorCode = NuxtErrorPageType.Unauthorized,
+            MessageKey = FrontendMessageKeys.Error.Question.Unauthorized
         };
     }
 

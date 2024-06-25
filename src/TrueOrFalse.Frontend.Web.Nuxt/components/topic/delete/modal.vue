@@ -30,7 +30,6 @@ async function handlePrimaryAction() {
 }
 
 function selectNewParentForQuestions(topic: TopicItem) {
-    console.log(topic, "selectNewParentForQuestions")
     newParentForQuestions.value = topic
     deleteTopicStore.suggestedNewParent = topic
 }

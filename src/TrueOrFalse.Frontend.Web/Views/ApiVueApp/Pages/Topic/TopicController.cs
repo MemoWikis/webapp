@@ -16,7 +16,6 @@ public class TopicController(
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
@@ -26,9 +25,6 @@ public class TopicController(
                 _httpContextAccessor,
                 _questionReadingRepo)
             .GetTopicData(id);
-
-        if (data == null)
-            return new TopicDataResult();
 
         return new TopicDataResult
         {
@@ -56,7 +52,9 @@ public class TopicController(
             TopicItem = data.TopicItem,
             Views = data.Views,
             Visibility = data.Visibility,
-            TextIsHidden = data.TextIsHidden
+            TextIsHidden = data.TextIsHidden,
+            MessageKey = data.MessageKey,
+            ErrorCode = data.ErrorCode
         };
     }
 
@@ -85,5 +83,7 @@ public class TopicController(
         TopicDataManager.KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki,
-        bool TextIsHidden);
+        bool TextIsHidden,
+        string? MessageKey,
+        NuxtErrorPageType? ErrorCode);
 }

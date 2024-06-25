@@ -129,7 +129,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
 
-    public bool CanView(QuestionCacheItem question)
+    public bool CanView(QuestionCacheItem? question)
     {
         if (question == null || question.Id == 0)
             return false;

@@ -35,6 +35,12 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
+    public static UserCacheItem? GetUserByIdNullable(int userId)
+    {
+        Users.TryGetValue(userId, out var user);
+        return user;
+    }
+
     public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))
@@ -375,7 +381,7 @@ public class EntityCache
         .Where(q => q.Creator.Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 
-    public static QuestionCacheItem GetQuestion(int questionId)
+    public static QuestionCacheItem? GetQuestion(int questionId)
     {
         Questions.TryGetValue(questionId, out var question);
         return question;
