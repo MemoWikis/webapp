@@ -200,8 +200,6 @@ useHead(() => ({
 }))
 const { isMobile } = useDevice()
 
-const { $logger } = useNuxtApp()
-
 function logError(e: any) {
 	$logger.info('Nuxt non Fatal Error', [{ error: e }])
 }
