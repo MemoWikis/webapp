@@ -9,7 +9,6 @@ public class AllTopicsHistory(
     public IOrderedEnumerable<IGrouping<DateTime, CategoryChange>> GetGroupedChanges(int page, int revisionsToShow)
     {
         var revisionsToSkip = (page - 1) * revisionsToShow;
-
         var query = @"SELECT * FROM CategoryChange cc 
             WHERE (cc.Data <> '' AND cc.Data IS NOT NULL AND (JSON_EXTRACT(cc.Data, '$.Visibility') = 0 
             OR (JSON_EXTRACT(cc.Data, '$.Visibility') = 1 AND cc.Author_id = :userId)))
@@ -17,6 +16,7 @@ public class AllTopicsHistory(
             LIMIT :revisionsToSkip, :revisionsToShow";
 
         var orderedTopicChangesOnPage = _nhibernateSession.CreateSQLQuery(query)
+            .AddEntity(typeof(CategoryChange))
             .SetParameter("userId", _sessionUser.UserId)
             .SetParameter("revisionsToSkip", revisionsToSkip)
             .SetParameter("revisionsToShow", revisionsToShow)

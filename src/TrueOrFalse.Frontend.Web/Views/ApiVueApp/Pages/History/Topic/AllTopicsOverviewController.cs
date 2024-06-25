@@ -121,34 +121,36 @@ public class HistoryTopicAllTopicsOverviewController(
                 .CategoryRelations;
             var currentRelations =
                 CategoryEditData_V2.CreateFromJson(topicChange.Data).CategoryRelations;
-
-            if (previousRelations.Count > currentRelations.Count)
+            if (previousRelations != null && currentRelations != null)
             {
-                change.relationAdded = false;
-                var lastRelationDifference =
-                    previousRelations.Except(currentRelations).LastOrDefault();
-
-                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
-                    lastRelationDifference.CategoryId == topicChange.Category.Id)
+                if (previousRelations.Count > currentRelations.Count)
                 {
-                    change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
-                }
-                else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
-                {
-                    change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
-                }
-            }
-            else if (previousRelations.Count < currentRelations.Count)
-            {
-                change.relationAdded = true;
-                var lastRelationDifference =
-                    currentRelations.Except(previousRelations).LastOrDefault();
+                    change.relationAdded = false;
+                    var lastRelationDifference =
+                        previousRelations.Except(currentRelations).LastOrDefault();
 
-                if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
-                    lastRelationDifference.CategoryId == topicChange.Category.Id)
-                    change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
-                else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
-                    change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                    if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
+                        lastRelationDifference.CategoryId == topicChange.Category.Id)
+                    {
+                        change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
+                    }
+                    else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
+                    {
+                        change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                    }
+                }
+                else if (previousRelations.Count < currentRelations.Count)
+                {
+                    change.relationAdded = true;
+                    var lastRelationDifference =
+                        currentRelations.Except(previousRelations).LastOrDefault();
+
+                    if (_permissionCheck.CanViewCategory(lastRelationDifference.RelatedCategoryId) &&
+                        lastRelationDifference.CategoryId == topicChange.Category.Id)
+                        change = GetAffectedTopicData(change, lastRelationDifference.RelatedCategoryId);
+                    else if (_permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
+                        change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                }
             }
         }
 
