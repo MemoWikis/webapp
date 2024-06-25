@@ -25,7 +25,7 @@ onBeforeMount(async () => {
     if (route.params.questionId != null) {
         const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
         if (errorMsg) {
-            if (process.server) {
+            if (import.meta.server) {
                 alertOnMounted.value = true
                 alertOnMountedMsg.value = errorMsg
             } else {

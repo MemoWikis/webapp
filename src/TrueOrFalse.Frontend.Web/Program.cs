@@ -1,21 +1,20 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using System;
 using System.IO;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Hosting;
+using System.Text.Json;
+using TrueOrFalse.Environment;
 using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
-using Microsoft.AspNetCore.Http.Features;
-using Stripe;
-using TrueOrFalse.Environment;
 using TrueOrFalse.Updates;
 using static System.Int32;
-using System.Text.Json;
 using Serilog;
 using Serilog.Exceptions;
 
@@ -35,23 +34,21 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.Limits.MaxRequestBodySize = 1073741824;
 });
-
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
     .ConfigureContainer<ContainerBuilder>(containerBuilder =>
     {
         containerBuilder.RegisterModule<AutofacCoreModule>();
     });
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        options.JsonSerializerOptions.DefaultIgnoreCondition =
-            System.Text.Json.Serialization.JsonIgnoreCondition.Never;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.Never;
     });
-
-builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
 
@@ -86,15 +83,7 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    })
-    .AddCookie();
-
-builder.Services.AddAntiforgery(_ => { });
+builder.Services.AddAntiforgery(options => { options.HeaderName = "X-CSRF-TOKEN"; });
 
 builder.Services.AddHealthChecks();
 
@@ -107,17 +96,16 @@ var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;
 
-if (!env.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-}
-
 if (env.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseCors("LocalhostCorsPolicy");
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
 if (string.IsNullOrEmpty(env.WebRootPath))
@@ -141,8 +129,8 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseSession();
 app.UseRouting();
+
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
-app.UseMiddleware<SessionStartMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {
@@ -150,12 +138,9 @@ app.UseEndpoints(endpoints =>
         name: "default",
         pattern: "apiVue/{controller}/{action}/{id?}");
 
-    endpoints.MapHealthChecks(
-        "healthcheck_backend"
-    );
+    endpoints.MapHealthChecks("healthcheck_backend");
 });
 
-app.UseDeveloperExceptionPage();
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Urls.Add("http://*:5069");

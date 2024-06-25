@@ -223,7 +223,6 @@ public class CategoryRepository(
         }
 
         Flush();
-        updateQuestionCountForCategory.RunOnlyDb(category);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()

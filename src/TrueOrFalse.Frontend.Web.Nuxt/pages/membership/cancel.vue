@@ -12,7 +12,7 @@ const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Can
     method: 'GET',
     credentials: 'include',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }

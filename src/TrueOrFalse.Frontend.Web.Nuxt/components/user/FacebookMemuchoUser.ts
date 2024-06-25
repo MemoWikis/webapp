@@ -40,12 +40,12 @@ export class FacebookMemuchoUser {
 
         spinnerStore.hideSpinner()
 
-        if (result?.success == true) {
+        if (result && 'success' in result && result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)
             userStore.apiLogin(userStore.isLoggedIn)
         }
-        else if (result?.success == false) {
+        else if (result && 'success' in result && result?.success == false) {
             Facebook.RevokeUserAuthorization(user.id, facebookAccessToken)
             const alertStore = useAlertStore()
             alertStore.openAlert(AlertType.Error, {
@@ -72,11 +72,11 @@ export class FacebookMemuchoUser {
             })
 
         spinnerStore.hideSpinner()
-        if (result?.success == true) {
+        if (result && 'success' in result && result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)
             userStore.apiLogin(userStore.isLoggedIn)
-        } else if (result?.success == false) {
+        } else if (result && 'success' in result && result?.success == false) {
             const alertStore = useAlertStore()
             alertStore.openAlert(AlertType.Error, {
                 text: messages.getByCompositeKey(result.messageKey)

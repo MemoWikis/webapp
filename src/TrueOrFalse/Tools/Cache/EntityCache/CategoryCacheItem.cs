@@ -40,7 +40,6 @@ public class CategoryCacheItem : IPersistable
     public virtual bool DisableLearningFunctions { get; set; }
     public virtual bool TextIsHidden { get; set; }
 
-    public virtual int FormerSetId { get; set; }
     public virtual int Id { get; set; }
     public virtual bool IsHistoric { get; set; }
     public virtual string Name { get; set; }
@@ -196,13 +195,11 @@ public class CategoryCacheItem : IPersistable
             Content = category.Content,
             CorrectnessProbability = category.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = category.CorrectnessProbabilityAnswerCount,
-            CountQuestions = category.CountQuestions,
             CountQuestionsAggregated = category.CountQuestionsAggregated,
             CreatorId = creatorId,
             CustomSegments = category.CustomSegments,
             Description = category.Description,
             DisableLearningFunctions = category.DisableLearningFunctions,
-            FormerSetId = category.FormerSetId,
             IsHistoric = category.IsHistoric,
             Name = category.Name,
             SkipMigration = category.SkipMigration,

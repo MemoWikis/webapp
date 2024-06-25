@@ -1,14 +1,14 @@
 ﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class GoogleController(
     SessionUser _sessionUser,
     UserReadingRepo _userReadingRepo,
-    VueSessionUser _vueSessionUser,
+    FrontEndUserData _frontEndUserData,
     RegisterUser _registerUser) : Controller
 {
     public readonly record struct LoginJson(string token);
@@ -16,7 +16,7 @@ public class GoogleController(
     public readonly record struct LoginResult(
         bool Success,
         string MessageKey,
-        VueSessionUser.CurrentUserData Data);
+        FrontEndUserData.CurrentUserData Data);
 
     [HttpPost]
     public async Task<LoginResult> Login([FromBody] LoginJson json)
@@ -41,7 +41,7 @@ public class GoogleController(
                 {
                     Success = result.Success,
                     MessageKey = result.MessageKey,
-                    Data = _vueSessionUser.GetCurrentUserData()
+                    Data = _frontEndUserData.Get()
                 };
             }
 
@@ -49,7 +49,7 @@ public class GoogleController(
             return new LoginResult
             {
                 Success = true,
-                Data = _vueSessionUser.GetCurrentUserData()
+                Data = _frontEndUserData.Get()
             };
         }
 

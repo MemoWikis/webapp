@@ -16,7 +16,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
             credentials: 'include',
             mode: 'cors',
             onRequest({ options }) {
-                if (process.server) {
+                if (import.meta.server) {
                     options.headers = headers
                     options.baseURL = $config.public.serverBase
                 }

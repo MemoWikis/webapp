@@ -30,12 +30,11 @@ namespace TrueOrFalse.Domain.User
         {
             if (_credentialsAreValid.Yes(param.EmailAddress, param.Password))
             {
-
                 if (param.PersistentLogin)
                 {
                     WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id,
-                        _persistentLoginRepo, 
-                        _httpContextAccessor);
+                        _persistentLoginRepo,
+                        _httpContextAccessor.HttpContext);
                 }
 
                 _sessionUser.Login(_credentialsAreValid.User);

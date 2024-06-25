@@ -30,7 +30,7 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 		credentials: 'include',
 		mode: 'no-cors',
 		onRequest({ options }) {
-			if (process.server) {
+			if (import.meta.server) {
 				options.headers = headers
 				options.baseURL = config.public.serverBase
 			}
