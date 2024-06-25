@@ -4,7 +4,7 @@ import { Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
-import { createFromMessageKey } from '../../components/shared/createErrorFromMessageKey'
+import { messages } from '~/components/alert/messages'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -17,9 +17,8 @@ interface Props {
     documentation: Topic
 }
 
-
-
 const props = defineProps<Props>()
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
@@ -42,14 +41,22 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         retry: 3
     })
 
+if (topic.value?.errorCode && topic.value?.messageKey) {
+    $logger.warn(`Topic: ${topic.value.messageKey} route ${route.fullPath}`)
+    throw createError({ statusCode: topic.value.errorCode, statusMessage: messages.getByCompositeKey(topic.value.messageKey) })
+}
+
 const tabSwitched = ref(false)
 
 const router = useRouter()
 
-
 function setTopic() {
     if (topic.value != null) {
-        if (topic.value?.messageKey === "") {
+
+        if (topic.value?.errorCode && topic.value?.messageKey) {
+            $logger.warn(`Topic: ${topic.value.messageKey} route ${route.fullPath}`)
+            throw createError({ statusCode: topic.value.errorCode, statusMessage: messages.getByCompositeKey(topic.value.messageKey) })
+        } else {
 
             topicStore.setTopic(topic.value)
 
@@ -83,9 +90,6 @@ function setTopic() {
                     title: topicStore.name,
                 })
             })
-        } else {
-            $logger.warn(`Topic: ${topic.value.messageKey} route ${route.fullPath}`)
-            throw createFromMessageKey(topic.value.messageKey)
         }
     }
 }

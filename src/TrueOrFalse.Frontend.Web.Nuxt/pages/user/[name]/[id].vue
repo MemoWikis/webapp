@@ -5,8 +5,8 @@ import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
 import { Page } from '~/components/shared/pageEnum'
-import { createFromMessageKey } from '~/components/shared/createErrorFromMessageKey'
 import { messages } from '~/components/alert/messages'
+import { ErrorCode } from '~/components/error/errorCodeEnum'
 
 const route = useRoute()
 const config = useRuntimeConfig()
@@ -63,7 +63,8 @@ interface ProfileData {
     user: User
     overview: Overview
     isCurrentUser: boolean,
-    messageKey: string
+    messageKey?: string
+    errorCode?: ErrorCode
 }
 
 const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
@@ -85,7 +86,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 if (profile.value && profile.value?.messageKey != "") {
 
     $logger.warn(`User: ${profile.value.messageKey} route ${route.fullPath}`)
-    throw createFromMessageKey(profile.value.messageKey)
+    throw createError({ statusCode: profile.value.errorCode, statusMessage: messages.getByCompositeKey(profile.value.messageKey) })
 }
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {

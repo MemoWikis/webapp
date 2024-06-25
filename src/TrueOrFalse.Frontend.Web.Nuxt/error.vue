@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { Page } from './components/shared/pageEnum'
-import { ErrorCode } from './components/shared/errorCodeEnum'
 import type { NuxtError } from '#app'
 
 const props = defineProps({
@@ -8,107 +6,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['setPage'])
-emit('setPage', Page.Error)
-
-onMounted(() => {
-    if (props.error?.statusCode)
-        setErrorData(props.error.statusCode)
-    description.value = props.error?.message
-})
-
-function setErrorData(statusCode: number) {
-    switch (statusCode) {
-        case ErrorCode.NotFound:
-            errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
-            break;
-        case ErrorCode.Unauthorized:
-            errorImgSrc.value = '/Images/Error/memo-401_german_600.png'
-            break;
-        case ErrorCode.Error:
-        default:
-            errorImgSrc.value = '/Images/Error/memo-500_german_600.png'
-            break
-    }
-}
-
-const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
-const description = ref<string | undefined>('unbekannter Fehler')
-
-function handleError() {
-    clearError({ redirect: '/' })
-} 
 </script>
 
 <template>
-    <div class="col-xs-12 container">
-        <div class="error-page">
-            <Image v-if="errorImgSrc" :src="errorImgSrc" class="error-image" />
-            <button navigate class="btn back-btn" @click="handleError">
-                Zurück zur Startseite
-            </button>
-            <h2 class="error-message">{{ description }}</h2>
-            <p class="email">Oder schicke eine E-Mail an team@memucho.de.</p>
-            <ul>
-                <li>Wir wurden per E-Mail informiert.</li>
-                <li>Bei dringenden Fragen kannst du Robert unter 0178-1866848 erreichen.</li>
-                <li>Oder schicke eine E-Mail an team@memucho.de.</li>
-            </ul>
-        </div>
-    </div>
+    <ErrorContent :error="props.error" :in-error-boundary="false" />
 </template>
-
-<style lang="less" scoped>
-@import (reference) './assets/includes/imports.less';
-
-.error-page {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 60px 20px;
-    align-items: center;
-    text-align: center;
-
-    .back-btn {
-        background: @memo-green;
-        margin-bottom: 20px;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-
-        &:hover {
-            background: darken(@memo-green, 10%);
-        }
-    }
-
-    .error-image {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 40px;
-    }
-
-    .error-message {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 20px;
-    }
-
-    .email {
-        font-size: 16px;
-        margin-bottom: 40px;
-    }
-
-    ul {
-        list-style-type: none;
-        padding: 0;
-        font-size: 16px;
-
-        li {
-            margin-bottom: 10px;
-        }
-    }
-}
-</style>

@@ -35,9 +35,7 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="topic-chip-component">
         <div class="topic-chip-container" @mouseover="hover = true" @mouseleave="hover = false">
-            <!-- <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName"> -->
-            <LazyNuxtLink :to="'/test/213812831'" v-if="showName">
-
+            <NuxtLink :to="$urlHelper.getTopicUrl(topic.name, topic.id)" v-if="showName">
                 <div class="topic-chip" :v-tooltip="topic.name" :class="{ 'label-hidden': props.hideLabel }">
 
                     <img v-if="showImage" :src="topic.miniImageUrl" :alt="`image for ${topic.name}`" />
@@ -47,7 +45,7 @@ const { $urlHelper } = useNuxtApp()
                     </div>
                     <font-awesome-icon v-if="topic.visibility == 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
-            </LazyNuxtLink>
+            </NuxtLink>
             <div class="topic-chip spoiler" v-else @click="showName = true">
                 <div class="topic-chip-label">
                     Spoiler anzeigen

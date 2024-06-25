@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using NHibernate.Loader.Custom;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -27,7 +25,6 @@ public class TopicController(
                 _httpContextAccessor,
                 _questionReadingRepo)
             .GetTopicData(id);
-
 
         return new TopicDataResult
         {
@@ -57,6 +54,7 @@ public class TopicController(
             Visibility = data.Visibility,
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
+            ErrorCode = data.ErrorCode
         };
     }
 
@@ -86,5 +84,6 @@ public class TopicController(
         TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
-        string MessageKey);
+        string? MessageKey,
+        NuxtErrorPageType? ErrorCode);
 }

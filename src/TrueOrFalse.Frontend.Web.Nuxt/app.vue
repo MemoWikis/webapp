@@ -141,8 +141,11 @@ useHead(() => ({
 	]
 }))
 const { isMobile } = useDevice()
-function logError() {
-	console.error('error')
+
+const { $logger } = useNuxtApp()
+
+function logError(e: any) {
+	$logger.info('Nuxt non Fatal Error', [{ error: e }])
 }
 </script>
 
@@ -159,12 +162,10 @@ function logError() {
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 			@set-breadcrumb="setBreadcrumb" :documentation="footerTopics?.documentation"
-			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" /> <template
-			#error="{ error, clearError }">
-			You can display the error locally here: {{ error }}
-			<button @click="clearError">
-				This will clear the error.
-			</button>
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+		<template #error="{ error, clearError }">
+			<ErrorContent :error="error" :in-error-boundary="true" @clear-error="clearError" />
 		</template>
 	</NuxtErrorBoundary>
 

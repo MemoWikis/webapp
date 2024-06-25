@@ -17,6 +17,7 @@ public class TopicDataManager(
         if (topic == null)
             return new TopicDataResult
             {
+                ErrorCode = NuxtErrorPageType.NotFound,
                 MessageKey = FrontendMessageKeys.Error.Category.NotFound
             };
 
@@ -29,15 +30,17 @@ public class TopicDataManager(
             return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
 
-        if (_sessionUser.IsLoggedIn == false)
+        if (_sessionUser.IsLoggedIn)
             return new TopicDataResult
             {
-                MessageKey = FrontendMessageKeys.Error.Category.Unauthorized
+                ErrorCode = NuxtErrorPageType.Unauthorized,
+                MessageKey = FrontendMessageKeys.Error.Category.NoRights
             };
 
         return new TopicDataResult
         {
-            MessageKey = FrontendMessageKeys.Error.Category.NoRights
+            ErrorCode = NuxtErrorPageType.Unauthorized,
+            MessageKey = FrontendMessageKeys.Error.Category.Unauthorized
         };
     }
 
@@ -195,6 +198,7 @@ public class TopicDataManager(
         TopicGridManager.GridTopicItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
-        string MessageKey
+        string? MessageKey,
+        NuxtErrorPageType? ErrorCode
     );
 }

@@ -6,6 +6,7 @@ import { TopicItem } from '../search/searchHelper'
 import { GridTopicItem } from './content/grid/item/gridTopicItem'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
+import { ErrorCode } from '../error/errorCodeEnum'
 
 export class Topic {
 	canAccess: boolean = false
@@ -39,7 +40,8 @@ export class Topic {
 	gridItems: GridTopicItem[] = []
 	isChildOfPersonalWiki: boolean = false
 	textIsHidden: boolean = false
-	messageKey: string = ""
+	messageKey: string | null = null
+	errorCode: ErrorCode | null = null
 }
 
 export interface KnowledgeSummary {

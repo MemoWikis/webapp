@@ -6,7 +6,9 @@ import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
-import { createFromMessageKey } from '~/components/shared/createErrorFromMessageKey'
+import { ErrorCode } from '~/components/error/errorCodeEnum'
+import { messages } from '~/components/alert/messages'
+
 const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
@@ -21,10 +23,11 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 interface Question {
-	answerBodyModel: AnswerBodyModel
-	solutionData: SolutionData
-	answerQuestionDetailsModel: AnswerQuestionDetailsResult,
-	messageKey: string
+	answerBodyModel?: AnswerBodyModel
+	solutionData?: SolutionData
+	answerQuestionDetailsModel?: AnswerQuestionDetailsResult,
+	messageKey?: string
+	errorCode?: ErrorCode
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
@@ -41,9 +44,11 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 			throw createError({ statusMessage: context.error?.message })
 		},
 	})
-if (question.value && question.value?.messageKey != "") {
+
+if (question.value && question.value?.messageKey != "" && question.value?.errorCode != null) {
 	$logger.warn(`Question: ${question.value.messageKey} route ${route.fullPath}`)
-	throw createFromMessageKey(question.value?.messageKey)
+
+	throw createError({ statusCode: question.value.errorCode, statusMessage: messages.getByCompositeKey(question.value.messageKey) })
 }
 
 
@@ -72,7 +77,7 @@ onBeforeMount(() => {
 	highlightCode('AnswerBody')
 	highlightCode('SolutionContent')
 
-	if (question.value) {
+	if (question.value?.answerBodyModel != null && question.value?.solutionData != null) {
 		if (question.value.answerBodyModel.solutionType != SolutionType.FlashCard && question.value.answerBodyModel.renderedQuestionTextExtended.length > 0)
 			highlightCode('ExtendedQuestionContainer')
 		if (question.value.solutionData.answerDescription?.trim().length > 0)
@@ -85,21 +90,21 @@ useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel.title!, question.value?.answerBodyModel.id!)}/1`
+			href: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}/1`
 		},
 	],
 	meta: [
 		{
 			name: 'description',
-			content: question.value?.answerBodyModel.description
+			content: question.value?.answerBodyModel?.description
 		},
 		{
 			property: 'og:title',
-			content: $urlHelper.sanitizeUri(question.value?.answerBodyModel.title)
+			content: $urlHelper.sanitizeUri(question.value?.answerBodyModel?.title)
 		},
 		{
 			property: 'og:url',
-			content: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel.title!, question.value?.answerBodyModel.id!)}/1`
+			content: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}/1`
 		},
 		{
 			property: 'og:type',
@@ -107,7 +112,7 @@ useHead(() => ({
 		},
 		{
 			property: 'og:image',
-			content: question.value?.answerBodyModel.imgUrl
+			content: question.value?.answerBodyModel?.imgUrl
 		}
 	]
 }))
@@ -196,22 +201,21 @@ useHead(() => ({
 															</div>
 
 															<div class="Content body-m" id="SolutionContent"
-																v-html="handleNewLine(question.solutionData.answerAsHTML)">
+																v-html="handleNewLine(question.solutionData?.answerAsHTML)">
 															</div>
 
 														</div>
 													</div>
 
-
 													<div id="SolutionDetails"
-														v-if="question.solutionData.answerDescription?.trim().length > 0">
+														v-if="question.solutionData != null && question.solutionData.answerDescription.trim().length > 0">
 														<div id="Description">
 															<div class="solution-label">
 																Ergänzungen zur Antwort:
 															</div>
 
 															<div class="Content body-m" id="ExtendedSolutionContent"
-																v-html="handleNewLine(question.solutionData.answerDescription)">
+																v-html="handleNewLine(question.solutionData?.answerDescription)">
 															</div>
 														</div>
 													</div>
@@ -224,6 +228,7 @@ useHead(() => ({
 						</div>
 
 						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage
+							v-if="question.answerQuestionDetailsModel != null"
 							:model="question.answerQuestionDetailsModel" />
 
 					</div>
