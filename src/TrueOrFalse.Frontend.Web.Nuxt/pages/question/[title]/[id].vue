@@ -90,7 +90,7 @@ useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}/1`
+			href: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}`
 		},
 	],
 	meta: [
@@ -104,7 +104,7 @@ useHead(() => ({
 		},
 		{
 			property: 'og:url',
-			content: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}/1`
+			content: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}`
 		},
 		{
 			property: 'og:type',
