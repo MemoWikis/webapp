@@ -15,8 +15,15 @@ using TrueOrFalse.Frontend.Web1.Middlewares;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using static System.Int32;
+using Serilog;
+using Serilog.Exceptions;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Host.UseSerilog();
+
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -39,6 +46,12 @@ builder.Services.AddControllersWithViews()
     });
 
 Settings.Initialize(builder.Configuration);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Error()
+    .Enrich.WithExceptionDetails()
+    .WriteTo.Console()
+    .WriteTo.Seq(Settings.SeqUrl)
+    .CreateLogger();
 
 if (Settings.UseRedisSession)
     builder.Services.AddStackExchangeRedisCache(options =>
