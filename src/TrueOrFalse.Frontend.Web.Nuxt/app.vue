@@ -82,11 +82,6 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 			options.baseURL = config.public.serverBase
 		}
 	},
-	onResponse({ response }) {
-		const cookies = response.headers.get('set-cookie')
-		$logger.info('cookieProblem: app.vue GetCurrentUser sessionHeader', [{ cookies: cookies }])
-
-	},
 	onResponseError(context) {
 		throw createError({ statusMessage: context.error?.message })
 	}
