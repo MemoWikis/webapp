@@ -98,20 +98,6 @@ public class VueMaintenanceController(
         };
     }
 
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public VueMaintenanceResult UpdateFieldQuestionCountForTopics()
-    {
-        _updateQuestionCountForCategory.All(_categoryRepository);
-
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Feld: AnzahlFragen für Themen wurde aktualisiert."
-        };
-    }
-
     [ValidateAntiForgeryToken]
     [HttpPost]
     public VueMaintenanceResult UpdateUserReputationAndRankings()

@@ -40,7 +40,6 @@ const cacheMethods = ref<MethodData[]>([
     { url: 'ClearCache', label: 'Cache leeren' },
 ])
 const topicMethods = ref<MethodData[]>([
-    { url: 'UpdateFieldQuestionCountForTopics', label: 'Feld: Anzahl Fragen pro Thema aktualisieren' },
     { url: 'UpdateCategoryAuthors', label: 'Themenautoren aktualisieren' }
 ])
 const meiliSearchMethods = ref<MethodData[]>([
