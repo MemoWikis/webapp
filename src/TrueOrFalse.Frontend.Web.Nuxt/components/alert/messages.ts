@@ -48,9 +48,6 @@ export const messages: any = {
             circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
             topicNotSelected: "Du hast kein Thema ausgewählt",
             newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
-            notFound: "Oh no. Diese Seite existiert nicht",
-            noRights: "Diese Seite ist privat und du bist nicht berechtigt die Seit zu sehen.",
-            unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         question: {
             missingText: "Der Fragetext fehlt.",
@@ -61,9 +58,6 @@ export const messages: any = {
                 `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
-            notFound: "Oh no. Diese Seite existiert nicht",
-            noRights: "Diese Seite ist privat und du bist nicht berechtigt die Seit zu sehen.",
-            unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         user: {
             notLoggedIn: "Bitte logge dich ein.",
@@ -81,13 +75,12 @@ export const messages: any = {
             emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
             passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein.",
             loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort.",
-            notFound: "Oh no. Diese Seite existiert nicht",
-            noRights: "Diese Seite ist privat und du bist nicht berechtigt die Seit zu sehen.",
-            unauthorized: "Du bist nicht angemeldet. Vielleicht darfst du deswegen die Seite nicht sehen"
         },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
         route: {
-            notFound: "Diese Route ist nicht vorhanden"
+            notFound: "Oh nein! Diese Seite existiert nicht.",
+            noRights: "Diese Seite ist privat. Du hast keine Berechtigung, sie anzusehen.",
+            unauthorized: "Du bist nicht angemeldet. Möglicherweise hast du deshalb keinen Zugriff auf diese Seite."
         },
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
