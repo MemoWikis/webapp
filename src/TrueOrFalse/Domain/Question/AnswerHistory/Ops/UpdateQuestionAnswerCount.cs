@@ -20,9 +20,12 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
 
     private void AddCorrectAnswer(int questionId)
     {
-        _session.CreateSQLQuery(
-            "UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = " +
-            questionId).ExecuteUpdate();
+        var query = @"UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = :questionId";
+
+        _session.CreateSQLQuery(query)
+            .SetParameter("questionId", questionId)
+            .ExecuteUpdate();
+
         EntityCache.GetQuestionById(questionId).TotalTrueAnswers++;
     }
 
