@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-var error = useError();
-console.log(error)
-throw createError({ statusCode: 404, message: "Die Route existiert nicht" });
-
+import { messages } from '~/components/alert/messages'
+throw createError({ statusCode: 404, statusMessage: messages.route.notFound })
 </script>
 <template>
     <div></div>
