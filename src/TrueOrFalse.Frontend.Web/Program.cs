@@ -21,12 +21,7 @@ using Serilog.Exceptions;
 
 
 var builder = WebApplication.CreateBuilder(args);
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Error()
-    .Enrich.WithExceptionDetails()
-    .WriteTo.Console()
-    .WriteTo.Seq(Settings.SeqUrl)
-    .CreateLogger();
+
 
 builder.Host.UseSerilog();
 
@@ -54,6 +49,12 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddHttpContextAccessor();
 
 Settings.Initialize(builder.Configuration);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Error()
+    .Enrich.WithExceptionDetails()
+    .WriteTo.Console()
+    .WriteTo.Seq(Settings.SeqUrl)
+    .CreateLogger();
 
 if (Settings.UseRedisSession)
     builder.Services.AddStackExchangeRedisCache(options =>
