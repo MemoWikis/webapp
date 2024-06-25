@@ -2,6 +2,7 @@
 import { Page } from '~~/components/shared/pageEnum'
 import { ErrorCode } from '~~/components/error/errorCodeEnum'
 import type { NuxtError } from '#app'
+import { messages } from '../alert/messages'
 
 const props = defineProps({
     error: Object as () => NuxtError,
@@ -12,22 +13,22 @@ const emit = defineEmits(['setPage', 'clearError'])
 emit('setPage', Page.Error)
 
 
-onMounted(() => {
+onBeforeMount(() => {
     if (props.error?.statusCode)
-        setErrorData(props.error.statusCode)
-    description.value = props.error?.message
+        setErrorImage(props.error.statusCode)
+    if (props.error?.message)
+        description.value = props.error.message
 
     if (props.inErrorBoundary) {
         const router = useRouter()
 
         router.afterEach(() => {
-            console.debug('Manually clearing error in NuxtErrorBoundary')
             emit('clearError')
         })
     }
 })
 
-function setErrorData(statusCode: number) {
+function setErrorImage(statusCode: number) {
     switch (statusCode) {
         case ErrorCode.NotFound:
             errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
@@ -43,7 +44,7 @@ function setErrorData(statusCode: number) {
 }
 
 const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
-const description = ref<string | undefined>('unbekannter Fehler')
+const description = ref<string>(messages.error.route.notFound)
 
 function handleError() {
     clearError({ redirect: '/' })
