@@ -28,7 +28,7 @@ const { data: model } = await useFetch<MessageResult>(`/apiVue/UserMessages/Get/
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }

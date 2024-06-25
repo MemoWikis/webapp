@@ -1,19 +1,16 @@
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
-
-using Microsoft.AspNetCore.Mvc;
-
 using System.Threading.Tasks;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace VueApp;
 
 public class FacebookUsersController(
-    VueSessionUser _vueSessionUser,
+    FrontEndUserData _frontEndUserData,
     UserReadingRepo _userReadingRepo,
     SessionUser _sessionUser,
     RegisterUser _registerUser,
@@ -24,7 +21,7 @@ public class FacebookUsersController(
     public readonly record struct LoginResult(
         bool Success,
         string MessageKey,
-        VueSessionUser.CurrentUserData Data);
+        FrontEndUserData.CurrentUserData Data);
 
     [HttpPost]
     public async Task<LoginResult> Login([FromBody] LoginJson json)
@@ -48,7 +45,7 @@ public class FacebookUsersController(
             return new LoginResult
             {
                 Success = true,
-                Data = _vueSessionUser.GetCurrentUserData()
+                Data = _frontEndUserData.Get()
             };
         }
 
@@ -78,7 +75,7 @@ public class FacebookUsersController(
                 return new LoginResult
                 {
                     Success = true,
-                    Data = _vueSessionUser.GetCurrentUserData()
+                    Data = _frontEndUserData.Get()
                 };
             }
 
@@ -89,7 +86,7 @@ public class FacebookUsersController(
                 return new LoginResult
                 {
                     Success = true,
-                    Data = _vueSessionUser.GetCurrentUserData()
+                    Data = _frontEndUserData.Get()
                 };
             }
 

@@ -74,11 +74,6 @@
         return this;
     }
 
-    public ContextCategory QuestionCount(int questionCount)
-    {
-        All.Last().CountQuestions = questionCount;
-        return this;
-    }
 
     public ContextCategory Persist()
     {

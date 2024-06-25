@@ -12,13 +12,72 @@ const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
 const rootTopicChipStore = useRootTopicChipStore()
 
+const { $urlHelper, $vfm, $logger } = useNuxtApp()
+
 const headers = useRequestHeaders(['cookie']) as HeadersInit
+
+if (import.meta.server && !!useCookie('persistentLogin').value) {
+
+	interface SessionStartResult {
+		success: boolean
+		loginGuid?: string
+		expiryDate?: string
+		alreadyLoggedIn?: boolean
+	}
+
+	const { data: result } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
+		method: 'POST',
+		credentials: 'include',
+		mode: 'no-cors',
+		body: {
+			sessionStartGuid: config.sessionStartGuid
+		},
+		onRequest({ options }) {
+			options.headers = headers
+			options.baseURL = config.public.serverBase
+		},
+		onResponseError(context) {
+			throw createError({ statusMessage: context.error?.message })
+		}
+	})
+
+	if (result.value?.success) {
+
+		const loginGuid = result.value.loginGuid
+		const expiryDate = result.value.expiryDate
+
+		if (loginGuid && expiryDate) {
+			setPersistentLoginCookie(loginGuid, expiryDate)
+		}
+	} else if (result.value?.success == false && result.value.alreadyLoggedIn == false) {
+		deletePersistentLoginCookie()
+	}
+}
+
+function deletePersistentLoginCookie() {
+	useCookie('persistentLogin', { maxAge: -1 }).value = ""
+	refreshCookie('persistentLogin')
+}
+
+function setPersistentLoginCookie(loginGuid: string, expiryDate: string) {
+	refreshCookie('persistentLogin')
+
+	useCookie('persistentLogin', {
+		expires: new Date(expiryDate),
+		sameSite: 'lax',
+		secure: config.public.environment != 'development',
+		httpOnly: true
+	}).value = loginGuid
+
+	refreshCookie('persistentLogin')
+}
+
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
 	mode: 'no-cors',
 	onRequest({ options }) {
-		if (process.server) {
+		if (import.meta.server) {
 			options.headers = headers
 			options.baseURL = config.public.serverBase
 		}
@@ -32,11 +91,12 @@ if (currentUser.value != null) {
 	useState('currentuser', () => currentUser.value)
 }
 
+
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
-		if (process.server) {
+		if (import.meta.server) {
 			options.baseURL = config.public.serverBase
 		}
 	},
@@ -75,7 +135,6 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
 const route = useRoute()
-const { $urlHelper } = useNuxtApp()
 userStore.$onAction(({ name, after }) => {
 	if (name == 'logout') {
 
@@ -122,7 +181,6 @@ async function handleLogin() {
 		await refreshNuxtData()
 }
 
-const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm
 const modalIsOpen = ref(false)
 watch(() => openedModals, (val) => {

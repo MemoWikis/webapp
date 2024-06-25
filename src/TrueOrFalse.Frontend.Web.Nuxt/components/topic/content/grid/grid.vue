@@ -47,7 +47,7 @@ onMounted(() => {
 
 const topicsToFilter = computed<number[]>(() => {
 
-    let topicsToFilter = process.server ? props.children.map(c => c.id) : topicStore.gridItems.map(c => c.id)
+    let topicsToFilter = import.meta.server ? props.children.map(c => c.id) : topicStore.gridItems.map(c => c.id)
     topicsToFilter.push(topicStore.id)
 
     return topicsToFilter

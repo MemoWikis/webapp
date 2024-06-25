@@ -4,20 +4,20 @@ public class RemovePersistentLoginFromCookie
 {
     public static void Run(
         PersistentLoginRepo persistentLoginRepo,
-        IHttpContextAccessor httpContextAccessor)
+        HttpContext httpContext)
     {
-        var persistentCookieValue = PersistentLoginCookie.GetValues(httpContextAccessor);
+        var persistentCookieValue = PersistentLoginCookie.GetValues(httpContext);
 
         if (!persistentCookieValue.Exists())
             return;
 
-        persistentLoginRepo.Delete(persistentCookieValue.UserId);
+        persistentLoginRepo.Delete(persistentCookieValue);
 
         var existingCookieValue =
-            httpContextAccessor.HttpContext?.Request.Cookies[PersistentLoginCookie.Key];
+            httpContext?.Request.Cookies[PersistentLoginCookie.Key];
         if (existingCookieValue != null)
         {
-            httpContextAccessor.HttpContext?.Response.Cookies.Delete(PersistentLoginCookie.Key);
+            httpContext?.Response.Cookies.Delete(PersistentLoginCookie.Key);
         }
     }
 }

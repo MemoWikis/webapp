@@ -1,9 +1,38 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using VueApp;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
-public class AppController(VueSessionUser _vueSessionUser) : Controller
+namespace VueApp;
+
+public class AppController(
+    FrontEndUserData _frontEndUserData,
+    SessionUser _sessionUser,
+    PersistentLoginRepo _persistentLoginRepo,
+    UserReadingRepo _userReadingRepo) : BaseController(_sessionUser)
 {
+    public record struct SessionStartResult(bool success, string? loginGuid = null, DateTimeOffset? expiryDate = null, bool alreadyLoggedIn = false);
+
+    public record struct SessionStartParam(string sessionStartGuid);
+    [HttpPost]
+    public SessionStartResult SessionStart([FromBody] SessionStartParam param)
+    {
+        var cookieString = Request.Cookies[PersistentLoginCookie.Key];
+        if (cookieString != null && !IsLoggedIn && param.sessionStartGuid == Settings.NuxtSessionStartGuid)
+        {
+            var loginResult = LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, cookieString);
+            if (loginResult.Success)
+                return new SessionStartResult(true, loginResult.LoginGuid, loginResult.ExpiryDate);
+
+            return new SessionStartResult(false);
+        }
+        if (IsLoggedIn)
+        {
+            return new SessionStartResult(false, alreadyLoggedIn: true);
+        }
+        return new SessionStartResult(false);
+
+    }
+
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
         int Id,
@@ -35,37 +64,37 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
     [HttpGet]
     public GetCurrentUserResult GetCurrentUser()
     {
-        var sessionUser = _vueSessionUser.GetCurrentUserData();
+        var currentUser = _frontEndUserData.Get();
 
         return new GetCurrentUserResult
         {
-            IsLoggedIn = sessionUser.IsLoggedIn,
-            Id = sessionUser.Id,
-            Name = sessionUser.Name,
-            Email = sessionUser.Email,
-            IsAdmin = sessionUser.IsAdmin,
-            PersonalWikiId = sessionUser.PersonalWikiId,
-            Type = sessionUser.Type,
-            ImgUrl = sessionUser.ImgUrl,
-            Reputation = sessionUser.Reputation,
-            ReputationPos = sessionUser.ReputationPos,
-            PersonalWiki = sessionUser.PersonalWiki,
+            IsLoggedIn = currentUser.IsLoggedIn,
+            Id = currentUser.Id,
+            Name = currentUser.Name,
+            Email = currentUser.Email,
+            IsAdmin = currentUser.IsAdmin,
+            PersonalWikiId = currentUser.PersonalWikiId,
+            Type = currentUser.Type,
+            ImgUrl = currentUser.ImgUrl,
+            Reputation = currentUser.Reputation,
+            ReputationPos = currentUser.ReputationPos,
+            PersonalWiki = currentUser.PersonalWiki,
             ActivityPoints = new ActivityPoints
             {
-                Points = sessionUser.ActivityPoints.Points,
-                Level = sessionUser.ActivityPoints.Level,
-                LevelUp = sessionUser.ActivityPoints.LevelUp,
+                Points = currentUser.ActivityPoints.Points,
+                Level = currentUser.ActivityPoints.Level,
+                LevelUp = currentUser.ActivityPoints.LevelUp,
                 ActivityPointsPercentageOfNextLevel =
-                    sessionUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
-                ActivityPointsTillNextLevel = sessionUser.ActivityPoints.ActivityPointsTillNextLevel
+                    currentUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
+                ActivityPointsTillNextLevel = currentUser.ActivityPoints.ActivityPointsTillNextLevel
             },
-            UnreadMessagesCount = sessionUser.UnreadMessagesCount,
-            SubscriptionType = sessionUser.SubscriptionType,
-            HasStripeCustomerId = sessionUser.HasStripeCustomerId,
-            EndDate = sessionUser.EndDate,
-            SubscriptionStartDate = sessionUser.SubscriptionStartDate,
-            IsSubscriptionCanceled = sessionUser.IsSubscriptionCanceled,
-            IsEmailConfirmed = sessionUser.IsEmailConfirmed
+            UnreadMessagesCount = currentUser.UnreadMessagesCount,
+            SubscriptionType = currentUser.SubscriptionType,
+            HasStripeCustomerId = currentUser.HasStripeCustomerId,
+            EndDate = currentUser.EndDate,
+            SubscriptionStartDate = currentUser.SubscriptionStartDate,
+            IsSubscriptionCanceled = currentUser.IsSubscriptionCanceled,
+            IsEmailConfirmed = currentUser.IsEmailConfirmed
         };
     }
 
