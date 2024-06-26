@@ -53,7 +53,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
             foreach (var userId in userIds)
             {
-                var userTotalWishKnowledgeInOtherPoeple = _nhibernateSession.CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ").SetParameter("userId", userId).UniqueResult<int>();
+                var userTotalWishKnowledgeInOtherPoeple = _nhibernateSession
+                    .CreateSQLQuery(@"Select TotalInOthersWishknowledge From User where Id = :userId ")
+                    .SetParameter("userId", userId)
+                    .UniqueResult<int>();
+
                 var joinTotalWishKnowledgeInOtherPoeple = _nhibernateSession.CreateSQLQuery(
                     @"SELECT count(qv.Id) FROM questionvaluation qv JOIN 
                     question q ON qv.Questionid = q.Id

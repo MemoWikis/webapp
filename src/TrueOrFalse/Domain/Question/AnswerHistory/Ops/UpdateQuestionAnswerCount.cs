@@ -31,9 +31,11 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
 
     private void AddWrongAnswer(int questionId)
     {
-        _session.CreateSQLQuery(
-            "UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers + 1 where Id = " +
-            questionId).ExecuteUpdate();
+        var query = "UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers + 1 where Id = :questionId";
+        _session.CreateSQLQuery(query)
+            .SetParameter("questionId", questionId)
+            .ExecuteUpdate();
+
         EntityCache.GetQuestionById(questionId).TotalFalseAnswers++;
     }
 
@@ -41,12 +43,19 @@ public class UpdateQuestionAnswerCount : IRegisterAsInstancePerLifetime
     {
         lock (_updateLock)
         {
+            var removeFalseAnswer =
+                "UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers - 1 where Id = :questionId";
+
+            _session.CreateSQLQuery(removeFalseAnswer)
+                .SetParameter("questionId", questionId)
+                .ExecuteUpdate();
+
+            var addCorrectAnswer =
+                "UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = :questionId";
             _session.CreateSQLQuery(
-                "UPDATE Question SET TotalTrueAnswers = TotalTrueAnswers + 1 where Id = " +
-                questionId).ExecuteUpdate();
-            _session.CreateSQLQuery(
-                "UPDATE Question SET TotalFalseAnswers = TotalFalseAnswers - 1 where Id = " +
-                questionId).ExecuteUpdate();
+                    addCorrectAnswer)
+                .SetParameter("questionId", questionId)
+                .ExecuteUpdate();
 
             EntityCache.GetQuestionById(questionId).TotalTrueAnswers++;
             EntityCache.GetQuestionById(questionId).TotalFalseAnswers--;
