@@ -1,14 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.Answer;
-using TrueOrFalse.Frontend.Web.Code;
 using TrueOrFalse.Web;
 
 namespace VueApp;
@@ -199,15 +198,12 @@ public class QuestionLandingPageController(
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
                 .IsInWishKnowledge,
             Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
-                new AnswerQuestionDetailsTopic(
+                new AnswerQuestionDetailsTopicItem(
                     Id: t.Id,
                     Name: t.Name,
-                    Url: new Links(_actionContextAccessor, _httpContextAccessor).CategoryDetail(
-                        t.Name, t.Id),
                     QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
                     ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor)
                         .GetUrl_128px(asSquare: true).Url,
-                    IconHtml: CategoryCachedData.GetIconHtml(t),
                     MiniImageUrl: new ImageFrontendData(
                             _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
                             _httpContextAccessor,
