@@ -1,5 +1,33 @@
 <script setup lang="ts">
 
+const config = useRuntimeConfig()
+
+useHead(() => ({
+    link: [
+        {
+            rel: 'canonical',
+            href: `${config.public.officialBase}/AGB`
+        },
+    ],
+    meta: [
+        {
+            name: 'description',
+            content: 'Read the Terms and Conditions for memucho.'
+        },
+        {
+            property: 'og:title',
+            content: 'Terms and Conditions | memucho'
+        },
+        {
+            property: 'og:url',
+            content: `${config.public.officialBase}/AGB`
+        },
+        {
+            property: 'og:type',
+            content: `website`
+        },
+    ]
+}))
 </script>
 
 <template>

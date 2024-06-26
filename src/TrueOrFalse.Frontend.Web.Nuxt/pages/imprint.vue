@@ -8,6 +8,35 @@ onBeforeMount(() => {
 function openEmail() {
 	window.location.href = "mailto:team@memucho.de"
 }
+
+const config = useRuntimeConfig()
+
+useHead(() => ({
+	link: [
+		{
+			rel: 'canonical',
+			href: `${config.public.officialBase}/Impressum`
+		},
+	],
+	meta: [
+		{
+			name: 'description',
+			content: 'Legal information and company details for memucho.'
+		},
+		{
+			property: 'og:title',
+			content: 'Imprint | memucho'
+		},
+		{
+			property: 'og:url',
+			content: `${config.public.officialBase}/Impressum`
+		},
+		{
+			property: 'og:type',
+			content: `website`
+		},
+	]
+}))
 </script>
 
 <template>
@@ -74,7 +103,8 @@ function openEmail() {
 				</p>
 				<p><strong>Datenschutz</strong></p>
 				<p>
-					Die Nutzung unserer Webseite ist teils ohne Angabe personenbezogener Daten möglich. Soweit auf unseren
+					Die Nutzung unserer Webseite ist teils ohne Angabe personenbezogener Daten möglich. Soweit auf
+					unseren
 					Seiten
 					personenbezogene Daten (beispielsweise Name,
 					Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger
@@ -117,8 +147,8 @@ function openEmail() {
 						<NuxtLink to="http://www.e-recht24.de/muster-disclaimer.htm" target="_blank" :external="true">
 							Disclaimer
 						</NuxtLink> von
-						eRecht24, dem Portal zum Internetrecht von <NuxtLink to="http://www.e-recht24.de/" target="_blank"
-							:external="true">Rechtsanwalt</NuxtLink>
+						eRecht24, dem Portal zum Internetrecht von <NuxtLink to="http://www.e-recht24.de/"
+							target="_blank" :external="true">Rechtsanwalt</NuxtLink>
 						Sören Siebert.
 					</i>
 				</p>
@@ -142,7 +172,8 @@ function openEmail() {
 				</p>
 
 				<p>
-					Leider liegt es in der Natur der Sache, dass diese Erkl&auml;rungen sehr technisch klingen, wir haben
+					Leider liegt es in der Natur der Sache, dass diese Erkl&auml;rungen sehr technisch klingen, wir
+					haben
 					uns
 					bei
 					der Erstellung jedoch bem&uuml;ht die wichtigsten Dinge so einfach und klar wie m&ouml;glich zu
@@ -158,7 +189,8 @@ function openEmail() {
 				</p>
 
 				<p>
-					Wenn Sie unsere Webseite so wie jetzt gerade besuchen, speichert unser Webserver (Computer auf dem diese
+					Wenn Sie unsere Webseite so wie jetzt gerade besuchen, speichert unser Webserver (Computer auf dem
+					diese
 					Webseite gespeichert ist) automatisch Daten wie
 				</p>
 
@@ -186,7 +218,8 @@ function openEmail() {
 				<p>in Dateien (Webserver-Logfiles).</p>
 
 				<p>
-					In der Regel werden Webserver-Logfiles zwei Wochen gespeichert und danach automatisch gel&ouml;scht. Wir
+					In der Regel werden Webserver-Logfiles zwei Wochen gespeichert und danach automatisch gel&ouml;scht.
+					Wir
 					geben diese Daten nicht weiter, k&ouml;nnen jedoch nicht ausschlie&szlig;en, dass diese Daten beim
 					Vorliegen
 					von rechtswidrigem Verhalten eingesehen werden.
@@ -196,7 +229,8 @@ function openEmail() {
 					Die Rechtsgrundlage besteht nach&nbsp;&nbsp;<NuxtLink :external="true"
 						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&amp;from=DE&amp;tid=311128432">
 						Artikel
-						6 &nbsp;Absatz 1 f DSGVO</NuxtLink>&nbsp;(Rechtm&auml;&szlig;igkeit der Verarbeitung) darin, dass
+						6 &nbsp;Absatz 1 f DSGVO</NuxtLink>&nbsp;(Rechtm&auml;&szlig;igkeit der Verarbeitung) darin,
+					dass
 					berechtigtes
 					Interesse daran besteht, den fehlerfreien Betrieb dieser Webseite durch das Erfassen von
 					Webserver-Logfiles zu
@@ -208,7 +242,8 @@ function openEmail() {
 				<p>Unsere Website verwendet HTTP-Cookies um nutzerspezifische Daten zu speichern.</p>
 
 				<p>
-					Im Folgenden erkl&auml;ren wir, was Cookies sind und warum Sie genutzt werden, damit Sie die folgende
+					Im Folgenden erkl&auml;ren wir, was Cookies sind und warum Sie genutzt werden, damit Sie die
+					folgende
 					Datenschutzerkl&auml;rung besser verstehen.
 				</p>
 
@@ -217,15 +252,18 @@ function openEmail() {
 				<p>
 					Immer wenn Sie durch das Internet surfen, verwenden Sie einen Browser. Bekannte Browser sind
 					beispielsweise
-					Chrome, Safari, Firefox, Internet Explorer und Microsoft Edge. Die meisten Webseiten speichern kleine
+					Chrome, Safari, Firefox, Internet Explorer und Microsoft Edge. Die meisten Webseiten speichern
+					kleine
 					Text-Dateien in Ihrem Browser. Diese Dateien nennt man Cookies.
 				</p>
 
 				<p>
-					Eines ist nicht von der Hand zu weisen: Cookies sind echt n&uuml;tzliche Helferlein. Fast alle Webseiten
+					Eines ist nicht von der Hand zu weisen: Cookies sind echt n&uuml;tzliche Helferlein. Fast alle
+					Webseiten
 					verwenden Cookies. Genauer gesprochen sind es HTTP-Cookies, da es auch noch andere Cookies f&uuml;r
 					andere
-					Anwendungsbereiche gibt. HTTP-Cookies sind kleine Dateien, die von unserer Website auf Ihrem Computer
+					Anwendungsbereiche gibt. HTTP-Cookies sind kleine Dateien, die von unserer Website auf Ihrem
+					Computer
 					gespeichert werden. Diese Cookie-Dateien werden automatisch im Cookie-Ordner, quasi dem
 					&ldquo;Hirn&rdquo;
 					Ihres Browsers, untergebracht. Ein Cookie besteht aus einem Namen und einem Wert. Bei der Definition
@@ -238,20 +276,24 @@ function openEmail() {
 					Seiteneinstellungen. Wenn Sie unsere Seite wieder aufrufen, &uuml;bermittelt Ihr Browser die
 					&bdquo;userbezogenen&ldquo; Informationen an unsere Seite zur&uuml;ck. Dank der Cookies wei&szlig;
 					unsere
-					Website, wer Sie sind und bietet Ihnen Ihre gewohnte Standardeinstellung. In einigen Browsern hat jedes
+					Website, wer Sie sind und bietet Ihnen Ihre gewohnte Standardeinstellung. In einigen Browsern hat
+					jedes
 					Cookie
 					eine eigene Datei, in anderen wie beispielsweise Firefox sind alle Cookies in einer einzigen Datei
 					gespeichert.
 				</p>
 
 				<p>
-					Es gibt sowohl Erstanbieter Cookies als auch Drittanbieter-Cookies. Erstanbieter-Cookies werden direkt
+					Es gibt sowohl Erstanbieter Cookies als auch Drittanbieter-Cookies. Erstanbieter-Cookies werden
+					direkt
 					von
 					unserer Seite erstellt, Drittanbieter-Cookies werden von Partner-Webseiten (z.B. Google Analytics)
 					erstellt.
-					Jedes Cookie ist individuell zu bewerten, da jedes Cookie andere Daten speichert. Auch die Ablaufzeit
+					Jedes Cookie ist individuell zu bewerten, da jedes Cookie andere Daten speichert. Auch die
+					Ablaufzeit
 					eines
-					Cookies variiert von ein paar Minuten bis hin zu ein paar Jahren. Cookies sind keine Software-Programme
+					Cookies variiert von ein paar Minuten bis hin zu ein paar Jahren. Cookies sind keine
+					Software-Programme
 					und
 					enthalten keine Viren, Trojaner oder andere &bdquo;Sch&auml;dlinge&ldquo;. Cookies k&ouml;nnen auch
 					nicht auf
@@ -295,7 +337,8 @@ function openEmail() {
 					Die Frage welche Cookies wir im Speziellen verwenden, h&auml;ngt von den verwendeten Diensten ab und
 					wird
 					in
-					der folgenden Abschnitten der Datenschutzerkl&auml;rung gekl&auml;rt. An dieser Stelle m&ouml;chten wir
+					der folgenden Abschnitten der Datenschutzerkl&auml;rung gekl&auml;rt. An dieser Stelle m&ouml;chten
+					wir
 					kurz
 					auf die verschiedenen Arten von HTTP-Cookies eingehen.
 				</p>
@@ -307,9 +350,11 @@ function openEmail() {
 				<p>
 					Diese Cookies sind n&ouml;tig, um grundlegende Funktionen der Website sicherzustellen. Zum Beispiel
 					braucht
-					es diese Cookies, wenn ein User ein Produkt in den Warenkorb legt, dann auf anderen Seiten weitersurft
+					es diese Cookies, wenn ein User ein Produkt in den Warenkorb legt, dann auf anderen Seiten
+					weitersurft
 					und
-					sp&auml;ter erst zur Kasse geht. Durch diese Cookies wird der Warenkorb nicht gel&ouml;scht, selbst wenn
+					sp&auml;ter erst zur Kasse geht. Durch diese Cookies wird der Warenkorb nicht gel&ouml;scht, selbst
+					wenn
 					der
 					User sein Browserfenster schlie&szlig;t.
 
@@ -318,8 +363,10 @@ function openEmail() {
 				<p>Funktionelle Cookies</p>
 
 				<p>
-					Diese Cookies sammeln Infos &uuml;ber das Userverhalten und ob der User etwaige Fehlermeldungen bekommt.
-					Zudem werden mithilfe dieser Cookies auch die Ladezeit und das Verhalten der Website bei verschiedenen
+					Diese Cookies sammeln Infos &uuml;ber das Userverhalten und ob der User etwaige Fehlermeldungen
+					bekommt.
+					Zudem werden mithilfe dieser Cookies auch die Ladezeit und das Verhalten der Website bei
+					verschiedenen
 					Browsern gemessen.
 				</p>
 
@@ -339,16 +386,19 @@ function openEmail() {
 					zu liefern. Das kann sehr praktisch, aber auch sehr nervig sein.
 				</p>
 
-				<p>&Uuml;blicherweise werden Sie beim erstmaligen Besuch einer Webseite gefragt, welche dieser Cookiearten
+				<p>&Uuml;blicherweise werden Sie beim erstmaligen Besuch einer Webseite gefragt, welche dieser
+					Cookiearten
 					Sie
-					zulassen m&ouml;chten. Und nat&uuml;rlich wird diese Entscheidung auch in einem Cookie gespeichert.</p>
+					zulassen m&ouml;chten. Und nat&uuml;rlich wird diese Entscheidung auch in einem Cookie gespeichert.
+				</p>
 
 				<h3>Wie kann ich Cookies l&ouml;schen?</h3>
 
 				<p>
 					Wie und ob Sie Cookies verwenden wollen, entscheiden Sie selbst. Unabh&auml;ngig von welchem Service
 					oder
-					welcher Website die Cookies stammen, haben Sie immer die M&ouml;glichkeit Cookies zu l&ouml;schen, nur
+					welcher Website die Cookies stammen, haben Sie immer die M&ouml;glichkeit Cookies zu l&ouml;schen,
+					nur
 					teilweise zuzulassen oder zu deaktivieren. Zum Beispiel k&ouml;nnen Sie Cookies von Drittanbietern
 					blockieren,
 					aber alle anderen Cookies zulassen.
@@ -369,7 +419,8 @@ function openEmail() {
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten von
+						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten
+						von
 						Cookies und Websitedaten mit Safari</NuxtLink>
 				</p>
 
@@ -390,15 +441,19 @@ function openEmail() {
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">Microsoft
+						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">
+						Microsoft
 						Edge: L&ouml;schen und Verwalten von Cookies</NuxtLink>
 				</p>
 
 				<p>
-					Falls Sie grunds&auml;tzlich keine Cookies haben wollen, k&ouml;nnen Sie Ihren Browser so einrichten,
+					Falls Sie grunds&auml;tzlich keine Cookies haben wollen, k&ouml;nnen Sie Ihren Browser so
+					einrichten,
 					dass er
-					Sie immer informiert, wenn ein Cookie gesetzt werden soll. So k&ouml;nnen Sie bei jedem einzelnen Cookie
-					entscheiden, ob Sie das Cookie erlauben oder nicht. Die Vorgangsweise ist je nach Browser verschieden.
+					Sie immer informiert, wenn ein Cookie gesetzt werden soll. So k&ouml;nnen Sie bei jedem einzelnen
+					Cookie
+					entscheiden, ob Sie das Cookie erlauben oder nicht. Die Vorgangsweise ist je nach Browser
+					verschieden.
 					Am
 					besten ist es Sie suchen die Anleitung in Google mit dem Suchbegriff &ldquo;Cookies l&ouml;schen
 					Chrome&rdquo;
@@ -411,10 +466,12 @@ function openEmail() {
 
 				<p>
 					Seit 2009 gibt es die sogenannten &bdquo;Cookie-Richtlinien&ldquo;. Darin ist festgehalten, dass das
-					Speichern von Cookies eine Einwilligung des Website-Besuchers (also von Ihnen) verlangt. Innerhalb der
+					Speichern von Cookies eine Einwilligung des Website-Besuchers (also von Ihnen) verlangt. Innerhalb
+					der
 					EU-L&auml;nder gibt es allerdings noch sehr unterschiedliche Reaktionen auf diese Richtlinien. In
 					Deutschland
-					wurden die Cookie-Richtlinien nicht als nationales Recht umgesetzt. Stattdessen erfolgte die Umsetzung
+					wurden die Cookie-Richtlinien nicht als nationales Recht umgesetzt. Stattdessen erfolgte die
+					Umsetzung
 					dieser
 					Richtlinie weitgehend in &sect; 15 Abs.3 des Telemediengesetzes (TMG).
 				</p>
@@ -422,7 +479,8 @@ function openEmail() {
 				<p>
 					Wenn Sie mehr &uuml;ber Cookies wissen m&ouml;chten und vor technischen Dokumentationen nicht
 					zur&uuml;ckscheuen, empfehlen wir&nbsp;&nbsp;<NuxtLink :external="true"
-						to="https://tools.ietf.org/html/rfc6265">https://tools.ietf.org/html/rfc6265</NuxtLink>, dem Request
+						to="https://tools.ietf.org/html/rfc6265">https://tools.ietf.org/html/rfc6265</NuxtLink>, dem
+					Request
 					for
 					Comments
 					der Internet Engineering Task Force (IETF) namens &ldquo;HTTP State Management Mechanism&rdquo;.
@@ -431,16 +489,19 @@ function openEmail() {
 				<h2>Speicherung pers&ouml;nlicher Daten</h2>
 
 				<p>
-					Pers&ouml;nliche Daten, die Sie uns auf dieser Website elektronisch &uuml;bermitteln, wie zum Beispiel
+					Pers&ouml;nliche Daten, die Sie uns auf dieser Website elektronisch &uuml;bermitteln, wie zum
+					Beispiel
 					Name,
 					E-Mail-Adresse, Adresse oder andere pers&ouml;nlichen Angaben im Rahmen der &Uuml;bermittlung eines
 					Formulars
-					oder Kommentaren im Blog, werden von uns gemeinsam mit dem Zeitpunkt und der IP-Adresse nur zum jeweils
+					oder Kommentaren im Blog, werden von uns gemeinsam mit dem Zeitpunkt und der IP-Adresse nur zum
+					jeweils
 					angegebenen Zweck verwendet, sicher verwahrt und nicht an Dritte weitergegeben.
 				</p>
 
 				<p>
-					Wir nutzen Ihre pers&ouml;nlichen Daten somit nur f&uuml;r die Kommunikation mit jenen Besuchern, die
+					Wir nutzen Ihre pers&ouml;nlichen Daten somit nur f&uuml;r die Kommunikation mit jenen Besuchern,
+					die
 					Kontakt
 					ausdr&uuml;cklich w&uuml;nschen und f&uuml;r die Abwicklung der auf dieser Webseite angebotenen
 					Dienstleistungen und Produkte. Wir geben Ihre pers&ouml;nlichen Daten ohne Zustimmung nicht weiter,
@@ -450,7 +511,8 @@ function openEmail() {
 				</p>
 
 				<p>
-					Wenn Sie uns pers&ouml;nliche Daten per E-Mail schicken &ndash; somit abseits dieser Webseite &ndash;
+					Wenn Sie uns pers&ouml;nliche Daten per E-Mail schicken &ndash; somit abseits dieser Webseite
+					&ndash;
 					k&ouml;nnen wir keine sichere &Uuml;bertragung und den Schutz Ihrer Daten garantieren. Wir empfehlen
 					Ihnen,
 					vertrauliche Daten niemals unverschl&uuml;sselt per E-Mail zu &uuml;bermitteln.
@@ -460,7 +522,8 @@ function openEmail() {
 					Die Rechtsgrundlage besteht nach&nbsp;&nbsp;<NuxtLink :external="true"
 						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&amp;from=DE&amp;tid=311128432">
 						Artikel
-						6 &nbsp;Absatz 1 a DSGVO</NuxtLink>&nbsp;(Rechtm&auml;&szlig;igkeit der Verarbeitung) darin, dass
+						6 &nbsp;Absatz 1 a DSGVO</NuxtLink>&nbsp;(Rechtm&auml;&szlig;igkeit der Verarbeitung) darin,
+					dass
 					Sie uns
 					die
 					Einwilligung zur Verarbeitung der von Ihnen eingegebenen Daten geben. Sie k&ouml;nnen diesen
@@ -485,8 +548,10 @@ function openEmail() {
 					</li>
 					<li>
 						<p>
-							Recht auf Benachrichtigung &ndash; Mitteilungspflicht im Zusammenhang mit der Berichtigung oder
-							L&ouml;schung personenbezogener Daten oder der Einschr&auml;nkung der Verarbeitung (Artikel 19
+							Recht auf Benachrichtigung &ndash; Mitteilungspflicht im Zusammenhang mit der Berichtigung
+							oder
+							L&ouml;schung personenbezogener Daten oder der Einschr&auml;nkung der Verarbeitung (Artikel
+							19
 							DSGVO)
 						</p>
 					</li>
@@ -499,16 +564,19 @@ function openEmail() {
 					<li>
 						<p>
 							Recht, nicht einer ausschlie&szlig;lich auf einer automatisierten Verarbeitung &mdash;
-							einschlie&szlig;lich Profiling &mdash; beruhenden Entscheidung unterworfen zu werden (Artikel 22
+							einschlie&szlig;lich Profiling &mdash; beruhenden Entscheidung unterworfen zu werden
+							(Artikel 22
 							DSGVO)
 						</p>
 					</li>
 				</ul>
 
 				<p>
-					Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verst&ouml;&szlig;t oder
+					Wenn Sie glauben, dass die Verarbeitung Ihrer Daten gegen das Datenschutzrecht verst&ouml;&szlig;t
+					oder
 					Ihre
-					datenschutzrechtlichen Anspr&uuml;che sonst in einer Weise verletzt worden sind, k&ouml;nnen Sie sich an
+					datenschutzrechtlichen Anspr&uuml;che sonst in einer Weise verletzt worden sind, k&ouml;nnen Sie
+					sich an
 					die&nbsp;&nbsp;<NuxtLink :external="true"
 						to="https://www.bfdi.bund.de/DE/Datenschutz/Ueberblick/MeineRechte/Artikel/BeschwerdeBeiDatenschutzbehoereden.html?tid=311128432">
 						Bundesbeauftragte
@@ -518,14 +586,17 @@ function openEmail() {
 				<h2>Auswertung des Besucherverhaltens</h2>
 
 				<p>
-					In der folgenden Datenschutzerkl&auml;rung informieren wir Sie dar&uuml;ber, ob und wie wir Daten Ihres
-					Besuchs dieser Website auswerten. Die Auswertung der gesammelten Daten erfolgt in der Regel anonym und
+					In der folgenden Datenschutzerkl&auml;rung informieren wir Sie dar&uuml;ber, ob und wie wir Daten
+					Ihres
+					Besuchs dieser Website auswerten. Die Auswertung der gesammelten Daten erfolgt in der Regel anonym
+					und
 					wir
 					k&ouml;nnen von Ihrem Verhalten auf dieser Website nicht auf Ihre Person schlie&szlig;en.
 				</p>
 
 				<p>
-					Mehr &uuml;ber M&ouml;glichkeiten dieser Auswertung der Besuchsdaten zu widersprechen erfahren Sie in
+					Mehr &uuml;ber M&ouml;glichkeiten dieser Auswertung der Besuchsdaten zu widersprechen erfahren Sie
+					in
 					der
 					folgenden Datenschutzerkl&auml;rung.
 				</p>
@@ -560,9 +631,12 @@ function openEmail() {
 				<p>
 					Unsere Webseite verwendet Matomo mit der Einstellung &bdquo;Anonymize Visitors&rsquo; IP
 					addresses&ldquo;.
-					Dadurch werden IP-Adressen gek&uuml;rzt weiterverarbeitet, eine direkte Personenbeziehbarkeit wird damit
-					ausgeschlossen. Die Software ist so eingestellt, dass die IP-Adressen nicht vollst&auml;ndig gespeichert
-					werden, sondern 2 Bytes der IP-Adresse maskiert werden (z.B. 192.168.xxx.xxx). Auf diese Weise ist eine
+					Dadurch werden IP-Adressen gek&uuml;rzt weiterverarbeitet, eine direkte Personenbeziehbarkeit wird
+					damit
+					ausgeschlossen. Die Software ist so eingestellt, dass die IP-Adressen nicht vollst&auml;ndig
+					gespeichert
+					werden, sondern 2 Bytes der IP-Adresse maskiert werden (z.B. 192.168.xxx.xxx). Auf diese Weise ist
+					eine
 					Zuordnung der gek&uuml;rzten IP-Adresse zum aufrufenden Rechner nicht mehr m&ouml;glich. Die mittels
 					Matomo
 					von Ihrem Browser &uuml;bermittelte IP-Adresse wird nicht mit anderen von uns erhobenen Daten
@@ -572,7 +646,8 @@ function openEmail() {
 				<p>5.2 Rechtsgrundlage f&uuml;r die Verarbeitung personenbezogener Daten</p>
 
 				<p>
-					Die Rechtsgrundlage f&uuml;r die Verarbeitung der Daten des Nutzers ist Art. 6 Abs. 1 lit. f DSGVO bzw.
+					Die Rechtsgrundlage f&uuml;r die Verarbeitung der Daten des Nutzers ist Art. 6 Abs. 1 lit. f DSGVO
+					bzw.
 					&sect; 15 Abs. 3 TMG.
 				</p>
 
@@ -588,7 +663,8 @@ function openEmail() {
 				<p>5.4 Dauer der Speicherung</p>
 
 				<p>
-					Die Daten der hier beschriebenen Verarbeitung werden nach einer Speicherdauer von 90Tagen gel&ouml;scht.
+					Die Daten der hier beschriebenen Verarbeitung werden nach einer Speicherdauer von 90Tagen
+					gel&ouml;scht.
 				</p>
 
 				<p>5.5 Widerspruchs- und Beseitigungsm&ouml;glichkeit</p>
@@ -597,15 +673,18 @@ function openEmail() {
 					Die Auswertung k&ouml;nnen Sie verhindern, indem Sie vorhandene Cookies l&ouml;schen und eine
 					Speicherung
 					von
-					Cookies in den Einstellungen Ihres Webbrowsers deaktivieren. Wir weisen darauf hin, dass Sie in diesem
+					Cookies in den Einstellungen Ihres Webbrowsers deaktivieren. Wir weisen darauf hin, dass Sie in
+					diesem
 					Fall
 					m&ouml;glicherweise nicht alle Funktionen dieser Webseite vollumf&auml;nglich nutzen k&ouml;nnen.
 				</p>
 
-				<p>Matomo ist ein Open-Source-Projekt der InnoCraft Ltd., 150 Willis St, 6011 Wellington, New Zealand.</p>
+				<p>Matomo ist ein Open-Source-Projekt der InnoCraft Ltd., 150 Willis St, 6011 Wellington, New Zealand.
+				</p>
 
 				<p>Weitere Informationen zum Datenschutz finden Sie in der Datenschutzerkl&auml;rung unter:&nbsp;&nbsp;
-					<NuxtLink :external="true" to="https://matomo.org/privacy-policy/">matomo.org/privacy-policy/</NuxtLink>
+					<NuxtLink :external="true" to="https://matomo.org/privacy-policy/">matomo.org/privacy-policy/
+					</NuxtLink>
 				</p>
 
 				<p>&nbsp;</p>
@@ -618,10 +697,12 @@ function openEmail() {
 						to="https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679&amp;from=DE&amp;tid=311128432">
 						Artikel
 						25 Absatz 1 DSGVO</NuxtLink>). Durch den Einsatz von TLS (Transport Layer Security), einem
-					Verschl&uuml;sselungsprotokoll zur sicheren Daten&uuml;bertragung im Internet k&ouml;nnen wir den Schutz
+					Verschl&uuml;sselungsprotokoll zur sicheren Daten&uuml;bertragung im Internet k&ouml;nnen wir den
+					Schutz
 					vertraulicher Daten sicherstellen. Sie erkennen die Benutzung dieser Absicherung der
 					Daten&uuml;bertragung am
-					kleinen Schlo&szlig;symbol links oben im Browser und der Verwendung des Schemas https (anstatt http) als
+					kleinen Schlo&szlig;symbol links oben im Browser und der Verwendung des Schemas https (anstatt http)
+					als
 					Teil
 					unserer Internetadresse.
 				</p>
@@ -631,14 +712,18 @@ function openEmail() {
 				<p>
 					Wenn Sie sich f&uuml;r unseren Newsletter eintragen &uuml;bermitteln Sie die oben genannten
 					pers&ouml;nlichen
-					Daten und geben uns das Recht Sie per E-Mail zu kontaktieren. Die im Rahmen der Anmeldung zum Newsletter
-					gespeicherten Daten nutzen wir ausschlie&szlig;lich f&uuml;r unseren Newsletter und geben diese nicht
+					Daten und geben uns das Recht Sie per E-Mail zu kontaktieren. Die im Rahmen der Anmeldung zum
+					Newsletter
+					gespeicherten Daten nutzen wir ausschlie&szlig;lich f&uuml;r unseren Newsletter und geben diese
+					nicht
 					weiter.
 				</p>
 
 				<p>
-					Sollten Sie sich vom Newsletter abmelden &ndash; Sie finden den Link daf&uuml;r in jedem Newsletter ganz
-					unten &ndash; dann l&ouml;schen wir alle Daten die mit der Anmeldung zum Newsletter gespeichert wurden.
+					Sollten Sie sich vom Newsletter abmelden &ndash; Sie finden den Link daf&uuml;r in jedem Newsletter
+					ganz
+					unten &ndash; dann l&ouml;schen wir alle Daten die mit der Anmeldung zum Newsletter gespeichert
+					wurden.
 				</p>
 
 				<h2>Google Fonts Lokal Datenschutzerkl&auml;rung</h2>
@@ -647,9 +732,11 @@ function openEmail() {
 					Wir verwenden Google Fonts der Firma Google Inc. (1600 Amphitheatre Parkway Mountain View, CA 94043,
 					USA)
 					auf
-					unserer Webseite. Wir haben die Google-Schriftarten lokal, d.h. auf unserem Webserver &ndash; nicht auf
+					unserer Webseite. Wir haben die Google-Schriftarten lokal, d.h. auf unserem Webserver &ndash; nicht
+					auf
 					den
-					Servern von Google &ndash; eingebunden. Dadurch gibt es keine Verbindung zu Server von Google und somit
+					Servern von Google &ndash; eingebunden. Dadurch gibt es keine Verbindung zu Server von Google und
+					somit
 					auch
 					keine Daten&uuml;bertragung bzw. Speicherung.
 				</p>
@@ -662,17 +749,21 @@ function openEmail() {
 					die die&nbsp;&nbsp;<NuxtLink :external="true"
 						to="https://de.wikipedia.org/wiki/Google_LLC?tid=311128432">Google
 						LLC</NuxtLink>&nbsp;zur
-					freien Verwendung bereitstellt. Mit Google Fonts k&ouml;nnte man die Schriften nutzen, ohne sie auf den
+					freien Verwendung bereitstellt. Mit Google Fonts k&ouml;nnte man die Schriften nutzen, ohne sie auf
+					den
 					eigenen Server hochzuladen. Doch um diesbez&uuml;glich jede Informations&uuml;bertragung zum
 					Google-Server zu
-					unterbinden, haben wir die Schriftarten auf unseren Server heruntergeladen. Auf diese Weise handeln wir
+					unterbinden, haben wir die Schriftarten auf unseren Server heruntergeladen. Auf diese Weise handeln
+					wir
 					datenschutzkonform und senden keine Daten an Google Fonts weiter.
 				</p>
 
 				<p>
-					Anders als andere Web-Schriften erlaubt uns Google uneingeschr&auml;nkten Zugriff auf alle Schriftarten.
+					Anders als andere Web-Schriften erlaubt uns Google uneingeschr&auml;nkten Zugriff auf alle
+					Schriftarten.
 					Wir
-					k&ouml;nnen also unlimitiert auf ein Meer an Schriftarten zugreifen und so das Optimum f&uuml;r unsere
+					k&ouml;nnen also unlimitiert auf ein Meer an Schriftarten zugreifen und so das Optimum f&uuml;r
+					unsere
 					Webseite rausholen. Mehr zu Google Fonts und weiteren Fragen finden Sie auf&nbsp;&nbsp;<NuxtLink
 						:external="true" to="https://developers.google.com/fonts/faq?tid=311128432">
 						https://developers.google.com/fonts/faq?tid=311128432</NuxtLink>.
@@ -688,15 +779,18 @@ function openEmail() {
 				</p>
 
 				<p>
-					F&uuml;r die Verwendung von Google-Schriftarten m&uuml;ssen Sie sich nicht anmelden bzw. ein Passwort
+					F&uuml;r die Verwendung von Google-Schriftarten m&uuml;ssen Sie sich nicht anmelden bzw. ein
+					Passwort
 					hinterlegen. Weiters werden auch keine Cookies in Ihrem Browser gespeichert. Die Dateien (CSS,
 					Schriftarten/Fonts) werden &uuml;ber die Google-Domains fonts.googleapis.com und fonts.gstatic.com
-					angefordert. Laut Google sind die Anfragen nach CSS und Schriften vollkommen getrennt von allen anderen
+					angefordert. Laut Google sind die Anfragen nach CSS und Schriften vollkommen getrennt von allen
+					anderen
 					Google-Diensten. Wenn Sie ein Google-Konto haben, brauchen Sie keine Sorge haben, dass Ihre
 					Google-Kontodaten,
 					w&auml;hrend der Verwendung von Google Fonts, an Google &uuml;bermittelt werden. Google erfasst die
 					Nutzung
-					von CSS (Cascading Style Sheets) und der verwendeten Schriftarten und speichert diese Daten sicher. Wie
+					von CSS (Cascading Style Sheets) und der verwendeten Schriftarten und speichert diese Daten sicher.
+					Wie
 					die
 					Datenspeicherung genau aussieht, werden wir uns noch im Detail ansehen.
 				</p>
@@ -713,9 +807,11 @@ function openEmail() {
 				</p>
 
 				<p>
-					Viele dieser Schriftarten sind unter der SIL Open Font License ver&ouml;ffentlicht, w&auml;hrend andere
+					Viele dieser Schriftarten sind unter der SIL Open Font License ver&ouml;ffentlicht, w&auml;hrend
+					andere
 					unter
-					der Apache-Lizenz ver&ouml;ffentlicht wurden. Beides sind freie Software-Lizenzen. Somit k&ouml;nnen wir
+					der Apache-Lizenz ver&ouml;ffentlicht wurden. Beides sind freie Software-Lizenzen. Somit k&ouml;nnen
+					wir
 					sie
 					frei verwenden, ohne daf&uuml;r Lizenzgeb&uuml;hren zu zahlen.
 				</p>
@@ -723,9 +819,11 @@ function openEmail() {
 				<h3>Warum verwenden wir Google Fonts auf unserer Webseite?</h3>
 
 				<p>
-					Mit Google Fonts k&ouml;nnen wir auf der eigenen Webseite Schriften nutzen, und m&uuml;ssen sie nicht
+					Mit Google Fonts k&ouml;nnen wir auf der eigenen Webseite Schriften nutzen, und m&uuml;ssen sie
+					nicht
 					auf
-					unserem eigenen Server hochladen. Google Fonts ist ein wichtiger Baustein, um die Qualit&auml;t unserer
+					unserem eigenen Server hochladen. Google Fonts ist ein wichtiger Baustein, um die Qualit&auml;t
+					unserer
 					Webseite hoch zu halten. Alle Google-Schriften sind automatisch f&uuml;r das Web optimiert und dies
 					spart
 					Datenvolumen und ist speziell f&uuml;r die Verwendung bei mobilen Endger&auml;ten ein gro&szlig;er
@@ -734,14 +832,16 @@ function openEmail() {
 					Ladezeit. Des
 					Weiteren sind Google Fonts sogenannte sichere Web Fonts. Unterschiedliche Bildsynthese-Systeme
 					(Rendering) in
-					verschiedenen Browsern, Betriebssystemen und mobilen Endger&auml;ten k&ouml;nnen zu Fehlern f&uuml;hren.
+					verschiedenen Browsern, Betriebssystemen und mobilen Endger&auml;ten k&ouml;nnen zu Fehlern
+					f&uuml;hren.
 					Solche Fehler k&ouml;nnen teilweise Texte bzw. ganze Webseiten optisch verzerren. Dank des schnellen
 					Content
 					Delivery Network (CDN) gibt es mit Google Fonts keine plattform&uuml;bergreifenden Probleme. Google
 					Fonts
 					unterst&uuml;tzt alle g&auml;ngigen Browser ( Google Chrome, Mozilla Firefox, Apple Safari, Opera)
 					&nbsp;und
-					funktioniert zuverl&auml;ssig auf den meisten modernen mobilen Betriebssystemen, einschlie&szlig;lich
+					funktioniert zuverl&auml;ssig auf den meisten modernen mobilen Betriebssystemen,
+					einschlie&szlig;lich
 					Android
 					2.2+ und iOS 4.2+ (iPhone, iPad, iPod).
 				</p>
@@ -749,7 +849,8 @@ function openEmail() {
 				<p>
 					Wir verwenden die Google Fonts also, damit wir unser gesamtes Online-Service so sch&ouml;n und
 					einheitlich
-					wie m&ouml;glich darstellen k&ouml;nnen. Nach dem Art. 6 Abs. 1 f lit. F DSGVO stellt das bereits ein
+					wie m&ouml;glich darstellen k&ouml;nnen. Nach dem Art. 6 Abs. 1 f lit. F DSGVO stellt das bereits
+					ein
 					&bdquo;berechtigtes Interesse&ldquo; an der Verarbeitung von personenbezogenen Daten dar. Unter
 					&bdquo;berechtigtem Interesse&ldquo; versteht man in diesem Fall sowohl rechtliche als auch
 					wirtschaftliche
@@ -759,10 +860,13 @@ function openEmail() {
 				<h3>Welche Daten werden von Google gespeichert?</h3>
 
 				<p>
-					Wenn Sie unsere Webseite besuchen, werden die Schriften &uuml;ber einen Google-Server nachgeladen. Durch
-					diesen externen Aufruf werden Daten an die Google-Server &uuml;bermittelt. So erkennt Google auch, dass
+					Wenn Sie unsere Webseite besuchen, werden die Schriften &uuml;ber einen Google-Server nachgeladen.
+					Durch
+					diesen externen Aufruf werden Daten an die Google-Server &uuml;bermittelt. So erkennt Google auch,
+					dass
 					Sie
-					bzw. Ihre IP-Adresse unsere Webseite besucht. Die Google Fonts API wurde entwickelt, um die Erfassung,
+					bzw. Ihre IP-Adresse unsere Webseite besucht. Die Google Fonts API wurde entwickelt, um die
+					Erfassung,
 					Speicherung und Verwendung von Endnutzerdaten auf das zu reduzieren, was f&uuml;r eine effiziente
 					Bereitstellung von Schriften n&ouml;tig ist. API steht &uuml;brigens f&uuml;r &bdquo;Application
 					Programming
@@ -770,7 +874,8 @@ function openEmail() {
 				</p>
 
 				<p>
-					Google Fonts speichert CSS- und Font-Anfragen sicher bei Google und ist somit gesch&uuml;tzt. Durch die
+					Google Fonts speichert CSS- und Font-Anfragen sicher bei Google und ist somit gesch&uuml;tzt. Durch
+					die
 					gesammelten Nutzungszahlen kann Google die Beliebtheit der Schriften feststellen. Die Ergebnisse
 					ver&ouml;ffentlicht Google auf internen Analyseseiten, wie beispielsweise Google Analytics. Zudem
 					verwendet
@@ -782,8 +887,10 @@ function openEmail() {
 				</p>
 
 				<p>
-					Zu bedenken gilt allerdings noch, dass durch jede Google Font Anfrage auch Informationen wie IP-Adresse,
-					Spracheinstellungen, Bildschirmaufl&ouml;sung des Browsers, Version des Browsers und Name des Browsers
+					Zu bedenken gilt allerdings noch, dass durch jede Google Font Anfrage auch Informationen wie
+					IP-Adresse,
+					Spracheinstellungen, Bildschirmaufl&ouml;sung des Browsers, Version des Browsers und Name des
+					Browsers
 					automatisch an die Google-Server &uuml;bertragen werden. Ob diese Daten auch gespeichert werden, ist
 					nicht
 					klar feststellbar bzw. wird von Google nicht eindeutig kommuniziert.
@@ -792,21 +899,25 @@ function openEmail() {
 				<h3>Wie lange und wo werden die Daten gespeichert?</h3>
 
 				<p>
-					Anfragen f&uuml;r CSS-Assets speichert Google einen Tag lang auf Ihren Servern, die haupts&auml;chlich
-					au&szlig;erhalb der EU angesiedelt sind. Das erm&ouml;glicht uns, mithilfe eines Google-Stylesheets die
+					Anfragen f&uuml;r CSS-Assets speichert Google einen Tag lang auf Ihren Servern, die
+					haupts&auml;chlich
+					au&szlig;erhalb der EU angesiedelt sind. Das erm&ouml;glicht uns, mithilfe eines Google-Stylesheets
+					die
 					Schriftarten zu nutzen. Ein Stylesheet ist eine Formatvorlage, &uuml;ber die man einfach und schnell
 					z.B. das
 					Design bzw. die Schriftart einer Webseite &auml;ndern kann.
 				</p>
 
 				<p>
-					Die Font-Dateien werden bei Google ein Jahr gespeichert. Google verfolgt damit das Ziel, die Ladezeit
+					Die Font-Dateien werden bei Google ein Jahr gespeichert. Google verfolgt damit das Ziel, die
+					Ladezeit
 					von
 					Webseiten grunds&auml;tzlich zu verbessern. Wenn Millionen von Webseiten auf die gleichen Schriften
 					verweisen,
 					werden sie nach dem ersten Besuch zwischengespeichert und erscheinen sofort auf allen anderen
 					sp&auml;ter
-					besuchten Webseiten wieder. Manchmal aktualisiert Google Schriftdateien, um die Dateigr&ouml;&szlig;e zu
+					besuchten Webseiten wieder. Manchmal aktualisiert Google Schriftdateien, um die
+					Dateigr&ouml;&szlig;e zu
 					reduzieren, die Abdeckung von Sprache zu erh&ouml;hen und das Design zu verbessern.
 				</p>
 
@@ -824,21 +935,25 @@ function openEmail() {
 				</p>
 
 				<p>
-					Anders als andere Web-Schriften erlaubt uns Google uneingeschr&auml;nkten Zugriff auf alle Schriftarten.
+					Anders als andere Web-Schriften erlaubt uns Google uneingeschr&auml;nkten Zugriff auf alle
+					Schriftarten.
 					Wir
-					k&ouml;nnen also unlimitiert auf ein Meer an Schriftarten zugreifen und so das Optimum f&uuml;r unsere
+					k&ouml;nnen also unlimitiert auf ein Meer an Schriftarten zugreifen und so das Optimum f&uuml;r
+					unsere
 					Webseite rausholen. Mehr zu Google Fonts und weiteren Fragen finden Sie auf&nbsp;&nbsp;<NuxtLink
 						:external="true" to="https://developers.google.com/fonts/faq?tid=311128432">
 						https://developers.google.com/fonts/faq?tid=311128432</NuxtLink>.
 					Dort geht zwar Google auf datenschutzrelevante Angelegenheiten ein, doch wirklich detaillierte
 					Informationen
-					&uuml;ber Datenspeicherung sind nicht enthalten. Es ist relativ schwierig (beinahe unm&ouml;glich), von
+					&uuml;ber Datenspeicherung sind nicht enthalten. Es ist relativ schwierig (beinahe unm&ouml;glich),
+					von
 					Google
 					wirklich pr&auml;zise Informationen &uuml;ber gespeicherten Daten zu bekommen.
 				</p>
 
 				<p>
-					Welche Daten grunds&auml;tzlich von Google erfasst werden und wof&uuml;r diese Daten verwendet werden,
+					Welche Daten grunds&auml;tzlich von Google erfasst werden und wof&uuml;r diese Daten verwendet
+					werden,
 					k&ouml;nnen Sie auch auf&nbsp;&nbsp;<NuxtLink :external="true"
 						to="https://policies.google.com/privacy?hl=de&amp;tid=311128432">
 						https://www.google.com/intl/de/policies/privacy/</NuxtLink>&nbsp;nachlesen.
@@ -847,13 +962,17 @@ function openEmail() {
 				<h2>YouTube Datenschutzerkl&auml;rung</h2>
 
 				<p>
-					Wir haben auf unserer Webseite YouTube-Videos eingebaut. So k&ouml;nnen wir Ihnen interessante Videos
+					Wir haben auf unserer Webseite YouTube-Videos eingebaut. So k&ouml;nnen wir Ihnen interessante
+					Videos
 					direkt
-					auf unserer Seite pr&auml;sentieren. YouTube ist ein Videoportal, das seit 2006 eine Tochterfirma von
+					auf unserer Seite pr&auml;sentieren. YouTube ist ein Videoportal, das seit 2006 eine Tochterfirma
+					von
 					Google
-					LLC ist. Betrieben wird das Videoportal durch YouTube, LLC, 901 Cherry Ave., San Bruno, CA 94066, USA.
+					LLC ist. Betrieben wird das Videoportal durch YouTube, LLC, 901 Cherry Ave., San Bruno, CA 94066,
+					USA.
 					Wenn
-					Sie auf unserer Webseite eine Seite aufrufen, die ein YouTube-Video eingebettet hat, verbindet sich Ihr
+					Sie auf unserer Webseite eine Seite aufrufen, die ein YouTube-Video eingebettet hat, verbindet sich
+					Ihr
 					Browser automatisch mit den Servern von YouTube bzw. Google. Dabei werden (je nach Einstellungen)
 					verschiedene
 					Daten &uuml;bertragen. F&uuml;r die gesamte Datenverarbeitung ist Google verantwortlich und es gilt
@@ -869,8 +988,10 @@ function openEmail() {
 				<h3>Was ist YouTube?</h3>
 
 				<p>
-					Auf YouTube k&ouml;nnen die User kostenlos Videos ansehen, bewerten, kommentieren und selbst hochladen.
-					&Uuml;ber die letzten Jahre wurde YouTube zu einem der wichtigsten Social-Media-Kan&auml;le weltweit.
+					Auf YouTube k&ouml;nnen die User kostenlos Videos ansehen, bewerten, kommentieren und selbst
+					hochladen.
+					&Uuml;ber die letzten Jahre wurde YouTube zu einem der wichtigsten Social-Media-Kan&auml;le
+					weltweit.
 					Damit
 					wir Videos auf unserer Webseite anzeigen k&ouml;nnen, stellt YouTube einen Codeausschnitt zur
 					Verf&uuml;gung,
@@ -880,14 +1001,19 @@ function openEmail() {
 				<h3>Warum verwenden wir YouTube-Videos auf unserer Webseite?</h3>
 
 				<p>
-					YouTube ist die Videoplattform mit den meisten Besuchern und dem besten Content. Wir sind bem&uuml;ht,
+					YouTube ist die Videoplattform mit den meisten Besuchern und dem besten Content. Wir sind
+					bem&uuml;ht,
 					Ihnen
 					die bestm&ouml;gliche User-Erfahrung auf unserer Webseite zu bieten. Und nat&uuml;rlich d&uuml;rfen
-					interessante Videos dabei nicht fehlen. Mithilfe unserer eingebetteten Videos stellen wir Ihnen neben
+					interessante Videos dabei nicht fehlen. Mithilfe unserer eingebetteten Videos stellen wir Ihnen
+					neben
 					unseren
-					Texten und Bildern weiteren hilfreichen Content zur Verf&uuml;gung. Zudem wird unsere Webseite auf der
-					Google-Suchmaschine durch die eingebetteten Videos leichter gefunden. Auch wenn wir &uuml;ber Google Ads
-					Werbeanzeigen schalten, kann Google &ndash; dank der gesammelten Daten &ndash; diese Anzeigen wirklich
+					Texten und Bildern weiteren hilfreichen Content zur Verf&uuml;gung. Zudem wird unsere Webseite auf
+					der
+					Google-Suchmaschine durch die eingebetteten Videos leichter gefunden. Auch wenn wir &uuml;ber Google
+					Ads
+					Werbeanzeigen schalten, kann Google &ndash; dank der gesammelten Daten &ndash; diese Anzeigen
+					wirklich
 					nur
 					Menschen zeigen, die sich f&uuml;r unsere Angebote interessieren.
 				</p>
@@ -895,23 +1021,31 @@ function openEmail() {
 				<h3>Welche Daten werden von YouTube gespeichert?</h3>
 
 				<p>
-					Sobald Sie eine unserer Seiten besuchen, die ein YouTube-Video eingebaut hat, setzt YouTube zumindest
+					Sobald Sie eine unserer Seiten besuchen, die ein YouTube-Video eingebaut hat, setzt YouTube
+					zumindest
 					ein
-					Cookie, das Ihre IP-Adresse und unsere URL speichert. Wenn Sie in Ihrem YouTube-Konto eingeloggt sind,
+					Cookie, das Ihre IP-Adresse und unsere URL speichert. Wenn Sie in Ihrem YouTube-Konto eingeloggt
+					sind,
 					kann
-					YouTube Ihre Interaktionen auf unserer Webseite meist mithilfe von Cookies Ihrem Profil zuordnen. Dazu
-					z&auml;hlen Daten wie Sitzungsdauer, Absprungrate, ungef&auml;hrer Standort, technische Informationen
+					YouTube Ihre Interaktionen auf unserer Webseite meist mithilfe von Cookies Ihrem Profil zuordnen.
+					Dazu
+					z&auml;hlen Daten wie Sitzungsdauer, Absprungrate, ungef&auml;hrer Standort, technische
+					Informationen
 					wie
-					Browsertyp, Bildschirmaufl&ouml;sung oder Ihr Internetanbieter. Weitere Daten k&ouml;nnen Kontaktdaten,
-					etwaige Bewertungen, das Teilen von Inhalten &uuml;ber Social Media oder das Hinzuf&uuml;gen zu Ihren
+					Browsertyp, Bildschirmaufl&ouml;sung oder Ihr Internetanbieter. Weitere Daten k&ouml;nnen
+					Kontaktdaten,
+					etwaige Bewertungen, das Teilen von Inhalten &uuml;ber Social Media oder das Hinzuf&uuml;gen zu
+					Ihren
 					Favoriten auf YouTube sein.
 				</p>
 
 				<p>
-					Wenn Sie nicht in einem Google-Konto oder einem Youtube-Konto angemeldet sind, speichert Google Daten
+					Wenn Sie nicht in einem Google-Konto oder einem Youtube-Konto angemeldet sind, speichert Google
+					Daten
 					mit
 					einer eindeutigen Kennung, die mit Ihrem Ger&auml;t, Browser oder App verkn&uuml;pft sind. So bleibt
-					beispielsweise Ihre bevorzugte Spracheinstellung beibehalten. Aber viele Interaktionsdaten k&ouml;nnen
+					beispielsweise Ihre bevorzugte Spracheinstellung beibehalten. Aber viele Interaktionsdaten
+					k&ouml;nnen
 					nicht
 					gespeichert werden, da weniger Cookies gesetzt werden.
 				</p>
@@ -919,15 +1053,18 @@ function openEmail() {
 				<p>
 					In der folgenden Liste zeigen wir Cookies, die in einem Test im Browser gesetzt wurden. Wir zeigen
 					einerseits
-					Cookies, die ohne angemeldeten YouTube-Konto gesetzt werden. Andererseits zeigen wir Cookies, die mit
-					angemeldetem Account gesetzt werden. Die Liste kann keinen Vollst&auml;ndigkeitsanspruch erheben, weil
+					Cookies, die ohne angemeldeten YouTube-Konto gesetzt werden. Andererseits zeigen wir Cookies, die
+					mit
+					angemeldetem Account gesetzt werden. Die Liste kann keinen Vollst&auml;ndigkeitsanspruch erheben,
+					weil
 					die
 					Userdaten immer von den Interaktionen auf YouTube abh&auml;ngen.
 				</p>
 				<ul>
 					<li>Name: YSC</li>
 					<li>Wert: b9-CV6ojI5Y</li>
-					<li>Verwendungszweck: Dieses Cookie registriert eine eindeutige ID, um Statistiken des gesehenen Videos
+					<li>Verwendungszweck: Dieses Cookie registriert eine eindeutige ID, um Statistiken des gesehenen
+						Videos
 						zu
 						speichern.</li>
 					<li>Ablaufdatum: nach Sitzungsende</li>
@@ -935,7 +1072,8 @@ function openEmail() {
 					<li>Wert: f1=50000000</li>
 				</ul>
 				<p>
-					Verwendungszweck:&nbsp;Dieses Cookie registriert ebenfalls Ihre eindeutige ID. Google bekommt &uuml;ber
+					Verwendungszweck:&nbsp;Dieses Cookie registriert ebenfalls Ihre eindeutige ID. Google bekommt
+					&uuml;ber
 					PREF
 					Statistiken, wie Sie YouTube-Videos auf unserer Webseite verwenden.
 				</p>
@@ -1040,7 +1178,8 @@ function openEmail() {
 					</li>
 				</ul>
 
-				<p>Verwendungszweck:&nbsp;In diesem Cookie werden Informationen &uuml;ber Ihre Login-Daten gespeichert.</p>
+				<p>Verwendungszweck:&nbsp;In diesem Cookie werden Informationen &uuml;ber Ihre Login-Daten gespeichert.
+				</p>
 
 				<ul>
 					<li>
@@ -1055,7 +1194,8 @@ function openEmail() {
 				</ul>
 
 				<p>
-					Verwendungszweck:&nbsp;Dieses Cookie funktioniert, indem es Ihren Browser und Ihr Ger&auml;t eindeutig
+					Verwendungszweck:&nbsp;Dieses Cookie funktioniert, indem es Ihren Browser und Ihr Ger&auml;t
+					eindeutig
 					identifiziert. Es wird verwendet, um ein Profil &uuml;ber Ihre Interessen zu erstellen.
 				</p>
 
@@ -1072,7 +1212,8 @@ function openEmail() {
 				</ul>
 
 				<p>
-					Verwendungszweck:&nbsp;Dieses Cookie speichert Ihre Google-Konto-ID und Ihren letzten Anmeldezeitpunkt
+					Verwendungszweck:&nbsp;Dieses Cookie speichert Ihre Google-Konto-ID und Ihren letzten
+					Anmeldezeitpunkt
 					in
 					digital signierter und verschl&uuml;sselter Form.
 				</p>
@@ -1102,12 +1243,14 @@ function openEmail() {
 				<h3>Wie lange und wo werden die Daten gespeichert?</h3>
 
 				<p>
-					Die Daten, die YouTube von Ihnen erh&auml;lt und verarbeitet werden auf den Google-Servern gespeichert.
+					Die Daten, die YouTube von Ihnen erh&auml;lt und verarbeitet werden auf den Google-Servern
+					gespeichert.
 					Die
 					meisten dieser Server befinden sich in Amerika. Unter&nbsp;&nbsp;<NuxtLink :external="true"
 						to="https://www.google.com/about/datacenters/inside/locations/?hl=de">
 						https://www.google.com/about/datacenters/inside/locations/?hl=de</NuxtLink>&nbsp;
-					sehen Sie genau wo sich die Google-Rechenzentren befinden. Ihre Daten sind auf den Servern verteilt. So
+					sehen Sie genau wo sich die Google-Rechenzentren befinden. Ihre Daten sind auf den Servern verteilt.
+					So
 					sind
 					die Daten schneller abrufbar und vor Manipulation besser gesch&uuml;tzt.
 				</p>
@@ -1119,7 +1262,8 @@ function openEmail() {
 					Google &uuml;ber l&auml;ngere Zeit gespeichert. Einige Daten (wie Elemente aus &bdquo;Meine
 					Aktivit&auml;t&ldquo;, Fotos oder Dokumente, Produkte), die in Ihrem Google-Konto gespeichert sind,
 					bleiben so
-					lange gespeichert, bis Sie sie l&ouml;schen. Auch wenn Sie nicht in einem Google-Konto angemeldet sind,
+					lange gespeichert, bis Sie sie l&ouml;schen. Auch wenn Sie nicht in einem Google-Konto angemeldet
+					sind,
 					k&ouml;nnen Sie einige Daten, die mit Ihrem Ger&auml;t, Browser oder App verkn&uuml;pft sind,
 					l&ouml;schen.
 				</p>
@@ -1139,7 +1283,8 @@ function openEmail() {
 					konfigurieren,
 					dass Cookies von Google gel&ouml;scht bzw. deaktiviert werden. Je nach dem welchen Browser Sie
 					verwenden,
-					funktioniert dies auf unterschiedliche Art und Weise. Die folgenden Anleitungen zeigen, wie Sie Cookies
+					funktioniert dies auf unterschiedliche Art und Weise. Die folgenden Anleitungen zeigen, wie Sie
+					Cookies
 					in
 					Ihrem Browser verwalten:
 				</p>
@@ -1152,7 +1297,8 @@ function openEmail() {
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten von
+						to="https://support.apple.com/de-at/guide/safari/sfri11471/mac?tid=311128432">Safari: Verwalten
+						von
 						Cookies und Websitedaten mit Safari</NuxtLink>
 				</p>
 
@@ -1173,20 +1319,25 @@ function openEmail() {
 
 				<p>
 					<NuxtLink :external="true"
-						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">Microsoft
+						to="https://support.microsoft.com/de-at/help/4027947/windows-delete-cookies?tid=311128432">
+						Microsoft
 						Edge: L&ouml;schen und Verwalten von Cookies</NuxtLink>
 				</p>
 
 				<p>
-					Falls Sie grunds&auml;tzlich keine Cookies haben wollen, k&ouml;nnen Sie Ihren Browser so einrichten,
+					Falls Sie grunds&auml;tzlich keine Cookies haben wollen, k&ouml;nnen Sie Ihren Browser so
+					einrichten,
 					dass er
-					Sie immer informiert, wenn ein Cookie gesetzt werden soll. So k&ouml;nnen Sie bei jedem einzelnen Cookie
-					entscheiden, ob Sie es erlauben oder nicht. Da YouTube ein Tochterunternehmen von Google ist, gibt es
+					Sie immer informiert, wenn ein Cookie gesetzt werden soll. So k&ouml;nnen Sie bei jedem einzelnen
+					Cookie
+					entscheiden, ob Sie es erlauben oder nicht. Da YouTube ein Tochterunternehmen von Google ist, gibt
+					es
 					eine
 					gemeinsame Datenschutzerkl&auml;rung. Wenn Sie mehr &uuml;ber den Umgang mit Ihren Daten erfahren
 					wollen,
 					empfehlen wir Ihnen die Datenschutzerkl&auml;rung unter&nbsp;&nbsp;<NuxtLink :external="true"
-						to="https://policies.google.com/privacy?hl=de">https://policies.google.com/privacy?hl=de.</NuxtLink>
+						to="https://policies.google.com/privacy?hl=de">https://policies.google.com/privacy?hl=de.
+					</NuxtLink>
 				</p>
 
 				<h2>YouTube Abonnieren Button Datenschutzerkl&auml;rung</h2>
@@ -1195,7 +1346,8 @@ function openEmail() {
 					Wir haben auf unserer Webseite den YouTube Abonnieren Button (engl. &bdquo;Subscribe-Button&ldquo;)
 					eingebaut. Sie erkennen den Button meist am klassischen YouTube-Logo. Das Logo zeigt vor rotem
 					Hintergrund in
-					wei&szlig;er Schrift die W&ouml;rter &bdquo;Abonnieren&ldquo; oder &bdquo;YouTube&ldquo; und links davon
+					wei&szlig;er Schrift die W&ouml;rter &bdquo;Abonnieren&ldquo; oder &bdquo;YouTube&ldquo; und links
+					davon
 					das
 					wei&szlig;e &bdquo;Play-Symbol&ldquo;. Der Button kann aber auch in einem anderen Design dargestellt
 					sein.
@@ -1203,20 +1355,25 @@ function openEmail() {
 
 				<p>
 					Unser YouTube-Kanal bietet Ihnen immer wieder lustige, interessante oder spannende Videos. Mit dem
-					eingebauten &bdquo;Abonnieren-Button&ldquo; k&ouml;nnen Sie unseren Kanal direkt von unserer Webseite
+					eingebauten &bdquo;Abonnieren-Button&ldquo; k&ouml;nnen Sie unseren Kanal direkt von unserer
+					Webseite
 					aus
-					abonnieren und m&uuml;ssen nicht eigens die YouTube-Webseite aufrufen. Wir wollen Ihnen somit den Zugang
+					abonnieren und m&uuml;ssen nicht eigens die YouTube-Webseite aufrufen. Wir wollen Ihnen somit den
+					Zugang
 					zu
-					unserem umfassenden Content so einfach wie m&ouml;glich machen. Bitte beachten Sie, dass YouTube dadurch
+					unserem umfassenden Content so einfach wie m&ouml;glich machen. Bitte beachten Sie, dass YouTube
+					dadurch
 					Daten
 					von Ihnen speichern und verarbeiten kann.
 				</p>
 
 				<p>
-					Wenn Sie auf unserer Seite einen eingebauten Abo-Button sehen, setzt YouTube &ndash; laut Google &ndash;
+					Wenn Sie auf unserer Seite einen eingebauten Abo-Button sehen, setzt YouTube &ndash; laut Google
+					&ndash;
 					mindestens ein Cookie. Dieses Cookie speichert Ihre IP-Adresse und unsere URL. Auch Informationen
 					&uuml;ber
-					Ihren Browser, Ihren ungef&auml;hren Standort und Ihre voreingestellte Sprache kann YouTube so erfahren.
+					Ihren Browser, Ihren ungef&auml;hren Standort und Ihre voreingestellte Sprache kann YouTube so
+					erfahren.
 					Bei
 					unserem Test wurden folgende vier Cookies gesetzt, ohne bei YouTube angemeldet zu sein:
 				</p>
@@ -1228,7 +1385,8 @@ function openEmail() {
 						<p>Wert:&nbsp;b9-CV6ojI5311128432Y</p>
 					</li>
 					<li>
-						<p>Verwendungszweck:&nbsp;Dieses Cookie registriert eine eindeutige ID, um Statistiken des gesehenen
+						<p>Verwendungszweck:&nbsp;Dieses Cookie registriert eine eindeutige ID, um Statistiken des
+							gesehenen
 							Videos
 							zu speichern.</p>
 					</li>
@@ -1247,7 +1405,8 @@ function openEmail() {
 				</ul>
 
 				<p>
-					Verwendungszweck:&nbsp;Dieses Cookie registriert ebenfalls Ihre eindeutige ID. Google bekommt &uuml;ber
+					Verwendungszweck:&nbsp;Dieses Cookie registriert ebenfalls Ihre eindeutige ID. Google bekommt
+					&uuml;ber
 					PREF
 					Statistiken, wie Sie YouTube-Videos auf unserer Webseite verwenden.
 				</p>
@@ -1296,21 +1455,26 @@ function openEmail() {
 				</p>
 
 				<p>
-					Wenn Sie in Ihrem YouTube-Konto angemeldet sind, kann YouTube viele Ihrer Handlungen/Interaktionen auf
+					Wenn Sie in Ihrem YouTube-Konto angemeldet sind, kann YouTube viele Ihrer Handlungen/Interaktionen
+					auf
 					unserer Webseite mit Hilfe von Cookies speichern und Ihrem YouTube-Konto zuordnen. YouTube bekommt
 					dadurch zum
-					Beispiel Informationen wie lange Sie auf unserer Seite surfen, welchen Browsertyp Sie verwenden, welche
+					Beispiel Informationen wie lange Sie auf unserer Seite surfen, welchen Browsertyp Sie verwenden,
+					welche
 					Bildschirmaufl&ouml;sung Sie bevorzugen oder welche Handlungen Sie ausf&uuml;hren.
 				</p>
 
 				<p>
-					YouTube verwendet diese Daten zum einen um die eigenen Dienstleistungen und Angebote zu verbessern, zum
-					anderen um Analysen und Statistiken f&uuml;r Werbetreibende (die Google Ads verwenden) bereitzustellen.
+					YouTube verwendet diese Daten zum einen um die eigenen Dienstleistungen und Angebote zu verbessern,
+					zum
+					anderen um Analysen und Statistiken f&uuml;r Werbetreibende (die Google Ads verwenden)
+					bereitzustellen.
 				</p>
 
 				<h4>Online-Stellenbewerbungen / Veröffentlichung von Stellenanzeigen</h4>
 				<p>
-					Wir bieten Ihnen die Möglichkeit an, sich bei uns über unseren Internetauftritt bewerben zu können. Bei
+					Wir bieten Ihnen die Möglichkeit an, sich bei uns über unseren Internetauftritt bewerben zu können.
+					Bei
 					diesen digitalen Bewerbungen werden Ihre Bewerber- und Bewerbungsdaten von uns zur Abwicklung des
 					Bewerbungsverfahrens elektronisch erhoben und verarbeitet.
 				</p>
@@ -1325,10 +1489,12 @@ function openEmail() {
 					dies natürlich unter Beachtung der weitergehenden rechtlichen Verpflichtungen.
 				</p>
 				<p>
-					Rechtsgrundlage für diese Verarbeitung ist ebenfalls § 26 Abs. 1 S. 1 BDSG i.V.m. Art. 88 Abs. 1 DSGVO.
+					Rechtsgrundlage für diese Verarbeitung ist ebenfalls § 26 Abs. 1 S. 1 BDSG i.V.m. Art. 88 Abs. 1
+					DSGVO.
 				</p>
 				<p>
-					Bei der Zurückweisung einer Bewerbung löschen wir die uns übermittelten Daten automatisch zwei Monate
+					Bei der Zurückweisung einer Bewerbung löschen wir die uns übermittelten Daten automatisch zwei
+					Monate
 					nach
 					der Bekanntgabe der Zurückweisung. Die Löschung erfolgt jedoch nicht, wenn die Daten aufgrund
 					gesetzlicher
@@ -1342,9 +1508,11 @@ function openEmail() {
 					Interesse liegt in der Rechtsverteidigung bzw. -durchsetzung.
 				</p>
 				<p>
-					Sofern Sie ausdrücklich in eine längere Speicherung Ihrer Daten einwilligen, bspw. für Ihre Aufnahme in
+					Sofern Sie ausdrücklich in eine längere Speicherung Ihrer Daten einwilligen, bspw. für Ihre Aufnahme
+					in
 					eine
-					Bewerber- oder Interessentendatenbank, werden die Daten aufgrund Ihrer Einwilligung weiterverarbeitet.
+					Bewerber- oder Interessentendatenbank, werden die Daten aufgrund Ihrer Einwilligung
+					weiterverarbeitet.
 					Rechtsgrundlage ist dann Art. 6 Abs. 1 lit. a) DSGVO. Ihre Einwilligung können Sie aber natürlich
 					jederzeit
 					nach Art. 7 Abs. 3 DSGVO durch Erklärung uns gegenüber mit Wirkung für die Zukunft widerrufen.
@@ -1359,7 +1527,8 @@ function openEmail() {
 
 				<hr />
 				<p style="padding-top: 20px">
-					memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie und
+					memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie
+					und
 					den
 					Europäischen Sozialfonds gefördert.
 				</p>
