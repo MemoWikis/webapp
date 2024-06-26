@@ -71,7 +71,7 @@ async function saveAnswer() {
         commentId: props.comment.id,
         text: answerText.value
     }
-    const result = await $fetch<CommentModel | null>(`/apiVue/Comment/SaveAnswer/`, {
+    const result = await $fetch<CommentModel | null>(`/apiVue/CommentAdd/SaveAnswer/`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',

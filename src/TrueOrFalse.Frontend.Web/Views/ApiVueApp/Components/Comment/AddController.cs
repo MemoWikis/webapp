@@ -29,11 +29,12 @@ public class CommentAddController(
         _commentRepository.Create(comment);
     }
 
+
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public CommentModel? SaveAnswer(int commentId, string text)
+    public CommentModel? SaveAnswer([FromBody]AddAnswerType addAnswerType)
     {
-        var parentComment = _commentRepository.GetById(commentId);
+        var parentComment = _commentRepository.GetById(addAnswerType.commentId);
 
         if (parentComment.IsSettled)
         {
@@ -44,7 +45,7 @@ public class CommentAddController(
         comment.Type = CommentType.AnswerQuestion;
         comment.TypeId = parentComment.TypeId;
         comment.AnswerTo = parentComment;
-        comment.Text = text;
+        comment.Text = addAnswerType.text;
         comment.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
 
         _commentRepository.Create(comment);
@@ -52,19 +53,19 @@ public class CommentAddController(
         return new CommentModel(comment, _httpContextAccessor);
     }
 
-    //[HttpPost]
-    //public void MarkCommentAsSettled(int commentId)
-    //{
-    //    _commentRepository.UpdateIsSettled(commentId, true);
-    //    //CommentMarkedAsSettledMsg.Send(commentId);
-    //}
+    [HttpPost]
+    public void MarkCommentAsSettled(int commentId)
+    {
+        _commentRepository.UpdateIsSettled(commentId, true);
+        //CommentMarkedAsSettledMsg.Send(commentId);
+    }
 
-    //[HttpPost]
-    //public void MarkCommentAsUnsettled(int commentId)
-    //{
-    //    _commentRepository.UpdateIsSettled(commentId, false);
-    //    //todo: inform comment-creator and question-owner with message of changed status
-    //}
+    [HttpPost]
+    public void MarkCommentAsUnsettled(int commentId)
+    {
+        _commentRepository.UpdateIsSettled(commentId, false);
+    }
 
 }
 public readonly record struct AddCommentJson(int id, string text, string title);
+public readonly record struct AddAnswerType(int commentId, string text);
