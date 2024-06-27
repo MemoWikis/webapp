@@ -82,6 +82,13 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 
     },
 })
+onBeforeMount(() => {
+    if (profile.value && profile.value?.messageKey != "") {
+
+        $logger.warn(`User: ${profile.value.messageKey} route ${route.fullPath}`)
+        throw createError({ statusCode: profile.value.errorCode, statusMessage: messages.getByCompositeKey(profile.value.messageKey) })
+    }
+})
 
 if (profile.value && profile.value?.messageKey != "") {
 

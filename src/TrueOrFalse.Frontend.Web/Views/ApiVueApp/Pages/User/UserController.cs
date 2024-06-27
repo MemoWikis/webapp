@@ -95,9 +95,10 @@ public class UserController(
                     allTopicsCreatedByUser.Count(c => c.Visibility == CategoryVisibility.All),
                 PrivateTopicsCount =
                     allTopicsCreatedByUser.Count(c => c.Visibility != CategoryVisibility.All),
-                WuwiCount = user.WishCountQuestions
+                WuwiCount = user.WishCountQuestions,
             },
-            IsCurrentUser = isCurrentUser
+            IsCurrentUser = isCurrentUser,
+            MessageKey = ""
         };
         return result;
     }
