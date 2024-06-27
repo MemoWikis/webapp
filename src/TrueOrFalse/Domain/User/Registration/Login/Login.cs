@@ -38,11 +38,10 @@ namespace TrueOrFalse.Domain.User
                 }
 
                 _sessionUser.Login(_credentialsAreValid.User);
-                
+
                 TransferActivityPoints.FromSessionToUser(_sessionUser, _activityPointsRepo);
                 _userWritingRepo.UpdateActivityPointsData();
                 return true;
-
             }
 
             return false;

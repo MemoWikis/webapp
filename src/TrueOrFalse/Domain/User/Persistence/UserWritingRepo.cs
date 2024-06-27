@@ -113,30 +113,36 @@ public class UserWritingRepo
         _repo.Session.CreateSQLQuery("UPDATE categoryChange c " +
                                      "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
                                      "WHERE u.id =  :userid;")
-            .SetParameter("userid", userId).ExecuteUpdate();
+            .SetParameter("userid", userId)
+            .ExecuteUpdate();
 
         _repo.Session
             .CreateSQLQuery(
                 "Update questionchange qc set qc.Author_id = null Where Author_id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
+            .SetParameter("userid", userId)
+            .ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery(
                 "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.user_id Where u.id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
+            .SetParameter("userid", userId)
+            .ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery(
                 "DELETE uf.* From  user u LEFT JOIN user_to_follower uf ON u.id = uf.Follower_id Where u.id = :userid")
-            .SetParameter("userid", userId).ExecuteUpdate();
+            .SetParameter("userid", userId)
+            .ExecuteUpdate();
         _repo.Session.CreateSQLQuery(
                 "Delete ua.* From Useractivity ua  Join question q ON ua.question_id = q.id where q.creator_id = :userid and (visibility = 1 Or visibility = 2)")
-            .SetParameter("userid", userId).ExecuteUpdate();
+            .SetParameter("userid", userId)
+            .ExecuteUpdate();
         _repo.Session
             .CreateSQLQuery("Delete From question where creator_id = :userid and visibility = 1")
-            .SetParameter("userid", userId).ExecuteUpdate();
+            .SetParameter("userid", userId)
+            .ExecuteUpdate();
         _repo.Session
             .CreateSQLQuery("Update question  Set Creator_Id = null Where Creator_Id = :userId")
             .SetParameter("userId", userId)
-            .ExecuteUpdate(); // visibility not necessary because everything has already been deleted
+            .ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery(
                 "Delete ua.* From useractivity ua Left Join  user u ON u.id = ua.UserConcerned_id Where u.id  =  :userId;")
@@ -144,10 +150,12 @@ public class UserWritingRepo
 
         _repo.Session.CreateSQLQuery(
                 "Delete ua.* From useractivity ua Left Join  user u ON u.id = ua.UserISFollowed_id Where u.id  =  :userId;")
-            .SetParameter("userId", userId).ExecuteUpdate();
+            .SetParameter("userId", userId)
+            .ExecuteUpdate();
 
         _repo.Session.CreateSQLQuery("Delete From user Where id =  :userId;")
-            .SetParameter("userId", userId).ExecuteUpdate();
+            .SetParameter("userId", userId)
+            .ExecuteUpdate();
     }
 
     public void Update(User user)
