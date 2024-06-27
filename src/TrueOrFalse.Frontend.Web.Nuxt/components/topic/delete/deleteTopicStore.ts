@@ -13,6 +13,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             redirectURL: '',
             redirect: false,
             suggestedNewParent: null as TopicItem | null,
+            hasQuestion: false,
             hasPublicQuestion: false,
             messageKey: '',
             showErrorMsg: false
@@ -27,6 +28,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
             this.redirectURL = ''
             this.redirect = redirect
             this.suggestedNewParent = null
+            this.hasQuestion = false
             this.hasPublicQuestion = false
             
             if (await this.initDeleteData())
@@ -38,12 +40,14 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 canBeDeleted: boolean
                 hasChildren: boolean
                 suggestedNewParent: TopicItem | null
+                hasQuestion: boolean
                 hasPublicQuestion: boolean
             }
             const result = await $fetch<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
             if (result != null) {
                 this.suggestedNewParent = result.suggestedNewParent
                 this.name = result.name
+                this.hasQuestion = result.hasQuestion
                 this.hasPublicQuestion = result.hasPublicQuestion
                 if (result.hasChildren) {
                     const alertStore = useAlertStore()

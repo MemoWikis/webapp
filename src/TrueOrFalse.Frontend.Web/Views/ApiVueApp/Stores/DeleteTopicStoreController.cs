@@ -42,6 +42,7 @@ public class DeleteTopicStoreController(
         string Name,
         bool HasChildren,
         SuggestedNewParent? SuggestedNewParent,
+        bool hasQuestion,
         bool hasPublicQuestion);
 
     [AccessOnlyAsLoggedIn]
@@ -57,9 +58,12 @@ public class DeleteTopicStoreController(
 
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
 
-        var hasPublicQuestion = EntityCache
+        var questions = EntityCache
             .GetCategory(id)
-            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false)
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false);
+
+        var hasQuestion = questions.Count > 0;
+        var hasPublicQuestion = questions
             .Any(q => q.Visibility == QuestionVisibility.All);
 
         var parents = _crumbtrailService.BuildCrumbtrail(topic, currentWiki);
@@ -68,11 +72,11 @@ public class DeleteTopicStoreController(
                 .SuggestNewParent(parents, hasPublicQuestion);
 
         if (newParentId == null)
-            return new DeleteData(topic.Name, hasChildren, null, hasPublicQuestion);
+            return new DeleteData(topic.Name, hasChildren, null, hasQuestion, hasPublicQuestion);
 
         var suggestedNewParent = FillSuggestedNewParent(EntityCache.GetCategory((int)newParentId));
 
-        return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasPublicQuestion);
+        return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion);
     }
 
     public readonly record struct DeleteJson(int id, int parentForQuestionsId);
