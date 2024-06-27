@@ -14,7 +14,6 @@ function init() {
     solutionHtml.value = JSON.parse(props.solution).Text
 }
 
-onBeforeMount(() => init())
 
 watch(() => props.solution, () => init())
 
@@ -51,6 +50,7 @@ function getMinHeight() {
 
 const emit = defineEmits((['flipped']))
 
+init()
 </script>
 
 <template>
