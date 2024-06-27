@@ -38,7 +38,6 @@ const showSelectedTopic = ref(false)
 
 watch(newParentForQuestions, (val) => {
     showSelectedTopic.value = val ? true : false
-
 })
 
 const showDropdown = ref(true)
@@ -49,60 +48,86 @@ const showDropdown = ref(true)
         v-if="deleteTopicStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handlePrimaryAction()"
         @close="deleteTopicStore.showModal = false">
         <template v-slot:header>
-            <template v-if="deleteTopicStore.topicDeleted">
-                Thema gelöscht
-            </template>
-            <template v-else>
-                Thema '{{ deleteTopicStore.name }}' löschen
-            </template>
+            <h4 class="modal-title">
+                <template v-if="deleteTopicStore.topicDeleted">
+                    Thema gelöscht
+                </template>
+                <template v-else>
+                    Thema '{{ deleteTopicStore.name }}' löschen
+                </template>
+            </h4>
+
         </template>
         <template v-slot:body>
-            <template v-if="deleteTopicStore.topicDeleted && deleteTopicStore.redirect">
-                Beim schliessen dieses Fensters wirst Du zum nächsten übergeordnetem Thema weitergeleitet.
-            </template>
-            <template v-else-if="deleteTopicStore.topicDeleted && !deleteTopicStore.redirect">
-                Das Thema '<strong>{{ deleteTopicStore.name }}</strong>' wurde erfolgreich gelöscht.
-            </template>
-            <template v-else>
-                <div>
-                    <div class="body-m">Möchtest Du '<strong>{{ deleteTopicStore.name }}</strong>' unwiderruflich
-                        löschen?
-                    </div>
-                    <div class="body-s">
-                        Fragen werden nicht gelöscht. <br />
-                        Wähle ein neues Thema für die Fragen aus.
-                    </div>
-                    <div class="body-s" v-if="deleteTopicStore.hasPublicQuestion">
-                        Es gibt öffentliche Fragen in diesem Thema. Es können nur öffentliche Themen ausgewählt werden.
-                    </div>
-                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedTopic && newParentForQuestions != null" class="searchResultItem mb-125"
-                            data-toggle="tooltip" data-placement="top" :title="newParentForQuestions.name">
-                            <img :src="newParentForQuestions.imageUrl" />
-                            <div class="searchResultBody">
-                                <div class="searchResultLabel body-m">{{ newParentForQuestions.name }}</div>
-                                <div class="searchResultQuestionCount body-s">
-                                    {{ newParentForQuestions.questionCount }} Frage<template
-                                        v-if="newParentForQuestions.questionCount != 1">n</template>
-                                </div>
+            <div class="delete-modal">
+                <template v-if="deleteTopicStore.topicDeleted && deleteTopicStore.redirect">
+                    Beim schliessen dieses Fensters wirst Du zum nächsten übergeordnetem Thema weitergeleitet.
+                </template>
+                <template v-else-if="deleteTopicStore.topicDeleted && !deleteTopicStore.redirect">
+                    Das Thema '<strong>{{ deleteTopicStore.name }}</strong>' wurde erfolgreich gelöscht.
+                </template>
+                <template v-else>
+                    <div>
+                        <div class="body-m">
+                            Möchtest Du
+                            '<strong>
+                                <NuxtLink :to="$urlHelper.getTopicUrl(deleteTopicStore.name, deleteTopicStore.id)">
+                                    {{ deleteTopicStore.name }}
+                                </NuxtLink>
+                            </strong>'
+                            unwiderruflich löschen?
+                        </div>
+                        <div v-if="deleteTopicStore.hasQuestion" class="new-parent-topic-selection-container">
+                            <div class="body-s">
+                                <strong> Fragen werden nicht gelöscht. </strong>
+                                Verschiebe die Fragen in ein anderes Thema.
+                                <br />
+                                <template v-if="!deleteTopicStore.hasPublicQuestion">
+                                    Es gibt öffentliche Fragen in diesem Thema.
+                                    Du kannst nur öffentliche Themen auswählen.
+                                    <br />
+                                </template>
                             </div>
-                            <div class="selectedSearchResultItemContainer">
-                                <div class="selectedSearchResultItem">
-                                    Ausgewählt
-                                    <font-awesome-icon icon="fa-solid fa-check" />
+                            <div class="body-s" v-if="newParentForQuestions">
+                                Wie wäre es mit
+                                <NuxtLink
+                                    :to="$urlHelper.getTopicUrl(newParentForQuestions.name, newParentForQuestions.id)">
+                                    {{ newParentForQuestions.name }}
+                                </NuxtLink>?
+                            </div>
+                            <div class="form-group dropdown categorySearchAutocomplete"
+                                :class="{ 'open': showDropdown }">
+                                <div v-if="showSelectedTopic && newParentForQuestions != null"
+                                    class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top"
+                                    :title="newParentForQuestions.name">
+                                    <img :src="newParentForQuestions.imageUrl" />
+                                    <div class="searchResultBody">
+                                        <div class="searchResultLabel body-m">{{ newParentForQuestions.name }}</div>
+                                        <div class="searchResultQuestionCount body-s">
+                                            {{ newParentForQuestions.questionCount }} Frage<template
+                                                v-if="newParentForQuestions.questionCount != 1">n</template>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="selectedSearchResultItemContainer">
+                                        <div class="selectedSearchResultItem">
+                                            Ausgewählt
+                                            <font-awesome-icon icon="fa-solid fa-check" />
+                                        </div>
+                                    </div> -->
                                 </div>
+                                <div class="body-s">Oder suche ein anderes Thema aus.</div>
+                                <Search :search-type="SearchType.topic" :show-search="true"
+                                    v-on:select-item="selectNewParentForQuestions"
+                                    :topic-ids-to-filter="[deleteTopicStore.id]"
+                                    :public-only="deleteTopicStore.hasPublicQuestion" />
                             </div>
                         </div>
-
-                        <Search :search-type="SearchType.topic" :show-search="true"
-                            v-on:select-item="selectNewParentForQuestions" :topic-ids-to-filter="[deleteTopicStore.id]"
-                            :public-only="deleteTopicStore.hasPublicQuestion" />
                     </div>
-                </div>
-                <div class="alert alert-warning" role="alert" v-if="deleteTopicStore.showErrorMsg">
-                    {{ deleteTopicStore.messageKey }}
-                </div>
-            </template>
+                    <div class="alert alert-warning" role="alert" v-if="deleteTopicStore.showErrorMsg">
+                        {{ deleteTopicStore.messageKey }}
+                    </div>
+                </template>
+            </div>
         </template>
         <template v-slot:footer>
         </template>
@@ -111,6 +136,19 @@ const showDropdown = ref(true)
 <style scoped lang="less">
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';
+
+.delete-modal {
+    margin-bottom: 24px;
+}
+
+.new-parent-topic-selection-container {
+    margin-top: 20px;
+    border: solid 1px @memo-grey-lighter;
+    margin-left: -12px;
+    margin-right: -12px;
+    padding: 16px 12px 8px;
+    border-radius: 2px;
+}
 
 .flex {
     display: flex;
