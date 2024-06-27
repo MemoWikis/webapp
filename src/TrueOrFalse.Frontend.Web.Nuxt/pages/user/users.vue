@@ -94,7 +94,28 @@ const getSelectedOrderLabel = computed(() => {
     }
 })
 
-
+useHead(() => ({
+    link: [
+        {
+            rel: 'canonical',
+            href: `${config.public.officialBase}/Nutzer`
+        },
+    ],
+    meta: [
+        {
+            name: 'description',
+            content: 'List of all users'
+        },
+        {
+            property: 'og:title',
+            content: 'Users'
+        },
+        {
+            property: 'og:url',
+            content: `${config.public.officialBase}/Nutzer`
+        },
+    ]
+}))
 </script>
 
 <template>
