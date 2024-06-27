@@ -10,7 +10,7 @@ public class CommentModel
     public string CreationDate;
     public string CreationDateNiceText;
     public string CreatorUrl;
-    public string ImageUrl;
+    public string CreatorImgUrl;
     public string Title;
     public string Text;
 
@@ -44,7 +44,9 @@ public class CommentModel
         IsSettled = comment.IsSettled;
         _httpContextAccessor = httpContextAccessor;
         ShowSettledAnswers = showSettled;
-        ImageUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor).GetUrl_128px_square(comment.Creator).Url;
+        CreatorImgUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor)
+            .GetUrl_128px_square(comment.Creator)
+            .Url;
 
 
         if (comment.Answers != null)

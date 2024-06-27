@@ -26,25 +26,25 @@ public class CommentsStoreController(
     {
         var comment = new CommentJson
         {
-            id = c.Id,
-            title = c.Title,
-            text = c.Text,
+            Id = c.Id,
+            Title = c.Title,
+            Text = c.Text,
 
-            creatorName = c.Creator.Name,
-            creatorId = c.Creator.Id,
-            creatorImgUrl = new UserImageSettings(c.Creator.Id, _httpContextAccessor)
+            CreatorName = c.Creator.Name,
+            CreatorId = c.Creator.Id,
+            CreatorImgUrl = new UserImageSettings(c.Creator.Id, _httpContextAccessor)
                 .GetUrl_128px_square(c.Creator)
                 .Url,
 
-            creationDate = c.DateCreated.ToString("U"),
-            creationDateNiceText = DateTimeUtils.TimeElapsedAsText(c.DateCreated),
+            CreationDate = c.DateCreated.ToString("U"),
+            CreationDateNiceText = DateTimeUtils.TimeElapsedAsText(c.DateCreated),
 
-            shouldBeImproved = c.ShouldImprove,
-            shouldBeDeleted = c.ShouldRemove,
-            shouldReasons = TrueOrFalse.ShouldReasons.ByKeys(c.ShouldKeys),
+            ShouldBeImproved = c.ShouldImprove,
+            ShouldBeDeleted = c.ShouldRemove,
+            ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(c.ShouldKeys),
 
-            isSettled = c.IsSettled,
-            showSettledAnswers = showSettled
+            IsSettled = c.IsSettled,
+            ShowSettledAnswers = showSettled
         };
 
         if (c.Answers != null)
@@ -70,27 +70,27 @@ public class CommentsStoreController(
     public record struct Comments(CommentJson[] SettledComments, CommentJson[] UnsettledComments);
     public class CommentJson
     {
-        public int id { get; set; }
-        public string title { get; set; }
-        public string text { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Text { get; set; }
 
-        public string creatorName { get; set; }
-        public int creatorId { get; set; }
-        public string creatorImgUrl { get; set; }
+        public string CreatorName { get; set; }
+        public int CreatorId { get; set; }
+        public string CreatorImgUrl { get; set; }
 
-        public string creationDate { get; set; }
-        public string creationDateNiceText { get; set; }
+        public string CreationDate { get; set; }
+        public string CreationDateNiceText { get; set; }
 
 
-        public bool shouldBeImproved { get; set; }
-        public bool shouldBeDeleted { get; set; }
-        public bool isSettled { get; set; }
+        public bool ShouldBeImproved { get; set; }
+        public bool ShouldBeDeleted { get; set; }
+        public bool IsSettled { get; set; }
 
-        public List<string> shouldReasons { get; set; }
+        public List<string> ShouldReasons { get; set; }
 
         public CommentJson[] answers { get; set; }
         public int answersSettledCount { get; set; } = 0;
-        public bool showSettledAnswers { get; set; }
+        public bool ShowSettledAnswers { get; set; }
     }
 }
 

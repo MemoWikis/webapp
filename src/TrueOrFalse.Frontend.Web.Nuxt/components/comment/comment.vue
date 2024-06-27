@@ -26,7 +26,6 @@ async function markAsSettled() {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
     if (result)
@@ -48,7 +47,14 @@ async function markAsUnsettled() {
         commentsStore.loadComments()
 }
 
-const showAnswers = computed(() => foldOut && userStore.isAdmin || foldOut && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isAdmin || !props.comment.isSettled && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isLoggedIn)
+const showAnswers = computed(() =>
+    foldOut.value && props.comment.answers.length > 0 ||
+    !props.comment.isSettled)
+
+watch(showAnswers, (newVal) => {
+    if (newVal === true)
+        console.log('props ANswer', props.comment.answers)
+})
 
 const highlightEmptyAnswer = ref(false)
 const answerText = ref('')
@@ -86,6 +92,11 @@ async function saveAnswer() {
     }
 
 }
+
+function toggleShowCommentAnswers() {
+    console.log('showCommentAnswers', showCommentAnswers.value)
+    showCommentAnswers.value = !showCommentAnswers.value
+}
 </script>
 
 <template>
@@ -103,7 +114,7 @@ async function saveAnswer() {
                         <span class="commentTitle" v-else v-html="props.comment.text + '&nbsp &nbsp'"></span>
                     </template>
 
-                    <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                    <span class="commentSpeechBubbleIcon" @click="toggleShowCommentAnswers()">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                         <div class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
                             &nbsp; {{ props.comment.answers.length }} Beitrag

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
@@ -29,10 +31,25 @@ public class CommentAddController(
         _commentRepository.Create(comment);
     }
 
+    public record struct SaveAnswerResult(int Id, 
+        string CreatorName, 
+        string CreationDate,
+        string CreationDateNiceText,
+        string CreatorImgUrl,
+        string Title,
+        string Text,
+        bool ShouldBeImproved,
+        bool ShouldBeDeleted,
+        List<string> ShouldReasons,
+        bool IsSettled,
+        List<CommentModel> Answers,
+        int AnswersSettledCount,
+        bool ShowSettledAnswers,
+        string CreatorUrl); 
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public CommentModel? SaveAnswer([FromBody]AddAnswerType addAnswerType)
+    public SaveAnswerResult? SaveAnswer([FromBody]AddAnswerType addAnswerType)
     {
         var parentComment = _commentRepository.GetById(addAnswerType.commentId);
 
@@ -49,8 +66,9 @@ public class CommentAddController(
         comment.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
 
         _commentRepository.Create(comment);
+        var commentModel = new CommentModel(comment, _httpContextAccessor);
+        return SetAnswerResult(commentModel);
 
-        return new CommentModel(comment, _httpContextAccessor);
     }
 
     [HttpPost]
@@ -66,6 +84,29 @@ public class CommentAddController(
         _commentRepository.UpdateIsSettled(commentId, false);
     }
 
-}
+
+    private SaveAnswerResult? SetAnswerResult(CommentModel commentModel)
+    {
+        return new SaveAnswerResult
+        {
+            Answers = commentModel.Answers.ToList(),
+            AnswersSettledCount = commentModel.AnswersSettledCount,
+            CreationDate = commentModel.CreationDate,
+            CreationDateNiceText = commentModel.CreationDateNiceText,
+            CreatorName = commentModel.CreatorName,
+            CreatorUrl = commentModel.CreatorUrl,
+            Id = commentModel.Id,
+            IsSettled = commentModel.IsSettled,
+            ShouldBeDeleted = commentModel.ShouldBeDeleted,
+            ShouldBeImproved = commentModel.ShouldBeImproved,
+            ShouldReasons = commentModel.ShouldReasons,
+            ShowSettledAnswers = commentModel.ShowSettledAnswers,
+            Text = commentModel.Text,
+            Title = commentModel.Title,
+            CreatorImgUrl = commentModel.CreatorImgUrl
+
+        };
+    }
+}  
 public readonly record struct AddCommentJson(int id, string text, string title);
 public readonly record struct AddAnswerType(int commentId, string text);
