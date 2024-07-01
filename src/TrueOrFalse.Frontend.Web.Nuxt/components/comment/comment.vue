@@ -28,8 +28,11 @@ async function markAsSettled() {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     })
-    if (result)
+
+    if (result) {
+        console.log('result', result)
         commentsStore.loadComments()
+    }
 }
 
 async function markAsUnsettled() {

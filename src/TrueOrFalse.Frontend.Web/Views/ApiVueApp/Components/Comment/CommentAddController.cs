@@ -71,11 +71,12 @@ public class CommentAddController(
 
     }
 
+    public record struct MarkSettled(int commentId); 
     [HttpPost]
-    public void MarkCommentAsSettled(int commentId)
+    public bool MarkCommentAsSettled([FromBody] MarkSettled markSettled)
     {
-        _commentRepository.UpdateIsSettled(commentId, true);
-        //CommentMarkedAsSettledMsg.Send(commentId);
+        _commentRepository.UpdateIsSettled(markSettled.commentId, true);
+        return true;
     }
 
     [HttpPost]
