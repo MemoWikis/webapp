@@ -1020,7 +1020,7 @@ watch(() => userStore.isLoggedIn, () => {
                 <div class="commentCount pointer" @click="openCommentModal()">
                     <font-awesome-icon icon="fa-solid fa-comment" />
                     <span id="commentCountAnswerBody" class="detail-label">
-                        {{ unsettledCommentCount }}
+                        {{ commentsStore.unsettledComments.length }}
                     </span>
                 </div>
             </div>

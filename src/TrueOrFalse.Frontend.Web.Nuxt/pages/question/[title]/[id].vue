@@ -8,9 +8,11 @@ import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 import { messages } from '~/components/alert/messages'
+import { useCommentsStore } from '~/components/comment/commentsStore'
 
 const { $logger } = useNuxtApp()
 const userStore = useUserStore()
+const commentsStore = useCommentsStore()
 
 interface Props {
 	documentation: Topic
@@ -49,6 +51,8 @@ if (question.value && question.value?.messageKey != "" && question.value?.errorC
 	$logger.warn(`Question: ${question.value.messageKey} route ${route.fullPath}`)
 
 	throw createError({ statusCode: question.value.errorCode, statusMessage: messages.getByCompositeKey(question.value.messageKey) })
+} else {
+	commentsStore.loadComments()
 }
 
 

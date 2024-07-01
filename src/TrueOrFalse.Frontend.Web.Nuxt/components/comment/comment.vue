@@ -94,7 +94,6 @@ async function saveAnswer() {
 }
 
 function toggleShowCommentAnswers() {
-    console.log('showCommentAnswers', showCommentAnswers.value)
     showCommentAnswers.value = !showCommentAnswers.value
 }
 </script>
