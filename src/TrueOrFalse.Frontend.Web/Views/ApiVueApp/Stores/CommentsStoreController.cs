@@ -11,15 +11,14 @@ public class CommentsStoreController(
     [HttpGet]
     public Comments GetAllComments([FromRoute] int id)
     {
-        var _comments = _commentRepository.GetForDisplay(id);
-        var settledComments = _comments.Where(c => c.IsSettled).Select(c => GetComment(c)).ToArray();
-        var unsettledComments = _comments.Where(c => !c.IsSettled).Select(c => GetComment(c)).ToArray();
-
-        return new Comments(
+        var comments = _commentRepository.GetForDisplay(id);
+        var settledComments = comments.Where(c => c.IsSettled).Select(c => GetComment(c)).ToArray();
+        var unsettledComments = comments.Where(c => !c.IsSettled).Select(c => GetComment(c)).ToArray();
+        var result = new Comments(
 
             SettledComments: settledComments,
-            UnsettledComments: unsettledComments
-        );
+            UnsettledComments: unsettledComments);
+        return result;
     }
 
     private CommentJson GetComment(Comment c, bool showSettled = false)
@@ -68,29 +67,23 @@ public class CommentsStoreController(
     }
 
     public record struct Comments(CommentJson[] SettledComments, CommentJson[] UnsettledComments);
-    public class CommentJson
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string Text { get; set; }
 
-        public string CreatorName { get; set; }
-        public int CreatorId { get; set; }
-        public string CreatorImgUrl { get; set; }
-
-        public string CreationDate { get; set; }
-        public string CreationDateNiceText { get; set; }
-
-
-        public bool ShouldBeImproved { get; set; }
-        public bool ShouldBeDeleted { get; set; }
-        public bool IsSettled { get; set; }
-
-        public List<string> ShouldReasons { get; set; }
-
-        public CommentJson[] answers { get; set; }
-        public int answersSettledCount { get; set; } = 0;
-        public bool ShowSettledAnswers { get; set; }
-    }
+    public record struct CommentJson(
+        int Id,
+        string Title,
+        string Text,
+        string CreatorName,
+        int CreatorId,
+        string CreatorImgUrl,
+        string CreationDate,
+        string CreationDateNiceText,
+        bool ShouldBeImproved,
+        bool ShouldBeDeleted,
+        bool IsSettled,
+        List<string> ShouldReasons,
+        CommentJson[] answers,
+        int answersSettledCount,
+        bool ShowSettledAnswers
+    );
 }
 
