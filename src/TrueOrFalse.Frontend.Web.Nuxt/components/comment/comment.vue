@@ -19,7 +19,7 @@ const showCommentAnswers = ref(false)
 const { $logger, $urlHelper } = useNuxtApp()
 
 async function markAsSettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
+    const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
@@ -33,7 +33,7 @@ async function markAsSettled() {
 }
 
 async function markAsUnsettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsUnsettled/`, {
+    const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsUnsettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',

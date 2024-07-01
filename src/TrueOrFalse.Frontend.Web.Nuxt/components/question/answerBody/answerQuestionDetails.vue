@@ -22,7 +22,9 @@ interface Props {
     landingPage?: boolean
     model?: any
 }
+
 const props = defineProps<Props>()
+await commentsStore.loadFirst(props.id)
 
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
