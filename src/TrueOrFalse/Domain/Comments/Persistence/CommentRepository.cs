@@ -35,9 +35,6 @@ public class CommentRepository : RepositoryDb<Comment>
 
     public IList<Comment> GetForDisplay(int questionId)
     {
-    
-     
-
         return _session.QueryOver<Comment>()
             .Where(x => x.TypeId == questionId &&
                         x.Type == CommentType.AnswerQuestion &&
@@ -49,6 +46,17 @@ public class CommentRepository : RepositoryDb<Comment>
             .GroupBy(x => x.Id)
             .Select(x => x.First())
             .ToList();
+    }
+
+    public int GetCommentsCount(int questionId)
+    {
+       var count =  _session.QueryOver<Comment>()
+            .Where(x => x.TypeId == questionId &&
+                        x.Type == CommentType.AnswerQuestion &&
+                        x.AnswerTo == null && x.IsSettled == false)
+            .List<Comment>()
+            .Count(); 
+       return count;
     }
 
 
