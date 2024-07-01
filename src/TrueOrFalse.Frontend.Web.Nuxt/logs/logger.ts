@@ -1,4 +1,6 @@
 import { LogFn } from 'pino'
+import { $api } from '~/composables/fetchWithError'
+
 interface Property {
     [key: string]: any;
 }
