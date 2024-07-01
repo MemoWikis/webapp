@@ -231,7 +231,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
         async getQuestionCount() {
             const topicStore = useTopicStore()
             const sessionJson = this.buildSessionConfigJson(topicStore.id)
-            const count = await $fetch<QustionCounter>(`/apiVue/LearningSessionConfigurationStore/GetCount/`, {
+            const count = await $api<QustionCounter>(`/apiVue/LearningSessionConfigurationStore/GetCount/`, {
                 body: sessionJson,
                 method: 'POST',
                 mode: 'cors',

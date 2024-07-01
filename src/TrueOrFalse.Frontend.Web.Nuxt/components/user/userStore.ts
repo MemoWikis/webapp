@@ -87,7 +87,7 @@ export const useUserStore = defineStore('userStore', {
             Password: string,
             PersistentLogin: boolean
         }) {
-            const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
+            const result = await $api<FetchResult<CurrentUser>>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
             if (!!result && result.success) {
                 this.showLoginModal = false
                 this.initUser(result.data)
@@ -99,7 +99,7 @@ export const useUserStore = defineStore('userStore', {
             Email: string,
             Password: string
         }) {
-            const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
+            const result = await $api<FetchResult<CurrentUser>>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
                 this.isLoggedIn = true
@@ -117,7 +117,7 @@ export const useUserStore = defineStore('userStore', {
 
             spinnerStore.showSpinner()
 
-            const result = await $fetch<FetchResult<any>>('/apiVue/UserStore/Logout', {
+            const result = await $api<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
             spinnerStore.hideSpinner()
@@ -134,7 +134,7 @@ export const useUserStore = defineStore('userStore', {
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
-            const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
+            const result = await $api<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
                 mode: 'cors',
                 method: 'POST',
                 body: { email: email },
@@ -147,7 +147,7 @@ export const useUserStore = defineStore('userStore', {
             return result
         },
         async getUnreadMessagesCount() {
-            this.unreadMessagesCount = await $fetch<number>('/apiVue/UserStore/GetUnreadMessagesCount', {
+            this.unreadMessagesCount = await $api<number>('/apiVue/UserStore/GetUnreadMessagesCount', {
                 method: 'GET',
                 mode: 'cors',
                 credentials: 'include'
@@ -156,7 +156,7 @@ export const useUserStore = defineStore('userStore', {
         async requestVerificationMail() {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
-            const result = await $fetch<FetchResult<void>>('/apiVue/UserStore/RequestVerificationMail', {
+            const result = await $api<FetchResult<void>>('/apiVue/UserStore/RequestVerificationMail', {
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',

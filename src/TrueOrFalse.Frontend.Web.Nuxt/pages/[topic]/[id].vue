@@ -23,7 +23,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
-const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
+const { data: topic } = await useApi<Topic>(`/apiVue/Topic/GetTopic/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',

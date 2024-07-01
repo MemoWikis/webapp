@@ -19,7 +19,7 @@ const showCommentAnswers = ref(false)
 const { $logger, $urlHelper } = useNuxtApp()
 
 async function markAsSettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
+    const result = await $api<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
@@ -34,7 +34,7 @@ async function markAsSettled() {
 }
 
 async function markAsUnsettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsUnsettled/`, {
+    const result = await $api<boolean>(`/apiVue/Comment/MarkCommentAsUnsettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
@@ -71,7 +71,7 @@ async function saveAnswer() {
         commentId: props.comment.id,
         text: answerText.value
     }
-    const result = await $fetch<CommentModel | null>(`/apiVue/Comment/SaveAnswer/`, {
+    const result = await $api<CommentModel | null>(`/apiVue/Comment/SaveAnswer/`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',

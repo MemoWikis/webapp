@@ -43,7 +43,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 hasQuestion: boolean
                 hasPublicQuestion: boolean
             }
-            const result = await $fetch<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
+            const result = await $api<DeleteDataResult>(`/apiVue/DeleteTopicStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
             if (result != null) {
                 this.suggestedNewParent = result.suggestedNewParent
                 this.name = result.name
@@ -68,7 +68,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 },
                 messageKey: string
             }
-            const result = await $fetch<DeleteResult>(`/apiVue/DeleteTopicStore/Delete`, { 
+            const result = await $api<DeleteResult>(`/apiVue/DeleteTopicStore/Delete`, { 
                 method: 'POST', 
                 mode: 'cors', 
                 credentials: 'include',

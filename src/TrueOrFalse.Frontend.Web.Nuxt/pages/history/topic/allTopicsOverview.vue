@@ -47,7 +47,7 @@ const url = computed(() => {
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { $logger } = useNuxtApp()
-const { pending, data: days } = await useLazyFetch<Day[]>(url, {
+const { data: days, status } = await useLazyApi<Day[]>(url.value, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
@@ -61,15 +61,15 @@ const { pending, data: days } = await useLazyFetch<Day[]>(url, {
     },
 })
 
-watch(pending, (val) => {
-    if (val)
+watch(status, (val) => {
+    if (val == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
 
 onMounted(() => {
     emit('setPage', Page.Default)
-    if (pending.value)
+    if (status.value == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 

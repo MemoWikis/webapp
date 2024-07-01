@@ -151,7 +151,7 @@ export const useTopicStore = defineStore('topicStore', {
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
-			const result = await $fetch<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
+			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
 				method: 'POST', body: json, mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
@@ -182,7 +182,7 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 
 		async refreshTopicImage() {
-			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl/${this.id}`, {
+			this.imgUrl = await $api<string>(`/apiVue/TopicStore/GetTopicImageUrl/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
@@ -191,7 +191,7 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 		},
 		async reloadKnowledgeSummary() {
-			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary/${this.id}`, {
+			this.knowledgeSummary = await $api<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
@@ -200,7 +200,7 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 		},
 		async reloadGridItems() {
-			const result = await $fetch<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
+			const result = await $api<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
 				method: 'GET', 
 				mode: 'cors', 
 				credentials: 'include',
@@ -221,7 +221,7 @@ export const useTopicStore = defineStore('topicStore', {
 				hideText: !this.textIsHidden,
 				topicId: this.id
 			}
-			const result = await $fetch<boolean>(`/apiVue/TopicStore/HideOrShowText/`, {
+			const result = await $api<boolean>(`/apiVue/TopicStore/HideOrShowText/`, {
 				body: data,
 				method: 'POST', 
 				mode: 'cors', 

@@ -34,7 +34,7 @@ export class CustomPino {
         }
 
         try {
-            await $fetch(url, {
+            await $api(url, {
                 method: 'POST',
                 headers: {
                     'X-Seq-ApiKey': apiKey,

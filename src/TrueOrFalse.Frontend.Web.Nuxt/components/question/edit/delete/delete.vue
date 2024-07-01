@@ -27,7 +27,7 @@ async function getDeleteDetails(id: number) {
 
     showErrorMsg.value = false
 
-    var result = await $fetch<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails/${id}`, {
+    var result = await $api<DeleteDetails>(`/apiVue/QuestionEditDelete/DeleteDetails/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -66,7 +66,7 @@ async function deleteQuestion() {
     spinnerStore.showSpinner()
     showDeleteInfo.value = false
 
-    const result = await $fetch<{ id: number, sessionIndex: number, reloadAnswerBody: boolean }>(`/apiVue/QuestionEditDelete/Delete/${deleteQuestionStore.id}`, {
+    const result = await $api<{ id: number, sessionIndex: number, reloadAnswerBody: boolean }>(`/apiVue/QuestionEditDelete/Delete/${deleteQuestionStore.id}`, {
         method: 'POST',
         credentials: 'include',
         mode: 'cors',
@@ -101,8 +101,9 @@ watch(() => deleteQuestionStore.showModal, (val) => {
 </script>
 
 <template>
-    <LazyModal :show-close-button="true" :primary-btn-label="!deletionInProgress && showDeleteBtn ? 'Frage löschen' : ''"
-        :is-full-size-buttons="false" :show-cancel-btn="!deletionInProgress" @close="deleteQuestionStore.showModal = false"
+    <LazyModal :show-close-button="true"
+        :primary-btn-label="!deletionInProgress && showDeleteBtn ? 'Frage löschen' : ''" :is-full-size-buttons="false"
+        :show-cancel-btn="!deletionInProgress" @close="deleteQuestionStore.showModal = false"
         @primary-btn="deleteQuestion()" :show="deleteQuestionStore.showModal">
         <template v-slot:header>
             <h4 class="modal-title">Frage löschen</h4>

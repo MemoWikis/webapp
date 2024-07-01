@@ -131,7 +131,7 @@ async function answer() {
         isLearningSession: learningSessionStore.isLearningSession
     }
 
-    const result = await $fetch<any>(`/apiVue/AnswerBody/SendAnswerToLearningSession/`,
+    const result = await $api<any>(`/apiVue/AnswerBody/SendAnswerToLearningSession/`,
         {
             method: 'POST',
             body: data,
@@ -198,7 +198,7 @@ const answerBodyModel = ref<AnswerBodyModel>()
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
-    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
+    const result = await $api<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
@@ -246,7 +246,7 @@ async function markAsCorrect() {
         amountOfTries: amountOfTries.value,
     }
 
-    const result = await $fetch<boolean>('/apiVue/AnswerBody/MarkAsCorrect', {
+    const result = await $api<boolean>('/apiVue/AnswerBody/MarkAsCorrect', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -277,7 +277,7 @@ async function loadSolution(answered: boolean = true) {
         interactionNumber: amountOfTries.value,
         unanswered: !answered
     }
-    const solutionResult = await $fetch<SolutionData>('/apiVue/AnswerBody/GetSolution',
+    const solutionResult = await $api<SolutionData>('/apiVue/AnswerBody/GetSolution',
         {
             method: 'POST',
             body: data,

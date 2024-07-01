@@ -83,7 +83,7 @@ async function search() {
         term: searchTerm.value,
     }
 
-    const result = await $fetch<TopicResult>('/apiVue/Search/Topic', {
+    const result = await $api<TopicResult>('/apiVue/Search/Topic', {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -198,7 +198,7 @@ function getData() {
     return { ...data, ...dataExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
+    let count = await $api<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -228,7 +228,7 @@ async function save() {
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
-    const result = await $fetch<FetchResult<QuestionListItem>>(url, {
+    const result = await $api<FetchResult<QuestionListItem>>(url, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -325,7 +325,7 @@ const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
-    const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
+    const result = await $api<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',

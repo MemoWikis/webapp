@@ -2,8 +2,9 @@
 
 import { UseFetchOptions } from '#app'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { $fetch } from 'ofetch'
 
-export function useMyApi<T = void> (url: string, options?: UseFetchOptions<T>) {
+export function useApi<T = void> (url: string, options?: UseFetchOptions<T>) {
 
     if (options && options.onResponseError)
         return useFetch(url, {
@@ -21,7 +22,7 @@ export function useMyApi<T = void> (url: string, options?: UseFetchOptions<T>) {
     }
 }
 
-export function useMyLazyApi<T = void> (url: string, options?: UseFetchOptions<T>) {
+export function useLazyApi<T = void> (url: string, options?: UseFetchOptions<T>) {
 
     if (options && options.onResponseError)
         return useLazyFetch(url, {

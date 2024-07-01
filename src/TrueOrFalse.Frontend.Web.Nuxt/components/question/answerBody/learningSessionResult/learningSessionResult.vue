@@ -45,7 +45,7 @@ const { $logger } = useNuxtApp()
 const learningSessionResult = ref<LearningSessionResult>()
 
 onMounted(async () => {
-    learningSessionResult.value = await $fetch<LearningSessionResult>('/apiVue/VueLearningSessionResult/Get', {
+    learningSessionResult.value = await $api<LearningSessionResult>('/apiVue/VueLearningSessionResult/Get', {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {

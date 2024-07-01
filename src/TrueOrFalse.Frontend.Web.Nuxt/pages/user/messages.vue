@@ -24,7 +24,7 @@ interface MessageResult {
 }
 const { $logger } = useNuxtApp()
 
-const { data: model } = await useFetch<MessageResult>(`/apiVue/UserMessages/Get/`, {
+const { data: model } = await useApi<MessageResult>(`/apiVue/UserMessages/Get/`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -53,8 +53,8 @@ const forceShow = ref(false)
                         <span class="ColoredUnderline Message">Nachrichten</span>
                     </h1>
                     <div id="messagesWrapper">
-                        <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages" :message="message"
-                            :force-show="forceShow" :key="message.id" />
+                        <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages"
+                            :message="message" :force-show="forceShow" :key="message.id" />
                         <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length == 0">
                             Du hast aktuell keine ungelesenen Nachrichten.
                         </div>
@@ -62,7 +62,7 @@ const forceShow = ref(false)
                         <p v-if="model.readCount > 0">
                             Du hast {{ model.readCount }} gelesene Nachricht{{
                                 model.readCount == 0 ||
-                                model.readCount > 1 ? 'en' : ''
+                                    model.readCount > 1 ? 'en' : ''
                             }}.
                             <span v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</span>.
                         </p>

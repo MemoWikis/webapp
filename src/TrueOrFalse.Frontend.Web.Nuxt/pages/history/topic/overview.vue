@@ -24,7 +24,7 @@ const { $logger } = useNuxtApp()
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { pending, data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
+const { status, data: historyResult } = await useLazyApi<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
@@ -44,13 +44,13 @@ watch(historyResult, (val) => {
 
 })
 const spinnerStore = useSpinnerStore()
-watch(pending, (val) => {
-    if (val)
+watch(status, (val) => {
+    if (val == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
 onMounted(async () => {
-    if (pending.value)
+    if (status.value == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
     emit('setPage', Page.Default)

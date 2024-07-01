@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         name: string
         id: number
     }
-    const result = await $fetch<Result>('/apiVue/MiddlewareStartpage/Get',
+    const result = await $api<Result>('/apiVue/MiddlewareStartpage/Get',
         {
             credentials: 'include',
             mode: 'cors',

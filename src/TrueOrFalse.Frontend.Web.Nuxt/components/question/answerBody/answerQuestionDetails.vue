@@ -776,7 +776,7 @@ async function loadData() {
 
     if (props.id == deleteQuestionStore.deletedQuestionId)
         return
-    const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
+    const result = await $api<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {

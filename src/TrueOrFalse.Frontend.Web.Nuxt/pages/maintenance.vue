@@ -8,7 +8,7 @@ const { $logger } = useNuxtApp()
 
 const isAdmin = ref(false)
 const antiForgeryToken = ref<string>()
-const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/apiVue/VueMaintenance/Get',
+const { data: maintenanceDataResult } = await useApi<FetchResult<string>>('/apiVue/VueMaintenance/Get',
     {
         credentials: 'include',
         mode: 'cors',
@@ -70,7 +70,7 @@ async function handleClick(url: string) {
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-    const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/${url}`, {
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/${url}`, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -99,7 +99,7 @@ async function deleteUser() {
     data.append('__RequestVerificationToken', antiForgeryToken.value)
     data.append('userId', userIdToDelete.value.toString())
 
-    const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/DeleteUser`, {
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/DeleteUser`, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -117,7 +117,7 @@ async function removeAdminRights() {
     const data = new FormData()
     data.append('__RequestVerificationToken', antiForgeryToken.value)
 
-    const result = await $fetch<FetchResult<string>>(`/apiVue/VueMaintenance/RemoveAdminRights`, {
+    const result = await $api<FetchResult<string>>(`/apiVue/VueMaintenance/RemoveAdminRights`, {
         body: data,
         method: 'POST',
         mode: 'cors',

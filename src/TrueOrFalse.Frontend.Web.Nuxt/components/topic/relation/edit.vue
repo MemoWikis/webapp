@@ -26,7 +26,7 @@ async function validateName() {
         url?: string
     }
 
-    const result = await $fetch<FetchResult<TopicNameValidationResult>>('/apiVue/TopicRelationEdit/ValidateName', {
+    const result = await $api<FetchResult<TopicNameValidationResult>>('/apiVue/TopicRelationEdit/ValidateName', {
         method: 'POST', body: { name: name.value }, mode: 'cors', credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -70,7 +70,7 @@ async function addTopic() {
         parentTopicId: editTopicRelationStore.parentId,
     }
 
-    const result = await $fetch<FetchResult<QuickCreateResult>>('/apiVue/TopicRelationEdit/QuickCreate', {
+    const result = await $api<FetchResult<QuickCreateResult>>('/apiVue/TopicRelationEdit/QuickCreate', {
         method: 'POST', body: topicData, mode: 'cors', credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -151,7 +151,7 @@ async function moveTopicToNewParent() {
         parentIdToAdd: selectedTopic.value?.id
     }
 
-    const result = await $fetch<FetchResult<any>>('/apiVue/TopicRelationEdit/MoveChild', {
+    const result = await $api<FetchResult<any>>('/apiVue/TopicRelationEdit/MoveChild', {
         body: topicData,
         method: 'POST',
         onResponseError(context) {
@@ -215,7 +215,7 @@ async function addExistingTopic() {
         return
     }
 
-    const result = await $fetch<FetchResult<{ name: string, id: number }>>('/apiVue/TopicRelationEdit/AddChild', {
+    const result = await $api<FetchResult<{ name: string, id: number }>>('/apiVue/TopicRelationEdit/AddChild', {
         mode: 'cors',
         method: 'POST',
         body: data,
@@ -262,7 +262,7 @@ async function search() {
         ? '/apiVue/TopicRelationEdit/SearchTopicInPersonalWiki'
         : '/apiVue/TopicRelationEdit/SearchTopic'
 
-    const result = await $fetch<FullSearch>(url, {
+    const result = await $api<FullSearch>(url, {
         body: data,
         method: 'POST',
         mode: 'cors',

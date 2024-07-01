@@ -91,7 +91,7 @@ async function search() {
     if (props.publicOnly)
         data = { ...data, includePrivateTopics: false }
 
-    const result = await $fetch<FullSearch>(searchUrl.value, {
+    const result = await $api<FullSearch>(searchUrl.value, {
         method: 'POST',
         body: data,
         mode: 'cors',

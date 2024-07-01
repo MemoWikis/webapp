@@ -30,7 +30,7 @@ interface Question {
 	errorCode?: ErrorCode
 }
 
-const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
+const { data: question } = await useApi<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
 	{
 		credentials: 'include',
 		mode: 'cors',
