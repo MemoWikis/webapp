@@ -8,7 +8,7 @@ const userStore = useUserStore()
 
 const eMail = ref('')
 const password = ref('')
-const persistentLogin = ref(false)
+const persistentLogin = ref(true)
 async function login() {
 
     errorMessage.value = ''
