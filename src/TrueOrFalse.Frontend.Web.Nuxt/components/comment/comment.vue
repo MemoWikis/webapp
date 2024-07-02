@@ -19,22 +19,24 @@ const showCommentAnswers = ref(false)
 const { $logger, $urlHelper } = useNuxtApp()
 
 async function markAsSettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsSettled/`, {
+    const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
-    if (result)
+
+    if (result) {
+        console.log('result', result)
         commentsStore.loadComments()
+    }
 }
 
 async function markAsUnsettled() {
-    const result = await $fetch<boolean>(`/apiVue/Comment/MarkCommentAsUnsettled/`, {
+    const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsUnsettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
@@ -48,7 +50,14 @@ async function markAsUnsettled() {
         commentsStore.loadComments()
 }
 
-const showAnswers = computed(() => foldOut && userStore.isAdmin || foldOut && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isAdmin || !props.comment.isSettled && props.comment.answers.length > 0 || !props.comment.isSettled && userStore.isLoggedIn)
+const showAnswers = computed(() =>
+    foldOut.value && props.comment.answers.length > 0 ||
+    !props.comment.isSettled)
+
+watch(showAnswers, (newVal) => {
+    if (newVal === true)
+        console.log('props ANswer', props.comment.answers)
+})
 
 const highlightEmptyAnswer = ref(false)
 const answerText = ref('')
@@ -71,7 +80,7 @@ async function saveAnswer() {
         commentId: props.comment.id,
         text: answerText.value
     }
-    const result = await $fetch<CommentModel | null>(`/apiVue/Comment/SaveAnswer/`, {
+    const result = await $fetch<CommentModel | null>(`/apiVue/CommentAdd/SaveAnswer/`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',
@@ -85,6 +94,10 @@ async function saveAnswer() {
         emit('addAnswer', { commentId: props.comment.id, answer: result })
     }
 
+}
+
+function toggleShowCommentAnswers() {
+    showCommentAnswers.value = !showCommentAnswers.value
 }
 </script>
 
@@ -103,7 +116,7 @@ async function saveAnswer() {
                         <span class="commentTitle" v-else v-html="props.comment.text + '&nbsp &nbsp'"></span>
                     </template>
 
-                    <span class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers">
+                    <span class="commentSpeechBubbleIcon" @click="toggleShowCommentAnswers()">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                         <div class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
                             &nbsp; {{ props.comment.answers.length }} Beitrag

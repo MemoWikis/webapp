@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using NHibernate;
 using Seedworks.Lib.Persistence;
 using ISession = NHibernate.ISession;
 
@@ -34,19 +35,28 @@ public class CommentRepository : RepositoryDb<Comment>
 
     public IList<Comment> GetForDisplay(int questionId)
     {
-    
-     
-
         return _session.QueryOver<Comment>()
             .Where(x => x.TypeId == questionId &&
                         x.Type == CommentType.AnswerQuestion &&
                         x.AnswerTo == null)
             .Fetch(x => x.Answers).Eager
-            // Execute the query and process the results as part of the same operation chain.
+            .JoinQueryOver(x => x.Creator) 
+            .Fetch(u => u.Creator).Eager 
             .List()
             .GroupBy(x => x.Id)
             .Select(x => x.First())
             .ToList();
+    }
+
+    public int GetCommentsCount(int questionId)
+    {
+       var count =  _session.QueryOver<Comment>()
+            .Where(x => x.TypeId == questionId &&
+                        x.Type == CommentType.AnswerQuestion &&
+                        x.AnswerTo == null && x.IsSettled == false)
+            .List<Comment>()
+            .Count(); 
+       return count;
     }
 
 
@@ -56,5 +66,13 @@ public class CommentRepository : RepositoryDb<Comment>
                 .SetParameter("commentType", CommentType.AnswerQuestion)
                 .SetParameter("questionId", questionId)
                 .ExecuteUpdate();
+    }
+
+    
+    public void UpdateIsSettled(int commentId, bool settled)
+    {
+        var comment = GetById(commentId);
+        comment.IsSettled = settled;
+        Update(comment);
     }
 }

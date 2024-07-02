@@ -57,10 +57,7 @@ public class TopicLearningQuestionController(
                 AuthorImageUrl = authorImage.Url,
                 ExtendedQuestion = question.GetRenderedQuestionTextExtended(),
                 CommentCount = _commentRepository.GetForDisplay(question.Id)
-                    .Where(c => !c.IsSettled)
-                    .Select(c => new CommentModel(c, _httpContextAccessor))
-                    .ToList()
-                    .Count(),
+                    .Count(c => !c.IsSettled),
                 IsCreator = author.Id == _sessionUser.UserId,
                 AnswerCount = history.TimesAnsweredUser,
                 CorrectAnswerCount = history.TimesAnsweredUserTrue,

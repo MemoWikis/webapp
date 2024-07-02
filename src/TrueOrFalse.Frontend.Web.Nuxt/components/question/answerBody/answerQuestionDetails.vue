@@ -22,7 +22,9 @@ interface Props {
     landingPage?: boolean
     model?: any
 }
+
 const props = defineProps<Props>()
+await commentsStore.loadFirst(props.id)
 
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
@@ -1020,7 +1022,7 @@ watch(() => userStore.isLoggedIn, () => {
                 <div class="commentCount pointer" @click="openCommentModal()">
                     <font-awesome-icon icon="fa-solid fa-comment" />
                     <span id="commentCountAnswerBody" class="detail-label">
-                        {{ unsettledCommentCount }}
+                        {{ commentsStore.unsettledComments.length }}
                     </span>
                 </div>
             </div>

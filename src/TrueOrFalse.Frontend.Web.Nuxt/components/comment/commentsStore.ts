@@ -33,6 +33,12 @@ export const useCommentsStore = defineStore('commentsStore', () => {
             show.value = true
         }
     }
+
+    async function loadFirst(id: number) { 
+        questionId.value = id
+        await loadComments()
+    }
+
     async function loadComments() {
         interface Result {
             settledComments: CommentModel[]
@@ -50,5 +56,5 @@ export const useCommentsStore = defineStore('commentsStore', () => {
         return false
     }
 
-    return { show, questionId, unsettledComments, settledComments, openModal, loadComments }
+    return { show, questionId, unsettledComments, settledComments, openModal, loadComments, loadFirst }
 })
