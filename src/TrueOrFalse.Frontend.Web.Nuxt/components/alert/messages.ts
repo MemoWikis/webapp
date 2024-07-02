@@ -88,6 +88,10 @@ export const messages: any = {
         learningSession: {
             noQuestionsAvailableWithCurrentConfig: 'Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.',
         },
+        api: {
+            title: "Oops!",
+            body: "<div class='alert-msg-container'><div class='alert-msg'>Ein unerwarteter Fehler ist aufgetreten. <br />Das Neuladen der Website könnte das Problem lösen.</div></div>"    
+        }
     },
     info: {
         category: {

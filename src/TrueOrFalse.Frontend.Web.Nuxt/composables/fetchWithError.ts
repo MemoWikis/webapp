@@ -2,7 +2,7 @@
 
 import { UseFetchOptions } from '#app'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
-import { $fetch } from 'ofetch'
+import { $fetch, FetchResponse, FetchOptions } from 'ofetch'
 
 export function useApi<T = void> (url: string, options?: UseFetchOptions<T>) {
 
@@ -46,11 +46,21 @@ export const $api = $fetch.create({
     },
 })
 
-function handleResponseError(response:any, request:any, options:any) {
+function handleResponseError(response:FetchResponse<any> & FetchResponse<ResponseType>, request:RequestInfo, options:FetchOptions) {
     const { $logger } = useNuxtApp()
-    $logger.error('FetchError', [{response, request, options}])
+    $logger.error('Default Fetch Error', [{response, request, options}])
     if (import.meta.client) {
         const alertStore = useAlertStore()
-        alertStore.openAlert(AlertType.Error, { text: messages.error.default })
+        alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: response._data}, "Seite neu laden", true, messages.error.api.title, 'reloadPage')
+
+        alertStore.$onAction(({ name, after }) => {
+            if (name == 'closeAlert') {
+
+                after((result) => {
+                    if (result.cancelled == false && result.id == 'reloadPage')
+                        window.location.reload()
+                })
+            }
+        })
     }
 }   
