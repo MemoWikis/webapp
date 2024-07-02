@@ -79,11 +79,12 @@ namespace TrueOrFalse.Search
         public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
             GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
         {
-            List<MeiliSearchUserMap> userMaps = new List<MeiliSearchUserMap>(); 
-
+            var userMaps = new List<MeiliSearchUserMap>();
+            var count = 0;
             if (string.IsNullOrEmpty(searchTerm))
             {
-                userMaps = EntityCache.GetAllUsers().Select(ConvertToUserMap).ToList(); 
+                userMaps = EntityCache.GetAllUsers().Select(ConvertToUserMap).ToList();
+                count = userMaps.Count;
             }
             else
             {
@@ -96,9 +97,16 @@ namespace TrueOrFalse.Search
                     Limit = 100
                 };
 
-                userMaps =
-                    (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
-                    .Hits.ToList();
+                var searchResult = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq);
+                if (searchResult is SearchResult<MeiliSearchUserMap> result)
+                {
+                    count = result.EstimatedTotalHits;
+                }
+                else
+                {
+                    Logg.r.Error("fail cast from ISearchable to SearchResult");
+                }
+                userMaps = searchResult.Hits.ToList();
             }
 
             var userMapsOrdered = new List<MeiliSearchUserMap>();
@@ -115,13 +123,17 @@ namespace TrueOrFalse.Search
                     break;
             }
 
-            var userMapsSkip = userMapsOrdered
-                .Skip(pager.LowerBound - 1)
-                .Take(pager.PageSize)
-                .ToList();
-            pager.TotalItems = userMaps.Count;
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                userMapsOrdered = userMapsOrdered
+                    .Skip(pager.LowerBound - 1)
+                    .Take(pager.PageSize)
+                    .ToList();
+            }
 
-            return (userMapsSkip, pager);
+            pager.TotalItems = count;
+
+            return (userMapsOrdered, pager);
         }
 
         private static MeiliSearchUserMap ConvertToUserMap(UserCacheItem user)

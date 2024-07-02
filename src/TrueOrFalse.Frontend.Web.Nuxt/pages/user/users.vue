@@ -201,7 +201,7 @@ useHead(() => ({
                         </div>
                     </div>
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" v-if="searchTerm.length === 0">
                         <div class="pagination hidden-xs">
                             <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
                                 :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
@@ -215,10 +215,12 @@ useHead(() => ({
                                 :show-breakpoint-buttons="false" />
                         </div>
                     </div>
+                    <div class="info-bar" v-if="searchTerm.length > 0 && pageData.users.length < pageData.totalItems">
+                        Wir zeigen nur die
+                        ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche
+                    </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </template>
@@ -245,6 +247,15 @@ useHead(() => ({
 .content {
     padding-top: 30px;
     padding-bottom: 30px;
+
+    .info-bar {
+        padding: 12px;
+        background: @memo-yellow;
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
 }
 
 .users-options {
