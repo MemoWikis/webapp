@@ -50,6 +50,12 @@ function copy() {
         navigator.clipboard.writeText(text)
     }
 }
+
+watch(() => alertStore.show, (show) => {
+    if (!show) {
+        showDetails.value = false
+    }
+})
 </script>
 
 <template>
@@ -198,9 +204,6 @@ function copy() {
 
             }
         }
-
-
-
 
         .copy-container {
             display: flex;

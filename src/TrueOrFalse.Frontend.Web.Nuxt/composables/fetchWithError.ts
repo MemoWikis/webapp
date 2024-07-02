@@ -51,7 +51,7 @@ function handleResponseError(response:FetchResponse<any> & FetchResponse<Respons
     $logger.error('Default Fetch Error', [{response, request, options}])
     if (import.meta.client) {
         const alertStore = useAlertStore()
-        alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: response._data}, "Seite neu laden", true, messages.error.api.title, 'reloadPage')
+        alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: response._data}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
 
         alertStore.$onAction(({ name, after }) => {
             if (name == 'closeAlert') {
