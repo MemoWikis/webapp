@@ -51,7 +51,6 @@ if (question.value && question.value?.messageKey != "" && question.value?.errorC
 	throw createError({ statusCode: question.value.errorCode, statusMessage: messages.getByCompositeKey(question.value.messageKey) })
 }
 
-
 function highlightCode(id: string) {
 
 	const el = document.getElementById(id)

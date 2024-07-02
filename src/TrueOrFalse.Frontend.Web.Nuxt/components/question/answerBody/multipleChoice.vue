@@ -36,9 +36,6 @@ function init() {
     const json: { Choices: Choice[], isSolutionOrdered: boolean } = JSON.parse(props.solution)
     localChoices.value = json.isSolutionOrdered == true ? json.Choices : shuffleChoices(json.Choices)
 }
-onBeforeMount(() => {
-    init()
-})
 
 watch(() => props.solution, () => init())
 
@@ -46,7 +43,7 @@ const localChoices = ref<Choice[]>([])
 const selected = ref<string[]>([])
 
 async function getAnswerDataString(): Promise<string> {
-    await nextTick(); 
+    await nextTick();
     return selected.value.join("%seperate&xyz%")
 }
 
@@ -63,6 +60,8 @@ function getClass(c: Choice) {
         return 'is-wrong show-solution'
     return ''
 }
+
+init()
 </script>
 
 <template>
