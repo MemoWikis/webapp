@@ -14,5 +14,17 @@
         };
             return result;
         }
+
+        public static MeiliSearchUserMap Run(UserCacheItem user)
+        {
+            var result = new MeiliSearchUserMap
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Rank = user.ReputationPos,
+                WishCountQuestions = user.WishCountQuestions
+            };
+            return result;
+        }
     }
 }
