@@ -79,18 +79,27 @@ namespace TrueOrFalse.Search
         public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
             GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
         {
-            var client = new MeilisearchClient(MeiliSearchConstants.Url,
-                MeiliSearchConstants.MasterKey);
-            var index = client.Index(MeiliSearchConstants.Users);
+            List<MeiliSearchUserMap> userMaps = new List<MeiliSearchUserMap>(); 
 
-            var sq = new SearchQuery
+            if (string.IsNullOrEmpty(searchTerm))
             {
-                Limit = 1000
-            };
+                userMaps = EntityCache.GetAllUsers().Select(ConvertToUserMap).ToList(); 
+            }
+            else
+            {
+                var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                    MeiliSearchConstants.MasterKey);
+                var index = client.Index(MeiliSearchConstants.Users);
 
-            var userMaps =
-                (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
-                .Hits;
+                var sq = new SearchQuery
+                {
+                    Limit = 100
+                };
+
+                userMaps =
+                    (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
+                    .Hits.ToList();
+            }
 
             var userMapsOrdered = new List<MeiliSearchUserMap>();
             switch (orderBy)
@@ -113,6 +122,18 @@ namespace TrueOrFalse.Search
             pager.TotalItems = userMaps.Count;
 
             return (userMapsSkip, pager);
+        }
+
+        private static MeiliSearchUserMap ConvertToUserMap(UserCacheItem user)
+        {
+            var result = new MeiliSearchUserMap
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Rank = user.ReputationPos,
+                WishCountQuestions = user.WishCountQuestions
+            };
+            return result;
         }
     }
 }

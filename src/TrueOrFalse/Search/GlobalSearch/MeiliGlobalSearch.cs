@@ -7,15 +7,17 @@ public class MeiliGlobalSearch : IGlobalSearch
     private readonly PermissionCheck _permissionCheck;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly UserReadingRepo _userReadingRepo;
 
     public MeiliGlobalSearch(
         PermissionCheck permissionCheck,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IWebHostEnvironment webHostEnvironment,UserReadingRepo userReadingRepo)
     {
         _permissionCheck = permissionCheck;
         _httpContextAccessor = httpContextAccessor;
         _webHostEnvironment = webHostEnvironment;
+        _userReadingRepo = userReadingRepo;
     }
 
     public async Task<GlobalSearchResult> Go(string term)
