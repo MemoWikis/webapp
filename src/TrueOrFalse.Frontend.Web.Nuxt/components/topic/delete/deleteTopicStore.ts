@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 import { TopicItem } from "~/components/search/searchHelper"
+import { useSnackbarStore, SnackbarData } from '~/components/snackBar/snackBarStore'
 
 export const useDeleteTopicStore = defineStore('deleteTopicStore', {
     state() {
@@ -56,6 +57,13 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 }
                 return true
             }
+            const snackbarStore = useSnackbarStore()
+            const data: SnackbarData = {
+                type: 'error',
+                text: messages.error.default
+            }
+            snackbarStore.showSnackbar(data)
+
         },
         async deleteTopic() {
             interface DeleteResult {
@@ -76,7 +84,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                     id: this.id,
                     parentForQuestionsId: this.suggestedNewParent?.id
                 })
-            });
+            })
             if (!!result && result.success) {                 
                 const { $urlHelper } = useNuxtApp()
                 this.redirectURL = $urlHelper.getTopicUrl(result.redirectParent.name, result.redirectParent.id)

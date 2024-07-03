@@ -42,8 +42,8 @@ public class DeleteTopicStoreController(
         string Name,
         bool HasChildren,
         SuggestedNewParent? SuggestedNewParent,
-        bool hasQuestion,
-        bool hasPublicQuestion);
+        bool HasQuestion,
+        bool HasPublicQuestion);
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
@@ -56,23 +56,28 @@ public class DeleteTopicStoreController(
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
-
         var questions = EntityCache
-            .GetCategory(id)
+            .GetCategory(id)?
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false);
 
-        var hasQuestion = questions.Count > 0;
-        var hasPublicQuestion = questions
-            .Any(q => q.Visibility == QuestionVisibility.All);
+        var hasQuestion = questions?.Count > 0;
+
+        if (!hasChildren && !hasQuestion)
+            return new DeleteData(topic.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false);
+
+        var hasPublicQuestion = questions?
+            .Any(q => q.Visibility == QuestionVisibility.All) ?? false;
+
+        var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
 
         var parents = _crumbtrailService.BuildCrumbtrail(topic, currentWiki);
+
         var newParentId =
             new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
                 .SuggestNewParent(parents, hasPublicQuestion);
 
         if (newParentId == null)
-            return new DeleteData(topic.Name, hasChildren, null, hasQuestion, hasPublicQuestion);
+            return new DeleteData(topic.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion);
 
         var suggestedNewParent = FillSuggestedNewParent(EntityCache.GetCategory((int)newParentId));
 
