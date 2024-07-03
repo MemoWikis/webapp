@@ -215,7 +215,7 @@ useHead(() => ({
                                 :show-breakpoint-buttons="false" />
                         </div>
                     </div>
-                    <div class="info-bar" v-if="searchTerm.length > 0 && pageData.users.length < pageData.totalItems">
+                    <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
                         Wir zeigen nur die
                         ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche
                     </div>
