@@ -848,7 +848,6 @@ const license = ref({
 function openCommentModal() {
     commentsStore.openModal(props.id)
 }
-const unsettledCommentCount = ref(0)
 
 onMounted(() => {
     learningSessionStore.$onAction(({ after, name }) => {

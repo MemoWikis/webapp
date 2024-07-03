@@ -15,8 +15,13 @@ const props = defineProps<Props>()
 
 const readMore = ref(false)
 const foldOut = ref(false)
+const showIsSettled = ref(false)
 const showCommentAnswers = ref(false)
 const { $logger, $urlHelper } = useNuxtApp()
+
+function handleWindowClick(e: MouseEvent) {
+    showIsSettled.value = false
+}
 
 async function markAsSettled() {
     const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
@@ -43,9 +48,9 @@ async function markAsUnsettled() {
         credentials: 'include',
         onResponseError(context) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
         }
     })
+
     if (result)
         commentsStore.loadComments()
 }
@@ -92,13 +97,15 @@ async function saveAnswer() {
     if (result) {
         answerText.value = ''
         emit('addAnswer', { commentId: props.comment.id, answer: result })
+    } else {
+        showIsSettled.value = true
     }
-
 }
 
 function toggleShowCommentAnswers() {
     showCommentAnswers.value = !showCommentAnswers.value
 }
+
 </script>
 
 <template>
@@ -227,7 +234,23 @@ function toggleShowCommentAnswers() {
                     </div>
                 </div>
             </div>
+            <div v-if="showIsSettled" class="discurs-is-settled col-xs-12 col-sm-12">Leider wurde die Diskussion in der
+                Zwischenzeit
+                geschlossen
+            </div>
         </div>
-
     </div>
 </template>
+<style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.discurs-is-settled {
+    background-color: @memo-yellow;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+</style>
