@@ -67,7 +67,7 @@ interface ProfileData {
     errorCode?: ErrorCode
 }
 
-const { data: profile, refresh: refreshProfile } = await useApi<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
+const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`/apiVue/User/Get/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
@@ -89,7 +89,7 @@ if (profile.value && profile.value.messageKey && profile.value?.messageKey != ""
     throw createError({ statusCode: profile.value.errorCode, statusMessage: messages.getByCompositeKey(profile.value.messageKey) })
 }
 
-const { data: wuwi, refresh: refreshWuwi } = await useLazyApi<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
+const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {

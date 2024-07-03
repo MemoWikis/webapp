@@ -8,7 +8,7 @@ const { $logger } = useNuxtApp()
 
 const isAdmin = ref(false)
 const antiForgeryToken = ref<string>()
-const { data: maintenanceDataResult } = await useApi<FetchResult<string>>('/apiVue/VueMaintenance/Get',
+const { data: maintenanceDataResult } = await useFetch<FetchResult<string>>('/apiVue/VueMaintenance/Get',
     {
         credentials: 'include',
         mode: 'cors',

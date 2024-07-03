@@ -47,7 +47,7 @@ const url = computed(() => {
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { $logger } = useNuxtApp()
-const { data: days, status } = await useLazyApi<Day[]>(url.value, {
+const { data: days, status } = await useLazyFetch<Day[]>(url.value, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {

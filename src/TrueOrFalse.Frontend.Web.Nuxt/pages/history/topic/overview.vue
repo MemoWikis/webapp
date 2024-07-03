@@ -24,7 +24,7 @@ const { $logger } = useNuxtApp()
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { status, data: historyResult } = await useLazyApi<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
+const { status, data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {

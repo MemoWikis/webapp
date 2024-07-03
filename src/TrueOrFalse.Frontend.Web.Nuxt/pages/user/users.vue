@@ -26,7 +26,7 @@ interface UsersResult {
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 
-const { data: totalUserCount } = await useLazyApi<number>('/apiVue/Users/GetTotalUserCount', {
+const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTotalUserCount', {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -43,8 +43,8 @@ const url = computed(() => {
     return `/apiVue/Users/Get?page=${currentPage.value}&pageSize=${usersPerPageCount.value}&searchTerm=${searchTerm.value}&orderBy=${orderBy.value}`
 })
 // pageData gets refreshed by executing the request again whenever data changes in the computed url value
-// nuxt uses the url in useApi/useLazyApi 
-const { data: pageData, status } = await useApi<UsersResult>(url.value, {
+// nuxt uses the url in useFetch/useLazyFetch 
+const { data: pageData, status } = await useFetch<UsersResult>(url.value, {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {

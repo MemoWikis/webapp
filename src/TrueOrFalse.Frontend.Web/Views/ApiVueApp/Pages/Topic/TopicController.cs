@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -10,10 +11,13 @@ public class TopicController(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
     : Controller
+
 {
     [HttpGet]
     public TopicDataResult GetTopic([FromRoute] int id)
     {
+        throw new Exception("test");
+
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
         var data = new TopicDataManager(

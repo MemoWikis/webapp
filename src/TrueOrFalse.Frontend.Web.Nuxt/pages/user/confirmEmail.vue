@@ -18,7 +18,7 @@ onBeforeMount(() => {
 const { $logger } = useNuxtApp()
 const route = useRoute()
 
-const { data: verificationResult, status, error } = useApi<boolean>(`/apiVue/ConfirmEmail/Run`, {
+const { data: verificationResult, status, error } = useFetch<boolean>(`/apiVue/ConfirmEmail/Run`, {
     body: {
         token: route.params.token
     },

@@ -8,7 +8,7 @@ interface NameAndLink {
 }
 const topicArray = ref<NameAndLink[]>()
 
-const { data: result } = await useApi<FetchResult<NameAndLink[]>>('/apiVue/Cancel/GetHelperTopics', {
+const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Cancel/GetHelperTopics', {
     method: 'GET',
     credentials: 'include',
     onRequest({ options }) {

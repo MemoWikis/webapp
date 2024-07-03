@@ -25,7 +25,7 @@ if (import.meta.server && !!useCookie('persistentLogin').value) {
 		alreadyLoggedIn?: boolean
 	}
 
-	const { data: result } = await useApi<SessionStartResult>('/apiVue/App/SessionStart', {
+	const { data: result } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
 		method: 'POST',
 		credentials: 'include',
 		mode: 'no-cors',
@@ -72,7 +72,7 @@ function setPersistentLoginCookie(loginGuid: string, expiryDate: string) {
 	refreshCookie('persistentLogin')
 }
 
-const { data: currentUser } = await useApi<CurrentUser>('/apiVue/App/GetCurrentUser', {
+const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
 	mode: 'no-cors',
@@ -92,7 +92,7 @@ if (currentUser.value != null) {
 }
 
 
-const { data: footerTopics } = await useApi<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
+const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {

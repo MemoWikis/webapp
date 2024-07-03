@@ -83,7 +83,7 @@ function createImage(file: File) {
 const { $logger } = useNuxtApp()
 
 async function cancelPlan() {
-    const { data } = await useApi<string>('/apiVue/StripeAdminstration/CancelPlan', {
+    const { data } = await useFetch<string>('/apiVue/StripeAdminstration/CancelPlan', {
         method: 'GET',
         credentials: 'include',
         mode: 'no-cors',

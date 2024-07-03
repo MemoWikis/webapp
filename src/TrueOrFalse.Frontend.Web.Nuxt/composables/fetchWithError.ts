@@ -1,44 +1,7 @@
 
 
-import { UseFetchOptions } from '#app'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 import { $fetch, FetchResponse, FetchOptions } from 'ofetch'
-
-export function useApi<T = void> (url: string, options?: UseFetchOptions<T>) {
-
-    if (options && options.onResponseError)
-        return useFetch(url, {
-            key: url,
-            ...options,
-        })
-    else {
-        return useFetch(url, {
-            key: url,
-            onResponseError: ({response, request, options}) => {
-                handleResponseError(response, request, options)
-            },
-            ...options,
-        })
-    }
-}
-
-export function useLazyApi<T = void> (url: string, options?: UseFetchOptions<T>) {
-
-    if (options && options.onResponseError)
-        return useLazyFetch(url, {
-            key: url,
-            ...options,
-        })
-    else {
-        return useLazyFetch(url, {
-            key: url,
-            onResponseError: ({response, request, options}) => {
-                handleResponseError(response, request, options)
-            },
-            ...options,
-        })
-    }
-}
 
 export const $api = $fetch.create({
     onResponseError: ({response, request, options}) => {
@@ -46,7 +9,7 @@ export const $api = $fetch.create({
     },
 })
 
-function handleResponseError(response:FetchResponse<any> & FetchResponse<ResponseType>, request:RequestInfo, options:FetchOptions) {
+function handleResponseError(response:FetchResponse<any> & FetchResponse<ResponseType>, request?:RequestInfo, options?:FetchOptions) {
     const { $logger } = useNuxtApp()
     $logger.error('Default Fetch Error', [{response, request, options}])
     if (import.meta.client) {

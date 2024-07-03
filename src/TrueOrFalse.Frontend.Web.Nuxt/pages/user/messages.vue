@@ -24,7 +24,7 @@ interface MessageResult {
 }
 const { $logger } = useNuxtApp()
 
-const { data: model } = await useApi<MessageResult>(`/apiVue/UserMessages/Get/`, {
+const { data: model } = await useFetch<MessageResult>(`/apiVue/UserMessages/Get/`, {
     credentials: 'include',
     mode: 'no-cors',
     onRequest({ options }) {
