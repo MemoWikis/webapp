@@ -526,7 +526,7 @@ const maxWidth = ref(150)
 			display: block;
 
 			.root-topic-label {
-				padding-left: 6px;
+				padding-left: 8px;
 			}
 		}
 
