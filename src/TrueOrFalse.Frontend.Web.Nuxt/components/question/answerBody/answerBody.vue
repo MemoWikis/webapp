@@ -7,12 +7,15 @@ import { getHighlightedCode, random } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { useTopicStore } from '~~/components/topic/topicStore'
+import { useCommentsStore } from '~/components/comment/commentsStore'
 
 const learningSessionStore = useLearningSessionStore()
 const activityPointsStore = useActivityPointsStore()
 const topicStore = useTopicStore()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
+const commentsStore = useCommentsStore()
+commentsStore.loadComments()
 
 const answerIsCorrect = ref(false)
 const answerIsCorrectPopUp = ref(false)
@@ -472,9 +475,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                         </div>
                                     </template>
 
-                                    <div
-                                        v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
-                                            && (amountOfTries === 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
+                                    <div v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
+        && (amountOfTries === 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
