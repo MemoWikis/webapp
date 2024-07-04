@@ -233,7 +233,8 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 
 			this.textIsHidden = result
-		}
+		},
+		
 
 	},
 	getters: {

@@ -39,6 +39,13 @@ const { $urlHelper } = useNuxtApp()
 
                 </template>
             </SidebarCard>
+            <SidebarCard>
+                <template v-slot:header> Outline</template>
+                <template v-slot:body>
+
+
+                </template>
+            </SidebarCard>
         </div>
     </div>
 </template>

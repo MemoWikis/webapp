@@ -15,21 +15,26 @@ import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 import { Indent } from '../../editor/indent'
 import ImageResize from '~~/components/shared/imageResizeExtension'
+import { slugify } from '~~/components/shared/utils'
+
+import { CustomHeading } from '~/components/shared/headingExtension'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
 const lowlight = createLowlight(all)
+
 const editor = useEditor({
     content: topicStore.initialContent,
     extensions: [
         StarterKit.configure({
-            heading: {
-                levels: [2, 3, 4],
-                HTMLAttributes: {
-                    class: 'inline-text-heading'
-                }
-            },
+            heading: false,
             codeBlock: false,
+        }),
+        CustomHeading.configure({
+            levels: [1, 2, 3, 4, 5, 6],
+            HTMLAttributes: {
+                class: 'heading',
+            },
         }),
         Link.configure({
             HTMLAttributes: {
@@ -65,8 +70,6 @@ const editor = useEditor({
             topicStore.content = ''
         else
             topicStore.content = editor.getHTML()
-
-        console.log('content', editor.getJSON())
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
@@ -88,6 +91,29 @@ const editor = useEditor({
     },
 })
 
+editor.value?.on('transaction', ({ transactions }: any) => {
+    const shouldUpdate = transactions.some((tr: { docChanged: any }) => tr.docChanged)
+    if (shouldUpdate) {
+        updateHeadingIds()
+    }
+})
+
+const updateHeadingIds = () => {
+    console.log('--uuupdate')
+    if (editor.value) {
+        const { state, commands } = editor.value
+        state.doc.descendants((node, pos) => {
+            if (node.type.name === 'heading') {
+                const textContent = node.textContent
+                const newId = slugify(textContent)
+                if (node.attrs.id !== newId) {
+                    commands.updateAttributes('heading', { id: newId })
+                }
+            }
+        })
+    }
+}
+
 topicStore.$onAction(({ name, after }) => {
     after(() => {
         if (name == 'resetContent')
@@ -98,6 +124,8 @@ topicStore.$onAction(({ name, after }) => {
 const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
+    updateHeadingIds()
+
 })
 </script>
 

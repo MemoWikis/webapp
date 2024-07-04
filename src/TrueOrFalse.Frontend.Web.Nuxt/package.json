@@ -28,6 +28,7 @@
     "@stripe/stripe-js": "^1.52.1",
     "@tiptap/extension-blockquote": "^2.0.0",
     "@tiptap/extension-code-block-lowlight": "^2.4.0",
+    "@tiptap/extension-heading": "^2.4.0",
     "@tiptap/extension-horizontal-rule": "^2.0.0",
     "@tiptap/extension-image": "^2.0.0",
     "@tiptap/extension-link": "^2.0.0",
