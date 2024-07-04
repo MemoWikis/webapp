@@ -36,6 +36,9 @@ async function command(commandString: string, e: Event) {
         case 'h3':
             props.editor.commands.toggleHeading({ level: 3 })
             break
+        case 'h4':
+            props.editor.commands.toggleHeading({ level: 4 })
+            break
         case 'bulletList':
             props.editor.commands.toggleBulletList()
             break
@@ -158,6 +161,12 @@ const { isMobile } = useDevice()
                         :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
                         @mousedown="command('h3', $event)">
                         <b>H2</b>
+                    </button>
+
+                    <button class="menubar__button"
+                        :class="{ 'is-active': props.editor.isActive('heading', { level: 4 }) }"
+                        @mousedown="command('h4', $event)">
+                        <b>H3</b>
                     </button>
                 </template>
 

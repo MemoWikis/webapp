@@ -24,7 +24,7 @@ const editor = useEditor({
     extensions: [
         StarterKit.configure({
             heading: {
-                levels: [2, 3],
+                levels: [2, 3, 4],
                 HTMLAttributes: {
                     class: 'inline-text-heading'
                 }
@@ -65,6 +65,8 @@ const editor = useEditor({
             topicStore.content = ''
         else
             topicStore.content = editor.getHTML()
+
+        console.log('content', editor.getJSON())
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
