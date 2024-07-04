@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using TrueOrFalse.Domain.User;
 
 namespace VueApp;
@@ -30,9 +29,6 @@ public class UserStoreController(
     [HttpPost]
     public LoginResult Login([FromBody] LoginParam param)
     {
-
-        throw new Exception("test");
-
         var loginIsSuccessful = _login.UserLogin(param);
 
         if (loginIsSuccessful)

@@ -60,9 +60,9 @@ const forceShow = ref(false)
                         </div>
 
                         <p v-if="model.readCount > 0">
-                            Du hast {{ model.readCount }} gelesene Nachricht{{
-                                model.readCount == 0 ||
-                                    model.readCount > 1 ? 'en' : ''
+                            Du hast {{ model.readCount }} gelesene Nachricht
+                            {{
+                                (model.readCount == 0 || model.readCount > 1) ? 'en' : ''
                             }}.
                             <span v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</span>.
                         </p>

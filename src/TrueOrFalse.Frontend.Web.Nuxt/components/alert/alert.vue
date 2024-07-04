@@ -43,10 +43,9 @@ const hasImage = computed(() => {
     return alertStore.msg?.customImg || alertStore.type == AlertType.Error || alertStore.type == AlertType.Success
 })
 
-function copy() {
+function copyToClipboard() {
     if (alertStore.msg?.customDetails) {
         const text = alertStore.msg.customDetails
-        console.log(text)
         navigator.clipboard.writeText(text)
     }
 }
@@ -97,7 +96,7 @@ watch(() => alertStore.show, (show) => {
                                 <code> {{ alertStore.msg.customDetails }} </code>
                             </div>
                             <div class="copy-container">
-                                <div class="copy-icon" v-tooltip="'Quelltext kopieren'" @click="copy">
+                                <div class="copy-icon" v-tooltip="'Quelltext kopieren'" @click="copyToClipboard">
                                     <font-awesome-icon :icon="['fas', 'copy']" />
                                 </div>
                             </div>
