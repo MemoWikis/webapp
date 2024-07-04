@@ -57,7 +57,7 @@ async function saveNewPassword() {
         password: newPassword.value
     }
 
-    const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/ResetPassword/SetNewPassword', {
+    const result = await $api<FetchResult<CurrentUser>>('/apiVue/ResetPassword/SetNewPassword', {
         method: 'POST',
         body: data,
         credentials: 'include'
@@ -102,9 +102,11 @@ async function saveNewPassword() {
                                         width="100%" class="password-inputs" v-model="newPassword"
                                         @keydown.enter="saveNewPassword()" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="newPasswordInputType == 'password'" @click="newPasswordInputType = 'text'" />
+                                        v-if="newPasswordInputType == 'password'"
+                                        @click="newPasswordInputType = 'text'" />
                                     <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="newPasswordInputType == 'text'" @click="newPasswordInputType = 'password'" />
+                                        v-if="newPasswordInputType == 'text'"
+                                        @click="newPasswordInputType = 'password'" />
                                 </div>
                             </div>
 

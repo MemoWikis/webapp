@@ -41,7 +41,7 @@ async function saveComment() {
         title: commentTitle.value,
         text: commentText.value
     }
-    const result = await $fetch<boolean>(`/apiVue/CommentAdd/SaveComment/`, {
+    const result = await $api<boolean>(`/apiVue/CommentAdd/SaveComment/`, {
         mode: 'cors',
         method: 'POST',
         body: data,

@@ -24,7 +24,7 @@ function handleWindowClick(e: MouseEvent) {
 }
 
 async function markAsSettled() {
-    const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
+    const result = await $api<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
@@ -41,7 +41,7 @@ async function markAsSettled() {
 }
 
 async function markAsUnsettled() {
-    const result = await $fetch<boolean>(`/apiVue/CommentAdd/MarkCommentAsUnsettled/`, {
+    const result = await $api<boolean>(`/apiVue/CommentAdd/MarkCommentAsUnsettled/`, {
         method: 'POST',
         body: { commentId: props.comment.id },
         mode: 'cors',
@@ -85,7 +85,7 @@ async function saveAnswer() {
         commentId: props.comment.id,
         text: answerText.value
     }
-    const result = await $fetch<CommentModel | null>(`/apiVue/CommentAdd/SaveAnswer/`, {
+    const result = await $api<CommentModel | null>(`/apiVue/CommentAdd/SaveAnswer/`, {
         method: 'POST',
         mode: 'cors',
         credentials: 'include',

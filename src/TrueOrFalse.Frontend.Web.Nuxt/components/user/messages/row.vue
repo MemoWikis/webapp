@@ -18,7 +18,7 @@ onBeforeMount(() => {
 })
 
 async function markAsRead() {
-    await $fetch(`/apiVue/MessageRow/MarkAsRead?id=${props.message.id}`, {
+    await $api(`/apiVue/MessageRow/MarkAsRead?id=${props.message.id}`, {
         credentials: 'include',
         mode: 'cors'
     })
@@ -27,7 +27,7 @@ async function markAsRead() {
 }
 
 async function markAsUnread() {
-    await $fetch(`/apiVue/MessageRow/MarkAsUnread?id=${props.message.id}`, {
+    await $api(`/apiVue/MessageRow/MarkAsUnread?id=${props.message.id}`, {
         credentials: 'include',
         mode: 'cors'
     })
@@ -53,7 +53,7 @@ watch(() => props.forceShow, (val) => showMessage.value = val)
             <div class="col-sm-5 footer">
                 <span class="show-tooltip" :title="props.message.date">vor {{
                     props.message.timeElapsed
-                }}</span>
+                    }}</span>
             </div>
             <div class="col-sm-7  footer" v-if="props.message.id != 0">
                 <span class="pull-right" v-if="read">

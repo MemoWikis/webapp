@@ -44,7 +44,7 @@ const url = computed(() => {
 })
 // pageData gets refreshed by executing the request again whenever data changes in the computed url value
 // nuxt uses the url in useFetch/useLazyFetch 
-const { data: pageData, pending: pageDataPending } = await useFetch<UsersResult>(url, {
+const { data: pageData, status } = await useFetch<UsersResult>(url.value, {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -66,8 +66,8 @@ watch(pageData, (e) => {
 
 watch(searchTerm, (e) => currentPage.value = 1)
 
-watch(pageDataPending, (p) => {
-    if (p)
+watch(status, (s) => {
+    if (s == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })

@@ -11,7 +11,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const headers = useRequestHeaders(['cookie']) as HeadersInit
     const { $config } = useNuxtApp()
 
-    const isAdmin = await $fetch<boolean>('/apiVue/MiddlewareAuth/Get',
+    const isAdmin = await $api<boolean>('/apiVue/MiddlewareAuth/Get',
         {
             credentials: 'include',
             mode: 'cors',

@@ -170,7 +170,7 @@ async function getBreadcrumb() {
 		currentCategoryId: topicStore.id,
 	}
 	if (props.page == Page.Topic && topicStore.id > 0) {
-		const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
+		const result = await $api<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
 				body: data,
@@ -187,7 +187,7 @@ async function getBreadcrumb() {
 			sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
 		}
 	} else {
-		const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
+		const result = await $api<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
 			{
 				method: 'GET',
 				credentials: 'include',

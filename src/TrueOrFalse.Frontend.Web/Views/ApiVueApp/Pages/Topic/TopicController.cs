@@ -10,6 +10,7 @@ public class TopicController(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
     : Controller
+
 {
     [HttpGet]
     public TopicDataResult GetTopic([FromRoute] int id)

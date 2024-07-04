@@ -1,4 +1,4 @@
-<script  lang="ts" setup>
+<script lang="ts" setup>
 import { messages } from '~/components/alert/alertStore'
 import { Page } from '~/components/shared/pageEnum'
 import { Topic } from '~/components/topic/topicStore'
@@ -18,7 +18,7 @@ onBeforeMount(() => {
 const { $logger } = useNuxtApp()
 const route = useRoute()
 
-const { data: verificationResult, pending, error } = useFetch<boolean>(`/apiVue/ConfirmEmail/Run`, {
+const { data: verificationResult, status, error } = useFetch<boolean>(`/apiVue/ConfirmEmail/Run`, {
     body: {
         token: route.params.token
     },
@@ -52,7 +52,7 @@ async function requestVerificationMail() {
     msg.value = messages.getByCompositeKey(result.messageKey)
 }
 </script>
-  
+
 
 <template>
     <div class="container">
@@ -61,14 +61,14 @@ async function requestVerificationMail() {
 
                 <div class="row content">
                     <div class="form-horizontal col-md-12">
-                        <template v-if="pending">
+                        <template v-if="status == 'pending'">
                             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                 <h1 class="col-sm-offset-2 col-sm-8 reset-title">
                                     Bestätigung läuft
                                 </h1>
                             </div>
                             <div class="alert alert-info col-sm-offset-2 col-sm-8 ">
-                                Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Einen 
+                                Wir sind gerade dabei, deine E-Mail-Adresse zu bestätigen. Einen
                                 Augenblick Geduld bitte.
                             </div>
                         </template>

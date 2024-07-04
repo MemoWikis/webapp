@@ -49,7 +49,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             this.currentIndex = step.index
         },
         async getLastStepInQuestionList() {
-            const result = await $fetch<{
+            const result = await $api<{
                 success: boolean,
                 steps: Step[],
                 activeQuestionCount: number,
@@ -67,7 +67,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         async loadLearningSession(data: any, url: string) {
 
-            const result = await $fetch<LearningSessionResult>(`/apiVue/LearningSessionStore/${url}`, {
+            const result = await $api<LearningSessionResult>(`/apiVue/LearningSessionStore/${url}`, {
                 method: 'POST',
                 body: data,
                 mode: 'cors',
@@ -122,7 +122,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             })
         },
         async loadSteps() {
-            const result = await $fetch<Step[]>('/apiVue/LearningSessionStore/LoadSteps/', {
+            const result = await $api<Step[]>('/apiVue/LearningSessionStore/LoadSteps/', {
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -130,7 +130,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.steps = result
         },
         async changeActiveQuestion(index: number) {
-            const result = await $fetch<LearningSessionResult>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
+            const result = await $api<LearningSessionResult>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
                 method: 'POST',
                 body: { index: index },
                 mode: 'cors',
@@ -150,7 +150,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             const data = {
                 index: this.currentIndex
             }
-            const result = await $fetch<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
+            const result = await $api<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
                 {
                     method: 'POST',
                     body: data,

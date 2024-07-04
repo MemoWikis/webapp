@@ -70,7 +70,7 @@ async function restore() {
         userStore.openLoginModal()
         return
     }
-    await $fetch(`/apiVue/HistoryTopicDetail/RestoreTopic?topicChangeId=${route.params.currentRevisionId}`, {
+    await $api(`/apiVue/HistoryTopicDetail/RestoreTopic?topicChangeId=${route.params.currentRevisionId}`, {
         method: 'GET',
         credentials: 'include',
         mode: 'cors',

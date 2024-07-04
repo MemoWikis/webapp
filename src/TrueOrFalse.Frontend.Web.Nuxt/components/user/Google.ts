@@ -43,7 +43,7 @@ export class Google {
 
     public static async handleCredentialResponse(e: any) {
 
-        const result = await $fetch<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
+        const result = await $api<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
             method: 'POST', body: { token: e.credential }, mode: 'cors', credentials: 'include', cache: 'no-cache'
         }).catch((error) => console.log(error.data))
         if (result && 'success' in result && result.success === true) {

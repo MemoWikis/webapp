@@ -64,7 +64,7 @@ async function loadChildren(force: boolean = false) {
         return
 
     spinnerStore.showSpinner()
-    const result = await $fetch<FetchResult<GridTopicItem[]>>(`/apiVue/GridItem/GetChildren/${props.topic.id}`, {
+    const result = await $api<FetchResult<GridTopicItem[]>>(`/apiVue/GridItem/GetChildren/${props.topic.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -208,7 +208,7 @@ async function addGridItem(id: number) {
 }
 
 async function loadGridItem(id: number) {
-    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/GridItem/GetItem/${id}`, {
+    const result = await $api<FetchResult<GridTopicItem>>(`/apiVue/GridItem/GetItem/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'

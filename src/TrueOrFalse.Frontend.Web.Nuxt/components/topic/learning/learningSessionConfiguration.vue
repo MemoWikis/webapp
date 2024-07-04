@@ -49,7 +49,8 @@ watch(showFilterDropdown, (val) => {
                 :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '']">
                 Filter
                 <div>
-                    <font-awesome-icon v-if="showFilterDropdown" icon="fa-solid fa-chevron-up" class="filter-button-icon" />
+                    <font-awesome-icon v-if="showFilterDropdown" icon="fa-solid fa-chevron-up"
+                        class="filter-button-icon" />
                     <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
                 </div>
             </div>
@@ -316,7 +317,8 @@ watch(showFilterDropdown, (val) => {
                                         v-if="learningSessionConfigurationStore.isTestMode" />
                                     <font-awesome-icon icon="fa-regular fa-circle" class="session-select" v-else />
                                     <div>
-                                        <font-awesome-icon icon="fa-solid fa-graduation-cap" class="dropdown-filter-icon" />
+                                        <font-awesome-icon icon="fa-solid fa-graduation-cap"
+                                            class="dropdown-filter-icon" />
                                         Prüfung
                                     </div>
                                 </div>
@@ -387,7 +389,8 @@ watch(showFilterDropdown, (val) => {
                 </div>
 
             </div>
-            <div v-if="learningSessionConfigurationStore.showSelectionError" class="session-config-error fade in col-xs-12">
+            <div v-if="learningSessionConfigurationStore.showSelectionError"
+                class="session-config-error fade in col-xs-12">
                 <div>
                     Für diese Einstellungen sind keine Fragen verfügbar.
                     Bitte ändere den Wissensstand oder wähle alle Fragen aus.
@@ -396,7 +399,6 @@ watch(showFilterDropdown, (val) => {
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </button>
             </div>
-
         </div>
 
     </div>

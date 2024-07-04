@@ -28,7 +28,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
         async openModal(id: number) {
             this.includeQuestionsToPublish = false
             this.confirmLicense = false
-            const result = await $fetch<PublishTopicData>(`/apiVue/PublishTopicStore/Get/${id}`, {
+            const result = await $api<PublishTopicData>(`/apiVue/PublishTopicStore/Get/${id}`, {
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -51,7 +51,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             const data = {
                 id: this.id
             }
-            const result = await $fetch<FetchResult<number[]>>('/apiVue/PublishTopicStore/PublishTopic', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            const result = await $api<FetchResult<number[]>>('/apiVue/PublishTopicStore/PublishTopic', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
             if (result.success) {
                 this.showModal = false
 
@@ -81,7 +81,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
             const data = {
                 questionIds: this.questionIds,
             }
-            $fetch('/apiVue/PublishTopicStore/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            $api('/apiVue/PublishTopicStore/PublishQuestions', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
         }
 
     },

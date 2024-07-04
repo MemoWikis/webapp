@@ -1,4 +1,6 @@
 import { LogFn } from 'pino'
+import { $api } from '~/composables/fetchWithError'
+
 interface Property {
     [key: string]: any;
 }
@@ -34,7 +36,7 @@ export class CustomPino {
         }
 
         try {
-            await $fetch(url, {
+            await $api(url, {
                 method: 'POST',
                 headers: {
                     'X-Seq-ApiKey': apiKey,
