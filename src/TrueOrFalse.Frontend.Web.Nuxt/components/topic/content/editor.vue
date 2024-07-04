@@ -124,9 +124,23 @@ topicStore.$onAction(({ name, after }) => {
 const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
-    updateHeadingIds()
+    // updateHeadingIds()
+
+    if (editor.value)
+        editor.value.on('transaction', () => {
+            delayedUpdateHeadings()
+        })
 
 })
+
+const updateHeadingsTimeout = ref()
+function delayedUpdateHeadings() {
+    if (updateHeadingsTimeout.value)
+        clearTimeout(updateHeadingsTimeout.value)
+    updateHeadingsTimeout.value = setTimeout(() => {
+        updateHeadingIds()
+    }, 300)
+}
 </script>
 
 <template>
