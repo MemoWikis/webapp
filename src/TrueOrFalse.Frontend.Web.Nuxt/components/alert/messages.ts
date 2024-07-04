@@ -32,7 +32,7 @@ export const messages: any = {
             publicQuestions: "Dieses Thema hat öffentliche Fragen.",
             notLastChild: "Dieses Thema kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterthemen und versuche es erneut.",
             noRemainingParents: "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem öffentlichen Oberthema zugeordnet sein.",
-            parentIsRoot: "Unter 'Alle Themem', darfst du nur private Themen hinzufügen",
+            parentIsRoot: "Unter 'Globales Wiki', darfst du nur private Themen hinzufügen",
             loopLink: "Man kann keine Themen sich selber unterordnen",
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
             isNotAChild: "Das Thema ist bereits kein Unterthema",
