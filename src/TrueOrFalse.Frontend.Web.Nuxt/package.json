@@ -48,6 +48,7 @@
     "hast-util-to-html": "^9.0.1",
     "less-loader": "^11.1.0",
     "lowlight": "^3.1.0",
+    "nanoid": "^5.0.7",
     "nuxt-snackbar": "^1.0.4",
     "pinia": "^2.0.24",
     "pino": "^8.14.1",

@@ -72,6 +72,8 @@ const editor = useEditor({
             topicStore.content = ''
         else
             topicStore.content = editor.getHTML()
+
+        console.info('ContentJson', editor.getJSON())
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
@@ -93,38 +95,6 @@ const editor = useEditor({
     },
 })
 
-const allHeadingsIds = ref<string[]>([])
-const shouldUpdate = ref(false)
-const updateHeadingIds = () => {
-    if (editor.value) {
-        allHeadingsIds.value = []
-        const { state, commands } = editor.value
-        state.doc.descendants((node, pos) => {
-            if (node.type.name === 'heading') {
-                const textContent = node.textContent
-                let newId = slugify(textContent)
-
-                if (allHeadingsIds.value.includes(newId)) {
-                    let i = 1
-                    while (allHeadingsIds.value.includes(`${newId}-${i}`)) {
-                        i++
-                    }
-                    newId = `${newId}-${i}`
-                }
-
-                allHeadingsIds.value.push(newId)
-
-                if (node.attrs.id !== newId) {
-                    commands.updateAttributes('heading', { id: newId })
-                }
-            }
-        })
-
-        console.log('json', editor.value.getJSON())
-
-    }
-}
-
 topicStore.$onAction(({ name, after }) => {
     after(() => {
         if (name == 'resetContent')
@@ -135,24 +105,8 @@ topicStore.$onAction(({ name, after }) => {
 const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
-    updateHeadingIds()
-
-    if (editor.value)
-        editor.value.on('transaction', () => {
-            delayedUpdateHeadings()
-        })
-
 })
 
-const updateHeadingsTimeout = ref()
-function delayedUpdateHeadings() {
-    if (updateHeadingsTimeout.value)
-        clearTimeout(updateHeadingsTimeout.value)
-
-    updateHeadingsTimeout.value = setTimeout(() => {
-        updateHeadingIds()
-    }, 300)
-}
 </script>
 
 <template>

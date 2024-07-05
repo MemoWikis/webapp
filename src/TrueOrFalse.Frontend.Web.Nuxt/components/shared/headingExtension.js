@@ -1,6 +1,6 @@
 import Heading from '@tiptap/extension-heading'
 import { slugify } from './utils'
-import { useOutlineStore } from '~/components/sidebar/outlineStore'
+import { nanoid } from 'nanoid'
 
 export const CustomHeading = Heading.extend({
   addAttributes() {
@@ -9,11 +9,7 @@ export const CustomHeading = Heading.extend({
       id: {
         default: null,
         parseHTML: element => {
-            const id = element.getAttribute('id')
-            if (id) 
-              return id
-
-            return slugify(element.innerText)
+            return slugify(element.innerText) + `-${nanoid(4)}`
         },
         renderHTML: attributes => {
           if (!attributes.id) {
