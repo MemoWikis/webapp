@@ -31,7 +31,7 @@ const editor = useEditor({
             codeBlock: false,
         }),
         CustomHeading.configure({
-            levels: [1, 2, 3, 4, 5, 6],
+            levels: [2, 3, 4],
             HTMLAttributes: {
                 class: 'heading',
             },
@@ -91,21 +91,27 @@ const editor = useEditor({
     },
 })
 
-editor.value?.on('transaction', ({ transactions }: any) => {
-    const shouldUpdate = transactions.some((tr: { docChanged: any }) => tr.docChanged)
-    if (shouldUpdate) {
-        updateHeadingIds()
-    }
-})
+const allHeadingsIds = ref<string[]>([])
 
 const updateHeadingIds = () => {
-    console.log('--uuupdate')
     if (editor.value) {
+        allHeadingsIds.value = []
         const { state, commands } = editor.value
         state.doc.descendants((node, pos) => {
             if (node.type.name === 'heading') {
                 const textContent = node.textContent
-                const newId = slugify(textContent)
+                let newId = slugify(textContent)
+
+                if (allHeadingsIds.value.includes(newId)) {
+                    let i = 1
+                    while (allHeadingsIds.value.includes(`${newId}-${i}`)) {
+                        i++
+                    }
+                    newId = `${newId}-${i}`
+                }
+
+                allHeadingsIds.value.push(newId)
+
                 if (node.attrs.id !== newId) {
                     commands.updateAttributes('heading', { id: newId })
                 }
@@ -124,7 +130,7 @@ topicStore.$onAction(({ name, after }) => {
 const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
-    // updateHeadingIds()
+    updateHeadingIds()
 
     if (editor.value)
         editor.value.on('transaction', () => {
@@ -137,6 +143,7 @@ const updateHeadingsTimeout = ref()
 function delayedUpdateHeadings() {
     if (updateHeadingsTimeout.value)
         clearTimeout(updateHeadingsTimeout.value)
+
     updateHeadingsTimeout.value = setTimeout(() => {
         updateHeadingIds()
     }, 300)
