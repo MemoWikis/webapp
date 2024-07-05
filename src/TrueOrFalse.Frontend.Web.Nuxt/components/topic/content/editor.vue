@@ -18,9 +18,11 @@ import ImageResize from '~~/components/shared/imageResizeExtension'
 import { slugify } from '~~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
+import { useOutlineStore } from '~/components/sidebar/outlineStore'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
+const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 
 const editor = useEditor({
@@ -92,7 +94,7 @@ const editor = useEditor({
 })
 
 const allHeadingsIds = ref<string[]>([])
-
+const shouldUpdate = ref(false)
 const updateHeadingIds = () => {
     if (editor.value) {
         allHeadingsIds.value = []
@@ -117,6 +119,9 @@ const updateHeadingIds = () => {
                 }
             }
         })
+
+        console.log('json', editor.value.getJSON())
+
     }
 }
 

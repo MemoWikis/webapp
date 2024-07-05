@@ -17,5 +17,5 @@ export const useOutlineStore = defineStore('outlineStore', () => {
 
     const headings = ref<OutlineElement[]>([])
 
-    return {allHeadingsIds, addHeadingId }
+    return {allHeadingsIds, addHeadingId, }
 })
