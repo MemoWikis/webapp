@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import { Topic } from '../topic/topicStore'
+import { Topic, useTopicStore } from '../topic/topicStore'
+import { useTabsStore, Tab } from '../topic/tabs/tabsStore'
+
+const topicStore = useTopicStore()
+const tabsStore = useTabsStore()
 
 const { isDesktop } = useDevice()
 interface Props {
     documentation: Topic
+    showOutline?: boolean
 }
 const props = defineProps<Props>()
 const config = useRuntimeConfig()
@@ -39,13 +44,19 @@ const { $urlHelper } = useNuxtApp()
 
                 </template>
             </SidebarCard>
-            <SidebarCard>
-                <template v-slot:header> Outline</template>
-                <template v-slot:body>
+            <template v-if="props.showOutline && topicStore.id && topicStore.name">
+                <div class="sidebarcard-divider-container">
+                    <div class="sidebarcard-divider"></div>
+                </div>
+                <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Topic">
+                    <template v-slot:header>{{ topicStore.name }}</template>
+                    <template v-slot:body>
 
+                        <SidebarOutline />
+                    </template>
+                </SidebarCard>
+            </template>
 
-                </template>
-            </SidebarCard>
         </div>
     </div>
 </template>
@@ -78,7 +89,7 @@ const { $urlHelper } = useNuxtApp()
         flex-grow: 2;
 
         #SidebarSpacer {
-            height: 60px;
+            height: 25px;
         }
     }
 
@@ -89,6 +100,26 @@ const { $urlHelper } = useNuxtApp()
         &:hover {
             color: @memo-blue-link;
         }
+    }
+
+    .sidebarcard-divider-container {
+        margin-left: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .sidebarcard-divider {
+            height: 1px;
+            background-color: @memo-grey-light;
+            width: 100%;
+
+        }
+    }
+
+    #TopicOutline {
+        margin-top: 20px;
+        position: sticky;
+        top: 60px;
     }
 }
 </style>

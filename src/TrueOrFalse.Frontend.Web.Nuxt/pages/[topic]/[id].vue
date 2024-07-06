@@ -223,7 +223,7 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                     </template>
                 </div>
-                <Sidebar :documentation="props.documentation" class="is-topic" />
+                <Sidebar :documentation="props.documentation" class="is-topic" :show-outline="true" />
             </template>
         </div>
     </div>

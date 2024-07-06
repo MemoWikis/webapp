@@ -79,7 +79,12 @@ export default defineNuxtConfig({
         error: '#FF001F',
         warning: '#FDD648',
         info: '#555555'
-      }
+      },
+    router: {
+    options: {
+        scrollBehaviorType: 'smooth'
+        }
+    }
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {
     //     server: true,
