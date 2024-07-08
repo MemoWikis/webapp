@@ -7,6 +7,8 @@ import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
 import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
 import { AlertType, messages, useAlertStore } from './components/alert/alertStore'
+import { ErrorCode } from './components/error/errorCodeEnum'
+import { NuxtError } from '#app'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -200,10 +202,22 @@ useHead(() => ({
 	]
 }))
 const { isMobile } = useDevice()
-
+const statusCode = ref<number>(0)
+function clearErr() {
+	statusCode.value = 0
+	clearError()
+}
 function logError(e: any) {
-
 	$logger.info('Nuxt non Fatal Error', [{ error: e }])
+
+	const r = e as NuxtError
+
+	if (r.statusCode)
+		statusCode.value = r.statusCode
+
+	if (statusCode.value === ErrorCode.NotFound || statusCode.value === ErrorCode.Unauthorized)
+		return
+
 	if (import.meta.client) {
 		const alertStore = useAlertStore()
 		alertStore.openAlert(AlertType.Error, { text: null, customHtml: messages.error.api.body, customDetails: e }, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
@@ -214,7 +228,7 @@ function logError(e: any) {
 				after((result) => {
 					if (result.cancelled == false && result.id == 'reloadPage')
 						window.location.reload()
-					else clearError()
+					else clearErr()
 				})
 			}
 		})
@@ -238,8 +252,10 @@ function logError(e: any) {
 			@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
 			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 
-		<template #error="{}">
-			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+		<template #error="{ error }">
+			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+				:error="error" :in-error-boundary="true" @clear-error="clearErr" />
+			<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 				@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
 				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 		</template>
