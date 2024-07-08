@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
-import { Topic, useTopicStore } from '~~/components/topic/topicStore'
+import { FooterTopics, Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
@@ -14,7 +14,7 @@ const spinnerStore = useSpinnerStore()
 
 interface Props {
     tab?: Tab,
-    documentation: Topic
+    footerTopics: FooterTopics
 }
 
 const props = defineProps<Props>()
@@ -223,7 +223,7 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                     </template>
                 </div>
-                <Sidebar :documentation="props.documentation" class="is-topic" :show-outline="true" />
+                <Sidebar class="is-topic" :show-outline="true" :footer-topics="props.footerTopics" />
             </template>
         </div>
     </div>

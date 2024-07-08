@@ -6,14 +6,14 @@ import { Google } from '~~/components/user/Google'
 import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { Topic } from '~~/components/topic/topicStore'
+import { FooterTopics } from '~~/components/topic/topicStore'
 import { isValidEmail } from '~/components/shared/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 const spinnerStore = useSpinnerStore()
 interface Props {
-    documentation: Topic
+    footerTopics: FooterTopics
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
@@ -174,16 +174,16 @@ async function register() {
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                                     <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister"
                                         @click="googleRegister()">
-                                        <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleRegister"
-                                            class="socialMediaLogo">
+                                        <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
+                                            alt="GoogleRegister" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Google</div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                                     <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister"
                                         @click="facebookRegister()">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
-                                            class="socialMediaLogo">
+                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
+                                            alt="FacebookLogin" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
                                     </div>
                                 </div>
@@ -218,8 +218,9 @@ async function register() {
                                             <div class="overline-s no-line">Benutzername</div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-8">
-                                            <input name="login" placeholder="" type="text" width="100%" class="login-inputs"
-                                                v-model="userName" @keydown.enter="register()" @click="errorMessage = ''" />
+                                            <input name="login" placeholder="" type="text" width="100%"
+                                                class="login-inputs" v-model="userName" @keydown.enter="register()"
+                                                @click="errorMessage = ''" />
                                         </div>
                                     </div>
                                 </form>
@@ -292,7 +293,7 @@ async function register() {
                     </div>
                 </div>
             </div>
-            <Sidebar :documentation="props.documentation" />
+            <Sidebar :footer-topics="props.footerTopics" />
         </div>
 
     </div>

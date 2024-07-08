@@ -11,6 +11,8 @@ const { $urlHelper } = useNuxtApp()
 const currentHeadingId = ref('')
 
 function getCurrentHeadingId() {
+    if (outlineStore.headings.length === 0) return
+
     const headings = outlineStore.headings
     const offset = 120
     let headingId: string | null = null
@@ -51,7 +53,7 @@ function headingClass(level: number, index: number) {
     if (previousLevel != null && previousLevel > level)
         return `level-${level - 1} next-step`
 
-    return `level-${level - 1}`
+    return `level-${level - 1}${index == 0 ? ' first-outline' : ''}`
 }
 </script>
 
@@ -108,6 +110,10 @@ function headingClass(level: number, index: number) {
             .current-heading {
                 font-weight: 600;
             }
+        }
+
+        &.first-outline {
+            margin-top: 0px;
         }
 
         .outline-link {

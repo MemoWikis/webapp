@@ -16,7 +16,7 @@ export const useOutlineStore = defineStore('outlineStore', () => {
         contentArray.forEach((item) => {
             if (item.type === 'heading') {
                 const outlineElement: OutlineElement = {
-                    id: item.attrs!.id!,
+                    id: item.attrs!.id ? item.attrs!.id : '',
                     text: item.content![0].text!,
                     level: item.attrs!.level!,
                 }
