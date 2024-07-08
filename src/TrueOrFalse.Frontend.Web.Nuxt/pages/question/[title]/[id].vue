@@ -247,6 +247,7 @@ useHead(() => ({
 
 .question-page-container {
 	padding-bottom: 45px;
+	margin-top: 20px;
 }
 
 #AnswerAndSolutionCol {

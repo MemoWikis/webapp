@@ -37,18 +37,28 @@ function getCurrentHeadingId() {
 
 const throttledGetCurrentHeadingId = throttle(getCurrentHeadingId, 100)
 
-onMounted(() => {
+onMounted(async () => {
     window.addEventListener('scroll', throttledGetCurrentHeadingId)
+    await nextTick()
+    getCurrentHeadingId()
 })
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', throttledGetCurrentHeadingId)
 })
+
+function headingClass(level: number, index: number) {
+    const previousLevel = index > 0 ? outlineStore.headings[index - 1].level : null
+    if (previousLevel != null && previousLevel > level)
+        return `level-${level - 1} next-step`
+
+    return `level-${level - 1}`
+}
 </script>
 
 <template>
     <div id="Outline">
-        <div v-for="heading in outlineStore.headings" :key="heading.id" class="outline-headings"
-            :class="`level-${heading.level - 1}`">
+        <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
+            :class="headingClass(heading.level, index)">
             <NuxtLink :to="`${$urlHelper.getTopicUrl(topicStore.name, topicStore.id)}#${heading.id}`"
                 class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
                 {{ heading.text }}
@@ -61,27 +71,50 @@ onBeforeUnmount(() => {
 @import (reference) '~~/assets/includes/imports.less';
 
 #Outline {
-    .outline-headings {
+    .outline-heading {
+        transition: all 0.1s ease;
 
-        &.level-1 {}
-
-        &.level-2 {
-            padding-left: 8px;
-        }
-
-        &.level-3 {
-            padding-left: 16px;
-        }
-
-        &.level-1,
         &.level-2,
         &.level-3 {
+            margin-top: 4px;
             margin-bottom: 4px;
+        }
+
+        &.next-step {
+            margin-top: 8px;
+        }
+
+        &.level-1 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 24px;
+
+            .current-heading {
+                font-weight: 700;
+            }
+        }
+
+        &.level-2 {
+            font-weight: 400;
+
+            .current-heading {
+                font-weight: 600;
+            }
+        }
+
+        &.level-3 {
+            font-weight: 300;
+
+            .current-heading {
+                font-weight: 600;
+            }
         }
 
         .outline-link {
             color: @memo-grey-dark;
             display: block;
+
+            transition: all 0.2s ease-out;
 
             &:hover {
                 color: @memo-blue-link;
@@ -95,10 +128,8 @@ onBeforeUnmount(() => {
             }
 
             &.current-heading {
-                font-weight: 600;
                 color: @memo-blue;
             }
-
         }
     }
 }

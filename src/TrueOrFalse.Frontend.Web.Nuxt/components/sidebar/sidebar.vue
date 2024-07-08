@@ -45,7 +45,7 @@ const { $urlHelper } = useNuxtApp()
                 </template>
             </SidebarCard>
             <template v-if="props.showOutline && topicStore.id && topicStore.name">
-                <div class="sidebarcard-divider-container">
+                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Topic">
                     <div class="sidebarcard-divider"></div>
                 </div>
                 <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Topic">
@@ -77,20 +77,28 @@ const { $urlHelper } = useNuxtApp()
         flex-grow: 0;
     }
 
+    #SidebarContent {
+        flex-grow: 2;
+
+        #SidebarSpacer {
+            height: 55px;
+        }
+    }
+
     &.is-topic {
         #SidebarDivider {
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
-    }
+        #SidebarContent {
+            flex-grow: 2;
 
-    #SidebarContent {
-        flex-grow: 2;
-
-        #SidebarSpacer {
-            height: 25px;
+            #SidebarSpacer {
+                height: 25px;
+            }
         }
+
     }
 
     .sidebar-link {
