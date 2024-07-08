@@ -6,6 +6,7 @@ import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
 import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
+import { AlertType, messages, useAlertStore } from './components/alert/alertStore'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -201,7 +202,24 @@ useHead(() => ({
 const { isMobile } = useDevice()
 
 function logError(e: any) {
+
 	$logger.info('Nuxt non Fatal Error', [{ error: e }])
+	if (import.meta.client) {
+		const alertStore = useAlertStore()
+		alertStore.openAlert(AlertType.Error, { text: null, customHtml: messages.error.api.body, customDetails: e }, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+
+		alertStore.$onAction(({ name, after }) => {
+			if (name == 'closeAlert') {
+
+				after((result) => {
+					if (result.cancelled == false && result.id == 'reloadPage')
+						window.location.reload()
+					else clearError()
+				})
+			}
+		})
+	}
+
 }
 </script>
 
@@ -217,11 +235,13 @@ function logError(e: any) {
 
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-			@set-breadcrumb="setBreadcrumb" :documentation="footerTopics?.documentation"
+			@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
 			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 
-		<template #error="{ error, clearError }">
-			<ErrorContent :error="error" :in-error-boundary="true" @clear-error="clearError" />
+		<template #error="{}">
+			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+				@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
+				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 		</template>
 	</NuxtErrorBoundary>
 
