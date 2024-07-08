@@ -1,9 +1,18 @@
 <script lang="ts" setup>
-import { Topic } from '../topic/topicStore'
+import { FooterTopics, useTopicStore } from '../topic/topicStore'
+import { useTabsStore, Tab } from '../topic/tabs/tabsStore'
+import { useUserStore } from '../user/userStore'
+import { useOutlineStore } from './outlineStore'
+
+const topicStore = useTopicStore()
+const tabsStore = useTabsStore()
+const userStore = useUserStore()
+const outlineStore = useOutlineStore()
 
 const { isDesktop } = useDevice()
 interface Props {
-    documentation: Topic
+    footerTopics: FooterTopics
+    showOutline?: boolean
 }
 const props = defineProps<Props>()
 const config = useRuntimeConfig()
@@ -17,28 +26,75 @@ const { $urlHelper } = useNuxtApp()
         <div id="SidebarDivider"></div>
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
-            <SidebarCard>
-                <template v-slot:header>
-                    <NuxtLink :to="$urlHelper.getTopicUrl(props.documentation.name, props.documentation.id)"
-                        class="sidebar-link">
-                        Zur Dokumentation
-                    </NuxtLink>
-                </template>
-            </SidebarCard>
-            <SidebarCard>
-                <template v-slot:header>
-                    <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
-                        @mouseleave="discordBounce = false">
-                        <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> Discord
-                    </NuxtLink>
-                </template>
-                <template v-slot:body>
-                    Du willst dich mit uns unterhalten?
-                    <br />
-                    Dann triff dich mit uns auf Discord!
+            <div id="DefaultSidebar">
+                <SidebarCard>
+                    <template v-slot:body>
+                        <div class="overline-s no-line">
+                            <NuxtLink
+                                :to="$urlHelper.getTopicUrl(props.footerTopics.rootWiki.name, props.footerTopics.rootWiki.id)"
+                                class="sidebar-link">
+                                {{ props.footerTopics.rootWiki.name }}
+                            </NuxtLink>
+                        </div>
 
-                </template>
-            </SidebarCard>
+                        <!-- <div v-for="(topics, index) in props.footerTopics.popularTopics">
+                            <NuxtLink :to="$urlHelper.getTopicUrl(topics.name, topics.id)" class="sidebar-link"
+                                v-if="index < (userStore.isLoggedIn ? 2 : 3)">
+                                {{ topics.name }}
+                            </NuxtLink>
+                        </div> -->
+
+                        <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s  no-line">
+                            <NuxtLink
+                                :to="$urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
+                                class="sidebar-link">
+                                {{ userStore.personalWiki.name }}
+                            </NuxtLink>
+                        </div>
+                        <div v-else>
+                            <NuxtLink
+                                :to="$urlHelper.getTopicUrl(props.footerTopics.memoTopics[0].name, props.footerTopics.memoTopics[0].id)"
+                                class="sidebar-link">
+                                {{ props.footerTopics.memoTopics[0].name }}
+                            </NuxtLink>
+                        </div>
+
+                    </template>
+                </SidebarCard>
+                <SidebarCard>
+                    <template v-slot:header>Hilfe</template>
+                    <template v-slot:body>
+                        <div id="SidebarHelpBody">
+                            <NuxtLink
+                                :to="$urlHelper.getTopicUrl(props.footerTopics.documentation.name, props.footerTopics.documentation.id)"
+                                class="sidebar-link">
+                                Doku
+                            </NuxtLink>
+                            <div class="link-divider-container">
+                                <div class="link-divider"></div>
+                            </div>
+                            <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
+                                @mouseleave="discordBounce = false">
+                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> Discord
+                            </NuxtLink>
+                        </div>
+                    </template>
+                </SidebarCard>
+            </div>
+            <template v-if="props.showOutline && topicStore.id && topicStore.name">
+                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Topic">
+                    <div class="sidebarcard-divider"></div>
+                </div>
+                <SidebarCard id="TopicOutline"
+                    v-show="tabsStore?.activeTab == Tab.Topic && outlineStore.headings.length > 0">
+                    <template v-slot:header>{{ topicStore.name }}</template>
+                    <template v-slot:body>
+
+                        <SidebarOutline />
+                    </template>
+                </SidebarCard>
+            </template>
+
         </div>
     </div>
 </template>
@@ -59,20 +115,28 @@ const { $urlHelper } = useNuxtApp()
         flex-grow: 0;
     }
 
+    #SidebarContent {
+        flex-grow: 2;
+
+        #SidebarSpacer {
+            height: 55px;
+        }
+    }
+
     &.is-topic {
         #SidebarDivider {
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
-    }
+        #SidebarContent {
+            flex-grow: 2;
 
-    #SidebarContent {
-        flex-grow: 2;
-
-        #SidebarSpacer {
-            height: 60px;
+            #SidebarSpacer {
+                height: 25px;
+            }
         }
+
     }
 
     .sidebar-link {
@@ -81,6 +145,55 @@ const { $urlHelper } = useNuxtApp()
 
         &:hover {
             color: @memo-blue-link;
+        }
+    }
+
+    .sidebarcard-divider-container {
+        margin-left: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .sidebarcard-divider {
+            height: 1px;
+            background-color: @memo-grey-light;
+            width: 100%;
+
+        }
+    }
+
+    #TopicOutline {
+        margin-top: 20px;
+        position: sticky;
+        top: 60px;
+    }
+}
+
+#DefaultSidebar {
+    height: 145px;
+
+    // :deep(.sidebar-title) {
+    //     padding-bottom: 0px;
+    //     height: 30px;
+    // }
+
+    #SidebarHelpBody {
+        display: flex;
+        align-items: center;
+        padding-bottom: 0px;
+
+        .link-divider-container {
+            height: 20px;
+            width: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .link-divider {
+                width: 1px;
+                height: 100%;
+                background: @memo-grey-light;
+            }
         }
     }
 }

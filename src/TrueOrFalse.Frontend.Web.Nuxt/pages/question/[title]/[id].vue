@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { Page } from '~~/components/shared/pageEnum'
-import { Topic } from '~~/components/topic/topicStore'
+import { FooterTopics, Topic } from '~~/components/topic/topicStore'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
@@ -13,6 +13,7 @@ const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
 interface Props {
+	footerTopics: FooterTopics
 	documentation: Topic
 }
 
@@ -232,7 +233,7 @@ useHead(() => ({
 
 					</div>
 				</div>
-				<Sidebar :documentation="props.documentation" />
+				<Sidebar :footer-topics="props.footerTopics" />
 			</template>
 		</div>
 	</div>
@@ -247,6 +248,7 @@ useHead(() => ({
 
 .question-page-container {
 	padding-bottom: 45px;
+	margin-top: 20px;
 }
 
 #AnswerAndSolutionCol {

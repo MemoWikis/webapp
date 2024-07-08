@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 import { Page } from '~/components/shared/pageEnum'
-import { Topic } from '~/components/topic/topicStore'
+import { FooterTopics } from '~/components/topic/topicStore'
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 interface Props {
-    documentation: Topic
+    footerTopics: FooterTopics
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
@@ -155,7 +155,7 @@ async function saveNewPassword() {
                     </div>
                 </div>
             </div>
-            <Sidebar :documentation="props.documentation" />
+            <Sidebar :footer-topics="props.footerTopics" />
 
         </div>
     </div>

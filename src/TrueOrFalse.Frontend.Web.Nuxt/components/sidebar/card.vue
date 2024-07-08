@@ -28,7 +28,7 @@ const slots = useSlots()
 .sidebar-card {
     padding-left: 30px;
     font-family: 'Open Sans';
-    padding-bottom: 10px;
+    padding-bottom: 6px;
 
     a {
         color: @memo-grey-dark;
@@ -47,7 +47,7 @@ const slots = useSlots()
 
     .sidebar-body {
         color: @memo-grey-dark;
-        padding-bottom: 25px;
+        padding-bottom: 24px;
 
         .sidebar-card-preheader {
             font-size: 12px;
@@ -66,7 +66,7 @@ const slots = useSlots()
     }
 
     .sidebar-footer {
-        padding-top: 5px;
+        padding-top: 6px;
         font-size: 12px;
         border-top: solid 1px @memo-grey-light;
         text-align: right;

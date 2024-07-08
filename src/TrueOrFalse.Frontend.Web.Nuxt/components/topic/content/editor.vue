@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useEditor, EditorContent } from '@tiptap/vue-3'
+import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -16,20 +16,28 @@ import { messages } from '~~/components/alert/alertStore'
 import { Indent } from '../../editor/indent'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
+import { CustomHeading } from '~/components/shared/headingExtension'
+import { useOutlineStore } from '~/components/sidebar/outlineStore'
+import { slugify } from '~/components/shared/utils'
+import { nanoid } from 'nanoid'
+
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
+const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
+
 const editor = useEditor({
     content: topicStore.initialContent,
     extensions: [
         StarterKit.configure({
-            heading: {
-                levels: [2, 3, 4],
-                HTMLAttributes: {
-                    class: 'inline-text-heading'
-                }
-            },
+            heading: false,
             codeBlock: false,
+        }),
+        CustomHeading.configure({
+            levels: [2, 3, 4],
+            HTMLAttributes: {
+                class: 'heading',
+            },
         }),
         Link.configure({
             HTMLAttributes: {
@@ -66,7 +74,11 @@ const editor = useEditor({
         else
             topicStore.content = editor.getHTML()
 
-        console.log('content', editor.getJSON())
+        const contentArray: JSONContent[] | undefined = editor.getJSON().content
+        if (contentArray)
+            outlineStore.updateHeadings(contentArray)
+
+        updateHeadingIds()
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
@@ -95,10 +107,31 @@ topicStore.$onAction(({ name, after }) => {
     })
 })
 
+function updateHeadingIds() {
+    if (editor.value == null)
+        return
+
+    const { state, commands } = editor.value
+    state.doc.descendants((node: any, pos: number) => {
+        if (node.type.name === 'heading') {
+            const textContent = node.textContent
+            const newId = slugify(textContent) + `-${nanoid(5)}`
+            if (node.attrs.id == null) {
+                commands.updateAttributes(node.type.name, { id: newId })
+            }
+        }
+    })
+}
+
 const spinnerStore = useSpinnerStore()
 onMounted(() => {
     spinnerStore.hideSpinner()
+
+    const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
+    if (contentArray)
+        outlineStore.updateHeadings(contentArray)
 })
+
 </script>
 
 <template>
@@ -114,6 +147,12 @@ onMounted(() => {
         :deep(p:empty) {
             min-height: 20px;
         }
+    }
+
+    h2,
+    h3,
+    h4 {
+        scroll-margin-top: 10rem;
     }
 
     ul[data-type="taskList"] {
