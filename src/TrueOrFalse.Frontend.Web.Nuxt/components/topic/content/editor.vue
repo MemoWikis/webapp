@@ -74,7 +74,6 @@ const editor = useEditor({
         else
             topicStore.content = editor.getHTML()
 
-        console.info('ContentJson', editor.getJSON())
         const contentArray: JSONContent[] | undefined = editor.getJSON().content
         if (contentArray)
             outlineStore.updateHeadings(contentArray)

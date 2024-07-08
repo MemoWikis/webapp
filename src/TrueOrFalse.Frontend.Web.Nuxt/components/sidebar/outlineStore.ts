@@ -12,16 +12,14 @@ export const useOutlineStore = defineStore('outlineStore', () => {
     const headings = ref<OutlineElement[]>([])
 
     function extractHeadings(contentArray: JSONContent[]) {
-        let previousLevel: number | null = null
         contentArray.forEach((item) => {
-            if (item.type === 'heading') {
+            if (item.type === 'heading' && item.content && item.attrs) {
                 const outlineElement: OutlineElement = {
-                    id: item.attrs!.id ? item.attrs!.id : '',
-                    text: item.content![0].text!,
-                    level: item.attrs!.level!,
+                    id: item.attrs.id ? item.attrs.id : '',
+                    text: item.content[0].text!,
+                    level: item.attrs.level!,
                 }
                 headings.value.push(outlineElement)
-                previousLevel = item.attrs!.level!
             }
         })
     }
