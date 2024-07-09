@@ -4,9 +4,12 @@ import { Topic, useTopicStore } from '../topicStore'
 import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { Author } from '~~/components/author/author'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
+import { useOutlineStore } from '~/components/sidebar/outlineStore'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
+const outlineStore = useOutlineStore()
+
 const textArea = ref()
 
 const mobileFirstAuthor = ref<Author>()
@@ -27,6 +30,7 @@ const groupedAuthors = computed(() => {
 })
 
 function resize() {
+    outlineStore.titleIsFocused = true
     let element = textArea.value as VueElement
     if (element) {
         element.style.height = "42px"
@@ -108,14 +112,19 @@ function getLetterValuation(str: string) {
 }
 
 const topicTitle = ref()
-
+function focus() {
+    outlineStore.titleIsFocused = true
+}
+function blur() {
+    outlineStore.titleIsFocused = false
+}
 </script>
 
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle" ref="topicTitle">
             <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
-                v-model="topicStore.name" v-if="topicStore" :readonly="readonly"></textarea>
+                v-model="topicStore.name" v-if="topicStore" :readonly="readonly" @focus="focus" @blur="blur"></textarea>
             <template v-else-if="topic">
                 {{ topic.name }}
             </template>

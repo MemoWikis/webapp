@@ -22,6 +22,12 @@ const { $urlHelper } = useNuxtApp()
 function scrollToTitle() {
     document.getElementById("TopicTitle")?.scrollIntoView({ behavior: 'smooth', block: 'end' })
 }
+
+const topictTitleHighlighted = ref(false)
+
+function highlightTopicTitle(highlighted: boolean) {
+    topictTitleHighlighted.value = highlighted
+}
 </script>
 
 <template>
@@ -45,7 +51,7 @@ function scrollToTitle() {
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
                                 class="sidebar-link">
-                                {{ userStore.personalWiki.name }}
+                                Dein Wiki
                             </NuxtLink>
                         </div>
                         <div v-else class="overline-s no-line">
@@ -88,11 +94,11 @@ function scrollToTitle() {
 
                 <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Topic">
                     <template v-slot:header>
-                        <div @click="scrollToTitle" class="outline-title">{{ topicStore.name }}</div>
+                        <div @click="scrollToTitle" class="outline-title"
+                            :class="{ 'current-heading': topictTitleHighlighted }">{{ topicStore.name }}</div>
                     </template>
                     <template v-slot:body>
-
-                        <SidebarOutline />
+                        <SidebarOutline @highlight-topic-title="highlightTopicTitle" />
                     </template>
                 </SidebarCard>
             </template>
@@ -175,6 +181,10 @@ function scrollToTitle() {
 
             &:hover {
                 color: @memo-blue-link;
+            }
+
+            &.current-heading {
+                color: @memo-blue;
             }
         }
     }
