@@ -45,7 +45,7 @@ function scrollToTitle() {
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
                                 class="sidebar-link">
-                                {{ userStore.personalWiki.name }}
+                                Dein Wiki
                             </NuxtLink>
                         </div>
                         <div v-else class="overline-s no-line">
