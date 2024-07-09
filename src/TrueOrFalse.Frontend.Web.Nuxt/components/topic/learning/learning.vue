@@ -11,6 +11,7 @@ const topicStore = useTopicStore()
 
 const route = useRoute()
 const openFilter = ref(true)
+const expiresDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 
 const alertOnMounted = ref(false)
 const alertOnMountedMsg = ref('')
@@ -42,9 +43,9 @@ onMounted(() => {
 })
 const filterOpened = useCookie('show-top-dropdown')
 onBeforeMount(() => {
-    if (filterOpened.value?.toString() == 'true' || filterOpened.value == undefined)
+    if (filterOpened.value?.toString() == 'true')
         openFilter.value = true
-    else if (filterOpened.value?.toString() == 'false')
+    else if (filterOpened.value?.toString() == 'false' || filterOpened.value == undefined)
         openFilter.value = false
 })
 onMounted(() => {
@@ -90,7 +91,8 @@ watch(() => topicStore.questionCount, (count) => {
 <template>
     <div class="row">
         <div class="col-xs-12" v-if="learningSessionConfigurationStore?.showFilter">
-            <TopicLearningSessionConfiguration :open-filter="openFilter" cookie-name="show-top-dropdown">
+            <TopicLearningSessionConfiguration :open-filter="openFilter" :expires-date="expiresDate"
+                cookie-name="show-top-dropdown">
                 <slot>
                     <div class="session-progress-bar">
                         <div class="session-progress">
@@ -107,8 +109,8 @@ watch(() => topicStore.questionCount, (count) => {
                         <div class="step-count">
                             <template v-if="learningSessionStore.currentStep">
                                 {{ learningSessionStore.currentStep?.index + 1 }} / {{
-                                    learningSessionStore.steps.length
-                                }}
+            learningSessionStore.steps.length
+        }}
                             </template>
                         </div>
                         <div class="progress-percentage">{{ progressPercentage }}%</div>
