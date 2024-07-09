@@ -92,7 +92,8 @@ function getClass(): string {
                                                 Alle Fragen zuklappen
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded" v-else>
+                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
+                                            v-else>
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-angles-down" />
                                             </div>
