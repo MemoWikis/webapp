@@ -7,7 +7,7 @@ interface Props {
     isInQuestionList?: boolean
     openFilter?: boolean
     cookieName: string
-    expiresDate?: Date
+    expiryDate?: Date
 }
 const props = defineProps<Props>()
 
@@ -39,8 +39,8 @@ watch(() => props.openFilter, (val) => {
 })
 watch(showFilterDropdown, (val) => {
     const cookie: any = {}
-    if (props.expiresDate)
-        cookie.value = useCookie(props.cookieName, { expires: props.expiresDate })
+    if (props.expiryDate)
+        cookie.value = useCookie(props.cookieName, { expires: props.expiryDate })
     else {
         cookie.value = useCookie(props.cookieName)
     }
