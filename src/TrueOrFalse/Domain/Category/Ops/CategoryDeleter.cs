@@ -116,7 +116,9 @@
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
-        MoveQuestionsToParent(id, parentId);
+        if (topic.CountQuestionsAggregated > 0)
+            MoveQuestionsToParent(id, parentId);
+
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
         var parentTopics = _categoryRepo.GetByIds(parentIds);

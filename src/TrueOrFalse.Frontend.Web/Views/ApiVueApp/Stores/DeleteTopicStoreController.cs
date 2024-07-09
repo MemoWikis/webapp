@@ -90,13 +90,20 @@ public class DeleteTopicStoreController(
     [HttpPost]
     public CategoryDeleter.DeleteTopicResult Delete([FromBody] DeleteJson deleteJson)
     {
-        if (deleteJson.parentForQuestionsId == 0)
-            return new CategoryDeleter.DeleteTopicResult(Success: false,
-                MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected);
+        var topicHasQuestion = EntityCache.GetCategory(deleteJson.id)?
+            .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, false)?
+            .Any() ?? false;
 
-        if (deleteJson.parentForQuestionsId == deleteJson.id)
-            return new CategoryDeleter.DeleteTopicResult(Success: false,
-                MessageKey: FrontendMessageKeys.Error.Category.NewTopicIdIsTopicIdToBeDeleted);
+        if (topicHasQuestion)
+        {
+            if (deleteJson.parentForQuestionsId == 0)
+                return new CategoryDeleter.DeleteTopicResult(Success: false,
+                    MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected);
+
+            if (deleteJson.parentForQuestionsId == deleteJson.id)
+                return new CategoryDeleter.DeleteTopicResult(Success: false,
+                    MessageKey: FrontendMessageKeys.Error.Category.NewTopicIdIsTopicIdToBeDeleted);
+        }
 
         return categoryDeleter.DeleteTopic(deleteJson.id, deleteJson.parentForQuestionsId);
     }
