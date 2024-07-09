@@ -27,8 +27,10 @@ const { $urlHelper } = useNuxtApp()
         <div id="SidebarContent">
             <div id="SidebarSpacer"></div>
             <div id="DefaultSidebar">
+
                 <SidebarCard>
                     <template v-slot:body>
+
                         <div class="overline-s no-line">
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(props.footerTopics.rootWiki.name, props.footerTopics.rootWiki.id)"
@@ -36,22 +38,14 @@ const { $urlHelper } = useNuxtApp()
                                 {{ props.footerTopics.rootWiki.name }}
                             </NuxtLink>
                         </div>
-
-                        <!-- <div v-for="(topics, index) in props.footerTopics.popularTopics">
-                            <NuxtLink :to="$urlHelper.getTopicUrl(topics.name, topics.id)" class="sidebar-link"
-                                v-if="index < (userStore.isLoggedIn ? 2 : 3)">
-                                {{ topics.name }}
-                            </NuxtLink>
-                        </div> -->
-
-                        <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s  no-line">
+                        <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s no-line">
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
                                 class="sidebar-link">
                                 {{ userStore.personalWiki.name }}
                             </NuxtLink>
                         </div>
-                        <div v-else>
+                        <div v-else class="overline-s no-line">
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(props.footerTopics.memoTopics[0].name, props.footerTopics.memoTopics[0].id)"
                                 class="sidebar-link">
@@ -61,6 +55,7 @@ const { $urlHelper } = useNuxtApp()
 
                     </template>
                 </SidebarCard>
+
                 <SidebarCard>
                     <template v-slot:header>Hilfe</template>
                     <template v-slot:body>
@@ -80,11 +75,14 @@ const { $urlHelper } = useNuxtApp()
                         </div>
                     </template>
                 </SidebarCard>
+
             </div>
             <template v-if="props.showOutline && topicStore.id && topicStore.name">
+
                 <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Topic">
                     <div class="sidebarcard-divider"></div>
                 </div>
+
                 <SidebarCard id="TopicOutline"
                     v-show="tabsStore?.activeTab == Tab.Topic && outlineStore.headings.length > 0">
                     <template v-slot:header>{{ topicStore.name }}</template>
