@@ -26,6 +26,8 @@ const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 
+const currentNodeIndex = ref()
+
 const editor = useEditor({
     content: topicStore.initialContent,
     extensions: [
@@ -76,9 +78,10 @@ const editor = useEditor({
 
         const contentArray: JSONContent[] | undefined = editor.getJSON().content
         if (contentArray)
-            outlineStore.updateHeadings(contentArray)
+            outlineStore.setHeadings(contentArray)
 
-        updateHeadingIds()
+        if (editor.isActive('heading'))
+            updateHeadingIds()
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
@@ -107,6 +110,20 @@ topicStore.$onAction(({ name, after }) => {
     })
 })
 
+function updateCursorIndex() {
+    console.log('updatecursorIndex')
+    if (editor.value == null)
+        return
+
+    const cursorIndex = editor.value.state.selection.from // Get cursor position
+
+    // Get the node at the cursor position
+    const resolvedPos = editor.value.state.doc.resolve(editor.value.state.selection.from);
+    const nIndex = resolvedPos.index(0) || 0; // Path gives us the node indexes
+
+    console.log('N index:', nIndex, 'Cursor index:', cursorIndex)
+}
+
 function updateHeadingIds() {
     if (editor.value == null)
         return
@@ -124,12 +141,23 @@ function updateHeadingIds() {
 }
 
 const spinnerStore = useSpinnerStore()
+
 onMounted(() => {
     spinnerStore.hideSpinner()
 
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
     if (contentArray)
-        outlineStore.updateHeadings(contentArray)
+        outlineStore.setHeadings(contentArray)
+
+    if (editor.value) {
+        editor.value.on('focus', () => {
+            outlineStore.editorIsFocused = true
+        })
+
+        editor.value.on('blur', () => {
+            outlineStore.editorIsFocused = false
+        })
+    }
 })
 
 </script>
@@ -137,7 +165,7 @@ onMounted(() => {
 <template>
     <template v-if="editor">
         <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" />
-        <editor-content :editor="editor" class="col-xs-12" />
+        <editor-content :editor="editor" class="col-xs-12" @click="updateCursorIndex" />
     </template>
 </template>
 

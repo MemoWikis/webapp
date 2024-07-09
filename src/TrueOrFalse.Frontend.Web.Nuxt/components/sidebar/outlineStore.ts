@@ -5,29 +5,37 @@ interface OutlineElement {
     id: string
     text: string
     level: number
+    index: number
 }
 
 export const useOutlineStore = defineStore('outlineStore', () => {
 
     const headings = ref<OutlineElement[]>([])
+    const nodeIndex = ref<number | null>(null)
+    const editorIsFocused = ref<boolean>(false)
 
     function extractHeadings(contentArray: JSONContent[]) {
-        contentArray.forEach((item) => {
+        contentArray.forEach((item, index) => {
             if (item.type === 'heading' && item.content && item.attrs) {
                 const outlineElement: OutlineElement = {
                     id: item.attrs.id ? item.attrs.id : '',
                     text: item.content[0].text!,
                     level: item.attrs.level!,
+                    index: index
                 }
                 headings.value.push(outlineElement)
             }
         })
     }
 
-    function updateHeadings(contentArray: JSONContent[]) {
+    function setHeadings(contentArray: JSONContent[]) {
         headings.value = []
         extractHeadings(contentArray)
     }
 
-    return { headings, updateHeadings }
+    function updateHeadings() {
+
+    }
+
+    return { headings, nodeIndex, editorIsFocused, setHeadings, updateHeadings }
 })
