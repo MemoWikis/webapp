@@ -50,8 +50,13 @@ onBeforeUnmount(() => {
 
 function headingClass(level: number, index: number) {
     const previousLevel = index > 0 ? outlineStore.headings[index - 1].level : null
-    if (previousLevel != null && previousLevel > level)
-        return `level-${level - 1} next-step`
+    if (previousLevel != null) {
+        if (previousLevel > level)
+            return `level-${level - 1} next-step`
+        if (previousLevel === 2 && level === 2)
+            return `level-${level - 1} preceeding-section-is-empty`
+
+    }
 
     return `level-${level - 1}${index == 0 ? ' first-outline' : ''}`
 }
@@ -93,6 +98,10 @@ function headingClass(level: number, index: number) {
 
             .current-heading {
                 font-weight: 700;
+            }
+
+            &.preceeding-section-is-empty {
+                margin-top: 8px;
             }
         }
 
