@@ -13,6 +13,7 @@ export const useOutlineStore = defineStore('outlineStore', () => {
     const headings = ref<OutlineElement[]>([])
     const nodeIndex = ref<number | null>(null)
     const editorIsFocused = ref<boolean>(false)
+    const titleIsFocused = ref<boolean>(false)
 
     function extractHeadings(contentArray: JSONContent[]) {
         contentArray.forEach((item, index) => {
@@ -33,9 +34,5 @@ export const useOutlineStore = defineStore('outlineStore', () => {
         extractHeadings(contentArray)
     }
 
-    function updateHeadings() {
-
-    }
-
-    return { headings, nodeIndex, editorIsFocused, setHeadings, updateHeadings }
+    return { headings, nodeIndex, editorIsFocused, titleIsFocused, setHeadings }
 })

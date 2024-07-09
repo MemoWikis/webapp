@@ -111,17 +111,13 @@ topicStore.$onAction(({ name, after }) => {
 })
 
 function updateCursorIndex() {
-    console.log('updatecursorIndex')
     if (editor.value == null)
         return
 
-    const cursorIndex = editor.value.state.selection.from // Get cursor position
-
-    // Get the node at the cursor position
-    const resolvedPos = editor.value.state.doc.resolve(editor.value.state.selection.from);
-    const nIndex = resolvedPos.index(0) || 0; // Path gives us the node indexes
-
-    console.log('N index:', nIndex, 'Cursor index:', cursorIndex)
+    const cursorIndex = editor.value.state.selection.from
+    const resolvedPos = editor.value.state.doc.resolve(cursorIndex)
+    const nodeIndex = resolvedPos.index(0) || 0
+    outlineStore.nodeIndex = nodeIndex
 }
 
 function updateHeadingIds() {

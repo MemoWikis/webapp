@@ -8,11 +8,12 @@ const topicStore = useTopicStore()
 
 const { $urlHelper } = useNuxtApp()
 
-const currentHeadingId = ref('')
+const emit = defineEmits(['highlightTopicTitle'])
+const currentHeadingId = ref<string | null>()
 const previousIndex = ref()
 function getCurrentHeadingId() {
     if (outlineStore.headings.length === 0) return
-
+    emit('highlightTopicTitle', false)
     const headings = outlineStore.headings
     const offset = 120
     let headingId: string | null = null
@@ -43,8 +44,7 @@ function getCurrentHeadingId() {
         }
     }
 
-    if (headingId === null) headingId = headings[0].id
-
+    if (headingId === null) emit('highlightTopicTitle', true)
     currentHeadingId.value = headingId
     return
 }
@@ -73,16 +73,13 @@ onMounted(async () => {
     await nextTick()
     getCurrentHeadingId()
 
-    watch(() => outlineStore.editorIsFocused, () => {
-        throttledGetCurrentHeadingId()
+    watch(() => outlineStore.nodeIndex, () => {
+        if (previousIndex.value !== outlineStore.nodeIndex)
+            getCurrentHeadingId()
     })
 
-    outlineStore.$onAction(({ name, after }) => {
-        if (name == 'updateHeadings') {
-            after(() => {
-                throttledGetCurrentHeadingId()
-            })
-        }
+    watch(() => outlineStore.editorIsFocused, () => {
+        throttledGetCurrentHeadingId()
     })
 })
 
@@ -101,14 +98,13 @@ function headingClass(level: number, index: number) {
 
     return `level-${level - 1}${index == 0 ? ' first-outline' : ''}`
 }
+
 </script>
 
 <template>
     <div id="Outline">
         <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
             :class="headingClass(heading.level, index)">
-            <font-awesome-icon class="current-heading-icon" :icon="['fas', 'pen']"
-                v-show="outlineStore.editorIsFocused && heading.id === currentHeadingId" />
             <NuxtLink :to="`${$urlHelper.getTopicUrl(topicStore.name, topicStore.id)}#${heading.id}`"
                 class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
                 {{ heading.text }}
@@ -126,13 +122,6 @@ function headingClass(level: number, index: number) {
         flex-wrap: nowrap;
         align-items: center;
         transition: all 0.01s ease;
-
-        .current-heading-icon {
-            font-size: 1rem;
-            margin-right: 8px;
-            transition: all 0.1 ease-in;
-            color: @memo-blue;
-        }
 
         &.level-2,
         &.level-3 {
