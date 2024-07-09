@@ -2,12 +2,10 @@
 import { FooterTopics, useTopicStore } from '../topic/topicStore'
 import { useTabsStore, Tab } from '../topic/tabs/tabsStore'
 import { useUserStore } from '../user/userStore'
-import { useOutlineStore } from './outlineStore'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
-const outlineStore = useOutlineStore()
 
 const { isDesktop } = useDevice()
 interface Props {
@@ -19,6 +17,11 @@ const config = useRuntimeConfig()
 
 const discordBounce = ref(false)
 const { $urlHelper } = useNuxtApp()
+
+
+function scrollToTitle() {
+    document.getElementById("TopicTitle")?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+}
 </script>
 
 <template>
@@ -83,9 +86,10 @@ const { $urlHelper } = useNuxtApp()
                     <div class="sidebarcard-divider"></div>
                 </div>
 
-                <SidebarCard id="TopicOutline"
-                    v-show="tabsStore?.activeTab == Tab.Topic && outlineStore.headings.length > 0">
-                    <template v-slot:header>{{ topicStore.name }}</template>
+                <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Topic">
+                    <template v-slot:header>
+                        <div @click="scrollToTitle" class="outline-title">{{ topicStore.name }}</div>
+                    </template>
                     <template v-slot:body>
 
                         <SidebarOutline />
@@ -164,6 +168,15 @@ const { $urlHelper } = useNuxtApp()
         margin-top: 20px;
         position: sticky;
         top: 60px;
+
+        .outline-title {
+            cursor: pointer;
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                color: @memo-blue-link;
+            }
+        }
     }
 }
 
