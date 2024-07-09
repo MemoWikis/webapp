@@ -11,7 +11,7 @@ const topicStore = useTopicStore()
 
 const route = useRoute()
 const openFilter = ref(true)
-const expiresDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
+const expiryDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
 
 const alertOnMounted = ref(false)
 const alertOnMountedMsg = ref('')
@@ -91,7 +91,7 @@ watch(() => topicStore.questionCount, (count) => {
 <template>
     <div class="row">
         <div class="col-xs-12" v-if="learningSessionConfigurationStore?.showFilter">
-            <TopicLearningSessionConfiguration :open-filter="openFilter" :expires-date="expiresDate"
+            <TopicLearningSessionConfiguration :open-filter="openFilter" :expiry-date="expiryDate"
                 cookie-name="show-top-dropdown">
                 <slot>
                     <div class="session-progress-bar">
