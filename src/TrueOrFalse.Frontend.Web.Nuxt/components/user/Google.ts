@@ -10,14 +10,17 @@ export class Google {
 
         window.google?.accounts.id.prompt((res: any) => {
             if (res.isNotDisplayed()) {
+
                 window.google.accounts.oauth2.initTokenClient({
                     client_id: config.public.gsiClientKey,
                     itp_support: false,
                     scope: 'openid',
                     callback: this.handleCredentialResponse,
                 })
+
+                handleErrorResponse(res.getNotDisplayedReason())
             }
-        });
+        })
     }
 
     public static loadGsiClient() {
@@ -45,7 +48,7 @@ export class Google {
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
             method: 'POST', body: { token: e.credential }, mode: 'cors', credentials: 'include', cache: 'no-cache'
-        }).catch((error) => console.log(error.data))
+        }).catch((error) => handleErrorResponse(error.data))
         if (result && 'success' in result && result.success === true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)
@@ -56,5 +59,20 @@ export class Google {
         }
     }
 }
-if (process.client)
+
+const handleErrorResponse = (errorMessage: string) => {
+    const alertStore = useAlertStore()
+        alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: errorMessage}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+
+        alertStore.$onAction(({ name, after }) => {
+        if (name == 'closeAlert') {
+            after((result) => {
+                if (result.cancelled == false && result.id == 'reloadPage')
+                    window.location.reload()
+            })
+        }
+    })
+}
+
+if (import.meta.client)
     window.handleGoogleCredentialResponse = Google.handleCredentialResponse
