@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using static CategoryDeleter;
 
 public class DeleteTopicStoreController(
     SessionUser sessionUser,
@@ -84,20 +85,35 @@ public class DeleteTopicStoreController(
         return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion);
     }
 
-    public readonly record struct DeleteJson(int id, int parentForQuestionsId);
+    public readonly record struct DeleteRequest(int TopicToDeleteId, int? ParentForQuestionsId);
+
+    public record struct DeleteResponse(
+        bool Success,
+        bool? HasChildren = null,
+        bool? IsNotCreatorOrAdmin = null,
+        RedirectParent? RedirectParent = null,
+        string? MessageKey = null);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public CategoryDeleter.DeleteTopicResult Delete([FromBody] DeleteJson deleteJson)
+    public DeleteResponse Delete([FromBody] DeleteRequest deleteRequest)
     {
-        if (deleteJson.parentForQuestionsId == 0)
-            return new CategoryDeleter.DeleteTopicResult(Success: false,
-                MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected);
+        if (EntityCache.TopicHasQuestion(deleteRequest.TopicToDeleteId))
+        {
 
-        if (deleteJson.parentForQuestionsId == deleteJson.id)
-            return new CategoryDeleter.DeleteTopicResult(Success: false,
-                MessageKey: FrontendMessageKeys.Error.Category.NewTopicIdIsTopicIdToBeDeleted);
+            if (deleteRequest.ParentForQuestionsId == 0)
+                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected);
 
-        return categoryDeleter.DeleteTopic(deleteJson.id, deleteJson.parentForQuestionsId);
+            if (deleteRequest.ParentForQuestionsId == deleteRequest.TopicToDeleteId)
+                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Category.NewTopicIdIsTopicIdToBeDeleted);
+        }
+
+        var deleteResult = categoryDeleter.DeleteTopic(deleteRequest.TopicToDeleteId, deleteRequest.ParentForQuestionsId);
+
+        return new DeleteResponse(
+            Success: deleteResult.Success,
+            HasChildren: deleteResult.HasChildren,
+            IsNotCreatorOrAdmin: deleteResult.IsNotCreatorOrAdmin,
+            RedirectParent: deleteResult.RedirectParent);
     }
 }

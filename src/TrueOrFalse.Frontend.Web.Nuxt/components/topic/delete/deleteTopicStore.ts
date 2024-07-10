@@ -80,10 +80,10 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 method: 'POST', 
                 mode: 'cors', 
                 credentials: 'include',
-                body: JSON.stringify({
-                    id: this.id,
-                    parentForQuestionsId: this.suggestedNewParent?.id
-                })
+                body: {
+                    topicToDeleteId: this.id,
+                    parentForQuestionsId: this.suggestedNewParent?.id ? this.suggestedNewParent.id : null
+                }
             })
             if (!!result && result.success) {                 
                 const { $urlHelper } = useNuxtApp()
