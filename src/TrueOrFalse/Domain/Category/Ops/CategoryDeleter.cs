@@ -116,8 +116,11 @@
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
-        if (EntityCache.TopicHasQuestion(topicToDeleteId) && newParentForQuestionsId != null)
+        var hasQuestions = EntityCache.TopicHasQuestion(topicToDeleteId);
+        if (hasQuestions && newParentForQuestionsId != null)
             MoveQuestionsToParent(topicToDeleteId, (int)newParentForQuestionsId);
+        else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
+            return new DeleteTopicResult(MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected, Success: false);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
