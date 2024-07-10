@@ -102,22 +102,22 @@
         RedirectParent? RedirectParent = null,
         string? MessageKey = null);
 
-    public DeleteTopicResult DeleteTopic(int id, int? parentId)
+    public DeleteTopicResult DeleteTopic(int topicToDeleteId, int? newParentForQuestionsId)
     {
-        var redirectParent = GetRedirectTopic(id);
-        var topic = _categoryRepo.GetById(id);
+        var redirectParent = GetRedirectTopic(topicToDeleteId);
+        var topic = _categoryRepo.GetById(topicToDeleteId);
 
         if (topic == null)
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        var parentIds = EntityCache.GetCategory(id)?
+        var parentIds = EntityCache.GetCategory(topicToDeleteId)?
             .Parents()
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
-        if (topic.CountQuestionsAggregated > 0 && parentId != null)
-            MoveQuestionsToParent(id, (int)parentId);
+        if (EntityCache.TopicHasQuestion(topicToDeleteId) && newParentForQuestionsId != null)
+            MoveQuestionsToParent(topicToDeleteId, (int)newParentForQuestionsId);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
