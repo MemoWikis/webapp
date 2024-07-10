@@ -38,13 +38,9 @@ watch(() => props.openFilter, (val) => {
         showFilterDropdown.value = true
 })
 watch(showFilterDropdown, (val) => {
-    const cookie: any = {}
-    if (props.expiryDate)
-        cookie.value = useCookie(props.cookieName, { expires: props.expiryDate })
-    else {
-        cookie.value = useCookie(props.cookieName)
-    }
-    cookie.value = val.toString()
+    const cookieOptions = props.expiryDate ? { expires: props.expiryDate } : {};
+    const cookie = useCookie(props.cookieName, cookieOptions);
+    cookie.value = val.toString();
 })
 </script>
 
