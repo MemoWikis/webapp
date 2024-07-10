@@ -61,6 +61,12 @@ public class EntityCache
         return categoryQuestionList;
     }
 
+    public static bool TopicHasQuestion(int topicId)
+    {
+        return EntityCache.GetQuestionsIdsForCategory(topicId)?
+            .Any() ?? false;
+    }
+
     public static IList<QuestionCacheItem> GetQuestionsForCategory(int categoryId)
     {
         return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));

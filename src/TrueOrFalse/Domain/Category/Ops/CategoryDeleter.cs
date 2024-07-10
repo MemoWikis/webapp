@@ -102,7 +102,7 @@
         RedirectParent? RedirectParent = null,
         string? MessageKey = null);
 
-    public DeleteTopicResult DeleteTopic(int id, int parentId)
+    public DeleteTopicResult DeleteTopic(int id, int? parentId)
     {
         var redirectParent = GetRedirectTopic(id);
         var topic = _categoryRepo.GetById(id);
@@ -116,8 +116,8 @@
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
-        if (topic.CountQuestionsAggregated > 0)
-            MoveQuestionsToParent(id, parentId);
+        if (topic.CountQuestionsAggregated > 0 && parentId != null)
+            MoveQuestionsToParent(id, (int)parentId);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
