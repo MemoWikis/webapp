@@ -75,21 +75,19 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
 
         contextTopic.Persist();
 
-
         var categoryRepo = R<CategoryRepository>();
 
         var questionContext = ContextQuestion.New();
-
 
         questionContext.AddQuestion("question1", creator: creator, categories: new List<Category> { child });
         var parentId = 0;
         RecycleContainerAndEntityCache();
 
-        var exception = Assert.Throws<NullReferenceException>(() =>
-        {
-            R<CategoryDeleter>().DeleteTopic(child.Id, parentId);
-        });
-        Assert.AreEqual(exception.Message, "parent is null");
+        var result = R<CategoryDeleter>().DeleteTopic(child.Id, parentId);
+
+        Assert.AreEqual(result.Success, false);
+        Assert.AreEqual(result.MessageKey, FrontendMessageKeys.Error.Category.TopicNotSelected);
+
     }
 }
 
