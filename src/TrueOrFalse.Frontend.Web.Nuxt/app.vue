@@ -235,6 +235,17 @@ function logError(e: any) {
 	}
 
 }
+
+useHead(() => ({
+
+	meta: [
+		{
+			name: 'viewport',
+			content: 'width=device-width, initial-scale=1.0, interactive-widget=resizes-content'
+		},
+
+	]
+}))
 </script>
 
 <template>

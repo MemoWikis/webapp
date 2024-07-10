@@ -119,6 +119,7 @@ props.editor.on('blur', () => {
     focused.value = false
 })
 const { isMobile } = useDevice()
+
 </script>
 <template>
     <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
