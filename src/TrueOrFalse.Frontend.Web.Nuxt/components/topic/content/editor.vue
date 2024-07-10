@@ -26,8 +26,6 @@ const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 
-const currentNodeIndex = ref()
-
 const editor = useEditor({
     content: topicStore.initialContent,
     extensions: [
@@ -110,16 +108,6 @@ topicStore.$onAction(({ name, after }) => {
     })
 })
 
-function updateCursorIndex() {
-    if (editor.value == null)
-        return
-
-    const cursorIndex = editor.value.state.selection.from
-    const resolvedPos = editor.value.state.doc.resolve(cursorIndex)
-    const nodeIndex = resolvedPos.index(0) || 0
-    outlineStore.nodeIndex = nodeIndex
-}
-
 function updateHeadingIds() {
     if (editor.value == null)
         return
@@ -140,7 +128,6 @@ const spinnerStore = useSpinnerStore()
 
 onMounted(() => {
     spinnerStore.hideSpinner()
-
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
     if (contentArray)
         outlineStore.setHeadings(contentArray)
@@ -156,12 +143,14 @@ onMounted(() => {
     }
 })
 
+
+
 </script>
 
 <template>
     <template v-if="editor">
         <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" />
-        <editor-content :editor="editor" class="col-xs-12" @click="updateCursorIndex" />
+        <editor-content :editor="editor" class="col-xs-12" ref="editorRef" />
     </template>
 </template>
 
