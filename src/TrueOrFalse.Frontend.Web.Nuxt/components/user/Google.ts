@@ -1,4 +1,5 @@
-﻿import { AlertType, messages, useAlertStore } from "../alert/alertStore"
+﻿import { CustomPino } from "~/logs/logger"
+import { AlertType, messages, useAlertStore } from "../alert/alertStore"
 import { useUserStore, CurrentUser } from "./userStore"
 
 declare const window: any
@@ -61,10 +62,13 @@ export class Google {
 }
 
 const handleErrorResponse = (errorMessage: string) => {
-    const alertStore = useAlertStore()
-        alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: errorMessage}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+    const log = new CustomPino()
+    log.error('Google Login Error', [{errorMessage}])
 
-        alertStore.$onAction(({ name, after }) => {
+    const alertStore = useAlertStore()
+    alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: errorMessage}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+
+    alertStore.$onAction(({ name, after }) => {
         if (name == 'closeAlert') {
             after((result) => {
                 if (result.cancelled == false && result.id == 'reloadPage')
