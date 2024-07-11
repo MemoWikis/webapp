@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using System;
+using System.Threading.Tasks;
 
-namespace TrueOrFalse.Frontend.Web1.Middlewares
+namespace TrueOrFalse.Frontend.Web.Middlewares
 {
     public class ErrorHandlerMiddleware
     {
