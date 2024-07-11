@@ -507,7 +507,7 @@ const { isMobile } = useDevice()
                 color: @memo-blue;
 
                 .is-active {
-                    color: @memo-link;
+                    color: @memo-blue-link;
                 }
             }
         }
