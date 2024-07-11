@@ -42,19 +42,29 @@ watch(showFilterDropdown, (val) => {
     const cookie = useCookie(props.cookieName, cookieOptions);
     cookie.value = val.toString();
 })
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
     <div class="session-configurator" :class="{ 'col-xs-12': props.isInQuestionList }">
         <div class="session-config-header">
             <div class="filter-button selectable-item session-title" @click="showFilterDropdown = !showFilterDropdown"
-                :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '']">
-                Filter
-                <div>
-                    <font-awesome-icon v-if="showFilterDropdown" icon="fa-solid fa-chevron-up"
-                        class="filter-button-icon" />
-                    <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
-                </div>
+                :class="[showFilterDropdown ? 'open' : 'closed', learningSessionConfigurationStore.activeCustomSettings ? 'activeCustomSettings' : '', isMobile ? 'is-mobile' : '']">
+                <template v-if="isMobile">
+                    <div class="mobile-filter-icon">
+                        <font-awesome-icon :icon="['fas', 'filter']" :class="{ 'is-active': showFilterDropdown }" />
+                    </div>
+                </template>
+                <template v-else>
+                    Filter
+                    <div>
+                        <font-awesome-icon v-if="showFilterDropdown" icon="fa-solid fa-chevron-up"
+                            class="filter-button-icon" />
+                        <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
+                    </div>
+                </template>
+
             </div>
             <slot></slot>
         </div>
@@ -375,9 +385,7 @@ watch(showFilterDropdown, (val) => {
                             </div>
                             <div class="dropdown-spacer"></div>
                         </div>
-
                     </div>
-
                 </div>
             </div>
 
@@ -490,6 +498,18 @@ watch(showFilterDropdown, (val) => {
 
         &:hover {
             color: @memo-blue;
+        }
+
+        &.is-mobile {
+            min-width: 50px;
+
+            .mobile-filter-icon {
+                color: @memo-blue;
+
+                .is-active {
+                    color: @memo-blue-link;
+                }
+            }
         }
     }
 

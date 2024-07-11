@@ -59,7 +59,7 @@ watch(() => learningSessionConfigurationStore.showSelectionError, (val) => {
 })
 
 watch(() => userStore.isLoggedIn, async () => {
-    if (process.client) {
+    if (import.meta.client) {
         await learningSessionConfigurationStore.loadSessionFromLocalStorage()
     }
 })
@@ -86,6 +86,18 @@ watch(() => topicStore.questionCount, (count) => {
     if (count > 0)
         learningSessionConfigurationStore.showFilter = true
 })
+
+function stepBack() {
+    if (learningSessionStore.currentStep?.index === 0 || learningSessionStore.currentStep?.index == null)
+        return
+    learningSessionStore.changeActiveQuestion(learningSessionStore.currentStep?.index - 1)
+}
+
+function stepForward() {
+    if (learningSessionStore.currentStep?.index == null || learningSessionStore.steps.length === learningSessionStore.currentStep?.index + 1)
+        return
+    learningSessionStore.changeActiveQuestion(learningSessionStore.currentStep?.index + 1)
+}
 </script>
 
 <template>
@@ -101,16 +113,30 @@ watch(() => topicStore.questionCount, (count) => {
                                     :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
                                 </div>
                             </DevOnly> -->
+                            <div class="pager-container"></div>
                             <div class="step answered" :style="answeredWidth"></div>
                             <div class="step" :style="unansweredWidth"></div>
-
                         </div>
 
                         <div class="step-count">
                             <template v-if="learningSessionStore.currentStep">
-                                {{ learningSessionStore.currentStep?.index + 1 }} / {{
-            learningSessionStore.steps.length
-        }}
+                                <div class="pager-container left"
+                                    :class="{ 'no-step': learningSessionStore.currentStep?.index === 0 }"
+                                    @click="stepBack">
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']"
+                                        v-if="learningSessionStore.currentStep?.index > 0" />
+                                </div>
+                                <div>
+                                    {{ learningSessionStore.currentStep?.index + 1 }} /
+                                    {{ learningSessionStore.steps.length }}
+                                </div>
+                                <div class="pager-container right"
+                                    :class="{ 'no-step': learningSessionStore.steps.length === learningSessionStore.currentStep?.index + 1 }"
+                                    @click="stepForward">
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']"
+                                        v-if="learningSessionStore.steps.length > learningSessionStore.currentStep?.index + 1" />
+                                </div>
+
                             </template>
                         </div>
                         <div class="progress-percentage">{{ progressPercentage }}%</div>
@@ -164,11 +190,47 @@ watch(() => topicStore.questionCount, (count) => {
 
     .step-count {
         display: flex;
-        padding-left: 10px;
-        padding-right: 15px;
+        // padding-left: 10px;
+        // padding-right: 15px;
+        margin-right: 15px;
         flex-wrap: nowrap;
         align-items: center;
         z-index: 2;
+
+        .pager-container {
+            width: 35px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+
+            &.left {
+                margin-right: 5px;
+            }
+
+            &.right {
+                margin-left: 5px;
+            }
+
+            &:hover {
+                cursor: pointer;
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+
+            &:active {
+                background-color: rgba(0, 0, 0, 0.2);
+            }
+
+            &.no-step {
+
+                &:hover,
+                &:active {
+                    cursor: default;
+                    background: none;
+                }
+            }
+        }
     }
 
     .progress-percentage {
