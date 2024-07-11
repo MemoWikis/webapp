@@ -133,8 +133,11 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(imagesPath),
     RequestPath = "/Images"
 });
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseSession();
+app.UseMiddleware<AutomaticLoginMiddleware>();
+
 app.UseRouting();
 
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
@@ -148,8 +151,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHealthChecks("healthcheck_backend");
 });
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
-app.UseMiddleware<AutomaticLoginMiddleware>();
 
 app.Urls.Add("http://*:5069");
 
