@@ -57,19 +57,4 @@ public class LoginFromCookie
 
         sessionUser.Login(user);
     }
-
-    public static (bool Success, string? NewGuid) GetRenewPersistentCookieGuid(SessionUser sessionUser,
-        PersistentLoginRepo persistentLoginRepo,
-        UserReadingRepo userReadingRepo,
-        string cookieString)
-    {
-        Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString);
-        if (sessionUser.IsLoggedIn)
-        {
-            var newGuid = Guid.NewGuid().ToString();
-            sessionUser.User.AddRenewCookieGuid(newGuid);
-            return (true, newGuid);
-        }
-        return (false, null);
-    }
 }

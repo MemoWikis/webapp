@@ -1,25 +1,19 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TrueOrFalse.Frontend.Web.Middlewares
 {
-    public class AutomaticLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
+    public class AutomaticLoginMiddleware(RequestDelegate next, IServiceProvider serviceProvider)
     {
-        private readonly HashSet<string> _excludedPaths = new(StringComparer.OrdinalIgnoreCase)
-        {
-            "/apiVue/App/SessionStart",
-            "/apiVue/App/RenewPersistentCookie" // Add your other paths here
-        };
-
         public async Task InvokeAsync(HttpContext httpContext)
         {
+            var excludedPath = "/apiVue/App/RenewPersistentCookie";
 
-            if (_excludedPaths.Contains(httpContext.Request.Path))
+            if (httpContext.Request.Path.Equals(excludedPath, StringComparison.OrdinalIgnoreCase))
             {
-                await _next(httpContext);
+                await next(httpContext);
                 return;
             }
 
@@ -27,7 +21,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
 
             if (cookieString != null)
             {
-                using (var scope = _serviceProvider.CreateScope())
+                using (var scope = serviceProvider.CreateScope())
                 {
                     var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
                     if (!sessionUser.IsLoggedIn)
@@ -46,7 +40,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
                 }
             }
 
-            await _next(httpContext);
+            await next(httpContext);
         }
     }
 }

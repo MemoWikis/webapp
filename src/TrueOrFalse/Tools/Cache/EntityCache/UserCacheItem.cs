@@ -1,5 +1,4 @@
 using Seedworks.Lib.Persistence;
-using System.Collections.Concurrent;
 using static System.String;
 
 public class UserCacheItem : IUserTinyModel, IPersistable
@@ -124,34 +123,5 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users)
     {
         return users.Select(ToCacheUser);
-    }
-
-    private readonly ConcurrentDictionary<string, DateTime> _renewCookieGuids = new ConcurrentDictionary<string, DateTime>();
-
-    // TempKeys methods
-    public void AddRenewCookieGuid(string newGuid)
-    {
-        var expiryTime = DateTime.UtcNow.AddMinutes(5);
-        _renewCookieGuids.TryAdd(newGuid, expiryTime);
-    }
-
-    public bool TryConfirmRenewCookieGuid(string guid)
-    {
-        CleanupExpiredRenewCookieGuid();
-        return _renewCookieGuids.ContainsKey(guid);
-    }
-
-    public void RemoveRenewCookieGuid(string key) => _renewCookieGuids.TryRemove(key, out _);
-
-    private void CleanupExpiredRenewCookieGuid()
-    {
-        var now = DateTime.UtcNow;
-        foreach (var key in _renewCookieGuids.Keys.ToList())
-        {
-            if (_renewCookieGuids.TryGetValue(key, out var expiryTime) && expiryTime <= now)
-            {
-                _renewCookieGuids.TryRemove(key, out _);
-            }
-        }
     }
 }

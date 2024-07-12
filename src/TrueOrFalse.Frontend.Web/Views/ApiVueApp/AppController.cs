@@ -11,23 +11,6 @@ public class AppController(
     UserReadingRepo _userReadingRepo,
     HttpContext _httpContext) : BaseController(_sessionUser)
 {
-    public record struct SessionStartResponse(bool success, string? renewCookieGuid = null);
-
-    public record struct SessionStartRequest(string sessionStartGuid);
-    [HttpPost]
-    public SessionStartResponse SessionStart([FromBody] SessionStartRequest request)
-    {
-        var cookieString = Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieString != null && !IsLoggedIn && request.sessionStartGuid == Settings.NuxtSessionStartGuid)
-        {
-            var result = LoginFromCookie.GetRenewPersistentCookieGuid(_sessionUser, _persistentLoginRepo, _userReadingRepo, cookieString);
-            if (result.Success)
-                return new SessionStartResponse(true, result.NewGuid);
-        }
-
-        return new SessionStartResponse(false);
-    }
-
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
         int Id,
@@ -144,12 +127,11 @@ public class AppController(
     }
 
 
-    public record struct RenewCookieRequest(string sessionStartGuid);
     [HttpPost]
-    public void RenewPersistentCookie([FromBody] RenewCookieRequest request)
+    public void RenewPersistentCookie()
     {
         var cookieString = Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieString != null && !IsLoggedIn && request.sessionStartGuid == Settings.NuxtSessionStartGuid)
+        if (cookieString != null && !IsLoggedIn)
         {
             LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, cookieString, _httpContext);
         }

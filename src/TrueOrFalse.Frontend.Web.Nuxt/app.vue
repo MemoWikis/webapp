@@ -20,35 +20,35 @@ const { $urlHelper, $vfm, $logger } = useNuxtApp()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const renewCookieGuid = ref<string | null>(null)
 
-if (import.meta.server) {
+// if (import.meta.server) {
 
-	interface SessionStartResult {
-		success: boolean
-		renewCookieGuid?: string
-	}
+// 	interface SessionStartResult {
+// 		success: boolean
+// 		renewCookieGuid?: string
+// 	}
 
-	const { data: sessionStartResult } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
-		method: 'POST',
-		credentials: 'include',
-		mode: 'no-cors',
-		body: {
-			sessionStartGuid: config.sessionStartGuid
-		},
-		onRequest({ options }) {
-			options.headers = headers
-			options.baseURL = config.public.serverBase
-		},
-		onResponseError(context) {
-			throw createError({ statusMessage: context.error?.message })
-		}
-	})
+// 	const { data: sessionStartResult } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
+// 		method: 'POST',
+// 		credentials: 'include',
+// 		mode: 'no-cors',
+// 		body: {
+// 			sessionStartGuid: config.sessionStartGuid
+// 		},
+// 		onRequest({ options }) {
+// 			options.headers = headers
+// 			options.baseURL = config.public.serverBase
+// 		},
+// 		onResponseError(context) {
+// 			throw createError({ statusMessage: context.error?.message })
+// 		}
+// 	})
 
-	if (sessionStartResult.value?.success && sessionStartResult.value.renewCookieGuid) {
-		renewCookieGuid.value = sessionStartResult.value.renewCookieGuid
-	} else if (sessionStartResult.value?.success == false) {
-		// deletePersistentLoginCookie()
-	}
-}
+// 	if (sessionStartResult.value?.success && sessionStartResult.value.renewCookieGuid) {
+// 		renewCookieGuid.value = sessionStartResult.value.renewCookieGuid
+// 	} else if (sessionStartResult.value?.success == false) {
+// 		// deletePersistentLoginCookie()
+// 	}
+// }
 
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
@@ -225,9 +225,6 @@ onMounted(async () => {
 			method: 'POST',
 			credentials: 'include',
 			mode: 'no-cors',
-			body: {
-				renewCookieGuid: renewCookieGuid.value
-			},
 			onResponseError(context) {
 				throw createError({ statusMessage: context.error?.message })
 			}
