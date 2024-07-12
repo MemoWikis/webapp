@@ -1,19 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TrueOrFalse.Frontend.Web.Middlewares
 {
-    public class AutomaticLoginMiddleware(RequestDelegate next, IServiceProvider serviceProvider)
+    public class AutomaticLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
     {
+        private readonly HashSet<string> _excludedPaths = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "/apiVue/App/SessionStart",
+            "/apiVue/App/RenewPersistentCookie" // Add your other paths here
+        };
+
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            var excludedPath = "/App/SessionStart";
 
-            if (httpContext.Request.Path.Equals(excludedPath, StringComparison.OrdinalIgnoreCase))
+            if (_excludedPaths.Contains(httpContext.Request.Path))
             {
-                await next(httpContext);
+                await _next(httpContext);
                 return;
             }
 
@@ -21,7 +27,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
 
             if (cookieString != null)
             {
-                using (var scope = serviceProvider.CreateScope())
+                using (var scope = _serviceProvider.CreateScope())
                 {
                     var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
                     if (!sessionUser.IsLoggedIn)
@@ -30,7 +36,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
                         var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
                         try
                         {
-                            LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, cookieString, httpContext);
+                            LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, cookieString);
                         }
                         catch (Exception ex)
                         {
@@ -40,7 +46,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
                 }
             }
 
-            await next(httpContext);
+            await _next(httpContext);
         }
     }
 }

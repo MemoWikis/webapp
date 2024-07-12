@@ -18,17 +18,16 @@ const rootTopicChipStore = useRootTopicChipStore()
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
+const renewCookieGuid = ref<string | null>(null)
 
-if (import.meta.server && !!useCookie('persistentLogin').value) {
+if (import.meta.server) {
 
 	interface SessionStartResult {
 		success: boolean
-		loginGuid?: string
-		expiryDate?: string
-		alreadyLoggedIn?: boolean
+		renewCookieGuid?: string
 	}
 
-	const { data: result } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
+	const { data: sessionStartResult } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
 		method: 'POST',
 		credentials: 'include',
 		mode: 'no-cors',
@@ -44,35 +43,11 @@ if (import.meta.server && !!useCookie('persistentLogin').value) {
 		}
 	})
 
-	if (result.value?.success) {
-
-		const loginGuid = result.value.loginGuid
-		const expiryDate = result.value.expiryDate
-
-		if (loginGuid && expiryDate) {
-			setPersistentLoginCookie(loginGuid, expiryDate)
-		}
-	} else if (result.value?.success == false && result.value.alreadyLoggedIn == false) {
-		deletePersistentLoginCookie()
+	if (sessionStartResult.value?.success && sessionStartResult.value.renewCookieGuid) {
+		renewCookieGuid.value = sessionStartResult.value.renewCookieGuid
+	} else if (sessionStartResult.value?.success == false) {
+		// deletePersistentLoginCookie()
 	}
-}
-
-function deletePersistentLoginCookie() {
-	useCookie('persistentLogin', { maxAge: -1 }).value = ""
-	refreshCookie('persistentLogin')
-}
-
-function setPersistentLoginCookie(loginGuid: string, expiryDate: string) {
-	refreshCookie('persistentLogin')
-
-	useCookie('persistentLogin', {
-		expires: new Date(expiryDate),
-		sameSite: 'lax',
-		secure: config.public.environment != 'development',
-		httpOnly: true
-	}).value = loginGuid
-
-	refreshCookie('persistentLogin')
 }
 
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
@@ -243,6 +218,22 @@ useHead(() => ({
 		},
 	]
 }))
+
+onMounted(async () => {
+	if (import.meta.client) {
+		await $api<void>('/apiVue/App/RenewPersistentCookie', {
+			method: 'POST',
+			credentials: 'include',
+			mode: 'no-cors',
+			body: {
+				renewCookieGuid: renewCookieGuid.value
+			},
+			onResponseError(context) {
+				throw createError({ statusMessage: context.error?.message })
+			}
+		})
+	}
+})
 </script>
 
 <template>
