@@ -7,7 +7,6 @@ public class AppController(
     FrontEndUserData _frontEndUserData,
     SessionUser _sessionUser) : BaseController(_sessionUser)
 {
-
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
         int Id,

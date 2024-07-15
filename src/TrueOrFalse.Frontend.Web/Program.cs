@@ -154,6 +154,6 @@ app.UseEndpoints(endpoints =>
 
 app.Urls.Add("http://*:5069");
 
-var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();
-entityCacheInitilizer.Init();
+var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
+entityCacheInitializer.Init();
 app.Run();
