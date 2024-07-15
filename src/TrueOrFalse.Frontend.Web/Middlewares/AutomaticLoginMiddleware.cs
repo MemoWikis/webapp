@@ -5,23 +5,15 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Frontend.Web.Middlewares
 {
-    public class AutomaticLoginMiddleware(RequestDelegate next, IServiceProvider serviceProvider)
+    public class AutomaticLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
     {
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            var excludedPath = "/App/SessionStart";
-
-            if (httpContext.Request.Path.Equals(excludedPath, StringComparison.OrdinalIgnoreCase))
-            {
-                await next(httpContext);
-                return;
-            }
-
             var cookieString = httpContext.Request.Cookies[PersistentLoginCookie.Key];
 
             if (cookieString != null)
             {
-                using (var scope = serviceProvider.CreateScope())
+                using (var scope = _serviceProvider.CreateScope())
                 {
                     var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
                     if (!sessionUser.IsLoggedIn)
@@ -30,7 +22,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
                         var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
                         try
                         {
-                            LoginFromCookie.Run(sessionUser, persistentLoggingRepo, userReadingRepo, cookieString, httpContext);
+                            LoginFromCookie.RunToRestore(sessionUser, persistentLoggingRepo, userReadingRepo, cookieString);
                         }
                         catch (Exception ex)
                         {
@@ -40,7 +32,7 @@ namespace TrueOrFalse.Frontend.Web.Middlewares
                 }
             }
 
-            await next(httpContext);
+            await _next(httpContext);
         }
     }
 }

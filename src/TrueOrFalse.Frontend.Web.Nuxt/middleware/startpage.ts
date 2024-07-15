@@ -2,7 +2,6 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const headers = useRequestHeaders(['cookie']) as HeadersInit
-    const { $config, $urlHelper } = useNuxtApp()
     interface Result {
         name: string
         id: number
