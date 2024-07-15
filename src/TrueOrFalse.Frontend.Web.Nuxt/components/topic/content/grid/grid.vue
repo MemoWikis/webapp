@@ -343,7 +343,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 text-wrap: nowrap;
 
                 &.is-mobile {
-                    // font-size: 12px;
+                    line-height: 16px;
                 }
             }
 
