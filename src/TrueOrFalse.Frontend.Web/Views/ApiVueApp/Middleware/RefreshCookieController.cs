@@ -12,18 +12,11 @@ public class MiddlewareRefreshCookieController(SessionUser _sessionUser, Persist
     public GetResponse Get()
     {
         var cookieString = Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieString != null && !_sessionUser.IsLoggedIn)
+        if (cookieString != null)
         {
             var loginResult = LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, cookieString);
             if (loginResult.Success)
                 return new GetResponse(true, loginResult.LoginGuid, loginResult.ExpiryDate);
-
-            return new GetResponse(false);
-        }
-
-        if (_sessionUser.IsLoggedIn)
-        {
-            return new GetResponse(false, alreadyLoggedIn: true);
         }
 
         return new GetResponse(false);

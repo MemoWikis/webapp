@@ -22,6 +22,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         if (response.success) { 
             const loginGuid = response.loginGuid
             const expiryDate = response.expiryDate
+            nuxtApp.$logger.debug('renew-cookie.global.ts: guid', [{ guid: loginGuid }])
 
             if (loginGuid && expiryDate) {
                 useCookie('persistentLogin', {
