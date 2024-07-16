@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TrueOrFalse.Frontend.Web.Middlewares;
 
-public class AutomaticLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
+public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _serviceProvider)
 {
     public async Task InvokeAsync(HttpContext httpContext)
     {

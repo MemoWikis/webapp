@@ -93,12 +93,6 @@ builder.WebHost.ConfigureServices(services =>
     WebHostEnvironmentProvider.Initialize(services.BuildServiceProvider());
 });
 
-//Used for automatic login/session restore
-builder.Services.AddScoped<SessionUser>();
-builder.Services.AddScoped<ExtendedUserCache>();
-builder.Services.AddScoped<UserReadingRepo>();
-builder.Services.AddScoped<PersistentLoginRepo>();
-
 var app = builder.Build();
 var env = app.Environment;
 App.Environment = env;
@@ -136,7 +130,7 @@ app.UseStaticFiles(new StaticFileOptions
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseSession();
-app.UseMiddleware<AutomaticLoginMiddleware>();
+app.UseMiddleware<AutoLoginMiddleware>();
 
 app.UseRouting();
 

@@ -15,13 +15,4 @@ public class WritePersistentLoginToCookie
         var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
         httpContext.Response.Cookies.Append(PersistentLoginCookie.Key, userId + "-x-" + loginGuid, cookieOptions);
     }
-
-    public record struct CookieResult(string LoginGuid, DateTimeOffset ExpiryDate);
-    public static CookieResult Run(int userId, PersistentLoginRepo persistentLoginRepo)
-    {
-        var loginGuid = CreatePersistentLogin.Run(userId, persistentLoginRepo);
-        var expiryDate = DateTimeOffset.UtcNow.AddDays(180);
-
-        return new CookieResult(userId + "-x-" + loginGuid, expiryDate);
-    }
 }
