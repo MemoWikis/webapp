@@ -1,38 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
 
 namespace VueApp;
 
 public class AppController(
     FrontEndUserData _frontEndUserData,
-    SessionUser _sessionUser,
-    PersistentLoginRepo _persistentLoginRepo,
-    UserReadingRepo _userReadingRepo) : BaseController(_sessionUser)
+    SessionUser _sessionUser) : BaseController(_sessionUser)
 {
-    public record struct SessionStartResult(bool success, string? loginGuid = null, DateTimeOffset? expiryDate = null, bool alreadyLoggedIn = false);
-
-    public record struct SessionStartParam(string sessionStartGuid);
-    [HttpPost]
-    public SessionStartResult SessionStart([FromBody] SessionStartParam param)
-    {
-        var cookieString = Request.Cookies[PersistentLoginCookie.Key];
-        if (cookieString != null && !IsLoggedIn && param.sessionStartGuid == Settings.NuxtSessionStartGuid)
-        {
-            var loginResult = LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, cookieString);
-            if (loginResult.Success)
-                return new SessionStartResult(true, loginResult.LoginGuid, loginResult.ExpiryDate);
-
-            return new SessionStartResult(false);
-        }
-        if (IsLoggedIn)
-        {
-            return new SessionStartResult(false, alreadyLoggedIn: true);
-        }
-        return new SessionStartResult(false);
-
-    }
-
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
         int Id,

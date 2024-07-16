@@ -2,11 +2,12 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const headers = useRequestHeaders(['cookie']) as HeadersInit
-    const { $config, $urlHelper } = useNuxtApp()
     interface Result {
         name: string
         id: number
     }
+
+    const {$config, $urlHelper} = useNuxtApp()
     const result = await $api<Result>('/apiVue/MiddlewareStartpage/Get',
         {
             credentials: 'include',
