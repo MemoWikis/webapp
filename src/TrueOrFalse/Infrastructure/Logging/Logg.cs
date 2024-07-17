@@ -1,7 +1,7 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Rollbar;
 using Serilog;
+using System.Net;
 using TrueOrFalse.Infrastructure.Logging;
 using TrueOrFalse.Tools;
 
@@ -11,13 +11,13 @@ public class Logg : IRegisterAsInstancePerLifetime
     private static readonly Serilog.ILogger _logger;
     private static readonly Serilog.ILogger _loggerIsCrawler;
     private static readonly Serilog.ILogger _subscriptionLogger;
-    
+
     static Logg()
     {
         _logger = new LoggerConfiguration()
             .Enrich.WithProperty("Environment", App.Environment.EnvironmentName)
             .Enrich.WithProperty("IsCrawler", false)
-            .WriteTo.Seq(_seqUrl)
+            .WriteTo.Seq(_seqUrl, apiKey: Settings.SeqApiKey)
             .CreateLogger();
 
         _loggerIsCrawler = new LoggerConfiguration()
