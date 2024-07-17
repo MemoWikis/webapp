@@ -293,7 +293,7 @@ const { isDesktop } = useDevice()
             <div class="item-body">
 
                 <div class="item-name">
-                    <NuxtLink :to="$urlHelper.getTopicUrl(props.topic.name, props.topic.id)">
+                    <NuxtLink :to="$urlHelper.getTopicUrl(props.topic.name, props.topic.id)" @click.stop>
                         {{ props.topic.name }}
                     </NuxtLink>
                 </div>
