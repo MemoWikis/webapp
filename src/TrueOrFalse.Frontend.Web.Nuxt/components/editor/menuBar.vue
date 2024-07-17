@@ -111,9 +111,17 @@ async function command(commandString: string, e: Event) {
     await nextTick()
     props.editor.commands.focus()
 }
+const showScrollbar = ref(false)
+const scrollbarShown = ref(false)
 
 props.editor.on('focus', () => {
     focused.value = true
+
+    if (isMobile && !scrollbarShown.value) {
+        showScrollbar.value = true
+        setTimeout(() => { showScrollbar.value = false }, 1500)
+        scrollbarShown.value = true
+    }
 })
 props.editor.on('blur', () => {
     focused.value = false
@@ -126,7 +134,7 @@ const { isMobile } = useDevice()
 
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
-        }">
+        }" :class="{ 'ps--scrolling-x': showScrollbar }">
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
@@ -342,6 +350,9 @@ const { isMobile } = useDevice()
 
     &.is-mobile {
         max-width: 100vw;
+        padding: 0;
+        top: 45px;
+        z-index: 100;
     }
 
     .ps {
