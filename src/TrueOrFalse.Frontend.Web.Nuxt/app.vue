@@ -239,7 +239,7 @@ useHead(() => ({
 	meta: [
 		{
 			name: 'viewport',
-			content: `width=device-width, initial-scale=1.0, interactive-widget=resizes-content, ${isMobile && isIos ? 'maximum-scale=1' : ''}`
+			content: `width=device-width, initial-scale=1.0, interactive-widget=resizes-content}`
 		},
 	]
 }))
@@ -258,7 +258,7 @@ useHead(() => ({
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 			@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
-			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'is-ios': isIos }" />
 
 		<template #error="{ error }">
 			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
@@ -292,6 +292,12 @@ useHead(() => ({
 	h3 {
 		font-size: 22px;
 		line-height: 1.2;
+	}
+
+	&.is-ios {
+		input {
+			font-size: 16px !important;
+		}
 	}
 }
 </style>
