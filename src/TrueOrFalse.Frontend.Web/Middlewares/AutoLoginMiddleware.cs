@@ -25,13 +25,25 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
             using (var scope = _serviceProvider.CreateScope())
             {
                 var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
+                var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
+                var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+
                 if (!sessionUser.IsLoggedIn)
                 {
-                    if (persistentLoginCookieString != null)
-                        TryLoginFromPersistenLoginCookie(scope, sessionUser, persistentLoginCookieString);
-                    else
-                        await LoginFromCookie.RunToRestoreGoogle(sessionUser, scope.ServiceProvider.GetRequiredService<UserReadingRepo>(), googleCredentialCookieString);
+                    try
+                    {
+                        if (persistentLoginCookieString != null)
+                            LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, persistentLoginCookieString);
+                        else
+                            await LoginFromCookie.RunToRestoreGoogle(sessionUser, userReadingRepo, googleCredentialCookieString);
+                    }
+                    catch (Exception ex)
+                    {
+                        RemovePersistentLoginFromCookie.RunForGoogleCredentials(httpContext);
+                        RemovePersistentLoginFromCookie.Run(persistentLoginRepo, httpContext);
 
+                        Logg.Error(ex);
+                    }
                 }
             }
         }
@@ -39,17 +51,4 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
         await _next(httpContext);
     }
 
-    private void TryLoginFromPersistenLoginCookie(IServiceScope scope, SessionUser sessionUser, string cookieString)
-    {
-        var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-        var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
-        try
-        {
-            LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, cookieString);
-        }
-        catch (Exception ex)
-        {
-            Logg.Error(ex);
-        }
-    }
 }
