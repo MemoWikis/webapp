@@ -1,4 +1,5 @@
 ﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,7 +10,9 @@ public class GoogleController(
     SessionUser _sessionUser,
     UserReadingRepo _userReadingRepo,
     FrontEndUserData _frontEndUserData,
-    RegisterUser _registerUser) : Controller
+    RegisterUser _registerUser,
+    IHttpContextAccessor _httpContextAccessor,
+    PersistentLoginRepo _persistentLoginRepo) : Controller
 {
     public readonly record struct LoginJson(string token);
 
@@ -26,6 +29,7 @@ public class GoogleController(
         {
             var user = _userReadingRepo.UserGetByGoogleId(googleUser.Subject);
 
+
             if (user == null)
             {
                 var newUser = new GoogleUserCreateParameter
@@ -36,6 +40,7 @@ public class GoogleController(
                 };
 
                 var result = _registerUser.CreateAndLogin(newUser);
+                AppendGoogleCredentialCookie(json.token, _httpContextAccessor.HttpContext);
 
                 return new LoginResult
                 {
@@ -46,6 +51,8 @@ public class GoogleController(
             }
 
             _sessionUser.Login(user);
+            AppendGoogleCredentialCookie(json.token, _httpContextAccessor.HttpContext);
+
             return new LoginResult
             {
                 Success = true,
@@ -58,6 +65,12 @@ public class GoogleController(
             Success = false,
             MessageKey = FrontendMessageKeys.Error.Default
         };
+    }
+
+    private void AppendGoogleCredentialCookie(string token, HttpContext httpContext)
+    {
+        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
+        httpContext.Response.Cookies.Append(PersistentLoginCookie.GoogleKey, token);
     }
 
     [HttpPost]

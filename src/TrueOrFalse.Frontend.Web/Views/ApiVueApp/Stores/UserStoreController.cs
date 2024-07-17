@@ -33,6 +33,8 @@ public class UserStoreController(
 
         if (loginIsSuccessful)
         {
+            RemovePersistentLoginFromCookie.RunForGoogleCredentials(_httpContextAccessor.HttpContext);
+
             return new LoginResult
             {
                 Success = true,
@@ -52,6 +54,7 @@ public class UserStoreController(
     public LoginResult LogOut()
     {
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
+        RemovePersistentLoginFromCookie.RunForGoogleCredentials(_httpContextAccessor.HttpContext);
         _sessionUser.Logout();
         //delete aspnetsession cookie
         //_httpContextAccessor.HttpContext.Response.Cookies.Delete("key");
@@ -119,6 +122,7 @@ public class UserStoreController(
             };
 
         _registerUser.SetUser(json);
+        RemovePersistentLoginFromCookie.RunForGoogleCredentials(_httpContextAccessor.HttpContext);
 
         return new RegisterResult
         {
