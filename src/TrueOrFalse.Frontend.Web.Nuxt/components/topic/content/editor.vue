@@ -80,6 +80,8 @@ const editor = useEditor({
 
         if (editor.isActive('heading'))
             updateHeadingIds()
+
+        updateCursorIndex()
     },
     editorProps: {
         handlePaste: (view, pos, event) => {
@@ -143,7 +145,15 @@ onMounted(() => {
     }
 })
 
+function updateCursorIndex() {
+    if (editor.value == null)
+        return
 
+    const cursorIndex = editor.value.state.selection.from
+    const resolvedPos = editor.value.state.doc.resolve(cursorIndex)
+    const nodeIndex = resolvedPos.index(0) || 0
+    outlineStore.nodeIndex = nodeIndex
+}
 
 </script>
 
