@@ -16,6 +16,7 @@ services:
       - Paths__LomExportPath=${LOM_EXPORT_PATH}
       - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
       - General__SeqUrl=${SEQ_URL:-http://host.docker.internal:5341}
+      - General__SeqApiKey=${SEQ_API_KEY:-error}
       - General__CanonicalHost=${CANONICAL_HOST:-error}
       - General__ConnectionString=${CONNECTION_STRING:-error}
       - General__Environment=${ENVIRONMENT:-error}
