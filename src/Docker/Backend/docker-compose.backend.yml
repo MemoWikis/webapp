@@ -35,6 +35,7 @@ services:
       - Email__EmailFrom=${EMAIL_FROM:-error}
       - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
       - Redis__Url=${REDIS_URL:-error}
+      - Google__ClientId=${GOOGLE_CLIENT_ID:-error}
     restart: always
     
 networks:

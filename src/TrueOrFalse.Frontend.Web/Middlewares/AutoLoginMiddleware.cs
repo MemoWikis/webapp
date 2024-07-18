@@ -17,23 +17,32 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
             return;
         }
 
-        var cookieString = httpContext.Request.Cookies[PersistentLoginCookie.Key];
+        var persistentLoginCookieString = httpContext.Request.Cookies[PersistentLoginCookie.Key];
+        var googleCredentialCookieString = httpContext.Request.Cookies[PersistentLoginCookie.GoogleKey];
 
-        if (cookieString != null)
+        if (persistentLoginCookieString != null || googleCredentialCookieString != null)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
+
+
                 if (!sessionUser.IsLoggedIn)
                 {
                     var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-                    var persistentLoggingRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+                    var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
                     try
                     {
-                        LoginFromCookie.RunToRestore(sessionUser, persistentLoggingRepo, userReadingRepo, cookieString);
+                        if (persistentLoginCookieString != null)
+                            LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, persistentLoginCookieString);
+                        else
+                            await LoginFromCookie.RunToRestoreGoogle(sessionUser, userReadingRepo, googleCredentialCookieString);
                     }
                     catch (Exception ex)
                     {
+                        RemovePersistentLoginFromCookie.RunForGoogleCredentials(httpContext);
+                        RemovePersistentLoginFromCookie.Run(persistentLoginRepo, httpContext);
+
                         Logg.Error(ex);
                     }
                 }
@@ -42,4 +51,5 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
 
         await _next(httpContext);
     }
+
 }
