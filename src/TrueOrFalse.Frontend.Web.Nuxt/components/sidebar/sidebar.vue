@@ -23,11 +23,6 @@ function scrollToTitle() {
     document.getElementById("TopicTitle")?.scrollIntoView({ behavior: 'smooth', block: 'end' })
 }
 
-const topictTitleHighlighted = ref(false)
-
-function highlightTopicTitle(highlighted: boolean) {
-    topictTitleHighlighted.value = highlighted
-}
 </script>
 
 <template>
@@ -93,12 +88,8 @@ function highlightTopicTitle(highlighted: boolean) {
                 </div>
 
                 <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Topic">
-                    <template v-slot:header>
-                        <div @click="scrollToTitle" class="outline-title"
-                            :class="{ 'current-heading': topictTitleHighlighted }">{{ topicStore.name }}</div>
-                    </template>
                     <template v-slot:body>
-                        <SidebarOutline @highlight-topic-title="highlightTopicTitle" />
+                        <SidebarOutline />
                     </template>
                 </SidebarCard>
             </template>
