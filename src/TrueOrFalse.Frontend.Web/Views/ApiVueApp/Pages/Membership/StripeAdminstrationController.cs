@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace VueApp;
 
@@ -13,22 +13,20 @@ public class StripeAdminstrationController(StripeSubscriptionManger _stripeSubsc
         return await _stripeSubscriptionManger.GetCancelPlanSessionUrl();
     }
 
-    public readonly record struct CompletedSubscriptionJson(string priceId);
+    public readonly record struct CompletedSubscriptionRequest(string PriceId);
 
-    public readonly record struct SubscriptionResult(bool Success, string Id);
+    public readonly record struct CompletedSubscriptionResult(bool Success, string Id);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public async Task<SubscriptionResult> CompletedSubscription(
-        [FromBody] CompletedSubscriptionJson json)
+    public async Task<CompletedSubscriptionResult> CompletedSubscription([FromBody] CompletedSubscriptionRequest request)
     {
-        var sessionId =
-            await _stripeSubscriptionManger.CreateStripeSubscriptionSession(json.priceId);
-        if (sessionId.Equals("-1"))
+        var sessionId = await _stripeSubscriptionManger.CreateStripeSubscriptionSession(request.PriceId);
+        if (sessionId == null)
         {
-            return new SubscriptionResult { Success = false };
+            return new CompletedSubscriptionResult { Success = false };
         }
 
-        return new SubscriptionResult { Success = true, Id = sessionId };
+        return new CompletedSubscriptionResult { Success = true, Id = sessionId };
     }
 }

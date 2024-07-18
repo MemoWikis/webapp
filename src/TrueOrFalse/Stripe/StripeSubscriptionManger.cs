@@ -34,15 +34,14 @@ public class StripeSubscriptionManger(
         return customer.Id;
     }
 
-    public async Task<string> CreateStripeSubscriptionSession(string priceId)
+    public async Task<string?> CreateStripeSubscriptionSession(string priceId)
     {
         var user = sessionUser.User;
 
         string customerId;
         if (user.StripeId == null)
         {
-            customerId = await CreateStripeCustomer(user.Name, user.EmailAddress,
-                user.Id);
+            customerId = await CreateStripeCustomer(user.Name, user.EmailAddress, user.Id);
         }
         else
         {
@@ -87,7 +86,7 @@ public class StripeSubscriptionManger(
         catch (StripeException e)
         {
             Logg.Error(e);
-            return "-1";
+            return null;
         }
     }
 
