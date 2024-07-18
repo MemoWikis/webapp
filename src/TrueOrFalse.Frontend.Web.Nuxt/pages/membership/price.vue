@@ -5,24 +5,24 @@ interface FaqItem {
 }
 const faqItems = ref<FaqItem[]>([
     {
-        "question": "Was passiert, wenn mein Abo ausläuft?",
-        "answer": "Wenn dein Abo ausläuft, kannst du keine weiteren privaten Inhalte über die Basislimits hinaus mehr anlegen. Allerdings werden deine bestehenden Inhalte nicht gelöscht."
+        question: "Was passiert, wenn mein Abo ausläuft?",
+        answer: "Wenn dein Abo ausläuft, kannst du keine weiteren privaten Inhalte über die Basislimits hinaus mehr anlegen. Allerdings werden deine bestehenden Inhalte nicht gelöscht."
     },
     {
-        "question": "Werden private Inhalte gelöscht, wenn mein Abo ausläuft?",
-        "answer": "Nein, deine privaten Inhalte werden nicht gelöscht, es sei denn, du möchtest das. Du kannst weiterhin auf sie zugreifen, auch wenn dein Abo ausgelaufen ist."
+        question: "Werden private Inhalte gelöscht, wenn mein Abo ausläuft?",
+        answer: "Nein, deine privaten Inhalte werden nicht gelöscht, es sei denn, du möchtest das. Du kannst weiterhin auf sie zugreifen, auch wenn dein Abo ausgelaufen ist."
     },
     {
-        "question": "Was bedeutet “uneingeschränkte Inhalte”, gibt es keine Limits?",
-        "answer": "Bislang haben wir keine Limits vorgesehen. Wenn jedoch technische Grenzen erreicht werden, informieren wir dich. Bei normaler Nutzung solltest du keine technischen Limits erreichen. Limits für Bilder und Videos werden noch festgelegt."
+        question: "Was bedeutet “uneingeschränkte Inhalte”, gibt es keine Limits?",
+        answer: "Bislang haben wir keine Limits vorgesehen. Wenn jedoch technische Grenzen erreicht werden, informieren wir dich. Bei normaler Nutzung solltest du keine technischen Limits erreichen. Limits für Bilder und Videos werden noch festgelegt."
     },
     {
-        "question": "Wie erfolgt die Bezahlung?",
-        "answer": "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform (https://stripe.com/at/privacy). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
+        question: "Wie erfolgt die Bezahlung?",
+        answer: "Die Zahlung erfolgt über den Zahlungsdienstleister Stripe. Stripe arbeitet GDRP/DSGVO-konform (https://stripe.com/at/privacy). Wir erhalten von Stripe nur eine Rückmeldung über den Zahlungserfolg. Alle weiteren Vorgänge, wie Rechnungslegung und Verwaltung der Kreditkartendaten, werden von Stripe durchgeführt."
     },
     {
-        "question": "Meine Kreditkarte wurde abgelehnt und ich möchte auf meine privaten Inhalte zugreifen. Wie gehe ich vor?",
-        "answer": "Auch wenn dein Abo abgelaufen ist oder deine Kreditkarte bei der Verlängerung abgelehnt wurde, kannst du weiterhin auf deine privaten Inhalte zugreifen."
+        question: "Meine Kreditkarte wurde abgelehnt und ich möchte auf meine privaten Inhalte zugreifen. Wie gehe ich vor?",
+        answer: "Auch wenn dein Abo abgelaufen ist oder deine Kreditkarte bei der Verlängerung abgelehnt wurde, kannst du weiterhin auf deine privaten Inhalte zugreifen."
     },
 ])
 
@@ -172,5 +172,4 @@ onBeforeMount(() => {
     }
 
 }
-</style> 
-
+</style>
