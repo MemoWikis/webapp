@@ -65,6 +65,6 @@ public class Settings
     public static string SeqApiKey => _configuration["General:SeqApiKey"];
 
 
-    public static string NuxtSessionStartGuid => _configuration["Nuxt:SessionStartGuid"];
+    public static string GoogleClientId => _configuration["Google:ClientId"];
 
 }

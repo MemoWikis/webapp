@@ -64,8 +64,7 @@ public class LoginFromCookie
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
-            Audience = new List<string>()
-                { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
+            Audience = new List<string> { Settings.GoogleClientId }
         };
 
         try

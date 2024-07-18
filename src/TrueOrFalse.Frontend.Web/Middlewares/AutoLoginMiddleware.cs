@@ -25,11 +25,12 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
             using (var scope = _serviceProvider.CreateScope())
             {
                 var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
-                var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
-                var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+
 
                 if (!sessionUser.IsLoggedIn)
                 {
+                    var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
+                    var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
                     try
                     {
                         if (persistentLoginCookieString != null)
