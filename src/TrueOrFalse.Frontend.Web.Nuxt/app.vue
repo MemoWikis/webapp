@@ -201,7 +201,7 @@ useHead(() => ({
 		}
 	]
 }))
-const { isMobile, isIos } = useDevice()
+const { isMobile } = useDevice()
 const statusCode = ref<number>(0)
 function clearErr() {
 	statusCode.value = 0
@@ -258,7 +258,7 @@ useHead(() => ({
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 			@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
-			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'is-ios': isIos }" />
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 
 		<template #error="{ error }">
 			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
@@ -292,12 +292,6 @@ useHead(() => ({
 	h3 {
 		font-size: 22px;
 		line-height: 1.2;
-	}
-
-	&.is-ios {
-		input {
-			font-size: 16px !important;
-		}
 	}
 }
 </style>
