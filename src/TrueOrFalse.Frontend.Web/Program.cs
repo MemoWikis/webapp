@@ -6,17 +6,17 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Exceptions;
 using Stripe;
 using System;
 using System.IO;
 using System.Text.Json;
 using TrueOrFalse.Environment;
-using TrueOrFalse.Frontend.Web1.Middlewares;
+using TrueOrFalse.Frontend.Web.Middlewares;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using static System.Int32;
-using Serilog;
-using Serilog.Exceptions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -127,8 +127,11 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(imagesPath),
     RequestPath = "/Images"
 });
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseSession();
+app.UseMiddleware<AutoLoginMiddleware>();
+
 app.UseRouting();
 
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
@@ -142,10 +145,9 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHealthChecks("healthcheck_backend");
 });
 
-app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.Urls.Add("http://*:5069");
 
-var entityCacheInitilizer = app.Services.GetRequiredService<EntityCacheInitializer>();
-entityCacheInitilizer.Init();
+var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
+entityCacheInitializer.Init();
 app.Run();

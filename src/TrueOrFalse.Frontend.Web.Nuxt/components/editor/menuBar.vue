@@ -111,9 +111,17 @@ async function command(commandString: string, e: Event) {
     await nextTick()
     props.editor.commands.focus()
 }
+const showScrollbar = ref(false)
+const scrollbarShown = ref(false)
 
 props.editor.on('focus', () => {
     focused.value = true
+
+    if (isMobile && !scrollbarShown.value) {
+        showScrollbar.value = true
+        setTimeout(() => { showScrollbar.value = false }, 1500)
+        scrollbarShown.value = true
+    }
 })
 props.editor.on('blur', () => {
     focused.value = false
@@ -122,12 +130,12 @@ const { isMobile } = useDevice()
 
 </script>
 <template>
-    <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
+    <div class="menubar-container col-xs-12 is-focused" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
 
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
-        }">
-            <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
+        }" :class="{ 'ps--scrolling-x': showScrollbar }">
+            <div class="menubar is-hidden is-focused" :class="{ 'is-focused': focused }" v-if="props.editor">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
                     @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
@@ -150,7 +158,9 @@ const { isMobile } = useDevice()
                 </button>
 
                 <template v-if="heading">
-                    <div class="menubar__divider"></div>
+                    <div class="menubar__divider__container">
+                        <div class="menubar__divider"></div>
+                    </div>
 
                     <button class="menubar__button"
                         :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
@@ -171,7 +181,9 @@ const { isMobile } = useDevice()
                     </button>
                 </template>
 
-                <div class="menubar__divider"></div>
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
                 <button class="menubar__button" @mousedown="command('outdent', $event)">
                     <font-awesome-icon :icon="['fas', 'outdent']" />
@@ -196,7 +208,9 @@ const { isMobile } = useDevice()
                     <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
 
-                <div class="menubar__divider"></div>
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
                     @mousedown="command('blockquote', $event)">
@@ -226,7 +240,9 @@ const { isMobile } = useDevice()
                     <font-awesome-icon :icon="['far', 'window-minimize']" transform="top-4" />
                 </button>
 
-                <div class="menubar__divider"></div>
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
                 <button class="menubar__button" @mousedown="command('undo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-left" />
@@ -342,6 +358,9 @@ const { isMobile } = useDevice()
 
     &.is-mobile {
         max-width: 100vw;
+        padding: 0;
+        top: 45px;
+        z-index: 100;
     }
 
     .ps {
@@ -382,12 +401,16 @@ const { isMobile } = useDevice()
     }
 }
 
-.menubar__divider {
-    height: calc(100% - 12px);
-    width: 1px;
-    background: @memo-grey-lighter;
-    min-height: 12px;
-    margin: 6px;
+.menubar__divider__container {
+    background: white;
+    padding: 6px;
+
+    .menubar__divider {
+        height: 100%;
+        width: 1px;
+        background: @memo-grey-lighter;
+        min-height: 12px;
+    }
 }
 
 .menubar__button {

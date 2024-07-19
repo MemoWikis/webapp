@@ -20,4 +20,14 @@ public class RemovePersistentLoginFromCookie
             httpContext?.Response.Cookies.Delete(PersistentLoginCookie.Key);
         }
     }
+
+    public static void RunForGoogleCredentials(HttpContext httpContext)
+    {
+        var existingCookieValue =
+            httpContext?.Request.Cookies[PersistentLoginCookie.GoogleKey];
+        if (existingCookieValue != null)
+        {
+            httpContext?.Response.Cookies.Delete(PersistentLoginCookie.GoogleKey);
+        }
+    }
 }

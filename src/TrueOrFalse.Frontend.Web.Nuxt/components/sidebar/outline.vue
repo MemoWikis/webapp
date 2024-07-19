@@ -8,23 +8,25 @@ const topicStore = useTopicStore()
 
 const { $urlHelper } = useNuxtApp()
 
-const emit = defineEmits(['highlightTopicTitle'])
 const currentHeadingId = ref<string | null>()
 const previousIndex = ref()
+
+
 function getCurrentHeadingId() {
     if (outlineStore.headings.length === 0) return
-    emit('highlightTopicTitle', false)
+
     const headings = outlineStore.headings
     const offset = 120
     let headingId: string | null = null
 
+    const startIndex = headings.findIndex(h => h.id === currentHeadingId.value)
     if (outlineStore.editorIsFocused) {
         if (previousIndex.value === outlineStore.nodeIndex) return
         previousIndex.value = outlineStore.nodeIndex
 
         const currentSectionId = findCurrentSectionId()
         if (currentSectionId !== null) {
-            currentHeadingId.value = currentSectionId
+            traverseIds(startIndex, currentSectionId)
             return
         }
     }
@@ -38,15 +40,43 @@ function getCurrentHeadingId() {
         const topPosition = rect.top + window.scrollY
 
         if (window.scrollY >= topPosition - offset) {
+
             headingId = heading.id
         } else {
             break
         }
     }
-
-    if (headingId === null) emit('highlightTopicTitle', true)
-    currentHeadingId.value = headingId
+    traverseIds(startIndex, headingId)
     return
+}
+
+function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+const cancelToken = ref<number>(0)
+async function traverseIds(startIndex: number, endId: string | null) {
+    const token = ++cancelToken.value
+    const headings = outlineStore.headings
+    const initialEndIndex = headings.findIndex(h => h.id === endId)
+    if (startIndex == initialEndIndex) return
+    if (startIndex === -1) startIndex = 0
+    let endIndex = initialEndIndex
+    if (endIndex === -1 || endIndex === null) endIndex = 0
+
+    if (startIndex <= endIndex) {
+        for (let i = startIndex; i <= endIndex; i++) {
+            if (token !== cancelToken.value) return
+            currentHeadingId.value = headings[i].id
+            await sleep(50)
+        }
+    } else {
+        for (let i = startIndex; i >= endIndex; i--) {
+            if (token !== cancelToken.value) return
+            currentHeadingId.value = headings[i].id
+            await sleep(50)
+        }
+    }
+    if (initialEndIndex === -1 || initialEndIndex === null) currentHeadingId.value = null
 }
 
 function findCurrentSectionId(): string | null {
@@ -66,7 +96,7 @@ function findCurrentSectionId(): string | null {
     return null
 }
 
-const throttledGetCurrentHeadingId = throttle(getCurrentHeadingId, 100)
+const throttledGetCurrentHeadingId = throttle(getCurrentHeadingId, 50)
 
 onMounted(async () => {
     window.addEventListener('scroll', throttledGetCurrentHeadingId)

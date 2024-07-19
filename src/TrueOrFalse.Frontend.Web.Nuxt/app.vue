@@ -19,62 +19,6 @@ const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
-if (import.meta.server && !!useCookie('persistentLogin').value) {
-
-	interface SessionStartResult {
-		success: boolean
-		loginGuid?: string
-		expiryDate?: string
-		alreadyLoggedIn?: boolean
-	}
-
-	const { data: result } = await useFetch<SessionStartResult>('/apiVue/App/SessionStart', {
-		method: 'POST',
-		credentials: 'include',
-		mode: 'no-cors',
-		body: {
-			sessionStartGuid: config.sessionStartGuid
-		},
-		onRequest({ options }) {
-			options.headers = headers
-			options.baseURL = config.public.serverBase
-		},
-		onResponseError(context) {
-			throw createError({ statusMessage: context.error?.message })
-		}
-	})
-
-	if (result.value?.success) {
-
-		const loginGuid = result.value.loginGuid
-		const expiryDate = result.value.expiryDate
-
-		if (loginGuid && expiryDate) {
-			setPersistentLoginCookie(loginGuid, expiryDate)
-		}
-	} else if (result.value?.success == false && result.value.alreadyLoggedIn == false) {
-		deletePersistentLoginCookie()
-	}
-}
-
-function deletePersistentLoginCookie() {
-	useCookie('persistentLogin', { maxAge: -1 }).value = ""
-	refreshCookie('persistentLogin')
-}
-
-function setPersistentLoginCookie(loginGuid: string, expiryDate: string) {
-	refreshCookie('persistentLogin')
-
-	useCookie('persistentLogin', {
-		expires: new Date(expiryDate),
-		sameSite: 'lax',
-		secure: config.public.environment != 'development',
-		httpOnly: true
-	}).value = loginGuid
-
-	refreshCookie('persistentLogin')
-}
-
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
@@ -243,6 +187,7 @@ useHead(() => ({
 		},
 	]
 }))
+
 </script>
 
 <template>
