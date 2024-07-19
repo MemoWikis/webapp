@@ -8,7 +8,7 @@ const userStore = useUserStore()
 
 const eMail = ref('')
 const password = ref('')
-const persistentLogin = ref(false)
+const persistentLogin = ref(true)
 async function login() {
 
     errorMessage.value = ''
@@ -138,7 +138,8 @@ onMounted(() => {
                 <template v-else-if="showPasswordReset">
                     <div>
                         <p>
-                            Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen Link,
+                            Gib hier die E-Mail-Adresse an, mit der du dich registriert hast. Wir schicken dir einen
+                            Link,
                             mit dem du dir ein neues Passwort setzen kannst.
                         </p>
                     </div>
@@ -181,14 +182,14 @@ onMounted(() => {
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
                                     <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookLogin"
                                         v-if="allowFacebookPlugin" @click="facebookLogin()">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
-                                            class="socialMediaLogo">
+                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
+                                            alt="FacebookLogin" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
                                     </div>
                                     <div class="btn btn-block cursor-hand socialMediaBtn" v-else
                                         @click="showFacebookPluginInfo = true">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin"
-                                            class="socialMediaLogo">
+                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
+                                            alt="FacebookLogin" class="socialMediaLogo">
                                         <div class="socialMediaLabel">weiter mit Facebook</div>
                                     </div>
                                 </div>
@@ -245,10 +246,10 @@ onMounted(() => {
                             </div>
                             <div class="infoContainer col-sm-12 noPadding">
                                 <div class="col-sm-4 noPadding">
-                                    <!-- <label class="cursor-hand">
+                                    <label class="cursor-hand">
                                         <input type="checkbox" class="cursor-hand" v-model="persistentLogin" />
                                         <span class="checkboxText">Angemeldet bleiben</span>
-                                    </label> -->
+                                    </label>
                                 </div>
                                 <div class="col-sm-4 col-sm-offset-4 noPadding" style="text-align: right;">
                                     <div class="btn btn-link" @click="showPasswordReset = true">
@@ -290,7 +291,8 @@ onMounted(() => {
                 </div>
                 <div class="row" v-else-if="showGooglePluginInfo">
                     <p>
-                        <button type="button" class="btn btn-primary pull-right memo-button" @click="loadGooglePlugin()">
+                        <button type="button" class="btn btn-primary pull-right memo-button"
+                            @click="loadGooglePlugin()">
                             Einverstanden
                         </button>
                         <button type="button" class="btn btn-default pull-right memo-button" style="margin-right:10px"

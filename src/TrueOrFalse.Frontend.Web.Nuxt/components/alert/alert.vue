@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { useAlertStore, AlertType } from './alertStore'
 
-import successImage1 from '~/assets/images/illustrations/hummingbird_flipped 500 x 500.png';
-import successImage2 from '~/assets/images/illustrations/parrot_flipped 500 x 500.png';
-import successImage3 from '~/assets/images/illustrations/girl_success2.png';
-import successImage4 from '~/assets/images/illustrations/bird_success 500 x 500.png';
-import neutralImage from '~/assets/images/illustrations/butterfly 500 x 500.png';
-import errorImage from '~/assets/images/illustrations/owl_error3 500 x 500.png';
+import successImage1 from '~/assets/images/illustrations/hummingbird_flipped 500 x 500.png'
+import successImage2 from '~/assets/images/illustrations/parrot_flipped 500 x 500.png'
+import successImage3 from '~/assets/images/illustrations/girl_success2.png'
+import successImage4 from '~/assets/images/illustrations/bird_success 500 x 500.png'
+import neutralImage from '~/assets/images/illustrations/butterfly 500 x 500.png'
+import errorImage from '~/assets/images/illustrations/owl_error3 500 x 500.png'
 
 const alertStore = useAlertStore()
 
@@ -19,13 +19,13 @@ const successImages = [
 ]
 
 onMounted(() => {
-    shuffleSuccessImage();
+    shuffleSuccessImage()
 })
 
 watch(() => alertStore.show, (show) => {
     if (!show) return
 
-    shuffleSuccessImage();
+    shuffleSuccessImage()
 })
 
 function shuffleSuccessImage(): void {
@@ -38,6 +38,23 @@ function shuffleSuccessImage(): void {
     }
 }
 
+const showDetails = ref(false)
+const hasImage = computed(() => {
+    return alertStore.msg?.customImg || alertStore.type == AlertType.Error || alertStore.type == AlertType.Success
+})
+
+function copyToClipboard() {
+    if (alertStore.msg?.customDetails) {
+        const text = alertStore.msg.customDetails
+        navigator.clipboard.writeText(text)
+    }
+}
+
+watch(() => alertStore.show, (show) => {
+    if (!show) {
+        showDetails.value = false
+    }
+})
 </script>
 
 <template>
@@ -47,23 +64,44 @@ function shuffleSuccessImage(): void {
             <div class="modal-content">
 
                 <div class="modal-body">
-                    <h3 v-if="alertStore.title != null && alertStore.title.length > 0">
-                        <font-awesome-icon v-if="alertStore.type == AlertType.Success" icon="fa-solid fa-circle-check"
-                            class="success" />
-                        <font-awesome-icon v-else-if="alertStore.type == AlertType.Error" icon="fa-solid fa-circle-xmark"
-                            class="error" />
-                        {{ alertStore.title }}
-                    </h3>
-                    <div class="alert-msg-container">
-                        <template v-if="alertStore.title == null || alertStore.title.length == 0">
-                            <img v-if="alertStore.type == AlertType.Error" width="200" :src="errorImage" />
-                            <img v-else-if="alertStore.type == AlertType.Success" width="200" :src="randomImageSuccess" />
-                        </template>
-                        <div class="alert-msg">
-                            {{ alertStore.text }}
+                    <div class="alert-body">
+                        <div class="alert-img-container" v-if="hasImage">
+                            <img v-if="alertStore.msg?.customImg" width="200" :src="alertStore.msg?.customImg" />
+                            <img v-else-if="alertStore.type == AlertType.Error" width="200" :src="errorImage" />
+                            <img v-else-if="alertStore.type == AlertType.Success" width="200"
+                                :src="randomImageSuccess" />
+                        </div>
+                        <div>
+                            <h3 v-if="alertStore.title != null && alertStore.title.length > 0"
+                                :class="{ 'has-image': hasImage }">
+                                <font-awesome-icon v-if="alertStore.type == AlertType.Success"
+                                    icon="fa-solid fa-circle-check" class="success" />
+                                <font-awesome-icon v-else-if="alertStore.type == AlertType.Error"
+                                    icon="fa-solid fa-circle-xmark" class="error" />
+                                {{ alertStore.title }}
+                            </h3>
+                            <div class="alert-msg-container" v-if="alertStore.text">
+                                <div class="alert-msg">
+                                    {{ alertStore.text }}
+                                </div>
+                            </div>
+                            <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
                         </div>
                     </div>
-                    <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
+                    <div v-if="alertStore.msg?.customDetails" class="alert-details">
+                        <div class="alert-details-label" @click="showDetails = !showDetails" v-if="!showDetails">
+                            Details anzeigen</div>
+                        <div v-if="showDetails" class="alert-details-code">
+                            <div class="code-container">
+                                <code> {{ alertStore.msg.customDetails }} </code>
+                            </div>
+                            <div class="copy-container">
+                                <div class="copy-icon" v-tooltip="'Quelltext kopieren'" @click="copyToClipboard">
+                                    <font-awesome-icon :icon="['fas', 'copy']" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -74,7 +112,7 @@ function shuffleSuccessImage(): void {
                     }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
                     <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
                         @click="alertStore.closeAlert(true)">
-                        Abbrechen
+                        {{ alertStore.cancelLabel }}
                     </button>
                     <div v-if="alertStore.msg != null && alertStore.msg.customBtn" v-html="alertStore.msg.customBtn"
                         @click="alertStore.closeAlert(false, alertStore.msg!.customBtnKey)">
@@ -101,7 +139,110 @@ function shuffleSuccessImage(): void {
     margin-right: 4px;
 }
 
-.alert-msg-container {
+.modal-footer {
+    padding-top: 0;
+    margin-top: 0;
+}
+
+@media(min-width: 992px) {
+    .modal-dialog {
+        margin: 200px auto;
+    }
+}
+
+.alert-body {
+    display: flex;
+
+    h3 {
+        &.has-image {
+            padding-left: 20px;
+        }
+    }
+
+    .alert-img-container {
+        min-width: 200px;
+        width: 200px;
+    }
+}
+
+.alert-details {
+    margin-top: 24px;
+
+    .alert-details-label {
+        cursor: pointer;
+        color: @memo-blue-link;
+        text-align: right;
+    }
+
+    .alert-details-code {
+        display: block;
+        padding: 9.5px;
+        margin: 0 0 10px;
+        font-size: 13px;
+        line-height: 1.42857143;
+        word-break: break-all;
+        word-wrap: break-word;
+        background-color: @memo-grey-lighter;
+        border: 1px solid @memo-grey-light;
+        border-radius: 4px;
+
+        .code-container {
+            max-height: 400px;
+            overflow-y: scroll;
+
+            code {
+                font-family: Menlo,
+                    Monaco,
+                    Consolas,
+                    "Courier New",
+                    monospace;
+
+                color: @memo-grey-darker;
+                background-color: transparent;
+                white-space: pre;
+
+            }
+        }
+
+        .copy-container {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            flex-direction: row-reverse;
+            margin-top: 24px;
+            cursor: pointer;
+
+            .copy-icon {
+                font-size: 18px;
+                padding: 8px;
+                border: solid 2px @memo-grey-light;
+                border-radius: 4px;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-left: 8px;
+                color: @memo-grey-light;
+                transition: all 0.1s ease-out;
+                background: @memo-grey-lighter;
+
+                &:hover {
+                    color: @memo-grey-dark;
+                    filter: brightness(0.95);
+                }
+
+                &:active {
+                    color: @memo-grey-dark;
+                    border: solid 2px @memo-grey-dark;
+                    filter: brightness(0.85);
+                }
+            }
+        }
+    }
+}
+
+:deep(.alert-msg-container) {
     padding: 25px 0 0;
     display: flex;
     justify-content: flex-start;
@@ -119,17 +260,6 @@ function shuffleSuccessImage(): void {
             padding-left: 20px;
             flex-grow: 1;
         }
-    }
-}
-
-.modal-footer {
-    padding-top: 0;
-    margin-top: 0;
-}
-
-@media(min-width: 992px) {
-    .modal-dialog {
-        margin: 200px auto;
     }
 }
 </style>

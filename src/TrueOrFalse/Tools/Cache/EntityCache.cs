@@ -20,7 +20,7 @@ public class EntityCache
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
         Cache.Mgr.Get<ConcurrentDictionary<int, QuestionCacheItem>>(CacheKeyQuestions);
 
-    public static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
+    private static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
 
     /// <summary>
@@ -35,6 +35,12 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
+    public static UserCacheItem? GetUserByIdNullable(int userId)
+    {
+        Users.TryGetValue(userId, out var user);
+        return user;
+    }
+
     public static UserCacheItem GetUserById(int userId)
     {
         if (Users.TryGetValue(userId, out var user))
@@ -44,7 +50,7 @@ public class EntityCache
     }
 
     public static ConcurrentDictionary<int, ConcurrentDictionary<int, int>>
-        GetCategoryQuestionsList(IList<QuestionCacheItem> questions)
+        GetCategoryQuestionsListForCacheInitilizer(IList<QuestionCacheItem> questions)
     {
         var categoryQuestionList = new ConcurrentDictionary<int, ConcurrentDictionary<int, int>>();
         foreach (var question in questions)
@@ -55,12 +61,18 @@ public class EntityCache
         return categoryQuestionList;
     }
 
+    public static bool TopicHasQuestion(int topicId)
+    {
+        return EntityCache.GetQuestionsIdsForCategory(topicId)?
+            .Any() ?? false;
+    }
+
     public static IList<QuestionCacheItem> GetQuestionsForCategory(int categoryId)
     {
         return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
     }
 
-    public static IList<int> GetQuestionsIdsForCategory(int categoryId)
+    public static List<int> GetQuestionsIdsForCategory(int categoryId)
     {
         CategoryQuestionsList.TryGetValue(categoryId, out var questionIds);
 
@@ -137,9 +149,20 @@ public class EntityCache
         }
     }
 
+    public static void AddQuestionsToCategory(int categoryId, List<int> questionIds)
+    {
+        foreach (int questionId in questionIds)
+        {
+            CategoryQuestionsList.AddOrUpdate(categoryId, new ConcurrentDictionary<int, int>(),
+                (k, existingList) => existingList);
+
+            CategoryQuestionsList[categoryId]?.AddOrUpdate(questionId, 0, (k, v) => 0);
+        }
+    }
+
     private static void AddQuestionToCategories(
         QuestionCacheItem question,
-        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestionsList,
+        ConcurrentDictionary<int, ConcurrentDictionary<int, int>> categoryQuestions,
         IList<CategoryCacheItem> categories = null)
     {
         if (categories == null)
@@ -149,10 +172,10 @@ public class EntityCache
 
         foreach (var category in categories)
         {
-            categoryQuestionsList.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
+            categoryQuestions.AddOrUpdate(category.Id, new ConcurrentDictionary<int, int>(),
                 (k, existingList) => existingList);
 
-            categoryQuestionsList[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
+            categoryQuestions[category.Id]?.AddOrUpdate(question.Id, 0, (k, v) => 0);
         }
     }
 
@@ -364,7 +387,7 @@ public class EntityCache
         .Where(q => q.Creator.Id == userId && q.IsPrivate())
         .Select(q => q.Id);
 
-    public static QuestionCacheItem GetQuestion(int questionId)
+    public static QuestionCacheItem? GetQuestion(int questionId)
     {
         Questions.TryGetValue(questionId, out var question);
         return question;

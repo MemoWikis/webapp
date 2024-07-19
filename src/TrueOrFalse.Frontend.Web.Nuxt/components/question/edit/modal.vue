@@ -83,7 +83,7 @@ async function search() {
         term: searchTerm.value,
     }
 
-    const result = await $fetch<TopicResult>('/apiVue/Search/Topic', {
+    const result = await $api<TopicResult>('/apiVue/Search/Topic', {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -182,6 +182,7 @@ function getData() {
     const dataExtension = {
         CategoryIds: topicIds.value,
         TextHtml: questionHtml.value,
+        QuestionExtensionHtml: questionExtensionHtml.value,
         DescriptionHtml: descriptionHtml.value,
         Solution: solution.toString(),
         SolutionType: solutionType.value,
@@ -197,7 +198,7 @@ function getData() {
     return { ...data, ...dataExtension }
 }
 async function updateQuestionCount() {
-    let count = await $fetch<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
+    let count = await $api<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -227,7 +228,7 @@ async function save() {
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
-    const result = await $fetch<FetchResult<QuestionListItem>>(url, {
+    const result = await $api<FetchResult<QuestionListItem>>(url, {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -324,7 +325,7 @@ const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
 async function getQuestionData(id: number) {
-    const result = await $fetch<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
+    const result = await $api<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -427,7 +428,10 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-                        <QuestionEditEditor :highlight-empty-fields="highlightEmptyFields"
+                        <QuestionEditFlashcardFront v-if="solutionType == SolutionType.FlashCard"
+                            :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
+                            ref="questionEditor" :content="questionHtml" />
+                        <QuestionEditEditor v-else :highlight-empty-fields="highlightEmptyFields"
                             @set-question-data="setQuestionData" ref="questionEditor" :content="questionHtml" />
                     </div>
 
@@ -450,7 +454,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
                         <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
-                            :content="descriptionHtml" @setDescriptionData="setDescriptionData" />
+                            :content="descriptionHtml" @set-description-data="setDescriptionData" />
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>

@@ -1,22 +1,25 @@
 ﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
 public class GoogleController(
     SessionUser _sessionUser,
     UserReadingRepo _userReadingRepo,
-    VueSessionUser _vueSessionUser,
-    RegisterUser _registerUser) : Controller
+    FrontEndUserData _frontEndUserData,
+    RegisterUser _registerUser,
+    IHttpContextAccessor _httpContextAccessor,
+    PersistentLoginRepo _persistentLoginRepo) : Controller
 {
     public readonly record struct LoginJson(string token);
 
     public readonly record struct LoginResult(
         bool Success,
         string MessageKey,
-        VueSessionUser.CurrentUserData Data);
+        FrontEndUserData.CurrentUserData Data);
 
     [HttpPost]
     public async Task<LoginResult> Login([FromBody] LoginJson json)
@@ -25,6 +28,7 @@ public class GoogleController(
         if (googleUser != null)
         {
             var user = _userReadingRepo.UserGetByGoogleId(googleUser.Subject);
+
 
             if (user == null)
             {
@@ -36,20 +40,23 @@ public class GoogleController(
                 };
 
                 var result = _registerUser.CreateAndLogin(newUser);
+                AppendGoogleCredentialCookie(json.token, _httpContextAccessor.HttpContext);
 
                 return new LoginResult
                 {
                     Success = result.Success,
                     MessageKey = result.MessageKey,
-                    Data = _vueSessionUser.GetCurrentUserData()
+                    Data = _frontEndUserData.Get()
                 };
             }
 
             _sessionUser.Login(user);
+            AppendGoogleCredentialCookie(json.token, _httpContextAccessor.HttpContext);
+
             return new LoginResult
             {
                 Success = true,
-                Data = _vueSessionUser.GetCurrentUserData()
+                Data = _frontEndUserData.Get()
             };
         }
 
@@ -58,6 +65,12 @@ public class GoogleController(
             Success = false,
             MessageKey = FrontendMessageKeys.Error.Default
         };
+    }
+
+    private void AppendGoogleCredentialCookie(string token, HttpContext httpContext)
+    {
+        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
+        httpContext.Response.Cookies.Append(PersistentLoginCookie.GoogleKey, token);
     }
 
     [HttpPost]
@@ -70,8 +83,7 @@ public class GoogleController(
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
-            Audience = new List<string>()
-                { "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com" }
+            Audience = new List<string> { Settings.GoogleClientId }
         };
 
         try

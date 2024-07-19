@@ -2,17 +2,18 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const headers = useRequestHeaders(['cookie']) as HeadersInit
-    const { $config, $urlHelper } = useNuxtApp()
     interface Result {
         name: string
         id: number
     }
-    const result = await $fetch<Result>('/apiVue/MiddlewareStartpage/Get',
+
+    const {$config, $urlHelper} = useNuxtApp()
+    const result = await $api<Result>('/apiVue/MiddlewareStartpage/Get',
         {
             credentials: 'include',
             mode: 'cors',
             onRequest({ options }) {
-                if (process.server) {
+                if (import.meta.server) {
                     options.headers = headers
                     options.baseURL = $config.public.serverBase
                 }

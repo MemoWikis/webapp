@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using System;
+using System.Threading.Tasks;
 
-namespace TrueOrFalse.Frontend.Web1.Middlewares
+namespace TrueOrFalse.Frontend.Web.Middlewares
 {
     public class ErrorHandlerMiddleware
     {
@@ -20,15 +20,16 @@ namespace TrueOrFalse.Frontend.Web1.Middlewares
 
             if (httpContext.Response.StatusCode == 404)
             {
-                Logg.r.Error("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(), httpContext.Request.Headers["Referer"]);
+                Logg.r.Warning("404 Resource Not Found - {@Url}, {@Referer}", httpContext.Request.GetDisplayUrl(),
+                    httpContext.Request.Headers["Referer"]);
             }
             else if (httpContext.Response.StatusCode == 500)
             {
-                Logg.Error(new NotFoundException("Internal Error"));
+                Logg.Error(new Exception("Internal Error"));
             }
             else if (httpContext.Response.StatusCode == 503)
             {
-                Logg.Error(new NotFoundException("Server unavailable"));
+                Logg.Error(new Exception("Server unavailable"));
             }
         }
     }

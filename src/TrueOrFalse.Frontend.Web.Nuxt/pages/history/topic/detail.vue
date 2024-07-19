@@ -44,7 +44,7 @@ const { data: changeDetail } = await useFetch<ChangeDetail>(route.params.firstEd
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -70,7 +70,7 @@ async function restore() {
         userStore.openLoginModal()
         return
     }
-    await $fetch(`/apiVue/HistoryTopicDetail/RestoreTopic?topicChangeId=${route.params.currentRevisionId}`, {
+    await $api(`/apiVue/HistoryTopicDetail/RestoreTopic?topicChangeId=${route.params.currentRevisionId}`, {
         method: 'GET',
         credentials: 'include',
         mode: 'cors',
@@ -96,7 +96,8 @@ async function restore() {
                         <div>
                             <NuxtLink :to="$urlHelper.getUserUrl(changeDetail.authorName, changeDetail.authorId)"
                                 class="author">
-                                <Image :src="changeDetail.authorImgUrl" :format="ImageFormat.Author" class="author-img" />
+                                <Image :src="changeDetail.authorImgUrl" :format="ImageFormat.Author"
+                                    class="author-img" />
                                 {{ changeDetail.authorName }}
                             </NuxtLink>
                             <div>

@@ -13,6 +13,7 @@ public class Category : DomainEntity, ICreator
     public virtual bool DisableLearningFunctions { get; set; }
     public virtual User Creator { get; set; }
     public virtual bool IsUserStartTopic { get; set; }
+    public virtual bool TextIsHidden { get; set; }
     public virtual string AuthorIds { get; set; } = "";
     public virtual string CategoriesToExcludeIdsString { get; set; }
 
@@ -45,8 +46,6 @@ public class Category : DomainEntity, ICreator
             CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated(userId);
     }
 
-    public virtual int CountQuestions { get; set; }
-    public virtual int CountSets { get; set; }
     public virtual string TopicMarkdown { get; set; }
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }
@@ -57,7 +56,6 @@ public class Category : DomainEntity, ICreator
     public virtual int TotalRelevancePersonalEntries { get; set; }
     public virtual bool IsHistoric { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
-    public virtual int FormerSetId { get; set; }
     public virtual bool SkipMigration { get; set; }
 
     public Category()

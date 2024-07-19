@@ -5,6 +5,8 @@ import { Author } from '../author/author'
 import { TopicItem } from '../search/searchHelper'
 import { GridTopicItem } from './content/grid/item/gridTopicItem'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
+import { ErrorCode } from '../error/errorCodeEnum'
 
 export class Topic {
 	canAccess: boolean = false
@@ -37,6 +39,9 @@ export class Topic {
 	}
 	gridItems: GridTopicItem[] = []
 	isChildOfPersonalWiki: boolean = false
+	textIsHidden: boolean = false
+	messageKey: string | null = null
+	errorCode: ErrorCode | null = null
 }
 
 export interface KnowledgeSummary {
@@ -90,7 +95,8 @@ export const useTopicStore = defineStore('topicStore', {
 			searchTopicItem: null as null | TopicItem,
 			knowledgeSummary: {} as KnowledgeSummary,
 			gridItems: [] as GridTopicItem[],
-			isChildOfPersonalWiki: false
+			isChildOfPersonalWiki: false,
+			textIsHidden: false,
 		}
 	},
 	actions: {
@@ -126,10 +132,13 @@ export const useTopicStore = defineStore('topicStore', {
 				this.knowledgeSummary = topic.knowledgeSummary
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
+				this.textIsHidden = topic.textIsHidden
 			}
 		},
 		async saveTopic() {
 			const userStore = useUserStore()
+			const snackbarStore = useSnackbarStore()
+
 			if (!userStore.isLoggedIn) {
 				userStore.openLoginModal()
 				return
@@ -142,15 +151,21 @@ export const useTopicStore = defineStore('topicStore', {
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
-			const result = await $fetch<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
+			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
 				method: 'POST', body: json, mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
-			if (result.success == true)
+			if (result.success == true) {
+				const data: SnackbarData = {
+                    type: 'success',
+                    text: messages.success.category.saved
+                }
+                snackbarStore.showSnackbar(data)
 				this.contentHasChanged = false
+			}
 			else if (result.success == false) {
 				const alertStore = useAlertStore()
 				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
@@ -167,7 +182,7 @@ export const useTopicStore = defineStore('topicStore', {
 		},
 
 		async refreshTopicImage() {
-			this.imgUrl = await $fetch<string>(`/apiVue/TopicStore/GetTopicImageUrl/${this.id}`, {
+			this.imgUrl = await $api<string>(`/apiVue/TopicStore/GetTopicImageUrl/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
@@ -176,7 +191,7 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 		},
 		async reloadKnowledgeSummary() {
-			this.knowledgeSummary = await $fetch<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary/${this.id}`, {
+			this.knowledgeSummary = await $api<KnowledgeSummary>(`/apiVue/TopicStore/GetUpdatedKnowledgeSummary/${this.id}`, {
 				method: 'GET', mode: 'cors', credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
@@ -185,8 +200,10 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 		},
 		async reloadGridItems() {
-			const result = await $fetch<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
-				method: 'GET', mode: 'cors', credentials: 'include',
+			const result = await $api<GridTopicItem[]>(`/apiVue/TopicStore/GetGridTopicItems/${this.id}`, {
+				method: 'GET', 
+				mode: 'cors', 
+				credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
@@ -195,7 +212,30 @@ export const useTopicStore = defineStore('topicStore', {
 
 			if (result)
 				this.gridItems = result
-		}
+		},
+		async hideOrShowText() {
+			if ((!!this.content && this.content.length > 0) || this.contentHasChanged)
+				return
+
+			const data = {
+				hideText: !this.textIsHidden,
+				topicId: this.id
+			}
+			const result = await $api<boolean>(`/apiVue/TopicStore/HideOrShowText/`, {
+				body: data,
+				method: 'POST', 
+				mode: 'cors', 
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
+
+			this.textIsHidden = result
+		},
+		
+
 	},
 	getters: {
 		getTopicName(): string {

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using static VueApp.ChildModifier;
 
 namespace VueApp;
@@ -95,7 +95,7 @@ public class TopicRelationEditController(
     public MoveChildResult MoveChild([FromBody] MoveChildParam param)
     {
         return MoveChild(
-            param.childId, 
+            param.childId,
             param.parentIdToRemove,
             param.parentIdToAdd);
     }
@@ -202,7 +202,7 @@ public class TopicRelationEditController(
         int[] topicIdsToFilter = null)
     {
         var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategoriesAsync(term, topicIdsToFilter)
+        var elements = await _search.GoAllCategoriesAsync(term)
             .ConfigureAwait(false);
 
         if (elements.Categories.Any())
@@ -228,14 +228,14 @@ public class TopicRelationEditController(
     {
         var items = new List<SearchTopicItem>();
         var elements = await _search
-            .GoAllCategoriesAsync(term, topicIdsToFilter)
+            .GoAllCategoriesAsync(term)
             .ConfigureAwait(false);
 
         if (elements.Categories.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
+                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId, topicIdsToFilter);
 
         var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartTopicId,
             _permissionCheck, _sessionUser.UserId);

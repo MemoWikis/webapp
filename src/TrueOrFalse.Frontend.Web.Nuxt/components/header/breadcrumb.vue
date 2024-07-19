@@ -170,7 +170,7 @@ async function getBreadcrumb() {
 		currentCategoryId: topicStore.id,
 	}
 	if (props.page == Page.Topic && topicStore.id > 0) {
-		const result = await $fetch<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
+		const result = await $api<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
 				body: data,
@@ -187,7 +187,7 @@ async function getBreadcrumb() {
 			sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
 		}
 	} else {
-		const result = await $fetch<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
+		const result = await $api<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
 			{
 				method: 'GET',
 				credentials: 'include',
@@ -336,9 +336,9 @@ const maxWidth = ref(150)
 				</span>
 			</NuxtLink>
 			<template #popper>
-				<div class="breadcrumb-dropdown dropdown-row" v-if="topicStore.id == personalWiki?.id">
+				<p class="breadcrumb-dropdown dropdown-row" v-if="topicStore.id == personalWiki?.id">
 					{{ topicStore.name }}
-				</div>
+				</p>
 			</template>
 		</VDropdown>
 
@@ -409,9 +409,9 @@ const maxWidth = ref(150)
 				{{ topicStore.name }}
 			</div>
 			<template #popper>
-				<div class="breadcrumb-dropdown dropdown-row">
+				<p class="breadcrumb-dropdown dropdown-row">
 					{{ topicStore.name }}
-				</div>
+				</p>
 			</template>
 		</VDropdown>
 
@@ -526,7 +526,7 @@ const maxWidth = ref(150)
 			display: block;
 
 			.root-topic-label {
-				padding-left: 6px;
+				padding-left: 8px;
 			}
 		}
 

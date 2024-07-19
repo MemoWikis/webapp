@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Seedworks.Lib;
+using System.Collections.Generic;
+using System.Linq;
 using TrueOrFalse.Search;
 
 public class SearchHelper
@@ -19,11 +19,46 @@ public class SearchHelper
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public void AddTopicItems(List<SearchTopicItem> items, GlobalSearchResult elements, PermissionCheck permissionCheck,
-        int userId)
+    public void AddTopicItems(
+        List<SearchTopicItem> items,
+        GlobalSearchResult elements,
+        PermissionCheck permissionCheck,
+        int userId,
+        int[] topicIdsToFilter = null) => items.AddRange(
+            elements.Categories
+                .Where(c => permissionCheck.CanView(c) &&
+                    (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
+                .Select(c => FillSearchTopicItem(c, userId))
+            );
+
+    public void AddPublicTopicItems(
+        List<SearchTopicItem> items,
+        GlobalSearchResult elements,
+        int userId,
+        int[] topicIdsToFilter = null) => items.AddRange(
+        elements.Categories
+            .Where(c => c.Visibility == CategoryVisibility.All &&
+                        (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
+            .Select(c => FillSearchTopicItem(c, userId))
+    );
+
+    public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
     {
-        items.AddRange(
-            elements.Categories.Where(permissionCheck.CanView).Select(c => FillSearchTopicItem(c, userId)));
+        CrumbtrailItem breadcrumbItem;
+
+        if (hasPublicQuestion)
+        {
+            if (breadcrumb.Items.Any(i => i.Category.Visibility == CategoryVisibility.All))
+            {
+                breadcrumbItem = breadcrumb.Items.Last(i => i.Category.Visibility == CategoryVisibility.All);
+                return breadcrumbItem.Category.Id;
+            }
+
+            return null;
+        }
+
+        breadcrumbItem = breadcrumb.Items.Last();
+        return breadcrumbItem.Category.Id;
     }
 
     public SearchTopicItem FillSearchTopicItem(CategoryCacheItem topic, int userId)
@@ -42,7 +77,7 @@ public class SearchHelper
             Visibility = (int)topic.Visibility
         };
     }
-    
+
     public void AddQuestionItems(List<SearchQuestionItem> items,
         GlobalSearchResult elements,
         PermissionCheck permissionCheck,
@@ -75,5 +110,4 @@ public class SearchHelper
                     .Url
             }));
     }
-
 }

@@ -40,7 +40,7 @@ function getClass(): string {
     let str = ''
     if (isMobile)
         str += 'is-mobile'
-    if (process.server)
+    if (import.meta.server)
         return str
     else return !learningSessionConfigurationStore.showFilter ? `${str} no-questions` : str
 }
@@ -92,7 +92,8 @@ function getClass(): string {
                                                 Alle Fragen zuklappen
                                             </div>
                                         </div>
-                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded" v-else>
+                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
+                                            v-else>
                                             <div class="dropdown-icon">
                                                 <font-awesome-icon icon="fa-solid fa-angles-down" />
                                             </div>

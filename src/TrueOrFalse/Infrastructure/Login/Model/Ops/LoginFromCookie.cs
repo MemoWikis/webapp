@@ -1,33 +1,80 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Google.Apis.Auth;
+using Microsoft.AspNetCore.Http;
 
 public class LoginFromCookie
 {
-    public static bool Run(SessionUser sessionUser, 
-        PersistentLoginRepo persistentLoginRepo, 
+    private static void Run(SessionUser sessionUser,
+        PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
-        IHttpContextAccessor httpContextAccessor)
+        string cookieString,
+        bool? deletePersistentCookie = false)
     {
-        var cookieValues = PersistentLoginCookie.GetValues(httpContextAccessor);
-
+        var cookieValues = PersistentLoginCookie.GetValues(cookieString);
         if (!cookieValues.Exists())
-            return false;
+            throw new Exception("Cookie values do not exist");
 
         var persistentLogin = persistentLoginRepo.Get(cookieValues.UserId, cookieValues.LoginGuid);
-
         if (persistentLogin == null)
-            return false;
+            throw new Exception("Persistent login does not exist");
 
         var user = userReadingRepo.GetById(cookieValues.UserId);
         if (user == null)
-            return false;
+            throw new Exception("User does not exist");
 
-        persistentLoginRepo.Delete(persistentLogin);
-        WritePersistentLoginToCookie.Run(cookieValues.UserId,
-            persistentLoginRepo, 
-            httpContextAccessor);
+        sessionUser.Login(user);
 
-        sessionUser.Login(user);            
+        if (deletePersistentCookie == true)
+            persistentLoginRepo.Delete(persistentLogin);
+    }
 
-        return true;
+    public static void Run(SessionUser sessionUser,
+        PersistentLoginRepo persistentLoginRepo,
+        UserReadingRepo userReadingRepo,
+        HttpContext httpContext)
+    {
+        var cookieString = httpContext?.Request.Cookies[PersistentLoginCookie.Key];
+
+        if (cookieString != null && httpContext != null)
+        {
+            Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: true);
+            RemovePersistentLoginFromCookie.RunForGoogleCredentials(httpContext);
+            WritePersistentLoginToCookie.Run(sessionUser.UserId, persistentLoginRepo, httpContext);
+        }
+    }
+
+    public static void RunToRestore(SessionUser sessionUser,
+        PersistentLoginRepo persistentLoginRepo,
+        UserReadingRepo userReadingRepo,
+        string cookieString) => Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: false);
+
+
+    public static async Task RunToRestoreGoogle(SessionUser sessionUser, UserReadingRepo userReadingRepo, string googleCredential)
+    {
+        var googleUser = await GetGoogleUser(googleCredential);
+        if (googleUser == null)
+            throw new Exception("GoogleCredentials are invalid");
+
+        var user = userReadingRepo.UserGetByGoogleId(googleUser.Subject);
+        if (user == null)
+            throw new Exception("User does not exist");
+
+        sessionUser.Login(user);
+    }
+    public static async Task<GoogleJsonWebSignature.Payload?> GetGoogleUser(string token)
+    {
+        var settings = new GoogleJsonWebSignature.ValidationSettings()
+        {
+            Audience = new List<string> { Settings.GoogleClientId }
+        };
+
+        try
+        {
+            return await GoogleJsonWebSignature.ValidateAsync(token, settings);
+        }
+        catch (InvalidJwtException e)
+        {
+            Logg.r.Error(e.ToString());
+            return null;
+        }
     }
 }

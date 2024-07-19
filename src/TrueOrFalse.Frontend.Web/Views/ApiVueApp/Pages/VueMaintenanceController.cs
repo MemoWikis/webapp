@@ -1,11 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Security;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Antiforgery;
+﻿using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Security;
+using System.Threading.Tasks;
 using TrueOrFalse;
 using TrueOrFalse.Search;
 using TrueOrFalse.Tools;
@@ -98,20 +98,6 @@ public class VueMaintenanceController(
         };
     }
 
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public VueMaintenanceResult UpdateFieldQuestionCountForTopics()
-    {
-        _updateQuestionCountForCategory.All(_categoryRepository);
-
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Feld: AnzahlFragen für Themen wurde aktualisiert."
-        };
-    }
-
     [ValidateAntiForgeryToken]
     [HttpPost]
     public VueMaintenanceResult UpdateUserReputationAndRankings()
@@ -158,7 +144,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> ReIndexAllQuestions()
     {
-        await _meiliSearchReIndexAllQuestions.Go();
+        await _meiliSearchReIndexAllQuestions.Run();
 
         return new VueMaintenanceResult
         {
@@ -173,7 +159,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> ReIndexAllTopics()
     {
-        await _meiliSearchReIndexCategories.Go();
+        await _meiliSearchReIndexCategories.Run();
 
         return new VueMaintenanceResult
         {
@@ -201,7 +187,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllQuestions()
     {
-        await _meiliSearchReIndexAllQuestions.Go();
+        await _meiliSearchReIndexAllQuestions.Run();
 
         return new VueMaintenanceResult
         {
@@ -215,7 +201,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllTopics()
     {
-        await _meiliSearchReIndexCategories.Go();
+        await _meiliSearchReIndexCategories.Run();
 
         return new VueMaintenanceResult
         {

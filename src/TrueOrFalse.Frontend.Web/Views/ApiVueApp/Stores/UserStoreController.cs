@@ -5,7 +5,7 @@ using TrueOrFalse.Domain.User;
 namespace VueApp;
 
 public class UserStoreController(
-    VueSessionUser _vueSessionUser,
+    FrontEndUserData _frontEndUserData,
     SessionUser _sessionUser,
     RegisterUser _registerUser,
     PersistentLoginRepo _persistentLoginRepo,
@@ -22,7 +22,7 @@ public class UserStoreController(
     JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
 {
     public readonly record struct LoginResult(
-        VueSessionUser.CurrentUserData Data,
+        FrontEndUserData.CurrentUserData Data,
         string MessageKey,
         bool Success);
 
@@ -33,10 +33,12 @@ public class UserStoreController(
 
         if (loginIsSuccessful)
         {
+            RemovePersistentLoginFromCookie.RunForGoogleCredentials(_httpContextAccessor.HttpContext);
+
             return new LoginResult
             {
                 Success = true,
-                Data = _vueSessionUser.GetCurrentUserData()
+                Data = _frontEndUserData.Get()
             };
         }
 
@@ -51,8 +53,11 @@ public class UserStoreController(
     [AccessOnlyAsLoggedIn]
     public LoginResult LogOut()
     {
-        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor);
+        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
+        RemovePersistentLoginFromCookie.RunForGoogleCredentials(_httpContextAccessor.HttpContext);
         _sessionUser.Logout();
+        //delete aspnetsession cookie
+        //_httpContextAccessor.HttpContext.Response.Cookies.Delete("key");
 
         if (!_sessionUser.IsLoggedIn)
             return new LoginResult
@@ -117,6 +122,7 @@ public class UserStoreController(
             };
 
         _registerUser.SetUser(json);
+        RemovePersistentLoginFromCookie.RunForGoogleCredentials(_httpContextAccessor.HttpContext);
 
         return new RegisterResult
         {

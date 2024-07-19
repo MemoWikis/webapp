@@ -4,8 +4,15 @@ import { Editor } from '@tiptap/vue-3'
 interface Props {
     editor: Editor
     heading?: boolean
+    isTopicContent?: boolean
+    allowImages?: boolean
 }
-const props = defineProps<Props>()
+
+const props = withDefaults(defineProps<Props>(), {
+    heading: true,
+    isTopicContent: false,
+    allowImages: true
+})
 const focused = ref(false)
 
 async function command(commandString: string, e: Event) {
@@ -28,6 +35,9 @@ async function command(commandString: string, e: Event) {
             break
         case 'h3':
             props.editor.commands.toggleHeading({ level: 3 })
+            break
+        case 'h4':
+            props.editor.commands.toggleHeading({ level: 4 })
             break
         case 'bulletList':
             props.editor.commands.toggleBulletList()
@@ -101,21 +111,30 @@ async function command(commandString: string, e: Event) {
     await nextTick()
     props.editor.commands.focus()
 }
+const showScrollbar = ref(false)
+const scrollbarShown = ref(false)
 
 props.editor.on('focus', () => {
     focused.value = true
+
+    if (isMobile && !scrollbarShown.value) {
+        showScrollbar.value = true
+        setTimeout(() => { showScrollbar.value = false }, 1500)
+        scrollbarShown.value = true
+    }
 })
 props.editor.on('blur', () => {
     focused.value = false
 })
 const { isMobile } = useDevice()
+
 </script>
 <template>
     <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
 
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
-        }">
+        }" :class="{ 'ps--scrolling-x': showScrollbar }">
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
@@ -138,21 +157,33 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-underline" />
                 </button>
 
-                <div class="menubar__divider"></div>
+                <template v-if="heading">
+                    <div class="menubar__divider__container">
+                        <div class="menubar__divider"></div>
+                    </div>
 
-                <button v-if="heading" class="menubar__button"
-                    :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
-                    @mousedown="command('h2', $event)">
-                    <b>H1</b>
-                </button>
+                    <button class="menubar__button"
+                        :class="{ 'is-active': props.editor.isActive('heading', { level: 2 }) }"
+                        @mousedown="command('h2', $event)">
+                        <b>H1</b>
+                    </button>
 
-                <button v-if="heading" class="menubar__button"
-                    :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
-                    @mousedown="command('h3', $event)">
-                    <b>H2</b>
-                </button>
+                    <button class="menubar__button"
+                        :class="{ 'is-active': props.editor.isActive('heading', { level: 3 }) }"
+                        @mousedown="command('h3', $event)">
+                        <b>H2</b>
+                    </button>
 
-                <div class="menubar__divider"></div>
+                    <button class="menubar__button"
+                        :class="{ 'is-active': props.editor.isActive('heading', { level: 4 }) }"
+                        @mousedown="command('h4', $event)">
+                        <b>H3</b>
+                    </button>
+                </template>
+
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
                 <button class="menubar__button" @mousedown="command('outdent', $event)">
                     <font-awesome-icon :icon="['fas', 'outdent']" />
@@ -173,11 +204,13 @@ const { isMobile } = useDevice()
                 </button>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('taskList') }"
-                    @mousedown="command('taskList', $event)">
+                    v-if="props.isTopicContent" @mousedown="command('taskList', $event)">
                     <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
 
-                <div class="menubar__divider"></div>
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
                     @mousedown="command('blockquote', $event)">
@@ -199,7 +232,7 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-link-slash" />
                 </button>
 
-                <button class="menubar__button" @mousedown="command('addImage', $event)">
+                <button class="menubar__button" @mousedown="command('addImage', $event)" v-if="props.allowImages">
                     <font-awesome-icon icon="fa-solid fa-image" />
                 </button>
 
@@ -207,7 +240,9 @@ const { isMobile } = useDevice()
                     <font-awesome-icon :icon="['far', 'window-minimize']" transform="top-4" />
                 </button>
 
-                <div class="menubar__divider"></div>
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
                 <button class="menubar__button" @mousedown="command('undo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-left" />
@@ -223,6 +258,8 @@ const { isMobile } = useDevice()
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .ps__rail-x {
     pointer-events: none;
 
@@ -236,6 +273,73 @@ const { isMobile } = useDevice()
 #AddQuestionBody {
     .menubar-container {
         max-width: calc(100vw - 62px)
+    }
+}
+
+.tiptap-image-container {
+    display: flex;
+
+    &.image-left {
+        justify-content: flex-start;
+    }
+
+    &.image-center {
+        justify-content: center;
+    }
+
+    &.image-right {
+        justify-content: flex-end;
+    }
+}
+
+.position-controller {
+    font-size: 0;
+    height: 36px;
+    display: flex;
+    flex-wrap: nowrap;
+    background: white;
+    width: 100%;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    width: 126px; // 3x 42px (button width)
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+
+    .menubar_button {
+        background: white;
+        border: hidden;
+        font-size: 18px;
+        width: 36px;
+        height: 36px;
+        margin: 0px;
+        color: @memo-grey-darker;
+        text-align: center;
+        padding: 0px 21px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: filter 0.1s;
+
+        &:hover {
+            filter: brightness(0.85);
+        }
+
+        &.is-active {
+            background: @memo-grey-light;
+        }
+
+        &:active {
+            filter: brightness(0.7);
+        }
+
+        &.last-btn {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
     }
 }
 </style>
@@ -254,6 +358,9 @@ const { isMobile } = useDevice()
 
     &.is-mobile {
         max-width: 100vw;
+        padding: 0;
+        top: 45px;
+        z-index: 100;
     }
 
     .ps {
@@ -270,8 +377,6 @@ const { isMobile } = useDevice()
         }
     }
 }
-
-
 
 .menubar {
     font-size: 0;
@@ -296,12 +401,16 @@ const { isMobile } = useDevice()
     }
 }
 
-.menubar__divider {
-    height: calc(100% - 12px);
-    width: 1px;
-    background: @memo-grey-lighter;
-    min-height: 12px;
-    margin: 6px;
+.menubar__divider__container {
+    background: white;
+    padding: 6px;
+
+    .menubar__divider {
+        height: 100%;
+        width: 1px;
+        background: @memo-grey-lighter;
+        min-height: 12px;
+    }
 }
 
 .menubar__button {

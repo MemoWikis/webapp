@@ -4,8 +4,8 @@ namespace VueApp;
 
 public class MiddlewareAuthController(SessionUser _sessionUser) : Controller
 {
-    [AccessOnlyAsLoggedIn]
     [AccessOnlyAsAdmin]
+    [AccessOnlyAsLoggedIn]
     [HttpGet]
     public bool Get()
     {

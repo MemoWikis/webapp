@@ -1,5 +1,3 @@
-<!-- eslint-disable no-undef -->
-<!-- eslint-disable vue/multi-word-component-names -->
 <script lang="ts" setup>
 import { TopicItem } from '../search/searchHelper'
 
@@ -13,7 +11,6 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits(['removeTopic'])
 
-/*eslint no-undef: "error"*/
 const hover = ref(false)
 const name = ref('')
 
@@ -32,7 +29,6 @@ name.value = props.topic.name.length > 30 ? props.topic.name.substring(0, 26) + 
 if (props.isSpoiler)
     showName.value = false
 
-/*eslint no-undef: "error"*/
 const { $urlHelper } = useNuxtApp()
 </script>
 

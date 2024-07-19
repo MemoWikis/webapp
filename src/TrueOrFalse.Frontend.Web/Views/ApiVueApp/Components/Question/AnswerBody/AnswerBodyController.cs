@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse;
 using TrueOrFalse.Web;
 
@@ -84,9 +84,7 @@ public class AnswerBodyController(
             TextHtml: q.TextHtml,
             Title: title,
             SolutionType: q.SolutionType,
-            RenderedQuestionTextExtended: q.TextExtended != null
-                ? MarkdownMarkdig.ToHtml(q.TextExtended)
-                : "",
+            RenderedQuestionTextExtended: q.GetRenderedQuestionTextExtended(),
             Description: q.Description,
             HasTopics: q.Categories.Any(),
             PrimaryTopicId: primaryTopic?.Id,
@@ -96,7 +94,8 @@ public class AnswerBodyController(
             IsInWishknowledge: _sessionUser.IsLoggedIn &&
                                q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
             QuestionViewGuid: Guid.NewGuid(),
-            IsLastStep: learningSession.Steps.Last() == step);
+            IsLastStep: learningSession.Steps.Last() == step,
+            IsPrivate: q.IsPrivate());
         return learningBody;
     }
 
@@ -110,10 +109,10 @@ public class AnswerBodyController(
         learningSession.CurrentStep.Answer = answer;
 
         var result = _answerQuestion.Run(
-            id, 
-            answer, 
-            _sessionUser.UserId, 
-            questionViewGuid, 
+            id,
+            answer,
+            _sessionUser.UserId,
+            questionViewGuid,
             0,
             0);
         var question = EntityCache.GetQuestion(id);
@@ -190,7 +189,8 @@ public class AnswerBodyController(
         bool IsCreator,
         bool IsInWishknowledge,
         Guid QuestionViewGuid,
-        bool IsLastStep);
+        bool IsLastStep,
+        bool IsPrivate);
 
     public record struct LearningResult(
         bool Correct,

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
@@ -169,7 +168,7 @@ public class LearningSessionStoreController(
         if (learningSession.CurrentIndex == json.index)
         {
             learningSession.SkipStep();
-            new StepResult
+            return new StepResult
             {
                 State = learningSession.CurrentStep.AnswerState,
                 Id = learningSession.CurrentStep.Question.Id,

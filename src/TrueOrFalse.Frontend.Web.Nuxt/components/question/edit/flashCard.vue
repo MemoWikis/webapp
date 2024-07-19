@@ -4,11 +4,11 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -18,6 +18,7 @@ const props = defineProps<Props>()
 const emit = defineEmits(['setFlashCardContent'])
 const alertStore = useAlertStore()
 const content = ref(null)
+const lowlight = createLowlight(all)
 const editor = useEditor({
     editable: true,
     extensions: [
@@ -40,7 +41,10 @@ const editor = useEditor({
             placeholder: 'Rückseite der Karteikarte',
             showOnlyCurrent: true,
         }),
-        Image
+        ImageResize.configure({
+            inline: true,
+            allowBase64: true,
+        })
     ],
     content: content.value,
     onUpdate: ({ editor }) => {

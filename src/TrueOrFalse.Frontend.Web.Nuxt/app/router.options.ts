@@ -73,11 +73,6 @@ export default <RouterConfig>{
             component: () => import('~/pages/question/[title]/[id].vue')
         },
         {
-            name: 'questionPage2',
-            path: '/Fragen/:title/:id(\\d+)/:step',
-            component: () => import('~/pages/question/[title]/[id].vue')
-        },
-        {
             name: 'usersPage',
             path: '/Nutzer',
             component: () => import('~/pages/user/users.vue'),
@@ -205,7 +200,7 @@ export default <RouterConfig>{
         {
             name: 'catchAll',
             path: '/:catchAll(.*)',
-            component: () => import('~/error.vue'),
+            component: () => import('~/pages/catchAll.vue'),
             hidden: true
         },
     ],

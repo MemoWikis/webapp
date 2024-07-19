@@ -7,14 +7,13 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
-import { Question } from '~/components/question/question'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 const highlightEmptyFields = ref(false)
 
@@ -39,6 +38,7 @@ const sessionConfigJson = ref(null as null | { [key: string]: any; })
 
 const alertStore = useAlertStore()
 
+const lowlight = createLowlight(all)
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -60,7 +60,7 @@ const editor = useEditor({
             placeholder: 'Vorderseite der Karteikarte',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         })
@@ -142,7 +142,7 @@ async function addFlashcard() {
         SessionConfig: sessionConfigJson.value
     }
 
-    const result = await $fetch<FetchResult<number>>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
+    const result = await $api<FetchResult<number>>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
         method: 'POST',
         body: json,
         mode: 'cors',

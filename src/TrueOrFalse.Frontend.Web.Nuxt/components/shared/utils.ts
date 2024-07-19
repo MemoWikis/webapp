@@ -1,10 +1,16 @@
-import { lowlight } from 'lowlight/lib/core'
 import { toHtml } from 'hast-util-to-html'
+import { all, createLowlight } from 'lowlight'
+
+const lowlight = createLowlight(all)
 
 export function getHighlightedCode(oldHtml: string) {
-    const lowlightNode = lowlight.highlightAuto(oldHtml)
-    const newHtml = toHtml(lowlightNode)
-    return newHtml
+    const root = lowlight.highlightAuto(oldHtml)
+    const newHtml = toHtml(root)
+
+    if (newHtml.length < oldHtml.length)
+        return oldHtml
+    else 
+        return newHtml
 }
 
 export function random(minVal: any, maxVal: any, floatVal: any = 'undefined'): number {
@@ -93,4 +99,26 @@ export function abbreviateNumberToM(number: number, localeString: string = 'de-D
         return `${parseInt(newNumber.toFixed(2)).toLocaleString(localeString)} ${mString}.`
     }
     return ''
+}
+
+export function getLastElement<T>(arr: T[]): T | undefined {
+    if (arr.length === 0) {
+        return undefined;
+    }
+    return arr[arr.length - 1];
+}
+
+export function slugify(text:string) {
+ return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/ä/g, 'ae')            // Replace ä with ae
+    .replace(/ö/g, 'oe')            // Replace ö with oe
+    .replace(/ü/g, 'ue')            // Replace ü with ue
+    .replace(/ß/g, 'ss')            // Replace ß with ss
+    .replace(/[^\w-]+/g, '')       // Remove all non-word chars
+    .replace(/--+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
 }

@@ -4,10 +4,9 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { Indent } from '../../editor/indent'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 
@@ -15,10 +14,12 @@ interface Props {
     highlightEmptyFields: boolean
     content: string
 }
+
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionData'])
+const lowlight = createLowlight(all)
 
 const editor = useEditor({
     extensions: [
@@ -40,10 +41,6 @@ const editor = useEditor({
             emptyNodeClass: 'is-empty',
             placeholder: 'Gib den Fragetext ein',
             showOnlyCurrent: true,
-        }),
-        Image.configure({
-            inline: true,
-            allowBase64: true,
         }),
         Indent
     ],
@@ -69,8 +66,10 @@ const editor = useEditor({
         emit('setQuestionData', editor)
     },
 })
-onMounted(() => {
+onMounted(async () => {
     editor.value?.commands.setContent(props.content)
+    await nextTick()
+    emit('setQuestionData', editor.value)
 })
 watch(() => props.content, (c) => {
     if (c != editor.value?.getHTML())
@@ -80,11 +79,11 @@ watch(() => props.content, (c) => {
 
 <template>
     <div v-if="editor">
-        <EditorMenuBar :editor="editor" />
+        <EditorMenuBar :editor="editor" :allow-images="false" />
         <editor-content :editor="editor"
             :class="{ 'is-empty': props.highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
         <div v-if="props.highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
-            Bitte
-            formuliere eine Frage.</div>
+            Bitte formuliere eine Frage.
+        </div>
     </div>
 </template>

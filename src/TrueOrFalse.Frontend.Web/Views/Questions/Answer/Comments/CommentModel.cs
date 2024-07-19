@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 
 public class CommentModel
 {
@@ -11,7 +10,7 @@ public class CommentModel
     public string CreationDate;
     public string CreationDateNiceText;
     public string CreatorUrl;
-    public string ImageUrl;
+    public string CreatorImgUrl;
     public string Title;
     public string Text;
 
@@ -26,12 +25,10 @@ public class CommentModel
     public IEnumerable<CommentModel> Answers = new List<CommentModel>();
     public int AnswersSettledCount = 0;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
     public bool ShowSettledAnswers;
 
     public CommentModel(Comment comment,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         bool showSettled = false)
     {
         Id = comment.Id;
@@ -46,9 +43,10 @@ public class CommentModel
         ShouldReasons = TrueOrFalse.ShouldReasons.ByKeys(comment.ShouldKeys);
         IsSettled = comment.IsSettled;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
         ShowSettledAnswers = showSettled;
-        ImageUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor).GetUrl_128px_square(comment.Creator).Url;
+        CreatorImgUrl = new UserImageSettings(comment.Creator.Id, _httpContextAccessor)
+            .GetUrl_128px_square(comment.Creator)
+            .Url;
 
 
         if (comment.Answers != null)
@@ -57,14 +55,14 @@ public class CommentModel
             {
                 Answers = comment.Answers
                     .OrderBy(x => x.DateCreated)
-                    .Select(x => new CommentModel(x, _httpContextAccessor, _webHostEnvironment, showSettled));
+                    .Select(x => new CommentModel(x, _httpContextAccessor, showSettled));
             }
             else
             {
                 Answers = comment.Answers
                     .Where(x => !x.IsSettled)
                     .OrderBy(x => x.DateCreated)
-                    .Select(x => new CommentModel(x, _httpContextAccessor, _webHostEnvironment));
+                    .Select(x => new CommentModel(x, _httpContextAccessor));
             }
             AnswersSettledCount = comment.Answers.Count(x => x.IsSettled);
         }

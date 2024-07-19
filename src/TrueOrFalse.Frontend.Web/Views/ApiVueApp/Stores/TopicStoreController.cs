@@ -1,6 +1,6 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace VueApp;
 
@@ -11,7 +11,8 @@ public class TopicStoreController(
     CategoryRepository _categoryRepository,
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo,
+    CategoryUpdater _categoryUpdater) : Controller
 {
     public readonly record struct SaveTopicParam(
         int id,
@@ -104,6 +105,12 @@ public class TopicStoreController(
         int CreatorId,
         bool CanDelete
     );
+
+    public readonly record struct HideOrShowItem(bool hideText, int topicId);
+
+    [HttpPost]
+    public bool HideOrShowText([FromBody] HideOrShowItem hideOrShowItem) =>
+        _categoryUpdater.HideOrShowTopicText(hideOrShowItem.hideText, hideOrShowItem.topicId);
 
     [HttpGet]
     public GridTopicItem[] GetGridTopicItems([FromRoute] int id)

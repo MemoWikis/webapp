@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using NHibernate;
-using NHibernate.Transform;
 using Seedworks.Lib.Persistence;
 
 public class CategoryValuationReadingRepo(ISession _session) : IRegisterAsInstancePerLifetime
@@ -29,23 +28,4 @@ public class CategoryValuationReadingRepo(ISession _session) : IRegisterAsInstan
                 q.CategoryId == categoryId &&
                 q.RelevancePersonal >= 0)
             .List<CategoryValuation>();
-
-    public IList<CategoryValuation> GetBy(IList<int> categoryIds, int userId)
-    {
-        if (!categoryIds.Any())
-            return new List<CategoryValuation>();
-
-        var sb = new StringBuilder();
-        sb.Append("SELECT * FROM CategoryValuation WHERE UserId = " + userId + " ");
-        sb.Append("AND (CategoryId = " + categoryIds[0]);
-
-        for (int i = 1; i < categoryIds.Count; i++)
-            sb.Append(" OR CategoryId = " + categoryIds[i]);
-
-        sb.Append(")");
-
-        return _repo.Session.CreateSQLQuery(sb.ToString())
-            .SetResultTransformer(Transformers.AliasToBean(typeof(CategoryValuation)))
-            .List<CategoryValuation>();
-    }
 }

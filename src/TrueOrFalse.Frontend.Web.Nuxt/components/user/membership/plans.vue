@@ -15,7 +15,7 @@ interface CheckoutSessionResult {
 }
 const { $logger } = useNuxtApp()
 const getStripeSessionId = async (priceId: string): Promise<string> => {
-    const result = await $fetch<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
+    const result = await $api<CheckoutSessionResult>('/apiVue/StripeAdminstration/CompletedSubscription', {
         method: 'POST',
         body: { priceId: priceId },
         credentials: 'include',
@@ -106,7 +106,7 @@ function contact() {
 const plans = ref()
 
 async function setPlanData() {
-    const limit = await $fetch<Subscription.BasicLimits>(`/apiVue/UserMembershipPlans/GetBasicLimits`, {
+    const limit = await $api<Subscription.BasicLimits>(`/apiVue/UserMembershipPlans/GetBasicLimits`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',

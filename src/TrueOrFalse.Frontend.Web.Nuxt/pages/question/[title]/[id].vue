@@ -1,15 +1,19 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { Page } from '~~/components/shared/pageEnum'
-import { Topic } from '~~/components/topic/topicStore'
+import { FooterTopics, Topic } from '~~/components/topic/topicStore'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
 import { AnswerQuestionDetailsResult } from '~/components/question/answerBody/answerQuestionDetailsResult'
+import { ErrorCode } from '~/components/error/errorCodeEnum'
+import { messages } from '~/components/alert/messages'
 
+const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
 interface Props {
+	footerTopics: FooterTopics
 	documentation: Topic
 }
 
@@ -20,17 +24,19 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 
 interface Question {
-	answerBodyModel: AnswerBodyModel
-	solutionData: SolutionData
-	answerQuestionDetailsModel: AnswerQuestionDetailsResult
+	answerBodyModel?: AnswerBodyModel
+	solutionData?: SolutionData
+	answerQuestionDetailsModel?: AnswerQuestionDetailsResult,
+	messageKey?: string
+	errorCode?: ErrorCode
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
 	{
 		credentials: 'include',
-		mode: 'no-cors',
+		mode: 'cors',
 		onRequest({ options }) {
-			if (process.server) {
+			if (import.meta.server) {
 				options.headers = headers
 				options.baseURL = config.public.serverBase
 			}
@@ -39,6 +45,13 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 			throw createError({ statusMessage: context.error?.message })
 		},
 	})
+
+if (question.value && question.value?.messageKey != "" && question.value?.errorCode != null) {
+	$logger.warn(`Question: ${question.value.messageKey} route ${route.fullPath}`)
+
+	throw createError({ statusCode: question.value.errorCode, statusMessage: messages.getByCompositeKey(question.value.messageKey) })
+}
+
 function highlightCode(id: string) {
 
 	const el = document.getElementById(id)
@@ -64,7 +77,7 @@ onBeforeMount(() => {
 	highlightCode('AnswerBody')
 	highlightCode('SolutionContent')
 
-	if (question.value) {
+	if (question.value?.answerBodyModel != null && question.value?.solutionData != null) {
 		if (question.value.answerBodyModel.solutionType != SolutionType.FlashCard && question.value.answerBodyModel.renderedQuestionTextExtended.length > 0)
 			highlightCode('ExtendedQuestionContainer')
 		if (question.value.solutionData.answerDescription?.trim().length > 0)
@@ -77,21 +90,21 @@ useHead(() => ({
 	link: [
 		{
 			rel: 'canonical',
-			href: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel.title!, question.value?.answerBodyModel.id!)}/1`
+			href: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}`
 		},
 	],
 	meta: [
 		{
 			name: 'description',
-			content: question.value?.answerBodyModel.description
+			content: question.value?.answerBodyModel?.description
 		},
 		{
 			property: 'og:title',
-			content: $urlHelper.sanitizeUri(question.value?.answerBodyModel.title)
+			content: $urlHelper.sanitizeUri(question.value?.answerBodyModel?.title)
 		},
 		{
 			property: 'og:url',
-			content: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel.title!, question.value?.answerBodyModel.id!)}/1`
+			content: `${config.public.officialBase}${$urlHelper.getQuestionUrl(question.value?.answerBodyModel?.title!, question.value?.answerBodyModel?.id!)}`
 		},
 		{
 			property: 'og:type',
@@ -99,21 +112,15 @@ useHead(() => ({
 		},
 		{
 			property: 'og:image',
-			content: question.value?.answerBodyModel.imgUrl
+			content: question.value?.answerBodyModel?.imgUrl
 		}
 	]
 }))
-
-onBeforeMount(() => {
-	if (question.value == null || question.value.answerBodyModel == null)
-		throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
-})
-
 </script>
 
 <template>
 	<title v-if="question && question?.answerBodyModel != null">
-		{{ question.answerBodyModel.description }}
+		Frageseite zu '{{ question.answerBodyModel.title }}'
 	</title>
 	<div class="container">
 		<div class="question-page-container row main-page">
@@ -148,12 +155,14 @@ onBeforeMount(() => {
 										:class="{ 'hasFlashCard': question.answerBodyModel.solutionType == SolutionType.FlashCard }">
 										<div id="AnswerInputSection">
 
-											<QuestionAnswerBodyFlashcard :key="question.answerBodyModel.id + 'flashcard'"
+											<QuestionAnswerBodyFlashcard
+												:key="question.answerBodyModel.id + 'flashcard'"
 												v-if="question.answerBodyModel.solutionType == SolutionType.FlashCard"
 												ref="flashcard" :solution="question.answerBodyModel.solution"
 												:front-content="question.answerBodyModel.textHtml"
 												:marked-as-correct="true" />
-											<QuestionAnswerBodyMatchlist :key="question.answerBodyModel.id + 'matchlist'"
+											<QuestionAnswerBodyMatchlist
+												:key="question.answerBodyModel.id + 'matchlist'"
 												v-else-if="question.answerBodyModel.solutionType == SolutionType.MatchList"
 												ref="matchList" :solution="question.answerBodyModel.solution"
 												:show-answer="true" />
@@ -174,8 +183,8 @@ onBeforeMount(() => {
 
 														<NuxtLink v-if="question.answerBodyModel.hasTopics"
 															:to="$urlHelper.getTopicUrlWithQuestionId(question.answerBodyModel.primaryTopicName, question.answerBodyModel.primaryTopicId, question.answerBodyModel.id)"
-															id="btnStartTestSession" class="btn btn-primary show-tooltip"
-															rel="nofollow"
+															id="btnStartTestSession"
+															class="btn btn-primary show-tooltip" rel="nofollow"
 															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + question.answerBodyModel.primaryTopicName">
 															<b>Weiterlernen</b>
 														</NuxtLink>
@@ -192,22 +201,21 @@ onBeforeMount(() => {
 															</div>
 
 															<div class="Content body-m" id="SolutionContent"
-																v-html="handleNewLine(question.solutionData.answerAsHTML)">
+																v-html="handleNewLine(question.solutionData?.answerAsHTML)">
 															</div>
 
 														</div>
 													</div>
 
-
 													<div id="SolutionDetails"
-														v-if="question.solutionData.answerDescription?.trim().length > 0">
+														v-if="question.solutionData != null && question.solutionData.answerDescription.trim().length > 0">
 														<div id="Description">
 															<div class="solution-label">
 																Ergänzungen zur Antwort:
 															</div>
 
 															<div class="Content body-m" id="ExtendedSolutionContent"
-																v-html="handleNewLine(question.solutionData.answerDescription)">
+																v-html="handleNewLine(question.solutionData?.answerDescription)">
 															</div>
 														</div>
 													</div>
@@ -219,11 +227,13 @@ onBeforeMount(() => {
 							</div>
 						</div>
 
-						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage :model="question.answerQuestionDetailsModel" />
+						<QuestionAnswerBodyAnswerQuestionDetailsLandingPage
+							v-if="question.answerQuestionDetailsModel != null"
+							:model="question.answerQuestionDetailsModel" />
 
 					</div>
 				</div>
-				<Sidebar :documentation="props.documentation" />
+				<Sidebar :footer-topics="props.footerTopics" />
 			</template>
 		</div>
 	</div>
@@ -238,6 +248,7 @@ onBeforeMount(() => {
 
 .question-page-container {
 	padding-bottom: 45px;
+	margin-top: 20px;
 }
 
 #AnswerAndSolutionCol {

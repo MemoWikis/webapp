@@ -58,7 +58,8 @@ const rootTopicChipStore = useRootTopicChipStore()
                         <div id="Logo">
                             <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />
                             <Image src="/Images/Logo/LogoSmall.png"
-                                class="hidden-sm hidden-md hidden-lg hidden-xl small" alt="small memucho logo" />
+                                class="hidden-sm hidden-md hidden-lg hidden-xl small" :height="40"
+                                alt="small memucho logo" />
                         </div>
                     </NuxtLink>
                 </div>

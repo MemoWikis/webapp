@@ -43,9 +43,11 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
 
     public void Add(string jobName)
     {
-        Session.Save(new RunningJob {
+        Session.Save(new RunningJob
+        {
             Name = jobName,
-            StartAt = DateTimeX.Now()});
+            StartAt = DateTimeX.Now()
+        });
         Session.Flush();
     }
 
@@ -62,7 +64,7 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
         else if(jobs.Count > 1)
             Logg.r.Error("More than one job for remove found: {Jobname} {JobCount}", jobName, jobs.Count);
 
-        foreach (var job in jobs)
+        foreach(var job in jobs)
             Delete(job);
 
         Session.Flush();

@@ -4,11 +4,11 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../alert/alertStore'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -19,6 +19,7 @@ const alertStore = useAlertStore()
 
 const emit = defineEmits(['setText'])
 
+const lowlight = createLowlight(all)
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -40,7 +41,7 @@ const editor = useEditor({
             placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         })

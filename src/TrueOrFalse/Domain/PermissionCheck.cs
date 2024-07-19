@@ -129,7 +129,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));
 
-    public bool CanView(QuestionCacheItem question)
+    public bool CanView(QuestionCacheItem? question)
     {
         if (question == null || question.Id == 0)
             return false;
@@ -139,18 +139,6 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
 
         if (question.Visibility == QuestionVisibility.Owner && question.CreatorId == _userId)
             return true;
-
-        return false;
-    }
-
-    public bool CanEdit(Question question)
-    {
-        if (_userId == default)
-            return false;
-        if (question == null)
-            return false;
-        if (question.IsCreator(_userId) || _isInstallationAdmin)
-            return false;
 
         return false;
     }

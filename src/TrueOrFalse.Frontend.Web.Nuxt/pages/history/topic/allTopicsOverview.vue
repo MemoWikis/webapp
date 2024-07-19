@@ -47,11 +47,11 @@ const url = computed(() => {
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const { $logger } = useNuxtApp()
-const { pending, data: days } = await useLazyFetch<Day[]>(url, {
+const { data: days, status } = await useLazyFetch<Day[]>(url.value, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -61,15 +61,15 @@ const { pending, data: days } = await useLazyFetch<Day[]>(url, {
     },
 })
 
-watch(pending, (val) => {
-    if (val)
+watch(status, (val) => {
+    if (val == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
 
 onMounted(() => {
     emit('setPage', Page.Default)
-    if (pending.value)
+    if (status.value == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 
@@ -101,8 +101,8 @@ function handleClick(g: GroupedChanges) {
 
                             <TopicHistoryAllChange :change="g.changes[0]" :group-index="gcIndex"
                                 :class="{ 'is-group': g.changes.length > 1 }"
-                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed" @click="handleClick(g)"
-                                :first-edit-id="g.changes[g.changes.length - 1].revisionId">
+                                :is-last="gcIndex == day.groupedChanges.length - 1 && g.collapsed"
+                                @click="handleClick(g)" :first-edit-id="g.changes[g.changes.length - 1].revisionId">
                                 <template v-slot:extras v-if="g.changes.length > 1">
                                     <font-awesome-icon v-if="g.collapsed" :icon="['fas', 'chevron-down']" />
                                     <font-awesome-icon v-else :icon="['fas', 'chevron-up']" />

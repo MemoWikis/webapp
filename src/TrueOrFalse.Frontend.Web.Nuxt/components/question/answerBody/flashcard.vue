@@ -14,7 +14,6 @@ function init() {
     solutionHtml.value = JSON.parse(props.solution).Text
 }
 
-onBeforeMount(() => init())
 
 watch(() => props.solution, () => init())
 
@@ -29,7 +28,7 @@ function flip() {
 watch(flipped, () => emit('flipped'))
 
 async function getAnswerDataString(): Promise<string> {
-    await nextTick();
+    await nextTick()
     return props.markedAsCorrect ? "(Antwort gewusst)" : "(Antwort nicht gewusst)"
 }
 
@@ -51,6 +50,7 @@ function getMinHeight() {
 
 const emit = defineEmits((['flipped']))
 
+init()
 </script>
 
 <template>
@@ -74,7 +74,17 @@ const emit = defineEmits((['flipped']))
         </div>
     </div>
 </template>
- 
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.question-text {
+    p {
+        .tiptapImgMixin(true);
+    }
+}
+</style>
+
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
@@ -141,5 +151,14 @@ const emit = defineEmits((['flipped']))
     bottom: 0;
     right: 0;
     padding: 12px;
+}
+</style>
+
+
+<style lang="less">
+.question-text {
+    pre {
+        text-align: left;
+    }
 }
 </style>

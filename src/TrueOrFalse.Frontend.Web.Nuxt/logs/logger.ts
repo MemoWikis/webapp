@@ -1,4 +1,6 @@
 import { LogFn } from 'pino'
+import { $api } from '~/composables/fetchWithError'
+
 interface Property {
     [key: string]: any;
 }
@@ -24,7 +26,7 @@ export class CustomPino {
 
         let url = '/seqlog'
         let apiKey = ''
-        if (process.server) {
+        if (import.meta.server) {
             url = process.env.NUXT_SEQ_RAW_URL ? process.env.NUXT_SEQ_RAW_URL : 'http://localhost:5341/api/events/raw'
             if (process.env.NUXT_SEQ_SERVER_API_KEY)
                 apiKey = process.env.NUXT_SEQ_SERVER_API_KEY
@@ -34,7 +36,7 @@ export class CustomPino {
         }
 
         try {
-            await $fetch(url, {
+            await $api(url, {
                 method: 'POST',
                 headers: {
                     'X-Seq-ApiKey': apiKey,

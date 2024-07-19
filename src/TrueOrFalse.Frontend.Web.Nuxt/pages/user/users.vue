@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Page } from '~/components/shared/pageEnum';
+import { Page } from '~/components/shared/pageEnum'
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { UserResult } from '~~/components/users/userResult'
@@ -30,7 +30,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -44,11 +44,11 @@ const url = computed(() => {
 })
 // pageData gets refreshed by executing the request again whenever data changes in the computed url value
 // nuxt uses the url in useFetch/useLazyFetch 
-const { data: pageData, pending: pageDataPending } = await useFetch<UsersResult>(url, {
+const { data: pageData, status } = await useFetch<UsersResult>(url.value, {
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -66,8 +66,8 @@ watch(pageData, (e) => {
 
 watch(searchTerm, (e) => currentPage.value = 1)
 
-watch(pageDataPending, (p) => {
-    if (p)
+watch(status, (s) => {
+    if (s == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
@@ -94,7 +94,28 @@ const getSelectedOrderLabel = computed(() => {
     }
 })
 
-
+useHead(() => ({
+    link: [
+        {
+            rel: 'canonical',
+            href: `${config.public.officialBase}/Nutzer`
+        },
+    ],
+    meta: [
+        {
+            name: 'description',
+            content: 'List of all users'
+        },
+        {
+            property: 'og:title',
+            content: 'Users'
+        },
+        {
+            property: 'og:url',
+            content: `${config.public.officialBase}/Nutzer`
+        },
+    ]
+}))
 </script>
 
 <template>
@@ -180,7 +201,7 @@ const getSelectedOrderLabel = computed(() => {
                         </div>
                     </div>
 
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" v-if="searchTerm.length === 0">
                         <div class="pagination hidden-xs">
                             <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20"
                                 :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
@@ -194,10 +215,12 @@ const getSelectedOrderLabel = computed(() => {
                                 :show-breakpoint-buttons="false" />
                         </div>
                     </div>
+                    <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
+                        Wir zeigen nur die
+                        ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche
+                    </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </template>
@@ -224,6 +247,15 @@ const getSelectedOrderLabel = computed(() => {
 .content {
     padding-top: 30px;
     padding-bottom: 30px;
+
+    .info-bar {
+        padding: 12px;
+        background: @memo-yellow;
+        margin-top: 24px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
 }
 
 .users-options {

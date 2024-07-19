@@ -12,9 +12,10 @@ public class TotalFollowers : IRegisterAsInstancePerLifetime
     public int Run(int userId)
     {
         return Convert.ToInt32(_nhibernateSession.CreateSQLQuery(
-            @" SELECT count(User_id)
+                @" SELECT count(User_id)
                FROM user_to_follower
-               WHERE User_id = " + userId
-        ).UniqueResult<object>());
+               WHERE User_id = :userId"
+            ).SetParameter("userId", userId)
+            .UniqueResult<object>());
     }
 }

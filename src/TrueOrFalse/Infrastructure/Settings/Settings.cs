@@ -62,4 +62,9 @@ public class Settings
 
     //Seq
     public static string SeqUrl => _configuration["General:SeqUrl"];
+    public static string SeqApiKey => _configuration["General:SeqApiKey"];
+
+
+    public static string GoogleClientId => _configuration["Google:ClientId"];
+
 }

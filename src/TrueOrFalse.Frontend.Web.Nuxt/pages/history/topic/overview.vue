@@ -24,11 +24,11 @@ const { $logger } = useNuxtApp()
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
-const { pending, data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
+const { status, data: historyResult } = await useLazyFetch<HistoryResult>(`/apiVue/HistoryTopicOverview/Get/${route.params.id}`, {
     mode: 'cors',
     credentials: 'include',
     onRequest({ options }) {
-        if (process.server) {
+        if (import.meta.server) {
             options.headers = headers
             options.baseURL = config.public.serverBase
         }
@@ -44,13 +44,13 @@ watch(historyResult, (val) => {
 
 })
 const spinnerStore = useSpinnerStore()
-watch(pending, (val) => {
-    if (val)
+watch(status, (val) => {
+    if (val == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
 onMounted(async () => {
-    if (pending.value)
+    if (status.value == 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
     emit('setPage', Page.Default)
@@ -133,9 +133,4 @@ function handleClick(g: GroupedChanges) {
         filter: brightness(0.85)
     }
 }
-
-// .link-to-all {
-//     border: 1px solid @memo-grey-light;
-//     text-decoration: none;
-// }
 </style>

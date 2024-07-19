@@ -22,7 +22,9 @@ interface Props {
     landingPage?: boolean
     model?: any
 }
+
 const props = defineProps<Props>()
+await commentsStore.loadFirst(props.id)
 
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
@@ -776,7 +778,7 @@ async function loadData() {
 
     if (props.id == deleteQuestionStore.deletedQuestionId)
         return
-    const result = await $fetch<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
+    const result = await $api<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {
@@ -846,7 +848,6 @@ const license = ref({
 function openCommentModal() {
     commentsStore.openModal(props.id)
 }
-const unsettledCommentCount = ref(0)
 
 onMounted(() => {
     learningSessionStore.$onAction(({ after, name }) => {
@@ -1020,7 +1021,7 @@ watch(() => userStore.isLoggedIn, () => {
                 <div class="commentCount pointer" @click="openCommentModal()">
                     <font-awesome-icon icon="fa-solid fa-comment" />
                     <span id="commentCountAnswerBody" class="detail-label">
-                        {{ unsettledCommentCount }}
+                        {{ commentsStore.unsettledComments.length }}
                     </span>
                 </div>
             </div>
@@ -1419,6 +1420,12 @@ watch(() => userStore.isLoggedIn, () => {
                 }
             }
         }
+
+        .created {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
     }
 
     .questionDetailsFooterPartialRight {
@@ -1427,10 +1434,14 @@ watch(() => userStore.isLoggedIn, () => {
         justify-content: flex-end;
         padding-right: 4px;
         align-items: center;
+        flex-wrap: wrap;
 
         .wishknowledgeCount,
         .viewCount,
         .commentCount {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 0 8px;
 
             i {
@@ -1447,11 +1458,6 @@ watch(() => userStore.isLoggedIn, () => {
             }
         }
     }
-}
-
-.created {
-    display: flex;
-    align-items: center;
 }
 
 .detail-label {

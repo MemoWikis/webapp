@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
-import { Topic, useTopicStore } from '~~/components/topic/topicStore'
+import { FooterTopics, Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
+import { messages } from '~/components/alert/messages'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -13,9 +14,11 @@ const spinnerStore = useSpinnerStore()
 
 interface Props {
     tab?: Tab,
-    documentation: Topic
+    footerTopics: FooterTopics
 }
+
 const props = defineProps<Props>()
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
@@ -25,7 +28,7 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         credentials: 'include',
         mode: 'cors',
         onRequest({ options }) {
-            if (process.server) {
+            if (import.meta.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
@@ -38,13 +41,22 @@ const { data: topic } = await useFetch<Topic>(`/apiVue/Topic/GetTopic/${route.pa
         retry: 3
     })
 
+if (topic.value?.errorCode && topic.value?.messageKey) {
+    $logger.warn(`Topic: ${topic.value.messageKey} route ${route.fullPath}`)
+    throw createError({ statusCode: topic.value.errorCode, statusMessage: messages.getByCompositeKey(topic.value.messageKey) })
+}
+
 const tabSwitched = ref(false)
 
 const router = useRouter()
 
 function setTopic() {
     if (topic.value != null) {
-        if (topic.value?.canAccess) {
+
+        if (topic.value?.errorCode && topic.value?.messageKey) {
+            $logger.warn(`Topic: ${topic.value.messageKey} route ${route.fullPath}`)
+            throw createError({ statusCode: topic.value.errorCode, statusMessage: messages.getByCompositeKey(topic.value.messageKey) })
+        } else {
 
             topicStore.setTopic(topic.value)
 
@@ -78,9 +90,6 @@ function setTopic() {
                     title: topicStore.name,
                 })
             })
-        } else {
-            $logger.error(`Topic: NoAccess - routeId: ${route.params.id}`)
-            throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
         }
     }
 }
@@ -88,9 +97,9 @@ function setTopic() {
 onMounted(() => {
     watch(() => route, (val) => {
     }, { deep: true, immediate: true })
+
 })
 setTopic()
-
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
 
@@ -173,9 +182,11 @@ watch(() => props.tab, (t) => {
                     <template v-if="topicStore?.id != 0">
                         <ClientOnly>
                             <TopicTabsContent
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" />
+                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                :text-is-hidden="topicStore.textIsHidden" />
                             <template #fallback>
                                 <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
+                                    v-if="!topicStore.textIsHidden"
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
                                     <div class="col-xs-12">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
@@ -212,13 +223,15 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                     </template>
                 </div>
-                <Sidebar :documentation="props.documentation" class="is-topic" />
+                <Sidebar class="is-topic" :show-outline="true" :footer-topics="props.footerTopics" />
             </template>
         </div>
     </div>
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 #InlineEdit {
     padding: 0px;
     border: none;
@@ -230,7 +243,18 @@ watch(() => props.tab, (t) => {
 
     p {
         min-height: 30px;
+
+        img {
+
+            // Apply styles to p if it contains img
+            & {
+                margin-bottom: 40px !important;
+            }
+        }
+
+        .tiptapImgMixin(false)
     }
+
 
     &.is-mobile {
         p {

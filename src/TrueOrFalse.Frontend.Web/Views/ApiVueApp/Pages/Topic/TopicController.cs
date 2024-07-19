@@ -10,13 +10,13 @@ public class TopicController(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
     : Controller
+
 {
     [HttpGet]
     public TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
@@ -26,9 +26,6 @@ public class TopicController(
                 _httpContextAccessor,
                 _questionReadingRepo)
             .GetTopicData(id);
-
-        if (data == null)
-            return new TopicDataResult();
 
         return new TopicDataResult
         {
@@ -56,6 +53,9 @@ public class TopicController(
             TopicItem = data.TopicItem,
             Views = data.Views,
             Visibility = data.Visibility,
+            TextIsHidden = data.TextIsHidden,
+            MessageKey = data.MessageKey,
+            ErrorCode = data.ErrorCode
         };
     }
 
@@ -83,6 +83,8 @@ public class TopicController(
         string MetaDescription,
         TopicDataManager.KnowledgeSummarySlim KnowledgeSummary,
         TopicGridManager.GridTopicItem[] GridItems,
-        bool IsChildOfPersonalWiki
-    );
+        bool IsChildOfPersonalWiki,
+        bool TextIsHidden,
+        string? MessageKey,
+        NuxtErrorPageType? ErrorCode);
 }

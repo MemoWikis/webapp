@@ -43,6 +43,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool ShowWishKnowledge { get; set; }
     public bool IsInstallationAdmin { get; set; }
     public bool IsEmailConfirmed { get; set; }
+    public int Rank { get; set; }
 
     public void Populate(User user)
     {
@@ -73,6 +74,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         IsEmailConfirmed = user.IsEmailConfirmed;
         ActivityLevel = user.ActivityLevel;
         ActivityPoints = user.ActivityPoints;
+        Rank = user.ReputationPos;
     }
 
     public void Populate(UserCacheItem user)

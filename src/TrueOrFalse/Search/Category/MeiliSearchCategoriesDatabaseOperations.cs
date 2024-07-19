@@ -11,7 +11,7 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task CreateAsync(
             Category category,
-            string indexConstant = MeiliSearchKonstanten.Categories)
+            string indexConstant = MeiliSearchConstants.Categories)
         {
             var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
             var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchCategoryMap>
@@ -27,7 +27,7 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task UpdateAsync(
             Category category,
-            string indexConstant = MeiliSearchKonstanten.Categories)
+            string indexConstant = MeiliSearchConstants.Categories)
         {
             var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
             var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchCategoryMap>
@@ -44,7 +44,7 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task DeleteAsync(
             Category category,
-            string indexConstant = MeiliSearchKonstanten.Categories)
+            string indexConstant = MeiliSearchConstants.Categories)
         {
             var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
             var taskInfo = await index.DeleteOneDocumentAsync(categoryMapAndIndex.Id.ToString())
@@ -58,8 +58,8 @@ namespace TrueOrFalse.Search
             string indexConstant,
             out Meilisearch.Index index)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
             index = client.Index(indexConstant);
             var categoryMap = new MeiliSearchCategoryMap
             {
@@ -70,7 +70,6 @@ namespace TrueOrFalse.Search
                 Description = category.Description ?? "",
                 Name = category.Name,
                 Id = category.Id,
-                QuestionCount = category.CountQuestions
             };
             return categoryMap;
         }

@@ -13,6 +13,8 @@ interface Props {
 	minWidth?: number,
 	minHeight?: number,
 	customStyle?: string,
+	height?: number
+	width?: number
 }
 
 const props = defineProps<Props>()
@@ -35,14 +37,35 @@ watch(() => props.src, () => setImgSrc())
 setImgSrc()
 
 const imgContainer = ref()
-const getCustomStyle = computed(() => {
-	let str = props.customStyle ?? ''
+
+function setMins(str: string): string {
 	if (props.minWidth)
 		str += `min-width: ${props.minWidth}px;`
 	if (props.minHeight)
 		str += `min-height: ${props.minHeight}px;`
+
+	return str
+}
+
+function getWidthAndHeight(str: string): string {
+	if (props.height && props.width)
+		return str += `height: ${props.height}px; width:${props.height}px;`
+	else if (props.height && !props.width)
+		return str += `height: ${props.height}px; width:auto;`
+	else if (!props.height && props.width)
+		return str += `height: auto; width:${props.width}px;`
+	else return str
+}
+const getCustomStyle = computed(() => {
+	let str = props.customStyle ?? ''
+
+	str = setMins(str)
+
 	if (props.square && imgContainer.value != null && imgContainer.value.clientWidth != null)
 		str += `height: ${imgContainer.value.clientWidth}px; object-fit: cover;`
+
+	str = getWidthAndHeight(str)
+
 	return str
 })
 </script>

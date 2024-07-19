@@ -1,20 +1,16 @@
-﻿using ISession = NHibernate.ISession;
-
-public class CategoryDeleter(
-    ISession _session,
+﻿public class CategoryDeleter(
     SessionUser _sessionUser,
     UserActivityRepo _userActivityRepo,
-    CategoryRepository _categoryRepository,
     CategoryChangeRepo _categoryChangeRepo,
     CategoryValuationWritingRepo _categoryValuationWritingRepo,
     ExtendedUserCache _extendedUserCache,
     CrumbtrailService _crumbtrailService,
     CategoryRepository _categoryRepo,
     CategoryRelationRepo _categoryRelationRepo,
-    PermissionCheck _permissionCheck)
+    PermissionCheck _permissionCheck,
+    CategoryToQuestionRepo _categoryToQuestionRepo)
     : IRegisterAsInstancePerLifetime
 {
-    ///todo:(DaMa)  Revise: Wrong place for SQL commands.
     private HasDeleted Run(Category category, int userId)
     {
         var categoryCacheItem = EntityCache.GetCategory(category.Id);
@@ -33,23 +29,19 @@ public class CategoryDeleter(
         }
 
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+            new ModifyRelationsForCategory(_categoryRepo, _categoryRelationRepo);
+
         ModifyRelationsEntityCache.RemoveRelationsForCategoryDeleter(categoryCacheItem, userId,
             modifyRelationsForCategory);
+
         EntityCache.Remove(categoryCacheItem, userId);
-
-        _session
-            .CreateSQLQuery(
-                "DELETE FROM categories_to_questions where Category_id = " + category.Id)
-            .ExecuteUpdate();
-
+        _categoryToQuestionRepo.DeleteByCategoryId(category.Id);
         _userActivityRepo.DeleteForCategory(category.Id);
 
         _categoryChangeRepo.AddDeleteEntry(category, userId);
-        _categoryValuationWritingRepo.DeleteCategoryValuation(category.Id);
-        _categoryRepository.Delete(category);
-
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
+        _categoryRepo.Delete(category.Id);
+
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;
@@ -66,11 +58,13 @@ public class CategoryDeleter(
         {
             var allVisibleChildren =
                 GraphService.VisibleChildren(category.Id, _permissionCheck, userId);
+
             if (allVisibleChildren.Count > 0)
             {
                 foreach (var child in allVisibleChildren)
                 {
                     visitedChildrenIds.Add(child.Id);
+
                     var visibleParents = GraphService
                         .VisibleParents(child.Id, _permissionCheck)
                         .Where(p => p.Id != category.Id)
@@ -91,6 +85,7 @@ public class CategoryDeleter(
                 foreach (var child in privateChildren)
                 {
                     var hasExtraParent = GraphService.ParentIds(child).Any(i => i != category.Id);
+
                     if (!hasExtraParent)
                         return false;
                 }
@@ -100,37 +95,62 @@ public class CategoryDeleter(
         return true;
     }
 
-    public record DeleteTopicResult(
-        bool HasChildren,
-        bool IsNotCreatorOrAdmin,
-        bool Success,
-        RedirectParent RedirectParent);
+    public record struct DeleteTopicResult(
+        bool HasChildren = false,
+        bool IsNotCreatorOrAdmin = false,
+        bool Success = false,
+        RedirectParent? RedirectParent = null,
+        string? MessageKey = null);
 
-    public DeleteTopicResult DeleteTopic(int id)
+    public DeleteTopicResult DeleteTopic(int topicToDeleteId, int? newParentForQuestionsId)
     {
-        var redirectParent = GetRedirectTopic(id);
-        var topic = _categoryRepo.GetById(id);
+        var redirectParent = GetRedirectTopic(topicToDeleteId);
+        var topic = _categoryRepo.GetById(topicToDeleteId);
+
         if (topic == null)
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
-        var parentIds = EntityCache.GetCategory(id)?
+        var parentIds = EntityCache.GetCategory(topicToDeleteId)?
             .Parents()
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
-        var parentTopics = _categoryRepo.GetByIds(parentIds);
+
+        var hasQuestions = EntityCache.TopicHasQuestion(topicToDeleteId);
+        if (hasQuestions && newParentForQuestionsId != null)
+            MoveQuestionsToParent(topicToDeleteId, (int)newParentForQuestionsId);
+        else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
+            return new DeleteTopicResult(MessageKey: FrontendMessageKeys.Error.Category.TopicNotSelected, Success: false);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
+
+        var parentTopics = _categoryRepo.GetByIds(parentIds);
 
         foreach (var parent in parentTopics)
             _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
 
         return new DeleteTopicResult(
-            hasDeleted.HasChildren,
-            hasDeleted.IsNotCreatorOrAdmin,
-            hasDeleted.DeletedSuccessful,
-            redirectParent
-        );
+            HasChildren: hasDeleted.HasChildren,
+            IsNotCreatorOrAdmin: hasDeleted.IsNotCreatorOrAdmin,
+            Success: hasDeleted.DeletedSuccessful,
+            RedirectParent: redirectParent);
+    }
+
+    private void MoveQuestionsToParent(int topicToDeleteId, int parentId)
+    {
+        if (parentId == 0)
+        {
+            throw new NullReferenceException("parent is null");
+        }
+
+        var parent = _categoryRepo.GetById(parentId);
+        var questionIdsFromTopicToDelete = EntityCache.GetQuestionsIdsForCategory(topicToDeleteId);
+
+        if (questionIdsFromTopicToDelete.Any())
+            _categoryToQuestionRepo.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
+        _categoryRepo.Update(parent);
+
+        EntityCache.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
     }
 
     public record RedirectParent(string Name, int Id);
@@ -139,6 +159,7 @@ public class CategoryDeleter(
     {
         var topic = EntityCache.GetCategory(id);
         var currentWiki = EntityCache.GetCategory(_sessionUser.CurrentWikiId);
+
         var lastBreadcrumbItem = _crumbtrailService.BuildCrumbtrail(topic, currentWiki).Items
             .LastOrDefault();
 

@@ -368,5 +368,23 @@ namespace Seedworks.Lib.Persistence
 
             return criteria.List<int>();
         }
+
+        public void ClearNHibernateCaches()
+        {
+            _session.Clear(); // Clear the first-level cache (session cache)
+
+            var sessionFactory = _session.SessionFactory;
+            foreach (var collectionMetadata in sessionFactory.GetAllCollectionMetadata())
+            {
+                sessionFactory.EvictCollection(collectionMetadata.Key);
+            }
+
+            foreach (var classMetadata in sessionFactory.GetAllClassMetadata())
+            {
+                sessionFactory.EvictEntity(classMetadata.Key);
+            }
+
+            sessionFactory.EvictQueries();
+        }
     }
 }

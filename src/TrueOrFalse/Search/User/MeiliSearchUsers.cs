@@ -24,9 +24,9 @@ namespace TrueOrFalse.Search
         public async Task<ISearchUsersResult> RunAsync(
             string searchTerm)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
-            var index = client.Index(MeiliSearchKonstanten.Users);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                MeiliSearchConstants.MasterKey);
+            var index = client.Index(MeiliSearchConstants.Users);
             _result = new MeiliSearchUsersResult(_httpContextAccessor, _webHostEnvironment);
 
             _result.UserIds.AddRange(await LoadSearchResults(searchTerm, index));
@@ -79,18 +79,35 @@ namespace TrueOrFalse.Search
         public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
             GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
         {
-            var client = new MeilisearchClient(MeiliSearchKonstanten.Url,
-                MeiliSearchKonstanten.MasterKey);
-            var index = client.Index(MeiliSearchKonstanten.Users);
-
-            var sq = new SearchQuery
+            var userMaps = new List<MeiliSearchUserMap>();
+            var count = 0;
+            if (string.IsNullOrEmpty(searchTerm))
             {
-                Limit = 1000
-            };
+                userMaps = EntityCache.GetAllUsers().Select(ConvertToUserMap).ToList();
+                count = userMaps.Count;
+            }
+            else
+            {
+                var client = new MeilisearchClient(MeiliSearchConstants.Url,
+                    MeiliSearchConstants.MasterKey);
+                var index = client.Index(MeiliSearchConstants.Users);
 
-            var userMaps =
-                (await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq))
-                .Hits;
+                var sq = new SearchQuery
+                {
+                    Limit = 100
+                };
+
+                var searchResult = await index.SearchAsync<MeiliSearchUserMap>(searchTerm, sq);
+                if (searchResult is SearchResult<MeiliSearchUserMap> result)
+                {
+                    count = result.EstimatedTotalHits;
+                }
+                else
+                {
+                    Logg.r.Error("fail cast from ISearchable to SearchResult");
+                }
+                userMaps = searchResult.Hits.ToList();
+            }
 
             var userMapsOrdered = new List<MeiliSearchUserMap>();
             switch (orderBy)
@@ -106,13 +123,29 @@ namespace TrueOrFalse.Search
                     break;
             }
 
-            var userMapsSkip = userMapsOrdered
-                .Skip(pager.LowerBound - 1)
-                .Take(pager.PageSize)
-                .ToList();
-            pager.TotalItems = userMaps.Count;
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                userMapsOrdered = userMapsOrdered
+                    .Skip(pager.LowerBound - 1)
+                    .Take(pager.PageSize)
+                    .ToList();
+            }
 
-            return (userMapsSkip, pager);
+            pager.TotalItems = count;
+
+            return (userMapsOrdered, pager);
+        }
+
+        private static MeiliSearchUserMap ConvertToUserMap(UserCacheItem user)
+        {
+            var result = new MeiliSearchUserMap
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Rank = user.ReputationPos,
+                WishCountQuestions = user.WishCountQuestions
+            };
+            return result;
         }
     }
 }

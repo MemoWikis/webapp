@@ -4,7 +4,7 @@
     {
         if (childId == parentId)
             return false;
-                
+
         if (GraphService.Descendants(childId).Any(r => r.Id == parentId))
             return false;
 
@@ -236,6 +236,7 @@
         currentRelation.Id = newRelationId;
 
         EntityCache.AddOrUpdate(currentRelation);
+        EntityCache.GetCategory(currentRelation.ChildId)?.ParentRelations.Add(currentRelation);
         modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
 
         return relations;

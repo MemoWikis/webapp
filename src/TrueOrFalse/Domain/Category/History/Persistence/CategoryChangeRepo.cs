@@ -161,7 +161,10 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
 
     public int GetCategoryId(int version)
     {
-        return _session.CreateSQLQuery("Select Category_id FROM categorychange where id = " + version).UniqueResult<int>();
+        var query = @"Select Category_id FROM categorychange where id = :version";
+        return _session.CreateSQLQuery(query)
+            .SetParameter("version", version)
+            .UniqueResult<int>();
     }
     private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
         User author,

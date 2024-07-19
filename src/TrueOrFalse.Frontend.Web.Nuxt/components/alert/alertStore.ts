@@ -3,11 +3,12 @@ import { messages } from './messages'
 export { messages } from './messages'
 
 export interface AlertMsg {
-	text: string | null,
-	reload?: boolean,
-	customHtml?: string,
-	customBtn?: string,
+	text: string | null
+	customHtml?: string
+	customBtn?: string
 	customBtnKey?: string
+	customImg?: string
+	customDetails?: string
 }
 
 export enum AlertType {
@@ -24,12 +25,13 @@ export const useAlertStore = defineStore('alertStore', {
 			msg: null as AlertMsg | null,
 			showCancelButton: false,
 			label: 'Ok',
+			cancelLabel: 'Abbrechen',
 			title: null as string | null,
-			id: null as string | null
+			id: null as string | null,
 		}
 	},
 	actions: {
-		openAlert(type: AlertType, msg: AlertMsg, label: string = 'Ok', showCancelButton: boolean = false, title: string | null = null, id: string | null = null) {
+		openAlert(type: AlertType, msg: AlertMsg, label: string = 'Ok', showCancelButton: boolean = false, title: string | null = null, id: string | null = null, cancelLabel: string = 'Abbrechen') {
 			this.show = true
 			this.type = type
 			this.msg = msg
@@ -37,6 +39,7 @@ export const useAlertStore = defineStore('alertStore', {
 			this.label = label
 			this.title = title
 			this.id = id
+			this.cancelLabel = cancelLabel
 		},
 		closeAlert(cancel = false, customKey?: string) {
 			this.show = false
@@ -48,9 +51,9 @@ export const useAlertStore = defineStore('alertStore', {
 		},
 	},
 	getters: {
-		text(): string {
+		text(): string | null {
 			const text = this.msg?.text ?? null
-			if (text == null || !text && this.type == AlertType.Error) {
+			if ((text == null || !text && this.type == AlertType.Error) && this.msg?.customHtml == null) {
 				return messages.error.default
 			}
 			return text;

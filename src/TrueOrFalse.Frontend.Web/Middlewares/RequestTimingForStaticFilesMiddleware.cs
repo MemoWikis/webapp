@@ -1,19 +1,15 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 public class RequestTimingForStaticFilesMiddleware
 {
     private readonly RequestDelegate _next;
-    private readonly IHttpContextAccessor _contextAccessor;
 
     public RequestTimingForStaticFilesMiddleware(
-        RequestDelegate next,
-        IHttpContextAccessor contextAccessor)
+        RequestDelegate next)
     {
         _next = next;
-        _contextAccessor = contextAccessor;
     }
 
     public async Task InvokeAsync(HttpContext context)
@@ -24,7 +20,7 @@ public class RequestTimingForStaticFilesMiddleware
         //if (Settings.DebugEnableMiniProfiler())
         //MiniProfiler.Current.Stop();
 
-        if (!_contextAccessor.HttpContext.Request.Path.Value.Contains("."))
+        if (!context.Request.Path.Value.Contains("."))
         {
             context.Items.Add("requestStopwatch", Stopwatch.StartNew());
             Logg.r.Information("=== Start Request: {pathAndQuery} ==", context.Request.Path.Value);
@@ -34,14 +30,14 @@ public class RequestTimingForStaticFilesMiddleware
         await _next(context);
 
 #if DEBUG
-        if (_contextAccessor.HttpContext.Items.ContainsKey("requestStopwatch"))
+        if (context.Items.ContainsKey("requestStopwatch"))
         {
-            stopwatch = _contextAccessor.HttpContext.Items["requestStopwatch"] as Stopwatch;
+            stopwatch = context.Items["requestStopwatch"] as Stopwatch;
             stopwatch.Stop();
             var elapsed = stopwatch.Elapsed;
             Logg.r.Information("=== End Request: {pathAndQuery} {elapsed}==",
-                _contextAccessor.HttpContext.Request.Path +
-                _contextAccessor.HttpContext.Request.QueryString, elapsed);
+                context.Request.Path +
+                context.Request.QueryString, elapsed);
         }
 #endif
     }

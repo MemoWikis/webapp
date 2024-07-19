@@ -41,7 +41,7 @@ async function loadWikimediaImage() {
     const data = {
         url: wikimediaUrl.value
     }
-    const result = await $fetch<WikimediaPreviewResult>('/apiVue/ImageUploadModal/GetWikimediaPreview', {
+    const result = await $api<WikimediaPreviewResult>('/apiVue/ImageUploadModal/GetWikimediaPreview', {
         mode: 'cors',
         credentials: 'include',
         method: 'POST',
@@ -131,7 +131,7 @@ async function upload() {
         data.append('topicId', topicStore.id.toString())
         data.append('licenseOwner', licenseGiverName.value)
     }
-    const result = await $fetch<boolean>(url, {
+    const result = await $api<boolean>(url, {
         body: data,
         method: 'POST',
         mode: 'cors',

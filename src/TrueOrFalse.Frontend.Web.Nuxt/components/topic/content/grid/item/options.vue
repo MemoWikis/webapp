@@ -37,7 +37,7 @@ async function removeParent() {
         childId: props.topic.id,
     }
 
-    const result = await $fetch<FetchResult<null>>('/apiVue/TopicRelationEdit/RemoveParent', {
+    const result = await $api<FetchResult<null>>('/apiVue/TopicRelationEdit/RemoveParent', {
         method: 'POST',
         body: data
     })

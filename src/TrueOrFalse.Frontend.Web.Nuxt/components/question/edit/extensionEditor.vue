@@ -4,11 +4,12 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
-import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
-import { lowlight } from 'lowlight/lib/core'
+import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import ImageResize from '~~/components/shared/imageResizeExtension'
+
 interface Props {
     highlightEmptyFields: boolean
     content: string
@@ -17,6 +18,7 @@ const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionExtensionData'])
+const lowlight = createLowlight(all)
 
 const editor = useEditor({
     extensions: [
@@ -39,7 +41,7 @@ const editor = useEditor({
             placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
             showOnlyCurrent: true,
         }),
-        Image.configure({
+        ImageResize.configure({
             inline: true,
             allowBase64: true,
         })

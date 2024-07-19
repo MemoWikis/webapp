@@ -49,13 +49,13 @@ function calculatePostingDate() {
     }
 }
 async function removeImage() {
-    const fallbackImagaUrl = await $fetch<string>('/apiVue/VueUserSettings/DeleteUserImage', {
+    const fallbackImageUrl = await $api<string>('/apiVue/VueUserSettings/DeleteUserImage', {
         mode: 'cors',
         method: 'GET',
     })
     currentImageUrl.value = ""
     emit('updateProfile')
-    userStore.imgUrl = fallbackImagaUrl
+    userStore.imgUrl = fallbackImageUrl
 }
 function onFileChange(e: any) {
     var files = e.target.files || e.dataTransfer.files
@@ -88,7 +88,7 @@ async function cancelPlan() {
         credentials: 'include',
         mode: 'no-cors',
         onRequest({ options }) {
-            if (process.server) {
+            if (import.meta.server) {
                 options.headers = headers
                 options.baseURL = config.public.serverBase
             }
@@ -141,7 +141,7 @@ async function saveProfileInformation() {
 
     formData.append('id', userStore.id.toString())
 
-    const result = await $fetch<FetchResult<ChangeProfileInformationResult>>('/apiVue/VueUserSettings/ChangeProfileInformation', {
+    const result = await $api<FetchResult<ChangeProfileInformationResult>>('/apiVue/VueUserSettings/ChangeProfileInformation', {
         mode: 'cors',
         method: 'POST',
         body: formData,
@@ -187,7 +187,7 @@ async function saveNewPassword() {
         return
     }
 
-    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangePassword', {
+    const result = await $api<DefaultResult>('/apiVue/VueUserSettings/ChangePassword', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -210,7 +210,7 @@ async function saveNewPassword() {
 
 async function resetPassword() {
 
-    const result = await $fetch<boolean>('/apiVue/VueUserSettings/ResetPassword', {
+    const result = await $api<boolean>('/apiVue/VueUserSettings/ResetPassword', {
         mode: 'cors',
         method: 'POST',
         credentials: 'include'
@@ -225,7 +225,7 @@ async function resetPassword() {
 
 async function saveWuwiVisibility() {
 
-    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
+    const result = await $api<DefaultResult>('/apiVue/VueUserSettings/ChangeWuwiVisibility', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -247,7 +247,7 @@ async function saveWuwiVisibility() {
 
 async function saveSupportLoginRights() {
 
-    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeSupportLoginRights', {
+    const result = await $api<DefaultResult>('/apiVue/VueUserSettings/ChangeSupportLoginRights', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -299,7 +299,7 @@ const getNotificationIntervalText = computed(() => {
 const notificationIntervalChangeMsg = ref('')
 async function saveNotificationIntervalPreferences() {
 
-    const result = await $fetch<DefaultResult>('/apiVue/VueUserSettings/ChangeNotificationIntervalPreferences', {
+    const result = await $api<DefaultResult>('/apiVue/VueUserSettings/ChangeNotificationIntervalPreferences', {
         mode: 'cors',
         method: 'POST',
         body: {
@@ -435,7 +435,8 @@ async function requestVerificationMail() {
                             <div class="dropdown-row  group-label">
                                 Benachrichtigungen
                             </div>
-                            <div class="dropdown-row select-row" @click="activeContent = Content.KnowledgeReport; hide()"
+                            <div class="dropdown-row select-row"
+                                @click="activeContent = Content.KnowledgeReport; hide()"
                                 :class="{ 'active': activeContent == Content.KnowledgeReport }">
                                 <div class="dropdown-label select-option">
                                     Wissensbericht
@@ -616,7 +617,8 @@ async function requestVerificationMail() {
                         <label class="checkbox-section">
                             <div class="checkbox-container">
                                 <input type="checkbox" name="answer" :value="true" v-model="showWuwi" class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi" class="checkbox-icon" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi"
+                                    class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">

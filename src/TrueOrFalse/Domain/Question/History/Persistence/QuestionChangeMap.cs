@@ -8,7 +8,7 @@ public class QuestionChangeMap : ClassMap<QuestionChange>
 
         References(x => x.Question);
 
-        Map(x => x.Data);
+        Map(x => x.Data).CustomSqlType("text");
         Map(x => x.ShowInSidebar);
 
         Map(x => x.Type).CustomType<QuestionChangeType>();

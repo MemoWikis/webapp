@@ -21,21 +21,6 @@ interface Solution {
     RightElements: Element[]
     isSolutionOrdered: boolean
 }
-onBeforeMount(() => {
-    const solution: Solution = JSON.parse(props.solution)
-    solution.Pairs.forEach(p => {
-        const newPair: Pair = {
-            ElementLeft: {
-                Text: p.ElementLeft.Text
-            },
-            ElementRight: {
-                Text: ''
-            }
-        }
-        pairs.value.push(newPair)
-    })
-    rightElements.value = solution.RightElements
-})
 
 const pairs = ref<Pair[]>([])
 const rightElements = ref<Element[]>([])
@@ -124,6 +109,25 @@ function handleDragEnd(i: number) {
     movingAnswerIndex.value = null
     dragStarted.value = false
 }
+
+function init() {
+    const solution: Solution = JSON.parse(props.solution)
+    solution.Pairs.forEach(p => {
+        const newPair: Pair = {
+            ElementLeft: {
+                Text: p.ElementLeft.Text
+            },
+            ElementRight: {
+                Text: ''
+            }
+        }
+        pairs.value.push(newPair)
+    })
+    rightElements.value = solution.RightElements
+}
+
+init()
+
 </script>
 
 <template>

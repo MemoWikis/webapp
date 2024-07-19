@@ -5,7 +5,8 @@ export const messages: any = {
             setToPrivate: "Das Thema wurde erfolgreich auf 'Privat' gesetzt.",
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
             addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt.",
-            saveImage: "Das neue Themenbild wurde gespeichert"
+            saveImage: "Das neue Themenbild wurde gespeichert",
+            saved: 'Das Thema wurde erfolgreich gespeichert.'
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
@@ -31,7 +32,7 @@ export const messages: any = {
             publicQuestions: "Dieses Thema hat öffentliche Fragen.",
             notLastChild: "Dieses Thema kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterthemen und versuche es erneut.",
             noRemainingParents: "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem öffentlichen Oberthema zugeordnet sein.",
-            parentIsRoot: "Unter 'Alle Themem', darfst du nur private Themen hinzufügen",
+            parentIsRoot: "Unter 'Globales Wiki', darfst du nur private Themen hinzufügen",
             loopLink: "Man kann keine Themen sich selber unterordnen",
             isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
             isNotAChild: "Das Thema ist bereits kein Unterthema",
@@ -44,7 +45,9 @@ export const messages: any = {
             tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
             pinnedQuestions: "",
-            circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden"
+            circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
+            topicNotSelected: "Du hast kein Thema ausgewählt",
+            newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
         },
         question: {
             missingText: "Der Fragetext fehlt.",
@@ -54,7 +57,7 @@ export const messages: any = {
             isInWuwi: (count: number | string) =>
                 `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
-            errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht."
+            errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
         },
         user: {
             notLoggedIn: "Bitte logge dich ein.",
@@ -71,18 +74,29 @@ export const messages: any = {
             invalidFBToken: "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
             emailIsInvalid: (email: string) => `${email} ist keine gültige E-Mail-Adresse.`,
             passwordTooShort: "Das Passwort sollte mindestens 5 Zeichen lang sein.",
-            loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
+            loginFailed: "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort.",
         },
         default: "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
+        route: {
+            notFound: "Oh nein! Diese Seite existiert nicht.",
+            noRights: "Diese Seite ist privat. Du hast keine Berechtigung, sie anzusehen.",
+            unauthorized: "Du bist nicht angemeldet. Möglicherweise hast du deshalb keinen Zugriff auf diese Seite."
+        },
         image: {
             tooBig: "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
         },
         learningSession: {
             noQuestionsAvailableWithCurrentConfig: 'Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus.',
         },
+        api: {
+            title: "Oops!",
+            body: "<div class='alert-msg-container'><div class='alert-msg'>Ein unerwarteter Fehler ist aufgetreten. <br />Das Neuladen der Website könnte das Problem lösen.</div></div>"    
+        }
     },
     info: {
-        category: {},
+        category: {
+            toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Themen ohne Textinhalt.",
+        },
         question: {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.',
             notInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',

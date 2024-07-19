@@ -39,8 +39,20 @@ function footerCheck() {
     }
 }
 
-watch(() => topicStore.contentHasChanged, () => {
-    footerCheck
+function handleSaveShortcut(e: KeyboardEvent) {
+    if (e.ctrlKey && e.key === 's') {
+        e.preventDefault()
+        topicStore.saveTopic()
+    }
+}
+
+watch(() => topicStore.contentHasChanged, (val) => {
+    footerCheck()
+    if (userStore.isLoggedIn) {
+        if (val)
+            document.addEventListener('keydown', handleSaveShortcut)
+        else document.removeEventListener('keydown', handleSaveShortcut)
+    }
 })
 
 watch(() => topicStore.id, () => {
@@ -74,7 +86,8 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-    <div id="EditBar" class="col-xs-12">
+    <div id="EditBar" class="col-xs-12"
+        :class="{ 'is-shown': topicStore.contentHasChanged && tabsStore.activeTab == Tab.Topic }">
         <div class="fab-container">
             <template v-if="tabsStore.activeTab == Tab.Topic">
                 <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged">
@@ -151,6 +164,11 @@ const { isMobile } = useDevice()
     bottom: 0;
     z-index: 16;
     height: 56px;
+    pointer-events: none;
+
+    &.is-shown {
+        pointer-events: all;
+    }
 
     .fab-container {
         display: flex;

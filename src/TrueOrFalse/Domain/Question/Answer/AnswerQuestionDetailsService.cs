@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-
-namespace TrueOrFalse.Domain.Question.Answer;
+﻿namespace TrueOrFalse.Domain.Question.Answer;
 
 public record struct AnswerQuestionDetailsResult(
     KnowledgeStatus KnowledgeStatus,
@@ -15,7 +12,7 @@ public record struct AnswerQuestionDetailsResult(
     int OverallAnsweredCorrectly,
     int OverallAnsweredWrongly,
     bool IsInWishknowledge,
-    AnswerQuestionDetailsTopic[] Topics,
+    AnswerQuestionDetailsTopicItem[] Topics,
     QuestionVisibility Visibility,
     long DateNow,
     long EndTimer,
@@ -27,16 +24,15 @@ public record struct AnswerQuestionDetailsResult(
 
 public record struct MacroCreator(int Id, string Name);
 
-public record struct AnswerQuestionDetailsTopic(
+public record struct AnswerQuestionDetailsTopicItem(
     int Id,
     string Name,
-    string Url,
     int QuestionCount,
     string ImageUrl,
-    string IconHtml,
     string MiniImageUrl,
     int Visibility,
-    bool IsSpoiler);
+    bool IsSpoiler
+);
 
 public record struct License(
     bool IsDefault,

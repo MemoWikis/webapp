@@ -36,14 +36,16 @@ public class CategoryRepository(
         return GetByIdsEager();
     }
 
-    public Category GetByIdEager(int categoryId)
-    {
-        return GetByIdsEager(new[] { categoryId }).FirstOrDefault();
-    }
+    public Category GetByIdEager(int categoryId) =>
+        GetByIdsEager(new[] { categoryId }).FirstOrDefault();
 
-    public Category GetByIdEager(CategoryCacheItem category)
+
+    public override void Delete(int categoryId)
     {
-        return GetByIdsEager(new[] { category.Id }).FirstOrDefault();
+        _session.CreateSQLQuery("DELETE FROM category WHERE Id = :categoryId")
+            .SetParameter("categoryId", categoryId)
+            .ExecuteUpdate();
+        ClearAllItemCache();
     }
 
     public IList<Category> GetByIds(List<int> questionIds)
@@ -65,6 +67,13 @@ public class CategoryRepository(
         }
 
         return result;
+    }
+
+    public Category GetById(int categoryId)
+    {
+        return _session.QueryOver<Category>()
+            .Where(c => c.Id == categoryId)
+            .SingleOrDefault();
     }
 
     public IList<Category> GetByIdsEager(IEnumerable<int> categoryIds = null)
@@ -155,6 +164,11 @@ public class CategoryRepository(
         Update(category);
     }
 
+    public void BaseUpdate(Category category)
+    {
+        base.Update(category);
+    }
+
     // ReSharper disable once MethodOverloadWithOptionalParameter
     public void Update(
         Category category,
@@ -209,7 +223,6 @@ public class CategoryRepository(
         }
 
         Flush();
-        updateQuestionCountForCategory.RunOnlyDb(category);
         Task.Run(async () =>
         {
             await new MeiliSearchCategoriesDatabaseOperations()

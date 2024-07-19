@@ -7,12 +7,15 @@ import { getHighlightedCode, random } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { useTopicStore } from '~~/components/topic/topicStore'
+import { useCommentsStore } from '~/components/comment/commentsStore'
 
 const learningSessionStore = useLearningSessionStore()
 const activityPointsStore = useActivityPointsStore()
 const topicStore = useTopicStore()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
+const commentsStore = useCommentsStore()
+commentsStore.loadComments()
 
 const answerIsCorrect = ref(false)
 const answerIsCorrectPopUp = ref(false)
@@ -131,7 +134,7 @@ async function answer() {
         isLearningSession: learningSessionStore.isLearningSession
     }
 
-    const result = await $fetch<any>(`/apiVue/AnswerBody/SendAnswerToLearningSession/`,
+    const result = await $api<any>(`/apiVue/AnswerBody/SendAnswerToLearningSession/`,
         {
             method: 'POST',
             body: data,
@@ -192,12 +195,13 @@ function highlightCode() {
                 block.innerHTML = getHighlightedCode(block.textContent)
         })
 }
+
 const answerBodyModel = ref<AnswerBodyModel>()
 
 async function loadAnswerBodyModel() {
     if (!learningSessionStore.currentStep)
         return
-    const result = await $fetch<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
+    const result = await $api<AnswerBodyModel>(`/apiVue/AnswerBody/Get/${learningSessionStore.currentIndex}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
@@ -245,7 +249,7 @@ async function markAsCorrect() {
         amountOfTries: amountOfTries.value,
     }
 
-    const result = await $fetch<boolean>('/apiVue/AnswerBody/MarkAsCorrect', {
+    const result = await $api<boolean>('/apiVue/AnswerBody/MarkAsCorrect', {
         method: 'POST',
         mode: 'cors',
         body: data,
@@ -276,7 +280,7 @@ async function loadSolution(answered: boolean = true) {
         interactionNumber: amountOfTries.value,
         unanswered: !answered
     }
-    const solutionResult = await $fetch<SolutionData>('/apiVue/AnswerBody/GetSolution',
+    const solutionResult = await $api<SolutionData>('/apiVue/AnswerBody/GetSolution',
         {
             method: 'POST',
             body: data,
@@ -367,7 +371,11 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
             </div>
 
             <div class="AnswerQuestionBodyMenu">
-
+                <div class="answerbody-btn visibility" v-if="answerBodyModel.isPrivate">
+                    <div class="answerbody-btn-inner no-btn">
+                        <font-awesome-icon :icon="['fas', 'lock']" />
+                    </div>
+                </div>
                 <div class="Pin answerbody-btn" :data-question-id="answerBodyModel.id">
                     <div class="answerbody-btn-inner">
                         <QuestionPin :question-id="answerBodyModel.id" :key="answerBodyModel.id"
@@ -376,9 +384,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                 </div>
                 <QuestionAnswerBodyOptions v-if="answerBodyModel" :id="answerBodyModel.id"
                     :title="answerBodyModel.title" :can-edit="answerBodyModel.isCreator || userStore.isAdmin" />
-
             </div>
-
         </div>
 
         <div class="row">
@@ -469,9 +475,8 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                                         </div>
                                     </template>
 
-                                    <div
-                                        v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
-                                            && (amountOfTries === 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
+                                    <div v-if="learningSessionStore.isLearningSession && !learningSessionStore.isInTestMode
+        && (amountOfTries === 0 && !showAnswer && learningSessionStore.currentStep?.state != AnswerState.Skipped)">
                                         <button class="SecAction btn btn-link memo-button"
                                             @click="learningSessionStore.skipStep()">
                                             <font-awesome-icon icon="fa-solid fa-forward" /> Frage überspringen
@@ -661,6 +666,18 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
 
             &:active {
                 filter: brightness(0.85)
+            }
+
+            &.no-btn {
+                cursor: default;
+
+                &:hover {
+                    filter: brightness(1)
+                }
+
+                &:active {
+                    filter: brightness(1)
+                }
             }
         }
     }

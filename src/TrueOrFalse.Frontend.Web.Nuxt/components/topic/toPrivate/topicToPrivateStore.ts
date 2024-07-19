@@ -41,7 +41,7 @@ export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
             this.showModal = false
             this.questionsToPrivate = false
             this.allQuestionsToPrivate = false
-            const result = await $fetch<FetchResult<TopicToPrivateData>>(`/apiVue/TopicToPrivateStore/Get/${id}`, {
+            const result = await $api<FetchResult<TopicToPrivateData>>(`/apiVue/TopicToPrivateStore/Get/${id}`, {
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -60,7 +60,7 @@ export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
         },
         async setToPrivate() {
             const alertStore = useAlertStore()
-            const result = await $fetch<FetchResult<null>>(`/apiVue/TopicToPrivateStore/Set/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
+            const result = await $api<FetchResult<null>>(`/apiVue/TopicToPrivateStore/Set/${this.id}`, { method: 'POST', mode: 'cors', credentials: 'include' })
             if (result.success) {
                 this.showModal = false
 
@@ -90,7 +90,7 @@ export const useTopicToPrivateStore = defineStore('topicToPrivateStore', {
             const data = {
                 questionIds: this.allQuestionsToPrivate ? this.allQuestionIds : this.personalQuestionIds,
             }
-            $fetch<any>('/apiVue/TopicToPrivateStore/SetQuestionsToPrivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
+            $api<any>('/apiVue/TopicToPrivateStore/SetQuestionsToPrivate', { method: 'POST', body: data, mode: 'cors', credentials: 'include' })
         }
     }
 })

@@ -47,7 +47,7 @@ onMounted(() => {
 
 const topicsToFilter = computed<number[]>(() => {
 
-    let topicsToFilter = process.server ? props.children.map(c => c.id) : topicStore.gridItems.map(c => c.id)
+    let topicsToFilter = import.meta.server ? props.children.map(c => c.id) : topicStore.gridItems.map(c => c.id)
     topicsToFilter.push(topicStore.id)
 
     return topicsToFilter
@@ -135,7 +135,7 @@ async function addGridItem(id: number) {
 }
 
 async function loadGridItem(id: number) {
-    const result = await $fetch<FetchResult<GridTopicItem>>(`/apiVue/Grid/GetItem/${id}`, {
+    const result = await $api<FetchResult<GridTopicItem>>(`/apiVue/Grid/GetItem/${id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'
@@ -299,6 +299,8 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     }
 
     .grid-header {
+        min-height: 40px;
+        height: 40px;
         justify-content: space-between;
 
         .grid-options {
@@ -341,7 +343,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                 text-wrap: nowrap;
 
                 &.is-mobile {
-                    // font-size: 12px;
+                    line-height: 16px;
                 }
             }
 

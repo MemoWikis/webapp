@@ -6,19 +6,25 @@ import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
 import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
+import { AlertType, messages, useAlertStore } from './components/alert/alertStore'
+import { ErrorCode } from './components/error/errorCodeEnum'
+import { NuxtError } from '#app'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
 const rootTopicChipStore = useRootTopicChipStore()
 
+const { $urlHelper, $vfm, $logger } = useNuxtApp()
+
 const headers = useRequestHeaders(['cookie']) as HeadersInit
+
 const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurrentUser', {
 	method: 'GET',
 	credentials: 'include',
 	mode: 'no-cors',
 	onRequest({ options }) {
-		if (process.server) {
+		if (import.meta.server) {
 			options.headers = headers
 			options.baseURL = config.public.serverBase
 		}
@@ -32,11 +38,12 @@ if (currentUser.value != null) {
 	useState('currentuser', () => currentUser.value)
 }
 
+
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
-		if (process.server) {
+		if (import.meta.server) {
 			options.baseURL = config.public.serverBase
 		}
 	},
@@ -75,7 +82,6 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 	breadcrumbItems.value = e
 }
 const route = useRoute()
-const { $urlHelper } = useNuxtApp()
 userStore.$onAction(({ name, after }) => {
 	if (name == 'logout') {
 
@@ -122,7 +128,6 @@ async function handleLogin() {
 		await refreshNuxtData()
 }
 
-const { $vfm } = useNuxtApp()
 const { openedModals } = $vfm
 const modalIsOpen = ref(false)
 watch(() => openedModals, (val) => {
@@ -141,6 +146,48 @@ useHead(() => ({
 	]
 }))
 const { isMobile } = useDevice()
+const statusCode = ref<number>(0)
+function clearErr() {
+	statusCode.value = 0
+	clearError()
+}
+function logError(e: any) {
+	$logger.info('Nuxt non Fatal Error', [{ error: e }])
+
+	const r = e as NuxtError
+
+	if (r.statusCode)
+		statusCode.value = r.statusCode
+
+	if (statusCode.value === ErrorCode.NotFound || statusCode.value === ErrorCode.Unauthorized)
+		return
+
+	if (import.meta.client) {
+		const alertStore = useAlertStore()
+		alertStore.openAlert(AlertType.Error, { text: null, customHtml: messages.error.api.body, customDetails: e }, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+
+		alertStore.$onAction(({ name, after }) => {
+			if (name == 'closeAlert') {
+
+				after((result) => {
+					if (result.cancelled == false && result.id == 'reloadPage')
+						window.location.reload()
+					else clearErr()
+				})
+			}
+		})
+	}
+}
+
+useHead(() => ({
+	meta: [
+		{
+			name: 'viewport',
+			content: 'width=device-width, initial-scale=1.0, interactive-widget=resizes-content'
+		},
+	]
+}))
+
 </script>
 
 <template>
@@ -152,9 +199,21 @@ const { isMobile } = useDevice()
 	<ClientOnly>
 		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
 	</ClientOnly>
-	<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-		:documentation="footerTopics?.documentation"
-		:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+	<NuxtErrorBoundary @error="logError">
+		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+			@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+		<template #error="{ error }">
+			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+				:error="error" :in-error-boundary="true" @clear-error="clearErr" />
+			<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+				@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
+				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+		</template>
+	</NuxtErrorBoundary>
+
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
 		<LazySpinner />

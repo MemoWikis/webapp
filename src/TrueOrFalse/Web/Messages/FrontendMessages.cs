@@ -57,7 +57,11 @@
             public static readonly string SaveImageError = "error_category_saveImageError";
             public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
             public static readonly string CircularReference = "error_category_circularReference";
-
+            public static readonly string TopicNotSelected = "error_category_topicNotSelected";
+            public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_category_newTopicIdIsTopicIdToBeDeleted";
+            public static readonly string NotFound = Route.NotFound;
+            public static readonly string NoRights = Route.NoRights;
+            public static readonly string Unauthorized = Route.Unauthorized;
         }
 
         public static class Question
@@ -69,6 +73,9 @@
             public static readonly string IsInWuwi = "error_question_isInWuwi";
             public static readonly string Rights = "error_question_rights";
             public static readonly string ErrorOnDelete = "error_question_errorOnDelete";
+            public static readonly string NoRights = Route.NoRights;
+            public static readonly string NotFound = Route.NotFound;
+            public static readonly string Unauthorized = Route.Unauthorized;
         }
 
         public static class User
@@ -87,6 +94,14 @@
             public static readonly string PasswordTooShort = "error_user_passwordTooShort";
             public static readonly string LoginFailed = "error_user_loginFailed";
             public static readonly string FalseEmailFormat = "error_user_falseEmailFormat";
+            public static readonly string NotFound = Route.NotFound;
+        }
+
+        public static class Route
+        {
+            public static readonly string NoRights = "error_route_noRights";
+            public static readonly string NotFound = "error_route_notFound";
+            public static readonly string Unauthorized = "error_route_unauthorized";
         }
 
         public static readonly string Default = "error_default";
@@ -119,7 +134,7 @@
         public static readonly string GoogleLogin = "info_googleLogin";
         public static readonly string FacebookLogin = "info_facebookLogin";
         public static readonly string QuestionNotInFilter = "info_questionNotInFilter";
-        
+
         public static readonly string PasswordResetRequested = "info_passwordResetRequested";
     }
 }

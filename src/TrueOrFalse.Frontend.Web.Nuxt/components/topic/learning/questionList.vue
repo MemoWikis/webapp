@@ -27,7 +27,7 @@ async function loadQuestions(page: number) {
     if (tabsStore.activeTab == Tab.Learning)
         spinnerStore.showSpinner()
 
-    const result = await $fetch<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
+    const result = await $api<any>('/apiVue/TopicLearningQuestionList/LoadQuestions/', {
         method: 'POST',
         body: {
             itemCountPerPage: itemCountPerPage.value,
@@ -101,7 +101,7 @@ deleteQuestionStore.$onAction(({ name, after }) => {
 async function loadNewQuestion(index: number) {
     spinnerStore.showSpinner()
 
-    const result = await $fetch<FetchResult<QuestionListItem>>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/${index}`, {
+    const result = await $api<FetchResult<QuestionListItem>>(`/apiVue/TopicLearningQuestionList/LoadNewQuestion/${index}`, {
         mode: 'cors',
         credentials: 'include',
         onResponseError(context) {
@@ -124,8 +124,9 @@ async function loadNewQuestion(index: number) {
 <template>
     <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
-        <TopicLearningQuestion v-for="(q, index) in questions" :question="q" :is-last-item="index == (questions.length - 1)"
-            :session-index="q.sessionIndex" :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
+        <TopicLearningQuestion v-for="(q, index) in questions" :question="q"
+            :is-last-item="index == (questions.length - 1)" :session-index="q.sessionIndex"
+            :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
         <TopicLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 

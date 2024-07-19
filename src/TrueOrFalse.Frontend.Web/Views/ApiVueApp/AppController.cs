@@ -1,8 +1,11 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using VueApp;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
-public class AppController(VueSessionUser _vueSessionUser) : Controller
+namespace VueApp;
+
+public class AppController(
+    FrontEndUserData _frontEndUserData,
+    SessionUser _sessionUser) : BaseController(_sessionUser)
 {
     public readonly record struct GetCurrentUserResult(
         bool IsLoggedIn,
@@ -35,37 +38,37 @@ public class AppController(VueSessionUser _vueSessionUser) : Controller
     [HttpGet]
     public GetCurrentUserResult GetCurrentUser()
     {
-        var sessionUser = _vueSessionUser.GetCurrentUserData();
+        var currentUser = _frontEndUserData.Get();
 
         return new GetCurrentUserResult
         {
-            IsLoggedIn = sessionUser.IsLoggedIn,
-            Id = sessionUser.Id,
-            Name = sessionUser.Name,
-            Email = sessionUser.Email,
-            IsAdmin = sessionUser.IsAdmin,
-            PersonalWikiId = sessionUser.PersonalWikiId,
-            Type = sessionUser.Type,
-            ImgUrl = sessionUser.ImgUrl,
-            Reputation = sessionUser.Reputation,
-            ReputationPos = sessionUser.ReputationPos,
-            PersonalWiki = sessionUser.PersonalWiki,
+            IsLoggedIn = currentUser.IsLoggedIn,
+            Id = currentUser.Id,
+            Name = currentUser.Name,
+            Email = currentUser.Email,
+            IsAdmin = currentUser.IsAdmin,
+            PersonalWikiId = currentUser.PersonalWikiId,
+            Type = currentUser.Type,
+            ImgUrl = currentUser.ImgUrl,
+            Reputation = currentUser.Reputation,
+            ReputationPos = currentUser.ReputationPos,
+            PersonalWiki = currentUser.PersonalWiki,
             ActivityPoints = new ActivityPoints
             {
-                Points = sessionUser.ActivityPoints.Points,
-                Level = sessionUser.ActivityPoints.Level,
-                LevelUp = sessionUser.ActivityPoints.LevelUp,
+                Points = currentUser.ActivityPoints.Points,
+                Level = currentUser.ActivityPoints.Level,
+                LevelUp = currentUser.ActivityPoints.LevelUp,
                 ActivityPointsPercentageOfNextLevel =
-                    sessionUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
-                ActivityPointsTillNextLevel = sessionUser.ActivityPoints.ActivityPointsTillNextLevel
+                    currentUser.ActivityPoints.ActivityPointsPercentageOfNextLevel,
+                ActivityPointsTillNextLevel = currentUser.ActivityPoints.ActivityPointsTillNextLevel
             },
-            UnreadMessagesCount = sessionUser.UnreadMessagesCount,
-            SubscriptionType = sessionUser.SubscriptionType,
-            HasStripeCustomerId = sessionUser.HasStripeCustomerId,
-            EndDate = sessionUser.EndDate,
-            SubscriptionStartDate = sessionUser.SubscriptionStartDate,
-            IsSubscriptionCanceled = sessionUser.IsSubscriptionCanceled,
-            IsEmailConfirmed = sessionUser.IsEmailConfirmed
+            UnreadMessagesCount = currentUser.UnreadMessagesCount,
+            SubscriptionType = currentUser.SubscriptionType,
+            HasStripeCustomerId = currentUser.HasStripeCustomerId,
+            EndDate = currentUser.EndDate,
+            SubscriptionStartDate = currentUser.SubscriptionStartDate,
+            IsSubscriptionCanceled = currentUser.IsSubscriptionCanceled,
+            IsEmailConfirmed = currentUser.IsEmailConfirmed
         };
     }
 
