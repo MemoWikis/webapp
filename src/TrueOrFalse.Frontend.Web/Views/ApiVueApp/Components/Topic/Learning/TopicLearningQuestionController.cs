@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Concurrent;
 using System.Linq;
 
@@ -10,7 +8,6 @@ public class TopicLearningQuestionController(
     CommentRepository _commentRepository,
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
-    IWebHostEnvironment _webHostEnvironment,
     ExtendedUserCache _sessionUserCache) : Controller
 {
     public readonly record struct LoadQuestionDataResult(bool Success, QuestionData Data);

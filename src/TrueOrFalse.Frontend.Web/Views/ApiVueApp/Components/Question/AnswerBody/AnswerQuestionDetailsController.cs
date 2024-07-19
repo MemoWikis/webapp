@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -13,7 +12,6 @@ public class AnswerQuestionDetailsController(
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
-    IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
     [HttpGet]
