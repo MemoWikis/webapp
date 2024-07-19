@@ -1420,6 +1420,12 @@ watch(() => userStore.isLoggedIn, () => {
                 }
             }
         }
+
+        .created {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
     }
 
     .questionDetailsFooterPartialRight {
@@ -1428,10 +1434,14 @@ watch(() => userStore.isLoggedIn, () => {
         justify-content: flex-end;
         padding-right: 4px;
         align-items: center;
+        flex-wrap: wrap;
 
         .wishknowledgeCount,
         .viewCount,
         .commentCount {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 0 8px;
 
             i {
@@ -1448,11 +1458,6 @@ watch(() => userStore.isLoggedIn, () => {
             }
         }
     }
-}
-
-.created {
-    display: flex;
-    align-items: center;
 }
 
 .detail-label {
