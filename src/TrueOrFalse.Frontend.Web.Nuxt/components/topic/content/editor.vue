@@ -145,6 +145,8 @@ onMounted(() => {
             outlineStore.editorIsFocused = true
         })
 
+        editor.value.on('selectionUpdate', updateCursorIndex);
+
         editor.value.on('blur', () => {
             outlineStore.editorIsFocused = false
         })
