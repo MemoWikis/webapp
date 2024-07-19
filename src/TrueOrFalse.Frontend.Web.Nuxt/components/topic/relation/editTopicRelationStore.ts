@@ -141,6 +141,14 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
             })
 
             if (result.success == true) {
+
+                const snackbarStore = useSnackbarStore()
+                const data: SnackbarData = {
+                    type: 'success',
+                    text: messages.success.category.addedToPersonalWiki
+                }
+                snackbarStore.showSnackbar(data)
+
                 return {
                     success: true,
                     id: id
