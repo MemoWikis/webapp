@@ -103,10 +103,18 @@ const editor = useEditor({
     },
 })
 
+function setHeadings() {
+    const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
+    if (contentArray)
+        outlineStore.setHeadings(contentArray)
+}
+
 topicStore.$onAction(({ name, after }) => {
-    after(() => {
-        if (name == 'resetContent')
+    after(async () => {
+        if (name == 'resetContent') {
             editor.value?.commands.setContent(topicStore.content)
+            setHeadings()
+        }
     })
 })
 
@@ -130,9 +138,7 @@ const spinnerStore = useSpinnerStore()
 
 onMounted(() => {
     spinnerStore.hideSpinner()
-    const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
-    if (contentArray)
-        outlineStore.setHeadings(contentArray)
+    setHeadings()
 
     if (editor.value) {
         editor.value.on('focus', () => {
