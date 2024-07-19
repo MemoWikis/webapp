@@ -1,4 +1,6 @@
-﻿public class LearningSessionCreator : IRegisterAsInstancePerLifetime
+﻿using System.Collections.Concurrent;
+
+public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 {
     private readonly SessionUser _sessionUser;
     private readonly LearningSessionCache _learningSessionCache;
@@ -238,8 +240,8 @@
         {
             foreach (var question in allQuestions)
             {
-                var questionProps =
-                    BuildQuestionProperties(question, config, allQuestionValuations);
+                var userQuestionValuations = _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations;
+                var questionProps = BuildQuestionProperties(question, config, allQuestionValuations, userQuestionValuations);
 
                 if (questionProps.AddToLearningSession)
                 {
@@ -322,7 +324,8 @@
     public QuestionProperties BuildQuestionProperties(
         QuestionCacheItem question,
         LearningSessionConfig config,
-        IList<QuestionValuationCacheItem> allQuestionValuation)
+        IList<QuestionValuationCacheItem> allQuestionValuations,
+        ConcurrentDictionary<int, QuestionValuationCacheItem>? userQuestionValuations)
     {
         var questionProperties = new QuestionProperties();
 
@@ -331,10 +334,18 @@
 
         if (_sessionUser.IsLoggedIn)
         {
-            var questionValuation = allQuestionValuation.FirstOrDefault(qv => qv.Question.Id == question.Id);
 
-            questionProperties = FilterByWuwi(questionValuation, config, questionProperties);
-            questionProperties = FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
+            if (userQuestionValuations != null && userQuestionValuations.TryGetValue(question.Id, out QuestionValuationCacheItem? userValuation))
+            {
+                questionProperties = FilterByWuwi(userValuation, config, questionProperties);
+                questionProperties = FilterQuestionInUserValuationByKnowledgeSummary(config, question, questionProperties, userValuation);
+            }
+            else
+            {
+                var questionValuation = allQuestionValuations.FirstOrDefault(qv => qv.Question.Id == question.Id);
+                questionProperties = FilterByWuwi(questionValuation, config, questionProperties);
+                questionProperties = FilterByKnowledgeSummary(config, question, questionProperties, questionValuation);
+            }
         }
         else
         {
@@ -354,10 +365,12 @@
 
         if (learningSession != null)
         {
-            var allQuestionValuation =
-                _extendedUserCache.GetQuestionValuations(config.CurrentUserId);
+            var allQuestionValuations = _extendedUserCache.GetQuestionValuations(config.CurrentUserId);
+            var userQuestionValuations = _sessionUser.IsLoggedIn
+                ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
+                : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
 
-            var questionProps = BuildQuestionProperties(question, config, allQuestionValuation);
+            var questionProps = BuildQuestionProperties(question, config, allQuestionValuations, userQuestionValuations);
 
             learningSession.QuestionCounter =
                 CountQuestionsForSessionConfig(questionProps, learningSession.QuestionCounter);
@@ -566,6 +579,56 @@
                 questionProperties.AddToLearningSession = false;
         }
         else if (questionValuation.CorrectnessProbability >= 80)
+        {
+            questionProperties.Solid = true;
+
+            if (!config.Solid)
+                questionProperties.AddToLearningSession = false;
+        }
+
+        questionProperties.PersonalCorrectnessProbability =
+            questionValuation?.CorrectnessProbability ?? question.CorrectnessProbability;
+
+        // if user deselected all input
+        // question should be added anyway
+        if (!config.NotLearned &&
+            !config.NeedsConsolidation &&
+            !config.NeedsLearning &&
+            !config.Solid)
+            questionProperties.AddToLearningSession = true;
+
+        return questionProperties;
+    }
+
+    private static QuestionProperties FilterQuestionInUserValuationByKnowledgeSummary(
+        LearningSessionConfig config,
+        QuestionCacheItem question,
+        QuestionProperties questionProperties,
+        QuestionValuationCacheItem? questionValuation)
+    {
+
+        if (questionValuation.CorrectnessProbabilityAnswerCount <= 0)
+        {
+            questionProperties.NotLearned = true;
+
+            if (!config.NotLearned)
+                questionProperties.AddToLearningSession = false;
+        }
+        else if (questionValuation.KnowledgeStatus == KnowledgeStatus.NeedsLearning)
+        {
+            questionProperties.NeedsLearning = true;
+
+            if (!config.NeedsLearning)
+                questionProperties.AddToLearningSession = false;
+        }
+        else if (questionValuation.KnowledgeStatus == KnowledgeStatus.NeedsConsolidation)
+        {
+            questionProperties.NeedsConsolidation = true;
+
+            if (!config.NeedsConsolidation)
+                questionProperties.AddToLearningSession = false;
+        }
+        else if (questionValuation.KnowledgeStatus == KnowledgeStatus.Solid)
         {
             questionProperties.Solid = true;
 
