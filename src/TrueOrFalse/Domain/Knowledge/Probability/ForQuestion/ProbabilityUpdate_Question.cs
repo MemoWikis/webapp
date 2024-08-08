@@ -9,21 +9,15 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
     private readonly JobQueueRepo _jobQueueRepo;
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly QuestionWritingRepo _questionWritingRepo;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public ProbabilityUpdate_Question(AnswerRepo ansewRepo,
         JobQueueRepo jobQueueRepo, QuestionReadingRepo questionReadingRepo,
-        QuestionWritingRepo questionWritingRepo,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        QuestionWritingRepo questionWritingRepo)
     {
         _ansewRepo = ansewRepo;
         _jobQueueRepo = jobQueueRepo;
         _questionReadingRepo = questionReadingRepo;
         _questionWritingRepo = questionWritingRepo;
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
     public void Run()
     {

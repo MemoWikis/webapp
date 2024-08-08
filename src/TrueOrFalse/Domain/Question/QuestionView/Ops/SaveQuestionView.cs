@@ -22,13 +22,12 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public void Run(Guid questionViewGuid, QuestionCacheItem question, IUserTinyModel user)
+    public void Run(QuestionCacheItem question, IUserTinyModel user)
     {
-        Run(questionViewGuid, question, user?.Id ?? -1);
+        Run( question, user?.Id ?? -1);
     }
 
     public void Run(
-        Guid questionViewGuid,
         QuestionCacheItem question,
         int userId)
     {
@@ -42,7 +41,6 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
 
         _questionViewRepo.Create(new QuestionView
         {
-            Guid = questionViewGuid,
             QuestionId = question.Id,
             UserId = userId,
             Milliseconds = -1,

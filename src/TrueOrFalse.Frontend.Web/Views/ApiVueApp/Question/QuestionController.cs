@@ -24,7 +24,8 @@ public class QuestionController(
     ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
-    TotalsPersUserLoader _totalsPersUserLoader) : Controller
+    TotalsPersUserLoader _totalsPersUserLoader,
+    SaveQuestionView _saveQuestionView) : Controller
 {
     public readonly record struct QuestionPageResult(
         AnswerBodyModel? AnswerBodyModel,
@@ -81,6 +82,7 @@ public class QuestionController(
             var solution = GetQuestionSolution.Run(question);
 
             EscapeReferencesText(question.References);
+            _saveQuestionView.Run(question, new UserTinyModel(EntityCache.GetUserById(_sessionUser.UserId)));
             return new QuestionPageResult
             {
                 AnswerBodyModel = new AnswerBodyModel

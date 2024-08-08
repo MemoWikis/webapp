@@ -22,6 +22,16 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             .Value;
     }
 
+    public int GetTodayViewCount(int categoryId)
+    {
+        return _session.QueryOver<CategoryView>()
+            .Select(Projections.RowCount())
+            .Where(x => x.Category.Id == categoryId 
+                        && DateTime.Now.Date == x.DateCreated.Date)
+            .FutureValue<int>()
+            .Value;
+    }
+
     public void AddView(string userAgent, int topicId, int userId)
     {
         var topic = _categoryRepository.GetById(topicId);
@@ -40,5 +50,9 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             _session.Save(categoryView);
             transaction.Commit();
         }
+
+       var categoryCacheItem =  EntityCache.GetCategory(topicId);
+       if (categoryCacheItem != null)
+           categoryCacheItem.TodayViewCount ++; 
     }
 }

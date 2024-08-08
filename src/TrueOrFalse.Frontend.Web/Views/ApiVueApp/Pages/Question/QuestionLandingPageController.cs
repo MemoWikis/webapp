@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ public class QuestionLandingPageController(
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     ExtendedUserCache _extendedUserCache,
-    IActionContextAccessor _actionContextAccessor,
+    //QuestionViewRepository _questionViewRepository,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
@@ -108,7 +107,8 @@ public class QuestionLandingPageController(
         var solution = GetQuestionSolution.Run(q);
         var title = Regex.Replace(q.Text, "<.*?>", string.Empty);
         EscapeReferencesText(q.References);
-
+        var userAgent = Request.Headers["User-Agent"].ToString();
+        //_questionViewRepository.AddView(userAgent, id, _sessionUser.UserId);
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel

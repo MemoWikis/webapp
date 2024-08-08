@@ -69,6 +69,7 @@ public class QuestionCacheItem
     public virtual int TotalRelevancePersonalEntries { get; set; }
 
     public virtual int TotalTrueAnswers { get; set; }
+    public int TodayViewCount { get; set; }
 
     public virtual int TotalViews { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
@@ -201,6 +202,7 @@ public class QuestionCacheItem
             SolutionMetadataJson = question.SolutionMetadataJson,
             License = question.License
         };
+
         if (!EntityCache.IsFirstStart)
         {
             questionCacheItem.References =
@@ -210,9 +212,19 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(List<Question> questions)
+    public static QuestionCacheItem ToCacheItemWithViews(Question question, QuestionViewRepository questionViewRepository)
+    {
+        var questionCacheItem = ToCacheQuestion(question);
+        questionCacheItem.TodayViewCount = questionViewRepository.GetTodayViewCount(question.Id);
+        return questionCacheItem;
+    }
+    public static IEnumerable<QuestionCacheItem>  ToCacheItemsWithViews(IEnumerable<Question> questions, QuestionViewRepository questionViewRepository)
     {
         return questions.Select(q => ToCacheQuestion(q));
+    }
+    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(List<Question> questions, QuestionViewRepository questionViewRepository)
+    {
+        return questions.Select(q => ToCacheItemWithViews(q, questionViewRepository));
     }
 
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions)

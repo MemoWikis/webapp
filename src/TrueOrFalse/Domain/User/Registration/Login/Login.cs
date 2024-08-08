@@ -36,8 +36,9 @@ namespace TrueOrFalse.Domain.User
                         _persistentLoginRepo,
                         _httpContextAccessor.HttpContext);
                 }
-
-                _sessionUser.Login(_credentialsAreValid.User);
+                var user = _credentialsAreValid.User;
+                _sessionUser.Login(user);
+                EntityCache.GetUserById(user.Id).LastLogin = DateTime.Now;
 
                 TransferActivityPoints.FromSessionToUser(_sessionUser, _activityPointsRepo);
                 _userWritingRepo.UpdateActivityPointsData();
