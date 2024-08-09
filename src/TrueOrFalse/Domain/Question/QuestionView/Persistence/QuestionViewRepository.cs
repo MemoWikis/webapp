@@ -1,10 +1,8 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
-using Seedworks.Lib.Persistence;
 
 public class QuestionViewRepository(ISession _session) : RepositoryDbBase<QuestionView>(_session)
 {
-
     public int GetViewCount(int questionId)
     {
         return _session.QueryOver<QuestionView>()
@@ -12,24 +10,6 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .Where(x => x.QuestionId == questionId)
             .FutureValue<int>()
             .Value;
-    }
-    public void AddView(string userAgent, int questionId, int userId)
-    {
-        var questionView = new QuestionView
-        {
-           DateCreated = DateTime.Now,
-           QuestionId = questionId,
-           UserAgent = userAgent,
-           UserId = userId
-        };
-
-        using (var transaction = _session.BeginTransaction())
-        {
-            _session.Save(questionView);
-            transaction.Commit();
-        }
-
-        EntityCache.GetQuestionById(questionId).TodayViewCount ++;
     }
 
     public int GetTodayViewCount(int questionId)

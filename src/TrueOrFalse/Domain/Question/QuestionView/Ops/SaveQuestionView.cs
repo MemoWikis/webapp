@@ -7,24 +7,21 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
     private readonly QuestionViewRepository _questionViewRepo;
     private readonly ISession _session;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SaveQuestionView(
         QuestionViewRepository questionViewRepo,
         ISession session,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor)
     {
         _questionViewRepo = questionViewRepo;
 
         _session = session;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
     public void Run(QuestionCacheItem question, IUserTinyModel user)
     {
-        Run( question, user?.Id ?? -1);
+        Run( question, user.Id);
     }
 
     public void Run(
@@ -38,6 +35,8 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
 
         if (IsCrawlerRequest.Yes(_httpContextAccessor.HttpContext))
             return;
+
+        question.TodayViewCount++; 
 
         _questionViewRepo.Create(new QuestionView
         {

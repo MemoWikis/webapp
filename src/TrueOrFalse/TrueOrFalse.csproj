@@ -88,6 +88,11 @@
 	<ItemGroup>
 	  <Folder Include="Domain\Category\TopicOrder\Persistence\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Web\Crawlers\list-of-crawlers.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 	<!--<ItemGroup>
 	  <Folder Include="Tools\Cache\Redis\" />
 	</ItemGroup>-->

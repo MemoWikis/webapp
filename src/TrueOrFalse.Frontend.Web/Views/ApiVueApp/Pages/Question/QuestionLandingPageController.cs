@@ -17,7 +17,7 @@ public class QuestionLandingPageController(
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     ExtendedUserCache _extendedUserCache,
-    //QuestionViewRepository _questionViewRepository,
+    SaveQuestionView _saveQuestionView,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
@@ -107,8 +107,8 @@ public class QuestionLandingPageController(
         var solution = GetQuestionSolution.Run(q);
         var title = Regex.Replace(q.Text, "<.*?>", string.Empty);
         EscapeReferencesText(q.References);
-        var userAgent = Request.Headers["User-Agent"].ToString();
-        //_questionViewRepository.AddView(userAgent, id, _sessionUser.UserId);
+      
+       _saveQuestionView.Run(EntityCache.GetQuestion(id), new UserTinyModel(EntityCache.GetUserById(_sessionUser.UserId)));
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel
