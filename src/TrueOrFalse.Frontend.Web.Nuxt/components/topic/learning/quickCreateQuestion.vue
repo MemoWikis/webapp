@@ -182,7 +182,6 @@ async function addFlashcard() {
     questionHtml.value = ''
     flashCardAnswer.value = ''
     flashCardEditor.value?.clearFlashCard()
-    topicStore.questionCount++
     topicStore.reloadKnowledgeSummary()
 }
 
