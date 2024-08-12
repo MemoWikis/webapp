@@ -118,6 +118,12 @@ function focus() {
 function blur() {
     outlineStore.titleIsFocused = false
 }
+
+const showParents = computed(() => {
+    if (topicStore.isWiki)
+        return topicStore.parentTopicCount > 0
+    else return topicStore.parentTopicCount > 1
+})
 </script>
 
 <template>
@@ -136,11 +142,11 @@ function blur() {
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
 
-            <div class="topic-detail-spacer" v-if="topicStore.parentTopicCount > 0 && topicStore.childTopicCount > 0">
+            <div class="topic-detail-spacer" v-if="showParents && topicStore.childTopicCount > 0">
             </div>
 
             <VDropdown :distance="6">
-                <button v-show="topicStore.parentTopicCount > 1" class="parent-tree-btn">
+                <button v-show="showParents" class="parent-tree-btn">
 
                     <div class="topic-detail">
                         <font-awesome-icon icon="fa-solid fa-sitemap" rotation="180" class="topic-fa-icon" />
