@@ -590,7 +590,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             questionValuation?.CorrectnessProbability ?? question.CorrectnessProbability;
 
         // if user deselected all input
-        // question should be added anyway
+        // default settings should take place (add all)
         if (!config.NotLearned &&
             !config.NeedsConsolidation &&
             !config.NeedsLearning &&
@@ -640,7 +640,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             questionValuation?.CorrectnessProbability ?? question.CorrectnessProbability;
 
         // if user deselected all input
-        // question should be added anyway
+        // default settings should take place (add all)
         if (!config.NotLearned &&
             !config.NeedsConsolidation &&
             !config.NeedsLearning &&
