@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Diagnostics;
+using NHibernate;
 using NHibernate.Criterion;
 
 public class QuestionViewRepository(ISession _session) : RepositoryDbBase<QuestionView>(_session)
@@ -12,14 +13,17 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .Value;
     }
 
-    public int GetTodayViewCount(int questionId)
+    public IEnumerable<QuestionView> GetAllTodayViews()
     {
-        return _session.QueryOver<QuestionView>()
-            .Select(Projections.RowCount())
-            .Where(x => x.QuestionId == questionId &&
-                        DateTime.Now.Date == x.DateCreated)
-            .FutureValue<int>()
-            .Value;
+        var watch = new Stopwatch();
+        watch.Start();
+        var query = _session.CreateCriteria<QuestionView>()
+            .Add(Restrictions.Ge("DateCreated", DateTime.Now.Date));
+
+        var result = query.List<QuestionView>();  
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        return result;
     }
 
     public void DeleteForQuestion(int questionId)
