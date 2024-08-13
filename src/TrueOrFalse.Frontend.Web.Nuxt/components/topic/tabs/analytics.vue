@@ -38,6 +38,28 @@ onBeforeMount(() => setKnowledgeSummaryData())
 <template>
     <div class="row">
         <div class="col-xs-12">
+            <div class="knowledgesummary-section">
+                <h3>Dein Wissenstand</h3>
+                <div class="knowledgesummary-container">
+                    <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
+                        <div class="knowledgesummary-sub-label">
+                            Fragen nach Status gruppiert
+                        </div>
+                        <div class="knowledgesummary-content">
+                            <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
+                                <div class="color-container" :class="`color-${d.class}`"></div>
+                                <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div v-else>
+                        Du hast noch keine Fragen in diesem Thema
+                    </div>
+                </div>
+            </div>
+
             <div class="topicdata-section">
                 <h3>Daten zum Thema</h3>
                 <div class="topicdata-container">
@@ -74,27 +96,6 @@ onBeforeMount(() => setKnowledgeSummaryData())
                         </ul>
                     </div>
 
-                </div>
-            </div>
-            <div class="knowledgesummary-section">
-                <h3>Dein Wissenstand</h3>
-                <div class="knowledgesummary-container">
-                    <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
-                        <div class="knowledgesummary-sub-label">
-                            Fragen nach Status gruppiert
-                        </div>
-                        <div class="knowledgesummary-content">
-                            <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
-                                <div class="color-container" :class="`color-${d.class}`"></div>
-                                <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div v-else>
-                        Du hast noch keine Fragen in diesem Thema
-                    </div>
                 </div>
             </div>
 
