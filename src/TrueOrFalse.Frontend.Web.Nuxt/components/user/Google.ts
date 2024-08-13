@@ -8,18 +8,21 @@ export class Google {
     public static SignIn() {
         document.cookie = "g_state=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
         const config = useRuntimeConfig()
-
+        
         window.google?.accounts.id.prompt((res: any) => {
-            if (res.isNotDisplayed()) {
+            if (res.isNotDisplayed() || res.isSkippedMoment()) {
 
                 window.google.accounts.oauth2.initTokenClient({
                     client_id: config.public.gsiClientKey,
-                    itp_support: false,
+                    itp_support: true,
                     scope: 'openid',
-                    callback: this.handleCredentialResponse,
-                })
-
-                handleErrorResponse(res.getNotDisplayedReason())
+                    callback: (response: any) =>  {
+                        if (response.error)
+                            handleErrorResponse(response.error)
+                        else
+                            this.handleCredentialResponse(response)
+                    },
+                }).requestAccessToken()
             }
         })
     }
