@@ -48,9 +48,6 @@ public class EntityCacheInitializer(CategoryRepository _categoryRepository,
             EntityCache.Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
                 ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
         }
-
-        var allQuestionViews = _questionViewRepository.GetViewsForLastNDays(365);
-        Cache.IntoForeverCache(EntityCache.CategoriesLastYearViewCount, allQuestionViews);
         Logg.r.Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
     }

@@ -12,6 +12,8 @@ SessionUser _sessionUser) : Controller
         int CreatedPublicTopicCount,
         int ViewsTopics,
         int ViewsQuestions);
+
+    [AccessOnlyAsAdmin]
     public OverviewRunJson GetAllData()
     {
         var allUsers = EntityCache.GetAllUsers();
