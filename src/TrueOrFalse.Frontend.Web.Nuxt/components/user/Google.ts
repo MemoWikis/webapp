@@ -20,7 +20,7 @@ export class Google {
                         if (response.error)
                             handleErrorResponse(response.error)
                         else
-                            this.handleCredentialResponse(null, response.access_token)
+                            this.tryLogin(null, response.access_token)
                     },
                 }).requestAccessToken()
             }
@@ -48,12 +48,12 @@ export class Google {
         }
     }
 
-    public static handleCredential(e: any) {
+    public static handleCredentialResponse(e: any) {
         if (e.credential)
-            this.handleCredentialResponse(e.credential)
+            this.tryLogin(e.credential)
     }
 
-    public static async handleCredentialResponse(credential: string | null, accessToken: string | null = null) {
+    public static async tryLogin(credential: string | null, accessToken: string | null = null) {
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
             method: 'POST', body: { credential: credential, accessToken: accessToken }, mode: 'cors', credentials: 'include', cache: 'no-cache'
