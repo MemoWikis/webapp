@@ -16,6 +16,9 @@ SessionUser _sessionUser) : Controller
     [AccessOnlyAsAdmin]
     public OverviewRunJson GetAllData()
     {
+
+        return new OverviewRunJson(); 
+
         var allUsers = EntityCache.GetAllUsers();
         var todayLogins = allUsers
             .Where(DateTimeChecks.IsLastLoginToday);
