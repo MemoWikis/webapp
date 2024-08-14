@@ -20,7 +20,7 @@ export class Google {
                         if (response.error)
                             handleErrorResponse(response.error)
                         else
-                            this.handleToken(response.access_token)
+                            this.handleCredentialResponse(null, response.access_token)
                     },
                 }).requestAccessToken()
             }
@@ -48,16 +48,15 @@ export class Google {
         }
     }
 
-    public static handleCredentialResponse(e: any) {
-        if (e.credential) {
-            this.handleToken(e.credential)
-        }
+    public static handleCredential(e: any) {
+        if (e.credential)
+            this.handleCredentialResponse(e.credential)
     }
 
-    public static async handleToken(token: string) {
+    public static async handleCredentialResponse(credential: string | null, accessToken: string | null = null) {
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
-            method: 'POST', body: { token:token }, mode: 'cors', credentials: 'include', cache: 'no-cache'
+            method: 'POST', body: { credential: credential, accessToken: accessToken }, mode: 'cors', credentials: 'include', cache: 'no-cache'
         }).catch((error) => handleErrorResponse(error.data))
         if (result && 'success' in result && result.success === true) {
             const userStore = useUserStore()

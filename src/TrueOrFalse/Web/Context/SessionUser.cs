@@ -74,7 +74,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         _extendedUserCache.Add(user.Id);
     }
 
-    public async void Logout()
+    public void Logout()
     {
         IsLoggedIn = false;
         IsInstallationAdmin = false;

@@ -1,5 +1,5 @@
-﻿using Google.Apis.Auth;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using TrueOrFalse.Domain.User;
 
 public class LoginFromCookie
 {
@@ -37,9 +37,18 @@ public class LoginFromCookie
         if (cookieString != null && httpContext != null)
         {
             Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: true);
-            RemovePersistentLoginFromCookie.RunForGoogleCredentials(httpContext);
+            RemovePersistentLoginFromCookie.RunForGoogle(httpContext);
             WritePersistentLoginToCookie.Run(sessionUser.UserId, persistentLoginRepo, httpContext);
         }
+    }
+
+    public static void GoogleLogin(UserReadingRepo userReadingRepo, string googleId, SessionUser sessionUser)
+    {
+        var user = userReadingRepo.UserGetByGoogleId(googleId);
+        if (user == null)
+            throw new Exception("User does not exist");
+
+        sessionUser.Login(user);
     }
 
     public static void RunToRestore(SessionUser sessionUser,
@@ -47,34 +56,21 @@ public class LoginFromCookie
         UserReadingRepo userReadingRepo,
         string cookieString) => Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: false);
 
-
-    public static async Task RunToRestoreGoogle(SessionUser sessionUser, UserReadingRepo userReadingRepo, string googleCredential)
+    public static async Task RunToRestoreGoogleCredential(SessionUser sessionUser, UserReadingRepo userReadingRepo, GoogleLogin googleLogin, string googleCredential)
     {
-        var googleUser = await GetGoogleUser(googleCredential);
+        var googleUser = await googleLogin.GetGoogleUserByCredential(googleCredential);
         if (googleUser == null)
             throw new Exception("GoogleCredentials are invalid");
 
-        var user = userReadingRepo.UserGetByGoogleId(googleUser.Subject);
-        if (user == null)
-            throw new Exception("User does not exist");
-
-        sessionUser.Login(user);
+        GoogleLogin(userReadingRepo, googleUser.Subject, sessionUser);
     }
-    public static async Task<GoogleJsonWebSignature.Payload?> GetGoogleUser(string token)
-    {
-        var settings = new GoogleJsonWebSignature.ValidationSettings()
-        {
-            Audience = new List<string> { Settings.GoogleClientId }
-        };
 
-        try
-        {
-            return await GoogleJsonWebSignature.ValidateAsync(token, settings);
-        }
-        catch (InvalidJwtException e)
-        {
-            Logg.r.Error(e.ToString());
-            return null;
-        }
+    public static async Task RunToRestoreGoogleAccessToken(SessionUser sessionUser, UserReadingRepo userReadingRepo, GoogleLogin googleLogin, string googleAccessToken)
+    {
+        var googleUser = await googleLogin.GetGoogleUserByAccessToken(googleAccessToken);
+        if (googleUser == null)
+            throw new Exception("GoogleCredentials are invalid");
+
+        GoogleLogin(userReadingRepo, googleUser.Id, sessionUser);
     }
 }

@@ -66,5 +66,6 @@ public class Settings
 
 
     public static string GoogleClientId => _configuration["Google:ClientId"];
+    public static string GoogleApplicationName => _configuration["Google:ApplicationName"];
 
 }

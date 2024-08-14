@@ -1,99 +1,43 @@
-﻿using Google.Apis.Auth;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using TrueOrFalse.Domain.User;
 
 namespace VueApp;
 
 public class GoogleController(
-    SessionUser _sessionUser,
     UserReadingRepo _userReadingRepo,
     FrontEndUserData _frontEndUserData,
-    RegisterUser _registerUser,
-    IHttpContextAccessor _httpContextAccessor,
-    PersistentLoginRepo _persistentLoginRepo) : Controller
+    GoogleLogin _googleLogin) : Controller
 {
-    public readonly record struct LoginJson(string token);
+    public readonly record struct LoginRequest(string? credential, string? accessToken);
 
-    public readonly record struct LoginResult(
+    public readonly record struct LoginResponse(
         bool Success,
         string MessageKey,
         FrontEndUserData.CurrentUserData Data);
 
     [HttpPost]
-    public async Task<LoginResult> Login([FromBody] LoginJson json)
+    public async Task<LoginResponse> Login([FromBody] LoginRequest request)
     {
-        var googleUser = await GetGoogleUser(json.token);
-        if (googleUser != null)
-        {
-            var user = _userReadingRepo.UserGetByGoogleId(googleUser.Subject);
 
+        var loginResult = await _googleLogin.Login(request.credential, request.accessToken);
 
-            if (user == null)
-            {
-                var newUser = new GoogleUserCreateParameter
-                {
-                    Email = googleUser.Email,
-                    UserName = googleUser.Name,
-                    GoogleId = googleUser.Subject
-                };
-
-                var result = _registerUser.CreateAndLogin(newUser);
-                AppendGoogleCredentialCookie(json.token, _httpContextAccessor.HttpContext);
-
-                return new LoginResult
-                {
-                    Success = result.Success,
-                    MessageKey = result.MessageKey,
-                    Data = _frontEndUserData.Get()
-                };
-            }
-
-            _sessionUser.Login(user);
-            AppendGoogleCredentialCookie(json.token, _httpContextAccessor.HttpContext);
-
-            return new LoginResult
+        if (loginResult.Success)
+            return new LoginResponse
             {
                 Success = true,
+                MessageKey = loginResult.MessageKey,
                 Data = _frontEndUserData.Get()
             };
-        }
 
-        return new LoginResult
+        return new LoginResponse
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.Default
         };
     }
 
-    private void AppendGoogleCredentialCookie(string token, HttpContext httpContext)
-    {
-        RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
-        httpContext.Response.Cookies.Append(PersistentLoginCookie.GoogleKey, token);
-    }
-
     [HttpPost]
-    public bool UserExists(string googleId)
-    {
-        return _userReadingRepo.GoogleUserExists(googleId);
-    }
+    public bool UserExists(string googleId) => _userReadingRepo.GoogleUserExists(googleId);
 
-    public async Task<GoogleJsonWebSignature.Payload> GetGoogleUser(string token)
-    {
-        var settings = new GoogleJsonWebSignature.ValidationSettings()
-        {
-            Audience = new List<string> { Settings.GoogleClientId }
-        };
-
-        try
-        {
-            return await GoogleJsonWebSignature.ValidateAsync(token, settings);
-        }
-        catch (InvalidJwtException e)
-        {
-            Logg.r.Error(e.ToString());
-            return null;
-        }
-    }
 }
