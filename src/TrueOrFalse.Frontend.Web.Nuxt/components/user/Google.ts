@@ -20,7 +20,7 @@ export class Google {
                         if (response.error)
                             handleErrorResponse(response.error)
                         else
-                            this.tryLogin(null, response.access_token)
+                            this.handleCredentialResponse(null, response.access_token)
                     },
                 }).requestAccessToken()
             }
@@ -47,16 +47,10 @@ export class Google {
             document.head.appendChild(gsiClientScript)
         }
     }
-
-    public static handleCredentialResponse(e: any) {
-        if (e.credential)
-            this.tryLogin(e.credential)
-    }
-
-    public static async tryLogin(credential: string | null, accessToken: string | null = null) {
+    public static async handleCredentialResponse(e: any | null = null, accessToken: string | null = null) {
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/Google/Login', {
-            method: 'POST', body: { credential: credential, accessToken: accessToken }, mode: 'cors', credentials: 'include', cache: 'no-cache'
+            method: 'POST', body: { credential: e.credential, accessToken: accessToken }, mode: 'cors', credentials: 'include', cache: 'no-cache'
         }).catch((error) => handleErrorResponse(error.data))
         if (result && 'success' in result && result.success === true) {
             const userStore = useUserStore()
