@@ -1,8 +1,5 @@
-﻿using Google.Apis.Auth;
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Oauth2.v2;
-using Google.Apis.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using TrueOrFalse.Domain.User;
 
 public class LoginFromCookie
 {
@@ -59,58 +56,18 @@ public class LoginFromCookie
         UserReadingRepo userReadingRepo,
         string cookieString) => Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: false);
 
-    private static async Task<GoogleJsonWebSignature.Payload?> GetGoogleUserByCredential(string token)
+    public static async Task RunToRestoreGoogleCredential(SessionUser sessionUser, UserReadingRepo userReadingRepo, GoogleLogin googleLogin, string googleCredential)
     {
-        var settings = new GoogleJsonWebSignature.ValidationSettings
-        {
-            Audience = new List<string> { Settings.GoogleClientId }
-        };
-
-        try
-        {
-            return await GoogleJsonWebSignature.ValidateAsync(token, settings);
-        }
-        catch (InvalidJwtException e)
-        {
-            Logg.r.Error(e.ToString());
-            return null;
-        }
-    }
-
-    public static async Task RunToRestoreGoogleCredential(SessionUser sessionUser, UserReadingRepo userReadingRepo, string googleCredential)
-    {
-        var googleUser = await GetGoogleUserByCredential(googleCredential);
+        var googleUser = await googleLogin.GetGoogleUserByCredential(googleCredential);
         if (googleUser == null)
             throw new Exception("GoogleCredentials are invalid");
 
         GoogleLogin(userReadingRepo, googleUser.Subject, sessionUser);
     }
 
-    private static async Task<Google.Apis.Oauth2.v2.Data.Userinfo> GetGoogleUserByAccessToken(string accessToken)
+    public static async Task RunToRestoreGoogleAccessToken(SessionUser sessionUser, UserReadingRepo userReadingRepo, GoogleLogin googleLogin, string googleAccessToken)
     {
-        var credential = GoogleCredential.FromAccessToken(accessToken);
-
-        var oauth2Service = new Oauth2Service(new BaseClientService.Initializer
-        {
-            HttpClientInitializer = credential,
-            ApplicationName = Settings.GoogleApplicationName
-        });
-
-        try
-        {
-            var userInfo = await oauth2Service.Userinfo.Get().ExecuteAsync();
-            return userInfo;
-        }
-        catch (InvalidAccessException e)
-        {
-            Logg.r.Error(e.ToString());
-            return null;
-        }
-    }
-
-    public static async Task RunToRestoreGoogleAccessToken(SessionUser sessionUser, UserReadingRepo userReadingRepo, string googleAccessToken)
-    {
-        var googleUser = await GetGoogleUserByAccessToken(googleAccessToken);
+        var googleUser = await googleLogin.GetGoogleUserByAccessToken(googleAccessToken);
         if (googleUser == null)
             throw new Exception("GoogleCredentials are invalid");
 

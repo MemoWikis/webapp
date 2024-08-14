@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
+using TrueOrFalse.Domain.User;
 
 namespace TrueOrFalse.Frontend.Web.Middlewares;
 
@@ -31,14 +32,15 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
                 {
                     var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
                     var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
+                    var googleLogin = scope.ServiceProvider.GetRequiredService<GoogleLogin>();
                     try
                     {
                         if (persistentLoginCookieString != null)
                             LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, persistentLoginCookieString);
                         else if (googleCredentialCookieString != null)
-                            await LoginFromCookie.RunToRestoreGoogleCredential(sessionUser, userReadingRepo, googleCredentialCookieString);
+                            await LoginFromCookie.RunToRestoreGoogleCredential(sessionUser, userReadingRepo, googleLogin, googleCredentialCookieString);
                         else
-                            await LoginFromCookie.RunToRestoreGoogleAccessToken(sessionUser, userReadingRepo, googleAccessTokenCookieString);
+                            await LoginFromCookie.RunToRestoreGoogleAccessToken(sessionUser, userReadingRepo, googleLogin, googleAccessTokenCookieString);
                     }
                     catch (Exception ex)
                     {
