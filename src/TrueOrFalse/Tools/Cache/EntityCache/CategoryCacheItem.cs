@@ -212,15 +212,16 @@ public class CategoryCacheItem : IPersistable
         return categoryCacheItem;
     }
 
-    public static CategoryCacheItem ToCacheItemWithViews(Category category, CategoryViewRepo categoryViewRepo)
+    public static CategoryCacheItem ToCacheItemWithViews(Category category,IEnumerable<CategoryView> categoryViews)
     {
         var categoryCacheItem = ToCacheCategory(category);
-        categoryCacheItem.TodayViewCount = categoryViewRepo.GetTodayViewCount(category.Id);
+        categoryCacheItem.TodayViewCount = categoryViews.Count(cw => cw.DateCreated.Date == DateTime.Now.Date && cw.Category.Id == category.Id);
         return categoryCacheItem;
     }
     public static IEnumerable<CategoryCacheItem> ToCacheCategoriesWithViews(IEnumerable<Category> categories, CategoryViewRepo categoryViewRepo)
     {
-        return categories.Select(c => ToCacheItemWithViews(c, categoryViewRepo));
+        var allCategoriesViews = categoryViewRepo.GetTodayViews();
+        return categories.Select(c => ToCacheItemWithViews(c, allCategoriesViews));
     }
 
     public void UpdateCountQuestionsAggregated(int userId)

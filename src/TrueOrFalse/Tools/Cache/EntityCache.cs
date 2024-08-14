@@ -7,6 +7,7 @@ public class EntityCache
     public const string CacheKeyCategories = "allCategories_EntityCache";
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
+    public const string CategoriesLastYearViewCount = "CategoriesLastYearViewCount_EntityCache";
 
     public static bool IsFirstStart = true;
 
@@ -22,6 +23,8 @@ public class EntityCache
     private static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
 
+    private static ConcurrentDictionary<DateTime, int> QuestionViewDaylieCounts =>
+        Cache.Mgr.Get<ConcurrentDictionary<DateTime, int>>(CategoriesLastYearViewCount);   
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
     /// </summary>
@@ -410,6 +413,10 @@ public class EntityCache
     public static IEnumerable<CategoryCacheRelation> GetCacheRelationsByTopicId(int topicId) =>
         GetAllRelations().Where(r => r.ParentId == topicId || r.ChildId == topicId);
 
+    public static ConcurrentDictionary<DateTime, int> GetAllQuestionViewsFromLastYear => QuestionViewDaylieCounts;
+
+    public static int GetTodayQuestionViewCount =>
+        QuestionViewDaylieCounts.Single(q => q.Key.Date == DateTime.Now.Date).Value; 
     public static void Clear()
     {
         Cache.Mgr.Clear();

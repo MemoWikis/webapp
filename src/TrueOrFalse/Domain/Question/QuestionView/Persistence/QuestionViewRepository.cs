@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -13,22 +14,38 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .Value;
     }
 
-    public IEnumerable<QuestionView> GetAllTodayViews()
+    public ConcurrentDictionary<DateTime, int> GetViewsForLastNDays(int days)
     {
         var watch = new Stopwatch();
         watch.Start();
-        var query = _session.CreateCriteria<QuestionView>()
-            .Add(Restrictions.Ge("DateCreated", DateTime.Now.Date));
 
-        var result = query.List<QuestionView>();  
+        var query = _session.CreateSQLQuery("SELECT COUNT(DateOnly) AS Count, DateOnly FROM QuestionView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY DateOnly");
+        query.SetParameter("days", days);
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummary)))
+            .List<QuestionViewSummary>();
         watch.Stop();
         var elapsed = watch.ElapsedMilliseconds;
-        return result;
+        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
+
+        foreach (var item in result)
+        {
+            dictionaryResult[item.DateOnly] = Convert.ToInt32(item.Count);
+        }
+
+        return dictionaryResult;
     }
 
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionview WHERE QuestionId = :questionId")
             .SetParameter("questionId", questionId).ExecuteUpdate();
+
     }
+    public class QuestionViewSummary
+    {
+        public Int64 Count { get; set; }
+        public DateTime DateOnly { get; set; }
+
+    }
+
 }

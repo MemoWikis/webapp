@@ -212,21 +212,6 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static QuestionCacheItem ToCacheItemWithViews(Question question, QuestionViewRepository questionViewRepository)
-    {
-        var questionCacheItem = ToCacheQuestion(question);
-        questionCacheItem.TodayViewCount = questionViewRepository.GetTodayViewCount(question.Id);
-        return questionCacheItem;
-    }
-    public static IEnumerable<QuestionCacheItem>  ToCacheItemsWithViews(IEnumerable<Question> questions, QuestionViewRepository questionViewRepository)
-    {
-        return questions.Select(q => ToCacheQuestion(q));
-    }
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(List<Question> questions, QuestionViewRepository questionViewRepository)
-    {
-        return questions.Select(q => ToCacheItemWithViews(q, questionViewRepository));
-    }
-
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions)
     {
         return questions.Select(q => ToCacheQuestion(q));

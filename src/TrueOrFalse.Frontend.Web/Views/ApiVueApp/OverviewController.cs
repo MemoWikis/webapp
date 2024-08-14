@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TrueOrFalse.Domain;
 
 namespace ApiVueApp;
-public class OverviewController : Controller
+public class OverviewController(
+SessionUser _sessionUser) : Controller
 {
     public readonly record struct OverviewRunJson(int RegistrationsCount,
         int LoginCount, 
@@ -17,6 +18,7 @@ public class OverviewController : Controller
         var todayLogins = allUsers
             .Where(DateTimeChecks.IsLastLoginToday);
         var todayRegistrations = allUsers.Where(DateTimeChecks.IsRegisterToday);
+        var userCache = EntityCache.GetUserById(_sessionUser.UserId); 
 
         var allCategories = EntityCache.GetAllCategoriesList();
         var publicCreated = allCategories
