@@ -17,17 +17,17 @@ public class GoogleController(
     IHttpContextAccessor _httpContextAccessor,
     PersistentLoginRepo _persistentLoginRepo) : Controller
 {
-    public readonly record struct LoginJson(string? credential, string? accessToken);
+    public readonly record struct LoginRequest(string? credential, string? accessToken);
 
-    public readonly record struct LoginResult(
+    public readonly record struct LoginResponse(
         bool Success,
         string MessageKey,
         FrontEndUserData.CurrentUserData Data);
 
     [HttpPost]
-    public async Task<LoginResult> Login([FromBody] LoginJson json)
+    public async Task<LoginResponse> Login([FromBody] LoginRequest request)
     {
-        var (googleUser, token) = await GetGoogleUser(json.credential, json.accessToken);
+        var googleUser = await GetGoogleUser(request.credential, request.accessToken);
         if (googleUser != null)
         {
             var user = _userReadingRepo.UserGetByGoogleId(googleUser.GoogleId);
@@ -42,9 +42,10 @@ public class GoogleController(
                 };
 
                 var result = _registerUser.CreateAndLogin(newUser);
-                AppendGoogleCredentialCookie(token, _httpContextAccessor.HttpContext);
 
-                return new LoginResult
+                AppendGoogleCredentialCookie(_httpContextAccessor.HttpContext, request.credential, request.accessToken);
+
+                return new LoginResponse
                 {
                     Success = result.Success,
                     MessageKey = result.MessageKey,
@@ -53,34 +54,31 @@ public class GoogleController(
             }
 
             _sessionUser.Login(user);
-            AppendGoogleCredentialCookie(token, _httpContextAccessor.HttpContext);
+            AppendGoogleCredentialCookie(_httpContextAccessor.HttpContext, request.credential, request.accessToken);
 
-            return new LoginResult
+            return new LoginResponse
             {
                 Success = true,
                 Data = _frontEndUserData.Get()
             };
         }
 
-        return new LoginResult
+        return new LoginResponse
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.Default
         };
     }
 
-    private void AppendGoogleCredentialCookie(string token, HttpContext httpContext)
+    private void AppendGoogleCredentialCookie(HttpContext httpContext, string? credential = null, string? accessToken = null)
     {
+        if (_httpContextAccessor.HttpContext == null)
+            return;
+
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
-        httpContext.Response.Cookies.Append(PersistentLoginCookie.GoogleKey, token);
+        if (credential != null) httpContext.Response.Cookies.Append(PersistentLoginCookie.GoogleCredential, credential);
+        else if (accessToken != null) httpContext.Response.Cookies.Append(PersistentLoginCookie.GoogleAccessToken, accessToken);
     }
-
-    [HttpPost]
-    public bool UserExists(string googleId)
-    {
-        return _userReadingRepo.GoogleUserExists(googleId);
-    }
-
 
     public class GoogleUser
     {
@@ -89,13 +87,13 @@ public class GoogleController(
         public string GoogleId { get; set; }
     }
 
-    public async Task<(GoogleUser, string)> GetGoogleUser(string? credential, string? accessToken)
+    private async Task<GoogleUser> GetGoogleUser(string? credential, string? accessToken)
     {
         if (credential != null)
         {
             var googleUser = await GetGoogleUserByCredential(credential);
             if (googleUser == null)
-                return (null, credential);
+                return null;
 
             var newUser = new GoogleUser
             {
@@ -103,13 +101,13 @@ public class GoogleController(
                 UserName = googleUser.Name,
                 GoogleId = googleUser.Subject
             };
-            return (newUser, credential);
+            return newUser;
         }
         if (accessToken != null)
         {
             var googleUser = await GetGoogleUserByAccessToken(accessToken);
             if (googleUser == null)
-                return (null, accessToken);
+                return null;
 
             var newUser = new GoogleUser
             {
@@ -117,12 +115,12 @@ public class GoogleController(
                 UserName = googleUser.Name,
                 GoogleId = googleUser.Id
             };
-            return (newUser, accessToken);
+            return newUser;
         }
-        return (null, null);
+        return null;
     }
 
-    public async Task<GoogleJsonWebSignature.Payload> GetGoogleUserByCredential(string credential)
+    private async Task<GoogleJsonWebSignature.Payload> GetGoogleUserByCredential(string credential)
     {
         var settings = new GoogleJsonWebSignature.ValidationSettings()
         {
@@ -140,14 +138,14 @@ public class GoogleController(
         }
     }
 
-    public async Task<Google.Apis.Oauth2.v2.Data.Userinfo> GetGoogleUserByAccessToken(string accessToken)
+    private async Task<Google.Apis.Oauth2.v2.Data.Userinfo> GetGoogleUserByAccessToken(string accessToken)
     {
         var credential = GoogleCredential.FromAccessToken(accessToken);
 
         var oauth2Service = new Oauth2Service(new BaseClientService.Initializer()
         {
             HttpClientInitializer = credential,
-            ApplicationName = "Memucho"
+            ApplicationName = Settings.GoogleApplicationName
         });
 
         try
@@ -160,6 +158,9 @@ public class GoogleController(
             Logg.r.Error(e.ToString());
             return null;
         }
-
     }
+
+    [HttpPost]
+    public bool UserExists(string googleId) => _userReadingRepo.GoogleUserExists(googleId);
+
 }

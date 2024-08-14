@@ -18,14 +18,14 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
         }
 
         var persistentLoginCookieString = httpContext.Request.Cookies[PersistentLoginCookie.Key];
-        var googleCredentialCookieString = httpContext.Request.Cookies[PersistentLoginCookie.GoogleKey];
+        var googleCredentialCookieString = httpContext.Request.Cookies[PersistentLoginCookie.GoogleCredential];
+        var googleAccessTokenCookieString = httpContext.Request.Cookies[PersistentLoginCookie.GoogleAccessToken];
 
-        if (persistentLoginCookieString != null || googleCredentialCookieString != null)
+        if (persistentLoginCookieString != null || googleCredentialCookieString != null || googleAccessTokenCookieString != null)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
                 var sessionUser = scope.ServiceProvider.GetRequiredService<SessionUser>();
-
 
                 if (!sessionUser.IsLoggedIn)
                 {
@@ -35,12 +35,14 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
                     {
                         if (persistentLoginCookieString != null)
                             LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, persistentLoginCookieString);
+                        else if (googleCredentialCookieString != null)
+                            await LoginFromCookie.RunToRestoreGoogleCredential(sessionUser, userReadingRepo, googleCredentialCookieString);
                         else
-                            await LoginFromCookie.RunToRestoreGoogle(sessionUser, userReadingRepo, googleCredentialCookieString);
+                            await LoginFromCookie.RunToRestoreGoogleAccessToken(sessionUser, userReadingRepo, googleAccessTokenCookieString);
                     }
                     catch (Exception ex)
                     {
-                        RemovePersistentLoginFromCookie.RunForGoogleCredentials(httpContext);
+                        RemovePersistentLoginFromCookie.RunForGoogle(httpContext);
                         RemovePersistentLoginFromCookie.Run(persistentLoginRepo, httpContext);
 
                         Logg.Error(ex);

@@ -3,7 +3,8 @@
 public class PersistentLoginCookie
 {
     public const string Key = "persistentLogin";
-    public const string GoogleKey = "googleCredential";
+    public const string GoogleCredential = "googleCredential";
+    public const string GoogleAccessToken = "googleAccessToken";
 
     public static PersistentLoginCookieGetValuesResult GetValues(HttpContext httpContext)
     {
