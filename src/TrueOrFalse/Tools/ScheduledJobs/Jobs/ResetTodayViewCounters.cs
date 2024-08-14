@@ -1,13 +1,9 @@
-﻿using Autofac;
-using Quartz;
-using ISession = NHibernate.ISession;
+﻿using Quartz;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class ResetTodayViewCounters : IJob
     {
-
-      
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope => 

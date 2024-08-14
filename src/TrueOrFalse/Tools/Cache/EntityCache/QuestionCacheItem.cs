@@ -115,6 +115,10 @@ public class QuestionCacheItem
         return answerText;
     }
 
+    public void IncrementTodayViewCount()
+    {
+        TodayViewCount++;
+    }
     public virtual string GetShortTitle(int length = 96)
     {
         var safeText = Regex.Replace(Text, "<.*?>", "");

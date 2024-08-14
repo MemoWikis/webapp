@@ -49,14 +49,10 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             DateCreated = DateTime.UtcNow
         };
 
-        using (var transaction = _session.BeginTransaction())
-        {
-            _session.Save(categoryView);
-            transaction.Commit();
-        }
+       Create(categoryView);
 
        var categoryCacheItem =  EntityCache.GetCategory(topicId);
        if (categoryCacheItem != null)
-           categoryCacheItem.TodayViewCount ++; 
+           categoryCacheItem.IncrementTodayViewCount(); 
     }
 }

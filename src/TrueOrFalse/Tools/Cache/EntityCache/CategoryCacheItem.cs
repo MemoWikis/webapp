@@ -87,6 +87,11 @@ public class CategoryCacheItem : IPersistable
         return visibleVisited;
     }
 
+    public void IncrementTodayViewCount()
+    {
+        TodayViewCount++; 
+    }
+
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
         bool onlyVisible = true,
@@ -218,6 +223,7 @@ public class CategoryCacheItem : IPersistable
         categoryCacheItem.TodayViewCount = categoryViews.Count(cw => cw.DateCreated.Date == DateTime.Now.Date && cw.Category.Id == category.Id);
         return categoryCacheItem;
     }
+
     public static IEnumerable<CategoryCacheItem> ToCacheCategoriesWithViews(IEnumerable<Category> categories, CategoryViewRepo categoryViewRepo)
     {
         var allCategoriesViews = categoryViewRepo.GetTodayViews();

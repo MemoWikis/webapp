@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
-public class EntityCacheInitializer(CategoryRepository _categoryRepository,
+public class EntityCacheInitializer(
+    CategoryRepository _categoryRepository,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     CategoryRelationRepo _categoryRelationRepo,

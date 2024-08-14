@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using ISession = NHibernate.ISession;
 
 public class SaveQuestionView : IRegisterAsInstancePerLifetime
@@ -36,7 +35,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         if (IsCrawlerRequest.Yes(_httpContextAccessor.HttpContext))
             return;
 
-        question.TodayViewCount++; 
+        question.IncrementTodayViewCount();  
 
         _questionViewRepo.Create(new QuestionView
         {

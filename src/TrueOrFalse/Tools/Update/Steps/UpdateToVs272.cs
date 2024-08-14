@@ -8,7 +8,12 @@ internal class UpdateToVs272
     {
         nhibernateSession
             .CreateSQLQuery(
-                @"ALTER TABLE user ADD COLUMN LastLogin DATETIME NOT NULL DEFAULT '2011-01-26 14:30:00';"
+                @"ALTER TABLE user ADD COLUMN LastLogin DATETIME;"
+            ).ExecuteUpdate();
+
+        nhibernateSession
+            .CreateSQLQuery(
+                @"UPDATE user SET LastLogin = DateCreated;"
             ).ExecuteUpdate();
     }
 }

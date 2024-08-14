@@ -40,7 +40,6 @@ public static class JobScheduler
         Schedule_RecalcTotalWishInOthersPeople();
         Schedule_MailTransmitter();
         Schedule_ResetTodayViewCounter();
-
     }
 
     private static void Schedule_CleanupWorkInProgressQuestions()

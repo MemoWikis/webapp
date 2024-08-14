@@ -35,6 +35,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         return dictionaryResult;
     }
 
+
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionview WHERE QuestionId = :questionId")
