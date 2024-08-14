@@ -10,9 +10,9 @@ namespace TrueOrFalse.Domain.User
         SessionUser _sessionUser,
         IHttpContextAccessor _httpContextAccessor,
         RegisterUser _registerUser,
-        PersistentLoginRepo _persistentLoginRepo) : IRegisterAsInstancePerLifetime
+        PersistentLoginRepo _persistentLoginRepo,
+        UserReadingRepo _userReadingRepo) : IRegisterAsInstancePerLifetime
     {
-        private readonly UserReadingRepo _userReadingRepo;
 
         public async Task<(bool Success, string? MessageKey)> Login(string? credential = null, string? accessToken = null)
         {
