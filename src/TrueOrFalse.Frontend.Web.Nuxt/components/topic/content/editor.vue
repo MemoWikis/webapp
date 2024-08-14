@@ -21,10 +21,31 @@ import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { slugify } from '~/components/shared/utils'
 import { nanoid } from 'nanoid'
 
+import Collaboration from '@tiptap/extension-collaboration'
+import * as Y from 'yjs'
+import { TiptapCollabProvider } from '@hocuspocus/provider'
+
+const doc = new Y.Doc() // Initialize Y.Doc for shared editing
+
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
+
+const provider = ref<TiptapCollabProvider | null>(null)
+provider.value = new TiptapCollabProvider({
+    baseUrl: "localhost/apiVue/ws",
+    name: 'testdocument-' + topicStore.id,
+    token: 'test',
+    preserveConnection: false,
+    onSynced() {
+        if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
+            doc.getMap('config').set('initialContentLoaded', true)
+
+            editor.value.commands.setContent(topicStore.initialContent)
+        }
+    }
+})
 
 const editor = useEditor({
     content: topicStore.initialContent,
@@ -65,7 +86,17 @@ const editor = useEditor({
             nested: true,
         }),
         Indent,
-
+        Collaboration.configure({
+            document: provider.value.document,
+            field: 'default',
+        }),
+        // CollaborationCursor.configure({
+        //     provider: provider.value,
+        //     user: {
+        //         name: 'Editor1',
+        //         color: '#EADDCA',
+        //     },
+        // }),
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true

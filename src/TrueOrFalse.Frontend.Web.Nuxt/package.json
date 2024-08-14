@@ -24,10 +24,12 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
+    "@hocuspocus/provider": "^2.13.5",
     "@pinia/nuxt": "^0.4.4",
     "@stripe/stripe-js": "^1.52.1",
     "@tiptap/extension-blockquote": "^2.0.0",
     "@tiptap/extension-code-block-lowlight": "^2.4.0",
+    "@tiptap/extension-collaboration": "^2.6.2",
     "@tiptap/extension-heading": "^2.4.0",
     "@tiptap/extension-horizontal-rule": "^2.0.0",
     "@tiptap/extension-image": "^2.0.0",
@@ -60,6 +62,7 @@
     "vue-final-modal": "^4.0.0-rc.7",
     "vue-tsc": "^1.0.9",
     "vue3-perfect-scrollbar": "^1.6.1",
-    "vue3-touch-events": "^4.1.8"
+    "vue3-touch-events": "^4.1.8",
+    "yjs": "^13.6.18"
   }
 }
