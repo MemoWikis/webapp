@@ -48,7 +48,7 @@ public class Logg : IRegisterAsInstancePerLifetime
 
             r.Error(exception, "PageError {Url} {Headers}", rawUrl, header);
 
-            if (!IgnoreLog.ContainsCrawlerInHeader(header))
+            if (IgnoreLog.ContainsCrawlerInHeader(header) == false)
             {
                 var connection = httpContext.Connection;
                 if (connection.RemoteIpAddress.Equals(connection.LocalIpAddress) || IPAddress.IsLoopback(connection.RemoteIpAddress))

@@ -146,7 +146,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapHealthChecks("healthcheck_backend");
 });
 
-
 app.Urls.Add("http://*:5069");
 
 var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();

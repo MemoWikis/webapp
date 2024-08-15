@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
+using System.Diagnostics;
 
 public class CategoryViewRepo : RepositoryDb<CategoryView>
 {
@@ -22,6 +23,20 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             .Value;
     }
 
+    public IEnumerable<CategoryView> GetTodayViews()
+    {
+        var watch = new Stopwatch();
+        watch.Start();
+        var query = _session.CreateCriteria<CategoryView>()
+            .Add(Restrictions.Ge("DateCreated", DateTime.Now.Date));
+
+        var result = query.List<CategoryView>();  
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        Logg.r.Information("GetTodayViews elapsed time:", elapsed);
+        return result;
+    }
+
     public void AddView(string userAgent, int topicId, int userId)
     {
         var topic = _categoryRepository.GetById(topicId);
@@ -35,10 +50,10 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             DateCreated = DateTime.UtcNow
         };
 
-        using (var transaction = _session.BeginTransaction())
-        {
-            _session.Save(categoryView);
-            transaction.Commit();
-        }
+       Create(categoryView);
+
+       var categoryCacheItem =  EntityCache.GetCategory(topicId);
+       if (categoryCacheItem != null)
+           categoryCacheItem.IncrementTodayViewCount(); 
     }
 }
