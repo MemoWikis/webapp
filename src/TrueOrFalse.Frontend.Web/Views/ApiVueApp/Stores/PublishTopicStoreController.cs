@@ -43,7 +43,6 @@ namespace VueApp
                     topic.Visibility = CategoryVisibility.All;
                     _categoryRepository.Update(topic, _sessionUser.UserId,
                         type: CategoryChangeType.Published);
-
                     return new PublishTopicResult
                     {
                         Success = true,

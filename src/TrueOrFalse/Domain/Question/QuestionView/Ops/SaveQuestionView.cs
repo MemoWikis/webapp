@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using ISession = NHibernate.ISession;
 
 public class SaveQuestionView : IRegisterAsInstancePerLifetime
@@ -7,28 +6,24 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
     private readonly QuestionViewRepository _questionViewRepo;
     private readonly ISession _session;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SaveQuestionView(
         QuestionViewRepository questionViewRepo,
         ISession session,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment)
+        IHttpContextAccessor httpContextAccessor)
     {
         _questionViewRepo = questionViewRepo;
 
         _session = session;
         _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
     }
 
-    public void Run(Guid questionViewGuid, QuestionCacheItem question, IUserTinyModel user)
+    public void Run(QuestionCacheItem question, IUserTinyModel user)
     {
-        Run(questionViewGuid, question, user?.Id ?? -1);
+        Run( question, user.Id);
     }
 
     public void Run(
-        Guid questionViewGuid,
         QuestionCacheItem question,
         int userId)
     {
@@ -40,9 +35,10 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         if (IsCrawlerRequest.Yes(_httpContextAccessor.HttpContext))
             return;
 
+        question.IncrementTodayViewCount();  
+
         _questionViewRepo.Create(new QuestionView
         {
-            Guid = questionViewGuid,
             QuestionId = question.Id,
             UserId = userId,
             Milliseconds = -1,

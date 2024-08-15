@@ -56,8 +56,9 @@ public class CategoryCacheItem : IPersistable
 
     public virtual string UrlLinkText { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
-
+    public bool IsVisible => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
+    public int TodayViewCount { get; set; }
 
     /// <summary>
     /// Get Aggregated Topics
@@ -85,6 +86,7 @@ public class CategoryCacheItem : IPersistable
 
         return visibleVisited;
     }
+    public void IncrementTodayViewCount() => TodayViewCount++;
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
@@ -168,11 +170,6 @@ public class CategoryCacheItem : IPersistable
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(List<Category> categories)
-    {
-        return categories.Select(c => ToCacheCategory(c));
-    }
-
     public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories)
     {
         return categories.Select(c => ToCacheCategory(c));
@@ -180,8 +177,6 @@ public class CategoryCacheItem : IPersistable
 
     public static CategoryCacheItem ToCacheCategory(Category category)
     {
-        var userEntityCacheCategoryRelations = new CategoryCacheRelation();
-
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(category.Id);
         var childRelations = TopicOrderer.Sort(category.Id);
@@ -212,10 +207,23 @@ public class CategoryCacheItem : IPersistable
             UrlLinkText = category.UrlLinkText,
             WikipediaURL = category.WikipediaURL,
             DateCreated = category.DateCreated,
-            AuthorIds = category.AuthorIdsInts ?? new[] { creatorId },
+            AuthorIds = category.AuthorIdsInts ?? [creatorId],
             TextIsHidden = category.TextIsHidden,
         };
         return categoryCacheItem;
+    }
+
+    public static CategoryCacheItem ToCacheItemWithViews(Category category,IEnumerable<CategoryView> categoryViews)
+    {
+        var categoryCacheItem = ToCacheCategory(category);
+        categoryCacheItem.TodayViewCount = categoryViews.Count(cw => cw.DateCreated.Date == DateTime.Now.Date && cw.Category.Id == category.Id);
+        return categoryCacheItem;
+    }
+
+    public static IEnumerable<CategoryCacheItem> ToCacheCategoriesWithViews(IEnumerable<Category> categories, CategoryViewRepo categoryViewRepo)
+    {
+        var allCategoriesViews = categoryViewRepo.GetTodayViews();
+        return categories.Select(c => ToCacheItemWithViews(c, allCategoriesViews));
     }
 
     public void UpdateCountQuestionsAggregated(int userId)

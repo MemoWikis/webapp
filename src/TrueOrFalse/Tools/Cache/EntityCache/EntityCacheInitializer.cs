@@ -1,24 +1,13 @@
 ﻿using System.Diagnostics;
 
-public class EntityCacheInitializer : IRegisterAsInstancePerLifetime
+public class EntityCacheInitializer(
+    CategoryRepository _categoryRepository,
+    UserReadingRepo _userReadingRepo,
+    QuestionReadingRepo _questionReadingRepo,
+    CategoryRelationRepo _categoryRelationRepo,
+    CategoryViewRepo _categoryViewRepo,
+    QuestionViewRepository _questionViewRepository) : IRegisterAsInstancePerLifetime
 {
-    private readonly CategoryRepository _categoryRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-    private readonly CategoryRelationRepo _categoryRelationRepo;
-
-    public EntityCacheInitializer(
-        CategoryRepository categoryRepository,
-        UserReadingRepo userReadingRepo,
-        QuestionReadingRepo questionReadingRepo,
-        CategoryRelationRepo categoryRelationRepo
-    )
-    {
-        _categoryRepository = categoryRepository;
-        _userReadingRepo = userReadingRepo;
-        _questionReadingRepo = questionReadingRepo;
-        _categoryRelationRepo = categoryRelationRepo;
-    }
     public void Init(string customMessage = "")
     {
         var stopWatch = Stopwatch.StartNew();
@@ -39,7 +28,7 @@ public class EntityCacheInitializer : IRegisterAsInstancePerLifetime
         var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();
         Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
 
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
+        var categories = CategoryCacheItem.ToCacheCategoriesWithViews(allCategories,_categoryViewRepo).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());

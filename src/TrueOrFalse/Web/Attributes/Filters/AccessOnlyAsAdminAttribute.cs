@@ -1,16 +1,11 @@
-﻿
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-public class AccessOnlyAsAdminAttribute : Attribute{}
+[ServiceFilter(typeof(AccessOnlyAsAdminFilter))]
+public class AccessOnlyAsAdminAttribute : Attribute{ }
 
-public class AccessOnlyAsAdminAttributeFilter : ActionFilterAttribute
+public class AccessOnlyAsAdminFilter(SessionUser _sessionUser) : ActionFilterAttribute,IRegisterAsInstancePerLifetime
 {
-    private readonly SessionUser _sessionUser;
-
-    public AccessOnlyAsAdminAttributeFilter(SessionUser sessionUser)
-    {
-        _sessionUser = sessionUser;
-    }
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         if (!_sessionUser.IsInstallationAdmin)

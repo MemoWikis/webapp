@@ -81,8 +81,6 @@ namespace TrueOrFalse.Infrastructure
             }
 
             builder.Register(context => new SessionManager(context.Resolve<ISessionBuilder>().OpenSession())).InstancePerLifetimeScope();
-
-
             builder.RegisterAssemblyTypes(Assembly.Load("TrueOrFalse.View.Web"))
                 .AssignableTo<IRegisterAsInstancePerLifetime>();
 
@@ -98,8 +96,6 @@ namespace TrueOrFalse.Infrastructure
             builder.RegisterType<MemoryCache>()
                 .As<IMemoryCache>()
                 .SingleInstance();
-
-
 
             builder.RegisterType<MeiliGlobalSearch>().As<IGlobalSearch>();
         }

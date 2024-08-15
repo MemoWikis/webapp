@@ -41,16 +41,29 @@
 
         return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) *
                             roundToNextFull.Ticks);
-        ;
     }
 
-    public static DateTime RoundDown(DateTime dateTime, TimeSpan roundToPreviousFull)
+    public static bool IsToday(CategoryCacheItem topic)
     {
-        var roundedTime = RoundUp(dateTime, roundToPreviousFull);
+        return IsToday(topic.DateCreated); 
+    }
 
-        if (roundedTime > dateTime)
-            roundedTime = roundedTime - roundToPreviousFull;
+    public static bool IsLastLoginToday(UserCacheItem user)
+    {
+        if (user.LastLogin == null)
+        {
+            return false;
+        }
+        return IsToday(user.LastLogin.Value);
+    }
 
-        return roundedTime;
+    public static bool IsRegisterToday(UserCacheItem user)
+    {
+        return IsToday(user.DateCreated);
+    }
+
+    private static bool IsToday(DateTime date)
+    {
+        return date.Date == DateTime.Now.Date;
     }
 }

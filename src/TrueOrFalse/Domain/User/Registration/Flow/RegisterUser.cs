@@ -75,6 +75,9 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         user.StartTopicId = category.Id;
 
         _userWritingRepo.Update(user);
+        var cacheUser = EntityCache.GetUserById(user.Id);
+        cacheUser.LastLogin = DateTime.Now; 
+        cacheUser.DateCreated = DateTime.Now;
 
         return new RegisterResult
         {

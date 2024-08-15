@@ -6,7 +6,6 @@ public class EntityCache
     public const string CacheKeyQuestions = "allQuestions_EntityCache";
     public const string CacheKeyCategories = "allCategories_EntityCache";
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
-
     public const string CacheKeyRelations = "allRelations_EntityCache";
 
     public static bool IsFirstStart = true;
@@ -14,7 +13,7 @@ public class EntityCache
     private static ConcurrentDictionary<int, UserCacheItem> Users =>
         Cache.Mgr.Get<ConcurrentDictionary<int, UserCacheItem>>(CacheKeyUsers);
 
-    internal static ConcurrentDictionary<int, CategoryCacheItem> Categories =>
+    public static ConcurrentDictionary<int, CategoryCacheItem> Categories =>
         Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheItem>>(CacheKeyCategories);
 
     public static ConcurrentDictionary<int, QuestionCacheItem> Questions =>
