@@ -49,7 +49,6 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         set => _httpContext.Session.SetInt32("userId", value);
     }
 
-
     public ExtendedUserCacheItem User
     {
         get
@@ -100,10 +99,8 @@ public class SessionUser : IRegisterAsInstancePerLifetime
     public int GetTotalActivityPoints() =>
         ActivityPoints.Sum(activity => activity.Amount);
 
-
     public bool IsLoggedInUserOrAdmin() =>
         IsLoggedInUser(UserId) || IsInstallationAdmin;
-
 
     public int CurrentWikiId
     {

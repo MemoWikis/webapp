@@ -21,16 +21,16 @@ SessionUser _sessionUser) : Controller
 
         var allUsers = EntityCache.GetAllUsers();
         var todayLogins = allUsers
-            .Where(DateTimeChecks.IsLastLoginToday);
-        var todayRegistrations = allUsers.Where(DateTimeChecks.IsRegisterToday);
+            .Where(DateTimeUtils.IsLastLoginToday);
+        var todayRegistrations = allUsers.Where(DateTimeUtils.IsRegisterToday);
         var userCache = EntityCache.GetUserById(_sessionUser.UserId); 
 
         var allCategories = EntityCache.GetAllCategoriesList();
         var publicCreated = allCategories
-            .Where(DateTimeChecks.IsToday)
+            .Where(DateTimeUtils.IsToday)
             .Where(u => u.IsVisible);
         var privateCreated = allCategories
-            .Where(DateTimeChecks.IsToday)
+            .Where(DateTimeUtils.IsToday)
             .Where(u => u.IsVisible == false);
         var allTopicTodayViews = allCategories.Sum(t => t.TodayViewCount);
         var allQuestionTodayViews = EntityCache.GetAllQuestions().Sum(t => t.TodayViewCount);

@@ -15,11 +15,6 @@ public static class Cache
         Mgr.Add(key, objectToCache);
     }
 
-    public static void IntoForeverCache<T>(string key, ConcurrentDictionary<DateTime, T> objectToCache)
-    {
-        Mgr.Add(key, objectToCache);
-    }
-
     public static void IntoForeverCache<T>(string key, ConcurrentDictionary<(int, int), T> objectToCache)
     {
         Mgr.Add(key, objectToCache);

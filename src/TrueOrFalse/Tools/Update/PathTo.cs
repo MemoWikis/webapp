@@ -24,7 +24,6 @@
         if (fileName.Equals("/Web/Crawlers/list-of-crawlers.json"))
             return AppDomain.CurrentDomain.BaseDirectory + "/Web/Crawlers/list-of-crawlers.json";
 
-
         if (fileName.Equals("Log.ignore") == false)
             return Path.Combine(App.Environment.WebRootPath, "~/bin/" + fileName);
 

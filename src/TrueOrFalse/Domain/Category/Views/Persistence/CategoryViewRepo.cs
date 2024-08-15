@@ -33,6 +33,7 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
         var result = query.List<CategoryView>();  
         watch.Stop();
         var elapsed = watch.ElapsedMilliseconds;
+        Logg.r.Information("GetTodayViews elapsed time:", elapsed);
         return result;
     }
 

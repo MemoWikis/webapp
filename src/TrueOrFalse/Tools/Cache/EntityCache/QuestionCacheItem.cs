@@ -6,7 +6,7 @@ using TrueOrFalse.Web;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
-public class QuestionCacheItem
+public class QuestionCacheItem 
 {
     public QuestionCacheItem()
     {
@@ -115,29 +115,12 @@ public class QuestionCacheItem
         return answerText;
     }
 
-    public void IncrementTodayViewCount()
-    {
-        TodayViewCount++;
-    }
+    public void IncrementTodayViewCount() => TodayViewCount++;
+
     public virtual string GetShortTitle(int length = 96)
     {
         var safeText = Regex.Replace(Text, "<.*?>", "");
         return safeText.TruncateAtWord(length);
-    }
-
-    public virtual QuestionSolution? GetSolution()
-    {
-        return GetQuestionSolution.Run(this);
-    }
-
-    public virtual bool IsEasyQuestion()
-    {
-        return false;
-    }
-
-    public virtual bool IsHardQuestion()
-    {
-        return false;
     }
 
     public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser(
@@ -149,16 +132,6 @@ public class QuestionCacheItem
     public virtual bool IsInWishknowledge(int userId, ExtendedUserCache extendedUserCache)
     {
         return extendedUserCache.IsQuestionInWishknowledge(userId, Id);
-    }
-
-    public virtual bool IsMediumQuestion()
-    {
-        return false;
-    }
-
-    public virtual bool IsNobrainer()
-    {
-        return false;
     }
 
     public virtual bool IsPrivate()

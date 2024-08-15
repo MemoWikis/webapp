@@ -86,11 +86,7 @@ public class CategoryCacheItem : IPersistable
 
         return visibleVisited;
     }
-
-    public void IncrementTodayViewCount()
-    {
-        TodayViewCount++; 
-    }
+    public void IncrementTodayViewCount() => TodayViewCount++;
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,

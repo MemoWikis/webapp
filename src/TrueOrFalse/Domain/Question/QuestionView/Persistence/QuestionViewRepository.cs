@@ -35,18 +35,16 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         return dictionaryResult;
     }
 
-
     public void DeleteForQuestion(int questionId)
     {
         Session.CreateSQLQuery("DELETE FROM questionview WHERE QuestionId = :questionId")
             .SetParameter("questionId", questionId).ExecuteUpdate();
-
     }
+
     public class QuestionViewSummary
     {
         public Int64 Count { get; set; }
         public DateTime DateOnly { get; set; }
-
     }
 
 }

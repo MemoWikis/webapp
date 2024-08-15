@@ -86,7 +86,6 @@ const { data: overviewData } = await useFetch<OverviewData>('/apiVue/Overview/Ge
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 <style lang="less" scoped>
