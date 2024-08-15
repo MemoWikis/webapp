@@ -133,7 +133,6 @@ app.UseSession();
 app.UseMiddleware<AutoLoginMiddleware>();
 
 app.UseRouting();
-app.UseWebSockets();
 
 app.UseMiddleware<RequestTimingForStaticFilesMiddleware>();
 

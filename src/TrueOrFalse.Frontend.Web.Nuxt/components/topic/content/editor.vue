@@ -23,7 +23,14 @@ import { nanoid } from 'nanoid'
 
 import Collaboration from '@tiptap/extension-collaboration'
 import * as Y from 'yjs'
-import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { RedisProvider } from 'y-redis'
+import Redis from 'ioredis'
+
+const redisConnection = new Redis({
+    host: 'localhost', // Redis server hostname or IP
+    port: 6379, // Redis server port
+});
+
 
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
@@ -32,19 +39,9 @@ const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 
-const provider = ref<TiptapCollabProvider | null>(null)
-provider.value = new TiptapCollabProvider({
-    baseUrl: "localhost/apiVue/ws",
-    name: 'testdocument-' + topicStore.id,
-    token: 'test',
-    preserveConnection: false,
-    onSynced() {
-        if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
-            doc.getMap('config').set('initialContentLoaded', true)
-
-            editor.value.commands.setContent(topicStore.initialContent)
-        }
-    }
+// Set up Redis as both the connection and persistence provider
+const redisProvider = new RedisProvider(doc, redisConnection, {
+    room: 'my-room-id', // This is the Redis channel name for your document
 })
 
 const editor = useEditor({
