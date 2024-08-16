@@ -32,6 +32,7 @@
     "@tiptap/extension-blockquote": "^2.0.0",
     "@tiptap/extension-code-block-lowlight": "^2.4.0",
     "@tiptap/extension-collaboration": "^2.6.2",
+    "@tiptap/extension-collaboration-cursor": "^2.6.4",
     "@tiptap/extension-heading": "^2.4.0",
     "@tiptap/extension-horizontal-rule": "^2.0.0",
     "@tiptap/extension-image": "^2.0.0",
@@ -66,6 +67,7 @@
     "vue-tsc": "^1.0.9",
     "vue3-perfect-scrollbar": "^1.6.1",
     "vue3-touch-events": "^4.1.8",
+    "y-redis": "^1.0.3",
     "yjs": "^13.6.18"
   }
 }
