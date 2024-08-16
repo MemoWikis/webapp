@@ -16,3 +16,11 @@ services:
       - "${REDIS_PORT}:6379"
     volumes:
       - C:/redis-data/${ENVIRONMENT}:/data
+      
+  hocuspocus:
+    build:
+      context: ../../hocuspocus  # Relative path to your Express app and Dockerfile
+    ports:
+      - "3010:3010"  # Port mapping for your Express app
+    environment:
+      NODE_ENV: development
