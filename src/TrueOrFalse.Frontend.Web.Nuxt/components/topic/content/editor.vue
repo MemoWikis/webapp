@@ -39,13 +39,12 @@ const userStore = useUserStore()
 const provider = ref<TiptapCollabProvider | null>(null)
 onMounted(() => {
 
-    const doc = new Y.Doc() // Initialize Y.Doc for shared editing
-
     provider.value = new TiptapCollabProvider({
-        baseUrl: "ws://localhost:3010",
+        baseUrl: "ws://localhost:3010/",
         name: 'testdocument-' + topicStore.id,
         token: 'test',
         preserveConnection: false,
+        document: doc,
         onSynced() {
             if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
                 doc.getMap('config').set('initialContentLoaded', true)
@@ -55,95 +54,95 @@ onMounted(() => {
         }
     })
 
-    editor.value = new Editor({
-        content: topicStore.initialContent,
-        extensions: [
-            StarterKit.configure({
-                heading: false,
-                codeBlock: false,
-            }),
-            CustomHeading.configure({
-                levels: [2, 3, 4],
-                HTMLAttributes: {
-                    class: 'heading',
-                },
-            }),
-            Link.configure({
-                HTMLAttributes: {
-                    rel: 'noopener noreferrer nofollow'
-                },
-                openOnClick: true,
-            }),
-            Placeholder.configure({
-                emptyEditorClass: 'is-editor-empty',
-                emptyNodeClass: 'is-empty',
-                placeholder: 'Klicke hier um zu tippen ...',
-                showOnlyWhenEditable: true,
-                showOnlyCurrent: true,
-            }),
-            Underline,
-            ImageResize.configure({
-                inline: true,
-                allowBase64: true,
-            }),
-            CodeBlockLowlight.configure({
-                lowlight,
-            }),
-            TaskList,
-            TaskItem.configure({
-                nested: true,
-            }),
-            Indent,
-            Collaboration.configure({
-                document: provider.value?.document,
-                field: 'default',
-            }),
-            // CollaborationCursor.configure({
-            //     provider: provider.value,
-            //     user: {
-            //         name: 'Editor1',
-            //         color: '#EADDCA',
-            //     },
-            // }),
-        ],
-        onUpdate({ editor }) {
-            topicStore.contentHasChanged = true
-            if (editor.isEmpty)
-                topicStore.content = ''
-            else
-                topicStore.content = editor.getHTML()
+})
+const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
-            const contentArray: JSONContent[] | undefined = editor.getJSON().content
-            if (contentArray)
-                outlineStore.setHeadings(contentArray)
+const editor = useEditor({
+    content: topicStore.initialContent,
+    extensions: [
+        StarterKit.configure({
+            heading: false,
+            codeBlock: false,
+            history: false,
+        }),
+        CustomHeading.configure({
+            levels: [2, 3, 4],
+            HTMLAttributes: {
+                class: 'heading',
+            },
+        }),
+        Link.configure({
+            HTMLAttributes: {
+                rel: 'noopener noreferrer nofollow'
+            },
+            openOnClick: true,
+        }),
+        Placeholder.configure({
+            emptyEditorClass: 'is-editor-empty',
+            emptyNodeClass: 'is-empty',
+            placeholder: 'Klicke hier um zu tippen ...',
+            showOnlyWhenEditable: true,
+            showOnlyCurrent: true,
+        }),
+        Underline,
+        ImageResize.configure({
+            inline: true,
+            allowBase64: true,
+        }),
+        CodeBlockLowlight.configure({
+            lowlight,
+        }),
+        TaskList,
+        TaskItem.configure({
+            nested: true,
+        }),
+        Indent,
+        Collaboration.configure({
+            document: doc
+        }),
+        // CollaborationCursor.configure({
+        //     provider: provider.value,
+        //     user: {
+        //         name: 'Editor1',
+        //         color: '#EADDCA',
+        //     },
+        // }),
+    ],
+    onUpdate({ editor }) {
+        topicStore.contentHasChanged = true
+        if (editor.isEmpty)
+            topicStore.content = ''
+        else
+            topicStore.content = editor.getHTML()
 
-            if (editor.isActive('heading'))
-                updateHeadingIds()
+        const contentArray: JSONContent[] | undefined = editor.getJSON().content
+        if (contentArray)
+            outlineStore.setHeadings(contentArray)
 
-            updateCursorIndex()
-        },
-        editorProps: {
-            handlePaste: (view, pos, event) => {
-                const firstNode = event.content.firstChild
-                if (firstNode != null && firstNode.type.name == 'image') {
-                    if (!isEmpty(firstNode.attrs)) {
-                        let src = firstNode.attrs.src;
-                        if (src.length > 1048576 && src.startsWith('data:image')) {
-                            alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
-                            return true
-                        }
+        if (editor.isActive('heading'))
+            updateHeadingIds()
+
+        updateCursorIndex()
+    },
+    editorProps: {
+        handlePaste: (view, pos, event) => {
+            const firstNode = event.content.firstChild
+            if (firstNode != null && firstNode.type.name == 'image') {
+                if (!isEmpty(firstNode.attrs)) {
+                    let src = firstNode.attrs.src;
+                    if (src.length > 1048576 && src.startsWith('data:image')) {
+                        alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                        return true
                     }
                 }
-
-            },
-            attributes: {
-                id: 'InlineEdit',
             }
-        },
-    })
-})
 
-const editor = useEditor()
+        },
+        attributes: {
+            id: 'InlineEdit',
+        }
+    },
+})
 
 function setHeadings() {
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
