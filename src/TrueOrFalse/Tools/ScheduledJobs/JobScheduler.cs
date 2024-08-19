@@ -39,7 +39,6 @@ public static class JobScheduler
         Schedule_KnowledgeReportCheck();
         Schedule_RecalcTotalWishInOthersPeople();
         Schedule_MailTransmitter();
-        Schedule_ResetTodayViewCounter();
     }
 
     private static void Schedule_CleanupWorkInProgressQuestions()
@@ -56,16 +55,6 @@ public static class JobScheduler
             TriggerBuilder.Create()
                 .WithDailyTimeIntervalSchedule(x =>
                     x.StartingDailyAt(new TimeOfDay(2, 00))
-                        .OnEveryDay()
-                        .EndingDailyAfterCount(1)).Build());
-    }
-
-    private static void Schedule_ResetTodayViewCounter()
-    {
-        _scheduler.ScheduleJob(JobBuilder.Create<ResetTodayViewCounters>().Build(),
-            TriggerBuilder.Create()
-                .WithDailyTimeIntervalSchedule(x =>
-                    x.StartingDailyAt(new TimeOfDay(0, 05))
                         .OnEveryDay()
                         .EndingDailyAfterCount(1)).Build());
     }

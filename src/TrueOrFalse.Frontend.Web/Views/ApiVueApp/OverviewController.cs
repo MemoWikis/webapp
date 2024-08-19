@@ -1,28 +1,64 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TrueOrFalse.Domain;
 
 namespace ApiVueApp;
 public class OverviewController(
-SessionUser _sessionUser) : Controller
+SessionUser _sessionUser,
+QuestionViewRepository _questionViewRepository,
+CategoryViewRepo _categoryViewRepo) : Controller
 {
     public readonly record struct OverviewRunJson(int RegistrationsCount,
         int LoginCount, 
         int CreatedPrivatizedTopicCount, 
         int CreatedPublicTopicCount,
-        int ViewsTopics,
-        int ViewsQuestions);
+        int TodayTopicViews,
+        int TodayQuestionViews,
+        List<ViewsResult> ViewsQuestions,
+        List<ViewsResult> ViewsTopics,
+        List<ViewsResult> YearlyLogins,
+        List<ViewsResult> YearlyRegistrations
+    );
+
+    public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
     [AccessOnlyAsAdmin]
     public OverviewRunJson GetAllData()
+    
     {
-        return new OverviewRunJson(); 
+        var watch = new Stopwatch();
+        watch.Start();
 
         var allUsers = EntityCache.GetAllUsers();
+        var lastYearLogins = allUsers
+            .Where(u => u.LastLogin.HasValue && u.LastLogin.Value.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+
+        var yearlyLogins = lastYearLogins
+            .GroupBy(u => new { Year = u.LastLogin.Value.Year, Month = u.LastLogin.Value.Month })
+            .Select(g => new ViewsResult(
+                new DateTime(g.Key.Year, g.Key.Month, 1),  
+                g.Count()))  
+            .OrderBy(v => v.DateTime)  
+            .ToList(); 
+
         var todayLogins = allUsers
             .Where(DateTimeUtils.IsLastLoginToday);
         var todayRegistrations = allUsers.Where(DateTimeUtils.IsRegisterToday);
-        var userCache = EntityCache.GetUserById(_sessionUser.UserId); 
+
+        var lastYearRegistrations = allUsers
+            .Where(u =>  u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+
+        var yearlyRegistrations = lastYearRegistrations
+            .GroupBy(u => new { Year = u.DateCreated.Year, Month = u.DateCreated.Month })
+            .Select(g => new ViewsResult(
+                new DateTime(g.Key.Year, g.Key.Month, 1),  
+                g.Count()))  
+            .OrderBy(v => v.DateTime)  
+            .ToList();
 
         var allCategories = EntityCache.GetAllCategoriesList();
         var publicCreated = allCategories
@@ -31,14 +67,32 @@ SessionUser _sessionUser) : Controller
         var privateCreated = allCategories
             .Where(DateTimeUtils.IsToday)
             .Where(u => u.IsVisible == false);
-        var allTopicTodayViews = allCategories.Sum(t => t.TodayViewCount);
-        var allQuestionTodayViews = EntityCache.GetAllQuestions().Sum(t => t.TodayViewCount);
+        var topicLastYearViews = _categoryViewRepo.GetViewsForLastNDays(365);
+        var topicLastYearViewsResult = topicLastYearViews
+            .Select(q => new ViewsResult(q.Key, q.Value))
+            .ToList();
+        var topicTodayViews = topicLastYearViewsResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views; 
 
-        return new OverviewRunJson(todayRegistrations.Count(),
-            todayLogins.Count(), 
-            privateCreated.Count(), 
-            publicCreated.Count(),
-            allTopicTodayViews, 
-            allQuestionTodayViews);
+        var questionviewsLastYear = _questionViewRepository.GetViewsForLastNDays(365);
+        var questionviewsLastYearResult = questionviewsLastYear
+            .Select(q => new ViewsResult(q.Key, q.Value))
+            .ToList();
+        var questionTodayViews = questionviewsLastYearResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
+        var elapsed = watch.ElapsedMilliseconds;
+
+        return new OverviewRunJson
+        {
+            RegistrationsCount = todayRegistrations.Count(),
+            LoginCount = todayLogins.Count(),
+            CreatedPrivatizedTopicCount = privateCreated.Count(),
+            CreatedPublicTopicCount = publicCreated.Count(),
+            TodayTopicViews = topicTodayViews,
+            TodayQuestionViews = questionTodayViews,
+            ViewsQuestions = questionviewsLastYearResult,
+            ViewsTopics = topicLastYearViewsResult,
+            YearlyLogins = yearlyLogins,
+            YearlyRegistrations = yearlyRegistrations
+        }; 
+
     }
 }

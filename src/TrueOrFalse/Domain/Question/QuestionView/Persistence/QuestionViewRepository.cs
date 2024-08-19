@@ -41,10 +41,5 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public class QuestionViewSummary
-    {
-        public Int64 Count { get; set; }
-        public DateTime DateOnly { get; set; }
-    }
-
+    public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly); 
 }

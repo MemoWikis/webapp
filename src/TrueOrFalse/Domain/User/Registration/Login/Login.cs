@@ -42,6 +42,8 @@ namespace TrueOrFalse.Domain.User
 
                 TransferActivityPoints.FromSessionToUser(_sessionUser, _activityPointsRepo);
                 _userWritingRepo.UpdateActivityPointsData();
+                user.LastLogin = DateTime.Now;
+                _userWritingRepo.Update(user);
                 return true;
             }
 

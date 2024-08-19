@@ -12,5 +12,6 @@ public class CategoryViewMap : ClassMap<CategoryView>
         Map(x => x.UserAgent);
 
         Map(x => x.DateCreated);
+        Map(x => x.DateOnly).ReadOnly();
     }
 }

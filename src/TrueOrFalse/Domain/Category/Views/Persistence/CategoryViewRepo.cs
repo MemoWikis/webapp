@@ -1,4 +1,5 @@
-﻿using NHibernate;
+﻿using System.Collections.Concurrent;
+using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 using System.Diagnostics;
@@ -37,6 +38,27 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
         return result;
     }
 
+    public ConcurrentDictionary<DateTime, int> GetViewsForLastNDays(int days)
+    {
+        var watch = new Stopwatch();
+        watch.Start();
+
+        var query = _session.CreateSQLQuery("SELECT COUNT(DateOnly) AS Count, DateOnly FROM CategoryView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY DateOnly");
+        query.SetParameter("days", days);
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
+            .List<TopicViewSummary>();
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
+
+        foreach (var item in result)
+        {
+            dictionaryResult[item.DateOnly] = Convert.ToInt32(item.Count);
+        }
+
+        return dictionaryResult;
+    }
+
     public void AddView(string userAgent, int topicId, int userId)
     {
         var topic = _categoryRepository.GetById(topicId);
@@ -51,9 +73,6 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
         };
 
        Create(categoryView);
-
-       var categoryCacheItem =  EntityCache.GetCategory(topicId);
-       if (categoryCacheItem != null)
-           categoryCacheItem.IncrementTodayViewCount(); 
     }
+    public record struct TopicViewSummary(Int64 Count, DateTime DateOnly); 
 }

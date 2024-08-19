@@ -10,4 +10,5 @@ public class CategoryView : IPersistable, WithDateCreated
     public virtual string UserAgent { get; set; }
 
     public virtual DateTime DateCreated { get; set; }
+    public virtual DateTime DateOnly { get; set; }
 }
