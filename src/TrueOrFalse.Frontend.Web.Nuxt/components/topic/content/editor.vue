@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useEditor, Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -15,6 +15,7 @@ import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 import { Indent } from '../../editor/indent'
 import ImageResize from '~~/components/shared/imageResizeExtension'
+import { getRandomColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
@@ -27,6 +28,7 @@ import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 import * as Y from 'yjs'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { useUserStore } from '~/components/user/userStore'
+import { IndexeddbPersistence } from 'y-indexeddb'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -38,7 +40,7 @@ const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 const provider = ref<TiptapCollabProvider | null>(null)
 provider.value = new TiptapCollabProvider({
     baseUrl: "ws://localhost:3010/collaboration",
-    name: 'testdocument-' + topicStore.id,
+    name: 'ydoc-' + topicStore.id,
     token: userStore.id.toString(),
     preserveConnection: false,
     document: doc,
@@ -51,14 +53,7 @@ provider.value = new TiptapCollabProvider({
     }
 })
 
-function getRandomColor() {
-    let letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+new IndexeddbPersistence(`document-${topicStore.id}`, doc)
 
 const editor = useEditor({
     content: topicStore.initialContent,
