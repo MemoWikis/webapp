@@ -21,11 +21,9 @@ import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { slugify } from '~/components/shared/utils'
 import { nanoid } from 'nanoid'
 
-// import Collaboration from '@tiptap/extension-collaboration'
-// import * as Y from 'yjs'
-
-// const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 import Collaboration from '@tiptap/extension-collaboration'
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+
 import * as Y from 'yjs'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { useUserStore } from '~/components/user/userStore'
@@ -35,27 +33,32 @@ const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 const userStore = useUserStore()
+const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
 const provider = ref<TiptapCollabProvider | null>(null)
-onMounted(() => {
+provider.value = new TiptapCollabProvider({
+    baseUrl: "ws://localhost:3010/collaboration",
+    name: 'testdocument-' + topicStore.id,
+    token: userStore.id.toString(),
+    preserveConnection: false,
+    document: doc,
+    onSynced() {
+        if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
+            doc.getMap('config').set('initialContentLoaded', true)
 
-    provider.value = new TiptapCollabProvider({
-        baseUrl: "ws://localhost:3010/",
-        name: 'testdocument-' + topicStore.id,
-        token: 'test',
-        preserveConnection: false,
-        document: doc,
-        onSynced() {
-            if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
-                doc.getMap('config').set('initialContentLoaded', true)
-
-                editor.value.commands.setContent(topicStore.initialContent)
-            }
+            editor.value.commands.setContent(topicStore.initialContent)
         }
-    })
-
+    }
 })
-const doc = new Y.Doc() // Initialize Y.Doc for shared editing
+
+function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 const editor = useEditor({
     content: topicStore.initialContent,
@@ -100,13 +103,13 @@ const editor = useEditor({
         Collaboration.configure({
             document: doc
         }),
-        // CollaborationCursor.configure({
-        //     provider: provider.value,
-        //     user: {
-        //         name: 'Editor1',
-        //         color: '#EADDCA',
-        //     },
-        // }),
+        CollaborationCursor.configure({
+            provider: provider.value,
+            user: {
+                name: userStore.isLoggedIn ? userStore.name : 'Anonymous',
+                color: getRandomColor(),
+            },
+        }),
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
@@ -256,6 +259,33 @@ function updateCursorIndex() {
             ul[data-type="taskList"]>li {
                 display: flex;
             }
+        }
+    }
+
+    .collaboration-cursor__caret {
+        border-left: 1px solid #0d0d0d;
+        border-right: 1px solid #0d0d0d;
+        margin-left: -1px;
+        margin-right: -1px;
+        pointer-events: none;
+        position: relative;
+        word-break: normal;
+
+        .collaboration-cursor__label {
+            border-radius: 3px 3px 3px 0;
+            color: #0d0d0d;
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 600;
+            left: -1px;
+            line-height: normal;
+            padding: .1rem .3rem;
+            position: absolute;
+            top: -1.4em;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+            white-space: nowrap;
         }
     }
 }

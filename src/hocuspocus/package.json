@@ -7,9 +7,11 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "@hocuspocus/extension-database": "^2.13.5",
     "@hocuspocus/extension-redis": "^2.13.5",
     "@hocuspocus/server": "^2.13.5",
     "express": "^4.19.2",
-    "express-ws": "^5.0.2"
+    "express-ws": "^5.0.2",
+    "ioredis": "^5.4.1"
   }
 }
