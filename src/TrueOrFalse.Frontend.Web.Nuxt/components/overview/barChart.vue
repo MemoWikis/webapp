@@ -36,5 +36,5 @@ const chartOptions = {
 </script>
 
 <template>
-    <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+    <Bar :options="chartOptions" :data="chartData" />
 </template>

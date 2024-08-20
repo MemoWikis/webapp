@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ApiVueApp;
 public class OverviewController(
-SessionUser _sessionUser,
 QuestionViewRepository _questionViewRepository,
 CategoryViewRepo _categoryViewRepo) : Controller
 {
@@ -19,18 +18,19 @@ CategoryViewRepo _categoryViewRepo) : Controller
         List<ViewsResult> ViewsQuestions,
         List<ViewsResult> ViewsTopics,
         List<ViewsResult> YearlyLogins,
-        List<ViewsResult> YearlyRegistrations
+        List<ViewsResult> YearlyRegistrations,
+        List<ViewsResult> YearlyPublicCreatedTopics,
+        List<ViewsResult> YearlyPrivateCreatedTopics
     );
 
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
     [AccessOnlyAsAdmin]
     public OverviewRunJson GetAllData()
-    
     {
         var watch = new Stopwatch();
         watch.Start();
-
+        //user
         var allUsers = EntityCache.GetAllUsers();
         var lastYearLogins = allUsers
             .Where(u => u.LastLogin.HasValue && u.LastLogin.Value.Date > DateTime.Now.Date.AddDays(-365))
@@ -60,19 +60,46 @@ CategoryViewRepo _categoryViewRepo) : Controller
             .OrderBy(v => v.DateTime)  
             .ToList();
 
+        //Topics
         var allCategories = EntityCache.GetAllCategoriesList();
-        var publicCreated = allCategories
-            .Where(DateTimeUtils.IsToday)
-            .Where(u => u.IsVisible);
-        var privateCreated = allCategories
-            .Where(DateTimeUtils.IsToday)
-            .Where(u => u.IsVisible == false);
+        var allPublicCategories = allCategories.Where(u => u.IsVisible);
+        var lastYearPublicCreatedTopics = allPublicCategories
+            .Where(u =>  u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+
+        var yearlyPublicCreatedTopics = lastYearPublicCreatedTopics
+            .GroupBy(u => new { Year = u.DateCreated.Year, Month = u.DateCreated.Month })
+            .Select(g => new ViewsResult(
+                new DateTime(g.Key.Year, g.Key.Month, 1),  
+                g.Count()))  
+            .OrderBy(v => v.DateTime)  
+            .ToList();
+
+        var publicTodayCreatedTopics = lastYearPublicCreatedTopics
+            .Where(u => u.DateCreated.Date == DateTime.Now.Date);
+
+        var allPrivateCreatedTopics = allCategories.Where(u => u.IsVisible == false); 
+        var lastYearPrivateCreatedTopics = allPrivateCreatedTopics
+            .Where(u =>  u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+        var yearlyPrivateCreatedTopics = lastYearPrivateCreatedTopics
+            .GroupBy(u => new { Year = u.DateCreated.Year, Month = u.DateCreated.Month })
+            .Select(g => new ViewsResult(
+                new DateTime(g.Key.Year, g.Key.Month, 1),  
+                g.Count()))  
+            .OrderBy(v => v.DateTime)  
+            .ToList();
+
+        var privateTodayCreatedTopics = allPrivateCreatedTopics
+            .Where(DateTimeUtils.IsToday);
+
         var topicLastYearViews = _categoryViewRepo.GetViewsForLastNDays(365);
         var topicLastYearViewsResult = topicLastYearViews
             .Select(q => new ViewsResult(q.Key, q.Value))
             .ToList();
-        var topicTodayViews = topicLastYearViewsResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views; 
+        var topicTodayViews = topicLastYearViewsResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
 
+        //Questions
         var questionviewsLastYear = _questionViewRepository.GetViewsForLastNDays(365);
         var questionviewsLastYearResult = questionviewsLastYear
             .Select(q => new ViewsResult(q.Key, q.Value))
@@ -84,15 +111,16 @@ CategoryViewRepo _categoryViewRepo) : Controller
         {
             RegistrationsCount = todayRegistrations.Count(),
             LoginCount = todayLogins.Count(),
-            CreatedPrivatizedTopicCount = privateCreated.Count(),
-            CreatedPublicTopicCount = publicCreated.Count(),
+            CreatedPrivatizedTopicCount = privateTodayCreatedTopics.Count(),
+            CreatedPublicTopicCount = publicTodayCreatedTopics.Count(),
             TodayTopicViews = topicTodayViews,
             TodayQuestionViews = questionTodayViews,
             ViewsQuestions = questionviewsLastYearResult,
             ViewsTopics = topicLastYearViewsResult,
             YearlyLogins = yearlyLogins,
-            YearlyRegistrations = yearlyRegistrations
+            YearlyRegistrations = yearlyRegistrations,
+            YearlyPublicCreatedTopics = yearlyPublicCreatedTopics,
+            YearlyPrivateCreatedTopics = yearlyPrivateCreatedTopics
         }; 
-
     }
 }

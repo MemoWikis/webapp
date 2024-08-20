@@ -17,6 +17,8 @@ interface OverviewRunJson {
     viewsTopics: ViewsResult[];
     yearlyLogins: ViewsResult[];
     yearlyRegistrations: ViewsResult[];
+    yearlyPublicCreatedTopics: ViewsResult[];
+    yearlyPrivateCreatedTopics: ViewsResult[];
 }
 
 const { data: overviewData } = await useFetch<OverviewRunJson>('/apiVue/Overview/GetAllData', {
@@ -28,7 +30,13 @@ const { data: overviewData } = await useFetch<OverviewRunJson>('/apiVue/Overview
     },
 });
 
-const showLazyBarChart = ref(false);
+const showYearlyQuestionViewBarchart = ref(false);
+const showYearlyTopicViewBarChart = ref(false);
+const showYearlyCreatedPublicTopicBarchart = ref(false);
+const showYearlyCreatedPrivateTopicBarchart = ref(false);
+const showYearlyLoginBarchart = ref(false);
+const showYearlyRegistrationBarchart = ref(false);
+
 const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime) as string[]);
 const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => v.views) as number[]);
 
@@ -41,9 +49,12 @@ const yearlyLoginsCount = computed(() => overviewData.value?.yearlyLogins?.map(v
 const yearlyRegistrationLabels = computed(() => overviewData.value?.yearlyRegistrations?.map(v => v.dateTime) as string[]);
 const yearlyRegistrationCounts = computed(() => overviewData.value?.yearlyRegistrations?.map(v => v.views) as number[]);
 
-function toggleLazyBarChart() {
-    showLazyBarChart.value = !showLazyBarChart.value;
-}
+const yearlyPublicCreatedTopicLabels = computed(() => overviewData.value?.yearlyPublicCreatedTopics?.map(v => v.dateTime) as string[]);
+const yearlyPublicCreatedTopicCounts = computed(() => overviewData.value?.yearlyPublicCreatedTopics?.map(v => v.views) as number[]);
+
+const yearlyPrivateCreatedTopicLabels = computed(() => overviewData.value?.yearlyPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
+const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearlyPrivateCreatedTopics?.map(v => v.views) as number[]);
+
 </script>
 <template>
     <div class="container">
@@ -67,10 +78,15 @@ function toggleLazyBarChart() {
                     </div>
                 </div>
             </div>
-
-            <LazyOverviewBarChart :labels="yearlyRegistrationLabels" :datasets="yearlyRegistrationCounts"
-                :title="'jährliche Übersicht Logins'" />
-
+            <div>
+                <button @click="showYearlyRegistrationBarchart = !showYearlyRegistrationBarchart;">
+                    {{ showYearlyRegistrationBarchart ? 'Verstecken' : 'Jährliche Daten Registrierungen' }}
+                </button>
+            </div>
+            <div v-if="showYearlyRegistrationBarchart">
+                <LazyOverviewBarChart :labels="yearlyRegistrationLabels" :datasets="yearlyRegistrationCounts"
+                    :title="'jährliche Übersicht Registrierungen'" />
+            </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
                     <h3>Heutige Logins: </h3>
@@ -79,9 +95,22 @@ function toggleLazyBarChart() {
                     </div>
                 </div>
             </div>
-            <LazyOverviewBarChart :labels="yearlyLoginsLabels" :datasets="yearlyLoginsCount"
-                :title="'jährliche Übersicht Logins'" />
-
+            <div>
+                <button @click="showYearlyLoginBarchart = !showYearlyLoginBarchart;">
+                    {{ showYearlyLoginBarchart ? 'Verstecken' : 'Jährliche Daten Logins anzeigen' }}
+                </button>
+            </div>
+            <div v-if="showYearlyLoginBarchart">
+                <div class="row content">
+                    <button @click="showYearlyLoginBarchart = !showYearlyLoginBarchart;">
+                        {{ showYearlyQuestionViewBarchart ? 'Verstecken' : 'Jährliche Daten Logins' }}
+                    </button>
+                </div>
+                <div v-if="showYearlyLoginBarchart">
+                    <LazyOverviewBarChart :labels="yearlyLoginsLabels" :datasets="yearlyLoginsCount"
+                        :title="'jährliche Übersicht Logins'" />
+                </div>
+            </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
                     <div>
@@ -92,6 +121,17 @@ function toggleLazyBarChart() {
                     </div>
                 </div>
             </div>
+            <div>
+                <button @click="showYearlyCreatedPrivateTopicBarchart = !showYearlyCreatedPrivateTopicBarchart;">
+                    {{ showYearlyCreatedPrivateTopicBarchart ? 'Verstecken' : 'Jährliche Daten Created Private Topics'
+                    }}
+                </button>
+            </div>
+            <div v-if="showYearlyCreatedPrivateTopicBarchart">
+                <LazyOverviewBarChart :labels="yearlyPrivateCreatedTopicLabels"
+                    :datasets="yearlyPrivateCreatedTopicCounts"
+                    :title="'jährliche Übersicht erstellte Private Topics'" />
+            </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
                     <h3>Erstellte öffentliche Themen: </h3>
@@ -100,7 +140,16 @@ function toggleLazyBarChart() {
                     </div>
                 </div>
             </div>
-
+            <div>
+                <button @click="showYearlyCreatedPublicTopicBarchart = !showYearlyCreatedPublicTopicBarchart;">
+                    {{ showYearlyCreatedPublicTopicBarchart ? 'Verstecken' : 'Jährliche Daten Public Topics'
+                    }}
+                </button>
+            </div>
+            <div v-if="showYearlyCreatedPublicTopicBarchart">
+                <LazyOverviewBarChart :labels="yearlyPublicCreatedTopicLabels"
+                    :datasets="yearlyPublicCreatedTopicCounts" :title="'jährliche Übersicht erstellte Public Topics'" />
+            </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
                     <h3>Views Topics: </h3>
@@ -109,10 +158,15 @@ function toggleLazyBarChart() {
                     </div>
                 </div>
             </div>
-
-            <LazyOverviewBarChart :labels="viewTopicLabels" :datasets="viewTopicViews"
-                :title="'jährliche Übersicht Topic Views'" />
-
+            <div>
+                <button @click="showYearlyTopicViewBarChart = !showYearlyTopicViewBarChart;">
+                    {{ showYearlyTopicViewBarChart ? 'Verstecken' : 'Jährliche Daten Topic Views anzeigen' }}
+                </button>
+            </div>
+            <div v-if="showYearlyTopicViewBarChart">
+                <LazyOverviewBarChart :labels="viewTopicLabels" :datasets="viewTopicViews"
+                    :title="'jährliche Übersicht Topic Views'" />
+            </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
                     <h3>Views Fragen: </h3>
@@ -121,13 +175,14 @@ function toggleLazyBarChart() {
                     </div>
                 </div>
             </div>
-            <LazyOverviewBarChart :labels="viewQuestionLabels" :datasets="viewQuestionViews"
-                :title="'jährliche Übersicht Question Views'" />
-
-            <div class="row content">
-                <button @click="toggleLazyBarChart">
-                    {{ showLazyBarChart ? 'Verstecken' : 'Diagramm anzeigen' }}
+            <div>
+                <button @click="showYearlyQuestionViewBarchart = !showYearlyQuestionViewBarchart;">
+                    {{ showYearlyQuestionViewBarchart ? 'Verstecken' : 'Jährliche Daten Question Views anzeigen' }}
                 </button>
+            </div>
+            <div v-if="showYearlyQuestionViewBarchart">
+                <LazyOverviewBarChart :labels="viewQuestionLabels" :datasets="viewQuestionViews"
+                    :title="'jährliche Übersicht Question Views'" />
             </div>
         </div>
     </div>
