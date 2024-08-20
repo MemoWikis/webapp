@@ -46,7 +46,7 @@ if (userStore.isLoggedIn) {
     provider.value = new TiptapCollabProvider({
         baseUrl: "ws://localhost:3010/collaboration",
         name: 'ydoc-' + topicStore.id,
-        token: userStore.id.toString(),
+        token: userStore.collaborationToken,
         preserveConnection: false,
         document: doc,
         onSynced() {
@@ -108,8 +108,9 @@ const editor = useEditor({
             CollaborationCursor.configure({
                 provider: provider.value,
                 user: {
-                    name: userStore.isLoggedIn ? userStore.name : 'Anonymous',
+                    name: userStore.name,
                     color: getRandomColor(),
+                    avatar: userStore.imgUrl
                 },
             })
         ] : [History]
