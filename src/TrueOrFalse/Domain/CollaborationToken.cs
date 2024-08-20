@@ -9,9 +9,9 @@ public class CollaborationToken : IRegisterAsInstancePerLifetime
     public string Get(int userId)
     {
         DateTime expiry = DateTime.UtcNow.AddDays(30);
-        string dataToSign = $"{userId}:{expiry.ToString("o")}";
+        string dataToSign = $"{userId}|#{expiry.ToString("o")}";
         string signature = GenerateSignature(dataToSign);
-        string token = $"{userId}:{expiry.ToString("o")}:{signature}";
+        string token = $"{userId}|#{expiry.ToString("o")}|#{signature}";
 
         return Convert.ToBase64String(Encoding.UTF8.GetBytes(token));
     }
@@ -31,7 +31,7 @@ public class CollaborationToken : IRegisterAsInstancePerLifetime
 
         string decodedToken = Encoding.UTF8.GetString(Convert.FromBase64String(token));
 
-        var parts = decodedToken.Split(':');
+        var parts = decodedToken.Split(["|#"], StringSplitOptions.None);
         if (parts.Length != 3)
         {
             return (false, -1);
