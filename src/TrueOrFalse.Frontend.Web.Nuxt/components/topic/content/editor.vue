@@ -48,7 +48,9 @@ const editor = shallowRef<Editor>()
 const loadCollab = ref(true)
 
 const recreate = () => {
-    console.log('recreated', userStore.isLoggedIn, loadCollab.value)
+    provider.value?.destroy()
+    editor.value?.destroy()
+
     if (userStore.isLoggedIn && loadCollab.value) {
         provider.value = new TiptapCollabProvider({
             baseUrl: "ws://localhost:3010/collaboration",
@@ -72,8 +74,6 @@ const recreate = () => {
             },
         })
     }
-
-    editor.value?.destroy()
 
     editor.value = new Editor({
         content: topicStore.initialContent,
@@ -239,7 +239,10 @@ onBeforeUnmount(() => {
 
 <template>
     <template v-if="editor">
-        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" />
+        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
+            v-if="loadCollab && userStore.isLoggedIn" />
+        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" v-else />
+
         <editor-content :editor="editor" class="col-xs-12" />
     </template>
 </template>
