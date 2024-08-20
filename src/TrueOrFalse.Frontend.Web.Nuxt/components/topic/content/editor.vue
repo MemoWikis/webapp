@@ -7,14 +7,17 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
+import History from '@tiptap/extension-history'
 import { all, createLowlight } from 'lowlight'
+import ImageResize from '~~/components/shared/imageResizeExtension'
+import { Indent } from '../../editor/indent'
+
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
-import { Indent } from '../../editor/indent'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+
 import { getRandomColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
@@ -37,6 +40,7 @@ const lowlight = createLowlight(all)
 const userStore = useUserStore()
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
+const providerContentLoaded = ref(false)
 const provider = ref<TiptapCollabProvider | null>(null)
 if (userStore.isLoggedIn) {
     provider.value = new TiptapCollabProvider({
@@ -48,8 +52,8 @@ if (userStore.isLoggedIn) {
         onSynced() {
             if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
                 doc.getMap('config').set('initialContentLoaded', true)
-
                 editor.value.commands.setContent(topicStore.initialContent)
+                providerContentLoaded.value = true
             }
         }
     })
@@ -63,7 +67,7 @@ const editor = useEditor({
         StarterKit.configure({
             heading: false,
             codeBlock: false,
-            ...(userStore.isLoggedIn) ? [{ history: false }] : [],
+            history: false,
         }),
         CustomHeading.configure({
             levels: [2, 3, 4],
@@ -108,7 +112,7 @@ const editor = useEditor({
                     color: getRandomColor(),
                 },
             })
-        ] : []
+        ] : [History]
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
