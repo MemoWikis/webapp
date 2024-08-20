@@ -38,22 +38,24 @@ const userStore = useUserStore()
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
 const provider = ref<TiptapCollabProvider | null>(null)
-provider.value = new TiptapCollabProvider({
-    baseUrl: "ws://localhost:3010/collaboration",
-    name: 'ydoc-' + topicStore.id,
-    token: userStore.id.toString(),
-    preserveConnection: false,
-    document: doc,
-    onSynced() {
-        if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
-            doc.getMap('config').set('initialContentLoaded', true)
+if (userStore.isLoggedIn) {
+    provider.value = new TiptapCollabProvider({
+        baseUrl: "ws://localhost:3010/collaboration",
+        name: 'ydoc-' + topicStore.id,
+        token: userStore.id.toString(),
+        preserveConnection: false,
+        document: doc,
+        onSynced() {
+            if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
+                doc.getMap('config').set('initialContentLoaded', true)
 
-            editor.value.commands.setContent(topicStore.initialContent)
+                editor.value.commands.setContent(topicStore.initialContent)
+            }
         }
-    }
-})
+    })
 
-new IndexeddbPersistence(`document-${topicStore.id}`, doc)
+    new IndexeddbPersistence(`document-${topicStore.id}`, doc)
+}
 
 const editor = useEditor({
     content: topicStore.initialContent,
@@ -61,7 +63,7 @@ const editor = useEditor({
         StarterKit.configure({
             heading: false,
             codeBlock: false,
-            history: false,
+            ...(userStore.isLoggedIn) ? [{ history: false }] : [],
         }),
         CustomHeading.configure({
             levels: [2, 3, 4],
@@ -95,16 +97,18 @@ const editor = useEditor({
             nested: true,
         }),
         Indent,
-        Collaboration.configure({
-            document: doc
-        }),
-        CollaborationCursor.configure({
-            provider: provider.value,
-            user: {
-                name: userStore.isLoggedIn ? userStore.name : 'Anonymous',
-                color: getRandomColor(),
-            },
-        }),
+        ...(userStore.isLoggedIn) ? [
+            Collaboration.configure({
+                document: doc
+            }),
+            CollaborationCursor.configure({
+                provider: provider.value,
+                user: {
+                    name: userStore.isLoggedIn ? userStore.name : 'Anonymous',
+                    color: getRandomColor(),
+                },
+            })
+        ] : []
     ],
     onUpdate({ editor }) {
         topicStore.contentHasChanged = true
