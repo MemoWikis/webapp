@@ -137,7 +137,9 @@ function headingClass(level: number, index: number) {
             :class="headingClass(heading.level, index)">
             <NuxtLink :to="`${$urlHelper.getTopicUrl(topicStore.name, topicStore.id)}#${heading.id}`"
                 class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
-                {{ heading.text }}
+                <div v-for="text in heading.text">
+                    {{ text }}
+                </div>
             </NuxtLink>
         </div>
     </div>
