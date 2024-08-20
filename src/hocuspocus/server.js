@@ -48,34 +48,27 @@ const server = Server.configure({
     //   port: 6379,
     // }),
     redisDatabaseExtension,
-    new Logger({
-      log: (message) => {
-        // do something custom here
-        console.log('log-'+message);
-      },
-    }),
   ],
   async onAuthenticate({ documentName, token }) {
-    throw new Error("Not authorized!")
+    // throw new Error("Not authorized!")
 
     console.log('documentName---', documentName)
     console.log('token---', token)
 
-    return
-    // await axios.post("http://localhost:3000/apiVue/Hocuspocus/Authorise", {
-    //   token: token,
-    //   hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
-    //   topicId: documentName.substring(5)
-    // }).then(function (response) {
-    //   console.log(response);
-    // })
+    const data = {
+      token: token,
+      hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
+      topicId: documentName.substring(5)
+    }
+
+    // return
+    await axios.post("http://localhost:3000/apiVue/Hocuspocus/Authorise", data).then(function (response) {
+      if (response.data.status === 200 && response.data.data === true) {
+        return
+      } else throw new Error("Not authorized!")
+    })
   },
 })
-
-// start with: npx @hocuspocus/cli --port 3010
-// server.listen()
-
-
 
 // Setup your express instance using the express-ws extension
 const { app } = expressWebsockets(express())

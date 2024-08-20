@@ -40,14 +40,13 @@ public class CollaborationToken : IRegisterAsInstancePerLifetime
         userId = int.Parse(parts[0]);
         string expiryDateStr = parts[1];
         string providedSignature = parts[2];
+        string dataToSign = $"{userId}|#{expiryDateStr}";
+        string expectedSignature = GenerateSignature(dataToSign);
 
         if (!DateTime.TryParse(expiryDateStr, null, System.Globalization.DateTimeStyles.RoundtripKind, out DateTime expiryDate))
         {
             return (false, -1);
         }
-
-        string dataToSign = $"{userId}:{expiryDate.ToString("o")}";
-        string expectedSignature = GenerateSignature(dataToSign);
 
         return (providedSignature == expectedSignature && DateTime.UtcNow <= expiryDate, userId);
     }
