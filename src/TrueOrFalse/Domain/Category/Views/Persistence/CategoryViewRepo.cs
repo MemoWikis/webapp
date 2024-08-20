@@ -4,16 +4,11 @@ using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
 using System.Diagnostics;
 
-public class CategoryViewRepo : RepositoryDb<CategoryView>
+public class CategoryViewRepo(
+    ISession _session, 
+    CategoryRepository _categoryRepository,
+    UserReadingRepo _userReadingRepo) : RepositoryDb<CategoryView>(_session)
 {
-    private readonly CategoryRepository _categoryRepository;
-    private readonly UserReadingRepo _userReadingRepo;
-
-    public CategoryViewRepo(ISession session, CategoryRepository categoryRepository, UserReadingRepo userReadingRepo) : base(session)
-    {
-        _categoryRepository = categoryRepository;
-        _userReadingRepo = userReadingRepo;
-    }
 
     public int GetViewCount(int categoryId)
     {
@@ -22,20 +17,6 @@ public class CategoryViewRepo : RepositoryDb<CategoryView>
             .Where(x => x.Category.Id == categoryId)
             .FutureValue<int>()
             .Value;
-    }
-
-    public IEnumerable<CategoryView> GetTodayViews()
-    {
-        var watch = new Stopwatch();
-        watch.Start();
-        var query = _session.CreateCriteria<CategoryView>()
-            .Add(Restrictions.Ge("DateCreated", DateTime.Now.Date));
-
-        var result = query.List<CategoryView>();  
-        watch.Stop();
-        var elapsed = watch.ElapsedMilliseconds;
-        Logg.r.Information("GetTodayViews elapsed time:", elapsed);
-        return result;
     }
 
     public ConcurrentDictionary<DateTime, int> GetViewsForLastNDays(int days)

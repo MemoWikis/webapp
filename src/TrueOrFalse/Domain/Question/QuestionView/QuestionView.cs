@@ -18,16 +18,11 @@ public class QuestionView : IPersistable, WithDateCreated
             Guid = new Guid(value);
         }
     }
-
     public virtual int QuestionId { get; set; }
     public virtual int UserId { get; set; }
-
     public virtual int Milliseconds { get; set; }
-
     public virtual string UserAgent { get; set; }
-
     public virtual bool Migrated { get; set; }
-
     public virtual DateTime DateCreated { get; set; }
     public virtual DateTime DateOnly { get; set; }
 }
