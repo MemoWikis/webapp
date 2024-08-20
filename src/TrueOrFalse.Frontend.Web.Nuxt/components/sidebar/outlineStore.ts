@@ -23,7 +23,6 @@ export const useOutlineStore = defineStore('outlineStore', () => {
     function extractHeadings(contentArray: JSONContent[]) {
         contentArray.forEach((item, index) => {
             if (item.type === 'heading' && item.content && item.attrs) {
-                console.log(item.content)
                 const outlineElement: OutlineElement = {
                     id: item.attrs.id ? item.attrs.id : '',
                     text: getHeadingText(item.content as HeadingContent[]),
