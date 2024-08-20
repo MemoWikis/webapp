@@ -71,6 +71,12 @@ const recreate = () => {
                     editor.value.commands.setContent(topicStore.initialContent)
                     providerContentLoaded.value = true
                 }
+
+                if (editor.value) {
+                    const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
+                    if (contentArray)
+                        outlineStore.setHeadings(contentArray)
+                }
             },
         })
     }
