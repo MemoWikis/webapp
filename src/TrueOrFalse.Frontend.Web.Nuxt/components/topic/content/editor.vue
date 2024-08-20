@@ -239,9 +239,9 @@ onBeforeUnmount(() => {
 
 <template>
     <template v-if="editor">
-        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
+        <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-if="loadCollab && userStore.isLoggedIn" />
-        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" v-else />
+        <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" v-else />
 
         <editor-content :editor="editor" class="col-xs-12" />
     </template>
