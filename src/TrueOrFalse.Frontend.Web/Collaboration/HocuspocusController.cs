@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Collaboration;
+namespace VueApp;
 
 public class HocuspocusController() : Controller
 {
-    [HttpGet]
-    public bool Authorise(string token, string hocuspocusKey, int topicId)
+    [HttpPost]
+    public bool Authorise([FromBody] string token, string hocuspocusKey, int topicId)
     {
         if (hocuspocusKey != Settings.CollaborationHocuspocusSecretKey)
             return false;
@@ -20,5 +20,11 @@ public class HocuspocusController() : Controller
             return true;
 
         return false;
+    }
+
+    [HttpGet]
+    public bool Test()
+    {
+        return true;
     }
 }
