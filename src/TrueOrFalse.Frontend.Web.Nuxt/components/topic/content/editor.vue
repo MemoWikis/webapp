@@ -42,6 +42,7 @@ const doc = new Y.Doc() // Initialize Y.Doc for shared editing
 
 const providerContentLoaded = ref(false)
 const provider = ref<TiptapCollabProvider | null>(null)
+
 if (userStore.isLoggedIn) {
     provider.value = new TiptapCollabProvider({
         baseUrl: "ws://localhost:3010/collaboration",
@@ -55,11 +56,16 @@ if (userStore.isLoggedIn) {
                 editor.value.commands.setContent(topicStore.initialContent)
                 providerContentLoaded.value = true
             }
-        }
+        },
+        onAuthenticationFailed: ({ reason }) => {
+            loadCollab.value = false
+        },
     })
 
-    new IndexeddbPersistence(`document-${topicStore.id}`, doc)
+    // new IndexeddbPersistence(`document-${topicStore.id}`, doc)
 }
+
+const loadCollab = ref(userStore.isLoggedIn)
 
 const editor = useEditor({
     content: topicStore.initialContent,
@@ -101,7 +107,7 @@ const editor = useEditor({
             nested: true,
         }),
         Indent,
-        ...(userStore.isLoggedIn) ? [
+        ...(userStore.isLoggedIn && loadCollab.value) ? [
             Collaboration.configure({
                 document: doc
             }),

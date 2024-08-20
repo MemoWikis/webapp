@@ -63,9 +63,10 @@ const server = Server.configure({
 
     // return
     await axios.post("http://localhost:3000/apiVue/Hocuspocus/Authorise", data).then(function (response) {
-      if (response.data.status === 200 && response.data.data === true) {
+      if (response.status === 200 && response.data === true) 
         return
-      } else throw new Error("Not authorized!")
+      else 
+        throw new Error("Not authorized!")
     })
   },
 })
@@ -82,7 +83,6 @@ app.get("/", (request, response) => {
 // You can set any contextual data like in the onConnect hook
 // and pass it to the handleConnection method.
 app.ws("/collaboration", (websocket, request) => {
-  console.log('request---', request)
   server.handleConnection(websocket, request)
 })
 
