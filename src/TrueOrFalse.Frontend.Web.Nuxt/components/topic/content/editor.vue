@@ -47,7 +47,6 @@ const providerContentLoaded = ref(false)
 const provider = shallowRef<TiptapCollabProvider>()
 const editor = shallowRef<Editor>()
 const loadCollab = ref(true)
-
 const recreate = () => {
     provider.value?.destroy()
     editor.value?.destroy()
@@ -77,10 +76,18 @@ const recreate = () => {
                     const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
                     if (contentArray)
                         outlineStore.setHeadings(contentArray)
-
-
                 }
             },
+            onClose(c) {
+                if (c.event.code === 1006) {
+                    // alertStore.openAlert(AlertType.Error, { text: messages.error.collaboration.connectionLost })
+                    if (!providerContentLoaded.value) {
+                        loadCollab.value = false
+                        recreate()
+                    }
+
+                }
+            }
         })
     }
     editor.value = new Editor({
