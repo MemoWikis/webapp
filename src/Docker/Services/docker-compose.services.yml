@@ -18,8 +18,8 @@ services:
       - C:/redis-data/${ENVIRONMENT}:/data
       
   hocuspocus:
-    # build:
-    #   context: ../../hocuspocus
+    build:
+      context: ../../hocuspocus
     restart: always
     ports:
       - "${HOCUSPOCUS_PORT}:3010"

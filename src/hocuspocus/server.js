@@ -8,11 +8,14 @@ import { Database } from "@hocuspocus/extension-database"
 import express from "express"
 import expressWebsockets from "express-ws"
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' || process.env.NODE_ENV !== 'docker-dev') {
   dotenv.config()
 }
 
-const redis = new Redis()
+const redis = new Redis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || 6379,
+})
 
 const redisDatabaseExtension = new Database({
   fetch: async ({ documentName }) => {
@@ -51,6 +54,7 @@ const server = Server.configure({
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
       topicId: documentName.substring(5)
     }
+    console.log(data, process.env.BASE_URL)
     await axios.post(`${process.env.BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
       if (response.status === 200 && response.data === true) 
         return
@@ -72,5 +76,5 @@ app.ws("/collaboration", (websocket, request) => {
 
 const PORT = 3010;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`)
+  console.log(`Server is running on Port:${PORT}`)
 })
