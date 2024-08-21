@@ -28,7 +28,7 @@ public class EntityCacheInitializer(
         var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();
         Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
 
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
+        var categories = CategoryCacheItem.ToCacheCategoriesWithViews(allCategories,_categoryViewRepo).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());

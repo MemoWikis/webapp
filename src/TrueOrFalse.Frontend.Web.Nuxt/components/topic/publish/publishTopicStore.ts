@@ -28,7 +28,7 @@ export const usePublishTopicStore = defineStore('publishTopicStore', {
         async openModal(id: number) {
             this.includeQuestionsToPublish = false
             this.confirmLicense = false
-            const result = await $api<PublishTopicData>(`/apiVue/4/Get/${id}`, {
+            const result = await $api<PublishTopicData>(`/apiVue/PublishTopicStore/Get/${id}`, {
                 mode: 'cors',
                 credentials: 'include'
             })

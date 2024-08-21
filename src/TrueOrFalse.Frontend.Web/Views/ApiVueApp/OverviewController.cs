@@ -9,7 +9,7 @@ public class OverviewController(
 QuestionViewRepository _questionViewRepository,
 CategoryViewRepo _categoryViewRepo) : Controller
 {
-    public readonly record struct OverviewRunJson(int RegistrationsCount,
+    public readonly record struct GetAllDataResponse(int RegistrationsCount,
         int LoginCount, 
         int CreatedPrivatizedTopicCount, 
         int CreatedPublicTopicCount,
@@ -26,7 +26,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
     [AccessOnlyAsAdmin]
-    public OverviewRunJson GetAllData()
+    public GetAllDataResponse GetAllData()
     {
         var watch = new Stopwatch();
         watch.Start();
@@ -107,7 +107,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
         var questionTodayViews = questionviewsLastYearResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
         var elapsed = watch.ElapsedMilliseconds;
 
-        return new OverviewRunJson
+        return new GetAllDataResponse
         {
             RegistrationsCount = todayRegistrations.Count(),
             LoginCount = todayLogins.Count(),

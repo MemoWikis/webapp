@@ -6,7 +6,7 @@ interface ViewsResult {
     views: number;
 }
 
-interface OverviewRunJson {
+interface GetAllDataResponse {
     registrationsCount: number;
     loginCount: number;
     createdPrivatizedTopicCount: number;
@@ -15,13 +15,13 @@ interface OverviewRunJson {
     todayQuestionViews: number;
     viewsQuestions: ViewsResult[];
     viewsTopics: ViewsResult[];
-    yearlyLogins: ViewsResult[];
-    yearlyRegistrations: ViewsResult[];
-    yearlyPublicCreatedTopics: ViewsResult[];
-    yearlyPrivateCreatedTopics: ViewsResult[];
+    annualLogins: ViewsResult[];
+    annualRegistrations: ViewsResult[];
+    annualPublicCreatedTopics: ViewsResult[];
+    annualPrivateCreatedTopics: ViewsResult[];
 }
 
-const { data: overviewData } = await useFetch<OverviewRunJson>('/apiVue/Overview/GetAllData', {
+const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Overview/GetAllData', {
     mode: 'cors',
     credentials: 'include',
     onResponseError(context) {
@@ -30,12 +30,12 @@ const { data: overviewData } = await useFetch<OverviewRunJson>('/apiVue/Overview
     },
 });
 
-const showYearlyQuestionViewBarchart = ref(false);
-const showYearlyTopicViewBarChart = ref(false);
-const showYearlyCreatedPublicTopicBarchart = ref(false);
-const showYearlyCreatedPrivateTopicBarchart = ref(false);
-const showYearlyLoginBarchart = ref(false);
-const showYearlyRegistrationBarchart = ref(false);
+const showAnnualQuestionViewBarchart = ref(false);
+const showAnnualTopicViewBarChart = ref(false);
+const showAnnualCreatedPublicTopicBarchart = ref(false);
+const showAnnualCreatedPrivateTopicBarchart = ref(false);
+const showAnnualLoginBarchart = ref(false);
+const showAnnualRegistrationBarchart = ref(false);
 
 const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime) as string[]);
 const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => v.views) as number[]);
@@ -43,17 +43,17 @@ const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => 
 const viewQuestionLabels = computed(() => overviewData.value?.viewsQuestions?.map(v => v.dateTime) as string[]);
 const viewQuestionViews = computed(() => overviewData.value?.viewsQuestions?.map(v => v.views) as number[]);
 
-const yearlyLoginsLabels = computed(() => overviewData.value?.yearlyLogins?.map(v => v.dateTime) as string[]);
-const yearlyLoginsCount = computed(() => overviewData.value?.yearlyLogins?.map(v => v.views) as number[]);
+const annualLoginsLabels = computed(() => overviewData.value?.annualLogins?.map(v => v.dateTime) as string[]);
+const annualLoginsCount = computed(() => overviewData.value?.annualLogins?.map(v => v.views) as number[]);
 
-const yearlyRegistrationLabels = computed(() => overviewData.value?.yearlyRegistrations?.map(v => v.dateTime) as string[]);
-const yearlyRegistrationCounts = computed(() => overviewData.value?.yearlyRegistrations?.map(v => v.views) as number[]);
+const annualRegistrationLabels = computed(() => overviewData.value?.annualRegistrations?.map(v => v.dateTime) as string[]);
+const annualRegistrationCounts = computed(() => overviewData.value?.annualRegistrations?.map(v => v.views) as number[]);
 
-const yearlyPublicCreatedTopicLabels = computed(() => overviewData.value?.yearlyPublicCreatedTopics?.map(v => v.dateTime) as string[]);
-const yearlyPublicCreatedTopicCounts = computed(() => overviewData.value?.yearlyPublicCreatedTopics?.map(v => v.views) as number[]);
+const annualPublicCreatedTopicLabels = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.dateTime) as string[]);
+const annualPublicCreatedTopicCounts = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.views) as number[]);
 
-const yearlyPrivateCreatedTopicLabels = computed(() => overviewData.value?.yearlyPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
-const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearlyPrivateCreatedTopics?.map(v => v.views) as number[]);
+const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
+const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.views) as number[]);
 
 </script>
 <template>
@@ -79,13 +79,13 @@ const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearl
                 </div>
             </div>
             <div>
-                <button @click="showYearlyRegistrationBarchart = !showYearlyRegistrationBarchart;">
-                    {{ showYearlyRegistrationBarchart ? 'Verstecken' : 'Jährliche Daten Registrierungen' }}
+                <button @click="showAnnualRegistrationBarchart = !showAnnualRegistrationBarchart;">
+                    {{ showAnnualRegistrationBarchart ? 'Verstecken' : 'Jahresübersicht Registrierungen' }}
                 </button>
             </div>
-            <div v-if="showYearlyRegistrationBarchart">
-                <LazyOverviewBarChart :labels="yearlyRegistrationLabels" :datasets="yearlyRegistrationCounts"
-                    :title="'jährliche Übersicht Registrierungen'" />
+            <div v-if="showAnnualRegistrationBarchart">
+                <LazyOverviewBarChart :labels="annualRegistrationLabels" :datasets="annualRegistrationCounts"
+                    :title="'Jahresübersicht Registrierungen'" />
             </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
@@ -96,19 +96,19 @@ const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearl
                 </div>
             </div>
             <div>
-                <button @click="showYearlyLoginBarchart = !showYearlyLoginBarchart;">
-                    {{ showYearlyLoginBarchart ? 'Verstecken' : 'Jährliche Daten Logins anzeigen' }}
+                <button @click="showAnnualLoginBarchart = !showAnnualLoginBarchart;">
+                    {{ showAnnualLoginBarchart ? 'Verstecken' : 'Jahresübersicht Logins anzeigen' }}
                 </button>
             </div>
-            <div v-if="showYearlyLoginBarchart">
+            <div v-if="showAnnualLoginBarchart">
                 <div class="row content">
-                    <button @click="showYearlyLoginBarchart = !showYearlyLoginBarchart;">
-                        {{ showYearlyQuestionViewBarchart ? 'Verstecken' : 'Jährliche Daten Logins' }}
+                    <button @click="showAnnualLoginBarchart = !showAnnualLoginBarchart;">
+                        {{ showAnnualQuestionViewBarchart ? 'Verstecken' : 'Jahresübersicht Logins' }}
                     </button>
                 </div>
-                <div v-if="showYearlyLoginBarchart">
-                    <LazyOverviewBarChart :labels="yearlyLoginsLabels" :datasets="yearlyLoginsCount"
-                        :title="'jährliche Übersicht Logins'" />
+                <div v-if="showAnnualLoginBarchart">
+                    <LazyOverviewBarChart :labels="annualLoginsLabels" :datasets="annualLoginsCount"
+                        :title="'Jahresübersicht Logins'" />
                 </div>
             </div>
             <div class="row content">
@@ -122,15 +122,14 @@ const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearl
                 </div>
             </div>
             <div>
-                <button @click="showYearlyCreatedPrivateTopicBarchart = !showYearlyCreatedPrivateTopicBarchart;">
-                    {{ showYearlyCreatedPrivateTopicBarchart ? 'Verstecken' : 'Jährliche Daten Created Private Topics'
+                <button @click="showAnnualCreatedPrivateTopicBarchart = !showAnnualCreatedPrivateTopicBarchart;">
+                    {{ showAnnualCreatedPrivateTopicBarchart ? 'Verstecken' : 'Jahresübersicht Created Private Topics'
                     }}
                 </button>
             </div>
-            <div v-if="showYearlyCreatedPrivateTopicBarchart">
-                <LazyOverviewBarChart :labels="yearlyPrivateCreatedTopicLabels"
-                    :datasets="yearlyPrivateCreatedTopicCounts"
-                    :title="'jährliche Übersicht erstellte Private Topics'" />
+            <div v-if="showAnnualCreatedPrivateTopicBarchart">
+                <LazyOverviewBarChart :labels="annualPrivateCreatedTopicLabels"
+                    :datasets="annualPrivateCreatedTopicCounts" :title="'Jahresübersicht erstellte Private Topics'" />
             </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
@@ -141,14 +140,14 @@ const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearl
                 </div>
             </div>
             <div>
-                <button @click="showYearlyCreatedPublicTopicBarchart = !showYearlyCreatedPublicTopicBarchart;">
-                    {{ showYearlyCreatedPublicTopicBarchart ? 'Verstecken' : 'Jährliche Daten Public Topics'
+                <button @click="showAnnualCreatedPublicTopicBarchart = !showAnnualCreatedPublicTopicBarchart;">
+                    {{ showAnnualCreatedPublicTopicBarchart ? 'Verstecken' : 'Jahresübersicht Public Topics'
                     }}
                 </button>
             </div>
-            <div v-if="showYearlyCreatedPublicTopicBarchart">
-                <LazyOverviewBarChart :labels="yearlyPublicCreatedTopicLabels"
-                    :datasets="yearlyPublicCreatedTopicCounts" :title="'jährliche Übersicht erstellte Public Topics'" />
+            <div v-if="showAnnualCreatedPublicTopicBarchart">
+                <LazyOverviewBarChart :labels="annualPublicCreatedTopicLabels"
+                    :datasets="annualPublicCreatedTopicCounts" :title="'Jahresübersicht erstellte Public Topics'" />
             </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
@@ -159,13 +158,13 @@ const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearl
                 </div>
             </div>
             <div>
-                <button @click="showYearlyTopicViewBarChart = !showYearlyTopicViewBarChart;">
-                    {{ showYearlyTopicViewBarChart ? 'Verstecken' : 'Jährliche Daten Topic Views anzeigen' }}
+                <button @click="showAnnualTopicViewBarChart = !showAnnualTopicViewBarChart;">
+                    {{ showAnnualTopicViewBarChart ? 'Verstecken' : 'JahresübersichtDaten Topic Views anzeigen' }}
                 </button>
             </div>
-            <div v-if="showYearlyTopicViewBarChart">
+            <div v-if="showAnnualTopicViewBarChart">
                 <LazyOverviewBarChart :labels="viewTopicLabels" :datasets="viewTopicViews"
-                    :title="'jährliche Übersicht Topic Views'" />
+                    :title="'Jahresübersicht Topic Views'" />
             </div>
             <div class="row content">
                 <div class="col-xs-12 col-sm-12 flex">
@@ -176,13 +175,13 @@ const yearlyPrivateCreatedTopicCounts = computed(() => overviewData.value?.yearl
                 </div>
             </div>
             <div>
-                <button @click="showYearlyQuestionViewBarchart = !showYearlyQuestionViewBarchart;">
-                    {{ showYearlyQuestionViewBarchart ? 'Verstecken' : 'Jährliche Daten Question Views anzeigen' }}
+                <button @click="showAnnualQuestionViewBarchart = !showAnnualQuestionViewBarchart;">
+                    {{ showAnnualQuestionViewBarchart ? 'Verstecken' : 'Jahresübersicht Question Views anzeigen' }}
                 </button>
             </div>
-            <div v-if="showYearlyQuestionViewBarchart">
+            <div v-if="showAnnualQuestionViewBarchart">
                 <LazyOverviewBarChart :labels="viewQuestionLabels" :datasets="viewQuestionViews"
-                    :title="'jährliche Übersicht Question Views'" />
+                    :title="'Jahresübersicht Question Views'" />
             </div>
         </div>
     </div>
