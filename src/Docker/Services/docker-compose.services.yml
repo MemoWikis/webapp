@@ -18,9 +18,10 @@ services:
       - C:/redis-data/${ENVIRONMENT}:/data
       
   hocuspocus:
-    build:
-      context: ../../hocuspocus  # Relative path to your Express app and Dockerfile
+    # build:
+    #   context: ../../hocuspocus
+    restart: always
     ports:
-      - "3010:3010"  # Port mapping for your Express app
+      - "${HOCUSPOCUS_PORT}:3010"
     environment:
-      NODE_ENV: development
+      NODE_ENV: ${ENVIRONMENT}
