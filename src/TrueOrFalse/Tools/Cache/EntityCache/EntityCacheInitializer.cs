@@ -27,11 +27,12 @@ public class EntityCacheInitializer(
 
         var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();
         Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
+        Logg.r.Information("EntityCache CategoryRelationsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = CategoryCacheItem.ToCacheCategoriesWithViews(allCategories,_categoryViewRepo).ToList();
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
+        Logg.r.Information("EntityCache CategoriesPutIntoForeverCache " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var allQuestions = _questionReadingRepo.GetAllEager();
         Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
