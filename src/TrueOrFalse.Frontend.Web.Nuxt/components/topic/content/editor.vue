@@ -18,7 +18,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
-import { getRandomBrightColor } from '~/components/shared/utils'
+import { getRandomColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
@@ -39,6 +39,7 @@ const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 const userStore = useUserStore()
 const doc = new Y.Doc() // Initialize Y.Doc for shared editing
+const config = useRuntimeConfig()
 
 const providerContentLoaded = ref(false)
 // const provider = ref<TiptapCollabProvider | null>(null)
@@ -53,13 +54,13 @@ const recreate = () => {
 
     if (userStore.isLoggedIn && loadCollab.value) {
         provider.value = new TiptapCollabProvider({
-            baseUrl: "ws://localhost:3010/collaboration",
+            baseUrl: config.public.hocuspocusWebsocketUrl,
             name: 'ydoc-' + topicStore.id,
             token: userStore.collaborationToken,
             preserveConnection: false,
             document: doc,
             onAuthenticated() {
-                new IndexeddbPersistence(`document-${topicStore.id}`, doc)
+                new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
             },
             onAuthenticationFailed: ({ reason }) => {
                 loadCollab.value = false
@@ -77,16 +78,11 @@ const recreate = () => {
                     if (contentArray)
                         outlineStore.setHeadings(contentArray)
 
-                    // editor.value?.commands.updateUser({
-                    //     name: userStore.name,
-                    //     color: getRandomColor(),
-                    //     avatar: userStore.imgUrl,
-                    // })
+
                 }
             },
         })
     }
-
     editor.value = new Editor({
         content: topicStore.initialContent,
         extensions: [
@@ -135,8 +131,34 @@ const recreate = () => {
                     provider: provider.value,
                     user: {
                         name: userStore.name,
-                        color: getRandomBrightColor(),
-                        avatar: userStore.imgUrl
+                        color: getRandomColor(),
+                    },
+                    render: user => {
+                        console.debug(user)
+                        const cursor = document.createElement('span')
+                        cursor.classList.add('collaboration-cursor__caret')
+                        cursor.setAttribute('style', `border-color: ${user.color}`)
+
+                        const labelContainer = document.createElement('div')
+                        labelContainer.setAttribute('style', `background-color: ${user.color}`)
+                        labelContainer.classList.add('collaboration-cursor__label-container')
+                        labelContainer.insertBefore(document.createTextNode(user.name), null)
+
+                        const label = document.createElement('div')
+                        label.classList.add('collaboration-cursor__label')
+                        label.insertBefore(document.createTextNode(user.name), null)
+
+                        labelContainer.insertBefore(label, null)
+                        cursor.insertBefore(labelContainer, null)
+                        return cursor
+                    },
+                    selectionRender: user => {
+                        return {
+                            nodeName: 'span',
+                            class: 'collaboration-cursor__selection',
+                            style: `background-color: ${user.color}33`,
+                            'data-user': user.name, 'padding': '1.4em'
+                        }
                     },
                 })
             ] : [History]
@@ -178,10 +200,6 @@ const recreate = () => {
     })
 }
 
-onMounted(() => {
-    recreate()
-})
-
 function setHeadings() {
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
     if (contentArray)
@@ -216,6 +234,8 @@ function updateHeadingIds() {
 const spinnerStore = useSpinnerStore()
 
 onMounted(() => {
+    recreate()
+
     spinnerStore.hideSpinner()
     setHeadings()
 
@@ -317,21 +337,69 @@ onBeforeUnmount(() => {
         position: relative;
         word-break: normal;
 
-        .collaboration-cursor__label {
+        .collaboration-cursor__label,
+        .collaboration-cursor__label-container {
             border-radius: 4px 4px 4px 0;
-            color: #0d0d0d;
-            font-size: 12px;
+            font-size: 14px;
             font-style: normal;
             font-weight: 600;
             left: -1px;
-            line-height: normal;
-            padding: .1rem .6rem;
+            padding: 0 12px;
             position: absolute;
-            top: -1.4em;
             user-select: none;
             white-space: nowrap;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
+        .collaboration-cursor__label-container {
+            top: -1.4em;
+            z-index: 2;
+            color: white;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+        }
+
+        .collaboration-cursor__label {
+            top: 0px;
+            z-index: 3;
+            color: @memo-blue;
+        }
+
+        .collaboration-cursor__label-container::before {
+            border-radius: 4px 4px 4px 0;
+            content: '';
+            position: absolute;
+            top: 0px;
+            left: 2px;
+            width: calc(100% - 2px);
+            height: 100%;
+            background: white;
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .collaboration-cursor__label-container::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -2px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid white;
+            transform: rotate(315deg);
+            z-index: 2;
+        }
+    }
+
+    &.ProseMirror-focused {
+        .collaboration-cursor__caret {
+            opacity: 0.6;
+        }
     }
 }
 </style>
