@@ -131,3 +131,22 @@ export function getRandomColor() {
     }
     return color
 }
+
+export function getRandomBrightColor() {
+    let color = '#';
+
+    // Generate high values for two channels and a lower value for the third
+    const channels = [
+        Math.floor(Math.random() * 128 + 128).toString(16).padStart(2, '0'), // Bright channel
+        Math.floor(Math.random() * 128 + 128).toString(16).padStart(2, '0'), // Bright channel
+        Math.floor(Math.random() * 128).toString(16).padStart(2, '0')        // Lower channel
+    ];
+
+    // Shuffle channels to randomize which are bright and which is lower
+    channels.sort(() => Math.random() - 0.5);
+
+    // Combine the channels into the final color string
+    color += channels[0] + channels[1] + channels[2];
+
+    return color;
+}

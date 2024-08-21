@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useEditor, Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -18,7 +18,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
-import { getRandomColor } from '~/components/shared/utils'
+import { getRandomBrightColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
@@ -76,6 +76,12 @@ const recreate = () => {
                     const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
                     if (contentArray)
                         outlineStore.setHeadings(contentArray)
+
+                    // editor.value?.commands.updateUser({
+                    //     name: userStore.name,
+                    //     color: getRandomColor(),
+                    //     avatar: userStore.imgUrl,
+                    // })
                 }
             },
         })
@@ -129,7 +135,7 @@ const recreate = () => {
                     provider: provider.value,
                     user: {
                         name: userStore.name,
-                        color: getRandomColor(),
+                        color: getRandomBrightColor(),
                         avatar: userStore.imgUrl
                     },
                 })
@@ -247,13 +253,16 @@ onBeforeUnmount(() => {
     <template v-if="editor">
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-if="loadCollab && userStore.isLoggedIn" />
-        <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" v-else />
+        <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
+            v-else />
 
         <editor-content :editor="editor" class="col-xs-12" />
     </template>
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .ProseMirror {
     .content-placeholder {
         :deep(p:empty) {
@@ -309,21 +318,20 @@ onBeforeUnmount(() => {
         word-break: normal;
 
         .collaboration-cursor__label {
-            border-radius: 3px 3px 3px 0;
+            border-radius: 4px 4px 4px 0;
             color: #0d0d0d;
             font-size: 12px;
             font-style: normal;
             font-weight: 600;
             left: -1px;
             line-height: normal;
-            padding: .1rem .3rem;
+            padding: .1rem .6rem;
             position: absolute;
             top: -1.4em;
-            -webkit-user-select: none;
-            -moz-user-select: none;
             user-select: none;
             white-space: nowrap;
         }
+
     }
 }
 </style>

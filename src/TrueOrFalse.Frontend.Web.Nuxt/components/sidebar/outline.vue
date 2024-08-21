@@ -133,15 +133,20 @@ function headingClass(level: number, index: number) {
 
 <template>
     <div id="Outline">
-        <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
-            :class="headingClass(heading.level, index)">
-            <NuxtLink :to="`${$urlHelper.getTopicUrl(topicStore.name, topicStore.id)}#${heading.id}`"
-                class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
-                <div v-for="text in heading.text">
-                    {{ text }}
+        <perfect-scrollbar :suppressScrollX="true">
+            <div class="outline-container">
+                <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
+                    :class="headingClass(heading.level, index)">
+                    <NuxtLink :to="`${$urlHelper.getTopicUrl(topicStore.name, topicStore.id)}#${heading.id}`"
+                        class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
+                        <div v-for="text in heading.text">
+                            {{ text }}
+                        </div>
+                    </NuxtLink>
                 </div>
-            </NuxtLink>
-        </div>
+            </div>
+        </perfect-scrollbar>
+
     </div>
 </template>
 
@@ -149,6 +154,12 @@ function headingClass(level: number, index: number) {
 @import (reference) '~~/assets/includes/imports.less';
 
 #Outline {
+    height: 100%;
+
+    .outline-container {
+        height: 100%;
+    }
+
     .outline-heading {
         display: flex;
         flex-wrap: nowrap;

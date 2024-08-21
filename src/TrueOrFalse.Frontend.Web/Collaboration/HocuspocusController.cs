@@ -2,7 +2,7 @@
 
 namespace VueApp;
 
-public class HocuspocusController() : Controller
+public class HocuspocusController : Controller
 {
     public readonly record struct AuthoriseRequest(string Token, string HocuspocusKey, int TopicId);
 
@@ -24,9 +24,4 @@ public class HocuspocusController() : Controller
         return false;
     }
 
-    [HttpGet]
-    public bool Test()
-    {
-        return true;
-    }
 }

@@ -12,26 +12,21 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
-// Create a Redis client
 const redis = new Redis()
 
-// Define custom database extension for Redis
 const redisDatabaseExtension = new Database({
   fetch: async ({ documentName }) => {
-    // Fetch the document from Redis
     const data = await redis.get(documentName)
     if (data) {
       return Buffer.from(data, 'base64')
     }
-    return null;
+    return null
   },
   store: async ({ documentName, state }) => {
-    // Store the document in Redis
     await redis.set(documentName, state.toString('base64'))
   },
 })
 
-// Configure Hocuspocus
 const server = Server.configure({
   name: "hocuspocus-dev",
   port: 3010,
@@ -50,19 +45,13 @@ const server = Server.configure({
     redisDatabaseExtension,
   ],
   async onAuthenticate({ documentName, token }) {
-    // throw new Error("Not authorized!")
-
-    console.log('documentName---', documentName)
-    console.log('token---', token)
 
     const data = {
       token: token,
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
       topicId: documentName.substring(5)
     }
-
-    // return
-    await axios.post("http://localhost:3000/apiVue/Hocuspocus/Authorise", data).then(function (response) {
+    await axios.post(`${process.env.BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
       if (response.status === 200 && response.data === true) 
         return
       else 
@@ -71,17 +60,12 @@ const server = Server.configure({
   },
 })
 
-// Setup your express instance using the express-ws extension
 const { app } = expressWebsockets(express())
 
-// A basic http route
-app.get("/", (request, response) => {
-  response.send("Hello World!")
-})
+// app.get("/", (request, response) => {
+//   response.send("Hello World!")
+// })
 
-// Add a websocket route for Hocuspocus
-// You can set any contextual data like in the onConnect hook
-// and pass it to the handleConnection method.
 app.ws("/collaboration", (websocket, request) => {
   server.handleConnection(websocket, request)
 })
