@@ -4,9 +4,7 @@ public class EntityCacheInitializer(
     CategoryRepository _categoryRepository,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    CategoryRelationRepo _categoryRelationRepo,
-    CategoryViewRepo _categoryViewRepo,
-    QuestionViewRepository _questionViewRepository) : IRegisterAsInstancePerLifetime
+    CategoryRelationRepo _categoryRelationRepo) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {

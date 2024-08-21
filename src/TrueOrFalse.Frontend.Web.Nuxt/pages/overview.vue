@@ -29,7 +29,7 @@ const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Overv
         throw createError({ statusMessage: context.error?.message });
     },
 });
-
+console.log(overviewData);
 const showAnnualQuestionViewBarchart = ref(false);
 const showAnnualTopicViewBarChart = ref(false);
 const showAnnualCreatedPublicTopicBarchart = ref(false);
