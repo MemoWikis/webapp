@@ -25,7 +25,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
 
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
-    [AccessOnlyAsAdmin]
+    [AccessOnlyAsLoggedIn]
     public GetAllDataResponse GetAllData()
     {
         var watch = new Stopwatch();
@@ -36,7 +36,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
             .Where(u => u.LastLogin.HasValue && u.LastLogin.Value.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
 
-        var AnnualLogins = lastYearLogins
+        var annualLogins = lastYearLogins
             .GroupBy(u => new { Year = u.LastLogin.Value.Year, Month = u.LastLogin.Value.Month })
             .Select(g => new ViewsResult(
                 new DateTime(g.Key.Year, g.Key.Month, 1),  
@@ -52,7 +52,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
             .Where(u =>  u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
 
-        var AnnualRegistrations = lastYearRegistrations
+        var annualRegistrations = lastYearRegistrations
             .GroupBy(u => new { Year = u.DateCreated.Year, Month = u.DateCreated.Month })
             .Select(g => new ViewsResult(
                 new DateTime(g.Key.Year, g.Key.Month, 1),  
@@ -67,7 +67,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
             .Where(u =>  u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
 
-        var AnnualPublicCreatedTopics = lastYearPublicCreatedTopics
+        var annualPublicCreatedTopics = lastYearPublicCreatedTopics
             .GroupBy(u => new { Year = u.DateCreated.Year, Month = u.DateCreated.Month })
             .Select(g => new ViewsResult(
                 new DateTime(g.Key.Year, g.Key.Month, 1),  
@@ -82,7 +82,7 @@ CategoryViewRepo _categoryViewRepo) : Controller
         var lastYearPrivateCreatedTopics = allPrivateCreatedTopics
             .Where(u =>  u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
-        var AnnualPrivateCreatedTopics = lastYearPrivateCreatedTopics
+        var annualPrivateCreatedTopics = lastYearPrivateCreatedTopics
             .GroupBy(u => new { Year = u.DateCreated.Year, Month = u.DateCreated.Month })
             .Select(g => new ViewsResult(
                 new DateTime(g.Key.Year, g.Key.Month, 1),  
@@ -117,10 +117,10 @@ CategoryViewRepo _categoryViewRepo) : Controller
             TodayQuestionViews = questionTodayViews,
             ViewsQuestions = questionviewsLastYearResult,
             ViewsTopics = topicLastYearViewsResult,
-            AnnualLogins = AnnualLogins,
-            AnnualRegistrations = AnnualRegistrations,
-            AnnualPublicCreatedTopics = AnnualPublicCreatedTopics,
-            AnnualPrivateCreatedTopics = AnnualPrivateCreatedTopics
+            AnnualLogins = annualLogins,
+            AnnualRegistrations = annualRegistrations,
+            AnnualPublicCreatedTopics = annualPublicCreatedTopics,
+            AnnualPrivateCreatedTopics = annualPrivateCreatedTopics
         }; 
     }
 }
