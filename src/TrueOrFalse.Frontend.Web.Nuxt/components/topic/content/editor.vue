@@ -47,6 +47,7 @@ const providerContentLoaded = ref(false)
 const provider = shallowRef<TiptapCollabProvider>()
 const editor = shallowRef<Editor>()
 const loadCollab = ref(true)
+const providerIsReady = ref(false)
 const recreate = (login: boolean = false) => {
     provider.value?.destroy()
     editor.value?.destroy()
@@ -66,6 +67,7 @@ const recreate = (login: boolean = false) => {
             onAuthenticationFailed: ({ reason }) => {
                 loadCollab.value = false
                 recreate()
+                providerIsReady.value = true
             },
             onSynced() {
                 if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
@@ -79,9 +81,13 @@ const recreate = (login: boolean = false) => {
                     if (contentArray)
                         outlineStore.setHeadings(contentArray)
                 }
+                providerIsReady.value = true
+
             },
             onClose(c) {
                 if (c.event.code === 1006) {
+                    providerIsReady.value = true
+
                     // alertStore.openAlert(AlertType.Error, { text: messages.error.collaboration.connectionLost })
                     if (!providerContentLoaded.value) {
                         loadCollab.value = false
@@ -294,16 +300,25 @@ const autoSave = () => {
         }
     }, 5000)
 }
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
-    <template v-if="editor">
+    <template v-if="editor && providerIsReady">
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-if="loadCollab && userStore.isLoggedIn" />
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-else />
 
         <editor-content :editor="editor" class="col-xs-12" />
+    </template>
+    <template v-else>
+        <div class="col-xs-12">
+            <div class="ProseMirror content-placeholder" v-html="topicStore.content"
+                id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
+            </div>
+        </div>
     </template>
 </template>
 

@@ -198,20 +198,16 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                         <div id="EditBarAnchor"></div>
 
-                        <TopicContentGrid
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :children="topicStore.gridItems" />
+                        <TopicContentGrid v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" :children="topicStore.gridItems" />
 
                         <ClientOnly>
-                            <TopicTabsQuestions
-                                v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                            <TopicTabsQuestions v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                             <template #fallback>
                                 <div class="row">
                                 </div>
                             </template>
                         </ClientOnly>
-                        <TopicTabsAnalytics
-                            v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
+                        <TopicTabsAnalytics v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
                         <ClientOnly>
                             <TopicRelationEdit />
