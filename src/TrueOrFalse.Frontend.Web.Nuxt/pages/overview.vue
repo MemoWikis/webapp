@@ -1,58 +1,58 @@
 <script lang="ts" setup>
-    const { $logger } = useNuxtApp();
+const { $logger } = useNuxtApp();
 
-    interface ViewsResult {
-        dateTime: string;
-        views: number;
-    }
+interface ViewsResult {
+    dateTime: string;
+    views: number;
+}
 
-    interface GetAllDataResponse {
-        registrationsCount: number;
-        loginCount: number;
-        createdPrivatizedTopicCount: number;
-        createdPublicTopicCount: number;
-        todayTopicViews: number;
-        todayQuestionViews: number;
-        viewsQuestions: ViewsResult[];
-        viewsTopics: ViewsResult[];
-        annualLogins: ViewsResult[];
-        annualRegistrations: ViewsResult[];
-        annualPublicCreatedTopics: ViewsResult[];
-        annualPrivateCreatedTopics: ViewsResult[];
-    }
+interface GetAllDataResponse {
+    registrationsCount: number;
+    loginCount: number;
+    createdPrivatizedTopicCount: number;
+    createdPublicTopicCount: number;
+    todayTopicViews: number;
+    todayQuestionViews: number;
+    viewsQuestions: ViewsResult[];
+    viewsTopics: ViewsResult[];
+    annualLogins: ViewsResult[];
+    annualRegistrations: ViewsResult[];
+    annualPublicCreatedTopics: ViewsResult[];
+    annualPrivateCreatedTopics: ViewsResult[];
+}
 
-    const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Overview/GetAllData', {
-        mode: 'cors',
-        credentials: 'include',
-        onResponseError(context) {
-            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }]);
-            throw createError({ statusMessage: context.error?.message });
-        },
-    });
-    const showAnnualQuestionViewBarchart = ref(false);
-    const showAnnualTopicViewBarChart = ref(false);
-    const showAnnualCreatedPublicTopicBarchart = ref(false);
-    const showAnnualCreatedPrivateTopicBarchart = ref(false);
-    const showAnnualLoginBarchart = ref(false);
-    const showAnnualRegistrationBarchart = ref(false);
+const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Overview/GetAllData', {
+    mode: 'cors',
+    credentials: 'include',
+    onResponseError(context) {
+        $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }]);
+        throw createError({ statusMessage: context.error?.message });
+    },
+});
+const showAnnualQuestionViewBarchart = ref(false);
+const showAnnualTopicViewBarChart = ref(false);
+const showAnnualCreatedPublicTopicBarchart = ref(false);
+const showAnnualCreatedPrivateTopicBarchart = ref(false);
+const showAnnualLoginBarchart = ref(false);
+const showAnnualRegistrationBarchart = ref(false);
 
-    const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime) as string[]);
-    const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => v.views) as number[]);
+const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime) as string[]);
+const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => v.views) as number[]);
 
-    const viewQuestionLabels = computed(() => overviewData.value?.viewsQuestions?.map(v => v.dateTime) as string[]);
-    const viewQuestionViews = computed(() => overviewData.value?.viewsQuestions?.map(v => v.views) as number[]);
+const viewQuestionLabels = computed(() => overviewData.value?.viewsQuestions?.map(v => v.dateTime) as string[]);
+const viewQuestionViews = computed(() => overviewData.value?.viewsQuestions?.map(v => v.views) as number[]);
 
-    const annualLoginsLabels = computed(() => overviewData.value?.annualLogins?.map(v => v.dateTime) as string[]);
-    const annualLoginsCount = computed(() => overviewData.value?.annualLogins?.map(v => v.views) as number[]);
+const annualLoginsLabels = computed(() => overviewData.value?.annualLogins?.map(v => v.dateTime) as string[]);
+const annualLoginsCount = computed(() => overviewData.value?.annualLogins?.map(v => v.views) as number[]);
 
-    const annualRegistrationLabels = computed(() => overviewData.value?.annualRegistrations?.map(v => v.dateTime) as string[]);
-    const annualRegistrationCounts = computed(() => overviewData.value?.annualRegistrations?.map(v => v.views) as number[]);
+const annualRegistrationLabels = computed(() => overviewData.value?.annualRegistrations?.map(v => v.dateTime) as string[]);
+const annualRegistrationCounts = computed(() => overviewData.value?.annualRegistrations?.map(v => v.views) as number[]);
 
-    const annualPublicCreatedTopicLabels = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.dateTime) as string[]);
-    const annualPublicCreatedTopicCounts = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.views) as number[]);
+const annualPublicCreatedTopicLabels = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.dateTime) as string[]);
+const annualPublicCreatedTopicCounts = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.views) as number[]);
 
-    const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
-    const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.views) as number[]);
+const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
+const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.views) as number[]);
 
 </script>
 
@@ -189,31 +189,30 @@
     </div>
 </template>
 
-<style lang="less"
-    scoped>
-    @import (reference) '~~/assets/includes/imports.less';
+<style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
 
-    .bar-header {
-        display: flex;
-        margin-bottom: 20px;
-        justify-content: space-between;
-    }
+.bar-header {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
 
-    .overview-header {
-        height: 54px;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
+.overview-header {
+    height: 54px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
 
-    .divider {
-        height: 1px;
-        background: @memo-grey-lighter;
-        width: 100%;
-        margin-top: 10px;
-        margin-bottom: 60px;
-    }
+.divider {
+    height: 1px;
+    background: @memo-grey-lighter;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 60px;
+}
 
-    .bar-section {
-        margin-bottom: 45px;
-    }
+.bar-section {
+    margin-bottom: 45px;
+}
 </style>
