@@ -33,10 +33,13 @@ import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
+const snackbarStore = useSnackbarStore()
+
 const lowlight = createLowlight(all)
 const userStore = useUserStore()
 const doc = new Y.Doc()
@@ -47,57 +50,75 @@ const providerContentLoaded = ref(false)
 const provider = shallowRef<TiptapCollabProvider>()
 const editor = shallowRef<Editor>()
 const loadCollab = ref(true)
-const providerIsReady = ref(false)
-const recreate = (login: boolean = false) => {
-    provider.value?.destroy()
-    editor.value?.destroy()
+const providerLoaded = ref(false)
 
-    if (login) loadCollab.value = true
+const connectionLostHandled = ref(false)
+const handleConnectionLost = () => {
+    if (connectionLostHandled.value)
+        return
 
-    if (userStore.isLoggedIn && loadCollab.value) {
-        provider.value = new TiptapCollabProvider({
-            baseUrl: config.public.hocuspocusWebsocketUrl,
-            name: 'ydoc-' + topicStore.id,
-            token: userStore.collaborationToken,
-            preserveConnection: false,
-            document: doc,
-            onAuthenticated() {
-                new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
-            },
-            onAuthenticationFailed: ({ reason }) => {
-                loadCollab.value = false
-                recreate()
-                providerIsReady.value = true
-            },
-            onSynced() {
-                if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
-                    doc.getMap('config').set('initialContentLoaded', true)
-                    editor.value.commands.setContent(topicStore.initialContent)
-                }
-                providerContentLoaded.value = true
-
-                if (editor.value) {
-                    const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
-                    if (contentArray)
-                        outlineStore.setHeadings(contentArray)
-                }
-                providerIsReady.value = true
-
-            },
-            onClose(c) {
-                if (c.event.code === 1006) {
-                    providerIsReady.value = true
-
-                    // alertStore.openAlert(AlertType.Error, { text: messages.error.collaboration.connectionLost })
-                    if (!providerContentLoaded.value) {
-                        loadCollab.value = false
-                        recreate()
-                    }
-
-                }
-            }
-        })
+    const data: SnackbarData = {
+        type: 'error',
+        text: messages.error.collaboration.connectionLost
     }
+    snackbarStore.showSnackbar(data)
+}
+
+const initProvider = () => {
+    provider.value = new TiptapCollabProvider({
+        baseUrl: config.public.hocuspocusWebsocketUrl,
+        name: 'ydoc-' + topicStore.id,
+        token: userStore.collaborationToken,
+        preserveConnection: false,
+        document: doc,
+        onAuthenticated() {
+            new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
+        },
+        onAuthenticationFailed: ({ reason }) => {
+            const data: SnackbarData = {
+                type: 'error',
+                text: messages.error.collaboration.authenticationFailed
+            }
+            snackbarStore.showSnackbar(data)
+
+            providerLoaded.value = true
+
+            loadCollab.value = false
+            recreate()
+        },
+        onSynced() {
+            if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
+                doc.getMap('config').set('initialContentLoaded', true)
+                editor.value.commands.setContent(topicStore.initialContent)
+            }
+            providerContentLoaded.value = true
+
+            if (editor.value) {
+                const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
+                if (contentArray)
+                    outlineStore.setHeadings(contentArray)
+            }
+            providerLoaded.value = true
+            connectionLostHandled.value = false
+        },
+        onClose(c) {
+            providerLoaded.value = true
+
+            if (c.event.code === 1006) {
+
+                handleConnectionLost()
+
+                if (!providerContentLoaded.value) {
+                    loadCollab.value = false
+                    recreate()
+                }
+
+            }
+        }
+    })
+}
+
+const initEditor = () => {
     editor.value = new Editor({
         content: topicStore.initialContent,
         extensions: [
@@ -217,6 +238,17 @@ const recreate = (login: boolean = false) => {
     })
 }
 
+const recreate = (login: boolean = false) => {
+    provider.value?.destroy()
+    editor.value?.destroy()
+
+    if (login) loadCollab.value = true
+
+    if (userStore.isLoggedIn && loadCollab.value) initProvider()
+
+    initEditor()
+}
+
 function setHeadings() {
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
     if (contentArray)
@@ -305,16 +337,19 @@ const { isMobile } = useDevice()
 </script>
 
 <template>
-    <template v-if="editor && providerIsReady">
+    <template v-if="editor && providerLoaded">
+
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-if="loadCollab && userStore.isLoggedIn" />
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-else />
 
         <editor-content :editor="editor" class="col-xs-12" />
+        <button @click="provider?.destroy()">destroy provider</button>
+        <button @click="recreate()"> recreate</button>
     </template>
     <template v-else>
-        <div class="col-xs-12">
+        <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
             <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                 id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
             </div>
@@ -443,5 +478,9 @@ const { isMobile } = useDevice()
             opacity: 0.6;
         }
     }
+}
+
+.private-topic {
+    margin-bottom: -30px;
 }
 </style>

@@ -5,6 +5,7 @@ import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -188,7 +189,7 @@ watch(() => props.tab, (t) => {
                                 <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
                                     v-if="!topicStore.textIsHidden"
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                                             id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
@@ -394,5 +395,9 @@ h4 {
     &.is-mobile {
         max-width: 100vw;
     }
+}
+
+.private-topic {
+    margin-bottom: -30px;
 }
 </style>
