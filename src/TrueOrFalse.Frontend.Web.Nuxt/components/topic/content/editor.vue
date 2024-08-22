@@ -46,9 +46,11 @@ const providerContentLoaded = ref(false)
 const provider = shallowRef<TiptapCollabProvider>()
 const editor = shallowRef<Editor>()
 const loadCollab = ref(true)
-const recreate = () => {
+const recreate = (login: boolean = false) => {
     provider.value?.destroy()
     editor.value?.destroy()
+
+    if (login) loadCollab.value = true
 
     if (userStore.isLoggedIn && loadCollab.value) {
         provider.value = new TiptapCollabProvider({
@@ -68,8 +70,8 @@ const recreate = () => {
                 if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
                     doc.getMap('config').set('initialContentLoaded', true)
                     editor.value.commands.setContent(topicStore.initialContent)
-                    providerContentLoaded.value = true
                 }
+                providerContentLoaded.value = true
 
                 if (editor.value) {
                     const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
@@ -140,7 +142,6 @@ const recreate = () => {
                         color: getRandomColor(),
                     },
                     render: user => {
-                        console.debug(user)
                         const cursor = document.createElement('span')
                         cursor.classList.add('collaboration-cursor__caret')
                         cursor.setAttribute('style', `border-color: ${user.color}`)
@@ -170,7 +171,7 @@ const recreate = () => {
             ] : [History]
         ],
         onUpdate({ editor }) {
-            topicStore.contentHasChanged = true
+            topicStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
                 topicStore.content = ''
             else
@@ -273,7 +274,7 @@ onBeforeUnmount(() => {
     editor.value?.destroy()
 })
 
-watch(() => userStore.isLoggedIn, () => recreate())
+watch(() => userStore.isLoggedIn, (val) => recreate(val))
 </script>
 
 <template>
