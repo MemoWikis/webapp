@@ -32,6 +32,7 @@ import * as Y from 'yjs'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
 import { useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -185,6 +186,9 @@ const recreate = (login: boolean = false) => {
                 updateHeadingIds()
 
             updateCursorIndex()
+
+            if (topicStore.contentHasChanged)
+                autoSave()
         },
         editorProps: {
             handlePaste: (view, pos, event) => {
@@ -275,6 +279,21 @@ onBeforeUnmount(() => {
 })
 
 watch(() => userStore.isLoggedIn, (val) => recreate(val))
+
+const autoSaveTimer = ref()
+const autoSave = () => {
+    if (topicStore.visibility != Visibility.Owner)
+        return
+
+    if (autoSaveTimer.value) {
+        clearTimeout(autoSaveTimer.value)
+    }
+    autoSaveTimer.value = setTimeout(() => {
+        if (editor.value) {
+            topicStore.saveTopic()
+        }
+    }, 5000)
+}
 </script>
 
 <template>

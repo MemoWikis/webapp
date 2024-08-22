@@ -119,10 +119,8 @@ const { isMobile } = useDevice()
                                 </div>
                             </div>
 
-                            <div class="btn-right" v-show="topicStore.contentHasChanged"
-                                v-else-if="userStore.isLoggedIn">
-                                <div class="button" @click.prevent="topicStore.saveTopic()"
-                                    :class="{ expanded: editMode }">
+                            <div class="btn-right" v-show="topicStore.contentHasChanged" v-else-if="userStore.isLoggedIn">
+                                <div class="button" @click.prevent="topicStore.saveTopic()" :class="{ expanded: editMode }">
                                     <div class="icon">
                                         <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                                     </div>
@@ -131,8 +129,7 @@ const { isMobile } = useDevice()
                                     </div>
                                 </div>
 
-                                <div class="button" @click.prevent="topicStore.resetContent()"
-                                    :class="{ expanded: editMode }">
+                                <div class="button" @click.prevent="topicStore.resetContent()" :class="{ expanded: editMode }">
                                     <div class="icon">
                                         <font-awesome-icon icon="fa-solid fa-xmark" />
                                     </div>
