@@ -16,5 +16,7 @@ public class QuestionViewMap : ClassMap<QuestionView>
         Map(x => x.Migrated);
 
         Map(x => x.DateCreated);
+        Map(x => x.DateOnly).ReadOnly();
+
     }
 }

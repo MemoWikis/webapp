@@ -35,8 +35,6 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         if (IsCrawlerRequest.Yes(_httpContextAccessor.HttpContext))
             return;
 
-        question.IncrementTodayViewCount();  
-
         _questionViewRepo.Create(new QuestionView
         {
             QuestionId = question.Id,

@@ -35,14 +35,6 @@
         return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
     }
 
-    public static DateTime RoundUp(DateTime dateTime, TimeSpan roundToNextFull)
-    {
-        //http://stackoverflow.com/a/7029464
-
-        return new DateTime(((dateTime.Ticks + roundToNextFull.Ticks - 1) / roundToNextFull.Ticks) *
-                            roundToNextFull.Ticks);
-    }
-
     public static bool IsToday(CategoryCacheItem topic)
     {
         return IsToday(topic.DateCreated); 

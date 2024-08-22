@@ -25,8 +25,9 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .List<QuestionViewSummary>();
         watch.Stop();
         var elapsed = watch.ElapsedMilliseconds;
-        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
+        Logg.r.Information("GetViewsForLastNDays took " + elapsed + "ms");
 
+        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
         foreach (var item in result)
         {
             dictionaryResult[item.DateOnly] = Convert.ToInt32(item.Count);
@@ -41,10 +42,5 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public class QuestionViewSummary
-    {
-        public Int64 Count { get; set; }
-        public DateTime DateOnly { get; set; }
-    }
-
+    public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly); 
 }

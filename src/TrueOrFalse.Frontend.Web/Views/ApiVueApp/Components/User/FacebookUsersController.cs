@@ -14,7 +14,8 @@ public class FacebookUsersController(
     UserReadingRepo _userReadingRepo,
     SessionUser _sessionUser,
     RegisterUser _registerUser,
-    JobQueueRepo _jobQueueRepo) : Controller
+    JobQueueRepo _jobQueueRepo,
+    UserWritingRepo _userWritingRepo) : Controller
 {
     public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
 
@@ -41,7 +42,8 @@ public class FacebookUsersController(
             json.facebookUserId))
         {
             _sessionUser.Login(user);
-
+            user.LastLogin = DateTime.Now;
+            _userWritingRepo.Update(user);
             return new LoginResult
             {
                 Success = true,

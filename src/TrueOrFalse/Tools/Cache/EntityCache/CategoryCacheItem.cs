@@ -58,7 +58,6 @@ public class CategoryCacheItem : IPersistable
     public virtual CategoryVisibility Visibility { get; set; }
     public bool IsVisible => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
-    public int TodayViewCount { get; set; }
 
     /// <summary>
     /// Get Aggregated Topics
@@ -86,7 +85,6 @@ public class CategoryCacheItem : IPersistable
 
         return visibleVisited;
     }
-    public void IncrementTodayViewCount() => TodayViewCount++;
 
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
@@ -211,19 +209,6 @@ public class CategoryCacheItem : IPersistable
             TextIsHidden = category.TextIsHidden,
         };
         return categoryCacheItem;
-    }
-
-    public static CategoryCacheItem ToCacheItemWithViews(Category category,IEnumerable<CategoryView> categoryViews)
-    {
-        var categoryCacheItem = ToCacheCategory(category);
-        categoryCacheItem.TodayViewCount = categoryViews.Count(cw => cw.DateCreated.Date == DateTime.Now.Date && cw.Category.Id == category.Id);
-        return categoryCacheItem;
-    }
-
-    public static IEnumerable<CategoryCacheItem> ToCacheCategoriesWithViews(IEnumerable<Category> categories, CategoryViewRepo categoryViewRepo)
-    {
-        var allCategoriesViews = categoryViewRepo.GetTodayViews();
-        return categories.Select(c => ToCacheItemWithViews(c, allCategoriesViews));
     }
 
     public void UpdateCountQuestionsAggregated(int userId)

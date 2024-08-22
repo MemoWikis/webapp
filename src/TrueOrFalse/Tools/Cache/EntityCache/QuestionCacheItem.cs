@@ -69,7 +69,6 @@ public class QuestionCacheItem
     public virtual int TotalRelevancePersonalEntries { get; set; }
 
     public virtual int TotalTrueAnswers { get; set; }
-    public int TodayViewCount { get; set; }
 
     public virtual int TotalViews { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
@@ -114,8 +113,6 @@ public class QuestionCacheItem
 
         return answerText;
     }
-
-    public void IncrementTodayViewCount() => TodayViewCount++;
 
     public virtual string GetShortTitle(int length = 96)
     {

@@ -11,7 +11,8 @@ namespace TrueOrFalse.Domain.User
         IHttpContextAccessor _httpContextAccessor,
         RegisterUser _registerUser,
         PersistentLoginRepo _persistentLoginRepo,
-        UserReadingRepo _userReadingRepo) : IRegisterAsInstancePerLifetime
+        UserReadingRepo _userReadingRepo,
+        UserWritingRepo _userWritingRepo) : IRegisterAsInstancePerLifetime
     {
 
         public async Task<(bool Success, string? MessageKey)> Login(string? credential = null, string? accessToken = null)
@@ -38,7 +39,10 @@ namespace TrueOrFalse.Domain.User
                 }
 
                 _sessionUser.Login(user);
+                user.LastLogin = DateTime.Now;
+                _userWritingRepo.Update(user);
                 AppendGoogleCredentialCookie(_httpContextAccessor.HttpContext, credential, accessToken);
+
 
                 return (true, null);
             }

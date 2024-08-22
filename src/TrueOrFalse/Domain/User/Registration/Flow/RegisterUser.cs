@@ -73,12 +73,9 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
         user.StartTopicId = category.Id;
-
+        user.LastLogin = DateTime.Now;
+        user.DateCreated = DateTime.Now;
         _userWritingRepo.Update(user);
-        var cacheUser = EntityCache.GetUserById(user.Id);
-        cacheUser.LastLogin = DateTime.Now; 
-        cacheUser.DateCreated = DateTime.Now;
-
         return new RegisterResult
         {
             Success = true,
@@ -91,7 +88,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         {
             EmailAddress = facebookUser.email,
             Name = facebookUser.name,
-            FacebookId = facebookUser.id
+            FacebookId = facebookUser.id,
         };
 
         return RegisterAndLogin(user);
@@ -103,7 +100,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         {
             EmailAddress = googleUser.Email,
             Name = googleUser.UserName,
-            GoogleId = googleUser.GoogleId
+            GoogleId = googleUser.GoogleId,
         };
 
         return RegisterAndLogin(user);

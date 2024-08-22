@@ -61,6 +61,7 @@ public class Update : IRegisterAsInstancePerLifetime
             .Add(270, () => UpdateToVs270.Run(_nhibernateSession))
             .Add(271, () => UpdateToVs271.Run(_nhibernateSession))
             .Add(272, () => UpdateToVs272.Run(_nhibernateSession))
+            .Add(273, () => UpdateToVs273.Run(_nhibernateSession))
             .Run();
     }
 }
