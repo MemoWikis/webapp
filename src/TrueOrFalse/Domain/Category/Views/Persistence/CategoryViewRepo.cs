@@ -40,6 +40,22 @@ public class CategoryViewRepo(
         return dictionaryResult;
     }
 
+    public IList<TopicViewSummaryOrderById> GetViewsForLastNDaysGroupByCategoryId(int days)
+    {
+        var watch = new Stopwatch();
+        watch.Start();
+
+        var query = _session.CreateSQLQuery("SELECT Category_Id, DateOnly, COUNT(DateOnly) AS Count FROM CategoryView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY Category_Id, DateOnly ORDER BY Category_Id, DateOnly;");
+        query.SetParameter("days", days);
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummaryOrderById)))
+            .List<TopicViewSummaryOrderById>();
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        Logg.r.Information("GetViewsForLastNDaysGroupByCategoryId " + elapsed);
+
+        return result; 
+    }
+
     public void AddView(string userAgent, int topicId, int userId)
     {
         var topic = _categoryRepository.GetById(topicId);
@@ -55,5 +71,6 @@ public class CategoryViewRepo(
 
        Create(categoryView);
     }
+    public record struct TopicViewSummaryOrderById(Int64 Count, DateTime DateOnly, int Category_Id); 
     public record struct TopicViewSummary(Int64 Count, DateTime DateOnly); 
 }

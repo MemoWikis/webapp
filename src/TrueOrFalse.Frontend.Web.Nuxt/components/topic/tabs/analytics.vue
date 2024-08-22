@@ -4,6 +4,7 @@ import { useTopicStore } from '../topicStore'
 
 const topicStore = useTopicStore()
 const knowledgeSummaryData = ref<ChartData[]>([])
+const showAnnualTopicBarchart = ref(false)
 
 function setKnowledgeSummaryData() {
 
@@ -98,9 +99,28 @@ onBeforeMount(() => setKnowledgeSummaryData())
 
                 </div>
             </div>
-
+            <div class="topicdata-section">
+                <h3>Statistiken</h3>
+                <div class="topicdata-container">
+                    <div class="topicdata-sub-label">
+                        Views:
+                    </div>
+                    <div class="topicdata-content">
+                        <div v-if="showAnnualTopicBarchart">
+                            <div class="row content">
+                                <button @click="showAnnualTopicBarchart = !showAnnualTopicBarchart;">
+                                    {{ showAnnualTopicBarchart ? 'Verstecken' : 'Jahresübersicht Logins' }}
+                                </button>
+                            </div>
+                            <div v-if="showAnnualTopicBarchart">
+                                <LazyOverviewBarChart :labels="annualLoginsLabels" :datasets="annualLoginsCount"
+                                    :title="'Jahresübersicht Logins'" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
 </template>
 
 <style lang="less" scoped>

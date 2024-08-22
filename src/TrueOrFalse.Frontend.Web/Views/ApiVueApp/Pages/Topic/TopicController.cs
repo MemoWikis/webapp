@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -16,6 +17,7 @@ public class TopicController(
     public TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
+
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
         var data = new TopicDataManager(
                 _sessionUser,
@@ -55,7 +57,9 @@ public class TopicController(
             Visibility = data.Visibility,
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
-            ErrorCode = data.ErrorCode
+            ErrorCode = data.ErrorCode,
+            TodayViews = data.TodayViews,
+            ViewsLast30Days = data.ViewsLast30Days
         };
     }
 
@@ -86,5 +90,7 @@ public class TopicController(
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
         string? MessageKey,
-        NuxtErrorPageType? ErrorCode);
+        NuxtErrorPageType? ErrorCode,
+        int TodayViews,
+        int ViewsLast30Days);
 }

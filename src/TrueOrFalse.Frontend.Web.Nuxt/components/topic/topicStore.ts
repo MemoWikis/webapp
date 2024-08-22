@@ -42,6 +42,8 @@ export class Topic {
 	textIsHidden: boolean = false
 	messageKey: string | null = null
 	errorCode: ErrorCode | null = null
+	todayViews: number = 0
+	viewsLast30Days: number = 0
 }
 
 export interface KnowledgeSummary {
@@ -97,6 +99,9 @@ export const useTopicStore = defineStore('topicStore', {
 			gridItems: [] as GridTopicItem[],
 			isChildOfPersonalWiki: false,
 			textIsHidden: false,
+			todayViews: 0,
+			viewsLast30Days: 0
+
 		}
 	},
 	actions: {
@@ -132,7 +137,9 @@ export const useTopicStore = defineStore('topicStore', {
 				this.knowledgeSummary = topic.knowledgeSummary
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
-				this.textIsHidden = topic.textIsHidden
+				this.textIsHidden = topic.textIsHidden,
+				this.todayViews = topic.todayViews,
+				this.viewsLast30Days = topic.viewsLast30Days
 			}
 		},
 		async saveTopic() {

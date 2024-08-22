@@ -4,7 +4,8 @@ public class EntityCacheInitializer(
     CategoryRepository _categoryRepository,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    CategoryRelationRepo _categoryRelationRepo) : IRegisterAsInstancePerLifetime
+    CategoryRelationRepo _categoryRelationRepo,
+    CategoryViewRepo _categoryViewRepo) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {
@@ -26,10 +27,35 @@ public class EntityCacheInitializer(
         var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();
         Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
         Logg.r.Information("EntityCache CategoryRelationsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+       
 
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories).ToList();
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories ).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
+
+
+        var categoriesViewsLast30Days = _categoryViewRepo.GetViewsForLastNDaysGroupByCategoryId(30);
+        foreach (var categoryCacheItem in categories)
+        {
+            var aggregatedCategories = categoryCacheItem.AggregatedCategoriesForEntityCacheInitilizer()
+                .Select(t => t.Key);
+
+            var aggregatedViews = categoriesViewsLast30Days
+                .Where(view => aggregatedCategories.Contains(view.Category_Id))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new TopicView { Date = v.Date, Views = v.TotalCount })
+                .ToList();
+
+            categoryCacheItem.AddViews(aggregatedViews);
+
+        }
+
         Logg.r.Information("EntityCache CategoriesPutIntoForeverCache " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var allQuestions = _questionReadingRepo.GetAllEager();

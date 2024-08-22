@@ -58,6 +58,8 @@ public class CategoryCacheItem : IPersistable
     public virtual CategoryVisibility Visibility { get; set; }
     public bool IsVisible => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
+    public List<TopicView> Last30DaysTopicViews { get; set; }
+
 
     /// <summary>
     /// Get Aggregated Topics
@@ -85,7 +87,35 @@ public class CategoryCacheItem : IPersistable
 
         return visibleVisited;
     }
+    /// <summary>
+    /// Get Aggregated Topics
+    /// </summary>
+    /// <param name="permissionCheck"></param>
+    /// <param name="includingSelf"></param>
+    /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
+    public Dictionary<int, CategoryCacheItem> AggregatedCategoriesForEntityCacheInitilizer(bool includingSelf = true)
+    {
+        var visibleVisited = AllChildCategories(this);
 
+        if (includingSelf && !visibleVisited.ContainsKey(Id))
+        {
+            visibleVisited.Add(Id, this);
+        }
+        else
+        {
+            if (visibleVisited.ContainsKey(Id))
+            {
+                visibleVisited.Remove(Id);
+            }
+        }
+
+        return visibleVisited;
+    }
+
+    public void AddViews(List<TopicView> topicView)
+    {
+        Last30DaysTopicViews = topicView;
+    }
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
         bool onlyVisible = true,
@@ -246,4 +276,40 @@ public class CategoryCacheItem : IPersistable
 
         return visibleVisited;
     }
+
+
+    private Dictionary<int, CategoryCacheItem> AllChildCategories(
+        CategoryCacheItem parentCacheItem,
+        Dictionary<int, CategoryCacheItem> _previousVisited = null)
+    {
+        var visibleVisited = new Dictionary<int, CategoryCacheItem>();
+
+        if (_previousVisited != null)
+        {
+            visibleVisited = _previousVisited;
+        }
+
+        if (parentCacheItem.ChildRelations != null)
+        {
+            foreach (var r in parentCacheItem.ChildRelations)
+            {
+                if (!visibleVisited.ContainsKey(r.ChildId))
+                {
+                    var child = EntityCache.GetCategory(r.ChildId);
+
+                    visibleVisited.Add(r.ChildId, child);
+                    AllChildCategories(child, visibleVisited);
+
+                }
+            }
+        }
+
+        return visibleVisited;
+    }
 }
+
+
+
+
+
+public record struct TopicView(DateTime Date, long Views);

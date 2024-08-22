@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Text.RegularExpressions;
+using FluentNHibernate.Utils;
 
 public class TopicDataManager(
     SessionUser _sessionUser,
@@ -199,6 +200,8 @@ public class TopicDataManager(
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
         string? MessageKey,
-        NuxtErrorPageType? ErrorCode
+        NuxtErrorPageType? ErrorCode,
+        int TodayViews,
+        int ViewsLast30Days
     );
 }
