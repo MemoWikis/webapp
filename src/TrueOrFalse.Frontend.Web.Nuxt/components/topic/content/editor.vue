@@ -38,11 +38,10 @@ const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const lowlight = createLowlight(all)
 const userStore = useUserStore()
-const doc = new Y.Doc() // Initialize Y.Doc for shared editing
+const doc = new Y.Doc()
 const config = useRuntimeConfig()
 
 const providerContentLoaded = ref(false)
-// const provider = ref<TiptapCollabProvider | null>(null)
 
 const provider = shallowRef<TiptapCollabProvider>()
 const editor = shallowRef<Editor>()
@@ -274,6 +273,7 @@ onBeforeUnmount(() => {
     editor.value?.destroy()
 })
 
+watch(() => userStore.isLoggedIn, () => recreate())
 </script>
 
 <template>
