@@ -165,7 +165,12 @@ async function removeAdminRights() {
                             :icon="['fas', 'retweet']">
                             <div class="delete-user-container">
                                 <h4>Nutzer löschen (ID)</h4>
-                                <div class="delete-user-input"></div>
+                                <div class="delete-user-input">
+                                    <input v-model="userIdToDelete" />
+                                    <button @click="deleteUser" class="memo-button btn btn-primary">
+                                        Nutzer Löschen
+                                    </button>
+                                </div>
                             </div>
                         </MaintenanceSection>
                         <MaintenanceSection title="Sonstige" :methods="miscMethods" @method-clicked="handleClick"
