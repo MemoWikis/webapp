@@ -206,7 +206,10 @@ export default <RouterConfig>{
         {
             name: 'metrics',
             path: '/Metriken',
-            component: () => import('~/pages/metrics.vue')
+            component: () => import('~/pages/metrics.vue'),
+            meta: {
+                middleware: ['admin-auth'],
+            },
         },
     ],
 }   

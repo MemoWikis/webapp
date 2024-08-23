@@ -75,7 +75,7 @@ emit('setPage', Page.Metrics)
 
                         <div class="bar-section">
                             <div class="bar-header">
-                                <h3>Heutige Registrierungen: </h3>
+                                <h3>Registrierungen: </h3>
                                 <h3>{{ overviewData?.registrationsCount }}</h3>
                             </div>
 
@@ -93,7 +93,7 @@ emit('setPage', Page.Metrics)
 
                         <div class="bar-section">
                             <div class="bar-header">
-                                <h3>Heutige Logins: </h3>
+                                <h3>Logins</h3>
                                 <h3>{{ overviewData?.loginCount }}</h3>
                             </div>
 
