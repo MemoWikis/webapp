@@ -206,7 +206,7 @@ userStore.$onAction(({ name, after }) => {
 
 <template>
     <div class="container">
-        <div class="row profile-container  main-page">
+        <div class="row profile-container main-page">
             <div class="col-xs-12 container" v-if="profile && profile.user.id > 0">
                 <div class="row">
                     <div class="col-xs-12 profile-header">
@@ -377,8 +377,7 @@ userStore.$onAction(({ name, after }) => {
                     </div>
                 </Transition>
                 <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
-                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl"
-                        :content="props.content" @update-profile="refreshProfile" />
+                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content" @update-profile="refreshProfile" />
                 </Transition>
 
             </div>
@@ -449,7 +448,7 @@ userStore.$onAction(({ name, after }) => {
 .main-counter-container {
     display: flex;
     flex-wrap: nowrap;
-
+    align-items: center;
     margin: 0 20px;
 
     .count {
