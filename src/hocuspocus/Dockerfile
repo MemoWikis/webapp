@@ -1,11 +1,13 @@
 # Use the official Node.js 20 image as the base image
 FROM node:20
 
-ENV BASE_URL=http://host.docker.internal:5069
+ENV BASE_URL=http://host.docker.internal
+ENV BACKEND_PORT=5069
 ENV HOCUSPOCUS_SECRET_KEY=abrakadabrakey
+ENV HOCUSPOCUS_PORT=3010
 ENV REDIS_HOST=host.docker.internal
 ENV REDIS_PORT=6379
-ENV EMV=docker-dev
+ENV ENV=docker-dev
 
 # Set the working directory in the container
 WORKDIR /usr/src/app

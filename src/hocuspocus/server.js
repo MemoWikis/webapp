@@ -1,9 +1,7 @@
 import { Server } from "@hocuspocus/server"
-import { Redis as RedisExtension } from "@hocuspocus/extension-redis"
 import Redis from 'ioredis'
 import dotenv from 'dotenv'
 import axios from 'axios'
-import { Logger } from "@hocuspocus/extension-logger"
 import { Database } from "@hocuspocus/extension-database"
 import express from "express"
 import expressWebsockets from "express-ws"
@@ -38,13 +36,6 @@ const server = Server.configure({
   maxDebounce: 30000,
   quiet: false,
   extensions: [
-    // new RedisExtension({
-    //   // [required] Hostname of your Redis instance
-    //   host: "localhost",
-
-    //   // [required] Port of your Redis instance
-    //   port: 6379,
-    // }),
     redisDatabaseExtension,
   ],
   async onAuthenticate({ documentName, token }) {
@@ -54,7 +45,7 @@ const server = Server.configure({
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
       topicId: documentName.substring(5)
     }
-    await axios.post(`${process.env.BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
+    await axios.post(`${process.env.BASE_URL}:${process.env.BACKEND_PORT}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
       if (response.status === 200 && response.data === true) 
         return
       else 
@@ -64,10 +55,6 @@ const server = Server.configure({
 })
 
 const { app } = expressWebsockets(express())
-
-// app.get("/", (request, response) => {
-//   response.send("Hello World!")
-// })
 
 app.ws("/collaboration", (websocket, request) => {
   server.handleConnection(websocket, request)
