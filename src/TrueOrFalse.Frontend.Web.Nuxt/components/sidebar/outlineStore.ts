@@ -3,9 +3,14 @@ import { JSONContent } from "@tiptap/vue-3"
 
 interface OutlineElement {
     id: string
-    text: string
+    text: string[]
     level: number
     index: number
+}
+
+interface HeadingContent {
+    type: string
+    text?: string
 }
 
 export const useOutlineStore = defineStore('outlineStore', () => {
@@ -20,13 +25,23 @@ export const useOutlineStore = defineStore('outlineStore', () => {
             if (item.type === 'heading' && item.content && item.attrs) {
                 const outlineElement: OutlineElement = {
                     id: item.attrs.id ? item.attrs.id : '',
-                    text: item.content[0].text!,
+                    text: getHeadingText(item.content as HeadingContent[]),
                     level: item.attrs.level!,
                     index: index
                 }
                 headings.value.push(outlineElement)
             }
         })
+    }
+
+    function getHeadingText(content: HeadingContent[]) {
+        const textArray: string[] = []
+        content.forEach(item => {
+            if (item.text) {
+                textArray.push(item.text)
+            }
+        })
+        return textArray
     }
 
     function setHeadings(contentArray: JSONContent[]) {

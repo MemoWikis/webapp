@@ -68,4 +68,7 @@ public class Settings
     public static string GoogleClientId => _configuration["Google:ClientId"];
     public static string GoogleApplicationName => _configuration["Google:ApplicationName"];
 
+    public static string CollaborationTokenSecretKey => _configuration["Collaboration:TokenSecretKey"];
+    public static string CollaborationHocuspocusSecretKey => _configuration["Collaboration:HocuspocusSecretKey"];
+
 }

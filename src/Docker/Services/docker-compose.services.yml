@@ -16,3 +16,24 @@ services:
       - "${REDIS_PORT}:6379"
     volumes:
       - C:/redis-data/${ENVIRONMENT}:/data
+      
+  hocuspocus:
+    image: ghcr.io/memowikis/mem-hocuspocus:${BUILD_NUMBER:-error}
+    restart: always
+    ports:
+      - "${HOCUSPOCUS_PORT}:3010"      
+    networks:
+      - environment-specific-network
+    environment:
+      - BACKEND_BASE_URL=${BACKEND_BASE_URL}
+      - HOCUSPOCUS_SECRET_KEY=${HOCUSPOCUS_SECRET_KEY}
+      - HOCUSPOCUS_PORT=${HOCUSPOCUS_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - ENVIRONMENT=${ENVIRONMENT}
+
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-stage}
+    # Was already set up with nginx: 
+    external: true

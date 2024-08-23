@@ -21,7 +21,8 @@ export default defineNuxtConfig({
             seqServerUrl: undefined,
             seqClientApiKey: "",
             facebookAppId: "",
-            environment: ""
+            environment: "",
+            hocuspocusWebsocketUrl: "",
         },
     },
     ssr: true,

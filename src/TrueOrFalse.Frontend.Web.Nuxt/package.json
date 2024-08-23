@@ -24,11 +24,17 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
+    "@hocuspocus/extension-redis": "^2.13.5",
+    "@hocuspocus/provider": "^2.13.5",
+    "@hocuspocus/server": "^2.13.5",
     "@pinia/nuxt": "^0.4.4",
     "@stripe/stripe-js": "^1.52.1",
     "@tiptap/extension-blockquote": "^2.0.0",
     "@tiptap/extension-code-block-lowlight": "^2.4.0",
+    "@tiptap/extension-collaboration": "^2.6.2",
+    "@tiptap/extension-collaboration-cursor": "^2.6.4",
     "@tiptap/extension-heading": "^2.4.0",
+    "@tiptap/extension-history": "^2.6.4",
     "@tiptap/extension-horizontal-rule": "^2.0.0",
     "@tiptap/extension-image": "^2.0.0",
     "@tiptap/extension-link": "^2.0.0",
@@ -47,6 +53,7 @@
     "d3": "^7.8.2",
     "floating-vue": "^5.2.2",
     "hast-util-to-html": "^9.0.1",
+    "ioredis": "^5.4.1",
     "less-loader": "^11.1.0",
     "lowlight": "^3.1.0",
     "nanoid": "^5.0.7",
@@ -62,6 +69,8 @@
     "vue-final-modal": "^4.0.0-rc.7",
     "vue-tsc": "^1.0.9",
     "vue3-perfect-scrollbar": "^1.6.1",
-    "vue3-touch-events": "^4.1.8"
+    "vue3-touch-events": "^4.1.8",
+    "y-indexeddb": "^9.0.12",
+    "yjs": "^13.6.18"
   }
 }

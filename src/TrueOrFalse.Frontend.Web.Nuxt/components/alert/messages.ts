@@ -18,6 +18,9 @@ export const messages: any = {
             passwordChanged: "Dein Passwort wurde erfolgreich geändert.",
             passwordReset: "Dein Passwort wurde zurückgesetzt.",
             passwordVerificationMailSent: "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
+        },
+        collaboration: {
+            connected: "Blahblah du siehst die Live Version von dieser Seite",
         }
     },
     error: {
@@ -91,6 +94,11 @@ export const messages: any = {
         api: {
             title: "Oops!",
             body: "<div class='alert-msg-container'><div class='alert-msg'>Ein unerwarteter Fehler ist aufgetreten. <br />Das Neuladen der Website könnte das Problem lösen.</div></div>"    
+        },
+        collaboration: {
+            couldNotConnect: "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
+            authenticationFailed: "Die Authentifizierung ist fehlgeschlagen.",
+            connectionLost: "Die Verbindung zur Live-Version wurde unterbrochen.",
         }
     },
     info: {

@@ -32,6 +32,7 @@ export interface CurrentUser {
     subscriptionStartDate?: Date
     isSubscriptionCanceled: boolean
     isEmailConfirmed: boolean
+    collaborationToken?: string
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -56,7 +57,8 @@ export const useUserStore = defineStore('userStore', {
             subscriptionStartDate: null as Date | null,
             isEmailConfirmed: false,
             showBanner: false,
-            gridInfoShown: false
+            gridInfoShown: false,
+            collaborationToken: undefined as string | undefined
         }
     },
     actions: {
@@ -80,6 +82,7 @@ export const useUserStore = defineStore('userStore', {
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.activityPoints)
             this.isEmailConfirmed = currentUser.isEmailConfirmed
+            this.collaborationToken = currentUser.collaborationToken
             return
         },
         async login(loginData: {

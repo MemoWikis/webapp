@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -7,101 +7,246 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import TaskList from '@tiptap/extension-task-list'
 import TaskItem from '@tiptap/extension-task-item'
+import History from '@tiptap/extension-history'
 import { all, createLowlight } from 'lowlight'
+import ImageResize from '~~/components/shared/imageResizeExtension'
+import { Indent } from '../../editor/indent'
+
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
-import { Indent } from '../../editor/indent'
-import ImageResize from '~~/components/shared/imageResizeExtension'
+
+import { getRandomColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { slugify } from '~/components/shared/utils'
 import { nanoid } from 'nanoid'
 
+import Collaboration from '@tiptap/extension-collaboration'
+import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
+
+import * as Y from 'yjs'
+import { TiptapCollabProvider } from '@hocuspocus/provider'
+import { useUserStore } from '~/components/user/userStore'
+import { IndexeddbPersistence } from 'y-indexeddb'
+import { Visibility } from '~/components/shared/visibilityEnum'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
+const snackbarStore = useSnackbarStore()
+
 const lowlight = createLowlight(all)
+const userStore = useUserStore()
+const doc = new Y.Doc()
+const config = useRuntimeConfig()
 
-const editor = useEditor({
-    content: topicStore.initialContent,
-    extensions: [
-        StarterKit.configure({
-            heading: false,
-            codeBlock: false,
-        }),
-        CustomHeading.configure({
-            levels: [2, 3, 4],
-            HTMLAttributes: {
-                class: 'heading',
-            },
-        }),
-        Link.configure({
-            HTMLAttributes: {
-                rel: 'noopener noreferrer nofollow'
-            },
-            openOnClick: true,
-        }),
-        Placeholder.configure({
-            emptyEditorClass: 'is-editor-empty',
-            emptyNodeClass: 'is-empty',
-            placeholder: 'Klicke hier um zu tippen ...',
-            showOnlyWhenEditable: true,
-            showOnlyCurrent: true,
-        }),
-        Underline,
-        ImageResize.configure({
-            inline: true,
-            allowBase64: true,
-        }),
-        CodeBlockLowlight.configure({
-            lowlight,
-        }),
-        TaskList,
-        TaskItem.configure({
-            nested: true,
-        }),
-        Indent,
+const providerContentLoaded = ref(false)
 
-    ],
-    onUpdate({ editor }) {
-        topicStore.contentHasChanged = true
-        if (editor.isEmpty)
-            topicStore.content = ''
-        else
-            topicStore.content = editor.getHTML()
+const provider = shallowRef<TiptapCollabProvider>()
+const editor = shallowRef<Editor>()
+const loadCollab = ref(true)
+const providerLoaded = ref(false)
 
-        const contentArray: JSONContent[] | undefined = editor.getJSON().content
-        if (contentArray)
-            outlineStore.setHeadings(contentArray)
+const connectionLostHandled = ref(false)
+const handleConnectionLost = () => {
+    if (connectionLostHandled.value)
+        return
 
-        if (editor.isActive('heading'))
-            updateHeadingIds()
+    const data: SnackbarData = {
+        type: 'error',
+        text: messages.error.collaboration.connectionLost
+    }
+    snackbarStore.showSnackbar(data)
+}
 
-        updateCursorIndex()
-    },
-    editorProps: {
-        handlePaste: (view, pos, event) => {
-            const firstNode = event.content.firstChild
-            if (firstNode != null && firstNode.type.name == 'image') {
-                if (!isEmpty(firstNode.attrs)) {
-                    let src = firstNode.attrs.src;
-                    if (src.length > 1048576 && src.startsWith('data:image')) {
-                        alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
-                        return true
+const initProvider = () => {
+    provider.value = new TiptapCollabProvider({
+        baseUrl: config.public.hocuspocusWebsocketUrl,
+        name: 'ydoc-' + topicStore.id,
+        token: userStore.collaborationToken,
+        preserveConnection: false,
+        document: doc,
+        onAuthenticated() {
+            new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
+        },
+        onAuthenticationFailed: ({ reason }) => {
+            // const data: SnackbarData = {
+            //     type: 'error',
+            //     text: messages.error.collaboration.authenticationFailed
+            // }
+            // snackbarStore.showSnackbar(data)
+
+            providerLoaded.value = true
+            loadCollab.value = false
+            recreate()
+        },
+        onSynced() {
+            if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
+                doc.getMap('config').set('initialContentLoaded', true)
+                editor.value.commands.setContent(topicStore.initialContent)
+            }
+            providerContentLoaded.value = true
+
+            if (editor.value) {
+                const contentArray: JSONContent[] | undefined = editor.value.getJSON().content
+                if (contentArray)
+                    outlineStore.setHeadings(contentArray)
+            }
+            providerLoaded.value = true
+            connectionLostHandled.value = false
+        },
+        onClose(c) {
+            providerLoaded.value = true
+
+            if (c.event.code === 1006) {
+
+                handleConnectionLost()
+
+                if (!providerContentLoaded.value) {
+                    loadCollab.value = false
+                    recreate()
+                }
+
+            }
+        }
+    })
+}
+
+const initEditor = () => {
+    editor.value = new Editor({
+        content: topicStore.initialContent,
+        extensions: [
+            StarterKit.configure({
+                heading: false,
+                codeBlock: false,
+                history: false,
+            }),
+            CustomHeading.configure({
+                levels: [2, 3, 4],
+                HTMLAttributes: {
+                    class: 'heading',
+                },
+            }),
+            Link.configure({
+                HTMLAttributes: {
+                    rel: 'noopener noreferrer nofollow'
+                },
+                openOnClick: true,
+            }),
+            Placeholder.configure({
+                emptyEditorClass: 'is-editor-empty',
+                emptyNodeClass: 'is-empty',
+                placeholder: 'Klicke hier um zu tippen ...',
+                showOnlyWhenEditable: true,
+                showOnlyCurrent: true,
+            }),
+            Underline,
+            ImageResize.configure({
+                inline: true,
+                allowBase64: true,
+            }),
+            CodeBlockLowlight.configure({
+                lowlight,
+            }),
+            TaskList,
+            TaskItem.configure({
+                nested: true,
+            }),
+            Indent,
+            ...(userStore.isLoggedIn && loadCollab.value) ? [
+                Collaboration.configure({
+                    document: doc
+                }),
+                CollaborationCursor.configure({
+                    provider: provider.value,
+                    user: {
+                        name: userStore.name,
+                        color: getRandomColor(),
+                    },
+                    render: user => {
+                        const cursor = document.createElement('span')
+                        cursor.classList.add('collaboration-cursor__caret')
+                        cursor.setAttribute('style', `border-color: ${user.color}`)
+
+                        const labelContainer = document.createElement('div')
+                        labelContainer.setAttribute('style', `background-color: ${user.color}`)
+                        labelContainer.classList.add('collaboration-cursor__label-container')
+                        labelContainer.insertBefore(document.createTextNode(user.name), null)
+
+                        const label = document.createElement('div')
+                        label.classList.add('collaboration-cursor__label')
+                        label.insertBefore(document.createTextNode(user.name), null)
+
+                        labelContainer.insertBefore(label, null)
+                        cursor.insertBefore(labelContainer, null)
+                        return cursor
+                    },
+                    selectionRender: user => {
+                        return {
+                            nodeName: 'span',
+                            class: 'collaboration-cursor__selection',
+                            style: `background-color: ${user.color}33`,
+                            'data-user': user.name, 'padding': '1.4em'
+                        }
+                    },
+                })
+            ] : [History]
+        ],
+        onUpdate({ editor }) {
+            topicStore.contentHasChanged = providerContentLoaded.value
+            if (editor.isEmpty)
+                topicStore.content = ''
+            else
+                topicStore.content = editor.getHTML()
+
+            const contentArray: JSONContent[] | undefined = editor.getJSON().content
+            if (contentArray)
+                outlineStore.setHeadings(contentArray)
+
+            if (editor.isActive('heading'))
+                updateHeadingIds()
+
+            updateCursorIndex()
+
+            if (topicStore.contentHasChanged)
+                autoSave()
+        },
+        editorProps: {
+            handlePaste: (view, pos, event) => {
+                const firstNode = event.content.firstChild
+                if (firstNode != null && firstNode.type.name == 'image') {
+                    if (!isEmpty(firstNode.attrs)) {
+                        let src = firstNode.attrs.src;
+                        if (src.length > 1048576 && src.startsWith('data:image')) {
+                            alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                            return true
+                        }
                     }
                 }
-            }
 
+            },
+            attributes: {
+                id: 'InlineEdit',
+            }
         },
-        attributes: {
-            id: 'InlineEdit',
-        }
-    },
-})
+    })
+}
+
+const recreate = (login: boolean = false) => {
+    provider.value?.destroy()
+    editor.value?.destroy()
+
+    if (login) loadCollab.value = true
+
+    if (userStore.isLoggedIn && loadCollab.value) initProvider()
+
+    initEditor()
+}
 
 function setHeadings() {
     const contentArray: JSONContent[] | undefined = editor.value?.getJSON().content
@@ -137,6 +282,8 @@ function updateHeadingIds() {
 const spinnerStore = useSpinnerStore()
 
 onMounted(() => {
+    recreate()
+
     spinnerStore.hideSpinner()
     setHeadings()
 
@@ -163,16 +310,52 @@ function updateCursorIndex() {
     outlineStore.nodeIndex = nodeIndex
 }
 
+onBeforeUnmount(() => {
+    provider.value?.destroy()
+    editor.value?.destroy()
+})
+
+watch(() => userStore.isLoggedIn, (val) => recreate(val))
+
+const autoSaveTimer = ref()
+const autoSave = () => {
+    if (topicStore.visibility != Visibility.Owner)
+        return
+
+    if (autoSaveTimer.value) {
+        clearTimeout(autoSaveTimer.value)
+    }
+    autoSaveTimer.value = setTimeout(() => {
+        if (editor.value) {
+            topicStore.saveTopic()
+        }
+    }, 5000)
+}
+
+const { isMobile } = useDevice()
 </script>
 
 <template>
-    <template v-if="editor">
-        <EditorMenuBar :editor="editor" :heading="true" :is-topic-content="true" />
-        <editor-content :editor="editor" class="col-xs-12" ref="editorRef" />
+    <template v-if="editor && providerLoaded">
+        <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
+            v-if="loadCollab && userStore.isLoggedIn" />
+        <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
+            v-else />
+
+        <editor-content :editor="editor" class="col-xs-12" />
+    </template>
+    <template v-else>
+        <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
+            <div class="ProseMirror content-placeholder" v-html="topicStore.content"
+                id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
+            </div>
+        </div>
     </template>
 </template>
 
 <style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .ProseMirror {
     .content-placeholder {
         :deep(p:empty) {
@@ -217,5 +400,83 @@ function updateCursorIndex() {
             }
         }
     }
+
+    .collaboration-cursor__caret {
+        border-left: 1px solid #0d0d0d;
+        border-right: 1px solid #0d0d0d;
+        margin-left: -1px;
+        margin-right: -1px;
+        pointer-events: none;
+        position: relative;
+        word-break: normal;
+
+        .collaboration-cursor__label,
+        .collaboration-cursor__label-container {
+            border-radius: 4px 4px 4px 0;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            left: -1px;
+            padding: 0 12px;
+            position: absolute;
+            user-select: none;
+            white-space: nowrap;
+            height: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .collaboration-cursor__label-container {
+            top: -1.4em;
+            z-index: 2;
+            color: white;
+            box-shadow: 0 2px 6px rgb(0 0 0 / 16%);
+        }
+
+        .collaboration-cursor__label {
+            top: 0px;
+            z-index: 3;
+            color: @memo-blue;
+        }
+
+        .collaboration-cursor__label-container::before {
+            border-radius: 4px 4px 4px 0;
+            content: '';
+            position: absolute;
+            top: 0px;
+            left: 2px;
+            width: calc(100% - 2px);
+            height: 100%;
+            background: white;
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .collaboration-cursor__label-container::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -2px;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid white;
+            transform: rotate(315deg);
+            z-index: 2;
+        }
+    }
+
+    &.ProseMirror-focused {
+        .collaboration-cursor__caret {
+            opacity: 0.6;
+        }
+    }
+}
+
+.private-topic {
+    margin-bottom: -30px;
 }
 </style>
