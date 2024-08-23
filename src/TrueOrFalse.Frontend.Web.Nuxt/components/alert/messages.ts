@@ -96,9 +96,9 @@ export const messages: any = {
             body: "<div class='alert-msg-container'><div class='alert-msg'>Ein unerwarteter Fehler ist aufgetreten. <br />Das Neuladen der Website könnte das Problem lösen.</div></div>"    
         },
         collaboration: {
-            couldNotConnect: "Die Verbindung konnte nicht hergestellt werden.",
+            couldNotConnect: "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
             authenticationFailed: "Die Authentifizierung ist fehlgeschlagen.",
-            connectionLost: "Die Verbindung wurde unterbrochen.",
+            connectionLost: "Die Verbindung zur Live-Version wurde unterbrochen.",
         }
     },
     info: {
