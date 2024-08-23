@@ -345,8 +345,6 @@ const { isMobile } = useDevice()
             v-else />
 
         <editor-content :editor="editor" class="col-xs-12" />
-        <button @click="provider?.destroy()">destroy provider</button>
-        <button @click="recreate()"> recreate</button>
     </template>
     <template v-else>
         <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
