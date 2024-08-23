@@ -248,6 +248,9 @@ function setPageTitle() {
 		case Page.ConfirmEmail:
 			pageTitle.value = 'E-Mail Bestätigung'
 			break
+		case Page.Metrics:
+			pageTitle.value = 'Metriken'
+			break
 	}
 }
 
@@ -342,10 +345,8 @@ const maxWidth = ref(150)
 			</template>
 		</VDropdown>
 
-		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
-			class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.name"
-			v-else-if="breadcrumb.personalWiki" :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }"
-			aria-label="home button">
+		<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)" class="breadcrumb-item root-topic" v-tooltip="breadcrumb.personalWiki.name" v-else-if="breadcrumb.personalWiki"
+			:class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }" aria-label="home button">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
 			<span class="root-topic-label" v-if="topicStore.id == personalWiki?.id">
@@ -417,8 +418,7 @@ const maxWidth = ref(150)
 
 	</div>
 	<div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
-		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.name, personalWiki.id)" class="breadcrumb-item"
-			v-tooltip="personalWiki.name" aria-label="personal home button">
+		<NuxtLink :to="$urlHelper.getTopicUrl(personalWiki.name, personalWiki.id)" class="breadcrumb-item" v-tooltip="personalWiki.name" aria-label="personal home button">
 			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
 		</NuxtLink>

@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const { $logger } = useNuxtApp();
+import { Page } from '~/components/shared/pageEnum'
+
+const { $logger } = useNuxtApp()
 
 interface ViewsResult {
     dateTime: string;
@@ -21,7 +23,7 @@ interface GetAllDataResponse {
     annualPrivateCreatedTopics: ViewsResult[];
 }
 
-const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Overview/GetAllData', {
+const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Metrics/GetAllData', {
     mode: 'cors',
     credentials: 'include',
     onResponseError(context) {
@@ -54,6 +56,9 @@ const annualPublicCreatedTopicCounts = computed(() => overviewData.value?.annual
 const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
 const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.views) as number[]);
 
+const emit = defineEmits(['setPage'])
+emit('setPage', Page.Metrics)
+
 </script>
 
 <template>
@@ -61,7 +66,7 @@ const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annua
         <div class="row main-page">
             <div class="col-xs-12 container">
 
-                <div class="overview-header">
+                <div class="metrics-header">
                     <h1>Gesamtdaten Memucho</h1>
                 </div>
 
@@ -198,7 +203,7 @@ const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annua
     justify-content: space-between;
 }
 
-.overview-header {
+.metrics-header {
     height: 54px;
     margin-top: 20px;
     margin-bottom: 10px;

@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace ApiVueApp;
-public class OverviewController(
+public class MetricsController(
 QuestionViewRepository _questionViewRepository,
 CategoryViewRepo _categoryViewRepo,
 SessionUser _sessionUser) : Controller
@@ -32,9 +31,7 @@ SessionUser _sessionUser) : Controller
         if (!_sessionUser.IsInstallationAdmin)
             return new GetAllDataResponse();
 
-        var watch = new Stopwatch();
-        watch.Start();
-        //user
+        //Users
         var allUsers = EntityCache.GetAllUsers();
         var lastYearLogins = allUsers
             .Where(u => u.LastLogin.HasValue && u.LastLogin.Value.Date > DateTime.Now.Date.AddDays(-365))
@@ -109,7 +106,6 @@ SessionUser _sessionUser) : Controller
             .Select(q => new ViewsResult(q.Key, q.Value))
             .ToList();
         var questionTodayViews = questionviewsLastYearResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
-        var elapsed = watch.ElapsedMilliseconds;
 
         return new GetAllDataResponse
         {
