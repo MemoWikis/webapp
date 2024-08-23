@@ -9,9 +9,9 @@ interface ViewsResult {
 }
 
 interface GetAllDataResponse {
-    registrationsCount: number;
-    loginCount: number;
-    createdPrivatizedTopicCount: number;
+    todaysRegistrationCount: number;
+    todaysLoginCount: number;
+    createdPrivateTopicCount: number;
     createdPublicTopicCount: number;
     todayTopicViews: number;
     todayQuestionViews: number;
@@ -38,26 +38,27 @@ const showAnnualCreatedPrivateTopicBarchart = ref(false);
 const showAnnualLoginBarchart = ref(false);
 const showAnnualRegistrationBarchart = ref(false);
 
-const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime) as string[]);
+const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime.split("T")[0]) as string[]);
 const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => v.views) as number[]);
 
-const viewQuestionLabels = computed(() => overviewData.value?.viewsQuestions?.map(v => v.dateTime) as string[]);
+const viewQuestionLabels = computed(() => overviewData.value?.viewsQuestions?.map(v => v.dateTime.split("T")[0]) as string[]);
 const viewQuestionViews = computed(() => overviewData.value?.viewsQuestions?.map(v => v.views) as number[]);
 
-const annualLoginsLabels = computed(() => overviewData.value?.annualLogins?.map(v => v.dateTime) as string[]);
+const annualLoginsLabels = computed(() => overviewData.value?.annualLogins?.map(v => v.dateTime.split("T")[0]) as string[]);
 const annualLoginsCount = computed(() => overviewData.value?.annualLogins?.map(v => v.views) as number[]);
 
-const annualRegistrationLabels = computed(() => overviewData.value?.annualRegistrations?.map(v => v.dateTime) as string[]);
+const annualRegistrationLabels = computed(() => overviewData.value?.annualRegistrations?.map(v => v.dateTime.split("T")[0]) as string[]);
 const annualRegistrationCounts = computed(() => overviewData.value?.annualRegistrations?.map(v => v.views) as number[]);
 
-const annualPublicCreatedTopicLabels = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.dateTime) as string[]);
+const annualPublicCreatedTopicLabels = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.dateTime.split("T")[0]) as string[]);
 const annualPublicCreatedTopicCounts = computed(() => overviewData.value?.annualPublicCreatedTopics?.map(v => v.views) as number[]);
 
-const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.dateTime) as string[]);
+const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.dateTime.split("T")[0]) as string[]);
 const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.views) as number[]);
 
-const emit = defineEmits(['setPage'])
+const emit = defineEmits(['setPage', 'setBreadcrumb'])
 emit('setPage', Page.Metrics)
+emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
 </script>
 
@@ -74,9 +75,10 @@ emit('setPage', Page.Metrics)
                     <div class="col-xs-12">
 
                         <div class="bar-section">
+                            <h3>Registrierungen </h3>
                             <div class="bar-header">
-                                <h3>Registrierungen: </h3>
-                                <h3>{{ overviewData?.registrationsCount }}</h3>
+                                <h4>Heutige Registrierungen:</h4>
+                                <h4>{{ overviewData?.todaysRegistrationCount }}</h4>
                             </div>
 
                             <div class="bar-container">
@@ -92,9 +94,10 @@ emit('setPage', Page.Metrics)
                         </div>
 
                         <div class="bar-section">
+                            <h3>Logins</h3>
                             <div class="bar-header">
-                                <h3>Logins</h3>
-                                <h3>{{ overviewData?.loginCount }}</h3>
+                                <h4>Heutige Logins:</h4>
+                                <h4>{{ overviewData?.todaysLoginCount }}</h4>
                             </div>
 
                             <div class="bar-container">
@@ -109,9 +112,10 @@ emit('setPage', Page.Metrics)
                         </div>
 
                         <div class="bar-section">
+                            <h3>Private Themen</h3>
                             <div class="bar-header">
-                                <h3>Erstellte private Themen: </h3>
-                                <h3>{{ overviewData?.createdPrivatizedTopicCount }}</h3>
+                                <h4>Heute erstellt:</h4>
+                                <h4>{{ overviewData?.createdPrivateTopicCount }}</h4>
                             </div>
 
                             <div class="bar-container">
@@ -126,15 +130,15 @@ emit('setPage', Page.Metrics)
                         </div>
 
                         <div class="bar-section">
+                            <h3>Öffentliche Themen</h3>
                             <div class="bar-header">
-                                <h3>Erstellte öffentliche Themen: </h3>
-                                <h3>{{ overviewData?.createdPublicTopicCount }}</h3>
+                                <h4>Heute erstellt:</h4>
+                                <h4>{{ overviewData?.createdPublicTopicCount }}</h4>
                             </div>
 
                             <div class="bar-container">
                                 <button class="memo-button btn-default" @click="showAnnualCreatedPublicTopicBarchart = !showAnnualCreatedPublicTopicBarchart;">
-                                    {{ showAnnualCreatedPublicTopicBarchart ? 'Verstecken' : 'Jahresübersicht Public Topics'
-                                    }}
+                                    {{ showAnnualCreatedPublicTopicBarchart ? 'Verstecken' : 'Jahresübersicht Public Topics' }}
                                 </button>
                                 <LazyOverviewBarChart v-if="showAnnualCreatedPublicTopicBarchart"
                                     :labels="annualPublicCreatedTopicLabels"
@@ -145,9 +149,10 @@ emit('setPage', Page.Metrics)
                         </div>
 
                         <div class="bar-section">
+                            <h3>Topicviews</h3>
                             <div class="bar-header">
-                                <h3>Views Topics: </h3>
-                                <h3>{{ overviewData?.todayTopicViews }}</h3>
+                                <h4>Heutige Topicviews:</h4>
+                                <h4>{{ overviewData?.todayTopicViews }}</h4>
                             </div>
 
                             <div class="bar-container">
@@ -161,10 +166,10 @@ emit('setPage', Page.Metrics)
                         </div>
 
                         <div class="bar-section">
-
+                            <h3>Questionviews</h3>
                             <div class="bar-header">
-                                <h3>Views Fragen: </h3>
-                                <h3>{{ overviewData?.todayQuestionViews }}</h3>
+                                <h4>Heutige Questionviews:</h4>
+                                <h4>{{ overviewData?.todayQuestionViews }}</h4>
                             </div>
 
                             <div class="bar-container">
@@ -175,15 +180,6 @@ emit('setPage', Page.Metrics)
                                     :labels="viewQuestionLabels"
                                     :datasets="viewQuestionViews"
                                     :title="'Jahresübersicht Question Views'" />
-                            </div>
-                        </div>
-
-                        <div class="bar-section">
-
-                            <div class="bar-header">
-                            </div>
-
-                            <div class="bar-container">
                             </div>
                         </div>
 

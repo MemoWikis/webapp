@@ -9,9 +9,10 @@ QuestionViewRepository _questionViewRepository,
 CategoryViewRepo _categoryViewRepo,
 SessionUser _sessionUser) : Controller
 {
-    public readonly record struct GetAllDataResponse(int RegistrationsCount,
-        int LoginCount,
-        int CreatedPrivatizedTopicCount,
+    public readonly record struct GetAllDataResponse(
+        int TodaysRegistrationCount,
+        int TodaysLoginCount,
+        int CreatedPrivateTopicCount,
         int CreatedPublicTopicCount,
         int TodayTopicViews,
         int TodayQuestionViews,
@@ -63,7 +64,7 @@ SessionUser _sessionUser) : Controller
 
         //Topics
         var allCategories = EntityCache.GetAllCategoriesList();
-        var allPublicCategories = allCategories.Where(u => u.IsVisible);
+        var allPublicCategories = allCategories.Where(u => u.IsPublic);
         var lastYearPublicCreatedTopics = allPublicCategories
             .Where(u => u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
@@ -79,7 +80,8 @@ SessionUser _sessionUser) : Controller
         var publicTodayCreatedTopics = lastYearPublicCreatedTopics
             .Where(u => u.DateCreated.Date == DateTime.Now.Date);
 
-        var allPrivateCreatedTopics = allCategories.Where(u => u.IsVisible == false);
+        var allPrivateCreatedTopics = allCategories.Where(c => c.IsPublic == false);
+
         var lastYearPrivateCreatedTopics = allPrivateCreatedTopics
             .Where(u => u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
@@ -98,24 +100,24 @@ SessionUser _sessionUser) : Controller
         var topicLastYearViewsResult = topicLastYearViews
             .Select(q => new ViewsResult(q.Key, q.Value))
             .ToList();
-        var topicTodayViews = topicLastYearViewsResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
+        var dailyTopicViews = topicLastYearViewsResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
 
         //Questions
-        var questionviewsLastYear = _questionViewRepository.GetViewsForLastNDays(365);
-        var questionviewsLastYearResult = questionviewsLastYear
+        var questionViewsLastYear = _questionViewRepository.GetViewsForLastNDays(365);
+        var questionViewsLastYearResult = questionViewsLastYear
             .Select(q => new ViewsResult(q.Key, q.Value))
             .ToList();
-        var questionTodayViews = questionviewsLastYearResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
+        var dailyQuestionViews = questionViewsLastYearResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
 
         return new GetAllDataResponse
         {
-            RegistrationsCount = todayRegistrations.Count(),
-            LoginCount = todayLogins.Count(),
-            CreatedPrivatizedTopicCount = privateTodayCreatedTopics.Count(),
+            TodaysRegistrationCount = todayRegistrations.Count(),
+            TodaysLoginCount = todayLogins.Count(),
+            CreatedPrivateTopicCount = privateTodayCreatedTopics.Count(),
             CreatedPublicTopicCount = publicTodayCreatedTopics.Count(),
-            TodayTopicViews = topicTodayViews,
-            TodayQuestionViews = questionTodayViews,
-            ViewsQuestions = questionviewsLastYearResult,
+            TodayTopicViews = dailyTopicViews,
+            TodayQuestionViews = dailyQuestionViews,
+            ViewsQuestions = questionViewsLastYearResult,
             ViewsTopics = topicLastYearViewsResult,
             AnnualLogins = annualLogins,
             AnnualRegistrations = annualRegistrations,
