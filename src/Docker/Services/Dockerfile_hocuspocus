@@ -5,14 +5,11 @@ FROM node
 RUN mkdir -p /usr/src/hocuspocus-app
 WORKDIR /usr/src/hocuspocus-app
 
-# Copy the package.json and package-lock.json files to the working directory
-COPY package*.json ./
+#copy the app
+COPY hocuspocus/* ./
 
 # Install the app dependencies
 RUN npm install
-
-# Copy the rest of the application code to the working directory
-COPY . .
 
 # Expose the port the app runs on
 EXPOSE 3010

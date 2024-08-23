@@ -75,14 +75,13 @@ const initProvider = () => {
             new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
         },
         onAuthenticationFailed: ({ reason }) => {
-            const data: SnackbarData = {
-                type: 'error',
-                text: messages.error.collaboration.authenticationFailed
-            }
-            snackbarStore.showSnackbar(data)
+            // const data: SnackbarData = {
+            //     type: 'error',
+            //     text: messages.error.collaboration.authenticationFailed
+            // }
+            // snackbarStore.showSnackbar(data)
 
             providerLoaded.value = true
-
             loadCollab.value = false
             recreate()
         },
@@ -338,7 +337,6 @@ const { isMobile } = useDevice()
 
 <template>
     <template v-if="editor && providerLoaded">
-
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-if="loadCollab && userStore.isLoggedIn" />
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"

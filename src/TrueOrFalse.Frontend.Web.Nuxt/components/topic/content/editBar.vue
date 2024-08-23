@@ -125,7 +125,7 @@ const { isMobile } = useDevice()
                                         <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                                     </div>
                                     <div class="btn-label">
-                                        Speichern
+                                        Veröffentlichen
                                     </div>
                                 </div>
 
