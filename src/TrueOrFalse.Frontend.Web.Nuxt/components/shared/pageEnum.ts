@@ -10,5 +10,6 @@ export enum Page {
     Default,
     Error,
     ResetPassword,
-    ConfirmEmail
+    ConfirmEmail,
+    Metrics
 }
