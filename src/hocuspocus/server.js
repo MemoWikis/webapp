@@ -6,7 +6,7 @@ import { Database } from "@hocuspocus/extension-database"
 import express from "express"
 import expressWebsockets from "express-ws"
 
-if (process.env.NODE_ENV !== 'production' || process.env.NODE_ENV !== 'docker-dev') {
+if (process.env.ENVIRONMENT === 'development') {
   dotenv.config()
 }
 
