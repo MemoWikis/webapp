@@ -205,7 +205,7 @@ export default <RouterConfig>{
         },
         {
             name: 'metrics',
-            path: '/Metrik',
+            path: '/Metriken',
             component: () => import('~/pages/metrics.vue')
         },
     ],
