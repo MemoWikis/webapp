@@ -25,8 +25,7 @@ services:
     networks:
       - environment-specific-network
     environment:
-      - BASE_URL=${BASE_URL}
-      - BACKEND_PORT=${BACKEND_PORT}
+      - BACKEND_BASE_URL=${BACKEND_BASE_URL}
       - HOCUSPOCUS_SECRET_KEY=${HOCUSPOCUS_SECRET_KEY}
       - HOCUSPOCUS_PORT=${HOCUSPOCUS_PORT}
       - REDIS_HOST=${REDIS_HOST}

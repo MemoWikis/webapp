@@ -45,7 +45,7 @@ const server = Server.configure({
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
       topicId: documentName.substring(5)
     }
-    await axios.post(`${process.env.BASE_URL}:${process.env.BACKEND_PORT}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
+    await axios.post(`${process.env.BACKEND_BASE_URL}/apiVue/Hocuspocus/Authorise`, data).then(function (response) {
       if (response.status === 200 && response.data === true) 
         return
       else 
