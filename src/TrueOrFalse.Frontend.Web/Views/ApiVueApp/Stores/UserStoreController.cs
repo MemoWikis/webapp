@@ -102,7 +102,9 @@ public class UserStoreController(
         string ImgUrl,
         int Reputation,
         int ReputationPos,
-        TopicDataManager.TopicDataResult PersonalWiki);
+        TopicDataManager.TopicDataResult PersonalWiki,
+        FrontEndUserData.ActivityPoints ActivityPoints);
+
 
     [HttpPost]
     public RegisterResult Register([FromBody] RegisterJson json)
@@ -122,6 +124,8 @@ public class UserStoreController(
             };
 
         _registerUser.SetUser(json);
+        var activityPoints = _sessionUser.User.ActivityPoints; 
+        var activityLevel = _sessionUser.User.ActivityLevel;
         RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
 
         return new RegisterResult
@@ -150,7 +154,19 @@ public class UserStoreController(
                         _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
-                    .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1)
+                    .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1),
+                ActivityPoints = new FrontEndUserData.ActivityPoints
+                {
+                    Points = activityPoints,
+                    Level = activityLevel,
+                    LevelUp = false,
+                    ActivityPointsTillNextLevel =
+                        UserLevelCalculator.GetUpperLevelBound(activityLevel) - activityPoints,
+                    ActivityPointsPercentageOfNextLevel = activityPoints == 0
+                        ? 0
+                        : 100 * activityPoints /
+                          UserLevelCalculator.GetUpperLevelBound(activityLevel)
+                }
             }
         };
     }
