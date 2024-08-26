@@ -75,7 +75,6 @@ const initProvider = () => {
             new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
         },
         onAuthenticationFailed: ({ reason }) => {
-            console.log('Authentication failed', reason)
             // const data: SnackbarData = {
             //     type: 'error',
             //     text: messages.error.collaboration.authenticationFailed
@@ -87,7 +86,6 @@ const initProvider = () => {
             recreate()
         },
         onSynced() {
-            console.log('synced')
             if (!doc.getMap('config').get('initialContentLoaded') && editor.value) {
                 doc.getMap('config').set('initialContentLoaded', true)
                 editor.value.commands.setContent(topicStore.initialContent)
