@@ -56,7 +56,7 @@ const server = Server.configure({
 
 const { app } = expressWebsockets(express())
 
-app.ws("/collaboration", (websocket, request) => {
+app.ws("/", (websocket, request) => {
   server.handleConnection(websocket, request)
 })
 
