@@ -31,7 +31,6 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - ENVIRONMENT=${ENVIRONMENT}
-      - BACKEND_BASE=${BACKEND_BASE}
 
 networks:
   environment-specific-network:
