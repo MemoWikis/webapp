@@ -6,7 +6,7 @@ import { Database } from "@hocuspocus/extension-database"
 import express from "express"
 import expressWebsockets from "express-ws"
 
-if (process.env.ENVIRONMENT === 'development') {
+if (process.env.ENVIRONMENT.trim() == 'development') {
   dotenv.config()
 }
 
@@ -39,7 +39,6 @@ const server = Server.configure({
     redisDatabaseExtension,
   ],
   async onAuthenticate({ documentName, token }) {
-
     const data = {
       token: token,
       hocuspocusKey: process.env.HOCUSPOCUS_SECRET_KEY,
