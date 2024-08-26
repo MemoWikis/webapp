@@ -24,8 +24,7 @@ server {
   location /collaboration {
     proxy_pass http://host.docker.internal:$PORT_HOCUSPOCUS/;
 
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection "upgrade";
+    include /etc/nginx/proxy_params;
 
     proxy_ssl_server_name on;
   }
