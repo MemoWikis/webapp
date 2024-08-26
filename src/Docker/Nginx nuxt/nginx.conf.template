@@ -22,7 +22,7 @@ server {
   }
 
   location /collaboration {
-    proxy_pass ws://host.docker.internal:$PORT_HOCUSPOCUS/;
+    proxy_pass http://host.docker.internal:$PORT_HOCUSPOCUS/;
     include /etc/nginx/proxy_params;
   }
 }
