@@ -34,6 +34,79 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
+    public static void AddViewsLast30DaysToTopics(CategoryViewRepo categoryViewRepo, List<CategoryCacheItem> categoryCacheItems)
+    {
+        var categoriesViewsLast30Days = categoryViewRepo.GetViewsForLastNDaysGroupByCategoryId(30);
+        foreach (var categoryCacheItem in categoryCacheItems)
+        {
+            var aggregatedCategories = categoryCacheItem.GetAllAggregatedCategories()
+                .Select(t => t.Key);
+
+            var aggregatedTopicViews30Days = categoriesViewsLast30Days
+                .Where(view => aggregatedCategories.Contains(view.Category_Id))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new TopicView { Date = v.Date, Views = v.TotalCount })
+                .ToList();
+
+            var selfCategoryViews30Days = categoriesViewsLast30Days
+                .Where(view => (view.Category_Id == categoryCacheItem.Id))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new TopicView { Date = v.Date, Views = v.TotalCount })
+                .ToList();
+
+            categoryCacheItem.AddViews(aggregatedTopicViews30Days, selfCategoryViews30Days);
+
+        }
+    }
+
+    //public static void AddViewsLast30DaysToQuestion(QuestionViewRepository questionViewRepo, List<CategoryCacheItem> categoryCacheItems)
+    //{
+    //    var questionViewsLast30Days = questionViewRepo.GetViewsForLastNDaysGroupByCategoryId(30);
+    //    foreach (var categoryCacheItem in categoryCacheItems)
+    //    {
+    //        var aggregatedQuestionsFromAllAggregatedCategories = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, true, categoryCacheItem.Id)
+    //            .Select(t => t.Id);
+
+    //        var aggregatedTopicViews30Days = questionViewsLast30Days
+    //            .Where(view => aggregatedQuestionsFromAllAggregatedCategories.Contains(view.Question_Id))
+    //            .GroupBy(view => view.DateOnly)
+    //            .Select(g => new
+    //            {
+    //                Date = g.Key,
+    //                TotalCount = g.Sum(v => v.Count)
+    //            })
+    //            .OrderBy(result => result.Date)
+    //            .Select(v => new TopicView { Date = v.Date, Views = v.TotalCount })
+    //            .ToList();
+
+    //        var selfCategoryViews30Days = questionViewsLast30Days
+    //            .Where(view => (view.Category_Id == categoryCacheItem.Id))
+    //            .GroupBy(view => view.DateOnly)
+    //            .Select(g => new
+    //            {
+    //                Date = g.Key,
+    //                TotalCount = g.Sum(v => v.Count)
+    //            })
+    //            .OrderBy(result => result.Date)
+    //            .Select(v => new TopicView { Date = v.Date, Views = v.TotalCount })
+    //            .ToList();
+
+    //        categoryCacheItem.AddViews(aggregatedTopicViews30Days, selfCategoryViews30Days);
+
+    //    }
+    //}
     public static UserCacheItem? GetUserByIdNullable(int userId)
     {
         Users.TryGetValue(userId, out var user);

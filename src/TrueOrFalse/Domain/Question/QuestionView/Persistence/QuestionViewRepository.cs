@@ -35,6 +35,21 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
 
         return dictionaryResult;
     }
+    public IList<QuestionViewSummaryOrderById> GetViewsForLastNDaysGroupByCategoryId(int days)
+    {
+        var watch = new Stopwatch();
+        watch.Start();
+
+        var query = _session.CreateSQLQuery("SELECT Question_Id, DateOnly, COUNT(DateOnly) AS Count FROM QuestionView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY Question_Id, DateOnly ORDER BY Question_Id, DateOnly;");
+        query.SetParameter("days", days);
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryOrderById)))
+            .List<QuestionViewSummaryOrderById>();
+        watch.Stop();
+        var elapsed = watch.ElapsedMilliseconds;
+        Logg.r.Information("GetViewsForLastNDaysGroupByQuestionId " + elapsed);
+
+        return result; 
+    }
 
     public void DeleteForQuestion(int questionId)
     {
@@ -42,5 +57,6 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly); 
+    public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly);
+    public record struct QuestionViewSummaryOrderById(Int64 Count, DateTime DateOnly, int Question_Id); 
 }

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentNHibernate.Utils;
+using static CategoryViewRepo;
 
 public class TopicDataManager(
     SessionUser _sessionUser,
@@ -146,7 +148,10 @@ public class TopicDataManager(
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id),
             TextIsHidden = topic.TextIsHidden,
-            MessageKey = ""
+            MessageKey = "",
+            ViewsLast30DaysAggregatedTopic = topic.ViewsLast30DaysAggregatedTopic,
+            viewsLast30DaysTopic = topic.viewsLast30DaysTopic
+
         };
     }
 
@@ -202,6 +207,7 @@ public class TopicDataManager(
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
         int TodayViews,
-        int ViewsLast30Days
+        List<TopicView> ViewsLast30DaysAggregatedTopic,
+        List<TopicView> viewsLast30DaysTopic 
     );
 }

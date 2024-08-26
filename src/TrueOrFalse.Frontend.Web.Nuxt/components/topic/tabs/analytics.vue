@@ -5,6 +5,7 @@ import { useTopicStore } from '../topicStore'
 const topicStore = useTopicStore()
 const knowledgeSummaryData = ref<ChartData[]>([])
 const showAnnualTopicBarchart = ref(false)
+const showAnnualAggregatedTopicBarchart = ref(false)
 
 function setKnowledgeSummaryData() {
 
@@ -19,6 +20,11 @@ function setKnowledgeSummaryData() {
 
 }
 
+const last30DaysLabelsAggregatedTopics = computed(() => topicStore.viewsLast30DaysAggregatedTopics?.map(v => v.date) as string[]);
+const last30DaysCountsAggregatedTopics = computed(() => topicStore.viewsLast30DaysAggregatedTopics?.map(v => v.views) as number[]);
+
+const last30DaysLabelsTopics = computed(() => topicStore.viewsLast30DaysTopic?.map(v => v.date) as string[]);
+const last30DaysCountsTopics = computed(() => topicStore.viewsLast30DaysTopic?.map(v => v.views) as number[]);
 function getLabel(key: string) {
     switch (key) {
         case 'solid':
@@ -101,26 +107,41 @@ onBeforeMount(() => setKnowledgeSummaryData())
             </div>
             <div class="topicdata-section">
                 <h3>Statistiken</h3>
+                <div class="topicdata-sub-label">
+                    Fragen:
+                </div>
                 <div class="topicdata-container">
-                    <div class="topicdata-sub-label">
-                        Views:
-                    </div>
                     <div class="topicdata-content">
-                        <div v-if="showAnnualTopicBarchart">
-                            <div class="row content">
+                        <ul>
+                            <li>
                                 <button @click="showAnnualTopicBarchart = !showAnnualTopicBarchart;">
-                                    {{ showAnnualTopicBarchart ? 'Verstecken' : 'Jahresübersicht Logins' }}
+                                    {{ showAnnualTopicBarchart ? 'Verstecken' : 'Monatsübersicht Views mit Untertopics' }}
                                 </button>
-                            </div>
-                            <div v-if="showAnnualTopicBarchart">
-                                <LazyOverviewBarChart :labels="annualLoginsLabels" :datasets="annualLoginsCount"
-                                    :title="'Jahresübersicht Logins'" />
-                            </div>
-                        </div>
+                                <template v-if="showAnnualTopicBarchart">
+                                    <LazyOverviewBarChart :labels="last30DaysLabelsAggregatedTopics" :datasets="last30DaysCountsAggregatedTopics"
+                                        :title="'Monatsübersicht Views mit Untertopics'" />
+                                </template>
+                            </li>
+                            <li>
+                                <button @click="showAnnualAggregatedTopicBarchart = !showAnnualAggregatedTopicBarchart;">
+                                    {{ showAnnualAggregatedTopicBarchart ? 'Verstecken' : 'Monatsübersicht Views Topics' }}
+                                </button>
+                                <template v-if="showAnnualAggregatedTopicBarchart">
+                                    <LazyOverviewBarChart :labels="last30DaysLabelsTopics" :datasets="last30DaysCountsTopics"
+                                        :title="'Monatsübersicht Views Topics'" />
+                                </template>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="topicdata-content">
+
+
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <style lang="less" scoped>

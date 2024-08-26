@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Stripe;
+using static CategoryViewRepo;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -58,8 +59,8 @@ public class TopicController(
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
-            TodayViews = data.TodayViews,
-            ViewsLast30Days = data.ViewsLast30Days
+            ViewsLast30DaysAggregatedTopic = data.ViewsLast30DaysAggregatedTopic,
+            viewsLast30DaysTopic = data.viewsLast30DaysTopic
         };
     }
 
@@ -91,6 +92,7 @@ public class TopicController(
         bool TextIsHidden,
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
-        int TodayViews,
-        int ViewsLast30Days);
+        List<TopicView>  ViewsLast30DaysAggregatedTopic,
+        List<TopicView>  viewsLast30DaysTopic
+    );
 }

@@ -58,7 +58,8 @@ public class CategoryCacheItem : IPersistable
     public virtual CategoryVisibility Visibility { get; set; }
     public bool IsVisible => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
-    public List<TopicView> Last30DaysTopicViews { get; set; }
+    public List<TopicView> ViewsLast30DaysAggregatedTopic { get; set; }
+    public List<TopicView> viewsLast30DaysTopic { get; set; }
 
 
     /// <summary>
@@ -93,29 +94,32 @@ public class CategoryCacheItem : IPersistable
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
-    public Dictionary<int, CategoryCacheItem> AggregatedCategoriesForEntityCacheInitilizer(bool includingSelf = true)
+    public Dictionary<int, CategoryCacheItem> GetAllAggregatedCategories(bool includingSelf = true)
     {
-        var visibleVisited = AllChildCategories(this);
+        var allChildCategories = AllChildCategories(this);
 
-        if (includingSelf && !visibleVisited.ContainsKey(Id))
+        if (includingSelf && !allChildCategories.ContainsKey(Id))
         {
-            visibleVisited.Add(Id, this);
+            allChildCategories.Add(Id, this);
         }
         else
         {
-            if (visibleVisited.ContainsKey(Id))
+            if (allChildCategories.ContainsKey(Id))
             {
-                visibleVisited.Remove(Id);
+                allChildCategories.Remove(Id);
             }
         }
 
-        return visibleVisited;
+        return allChildCategories;
     }
 
-    public void AddViews(List<TopicView> topicView)
+    public void AddViews(List<TopicView> aggregated30DaysTopicViews, List<TopicView> selfLast30DaysTopicViews )
     {
-        Last30DaysTopicViews = topicView;
+        ViewsLast30DaysAggregatedTopic = aggregated30DaysTopicViews;
+        viewsLast30DaysTopic = selfLast30DaysTopicViews; 
+
     }
+
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
         bool onlyVisible = true,
