@@ -99,6 +99,7 @@ SessionUser _sessionUser) : Controller
         var topicLastYearViews = _categoryViewRepo.GetViewsForLastNDays(365);
         var topicLastYearViewsResult = topicLastYearViews
             .Select(q => new ViewsResult(q.Key, q.Value))
+            .OrderBy(v => v.DateTime)
             .ToList();
         var dailyTopicViews = topicLastYearViewsResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
 
@@ -106,6 +107,7 @@ SessionUser _sessionUser) : Controller
         var questionViewsLastYear = _questionViewRepository.GetViewsForLastNDays(365);
         var questionViewsLastYearResult = questionViewsLastYear
             .Select(q => new ViewsResult(q.Key, q.Value))
+            .OrderBy(v => v.DateTime)
             .ToList();
         var dailyQuestionViews = questionViewsLastYearResult.SingleOrDefault(t => t.DateTime.Date == DateTime.Now.Date).Views;
 
