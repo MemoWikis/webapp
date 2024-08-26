@@ -31,12 +31,6 @@ const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Metri
         throw createError({ statusMessage: context.error?.message });
     },
 });
-const showAnnualQuestionViewBarchart = ref(false);
-const showAnnualTopicViewBarChart = ref(false);
-const showAnnualCreatedPublicTopicBarchart = ref(false);
-const showAnnualCreatedPrivateTopicBarchart = ref(false);
-const showAnnualLoginBarchart = ref(false);
-const showAnnualRegistrationBarchart = ref(false);
 
 const viewTopicLabels = computed(() => overviewData.value?.viewsTopics?.map(v => v.dateTime.split("T")[0]) as string[]);
 const viewTopicViews = computed(() => overviewData.value?.viewsTopics?.map(v => v.views) as number[]);
@@ -85,7 +79,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazyOverviewBarChart
                                     :labels="annualRegistrationLabels"
                                     :datasets="annualRegistrationCounts"
-                                    :title="'Jahresübersicht Registrierungen'" />
+                                    :title="'Jahresübersicht Registrierungen'"
+                                    :color="'rgba(255, 99, 132, 0.2)'" />
                             </div>
                         </div>
 
@@ -100,7 +95,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazyOverviewBarChart
                                     :labels="annualLoginsLabels"
                                     :datasets="annualLoginsCount"
-                                    :title="'Jahresübersicht Logins'" />
+                                    :title="'Jahresübersicht Logins'"
+                                    :color="'rgba(255, 99, 132, 0.2)'" />
                             </div>
                         </div>
 
@@ -115,7 +111,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazyOverviewBarChart
                                     :labels="annualPrivateCreatedTopicLabels"
                                     :datasets="annualPrivateCreatedTopicCounts"
-                                    :title="'Jahresübersicht erstellte Private Topics'" />
+                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                    :color="'rgba(255, 99, 132, 0.2)'" />
                             </div>
                         </div>
 
@@ -130,7 +127,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazyOverviewBarChart
                                     :labels="annualPublicCreatedTopicLabels"
                                     :datasets="annualPublicCreatedTopicCounts"
-                                    :title="'Jahresübersicht erstellte Public Topics'" />
+                                    :title="'Jahresübersicht erstellte Public Topics'"
+                                    :color="'rgba(255, 99, 132, 0.2)'" />
 
                             </div>
                         </div>
@@ -146,7 +144,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazyOverviewBarChart
                                     :labels="viewTopicLabels"
                                     :datasets="viewTopicViews"
-                                    :title="'Jahresübersicht Topic Views'" />
+                                    :title="'Jahresübersicht Topic Views'"
+                                    :color="'rgba(255, 99, 132, 0.2)'" />
                             </div>
                         </div>
 
@@ -161,7 +160,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazyOverviewBarChart
                                     :labels="viewQuestionLabels"
                                     :datasets="viewQuestionViews"
-                                    :title="'Jahresübersicht Question Views'" />
+                                    :title="'Jahresübersicht Question Views'"
+                                    :color="'rgba(255, 99, 132, 0.2)'" />
                             </div>
                         </div>
 

@@ -13,6 +13,10 @@ const props = defineProps({
     datasets: {
         type: Array as () => number[],
         required: true
+    },
+    color: {
+        type: String,
+        required: true
     }
 })
 
@@ -22,7 +26,7 @@ const chartData = {
         {
             label: props.title,
             data: props.datasets, // Use the datasets prop
-            backgroundColor: '#f87979',
+            backgroundColor: props.color
         }
     ], chartOptions: {
         responsive: true,
