@@ -22,7 +22,7 @@ server {
   }
 
   location /collaboration {
-    proxy_pass http://host.docker.internal:$PORT_WEBSOCKET/;
+    proxy_pass http://host.docker.internal:$PORT_HOCUSPOCUS/;
 
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
