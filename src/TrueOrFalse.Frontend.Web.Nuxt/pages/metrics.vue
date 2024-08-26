@@ -82,11 +82,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="bar-container">
-                                <button class="memo-button btn-default"
-                                    @click="showAnnualRegistrationBarchart = !showAnnualRegistrationBarchart">
-                                    {{ showAnnualRegistrationBarchart ? 'Verstecken' : 'Jahresübersicht Registrierungen' }}
-                                </button>
-                                <LazyOverviewBarChart v-if="showAnnualRegistrationBarchart"
+                                <LazyOverviewBarChart
                                     :labels="annualRegistrationLabels"
                                     :datasets="annualRegistrationCounts"
                                     :title="'Jahresübersicht Registrierungen'" />
@@ -101,10 +97,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="bar-container">
-                                <button class="memo-button btn-default" @click="showAnnualLoginBarchart = !showAnnualLoginBarchart;">
-                                    {{ showAnnualLoginBarchart ? 'Verstecken' : 'Jahresübersicht Logins anzeigen' }}
-                                </button>
-                                <LazyOverviewBarChart v-if="showAnnualLoginBarchart"
+                                <LazyOverviewBarChart
                                     :labels="annualLoginsLabels"
                                     :datasets="annualLoginsCount"
                                     :title="'Jahresübersicht Logins'" />
@@ -119,10 +112,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="bar-container">
-                                <button class="memo-button btn-default" @click="showAnnualCreatedPrivateTopicBarchart = !showAnnualCreatedPrivateTopicBarchart;">
-                                    {{ showAnnualCreatedPrivateTopicBarchart ? 'Verstecken' : 'Jahresübersicht Created Private Topics' }}
-                                </button>
-                                <LazyOverviewBarChart v-if="showAnnualCreatedPrivateTopicBarchart"
+                                <LazyOverviewBarChart
                                     :labels="annualPrivateCreatedTopicLabels"
                                     :datasets="annualPrivateCreatedTopicCounts"
                                     :title="'Jahresübersicht erstellte Private Topics'" />
@@ -137,10 +127,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="bar-container">
-                                <button class="memo-button btn-default" @click="showAnnualCreatedPublicTopicBarchart = !showAnnualCreatedPublicTopicBarchart;">
-                                    {{ showAnnualCreatedPublicTopicBarchart ? 'Verstecken' : 'Jahresübersicht Public Topics' }}
-                                </button>
-                                <LazyOverviewBarChart v-if="showAnnualCreatedPublicTopicBarchart"
+                                <LazyOverviewBarChart
                                     :labels="annualPublicCreatedTopicLabels"
                                     :datasets="annualPublicCreatedTopicCounts"
                                     :title="'Jahresübersicht erstellte Public Topics'" />
@@ -156,10 +143,8 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="bar-container">
-                                <button class="memo-button btn-default" @click="showAnnualTopicViewBarChart = !showAnnualTopicViewBarChart;">
-                                    {{ showAnnualTopicViewBarChart ? 'Verstecken' : 'JahresübersichtDaten Topic Views anzeigen' }}
-                                </button>
-                                <LazyOverviewBarChart v-if="showAnnualTopicViewBarChart" :labels="viewTopicLabels"
+                                <LazyOverviewBarChart
+                                    :labels="viewTopicLabels"
                                     :datasets="viewTopicViews"
                                     :title="'Jahresübersicht Topic Views'" />
                             </div>
@@ -173,10 +158,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="bar-container">
-                                <button class="memo-button btn-default" @click="showAnnualQuestionViewBarchart = !showAnnualQuestionViewBarchart;">
-                                    {{ showAnnualQuestionViewBarchart ? 'Verstecken' : 'Jahresübersicht Question Views anzeigen' }}
-                                </button>
-                                <LazyOverviewBarChart v-if="showAnnualQuestionViewBarchart"
+                                <LazyOverviewBarChart
                                     :labels="viewQuestionLabels"
                                     :datasets="viewQuestionViews"
                                     :title="'Jahresübersicht Question Views'" />
