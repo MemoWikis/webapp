@@ -29,6 +29,8 @@ export default defineNuxtPlugin((nuxtApp) => {
                 name: error.name ?? "unknown name",
                 message: error.message ?? "unknown message",
                 stack: error.stack ?? "no stack",
+                userAgent: navigator ? navigator.userAgent : "no navigator",
+                url: window ? window.location.href : "no window",
             }
             logger.error(`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
         } else
