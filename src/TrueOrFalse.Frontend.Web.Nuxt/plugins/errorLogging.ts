@@ -24,16 +24,31 @@ function getKeyFromValue(value: string): string | undefined {
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.config.errorHandler = (error, context, info) => {
         const logger = new CustomPino()
+
+        const baseErrorObject = {
+            userAgent: navigator ? navigator.userAgent : "no navigator",
+            url: window ? window.location.href : "no window",
+        }
+        
         if (error && error instanceof Error) {
-            const errorObject = {
+
+            const additionalData = {
                 name: error.name ?? "unknown name",
                 message: error.message ?? "unknown message",
-                stack: error.stack ?? "no stack",
-                userAgent: navigator ? navigator.userAgent : "no navigator",
-                url: window ? window.location.href : "no window",
+                stack: error.stack ?? "no stack"
             }
+            const errorObject = { ...baseErrorObject, ...additionalData };
+
             logger.error(`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
-        } else
+        } else {
+
+            const additionalData = {
+                name: 'An unknown error occured'
+            }
+            const errorObject = { ...baseErrorObject, ...additionalData };
+
             logger.error(`NUXT ERROR`, [{ error: 'An unknown error occured', route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
+
+        }
     }
 })

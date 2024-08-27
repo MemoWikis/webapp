@@ -154,7 +154,15 @@ function clearErr() {
 }
 
 function logError(e: any) {
-	$logger.error('Nuxt non Fatal Error', [{ error: e, userId: userStore.isLoggedIn ? userStore.id : null }])
+
+	const errorObject = {
+		error: e,
+		userId: userStore.isLoggedIn ? userStore.id : null,
+		location: window.location.href,
+		userAgent: navigator.userAgent,
+	}
+
+	$logger.error('Nuxt non Fatal Error', [errorObject])
 
 	const r = e as NuxtError
 
