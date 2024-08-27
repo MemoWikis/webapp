@@ -14,9 +14,14 @@ export class CustomPino {
         const message = (args[0] ?? 'no message specified') as string
         const additionalData = args[1] as Property[]
 
-        let properties = {}
+        let properties = {
+            'userAgent': navigator.userAgent,
+            'url': window.location.href,
+        }
+
         if (additionalData != undefined)
             properties = Object.assign(properties, ...additionalData)
+
         const log = {
             Level: level,
             MessageTemplate: message,
