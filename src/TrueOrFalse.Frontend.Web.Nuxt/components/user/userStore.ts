@@ -35,6 +35,12 @@ export interface CurrentUser {
     collaborationToken?: string
 }
 
+export enum FontSize {
+    Small = 0,
+    Medium = 1,
+    Large = 2
+}
+
 export const useUserStore = defineStore('userStore', {
     state: () => {
         return {
@@ -58,7 +64,8 @@ export const useUserStore = defineStore('userStore', {
             isEmailConfirmed: false,
             showBanner: false,
             gridInfoShown: false,
-            collaborationToken: undefined as string | undefined
+            collaborationToken: undefined as string | undefined,
+            fontSize: FontSize.Medium
         }
     },
     actions: {
@@ -175,6 +182,11 @@ export const useUserStore = defineStore('userStore', {
         },
         apiLogin(result: boolean) {
             return result
+        },
+        setFontSize(fontSize: FontSize) {
+            this.fontSize = fontSize
+            //write a cookie
+            document.cookie = `fontSize=${fontSize}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
         }
     }
 })

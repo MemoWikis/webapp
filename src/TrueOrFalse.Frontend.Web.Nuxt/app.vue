@@ -37,6 +37,11 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)
+	const fontSize = useCookie('fontSize').value
+
+	if (fontSize != null && import.meta.client) {
+		userStore.setFontSize(parseInt(fontSize))
+	}
 }
 
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
