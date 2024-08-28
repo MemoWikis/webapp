@@ -15,8 +15,10 @@ export class CustomPino {
         const additionalData = args[1] as Property[]
 
         let properties = {}
+
         if (additionalData != undefined)
             properties = Object.assign(properties, ...additionalData)
+
         const log = {
             Level: level,
             MessageTemplate: message,

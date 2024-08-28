@@ -147,12 +147,22 @@ useHead(() => ({
 }))
 const { isMobile } = useDevice()
 const statusCode = ref<number>(0)
+
 function clearErr() {
 	statusCode.value = 0
 	clearError()
 }
+
 function logError(e: any) {
-	$logger.info('Nuxt non Fatal Error', [{ error: e }])
+
+	const errorObject = {
+		error: e,
+		userId: userStore.isLoggedIn ? userStore.id : null,
+		location: window.location.href,
+		userAgent: navigator.userAgent,
+	}
+
+	$logger.error('Nuxt non Fatal Error', [errorObject])
 
 	const r = e as NuxtError
 
