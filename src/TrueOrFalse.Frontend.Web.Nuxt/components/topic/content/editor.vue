@@ -328,7 +328,7 @@ const autoSave = () => {
         if (editor.value) {
             topicStore.saveTopic()
         }
-    }, 5000)
+    }, 3000)
 }
 
 const { isMobile } = useDevice()
