@@ -185,8 +185,7 @@ export const useUserStore = defineStore('userStore', {
         },
         setFontSize(fontSize: FontSize) {
             this.fontSize = fontSize
-            //write a cookie
-            document.cookie = `fontSize=${fontSize}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
+            document.cookie = `fontSize=${fontSize}-${this.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
         }
     }
 })
