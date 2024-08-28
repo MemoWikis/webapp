@@ -30,7 +30,7 @@ import CollaborationCursor from '@tiptap/extension-collaboration-cursor'
 
 import * as Y from 'yjs'
 import { TiptapCollabProvider } from '@hocuspocus/provider'
-import { useUserStore } from '~/components/user/userStore'
+import { FontSize, useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
@@ -341,7 +341,7 @@ const { isMobile } = useDevice()
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-else />
 
-        <editor-content :editor="editor" class="col-xs-12" />
+        <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
     </template>
     <template v-else>
         <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
@@ -472,6 +472,43 @@ const { isMobile } = useDevice()
         .collaboration-cursor__caret {
             opacity: 0.6;
         }
+    }
+}
+
+@font-size-h2-mem: 2.5rem;
+@font-size-h3-mem: 2.1rem;
+@font-size-h4-mem: 1.8rem;
+
+#TopicContent {
+    .small-font {
+
+        p {
+            font-size: 16px;
+        }
+
+        .media-below-sm({
+            font-size: 12px;
+
+        })
+    }
+
+    .large-font {
+        h2 {
+            font-size: 2.6rem;
+        }
+        h3 {
+            font-size: 2.3rem;
+        }
+        h4 {
+            font-size: 2.1rem;
+        }
+        p {
+            font-size: 20px;
+        }
+
+        .media-below-sm({
+            font-size: 16px;
+        })
     }
 }
 
