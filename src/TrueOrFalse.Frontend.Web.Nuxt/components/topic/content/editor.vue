@@ -101,9 +101,8 @@ const initProvider = () => {
             connectionLostHandled.value = false
         },
         onClose(c) {
-            providerLoaded.value = true
-
-            if (c.event.code === 1006) {
+            if (c.event.code === 1006 || c.event.code === 1005 || !providerLoaded.value) {
+                providerLoaded.value = true
 
                 handleConnectionLost()
 

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "set NODE_ENV=development && node server.js"
+    "dev": "set ENVIRONMENT=development && node server.js"
   },
   "dependencies": {
     "@hocuspocus/extension-database": "^2.13.5",

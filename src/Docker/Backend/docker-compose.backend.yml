@@ -37,7 +37,7 @@ services:
       - Redis__Url=${REDIS_URL:-error}
       - Google__ClientId=${GOOGLE_CLIENT_ID:-error}
       - Collaboration__TokenSecretKey=${COLLABORATION_TOKEN_SECRET_KEY:-error}
-      - Collaboration__Hocuspocus_Secret_Key=${COLLABORATION_HOCUSPOCUS_SECRET_KEY:-error}
+      - Collaboration__HocuspocusSecretKey=${COLLABORATION_HOCUSPOCUS_SECRET_KEY:-error}
     restart: always
     
 networks:

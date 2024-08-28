@@ -9,6 +9,7 @@ services:
       - SERVER_PORT=${SERVER_PORT:-error}
       - HOST_VAR=${BACKEND_BASE_URL:-error}
       - PORT_NUXT=${PORT_NUXT:-error}
+      - PORT_HOCUSPOCUS=${PORT_HOCUSPOCUS:-error}
     command:  /bin/sh -c "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
               /usr/sbin/nginx -g 'daemon off;'"
     networks:
