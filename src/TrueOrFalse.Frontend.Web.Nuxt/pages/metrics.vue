@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Page } from '~/components/shared/pageEnum'
+import { color } from '~/components/shared/colors'
 
 const { $logger } = useNuxtApp()
 
@@ -80,7 +81,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :labels="annualRegistrationLabels"
                                     :datasets="annualRegistrationCounts"
                                     :title="'Jahresübersicht Registrierungen'"
-                                    :color="'rgba(255, 99, 132, 0.2)'" />
+                                    :color="color.middleBlue" />
                             </div>
                         </div>
 
@@ -96,7 +97,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :labels="annualLoginsLabels"
                                     :datasets="annualLoginsCount"
                                     :title="'Jahresübersicht Logins'"
-                                    :color="'rgba(255, 99, 132, 0.2)'" />
+                                    :color="color.darkBlue" />
                             </div>
                         </div>
 
@@ -112,7 +113,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :labels="annualPrivateCreatedTopicLabels"
                                     :datasets="annualPrivateCreatedTopicCounts"
                                     :title="'Jahresübersicht erstellte Private Topics'"
-                                    :color="'rgba(255, 99, 132, 0.2)'" />
+                                    :color="color.lightRed" />
                             </div>
                         </div>
 
@@ -128,7 +129,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :labels="annualPublicCreatedTopicLabels"
                                     :datasets="annualPublicCreatedTopicCounts"
                                     :title="'Jahresübersicht erstellte Public Topics'"
-                                    :color="'rgba(255, 99, 132, 0.2)'" />
+                                    :color="color.darkRed" />
 
                             </div>
                         </div>
@@ -145,7 +146,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :labels="viewTopicLabels"
                                     :datasets="viewTopicViews"
                                     :title="'Jahresübersicht Topic Views'"
-                                    :color="'rgba(255, 99, 132, 0.2)'" />
+                                    :color="color.memoGreen" />
                             </div>
                         </div>
 
@@ -161,7 +162,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :labels="viewQuestionLabels"
                                     :datasets="viewQuestionViews"
                                     :title="'Jahresübersicht Question Views'"
-                                    :color="'rgba(255, 99, 132, 0.2)'" />
+                                    :color="color.darkGreen" />
                             </div>
                         </div>
 

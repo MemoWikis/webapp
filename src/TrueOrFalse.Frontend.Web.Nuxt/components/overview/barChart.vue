@@ -1,26 +1,16 @@
 <script lang="ts" setup>
 import { Bar } from 'vue-chartjs'
 
-const props = defineProps({
-    title: {
-        type: String,
-        required: true
-    },
-    labels: {
-        type: Array as () => string[],
-        required: true
-    },
-    datasets: {
-        type: Array as () => number[],
-        required: true
-    },
-    color: {
-        type: String,
-        required: true
-    }
-})
+interface Props {
+    title: string
+    labels: string[]
+    datasets: number[]
+    color: string
+}
 
-const chartData = {
+const props = defineProps<Props>()
+
+const chartData = ref({
     labels: props.labels,
     datasets: [
         {
@@ -28,15 +18,16 @@ const chartData = {
             data: props.datasets, // Use the datasets prop
             backgroundColor: props.color
         }
-    ], chartOptions: {
+    ],
+    chartOptions: {
         responsive: true,
-
     }
-}
+})
 
-const chartOptions = {
+const chartOptions = ref({
     responsive: true
-}
+})
+
 </script>
 
 <template>
