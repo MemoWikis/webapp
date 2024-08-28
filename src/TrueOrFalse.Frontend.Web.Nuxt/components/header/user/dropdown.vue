@@ -298,7 +298,16 @@ const { isMobile } = useDevice()
 
 .user-dropdown-font-size-selector {
     .user-dropdown-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
         padding-bottom: 0px;
+
+        &:hover {
+            background-color: unset;
+            cursor: default;
+        }
 
         &:hover {
             background-color: unset;
@@ -311,20 +320,6 @@ const { isMobile } = useDevice()
         justify-content: space-around;
         padding: 10px 0;
 
-        div {
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 8px;
-
-            &:hover {
-                background-color: @memo-grey-lighter;
-            }
-
-            &:active {
-                background-color: @memo-grey-light;
-            }
-        }
-
         .is-active {
             background-color: @memo-grey-lighter;
         }
@@ -333,6 +328,17 @@ const { isMobile } = useDevice()
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+            border-radius: 24px;
+            padding: 4px 12px;
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+
+            &:active {
+                background-color: @memo-grey-light;
+            }
 
             &.small {
                 font-size: 16px;
