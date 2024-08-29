@@ -1,7 +1,8 @@
 server {
   listen $SERVER_PORT;
   server_name localhost;
-
+  client_max_body_size 15M;
+  
   location /healthcheck_backend {
     proxy_ssl_server_name on;
     proxy_pass $HOST_VAR/healthcheck_backend;
