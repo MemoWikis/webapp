@@ -190,7 +190,8 @@ const initEditor = () => {
                             nodeName: 'span',
                             class: 'collaboration-cursor__selection',
                             style: `background-color: ${user.color}33`,
-                            'data-user': user.name, 'padding': '1.4em'
+                            'data-user': user.name,
+                            'padding': '1.4em'
                         }
                     },
                 })

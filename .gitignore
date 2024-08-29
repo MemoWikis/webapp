@@ -44,4 +44,3 @@ src/NDependOut/
 /src/TrueOrFalse.Frontend.Web/Properties/launchSettings.json
 /src/TrueOrFalse.sln.DotSettings
 /src/hocuspocus/.env
-/src/hocuspocus/Dockerfile_local
