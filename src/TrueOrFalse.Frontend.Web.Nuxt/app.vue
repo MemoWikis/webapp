@@ -40,7 +40,7 @@ if (currentUser.value != null) {
 	if (userStore.isLoggedIn) {
 		const fontSizeCookie = useCookie('fontSize').value
 
-		if (fontSizeCookie != null && import.meta.client) {
+		if (fontSizeCookie != null) {
 			const cookieValues = fontSizeCookie.split('-')
 			const fontSize = cookieValues[0]
 			const userId = cookieValues[1]

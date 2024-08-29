@@ -75,12 +75,6 @@ const initProvider = () => {
             new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
         },
         onAuthenticationFailed: ({ reason }) => {
-            // const data: SnackbarData = {
-            //     type: 'error',
-            //     text: messages.error.collaboration.authenticationFailed
-            // }
-            // snackbarStore.showSnackbar(data)
-
             providerLoaded.value = true
             loadCollab.value = false
             recreate()
@@ -243,6 +237,7 @@ const recreate = (login: boolean = false) => {
     if (login) loadCollab.value = true
 
     if (userStore.isLoggedIn && loadCollab.value) initProvider()
+    else if (!userStore.isLoggedIn) providerLoaded.value = true
 
     initEditor()
 }
@@ -344,7 +339,7 @@ const { isMobile } = useDevice()
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
     </template>
     <template v-else>
-        <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
+        <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
             <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                 id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
             </div>
