@@ -11,15 +11,27 @@ public class LoginFromCookie
     {
         var cookieValues = PersistentLoginCookie.GetValues(cookieString);
         if (!cookieValues.Exists())
-            throw new Exception("Cookie values do not exist");
+        {
+            var ex = new Exception("Cookie values do not exist");
+            ex.Data["InvalidCookie"] = true;
+            throw ex;
+        }
 
         var persistentLogin = persistentLoginRepo.Get(cookieValues.UserId, cookieValues.LoginGuid);
         if (persistentLogin == null)
-            throw new Exception("Persistent login does not exist");
+        {
+            var ex = new Exception("Persistent login does not exist");
+            ex.Data["InvalidCookie"] = true;
+            throw ex;
+        }
 
         var user = userReadingRepo.GetById(cookieValues.UserId);
         if (user == null)
-            throw new Exception("User does not exist");
+        {
+            var ex = new Exception("User does not exist");
+            ex.Data["InvalidCookie"] = true;
+            throw ex;
+        }
 
         sessionUser.Login(user);
 
