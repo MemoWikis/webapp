@@ -339,7 +339,7 @@ const { isMobile } = useDevice()
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
     </template>
     <template v-else>
-        <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
+        <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
             <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                 id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
             </div>

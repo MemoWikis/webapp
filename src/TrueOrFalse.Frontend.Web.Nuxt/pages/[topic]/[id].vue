@@ -3,7 +3,7 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { FooterTopics, Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
-import { useUserStore } from '~~/components/user/userStore'
+import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
 
@@ -189,7 +189,7 @@ watch(() => props.tab, (t) => {
                                 <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
                                     v-if="!topicStore.textIsHidden"
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
-                                    <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner }">
+                                    <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                                             id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
@@ -263,6 +263,35 @@ watch(() => props.tab, (t) => {
     pre {
         margin-bottom: 20px;
     }
+}
+
+.small-font {
+    p {
+        font-size: 16px;
+    }
+
+    .media-below-sm({
+        font-size: 12px;
+    })
+}
+
+.large-font {
+    h2 {
+        font-size: 2.6rem;
+    }
+    h3 {
+        font-size: 2.3rem;
+    }
+    h4 {
+       font-size: 2.1rem;
+    }
+    p {
+        font-size: 20px;
+    }
+
+    .media-below-sm({
+        font-size: 16px;
+    })
 }
 </style>
 
