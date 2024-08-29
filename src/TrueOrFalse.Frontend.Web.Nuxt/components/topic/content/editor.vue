@@ -75,12 +75,6 @@ const initProvider = () => {
             new IndexeddbPersistence(`${userStore.id}|document-${topicStore.id}`, doc)
         },
         onAuthenticationFailed: ({ reason }) => {
-            // const data: SnackbarData = {
-            //     type: 'error',
-            //     text: messages.error.collaboration.authenticationFailed
-            // }
-            // snackbarStore.showSnackbar(data)
-
             providerLoaded.value = true
             loadCollab.value = false
             recreate()
@@ -243,6 +237,7 @@ const recreate = (login: boolean = false) => {
     if (login) loadCollab.value = true
 
     if (userStore.isLoggedIn && loadCollab.value) initProvider()
+    else if (!userStore.isLoggedIn) providerLoaded.value = true
 
     initEditor()
 }
