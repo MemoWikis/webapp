@@ -1,7 +1,7 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 
 public class QuestionViewRepository(ISession _session) : RepositoryDbBase<QuestionView>(_session)
 {
@@ -19,7 +19,15 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         var watch = new Stopwatch();
         watch.Start();
 
-        var query = _session.CreateSQLQuery("SELECT COUNT(DateOnly) AS Count, DateOnly FROM QuestionView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY DateOnly");
+        var query = _session.CreateSQLQuery(@"
+            SELECT 
+                COUNT(DateOnly) AS Count, 
+                DateOnly 
+            FROM QuestionView 
+            WHERE DateOnly 
+            BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() 
+            GROUP BY DateOnly");
+
         query.SetParameter("days", days);
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummary)))
             .List<QuestionViewSummary>();
@@ -35,12 +43,26 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
 
         return dictionaryResult;
     }
+
     public IList<QuestionViewSummaryOrderById> GetViewsForLastNDaysGroupByCategoryId(int days)
     {
         var watch = new Stopwatch();
         watch.Start();
 
-        var query = _session.CreateSQLQuery("SELECT QuestionId, DateOnly, COUNT(DateOnly) AS Count FROM QuestionView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY QuestionId, DateOnly ORDER BY QuestionId, DateOnly;");
+        var query = _session.CreateSQLQuery(@"
+            SELECT 
+                QuestionId, 
+                DateOnly, 
+                COUNT(DateOnly) AS Count 
+            FROM QuestionView 
+            WHERE DateOnly 
+            BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() 
+            GROUP BY 
+                QuestionId, 
+                DateOnly 
+            ORDER BY 
+                QuestionId, 
+                DateOnly;");
         query.SetParameter("days", days);
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryOrderById)))
             .List<QuestionViewSummaryOrderById>();
@@ -48,7 +70,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         var elapsed = watch.ElapsedMilliseconds;
         Logg.r.Information("GetViewsForLastNDaysGroupByQuestionId " + elapsed);
 
-        return result; 
+        return result;
     }
 
     public void DeleteForQuestion(int questionId)
@@ -58,5 +80,5 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
     }
 
     public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly);
-    public record struct QuestionViewSummaryOrderById(Int64 Count, DateTime DateOnly, int QuestionId); 
+    public record struct QuestionViewSummaryOrderById(Int64 Count, DateTime DateOnly, int QuestionId);
 }
