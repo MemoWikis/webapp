@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import { Node } from 'prosemirror-model'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -18,7 +19,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
-import { getRandomColor } from '~/components/shared/utils'
+import { getRandomColor, resizeBase64Img } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
@@ -191,7 +192,7 @@ const initEditor = () => {
                 })
             ] : [History]
         ],
-        onUpdate({ editor }) {
+        onUpdate({ editor, transaction }) {
             topicStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
                 topicStore.content = ''
@@ -205,6 +206,8 @@ const initEditor = () => {
             if (editor.isActive('heading'))
                 updateHeadingIds()
 
+            // updateImages()
+
             updateCursorIndex()
 
             if (topicStore.contentHasChanged)
@@ -216,6 +219,9 @@ const initEditor = () => {
                 if (firstNode != null && firstNode.type.name == 'image') {
                     if (!isEmpty(firstNode.attrs)) {
                         let src = firstNode.attrs.src;
+                        if (src.startsWith('data:image')) {
+                            resizeBase64Img(src, 800)
+                        }
                         if (src.length > 1048576 && src.startsWith('data:image')) {
                             alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
                             return true
@@ -268,11 +274,33 @@ function updateHeadingIds() {
             const textContent = node.textContent
             const newId = slugify(textContent) + `-${nanoid(5)}`
             if (node.attrs.id == null) {
-                commands.updateAttributes(node.type.name, { id: newId })
+                commands.updateAttributes('heading', { id: newId })
             }
         }
     })
 }
+
+// function updateImages() {
+//     console.log('updateImages')
+//     if (editor.value == null)
+//         return
+
+//     const { state, commands } = editor.value
+//     state.doc.descendants((node: Node, pos: number) => {
+//         if (node.type.name === 'image') {
+//             if (node.attrs.src.startsWith('data:image')) {
+//                 resizeBase64Img(node.attrs.src, 800)
+//                 commands.updateAttributes(node.type.name, { isLoading: "true" })
+//                 console.log('image', node.attrs)
+//                 commands.updateAttributes('image', { src: "" })
+//                 if (node.attrs['isLoading'] == null || node.attrs['isLoading'] == false) {
+//                     console.log(node.type.name)
+//                     editor.value?.chain().focus().updateAttributes('image', { isLoading: true }).setNodeSelection(editor.value?.view.state.selection.anchor).run()
+//                 }
+//             }
+//         }
+//     })
+// }
 
 const spinnerStore = useSpinnerStore()
 

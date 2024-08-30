@@ -150,3 +150,44 @@ export function getRandomBrightColor() {
 
     return color;
 }
+
+export function resizeBase64Img(base64: string, maxWidth: number): Promise<string> {
+    return new Promise((resolve, reject) => {
+        // Create an Image object
+        const img = new Image();
+        
+        // Handle the image loading process
+        img.onload = () => {
+            // Calculate the new dimensions
+            const ratio = img.width / img.height;
+            const newWidth = Math.min(maxWidth, img.width);
+            const newHeight = newWidth / ratio;
+
+            // Create a Canvas element
+            const canvas = document.createElement('canvas');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+
+            // Draw the resized image on the Canvas
+            const ctx = canvas.getContext('2d');
+            if (!ctx)
+                return null;
+            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+            // Convert the Canvas back to a Base64 string
+            const resizedBase64 = canvas.toDataURL('image/png'); // You can change the image type if needed
+
+            // Resolve the Promise with the resized Base64 image
+            console.log(resizedBase64)
+            resolve(resizedBase64);
+        };
+
+        // Handle image loading errors
+        img.onerror = (err) => {
+            reject(err);
+        };
+
+        // Trigger the image load
+        img.src = base64;
+    });
+}
