@@ -136,11 +136,6 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.All;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheCategories(IEnumerable<Question> questions)
-    {
-        return questions.Select(q => ToCacheQuestion(q));
-    }
-
     public static QuestionCacheItem ToCacheQuestion(Question question)
     {
         var questionCacheItem = new QuestionCacheItem
@@ -190,6 +185,7 @@ public class QuestionCacheItem
     {
         return questions.Select(q => ToCacheQuestion(q));
     }
+
 
     public virtual int TotalAnswers()
     {

@@ -58,4 +58,26 @@
     {
         return date.Date == DateTime.Now.Date;
     }
+
+    public static List<BaseView> EnsureLastDaysIncluded(List<BaseView> topicViews, int daysCount)
+    {
+        var lastDays = Enumerable.Range(0, daysCount)
+            .Select(i => DateTime.Now.Date.AddDays(-i))
+            .ToList();
+
+        var missingDates = lastDays.Where(date => !topicViews.Any(tv => tv.Date == date))
+            .Select(date => new BaseView
+            {
+                Date = date,
+                Views = 0
+            })
+            .ToList();
+
+        topicViews.AddRange(missingDates);
+
+    
+        topicViews = topicViews.OrderBy(tv => tv.Date).ToList();
+
+        return topicViews;
+    }
 }

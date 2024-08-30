@@ -5,7 +5,8 @@ public class EntityCacheInitializer(
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     CategoryRelationRepo _categoryRelationRepo,
-    CategoryViewRepo _categoryViewRepo) : IRegisterAsInstancePerLifetime
+    CategoryViewRepo _categoryViewRepo,
+    QuestionViewRepository _questionViewRepository) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {
@@ -45,6 +46,8 @@ public class EntityCacheInitializer(
 
         Cache.IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList,
             EntityCache.GetCategoryQuestionsListForCacheInitilizer(questions));
+        EntityCache.AddViewsLast30DaysToQuestion(_questionViewRepository, categories);
+
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {

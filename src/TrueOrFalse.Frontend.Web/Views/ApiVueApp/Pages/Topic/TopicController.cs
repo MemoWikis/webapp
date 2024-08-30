@@ -20,6 +20,8 @@ public class TopicController(
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+         EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
+
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
@@ -60,7 +62,10 @@ public class TopicController(
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
             ViewsLast30DaysAggregatedTopic = data.ViewsLast30DaysAggregatedTopic,
-            viewsLast30DaysTopic = data.viewsLast30DaysTopic
+            ViewsLast30DaysTopic = data.ViewsLast30DaysTopic,
+            ViewsLast30DaysAggregatedQuestions = data.ViewsLast30DaysAggregatedQuestions,
+            ViewsLast30DaysQuestions = data.viewsLast30DaysQuestions,
+           
         };
     }
 
@@ -92,7 +97,9 @@ public class TopicController(
         bool TextIsHidden,
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
-        List<TopicView>  ViewsLast30DaysAggregatedTopic,
-        List<TopicView>  viewsLast30DaysTopic
+        List<BaseView>  ViewsLast30DaysAggregatedTopic,
+        List<BaseView>  ViewsLast30DaysTopic,
+        List<BaseView>  ViewsLast30DaysAggregatedQuestions,
+        List<BaseView>  ViewsLast30DaysQuestions
     );
 }

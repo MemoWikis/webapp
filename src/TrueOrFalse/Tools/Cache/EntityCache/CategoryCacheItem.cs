@@ -58,8 +58,10 @@ public class CategoryCacheItem : IPersistable
     public virtual CategoryVisibility Visibility { get; set; }
     public bool IsVisible => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
-    public List<TopicView> ViewsLast30DaysAggregatedTopic { get; set; }
-    public List<TopicView> viewsLast30DaysTopic { get; set; }
+    public List<BaseView> ViewsLast30DaysAggregatedTopic { get; set; }
+    public List<BaseView> ViewsLast30DaysTopic { get; set; }
+    public List<BaseView> ViewsLast30DaysAggregatedQuestions { get; set; }
+    public List<BaseView> ViewsLast30DaysQuestions { get; set; }
 
 
     /// <summary>
@@ -113,10 +115,17 @@ public class CategoryCacheItem : IPersistable
         return allChildCategories;
     }
 
-    public void AddViews(List<TopicView> aggregated30DaysTopicViews, List<TopicView> selfLast30DaysTopicViews )
+    public void AddTopicViews(List<BaseView> aggregated30DaysTopicViews, List<BaseView> selfLast30DaysTopicViews)
     {
         ViewsLast30DaysAggregatedTopic = aggregated30DaysTopicViews;
-        viewsLast30DaysTopic = selfLast30DaysTopicViews; 
+        ViewsLast30DaysTopic = selfLast30DaysTopicViews;
+
+    }
+
+    public void AddQuestionViews(List<BaseView> aggregated30DaysQuestionViews, List<BaseView> selfLast30DaysQuestionViews)
+    {
+        ViewsLast30DaysAggregatedQuestions = aggregated30DaysQuestionViews;
+        ViewsLast30DaysQuestions = selfLast30DaysQuestionViews;
 
     }
 
@@ -245,9 +254,30 @@ public class CategoryCacheItem : IPersistable
         return categoryCacheItem;
     }
 
-    public void UpdateCountQuestionsAggregated(int userId)
+    public void IncrementTodayViewCounters(bool isTodayQuestionView = true)
     {
-        CountQuestionsAggregated = GetCountQuestionsAggregated(userId);
+        var today = DateTime.Now.Date;
+
+        if (isTodayQuestionView)
+        {
+            var todayAggregatedQuestionViews = ViewsLast30DaysAggregatedQuestions.Single(c => c.Date == today);
+            todayAggregatedQuestionViews.Views++;
+      
+
+            var todayQuestionViews = ViewsLast30DaysQuestions.Single(c => c.Date == today);
+            todayQuestionViews.Views++;
+        }
+        else
+        {
+            var todayAggregatedQuestionViews = ViewsLast30DaysAggregatedTopic.Single(c => c.Date == today);
+            todayAggregatedQuestionViews.Views++;
+      
+
+            var todayQuestionViews = ViewsLast30DaysTopic.Single(c => c.Date == today);
+            todayQuestionViews.Views++;
+        }
+       
+        EntityCache.AddOrUpdate(this);
     }
 
     private Dictionary<int, CategoryCacheItem> VisibleChildCategories(
@@ -281,7 +311,6 @@ public class CategoryCacheItem : IPersistable
         return visibleVisited;
     }
 
-
     private Dictionary<int, CategoryCacheItem> AllChildCategories(
         CategoryCacheItem parentCacheItem,
         Dictionary<int, CategoryCacheItem> _previousVisited = null)
@@ -311,9 +340,12 @@ public class CategoryCacheItem : IPersistable
         return visibleVisited;
     }
 }
+public class BaseView()
+{
+   
+
+    public DateTime Date { get; set; } 
+    public long Views { get; set; }
+}
 
 
-
-
-
-public record struct TopicView(DateTime Date, long Views);

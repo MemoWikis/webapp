@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Text.RegularExpressions;
-using FluentNHibernate.Utils;
-using static CategoryViewRepo;
 
 public class TopicDataManager(
     SessionUser _sessionUser,
@@ -75,6 +73,22 @@ public class TopicDataManager(
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
+        var childIds = topic.ChildRelations.Select(t => t.ChildId);
+        var last30DaysTopicViews = topic.ViewsLast30DaysTopic; 
+
+
+        var countAggregatedChildTopicViews= EntityCache.GetCategories(childIds);
+        foreach (var child in countAggregatedChildTopicViews)
+        {
+            foreach (var childView in child.ViewsLast30DaysTopic)
+            {
+                var matchingView = last30DaysTopicViews.First(v => v.Date == childView.Date);
+                    matchingView.Views += childView.Views;
+                
+            }
+        }
+
+
         var authorIds = topic.AuthorIds.Distinct();
         return new TopicDataResult
         {
@@ -149,8 +163,10 @@ public class TopicDataManager(
                 .Any(r => r.ChildId == topic.Id),
             TextIsHidden = topic.TextIsHidden,
             MessageKey = "",
-            ViewsLast30DaysAggregatedTopic = topic.ViewsLast30DaysAggregatedTopic,
-            viewsLast30DaysTopic = topic.viewsLast30DaysTopic
+            ViewsLast30DaysAggregatedTopic = ,
+            ViewsLast30DaysTopic = topic.ViewsLast30DaysTopic,
+            ViewsLast30DaysAggregatedQuestions = topic.ViewsLast30DaysAggregatedQuestions,
+            viewsLast30DaysQuestions = topic.ViewsLast30DaysQuestions
 
         };
     }
@@ -207,7 +223,9 @@ public class TopicDataManager(
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
         int TodayViews,
-        List<TopicView> ViewsLast30DaysAggregatedTopic,
-        List<TopicView> viewsLast30DaysTopic 
+        List<BaseView> ViewsLast30DaysAggregatedTopic,
+        List<BaseView> ViewsLast30DaysTopic,
+        List<BaseView> ViewsLast30DaysAggregatedQuestions,
+        List<BaseView> viewsLast30DaysQuestions 
     );
 }

@@ -40,7 +40,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         var watch = new Stopwatch();
         watch.Start();
 
-        var query = _session.CreateSQLQuery("SELECT Question_Id, DateOnly, COUNT(DateOnly) AS Count FROM QuestionView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY Question_Id, DateOnly ORDER BY Question_Id, DateOnly;");
+        var query = _session.CreateSQLQuery("SELECT QuestionId, DateOnly, COUNT(DateOnly) AS Count FROM QuestionView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY QuestionId, DateOnly ORDER BY QuestionId, DateOnly;");
         query.SetParameter("days", days);
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryOrderById)))
             .List<QuestionViewSummaryOrderById>();
@@ -58,5 +58,5 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
     }
 
     public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly);
-    public record struct QuestionViewSummaryOrderById(Int64 Count, DateTime DateOnly, int Question_Id); 
+    public record struct QuestionViewSummaryOrderById(Int64 Count, DateTime DateOnly, int QuestionId); 
 }

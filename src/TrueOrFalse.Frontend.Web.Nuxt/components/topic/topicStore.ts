@@ -42,10 +42,12 @@ export class Topic {
 	textIsHidden: boolean = false
 	messageKey: string | null = null
 	errorCode: ErrorCode | null = null
-	viewsLast30DaysAggregatedTopic: TopicViewSummary[] | null = null
-	viewsLast30DaysTopic: TopicViewSummary[] | null = null
+	viewsLast30DaysAggregatedTopic: ViewSummary[] | null = null
+	viewsLast30DaysTopic: ViewSummary[] | null = null
+	viewsLast30DaysAggregatedQuestions: ViewSummary[] | null = null
+	viewsLast30DaysQuestions: ViewSummary[] | null = null
 }
-export interface TopicViewSummary{
+export interface ViewSummary{
 	views: number
 	date: string
 }
@@ -103,8 +105,10 @@ export const useTopicStore = defineStore('topicStore', {
 			gridItems: [] as GridTopicItem[],
 			isChildOfPersonalWiki: false,
 			textIsHidden: false,
-			viewsLast30DaysAggregatedTopics: null as TopicViewSummary[] | null,
-			viewsLast30DaysTopic: null as TopicViewSummary[] | null
+			viewsLast30DaysAggregatedTopics: null as ViewSummary[] | null,
+			viewsLast30DaysTopic: null as ViewSummary[] | null,
+			viewsLast30DaysAggregatedQuestions: null as ViewSummary[] | null,
+			viewsLast30DaysQuestions: null as ViewSummary[] | null,
 
 		}
 	},
@@ -141,9 +145,11 @@ export const useTopicStore = defineStore('topicStore', {
 				this.knowledgeSummary = topic.knowledgeSummary
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
-				this.textIsHidden = topic.textIsHidden,
+				this.textIsHidden = topic.textIsHidden
 				this.viewsLast30DaysAggregatedTopics = topic.viewsLast30DaysAggregatedTopic
 				this.viewsLast30DaysTopic = topic.viewsLast30DaysTopic
+				this.viewsLast30DaysAggregatedQuestions = topic.viewsLast30DaysAggregatedQuestions,	
+				this.viewsLast30DaysQuestions = topic.viewsLast30DaysQuestions
 			}
 		},
 		async saveTopic() {

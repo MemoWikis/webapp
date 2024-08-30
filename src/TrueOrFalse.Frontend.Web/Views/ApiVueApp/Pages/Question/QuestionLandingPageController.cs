@@ -74,8 +74,8 @@ public class QuestionLandingPageController(
     [HttpGet]
     public QuestionPageResult GetQuestionPage([FromRoute] int id)
     {
-        var q = EntityCache.GetQuestion(id);
-        if (q == null)
+        var question = EntityCache.GetQuestion(id);
+        if (question == null)
         {
             Logg.r.Warning($"questions: Not found the question in function {nameof(GetQuestionPage)}");
             return new QuestionPageResult
@@ -84,7 +84,7 @@ public class QuestionLandingPageController(
             };
         }
 
-        var canView = _permissionCheck.CanView(q);
+        var canView = _permissionCheck.CanView(question);
         if (_sessionUser.IsLoggedIn == false && canView == false)
         {
             Logg.r.Warning($"questions: Not allowed to view question in function {nameof(GetQuestionPage)}");
@@ -103,35 +103,36 @@ public class QuestionLandingPageController(
             };
         }
 
-        var primaryTopic = q.Categories.LastOrDefault();
-        var solution = GetQuestionSolution.Run(q);
-        var title = Regex.Replace(q.Text, "<.*?>", string.Empty);
-        EscapeReferencesText(q.References);
+        var primaryTopic = question.Categories.LastOrDefault();
+        var solution = GetQuestionSolution.Run(question);
+        var title = Regex.Replace(question.Text, "<.*?>", string.Empty);
+        EscapeReferencesText(question.References);
       
        _saveQuestionView.Run(EntityCache.GetQuestion(id), new UserTinyModel(EntityCache.GetUserById(_sessionUser.UserId)));
+       question.Categories.ToList().ForEach(c => c.IncrementTodayViewCounters()); 
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel
             {
-                Id = q.Id,
-                Text = q.Text,
-                TextHtml = q.TextHtml,
+                Id = question.Id,
+                Text = question.Text,
+                TextHtml = question.TextHtml,
                 Title = title,
-                SolutionType = q.SolutionType,
-                RenderedQuestionTextExtended = q.TextExtended != null
-                    ? MarkdownMarkdig.ToHtml(q.TextExtended)
+                SolutionType = question.SolutionType,
+                RenderedQuestionTextExtended = question.TextExtended != null
+                    ? MarkdownMarkdig.ToHtml(question.TextExtended)
                     : "",
-                Description = q.Description,
-                HasTopics = q.Categories.Any(),
+                Description = question.Description,
+                HasTopics = question.Categories.Any(),
                 PrimaryTopicId = primaryTopic?.Id,
                 PrimaryTopicName = primaryTopic?.Name,
-                Solution = q.Solution,
-                IsCreator = q.Creator.Id == _sessionUser.UserId,
+                Solution = question.Solution,
+                IsCreator = question.Creator.Id == _sessionUser.UserId,
                 IsInWishknowledge = _sessionUser.IsLoggedIn &&
-                                    q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                                    question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
                 QuestionViewGuid = Guid.NewGuid(),
                 IsLastStep = true,
-                ImgUrl = GetQuestionImageFrontendData.Run(q,
+                ImgUrl = GetQuestionImageFrontendData.Run(question,
                         _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
@@ -142,10 +143,10 @@ public class QuestionLandingPageController(
             {
                 AnswerAsHTML = solution.GetCorrectAnswerAsHtml(),
                 Answer = solution.CorrectAnswer(),
-                AnswerDescription = q.Description != null
-                    ? MarkdownMarkdig.ToHtml(q.Description)
+                AnswerDescription = question.Description != null
+                    ? MarkdownMarkdig.ToHtml(question.Description)
                     : "",
-                AnswerReferences = q.References.Select(r => new AnswerReference
+                AnswerReferences = question.References.Select(r => new AnswerReference
                 {
                     ReferenceId = r.Id,
                     TopicId = r.Category?.Id,
