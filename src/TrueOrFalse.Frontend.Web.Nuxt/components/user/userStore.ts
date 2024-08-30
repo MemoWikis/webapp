@@ -32,6 +32,13 @@ export interface CurrentUser {
     subscriptionStartDate?: Date
     isSubscriptionCanceled: boolean
     isEmailConfirmed: boolean
+    collaborationToken?: string
+}
+
+export enum FontSize {
+    Small = 0,
+    Medium = 1,
+    Large = 2
 }
 
 export const useUserStore = defineStore('userStore', {
@@ -56,7 +63,9 @@ export const useUserStore = defineStore('userStore', {
             subscriptionStartDate: null as Date | null,
             isEmailConfirmed: false,
             showBanner: false,
-            gridInfoShown: false
+            gridInfoShown: false,
+            collaborationToken: undefined as string | undefined,
+            fontSize: FontSize.Medium
         }
     },
     actions: {
@@ -80,6 +89,7 @@ export const useUserStore = defineStore('userStore', {
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.activityPoints)
             this.isEmailConfirmed = currentUser.isEmailConfirmed
+            this.collaborationToken = currentUser.collaborationToken
             return
         },
         async login(loginData: {
@@ -172,6 +182,11 @@ export const useUserStore = defineStore('userStore', {
         },
         apiLogin(result: boolean) {
             return result
+        },
+        setFontSize(fontSize: FontSize) {
+            this.fontSize = fontSize
+            if (import.meta.client)
+                document.cookie = `fontSize=${fontSize}-${this.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT`
         }
     }
 })

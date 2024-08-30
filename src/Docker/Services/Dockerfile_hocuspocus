@@ -1,0 +1,18 @@
+# Use the official Node.js 20 image as the base image
+FROM node
+
+# Set the working directory in the container
+RUN mkdir -p /usr/src/hocuspocus-app
+WORKDIR /usr/src/hocuspocus-app
+
+#copy the app
+COPY hocuspocus/* ./
+
+# Install the app dependencies
+RUN npm install
+
+# Expose the port the app runs on
+EXPOSE 3010
+
+# Define the command to start the app
+CMD ["npm", "start"]

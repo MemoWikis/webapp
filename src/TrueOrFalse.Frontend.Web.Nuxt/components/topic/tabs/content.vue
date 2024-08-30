@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { Visibility } from '~/components/shared/visibilityEnum'
+import { useTopicStore } from '../topicStore'
+
 const { isMobile } = useDevice()
+const topicStore = useTopicStore()
 
 const props = defineProps<{
     textIsHidden: boolean
@@ -8,8 +12,10 @@ const props = defineProps<{
 
 <template>
     <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile, 'hideText': props.textIsHidden }">
-        <TopicContentEditor v-if="!props.textIsHidden" />
-        <TopicContentEditBar />
+        <template v-if="!props.textIsHidden">
+            <TopicContentEditor />
+            <TopicContentEditBar v-if="topicStore.visibility == Visibility.All" />
+        </template>
     </div>
 </template>
 

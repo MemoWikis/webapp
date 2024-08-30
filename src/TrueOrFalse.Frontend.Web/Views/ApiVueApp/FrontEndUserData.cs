@@ -33,7 +33,8 @@ public class FrontEndUserData(
         string EndDate,
         string SubscriptionStartDate,
         bool IsSubscriptionCanceled,
-        bool IsEmailConfirmed);
+        bool IsEmailConfirmed,
+        string CollaborationToken);
 
     public record struct ActivityPoints(
         int Points,
@@ -105,7 +106,8 @@ public class FrontEndUserData(
                 {
                     Year: < 9999
                 },
-                IsEmailConfirmed = _sessionUser.IsLoggedIn && _sessionUser.User.IsEmailConfirmed
+                IsEmailConfirmed = _sessionUser.IsLoggedIn && _sessionUser.User.IsEmailConfirmed,
+                CollaborationToken = new CollaborationToken().Get(_sessionUser.UserId)
             };
         }
 

@@ -1,0 +1,21 @@
+{
+  "name": "hocuspocus-dev",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "set ENVIRONMENT=development && node server.js"
+  },
+  "dependencies": {
+    "@hocuspocus/extension-database": "^2.13.5",
+    "@hocuspocus/extension-logger": "^2.13.5",
+    "@hocuspocus/extension-redis": "^2.13.5",
+    "@hocuspocus/server": "^2.13.5",
+    "axios": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-ws": "^5.0.2",
+    "ioredis": "^5.4.1"
+  }
+}

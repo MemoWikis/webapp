@@ -56,7 +56,7 @@ public class CategoryCacheItem : IPersistable
 
     public virtual string UrlLinkText { get; set; }
     public virtual CategoryVisibility Visibility { get; set; }
-    public bool IsVisible => Visibility == CategoryVisibility.All;
+    public bool IsPublic => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
     public List<BaseView> ViewsLast30DaysAggregatedTopic { get; set; }
     public List<BaseView> ViewsLast30DaysTopic { get; set; }

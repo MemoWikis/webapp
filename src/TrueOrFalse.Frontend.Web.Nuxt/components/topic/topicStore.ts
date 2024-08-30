@@ -171,7 +171,7 @@ export const useTopicStore = defineStore('topicStore', {
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
-			if (result.success == true) {
+			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',
                     text: messages.success.category.saved

@@ -203,10 +203,13 @@ export default <RouterConfig>{
             component: () => import('~/pages/catchAll.vue'),
             hidden: true
         },
-         {
-            name: 'overview',
-            path: '/Gesamtdaten',
-            component: () => import('~/pages/overview.vue')
+        {
+            name: 'metrics',
+            path: '/Metriken',
+            component: () => import('~/pages/metrics.vue'),
+            meta: {
+                middleware: ['admin-auth'],
+            },
         },
     ],
 }   

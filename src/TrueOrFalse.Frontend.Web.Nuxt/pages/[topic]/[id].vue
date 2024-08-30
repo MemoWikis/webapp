@@ -3,8 +3,9 @@ import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
 import { FooterTopics, Topic, useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { Page } from '~~/components/shared/pageEnum'
-import { useUserStore } from '~~/components/user/userStore'
+import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -188,7 +189,7 @@ watch(() => props.tab, (t) => {
                                 <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
                                     v-if="!topicStore.textIsHidden"
                                     v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
-                                    <div class="col-xs-12">
+                                    <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                                             id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
@@ -198,20 +199,16 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                         <div id="EditBarAnchor"></div>
 
-                        <TopicContentGrid
-                            v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
-                            :children="topicStore.gridItems" />
+                        <TopicContentGrid v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" :children="topicStore.gridItems" />
 
                         <ClientOnly>
-                            <TopicTabsQuestions
-                                v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                            <TopicTabsQuestions v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
                             <template #fallback>
                                 <div class="row">
                                 </div>
                             </template>
                         </ClientOnly>
-                        <TopicTabsAnalytics
-                            v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
+                        <TopicTabsAnalytics v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
                         <ClientOnly>
                             <TopicRelationEdit />
@@ -242,10 +239,13 @@ watch(() => props.tab, (t) => {
     margin-bottom: 70px;
 
     p {
-        min-height: 30px;
+        min-height: calc(5em / 3);
+
+        .media-below-sm({
+            min-height: 1.5em;
+        });
 
         img {
-
             // Apply styles to p if it contains img
             & {
                 margin-bottom: 40px !important;
@@ -261,11 +261,43 @@ watch(() => props.tab, (t) => {
             min-height: 21px;
         }
     }
+    
+    ul {
+        margin-bottom: 10px;
+    }
 
-    ul,
     pre {
         margin-bottom: 20px;
     }
+}
+
+.small-font {
+    p {
+        font-size: 16px;
+    }
+
+    .media-below-sm({
+        font-size: 12px;
+    });
+}
+
+.large-font {
+    h2 {
+        font-size: 2.6rem;
+    }
+    h3 {
+        font-size: 2.3rem;
+    }
+    h4 {
+       font-size: 2.1rem;
+    }
+    p {
+        font-size: 20px;
+    }
+
+    .media-below-sm({
+        font-size: 16px;
+    });
 }
 </style>
 
@@ -367,7 +399,6 @@ h4 {
     }
 }
 
-
 #AboveMainHeading {
     margin-top: -5px;
 
@@ -375,7 +406,6 @@ h4 {
         margin-top: -21px;
     }
 }
-
 
 /*------------------------------------------------------
     TopicTab
@@ -398,5 +428,9 @@ h4 {
     &.is-mobile {
         max-width: 100vw;
     }
+}
+
+.private-topic {
+    margin-bottom: -30px;
 }
 </style>

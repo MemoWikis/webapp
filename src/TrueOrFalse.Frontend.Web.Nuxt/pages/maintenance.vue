@@ -145,6 +145,13 @@ async function removeAdminRights() {
                                 @click.prevent="resultMsg = ''"><span aria-hidden="true">&times;</span></button>
                             {{ resultMsg }}
                         </div>
+                        <MaintenanceSection title="Metriken" :methods="[]">
+                            <div class="custom-container">
+                                <NuxtLink to="/Metriken" class="memo-button btn btn-primary">
+                                    Übersicht aufrufen
+                                </NuxtLink>
+                            </div>
+                        </MaintenanceSection>
                         <MaintenanceSection title="Fragen" :methods="questionMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
@@ -158,7 +165,12 @@ async function removeAdminRights() {
                             :icon="['fas', 'retweet']">
                             <div class="delete-user-container">
                                 <h4>Nutzer löschen (ID)</h4>
-                                <div class="delete-user-input"></div>
+                                <div class="delete-user-input">
+                                    <input v-model="userIdToDelete" />
+                                    <button @click="deleteUser" class="memo-button btn btn-primary">
+                                        Nutzer Löschen
+                                    </button>
+                                </div>
                             </div>
                         </MaintenanceSection>
                         <MaintenanceSection title="Sonstige" :methods="miscMethods" @method-clicked="handleClick"
@@ -191,6 +203,10 @@ async function removeAdminRights() {
         top: 15px;
         cursor: pointer;
     }
+}
+
+.custom-container {
+    padding: 15px;
 }
 
 .delete-user-container {

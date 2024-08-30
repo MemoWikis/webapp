@@ -33,11 +33,23 @@ const { data: currentUser } = await useFetch<CurrentUser>('/apiVue/App/GetCurren
 		throw createError({ statusMessage: context.error?.message })
 	}
 })
+
 if (currentUser.value != null) {
 	userStore.initUser(currentUser.value)
 	useState('currentuser', () => currentUser.value)
-}
+	if (userStore.isLoggedIn) {
+		const fontSizeCookie = useCookie('fontSize').value
 
+		if (fontSizeCookie != null) {
+			const cookieValues = fontSizeCookie.split('-')
+			const fontSize = cookieValues[0]
+			const userId = cookieValues[1]
+
+			if (parseInt(userId) == userStore.id)
+				userStore.setFontSize(parseInt(fontSize))
+		}
+	}
+}
 
 const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
 	method: 'GET',
@@ -147,12 +159,22 @@ useHead(() => ({
 }))
 const { isMobile } = useDevice()
 const statusCode = ref<number>(0)
+
 function clearErr() {
 	statusCode.value = 0
 	clearError()
 }
+
 function logError(e: any) {
-	$logger.info('Nuxt non Fatal Error', [{ error: e }])
+
+	const errorObject = {
+		error: e,
+		userId: userStore.isLoggedIn ? userStore.id : null,
+		location: window.location.href,
+		userAgent: navigator.userAgent,
+	}
+
+	$logger.error('Nuxt non Fatal Error', [errorObject])
 
 	const r = e as NuxtError
 

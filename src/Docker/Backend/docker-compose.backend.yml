@@ -36,6 +36,8 @@ services:
       - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
       - Redis__Url=${REDIS_URL:-error}
       - Google__ClientId=${GOOGLE_CLIENT_ID:-error}
+      - Collaboration__TokenSecretKey=${COLLABORATION_TOKEN_SECRET_KEY:-error}
+      - Collaboration__HocuspocusSecretKey=${COLLABORATION_HOCUSPOCUS_SECRET_KEY:-error}
     restart: always
     
 networks:
