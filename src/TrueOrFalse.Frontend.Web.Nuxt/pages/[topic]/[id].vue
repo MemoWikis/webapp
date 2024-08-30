@@ -239,10 +239,13 @@ watch(() => props.tab, (t) => {
     margin-bottom: 70px;
 
     p {
-        min-height: 30px;
+        min-height: calc(5em / 3);
+
+        .media-below-sm({
+            min-height: 1.5em;
+        });
 
         img {
-
             // Apply styles to p if it contains img
             & {
                 margin-bottom: 40px !important;
@@ -258,8 +261,11 @@ watch(() => props.tab, (t) => {
             min-height: 21px;
         }
     }
+    
+    ul {
+        margin-bottom: 10px;
+    }
 
-    ul,
     pre {
         margin-bottom: 20px;
     }
@@ -272,7 +278,7 @@ watch(() => props.tab, (t) => {
 
     .media-below-sm({
         font-size: 12px;
-    })
+    });
 }
 
 .large-font {
@@ -291,7 +297,7 @@ watch(() => props.tab, (t) => {
 
     .media-below-sm({
         font-size: 16px;
-    })
+    });
 }
 </style>
 
@@ -393,7 +399,6 @@ h4 {
     }
 }
 
-
 #AboveMainHeading {
     margin-top: -5px;
 
@@ -401,7 +406,6 @@ h4 {
         margin-top: -21px;
     }
 }
-
 
 /*------------------------------------------------------
     TopicTab
