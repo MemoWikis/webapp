@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
@@ -138,4 +139,21 @@ public class TopicStoreController(
             QuestionCount = git.QuestionCount
         }).ToArray();
     }
+
+    [HttpGet]
+    public TopicAnalyticsResult GetTopicAnalytics([FromRoute] int id)
+    {
+        return new TopicAnalyticsResult(
+            new List<BaseView>(),
+            new List<BaseView>(),
+            new List<BaseView>(),
+            new List<BaseView>());
+    }
+
+
+        public record struct TopicAnalyticsResult(
+            List<BaseView> ViewsLast30DaysAggregatedTopic,
+            List<BaseView> ViewsLast30DaysTopic,
+            List<BaseView> ViewsLast30DaysAggregatedQuestions,
+            List<BaseView> ViewsLast30DaysQuestion);
 }

@@ -61,11 +61,6 @@ public class TopicController(
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
             ErrorCode = data.ErrorCode,
-            ViewsLast30DaysAggregatedTopic = data.ViewsLast30DaysAggregatedTopic,
-            ViewsLast30DaysTopic = data.ViewsLast30DaysTopic,
-            ViewsLast30DaysAggregatedQuestions = data.ViewsLast30DaysAggregatedQuestions,
-            ViewsLast30DaysQuestions = data.viewsLast30DaysQuestions,
-           
         };
     }
 

@@ -76,7 +76,6 @@ public class TopicDataManager(
         var childIds = topic.ChildRelations.Select(t => t.ChildId);
         var last30DaysTopicViews = topic.ViewsLast30DaysTopic; 
 
-
         var countAggregatedChildTopicViews= EntityCache.GetCategories(childIds);
         foreach (var child in countAggregatedChildTopicViews)
         {
@@ -87,7 +86,6 @@ public class TopicDataManager(
                 
             }
         }
-
 
         var authorIds = topic.AuthorIds.Distinct();
         return new TopicDataResult
@@ -162,12 +160,7 @@ public class TopicDataManager(
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id),
             TextIsHidden = topic.TextIsHidden,
-            MessageKey = "",
-            ViewsLast30DaysAggregatedTopic = ,
-            ViewsLast30DaysTopic = topic.ViewsLast30DaysTopic,
-            ViewsLast30DaysAggregatedQuestions = topic.ViewsLast30DaysAggregatedQuestions,
-            viewsLast30DaysQuestions = topic.ViewsLast30DaysQuestions
-
+            MessageKey = ""
         };
     }
 

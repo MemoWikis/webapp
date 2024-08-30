@@ -146,10 +146,6 @@ export const useTopicStore = defineStore('topicStore', {
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
 				this.textIsHidden = topic.textIsHidden
-				this.viewsLast30DaysAggregatedTopics = topic.viewsLast30DaysAggregatedTopic
-				this.viewsLast30DaysTopic = topic.viewsLast30DaysTopic
-				this.viewsLast30DaysAggregatedQuestions = topic.viewsLast30DaysAggregatedQuestions,	
-				this.viewsLast30DaysQuestions = topic.viewsLast30DaysQuestions
 			}
 		},
 		async saveTopic() {
