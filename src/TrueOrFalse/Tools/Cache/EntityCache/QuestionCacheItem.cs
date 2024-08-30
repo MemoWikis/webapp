@@ -6,7 +6,7 @@ using TrueOrFalse.Web;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
-public class QuestionCacheItem 
+public class QuestionCacheItem
 {
     public QuestionCacheItem()
     {
@@ -71,6 +71,8 @@ public class QuestionCacheItem
     public virtual int TotalTrueAnswers { get; set; }
 
     public virtual int TotalViews { get; set; }
+    public virtual List<DailyView> TotalViewsInLast30Days { get; set; }
+    // public record struct DailyView(DateTime Date, int Count);
     public virtual QuestionVisibility Visibility { get; set; }
 
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
