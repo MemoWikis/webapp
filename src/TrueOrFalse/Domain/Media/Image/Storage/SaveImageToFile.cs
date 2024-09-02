@@ -70,4 +70,16 @@ public class SaveImageToFile
             }
         }
     }
+
+    public static void SaveTopicContentImage(Stream inputStream, int topicId, string nanoId)
+    {
+        using (var image = SKBitmap.Decode(inputStream))
+        {
+            var filename = $"{nanoId}_{topicId}_{image.Width}.jpg";
+            using (var fileStream = File.OpenWrite(filename))
+            {
+                image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
+            }
+        }
+    }
 }

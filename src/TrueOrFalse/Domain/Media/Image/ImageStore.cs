@@ -87,4 +87,27 @@ public class ImageStore(
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType,
             licenseGiverName);
     }
+
+    public void RunTopicContentUpload<T>(IFormFile imageFile, int topicId, int userId, string licenseGiverName)
+        where T : IImageSettings
+    {
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
+            .Create<T>(topicId);
+
+        imageSettings.Init(topicId);
+        imageSettings.DeleteFiles(); //old files..
+
+        if (imageFile.Length == 0)
+            return;
+
+        using var stream = imageFile.OpenReadStream();
+
+        SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
+
+        _imgMetaDataWritingRepo.StoreUploaded(
+            topicId,
+            userId,
+            imageSettings.ImageType,
+            licenseGiverName);
+    }
 }

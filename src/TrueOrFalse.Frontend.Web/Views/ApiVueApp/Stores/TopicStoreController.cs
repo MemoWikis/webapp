@@ -12,7 +12,8 @@ public class TopicStoreController(
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    CategoryUpdater _categoryUpdater) : Controller
+    CategoryUpdater _categoryUpdater,
+    ImageStore imageStore) : Controller
 {
     public readonly record struct SaveTopicParam(
         int id,
@@ -137,5 +138,21 @@ public class TopicStoreController(
             Parents = git.Parents,
             QuestionCount = git.QuestionCount
         }).ToArray();
+    }
+
+    public class UploadContentImageRequest
+    {
+        public int TopicId { get; set; }
+        public IFormFile File { get; set; }
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public string UploadContentImage([FromForm] UploadContentImageRequest form)
+    {
+        Logg.r.Information("UploadContentImage {id}, {file}", form.TopicId, form.File);
+        using var stream = form.File.OpenReadStream();
+
+        return "https://via.placeholder.com/150";
     }
 }

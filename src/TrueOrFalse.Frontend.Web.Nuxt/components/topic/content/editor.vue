@@ -35,6 +35,7 @@ import { FontSize, useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import UploadImage from '~/components/shared/imageUploadExtension'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -189,7 +190,10 @@ const initEditor = () => {
                             'padding': '1.4em'
                         }
                     },
-                })
+                }),
+                UploadImage.configure({
+                    uploadFn: topicStore.uploadContentImage
+                }),
             ] : [History]
         ],
         onUpdate({ editor, transaction }) {
@@ -218,9 +222,12 @@ const initEditor = () => {
                 const firstNode = event.content.firstChild
                 if (firstNode != null && firstNode.type.name == 'image') {
                     if (!isEmpty(firstNode.attrs)) {
-                        let src = firstNode.attrs.src;
+                        let src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {
-                            resizeBase64Img(src, 800)
+                            // const resized = await resizeBase64Img(src, 800)
+                            // editor.value?.commands.addImage({ src: resized })
+                            editor.value?.commands.addBase64Image(src)
+                            return true
                         }
                         if (src.length > 1048576 && src.startsWith('data:image')) {
                             alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
@@ -280,28 +287,6 @@ function updateHeadingIds() {
     })
 }
 
-// function updateImages() {
-//     console.log('updateImages')
-//     if (editor.value == null)
-//         return
-
-//     const { state, commands } = editor.value
-//     state.doc.descendants((node: Node, pos: number) => {
-//         if (node.type.name === 'image') {
-//             if (node.attrs.src.startsWith('data:image')) {
-//                 resizeBase64Img(node.attrs.src, 800)
-//                 commands.updateAttributes(node.type.name, { isLoading: "true" })
-//                 console.log('image', node.attrs)
-//                 commands.updateAttributes('image', { src: "" })
-//                 if (node.attrs['isLoading'] == null || node.attrs['isLoading'] == false) {
-//                     console.log(node.type.name)
-//                     editor.value?.chain().focus().updateAttributes('image', { isLoading: true }).setNodeSelection(editor.value?.view.state.selection.anchor).run()
-//                 }
-//             }
-//         }
-//     })
-// }
-
 const spinnerStore = useSpinnerStore()
 
 onMounted(() => {
@@ -315,7 +300,7 @@ onMounted(() => {
             outlineStore.editorIsFocused = true
         })
 
-        editor.value.on('selectionUpdate', updateCursorIndex);
+        editor.value.on('selectionUpdate', updateCursorIndex)
 
         editor.value.on('blur', () => {
             outlineStore.editorIsFocused = false

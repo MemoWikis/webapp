@@ -1,5 +1,6 @@
 import { toHtml } from 'hast-util-to-html'
 import { all, createLowlight } from 'lowlight'
+import { max } from 'underscore'
 
 const lowlight = createLowlight(all)
 
@@ -112,20 +113,20 @@ export function slugify(text:string) {
  return text
     .toString()
     .toLowerCase()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/ä/g, 'ae')            // Replace ä with ae
-    .replace(/ö/g, 'oe')            // Replace ö with oe
-    .replace(/ü/g, 'ue')            // Replace ü with ue
-    .replace(/ß/g, 'ss')            // Replace ß with ss
-    .replace(/[^\w-]+/g, '')       // Remove all non-word chars
-    .replace(/--+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
+    .replace(/\s+/g, '-')
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .replace(/[^\w-]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '')
 }
 
 export function getRandomColor() {
     const letters = '0123456789ABCDEF'
-    let color = '#';
+    let color = '#'
     for (let i = 0; i < 6; i++) {
         color += letters[Math.floor(Math.random() * 16)]
     }
@@ -133,61 +134,50 @@ export function getRandomColor() {
 }
 
 export function getRandomBrightColor() {
-    let color = '#';
+    let color = '#'
 
-    // Generate high values for two channels and a lower value for the third
     const channels = [
         Math.floor(Math.random() * 128 + 128).toString(16).padStart(2, '0'), // Bright channel
         Math.floor(Math.random() * 128 + 128).toString(16).padStart(2, '0'), // Bright channel
         Math.floor(Math.random() * 128).toString(16).padStart(2, '0')        // Lower channel
-    ];
-
-    // Shuffle channels to randomize which are bright and which is lower
-    channels.sort(() => Math.random() - 0.5);
-
-    // Combine the channels into the final color string
-    color += channels[0] + channels[1] + channels[2];
+    ]
+    channels.sort(() => Math.random() - 0.5)
+    color += channels[0] + channels[1] + channels[2]
 
     return color;
 }
 
 export function resizeBase64Img(base64: string, maxWidth: number): Promise<string> {
     return new Promise((resolve, reject) => {
-        // Create an Image object
-        const img = new Image();
         
-        // Handle the image loading process
+        const img = new Image()
+        
         img.onload = () => {
-            // Calculate the new dimensions
-            const ratio = img.width / img.height;
-            const newWidth = Math.min(maxWidth, img.width);
-            const newHeight = newWidth / ratio;
+            if (maxWidth >= img.width)
+                return resolve(base64)
 
-            // Create a Canvas element
-            const canvas = document.createElement('canvas');
-            canvas.width = newWidth;
-            canvas.height = newHeight;
+            const ratio = img.width / img.height
+            const newWidth = Math.min(maxWidth, img.width)
+            const newHeight = newWidth / ratio
 
-            // Draw the resized image on the Canvas
-            const ctx = canvas.getContext('2d');
+            const canvas = document.createElement('canvas')
+            canvas.width = newWidth
+            canvas.height = newHeight
+
+            const ctx = canvas.getContext('2d')
             if (!ctx)
-                return null;
-            ctx.drawImage(img, 0, 0, newWidth, newHeight);
+                return null
+            ctx.drawImage(img, 0, 0, newWidth, newHeight)
 
-            // Convert the Canvas back to a Base64 string
-            const resizedBase64 = canvas.toDataURL('image/png'); // You can change the image type if needed
+            const resizedBase64 = canvas.toDataURL('image/png')
 
-            // Resolve the Promise with the resized Base64 image
-            console.log(resizedBase64)
-            resolve(resizedBase64);
-        };
+            resolve(resizedBase64)
+        }
 
-        // Handle image loading errors
         img.onerror = (err) => {
-            reject(err);
-        };
+            reject(err)
+        }
 
-        // Trigger the image load
-        img.src = base64;
-    });
+        img.src = base64
+    })
 }

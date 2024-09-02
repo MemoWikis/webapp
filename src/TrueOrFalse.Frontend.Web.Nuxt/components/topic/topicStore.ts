@@ -234,8 +234,20 @@ export const useTopicStore = defineStore('topicStore', {
 
 			this.textIsHidden = result
 		},
-		
 
+		async uploadContentImage(file: File): Promise<string> {
+			const data = new FormData()
+			data.append('file', file)
+			data.append('topicId', this.id.toString())
+			const result = await $api<string>('/apiVue/TopicStore/UploadContentImage', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			return result
+		}
+		
 	},
 	getters: {
 		getTopicName(): string {
