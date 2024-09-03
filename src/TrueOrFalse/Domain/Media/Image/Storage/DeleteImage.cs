@@ -23,6 +23,12 @@
         Run(Settings.TopicImageBasePath, $"{id}_*");
     }
 
+    public void RemoveAllForQuestion(int id)
+    {
+        Run(Settings.QuestionContentImageBasePath, $"{id}_*");
+        Run(Settings.QuestionImageBasePath, $"{id}_*");
+    }
+
     public void RunForQuestionContentImage(string filename) => Run(Settings.QuestionContentImageBasePath, filename);
 
     public void RunForQuestionContentImages(string[] paths)

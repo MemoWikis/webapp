@@ -23,6 +23,9 @@ public class QuestionDelete(
         EntityCache.Remove(questionCacheItem);
         _extendedUserCache.RemoveQuestionForAllUsers(questionId);
 
+        var deleteImage = new DeleteImage();
+        deleteImage.RemoveAllForQuestion(questionId);
+
         JobScheduler.StartImmediately_DeleteQuestion(questionId, _sessionUser.UserId);
     }
 
