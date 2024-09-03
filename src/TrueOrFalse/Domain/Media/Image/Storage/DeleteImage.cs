@@ -22,4 +22,13 @@
         Run(Settings.TopicContentImageBasePath, $"{id}_*");
         Run(Settings.TopicImageBasePath, $"{id}_*");
     }
+
+    public void RunForQuestionContentImage(string filename) => Run(Settings.QuestionContentImageBasePath, filename);
+
+    public void RunForQuestionContentImages(string[] paths)
+    {
+        if (paths.Length > 0)
+            foreach (var path in paths)
+                RunForQuestionContentImage(Path.GetFileName(path));
+    }
 }

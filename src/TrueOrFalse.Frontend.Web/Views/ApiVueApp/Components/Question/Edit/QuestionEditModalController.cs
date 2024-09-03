@@ -86,6 +86,9 @@ public class QuestionEditModalController(
         if (param.UploadedImagesInContent.Length > 0)
             ReplaceTempImages(param.UploadedImagesInContent, question, questionCacheItem);
 
+        var deleteImage = new DeleteImage();
+        deleteImage.RunForQuestionContentImages(param.UploadedImagesMarkedForDeletion);
+
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem,
             param.SessionIndex,
             param.SessionConfig);
@@ -154,6 +157,9 @@ public class QuestionEditModalController(
         if (param.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(
                 EntityCache.GetQuestion(updatedQuestion.Id));
+
+        var deleteImage = new DeleteImage();
+        deleteImage.RunForQuestionContentImages(param.UploadedImagesMarkedForDeletion);
 
         return new QuestionEditResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
     }
