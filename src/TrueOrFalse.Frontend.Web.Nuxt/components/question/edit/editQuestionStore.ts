@@ -11,7 +11,7 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 	state: () => {
 		return {
 			showModal: false,
-			id: 0,
+			id: -1,
 			type: null as Type | null,
 			edit: false,
 			sessionIndex: 0,
@@ -60,9 +60,10 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			return id;
 		},
 		async uploadContentImage(file: File): Promise<string> {
+			console.log('tryUpload')
 			const data = new FormData()
 			data.append('file', file)
-			data.append('topicId', this.id.toString())
+			data.append('questionId', this.id.toString())
 			const result = await $api<string>('/apiVue/EditQuestionStore/UploadContentImage', {
 				body: data,
 				method: 'POST',

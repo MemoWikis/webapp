@@ -227,6 +227,7 @@ async function save() {
     lockSaveButton.value = true
 
     spinnerStore.showSpinner()
+
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
@@ -281,6 +282,9 @@ async function save() {
             text: messages.getByCompositeKey(result.messageKey)
         })
     }
+
+    editQuestionStore.uploadedImagesMarkedForDeletion = []
+    editQuestionStore.uploadedImagesInContent = []
 }
 
 onMounted(() => {

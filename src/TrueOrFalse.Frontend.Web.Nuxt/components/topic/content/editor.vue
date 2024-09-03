@@ -242,13 +242,9 @@ const initEditor = () => {
                 const firstNode = event.content.firstChild
                 if (firstNode != null && firstNode.type.name == 'image') {
                     if (!isEmpty(firstNode.attrs)) {
-                        let src = firstNode.attrs.src
+                        const src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {
                             editor.value?.commands.addBase64Image(src)
-                            return true
-                        }
-                        if (src.length > 1048576 && src.startsWith('data:image')) {
-                            alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
                             return true
                         }
                     }

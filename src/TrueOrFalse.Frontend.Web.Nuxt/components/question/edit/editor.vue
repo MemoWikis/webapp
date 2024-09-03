@@ -11,6 +11,8 @@ import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 import { useEditQuestionStore } from './editQuestionStore'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
+import UploadImage from '~/components/shared/imageUploadExtension'
+import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
@@ -47,18 +49,23 @@ const editor = useEditor({
             placeholder: 'Gib den Fragetext ein',
             showOnlyCurrent: true,
         }),
-        Indent
+        Indent,
+        ImageResize.configure({
+            inline: true,
+            allowBase64: true,
+        }),
+        UploadImage.configure({
+            uploadFn: editQuestionStore.uploadContentImage
+        })
     ],
     editorProps: {
-        handleClick: (view, pos, event) => {
-        },
         handlePaste: (view, pos, event) => {
-            let eventContent = event.content as any
-            let content = eventContent.content
+            const eventContent = event.content as any
+            const content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src
-                if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                const src = content[0].attrs.src
+                if (src.startsWith('data:image')) {
+                    editor.value?.commands.addBase64Image(src)
                     return true
                 }
             }
@@ -89,6 +96,7 @@ const editor = useEditor({
     },
     onUpdate: ({ editor }) => {
         emit('setQuestionData', editor)
+        checkContentImages()
     },
 })
 
@@ -108,7 +116,6 @@ const checkContentImages = () => {
         return
 
     const { state } = editor.value
-    editQuestionStore.uploadedImagesInContent = []
     state.doc.descendants((node: any, pos: number) => {
         if (node.type.name === 'uploadImage') {
             const src = node.attrs.src
