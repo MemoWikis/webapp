@@ -101,11 +101,11 @@ public class ImageStore(
 
         var path = SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings);
 
-        _imgMetaDataWritingRepo.StoreUploaded(
-            topicId,
-            userId,
-            imageSettings.ImageType,
-            licenseGiverName);
+        //_imgMetaDataWritingRepo.StoreUploaded(
+        //    topicId,
+        //    userId,
+        //    ImageType.TopicContent,
+        //    licenseGiverName);
 
         return path;
     }
@@ -123,11 +123,11 @@ public class ImageStore(
 
         var path = questionId > 0 ? SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings) : SaveImageToFile.SaveTempQuestionContentImageAndGetPath(stream, imageSettings);
 
-        _imgMetaDataWritingRepo.StoreUploaded(
-            questionId,
-            userId,
-            imageSettings.ImageType,
-            licenseGiverName);
+        //_imgMetaDataWritingRepo.StoreUploaded(
+        //    questionId,
+        //    userId,
+        //    ImageType.QuestionContent,
+        //    licenseGiverName);
 
         return path;
     }

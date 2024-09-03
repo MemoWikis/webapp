@@ -275,6 +275,7 @@ export const useTopicStore = defineStore('topicStore', {
 				mode: 'cors',
 				credentials: 'include',
 			})
+			this.uploadedImagesMarkedForDeletion = []
 		}
 	},
 	getters: {

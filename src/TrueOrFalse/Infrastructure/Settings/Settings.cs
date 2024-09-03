@@ -62,7 +62,7 @@ public class Settings
     public static string QuestionContentImageBasePath => _configuration["Paths:QuestionContentImages"];
     public static string QuestionImageBasePath => _configuration["Paths:QuestionImages"];
 
-    public static string UserImageBasePath => _configuration["Paths:User"];
+    public static string UserImageBasePath => _configuration["Paths:UserImages"];
 
     // Connection properties
     public static string ConnectionString => _configuration["General:ConnectionString"];

@@ -93,6 +93,7 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 				mode: 'cors',
 				credentials: 'include',
 			})
+			this.uploadedImagesMarkedForDeletion = []
 		}
 	},
 })
