@@ -262,6 +262,9 @@ export const useTopicStore = defineStore('topicStore', {
 			this.uploadedImagesMarkedForDeletion = this.uploadedImagesMarkedForDeletion.filter(url => imagesToKeep.includes(url))
 		},
 		async deleteTopicContentImages() {
+			if (this.uploadedImagesMarkedForDeletion.length == 0)
+				return
+			
 			const data = {
 				topicId: this.id,
 				imageUrls: this.uploadedImagesMarkedForDeletion
