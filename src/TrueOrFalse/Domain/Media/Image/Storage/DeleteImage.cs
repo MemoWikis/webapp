@@ -19,7 +19,7 @@
 
     public void RemoveAllForTopic(int id)
     {
-        Run(Settings.TopicContentImageBasePath, $"{id}_*");
-        Run(Settings.TopicImageBasePath, $"{id}_*");
+        Run(Settings.TopicContentImageBasePath, $"{id}_*.jpg");
+        Run(Settings.TopicImageBasePath, $"{id}_*.jpg");
     }
 }
