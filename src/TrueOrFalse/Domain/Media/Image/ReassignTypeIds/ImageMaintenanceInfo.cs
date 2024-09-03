@@ -81,14 +81,6 @@ public class ImageMaintenanceInfo
                 Type = questionReadingRepo.GetById(MetaData.TypeId);
                 TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
                 break;
-            case ImageType.TopicContent:
-                Type = categoryRepository.GetById(MetaData.TypeId);
-                TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
-                break;
-            case ImageType.QuestionContent:
-                Type = questionReadingRepo.GetById(MetaData.TypeId);
-                TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
-                break;
             default:
                 throw new Exception("invalid type");
         }
