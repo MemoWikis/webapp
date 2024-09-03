@@ -88,26 +88,25 @@ public class ImageStore(
             licenseGiverName);
     }
 
-    public void RunTopicContentUpload<T>(IFormFile imageFile, int topicId, int userId, string licenseGiverName)
-        where T : IImageSettings
+    public string RunTopicContentUploadAndGetPath(IFormFile imageFile, int topicId, int userId, string licenseGiverName)
     {
-        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo)
-            .Create<T>(topicId);
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<TopicContentImageSettings>(topicId);
 
         imageSettings.Init(topicId);
-        imageSettings.DeleteFiles(); //old files..
 
         if (imageFile.Length == 0)
-            return;
+            throw new Exception("imageFile is empty");
 
         using var stream = imageFile.OpenReadStream();
 
-        SaveImageToFile.RemoveExistingAndSaveAllSizes(stream, imageSettings);
+        var path = SaveImageToFile.SaveTopicContentImageAndGetPath(stream, imageSettings);
 
         _imgMetaDataWritingRepo.StoreUploaded(
             topicId,
             userId,
             imageSettings.ImageType,
             licenseGiverName);
+
+        return path;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace VueApp;
@@ -151,8 +153,29 @@ public class TopicStoreController(
     public string UploadContentImage([FromForm] UploadContentImageRequest form)
     {
         Logg.r.Information("UploadContentImage {id}, {file}", form.TopicId, form.File);
-        using var stream = form.File.OpenReadStream();
 
-        return "https://via.placeholder.com/150";
+        var url = imageStore.RunTopicContentUploadAndGetPath(
+            form.File,
+            form.TopicId,
+            _sessionUser.UserId,
+            _sessionUser.User.Name);
+
+        return url;
+    }
+
+    public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public void DeleteContentImages([FromBody] DeleteContentImagesRequest req)
+    {
+        var imageSettings = new TopicContentImageSettings(req.id, _httpContextAccessor);
+        var deleteImage = new DeleteImage();
+
+        var filenames = new List<string>();
+        foreach (var path in req.imageUrls)
+        {
+            filenames.Add(Path.GetFileName(path));
+        }
+        deleteImage.Run(imageSettings.BasePath, filenames);
     }
 }

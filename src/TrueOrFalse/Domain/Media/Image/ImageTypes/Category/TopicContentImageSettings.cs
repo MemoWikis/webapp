@@ -3,12 +3,12 @@
 public class TopicContentImageSettings : ImageSettings, IImageSettings
 {
     public override int Id { get; set; }
-    public ImageType ImageType => ImageType.Category;
-    public IEnumerable<int> SizesSquare => new[] { 206, 50 };
-    public IEnumerable<int> SizesFixedWidth => new[] { 500, 800 };
+    public ImageType ImageType => ImageType.TopicContent;
+    public IEnumerable<int> SizesSquare => [128];
+    public IEnumerable<int> SizesFixedWidth => [800];
 
-    public override string BasePath => "TopicContent";
-    public string BaseDummyUrl => "no-category-picture-";
+    public override string BasePath => Settings.TopicContentImageBasePath;
+    public string BaseDummyUrl => "no-category-picture-128.png";
 
     public TopicContentImageSettings(
         int categoryId,
@@ -21,16 +21,5 @@ public class TopicContentImageSettings : ImageSettings, IImageSettings
     public void Init(int categoryId)
     {
         Id = categoryId;
-    }
-
-    public ImageUrl GetUrl(int width, bool isSquare = false)
-    {
-        return new ImageUrl(_contextAccessor)
-            .Get(this, width, isSquare, GetFallbackImage);
-    }
-
-    private string GetFallbackImage(int width)
-    {
-        return BaseDummyUrl + width + ".png";
     }
 }

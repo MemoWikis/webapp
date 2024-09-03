@@ -57,6 +57,11 @@ public class Settings
                 "Images")
             : _configuration["Paths:AbsoluteImagePath"];
 
+    public static string TopicContentImageBasePath => _configuration["Paths:TopicContentImage"];
+    public static string TopicImageBasePath => _configuration["Paths:Topic"];
+    public static string QuestionImageBasePath => _configuration["Paths:Question"];
+    public static string UserImageBasePath => _configuration["Paths:User"];
+
     // Connection properties
     public static string ConnectionString => _configuration["General:ConnectionString"];
 

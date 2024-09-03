@@ -71,15 +71,27 @@ public class SaveImageToFile
         }
     }
 
-    public static void SaveTopicContentImage(Stream inputStream, int topicId, string nanoId)
+    public static string SaveTopicContentImageAndGetPath(Stream inputStream, IImageSettings imageSettings)
     {
         using (var image = SKBitmap.Decode(inputStream))
         {
-            var filename = $"{nanoId}_{topicId}_{image.Width}.jpg";
+            var guid = Guid.NewGuid();
+            var filename = $"{imageSettings.ServerPathAndId()}_{guid}.jpg";
             using (var fileStream = File.OpenWrite(filename))
             {
                 image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
             }
+
+            var path = Path
+                .Combine(
+                    Settings.ImagePath,
+                    imageSettings.BasePath,
+                    $"{imageSettings.Id}_{guid}.jpg")
+                .NormalizePathSeparators();
+            if (File.Exists(path))
+                return $"/Images/{imageSettings.BasePath}/{imageSettings.Id}_{guid}.jpg";
+
+            return $"/Images/${imageSettings.BaseDummyUrl}";
         }
     }
 }

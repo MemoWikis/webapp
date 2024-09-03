@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
-import { Node } from 'prosemirror-model'
+import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -36,6 +36,7 @@ import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import UploadImage from '~/components/shared/imageUploadExtension'
+import { UndoManager } from 'yjs'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -46,7 +47,22 @@ const lowlight = createLowlight(all)
 const userStore = useUserStore()
 const doc = new Y.Doc()
 const config = useRuntimeConfig()
+const undoManager = new UndoManager(doc.getXmlFragment('prosemirror'))
 
+// Function to log undo and redo actions
+const logUndoRedoAction = (action: string) => {
+    console.log(`${action} action detected in collaboration mode`)
+}
+
+// Listen for undo and redo actions
+undoManager.on('stack-item-added', ({ stackItem }) => {
+    // Checking if the stack item is added by an undo or redo operation
+    if (undoManager.undoStack.includes(stackItem)) {
+        logUndoRedoAction('Undo')
+    } else if (undoManager.redoStack.includes(stackItem)) {
+        logUndoRedoAction('Redo')
+    }
+})
 const providerContentLoaded = ref(false)
 
 const provider = shallowRef<TiptapCollabProvider>()
@@ -111,6 +127,8 @@ const initProvider = () => {
         }
     })
 }
+
+const deleteImageSrc = ref()
 
 const initEditor = () => {
     editor.value = new Editor({
@@ -196,6 +214,26 @@ const initEditor = () => {
                 }),
             ] : [History]
         ],
+        onTransaction({ transaction }) {
+            let clearDeleteImageSrcRef = true
+            const { selection, doc } = transaction
+
+            const node = doc.nodeAt(selection.from)
+            if (node && node.type.name === 'uploadImage') {
+                deleteImageSrc.value = node.attrs.src
+                clearDeleteImageSrcRef = false
+            }
+
+            const hasDeleted = transaction.steps.some(step =>
+                step instanceof ReplaceStep || step instanceof ReplaceAroundStep
+            )
+
+            if (hasDeleted && deleteImageSrc.value)
+                topicStore.addImageUrlToDeleteList(deleteImageSrc.value)
+
+            if (clearDeleteImageSrcRef)
+                deleteImageSrc.value = null
+        },
         onUpdate({ editor, transaction }) {
             topicStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
@@ -210,8 +248,6 @@ const initEditor = () => {
             if (editor.isActive('heading'))
                 updateHeadingIds()
 
-            // updateImages()
-
             updateCursorIndex()
 
             if (topicStore.contentHasChanged)
@@ -224,8 +260,6 @@ const initEditor = () => {
                     if (!isEmpty(firstNode.attrs)) {
                         let src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {
-                            // const resized = await resizeBase64Img(src, 800)
-                            // editor.value?.commands.addImage({ src: resized })
                             editor.value?.commands.addBase64Image(src)
                             return true
                         }
@@ -244,13 +278,18 @@ const initEditor = () => {
     })
 }
 
+
 const recreate = (login: boolean = false) => {
     provider.value?.destroy()
     editor.value?.destroy()
 
     if (login) loadCollab.value = true
 
-    if (userStore.isLoggedIn && loadCollab.value) initProvider()
+    if (userStore.isLoggedIn && loadCollab.value) {
+        initProvider()
+
+
+    }
     else if (!userStore.isLoggedIn) providerLoaded.value = true
 
     initEditor()
@@ -285,6 +324,24 @@ function updateHeadingIds() {
             }
         }
     })
+}
+
+const checkContentImages = () => {
+    if (editor.value == null)
+        return
+
+    const { state } = editor.value
+    topicStore.uploadedImagesInContent = []
+    state.doc.descendants((node: any, pos: number) => {
+        if (node.type.name === 'uploadImage') {
+            const src = node.attrs.src
+            if (src.startsWith('/Images/')) {
+                topicStore.uploadedImagesInContent.push(src)
+            }
+        }
+    })
+
+    topicStore.refreshDeleteImageList()
 }
 
 const spinnerStore = useSpinnerStore()
@@ -326,18 +383,26 @@ onBeforeUnmount(() => {
 watch(() => userStore.isLoggedIn, (val) => recreate(val))
 
 const autoSaveTimer = ref()
+const deleteTopicContentImageTimer = ref()
 const autoSave = () => {
     if (topicStore.visibility != Visibility.Owner)
         return
 
-    if (autoSaveTimer.value) {
+    if (autoSaveTimer.value)
         clearTimeout(autoSaveTimer.value)
-    }
+
+    if (deleteTopicContentImageTimer.value)
+        clearTimeout(deleteTopicContentImageTimer.value)
+
     autoSaveTimer.value = setTimeout(() => {
         if (editor.value) {
             topicStore.saveTopic()
         }
     }, 3000)
+
+    deleteTopicContentImageTimer.value = setTimeout(() => {
+        topicStore.deleteTopicContentImages()
+    }, 10000)
 }
 
 const { isMobile } = useDevice()
@@ -346,7 +411,7 @@ const { isMobile } = useDevice()
 <template>
     <template v-if="editor && providerLoaded">
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
-            v-if="loadCollab && userStore.isLoggedIn" />
+            v-if="loadCollab && userStore.isLoggedIn" @handle-undo-redo="checkContentImages" />
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-else />
 

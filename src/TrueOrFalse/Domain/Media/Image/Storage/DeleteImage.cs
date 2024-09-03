@@ -1,0 +1,25 @@
+﻿public class DeleteImage
+{
+    public void Run(string basePath, string filename)
+    {
+        var directory = Path.Combine(Settings.ImagePath, basePath);
+        var oldImages = Directory.GetFiles(directory, filename);
+
+        foreach (var file in oldImages)
+        {
+            File.Delete(file);
+        }
+    }
+
+    public void Run(string basePath, IList<string> filenames)
+    {
+        foreach (var filename in filenames)
+            Run(basePath, filename);
+    }
+
+    public void RemoveAllForTopic(int id)
+    {
+        Run(Settings.TopicContentImageBasePath, $"{id}_*");
+        Run(Settings.TopicImageBasePath, $"{id}_*");
+    }
+}
