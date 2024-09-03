@@ -101,11 +101,11 @@ public class ImageStore(
 
         var path = SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings);
 
-        //_imgMetaDataWritingRepo.StoreUploaded(
-        //    topicId,
-        //    userId,
-        //    ImageType.TopicContent,
-        //    licenseGiverName);
+        _imgMetaDataWritingRepo.StoreUploaded(
+            topicId,
+            userId,
+            ImageType.TopicContent,
+            licenseGiverName);
 
         return path;
     }

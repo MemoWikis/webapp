@@ -253,7 +253,6 @@ const initEditor = () => {
                         }
                     }
                 }
-
             },
             attributes: {
                 id: 'InlineEdit',
