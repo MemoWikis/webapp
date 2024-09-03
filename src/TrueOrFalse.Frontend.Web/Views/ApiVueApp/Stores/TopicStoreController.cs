@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ public class TopicStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     CategoryUpdater _categoryUpdater,
-    ImageStore imageStore) : Controller
+    ImageStore _imageStore) : Controller
 {
     public readonly record struct SaveTopicParam(
         int id,
@@ -152,9 +153,12 @@ public class TopicStoreController(
     [HttpPost]
     public string UploadContentImage([FromForm] UploadContentImageRequest form)
     {
+        if (!_permissionCheck.CanEditCategory(form.TopicId))
+            throw new Exception("No Upload rights");
+
         Logg.r.Information("UploadContentImage {id}, {file}", form.TopicId, form.File);
 
-        var url = imageStore.RunTopicContentUploadAndGetPath(
+        var url = _imageStore.RunTopicContentUploadAndGetPath(
             form.File,
             form.TopicId,
             _sessionUser.UserId,
@@ -172,10 +176,10 @@ public class TopicStoreController(
         var deleteImage = new DeleteImage();
 
         var filenames = new List<string>();
+
         foreach (var path in req.imageUrls)
-        {
             filenames.Add(Path.GetFileName(path));
-        }
+
         deleteImage.Run(imageSettings.BasePath, filenames);
     }
 }

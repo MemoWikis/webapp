@@ -99,10 +99,32 @@ public class ImageStore(
 
         using var stream = imageFile.OpenReadStream();
 
-        var path = SaveImageToFile.SaveTopicContentImageAndGetPath(stream, imageSettings);
+        var path = SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings);
 
         _imgMetaDataWritingRepo.StoreUploaded(
             topicId,
+            userId,
+            imageSettings.ImageType,
+            licenseGiverName);
+
+        return path;
+    }
+
+    public string RunQuestionContentUploadAndGetPath(IFormFile imageFile, int questionId, int userId, string licenseGiverName)
+    {
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<QuestionContentImageSettings>(questionId);
+
+        imageSettings.Init(questionId);
+
+        if (imageFile.Length == 0)
+            throw new Exception("imageFile is empty");
+
+        using var stream = imageFile.OpenReadStream();
+
+        var path = questionId > 0 ? SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings) : SaveImageToFile.SaveTempQuestionContentImageAndGetPath(stream, imageSettings);
+
+        _imgMetaDataWritingRepo.StoreUploaded(
+            questionId,
             userId,
             imageSettings.ImageType,
             licenseGiverName);

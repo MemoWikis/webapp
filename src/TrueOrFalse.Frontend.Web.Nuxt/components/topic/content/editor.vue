@@ -36,7 +36,6 @@ import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import UploadImage from '~/components/shared/imageUploadExtension'
-import { UndoManager } from 'yjs'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -47,22 +46,7 @@ const lowlight = createLowlight(all)
 const userStore = useUserStore()
 const doc = new Y.Doc()
 const config = useRuntimeConfig()
-const undoManager = new UndoManager(doc.getXmlFragment('prosemirror'))
 
-// Function to log undo and redo actions
-const logUndoRedoAction = (action: string) => {
-    console.log(`${action} action detected in collaboration mode`)
-}
-
-// Listen for undo and redo actions
-undoManager.on('stack-item-added', ({ stackItem }) => {
-    // Checking if the stack item is added by an undo or redo operation
-    if (undoManager.undoStack.includes(stackItem)) {
-        logUndoRedoAction('Undo')
-    } else if (undoManager.redoStack.includes(stackItem)) {
-        logUndoRedoAction('Redo')
-    }
-})
 const providerContentLoaded = ref(false)
 
 const provider = shallowRef<TiptapCollabProvider>()
@@ -335,9 +319,8 @@ const checkContentImages = () => {
     state.doc.descendants((node: any, pos: number) => {
         if (node.type.name === 'uploadImage') {
             const src = node.attrs.src
-            if (src.startsWith('/Images/')) {
+            if (src.startsWith('/Images/'))
                 topicStore.uploadedImagesInContent.push(src)
-            }
         }
     })
 

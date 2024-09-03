@@ -264,7 +264,7 @@ export const useTopicStore = defineStore('topicStore', {
 		async deleteTopicContentImages() {
 			if (this.uploadedImagesMarkedForDeletion.length == 0)
 				return
-			
+
 			const data = {
 				topicId: this.id,
 				imageUrls: this.uploadedImagesMarkedForDeletion
@@ -276,7 +276,6 @@ export const useTopicStore = defineStore('topicStore', {
 				credentials: 'include',
 			})
 		}
-		
 	},
 	getters: {
 		getTopicName(): string {

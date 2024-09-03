@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
@@ -25,7 +26,8 @@ public class QuestionEditModalController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
-    Logg _logg) : Controller
+    Logg _logg,
+    ImageStore _imageStore) : Controller
 {
     public readonly record struct QuestionDataParam(
         int[] CategoryIds,
@@ -42,7 +44,9 @@ public class QuestionEditModalController(
         int LicenseId,
         string ReferencesJson,
         bool IsLearningTab,
-        LearningSessionConfig SessionConfig
+        LearningSessionConfig SessionConfig,
+        string[] UploadedImagesMarkedForDeletion,
+        string[] UploadedImagesInContent
     );
 
     public readonly record struct CreateResult(
@@ -72,15 +76,15 @@ public class QuestionEditModalController(
 
         var question = new Question();
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
+
         question = UpdateQuestion(question, param, safeText);
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
-        if (param.IsLearningTab)
-        {
-        }
+        if (param.UploadedImagesInContent.Length > 0)
+            ReplaceTempImages(param.UploadedImagesInContent, question, questionCacheItem);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem,
             param.SessionIndex,
@@ -90,6 +94,33 @@ public class QuestionEditModalController(
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return new CreateResult { Success = true, Data = LoadQuestion(question.Id) };
+    }
+
+    private void ReplaceTempImages(string[] uploadedImagesInContent, Question question, QuestionCacheItem questionCacheItem)
+    {
+        foreach (var imageUrl in uploadedImagesInContent)
+        {
+            var filename = Path.GetFileName(imageUrl);
+            SaveImageToFile.RenameTempImagesWithQuestionId(filename, question.Id);
+        }
+
+        question.TextHtml = SaveImageToFile.ReplaceTempImagePathsWithQuestionId(question.TextHtml, question.Id);
+        question.TextExtendedHtml = SaveImageToFile.ReplaceTempImagePathsWithQuestionId(question.TextExtendedHtml, question.Id);
+        question.Description = SaveImageToFile.ReplaceTempImagePathsWithQuestionId(question.Description, question.Id);
+        question.DescriptionHtml = SaveImageToFile.ReplaceTempImagePathsWithQuestionId(question.DescriptionHtml, question.Id);
+
+        if (question.SolutionType == SolutionType.FlashCard)
+            question.Solution = SaveImageToFile.ReplaceTempImagePathsWithQuestionId(question.Solution, question.Id);
+
+        _questionWritingRepo.UpdateOrMerge(question, false);
+
+        questionCacheItem.TextHtml = question.TextHtml;
+        questionCacheItem.TextExtendedHtml = question.TextExtendedHtml;
+        questionCacheItem.Description = question.Description;
+        questionCacheItem.DescriptionHtml = question.DescriptionHtml;
+
+        if (question.SolutionType == SolutionType.FlashCard)
+            questionCacheItem.Solution = question.Solution;
     }
 
     public readonly record struct QuestionEditResult(
@@ -302,4 +333,5 @@ public class QuestionEditModalController(
 
         return topics;
     }
+
 }

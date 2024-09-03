@@ -42,6 +42,8 @@ public abstract class ImageSettings
                 return new UserImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.TopicContent:
                 return new TopicContentImageSettings(imageMetaData.TypeId, _contextAccessor);
+            case ImageType.QuestionContent:
+                return new QuestionContentImageSettings(imageMetaData.TypeId, _contextAccessor);
             default:
                 throw new Exception("invalid type");
         }

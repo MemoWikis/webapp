@@ -5,5 +5,6 @@
 
     User = 3,
     Category = 4,
-    TopicContent = 5
+    TopicContent = 5,
+    QuestionContent = 6
 }

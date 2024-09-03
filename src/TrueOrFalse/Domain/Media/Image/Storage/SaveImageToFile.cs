@@ -71,7 +71,7 @@ public class SaveImageToFile
         }
     }
 
-    public static string SaveTopicContentImageAndGetPath(Stream inputStream, IImageSettings imageSettings)
+    public static string SaveContentImageAndGetPath(Stream inputStream, IImageSettings imageSettings)
     {
         using (var image = SKBitmap.Decode(inputStream))
         {
@@ -93,5 +93,50 @@ public class SaveImageToFile
 
             return $"/Images/${imageSettings.BaseDummyUrl}";
         }
+    }
+
+    public static string SaveTempQuestionContentImageAndGetPath(Stream inputStream, IImageSettings imageSettings)
+    {
+        using (var image = SKBitmap.Decode(inputStream))
+        {
+            var guid = Guid.NewGuid();
+
+            var filename = $"{imageSettings.ServerPathAndId()}_{guid}.jpg";
+            using (var fileStream = File.OpenWrite(filename))
+            {
+                image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
+            }
+
+            var path = Path
+                .Combine(
+                    Settings.ImagePath,
+                    imageSettings.BasePath,
+                    $"tempImage_{guid}.jpg")
+                .NormalizePathSeparators();
+
+            if (File.Exists(path))
+                return $"/Images/{imageSettings.BasePath}/tempImage_{guid}.jpg";
+
+            return $"/Images/${imageSettings.BaseDummyUrl}";
+        }
+    }
+
+    public static void RenameTempImagesWithQuestionId(string filename, int questionId)
+    {
+        var directory = Path.Combine(Settings.ImagePath, Settings.QuestionContentImageBasePath);
+        var oldImages = Directory.GetFiles(directory, $"tempImage{filename}*");
+
+        foreach (var file in oldImages)
+        {
+            var newFilename = file.Replace("tempImage_", $"{questionId}_");
+            File.Move(file, newFilename);
+        }
+    }
+
+    public static string ReplaceTempImagePathsWithQuestionId(string text, int questionId)
+    {
+        var tempImagePath = $"src='/Images/{Settings.QuestionContentImageBasePath}/tempImage_";
+        var newImagePath = $"src='/Images/{Settings.QuestionContentImageBasePath}/{questionId}_";
+        return text.Replace(tempImagePath, newImagePath);
     }
 }

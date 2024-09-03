@@ -18,6 +18,8 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			questionHtml: '',
 			flashCardAnswerHtml: '',
 			topicId: 0,
+			uploadedImagesInContent: [] as string[],
+			uploadedImagesMarkedForDeletion: [] as string[]
 		}
 	},
 	actions: {
@@ -56,6 +58,41 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 		},
 		questionEdited(id: number) {
 			return id;
+		},
+		async uploadContentImage(file: File): Promise<string> {
+			const data = new FormData()
+			data.append('file', file)
+			data.append('topicId', this.id.toString())
+			const result = await $api<string>('/apiVue/EditQuestionStore/UploadContentImage', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			return result
+		},
+		addImageUrlToDeleteList(url: string) {
+			if (!this.uploadedImagesMarkedForDeletion.includes(url))
+				this.uploadedImagesMarkedForDeletion.push(url)
+		},
+		refreshDeleteImageList() {
+			const imagesToKeep = this.uploadedImagesInContent
+			this.uploadedImagesMarkedForDeletion = this.uploadedImagesMarkedForDeletion.filter(url => imagesToKeep.includes(url))
+		},
+		async deleteTopicContentImages() {
+			if (this.uploadedImagesMarkedForDeletion.length == 0)
+				return
+
+			const data = {
+				topicId: this.id,
+				imageUrls: this.uploadedImagesMarkedForDeletion
+			}
+			await $api<void>('/apiVue/EditQuestionStore/DeleteContentImages', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
 		}
 	},
 })
