@@ -172,6 +172,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.contentHasChanged = false
 				this.initialName = this.name
 				this.initialContent = this.content
+				this.contentHasChanged = false
 			}
 			else if (result.success == false) {
 				const alertStore = useAlertStore()
