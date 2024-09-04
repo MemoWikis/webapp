@@ -22,14 +22,13 @@ SessionUser _sessionUser) : Controller
         List<ViewsResult> MonthlyPublicCreatedTopicsOfPastYear,
 
         int CreatedPrivateTopicCount,
-        List<ViewsResult> AnnualPrivateCreatedTopics,
+        List<ViewsResult> MonthlyPrivateCreatedTopicsOfPastYear,
 
-        int TodaysTopicViews,
+        int TodaysTopicViewCount,
         List<ViewsResult> TopicViewsOfPastYear,
 
-        int TodaysQuestionViews,
+        int TodaysQuestionViewCount,
         List<ViewsResult> QuestionViewsOfPastYear
-
     );
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
@@ -67,12 +66,12 @@ SessionUser _sessionUser) : Controller
             MonthlyPublicCreatedTopicsOfPastYear = monthlyPublicCreatedTopicsOfPastYear,
 
             CreatedPrivateTopicCount = todaysPrivateTopicCreatedCount,
-            AnnualPrivateCreatedTopics = monthlyPrivateCreatedTopicsOfPastYear,
+            MonthlyPrivateCreatedTopicsOfPastYear = monthlyPrivateCreatedTopicsOfPastYear,
 
-            TodaysTopicViews = todaysTopicViewCount,
+            TodaysTopicViewCount = todaysTopicViewCount,
             TopicViewsOfPastYear = topicViewsOfPastYear,
 
-            TodaysQuestionViews = todaysQuestionViewCount,
+            TodaysQuestionViewCount = todaysQuestionViewCount,
             QuestionViewsOfPastYear = questionViewsOfPastYear
         };
     }

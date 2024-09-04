@@ -23,7 +23,7 @@ interface GetAllDataResponse {
     monthlyPublicCreatedTopicsOfPastYear: ViewsResult[]
 
     createdPrivateTopicCount: number
-    annualPrivateCreatedTopics: ViewsResult[]
+    monthlyPrivateCreatedTopicsOfPastYear: ViewsResult[]
 
     todaysTopicViewCount: number
     topicViewsOfPastYear: ViewsResult[]
@@ -41,48 +41,65 @@ const { data: overviewData } = await useFetch<GetAllDataResponse>('/apiVue/Metri
     },
 })
 
-const viewTopicLabels = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
-const viewTopicViews = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.views) as number[])
+// Registrations
+const monthlyRegistrationsOfPastYearLabels = computed(() => overviewData.value?.monthlyRegistrationsOfPastYear?.map(v => {
+    const [year, month] = v.dateTime.split("T")[0].split("-")
+    return `${year}-${month}`
+}) as string[])
+const monthlyRegistrationsOfPastYearCounts = computed(() => overviewData.value?.monthlyRegistrationsOfPastYear?.map(v => v.views) as number[])
+const showMonthlyRegistrationsAsBars = ref(true)
 
-const viewQuestionLabels = computed(() => overviewData.value?.questionViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
-const viewQuestionViews = computed(() => overviewData.value?.questionViewsOfPastYear?.map(v => v.views) as number[])
+const dailyRegistrationsOfPastYearLabels = computed(() => overviewData.value?.dailyRegistrationsOfPastYear?.map(v => {
+    const [year, month, day] = v.dateTime.split("T")[0].split("-")
+    return `${year}-${month}-${day}`
+}) as string[])
+const dailyRegistrationsOfPastYearCounts = computed(() => overviewData.value?.dailyRegistrationsOfPastYear?.map(v => v.views) as number[])
+const showDailyRegistrationsAsBars = ref(true)
 
+//Logins
 const monthlyLoginsOfPastYearLabels = computed(() => overviewData.value?.monthlyLoginsOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
 const monthlyLoginsOfPastYearCounts = computed(() => overviewData.value?.monthlyLoginsOfPastYear?.map(v => v.views) as number[])
+const showMonthlyLoginsAsBars = ref(true)
 
 const dailyLoginsOfPastYearLabels = computed(() => overviewData.value?.dailyLoginsOfPastYear?.map(v => {
     const [year, month, day] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}-${day}`
 }) as string[])
 const dailyLoginsOfPastYearCounts = computed(() => overviewData.value?.dailyLoginsOfPastYear?.map(v => v.views) as number[])
+const showDailyLoginsAsBars = ref(true)
 
-const monthlyRegistrationsOfPastYearLabels = computed(() => overviewData.value?.monthlyRegistrationsOfPastYear?.map(v => {
+//PublicTopics Creation
+const monthlyPublicCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
-const monthlyRegistrationsOfPastYearCounts = computed(() => overviewData.value?.monthlyRegistrationsOfPastYear?.map(v => v.views) as number[])
+const monthlyPublicCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => v.views) as number[])
+const showMonthlyPublicCreatedTopicsAsBars = ref(true)
 
-const annualPublicCreatedTopicLabels = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => {
+//PrivateTopics Creation
+const monthlyPrivateCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.monthlyPrivateCreatedTopicsOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
-const annualPublicCreatedTopicCounts = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => v.views) as number[])
+const monthlyPrivateCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.monthlyPrivateCreatedTopicsOfPastYear?.map(v => v.views) as number[])
+const showMonthlyPrivateCreatedTopicsAsBars = ref(true)
 
-const annualPrivateCreatedTopicLabels = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => {
-    const [year, month] = v.dateTime.split("T")[0].split("-")
-    return `${year}-${month}`
-}) as string[])
-const annualPrivateCreatedTopicCounts = computed(() => overviewData.value?.annualPrivateCreatedTopics?.map(v => v.views) as number[])
+//TopicViews
+const topicViewsOfPastYearLabels = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
+const topicViewsOfPastYearCounts = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.views) as number[])
+const showTopicViewsAsBars = ref(true)
+
+//QuestionViews
+const questionViewsOfPastYearLabels = computed(() => overviewData.value?.questionViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
+const questionViewsOfPastYearCounts = computed(() => overviewData.value?.questionViewsOfPastYear?.map(v => v.views) as number[])
+const showQuestionViewsAsBars = ref(true)
 
 const emit = defineEmits(['setPage', 'setBreadcrumb'])
 emit('setPage', Page.Metrics)
 emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
-
-
-const showAnnualRegistrationBar = ref(false)
 
 </script>
 
@@ -102,20 +119,21 @@ const showAnnualRegistrationBar = ref(false)
                             <h3>Registrierungen </h3>
                             <div class="chart-header">
                                 Heutige Registrierungen: {{ overviewData?.todaysRegistrationCount }}
-
-                                <div class="chart-toggle-container" @click="showAnnualRegistrationBar = !showAnnualRegistrationBar">
-                                    <div class="chart-toggle" :class="{ 'is-active': showAnnualRegistrationBar }">
-                                        <font-awesome-icon :icon="['fas', 'chart-column']" />
-                                    </div>
-                                    <div class="chart-toggle" :class="{ 'is-active': !showAnnualRegistrationBar }">
-                                        <font-awesome-icon :icon="['fas', 'chart-line']" />
-                                    </div>
-                                </div>
-
                             </div>
 
                             <div class="chart-container">
-                                <LazySharedChartsBar v-if="showAnnualRegistrationBar"
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showMonthlyRegistrationsAsBars = !showMonthlyRegistrationsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyRegistrationsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyRegistrationsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <LazySharedChartsBar v-if="showMonthlyRegistrationsAsBars"
                                     :labels="monthlyRegistrationsOfPastYearLabels"
                                     :datasets="monthlyRegistrationsOfPastYearCounts"
                                     :title="'Jahresübersicht Registrierungen'"
@@ -126,6 +144,31 @@ const showAnnualRegistrationBar = ref(false)
                                     :title="'Jahresübersicht Registrierungen'"
                                     :color="color.middleBlue" />
                             </div>
+
+                            <div class="chart-container">
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showDailyRegistrationsAsBars = !showDailyRegistrationsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showDailyRegistrationsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyRegistrationsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <LazySharedChartsBar v-if="showDailyRegistrationsAsBars"
+                                    :labels="dailyRegistrationsOfPastYearLabels"
+                                    :datasets="dailyRegistrationsOfPastYearCounts"
+                                    :title="'Jahresübersicht Registrierungen'"
+                                    :color="color.middleBlue" />
+                                <LazySharedChartsLine v-else
+                                    :labels="dailyRegistrationsOfPastYearLabels"
+                                    :datasets="dailyRegistrationsOfPastYearCounts"
+                                    :title="'Jahresübersicht Registrierungen'"
+                                    :color="color.middleBlue" />
+                            </div>
+
                         </div>
 
                         <div class="chart-section">
@@ -134,8 +177,24 @@ const showAnnualRegistrationBar = ref(false)
                                 Heutige Logins: {{ overviewData?.todaysLoginCount }}
                             </div>
 
-                            <div class="chart-conta iner">
-                                <LazySharedChartsBar
+                            <div class="chart-container">
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showMonthlyLoginsAsBars = !showMonthlyLoginsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyLoginsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyLoginsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <LazySharedChartsBar v-if="showMonthlyLoginsAsBars"
+                                    :labels="monthlyLoginsOfPastYearLabels"
+                                    :datasets="monthlyLoginsOfPastYearCounts"
+                                    :title="'Jahresübersicht Logins'"
+                                    :color="color.darkBlue" />
+                                <LazySharedChartsLine v-else
                                     :labels="monthlyLoginsOfPastYearLabels"
                                     :datasets="monthlyLoginsOfPastYearCounts"
                                     :title="'Jahresübersicht Logins'"
@@ -143,12 +202,29 @@ const showAnnualRegistrationBar = ref(false)
                             </div>
 
                             <div class="chart-container">
-                                <LazySharedChartsBar
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showDailyLoginsAsBars = !showDailyLoginsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showDailyLoginsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyLoginsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <LazySharedChartsBar v-if="showDailyLoginsAsBars"
+                                    :labels="dailyLoginsOfPastYearLabels"
+                                    :datasets="dailyLoginsOfPastYearCounts"
+                                    :title="'Jahresübersicht Logins'"
+                                    :color="color.darkBlue" />
+                                <LazySharedChartsLine v-else
                                     :labels="dailyLoginsOfPastYearLabels"
                                     :datasets="dailyLoginsOfPastYearCounts"
                                     :title="'Jahresübersicht Logins'"
                                     :color="color.darkBlue" />
                             </div>
+
                         </div>
 
                         <div class="chart-section">
@@ -158,9 +234,10 @@ const showAnnualRegistrationBar = ref(false)
                             </div>
 
                             <div class="chart-container">
+
                                 <LazySharedChartsBar
-                                    :labels="annualPrivateCreatedTopicLabels"
-                                    :datasets="annualPrivateCreatedTopicCounts"
+                                    :labels="monthlyPrivateCreatedTopicsOfPastYearLabels"
+                                    :datasets="monthlyPrivateCreatedTopicsOfPastYearCounts"
                                     :title="'Jahresübersicht erstellte Private Topics'"
                                     :color="color.lightRed" />
                             </div>
@@ -174,8 +251,8 @@ const showAnnualRegistrationBar = ref(false)
 
                             <div class="chart-container">
                                 <LazySharedChartsBar
-                                    :labels="annualPublicCreatedTopicLabels"
-                                    :datasets="annualPublicCreatedTopicCounts"
+                                    :labels="monthlyPublicCreatedTopicsOfPastYearLabels"
+                                    :datasets="monthlyPublicCreatedTopicsOfPastYearCounts"
                                     :title="'Jahresübersicht erstellte Public Topics'"
                                     :color="color.darkRed" />
 
@@ -190,8 +267,8 @@ const showAnnualRegistrationBar = ref(false)
 
                             <div class="chart-container">
                                 <LazySharedChartsBar
-                                    :labels="viewTopicLabels"
-                                    :datasets="viewTopicViews"
+                                    :labels="topicViewsOfPastYearLabels"
+                                    :datasets="topicViewsOfPastYearCounts"
                                     :title="'Jahresübersicht Topic Views'"
                                     :color="color.memoGreen" />
                             </div>
@@ -205,8 +282,8 @@ const showAnnualRegistrationBar = ref(false)
 
                             <div class="chart-container">
                                 <LazySharedChartsBar
-                                    :labels="viewQuestionLabels"
-                                    :datasets="viewQuestionViews"
+                                    :labels="questionViewsOfPastYearLabels"
+                                    :datasets="questionViewsOfPastYearCounts"
                                     :title="'Jahresübersicht Question Views'"
                                     :color="color.darkGreen" />
                             </div>
@@ -227,6 +304,11 @@ const showAnnualRegistrationBar = ref(false)
     margin-bottom: 20px;
     justify-content: space-between;
     font-size:18px;
+}
+
+.chart-toggle-section {
+    display: flex;
+    justify-content: flex-end;
 
     .chart-toggle-container {
         display: flex;
@@ -257,7 +339,6 @@ const showAnnualRegistrationBar = ref(false)
 
     }
 }
-
 .metrics-header {
     height: 54px;
     margin-top: 20px;

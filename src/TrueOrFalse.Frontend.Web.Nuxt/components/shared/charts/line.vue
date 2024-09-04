@@ -17,8 +17,9 @@ const chartData = ref({
             label: props.title,
             data: props.datasets,
             borderColor: props.color,
-            borderWidth: 2,
-            backgroundColor: props.color
+            borderWidth: 1,
+            backgroundColor: props.color,
+            pointRadius: 1.5,
         }
     ],
     chartOptions: {
