@@ -44,16 +44,17 @@ public class TopicStoreController(
         {
             categoryCacheItem.Name = param.name;
             category.Name = param.name;
+            _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Renamed);
         }
 
         if (param.saveContent)
         {
             categoryCacheItem.Content = param.content;
             category.Content = param.content;
+            _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
         }
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
         return new SaveTopicResult
         {
