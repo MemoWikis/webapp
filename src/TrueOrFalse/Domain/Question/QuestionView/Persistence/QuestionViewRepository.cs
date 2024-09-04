@@ -14,7 +14,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
             .Value;
     }
 
-    public ConcurrentDictionary<DateTime, int> GetViewsForLastNDays(int days)
+    public ConcurrentDictionary<DateTime, int> GetViewsForPastNDays(int days)
     {
         var watch = new Stopwatch();
         watch.Start();

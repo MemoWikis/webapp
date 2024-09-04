@@ -78,6 +78,8 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysActiveUserCount, List<ViewsResult> dailyActiveUsersOfPastYear, List<ViewsResult> monthlyActiveUsersOfPastYear) GetActiveUserCounts()
     {
+        var activeUserCountForPastYear = _categoryViewRepo.GetActiveUserCountForPastNDays(365);
+
         var allUsers = EntityCache.GetAllUsers();
 
         var todaysActiveUserCount = allUsers.Count(DateTimeUtils.IsLastLoginToday);
@@ -211,7 +213,7 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysTopicViews, List<ViewsResult> topicViewsOfPastYear) GetTopicViews()
     {
-        var topicViewsOfPastYear = _categoryViewRepo.GetViewsForLastNDays(365);
+        var topicViewsOfPastYear = _categoryViewRepo.GetViewsForPastNDays(365);
 
         var startDate = DateTime.Now.Date.AddDays(-365);
         var endDate = DateTime.Now.Date;
@@ -235,7 +237,7 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysQuestionViews, List<ViewsResult> questionViewsOfPastYear) GetQuestionViews()
     {
-        var questionViewsOfPastYear = _questionViewRepository.GetViewsForLastNDays(365);
+        var questionViewsOfPastYear = _questionViewRepository.GetViewsForPastNDays(365);
 
         var startDate = DateTime.Now.Date.AddDays(-365);
         var endDate = DateTime.Now.Date;
