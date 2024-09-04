@@ -234,8 +234,22 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="chart-container">
-
-                                <LazySharedChartsBar
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showMonthlyPrivateCreatedTopicsAsBars = !showMonthlyPrivateCreatedTopicsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyPrivateCreatedTopicsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyPrivateCreatedTopicsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <LazySharedChartsBar v-if="showMonthlyPrivateCreatedTopicsAsBars"
+                                    :labels="monthlyPrivateCreatedTopicsOfPastYearLabels"
+                                    :datasets="monthlyPrivateCreatedTopicsOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                    :color="color.lightRed" />
+                                <LazySharedChartsLine v-else
                                     :labels="monthlyPrivateCreatedTopicsOfPastYearLabels"
                                     :datasets="monthlyPrivateCreatedTopicsOfPastYearCounts"
                                     :title="'Jahresübersicht erstellte Private Topics'"
@@ -250,12 +264,26 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="chart-container">
-                                <LazySharedChartsBar
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showMonthlyPublicCreatedTopicsAsBars = !showMonthlyPublicCreatedTopicsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyPublicCreatedTopicsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyPublicCreatedTopicsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <LazySharedChartsBar v-if="showMonthlyPublicCreatedTopicsAsBars"
                                     :labels="monthlyPublicCreatedTopicsOfPastYearLabels"
                                     :datasets="monthlyPublicCreatedTopicsOfPastYearCounts"
                                     :title="'Jahresübersicht erstellte Public Topics'"
                                     :color="color.darkRed" />
-
+                                <LazySharedChartsLine v-else
+                                    :labels="monthlyPublicCreatedTopicsOfPastYearLabels"
+                                    :datasets="monthlyPublicCreatedTopicsOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Public Topics'"
+                                    :color="color.darkRed" />
                             </div>
                         </div>
 
@@ -266,7 +294,24 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="chart-container">
-                                <LazySharedChartsBar
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showTopicViewsAsBars = !showTopicViewsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showTopicViewsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showTopicViewsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <LazySharedChartsBar v-if="showTopicViewsAsBars"
+                                    :labels="topicViewsOfPastYearLabels"
+                                    :datasets="topicViewsOfPastYearCounts"
+                                    :title="'Jahresübersicht Topic Views'"
+                                    :color="color.memoGreen" />
+
+                                <LazySharedChartsLine v-else
                                     :labels="topicViewsOfPastYearLabels"
                                     :datasets="topicViewsOfPastYearCounts"
                                     :title="'Jahresübersicht Topic Views'"
@@ -281,7 +326,24 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                             </div>
 
                             <div class="chart-container">
-                                <LazySharedChartsBar
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showQuestionViewsAsBars = !showQuestionViewsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showQuestionViewsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showQuestionViewsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <LazySharedChartsBar v-if="showQuestionViewsAsBars"
+                                    :labels="questionViewsOfPastYearLabels"
+                                    :datasets="questionViewsOfPastYearCounts"
+                                    :title="'Jahresübersicht Question Views'"
+                                    :color="color.darkGreen" />
+
+                                <LazySharedChartsLine v-else
                                     :labels="questionViewsOfPastYearLabels"
                                     :datasets="questionViewsOfPastYearCounts"
                                     :title="'Jahresübersicht Question Views'"
@@ -306,9 +368,15 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
     font-size:18px;
 }
 
+.chart-container {
+    margin-bottom: 40px;
+}
+
 .chart-toggle-section {
     display: flex;
     justify-content: flex-end;
+    position: absolute;
+    right: 0px;
 
     .chart-toggle-container {
         display: flex;
