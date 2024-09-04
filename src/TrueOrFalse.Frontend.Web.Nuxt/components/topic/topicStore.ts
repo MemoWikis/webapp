@@ -144,20 +144,25 @@ export const useTopicStore = defineStore('topicStore', {
 				return
 			}
 
-			const json = {
+			const data = {
 				id: this.id,
 				name: this.name,
 				saveName: this.name != this.initialName,
 				content: this.content,
 				saveContent: this.content != this.initialContent
 			}
+
 			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
-				method: 'POST', body: json, mode: 'cors', credentials: 'include',
+				method: 'POST', 
+				body: data, 
+				mode: 'cors', 
+				credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
+
 			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',

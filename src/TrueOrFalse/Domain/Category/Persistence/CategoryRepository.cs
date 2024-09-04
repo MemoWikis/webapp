@@ -183,8 +183,7 @@ public class CategoryRepository(
 
         if (authorId != 0 && createCategoryChange)
         {
-            categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type,
-                affectedParentIdsByMove);
+            categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
         }
 
         Flush();
