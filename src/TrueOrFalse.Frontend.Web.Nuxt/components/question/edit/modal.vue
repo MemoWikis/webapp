@@ -191,7 +191,9 @@ function getData() {
         LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
         SessionIndex: learningSessionStore.lastIndexInQuestionList,
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
-        SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
+        SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson(),
+        uploadedImagesMarkedForDeletion: editQuestionStore.uploadedImagesMarkedForDeletion,
+        uploadedImagesInContent: editQuestionStore.uploadedImagesInContent
     }
     const data = editQuestionStore.edit ? editData : createData
 
@@ -225,6 +227,7 @@ async function save() {
     lockSaveButton.value = true
 
     spinnerStore.showSpinner()
+
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
@@ -279,6 +282,9 @@ async function save() {
             text: messages.getByCompositeKey(result.messageKey)
         })
     }
+
+    editQuestionStore.uploadedImagesMarkedForDeletion = []
+    editQuestionStore.uploadedImagesInContent = []
 }
 
 onMounted(() => {
@@ -313,13 +319,13 @@ function initiateSolution(solution: string) {
             multipleChoiceJson.value = solution
             break
         case SolutionType.MatchList:
-            matchListJson.value = solution;
+            matchListJson.value = solution
             break
         case SolutionType.FlashCard:
             flashCardAnswer.value = solution
     }
 
-    return solution;
+    return solution
 }
 const questionEditor = ref()
 const questionExtensionEditor = ref(null)

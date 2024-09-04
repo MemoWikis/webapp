@@ -8,7 +8,7 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 512, 128, 50, 20 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500, 435, 100 };
 
-    public override string BasePath => "Questions";
+    public override string BasePath => Settings.QuestionImageBasePath;
     public string BaseDummyUrl => "no-question-";
 
     private Question? __question;

@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Text.RegularExpressions;
 using TrueOrFalse.Frontend.Web.Code;
 
 public class ImageMaintenanceInfo
@@ -41,15 +41,15 @@ public class ImageMaintenanceInfo
         ImageType imageType,
         QuestionReadingRepo questionReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        CategoryRepository categoryRepository, 
-        IHttpContextAccessor httpContextAccessor, 
+        CategoryRepository categoryRepository,
+        IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor)
-        : this(imageMetaDataReadingRepo.GetBy(typeId, imageType), 
-            questionReadingRepo, 
-            categoryRepository, 
+        : this(imageMetaDataReadingRepo.GetBy(typeId, imageType),
+            questionReadingRepo,
+            categoryRepository,
             httpContextAccessor,
-            webHostEnvironment, 
+            webHostEnvironment,
             actionContextAccessor)
     {
     }
@@ -61,11 +61,9 @@ public class ImageMaintenanceInfo
         IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor)
     {
-       
-
         ImageId = imageMetaData.Id;
         MetaData = imageMetaData;
-        
+
         TypeId = imageMetaData.TypeId;
         TypeNotFound = false;
 
@@ -89,9 +87,9 @@ public class ImageMaintenanceInfo
 
         if (Type == null)
             TypeNotFound = true;
-       
+
         ManualImageData = ManualImageData.FromJson(MetaData.ManualEntries);
-            
+
         //new
         FileName = !String.IsNullOrEmpty(MetaData.SourceUrl)
                         ? Regex.Split(MetaData.SourceUrl, "/").Last()
@@ -103,17 +101,17 @@ public class ImageMaintenanceInfo
                     ? ManualImageData.AuthorManuallyAdded
                     : MetaData.AuthorParsed;
 
-        var offeredLicenses = new List<LicenseImage> {new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
+        var offeredLicenses = new List<LicenseImage> { new LicenseImage { Id = -2, WikiSearchString = "Hauptlizenz wählen" } }
             .Concat(new List<LicenseImage> { new LicenseImage { Id = -1, WikiSearchString = "Hauptlizenz löschen" } })
             .ToList();
-            
+
         if (LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).Any(x => LicenseImageRepo.GetAllAuthorizedLicenses().Any(y => x.Id == y.Id)))
         {
             offeredLicenses = offeredLicenses
-                .Concat(new List<LicenseImage>{new LicenseImage { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
+                .Concat(new List<LicenseImage> { new LicenseImage { Id = -3, WikiSearchString = "Geparste autorisierte Lizenzen" } })
                 .Concat(
                     LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses)
-                        .Where(x => 
+                        .Where(x =>
                             LicenseImageRepo.GetAllAuthorizedLicenses()
                             .Any(y => x.Id == y.Id)
                         )
@@ -125,11 +123,11 @@ public class ImageMaintenanceInfo
             LicenseImageRepo.GetAllAuthorizedLicenses()
                 .Any(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
         {
-            offeredLicenses = offeredLicenses.Concat(new List<LicenseImage>{ new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
+            offeredLicenses = offeredLicenses.Concat(new List<LicenseImage> { new LicenseImage { Id = -4, WikiSearchString = "Sonstige autorisierte Lizenzen (ACHTUNG: Nur verwenden, wenn beim Bild gefunden!)" } })
                                                 .Concat(LicenseImageRepo.GetAllAuthorizedLicenses().Where(x => LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses).All(y => x.Id != y.Id)))
                                                 .ToList();
         }
-                
+
         MainLicenseAuthorized = MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).GetMainLicense();
         AllRegisteredLicenses = LicenseImage.FromLicenseIdList(MetaData.AllRegisteredLicenses);
         AllAuthorizedLicenses = AllRegisteredLicenses
@@ -137,12 +135,12 @@ public class ImageMaintenanceInfo
                                 .ToList();
         SuggestedMainLicense = LicenseParser.SuggestMainLicenseFromParsedList(imageMetaData) ?? //Checked for requirements
                                 AllAuthorizedLicenses.FirstOrDefault(); //not checked
-        SelectedMainLicenseId = (MetaData.MainLicenseInfo != null 
+        SelectedMainLicenseId = (MetaData.MainLicenseInfo != null
                                     && MainLicenseInfo.FromJson(MetaData.MainLicenseInfo) != null)
                                     ? MainLicenseInfo.FromJson(MetaData.MainLicenseInfo).MainLicenseId
                                     : (SuggestedMainLicense != null ? SuggestedMainLicense.Id : -2);
         LicenseStateHtmlList = !String.IsNullOrEmpty(ToLicenseStateHtmlList()) ?
-                                ToLicenseStateHtmlList() : 
+                                ToLicenseStateHtmlList() :
                                 "";
         EvaluateImageDeployability();
         SetLicenseStateCssClass();
@@ -156,7 +154,7 @@ public class ImageMaintenanceInfo
 
         if (MetaData.Type == ImageType.Category)
             Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor).GetUrl_128px(asSquare: true).Url;
-            
+
         if (MetaData.Type == ImageType.Question)
             Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, questionReadingRepo).GetUrl_128px_square().Url;
 
@@ -198,12 +196,13 @@ public class ImageMaintenanceInfo
             return;
         }
 
-        if (LicenseParser.SuggestMainLicenseFromParsedList(MetaData) != null) {
+        if (LicenseParser.SuggestMainLicenseFromParsedList(MetaData) != null)
+        {
 
-                GlobalLicenseStateMessage = String.Format(
-                    "Keine Hauptlizenz festgelegt, aber verwendbare geparste Lizenz ({0}) vorhanden. Bitte überprüfen und freigeben.",
-                    LicenseParser.SuggestMainLicenseFromParsedList(MetaData).WikiSearchString);
-                return;
+            GlobalLicenseStateMessage = String.Format(
+                "Keine Hauptlizenz festgelegt, aber verwendbare geparste Lizenz ({0}) vorhanden. Bitte überprüfen und freigeben.",
+                LicenseParser.SuggestMainLicenseFromParsedList(MetaData).WikiSearchString);
+            return;
         }
 
         if (AllAuthorizedLicenses.Any())
@@ -240,7 +239,7 @@ public class ImageMaintenanceInfo
 
     private bool EvaluateManualApproval()
     {
-        if(ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
+        if (ManualImageData.ManualImageEvaluation == ManualImageEvaluation.ImageCheckedForCustomAttributionAndAuthorized)
             return true;
 
         LicenseState = ImageLicenseState.Unknown;
@@ -320,7 +319,7 @@ public class ImageMaintenanceInfo
     public string ToLicenseStateHtmlList()
     {
         return AllRegisteredLicenses.Count > 0
-            ? "<ul>" + 
+            ? "<ul>" +
                 AllRegisteredLicenses
                     .Aggregate("",
                         (current, license) =>

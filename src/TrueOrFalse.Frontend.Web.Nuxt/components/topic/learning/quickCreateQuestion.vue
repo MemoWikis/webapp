@@ -13,7 +13,10 @@ import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
+import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
+import UploadImage from '~/components/shared/imageUploadExtension'
 import ImageResize from '~~/components/shared/imageResizeExtension'
+
 
 const highlightEmptyFields = ref(false)
 
@@ -39,6 +42,7 @@ const sessionConfigJson = ref(null as null | { [key: string]: any })
 const alertStore = useAlertStore()
 
 const lowlight = createLowlight(all)
+const deleteImageSrc = ref<string | null>(null)
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -63,18 +67,21 @@ const editor = useEditor({
         ImageResize.configure({
             inline: true,
             allowBase64: true,
+        }),
+        UploadImage.configure({
+            uploadFn: editQuestionStore.uploadContentImage
         })
     ],
     editorProps: {
         handleClick: (view, pos, event) => {
         },
         handlePaste: (view, pos, event) => {
-            let eventContent = event.content as any
-            let content = eventContent.content
+            const eventContent = event.content as any
+            const content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src
-                if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                const src = content[0].attrs.src
+                if (src.startsWith('data:image')) {
+                    editor.value?.commands.addBase64Image(src)
                     return true
                 }
             }
@@ -87,6 +94,27 @@ const editor = useEditor({
         questionJson.value = editor.getJSON()
         questionHtml.value = editor.getHTML()
         validateForm()
+        checkContentImages()
+    },
+    onTransaction({ transaction }) {
+        let clearDeleteImageSrcRef = true
+        const { selection, doc } = transaction
+
+        const node = doc.nodeAt(selection.from)
+        if (node && node.type.name === 'uploadImage') {
+            deleteImageSrc.value = node.attrs.src
+            clearDeleteImageSrcRef = false
+        }
+
+        const hasDeleted = transaction.steps.some(step =>
+            step instanceof ReplaceStep || step instanceof ReplaceAroundStep
+        )
+
+        if (hasDeleted && deleteImageSrc.value)
+            editQuestionStore.addImageUrlToDeleteList(deleteImageSrc.value)
+
+        if (clearDeleteImageSrcRef)
+            deleteImageSrc.value = null
     },
 })
 function validateForm() {
@@ -137,7 +165,9 @@ async function addFlashcard() {
         Visibility: isPrivate.value ? 1 : 0,
         AddToWishknowledge: addToWishknowledge.value,
         LastIndex: learningSessionStore.lastIndexInQuestionList,
-        SessionConfig: sessionConfigJson.value
+        SessionConfig: sessionConfigJson.value,
+        uploadedImagesMarkedForDeletion: editQuestionStore.uploadedImagesMarkedForDeletion,
+        uploadedImagesInContent: editQuestionStore.uploadedImagesInContent
     }
 
     const result = await $api<FetchResult<number>>('/apiVue/QuickCreateQuestion/CreateFlashcard', {
@@ -181,11 +211,29 @@ async function addFlashcard() {
     flashCardAnswer.value = ''
     flashCardEditor.value?.clearFlashCard()
     topicStore.reloadKnowledgeSummary()
+    editQuestionStore.uploadedImagesMarkedForDeletion = []
+    editQuestionStore.uploadedImagesInContent = []
 }
 
 function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) {
     flashCardAnswer.value = e.solution
     solutionIsValid.value = e.solutionIsValid
+}
+
+const checkContentImages = () => {
+    if (editor.value == null)
+        return
+
+    const { state } = editor.value
+    state.doc.descendants((node: any, pos: number) => {
+        if (node.type.name === 'uploadImage') {
+            const src = node.attrs.src
+            if (src.startsWith('/Images/'))
+                editQuestionStore.uploadedImagesInContent.push(src)
+        }
+    })
+
+    editQuestionStore.refreshDeleteImageList()
 }
 </script>
 
@@ -213,7 +261,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
             <div id="AddQuestionFormContainer" class="inline-question-editor">
                 <div v-if="editor">
                     <div class="overline-s no-line">Frage</div>
-                    <EditorMenuBar :editor="editor" />
+                    <EditorMenuBar :editor="editor" @handle-undo-redo="checkContentImages" />
                     <editor-content :editor="editor"
                         :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
                     <div v-if="highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">

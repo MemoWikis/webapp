@@ -7,6 +7,7 @@ import { GridTopicItem } from './content/grid/item/gridTopicItem'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
 import { ErrorCode } from '../error/errorCodeEnum'
+import { nanoid } from 'nanoid'
 
 export class Topic {
 	canAccess: boolean = false
@@ -97,6 +98,8 @@ export const useTopicStore = defineStore('topicStore', {
 			gridItems: [] as GridTopicItem[],
 			isChildOfPersonalWiki: false,
 			textIsHidden: false,
+			uploadedImagesInContent: [] as string[],
+			uploadedImagesMarkedForDeletion: [] as string[]
 		}
 	},
 	actions: {
@@ -133,6 +136,8 @@ export const useTopicStore = defineStore('topicStore', {
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
 				this.textIsHidden = topic.textIsHidden
+				this.uploadedImagesInContent = []
+				this.uploadedImagesMarkedForDeletion = []
 			}
 		},
 		async saveTopic() {
@@ -175,6 +180,8 @@ export const useTopicStore = defineStore('topicStore', {
 			this.name = this.initialName
 			this.content = this.initialContent
 			this.contentHasChanged = false
+			this.uploadedImagesInContent = []
+			this.uploadedImagesMarkedForDeletion = []
 		},
 		isOwnerOrAdmin() {
 			const userStore = useUserStore()
@@ -234,8 +241,42 @@ export const useTopicStore = defineStore('topicStore', {
 
 			this.textIsHidden = result
 		},
-		
+		async uploadContentImage(file: File): Promise<string> {
+			const data = new FormData()
+			data.append('file', file)
+			data.append('topicId', this.id.toString())
+			const result = await $api<string>('/apiVue/TopicStore/UploadContentImage', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			return result
+		},
+		addImageUrlToDeleteList(url: string) {
+			if (!this.uploadedImagesMarkedForDeletion.includes(url))
+				this.uploadedImagesMarkedForDeletion.push(url)
+		},
+		refreshDeleteImageList() {
+			const imagesToKeep = this.uploadedImagesInContent
+			this.uploadedImagesMarkedForDeletion = this.uploadedImagesMarkedForDeletion.filter(url => imagesToKeep.includes(url))
+		},
+		async deleteTopicContentImages() {
+			if (this.uploadedImagesMarkedForDeletion.length == 0)
+				return
 
+			const data = {
+				topicId: this.id,
+				imageUrls: this.uploadedImagesMarkedForDeletion
+			}
+			await $api<void>('/apiVue/TopicStore/DeleteContentImages', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			this.uploadedImagesMarkedForDeletion = []
+		}
 	},
 	getters: {
 		getTopicName(): string {

@@ -9,7 +9,7 @@ public abstract class ImageSettings
     {
         _contextAccessor = contextAccessor;
     }
-    public abstract int Id { get; set;  }
+    public abstract int Id { get; set; }
     public abstract string BasePath { get; }
 
     public string ServerPathAndId()
@@ -40,6 +40,10 @@ public abstract class ImageSettings
                 return new SetImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.User:
                 return new UserImageSettings(imageMetaData.TypeId, _contextAccessor);
+            case ImageType.TopicContent:
+                return new TopicContentImageSettings(imageMetaData.TypeId, _contextAccessor);
+            case ImageType.QuestionContent:
+                return new QuestionContentImageSettings(imageMetaData.TypeId, _contextAccessor);
             default:
                 throw new Exception("invalid type");
         }

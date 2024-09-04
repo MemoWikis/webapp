@@ -1,4 +1,5 @@
 using SkiaSharp;
+using TrueOrFalse;
 
 public class SaveImageToFile
 {
@@ -69,5 +70,102 @@ public class SaveImageToFile
                 }
             }
         }
+    }
+
+    public static string SaveContentImageAndGetPath(Stream inputStream, IImageSettings imageSettings)
+    {
+        using (var image = SKBitmap.Decode(inputStream))
+        {
+            var guid = Guid.NewGuid();
+            var filename = $"{imageSettings.ServerPathAndId()}_{guid}.jpg";
+            using (var fileStream = File.OpenWrite(filename))
+            {
+                image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
+            }
+
+            var path = Path
+                .Combine(
+                    Settings.ImagePath,
+                    imageSettings.BasePath,
+                    $"{imageSettings.Id}_{guid}.jpg")
+                .NormalizePathSeparators();
+            if (File.Exists(path))
+                return $"/Images/{imageSettings.BasePath}/{imageSettings.Id}_{guid}.jpg";
+
+            return $"/Images/${imageSettings.BaseDummyUrl}";
+        }
+    }
+
+    public static string SaveTempQuestionContentImageAndGetPath(Stream inputStream, IImageSettings imageSettings)
+    {
+        using (var image = SKBitmap.Decode(inputStream))
+        {
+            var guid = Guid.NewGuid();
+
+            var filename = Path.Combine(
+                Settings.ImagePath,
+                Settings.QuestionContentImageBasePath,
+                $"tempImage_{guid}.jpg");
+
+            using (var fileStream = File.OpenWrite(filename))
+            {
+                image.Encode(fileStream, SKEncodedImageFormat.Jpeg, 100);
+            }
+
+            var path = Path
+                .Combine(
+                    Settings.ImagePath,
+                    imageSettings.BasePath,
+                    $"tempImage_{guid}.jpg")
+                .NormalizePathSeparators();
+
+            if (File.Exists(path))
+                return $"/Images/{imageSettings.BasePath}/tempImage_{guid}.jpg";
+
+            return $"/Images/${imageSettings.BaseDummyUrl}";
+        }
+    }
+
+    public static void RenameTempImagesWithQuestionId(string filename, int questionId)
+    {
+        var directory = Path.Combine(Settings.ImagePath, Settings.QuestionContentImageBasePath);
+        var oldImages = Directory.GetFiles(directory, filename);
+
+        foreach (var file in oldImages)
+        {
+            var newFilename = file.Replace("tempImage_", $"{questionId}_");
+            File.Move(file, newFilename);
+        }
+    }
+
+    public static string ReplaceTempImagePathsWithQuestionId(string text, int questionId)
+    {
+        var tempImagePath = $"src=\"/Images/{Settings.QuestionContentImageBasePath}/tempImage_";
+        var newImagePath = $"src=\"/Images/{Settings.QuestionContentImageBasePath}/{questionId}_";
+        return text.Replace(tempImagePath, newImagePath);
+    }
+
+    public static void ReplaceTempQuestionContentImages(string[] uploadedImagesInContent, Question question, QuestionWritingRepo questionWritingRepo)
+    {
+        var uniquePaths = uploadedImagesInContent.Distinct();
+
+        foreach (var imageUrl in uniquePaths)
+        {
+            var filename = Path.GetFileName(imageUrl);
+            RenameTempImagesWithQuestionId(filename, question.Id);
+        }
+
+        question.TextHtml = ReplaceTempImagePathsWithQuestionId(question.TextHtml, question.Id);
+
+        if (question.TextExtendedHtml is { Length: > 0 })
+            question.TextExtendedHtml = ReplaceTempImagePathsWithQuestionId(question.TextExtendedHtml, question.Id);
+
+        if (question.DescriptionHtml is { Length: > 0 })
+            question.DescriptionHtml = ReplaceTempImagePathsWithQuestionId(question.DescriptionHtml, question.Id);
+
+        if (question.SolutionType == SolutionType.FlashCard)
+            question.Solution = ReplaceTempImagePathsWithQuestionId(question.Solution, question.Id);
+
+        questionWritingRepo.UpdateOrMerge(question, false);
     }
 }

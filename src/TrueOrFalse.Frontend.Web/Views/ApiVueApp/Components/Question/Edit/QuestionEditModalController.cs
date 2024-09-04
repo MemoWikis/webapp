@@ -25,9 +25,10 @@ public class QuestionEditModalController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
-    Logg _logg) : Controller
+    Logg _logg,
+    ImageStore _imageStore) : Controller
 {
-    public readonly record struct QuestionDataParam(
+    public readonly record struct QuestionDataRequest(
         int[] CategoryIds,
         int? QuestionId,
         string TextHtml,
@@ -42,7 +43,9 @@ public class QuestionEditModalController(
         int LicenseId,
         string ReferencesJson,
         bool IsLearningTab,
-        LearningSessionConfig SessionConfig
+        LearningSessionConfig SessionConfig,
+        string[] UploadedImagesMarkedForDeletion,
+        string[] UploadedImagesInContent
     );
 
     public readonly record struct CreateResult(
@@ -52,7 +55,7 @@ public class QuestionEditModalController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public CreateResult Create([FromBody] QuestionDataParam param)
+    public CreateResult Create([FromBody] QuestionDataRequest request)
     {
         if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion(logExceedance: true))
         {
@@ -63,7 +66,7 @@ public class QuestionEditModalController(
             };
         }
 
-        var safeText = RemoveHtmlTags(param.TextHtml);
+        var safeText = RemoveHtmlTags(request.TextHtml);
         if (safeText.Length <= 0)
         {
             return new CreateResult
@@ -72,21 +75,24 @@ public class QuestionEditModalController(
 
         var question = new Question();
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
-        question = UpdateQuestion(question, param, safeText);
+
+        question = UpdateQuestion(question, request, safeText);
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
-        if (param.IsLearningTab)
-        {
-        }
+        if (request.UploadedImagesInContent.Length > 0)
+            SaveImageToFile.ReplaceTempQuestionContentImages(request.UploadedImagesInContent, question, _questionWritingRepo);
+
+        var deleteImage = new DeleteImage();
+        deleteImage.RunForQuestionContentImages(request.UploadedImagesMarkedForDeletion);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem,
-            param.SessionIndex,
-            param.SessionConfig);
+            request.SessionIndex,
+            request.SessionConfig);
 
-        if (param.AddToWishknowledge != null && (bool)param.AddToWishknowledge)
+        if (request.AddToWishknowledge != null && (bool)request.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
         return new CreateResult { Success = true, Data = LoadQuestion(question.Id) };
@@ -99,9 +105,9 @@ public class QuestionEditModalController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public QuestionEditResult Edit([FromBody] QuestionDataParam param)
+    public QuestionEditResult Edit([FromBody] QuestionDataRequest request)
     {
-        var safeText = RemoveHtmlTags(param.TextHtml);
+        var safeText = RemoveHtmlTags(request.TextHtml);
         if (safeText.Length <= 0)
         {
             return new QuestionEditResult
@@ -111,18 +117,21 @@ public class QuestionEditModalController(
             };
         }
 
-        if (param.QuestionId == null)
+        if (request.QuestionId == null)
             return new QuestionEditResult
             { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        var question = _questionReadingRepo.GetById((int)param.QuestionId);
-        var updatedQuestion = UpdateQuestion(question, param, safeText);
+        var question = _questionReadingRepo.GetById((int)request.QuestionId);
+        var updatedQuestion = UpdateQuestion(question, request, safeText);
 
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
-        if (param.IsLearningTab)
+        if (request.IsLearningTab)
             _learningSessionCache.EditQuestionInLearningSession(
                 EntityCache.GetQuestion(updatedQuestion.Id));
+
+        var deleteImage = new DeleteImage();
+        deleteImage.RunForQuestionContentImages(request.UploadedImagesMarkedForDeletion);
 
         return new QuestionEditResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
     }
@@ -239,16 +248,16 @@ public class QuestionEditModalController(
         return Regex.Replace(text, "<.*?>", "");
     }
 
-    private Question UpdateQuestion(Question question, QuestionDataParam param, string safeText)
+    private Question UpdateQuestion(Question question, QuestionDataRequest request, string safeText)
     {
-        question.TextHtml = param.TextHtml;
+        question.TextHtml = request.TextHtml;
         question.Text = safeText;
-        question.TextExtendedHtml = param.QuestionExtensionHtml;
-        question.DescriptionHtml = param.DescriptionHtml;
-        question.SolutionType = param.SolutionType;
+        question.TextExtendedHtml = request.QuestionExtensionHtml;
+        question.DescriptionHtml = request.DescriptionHtml;
+        question.SolutionType = request.SolutionType;
 
         var preEditedCategoryIds = question.Categories.Select(c => c.Id);
-        var newCategoryIds = param.CategoryIds.ToList();
+        var newCategoryIds = request.CategoryIds.ToList();
 
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
@@ -257,23 +266,23 @@ public class QuestionEditModalController(
                 newCategoryIds.Add(categoryId);
 
         question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
-        question.Visibility = (QuestionVisibility)param.Visibility;
+        question.Visibility = (QuestionVisibility)request.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
         {
             var solutionModelFlashCard = new QuestionSolutionFlashCard();
-            solutionModelFlashCard.Text = param.Solution;
+            solutionModelFlashCard.Text = request.Solution;
             question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
         }
         else
-            question.Solution = param.Solution;
+            question.Solution = request.Solution;
 
-        question.SolutionMetadataJson = param.SolutionMetadataJson;
+        question.SolutionMetadataJson = request.SolutionMetadataJson;
 
-        if (!String.IsNullOrEmpty(param.ReferencesJson))
+        if (!String.IsNullOrEmpty(request.ReferencesJson))
         {
             var references =
-                ReferenceJson.LoadFromJson(param.ReferencesJson, question, _categoryRepository);
+                ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -283,7 +292,7 @@ public class QuestionEditModalController(
         }
 
         question.License = _sessionUser.IsInstallationAdmin
-            ? LicenseQuestionRepo.GetById(param.LicenseId)
+            ? LicenseQuestionRepo.GetById(request.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
         EntityCache.AddOrUpdate(questionCacheItem);
@@ -302,4 +311,5 @@ public class QuestionEditModalController(
 
         return topics;
     }
+
 }

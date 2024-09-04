@@ -86,6 +86,37 @@ public class CategoryCacheItem : IPersistable
         return visibleVisited;
     }
 
+    private Dictionary<int, CategoryCacheItem> VisibleChildCategories(
+        CategoryCacheItem parentCacheItem,
+        PermissionCheck permissionCheck,
+        Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
+    {
+        var visibleVisited = new Dictionary<int, CategoryCacheItem>();
+
+        if (_previousVisibleVisited != null)
+        {
+            visibleVisited = _previousVisibleVisited;
+        }
+
+        if (parentCacheItem.ChildRelations != null)
+        {
+            foreach (var r in parentCacheItem.ChildRelations)
+            {
+                if (!visibleVisited.ContainsKey(r.ChildId))
+                {
+                    var child = EntityCache.GetCategory(r.ChildId);
+                    if (permissionCheck.CanView(child))
+                    {
+                        visibleVisited.Add(r.ChildId, child);
+                        VisibleChildCategories(child, permissionCheck, visibleVisited);
+                    }
+                }
+            }
+        }
+
+        return visibleVisited;
+    }
+
     public virtual IList<QuestionCacheItem> GetAggregatedQuestionsFromMemoryCache(
         int userId,
         bool onlyVisible = true,
@@ -214,36 +245,5 @@ public class CategoryCacheItem : IPersistable
     public void UpdateCountQuestionsAggregated(int userId)
     {
         CountQuestionsAggregated = GetCountQuestionsAggregated(userId);
-    }
-
-    private Dictionary<int, CategoryCacheItem> VisibleChildCategories(
-        CategoryCacheItem parentCacheItem,
-        PermissionCheck permissionCheck,
-        Dictionary<int, CategoryCacheItem> _previousVisibleVisited = null)
-    {
-        var visibleVisited = new Dictionary<int, CategoryCacheItem>();
-
-        if (_previousVisibleVisited != null)
-        {
-            visibleVisited = _previousVisibleVisited;
-        }
-
-        if (parentCacheItem.ChildRelations != null)
-        {
-            foreach (var r in parentCacheItem.ChildRelations)
-            {
-                if (!visibleVisited.ContainsKey(r.ChildId))
-                {
-                    var child = EntityCache.GetCategory(r.ChildId);
-                    if (permissionCheck.CanView(child))
-                    {
-                        visibleVisited.Add(r.ChildId, child);
-                        VisibleChildCategories(child, permissionCheck, visibleVisited);
-                    }
-                }
-            }
-        }
-
-        return visibleVisited;
     }
 }

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
+import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
@@ -18,7 +19,7 @@ import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
-import { getRandomColor } from '~/components/shared/utils'
+import { getRandomColor, resizeBase64Img } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
@@ -34,6 +35,7 @@ import { FontSize, useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
+import UploadImage from '~/components/shared/imageUploadExtension'
 
 const alertStore = useAlertStore()
 const topicStore = useTopicStore()
@@ -109,6 +111,8 @@ const initProvider = () => {
         }
     })
 }
+
+const deleteImageSrc = ref()
 
 const initEditor = () => {
     editor.value = new Editor({
@@ -188,10 +192,33 @@ const initEditor = () => {
                             'padding': '1.4em'
                         }
                     },
-                })
+                }),
+                UploadImage.configure({
+                    uploadFn: topicStore.uploadContentImage
+                }),
             ] : [History]
         ],
-        onUpdate({ editor }) {
+        onTransaction({ transaction }) {
+            let clearDeleteImageSrcRef = true
+            const { selection, doc } = transaction
+
+            const node = doc.nodeAt(selection.from)
+            if (node && node.type.name === 'uploadImage') {
+                deleteImageSrc.value = node.attrs.src
+                clearDeleteImageSrcRef = false
+            }
+
+            const hasDeleted = transaction.steps.some(step =>
+                step instanceof ReplaceStep || step instanceof ReplaceAroundStep
+            )
+
+            if (hasDeleted && deleteImageSrc.value)
+                topicStore.addImageUrlToDeleteList(deleteImageSrc.value)
+
+            if (clearDeleteImageSrcRef)
+                deleteImageSrc.value = null
+        },
+        onUpdate({ editor, transaction }) {
             topicStore.contentHasChanged = providerContentLoaded.value
             if (editor.isEmpty)
                 topicStore.content = ''
@@ -215,14 +242,13 @@ const initEditor = () => {
                 const firstNode = event.content.firstChild
                 if (firstNode != null && firstNode.type.name == 'image') {
                     if (!isEmpty(firstNode.attrs)) {
-                        let src = firstNode.attrs.src;
-                        if (src.length > 1048576 && src.startsWith('data:image')) {
-                            alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                        const src = firstNode.attrs.src
+                        if (src.startsWith('data:image')) {
+                            editor.value?.commands.addBase64Image(src)
                             return true
                         }
                     }
                 }
-
             },
             attributes: {
                 id: 'InlineEdit',
@@ -231,13 +257,18 @@ const initEditor = () => {
     })
 }
 
+
 const recreate = (login: boolean = false) => {
     provider.value?.destroy()
     editor.value?.destroy()
 
     if (login) loadCollab.value = true
 
-    if (userStore.isLoggedIn && loadCollab.value) initProvider()
+    if (userStore.isLoggedIn && loadCollab.value) {
+        initProvider()
+
+
+    }
     else if (!userStore.isLoggedIn) providerLoaded.value = true
 
     initEditor()
@@ -268,10 +299,27 @@ function updateHeadingIds() {
             const textContent = node.textContent
             const newId = slugify(textContent) + `-${nanoid(5)}`
             if (node.attrs.id == null) {
-                commands.updateAttributes(node.type.name, { id: newId })
+                commands.updateAttributes('heading', { id: newId })
             }
         }
     })
+}
+
+const checkContentImages = () => {
+    if (editor.value == null)
+        return
+
+    const { state } = editor.value
+    topicStore.uploadedImagesInContent = []
+    state.doc.descendants((node: any, pos: number) => {
+        if (node.type.name === 'uploadImage') {
+            const src = node.attrs.src
+            if (src.startsWith('/Images/'))
+                topicStore.uploadedImagesInContent.push(src)
+        }
+    })
+
+    topicStore.refreshDeleteImageList()
 }
 
 const spinnerStore = useSpinnerStore()
@@ -287,7 +335,7 @@ onMounted(() => {
             outlineStore.editorIsFocused = true
         })
 
-        editor.value.on('selectionUpdate', updateCursorIndex);
+        editor.value.on('selectionUpdate', updateCursorIndex)
 
         editor.value.on('blur', () => {
             outlineStore.editorIsFocused = false
@@ -313,18 +361,26 @@ onBeforeUnmount(() => {
 watch(() => userStore.isLoggedIn, (val) => recreate(val))
 
 const autoSaveTimer = ref()
+const deleteTopicContentImageTimer = ref()
 const autoSave = () => {
     if (topicStore.visibility != Visibility.Owner)
         return
 
-    if (autoSaveTimer.value) {
+    if (autoSaveTimer.value)
         clearTimeout(autoSaveTimer.value)
-    }
+
+    if (deleteTopicContentImageTimer.value)
+        clearTimeout(deleteTopicContentImageTimer.value)
+
     autoSaveTimer.value = setTimeout(() => {
         if (editor.value) {
             topicStore.saveTopic()
         }
     }, 3000)
+
+    deleteTopicContentImageTimer.value = setTimeout(() => {
+        topicStore.deleteTopicContentImages()
+    }, 10000)
 }
 
 const { isMobile } = useDevice()
@@ -333,7 +389,7 @@ const { isMobile } = useDevice()
 <template>
     <template v-if="editor && providerLoaded">
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
-            v-if="loadCollab && userStore.isLoggedIn" />
+            v-if="loadCollab && userStore.isLoggedIn" @handle-undo-redo="checkContentImages" />
         <LazyEditorMenuBar :editor="editor" :heading="true" :is-topic-content="true"
             v-else />
 

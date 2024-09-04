@@ -8,6 +8,9 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
 import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { useEditQuestionStore } from './editQuestionStore'
+import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
+import UploadImage from '~/components/shared/imageUploadExtension'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
@@ -16,6 +19,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
+const editQuestionStore = useEditQuestionStore()
 
 const emit = defineEmits(['setDescriptionData'])
 const showDescription = ref(false)
@@ -48,15 +52,13 @@ const editor = useEditor({
         })
     ],
     editorProps: {
-        handleClick: (view, pos, event) => {
-        },
         handlePaste: (view, pos, event) => {
-            let eventContent = event.content as any
-            let content = eventContent.content
+            const eventContent = event.content as any
+            const content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src;
-                if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                const src = content[0].attrs.src
+                if (src.startsWith('data:image')) {
+                    editor.value?.commands.addBase64Image(src)
                     return true
                 }
             }
@@ -67,6 +69,7 @@ const editor = useEditor({
     },
     onUpdate: ({ editor }) => {
         emit('setDescriptionData', editor)
+        checkContentImages()
     },
 })
 watch(() => props.content, (o, n) => {
@@ -76,11 +79,27 @@ watch(() => props.content, (o, n) => {
         editor.value?.commands.setContent(n)
 })
 
+const checkContentImages = () => {
+    if (editor.value == null)
+        return
+
+    const { state } = editor.value
+    state.doc.descendants((node: any, pos: number) => {
+        if (node.type.name === 'uploadImage') {
+            const src = node.attrs.src
+            if (src.startsWith('/Images/'))
+                editQuestionStore.uploadedImagesInContent.push(src)
+
+        }
+    })
+
+    editQuestionStore.refreshDeleteImageList()
+}
 </script>
 
 <template>
     <div v-if="showDescription && editor">
-        <EditorMenuBar :editor="editor" />
+        <EditorMenuBar :editor="editor" @handle-undo-redo="checkContentImages" />
         <editor-content :editor="editor" />
     </div>
     <template v-else>

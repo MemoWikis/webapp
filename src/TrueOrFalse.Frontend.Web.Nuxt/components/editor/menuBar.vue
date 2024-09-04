@@ -15,6 +15,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 const focused = ref(false)
 
+const emit = defineEmits(['handleUndoRedo'])
+
 async function command(commandString: string, e: Event) {
     e.preventDefault()
     switch (commandString) {
@@ -77,23 +79,23 @@ async function command(commandString: string, e: Event) {
                 props.editor.view.dispatch(transaction)
             }
 
-            break;
+            break
         case 'unsetLink':
             props.editor.chain().unsetLink().focus().run()
             break
         case 'addImage':
-            var imgUrl = window.prompt('Bild URL')
-            if (imgUrl)
-                props.editor.commands.setImage({ src: imgUrl })
+            props.editor.commands.addImage()
             break
         case 'horizontalRule':
             props.editor.commands.setHorizontalRule()
             break
         case 'undo':
             props.editor.commands.undo()
+            emit('handleUndoRedo')
             break
         case 'redo':
             props.editor.commands.redo()
+            emit('handleUndoRedo')
             break
         case 'outdent':
             if (props.editor.can().liftListItem('listItem'))
@@ -193,18 +195,15 @@ const { isMobile } = useDevice()
                     <font-awesome-icon :icon="['fas', 'indent']" />
                 </button>
 
-                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }"
-                    @mousedown="command('bulletList', $event)">
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bulletList') }" @mousedown="command('bulletList', $event)">
                     <font-awesome-icon icon="fa-solid fa-list-ul" />
                 </button>
 
-                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }"
-                    @mousedown="command('orderedList', $event)">
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('orderedList') }" @mousedown="command('orderedList', $event)">
                     <font-awesome-icon icon="fa-solid fa-list-ol" />
                 </button>
 
-                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('taskList') }"
-                    v-if="props.isTopicContent" @mousedown="command('taskList', $event)">
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('taskList') }" v-if="props.isTopicContent" @mousedown="command('taskList', $event)">
                     <font-awesome-icon :icon="['fas', 'list-check']" />
                 </button>
 
@@ -212,23 +211,19 @@ const { isMobile } = useDevice()
                     <div class="menubar__divider"></div>
                 </div>
 
-                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }"
-                    @mousedown="command('blockquote', $event)">
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('blockquote') }" @mousedown="command('blockquote', $event)">
                     <font-awesome-icon icon="fa-solid fa-quote-right" />
                 </button>
 
-                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('codeBlock') }"
-                    @mousedown="command('codeBlock', $event)">
+                <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('codeBlock') }" @mousedown="command('codeBlock', $event)">
                     <font-awesome-icon icon="fa-solid fa-code" />
                 </button>
 
-                <button class="menubar__button" @mousedown="command('setLink', $event)"
-                    :class="{ 'is-active': props.editor.isActive('link') }">
+                <button class="menubar__button" @mousedown="command('setLink', $event)" :class="{ 'is-active': props.editor.isActive('link') }">
                     <font-awesome-icon icon="fa-solid fa-link" />
                 </button>
 
-                <button v-if="props.editor.isActive('link')" class="menubar__button"
-                    @mousedown="command('unsetLink', $event)">
+                <button v-if="props.editor.isActive('link')" class="menubar__button" @mousedown="command('unsetLink', $event)">
                     <font-awesome-icon icon="fa-solid fa-link-slash" />
                 </button>
 
