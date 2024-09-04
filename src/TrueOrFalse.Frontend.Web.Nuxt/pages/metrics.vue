@@ -12,8 +12,8 @@ interface ViewsResult {
 interface GetAllDataResponse {
 
     todaysLoginCount: number
-    monthlyLoginsOfPastYear: ViewsResult[]
-    dailyLoginsOfPastYear: ViewsResult[]
+    monthlyActiveUsersOfPastYear: ViewsResult[]
+    dailyActiveUsersOfPastYear: ViewsResult[]
 
     todaysRegistrationCount: number
     monthlyRegistrationsOfPastYear: ViewsResult[]
@@ -56,20 +56,20 @@ const dailyRegistrationsOfPastYearLabels = computed(() => overviewData.value?.da
 const dailyRegistrationsOfPastYearCounts = computed(() => overviewData.value?.dailyRegistrationsOfPastYear?.map(v => v.views) as number[])
 const showDailyRegistrationsAsBars = ref(true)
 
-//Logins
-const monthlyLoginsOfPastYearLabels = computed(() => overviewData.value?.monthlyLoginsOfPastYear?.map(v => {
+//ActiveUsers
+const monthlyActiveUsersOfPastYearLabels = computed(() => overviewData.value?.monthlyActiveUsersOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
-const monthlyLoginsOfPastYearCounts = computed(() => overviewData.value?.monthlyLoginsOfPastYear?.map(v => v.views) as number[])
-const showMonthlyLoginsAsBars = ref(true)
+const monthlyActiveUsersOfPastYearCounts = computed(() => overviewData.value?.monthlyActiveUsersOfPastYear?.map(v => v.views) as number[])
+const showMonthlyActiveUsersAsBars = ref(true)
 
-const dailyLoginsOfPastYearLabels = computed(() => overviewData.value?.dailyLoginsOfPastYear?.map(v => {
+const dailyActiveUsersOfPastYearLabels = computed(() => overviewData.value?.dailyActiveUsersOfPastYear?.map(v => {
     const [year, month, day] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}-${day}`
 }) as string[])
-const dailyLoginsOfPastYearCounts = computed(() => overviewData.value?.dailyLoginsOfPastYear?.map(v => v.views) as number[])
-const showDailyLoginsAsBars = ref(true)
+const dailyActiveUsersOfPastYearCounts = computed(() => overviewData.value?.dailyActiveUsersOfPastYear?.map(v => v.views) as number[])
+const showDailyActiveUsersAsBars = ref(true)
 
 //PublicTopics Creation
 const monthlyPublicCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => {
@@ -172,56 +172,56 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                         </div>
 
                         <div class="chart-section">
-                            <h3>Logins</h3>
+                            <h3>Aktive Nutzer</h3>
                             <div class="chart-header">
-                                Heutige Logins: {{ overviewData?.todaysLoginCount }}
+                                Heutige Aktive Nutzer: {{ overviewData?.todaysLoginCount }}
                             </div>
 
                             <div class="chart-container">
                                 <div class="chart-toggle-section">
-                                    <div class="chart-toggle-container" @click="showMonthlyLoginsAsBars = !showMonthlyLoginsAsBars">
-                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyLoginsAsBars }">
+                                    <div class="chart-toggle-container" @click="showMonthlyActiveUsersAsBars = !showMonthlyActiveUsersAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyActiveUsersAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-column']" />
                                         </div>
-                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyLoginsAsBars }">
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyActiveUsersAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-line']" />
                                         </div>
                                     </div>
                                 </div>
 
-                                <LazySharedChartsBar v-if="showMonthlyLoginsAsBars"
-                                    :labels="monthlyLoginsOfPastYearLabels"
-                                    :datasets="monthlyLoginsOfPastYearCounts"
-                                    :title="'Jahresübersicht Logins'"
+                                <LazySharedChartsBar v-if="showMonthlyActiveUsersAsBars"
+                                    :labels="monthlyActiveUsersOfPastYearLabels"
+                                    :datasets="monthlyActiveUsersOfPastYearCounts"
+                                    :title="'Jahresübersicht ActiveUsers'"
                                     :color="color.darkBlue" />
                                 <LazySharedChartsLine v-else
-                                    :labels="monthlyLoginsOfPastYearLabels"
-                                    :datasets="monthlyLoginsOfPastYearCounts"
-                                    :title="'Jahresübersicht Logins'"
+                                    :labels="monthlyActiveUsersOfPastYearLabels"
+                                    :datasets="monthlyActiveUsersOfPastYearCounts"
+                                    :title="'Jahresübersicht ActiveUsers'"
                                     :color="color.darkBlue" />
                             </div>
 
                             <div class="chart-container">
                                 <div class="chart-toggle-section">
-                                    <div class="chart-toggle-container" @click="showDailyLoginsAsBars = !showDailyLoginsAsBars">
-                                        <div class="chart-toggle" :class="{ 'is-active': showDailyLoginsAsBars }">
+                                    <div class="chart-toggle-container" @click="showDailyActiveUsersAsBars = !showDailyActiveUsersAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showDailyActiveUsersAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-column']" />
                                         </div>
-                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyLoginsAsBars }">
+                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyActiveUsersAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-line']" />
                                         </div>
                                     </div>
                                 </div>
 
-                                <LazySharedChartsBar v-if="showDailyLoginsAsBars"
-                                    :labels="dailyLoginsOfPastYearLabels"
-                                    :datasets="dailyLoginsOfPastYearCounts"
-                                    :title="'Jahresübersicht Logins'"
+                                <LazySharedChartsBar v-if="showDailyActiveUsersAsBars"
+                                    :labels="dailyActiveUsersOfPastYearLabels"
+                                    :datasets="dailyActiveUsersOfPastYearCounts"
+                                    :title="'Jahresübersicht ActiveUsers'"
                                     :color="color.darkBlue" />
                                 <LazySharedChartsLine v-else
-                                    :labels="dailyLoginsOfPastYearLabels"
-                                    :datasets="dailyLoginsOfPastYearCounts"
-                                    :title="'Jahresübersicht Logins'"
+                                    :labels="dailyActiveUsersOfPastYearLabels"
+                                    :datasets="dailyActiveUsersOfPastYearCounts"
+                                    :title="'Jahresübersicht ActiveUsers'"
                                     :color="color.darkBlue" />
                             </div>
 

@@ -10,9 +10,9 @@ CategoryViewRepo _categoryViewRepo,
 SessionUser _sessionUser) : Controller
 {
     public readonly record struct GetAllDataResponse(
-        int TodaysLoginCount,
-        List<ViewsResult> MonthlyLoginsOfPastYear,
-        List<ViewsResult> DailyLoginsOfPastYear,
+        int TodaysActiveUserCount,
+        List<ViewsResult> MonthlyActiveUsersOfPastYear,
+        List<ViewsResult> DailyActiveUsersOfPastYear,
 
         int TodaysRegistrationCount,
         List<ViewsResult> MonthlyRegistrationsOfPastYear,
@@ -39,7 +39,7 @@ SessionUser _sessionUser) : Controller
             return new GetAllDataResponse();
 
         //Users
-        var (todaysLoginCount, dailyLoginsOfPastYear, monthlyLoginsOfPastYear) = GetLoginCounts();
+        var (todaysActiveUserCount, dailyActiveUsersOfPastYear, monthlyActiveUsersOfPastYear) = GetActiveUserCounts();
         var (todaysRegistrationCount, dailyRegistrationsOfPastYear, monthlyRegistrationsOfPastYear) = GetRegistrationCounts();
 
         //Topics
@@ -54,9 +54,9 @@ SessionUser _sessionUser) : Controller
 
         return new GetAllDataResponse
         {
-            TodaysLoginCount = todaysLoginCount,
-            MonthlyLoginsOfPastYear = monthlyLoginsOfPastYear,
-            DailyLoginsOfPastYear = dailyLoginsOfPastYear,
+            TodaysActiveUserCount = todaysActiveUserCount,
+            MonthlyActiveUsersOfPastYear = monthlyActiveUsersOfPastYear,
+            DailyActiveUsersOfPastYear = dailyActiveUsersOfPastYear,
 
             TodaysRegistrationCount = todaysRegistrationCount,
             MonthlyRegistrationsOfPastYear = monthlyRegistrationsOfPastYear,
@@ -76,13 +76,13 @@ SessionUser _sessionUser) : Controller
         };
     }
 
-    private (int todaysLoginCount, List<ViewsResult> dailyLoginsOfPastYear, List<ViewsResult> monthlyLoginsOfPastYear) GetLoginCounts()
+    private (int todaysActiveUserCount, List<ViewsResult> dailyActiveUsersOfPastYear, List<ViewsResult> monthlyActiveUsersOfPastYear) GetActiveUserCounts()
     {
         var allUsers = EntityCache.GetAllUsers();
 
-        var todaysLoginCount = allUsers.Count(DateTimeUtils.IsLastLoginToday);
+        var todaysActiveUserCount = allUsers.Count(DateTimeUtils.IsLastLoginToday);
 
-        var lastYearLogins = allUsers
+        var lastYearActiveUsers = allUsers
             .Where(u => u.LastLogin.HasValue && u.LastLogin.Value.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
 
@@ -92,29 +92,29 @@ SessionUser _sessionUser) : Controller
         var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
             .Select(d => startDate.AddDays(d));
 
-        var dailyLoginsOfPastYear = dateRange
+        var dailyActiveUsersOfPastYear = dateRange
             .GroupJoin(
-                lastYearLogins,
+                lastYearActiveUsers,
                 date => date,
                 u => new DateTime(u.LastLogin.Value.Year, u.LastLogin.Value.Month, u.LastLogin.Value.Day),
-                (date, logins) => new ViewsResult(date, logins.Count()))
+                (date, ActiveUsers) => new ViewsResult(date, ActiveUsers.Count()))
             .OrderBy(v => v.DateTime)
             .ToList();
 
         var monthRange = Enumerable.Range(0, 12)
             .Select(m => startDate.AddMonths(m));
 
-        var monthlyLoginsOfPastYear = monthRange
+        var monthlyActiveUsersOfPastYear = monthRange
             .GroupJoin(
-                lastYearLogins,
+                lastYearActiveUsers,
                 month => new { month.Year, month.Month },
                 u => new { u.LastLogin.Value.Year, Month = u.LastLogin.Value.Month },
-                (month, logins) => new ViewsResult(new DateTime(month.Year, month.Month, 1), logins.Count()))
+                (month, ActiveUsers) => new ViewsResult(new DateTime(month.Year, month.Month, 1), ActiveUsers.Count()))
             .OrderBy(v => v.DateTime)
             .ToList();
 
 
-        return (todaysLoginCount, dailyLoginsOfPastYear, monthlyLoginsOfPastYear);
+        return (todaysActiveUserCount, dailyActiveUsersOfPastYear, monthlyActiveUsersOfPastYear);
     }
 
     private (int todaysRegistrationCount, List<ViewsResult> dailyRegistrationsOfPastYear, List<ViewsResult> monthlyRegistrationsOfPastYear) GetRegistrationCounts()
