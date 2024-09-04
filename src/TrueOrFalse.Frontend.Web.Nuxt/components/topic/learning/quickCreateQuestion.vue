@@ -34,7 +34,7 @@ const licenseIsValid = ref(false)
 const solutionIsValid = ref(false)
 const disabled = ref(true)
 const isPrivate = ref(true)
-const sessionConfigJson = ref(null as null | { [key: string]: any; })
+const sessionConfigJson = ref(null as null | { [key: string]: any })
 
 const alertStore = useAlertStore()
 
@@ -99,8 +99,6 @@ function validateForm() {
 watch([isPrivate, licenseConfirmation, flashCardAnswer], (isPrivate,) => {
     validateForm()
 })
-
-
 
 function createQuestion() {
     if (!userStore.isLoggedIn) {
@@ -251,8 +249,7 @@ function setFlashCardContent(e: { solution: string, solutionIsValid: boolean }) 
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" v-model="licenseConfirmation" value="false">
-                                    Dieser Eintrag wird veröffentlicht unter CC BY 4.0. <span class="btn-link"
-                                        @click.prevent="showMore = !showMore">mehr</span>
+                                    Dieser Eintrag wird veröffentlicht unter CC BY 4.0. <span class="btn-link" @click.prevent="showMore = !showMore">mehr</span>
                                     <template v-if="showMore">
                                         <br />
                                         <br />
