@@ -149,7 +149,7 @@ export const useTopicStore = defineStore('topicStore', {
 				name: this.name,
 				saveName: this.name != this.initialName,
 				content: this.content,
-				saveContent: this.content != this.initialContent
+				saveContent: this.content != this.initialContent && this.contentHasChanged
 			}
 
 			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
@@ -170,6 +170,8 @@ export const useTopicStore = defineStore('topicStore', {
                 }
                 snackbarStore.showSnackbar(data)
 				this.contentHasChanged = false
+				this.initialName = this.name
+				this.initialContent = this.content
 			}
 			else if (result.success == false) {
 				const alertStore = useAlertStore()
