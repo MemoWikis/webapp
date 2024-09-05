@@ -42,6 +42,8 @@ public class BaseTest
             }
         }
 
+        ImageDirectoryCreator.CreateImageDirectories(App.Environment.ContentRootPath);
+
         var initializer = Resolve<EntityCacheInitializer>();
         initializer.Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
