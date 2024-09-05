@@ -15,11 +15,11 @@ services:
       #Override appsettings:
       - Paths__LomExportPath=${LOM_EXPORT_PATH}
       - Paths__AbsoluteImagePath=${ABSOLUTE_IMAGE_PATH:-/app/Images}
-      - Paths__TopicContentImages=${ABSOLUTE_IMAGE_PATH:TopicContent}
-      - Paths__TopicImages=${ABSOLUTE_IMAGE_PATH:Categories}
-      - Paths__QuestionContentImages=${ABSOLUTE_IMAGE_PATH:QuestionContentImages}
-      - Paths__QuestionImages=${ABSOLUTE_IMAGE_PATH:Questions}
-      - Paths__UserImages=${ABSOLUTE_IMAGE_PATH:Users}
+      - Paths__TopicContentImages=${ABSOLUTE_IMAGE_PATH:-TopicContent}
+      - Paths__TopicImages=${ABSOLUTE_IMAGE_PATH:-Categories}
+      - Paths__QuestionContentImages=${ABSOLUTE_IMAGE_PATH:-QuestionContentImages}
+      - Paths__QuestionImages=${ABSOLUTE_IMAGE_PATH:-Questions}
+      - Paths__UserImages=${ABSOLUTE_IMAGE_PATH:-Users}
       - General__SeqUrl=${SEQ_URL:-http://host.docker.internal:5341}
       - General__SeqApiKey=${SEQ_API_KEY:-error}
       - General__CanonicalHost=${CANONICAL_HOST:-error}
