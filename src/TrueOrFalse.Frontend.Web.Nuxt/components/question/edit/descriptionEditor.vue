@@ -49,6 +49,9 @@ const editor = useEditor({
         ImageResize.configure({
             inline: true,
             allowBase64: true,
+        }),
+        UploadImage.configure({
+            uploadFn: editQuestionStore.uploadContentImage
         })
     ],
     editorProps: {
