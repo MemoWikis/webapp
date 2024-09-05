@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../../user/userStore'
 import { useTopicStore } from '~~/components/topic/topicStore'
+import { nanoid } from 'nanoid'
 
 enum Type {
 	Create,
@@ -19,7 +20,8 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			flashCardAnswerHtml: '',
 			topicId: 0,
 			uploadedImagesInContent: [] as string[],
-			uploadedImagesMarkedForDeletion: [] as string[]
+			uploadedImagesMarkedForDeletion: [] as string[],
+			uploadTrackingArray: [] as string[]
 		}
 	},
 	actions: {
@@ -60,16 +62,22 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			return id;
 		},
 		async uploadContentImage(file: File): Promise<string> {
-			console.log('tryUpload')
+			const uploadId = nanoid(5)
+			this.uploadTrackingArray.push(uploadId)
+			
 			const data = new FormData()
 			data.append('file', file)
 			data.append('questionId', this.id.toString())
+
 			const result = await $api<string>('/apiVue/EditQuestionStore/UploadContentImage', {
 				body: data,
 				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',
 			})
+
+			this.uploadTrackingArray = this.uploadTrackingArray.filter(id => id !== uploadId)
+
 			return result
 		},
 		addImageUrlToDeleteList(url: string) {
@@ -95,6 +103,11 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 				credentials: 'include',
 			})
 			this.uploadedImagesMarkedForDeletion = []
+		},
+		async waitUntilAllUploadsComplete() {
+			while (this.uploadTrackingArray.length > 0) {
+				await new Promise(resolve => setTimeout(resolve, 100))
+			}
 		}
 	},
 })

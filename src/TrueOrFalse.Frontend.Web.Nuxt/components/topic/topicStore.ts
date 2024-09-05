@@ -99,7 +99,8 @@ export const useTopicStore = defineStore('topicStore', {
 			isChildOfPersonalWiki: false,
 			textIsHidden: false,
 			uploadedImagesInContent: [] as string[],
-			uploadedImagesMarkedForDeletion: [] as string[]
+			uploadedImagesMarkedForDeletion: [] as string[],
+			uploadTrackingArray: [] as string[]
 		}
 	},
 	actions: {
@@ -148,6 +149,8 @@ export const useTopicStore = defineStore('topicStore', {
 				userStore.openLoginModal()
 				return
 			}
+
+			await this.waitUntilAllUploadsComplete()
 
 			const json = {
 				id: this.id,
@@ -242,15 +245,22 @@ export const useTopicStore = defineStore('topicStore', {
 			this.textIsHidden = result
 		},
 		async uploadContentImage(file: File): Promise<string> {
+			const uploadId = nanoid(5)
+			this.uploadTrackingArray.push(uploadId)
+			
 			const data = new FormData()
 			data.append('file', file)
 			data.append('topicId', this.id.toString())
+
 			const result = await $api<string>('/apiVue/TopicStore/UploadContentImage', {
 				body: data,
 				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',
 			})
+
+			this.uploadTrackingArray = this.uploadTrackingArray.filter(id => id !== uploadId)
+			
 			return result
 		},
 		addImageUrlToDeleteList(url: string) {
@@ -276,6 +286,11 @@ export const useTopicStore = defineStore('topicStore', {
 				credentials: 'include',
 			})
 			this.uploadedImagesMarkedForDeletion = []
+		},
+		async waitUntilAllUploadsComplete() {
+			while (this.uploadTrackingArray.length > 0) {
+				await new Promise(resolve => setTimeout(resolve, 100))
+			}
 		}
 	},
 	getters: {

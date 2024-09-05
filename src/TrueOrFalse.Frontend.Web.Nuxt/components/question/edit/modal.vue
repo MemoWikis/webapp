@@ -224,9 +224,11 @@ async function save() {
         highlightEmptyFields.value = true
         return
     }
-    lockSaveButton.value = true
 
+    lockSaveButton.value = true
     spinnerStore.showSpinner()
+
+    await editQuestionStore.waitUntilAllUploadsComplete()
 
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
