@@ -64,7 +64,6 @@ const flashCardAnswer = ref<string>()
 
 const topicIds = ref<number[]>([])
 const selectedTopics = ref<TopicItem[]>([])
-const privateTopicIds = ref<number[]>([])
 function removeTopic(t: TopicItem) {
     if (selectedTopics.value.length > 1) {
         var index = selectedTopics.value.findIndex(s => s == t)
