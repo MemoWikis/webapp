@@ -15,9 +15,9 @@ import ImageResize from '~~/components/shared/imageResizeExtension'
 interface Props {
     highlightEmptyFields: boolean
     content: string
+    isInit: boolean
 }
 const props = defineProps<Props>()
-const alertStore = useAlertStore()
 const editQuestionStore = useEditQuestionStore()
 
 const emit = defineEmits(['setDescriptionData'])
@@ -77,7 +77,7 @@ const editor = useEditor({
 watch(() => props.content, (o, n) => {
     if (n != null && n.length > 0)
         showDescription.value = true
-    if (o != n)
+    if (o != n && props.isInit)
         editor.value?.commands.setContent(n)
 })
 

@@ -80,13 +80,13 @@ public class QuestionEditModalController(
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
-        var questionCacheItem = EntityCache.GetQuestion(question.Id);
-
         if (request.UploadedImagesInContent.Length > 0)
             SaveImageToFile.ReplaceTempQuestionContentImages(request.UploadedImagesInContent, question, _questionWritingRepo);
 
         var deleteImage = new DeleteImage();
         deleteImage.RunForQuestionContentImages(request.UploadedImagesMarkedForDeletion);
+
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(questionCacheItem,
             request.SessionIndex,

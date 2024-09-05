@@ -16,6 +16,7 @@ import { useEditQuestionStore } from './editQuestionStore'
 interface Props {
     highlightEmptyFields: boolean
     solution?: string
+    isInit: boolean
 }
 
 const props = defineProps<Props>()
@@ -98,7 +99,7 @@ const editor = useEditor({
 })
 
 function initSolution() {
-    if (props.solution && props.solution.trim() != editor.value?.getHTML().trim()) {
+    if (props.solution && props.solution.trim() != editor.value?.getHTML().trim() && props.isInit) {
         editor.value?.commands.setContent(props.solution)
         setFlashCardContent()
     }

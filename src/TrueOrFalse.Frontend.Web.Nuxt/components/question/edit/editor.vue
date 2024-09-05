@@ -11,12 +11,11 @@ import { isEmpty } from 'underscore'
 import { useAlertStore } from '../../alert/alertStore'
 import { useEditQuestionStore } from './editQuestionStore'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
-import UploadImage from '~/components/shared/imageUploadExtension'
-import ImageResize from '~~/components/shared/imageResizeExtension'
 
 interface Props {
     highlightEmptyFields: boolean
     content: string
+    isInit: boolean
 }
 
 const editQuestionStore = useEditQuestionStore()
@@ -50,26 +49,8 @@ const editor = useEditor({
             showOnlyCurrent: true,
         }),
         Indent,
-        ImageResize.configure({
-            inline: true,
-            allowBase64: true,
-        }),
-        UploadImage.configure({
-            uploadFn: editQuestionStore.uploadContentImage
-        })
     ],
     editorProps: {
-        handlePaste: (view, pos, event) => {
-            const eventContent = event.content as any
-            const content = eventContent.content
-            if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                const src = content[0].attrs.src
-                if (src.startsWith('data:image')) {
-                    editor.value?.commands.addBase64Image(src)
-                    return true
-                }
-            }
-        },
         attributes: {
             id: 'QuestionEditor',
         }
@@ -107,7 +88,7 @@ onMounted(async () => {
 })
 
 watch(() => props.content, (c) => {
-    if (c != editor.value?.getHTML())
+    if (c != editor.value?.getHTML() && props.isInit)
         editor.value?.commands.setContent(c)
 })
 

@@ -152,6 +152,7 @@ public class AnswerBodyController(
             AnswerDescription: question.Description != null
                 ? MarkdownMarkdig.ToHtml(question.Description)
                 : "",
+            AnswerDescriptionHtml: question.DescriptionHtml,
             AnswerReferences: question.References.Select(r => new AnswerReferences(
                 ReferenceId: r.Id,
                 TopicId: r.Category?.Id ?? null,
@@ -203,6 +204,7 @@ public class AnswerBodyController(
         string AnswerAsHTML,
         string Answer,
         string AnswerDescription,
+        string AnswerDescriptionHtml,
         AnswerReferences[] AnswerReferences);
 
     public record struct AnswerReferences(
