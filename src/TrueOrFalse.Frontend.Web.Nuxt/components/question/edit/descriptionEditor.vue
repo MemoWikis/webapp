@@ -7,9 +7,8 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { useAlertStore } from '../../alert/alertStore'
 import { useEditQuestionStore } from './editQuestionStore'
-import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import UploadImage from '~/components/shared/imageUploadExtension'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 
@@ -49,6 +48,9 @@ const editor = useEditor({
         ImageResize.configure({
             inline: true,
             allowBase64: true,
+        }),
+        UploadImage.configure({
+            uploadFn: editQuestionStore.uploadContentImage
         })
     ],
     editorProps: {
@@ -64,7 +66,7 @@ const editor = useEditor({
             }
         },
         attributes: {
-            id: 'QuestionInputField',
+            id: 'QuestionDescription',
         }
     },
     onUpdate: ({ editor }) => {

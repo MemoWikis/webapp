@@ -124,11 +124,8 @@ const UploadImage = Image.extend<CustomImageOptions>({
   },
 })
 
-
 const resizeAndUploadBase64Image = async (base64String: string, view: EditorView, schema: Schema, uploadFn: UploadFn) => {
-  console.log()
   const resizedBase64String = await resizeBase64Img(base64String, 800)
-  console.log(base64String.length, resizedBase64String.length)
   // Convert base64 string to Blob
   const byteString = atob(resizedBase64String.split(',')[1])
   const mimeString = resizedBase64String.split(',')[0].split(':')[1].split('')[0]

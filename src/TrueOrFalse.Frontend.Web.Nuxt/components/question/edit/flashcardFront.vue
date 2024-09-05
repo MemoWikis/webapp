@@ -8,7 +8,7 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { Indent } from '../../editor/indent'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
+import { useAlertStore } from '../../alert/alertStore'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import UploadImage from '~/components/shared/imageUploadExtension'
@@ -70,7 +70,7 @@ const editor = useEditor({
             }
         },
         attributes: {
-            id: 'QuestionInputField',
+            id: 'FlashcardEditor',
         }
     },
     onTransaction({ transaction }) {
