@@ -90,7 +90,7 @@ const editor = useEditor({
             }
         },
         attributes: {
-            id: 'QuestionInputField',
+            id: 'QuickCreateEditor',
         }
     },
     onUpdate: ({ editor }) => {

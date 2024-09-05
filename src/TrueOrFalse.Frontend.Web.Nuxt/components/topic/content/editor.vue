@@ -12,14 +12,14 @@ import History from '@tiptap/extension-history'
 import { all, createLowlight } from 'lowlight'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 import { Indent } from '../../editor/indent'
+import UploadImage from '~/components/shared/imageUploadExtension'
 
 import { useTopicStore } from '~~/components/topic/topicStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
-import { getRandomColor, resizeBase64Img } from '~/components/shared/utils'
+import { getRandomColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
@@ -35,9 +35,7 @@ import { FontSize, useUserStore } from '~/components/user/userStore'
 import { IndexeddbPersistence } from 'y-indexeddb'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
-import UploadImage from '~/components/shared/imageUploadExtension'
 
-const alertStore = useAlertStore()
 const topicStore = useTopicStore()
 const outlineStore = useOutlineStore()
 const snackbarStore = useSnackbarStore()
