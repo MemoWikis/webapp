@@ -61,7 +61,6 @@ const multipleChoiceJson = ref<string>()
 const matchListJson = ref<string>()
 const flashCardAnswer = ref<string>()
 
-
 const topicIds = ref<number[]>([])
 const selectedTopics = ref<TopicItem[]>([])
 function removeTopic(t: TopicItem) {
