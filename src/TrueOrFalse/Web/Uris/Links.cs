@@ -120,12 +120,14 @@ public class Links
 
         if (type is Category)
         {
-            return CategoryDetail((Category)type);
+            var topic = (Category)type;
+            return GetTopicUrl(UriSanitizer.Run(topic.Name), topic.Id);
         }
 
         if (type is CategoryCacheItem)
         {
-            return CategoryDetail((CategoryCacheItem)type);
+            var topic = (CategoryCacheItem)type;
+            return GetTopicUrl(UriSanitizer.Run(topic.Name), topic.Id);
         }
 
         if (type is Question)
@@ -168,5 +170,10 @@ public class Links
     public static string UsersSearch(string searchTerm)
     {
         return "/Nutzer/Suche/" + searchTerm;
+    }
+
+    public string GetTopicUrl(string text, int id)
+    {
+        return $"/{text}/{id}";
     }
 }

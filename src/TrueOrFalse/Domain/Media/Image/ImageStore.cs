@@ -87,4 +87,34 @@ public class ImageStore(
         _imgMetaDataWritingRepo.StoreUploaded(typeId, userId, imageSettings.ImageType,
             licenseGiverName);
     }
+
+    public string RunTopicContentUploadAndGetPath(IFormFile imageFile, int topicId, int userId, string licenseGiverName)
+    {
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<TopicContentImageSettings>(topicId);
+
+        imageSettings.Init(topicId);
+
+        if (imageFile.Length == 0)
+            throw new Exception("imageFile is empty");
+
+        using var stream = imageFile.OpenReadStream();
+
+        var path = SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings);
+        return path;
+    }
+
+    public string RunQuestionContentUploadAndGetPath(IFormFile imageFile, int questionId, int userId, string licenseGiverName)
+    {
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<QuestionContentImageSettings>(questionId);
+
+        imageSettings.Init(questionId);
+
+        if (imageFile.Length == 0)
+            throw new Exception("imageFile is empty");
+
+        using var stream = imageFile.OpenReadStream();
+
+        var path = questionId > 0 ? SaveImageToFile.SaveContentImageAndGetPath(stream, imageSettings) : SaveImageToFile.SaveTempQuestionContentImageAndGetPath(stream, imageSettings);
+        return path;
+    }
 }

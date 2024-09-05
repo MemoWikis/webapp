@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using Quartz;
+﻿using Quartz;
 using Quartz.Impl;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Tools.ScheduledJobs.Jobs;
@@ -164,42 +163,6 @@ public static class JobScheduler
             JobBuilder.Create<DeleteQuestion>()
                 .UsingJobData("questionId", questionId)
                 .UsingJobData("userId", userId)
-                .Build(),
-            TriggerBuilder.Create().StartNow().Build());
-    }
-
-    public static void StartImmediately_ModifyCategoryRelation(
-        int childCategoryId,
-        int parentCategoryId,
-        int authorId)
-    {
-        _scheduler.ScheduleJob(
-            JobBuilder.Create<AddParentCategoryInDb>()
-                .UsingJobData("childCategoryId", childCategoryId)
-                .UsingJobData("parentCategoryId", parentCategoryId)
-                    .UsingJobData("authorId", authorId)
-                    .Build(),
-                TriggerBuilder.Create().StartNow().Build());
-        }
-
-        public static void StartImmediately_ModifyTopicRelations(List<CategoryCacheRelation> relations, int authorId)
-        {
-            var relationsJson = JsonSerializer.Serialize(relations);
-
-            _scheduler.ScheduleJob(
-                JobBuilder.Create<AddOrUpdateRelationsInDb>()
-                    .UsingJobData("relations", relationsJson)
-                    .UsingJobData("authorId", authorId)
-                    .Build(),
-                TriggerBuilder.Create().StartNow().Build());
-        }
-
-        public static void StartImmediately_DeleteRelation(int relationId, int authorId)
-        {
-            _scheduler.ScheduleJob(
-                JobBuilder.Create<DeleteRelationInDb>()
-                    .UsingJobData("relationId", relationId)
-                .UsingJobData("authorId", authorId)
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }

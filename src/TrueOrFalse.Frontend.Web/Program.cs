@@ -21,9 +21,7 @@ using static System.Int32;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Host.UseSerilog();
-
 
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
@@ -108,6 +106,8 @@ else
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+
+ImageDirectoryCreator.CreateImageDirectories(env.ContentRootPath);
 
 if (string.IsNullOrEmpty(env.WebRootPath))
 {

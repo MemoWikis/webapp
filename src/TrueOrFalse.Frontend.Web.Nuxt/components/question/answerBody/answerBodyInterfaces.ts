@@ -33,5 +33,6 @@ export interface SolutionData {
     answerAsHTML: string
     answer: string
     answerDescription: string
+    answerDescriptionHtml: string
     answerReferences: Reference[]
 }

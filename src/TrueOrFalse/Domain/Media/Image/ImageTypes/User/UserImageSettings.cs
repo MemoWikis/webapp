@@ -6,7 +6,7 @@ public class UserImageSettings : ImageSettings, IImageSettings
 
     public ImageType ImageType => ImageType.User;
 
-    public override string BasePath => "Users";
+    public override string BasePath => Settings.UserImageBasePath;
     public string BaseDummyUrl => "no-profile-picture-";
 
     public UserImageSettings(

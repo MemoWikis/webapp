@@ -40,8 +40,11 @@
 
         _categoryChangeRepo.AddDeleteEntry(category, userId);
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
-        _categoryRepo.Delete(category.Id);
 
+        var deleteImage = new DeleteImage();
+        deleteImage.RemoveAllForTopic(category.Id);
+
+        _categoryRepo.Delete(category.Id);
 
         hasDeleted.DeletedSuccessful = true;
         return hasDeleted;
