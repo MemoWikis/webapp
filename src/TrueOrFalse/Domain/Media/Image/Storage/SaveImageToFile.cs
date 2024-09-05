@@ -140,8 +140,8 @@ public class SaveImageToFile
 
     public static string ReplaceTempImagePathsWithQuestionId(string text, int questionId)
     {
-        var tempImagePath = $"src=\"/Images/{Settings.QuestionContentImageBasePath}/tempImage_";
-        var newImagePath = $"src=\"/Images/{Settings.QuestionContentImageBasePath}/{questionId}_";
+        var tempImagePath = $"/Images/{Settings.QuestionContentImageBasePath}/tempImage_";
+        var newImagePath = $"/Images/{Settings.QuestionContentImageBasePath}/{questionId}_";
         return text.Replace(tempImagePath, newImagePath);
     }
 
