@@ -61,10 +61,8 @@ const multipleChoiceJson = ref<string>()
 const matchListJson = ref<string>()
 const flashCardAnswer = ref<string>()
 
-
 const topicIds = ref<number[]>([])
 const selectedTopics = ref<TopicItem[]>([])
-const privateTopicIds = ref<number[]>([])
 function removeTopic(t: TopicItem) {
     if (selectedTopics.value.length > 1) {
         var index = selectedTopics.value.findIndex(s => s == t)
@@ -224,9 +222,11 @@ async function save() {
         highlightEmptyFields.value = true
         return
     }
-    lockSaveButton.value = true
 
+    lockSaveButton.value = true
     spinnerStore.showSpinner()
+
+    await editQuestionStore.waitUntilAllUploadsComplete()
 
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()

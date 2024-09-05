@@ -16,6 +16,7 @@ import { useLearningSessionConfigurationStore } from './learningSessionConfigura
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import UploadImage from '~/components/shared/imageUploadExtension'
 import ImageResize from '~~/components/shared/imageResizeExtension'
+import { useSpinnerStore } from '~/components/spinner/spinnerStore'
 
 
 const highlightEmptyFields = ref(false)
@@ -23,9 +24,11 @@ const highlightEmptyFields = ref(false)
 const userStore = useUserStore()
 const topicStore = useTopicStore()
 const editQuestionStore = useEditQuestionStore()
-const flashCardEditor = ref()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+const spinnerStore = useSpinnerStore()
+
+const flashCardEditor = ref()
 const addToWishknowledge = ref(true)
 const questionJson = ref(null as null | JSONContent)
 const questionHtml = ref('')
@@ -155,6 +158,9 @@ async function addFlashcard() {
         highlightEmptyFields.value = true
         return
     }
+
+    spinnerStore.showSpinner()
+    await editQuestionStore.waitUntilAllUploadsComplete()
 
     sessionConfigJson.value = learningSessionConfigurationStore.buildSessionConfigJson(topicStore.id)
 
