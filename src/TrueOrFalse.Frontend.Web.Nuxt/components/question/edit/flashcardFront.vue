@@ -17,6 +17,7 @@ import { useEditQuestionStore } from './editQuestionStore'
 interface Props {
     highlightEmptyFields: boolean
     content: string
+    isInit: boolean
 }
 
 const props = defineProps<Props>()
@@ -104,7 +105,7 @@ onMounted(() => {
 })
 
 watch(() => props.content, (c) => {
-    if (c != editor.value?.getHTML())
+    if (c != editor.value?.getHTML() && props.isInit)
         editor.value?.commands.setContent(c)
 })
 

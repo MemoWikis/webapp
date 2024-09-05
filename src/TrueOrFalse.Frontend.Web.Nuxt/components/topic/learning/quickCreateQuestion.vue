@@ -276,7 +276,7 @@ const checkContentImages = () => {
                 </div>
                 <div>
                     <QuestionEditFlashCard :solution="flashCardJson" :highlight-empty-fields="highlightEmptyFields"
-                        ref="flashCardEditor" @set-flash-card-content="setFlashCardContent" />
+                        ref="flashCardEditor" @set-flash-card-content="setFlashCardContent" :is-init="false" />
                 </div>
                 <div class="input-container">
                     <div class="overline-s no-line">

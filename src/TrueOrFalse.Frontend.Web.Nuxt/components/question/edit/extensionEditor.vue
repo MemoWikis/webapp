@@ -15,6 +15,7 @@ import { useEditQuestionStore } from './editQuestionStore'
 interface Props {
     highlightEmptyFields: boolean
     content: string
+    isInit: boolean
 }
 const props = defineProps<Props>()
 const alertStore = useAlertStore()
@@ -70,15 +71,33 @@ const editor = useEditor({
     },
     onUpdate: ({ editor }) => {
         emit('setQuestionExtensionData', editor)
+        checkContentImages()
     },
 })
+
+const checkContentImages = () => {
+    if (editor.value == null)
+        return
+
+    const { state } = editor.value
+    state.doc.descendants((node: any, pos: number) => {
+        if (node.type.name === 'uploadImage') {
+            const src = node.attrs.src
+            if (src.startsWith('/Images/'))
+                editQuestionStore.uploadedImagesInContent.push(src)
+
+        }
+    })
+
+    editQuestionStore.refreshDeleteImageList()
+}
 
 const showExtension = ref(false)
 
 watch(() => props.content, (o, n) => {
     if (n != null && n.length > 0)
         showExtension.value = true
-    if (o != n)
+    if (o != n && props.isInit)
         editor.value?.commands.setContent(n)
 })
 </script>
