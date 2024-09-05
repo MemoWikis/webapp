@@ -192,12 +192,12 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazySharedChartsBar v-if="showMonthlyActiveUsersAsBars"
                                     :labels="monthlyActiveUsersOfPastYearLabels"
                                     :datasets="monthlyActiveUsersOfPastYearCounts"
-                                    :title="'Jahresübersicht ActiveUsers'"
+                                    :title="'Jahresübersicht Aktive Nutzer'"
                                     :color="color.darkBlue" />
                                 <LazySharedChartsLine v-else
                                     :labels="monthlyActiveUsersOfPastYearLabels"
                                     :datasets="monthlyActiveUsersOfPastYearCounts"
-                                    :title="'Jahresübersicht ActiveUsers'"
+                                    :title="'Jahresübersicht Aktive Nutzer'"
                                     :color="color.darkBlue" />
                             </div>
 

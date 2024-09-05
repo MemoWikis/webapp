@@ -6,6 +6,7 @@ interface Props {
     labels: string[]
     datasets: number[]
     color: string
+    stepSize?: number
 }
 
 const props = defineProps<Props>()
@@ -21,14 +22,25 @@ const chartData = ref({
             backgroundColor: props.color,
             pointRadius: 1.5,
         }
-    ],
-    chartOptions: {
-        responsive: true,
-    }
+    ]
 })
 
-const chartOptions = ref({
+const chartOptions = ref<any>({
     responsive: true
+})
+
+onBeforeMount(() => {
+    if (props.stepSize) {
+        chartOptions.value = {
+            ...chartOptions.value,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    stepSize: props.stepSize
+                }
+            }
+        }
+    }
 })
 
 </script>

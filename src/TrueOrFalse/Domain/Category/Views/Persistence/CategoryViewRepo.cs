@@ -55,9 +55,18 @@ public class CategoryViewRepo(
 
     public ConcurrentDictionary<DateTime, int> GetActiveUserCountForPastNDays(int days)
     {
-        var query = _session.CreateSQLQuery("SELECT DateOnly, COUNT(DISTINCT User_id) AS unique_user_count FROM categoryview WHERE User_id > 0 GROUP BY DateOnly ORDER BY DateOnly");
+        var query = _session.CreateSQLQuery(@"
+        SELECT DateOnly, COUNT(DISTINCT User_id) AS Count
+        FROM categoryview
+        WHERE User_id > 0
+          AND DateOnly >= CURDATE() - INTERVAL :days DAY
+        GROUP BY DateOnly
+        ORDER BY DateOnly");
+
         query.SetParameter("days", days);
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
+
+        var result = query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
             .List<TopicViewSummary>();
 
         var dictionaryResult = new ConcurrentDictionary<DateTime, int>();

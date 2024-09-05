@@ -80,12 +80,13 @@ SessionUser _sessionUser) : Controller
     {
         var activeUserCountForPastYear = _categoryViewRepo.GetActiveUserCountForPastNDays(365);
 
-        var allUsers = EntityCache.GetAllUsers();
+        var todaysActiveUserCount = activeUserCountForPastYear.TryGetValue(DateTime.Now.Date, out var todaysCount)
+            ? todaysCount
+            : 0;
 
-        var todaysActiveUserCount = allUsers.Count(DateTimeUtils.IsLastLoginToday);
-
-        var lastYearActiveUsers = allUsers
-            .Where(u => u.LastLogin.HasValue && u.LastLogin.Value.Date > DateTime.Now.Date.AddDays(-365))
+        var activeUsersOfPastYear = activeUserCountForPastYear
+            .Where(v => v.Key > DateTime.Now.Date.AddDays(-365))
+            .OrderBy(v => v.Key)
             .ToList();
 
         var startDate = DateTime.Now.Date.AddDays(-365);
@@ -96,10 +97,10 @@ SessionUser _sessionUser) : Controller
 
         var dailyActiveUsersOfPastYear = dateRange
             .GroupJoin(
-                lastYearActiveUsers,
+                activeUsersOfPastYear,
                 date => date,
-                u => new DateTime(u.LastLogin.Value.Year, u.LastLogin.Value.Month, u.LastLogin.Value.Day),
-                (date, ActiveUsers) => new ViewsResult(date, ActiveUsers.Count()))
+                v => v.Key,
+                (date, ActiveUsers) => new ViewsResult(date, ActiveUsers.FirstOrDefault().Value))
             .OrderBy(v => v.DateTime)
             .ToList();
 
@@ -108,13 +109,12 @@ SessionUser _sessionUser) : Controller
 
         var monthlyActiveUsersOfPastYear = monthRange
             .GroupJoin(
-                lastYearActiveUsers,
+                activeUsersOfPastYear,
                 month => new { month.Year, month.Month },
-                u => new { u.LastLogin.Value.Year, Month = u.LastLogin.Value.Month },
-                (month, ActiveUsers) => new ViewsResult(new DateTime(month.Year, month.Month, 1), ActiveUsers.Count()))
+                v => new { v.Key.Year, v.Key.Month },
+                (month, ActiveUsers) => new ViewsResult(new DateTime(month.Year, month.Month, 1), ActiveUsers.Sum(a => a.Value)))
             .OrderBy(v => v.DateTime)
             .ToList();
-
 
         return (todaysActiveUserCount, dailyActiveUsersOfPastYear, monthlyActiveUsersOfPastYear);
     }
