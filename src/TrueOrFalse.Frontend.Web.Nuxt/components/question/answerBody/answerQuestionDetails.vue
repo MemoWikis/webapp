@@ -321,15 +321,15 @@ function updateArc() {
         .duration(400)
         .style("opacity", 1.0)
         .attr("transform", (d: any) => {
-            return "translate(" + pos.centroid(d) + ")";
+            return "translate(" + pos.centroid(d) + ")"
         })
         .attr("dx", dxAvgLabel.value)
         .attr("dy", dyAvgLabel.value)
         .attr("text-anchor", avgLabelAnchor.value)
         .tween("text", function (this: any) {
-            var selection = d3.select(this);
-            var text = d3.select(this).text();
-            var numbers = text.match(/(\d+)/);
+            var selection = d3.select(this)
+            var text = d3.select(this).text()
+            var numbers = text.match(/(\d+)/)
             var end = avgProbability.value
             var interpolator = d3.interpolateNumber(parseInt(numbers![0]), end)
 
@@ -348,7 +348,7 @@ function updateArc() {
         .duration(800)
         .style("fill", personalColor.value)
         .style("visibility", () => {
-            return showPersonalArc.value ? "visible" : "hidden";
+            return showPersonalArc.value ? "visible" : "hidden"
         })
         .attrTween("d", (d: any) => {
             return arcTween(d,
@@ -378,7 +378,7 @@ function updateArc() {
         .transition()
         .delay(200)
         .duration(200)
-        .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555");
+        .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555")
 
     if (probabilityTextWidth != null)
         arcSvg.value.selectAll(".personalProbabilityChip")
@@ -386,10 +386,10 @@ function updateArc() {
             .duration(400)
             .style("fill", personalColor.value)
             .attr("x", - probabilityTextWidth / 2 - 11)
-            .attr("width", probabilityTextWidth + 22);
+            .attr("width", probabilityTextWidth + 22)
 
     arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
-        .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
+        .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden")
 
 }
 
@@ -412,7 +412,7 @@ function drawCounterArcs() {
     ]
 
     personalCounterSvg.value = d3.select(personalCounter.value)
-        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
+        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")")
 
     personalCounterSvg.value.selectAll("path")
         .data(personalCounterData)
@@ -420,10 +420,10 @@ function drawCounterArcs() {
         .append("path")
         .style("fill", (d: any) => d.fill)
         .attr("class", (d: any) => d.class)
-        .attr("d", arc);
+        .attr("d", arc)
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
-        .style("visibility", () => personalAnswerCount.value > 0 ? "visible" : "hidden");
+        .style("visibility", () => personalAnswerCount.value > 0 ? "visible" : "hidden")
 
     personalCounterSvg.value
         .append('svg:foreignObject')
@@ -432,9 +432,9 @@ function drawCounterArcs() {
         .attr('x', -7)
         .attr('y', -8)
         .html(() => {
-            var fontColor = personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
-            return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
-        });
+            var fontColor = personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>"
+        })
 
     var overallCounterData = [
         baseCounterData.value,
@@ -443,7 +443,7 @@ function drawCounterArcs() {
     ]
 
     overallCounterSvg.value = d3.select(overallCounter.value)
-        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
+        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")")
 
     overallCounterSvg.value.selectAll("path")
         .data(overallCounterData)
@@ -514,17 +514,17 @@ function updateCounters() {
     personalCounterSvg.value.selectAll("text")
         .transition()
         .duration(800)
-        .style("fill", () => personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD");
+        .style("fill", () => personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD")
 
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
         .style("visibility", () => {
-            return overallAnswerCount.value > 0 ? "visible" : "hidden";
+            return overallAnswerCount.value > 0 ? "visible" : "hidden"
         })
 
     overallCounterSvg.value.selectAll("i")
         .style("color", () => {
-            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD";
+            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
         })
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter")
@@ -567,7 +567,7 @@ function drawProbabilityLabel() {
         .attr("font-weight", "bold")
         .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
         .attr("class", "personalProbabilityLabel")
-        .text(() => personalAnswerCount.value > 0 ? personalProbability.value : avgProbability.value);
+        .text(() => personalAnswerCount.value > 0 ? personalProbability.value : avgProbability.value)
 
     arcSvg.value.append("svg:text")
         .attr("dy", "-.35em")
@@ -578,7 +578,7 @@ function drawProbabilityLabel() {
         .attr("font-weight", "medium")
         .attr("class", "percentageLabel")
         .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
-        .text("%");
+        .text("%")
 
     arcSvg.value.append("svg:rect")
         .attr("class", "personalProbabilityChip")
@@ -588,11 +588,11 @@ function drawProbabilityLabel() {
         .attr("height", 20)
         .style("fill", personalColor.value)
         .style("visibility", () => {
-            return userStore.isLoggedIn ? "visible" : "hidden";
+            return userStore.isLoggedIn ? "visible" : "hidden"
         })
-        .attr("transform", "translate(0,0)");
+        .attr("transform", "translate(0,0)")
 
-    var textWidth = 0;
+    var textWidth = 0
     arcSvg.value
         .append("svg:text")
         .attr("dy", "33.5")
@@ -610,10 +610,10 @@ function drawProbabilityLabel() {
 
     arcSvg.value.selectAll(".personalProbabilityChip")
         .attr("x", - textWidth / 2 - 11)
-        .attr("width", textWidth + 22);
+        .attr("width", textWidth + 22)
 
     arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
-        .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden");
+        .style("visibility", () => (userStore.isLoggedIn && overallAnswerCount.value > 0) ? "visible" : "hidden")
 
 }
 
@@ -633,7 +633,7 @@ function setAvgLabelPos() {
             var thisWidth = this.getComputedTextLength()
             avgProbabilityLabelWidth.value = thisWidth
             this.remove()
-        });
+        })
 
     var el = (avgProbability.value - 50) / 10
     dyAvgLabel.value = (0.20 * Math.pow(el, 2) - 5) * 2 + .25 * (Math.pow(el, 2))
@@ -644,18 +644,18 @@ function setAvgLabelPos() {
         if (avgProbability.value < 80)
             dxAvgLabel.value = -(80 - avgProbability.value) / 100 * avgProbabilityLabelWidth.value
         else
-            dxAvgLabel.value = - (20 - avgProbability.value) * 6 / 100;
+            dxAvgLabel.value = - (20 - avgProbability.value) * 6 / 100
         avgLabelAnchor.value = "start"
     }
     else if (avgProbability.value < 50) {
         if (avgProbability.value > 20)
             dxAvgLabel.value = (avgProbability.value - 20) / 100 * avgProbabilityLabelWidth.value
         else
-            dxAvgLabel.value = (avgProbability.value - 80) * 6 / 100;
-        avgLabelAnchor.value = "end";
+            dxAvgLabel.value = (avgProbability.value - 80) * 6 / 100
+        avgLabelAnchor.value = "end"
     }
     else if (avgProbability.value == 50) {
-        avgLabelAnchor.value = "middle";
+        avgLabelAnchor.value = "middle"
     }
 }
 
@@ -707,7 +707,7 @@ function drawArc() {
 
     arcSvg.value.selectAll(".personalArc")
         .style("visibility", () => {
-            return showPersonalArc.value ? "visible" : "hidden";
+            return showPersonalArc.value ? "visible" : "hidden"
         })
 
     drawProbabilityLabel()
@@ -818,18 +818,18 @@ watch(personalAnsweredWrongly, (val) => {
 })
 
 watch(overallAnswerCount, (val) => {
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
-    allAnswerCount.value = abbreviateNumberToM(val);
+    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
+    allAnswerCount.value = abbreviateNumberToM(val)
 })
 
 watch(overallAnsweredCorrectly, (val) => {
-    allCorrectAnswers.value = abbreviateNumberToM(val);
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
+    allCorrectAnswers.value = abbreviateNumberToM(val)
+    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
 })
 
 watch(overallAnsweredWrongly, (val) => {
-    allWrongAnswers.value = abbreviateNumberToM(val);
-    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value);
+    allWrongAnswers.value = abbreviateNumberToM(val)
+    overallStartAngle.value = 100 - (100 / overallAnswerCount.value * overallAnsweredCorrectly.value)
 })
 
 const creator = ref({
@@ -866,6 +866,9 @@ onMounted(() => {
 watch(() => userStore.isLoggedIn, () => {
     loadData()
 })
+
+const ariaId = useId()
+const ariaId2 = useId()
 
 </script>
 
@@ -958,7 +961,7 @@ watch(() => userStore.isLoggedIn, () => {
             <div class="questionDetailsFooterPartialLeft">
 
                 <div id="LicenseQuestion">
-                    <VTooltip v-if="license.isDefault">
+                    <VTooltip :aria-id="ariaId" v-if="license.isDefault">
                         <div class="TextLinkWithIcon">
                             <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" />
                             <div class="TextDiv">
@@ -980,7 +983,7 @@ watch(() => userStore.isLoggedIn, () => {
                         </template>
                     </VTooltip>
 
-                    <VTooltip v-else>
+                    <VTooltip :aria-id="ariaId2" v-else>
                         <div class="TextLinkWithIcon">
                             <div class="TextDiv">
                                 <span class="TextSpan">

@@ -46,6 +46,9 @@ function getTooltipLabel(key: string, count: number) {
 
 onBeforeMount(() => setChartData())
 watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
+const ariaId = useId()
+const ariaId2 = useId()
+
 </script>
 
 <template>
@@ -102,7 +105,7 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 								<template v-if="!isMobile">
 									Analytics
 								</template>
-								<VTooltip class="tooltip-container">
+								<VTooltip :aria-id="ariaId" class="tooltip-container">
 									<div class="pie-container">
 										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
@@ -119,13 +122,11 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 									</template>
 								</VTooltip>
 							</div>
-							<div class="tab-label tab-analytics"
-								:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }"
-								ref="analyticsLabelEl">
+							<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 								<template v-if="!isMobile">
 									Analytics
 								</template>
-								<VTooltip class="tooltip-container">
+								<VTooltip :aria-id="ariaId2" class="tooltip-container">
 									<div class="pie-container">
 										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
@@ -220,8 +221,7 @@ watch(() => topicStore.knowledgeSummary, () => setChartData(), { deep: true })
 						</template>
 						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
-					<div class="tab-label tab-analytics"
-						:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+					<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							Analytics
 						</template>
