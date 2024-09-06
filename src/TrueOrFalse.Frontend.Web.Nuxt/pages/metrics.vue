@@ -11,7 +11,7 @@ interface ViewsResult {
 
 interface GetAllDataResponse {
 
-    todaysLoginCount: number
+    todaysActiveUserCount: number
     monthlyActiveUsersOfPastYear: ViewsResult[]
     dailyActiveUsersOfPastYear: ViewsResult[]
 
@@ -24,6 +24,7 @@ interface GetAllDataResponse {
 
     createdPrivateTopicCount: number
     monthlyPrivateCreatedTopicsOfPastYear: ViewsResult[]
+    dailyPrivateCreatedTopicsOfPastYear: ViewsResult[]
 
     todaysTopicViewCount: number
     topicViewsOfPastYear: ViewsResult[]
@@ -86,6 +87,14 @@ const monthlyPrivateCreatedTopicsOfPastYearLabels = computed(() => overviewData.
 }) as string[])
 const monthlyPrivateCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.monthlyPrivateCreatedTopicsOfPastYear?.map(v => v.views) as number[])
 const showMonthlyPrivateCreatedTopicsAsBars = ref(true)
+
+const dailyPrivateCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.dailyPrivateCreatedTopicsOfPastYear?.map(v => {
+    const [year, month] = v.dateTime.split("T")[0].split("-")
+    return `${year}-${month}`
+}) as string[])
+const dailyPrivateCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.dailyPrivateCreatedTopicsOfPastYear?.map(v => v.views) as number[])
+const showDailyPrivateCreatedTopicsAsBars = ref(true)
+
 
 //TopicViews
 const topicViewsOfPastYearLabels = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
@@ -174,7 +183,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                         <div class="chart-section">
                             <h3>Aktive Nutzer</h3>
                             <div class="chart-header">
-                                Heutige Aktive Nutzer: {{ overviewData?.todaysLoginCount }}
+                                Heutige Aktive Nutzer: {{ overviewData?.todaysActiveUserCount }}
                             </div>
 
                             <div class="chart-container">
@@ -229,7 +238,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
                         <div class="chart-section">
                             <h3>Private Themen</h3>
-                            <div class="bar-header">
+                            <div class="chart-header">
                                 Heute erstellt: {{ overviewData?.createdPrivateTopicCount }}
                             </div>
 
@@ -255,11 +264,34 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :title="'Jahresübersicht erstellte Private Topics'"
                                     :color="color.lightRed" />
                             </div>
+
+                            <div class="chart-container">
+                                <div class="chart-toggle-section">
+                                    <div class="chart-toggle-container" @click="showDailyPrivateCreatedTopicsAsBars = !showDailyPrivateCreatedTopicsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showDailyPrivateCreatedTopicsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-column']" />
+                                        </div>
+                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyPrivateCreatedTopicsAsBars }">
+                                            <font-awesome-icon :icon="['fas', 'chart-line']" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <LazySharedChartsBar v-if="showDailyPrivateCreatedTopicsAsBars"
+                                    :labels="dailyPrivateCreatedTopicsOfPastYearLabels"
+                                    :datasets="dailyPrivateCreatedTopicsOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                    :color="color.lightRed" />
+                                <LazySharedChartsLine v-else
+                                    :labels="dailyPrivateCreatedTopicsOfPastYearLabels"
+                                    :datasets="dailyPrivateCreatedTopicsOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                    :color="color.lightRed" />
+                            </div>
                         </div>
 
                         <div class="chart-section">
                             <h3>Öffentliche Themen</h3>
-                            <div class="bar-header">
+                            <div class="chart-header">
                                 Heute erstellt: {{ overviewData?.todaysPublicTopicCreatedCount }}
                             </div>
 
@@ -289,7 +321,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
                         <div class="chart-section">
                             <h3>Topicviews</h3>
-                            <div class="bar-header">
+                            <div class="chart-header">
                                 Heutige Topicviews: {{ overviewData?.todaysTopicViewCount }}
                             </div>
 
@@ -310,7 +342,6 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                     :datasets="topicViewsOfPastYearCounts"
                                     :title="'Jahresübersicht Topic Views'"
                                     :color="color.memoGreen" />
-
                                 <LazySharedChartsLine v-else
                                     :labels="topicViewsOfPastYearLabels"
                                     :datasets="topicViewsOfPastYearCounts"
@@ -321,7 +352,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
                         <div class="chart-section">
                             <h3>Questionviews</h3>
-                            <div class="bar-header">
+                            <div class="chart-header">
                                 Heutige Questionviews: {{ overviewData?.todaysQuestionViewCount }}
                             </div>
 
