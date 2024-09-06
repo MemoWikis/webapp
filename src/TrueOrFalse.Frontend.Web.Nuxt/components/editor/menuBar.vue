@@ -128,6 +128,7 @@ props.editor.on('focus', () => {
 props.editor.on('blur', () => {
     focused.value = false
 })
+
 const { isMobile } = useDevice()
 
 </script>
@@ -137,7 +138,7 @@ const { isMobile } = useDevice()
         <perfect-scrollbar :options="{
             scrollYMarginOffset: 30
         }" :class="{ 'ps--scrolling-x': showScrollbar }">
-            <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
+            <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor" ref="scrollableDiv">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"
                     @mousedown="command('bold', $event)" @mouseup="props.editor.commands.focus()">
@@ -256,12 +257,21 @@ const { isMobile } = useDevice()
 @import (reference) '~~/assets/includes/imports.less';
 
 .ps__rail-x {
-    pointer-events: none;
+    cursor:pointer;
+    height: 0px;
 
     &.ps--clicking {
         .ps__thumb-x {
-            height: 8px;
+            height: 14px;
+            opacity: 0.5;
         }
+    }
+    .ps__thumb-x {
+        transition: opacity 0.2s ease-in;
+        transition: height 0.1s ease-in;
+        height: 8px;
+        max-height: 14px !important;
+        opacity: 0.9;
     }
 }
 
