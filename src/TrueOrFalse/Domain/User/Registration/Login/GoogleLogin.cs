@@ -39,7 +39,6 @@ namespace TrueOrFalse.Domain.User
                 }
 
                 _sessionUser.Login(user);
-                user.LastLogin = DateTime.Now;
                 _userWritingRepo.Update(user);
                 AppendGoogleCredentialCookie(_httpContextAccessor.HttpContext, credential, accessToken);
 

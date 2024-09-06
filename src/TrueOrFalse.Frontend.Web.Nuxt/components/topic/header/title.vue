@@ -59,7 +59,7 @@ const autoSave = () => {
     }
     autoSaveTimer.value = setTimeout(() => {
         topicStore.saveTopic()
-    }, 3000)
+    }, 200)
 }
 
 onBeforeMount(() => {

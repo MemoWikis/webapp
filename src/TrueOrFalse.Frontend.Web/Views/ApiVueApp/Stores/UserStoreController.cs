@@ -56,8 +56,6 @@ public class UserStoreController(
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
         RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
         _sessionUser.Logout();
-        //delete aspnetsession cookie
-        //_httpContextAccessor.HttpContext.Response.Cookies.Delete("key");
 
         if (!_sessionUser.IsLoggedIn)
             return new LoginResult
@@ -124,7 +122,7 @@ public class UserStoreController(
             };
 
         _registerUser.SetUser(json);
-        var activityPoints = _sessionUser.User.ActivityPoints; 
+        var activityPoints = _sessionUser.User.ActivityPoints;
         var activityLevel = _sessionUser.User.ActivityLevel;
         RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
 
