@@ -241,6 +241,8 @@ const checkContentImages = () => {
 
     editQuestionStore.refreshDeleteImageList()
 }
+const ariaId = useId()
+
 </script>
 
 <template>
@@ -286,7 +288,7 @@ const checkContentImages = () => {
                         <div class="checkbox-container">
                             <div class="checkbox">
                                 <label>
-                                    <VTooltip>
+                                    <VTooltip :aria-id="ariaId">
                                         <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage
                                         <font-awesome-icon icon="fa-solid fa-lock" />
                                         <template #popper>

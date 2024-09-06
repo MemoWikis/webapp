@@ -261,7 +261,7 @@ function drawCounterArcs() {
     ]
 
     personalCounterSvg.value = d3.select(personalCounter.value)
-        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
+        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")")
 
     personalCounterSvg.value.selectAll("path")
         .data(personalCounterData)
@@ -269,10 +269,10 @@ function drawCounterArcs() {
         .append("path")
         .style("fill", (d: any) => d.fill)
         .attr("class", (d: any) => d.class)
-        .attr("d", arc);
+        .attr("d", arc)
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
-        .style("visibility", () => props.model.personalAnswerCount > 0 ? "visible" : "hidden");
+        .style("visibility", () => props.model.personalAnswerCount > 0 ? "visible" : "hidden")
 
     personalCounterSvg.value
         .append('svg:foreignObject')
@@ -281,9 +281,9 @@ function drawCounterArcs() {
         .attr('x', -7)
         .attr('y', -8)
         .html(() => {
-            var fontColor = props.model.personalAnswerCount > 0 ? "#999999" : "#DDDDDD";
-            return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>";
-        });
+            var fontColor = props.model.personalAnswerCount > 0 ? "#999999" : "#DDDDDD"
+            return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>"
+        })
 
     var overallCounterData = [
         baseCounterData.value,
@@ -292,7 +292,7 @@ function drawCounterArcs() {
     ]
 
     overallCounterSvg.value = d3.select(overallCounter.value)
-        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")");
+        .append("g").attr("transform", "translate(" + 25 + "," + 25 + ")")
 
     overallCounterSvg.value.selectAll("path")
         .data(overallCounterData)
@@ -338,7 +338,7 @@ function drawProbabilityLabel() {
         .attr("font-weight", "bold")
         .style("fill", () => showPersonalArc.value ? props.model.personalColor : "#DDDDDD")
         .attr("class", "personalProbabilityLabel")
-        .text(() => props.model.personalAnswerCount > 0 ? props.model.personalProbability : props.model.avgProbability);
+        .text(() => props.model.personalAnswerCount > 0 ? props.model.personalProbability : props.model.avgProbability)
 
     arcSvg.value.append("svg:text")
         .attr("dy", "-.35em")
@@ -349,7 +349,7 @@ function drawProbabilityLabel() {
         .attr("font-weight", "medium")
         .attr("class", "percentageLabel")
         .style("fill", () => showPersonalArc.value ? props.model.personalColor : "#DDDDDD")
-        .text("%");
+        .text("%")
 
     arcSvg.value.append("svg:rect")
         .attr("class", "personalProbabilityChip")
@@ -359,11 +359,11 @@ function drawProbabilityLabel() {
         .attr("height", 20)
         .style("fill", props.model.personalColor)
         .style("visibility", () => {
-            return userStore.isLoggedIn ? "visible" : "hidden";
+            return userStore.isLoggedIn ? "visible" : "hidden"
         })
-        .attr("transform", "translate(0,0)");
+        .attr("transform", "translate(0,0)")
 
-    var textWidth = 0;
+    var textWidth = 0
     arcSvg.value
         .append("svg:text")
         .attr("dy", "33.5")
@@ -381,10 +381,10 @@ function drawProbabilityLabel() {
 
     arcSvg.value.selectAll(".personalProbabilityChip")
         .attr("x", - textWidth / 2 - 11)
-        .attr("width", textWidth + 22);
+        .attr("width", textWidth + 22)
 
     arcSvg.value.selectAll(".personalProbabilityChip,.personalProbabilityText")
-        .style("visibility", () => (userStore.isLoggedIn && props.model.overallAnswerCount > 0) ? "visible" : "hidden");
+        .style("visibility", () => (userStore.isLoggedIn && props.model.overallAnswerCount > 0) ? "visible" : "hidden")
 
 }
 
@@ -404,7 +404,7 @@ function setAvgLabelPos() {
             var thisWidth = this.getComputedTextLength()
             avgProbabilityLabelWidth.value = thisWidth
             this.remove()
-        });
+        })
 
     var el = (props.model.avgProbability - 50) / 10
     dyAvgLabel.value = (0.20 * Math.pow(el, 2) - 5) * 2 + .25 * (Math.pow(el, 2))
@@ -415,18 +415,18 @@ function setAvgLabelPos() {
         if (props.model.avgProbability < 80)
             dxAvgLabel.value = -(80 - props.model.avgProbability) / 100 * avgProbabilityLabelWidth.value
         else
-            dxAvgLabel.value = - (20 - props.model.avgProbability) * 6 / 100;
+            dxAvgLabel.value = - (20 - props.model.avgProbability) * 6 / 100
         avgLabelAnchor.value = "start"
     }
     else if (props.model.avgProbability < 50) {
         if (props.model.avgProbability > 20)
             dxAvgLabel.value = (props.model.avgProbability - 20) / 100 * avgProbabilityLabelWidth.value
         else
-            dxAvgLabel.value = (props.model.avgProbability - 80) * 6 / 100;
-        avgLabelAnchor.value = "end";
+            dxAvgLabel.value = (props.model.avgProbability - 80) * 6 / 100
+        avgLabelAnchor.value = "end"
     }
     else if (props.model.avgProbability == 50) {
-        avgLabelAnchor.value = "middle";
+        avgLabelAnchor.value = "middle"
     }
 }
 
@@ -478,7 +478,7 @@ function drawArc() {
 
     arcSvg.value.selectAll(".personalArc")
         .style("visibility", () => {
-            return showPersonalArc.value ? "visible" : "hidden";
+            return showPersonalArc.value ? "visible" : "hidden"
         })
 
     drawProbabilityLabel()
@@ -505,6 +505,8 @@ function initData(e: AnswerQuestionDetailsResult) {
     drawArc()
     drawCounterArcs()
 }
+const ariaId = useId()
+const ariaId2 = useId()
 
 </script>
 
@@ -603,7 +605,7 @@ function initData(e: AnswerQuestionDetailsResult) {
             <div class="questionDetailsFooterPartialLeft">
 
                 <div id="LicenseQuestion">
-                    <VTooltip v-if="model.license.isDefault">
+                    <VTooltip :aria-id="ariaId" v-if="model.license.isDefault">
                         <div class="TextLinkWithIcon">
                             <Image src="/Images/Licenses/cc-by 88x31.png" :width="60" :alt="'Lizenzbild'" />
                             <div class="TextDiv">
@@ -625,7 +627,7 @@ function initData(e: AnswerQuestionDetailsResult) {
                         </template>
                     </VTooltip>
 
-                    <VTooltip v-else>
+                    <VTooltip :aria-id="ariaId2" v-else>
                         <div class="TextLinkWithIcon">
                             <div class="TextDiv">
                                 <span class="TextSpan">
