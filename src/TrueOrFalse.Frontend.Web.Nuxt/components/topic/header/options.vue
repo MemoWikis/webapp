@@ -18,12 +18,14 @@ const deleteTopicStore = useDeleteTopicStore()
 const topicToPrivateStore = useTopicToPrivateStore()
 
 const hoverLock = ref(false)
+const ariaId = useId()
+
 </script>
 
 <template>
     <div id="TopicHeaderOptions">
         <div>
-            <VDropdown :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
+            <VDropdown :aria-id="ariaId" :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
                 <div class="topic-header-options-btn">
                     <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
                 </div>
@@ -128,8 +130,7 @@ const hoverLock = ref(false)
                 </template>
             </VDropdown>
         </div>
-        <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true"
-            @mouseleave="hoverLock = false" @click="publishTopicStore.openModal(topicStore.id)">
+        <div class="lock-btn" v-if="topicStore.visibility == Visibility.Owner" @mouseover="hoverLock = true" @mouseleave="hoverLock = false" @click="publishTopicStore.openModal(topicStore.id)">
             <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
             <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>

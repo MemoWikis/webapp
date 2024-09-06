@@ -125,6 +125,9 @@ const showParents = computed(() => {
         return topicStore.parentTopicCount > 0
     else return topicStore.parentTopicCount > 1
 })
+const ariaId = useId()
+const ariaId2 = useId()
+
 </script>
 
 <template>
@@ -145,7 +148,7 @@ const showParents = computed(() => {
             <div class="topic-detail-spacer" v-if="showParents && topicStore.childTopicCount > 0">
             </div>
 
-            <VDropdown :distance="6">
+            <VDropdown :aria-id="ariaId" :distance="6">
                 <button v-show="showParents" class="parent-tree-btn">
 
                     <div class="topic-detail">
@@ -189,7 +192,7 @@ const showParents = computed(() => {
                 </LazyNuxtLink>
             </template>
 
-            <VDropdown :distance="6">
+            <VDropdown :aria-id="ariaId2" :distance="6">
                 <div v-if="isMobile && groupedAuthors.length == 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0" :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)" class="header-author-icon-link">
                     <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
                 </div>
