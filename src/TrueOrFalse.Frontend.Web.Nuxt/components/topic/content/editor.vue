@@ -143,7 +143,7 @@ const initEditor = () => {
             Underline,
             ImageResize.configure({
                 inline: true,
-                allowBase64: true,
+                allowBase64: true
             }),
             CodeBlockLowlight.configure({
                 lowlight,
