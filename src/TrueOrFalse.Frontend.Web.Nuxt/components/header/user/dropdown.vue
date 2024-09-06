@@ -7,10 +7,11 @@ const userStore = useUserStore()
 const activityPointsStore = useActivityPointsStore()
 
 const { isMobile } = useDevice()
+const ariaId = useId()
 </script>
 
 <template>
-    <VDropdown :distance="6">
+    <VDropdown :aria-id="ariaId" :distance="6">
         <div class="header-btn">
             <Image :src="userStore.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
                 :alt="`${userStore.name}'s profile picture'`" />

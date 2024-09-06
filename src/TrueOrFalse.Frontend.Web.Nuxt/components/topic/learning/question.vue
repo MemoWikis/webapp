@@ -40,12 +40,12 @@ const userStore = useUserStore()
 
 function abbreviateNumber(val: number): string {
     if (val < 1000000) {
-        return val.toLocaleString("de-DE");
+        return val.toLocaleString("de-DE")
     }
     else if (val >= 1000000 && val < 1000000000) {
         7
         var newVal
-        newVal = val / 1000000;
+        newVal = val / 1000000
         return newVal.toFixed(2).toLocaleString() + " Mio."
     } else
         return ''
@@ -269,6 +269,8 @@ watch(showFullQuestion, async (val) => {
 function hasContent(str: string) {
     return str.replace(/<div>/, '').replace(/<\/div>(?![\s\S]*<\/div>[\s\S]*$)/, '').length > 0
 }
+const ariaId = useId()
+
 </script>
 
 <template>
@@ -340,7 +342,7 @@ function hasContent(str: string) {
                         </div>
                         <div class="Button dropdown">
 
-                            <VDropdown :distance="0">
+                            <VDropdown :aria-id="ariaId" :distance="0">
                                 <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
                                     class="btn btn-link btn-sm ButtonEllipsis" />
                                 <template #popper="{ hide }">

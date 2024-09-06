@@ -44,6 +44,8 @@ function getClass(): string {
         return str
     else return !learningSessionConfigurationStore.showFilter ? `${str} no-questions` : str
 }
+const ariaId = useId()
+
 </script>
 
 <template>
@@ -69,9 +71,8 @@ function getClass(): string {
 
                         <div id="ButtonAndDropdown">
                             <div id="QuestionListHeaderDropDown" class="Button dropdown">
-                                <VDropdown :distance="0">
-                                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical"
-                                        class="btn btn-link btn-sm ButtonEllipsis" />
+                                <VDropdown :aria-id="ariaId" :distance="0">
+                                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" class="btn btn-link btn-sm ButtonEllipsis" />
                                     <template #popper>
 
                                         <div v-if="userStore.isLoggedIn" class="dropdown-row"

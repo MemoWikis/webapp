@@ -52,7 +52,7 @@ onBeforeMount(() => {
     switch (props.searchType) {
         case SearchType.category:
             searchUrl.value = '/apiVue/Search/Topic'
-            break;
+            break
         case SearchType.categoryInWiki:
             searchUrl.value = '/apiVue/Search/TopicInPersonalWiki'
             break
@@ -126,13 +126,13 @@ function selectItem(item: TopicItem | QuestionItem | UserItem) {
     switch (item.type) {
         case 'TopicItem':
             item.url = $urlHelper.getTopicUrl(item.name, item.id)
-            break;
+            break
         case 'QuestionItem':
             item.url = $urlHelper.getTopicUrlWithQuestionId(item.primaryTopicName, item.primaryTopicId, item.id)
-            break;
+            break
         case 'UserItem':
             item.url = $urlHelper.getUserUrl(item.name, item.id)
-            break;
+            break
     }
     selectedItem.value = item
     searchTerm.value = ''
@@ -154,6 +154,8 @@ watch(() => props.showSearch, (val) => {
     if (val && searchInput.value)
         searchInput.value.focus()
 })
+const ariaId = useId()
+
 </script>
 
 <template>
@@ -172,7 +174,7 @@ watch(() => props.showSearch, (val) => {
                 </div>
             </form>
 
-            <VDropdown :distance="props.distance" v-model:shown="showDropdown" no-auto-focus :auto-hide="true"
+            <VDropdown :aria-id="ariaId" :distance="props.distance" v-model:shown="showDropdown" no-auto-focus :auto-hide="true"
                 :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
