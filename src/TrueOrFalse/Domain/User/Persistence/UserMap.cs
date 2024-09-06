@@ -26,7 +26,6 @@ public class UserMap : ClassMap<User>
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
         Map(x => x.WidgetHostsSpaceSeparated);
-        Map(x => x.LastLogin);
 
         HasMany(x => x.Followers)
             .KeyColumn("User_id")

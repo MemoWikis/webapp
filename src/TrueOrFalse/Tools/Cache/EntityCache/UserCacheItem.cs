@@ -16,7 +16,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool AllowsSupportiveLogin { get; set; }
     public int CorrectnessProbability { get; set; }
     public DateTime? EndDate { get; set; }
-    public DateTime? LastLogin { get; set; }
     public DateTime DateCreated { get; set; }
     public IList<int> FollowerIds { get; set; }
 
@@ -77,7 +76,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ActivityLevel = user.ActivityLevel;
         ActivityPoints = user.ActivityPoints;
         Rank = user.ReputationPos;
-        LastLogin = user.LastLogin;
         DateCreated = user.DateCreated;
     }
 
@@ -110,7 +108,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         IsEmailConfirmed = user.IsEmailConfirmed;
         ActivityLevel = user.ActivityLevel;
         ActivityPoints = user.ActivityPoints;
-        LastLogin = user.LastLogin;
         DateCreated = user.DateCreated;
     }
 

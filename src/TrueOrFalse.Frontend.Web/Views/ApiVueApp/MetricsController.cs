@@ -23,6 +23,7 @@ SessionUser _sessionUser) : Controller
 
         int CreatedPrivateTopicCount,
         List<ViewsResult> MonthlyPrivateCreatedTopicsOfPastYear,
+        List<ViewsResult> DailyPrivateCreatedTopicsOfPastYear,
 
         int TodaysTopicViewCount,
         List<ViewsResult> TopicViewsOfPastYear,
@@ -44,7 +45,7 @@ SessionUser _sessionUser) : Controller
 
         //Topics
         var (todaysPublicTopicCreatedCount, monthlyPublicCreatedTopicsOfPastYear) = GetPublicTopicCounts();
-        var (todaysPrivateTopicCreatedCount, monthlyPrivateCreatedTopicsOfPastYear) = GetPrivateTopicsCounts();
+        var (todaysPrivateTopicCreatedCount, monthlyPrivateCreatedTopicsOfPastYear, dailyPrivateCreatedTopicsOfPastYear) = GetPrivateTopicsCounts();
 
         //TopicViews
         var (todaysTopicViewCount, topicViewsOfPastYear) = GetTopicViews();
@@ -67,6 +68,7 @@ SessionUser _sessionUser) : Controller
 
             CreatedPrivateTopicCount = todaysPrivateTopicCreatedCount,
             MonthlyPrivateCreatedTopicsOfPastYear = monthlyPrivateCreatedTopicsOfPastYear,
+            DailyPrivateCreatedTopicsOfPastYear = dailyPrivateCreatedTopicsOfPastYear,
 
             TodaysTopicViewCount = todaysTopicViewCount,
             TopicViewsOfPastYear = topicViewsOfPastYear,
@@ -185,7 +187,7 @@ SessionUser _sessionUser) : Controller
         return (todaysPublicTopicCreatedCount, monthlyPublicCreatedTopicsOfPastYear);
     }
 
-    private (int todaysPrivateTopicCreatedCount, List<ViewsResult> monthlyPrivateCreatedTopicsOfPastYear) GetPrivateTopicsCounts()
+    private (int todaysPrivateTopicCreatedCount, List<ViewsResult> monthlyPrivateCreatedTopicsOfPastYear, List<ViewsResult> dailyPrivateCreatedTopicsOfPastYear) GetPrivateTopicsCounts()
     {
         var topics = EntityCache.GetAllCategoriesList();
         var privateTopics = topics.Where(u => u.IsPublic == false);
@@ -194,6 +196,20 @@ SessionUser _sessionUser) : Controller
             .ToList();
 
         var startDate = DateTime.Now.Date.AddDays(-365);
+        var endDate = DateTime.Now.Date;
+
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+            .Select(d => startDate.AddDays(d));
+
+        var dailyPrivateCreatedTopicsOfPastYear = dateRange
+            .GroupJoin(
+                lastYearPrivateCreatedTopics,
+                date => date,
+                u => u.DateCreated.Date,
+                (date, registrations) => new ViewsResult(date, registrations.Count()))
+            .OrderBy(v => v.DateTime)
+            .ToList();
+
         var monthRange = Enumerable.Range(0, 12)
             .Select(m => startDate.AddMonths(m));
 
@@ -208,7 +224,7 @@ SessionUser _sessionUser) : Controller
 
         var todaysPrivateTopicCreatedCount = lastYearPrivateCreatedTopics.Count(u => u.DateCreated.Date == DateTime.Now.Date);
 
-        return (todaysPrivateTopicCreatedCount, monthlyPrivateCreatedTopicsOfPastYear);
+        return (todaysPrivateTopicCreatedCount, monthlyPrivateCreatedTopicsOfPastYear, dailyPrivateCreatedTopicsOfPastYear);
     }
 
     private (int todaysTopicViews, List<ViewsResult> topicViewsOfPastYear) GetTopicViews()
