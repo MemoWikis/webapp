@@ -50,14 +50,14 @@
         return date.Date == DateTime.Now.Date;
     }
 
-    public static List<BaseView> EnsureLastDaysIncluded(List<BaseView> topicViews, int daysCount)
+    public static List<DailyViews> EnsureLastDaysIncluded(List<DailyViews> topicViews, int daysCount)
     {
         var lastDays = Enumerable.Range(0, daysCount)
             .Select(i => DateTime.Now.Date.AddDays(-i))
             .ToList();
 
         var missingDates = lastDays.Where(date => !topicViews.Any(tv => tv.Date == date))
-            .Select(date => new BaseView
+            .Select(date => new DailyViews
             {
                 Date = date,
                 Views = 0

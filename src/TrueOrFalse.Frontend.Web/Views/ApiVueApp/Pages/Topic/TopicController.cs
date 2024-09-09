@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static CategoryViewRepo;
+using System.Collections.Generic;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -20,7 +19,7 @@ public class TopicController(
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-         EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
+        EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
 
         var data = new TopicDataManager(
                 _sessionUser,
@@ -92,9 +91,9 @@ public class TopicController(
         bool TextIsHidden,
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
-        List<BaseView>  ViewsLast30DaysAggregatedTopic,
-        List<BaseView>  ViewsLast30DaysTopic,
-        List<BaseView>  ViewsLast30DaysAggregatedQuestions,
-        List<BaseView>  ViewsLast30DaysQuestions
+        List<DailyViews> ViewsLast30DaysAggregatedTopic,
+        List<DailyViews> ViewsLast30DaysTopic,
+        List<DailyViews> ViewsLast30DaysAggregatedQuestions,
+        List<DailyViews> ViewsLast30DaysQuestions
     );
 }

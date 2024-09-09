@@ -52,7 +52,7 @@ public class EntityCache
                     TotalCount = g.Sum(v => v.Count)
                 })
                 .OrderBy(result => result.Date)
-                .Select(v => new BaseView() { Date = v.Date, Views = v.TotalCount })
+                .Select(v => new DailyViews() { Date = v.Date, Views = v.TotalCount })
                 .ToList();
 
             var selfCategoryViews30Days = categoriesViewsLast30Days
@@ -64,7 +64,7 @@ public class EntityCache
                     TotalCount = g.Sum(v => v.Count)
                 })
                 .OrderBy(result => result.Date)
-                .Select(v => new BaseView { Date = v.Date, Views = v.TotalCount })
+                .Select(v => new DailyViews { Date = v.Date, Views = v.TotalCount })
                 .ToList();
 
             DateTimeUtils.EnsureLastDaysIncluded(aggregatedTopicViews30Days, 30);
@@ -75,7 +75,7 @@ public class EntityCache
 
     public static void AddViewsLast30DaysToQuestion(QuestionViewRepository questionViewRepo, List<CategoryCacheItem> categoryCacheItems)
     {
-        var watch = Stopwatch.StartNew(); 
+        var watch = Stopwatch.StartNew();
         var questionViewsLast30Days = questionViewRepo.GetViewsForLastNDaysGroupByCategoryId(30);
         foreach (var categoryCacheItem in categoryCacheItems)
         {
@@ -91,12 +91,12 @@ public class EntityCache
                     TotalCount = g.Sum(v => v.Count)
                 })
                 .OrderBy(result => result.Date)
-                .Select(v => new BaseView() { Date = v.Date, Views = v.TotalCount })
+                .Select(v => new DailyViews() { Date = v.Date, Views = v.TotalCount })
                 .ToList();
 
             var selfQuestionsFromTopic = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, false, categoryCacheItem.Id)
-                .Select(t=>t.Id); 
-         
+                .Select(t => t.Id);
+
             var topicQuestions30Days = questionViewsLast30Days
                 .Where(view => selfQuestionsFromTopic.Contains(view.QuestionId))
                 .GroupBy(view => view.DateOnly)
@@ -106,7 +106,7 @@ public class EntityCache
                     TotalCount = g.Sum(v => v.Count)
                 })
                 .OrderBy(result => result.Date)
-                .Select(v => new BaseView() { Date = v.Date, Views = v.TotalCount })
+                .Select(v => new DailyViews() { Date = v.Date, Views = v.TotalCount })
                 .ToList();
 
             DateTimeUtils.EnsureLastDaysIncluded(aggregatedQuestionsViews30Days, 30);
@@ -114,7 +114,7 @@ public class EntityCache
             categoryCacheItem.AddQuestionViews(aggregatedQuestionsViews30Days, topicQuestions30Days);
         }
 
-        var ellapsedTime = watch.ElapsedMilliseconds; 
+        var ellapsedTime = watch.ElapsedMilliseconds;
         Logg.r.Information(nameof(AddViewsLast30DaysToQuestion) + ellapsedTime);
     }
     public static UserCacheItem? GetUserByIdNullable(int userId)

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static CategoryViewRepo;
 
 namespace VueApp;
 
@@ -17,7 +17,8 @@ public class TopicStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     CategoryUpdater _categoryUpdater,
-    ImageStore _imageStore) : Controller
+    ImageStore _imageStore,
+    CategoryViewRepo _categoryViewRepo) : Controller
 {
     public readonly record struct SaveTopicParam(
         int id,
@@ -186,19 +187,27 @@ public class TopicStoreController(
     }
 
     [HttpGet]
-    public TopicAnalyticsResult GetTopicAnalytics([FromRoute] int id)
+    public TopicAnalyticsResponse GetTopicAnalytics([FromRoute] int id)
     {
-        return new TopicAnalyticsResult(
-            new List<BaseView>(),
-            new List<BaseView>(),
-            new List<BaseView>(),
-            new List<BaseView>());
+        var viewsPast30DaysTopic = _categoryViewRepo.GetViewsForPastNDaysById(30, id);
+
+        var descendants = GraphService.VisibleDescendants(id, _permissionCheck, _sessionUser.UserId);
+        var aggregatedIds = descendants.Select(d => d.Id).ToList();
+        aggregatedIds.Add(id);
+
+        var viewsPast30DaysAggregatedTopics = _categoryViewRepo.GetViewsForPastNDaysByIds(30, aggregatedIds);
+
+        return new TopicAnalyticsResponse(
+            viewsPast30DaysAggregatedTopics.OrderBy(v => v.DateOnly).ToList(),
+            viewsPast30DaysTopic.OrderBy(v => v.DateOnly).ToList(),
+            new List<TopicViewSummary>(),
+            new List<TopicViewSummary>());
     }
 
 
-        public record struct TopicAnalyticsResult(
-            List<BaseView> ViewsLast30DaysAggregatedTopic,
-            List<BaseView> ViewsLast30DaysTopic,
-            List<BaseView> ViewsLast30DaysAggregatedQuestions,
-            List<BaseView> ViewsLast30DaysQuestion);
+    public record struct TopicAnalyticsResponse(
+        List<TopicViewSummary> ViewsPast30DaysAggregatedTopics,
+        List<TopicViewSummary> ViewsPast30DaysTopic,
+        List<TopicViewSummary> ViewsPast30DaysAggregatedQuestions,
+        List<TopicViewSummary> ViewsPast30DaysQuestion);
 }

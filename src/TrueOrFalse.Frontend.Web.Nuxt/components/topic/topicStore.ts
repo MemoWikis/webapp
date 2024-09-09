@@ -49,8 +49,8 @@ export class Topic {
 	viewsLast30DaysQuestions: ViewSummary[] | null = null
 }
 export interface ViewSummary{
-	views: number
-	date: string
+	count: number
+	dateOnly: string
 }
 
 export interface KnowledgeSummary {
@@ -74,6 +74,13 @@ export interface TinyTopicModel {
 	id: number
 	name: string
 	imgUrl: string
+}
+
+interface GetTopicAnalyticsResponse {
+	viewsPast30DaysAggregatedTopics: ViewSummary[]
+	viewsPast30DaysTopic: ViewSummary[]
+	viewsPast30DaysAggregatedQuestions: ViewSummary[]
+	viewsPast30DaysQuestions: ViewSummary[]
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -108,7 +115,11 @@ export const useTopicStore = defineStore('topicStore', {
 			textIsHidden: false,
 			uploadedImagesInContent: [] as string[],
 			uploadedImagesMarkedForDeletion: [] as string[],
-			uploadTrackingArray: [] as string[]
+			uploadTrackingArray: [] as string[],
+			viewsPast30DaysAggregatedTopics: [] as ViewSummary[],
+			viewsPast30DaysTopic: [] as ViewSummary[],
+			viewsPast30DaysAggregatedQuestions: [] as ViewSummary[],
+			viewsPast30DaysQuestions: [] as ViewSummary[],
 		}
 	},
 	actions: {
@@ -307,6 +318,24 @@ export const useTopicStore = defineStore('topicStore', {
 		async waitUntilAllUploadsComplete() {
 			while (this.uploadTrackingArray.length > 0) {
 				await new Promise(resolve => setTimeout(resolve, 100))
+			}
+		},
+		async getAnalyticsData() {
+			const data = await $api<GetTopicAnalyticsResponse>(`/apiVue/TopicStore/GetTopicAnalytics/${this.id}`, {
+				method: 'GET',
+				mode: 'cors',
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
+
+			if (data) {
+				this.viewsPast30DaysAggregatedTopics = data.viewsPast30DaysAggregatedTopics
+				this.viewsPast30DaysTopic = data.viewsPast30DaysTopic
+				this.viewsPast30DaysAggregatedQuestions = data.viewsPast30DaysAggregatedQuestions
+				this.viewsPast30DaysQuestions = data.viewsPast30DaysQuestions
 			}
 		}
 	},

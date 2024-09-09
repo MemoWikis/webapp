@@ -58,10 +58,10 @@ public class CategoryCacheItem : IPersistable
     public virtual CategoryVisibility Visibility { get; set; }
     public bool IsPublic => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
-    public List<BaseView> ViewsLast30DaysAggregatedTopic { get; set; }
-    public List<BaseView> ViewsLast30DaysTopic { get; set; }
-    public List<BaseView> ViewsLast30DaysAggregatedQuestions { get; set; }
-    public List<BaseView> ViewsLast30DaysQuestions { get; set; }
+    public List<DailyViews> ViewsLast30DaysAggregatedTopic { get; set; }
+    public List<DailyViews> ViewsLast30DaysTopic { get; set; }
+    public List<DailyViews> ViewsLast30DaysAggregatedQuestions { get; set; }
+    public List<DailyViews> ViewsLast30DaysQuestions { get; set; }
 
 
     /// <summary>
@@ -115,14 +115,14 @@ public class CategoryCacheItem : IPersistable
         return allChildCategories;
     }
 
-    public void AddTopicViews(List<BaseView> aggregated30DaysTopicViews, List<BaseView> selfLast30DaysTopicViews)
+    public void AddTopicViews(List<DailyViews> aggregated30DaysTopicViews, List<DailyViews> selfLast30DaysTopicViews)
     {
         ViewsLast30DaysAggregatedTopic = aggregated30DaysTopicViews;
         ViewsLast30DaysTopic = selfLast30DaysTopicViews;
 
     }
 
-    public void AddQuestionViews(List<BaseView> aggregated30DaysQuestionViews, List<BaseView> selfLast30DaysQuestionViews)
+    public void AddQuestionViews(List<DailyViews> aggregated30DaysQuestionViews, List<DailyViews> selfLast30DaysQuestionViews)
     {
         ViewsLast30DaysAggregatedQuestions = aggregated30DaysQuestionViews;
         ViewsLast30DaysQuestions = selfLast30DaysQuestionViews;
@@ -293,7 +293,7 @@ public class CategoryCacheItem : IPersistable
         {
             var todayAggregatedQuestionViews = ViewsLast30DaysAggregatedQuestions.Single(c => c.Date == today);
             todayAggregatedQuestionViews.Views++;
-      
+
 
             var todayQuestionViews = ViewsLast30DaysQuestions.Single(c => c.Date == today);
             todayQuestionViews.Views++;
@@ -302,12 +302,12 @@ public class CategoryCacheItem : IPersistable
         {
             var todayAggregatedQuestionViews = ViewsLast30DaysAggregatedTopic.Single(c => c.Date == today);
             todayAggregatedQuestionViews.Views++;
-      
+
 
             var todayQuestionViews = ViewsLast30DaysTopic.Single(c => c.Date == today);
             todayQuestionViews.Views++;
         }
-       
+
         EntityCache.AddOrUpdate(this);
     }
 
@@ -340,11 +340,9 @@ public class CategoryCacheItem : IPersistable
         return visibleVisited;
     }
 }
-public class BaseView()
+public class DailyViews()
 {
-   
-
-    public DateTime Date { get; set; } 
+    public DateTime Date { get; set; }
     public long Views { get; set; }
 }
 

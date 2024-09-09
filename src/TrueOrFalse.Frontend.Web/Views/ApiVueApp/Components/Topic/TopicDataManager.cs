@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -73,19 +73,19 @@ public class TopicDataManager(
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
-        var childIds = topic.ChildRelations.Select(t => t.ChildId);
-        var last30DaysTopicViews = topic.ViewsLast30DaysTopic; 
+        //var childIds = topic.ChildRelations.Select(t => t.ChildId);
+        //var last30DaysTopicViews = topic.ViewsLast30DaysTopic;
 
-        var countAggregatedChildTopicViews= EntityCache.GetCategories(childIds);
-        foreach (var child in countAggregatedChildTopicViews)
-        {
-            foreach (var childView in child.ViewsLast30DaysTopic)
-            {
-                var matchingView = last30DaysTopicViews.First(v => v.Date == childView.Date);
-                    matchingView.Views += childView.Views;
-                
-            }
-        }
+        //var countAggregatedChildTopicViews = EntityCache.GetCategories(childIds);
+        //foreach (var child in countAggregatedChildTopicViews)
+        //{
+        //    foreach (var childView in child.ViewsLast30DaysTopic)
+        //    {
+        //        var matchingView = last30DaysTopicViews.First(v => v.Date == childView.Date);
+        //        matchingView.Views += childView.Views;
+
+        //    }
+        //}
 
         var authorIds = topic.AuthorIds.Distinct();
         return new TopicDataResult
@@ -216,9 +216,9 @@ public class TopicDataManager(
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
         int TodayViews,
-        List<BaseView> ViewsLast30DaysAggregatedTopic,
-        List<BaseView> ViewsLast30DaysTopic,
-        List<BaseView> ViewsLast30DaysAggregatedQuestions,
-        List<BaseView> viewsLast30DaysQuestions 
+        List<DailyViews> ViewsLast30DaysAggregatedTopic,
+        List<DailyViews> ViewsLast30DaysTopic,
+        List<DailyViews> ViewsLast30DaysAggregatedQuestions,
+        List<DailyViews> viewsLast30DaysQuestions
     );
 }

@@ -4,10 +4,6 @@ import { useTopicStore } from '../topicStore'
 
 const topicStore = useTopicStore()
 const knowledgeSummaryData = ref<ChartData[]>([])
-const showAnnualTopicBarchart = ref(false)
-const showAnnualAggregatedTopicBarchart = ref(false)
-const showAnnualQuestionBarchart = ref(false)
-const showAnnualAggregatedQuestionBarchart = ref(false)
 
 function setKnowledgeSummaryData() {
 
@@ -22,17 +18,17 @@ function setKnowledgeSummaryData() {
 
 }
 
-const last30DaysLabelsAggregatedTopics = computed(() => topicStore.viewsLast30DaysAggregatedTopics?.map(v => v.date) as string[]);
-const last30DaysCountsAggregatedTopics = computed(() => topicStore.viewsLast30DaysAggregatedTopics?.map(v => v.views) as number[]);
+const last30DaysLabelsAggregatedTopics = computed(() => topicStore.viewsPast30DaysAggregatedTopics?.map(v => v.dateOnly) as string[])
+const last30DaysCountsAggregatedTopics = computed(() => topicStore.viewsPast30DaysAggregatedTopics?.map(v => v.count) as number[])
 
-const last30DaysLabelsTopics = computed(() => topicStore.viewsLast30DaysTopic?.map(v => v.date) as string[]);
-const last30DaysCountsTopics = computed(() => topicStore.viewsLast30DaysTopic?.map(v => v.views) as number[]);
+const last30DaysLabelsTopics = computed(() => topicStore.viewsPast30DaysTopic?.map(v => v.dateOnly) as string[])
+const last30DaysCountsTopics = computed(() => topicStore.viewsPast30DaysTopic?.map(v => v.count) as number[])
 
-const last30DaysLabelsAggregatedQuestions = computed(() => topicStore.viewsLast30DaysAggregatedQuestions?.map(v => v.date) as string[]);
-const last30DaysCountsAggregatedQuestions = computed(() => topicStore.viewsLast30DaysAggregatedQuestions?.map(v => v.views) as number[]);
+const last30DaysLabelsAggregatedQuestions = computed(() => topicStore.viewsPast30DaysAggregatedQuestions?.map(v => v.dateOnly) as string[])
+const last30DaysCountsAggregatedQuestions = computed(() => topicStore.viewsPast30DaysAggregatedQuestions?.map(v => v.count) as number[])
 
-const last30DaysLabelsQuestions = computed(() => topicStore.viewsLast30DaysQuestions?.map(v => v.date) as string[]);
-const last30DaysCountsQuestions = computed(() => topicStore.viewsLast30DaysQuestions?.map(v => v.views) as number[]);
+const last30DaysLabelsQuestions = computed(() => topicStore.viewsPast30DaysQuestions?.map(v => v.dateOnly) as string[])
+const last30DaysCountsQuestions = computed(() => topicStore.viewsPast30DaysQuestions?.map(v => v.count) as number[])
 function getLabel(key: string) {
     switch (key) {
         case 'solid':
@@ -47,6 +43,7 @@ function getLabel(key: string) {
 }
 
 onBeforeMount(() => setKnowledgeSummaryData())
+onBeforeMount(() => topicStore.getAnalyticsData())
 
 </script>
 
@@ -122,27 +119,17 @@ onBeforeMount(() => setKnowledgeSummaryData())
                     <div class="topicdata-content">
                         <ul>
                             <li>
-                                <button @click="showAnnualTopicBarchart = !showAnnualTopicBarchart;">
-                                    {{ showAnnualTopicBarchart ? 'Verstecken' : 'Monatsübersicht Views mit Untertopics' }}
-                                </button>
-                                <template v-if="showAnnualTopicBarchart">
-                                    <LazyOverviewBarChart :labels="last30DaysLabelsAggregatedTopics" :datasets="last30DaysCountsAggregatedTopics"
-                                        :title="'Monatsübersicht Views mit Untertopics'" />
-                                </template>
+                                <LazySharedChartsBar :labels="last30DaysLabelsAggregatedTopics" :datasets="last30DaysCountsAggregatedTopics"
+                                    :title="'Monatsübersicht Views mit Untertopics'" />
                             </li>
                             <li>
-                                <button @click="showAnnualAggregatedTopicBarchart = !showAnnualAggregatedTopicBarchart;">
-                                    {{ showAnnualAggregatedTopicBarchart ? 'Verstecken' : 'Monatsübersicht Views Topics' }}
-                                </button>
-                                <template v-if="showAnnualAggregatedTopicBarchart">
-                                    <LazyOverviewBarChart :labels="last30DaysLabelsTopics" :datasets="last30DaysCountsTopics"
-                                        :title="'Monatsübersicht Views Topics'" />
-                                </template>
+                                <LazySharedChartsBar :labels="last30DaysLabelsTopics" :datasets="last30DaysCountsTopics"
+                                    :title="'Monatsübersicht Views Topics'" />
                             </li>
                         </ul>
                     </div>
                 </div>
-
+                <!-- 
                 <div class="topicdata-sub-label">
                     Fragen:
                 </div>
@@ -150,28 +137,18 @@ onBeforeMount(() => setKnowledgeSummaryData())
                     <div class="topicdata-content">
                         <ul>
                             <li>
-                                <button @click="showAnnualQuestionBarchart = !showAnnualQuestionBarchart;">
-                                    {{ showAnnualQuestionBarchart ? 'Verstecken' : 'Monatsübersicht Question Views mit Untertopics' }}
-                                </button>
-                                <template v-if="showAnnualQuestionBarchart">
-                                    <LazyOverviewBarChart :labels="last30DaysLabelsAggregatedQuestions" :datasets="last30DaysCountsAggregatedQuestions"
-                                        :title="'Monatsübersicht Views mit Untertopics'" />
-                                </template>
+                                <LazySharedChartsBar :labels="last30DaysLabelsAggregatedQuestions" :datasets="last30DaysCountsAggregatedQuestions"
+                                    :title="'Monatsübersicht Views mit Untertopics'" />
                             </li>
                             <li>
-                                <button @click="showAnnualAggregatedQuestionBarchart = !showAnnualAggregatedQuestionBarchart;">
-                                    {{ showAnnualAggregatedQuestionBarchart ? 'Verstecken' : 'Monatsübersicht Question Views für direktes Topic' }}
-                                </button>
-                                <template v-if="showAnnualAggregatedQuestionBarchart">
-                                    <LazyOverviewBarChart :labels="last30DaysLabelsQuestions" :datasets="last30DaysCountsQuestions"
-                                        :title="'Monatsübersicht Views für direktes Topic'" />
-                                </template>
+                                <LazySharedChartsBar :labels="last30DaysLabelsQuestions" :datasets="last30DaysCountsQuestions"
+                                    :title="'Monatsübersicht Views für direktes Topic'" />
                             </li>
                         </ul>
                     </div>
                     <div class="topicdata-content">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

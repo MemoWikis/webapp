@@ -1,16 +1,20 @@
 <script lang="ts" setup>
 import { Bar } from 'vue-chartjs'
+import { memoBlue } from '../colors'
 
 
 interface Props {
     title: string
     labels: string[]
     datasets: number[]
-    color: string
+    color?: string
     stepSize?: number
 }
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+    color: memoBlue
+})
+
 
 const chartData = ref({
     labels: props.labels,
@@ -18,7 +22,7 @@ const chartData = ref({
         {
             label: props.title,
             data: props.datasets, // Use the datasets prop
-            backgroundColor: props.color
+            backgroundColor: props.color ? props.color : memoBlue,
         }
     ]
 })
