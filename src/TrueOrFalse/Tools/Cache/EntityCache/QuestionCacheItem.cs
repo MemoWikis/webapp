@@ -6,7 +6,7 @@ using TrueOrFalse.Web;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
 [Serializable]
-public class QuestionCacheItem 
+public class QuestionCacheItem
 {
     public QuestionCacheItem()
     {
@@ -169,7 +169,6 @@ public class QuestionCacheItem
             TextHtml = question.TextHtml,
             TotalFalseAnswers = question.TotalFalseAnswers,
             TotalTrueAnswers = question.TotalTrueAnswers,
-            TotalViews = question.TotalViews,
             SolutionType = question.SolutionType,
             LicenseId = question.LicenseId,
             Solution = question.Solution,

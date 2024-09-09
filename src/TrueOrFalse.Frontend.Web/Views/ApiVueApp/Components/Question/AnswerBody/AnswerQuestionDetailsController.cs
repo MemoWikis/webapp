@@ -12,7 +12,8 @@ public class AnswerQuestionDetailsController(
     TotalsPersUserLoader _totalsPersUserLoader,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
-    QuestionReadingRepo _questionReadingRepo) : Controller
+    QuestionReadingRepo _questionReadingRepo,
+    QuestionViewRepository _questionViewRepository) : Controller
 {
     [HttpGet]
     public AnswerQuestionDetailsResult? Get([FromRoute] int id)
@@ -76,7 +77,7 @@ public class AnswerQuestionDetailsController(
                 Name: question.Creator.Name
             ),
             CreationDate: DateTimeUtils.TimeElapsedAsText(question.DateCreated),
-            TotalViewCount: question.TotalViews,
+            TotalViewCount: _questionViewRepository.GetViewCount(question.Id),
             WishknowledgeCount: question.TotalRelevancePersonalEntries,
             License: new License(
                 IsDefault: question.License.IsDefault(),

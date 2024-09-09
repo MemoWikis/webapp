@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Seedworks.Lib.Persistence;
+using System.Diagnostics;
 using System.Text;
-using Seedworks.Lib.Persistence;
 using TrueOrFalse;
 
 [DebuggerDisplay("Id={Id} Name={Text}")]
@@ -60,7 +60,6 @@ public class Question : DomainEntity, ICreator
 
     public virtual int TotalTrueAnswers { get; set; }
 
-    public virtual int TotalViews { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
     public virtual User Creator { get; set; }
