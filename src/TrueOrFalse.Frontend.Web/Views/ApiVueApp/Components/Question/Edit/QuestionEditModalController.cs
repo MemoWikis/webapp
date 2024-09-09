@@ -281,8 +281,7 @@ public class QuestionEditModalController(
 
         if (!String.IsNullOrEmpty(request.ReferencesJson))
         {
-            var references =
-                ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
+            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
