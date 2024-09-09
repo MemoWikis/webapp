@@ -41,11 +41,12 @@ function getTooltipLabel(key: string, count: number) {
 
 onBeforeMount(() => setKnowledgebarData())
 watch(() => props.knowledgebarData, () => setKnowledgebarData(), { deep: true })
+const ariaId = useId()
 
 </script>
 
 <template>
-    <VTooltip class="tooltip-container">
+    <VTooltip :aria-id="ariaId" class="tooltip-container">
         <div class="knowledgebar">
             <div v-if="knowledgebarData.solidPercentage > 0" class="solid-knowledge"
                 :style="{ 'width': knowledgebarData.solidPercentage + '%' }">

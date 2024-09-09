@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
+using System.Diagnostics;
 using static System.String;
 
 [Serializable]
@@ -32,7 +32,6 @@ public class User : DomainEntity, IUserTinyModel
     /// End of premium period
     /// </summary>
     public virtual DateTime? EndDate { get; set; }
-    public virtual DateTime? LastLogin { get; set; }
 
     public virtual IList<FollowerInfo> Followers { get; set; }
 

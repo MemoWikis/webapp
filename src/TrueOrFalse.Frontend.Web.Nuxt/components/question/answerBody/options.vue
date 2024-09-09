@@ -20,6 +20,8 @@ interface Props {
 const props = defineProps<Props>()
 
 const showDropdown = ref(false)
+const ariaId = useId()
+
 </script>
 
 <template>
@@ -29,7 +31,7 @@ const showDropdown = ref(false)
             <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
         </div>
 
-        <VDropdown :distance="0" :shown="showDropdown">
+        <VDropdown :aria-id="ariaId" :distance="0" :shown="showDropdown">
             <template #popper="{ hide }">
 
                 <div class="dropdown-row" v-if="tabsStore.activeTab == Tab.Learning && props.canEdit"

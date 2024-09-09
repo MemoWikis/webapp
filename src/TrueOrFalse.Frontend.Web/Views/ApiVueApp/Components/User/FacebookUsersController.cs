@@ -42,7 +42,6 @@ public class FacebookUsersController(
             json.facebookUserId))
         {
             _sessionUser.Login(user);
-            user.LastLogin = DateTime.Now;
             _userWritingRepo.Update(user);
             return new LoginResult
             {

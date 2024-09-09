@@ -7,7 +7,7 @@ public class CategoryImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 206, 50 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
-    public override string BasePath => "Categories";
+    public override string BasePath => Settings.TopicImageBasePath;
     public string BaseDummyUrl => "no-category-picture-";
 
     public CategoryImageSettings(

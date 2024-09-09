@@ -320,6 +320,9 @@ const computedMaxWidth = computed(() => {
 })
 
 const maxWidth = ref(150)
+const ariaId = useId()
+const ariaId2 = useId()
+const ariaId3 = useId()
 </script>
 
 <template>
@@ -328,7 +331,7 @@ const maxWidth = ref(150)
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">
 
-		<VDropdown :distance="0" v-if="breadcrumb.personalWiki && topicStore.id == personalWiki?.id">
+		<VDropdown :aria-id="ariaId" :distance="0" v-if="breadcrumb.personalWiki && topicStore.id == personalWiki?.id">
 			<NuxtLink :to="$urlHelper.getTopicUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
 				class="breadcrumb-item root-topic" :class="{ 'is-in-root-topic': topicStore.id == personalWiki?.id }"
 				aria-label="home button">
@@ -377,7 +380,7 @@ const maxWidth = ref(150)
 			</template>
 		</template>
 
-		<VDropdown v-show="stackedBreadcrumbItems.length > 0" :distance="0">
+		<VDropdown :aria-id="ariaId2" v-show="stackedBreadcrumbItems.length > 0" :distance="0">
 			<div>
 				<font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -405,7 +408,7 @@ const maxWidth = ref(150)
 		</template>
 		<div ref="lastBreadcrumbItem"></div>
 
-		<VDropdown :distance="0" v-if="topicStore.id != personalWiki?.id">
+		<VDropdown :aria-id="ariaId3" :distance="0" v-if="topicStore.id != personalWiki?.id">
 			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`">
 				{{ topicStore.name }}
 			</div>

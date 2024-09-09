@@ -33,13 +33,13 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
         _httpContextAccessor = httpContextAccessor;
         _contextAction = contextAction;
         _webHostEnvironment = webHostEnvironment;
-        _repo = new RepositoryDb<ImageMetaData>(session); 
+        _repo = new RepositoryDb<ImageMetaData>(session);
     }
 
     public void StoreWiki(
-        int typeId, 
-        ImageType imageType, 
-        int userId, 
+        int typeId,
+        ImageType imageType,
+        int userId,
         WikiImageMeta wikiMetaData)
     {
         var imageMeta = _imageMetaDataReadingRepo.GetBy(typeId, imageType) ?? new ImageMetaData();
@@ -54,7 +54,7 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
 
         _loadImageMarkups.Run(imageMeta);
 
-        if(imageMeta.Id > 0 )
+        if (imageMeta.Id > 0)
             Update(imageMeta);
         else
             Create(imageMeta);
@@ -89,10 +89,10 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
     //todo(DaMa) Create and Update should be combined into one function that differentiates between the two within the function.
     public void Create(ImageMetaData imageMetaData)
     {
-        if(_httpContextAccessor.HttpContext != null)
+        if (_httpContextAccessor.HttpContext != null)
             imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData,
-                _questionReadingRepo, 
-                _categoryRepository, 
+                _questionReadingRepo,
+                _categoryRepository,
                 _httpContextAccessor,
                 _webHostEnvironment,
                 _contextAction)
@@ -105,7 +105,7 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
     {
         if (_httpContextAccessor.HttpContext != null)
             imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData,
-                _questionReadingRepo, 
+                _questionReadingRepo,
                 _categoryRepository,
                 _httpContextAccessor,
                 _webHostEnvironment,

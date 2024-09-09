@@ -75,13 +75,16 @@ function openMoveTopicModal() {
 
 const emit = defineEmits(['addTopic'])
 const showAllLinkOptions = ref<boolean>(false)
+const ariaId = useId()
+const ariaId2 = useId()
+
 </script>
 
 <template>
     <div class="grid-item-options-container">
 
         <div class="grid-item-option" v-if="props.topic.parents.length > 1">
-            <VDropdown :distance="6">
+            <VDropdown :aria-id="ariaId" :distance="6">
                 <button v-show="props.topic.parents.length > 1" class="" @click.stop>
                     <font-awesome-icon :icon="['fas', 'sitemap']" rotation=180 />
                 </button>
@@ -110,7 +113,7 @@ const showAllLinkOptions = ref<boolean>(false)
         </div>
 
         <div class="grid-item-option">
-            <VDropdown :distance="1">
+            <VDropdown :aria-id="ariaId2" :distance="1">
                 <button class="" @click.stop>
                     <font-awesome-icon :icon="['fa-solid', 'ellipsis-vertical']" />
                 </button>

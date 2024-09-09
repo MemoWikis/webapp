@@ -38,11 +38,9 @@ namespace TrueOrFalse.Domain.User
                 }
                 var user = _credentialsAreValid.User;
                 _sessionUser.Login(user);
-                EntityCache.GetUserById(user.Id).LastLogin = DateTime.Now;
 
                 TransferActivityPoints.FromSessionToUser(_sessionUser, _activityPointsRepo);
                 _userWritingRepo.UpdateActivityPointsData();
-                user.LastLogin = DateTime.Now;
                 _userWritingRepo.Update(user);
                 return true;
             }

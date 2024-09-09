@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using TrueOrFalse;
 
 namespace VueApp;
@@ -23,27 +23,29 @@ public class QuickCreateQuestionController(
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
-    public readonly record struct CreateFlashcardParam(
+    public readonly record struct CreateFlashcardRequest(
         int TopicId,
         string TextHtml,
         string Answer,
         int Visibility,
         bool AddToWishknowledge,
         int LastIndex,
-        LearningSessionConfig SessionConfig
+        LearningSessionConfig SessionConfig,
+        string[] UploadedImagesMarkedForDeletion,
+        string[] UploadedImagesInContent
     );
 
-    public readonly record struct CreateFlashcardResult(bool Success, int Data, string MessageKey);
+    public readonly record struct CreateFlashcardResponse(bool Success, int Data, string MessageKey);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public CreateFlashcardResult CreateFlashcard([FromBody] CreateFlashcardParam param)
+    public CreateFlashcardResponse CreateFlashcard([FromBody] CreateFlashcardRequest request)
     {
-        var safeText = GetSafeText(param.TextHtml);
+        var safeText = GetSafeText(request.TextHtml);
 
         if (string.IsNullOrEmpty(safeText))
         {
-            return new CreateFlashcardResult
+            return new CreateFlashcardResponse
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
@@ -52,19 +54,19 @@ public class QuickCreateQuestionController(
 
         var question = new Question
         {
-            TextHtml = param.TextHtml,
+            TextHtml = request.TextHtml,
             Text = safeText,
             SolutionType = SolutionType.FlashCard
         };
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard
         {
-            Text = param.Answer
+            Text = request.Answer
         };
 
         if (string.IsNullOrEmpty(solutionModelFlashCard.Text))
         {
-            return new CreateFlashcardResult
+            return new CreateFlashcardResponse
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
@@ -77,23 +79,29 @@ public class QuickCreateQuestionController(
 
         question.Categories = new List<Category>
         {
-            _categoryRepository.GetById(param.TopicId)
+            _categoryRepository.GetById(request.TopicId)
         };
-        var visibility = (QuestionVisibility)param.Visibility;
+
+        var visibility = (QuestionVisibility)request.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
-        if (param.AddToWishknowledge)
-        {
+        if (request.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
-        }
+
+        if (request.UploadedImagesInContent.Length > 0)
+            SaveImageToFile.ReplaceTempQuestionContentImages(request.UploadedImagesInContent, question, _questionWritingRepo);
+
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
         _learningSessionCreator.InsertNewQuestionToLearningSession(
-            EntityCache.GetQuestion(question.Id), param.LastIndex, param.SessionConfig);
+            questionCacheItem,
+            request.LastIndex,
+            request.SessionConfig);
 
-        return new CreateFlashcardResult
+        return new CreateFlashcardResponse
         {
             Success = true,
             Data = new QuestionLoader(

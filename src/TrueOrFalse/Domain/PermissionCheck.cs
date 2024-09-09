@@ -16,9 +16,9 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
     }
 
-        public PermissionCheck(int userId)
+    public PermissionCheck(int userId)
     {
-        var userCacheItem = EntityCache.GetUserById(userId); 
+        var userCacheItem = EntityCache.GetUserById(userId);
         _userId = userCacheItem.Id;
         _isInstallationAdmin = userCacheItem.IsInstallationAdmin;
     }
@@ -113,7 +113,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         EntityCache.GetCategory(topicId), EntityCache.GetCategory(oldParentId), newParentId);
 
     public bool CanMoveTopic(CategoryCacheItem? movingTopic, CategoryCacheItem? oldParent, int newParentId)
-    {   
+    {
         if (_userId == default
             || movingTopic == null
             || movingTopic.Id == 0
@@ -143,6 +143,8 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
+    public bool CanEditQuestion(int questionId) => CanEdit(EntityCache.GetQuestion(questionId));
+
     public bool CanEdit(QuestionCacheItem question)
     {
         if (_userId == default)
@@ -169,4 +171,5 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return true;
 
         return false;
-    } }
+    }
+}

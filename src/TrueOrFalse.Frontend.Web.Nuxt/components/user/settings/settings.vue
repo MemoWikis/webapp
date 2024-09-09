@@ -35,12 +35,12 @@ function calculatePostingDate() {
         return
 
     if (userStore.subscriptionStartDate !== null) {
-        let postingDateInner = new Date();
+        let postingDateInner = new Date()
         if (userStore.subscriptionStartDate.getDay() < new Date().getDay()) {
-            postingDateInner.setMonth(postingDateInner.getMonth() + 1);
+            postingDateInner.setMonth(postingDateInner.getMonth() + 1)
             postingDateInner.setDate(userStore.subscriptionStartDate.getDay())
             postingDate.value = postingDateInner
-            return;
+            return
         } else {
             postingDateInner.setDate(userStore.subscriptionStartDate.getDay())
             postingDate.value = postingDateInner
@@ -97,7 +97,7 @@ async function cancelPlan() {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 
         },
-    });
+    })
     if (data.value) {
         // Führen Sie die Umleitung im Browser durch.
         await navigateTo(data.value, { external: true })
@@ -346,6 +346,9 @@ async function requestVerificationMail() {
     success.value = true
     showAlert.value = true
 }
+const ariaId = useId()
+const ariaId2 = useId()
+
 </script>
 
 <template>
@@ -378,7 +381,7 @@ async function requestVerificationMail() {
         </div>
         <div class="hidden-lg hidden-md hidden-sm col-xs-12">
             <div class="settings-dropdown">
-                <VDropdown :distance="0">
+                <VDropdown :aria-id="ariaId" :distance="0">
                     <div class="settings-select">
                         <div>
                             {{ getSelectedSettingsPageLabel }}
@@ -458,14 +461,12 @@ async function requestVerificationMail() {
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">Profilbild</div>
-                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture"
-                            :custom-style="'object-fit: cover;'" />
+                        <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture" :custom-style="'object-fit: cover;'" />
                         <div class="img-settings-btns">
 
                             <div>
                                 <label class="img-upload-btn" for="imageUpload">
-                                    <input type="file" accept="image/*" name="file" id="imageUpload"
-                                        v-on:change="onFileChange" />
+                                    <input type="file" accept="image/*" name="file" id="imageUpload" v-on:change="onFileChange" />
                                     <font-awesome-icon icon="fa-solid fa-upload" />
                                     Bild hochladen
                                 </label>
@@ -486,8 +487,7 @@ async function requestVerificationMail() {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input name="username" placeholder="" type="text" width="0" v-model="userName"
-                                            class="settings-input" id="username">
+                                        <input name="username" placeholder="" type="text" width="0" v-model="userName" class="settings-input" id="username">
                                     </div>
                                 </div>
                             </form>
@@ -499,14 +499,12 @@ async function requestVerificationMail() {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input name="email" placeholder="" type="email" width="0" v-model="email"
-                                            class="settings-input" id="email">
+                                        <input name="email" placeholder="" type="email" width="0" v-model="email" class="settings-input" id="email">
                                     </div>
                                     <div class="col-lg-12"></div>
                                     <div class="col-sm-12 col-lg-6 ">
                                         <div class="email-confirmation-container">
-                                            <div v-if="userStore.isEmailConfirmed"
-                                                class="email-verification-label verified overline-s no-line">
+                                            <div v-if="userStore.isEmailConfirmed" class="email-verification-label verified overline-s no-line">
                                                 <font-awesome-icon :icon="['fas', 'check']" /> Verifiziert
                                             </div>
                                             <template v-else>
@@ -548,8 +546,7 @@ async function requestVerificationMail() {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model="currentPassword"
-                                            class="settings-input">
+                                        <input placeholder="" type="password" width="0" v-model="currentPassword" class="settings-input">
                                     </div>
                                 </div>
                             </form>
@@ -560,8 +557,7 @@ async function requestVerificationMail() {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model="newPassword"
-                                            class="settings-input">
+                                        <input placeholder="" type="password" width="0" v-model="newPassword" class="settings-input">
                                     </div>
                                 </div>
                             </form>
@@ -572,8 +568,7 @@ async function requestVerificationMail() {
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
-                                        <input placeholder="" type="password" width="0" v-model="repeatedPassword"
-                                            class="settings-input">
+                                        <input placeholder="" type="password" width="0" v-model="repeatedPassword" class="settings-input">
                                     </div>
                                 </div>
                             </form>
@@ -600,8 +595,7 @@ async function requestVerificationMail() {
                     <div class="settings-section">
                         <div class="">
                             <p>
-                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink
-                                    to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
+                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
                             </p>
                         </div>
 
@@ -617,8 +611,7 @@ async function requestVerificationMail() {
                         <label class="checkbox-section">
                             <div class="checkbox-container">
                                 <input type="checkbox" name="answer" :value="true" v-model="showWuwi" class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi"
-                                    class="checkbox-icon" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="showWuwi" class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">
@@ -650,10 +643,8 @@ async function requestVerificationMail() {
                     <div class="settings-section">
                         <label class="checkbox-section">
                             <div class="checkbox-container">
-                                <input type="checkbox" name="answer" :value="true" v-model="allowSupportLogin"
-                                    class="hidden" />
-                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="allowSupportLogin"
-                                    class="checkbox-icon" />
+                                <input type="checkbox" name="answer" :value="true" v-model="allowSupportLogin" class="hidden" />
+                                <font-awesome-icon icon="fa-solid fa-square-check" v-if="allowSupportLogin" class="checkbox-icon" />
                                 <font-awesome-icon icon="fa-regular fa-square" v-else class="checkbox-icon" />
                             </div>
                             <div class="checkbox-label">
@@ -681,14 +672,11 @@ async function requestVerificationMail() {
                 </div>
                 <div v-else-if="activeContent == Content.Membership" class="content">
                     <div class="settings-section" v-if="userStore.subscriptionType != Subscription.Type.Basic">
-                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled == false"
-                            @click="cancelPlan()">
+                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled == false" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo verwalten oder kündigen
                         </button>
-                        <button class="memo-button btn btn-primary"
-                            v-else-if="userStore.isSubscriptionCanceled == true && userStore.subscriptionType == Subscription.Type.Plus"
-                            @click="cancelPlan()">
+                        <button class="memo-button btn btn-primary" v-else-if="userStore.isSubscriptionCanceled == true && userStore.subscriptionType == Subscription.Type.Plus" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo wiederaufnehmen
                         </button>
@@ -711,7 +699,7 @@ async function requestVerificationMail() {
                             Wissensbericht per E-Mail:
                         </div>
                         <div class="interval-dropdown">
-                            <VDropdown :distance="0">
+                            <VDropdown :aria-id="ariaId2" :distance="0">
                                 <div class="interval-select">
                                     <div>
                                         {{ getNotificationIntervalText }}

@@ -37,16 +37,7 @@
 
     public static bool IsToday(CategoryCacheItem topic)
     {
-        return IsToday(topic.DateCreated); 
-    }
-
-    public static bool IsLastLoginToday(UserCacheItem user)
-    {
-        if (user.LastLogin == null)
-        {
-            return false;
-        }
-        return IsToday(user.LastLogin.Value);
+        return IsToday(topic.DateCreated);
     }
 
     public static bool IsRegisterToday(UserCacheItem user)

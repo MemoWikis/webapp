@@ -7,6 +7,7 @@ import { GridTopicItem } from './content/grid/item/gridTopicItem'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
 import { ErrorCode } from '../error/errorCodeEnum'
+import { nanoid } from 'nanoid'
 
 export class Topic {
 	canAccess: boolean = false
@@ -105,11 +106,9 @@ export const useTopicStore = defineStore('topicStore', {
 			gridItems: [] as GridTopicItem[],
 			isChildOfPersonalWiki: false,
 			textIsHidden: false,
-			viewsLast30DaysAggregatedTopics: null as ViewSummary[] | null,
-			viewsLast30DaysTopic: null as ViewSummary[] | null,
-			viewsLast30DaysAggregatedQuestions: null as ViewSummary[] | null,
-			viewsLast30DaysQuestions: null as ViewSummary[] | null,
-
+			uploadedImagesInContent: [] as string[],
+			uploadedImagesMarkedForDeletion: [] as string[],
+			uploadTrackingArray: [] as string[]
 		}
 	},
 	actions: {
@@ -146,6 +145,8 @@ export const useTopicStore = defineStore('topicStore', {
 				this.gridItems = topic.gridItems
 				this.isChildOfPersonalWiki = topic.isChildOfPersonalWiki
 				this.textIsHidden = topic.textIsHidden
+				this.uploadedImagesInContent = []
+				this.uploadedImagesMarkedForDeletion = []
 			}
 		},
 		async saveTopic() {
@@ -157,26 +158,37 @@ export const useTopicStore = defineStore('topicStore', {
 				return
 			}
 
-			const json = {
+			
+			await this.waitUntilAllUploadsComplete()
+					
+			const data = {
 				id: this.id,
 				name: this.name,
 				saveName: this.name != this.initialName,
 				content: this.content,
-				saveContent: this.content != this.initialContent
+				saveContent: this.content != this.initialContent && this.contentHasChanged
 			}
+
 			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
-				method: 'POST', body: json, mode: 'cors', credentials: 'include',
+				method: 'POST', 
+				body: data, 
+				mode: 'cors', 
+				credentials: 'include',
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
+
 			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',
                     text: messages.success.category.saved
                 }
                 snackbarStore.showSnackbar(data)
+				this.contentHasChanged = false
+				this.initialName = this.name
+				this.initialContent = this.content
 				this.contentHasChanged = false
 			}
 			else if (result.success == false) {
@@ -188,6 +200,8 @@ export const useTopicStore = defineStore('topicStore', {
 			this.name = this.initialName
 			this.content = this.initialContent
 			this.contentHasChanged = false
+			this.uploadedImagesInContent = []
+			this.uploadedImagesMarkedForDeletion = []
 		},
 		isOwnerOrAdmin() {
 			const userStore = useUserStore()
@@ -247,8 +261,54 @@ export const useTopicStore = defineStore('topicStore', {
 
 			this.textIsHidden = result
 		},
-		
+		async uploadContentImage(file: File): Promise<string> {
+			const uploadId = nanoid(5)
+			this.uploadTrackingArray.push(uploadId)
+			
+			const data = new FormData()
+			data.append('file', file)
+			data.append('topicId', this.id.toString())
 
+			const result = await $api<string>('/apiVue/TopicStore/UploadContentImage', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+
+			this.uploadTrackingArray = this.uploadTrackingArray.filter(id => id !== uploadId)
+			
+			return result
+		},
+		addImageUrlToDeleteList(url: string) {
+			if (!this.uploadedImagesMarkedForDeletion.includes(url))
+				this.uploadedImagesMarkedForDeletion.push(url)
+		},
+		refreshDeleteImageList() {
+			const imagesToKeep = this.uploadedImagesInContent
+			this.uploadedImagesMarkedForDeletion = this.uploadedImagesMarkedForDeletion.filter(url => imagesToKeep.includes(url))
+		},
+		async deleteTopicContentImages() {
+			if (this.uploadedImagesMarkedForDeletion.length == 0)
+				return
+
+			const data = {
+				topicId: this.id,
+				imageUrls: this.uploadedImagesMarkedForDeletion
+			}
+			await $api<void>('/apiVue/TopicStore/DeleteContentImages', {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			this.uploadedImagesMarkedForDeletion = []
+		},
+		async waitUntilAllUploadsComplete() {
+			while (this.uploadTrackingArray.length > 0) {
+				await new Promise(resolve => setTimeout(resolve, 100))
+			}
+		}
 	},
 	getters: {
 		getTopicName(): string {

@@ -207,8 +207,9 @@ watch(() => props.tab, (t) => {
                                 <div class="row">
                                 </div>
                             </template>
+                            <TopicTabsAnalytics v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
+
                         </ClientOnly>
-                        <TopicTabsAnalytics v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
 
                         <ClientOnly>
                             <TopicRelationEdit />

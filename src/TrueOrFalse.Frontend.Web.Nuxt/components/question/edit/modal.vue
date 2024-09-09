@@ -61,10 +61,8 @@ const multipleChoiceJson = ref<string>()
 const matchListJson = ref<string>()
 const flashCardAnswer = ref<string>()
 
-
 const topicIds = ref<number[]>([])
 const selectedTopics = ref<TopicItem[]>([])
-const privateTopicIds = ref<number[]>([])
 function removeTopic(t: TopicItem) {
     if (selectedTopics.value.length > 1) {
         var index = selectedTopics.value.findIndex(s => s == t)
@@ -191,7 +189,9 @@ function getData() {
         LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
         SessionIndex: learningSessionStore.lastIndexInQuestionList,
         IsLearningTab: tabsStore.activeTab == Tab.Learning,
-        SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson()
+        SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson(),
+        uploadedImagesMarkedForDeletion: editQuestionStore.uploadedImagesMarkedForDeletion,
+        uploadedImagesInContent: editQuestionStore.uploadedImagesInContent
     }
     const data = editQuestionStore.edit ? editData : createData
 
@@ -222,9 +222,12 @@ async function save() {
         highlightEmptyFields.value = true
         return
     }
-    lockSaveButton.value = true
 
+    lockSaveButton.value = true
     spinnerStore.showSpinner()
+
+    await editQuestionStore.waitUntilAllUploadsComplete()
+
     const url = editQuestionStore.edit ? '/apiVue/QuestionEditModal/Edit' : '/apiVue/QuestionEditModal/Create'
     const data = getData()
 
@@ -279,6 +282,9 @@ async function save() {
             text: messages.getByCompositeKey(result.messageKey)
         })
     }
+
+    editQuestionStore.uploadedImagesMarkedForDeletion = []
+    editQuestionStore.uploadedImagesInContent = []
 }
 
 onMounted(() => {
@@ -313,18 +319,22 @@ function initiateSolution(solution: string) {
             multipleChoiceJson.value = solution
             break
         case SolutionType.MatchList:
-            matchListJson.value = solution;
+            matchListJson.value = solution
             break
         case SolutionType.FlashCard:
             flashCardAnswer.value = solution
     }
 
-    return solution;
+    return solution
 }
 const questionEditor = ref()
 const questionExtensionEditor = ref(null)
 
+const isInit = ref(false)
+
 async function getQuestionData(id: number) {
+    isInit.value = true
+
     const result = await $api<QuestionData>(`/apiVue/QuestionEditModal/GetData/${id}`, {
         method: 'GET',
         mode: 'cors',
@@ -350,10 +360,13 @@ async function getQuestionData(id: number) {
             licenseConfirmation.value = true
         }
     }
+
+    await nextTick()
+    isInit.value = false
 }
 
-watch(() => editQuestionStore.showModal, (e) => {
-    if (e) {
+watch(() => editQuestionStore.showModal, (showModal) => {
+    if (showModal) {
         if (editQuestionStore.edit) {
             getQuestionData(editQuestionStore.id)
         }
@@ -430,15 +443,15 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         <div class="overline-s no-line">Frage</div>
                         <QuestionEditFlashcardFront v-if="solutionType == SolutionType.FlashCard"
                             :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
-                            ref="questionEditor" :content="questionHtml" />
+                            ref="questionEditor" :content="questionHtml" :is-init="isInit" />
                         <QuestionEditEditor v-else :highlight-empty-fields="highlightEmptyFields"
-                            @set-question-data="setQuestionData" ref="questionEditor" :content="questionHtml" />
+                            @set-question-data="setQuestionData" ref="questionEditor" :content="questionHtml" :is-init="isInit" />
                     </div>
 
                     <div class="input-container" v-if="solutionType != SolutionType.FlashCard">
                         <QuestionEditExtensionEditor :highlightEmptyFields="highlightEmptyFields"
                             @setQuestionExtensionData="setQuestionExtensionData" ref="questionExtensionEditor"
-                            :content="questionExtensionHtml" />
+                            :content="questionExtensionHtml" :is-init="isInit" />
                     </div>
                     <QuestionEditText v-if="solutionType == SolutionType.Text" :solution="textSolution"
                         :highlightEmptyFields="highlightEmptyFields" @set-solution="setTextSolution" />
@@ -449,12 +462,12 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         :highlightEmptyFields="highlightEmptyFields" @set-matchlist-json="setMatchlistContent" />
                     <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
                         :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashCardContent"
-                        ref="flashCardComponent" />
+                        ref="flashCardComponent" :is-init="isInit" />
 
                     <div class="input-container description-container">
                         <div class="overline-s no-line">Ergänzungen zur Antwort</div>
                         <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
-                            :content="descriptionHtml" @set-description-data="setDescriptionData" />
+                            :content="descriptionHtml" @set-description-data="setDescriptionData" :is-init="isInit" />
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">Themenzuordnung</div>

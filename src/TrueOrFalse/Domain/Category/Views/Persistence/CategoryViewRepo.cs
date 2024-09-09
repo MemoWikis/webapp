@@ -1,11 +1,10 @@
-﻿using System.Collections.Concurrent;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
 using Seedworks.Lib.Persistence;
-using System.Diagnostics;
+using System.Collections.Concurrent;
 
 public class CategoryViewRepo(
-    ISession _session, 
+    ISession _session,
     CategoryRepository _categoryRepository,
     UserReadingRepo _userReadingRepo) : RepositoryDb<CategoryView>(_session)
 {
@@ -19,19 +18,16 @@ public class CategoryViewRepo(
             .Value;
     }
 
-    public ConcurrentDictionary<DateTime, int> GetViewsForLastNDays(int days)
+    public ConcurrentDictionary<DateTime, int> GetViewsForPastNDays(int days)
     {
-        var watch = new Stopwatch();
-        watch.Start();
 
         var query = _session.CreateSQLQuery("SELECT COUNT(DateOnly) AS Count, DateOnly FROM CategoryView WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() GROUP BY DateOnly");
         query.SetParameter("days", days);
+
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
             .List<TopicViewSummary>();
-        watch.Stop();
-        var elapsed = watch.ElapsedMilliseconds;
-        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
 
+        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
         foreach (var item in result)
         {
             dictionaryResult[item.DateOnly] = Convert.ToInt32(item.Count);
@@ -69,8 +65,33 @@ public class CategoryViewRepo(
             DateCreated = DateTime.UtcNow
         };
 
-       Create(categoryView);
+        Create(categoryView);
     }
     public record struct TopicViewSummaryOrderById(Int64 Count, DateTime DateOnly, int Category_Id); 
-    public record struct TopicViewSummary(Int64 Count, DateTime DateOnly); 
+    public record struct TopicViewSummary(Int64 Count, DateTime DateOnly);
+
+    public ConcurrentDictionary<DateTime, int> GetActiveUserCountForPastNDays(int days)
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT DateOnly, COUNT(DISTINCT User_id) AS Count
+        FROM categoryview
+        WHERE User_id > 0
+          AND DateOnly >= CURDATE() - INTERVAL :days DAY
+        GROUP BY DateOnly
+        ORDER BY DateOnly");
+
+        query.SetParameter("days", days);
+
+        var result = query
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
+            .List<TopicViewSummary>();
+
+        var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
+        foreach (var item in result)
+        {
+            dictionaryResult[item.DateOnly] = Convert.ToInt32(item.Count);
+        }
+
+        return dictionaryResult;
+    }
 }

@@ -177,7 +177,9 @@ const ImageResize = Image.extend({
             let isResizing = false;
             let startX, startWidth, startHeight;
             $container.addEventListener('click', () => {
-                //remove remaining dots and position controller
+                const id = view.dom.id
+                const maxWidth = document.getElementById(id)?.clientWidth
+
                 if ($container.childElementCount > 3) {
                     for (let i = 0; i < 5; i++) {
                         $container.removeChild($container.lastChild);
@@ -196,12 +198,17 @@ const ImageResize = Image.extend({
                         startWidth = $container.offsetWidth;
                         startHeight = $container.offsetHeight;
                         const onMouseMove = (e) => {
-                            if (!isResizing)
+                            if (!isResizing || maxWidth === null)
                                 return;
                             const deltaX = index % 2 === 0 ? -(e.clientX - startX) : e.clientX - startX;
                             const aspectRatio = startWidth / startHeight;
-                            const newWidth = startWidth + deltaX;
+
+                            let newWidth = startWidth + deltaX;
+                            if (newWidth >= maxWidth) 
+                                newWidth = maxWidth;
+
                             const newHeight = newWidth / aspectRatio;
+
                             $container.style.width = newWidth + 'px';
                             $container.style.height = newHeight + 'px';
                             $img.style.width = newWidth + 'px';

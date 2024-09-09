@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace VueApp;
@@ -13,7 +16,8 @@ public class TopicStoreController(
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    CategoryUpdater _categoryUpdater) : Controller
+    CategoryUpdater _categoryUpdater,
+    ImageStore _imageStore) : Controller
 {
     public readonly record struct SaveTopicParam(
         int id,
@@ -45,16 +49,17 @@ public class TopicStoreController(
         {
             categoryCacheItem.Name = param.name;
             category.Name = param.name;
+            _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Renamed);
         }
 
         if (param.saveContent)
         {
             categoryCacheItem.Content = param.content;
             category.Content = param.content;
+            _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
         }
 
         EntityCache.AddOrUpdate(categoryCacheItem);
-        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
         return new SaveTopicResult
         {
@@ -138,6 +143,46 @@ public class TopicStoreController(
             Parents = git.Parents,
             QuestionCount = git.QuestionCount
         }).ToArray();
+    }
+
+    public class UploadContentImageRequest
+    {
+        public int TopicId { get; set; }
+        public IFormFile File { get; set; }
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public string UploadContentImage([FromForm] UploadContentImageRequest form)
+    {
+        if (!_permissionCheck.CanEditCategory(form.TopicId))
+            throw new Exception("No Upload rights");
+
+        Logg.r.Information("UploadContentImage {id}, {file}", form.TopicId, form.File);
+
+        var url = _imageStore.RunTopicContentUploadAndGetPath(
+            form.File,
+            form.TopicId,
+            _sessionUser.UserId,
+            _sessionUser.User.Name);
+
+        return url;
+    }
+
+    public record struct DeleteContentImagesRequest(int id, string[] imageUrls);
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public void DeleteContentImages([FromBody] DeleteContentImagesRequest req)
+    {
+        var imageSettings = new TopicContentImageSettings(req.id, _httpContextAccessor);
+        var deleteImage = new DeleteImage();
+
+        var filenames = new List<string>();
+
+        foreach (var path in req.imageUrls)
+            filenames.Add(Path.GetFileName(path));
+
+        deleteImage.Run(imageSettings.BasePath, filenames);
     }
 
     [HttpGet]

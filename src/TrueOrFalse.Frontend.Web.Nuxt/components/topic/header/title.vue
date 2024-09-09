@@ -5,6 +5,7 @@ import { useTabsStore, Tab } from '../tabs/tabsStore'
 import { Author } from '~~/components/author/author'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -48,12 +49,28 @@ watch(() => tabsStore.activeTab, (val: any) => {
     }
 })
 
+const autoSaveTimer = ref()
+const autoSave = () => {
+    if (topicStore.visibility != Visibility.Owner)
+        return
+
+    if (autoSaveTimer.value) {
+        clearTimeout(autoSaveTimer.value)
+    }
+    autoSaveTimer.value = setTimeout(() => {
+        topicStore.saveTopic()
+    }, 200)
+}
+
 onBeforeMount(() => {
-    window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize)
 
     watch(() => topicStore.name, (newName) => {
         if (topicStore.initialName != newName) {
-            topicStore.contentHasChanged = true
+            if (topicStore.visibility == Visibility.Owner)
+                autoSave()
+            else
+                topicStore.contentHasChanged = true
         }
     })
 })
@@ -64,7 +81,7 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-    window.removeEventListener('resize', resize);
+    window.removeEventListener('resize', resize)
 })
 
 async function scrollToChildTopics() {
@@ -95,22 +112,6 @@ const viewsLabel = computed(() => {
     return `${viewCount} Aufrufe`
 })
 
-function getLetterValuation(str: string) {
-    const slimLetters = ['I', 'J', 'f', 'i', 'j', 'l', 'r', 't']
-    let points = 0
-    for (let i = 0; i < str.length; i++) {
-        const currentLetterIsSmall = slimLetters.includes(str[i])
-
-        if (currentLetterIsSmall)
-            points += 1
-        else
-            points += 2
-
-        continue
-    }
-    return points
-}
-
 const topicTitle = ref()
 function focus() {
     outlineStore.titleIsFocused = true
@@ -124,6 +125,9 @@ const showParents = computed(() => {
         return topicStore.parentTopicCount > 0
     else return topicStore.parentTopicCount > 1
 })
+const ariaId = useId()
+const ariaId2 = useId()
+
 </script>
 
 <template>
@@ -136,8 +140,7 @@ const showParents = computed(() => {
             </template>
         </h1>
         <div id="TopicHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="topicStore.childTopicCount > 0 && !isMobile" class="topic-detail clickable"
-                @click="scrollToChildTopics()" v-tooltip="'Alle Unterthemen'">
+            <div v-if="topicStore.childTopicCount > 0 && !isMobile" class="topic-detail clickable" @click="scrollToChildTopics()" v-tooltip="'Alle Unterthemen'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" class="topic-fa-icon" />
                 <div class="topic-detail-label">{{ topicStore.childTopicCount }}</div>
             </div>
@@ -145,7 +148,7 @@ const showParents = computed(() => {
             <div class="topic-detail-spacer" v-if="showParents && topicStore.childTopicCount > 0">
             </div>
 
-            <VDropdown :distance="6">
+            <VDropdown :aria-id="ariaId" :distance="6">
                 <button v-show="showParents" class="parent-tree-btn">
 
                     <div class="topic-detail">
@@ -168,8 +171,7 @@ const showParents = computed(() => {
                 </template>
             </VDropdown>
 
-            <div class="topic-detail-spacer"
-                v-if="topicStore.views > 0 && (topicStore.childTopicCount > 1 && !isMobile || topicStore.parentTopicCount > 1)">
+            <div class="topic-detail-spacer" v-if="topicStore.views > 0 && (topicStore.childTopicCount > 1 && !isMobile || topicStore.parentTopicCount > 1)">
             </div>
 
             <div v-if="topicStore.views > 0" class="topic-detail">
@@ -190,15 +192,11 @@ const showParents = computed(() => {
                 </LazyNuxtLink>
             </template>
 
-            <VDropdown :distance="6">
-                <div v-if="isMobile && groupedAuthors.length == 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0"
-                    :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)"
-                    class="header-author-icon-link">
-                    <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon"
-                        :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
+            <VDropdown :aria-id="ariaId2" :distance="6">
+                <div v-if="isMobile && groupedAuthors.length == 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0" :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)" class="header-author-icon-link">
+                    <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
                 </div>
-                <div v-else-if="groupedAuthors.length > 1" class="additional-authors-btn"
-                    :class="{ 'long': groupedAuthors.length > 9 }">
+                <div v-else-if="groupedAuthors.length > 1" class="additional-authors-btn" :class="{ 'long': groupedAuthors.length > 9 }">
                     <span>
                         +{{ groupedAuthors.length }}
                     </span>

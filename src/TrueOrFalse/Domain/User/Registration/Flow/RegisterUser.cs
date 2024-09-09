@@ -1,6 +1,6 @@
-﻿using System.Data;
-using NHibernate;
+﻿using NHibernate;
 using NHibernate.Criterion;
+using System.Data;
 
 public class RegisterUser : IRegisterAsInstancePerLifetime
 {
@@ -73,7 +73,6 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         category.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(category);
         user.StartTopicId = category.Id;
-        user.LastLogin = DateTime.Now;
         user.DateCreated = DateTime.Now;
         _userWritingRepo.Update(user);
         return new RegisterResult
