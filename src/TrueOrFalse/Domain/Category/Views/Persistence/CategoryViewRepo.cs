@@ -46,7 +46,7 @@ public class CategoryViewRepo(
         var query = _session.CreateSQLQuery(@"
             SELECT COUNT(DateOnly) AS Count, DateOnly 
             FROM CategoryView 
-            WHERE Category_id = :categoryId AND DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() 
+            WHERE Category_id = :categoryId AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
             GROUP BY DateOnly");
 
         query.SetParameter("days", days);
@@ -63,7 +63,7 @@ public class CategoryViewRepo(
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly 
         FROM CategoryView 
-        WHERE Category_id IN (:categoryIds) AND DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() 
+        WHERE Category_id IN (:categoryIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
         GROUP BY DateOnly");
 
         query.SetParameterList("categoryIds", ids);
