@@ -30,7 +30,6 @@ public class QuestionMap : ClassMap<Question>
 
         Map(x => x.TotalRelevancePersonalAvg);
         Map(x => x.TotalRelevancePersonalEntries);
-        Map(x => x.TotalViews);
 
         Map(x => x.CorrectnessProbability);
         Map(x => x.CorrectnessProbabilityAnswerCount);
