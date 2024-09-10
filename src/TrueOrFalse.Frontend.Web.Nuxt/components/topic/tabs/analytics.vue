@@ -166,12 +166,12 @@ onMounted(() => {
 
                         <div class="topicdata-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
-                                :title="'Monatsübersicht Views für direktes Topic'" />
+                                :title="`Aufrufe für Fragen zu '${topicStore.name}' (letzte 90 Tage)`" />
                         </div>
 
                         <div class="topicdata-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
-                                :title="'Monatsübersicht Views mit Untertopics'" />
+                                :title="`Aufrufe für Fragen zu '${topicStore.name}' und ${topicStore.childTopicCount} Unterthemen (letzte 90 Tage)`" />
                         </div>
 
                     </div>
