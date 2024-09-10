@@ -19,7 +19,7 @@ public class TopicController(
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-        EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
+        //EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
 
         var data = new TopicDataManager(
                 _sessionUser,

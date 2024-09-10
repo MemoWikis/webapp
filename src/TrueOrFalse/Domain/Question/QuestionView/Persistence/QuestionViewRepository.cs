@@ -44,7 +44,7 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
         return dictionaryResult;
     }
 
-    public IList<QuestionViewSummaryOrderById> GetViewsForLastNDaysGroupByCategoryId(int days)
+    public IList<QuestionViewSummaryWithId> GetViewsForLastNDaysGroupByQuestionId(int days)
     {
         var watch = new Stopwatch();
         watch.Start();
@@ -64,11 +64,28 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
                 QuestionId, 
                 DateOnly;");
         query.SetParameter("days", days);
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryOrderById)))
-            .List<QuestionViewSummaryOrderById>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
+            .List<QuestionViewSummaryWithId>();
         watch.Stop();
         var elapsed = watch.ElapsedMilliseconds;
         Logg.r.Information("GetViewsForLastNDaysGroupByQuestionId " + elapsed);
+
+        return result;
+    }
+
+    public IList<QuestionViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT COUNT(DateOnly) AS Count, DateOnly 
+        FROM QuestionView 
+        WHERE QuestionId IN (:questionIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
+        GROUP BY DateOnly");
+
+        query.SetParameterList("questionIds", ids);
+        query.SetParameter("days", days);
+
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummary)))
+            .List<QuestionViewSummary>();
 
         return result;
     }
@@ -80,5 +97,23 @@ public class QuestionViewRepository(ISession _session) : RepositoryDbBase<Questi
     }
 
     public record struct QuestionViewSummary(Int64 Count, DateTime DateOnly);
-    public record struct QuestionViewSummaryOrderById(Int64 Count, DateTime DateOnly, int QuestionId);
+    public record struct QuestionViewSummaryWithId(Int64 Count, DateTime DateOnly, int QuestionId);
+
+    public IList<QuestionViewSummaryWithId> GetAllEager()
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT COUNT(DateOnly) AS Count, DateOnly, QuestionId
+        FROM QuestionView 
+        GROUP BY 
+            QuestionId, 
+            DateOnly
+        ORDER BY 
+            QuestionId, 
+            DateOnly;");
+
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(QuestionViewSummaryWithId)))
+            .List<QuestionViewSummaryWithId>();
+
+        return result;
+    }
 }

@@ -60,7 +60,7 @@
             .Select(date => new DailyViews
             {
                 Date = date,
-                Views = 0
+                Count = 0
             })
             .ToList();
 

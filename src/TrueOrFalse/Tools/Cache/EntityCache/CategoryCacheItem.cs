@@ -58,11 +58,31 @@ public class CategoryCacheItem : IPersistable
     public virtual CategoryVisibility Visibility { get; set; }
     public bool IsPublic => Visibility == CategoryVisibility.All;
     public virtual string WikipediaURL { get; set; }
-    public List<DailyViews> ViewsLast30DaysAggregatedTopic { get; set; }
-    public List<DailyViews> ViewsLast30DaysTopic { get; set; }
-    public List<DailyViews> ViewsLast30DaysAggregatedQuestions { get; set; }
-    public List<DailyViews> ViewsLast30DaysQuestions { get; set; }
 
+    public virtual int TotalViews { get; set; }
+    public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
+
+    public virtual List<DailyViews> GetViewsOfPast90Days()
+    {
+        var startDate = DateTime.Now.Date.AddDays(-90);
+        var endDate = DateTime.Now.Date;
+
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+            .Select(d => startDate.AddDays(d));
+
+        ViewsOfPast90Days = dateRange
+            .GroupJoin(
+                ViewsOfPast90Days,
+                date => date,
+                view => view.Date,
+                (date, views) => views.DefaultIfEmpty(new DailyViews { Date = date, Count = 0 })
+            )
+            .SelectMany(group => group)
+            .OrderBy(view => view.Date)
+            .ToList();
+
+        return ViewsOfPast90Days;
+    }
 
     /// <summary>
     /// Get Aggregated Topics
@@ -113,20 +133,6 @@ public class CategoryCacheItem : IPersistable
         }
 
         return allChildCategories;
-    }
-
-    public void AddTopicViews(List<DailyViews> aggregated30DaysTopicViews, List<DailyViews> selfLast30DaysTopicViews)
-    {
-        ViewsLast30DaysAggregatedTopic = aggregated30DaysTopicViews;
-        ViewsLast30DaysTopic = selfLast30DaysTopicViews;
-
-    }
-
-    public void AddQuestionViews(List<DailyViews> aggregated30DaysQuestionViews, List<DailyViews> selfLast30DaysQuestionViews)
-    {
-        ViewsLast30DaysAggregatedQuestions = aggregated30DaysQuestionViews;
-        ViewsLast30DaysQuestions = selfLast30DaysQuestionViews;
-
     }
 
     private Dictionary<int, CategoryCacheItem> VisibleChildCategories(
@@ -242,12 +248,12 @@ public class CategoryCacheItem : IPersistable
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, IList<CategoryViewRepo.TopicViewSummaryWithId> views)
     {
-        return categories.Select(c => ToCacheCategory(c));
+        return categories.Select(c => ToCacheCategory(c, views.Where(v => v.Category_Id == c.Id).ToList()));
     }
 
-    public static CategoryCacheItem ToCacheCategory(Category category)
+    public static CategoryCacheItem ToCacheCategory(Category category, List<CategoryViewRepo.TopicViewSummaryWithId>? views = null)
     {
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(category.Id);
@@ -282,33 +288,47 @@ public class CategoryCacheItem : IPersistable
             AuthorIds = category.AuthorIdsInts ?? [creatorId],
             TextIsHidden = category.TextIsHidden,
         };
+
+        if (EntityCache.IsFirstStart && views != null)
+        {
+            var filteredViews = views.Where(v => v.Category_Id == category.Id);
+            categoryCacheItem.TotalViews = filteredViews.Count();
+
+            var startDate = DateTime.Now.Date.AddDays(-90);
+            var endDate = DateTime.Now.Date;
+
+            var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                .Select(d => startDate.AddDays(d));
+
+            categoryCacheItem.ViewsOfPast90Days = filteredViews.Where(qv => dateRange.Contains(qv.DateOnly))
+                .Select(qv => new DailyViews
+                {
+                    Date = qv.DateOnly,
+                    Count = qv.Count
+                })
+                .OrderBy(v => v.Date)
+                .ToList();
+        }
         return categoryCacheItem;
     }
 
-    public void IncrementTodayViewCounters(bool isTodayQuestionView = true)
+    public void AddTopicView(DateTime date)
     {
-        var today = DateTime.Now.Date;
+        var existingView = ViewsOfPast90Days.FirstOrDefault(v => v.Date.Date == date);
 
-        if (isTodayQuestionView)
+        if (existingView != null)
         {
-            var todayAggregatedQuestionViews = ViewsLast30DaysAggregatedQuestions.Single(c => c.Date == today);
-            todayAggregatedQuestionViews.Views++;
-
-
-            var todayQuestionViews = ViewsLast30DaysQuestions.Single(c => c.Date == today);
-            todayQuestionViews.Views++;
+            existingView.Count++;
         }
         else
         {
-            var todayAggregatedQuestionViews = ViewsLast30DaysAggregatedTopic.Single(c => c.Date == today);
-            todayAggregatedQuestionViews.Views++;
-
-
-            var todayQuestionViews = ViewsLast30DaysTopic.Single(c => c.Date == today);
-            todayQuestionViews.Views++;
+            ViewsOfPast90Days.Add(new DailyViews
+            {
+                Date = date,
+                Count = 1
+            });
         }
-
-        EntityCache.AddOrUpdate(this);
+        TotalViews++;
     }
 
     private Dictionary<int, CategoryCacheItem> AllChildCategories(
@@ -340,10 +360,4 @@ public class CategoryCacheItem : IPersistable
         return visibleVisited;
     }
 }
-public class DailyViews()
-{
-    public DateTime Date { get; set; }
-    public long Views { get; set; }
-}
-
 

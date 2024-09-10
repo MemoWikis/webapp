@@ -28,9 +28,10 @@ public class EntityCacheInitializer(
         var relations = CategoryCacheRelation.ToCategoryCacheRelations(allRelations).ToList();
         Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
         Logg.r.Information("EntityCache CategoryRelationsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-       
+        var allCategoryViews = _categoryViewRepo.GetAllEager();
+        Logg.r.Information("EntityCache CategoryViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories ).ToList();
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories, allCategoryViews).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToTopics(_categoryViewRepo, categories);
@@ -38,15 +39,16 @@ public class EntityCacheInitializer(
 
         var allQuestions = _questionReadingRepo.GetAllEager();
         Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions).ToList();
+        var allQuestionViews = _questionViewRepository.GetAllEager();
+        Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews).ToList();
         Logg.r.Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Logg.r.Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         Cache.IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
 
-        Cache.IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList,
-            EntityCache.GetCategoryQuestionsListForCacheInitilizer(questions));
-        EntityCache.AddViewsLast30DaysToQuestion(_questionViewRepository, categories);
+        Cache.IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsListForCacheInitilizer(questions));
+        //EntityCache.AddViewsLast30DaysToQuestion(_questionViewRepository, categories);
 
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))

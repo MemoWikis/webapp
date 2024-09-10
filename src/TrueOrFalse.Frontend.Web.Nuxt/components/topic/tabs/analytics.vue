@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ChartData } from '~~/components/chart/chartData'
 import { useTopicStore } from '../topicStore'
+import { useTabsStore, Tab } from './tabsStore'
+import { color } from '~~/components/shared/colors'
 
 const topicStore = useTopicStore()
+const tabsStore = useTabsStore()
 const knowledgeSummaryData = ref<ChartData[]>([])
 
 function setKnowledgeSummaryData() {
@@ -15,20 +18,32 @@ function setKnowledgeSummaryData() {
         })
     }
     knowledgeSummaryData.value = knowledgeSummaryData.value.slice().reverse()
-
 }
 
-const last30DaysLabelsAggregatedTopics = computed(() => topicStore.viewsPast30DaysAggregatedTopics?.map(v => v.dateOnly) as string[])
-const last30DaysCountsAggregatedTopics = computed(() => topicStore.viewsPast30DaysAggregatedTopics?.map(v => v.count) as number[])
+const past90DaysLabelsAggregatedTopics = computed(() => topicStore.viewsPast90DaysAggregatedTopics?.map(v => {
+    const [year, month, day] = v.date.split("T")[0].split("-")
+    return `${year}-${month}-${day}`
+}) as string[])
+const past90DaysCountsAggregatedTopics = computed(() => topicStore.viewsPast90DaysAggregatedTopics?.map(v => v.count) as number[])
 
-const last30DaysLabelsTopics = computed(() => topicStore.viewsPast30DaysTopic?.map(v => v.dateOnly) as string[])
-const last30DaysCountsTopics = computed(() => topicStore.viewsPast30DaysTopic?.map(v => v.count) as number[])
+const past90DaysLabelsTopics = computed(() => topicStore.viewsPast90DaysTopic?.map(v => {
+    const [year, month, day] = v.date.split("T")[0].split("-")
+    return `${year}-${month}-${day}`
+}) as string[])
+const past90DaysCountsTopics = computed(() => topicStore.viewsPast90DaysTopic?.map(v => v.count) as number[])
 
-const last30DaysLabelsAggregatedQuestions = computed(() => topicStore.viewsPast30DaysAggregatedQuestions?.map(v => v.dateOnly) as string[])
-const last30DaysCountsAggregatedQuestions = computed(() => topicStore.viewsPast30DaysAggregatedQuestions?.map(v => v.count) as number[])
+const past90DaysLabelsAggregatedQuestions = computed(() => topicStore.viewsPast90DaysAggregatedQuestions?.map(v => {
+    const [year, month, day] = v.date.split("T")[0].split("-")
+    return `${year}-${month}-${day}`
+}) as string[])
+const past90DaysCountsAggregatedQuestions = computed(() => topicStore.viewsPast90DaysAggregatedQuestions?.map(v => v.count) as number[])
 
-const last30DaysLabelsQuestions = computed(() => topicStore.viewsPast30DaysQuestions?.map(v => v.dateOnly) as string[])
-const last30DaysCountsQuestions = computed(() => topicStore.viewsPast30DaysQuestions?.map(v => v.count) as number[])
+const past90DaysLabelsQuestions = computed(() => topicStore.viewsPast90DaysDirectQuestions?.map(v => {
+    const [year, month, day] = v.date.split("T")[0].split("-")
+    return `${year}-${month}-${day}`
+}) as string[])
+const past90DaysCountsQuestions = computed(() => topicStore.viewsPast90DaysDirectQuestions?.map(v => v.count) as number[])
+
 function getLabel(key: string) {
     switch (key) {
         case 'solid':
@@ -43,7 +58,20 @@ function getLabel(key: string) {
 }
 
 onBeforeMount(() => setKnowledgeSummaryData())
-onBeforeMount(() => topicStore.getAnalyticsData())
+onMounted(() => {
+    if (import.meta.client) {
+        watch(() => tabsStore.activeTab, (newTab) => {
+            if (newTab === Tab.Analytics) {
+                topicStore.getAnalyticsData()
+            }
+        })
+
+        if (tabsStore.activeTab == Tab.Analytics) {
+            topicStore.getAnalyticsData()
+        }
+    }
+
+})
 
 </script>
 
@@ -110,45 +138,44 @@ onBeforeMount(() => topicStore.getAnalyticsData())
 
                 </div>
             </div>
-            <div class="topicdata-section">
+            <div class="topicdata-section" v-if="topicStore.analyticsLoaded">
                 <h3>Statistiken</h3>
                 <div class="topicdata-sub-label">
-                    Topics:
+                    Themen:
                 </div>
                 <div class="topicdata-container">
                     <div class="topicdata-content">
-                        <ul>
-                            <li>
-                                <LazySharedChartsBar :labels="last30DaysLabelsAggregatedTopics" :datasets="last30DaysCountsAggregatedTopics"
-                                    :title="'Monatsübersicht Views mit Untertopics'" />
-                            </li>
-                            <li>
-                                <LazySharedChartsBar :labels="last30DaysLabelsTopics" :datasets="last30DaysCountsTopics"
-                                    :title="'Monatsübersicht Views Topics'" />
-                            </li>
-                        </ul>
+
+                        <div class="topicdata-chart-section">
+                            <LazySharedChartsBar :labels="past90DaysLabelsTopics" :datasets="past90DaysCountsTopics" :color="color.middleBlue"
+                                title="Themenaufrufe der letzten 90 Tage" />
+                        </div>
+
+                        <div class="topicdata-chart-section">
+                            <LazySharedChartsBar :labels="past90DaysLabelsAggregatedTopics" :datasets="past90DaysCountsAggregatedTopics" :color="color.darkBlue"
+                                :title="`Themenaufrufe der letzten 90 Tage (inkl. ${topicStore.childTopicCount} eingeschlossener Unterthemen)`" />
+                        </div>
+
                     </div>
                 </div>
-                <!-- 
                 <div class="topicdata-sub-label">
                     Fragen:
                 </div>
                 <div class="topicdata-container">
                     <div class="topicdata-content">
-                        <ul>
-                            <li>
-                                <LazySharedChartsBar :labels="last30DaysLabelsAggregatedQuestions" :datasets="last30DaysCountsAggregatedQuestions"
-                                    :title="'Monatsübersicht Views mit Untertopics'" />
-                            </li>
-                            <li>
-                                <LazySharedChartsBar :labels="last30DaysLabelsQuestions" :datasets="last30DaysCountsQuestions"
-                                    :title="'Monatsübersicht Views für direktes Topic'" />
-                            </li>
-                        </ul>
+
+                        <div class="topicdata-chart-section">
+                            <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
+                                :title="'Monatsübersicht Views für direktes Topic'" />
+                        </div>
+
+                        <div class="topicdata-chart-section">
+                            <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
+                                :title="'Monatsübersicht Views mit Untertopics'" />
+                        </div>
+
                     </div>
-                    <div class="topicdata-content">
-                    </div>
-                </div> -->
+                </div>
             </div>
         </div>
     </div>
@@ -178,6 +205,11 @@ onBeforeMount(() => topicStore.getAnalyticsData())
         .knowledgesummary-content,
         .topicdata-content {
             margin-bottom: 24px;
+
+
+            .topicdata-chart-section {
+                margin-bottom: 40px;
+            }
         }
 
         .knowledgesummary-sub-label,

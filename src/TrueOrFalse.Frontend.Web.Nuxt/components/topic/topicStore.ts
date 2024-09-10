@@ -50,7 +50,7 @@ export class Topic {
 }
 export interface ViewSummary{
 	count: number
-	dateOnly: string
+	date: string
 }
 
 export interface KnowledgeSummary {
@@ -77,10 +77,10 @@ export interface TinyTopicModel {
 }
 
 interface GetTopicAnalyticsResponse {
-	viewsPast30DaysAggregatedTopics: ViewSummary[]
-	viewsPast30DaysTopic: ViewSummary[]
-	viewsPast30DaysAggregatedQuestions: ViewSummary[]
-	viewsPast30DaysQuestions: ViewSummary[]
+	viewsPast90DaysAggregatedTopics: ViewSummary[]
+	viewsPast90DaysTopic: ViewSummary[]
+	viewsPast90DaysAggregatedQuestions: ViewSummary[]
+	viewsPast90DaysDirectQuestions: ViewSummary[]
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -116,10 +116,11 @@ export const useTopicStore = defineStore('topicStore', {
 			uploadedImagesInContent: [] as string[],
 			uploadedImagesMarkedForDeletion: [] as string[],
 			uploadTrackingArray: [] as string[],
-			viewsPast30DaysAggregatedTopics: [] as ViewSummary[],
-			viewsPast30DaysTopic: [] as ViewSummary[],
-			viewsPast30DaysAggregatedQuestions: [] as ViewSummary[],
-			viewsPast30DaysQuestions: [] as ViewSummary[],
+			viewsPast90DaysAggregatedTopics: [] as ViewSummary[],
+			viewsPast90DaysTopic: [] as ViewSummary[],
+			viewsPast90DaysAggregatedQuestions: [] as ViewSummary[],
+			viewsPast90DaysDirectQuestions: [] as ViewSummary[],
+			analyticsLoaded: false
 		}
 	},
 	actions: {
@@ -158,6 +159,12 @@ export const useTopicStore = defineStore('topicStore', {
 				this.textIsHidden = topic.textIsHidden
 				this.uploadedImagesInContent = []
 				this.uploadedImagesMarkedForDeletion = []
+
+				this.analyticsLoaded = false
+				this.viewsPast90DaysAggregatedTopics = []
+				this.viewsPast90DaysTopic = []
+				this.viewsPast90DaysAggregatedQuestions = []
+				this.viewsPast90DaysDirectQuestions = []
 			}
 		},
 		async saveTopic() {
@@ -321,6 +328,7 @@ export const useTopicStore = defineStore('topicStore', {
 			}
 		},
 		async getAnalyticsData() {
+			
 			const data = await $api<GetTopicAnalyticsResponse>(`/apiVue/TopicStore/GetTopicAnalytics/${this.id}`, {
 				method: 'GET',
 				mode: 'cors',
@@ -332,10 +340,12 @@ export const useTopicStore = defineStore('topicStore', {
 			})
 
 			if (data) {
-				this.viewsPast30DaysAggregatedTopics = data.viewsPast30DaysAggregatedTopics
-				this.viewsPast30DaysTopic = data.viewsPast30DaysTopic
-				this.viewsPast30DaysAggregatedQuestions = data.viewsPast30DaysAggregatedQuestions
-				this.viewsPast30DaysQuestions = data.viewsPast30DaysQuestions
+				this.viewsPast90DaysAggregatedTopics = data.viewsPast90DaysAggregatedTopics
+				this.viewsPast90DaysTopic = data.viewsPast90DaysTopic
+				this.viewsPast90DaysAggregatedQuestions = data.viewsPast90DaysAggregatedQuestions
+				this.viewsPast90DaysDirectQuestions = data.viewsPast90DaysDirectQuestions
+
+				this.analyticsLoaded = true
 			}
 		}
 	},

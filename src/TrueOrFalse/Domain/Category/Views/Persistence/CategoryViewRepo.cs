@@ -76,7 +76,7 @@ public class CategoryViewRepo(
     }
 
 
-    public IList<TopicViewSummaryOrderById> GetViewsForLastNDaysGroupByCategoryId(int days)
+    public IList<TopicViewSummaryWithId> GetViewsForLastNDaysGroupByCategoryId(int days)
     {
         var query = _session.CreateSQLQuery(@"
         SELECT Category_Id, DateOnly, COUNT(DateOnly) AS Count 
@@ -87,8 +87,8 @@ public class CategoryViewRepo(
         ORDER BY Category_Id, DateOnly;");
 
         query.SetParameter("days", days);
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummaryOrderById)))
-            .List<TopicViewSummaryOrderById>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummaryWithId)))
+            .List<TopicViewSummaryWithId>();
 
         return result;
     }
@@ -103,12 +103,16 @@ public class CategoryViewRepo(
             UserAgent = userAgent,
             Category = topic,
             User = user,
-            DateCreated = DateTime.UtcNow
+            DateCreated = DateTime.UtcNow,
+            DateOnly = DateTime.UtcNow.Date
         };
 
         Create(categoryView);
+        EntityCache.GetCategory(topicId)?.AddTopicView(categoryView.DateOnly);
+        GraphService.IncrementTotalViewsForAllAscendants(topicId);
     }
-    public record struct TopicViewSummaryOrderById(Int64 Count, DateTime DateOnly, int Category_Id);
+
+    public record struct TopicViewSummaryWithId(Int64 Count, DateTime DateOnly, int Category_Id);
     public record struct TopicViewSummary(Int64 Count, DateTime DateOnly);
 
     public ConcurrentDictionary<DateTime, int> GetActiveUserCountForPastNDays(int days)
@@ -134,5 +138,23 @@ public class CategoryViewRepo(
         }
 
         return dictionaryResult;
+    }
+
+    public IList<TopicViewSummaryWithId> GetAllEager()
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Category_Id
+        FROM categoryview 
+        GROUP BY 
+            Category_Id, 
+            DateOnly
+        ORDER BY 
+            Category_Id, 
+            DateOnly;");
+
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummaryWithId)))
+            .List<TopicViewSummaryWithId>();
+
+        return result;
     }
 }

@@ -107,9 +107,9 @@ public class QuestionLandingPageController(
         var solution = GetQuestionSolution.Run(question);
         var title = Regex.Replace(question.Text, "<.*?>", string.Empty);
         EscapeReferencesText(question.References);
-      
-       _saveQuestionView.Run(EntityCache.GetQuestion(id), new UserTinyModel(EntityCache.GetUserById(_sessionUser.UserId)));
-       question.Categories.ToList().ForEach(c => c.IncrementTodayViewCounters()); 
+
+        _saveQuestionView.Run(EntityCache.GetQuestion(id), new UserTinyModel(EntityCache.GetUserById(_sessionUser.UserId)));
+        //question.Categories.ToList().ForEach(c => c.IncrementTodayViewCounters()); 
         return new QuestionPageResult
         {
             AnswerBodyModel = new AnswerBodyModel
