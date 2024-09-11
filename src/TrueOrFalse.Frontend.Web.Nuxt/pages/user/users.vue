@@ -18,7 +18,7 @@ enum SearchUsersOrderBy {
 }
 const orderBy = ref(SearchUsersOrderBy.Rank)
 
-interface UsersResult {
+interface GetResponse {
     users: UserResult[]
     totalItems: number
 }
@@ -39,12 +39,13 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
 })
 const { $logger } = useNuxtApp()
 
-const url = computed(() => {
-    return `/apiVue/Users/Get?page=${currentPage.value}&pageSize=${usersPerPageCount.value}&searchTerm=${searchTerm.value}&orderBy=${orderBy.value}`
-})
-// pageData gets refreshed by executing the request again whenever data changes in the computed url value
-// nuxt uses the url in useFetch/useLazyFetch 
-const { data: pageData, status } = await useFetch<UsersResult>(url.value, {
+const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
+    query: {
+        page: currentPage,
+        pageSize: usersPerPageCount,
+        searchTerm: searchTerm,
+        orderBy: orderBy
+    },
     credentials: 'include',
     mode: 'cors',
     onRequest({ options }) {
@@ -56,6 +57,7 @@ const { data: pageData, status } = await useFetch<UsersResult>(url.value, {
     onResponseError(context) {
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     },
+    immediate: true
 })
 
 watch(pageData, (e) => {
@@ -192,7 +194,7 @@ const ariaId = useId()
 
                     <div class="row usercard-container">
                         <TransitionGroup name="usercard">
-                            <UsersCard v-for="u in pageData.users" :user="u" />
+                            <UsersCard v-for="u in pageData.users" :user="u" :key="u.id" />
                         </TransitionGroup>
                     </div>
 

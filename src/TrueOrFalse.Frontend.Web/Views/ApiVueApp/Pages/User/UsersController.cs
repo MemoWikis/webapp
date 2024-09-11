@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Seedworks.Lib.Persistence;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using TrueOrFalse.Domain.Question.QuestionValuation;
 using TrueOrFalse.Search;
 
@@ -39,7 +39,7 @@ public class UsersController(
         int page,
         int pageSize,
         string searchTerm = "",
-        SearchUsersOrderBy orderBy = SearchUsersOrderBy.None)
+        SearchUsersOrderBy orderBy = SearchUsersOrderBy.Rank)
     {
         var result = await _meiliSearchUsers.GetUsersByPagerAsync(searchTerm,
             new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
