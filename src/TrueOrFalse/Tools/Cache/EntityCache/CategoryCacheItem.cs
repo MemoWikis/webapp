@@ -70,6 +70,8 @@ public class CategoryCacheItem : IPersistable
         var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
             .Select(d => startDate.AddDays(d));
 
+        ViewsOfPast90Days ??= new List<DailyViews>();
+
         ViewsOfPast90Days = dateRange
             .GroupJoin(
                 ViewsOfPast90Days,
@@ -250,7 +252,15 @@ public class CategoryCacheItem : IPersistable
 
     public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, IList<CategoryViewRepo.TopicViewSummaryWithId> views)
     {
-        return categories.Select(c => ToCacheCategory(c, views.Where(v => v.Category_Id == c.Id).ToList()));
+        var categoryViews = views
+            .GroupBy(cv => cv.Category_Id)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        return categories.Select(c =>
+        {
+            categoryViews.TryGetValue(c.Id, out var categoryViewsWithId);
+            return ToCacheCategory(c, categoryViewsWithId);
+        });
     }
 
     public static CategoryCacheItem ToCacheCategory(Category category, List<CategoryViewRepo.TopicViewSummaryWithId>? views = null)
@@ -291,8 +301,7 @@ public class CategoryCacheItem : IPersistable
 
         if (EntityCache.IsFirstStart && views != null)
         {
-            var filteredViews = views.Where(v => v.Category_Id == category.Id);
-            categoryCacheItem.TotalViews = filteredViews.Count();
+            categoryCacheItem.TotalViews = views.Count();
 
             var startDate = DateTime.Now.Date.AddDays(-90);
             var endDate = DateTime.Now.Date;
@@ -300,7 +309,7 @@ public class CategoryCacheItem : IPersistable
             var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
                 .Select(d => startDate.AddDays(d));
 
-            categoryCacheItem.ViewsOfPast90Days = filteredViews.Where(qv => dateRange.Contains(qv.DateOnly))
+            categoryCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
                 .Select(qv => new DailyViews
                 {
                     Date = qv.DateOnly,

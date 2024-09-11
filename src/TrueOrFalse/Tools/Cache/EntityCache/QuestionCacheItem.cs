@@ -203,7 +203,15 @@ public class QuestionCacheItem
 
     public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews)
     {
-        return questions.Select(q => ToCacheQuestion(q, questionViews.Where(qv => qv.QuestionId == q.Id).ToList()));
+        var questionViewsByQuestionId = questionViews
+            .GroupBy(qv => qv.QuestionId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        return questions.Select(q =>
+        {
+            questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
+            return ToCacheQuestion(q, questionViewsWithId);
+        });
     }
 
 
@@ -321,6 +329,8 @@ public class QuestionCacheItem
 
         var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
             .Select(d => startDate.AddDays(d));
+
+        ViewsOfPast90Days ??= new List<DailyViews>();
 
         ViewsOfPast90Days = dateRange
             .GroupJoin(
