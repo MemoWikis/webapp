@@ -70,7 +70,8 @@ public class CategoryCacheItem : IPersistable
         var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
             .Select(d => startDate.AddDays(d));
 
-        ViewsOfPast90Days ??= new List<DailyViews>();
+        if (ViewsOfPast90Days == null)
+            GenerateEmptyViewsOfPast90DaysList();
 
         ViewsOfPast90Days = dateRange
             .GroupJoin(
@@ -323,6 +324,8 @@ public class CategoryCacheItem : IPersistable
 
     public void AddTopicView(DateTime date)
     {
+        if (ViewsOfPast90Days == null)
+            GenerateEmptyViewsOfPast90DaysList();
         var existingView = ViewsOfPast90Days.FirstOrDefault(v => v.Date.Date == date);
 
         if (existingView != null)
@@ -367,6 +370,18 @@ public class CategoryCacheItem : IPersistable
         }
 
         return visibleVisited;
+    }
+
+    private void GenerateEmptyViewsOfPast90DaysList()
+    {
+        ViewsOfPast90Days = Enumerable.Range(0, 90)
+            .Select(i => new DailyViews
+            {
+                Date = DateTime.Now.Date.AddDays(-i),
+                Count = 0
+            })
+            .Reverse()
+            .ToList();
     }
 }
 

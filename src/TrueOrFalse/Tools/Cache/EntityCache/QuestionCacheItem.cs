@@ -305,6 +305,9 @@ public class QuestionCacheItem
 
     public void AddQuestionView(DateTime date)
     {
+        if (ViewsOfPast90Days == null)
+            GenerateEmptyViewsOfPast90DaysList();
+
         var existingView = ViewsOfPast90Days.FirstOrDefault(v => v.Date.Date == date);
 
         if (existingView != null)
@@ -330,7 +333,8 @@ public class QuestionCacheItem
         var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
             .Select(d => startDate.AddDays(d));
 
-        ViewsOfPast90Days ??= new List<DailyViews>();
+        if (ViewsOfPast90Days == null)
+            GenerateEmptyViewsOfPast90DaysList();
 
         ViewsOfPast90Days = dateRange
             .GroupJoin(
@@ -344,5 +348,17 @@ public class QuestionCacheItem
             .ToList();
 
         return ViewsOfPast90Days;
+    }
+
+    private void GenerateEmptyViewsOfPast90DaysList()
+    {
+        ViewsOfPast90Days = Enumerable.Range(0, 90)
+            .Select(i => new DailyViews
+            {
+                Date = DateTime.Now.Date.AddDays(-i),
+                Count = 0
+            })
+            .Reverse()
+            .ToList();
     }
 }
