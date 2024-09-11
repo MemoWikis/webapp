@@ -39,7 +39,7 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
 })
 const { $logger } = useNuxtApp()
 
-const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
+const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Get', {
     query: {
         page: currentPage,
         pageSize: usersPerPageCount,

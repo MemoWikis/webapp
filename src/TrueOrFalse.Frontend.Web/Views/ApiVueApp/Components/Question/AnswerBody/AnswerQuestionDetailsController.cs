@@ -13,7 +13,8 @@ public class AnswerQuestionDetailsController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     QuestionReadingRepo _questionReadingRepo,
-    QuestionViewRepository _questionViewRepository) : Controller
+    QuestionViewRepository _questionViewRepository,
+    SaveQuestionView _saveQuestionView) : Controller
 {
     [HttpGet]
     public AnswerQuestionDetailsResult? Get([FromRoute] int id)
@@ -22,6 +23,7 @@ public class AnswerQuestionDetailsController(
 
         if (question.Id == 0 || !_permissionCheck.CanView(question))
             return null;
+        _saveQuestionView.Run(question, _sessionUser.UserId);
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
