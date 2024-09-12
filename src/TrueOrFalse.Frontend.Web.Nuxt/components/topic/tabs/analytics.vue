@@ -202,8 +202,7 @@ onMounted(() => {
     .statistics-container {
 
         .knowledgesummary-content,
-        .topicdata-content,
-        .statistics-content {
+        .topicdata-content {
             margin-bottom: 24px;
         }
 
@@ -250,9 +249,12 @@ onMounted(() => {
 
     }
 }
+
+
 .statistics-content {
     display:flex;
     flex-wrap: wrap;
+    margin-bottom: 60px;
 
     .statistics-chart-section {
         width: 50%;
