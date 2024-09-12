@@ -218,7 +218,6 @@ onMounted(() => {
             align-items: center;
             padding: 4px 0;
 
-
             .color-container {
                 height: 24px;
                 width: 24px;
@@ -249,7 +248,6 @@ onMounted(() => {
 
     }
 }
-
 
 .statistics-content {
     display:flex;
