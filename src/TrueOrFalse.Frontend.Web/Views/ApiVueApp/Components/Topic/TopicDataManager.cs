@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -72,6 +73,20 @@ public class TopicDataManager(
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
+        //var childIds = topic.ChildRelations.Select(t => t.ChildId);
+        //var last30DaysTopicViews = topic.ViewsLast30DaysTopic;
+
+        //var countAggregatedChildTopicViews = EntityCache.GetCategories(childIds);
+        //foreach (var child in countAggregatedChildTopicViews)
+        //{
+        //    foreach (var childView in child.ViewsLast30DaysTopic)
+        //    {
+        //        var matchingView = last30DaysTopicViews.First(v => v.Date == childView.Date);
+        //        matchingView.Views += childView.Views;
+
+        //    }
+        //}
+
         var authorIds = topic.AuthorIds.Distinct();
         return new TopicDataResult
         {
@@ -199,6 +214,11 @@ public class TopicDataManager(
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
         string? MessageKey,
-        NuxtErrorPageType? ErrorCode
+        NuxtErrorPageType? ErrorCode,
+        int TodayViews,
+        List<DailyViews> ViewsLast30DaysAggregatedTopic,
+        List<DailyViews> ViewsLast30DaysTopic,
+        List<DailyViews> ViewsLast30DaysAggregatedQuestions,
+        List<DailyViews> viewsLast30DaysQuestions
     );
 }

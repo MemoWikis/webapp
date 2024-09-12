@@ -41,6 +41,13 @@ public class GraphService
         return allParents;
     }
 
+    public static void IncrementTotalViewsForAllAscendants(int topicId)
+    {
+        var ascendants = Ascendants(topicId);
+        foreach (var ascendant in ascendants)
+            ascendant.TotalViews++;
+    }
+
     public static IList<CategoryCacheItem> VisibleAscendants(
         int childId,
         PermissionCheck permissionCheck)

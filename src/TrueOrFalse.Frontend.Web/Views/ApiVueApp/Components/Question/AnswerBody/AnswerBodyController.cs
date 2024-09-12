@@ -11,7 +11,8 @@ public class AnswerBodyController(
     SessionUser _sessionUser,
     ExtendedUserCache _extendedUserCache,
     AnswerQuestion _answerQuestion,
-    AnswerLog _answerLog) : Controller
+    AnswerLog _answerLog,
+    SaveQuestionView _saveQuestionView) : Controller
 {
     [HttpGet]
     public LearningBody? Get([FromRoute] int id)
@@ -75,27 +76,30 @@ public class AnswerBodyController(
             return null;
         var step = learningSession.Steps[index];
 
-        var q = step.Question;
-        var primaryTopic = q.Categories.LastOrDefault();
-        var title = Regex.Replace(q.Text, "<.*?>", String.Empty);
+        var question = step.Question;
+
+        _saveQuestionView.Run(question, _sessionUser.UserId);
+
+        var primaryTopic = question.Categories.LastOrDefault();
+        var title = Regex.Replace(question.Text, "<.*?>", String.Empty);
         var learningBody = new LearningBody(
-            Id: q.Id,
-            Text: q.Text,
-            TextHtml: q.TextHtml,
+            Id: question.Id,
+            Text: question.Text,
+            TextHtml: question.TextHtml,
             Title: title,
-            SolutionType: q.SolutionType,
-            RenderedQuestionTextExtended: q.GetRenderedQuestionTextExtended(),
-            Description: q.Description,
-            HasTopics: q.Categories.Any(),
+            SolutionType: question.SolutionType,
+            RenderedQuestionTextExtended: question.GetRenderedQuestionTextExtended(),
+            Description: question.Description,
+            HasTopics: question.Categories.Any(),
             PrimaryTopicId: primaryTopic?.Id,
             PrimaryTopicName: primaryTopic?.Name,
-            Solution: q.Solution,
-            IsCreator: q.Creator.Id == _sessionUser.UserId,
+            Solution: question.Solution,
+            IsCreator: question.Creator.Id == _sessionUser.UserId,
             IsInWishknowledge: _sessionUser.IsLoggedIn &&
-                               q.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
+                               question.IsInWishknowledge(_sessionUser.UserId, _extendedUserCache),
             QuestionViewGuid: Guid.NewGuid(),
             IsLastStep: learningSession.Steps.Last() == step,
-            IsPrivate: q.IsPrivate());
+            IsPrivate: question.IsPrivate());
         return learningBody;
     }
 

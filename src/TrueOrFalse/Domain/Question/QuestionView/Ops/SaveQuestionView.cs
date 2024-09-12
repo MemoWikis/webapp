@@ -20,7 +20,7 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
 
     public void Run(QuestionCacheItem question, IUserTinyModel user)
     {
-        Run( question, user.Id);
+        Run(question, user.Id);
     }
 
     public void Run(
@@ -35,16 +35,17 @@ public class SaveQuestionView : IRegisterAsInstancePerLifetime
         if (IsCrawlerRequest.Yes(_httpContextAccessor.HttpContext))
             return;
 
-        _questionViewRepo.Create(new QuestionView
+        var questionView = new QuestionView
         {
             QuestionId = question.Id,
             UserId = userId,
             Milliseconds = -1,
-            UserAgent = userAgent
-        });
+            UserAgent = userAgent,
+            DateOnly = DateTime.UtcNow.Date
+        };
 
-        _session.CreateSQLQuery("UPDATE Question SET TotalViews = " +
-                                _questionViewRepo.GetViewCount(question.Id) + " WHERE Id = " +
-                                question.Id).ExecuteUpdate();
+        _questionViewRepo.Create(questionView);
+
+        question.AddQuestionView(questionView.DateOnly);
     }
 }

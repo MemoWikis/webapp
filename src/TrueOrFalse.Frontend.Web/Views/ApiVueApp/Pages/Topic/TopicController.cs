@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -16,7 +17,10 @@ public class TopicController(
     public TopicDataResult GetTopic([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
+
         _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+        //EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
+
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
@@ -55,7 +59,7 @@ public class TopicController(
             Visibility = data.Visibility,
             TextIsHidden = data.TextIsHidden,
             MessageKey = data.MessageKey,
-            ErrorCode = data.ErrorCode
+            ErrorCode = data.ErrorCode,
         };
     }
 
@@ -86,5 +90,10 @@ public class TopicController(
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
         string? MessageKey,
-        NuxtErrorPageType? ErrorCode);
+        NuxtErrorPageType? ErrorCode,
+        List<DailyViews> ViewsLast30DaysAggregatedTopic,
+        List<DailyViews> ViewsLast30DaysTopic,
+        List<DailyViews> ViewsLast30DaysAggregatedQuestions,
+        List<DailyViews> ViewsLast30DaysQuestions
+    );
 }

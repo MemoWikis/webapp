@@ -43,6 +43,14 @@ export class Topic {
 	textIsHidden: boolean = false
 	messageKey: string | null = null
 	errorCode: ErrorCode | null = null
+	viewsLast30DaysAggregatedTopic: ViewSummary[] | null = null
+	viewsLast30DaysTopic: ViewSummary[] | null = null
+	viewsLast30DaysAggregatedQuestions: ViewSummary[] | null = null
+	viewsLast30DaysQuestions: ViewSummary[] | null = null
+}
+export interface ViewSummary{
+	count: number
+	date: string
 }
 
 export interface KnowledgeSummary {
@@ -66,6 +74,13 @@ export interface TinyTopicModel {
 	id: number
 	name: string
 	imgUrl: string
+}
+
+interface GetTopicAnalyticsResponse {
+	viewsPast90DaysAggregatedTopics: ViewSummary[]
+	viewsPast90DaysTopic: ViewSummary[]
+	viewsPast90DaysAggregatedQuestions: ViewSummary[]
+	viewsPast90DaysDirectQuestions: ViewSummary[]
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -100,7 +115,12 @@ export const useTopicStore = defineStore('topicStore', {
 			textIsHidden: false,
 			uploadedImagesInContent: [] as string[],
 			uploadedImagesMarkedForDeletion: [] as string[],
-			uploadTrackingArray: [] as string[]
+			uploadTrackingArray: [] as string[],
+			viewsPast90DaysAggregatedTopics: [] as ViewSummary[],
+			viewsPast90DaysTopic: [] as ViewSummary[],
+			viewsPast90DaysAggregatedQuestions: [] as ViewSummary[],
+			viewsPast90DaysDirectQuestions: [] as ViewSummary[],
+			analyticsLoaded: false
 		}
 	},
 	actions: {
@@ -139,6 +159,12 @@ export const useTopicStore = defineStore('topicStore', {
 				this.textIsHidden = topic.textIsHidden
 				this.uploadedImagesInContent = []
 				this.uploadedImagesMarkedForDeletion = []
+
+				this.analyticsLoaded = false
+				this.viewsPast90DaysAggregatedTopics = []
+				this.viewsPast90DaysTopic = []
+				this.viewsPast90DaysAggregatedQuestions = []
+				this.viewsPast90DaysDirectQuestions = []
 			}
 		},
 		async saveTopic() {
@@ -299,6 +325,27 @@ export const useTopicStore = defineStore('topicStore', {
 		async waitUntilAllUploadsComplete() {
 			while (this.uploadTrackingArray.length > 0) {
 				await new Promise(resolve => setTimeout(resolve, 100))
+			}
+		},
+		async getAnalyticsData() {
+			
+			const data = await $api<GetTopicAnalyticsResponse>(`/apiVue/TopicStore/GetTopicAnalytics/${this.id}`, {
+				method: 'GET',
+				mode: 'cors',
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
+
+			if (data) {
+				this.viewsPast90DaysAggregatedTopics = data.viewsPast90DaysAggregatedTopics
+				this.viewsPast90DaysTopic = data.viewsPast90DaysTopic
+				this.viewsPast90DaysAggregatedQuestions = data.viewsPast90DaysAggregatedQuestions
+				this.viewsPast90DaysDirectQuestions = data.viewsPast90DaysDirectQuestions
+
+				this.analyticsLoaded = true
 			}
 		}
 	},

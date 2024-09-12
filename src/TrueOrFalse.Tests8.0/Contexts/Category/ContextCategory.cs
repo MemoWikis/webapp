@@ -74,7 +74,6 @@
         return this;
     }
 
-
     public ContextCategory Persist()
     {
         foreach (var cat in All)

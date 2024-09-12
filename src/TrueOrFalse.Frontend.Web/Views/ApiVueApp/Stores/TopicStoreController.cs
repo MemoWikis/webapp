@@ -16,7 +16,9 @@ public class TopicStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     CategoryUpdater _categoryUpdater,
-    ImageStore _imageStore) : Controller
+    ImageStore _imageStore,
+    CategoryViewRepo _categoryViewRepo,
+    QuestionViewRepository _questionViewRepository) : Controller
 {
     public readonly record struct SaveTopicParam(
         int id,
@@ -182,5 +184,76 @@ public class TopicStoreController(
             filenames.Add(Path.GetFileName(path));
 
         deleteImage.Run(imageSettings.BasePath, filenames);
+    }
+
+    public record struct TopicAnalyticsResponse(
+        List<DailyViews> ViewsPast90DaysAggregatedTopics,
+        List<DailyViews> ViewsPast90DaysTopic,
+        List<DailyViews> ViewsPast90DaysAggregatedQuestions,
+        List<DailyViews> ViewsPast90DaysDirectQuestions);
+
+    [HttpGet]
+    public TopicAnalyticsResponse GetTopicAnalytics([FromRoute] int id)
+    {
+        var topic = EntityCache.GetCategory(id);
+
+        var viewsPast90DaysTopics = topic.GetViewsOfPast90Days();
+        var viewsPast90DaysAggregatedTopics = GetAggregatedTopicViewsOfPast90Days(id, viewsPast90DaysTopics);
+        var viewsPast90DaysAggregatedQuestions = GetAggregatedQuestionViewsOfPast90Days(topic);
+        var viewsPast90DaysQuestion = GetQuestionViewsOfPast90Days(topic);
+
+        return new TopicAnalyticsResponse(
+            viewsPast90DaysAggregatedTopics,
+            viewsPast90DaysTopics,
+            viewsPast90DaysAggregatedQuestions,
+            viewsPast90DaysQuestion
+);
+    }
+
+    private List<DailyViews> GetAggregatedTopicViewsOfPast90Days(int id, List<DailyViews> topicViews)
+    {
+        var descendants = GraphService.VisibleDescendants(id, _permissionCheck, _sessionUser.UserId);
+
+        var aggregatedViewsOfPast90Days = descendants
+            .SelectMany(descendant => descendant.GetViewsOfPast90Days())
+            .Concat(topicViews)
+            .GroupBy(view => view.Date)
+            .Select(group => new DailyViews
+            {
+                Date = group.Key,
+                Count = group.Sum(view => view.Count)
+            })
+            .OrderBy(view => view.Date)
+            .ToList();
+
+        return aggregatedViewsOfPast90Days;
+    }
+
+    private List<DailyViews> GetQuestionViews(IList<QuestionCacheItem> questions)
+    {
+        var result = questions
+            .SelectMany(q => q.GetViewsOfPast90Days())
+            .GroupBy(view => view.Date)
+            .Select(group => new DailyViews
+            {
+                Date = group.Key,
+                Count = group.Sum(view => view.Count)
+            })
+            .OrderBy(view => view.Date)
+            .ToList();
+
+        return result;
+    }
+
+    private List<DailyViews> GetQuestionViewsOfPast90Days(CategoryCacheItem topic)
+    {
+        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, categoryId: topic.Id);
+        return GetQuestionViews(questions);
+    }
+
+    private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(CategoryCacheItem topic)
+    {
+        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, categoryId: topic.Id);
+        return GetQuestionViews(questions);
     }
 }

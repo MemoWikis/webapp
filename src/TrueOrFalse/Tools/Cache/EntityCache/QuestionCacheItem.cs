@@ -71,6 +71,7 @@ public class QuestionCacheItem
     public virtual int TotalTrueAnswers { get; set; }
 
     public virtual int TotalViews { get; set; }
+    public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
@@ -136,12 +137,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.All;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheCategories(IEnumerable<Question> questions)
-    {
-        return questions.Select(q => ToCacheQuestion(q));
-    }
-
-    public static QuestionCacheItem ToCacheQuestion(Question question)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -176,6 +172,26 @@ public class QuestionCacheItem
             License = question.License
         };
 
+        if (questionViews != null && EntityCache.IsFirstStart)
+        {
+            questionCacheItem.TotalViews = (int)questionViews.Sum(qv => qv.Count);
+
+            var startDate = DateTime.Now.Date.AddDays(-90);
+            var endDate = DateTime.Now.Date;
+
+            var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                .Select(d => startDate.AddDays(d));
+
+            questionCacheItem.ViewsOfPast90Days = questionViews.Where(qv => dateRange.Contains(qv.DateOnly))
+                .Select(qv => new DailyViews
+                {
+                    Date = qv.DateOnly,
+                    Count = qv.Count
+                })
+                .OrderBy(v => v.Date)
+                .ToList();
+        }
+
         if (!EntityCache.IsFirstStart)
         {
             questionCacheItem.References =
@@ -185,10 +201,19 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions)
+    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews)
     {
-        return questions.Select(q => ToCacheQuestion(q));
+        var questionViewsByQuestionId = questionViews
+            .GroupBy(qv => qv.QuestionId)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
+        return questions.Select(q =>
+        {
+            questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
+            return ToCacheQuestion(q, questionViewsWithId);
+        });
     }
+
 
     public virtual int TotalAnswers()
     {
@@ -276,5 +301,64 @@ public class QuestionCacheItem
             str = MarkdownMarkdig.ToHtml(TextExtended);
 
         return str;
+    }
+
+    public void AddQuestionView(DateTime date)
+    {
+        if (ViewsOfPast90Days == null)
+            GenerateEmptyViewsOfPast90DaysList();
+
+        var existingView = ViewsOfPast90Days.FirstOrDefault(v => v.Date.Date == date);
+
+        if (existingView != null)
+        {
+            existingView.Count++;
+        }
+        else
+        {
+            ViewsOfPast90Days.Add(new DailyViews
+            {
+                Date = date,
+                Count = 1
+            });
+        }
+        TotalViews++;
+    }
+
+    public virtual List<DailyViews> GetViewsOfPast90Days()
+    {
+        var startDate = DateTime.Now.Date.AddDays(-90);
+        var endDate = DateTime.Now.Date;
+
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+            .Select(d => startDate.AddDays(d));
+
+        if (ViewsOfPast90Days == null)
+            GenerateEmptyViewsOfPast90DaysList();
+
+        ViewsOfPast90Days = dateRange
+            .GroupJoin(
+                ViewsOfPast90Days,
+                date => date,
+                view => view.Date,
+                (date, views) => views.DefaultIfEmpty(new DailyViews { Date = date, Count = 0 })
+            )
+            .SelectMany(group => group)
+            .OrderBy(view => view.Date)
+            .ToList();
+
+        return ViewsOfPast90Days;
+    }
+
+    private void GenerateEmptyViewsOfPast90DaysList()
+    {
+        ViewsOfPast90Days = Enumerable.Range(0, 90)
+            .Select(i => new DailyViews
+            {
+                Date = DateTime.Now.Date.AddDays(-i),
+                Count = 0
+            })
+            .Reverse()
+            .ToList();
     }
 }

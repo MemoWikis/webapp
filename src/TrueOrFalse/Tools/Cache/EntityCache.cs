@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 
 public class EntityCache
 {
@@ -34,6 +35,88 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
+    public static void AddViewsLast30DaysToTopics(CategoryViewRepo categoryViewRepo, List<CategoryCacheItem> categoryCacheItems)
+    {
+        var categoriesViewsLast30Days = categoryViewRepo.GetViewsForLastNDaysGroupByCategoryId(30);
+        foreach (var categoryCacheItem in categoryCacheItems)
+        {
+            var aggregatedCategories = categoryCacheItem.GetAllAggregatedCategories()
+                .Select(t => t.Key);
+
+            var aggregatedTopicViews30Days = categoriesViewsLast30Days
+                .Where(view => aggregatedCategories.Contains(view.Category_Id))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
+                .ToList();
+
+            var selfCategoryViews30Days = categoriesViewsLast30Days
+                .Where(view => (view.Category_Id == categoryCacheItem.Id))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new DailyViews { Date = v.Date, Count = v.TotalCount })
+                .ToList();
+
+            DateTimeUtils.EnsureLastDaysIncluded(aggregatedTopicViews30Days, 30);
+            DateTimeUtils.EnsureLastDaysIncluded(selfCategoryViews30Days, 30);
+            //categoryCacheItem.AddTopicViews(aggregatedTopicViews30Days, selfCategoryViews30Days);
+        }
+    }
+
+    public static void AddViewsLast30DaysToQuestion(QuestionViewRepository questionViewRepo, List<CategoryCacheItem> categoryCacheItems)
+    {
+        var watch = Stopwatch.StartNew();
+        var questionViewsLast90Days = questionViewRepo.GetViewsForLastNDaysGroupByQuestionId(90);
+        foreach (var categoryCacheItem in categoryCacheItems)
+        {
+            var aggregatedQuestionsFromAllAggregatedTopics = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, true, categoryCacheItem.Id)
+                .Select(t => t.Id);
+
+            var aggregatedQuestionsViews90Days = questionViewsLast90Days
+                .Where(view => aggregatedQuestionsFromAllAggregatedTopics.Contains(view.QuestionId))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
+                .ToList();
+
+            var selfQuestionsFromTopic = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, false, categoryCacheItem.Id)
+                .Select(t => t.Id);
+
+            var topicQuestions90Days = questionViewsLast90Days
+                .Where(view => selfQuestionsFromTopic.Contains(view.QuestionId))
+                .GroupBy(view => view.DateOnly)
+                .Select(g => new
+                {
+                    Date = g.Key,
+                    TotalCount = g.Sum(v => v.Count)
+                })
+                .OrderBy(result => result.Date)
+                .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
+                .ToList();
+
+            DateTimeUtils.EnsureLastDaysIncluded(aggregatedQuestionsViews90Days, 90);
+            DateTimeUtils.EnsureLastDaysIncluded(topicQuestions90Days, 90);
+            //categoryCacheItem.AddQuestionViews(aggregatedQuestionsViews90Days, topicQuestions90Days);
+        }
+
+        var ellapsedTime = watch.ElapsedMilliseconds;
+        Logg.r.Information(nameof(AddViewsLast30DaysToQuestion) + ellapsedTime);
+    }
     public static UserCacheItem? GetUserByIdNullable(int userId)
     {
         Users.TryGetValue(userId, out var user);

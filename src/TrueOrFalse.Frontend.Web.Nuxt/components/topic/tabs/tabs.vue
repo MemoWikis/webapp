@@ -100,7 +100,7 @@ const ariaId2 = useId()
 
 						<div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
 
-							<div class="tab-label active tab-analytics" v-if="tabsStore.activeTab == Tab.Analytics"
+							<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab == Tab.Analytics"
 								:style="getWidth(analyticsLabelEl)">
 								<template v-if="!isMobile">
 									Analytics
@@ -122,7 +122,7 @@ const ariaId2 = useId()
 									</template>
 								</VTooltip>
 							</div>
-							<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+							<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 								<template v-if="!isMobile">
 									Analytics
 								</template>
@@ -209,11 +209,12 @@ const ariaId2 = useId()
 					<div class="inactive-tab" v-else>
 						<div class="tab-border"></div>
 					</div>
+
 				</div>
 
 				<div class="tab">
 
-					<div class="tab-label active tab-analytics" v-if="tabsStore.activeTab == Tab.Analytics"
+					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab == Tab.Analytics"
 						:style="getWidth(analyticsLabelEl)">
 
 						<template v-if="!isMobile">
@@ -221,7 +222,7 @@ const ariaId2 = useId()
 						</template>
 						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
-					<div class="tab-label tab-analytics" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							Analytics
 						</template>
@@ -258,9 +259,16 @@ const ariaId2 = useId()
 		margin-left: 15px;
 		margin-right: -15px;
 	}
+	
+	.analytics-tab {
+		&.active {
+			margin-left: 15px;
+			margin-right: -15px;
+		}
+	}
 }
 
-.tab-analytics {
+.analytics-tab {
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: center;
