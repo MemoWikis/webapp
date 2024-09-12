@@ -2,7 +2,6 @@
 import { Bar } from 'vue-chartjs'
 import { memoBlue } from '../colors'
 
-
 interface Props {
     title: string
     labels: string[]
@@ -15,13 +14,12 @@ const props = withDefaults(defineProps<Props>(), {
     color: memoBlue
 })
 
-
 const chartData = ref({
     labels: props.labels,
     datasets: [
         {
             label: props.title,
-            data: props.datasets, // Use the datasets prop
+            data: props.datasets,
             backgroundColor: props.color ? props.color : memoBlue,
         }
     ]
