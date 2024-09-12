@@ -78,100 +78,102 @@ onMounted(() => {
 <template>
     <div class="row">
         <div class="col-xs-12">
-            <div class="knowledgesummary-section">
-                <h3>Dein Wissenstand</h3>
-                <div class="knowledgesummary-container">
-                    <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
-                        <div class="knowledgesummary-sub-label">
-                            Fragen nach Status gruppiert
-                        </div>
-                        <div class="knowledgesummary-content">
-                            <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
-                                <div class="color-container" :class="`color-${d.class}`"></div>
-                                <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
+            <div class="data-section">
+                <div class="knowledgesummary-section">
+                    <h3>Dein Wissenstand</h3>
+                    <div class="knowledgesummary-container">
+                        <div v-if="knowledgeSummaryData.some(d => d.value > 0)">
+                            <div class="knowledgesummary-sub-label">
+                                Fragen nach Status gruppiert
                             </div>
+                            <div class="knowledgesummary-content">
+                                <div v-for="d in knowledgeSummaryData" class="knowledgesummary-info" :key="d.value">
+                                    <div class="color-container" :class="`color-${d.class}`"></div>
+                                    <div class="knowledgesummary-label"><b>{{ d.value }}</b> {{ getLabel(d.class!) }}</div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div v-else>
+                            Du hast noch keine Fragen in diesem Thema
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topicdata-section">
+                    <h3>Daten zum Thema</h3>
+                    <div class="topicdata-container">
+                        <div class="topicdata-sub-label">
+                            Fragen:
+                        </div>
+                        <div class="topicdata-content">
+                            <ul>
+                                <li>
+                                    <b>{{ topicStore.questionCount }}</b> eingeschlossene Fragen
+                                </li>
+                                <li>
+                                    <b>{{ topicStore.directQuestionCount }}</b> direkt verknüpfte Fragen
+                                </li>
+                            </ul>
                         </div>
 
                     </div>
+                    <div class="topicdata-container">
+                        <div class="topicdata-sub-label">
+                            Themen:
+                        </div>
+                        <div class="topicdata-content">
+                            <ul>
+                                <li>
+                                    <b>{{ topicStore.childTopicCount }} </b> eingeschlossene Themen
+                                </li>
+                                <li>
+                                    <b>{{ topicStore.directVisibleChildTopicCount }}</b> direkt verknüpfte Unterthemen
+                                </li>
+                                <li>
+                                    <b> {{ topicStore.parentTopicCount }} </b> übergeordnete Themen
+                                </li>
+                            </ul>
+                        </div>
 
-                    <div v-else>
-                        Du hast noch keine Fragen in diesem Thema
                     </div>
                 </div>
             </div>
-
-            <div class="topicdata-section">
-                <h3>Daten zum Thema</h3>
-                <div class="topicdata-container">
-                    <div class="topicdata-sub-label">
-                        Fragen:
-                    </div>
-                    <div class="topicdata-content">
-                        <ul>
-                            <li>
-                                <b>{{ topicStore.questionCount }}</b> eingeschlossene Fragen
-                            </li>
-                            <li>
-                                <b>{{ topicStore.directQuestionCount }}</b> direkt verknüpfte Fragen
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="topicdata-container">
-                    <div class="topicdata-sub-label">
-                        Themen:
-                    </div>
-                    <div class="topicdata-content">
-                        <ul>
-                            <li>
-                                <b>{{ topicStore.childTopicCount }} </b> eingeschlossene Themen
-                            </li>
-                            <li>
-                                <b>{{ topicStore.directVisibleChildTopicCount }}</b> direkt verknüpfte Unterthemen
-                            </li>
-                            <li>
-                                <b> {{ topicStore.parentTopicCount }} </b> übergeordnete Themen
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-            <div class="topicdata-section" v-if="topicStore.analyticsLoaded">
+            <div class="statistics-section" v-if="topicStore.analyticsLoaded">
                 <h3>Statistiken</h3>
-                <div class="topicdata-sub-label">
-                    Themen:
+                <div class="statistics-sub-label">
+                    Themenaufrufe der letzten 90 Tage
                 </div>
-                <div class="topicdata-container">
-                    <div class="topicdata-content">
+                <div class="statistics-container">
+                    <div class="statistics-content">
 
-                        <div class="topicdata-chart-section">
+                        <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsTopics" :datasets="past90DaysCountsTopics" :color="color.middleBlue"
-                                title="Themenaufrufe der letzten 90 Tage" />
+                                title="Ohne Unterthemen" />
                         </div>
 
-                        <div class="topicdata-chart-section">
+                        <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedTopics" :datasets="past90DaysCountsAggregatedTopics" :color="color.darkBlue"
-                                :title="`Themenaufrufe der letzten 90 Tage (inkl. ${topicStore.childTopicCount} eingeschlossener Unterthemen)`" />
+                                :title="`Inkl. ${topicStore.childTopicCount} Unterthemen)`" />
                         </div>
 
                     </div>
                 </div>
-                <div class="topicdata-sub-label">
-                    Fragen:
+                <div class="statistics-sub-label">
+                    Fragenaufrufe der letzten 90 Tage
                 </div>
-                <div class="topicdata-container">
-                    <div class="topicdata-content">
+                <div class="statistics-container">
+                    <div class="statistics-content">
 
-                        <div class="topicdata-chart-section">
+                        <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsQuestions" :datasets="past90DaysCountsQuestions" :color="color.memoGreen"
-                                :title="`Aufrufe für Fragen zu '${topicStore.name}' (letzte 90 Tage)`" />
+                                :title="`Direkt verknüpfte Fragen`" />
                         </div>
 
-                        <div class="topicdata-chart-section">
+                        <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
-                                :title="`Aufrufe für Fragen zu '${topicStore.name}' und ${topicStore.childTopicCount} Unterthemen (letzte 90 Tage)`" />
+                                :title="`Eingeschlossene Fragen (${topicStore.childTopicCount} Unterthemen)`" />
                         </div>
 
                     </div>
@@ -188,34 +190,27 @@ onMounted(() => {
     width: 100%;
 }
 
-.topicdata-section {
-    margin-top: 36px;
-}
-
 .knowledgesummary-section,
-.topicdata-section {
+.topicdata-section,
+.statistics-section {
     margin-bottom: 40px;
     font-size: 18px;
     width: 100%;
 
     .knowledgesummary-container,
-    .topicdata-container {
-
+    .topicdata-container,
+    .statistics-container {
 
         .knowledgesummary-content,
-        .topicdata-content {
+        .topicdata-content,
+        .statistics-content {
             margin-bottom: 24px;
-
-
-            .topicdata-chart-section {
-                margin-bottom: 40px;
-            }
         }
 
         .knowledgesummary-sub-label,
-        .topicdata-sub-label {
+        .topicdata-sub-label,
+        .statistics-sub-label {
             margin-bottom: 16px;
-
         }
 
         .knowledgesummary-info {
@@ -255,6 +250,37 @@ onMounted(() => {
         }
 
     }
+}
+.statistics-content {
+    display:flex;
+    flex-wrap: wrap;
 
+    .statistics-chart-section {
+        width: 50%;
+        position: relative; 
+        height: 100%;
+        min-height: 300px;
+        @media screen and (max-width: 991px) {
+            width: 100%;
+        }
+    }
+}
+
+.data-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.knowledgesummary-section,
+.topicdata-section {
+    width: 50%; 
+        @media screen and (max-width: 991px) {
+            width: 100%;
+        }
+    }
+
+h3 {
+    margin-top: 36px;
 }
 </style>

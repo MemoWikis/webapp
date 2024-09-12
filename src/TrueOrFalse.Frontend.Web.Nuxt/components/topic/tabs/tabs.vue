@@ -258,6 +258,10 @@ const ariaId2 = useId()
 		margin-left: 15px;
 		margin-right: -15px;
 	}
+
+	.tab-analytics {
+		margin-left: 15px;
+	}
 }
 
 .tab-analytics {

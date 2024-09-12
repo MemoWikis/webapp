@@ -201,12 +201,12 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazySharedChartsBar v-if="showMonthlyActiveUsersAsBars"
                                     :labels="monthlyActiveUsersOfPastYearLabels"
                                     :datasets="monthlyActiveUsersOfPastYearCounts"
-                                    :title="'Jahresübersicht Aktive Nutzer'"
+                                    :title="'Jahresübersicht aktive Nutzer'"
                                     :color="color.darkBlue" />
                                 <LazySharedChartsLine v-else
                                     :labels="monthlyActiveUsersOfPastYearLabels"
                                     :datasets="monthlyActiveUsersOfPastYearCounts"
-                                    :title="'Jahresübersicht Aktive Nutzer'"
+                                    :title="'Jahresübersicht aktive Nutzer'"
                                     :color="color.darkBlue" />
                             </div>
 
@@ -225,12 +225,12 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                                 <LazySharedChartsBar v-if="showDailyActiveUsersAsBars"
                                     :labels="dailyActiveUsersOfPastYearLabels"
                                     :datasets="dailyActiveUsersOfPastYearCounts"
-                                    :title="'Jahresübersicht ActiveUsers'"
+                                    :title="'Jahresübersicht aktive Nutzer'"
                                     :color="color.darkBlue" />
                                 <LazySharedChartsLine v-else
                                     :labels="dailyActiveUsersOfPastYearLabels"
                                     :datasets="dailyActiveUsersOfPastYearCounts"
-                                    :title="'Jahresübersicht ActiveUsers'"
+                                    :title="'Jahresübersicht aktive Nutzer'"
                                     :color="color.darkBlue" />
                             </div>
 

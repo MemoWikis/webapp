@@ -28,7 +28,8 @@ const chartData = ref({
 })
 
 const chartOptions = ref<any>({
-    responsive: true
+    responsive: true,
+    maintainAspectRatio: false,
 })
 
 onBeforeMount(() => {

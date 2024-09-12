@@ -7,7 +7,7 @@ public class LearningSessionStoreController(
     LearningSessionCache _learningSessionCache,
     PermissionCheck _permissionCheck) : Controller
 {
-    public record struct LearningSessionResult()
+    public record struct LearningSessionResponse()
     {
         public int Index { get; set; } = 0;
 
@@ -23,17 +23,17 @@ public class LearningSessionStoreController(
     }
 
     [HttpPost]
-    public LearningSessionResult NewSession([FromBody] LearningSessionConfig config)
+    public LearningSessionResponse NewSession([FromBody] LearningSessionConfig config)
     {
         if (config == null || config.CategoryId < 1 || !_permissionCheck.CanViewCategory(config.CategoryId))
-            return new LearningSessionResult
+            return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,
                 Success = false
             };
 
         var data = _learningSessionCreator.GetLearningSessionResult(config);
-        return new LearningSessionResult
+        return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,
             ActiveQuestionCount = data.ActiveQuestionCount,
@@ -51,18 +51,18 @@ public class LearningSessionStoreController(
         int Id);
 
     [HttpPost]
-    public LearningSessionResult NewSessionWithJumpToQuestion(
+    public LearningSessionResponse NewSessionWithJumpToQuestion(
         [FromBody] NewSessionWithJumpToQuestionData data)
     {
         if (data.Config == null || data.Config.CategoryId < 1 || !_permissionCheck.CanViewCategory(data.Config.CategoryId))
-            return new LearningSessionResult
+            return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,
                 Success = false
             };
 
         var resultData = _learningSessionCreator.GetLearningSessionResult(data.Config, data.Id);
-        return new LearningSessionResult
+        return new LearningSessionResponse
         {
             MessageKey = resultData.MessageKey,
             ActiveQuestionCount = resultData.ActiveQuestionCount,
@@ -124,10 +124,10 @@ public class LearningSessionStoreController(
     }
 
     [HttpGet]
-    public LearningSessionResult GetCurrentSession()
+    public LearningSessionResponse GetCurrentSession()
     {
         var data = _learningSessionCreator.GetLearningSessionResult();
-        return new LearningSessionResult
+        return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,
             ActiveQuestionCount = data.ActiveQuestionCount,
@@ -142,11 +142,11 @@ public class LearningSessionStoreController(
     public readonly record struct LoadSpecificQuestionJson(int index);
 
     [HttpPost]
-    public LearningSessionResult LoadSpecificQuestion(
+    public LearningSessionResponse LoadSpecificQuestion(
         [FromBody] LoadSpecificQuestionJson json)
     {
         var data = _learningSessionCreator.GetStep(json.index);
-        return new LearningSessionResult
+        return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,
             ActiveQuestionCount = data.ActiveQuestionCount,
