@@ -208,8 +208,7 @@ onMounted(() => {
         }
 
         .knowledgesummary-sub-label,
-        .topicdata-sub-label,
-        .statistics-sub-label {
+        .topicdata-sub-label {
             margin-bottom: 16px;
         }
 
@@ -264,6 +263,12 @@ onMounted(() => {
             width: 100%;
         }
     }
+}
+
+.statistics-sub-label{
+    margin-bottom: 16px;
+    text-align: center;
+    margin-top: 24px;
 }
 
 .data-section {
