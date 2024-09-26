@@ -56,4 +56,7 @@ public class CategoryEditData_V1 : CategoryEditData
 
     public static CategoryEditData_V1 CreateFromJson(string json) =>
         JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
+
+    //placeholder
+    public override CategoryCacheItem ToCacheCategory(int categoryId) => new CategoryCacheItem();
 }

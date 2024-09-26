@@ -19,10 +19,10 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
     }
 
     public void AddCreateEntry(CategoryRepository categoryRepository, Category category, int authorId) =>
-        AddUpdateOrCreateEntry(categoryRepository,category, authorId, CategoryChangeType.Create);
+        AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Create);
     public void AddCreateEntryDbOnly(CategoryRepository categoryRepository, Category category, User author) =>
-        AddUpdateOrCreateEntryDbOnly(categoryRepository,category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>    
+        AddUpdateOrCreateEntryDbOnly(categoryRepository, category, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>
         AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Update, imageWasUpdated);
     public void AddUpdateEntry(CategoryRepository categoryRepository, Category category,
         int authorId,
@@ -56,6 +56,8 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             categoryRepository.Update(category);
         }
         SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
+        var categoryChangeCacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange);
+        EntityCache.AddOrUpdate(categoryChangeCacheItem);
         base.Create(categoryChange);
     }
 
@@ -182,7 +184,8 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         if (category.AuthorIds == null)
         {
             category.AuthorIds = "";
-        } else if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && category.AuthorIdsInts.All(id => id != author.Id))
+        }
+        else if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && category.AuthorIdsInts.All(id => id != author.Id))
         {
             var newAuthorIdsInts = category.AuthorIdsInts.ToList();
             newAuthorIdsInts.Add(author.Id);

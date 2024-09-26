@@ -13,7 +13,7 @@ public class CategoryChange : Entity, WithDateCreated
 
     public virtual int AuthorId { get; set; }
 
-    public virtual CategoryChangeType Type { get; set; } 
+    public virtual CategoryChangeType Type { get; set; }
 
     public virtual DateTime DateCreated { get; set; }
 
@@ -23,10 +23,10 @@ public class CategoryChange : Entity, WithDateCreated
         {
             case 1:
                 return CategoryEditData_V1.CreateFromJson(Data);
-                
+
             case 2:
-                return CategoryEditData_V2.CreateFromJson(Data); 
-                
+                return CategoryEditData_V2.CreateFromJson(Data);
+
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
         }

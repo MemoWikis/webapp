@@ -70,4 +70,26 @@ public class CategoryEditData_V2 : CategoryEditData
 
         return category;
     }
+
+    public override CategoryCacheItem ToCacheCategory(int categoryId)
+    {
+        var category = EntityCache.GetCategory(categoryId);
+        //_nhibernateSession.Evict(category);
+
+        category = category == null ? new CategoryCacheItem() : category;
+        category.IsHistoric = true;
+        category.Name = this.Name;
+        category.Description = this.Description;
+        category.TopicMarkdown = this.TopicMardkown;
+        category.Content = this.Content;
+        category.CustomSegments = this.CustomSegments;
+        category.WikipediaURL = this.WikipediaURL;
+        category.DisableLearningFunctions = this.DisableLearningFunctions;
+        category.Visibility = this.Visibility;
+
+        // Historic category relations cannot be loaded because we do not have archive data and
+        // loading them leads to nasty conflicts and nuisance with NHibernate.
+
+        return category;
+    }
 }

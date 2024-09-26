@@ -13,4 +13,5 @@
     public abstract string ToJson();
 
     public abstract Category ToCategory(int categoryId);
+    public abstract CategoryCacheItem ToCacheCategory(int categoryId);
 }

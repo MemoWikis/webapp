@@ -383,5 +383,32 @@ public class CategoryCacheItem : IPersistable
             .Reverse()
             .ToList();
     }
+
+    public virtual List<LatestChange> LatestChanges { get; set; }
+    public record struct LatestChange(DateTime Date, CategoryChangeType Type, CategoryChangeCacheItem CategoryChangeCacheItem, int TopicId);
+    public List<LatestChange> GetLatestChanges()
+    {
+        var changes = EntityCache.GetCategoryChangesByTopicId(Id)
+            .OrderByDescending(change => change.DateCreated)
+            .Select(ToLatestChange).ToList();
+
+        return changes;
+    }
+
+    private LatestChange ToLatestChange(CategoryChangeCacheItem change)
+    {
+        return new LatestChange(Date: change.DateCreated, Type: change.Type, CategoryChangeCacheItem: change, TopicId: change.CategoryId);
+    }
+
+    public List<LatestChange> GetAllLatestChanges(PermissionCheck permissionCheck, int userId)
+    {
+        var allRelatedIds = GraphService.VisibleDescendantIds(Id, permissionCheck, userId);
+
+        var changes = EntityCache.GetCategoryChangesByTopicIds(allRelatedIds)
+            .OrderByDescending(change => change.DateCreated)
+            .Select(ToLatestChange).ToList();
+
+        return changes;
+    }
 }
 

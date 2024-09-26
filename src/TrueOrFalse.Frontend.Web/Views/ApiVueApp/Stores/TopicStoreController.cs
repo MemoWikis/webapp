@@ -42,7 +42,7 @@ public class TopicStoreController(
 
         var categoryCacheItem = EntityCache.GetCategory(param.id);
         var category = _categoryRepository.GetById(param.id);
-        //todo(Jun) Please adjust, this return was Json(false). 
+
         if (categoryCacheItem == null || category == null)
             return new SaveTopicResult { Success = false };
 
@@ -255,5 +255,25 @@ public class TopicStoreController(
     {
         var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, categoryId: topic.Id);
         return GetQuestionViews(questions);
+    }
+
+    public readonly record struct GetFeedResponse(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId);
+
+    [HttpGet]
+    public List<GetFeedResponse> GetFeed([FromRoute] int id)
+    {
+        var topic = EntityCache.GetCategory(id);
+        var latestChanges = topic.GetLatestChanges();
+
+        return latestChanges.Select(c => new GetFeedResponse(c.Date, c.Type, c.CategoryChangeCacheItem.Id, c.TopicId)).ToList();
+    }
+
+    [HttpGet]
+    public List<GetFeedResponse> GetFeedWithDescendants([FromRoute] int id)
+    {
+        var topic = EntityCache.GetCategory(id);
+        var latestChanges = topic.GetAllLatestChanges(_permissionCheck, _sessionUser.UserId);
+
+        return latestChanges.Select(c => new GetFeedResponse(c.Date, c.Type, c.CategoryChangeCacheItem.Id, c.TopicId)).ToList();
     }
 }

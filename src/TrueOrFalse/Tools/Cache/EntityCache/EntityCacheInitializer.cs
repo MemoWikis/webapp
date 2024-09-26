@@ -6,7 +6,8 @@ public class EntityCacheInitializer(
     QuestionReadingRepo _questionReadingRepo,
     CategoryRelationRepo _categoryRelationRepo,
     CategoryViewRepo _categoryViewRepo,
-    QuestionViewRepository _questionViewRepository) : IRegisterAsInstancePerLifetime
+    QuestionViewRepository _questionViewRepository,
+    CategoryChangeRepo _categoryChangeRepo) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {
@@ -19,6 +20,13 @@ public class EntityCacheInitializer(
         Logg.r.Information("EntityCache UsersCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         Cache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
+
+        var allCategoryChanges = _categoryChangeRepo.GetAll();
+        Logg.r.Information("EntityCache CategoryChangesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        var categoryChanges = CategoryChangeCacheItem.ToCategoryChangeCacheItems(allCategoryChanges).ToList();
+        Cache.IntoForeverCache(EntityCache.CacheKeyCategoryChanges, categoryChanges.ToConcurrentDictionary());
+        Logg.r.Information("EntityCache CategoryChangesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var allCategories = _categoryRepository.GetAllEager();
         Logg.r.Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
