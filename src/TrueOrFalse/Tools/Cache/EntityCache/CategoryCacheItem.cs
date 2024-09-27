@@ -406,35 +406,40 @@ public class CategoryCacheItem : IPersistable
     public virtual List<FeedItem> FeedItems { get; set; }
     public record struct FeedItem(DateTime Date, CategoryChangeType Type, CategoryChangeCacheItem CategoryChangeCacheItem, int TopicId, CategoryVisibility Visibility);
 
-    public List<FeedItem> GetVisibleFeedItemsByPage(int userId, int page, int pageSize = 100)
+    public (List<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(int userId, int page, int pageSize = 100)
     {
-        var visibleChanges = CategoryChangeCacheItems.Where(c => IsVisibleForUser(userId, c))
+        var visibleChanges = CategoryChangeCacheItems.Where(c => IsVisibleForUser(userId, c));
+        var pagedChanges = visibleChanges
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
 
-        var feedItems = visibleChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
+        var feedItems = pagedChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
 
-        return feedItems;
+        return (feedItems, visibleChanges.Count());
     }
 
-    public List<FeedItem> GetAllVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100)
+    public (List<FeedItem>, int maxCount) GetAllVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100)
     {
         var allVisibleDescendants = GraphService.VisibleDescendants(Id, permissionCheck, userId);
-        var allChanges = allVisibleDescendants
+
+        var allTopics = new List<CategoryCacheItem> { this }.Concat(allVisibleDescendants).ToList();
+
+        var allChanges = allTopics
             .Where(c => c != null && c.CategoryChangeCacheItems != null)
             .SelectMany(c => c.CategoryChangeCacheItems)
             .OrderByDescending(c => c.DateCreated)
             .ToList();
 
-        var visibleChanges = allChanges.Where(c => IsVisibleForUser(userId, c))
+        var visibleChanges = allChanges.Where(c => IsVisibleForUser(userId, c));
+        var pagedChanges = visibleChanges
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
 
-        var feedItems = visibleChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
+        var feedItems = pagedChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
 
-        return feedItems;
+        return (feedItems, visibleChanges.Count());
     }
 
     private bool IsVisibleForUser(int userId, CategoryChangeCacheItem categoryChange)

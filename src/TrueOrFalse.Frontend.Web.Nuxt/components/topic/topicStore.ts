@@ -105,6 +105,11 @@ export interface FeedItem {
 	visibility: Visibility
 }
 
+interface GetFeedResponse{
+	feedItems: FeedItem[]
+	maxCount: number
+}
+
 export const useTopicStore = defineStore('topicStore', {
 	state: () => {
 		return {
@@ -377,7 +382,7 @@ export const useTopicStore = defineStore('topicStore', {
 				pageSize: 100
 			}
 
-			const result = await $api<FeedItem[]>(`/apiVue/TopicStore/GetFeed/`, {
+			const result = await $api<GetFeedResponse>(`/apiVue/TopicStore/GetFeed/`, {
 				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',
@@ -397,7 +402,7 @@ export const useTopicStore = defineStore('topicStore', {
 				pageSize: 100
 			}
 
-			const result = await $api<FeedItem[]>(`/apiVue/TopicStore/GetFeedWithDescendants/`, {
+			const result = await $api<GetFeedResponse>(`/apiVue/TopicStore/GetFeedWithDescendants/`, {
 				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',

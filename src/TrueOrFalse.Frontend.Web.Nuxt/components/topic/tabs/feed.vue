@@ -2,25 +2,23 @@
 import { FeedItem, useTopicStore, FeedItemType } from '../topicStore'
 
 const topicStore = useTopicStore()
+
+const feedItems = ref()
 const getFeedItems = async () => {
     const result = await topicStore.getFeed()
-    feedItems.value = result
+    feedItems.value = result.feedItems
+    itemCount.value = result.maxCount
 }
-const feedItems = ref()
 
+const feedItemsWithDescendants = ref()
 const getFeedItemsWithDescendants = async () => {
     const result = await topicStore.getFeedWithDescendants()
-    feedItemsWithDescendants.value = result
+    feedItemsWithDescendants.value = result.feedItems
+    itemCount.value = result.maxCount
 }
-const feedItemsWithDescendants = ref()
 
-const last30FeedItems = computed(() => {
-    return feedItems.value?.slice(0, 30) as FeedItem[]
-})
-
-const last30FeedItemsWithDescendants = computed(() => {
-    return feedItemsWithDescendants.value?.slice(0, 150) as FeedItem[]
-})
+const currentPage = ref(1)
+const itemCount = ref(0)
 </script>
 
 <template>
@@ -32,19 +30,19 @@ const last30FeedItemsWithDescendants = computed(() => {
 
         <div class="col-xs-12">
             <h3>FeedItems</h3>
-            <div class="feed-item" v-for="feedItem in last30FeedItems">
+            <div class="feed-item" v-for="feedItem in feedItems">
                 {{ feedItem.date }} - {{ FeedItemType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
             </div>
 
             <h3>FeedItemsWithDescendants</h3>
-            <div class="feed-item" v-for="feedItem in last30FeedItemsWithDescendants">
+            <div class="feed-item" v-for="feedItem in feedItemsWithDescendants">
                 {{ feedItem.date }} - {{ FeedItemType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
             </div>
         </div>
 
         <div class="col-xs-12">
             <div class="pager">
-                <div></div>
+                <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false" />
             </div>
         </div>
     </div>
