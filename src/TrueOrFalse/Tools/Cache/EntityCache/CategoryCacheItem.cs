@@ -251,20 +251,25 @@ public class CategoryCacheItem : IPersistable
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, IList<CategoryViewRepo.TopicViewSummaryWithId> views)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, IList<CategoryViewRepo.TopicViewSummaryWithId> views, IList<CategoryChange> categoryChanges)
     {
         var categoryViews = views
             .GroupBy(cv => cv.Category_Id)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        var categoryChangesDictionary = categoryChanges
+            .GroupBy(cc => cc.Category?.Id ?? -1)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         return categories.Select(c =>
         {
             categoryViews.TryGetValue(c.Id, out var categoryViewsWithId);
-            return ToCacheCategory(c, categoryViewsWithId);
+            categoryChangesDictionary.TryGetValue(c.Id, out var categoryChanges);
+            return ToCacheCategory(c, categoryViewsWithId, categoryChanges);
         });
     }
 
-    public static CategoryCacheItem ToCacheCategory(Category category, List<CategoryViewRepo.TopicViewSummaryWithId>? views = null)
+    public static CategoryCacheItem ToCacheCategory(Category category, List<CategoryViewRepo.TopicViewSummaryWithId>? views = null, List<CategoryChange>? categoryChanges = null)
     {
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(category.Id);
@@ -300,24 +305,36 @@ public class CategoryCacheItem : IPersistable
             TextIsHidden = category.TextIsHidden,
         };
 
-        if (EntityCache.IsFirstStart && views != null)
+        if (EntityCache.IsFirstStart)
         {
-            categoryCacheItem.TotalViews = views.Count();
 
-            var startDate = DateTime.Now.Date.AddDays(-90);
-            var endDate = DateTime.Now.Date;
+            if (views != null)
+            {
+                categoryCacheItem.TotalViews = views.Count();
 
-            var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                .Select(d => startDate.AddDays(d));
+                var startDate = DateTime.Now.Date.AddDays(-90);
+                var endDate = DateTime.Now.Date;
 
-            categoryCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
-                .Select(qv => new DailyViews
-                {
-                    Date = qv.DateOnly,
-                    Count = qv.Count
-                })
-                .OrderBy(v => v.Date)
-                .ToList();
+                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                    .Select(d => startDate.AddDays(d));
+
+                categoryCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
+                    .Select(qv => new DailyViews
+                    {
+                        Date = qv.DateOnly,
+                        Count = qv.Count
+                    })
+                    .OrderBy(v => v.Date)
+                    .ToList();
+            }
+
+            if (categoryChanges != null)
+            {
+                categoryCacheItem.CategoryChangeCacheItems = categoryChanges
+                    .Select(CategoryChangeCacheItem.ToCategoryChangeCacheItem)
+                    .OrderByDescending(change => change.DateCreated)
+                    .ToList();
+            }
         }
         return categoryCacheItem;
     }
@@ -384,31 +401,57 @@ public class CategoryCacheItem : IPersistable
             .ToList();
     }
 
-    public virtual List<LatestChange> LatestChanges { get; set; }
-    public record struct LatestChange(DateTime Date, CategoryChangeType Type, CategoryChangeCacheItem CategoryChangeCacheItem, int TopicId);
-    public List<LatestChange> GetLatestChanges()
-    {
-        var changes = EntityCache.GetCategoryChangesByTopicId(Id)
-            .OrderByDescending(change => change.DateCreated)
-            .Select(ToLatestChange).ToList();
+    public virtual List<CategoryChangeCacheItem> CategoryChangeCacheItems { get; set; }
 
-        return changes;
+    public virtual List<FeedItem> FeedItems { get; set; }
+    public record struct FeedItem(DateTime Date, CategoryChangeType Type, CategoryChangeCacheItem CategoryChangeCacheItem, int TopicId, CategoryVisibility Visibility);
+
+    public List<FeedItem> GetVisibleFeedItemsByPage(int userId, int page, int pageSize = 100)
+    {
+        var visibleChanges = CategoryChangeCacheItems.Where(c => IsVisibleForUser(userId, c))
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var feedItems = visibleChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
+
+        return feedItems;
     }
 
-    private LatestChange ToLatestChange(CategoryChangeCacheItem change)
+    public List<FeedItem> GetAllVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100)
     {
-        return new LatestChange(Date: change.DateCreated, Type: change.Type, CategoryChangeCacheItem: change, TopicId: change.CategoryId);
+        var allVisibleDescendants = GraphService.VisibleDescendants(Id, permissionCheck, userId);
+        var allChanges = allVisibleDescendants
+            .Where(c => c != null && c.CategoryChangeCacheItems != null)
+            .SelectMany(c => c.CategoryChangeCacheItems)
+            .OrderByDescending(c => c.DateCreated)
+            .ToList();
+
+        var visibleChanges = allChanges.Where(c => IsVisibleForUser(userId, c))
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+        var feedItems = visibleChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
+
+        return feedItems;
     }
 
-    public List<LatestChange> GetAllLatestChanges(PermissionCheck permissionCheck, int userId)
+    private bool IsVisibleForUser(int userId, CategoryChangeCacheItem categoryChange)
     {
-        var allRelatedIds = GraphService.VisibleDescendantIds(Id, permissionCheck, userId);
+        return categoryChange.Visibility != CategoryVisibility.Owner || categoryChange.AuthorId == userId;
+    }
 
-        var changes = EntityCache.GetCategoryChangesByTopicIds(allRelatedIds)
-            .OrderByDescending(change => change.DateCreated)
-            .Select(ToLatestChange).ToList();
+    public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)
+    {
+        if (CategoryChangeCacheItems == null)
+        {
+            CategoryChangeCacheItems = new List<CategoryChangeCacheItem>();
+        }
 
-        return changes;
+        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange);
+        CategoryChangeCacheItems.Insert(0, cacheItem);
+        EntityCache.AddOrUpdate(this);
     }
 }
 

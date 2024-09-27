@@ -1,4 +1,5 @@
-﻿using Seedworks.Lib.Persistence;
+﻿using Newtonsoft.Json.Linq;
+using Seedworks.Lib.Persistence;
 
 [Serializable]
 public class CategoryChangeCacheItem : IPersistable
@@ -19,10 +20,14 @@ public class CategoryChangeCacheItem : IPersistable
     public virtual CategoryChangeType Type { get; set; }
     public virtual DateTime DateCreated { get; set; }
 
+    public virtual CategoryVisibility Visibility { get; set; }
+
     public virtual CategoryEditData GetCategoryChangeData()
     {
         switch (DataVersion)
         {
+            case 1:
+                return CategoryEditData_V1.CreateFromJson(Data);
             case 2:
                 return CategoryEditData_V2.CreateFromJson(Data);
 
@@ -38,6 +43,18 @@ public class CategoryChangeCacheItem : IPersistable
 
     public static CategoryChangeCacheItem ToCategoryChangeCacheItem(CategoryChange categoryChange)
     {
+        var visibility = CategoryVisibility.Owner;
+
+        if (!string.IsNullOrEmpty(categoryChange.Data))
+        {
+            var jObject = JObject.Parse(categoryChange.Data);
+            if (jObject["Visibility"] != null)
+            {
+                var visibilityValue = jObject["Visibility"].Value<int>();
+                visibility = (CategoryVisibility)visibilityValue;
+            }
+        }
+
         return new CategoryChangeCacheItem
         {
             Id = categoryChange.Id,
@@ -46,7 +63,8 @@ public class CategoryChangeCacheItem : IPersistable
             Data = categoryChange.Data,
             AuthorId = categoryChange.AuthorId,
             Type = categoryChange.Type,
-            DateCreated = categoryChange.DateCreated
+            DateCreated = categoryChange.DateCreated,
+            Visibility = visibility
         };
     }
 
@@ -54,4 +72,5 @@ public class CategoryChangeCacheItem : IPersistable
     {
         return allCategoryChanges.Where(c => c.Category != null).Select(ToCategoryChangeCacheItem);
     }
+
 }

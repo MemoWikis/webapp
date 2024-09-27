@@ -21,13 +21,6 @@ public class EntityCacheInitializer(
 
         Cache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
 
-        var allCategoryChanges = _categoryChangeRepo.GetAll();
-        Logg.r.Information("EntityCache CategoryChangesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
-        var categoryChanges = CategoryChangeCacheItem.ToCategoryChangeCacheItems(allCategoryChanges).ToList();
-        Cache.IntoForeverCache(EntityCache.CacheKeyCategoryChanges, categoryChanges.ToConcurrentDictionary());
-        Logg.r.Information("EntityCache CategoryChangesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-
         var allCategories = _categoryRepository.GetAllEager();
         Logg.r.Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var allRelations = _categoryRelationRepo.GetAll();
@@ -39,7 +32,10 @@ public class EntityCacheInitializer(
         var allCategoryViews = _categoryViewRepo.GetAllEager();
         Logg.r.Information("EntityCache CategoryViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories, allCategoryViews).ToList();
+        var allCategoryChanges = _categoryChangeRepo.GetAll();
+        Logg.r.Information("EntityCache CategoryChangesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories, allCategoryViews, allCategoryChanges).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToTopics(_categoryViewRepo, categories);

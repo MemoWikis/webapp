@@ -19,7 +19,7 @@ const last30FeedItems = computed(() => {
 })
 
 const last30FeedItemsWithDescendants = computed(() => {
-    return feedItemsWithDescendants.value?.slice(0, 30) as FeedItem[]
+    return feedItemsWithDescendants.value?.slice(0, 150) as FeedItem[]
 })
 </script>
 
@@ -30,15 +30,21 @@ const last30FeedItemsWithDescendants = computed(() => {
             <div class="memo-button btn-default" @click="getFeedItemsWithDescendants()">getFeedWithDescendants</div>
         </div>
 
-        <div class="colx-xs-12">
+        <div class="col-xs-12">
             <h3>FeedItems</h3>
-            <div class="feed-item" v-for="i in last30FeedItems">
-                {{ i.date }} - {{ FeedItemType[i.type] }} - {{ i.categoryChangeId }}
+            <div class="feed-item" v-for="feedItem in last30FeedItems">
+                {{ feedItem.date }} - {{ FeedItemType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
             </div>
 
             <h3>FeedItemsWithDescendants</h3>
-            <div class="feed-item" v-for="i in last30FeedItemsWithDescendants">
-                {{ i.date }} - {{ FeedItemType[i.type] }} - {{ i.categoryChangeId }}
+            <div class="feed-item" v-for="feedItem in last30FeedItemsWithDescendants">
+                {{ feedItem.date }} - {{ FeedItemType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="pager">
+                <div></div>
             </div>
         </div>
     </div>

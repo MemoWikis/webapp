@@ -98,10 +98,11 @@ export enum FeedItemType {
 }
 
 export interface FeedItem {
-	date: string,
-	type: FeedItemType,
-	categoryChangeId: number,
+	date: string
+	type: FeedItemType
+	categoryChangeId: number
 	topicId: number
+	visibility: Visibility
 }
 
 export const useTopicStore = defineStore('topicStore', {
@@ -370,30 +371,44 @@ export const useTopicStore = defineStore('topicStore', {
 			}
 		},
 		async getFeed() {
-			const data = await $api<FeedItem[]>(`/apiVue/TopicStore/GetFeed/${this.id}`, {
-				method: 'GET',
+			const data = {
+				topicId: this.id,
+				page: 1,
+				pageSize: 100
+			}
+
+			const result = await $api<FeedItem[]>(`/apiVue/TopicStore/GetFeed/`, {
+				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',
+				body: data,
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
 				}
 			})
 
-			return data
+			return result
 		},
 		async getFeedWithDescendants() {
-			const data = await $api<FeedItem[]>(`/apiVue/TopicStore/GetFeedWithDescendants/${this.id}`, {
-				method: 'GET',
+			const data = {
+				topicId: this.id,
+				page: 1,
+				pageSize: 100
+			}
+
+			const result = await $api<FeedItem[]>(`/apiVue/TopicStore/GetFeedWithDescendants/`, {
+				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',
+				body: data,
 				onResponseError(context) {
 					const { $logger } = useNuxtApp()
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
 				}
 			})
 
-			return data
+			return result
 		}
 
 	},

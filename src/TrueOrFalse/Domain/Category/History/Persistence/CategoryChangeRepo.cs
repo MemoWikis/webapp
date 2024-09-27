@@ -40,6 +40,8 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             AuthorId = authorId,
             DataVersion = 2
         };
+        var categoryCacheItem = EntityCache.GetCategory(category);
+
         if (category.AuthorIds == null)
         {
             category.AuthorIds = "";
@@ -49,16 +51,14 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             var newAuthorIdsInts = category.AuthorIdsInts.ToList();
             newAuthorIdsInts.Add(authorId);
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
-            var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
             //the line should not be needed
             EntityCache.AddOrUpdate(categoryCacheItem);
             categoryRepository.Update(category);
         }
         SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
-        var categoryChangeCacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange);
-        EntityCache.AddOrUpdate(categoryChangeCacheItem);
         base.Create(categoryChange);
+        categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(categoryChange);
     }
 
     private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)

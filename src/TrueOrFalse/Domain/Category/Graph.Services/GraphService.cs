@@ -146,30 +146,6 @@ public class GraphService
         return allDescendants.ToList();
     }
 
-    public static IList<int> VisibleDescendantIds(
-        int categoryId,
-        PermissionCheck permissionCheck,
-        int userId)
-    {
-        var allDescendantIds = new HashSet<int>();
-
-        void AddDescendants(int id)
-        {
-            if (allDescendantIds.Contains(id))
-                return;
-
-            allDescendantIds.Add(id);
-
-            var children = VisibleChildren(id, permissionCheck, userId);
-            foreach (var child in children)
-                AddDescendants(child.Id);
-        }
-
-        AddDescendants(categoryId);
-
-        return allDescendantIds.ToList();
-    }
-
     public static List<CategoryCacheItem> Children(CategoryCacheItem category)
     {
         var childrenIds = category.ChildRelations.Select(r => r.ChildId);

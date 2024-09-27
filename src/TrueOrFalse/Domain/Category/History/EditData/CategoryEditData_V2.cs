@@ -28,9 +28,6 @@ public class CategoryEditData_V2 : CategoryEditData
         Description = category.Description;
         TopicMardkown = category.TopicMarkdown;
         Content = category.Content;
-        CustomSegments = category.CustomSegments;
-        WikipediaURL = category.WikipediaURL;
-        DisableLearningFunctions = category.DisableLearningFunctions;
         CategoryRelations = null;
         ImageWasUpdated = imageWasUpdated;
         _nhibernateSession = nhibernateSession;
@@ -60,9 +57,6 @@ public class CategoryEditData_V2 : CategoryEditData
         category.Description = this.Description;
         category.TopicMarkdown = this.TopicMardkown;
         category.Content = this.Content;
-        category.CustomSegments = this.CustomSegments;
-        category.WikipediaURL = this.WikipediaURL;
-        category.DisableLearningFunctions = this.DisableLearningFunctions;
         category.Visibility = this.Visibility;
 
         // Historic category relations cannot be loaded because we do not have archive data and

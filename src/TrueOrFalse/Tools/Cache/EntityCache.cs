@@ -8,8 +8,6 @@ public class EntityCache
     public const string CacheKeyCategories = "allCategories_EntityCache";
     public const string CacheKeyCategoryQuestionsList = "categoryQuestionsList_EntityCache";
     public const string CacheKeyRelations = "allRelations_EntityCache";
-    public const string CacheKeyCategoryChanges = "allCategoryChanges_EntityCache";
-    public const string CacheKeyQuestionChanges = "allQuestionChanges_EntityCache";
 
     public static bool IsFirstStart = true;
 
@@ -24,9 +22,6 @@ public class EntityCache
 
     private static ConcurrentDictionary<int, CategoryCacheRelation> Relations =>
         Cache.Mgr.Get<ConcurrentDictionary<int, CategoryCacheRelation>>(CacheKeyRelations);
-
-    private static ConcurrentDictionary<int, CategoryChangeCacheItem> CategoryChanges =>
-        Cache.Mgr.Get<ConcurrentDictionary<int, CategoryChangeCacheItem>>(CacheKeyCategoryChanges);
 
     /// <summary>
     /// Dictionary(key:categoryId, value:questions)
@@ -339,11 +334,6 @@ public class EntityCache
     {
         AddOrUpdate(Categories, categoryCacheItem);
     }
-    public static void AddOrUpdate(CategoryChangeCacheItem categoryChangeCacheItem)
-    {
-        AddOrUpdate(CategoryChanges, categoryChangeCacheItem);
-    }
-
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);
@@ -414,13 +404,6 @@ public class EntityCache
         objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
     }
 
-    private static void AddOrUpdate(
-        ConcurrentDictionary<int, CategoryChangeCacheItem> objectToCache,
-        CategoryChangeCacheItem obj)
-    {
-        objectToCache.AddOrUpdate(obj.Id, obj, (k, v) => obj);
-    }
-
     private static void Remove(
         ConcurrentDictionary<int, UserCacheItem> objectToCache,
         UserCacheItem obj)
@@ -445,13 +428,6 @@ public class EntityCache
     private static void Remove(
         ConcurrentDictionary<int, QuestionCacheItem> objectToCache,
         QuestionCacheItem obj)
-    {
-        objectToCache.TryRemove(obj.Id, out _);
-    }
-
-    private static void Remove(
-        ConcurrentDictionary<int, CategoryChangeCacheItem> objectToCache,
-        CategoryChangeCacheItem obj)
     {
         objectToCache.TryRemove(obj.Id, out _);
     }
@@ -515,16 +491,6 @@ public class EntityCache
 
     public static IEnumerable<CategoryCacheRelation> GetCacheRelationsByTopicId(int topicId) =>
         GetAllRelations().Where(r => r.ParentId == topicId || r.ChildId == topicId);
-
-    public static IList<CategoryChangeCacheItem> GetCategoryChangesByTopicId(int topicId) =>
-        CategoryChanges.Values
-            .Where(c => c.CategoryId == topicId)
-            .ToList();
-
-    public static IList<CategoryChangeCacheItem> GetCategoryChangesByTopicIds(IList<int> topicIds) =>
-        CategoryChanges.Values
-            .Where(c => topicIds.Contains(c.CategoryId))
-            .ToList();
 
     public static void Clear()
     {
