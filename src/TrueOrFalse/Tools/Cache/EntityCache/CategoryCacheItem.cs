@@ -403,48 +403,108 @@ public class CategoryCacheItem : IPersistable
 
     public virtual List<CategoryChangeCacheItem> CategoryChangeCacheItems { get; set; }
 
-    public virtual List<FeedItem> FeedItems { get; set; }
-    public record struct FeedItem(DateTime Date, CategoryChangeType Type, CategoryChangeCacheItem CategoryChangeCacheItem, int TopicId, CategoryVisibility Visibility);
-
-    public (List<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(int userId, int page, int pageSize = 100)
+    public enum FeedType
     {
-        var visibleChanges = CategoryChangeCacheItems.Where(c => IsVisibleForUser(userId, c));
-        var pagedChanges = visibleChanges
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        var feedItems = pagedChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
-
-        return (feedItems, visibleChanges.Count());
+        Topic,
+        Question
     }
 
-    public (List<FeedItem>, int maxCount) GetAllVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100)
+    public record struct FeedItem(DateTime DateCreated, CategoryChangeCacheItem? CategoryChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
+    public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false)
     {
-        var allVisibleDescendants = GraphService.VisibleDescendants(Id, permissionCheck, userId);
+        IList<FeedItem> changes;
 
-        var allTopics = new List<CategoryCacheItem> { this }.Concat(allVisibleDescendants).ToList();
+        if (getDescendants)
+        {
+            var allVisibleDescendants = GraphService.VisibleDescendants(Id, permissionCheck, userId);
 
-        var allChanges = allTopics
-            .Where(c => c != null && c.CategoryChangeCacheItems != null)
-            .SelectMany(c => c.CategoryChangeCacheItems)
-            .OrderByDescending(c => c.DateCreated)
-            .ToList();
+            var allTopics = new List<CategoryCacheItem> { this }.Concat(allVisibleDescendants).ToList();
+            var unsortedTopicChanges = allTopics
+                .Where(c => c != null && c.CategoryChangeCacheItems != null)
+                .SelectMany(c => c.CategoryChangeCacheItems)
+                .Select(tc => ToFeedItem(tc, null));
 
-        var visibleChanges = allChanges.Where(c => IsVisibleForUser(userId, c));
+            if (getQuestions)
+            {
+                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: true, categoryId: Id);
+                var unsortedQuestionChanges = allQuestions
+                    .Where(q => q != null && q.QuestionChangeCacheItems != null)
+                    .SelectMany(q => q.QuestionChangeCacheItems)
+                    .Select(qc => ToFeedItem(null, qc));
+
+                changes = unsortedTopicChanges
+                    .Concat(unsortedQuestionChanges)
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+            else
+            {
+                changes = unsortedTopicChanges
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+        }
+        else
+        {
+            var topicChanges = CategoryChangeCacheItems.Select(tc => ToFeedItem(tc, null));
+
+            if (getQuestions)
+            {
+                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: false, categoryId: Id);
+                var unsortedQuestionChanges = allQuestions
+                    .Where(q => q != null && q.QuestionChangeCacheItems != null)
+                    .SelectMany(q => q.QuestionChangeCacheItems)
+                    .Select(qc => ToFeedItem(null, qc));
+                changes = topicChanges
+                    .Concat(unsortedQuestionChanges)
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+            else
+            {
+                changes = topicChanges
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+        }
+
+        var visibleChanges = changes.Where(c => IsVisibleForUser(userId, c));
         var pagedChanges = visibleChanges
             .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
+            .Take(pageSize);
 
-        var feedItems = pagedChanges.Select(c => new FeedItem(c.DateCreated, c.Type, c, c.CategoryId, c.Visibility)).ToList();
+        return (pagedChanges, visibleChanges.Count());
+    }
+    private FeedItem ToFeedItem(CategoryChangeCacheItem? categoryChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
+    {
+        if (categoryChangeCacheItem != null)
+            return new FeedItem
+            {
+                DateCreated = categoryChangeCacheItem.DateCreated,
+                CategoryChangeCacheItem = categoryChangeCacheItem
+            };
+        if (questionChangeCacheItem != null)
+        {
+            return new FeedItem
+            {
+                DateCreated = questionChangeCacheItem.DateCreated,
+                QuestionChangeCacheItem = questionChangeCacheItem
+            };
+        }
 
-        return (feedItems, visibleChanges.Count());
+        throw new Exception("no valid changeItem");
     }
 
-    private bool IsVisibleForUser(int userId, CategoryChangeCacheItem categoryChange)
+    private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
-        return categoryChange.Visibility != CategoryVisibility.Owner || categoryChange.AuthorId == userId;
+        if (feedItem.CategoryChangeCacheItem != null)
+            return feedItem.CategoryChangeCacheItem.Visibility != CategoryVisibility.Owner || feedItem.CategoryChangeCacheItem.AuthorId == userId;
+
+        if (feedItem.QuestionChangeCacheItem != null)
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || feedItem.QuestionChangeCacheItem.AuthorId == userId;
+
+        return false;
+
     }
 
     public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)

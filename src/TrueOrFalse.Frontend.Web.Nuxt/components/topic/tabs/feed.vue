@@ -1,48 +1,169 @@
 <script setup lang="ts">
-import { FeedItem, useTopicStore, FeedItemType } from '../topicStore'
+import { useTopicStore } from '../topicStore'
+import { Visibility } from '~/components/shared/visibilityEnum'
 
 const topicStore = useTopicStore()
 
 const feedItems = ref()
+const currentPage = ref(1)
+const itemCount = ref(0)
+
+watch(() => currentPage.value, async () => {
+    getFeedItems()
+})
+
+interface FeedItemGroupByDay {
+    dateLabel: string
+    feedItems: TopicFeedItem[]
+}
+
+const groupedFeedItemsByDay = computed(() => {
+    if (!feedItems.value) return []
+
+    const groupedFeedItems: FeedItemGroupByDay[] = []
+    let currentGroup: FeedItemGroupByDay = { dateLabel: '', feedItems: [] }
+    feedItems.value.forEach((feedItem: TopicFeedItem) => {
+        const dateLabel = getDateLabel(feedItem.date)
+        if (currentGroup.dateLabel !== dateLabel) {
+            currentGroup = { dateLabel, feedItems: [] }
+            groupedFeedItems.push(currentGroup)
+        }
+        currentGroup.feedItems.push(feedItem)
+    })
+
+    return groupedFeedItems
+})
+
+function getDateLabel(dateString: string) {
+    const date = new Date(dateString)
+    if (date.toDateString() === new Date().toDateString()) {
+        return 'Heute'
+    }
+
+    if (date.toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
+        return 'Gestern'
+    }
+
+    return date.toLocaleDateString()
+}
+
+enum FeedType {
+    Topic,
+    Question
+}
+
+enum TopicChangeType {
+    Create = 0,
+    Update = 1,
+    Delete = 2,
+    Published = 3,
+    Privatized = 4,
+    Renamed = 5,
+    Text = 6,
+    Relations = 7,
+    Image = 8,
+    Restore = 9,
+    Moved = 10,
+}
+
+enum QuestionChangeType {
+    Create = 0,
+    Update = 1,
+    Delete = 2
+}
+
+interface FeedItem {
+    date: string
+    type: FeedType
+    topicFeedItem?: TopicFeedItem,
+    questionFeedItem?: QuestionFeedItem
+}
+
+interface TopicFeedItem {
+    date: string
+    type: TopicChangeType
+    categoryChangeId: number
+    topicId: number
+    visibility: Visibility
+    authorName: string
+}
+
+interface QuestionFeedItem {
+    date: string
+    type: QuestionChangeType
+    categoryChangeId: number
+    questionId: number
+    visibility: Visibility
+    authorName: string
+}
+
+interface GetFeedResponse {
+    feedItems: FeedItem[]
+    maxCount: number
+}
+
 const getFeedItems = async () => {
-    const result = await topicStore.getFeed()
+    const data = {
+        topicId: topicStore.id,
+        page: currentPage,
+        pageSize: 100
+    }
+
+    const result = await $api<GetFeedResponse>(`/apiVue/Feed/Get/`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: data,
+        onResponseError(context) {
+            const { $logger } = useNuxtApp()
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+        }
+    })
+
     feedItems.value = result.feedItems
     itemCount.value = result.maxCount
 }
 
-const feedItemsWithDescendants = ref()
-const getFeedItemsWithDescendants = async () => {
-    const result = await topicStore.getFeedWithDescendants()
-    feedItemsWithDescendants.value = result.feedItems
-    itemCount.value = result.maxCount
-}
-
-const currentPage = ref(1)
-const itemCount = ref(0)
 </script>
 
 <template>
     <div class="row">
         <div class="col-xs-12">
             <div class="memo-button btn-default" @click="getFeedItems()">GetFeed</div>
-            <div class="memo-button btn-default" @click="getFeedItemsWithDescendants()">getFeedWithDescendants</div>
         </div>
 
         <div class="col-xs-12">
             <h3>FeedItems</h3>
-            <div class="feed-item" v-for="feedItem in feedItems">
-                {{ feedItem.date }} - {{ FeedItemType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
-            </div>
-
-            <h3>FeedItemsWithDescendants</h3>
-            <div class="feed-item" v-for="feedItem in feedItemsWithDescendants">
-                {{ feedItem.date }} - {{ FeedItemType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
+            <div v-for="groupedFeedItems in groupedFeedItemsByDay">
+                <h3>{{ groupedFeedItems.dateLabel }}</h3>
+                <div class="feed-item" v-for="feedItem in groupedFeedItems.feedItems">
+                    {{ feedItem.date }} - {{ TopicChangeType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
+                </div>
             </div>
         </div>
 
         <div class="col-xs-12">
-            <div class="pager">
-                <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false" />
+            <div class="pager pagination">
+                <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                    <template #first-page-button>
+                        <font-awesome-layers>
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                            <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                        </font-awesome-layers>
+                    </template>
+                    <template #prev-button>
+                        <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                    </template>
+                    <template #next-button>
+                        <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                    </template>
+                    <template #last-page-button>
+                        <font-awesome-layers>
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                            <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                        </font-awesome-layers>
+                    </template>
+                </vue-awesome-paginate>
             </div>
         </div>
     </div>

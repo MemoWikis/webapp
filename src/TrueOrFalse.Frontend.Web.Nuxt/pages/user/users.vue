@@ -157,7 +157,6 @@ const ariaId = useId()
                             </div>
                         </div>
 
-
                         <div class="sort-section">
 
                             <font-awesome-icon icon="fa-solid fa-sort" />
@@ -206,13 +205,49 @@ const ariaId = useId()
 
                     <div class="col-xs-12" v-if="searchTerm.length === 0">
                         <div class="pagination hidden-xs">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false"
-                                prev-button-content="Vorherige"
-                                next-button-content="Nächste" first-page-content="Erste" last-page-content="Letzte" />
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                                <template #first-page-button>
+                                    <font-awesome-layers>
+                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                                    </font-awesome-layers>
+                                </template>
+                                <template #prev-button>
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                                </template>
+                                <template #next-button>
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                                </template>
+                                <template #last-page-button>
+                                    <font-awesome-layers>
+                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                                    </font-awesome-layers>
+                                </template>
+                            </vue-awesome-paginate>
 
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
-                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="false" :show-breakpoint-buttons="false" />
+                            <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
+                                <template #first-page-button>
+                                    <font-awesome-layers>
+                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="left-3" />
+                                        <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-3" />
+                                    </font-awesome-layers>
+                                </template>
+                                <template #prev-button>
+                                    <font-awesome-icon :icon="['fas', 'chevron-left']" />
+                                </template>
+                                <template #next-button>
+                                    <font-awesome-icon :icon="['fas', 'chevron-right']" />
+                                </template>
+                                <template #last-page-button>
+                                    <font-awesome-layers>
+                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="left-3" />
+                                        <font-awesome-icon :icon="['fas', 'chevron-right']" transform="right-3" />
+                                    </font-awesome-layers>
+                                </template>
+                            </vue-awesome-paginate>
                         </div>
                     </div>
                     <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">

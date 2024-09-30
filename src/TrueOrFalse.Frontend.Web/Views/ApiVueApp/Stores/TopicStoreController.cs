@@ -256,32 +256,4 @@ public class TopicStoreController(
         var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, categoryId: topic.Id);
         return GetQuestionViews(questions);
     }
-
-    public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
-    public readonly record struct FeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, CategoryVisibility Visibility);
-
-    public readonly record struct GetFeedRequest(int TopicId, int Page, int PageSize);
-    [HttpPost]
-    public GetFeedResponse GetFeed([FromBody] GetFeedRequest req)
-    {
-        var topic = EntityCache.GetCategory(req.TopicId);
-        var (feedItems, maxCount) = topic.GetVisibleFeedItemsByPage(_sessionUser.UserId, req.Page, req.PageSize);
-
-        return new GetFeedResponse(
-            feedItems: feedItems.Select(c =>
-                new FeedItem(c.Date, c.Type, c.CategoryChangeCacheItem.Id, c.TopicId, c.Visibility)).ToList(),
-            maxCount: maxCount);
-    }
-
-    [HttpPost]
-    public GetFeedResponse GetFeedWithDescendants([FromBody] GetFeedRequest req)
-    {
-        var topic = EntityCache.GetCategory(req.TopicId);
-        var (feedItems, maxCount) = topic.GetAllVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize);
-
-        return new GetFeedResponse(
-            feedItems: feedItems.Select(c =>
-                new FeedItem(c.Date, c.Type, c.CategoryChangeCacheItem.Id, c.TopicId, c.Visibility)).ToList(),
-            maxCount: maxCount);
-    }
 }

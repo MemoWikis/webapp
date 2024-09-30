@@ -12,4 +12,6 @@
     public abstract string ToJson();
 
     public abstract Question ToQuestion(Question question);
+
+    public abstract QuestionCacheItem ToQuestionCacheItem(int questionId);
 }

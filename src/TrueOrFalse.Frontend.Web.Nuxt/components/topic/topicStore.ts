@@ -83,32 +83,7 @@ interface GetTopicAnalyticsResponse {
 	viewsPast90DaysDirectQuestions: ViewSummary[]
 }
 
-export enum FeedItemType {
-    Create = 0,
-    Update = 1,
-    Delete = 2,
-    Published = 3,
-    Privatized = 4,
-    Renamed = 5,
-    Text = 6,
-    Relations = 7,
-    Image = 8,
-    Restore = 9,
-    Moved = 10,
-}
 
-export interface FeedItem {
-	date: string
-	type: FeedItemType
-	categoryChangeId: number
-	topicId: number
-	visibility: Visibility
-}
-
-interface GetFeedResponse{
-	feedItems: FeedItem[]
-	maxCount: number
-}
 
 export const useTopicStore = defineStore('topicStore', {
 	state: () => {
@@ -375,47 +350,6 @@ export const useTopicStore = defineStore('topicStore', {
 				this.analyticsLoaded = true
 			}
 		},
-		async getFeed() {
-			const data = {
-				topicId: this.id,
-				page: 1,
-				pageSize: 100
-			}
-
-			const result = await $api<GetFeedResponse>(`/apiVue/TopicStore/GetFeed/`, {
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-				body: data,
-				onResponseError(context) {
-					const { $logger } = useNuxtApp()
-					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
-				}
-			})
-
-			return result
-		},
-		async getFeedWithDescendants() {
-			const data = {
-				topicId: this.id,
-				page: 1,
-				pageSize: 100
-			}
-
-			const result = await $api<GetFeedResponse>(`/apiVue/TopicStore/GetFeedWithDescendants/`, {
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-				body: data,
-				onResponseError(context) {
-					const { $logger } = useNuxtApp()
-					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
-				}
-			})
-
-			return result
-		}
-
 	},
 	getters: {
 		getTopicName(): string {

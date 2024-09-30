@@ -74,6 +74,9 @@ public class QuestionCacheItem
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
+    public virtual List<QuestionChangeCacheItem> QuestionChangeCacheItems { get; set; }
+
+
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
         switch (solutionType)
@@ -137,7 +140,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.All;
     }
 
-    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -172,24 +175,35 @@ public class QuestionCacheItem
             License = question.License
         };
 
-        if (questionViews != null && EntityCache.IsFirstStart)
+        if (EntityCache.IsFirstStart)
         {
-            questionCacheItem.TotalViews = (int)questionViews.Sum(qv => qv.Count);
+            if (questionViews != null)
+            {
+                questionCacheItem.TotalViews = (int)questionViews.Sum(qv => qv.Count);
 
-            var startDate = DateTime.Now.Date.AddDays(-90);
-            var endDate = DateTime.Now.Date;
+                var startDate = DateTime.Now.Date.AddDays(-90);
+                var endDate = DateTime.Now.Date;
 
-            var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                .Select(d => startDate.AddDays(d));
+                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                    .Select(d => startDate.AddDays(d));
 
-            questionCacheItem.ViewsOfPast90Days = questionViews.Where(qv => dateRange.Contains(qv.DateOnly))
-                .Select(qv => new DailyViews
-                {
-                    Date = qv.DateOnly,
-                    Count = qv.Count
-                })
-                .OrderBy(v => v.Date)
-                .ToList();
+                questionCacheItem.ViewsOfPast90Days = questionViews.Where(qv => dateRange.Contains(qv.DateOnly))
+                    .Select(qv => new DailyViews
+                    {
+                        Date = qv.DateOnly,
+                        Count = qv.Count
+                    })
+                    .OrderBy(v => v.Date)
+                    .ToList();
+            }
+
+            if (questionChanges != null)
+            {
+                questionCacheItem.QuestionChangeCacheItems = questionChanges
+                    .Select(QuestionChangeCacheItem.ToQuestionChangeCacheItem)
+                    .OrderByDescending(change => change.DateCreated)
+                    .ToList();
+            }
         }
 
         if (!EntityCache.IsFirstStart)
@@ -201,16 +215,22 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews)
+    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges)
     {
         var questionViewsByQuestionId = questionViews
             .GroupBy(qv => qv.QuestionId)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        var questionChangesDictionary = questionChanges
+            .GroupBy(qc => qc.Question?.Id ?? -1)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         return questions.Select(q =>
         {
             questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
-            return ToCacheQuestion(q, questionViewsWithId);
+            questionChangesDictionary.TryGetValue(q.Id, out var questionChanges);
+
+            return ToCacheQuestion(q, questionViewsWithId, questionChanges);
         });
     }
 
@@ -361,4 +381,7 @@ public class QuestionCacheItem
             .Reverse()
             .ToList();
     }
+
+    public record struct QuestionFeedItem(QuestionChangeType Type, QuestionChangeCacheItem QuestionChangeCacheItem, int QuestionId, QuestionVisibility Visibility, string AuthorName);
+
 }

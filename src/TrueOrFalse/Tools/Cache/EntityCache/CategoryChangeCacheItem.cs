@@ -6,7 +6,7 @@ public class CategoryChangeCacheItem : IPersistable
 {
     public virtual int Id { get; set; }
 
-    private CategoryCacheItem _categoryCacheItem;
+    private CategoryCacheItem? _categoryCacheItem;
     public virtual CategoryCacheItem Category => _categoryCacheItem ??= EntityCache.GetCategory(CategoryId);
     public virtual int CategoryId { get; set; }
 
@@ -36,7 +36,7 @@ public class CategoryChangeCacheItem : IPersistable
         }
     }
 
-    public virtual CategoryCacheItem ToHistoricCategory(bool haveVersionData = true)
+    public virtual CategoryCacheItem ToHistoricCategoryCacheItem(bool haveVersionData = true)
     {
         return haveVersionData ? GetCategoryChangeData().ToCacheCategory(_categoryCacheItem.Id) : new CategoryCacheItem();
     }
@@ -67,10 +67,4 @@ public class CategoryChangeCacheItem : IPersistable
             Visibility = visibility
         };
     }
-
-    public static IEnumerable<CategoryChangeCacheItem> ToCategoryChangeCacheItems(IEnumerable<CategoryChange> allCategoryChanges)
-    {
-        return allCategoryChanges.Where(c => c.Category != null).Select(ToCategoryChangeCacheItem);
-    }
-
 }

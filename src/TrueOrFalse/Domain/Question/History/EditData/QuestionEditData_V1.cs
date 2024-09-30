@@ -55,4 +55,20 @@ public class QuestionEditData_V1 : QuestionEditData
 
         return question;
     }
+
+    public override QuestionCacheItem ToQuestionCacheItem(int questionId)
+    {
+        var question = EntityCache.GetQuestion(questionId);
+        question = question == null ? new QuestionCacheItem() : question;
+
+        question.Text = QuestionText;
+        question.TextExtended = QuestionTextExtended;
+        question.License = License;
+        question.Visibility = Visibility;
+        question.Solution = Solution;
+        question.Description = SolutionDescription;
+        question.SolutionMetadataJson = SolutionMetadataJson;
+
+        return question;
+    }
 }
