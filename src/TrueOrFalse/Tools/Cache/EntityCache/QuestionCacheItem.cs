@@ -382,6 +382,16 @@ public class QuestionCacheItem
             .ToList();
     }
 
-    public record struct QuestionFeedItem(QuestionChangeType Type, QuestionChangeCacheItem QuestionChangeCacheItem, int QuestionId, QuestionVisibility Visibility, string AuthorName);
+    public void AddCategoryChangeToCategoryChangeCacheItems(QuestionChange questionChange)
+    {
+        if (QuestionChangeCacheItems == null)
+        {
+            QuestionChangeCacheItems = new List<QuestionChangeCacheItem>();
+        }
+
+        var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(questionChange);
+        QuestionChangeCacheItems.Insert(0, cacheItem);
+        EntityCache.AddOrUpdate(this);
+    }
 
 }

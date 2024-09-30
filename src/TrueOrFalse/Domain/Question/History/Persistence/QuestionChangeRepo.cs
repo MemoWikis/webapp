@@ -34,7 +34,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         }
     }
 
-    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
+    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged: true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
     private void AddUpdateOrCreateEntry(Question question,
         QuestionChangeType questionChangeType,
@@ -52,21 +52,9 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         SetData(question, imageWasChanged, questionChange);
 
         base.Create(questionChange);
-    }
-
-    public void Create(Question question)
-    {
-        var questionChange = new QuestionChange
-        {
-            Question = question,
-            Type = QuestionChangeType.Create,
-            AuthorId = question.Creator == null ? -1 : question.Creator.Id,
-            DataVersion = 1
-        };
-
-        SetData(question, true, questionChange);
-
-        base.Create(questionChange);
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
+        if (questionCacheItem != null)
+            questionCacheItem.AddCategoryChangeToCategoryChangeCacheItems(questionChange);
     }
 
     public QuestionChange GetByIdEager(int questionChangeId)

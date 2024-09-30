@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useTopicStore } from '../topicStore'
-import { Visibility } from '~/components/shared/visibilityEnum'
+import { useTopicStore } from '../../topicStore'
+import { FeedItem, TopicFeedItem } from './feedHelper'
 
 const topicStore = useTopicStore()
 
-const feedItems = ref()
+const feedItems = ref<FeedItem[]>()
 const currentPage = ref(1)
 const itemCount = ref(0)
 
@@ -14,7 +14,7 @@ watch(() => currentPage.value, async () => {
 
 interface FeedItemGroupByDay {
     dateLabel: string
-    feedItems: TopicFeedItem[]
+    feedItems: FeedItem[]
 }
 
 const groupedFeedItemsByDay = computed(() => {
@@ -22,7 +22,7 @@ const groupedFeedItemsByDay = computed(() => {
 
     const groupedFeedItems: FeedItemGroupByDay[] = []
     let currentGroup: FeedItemGroupByDay = { dateLabel: '', feedItems: [] }
-    feedItems.value.forEach((feedItem: TopicFeedItem) => {
+    feedItems.value.forEach((feedItem: FeedItem) => {
         const dateLabel = getDateLabel(feedItem.date)
         if (currentGroup.dateLabel !== dateLabel) {
             currentGroup = { dateLabel, feedItems: [] }
@@ -47,66 +47,18 @@ function getDateLabel(dateString: string) {
     return date.toLocaleDateString()
 }
 
-enum FeedType {
-    Topic,
-    Question
-}
-
-enum TopicChangeType {
-    Create = 0,
-    Update = 1,
-    Delete = 2,
-    Published = 3,
-    Privatized = 4,
-    Renamed = 5,
-    Text = 6,
-    Relations = 7,
-    Image = 8,
-    Restore = 9,
-    Moved = 10,
-}
-
-enum QuestionChangeType {
-    Create = 0,
-    Update = 1,
-    Delete = 2
-}
-
-interface FeedItem {
-    date: string
-    type: FeedType
-    topicFeedItem?: TopicFeedItem,
-    questionFeedItem?: QuestionFeedItem
-}
-
-interface TopicFeedItem {
-    date: string
-    type: TopicChangeType
-    categoryChangeId: number
-    topicId: number
-    visibility: Visibility
-    authorName: string
-}
-
-interface QuestionFeedItem {
-    date: string
-    type: QuestionChangeType
-    categoryChangeId: number
-    questionId: number
-    visibility: Visibility
-    authorName: string
-}
-
-interface GetFeedResponse {
-    feedItems: FeedItem[]
-    maxCount: number
-}
-
 const getFeedItems = async () => {
     const data = {
         topicId: topicStore.id,
-        page: currentPage,
-        pageSize: 100
+        page: currentPage.value,
+        pageSize: 100,
+        getDescendants: true,
+        getQuestions: true
+    }
+
+    interface GetFeedResponse {
+        feedItems: FeedItem[]
+        maxCount: number
     }
 
     const result = await $api<GetFeedResponse>(`/apiVue/Feed/Get/`, {
@@ -137,7 +89,8 @@ const getFeedItems = async () => {
             <div v-for="groupedFeedItems in groupedFeedItemsByDay">
                 <h3>{{ groupedFeedItems.dateLabel }}</h3>
                 <div class="feed-item" v-for="feedItem in groupedFeedItems.feedItems">
-                    {{ feedItem.date }} - {{ TopicChangeType[feedItem.type] }} - {{ feedItem.categoryChangeId }} - {{ feedItem.topicId }} - {{ feedItem.visibility }}
+                    <TopicTabsFeedTopicItem :feedItem="feedItem.topicFeedItem!" v-if="feedItem.type == 0" />
+                    <TopicTabsFeedQuestionItem :feedItem="feedItem.questionFeedItem!" v-else-if="feedItem.type == 1" />
                 </div>
             </div>
         </div>
