@@ -15,6 +15,7 @@ watch(() => currentPage.value, async () => {
 })
 
 interface FeedItemGroupByAuthor {
+    dateLabel: string
     authorId: number
     feedItems: FeedItem[]
 }
@@ -25,26 +26,37 @@ interface FeedItemGroupByDay {
 }
 
 const groupedFeedItemsByDay = computed(() => {
-    if (!feedItems.value) return []
+    if (!groupedFeedItemsByAuthor.value) return []
 
     const groupedFeedItems: FeedItemGroupByDay[] = []
-    let currentGroup: FeedItemGroupByDay = { dateLabel: '', feedItemsByAuthor: [] }
-    let currentAuthorGroup: FeedItemGroupByAuthor = { authorId: -1, feedItems: [] }
 
-    feedItems.value.forEach((feedItem: FeedItem, index: number) => {
-        const dateLabel = getDateLabel(feedItem.date)
+    groupedFeedItemsByAuthor.value.forEach((group: FeedItemGroupByAuthor) => {
+        let currentGroup = groupedFeedItems.find(g => g.dateLabel === group.dateLabel)
 
-        if (currentGroup.dateLabel !== dateLabel) {
-            currentGroup = { dateLabel, feedItemsByAuthor: [{ authorId: feedItem.authorId, feedItems: [feedItem] }] }
+        if (!currentGroup) {
+            currentGroup = { dateLabel: group.dateLabel, feedItemsByAuthor: [] }
             groupedFeedItems.push(currentGroup)
         }
 
-        if (currentAuthorGroup.authorId !== feedItem.authorId) {
-            currentAuthorGroup = { authorId: feedItem.authorId, feedItems: [] }
-            currentGroup.feedItemsByAuthor.push(currentAuthorGroup)
+        currentGroup.feedItemsByAuthor.push(group)
+    })
+
+    return groupedFeedItems
+})
+
+const groupedFeedItemsByAuthor = computed(() => {
+    if (!feedItems.value) return []
+
+    const groupedFeedItems: FeedItemGroupByAuthor[] = []
+    let currentGroup: FeedItemGroupByAuthor = { authorId: -2, feedItems: [], dateLabel: '' }
+
+    feedItems.value.forEach((feedItem: FeedItem) => {
+        if (currentGroup.authorId !== feedItem.authorId) {
+            currentGroup = { authorId: feedItem.authorId, feedItems: [], dateLabel: getDateLabel(feedItem.date) }
+            groupedFeedItems.push(currentGroup)
         }
 
-        currentAuthorGroup.feedItems.push(feedItem)
+        currentGroup.feedItems.push(feedItem)
     })
 
     return groupedFeedItems
