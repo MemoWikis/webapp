@@ -11,10 +11,10 @@ namespace VueApp;
 public class FeedController(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
-    HttpContextAccessor _httpContextAccessor) : Controller
+    IHttpContextAccessor _httpContextAccessor) : Controller
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
-    public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem);
+    public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem, int AuthorId);
     public readonly record struct GetFeedRequest(int TopicId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true);
 
     [HttpPost]
@@ -31,12 +31,13 @@ public class FeedController(
     public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, CategoryVisibility Visibility, Author Author);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, QuestionVisibility Visibility, Author Author);
 
-    public record struct Author(string Name = "Unbekannt", int? Id = null, string ImageUrl = "");
+    public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
     private FeedItem ToFeedItem(CategoryCacheItem.FeedItem feedItem)
     {
         if (feedItem.CategoryChangeCacheItem != null)
         {
             var change = feedItem.CategoryChangeCacheItem;
+            var author = SetAuthor(change.Author());
 
             var topicFeedItem = new TopicFeedItem(
                 Date: change.DateCreated,
@@ -44,14 +45,15 @@ public class FeedController(
                 CategoryChangeId: change.Id,
                 TopicId: change.CategoryId,
                 Visibility: change.Visibility,
-                Author: SetAuthor(change.Author()));
+                Author: author);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null);
+            return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, AuthorId: author.Id);
         }
 
         if (feedItem.QuestionChangeCacheItem != null)
         {
             var change = feedItem.QuestionChangeCacheItem;
+            var author = SetAuthor(change.Author());
 
             var questionFeedItem = new QuestionFeedItem(
                 Date: change.DateCreated,
@@ -59,9 +61,9 @@ public class FeedController(
                 QuestionChangeId: change.Id,
                 QuestionId: change.QuestionId,
                 Visibility: change.Visibility,
-                Author: SetAuthor(change.Author()));
+                Author: author);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem);
+            return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem, AuthorId: author.Id);
         }
 
         throw new Exception("no valid changeItem");

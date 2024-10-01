@@ -14,23 +14,37 @@ watch(() => currentPage.value, async () => {
     getFeedItems()
 })
 
+interface FeedItemGroupByAuthor {
+    authorId: number
+    feedItems: FeedItem[]
+}
+
 interface FeedItemGroupByDay {
     dateLabel: string
-    feedItems: FeedItem[]
+    feedItemsByAuthor: FeedItemGroupByAuthor[]
 }
 
 const groupedFeedItemsByDay = computed(() => {
     if (!feedItems.value) return []
 
     const groupedFeedItems: FeedItemGroupByDay[] = []
-    let currentGroup: FeedItemGroupByDay = { dateLabel: '', feedItems: [] }
-    feedItems.value.forEach((feedItem: FeedItem) => {
+    let currentGroup: FeedItemGroupByDay = { dateLabel: '', feedItemsByAuthor: [] }
+    let currentAuthorGroup: FeedItemGroupByAuthor = { authorId: -1, feedItems: [] }
+
+    feedItems.value.forEach((feedItem: FeedItem, index: number) => {
         const dateLabel = getDateLabel(feedItem.date)
+
         if (currentGroup.dateLabel !== dateLabel) {
-            currentGroup = { dateLabel, feedItems: [] }
+            currentGroup = { dateLabel, feedItemsByAuthor: [{ authorId: feedItem.authorId, feedItems: [feedItem] }] }
             groupedFeedItems.push(currentGroup)
         }
-        currentGroup.feedItems.push(feedItem)
+
+        if (currentAuthorGroup.authorId !== feedItem.authorId) {
+            currentAuthorGroup = { authorId: feedItem.authorId, feedItems: [] }
+            currentGroup.feedItemsByAuthor.push(currentAuthorGroup)
+        }
+
+        currentAuthorGroup.feedItems.push(feedItem)
     })
 
     return groupedFeedItems
@@ -102,9 +116,11 @@ onMounted(() => {
         <div class="col-xs-12">
             <div v-for="groupedFeedItems in groupedFeedItemsByDay">
                 <h3>{{ groupedFeedItems.dateLabel }}</h3>
-                <div class="feed-item" v-for="feedItem in groupedFeedItems.feedItems">
-                    <TopicTabsFeedTopicItem :feedItem="feedItem.topicFeedItem!" v-if="feedItem.type == 0" />
-                    <TopicTabsFeedQuestionItem :feedItem="feedItem.questionFeedItem!" v-else-if="feedItem.type == 1" />
+                <div class="feed-item" v-for="feedItemsByAuthor in groupedFeedItems.feedItemsByAuthor">
+                    <div v-for="feedItem in feedItemsByAuthor.feedItems">
+                        <TopicTabsFeedTopicItem :feedItem="feedItem.topicFeedItem!" v-if="feedItem.type == 0" />
+                        <TopicTabsFeedQuestionItem :feedItem="feedItem.questionFeedItem!" v-else-if="feedItem.type == 1" />
+                    </div>
                 </div>
             </div>
         </div>

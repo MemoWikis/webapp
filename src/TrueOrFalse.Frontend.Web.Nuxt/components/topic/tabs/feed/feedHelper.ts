@@ -28,8 +28,9 @@ export enum QuestionChangeType {
 export interface FeedItem {
     date: string
     type: FeedType
-    topicFeedItem?: TopicFeedItem,
+    topicFeedItem?: TopicFeedItem
     questionFeedItem?: QuestionFeedItem
+    authorId: number
 }
 
 export interface Author {
