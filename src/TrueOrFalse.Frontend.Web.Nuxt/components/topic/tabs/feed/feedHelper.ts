@@ -30,7 +30,7 @@ export interface FeedItem {
     type: FeedType
     topicFeedItem?: TopicFeedItem
     questionFeedItem?: QuestionFeedItem
-    authorId: number
+    author: Author
 }
 
 export interface Author {
@@ -55,6 +55,12 @@ export interface QuestionFeedItem {
     questionId: number
     visibility: Visibility
     author: Author
+}
+
+export interface FeedItemGroupByAuthor {
+    dateLabel: string
+    author: Author
+    feedItems: FeedItem[]
 }
 
 export const getTime = (date: string):string => {

@@ -8,24 +8,38 @@ interface Props {
 const props = defineProps<Props>()
 
 const questionFeedItem = ref<QuestionFeedItem>(props.feedItem!)
-const emit = defineEmits(['openFeedModal'])
 const date = ref<string>()
 
 onBeforeMount(() => {
     date.value = getTime(questionFeedItem.value.date)
 })
+
+const emit = defineEmits(['openFeedModal'])
+
 </script>
 
 <template>
-
-    <div>
-        <font-awesome-icon :icon="['fas', 'circle-question']" />
-        {{ date }} - {{ TopicChangeType[questionFeedItem.type] }} - {{ questionFeedItem.questionId }} - {{ questionFeedItem.author.name }}
-        <font-awesome-icon :icon="['fas', 'lock']" v-if="questionFeedItem.visibility === Visibility.Owner" />
+    <div class="feed-item">
+        <div><font-awesome-icon :icon="['fas', 'file-lines']" /> {{ date }} </div>
+        <div>{{ TopicChangeType[questionFeedItem.type] }} - {{ questionFeedItem.questionId }}</div>
+        <div>
+            <font-awesome-icon :icon="['fas', 'lock']"
+                v-if="questionFeedItem.visibility === Visibility.Owner" />
+        </div>
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.feed-item {
+    padding: 8px;
+    border: 1px solid @memo-grey-lighter;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 32px;
+}
 </style>

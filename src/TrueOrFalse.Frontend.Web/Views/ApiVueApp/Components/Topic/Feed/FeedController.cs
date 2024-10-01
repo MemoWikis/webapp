@@ -14,7 +14,7 @@ public class FeedController(
     IHttpContextAccessor _httpContextAccessor) : Controller
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
-    public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem, int AuthorId);
+    public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);
     public readonly record struct GetFeedRequest(int TopicId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true);
 
     [HttpPost]
@@ -47,7 +47,7 @@ public class FeedController(
                 Visibility: change.Visibility,
                 Author: author);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, AuthorId: author.Id);
+            return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
         }
 
         if (feedItem.QuestionChangeCacheItem != null)
@@ -63,7 +63,7 @@ public class FeedController(
                 Visibility: change.Visibility,
                 Author: author);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem, AuthorId: author.Id);
+            return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem, Author: author);
         }
 
         throw new Exception("no valid changeItem");

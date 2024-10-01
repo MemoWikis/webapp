@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTopicStore } from '../../topicStore'
 import { Tab, useTabsStore } from '../tabsStore'
-import { FeedItem } from './feedHelper'
+import { Author, FeedItem, FeedItemGroupByAuthor } from './feedHelper'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -13,12 +13,6 @@ const itemCount = ref(0)
 watch(() => currentPage.value, async () => {
     getFeedItems()
 })
-
-interface FeedItemGroupByAuthor {
-    dateLabel: string
-    authorId: number
-    feedItems: FeedItem[]
-}
 
 interface FeedItemGroupByDay {
     dateLabel: string
@@ -48,11 +42,11 @@ const groupedFeedItemsByAuthor = computed(() => {
     if (!feedItems.value) return []
 
     const groupedFeedItems: FeedItemGroupByAuthor[] = []
-    let currentGroup: FeedItemGroupByAuthor = { authorId: -2, feedItems: [], dateLabel: '' }
+    let currentGroup: FeedItemGroupByAuthor = { author: { id: -2 } as Author, feedItems: [], dateLabel: '' }
 
     feedItems.value.forEach((feedItem: FeedItem) => {
-        if (currentGroup.authorId !== feedItem.authorId) {
-            currentGroup = { authorId: feedItem.authorId, feedItems: [], dateLabel: getDateLabel(feedItem.date) }
+        if (currentGroup.author.id !== feedItem.author.id) {
+            currentGroup = { author: feedItem.author, feedItems: [], dateLabel: getDateLabel(feedItem.date) }
             groupedFeedItems.push(currentGroup)
         }
 
@@ -105,6 +99,9 @@ const getFeedItems = async () => {
     itemCount.value = result.maxCount
 }
 
+const getDescendants = ref(true)
+const getQuestions = ref(true)
+
 watch(() => tabsStore.activeTab, (tab) => {
     if (tab === Tab.Feed && import.meta.client) {
         getFeedItems()
@@ -129,10 +126,7 @@ onMounted(() => {
             <div v-for="groupedFeedItems in groupedFeedItemsByDay">
                 <h3>{{ groupedFeedItems.dateLabel }}</h3>
                 <div class="feed-item" v-for="feedItemsByAuthor in groupedFeedItems.feedItemsByAuthor">
-                    <div v-for="feedItem in feedItemsByAuthor.feedItems">
-                        <TopicTabsFeedTopicItem :feedItem="feedItem.topicFeedItem!" v-if="feedItem.type == 0" />
-                        <TopicTabsFeedQuestionItem :feedItem="feedItem.questionFeedItem!" v-else-if="feedItem.type == 1" />
-                    </div>
+                    <TopicTabsFeedUserCard :authorGroup="feedItemsByAuthor" />
                 </div>
             </div>
         </div>
@@ -174,7 +168,6 @@ onMounted(() => {
 .feed-item {
 
     margin: 8px;
-    border: solid 1px @memo-grey-lighter;
     padding: 8px;
 
 }
