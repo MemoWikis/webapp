@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,8 @@ namespace VueApp;
 
 public class FeedController(
     PermissionCheck _permissionCheck,
-    SessionUser _sessionUser) : Controller
+    SessionUser _sessionUser,
+    HttpContextAccessor _httpContextAccessor) : Controller
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
     public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem);
@@ -25,22 +28,23 @@ public class FeedController(
             feedItems: pagedChanges.Select(ToFeedItem).ToList(),
             maxCount: maxCount);
     }
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, CategoryVisibility Visibility, string AuthorName);
-    public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, QuestionVisibility Visibility, string AuthorName);
+    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, CategoryVisibility Visibility, Author Author);
+    public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, QuestionVisibility Visibility, Author Author);
 
+    public record struct Author(string Name = "Unbekannt", int? Id = null, string ImageUrl = "");
     private FeedItem ToFeedItem(CategoryCacheItem.FeedItem feedItem)
     {
         if (feedItem.CategoryChangeCacheItem != null)
         {
             var change = feedItem.CategoryChangeCacheItem;
-            var authorName = change.Author().Name != null ? change.Author().Name : "Unbekannt";
+
             var topicFeedItem = new TopicFeedItem(
                 Date: change.DateCreated,
                 Type: change.Type,
                 CategoryChangeId: change.Id,
                 TopicId: change.CategoryId,
                 Visibility: change.Visibility,
-                AuthorName: authorName);
+                Author: SetAuthor(change.Author()));
 
             return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null);
         }
@@ -48,7 +52,6 @@ public class FeedController(
         if (feedItem.QuestionChangeCacheItem != null)
         {
             var change = feedItem.QuestionChangeCacheItem;
-            var authorName = change.Author().Name != null ? change.Author().Name : "Unbekannt";
 
             var questionFeedItem = new QuestionFeedItem(
                 Date: change.DateCreated,
@@ -56,12 +59,27 @@ public class FeedController(
                 QuestionChangeId: change.Id,
                 QuestionId: change.QuestionId,
                 Visibility: change.Visibility,
-                AuthorName: authorName);
+                Author: SetAuthor(change.Author()));
 
             return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem);
         }
 
         throw new Exception("no valid changeItem");
+    }
+
+    private Author SetAuthor([CanBeNull] UserCacheItem user)
+    {
+        var author = new Author();
+        if (user != null)
+        {
+            author.Name = user.Name;
+            author.Id = user.Id;
+            author.ImageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
+                .GetUrl_128px_square(user)
+                .Url;
+        }
+
+        return author;
     }
 
 }

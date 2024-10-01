@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { useTopicStore } from '../../topicStore'
-import { FeedItem, TopicFeedItem } from './feedHelper'
+import { Tab, useTabsStore } from '../tabsStore'
+import { FeedItem } from './feedHelper'
 
 const topicStore = useTopicStore()
+const tabsStore = useTabsStore()
 
 const feedItems = ref<FeedItem[]>()
 const currentPage = ref(1)
@@ -44,7 +46,8 @@ function getDateLabel(dateString: string) {
         return 'Gestern'
     }
 
-    return date.toLocaleDateString()
+    const options = { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions
+    return date.toLocaleDateString('de-DE', options)
 }
 
 const getFeedItems = async () => {
@@ -76,16 +79,27 @@ const getFeedItems = async () => {
     itemCount.value = result.maxCount
 }
 
+watch(() => tabsStore.activeTab, (tab) => {
+    if (tab === Tab.Feed && import.meta.client) {
+        getFeedItems()
+    }
+})
+
+onMounted(() => {
+    if (tabsStore.activeTab === Tab.Feed) {
+        getFeedItems()
+    }
+})
+
 </script>
 
 <template>
     <div class="row">
         <div class="col-xs-12">
-            <div class="memo-button btn-default" @click="getFeedItems()">GetFeed</div>
+            <h2>Feed</h2>
         </div>
 
         <div class="col-xs-12">
-            <h3>FeedItems</h3>
             <div v-for="groupedFeedItems in groupedFeedItemsByDay">
                 <h3>{{ groupedFeedItems.dateLabel }}</h3>
                 <div class="feed-item" v-for="feedItem in groupedFeedItems.feedItems">
@@ -95,7 +109,7 @@ const getFeedItems = async () => {
             </div>
         </div>
 
-        <div class="col-xs-12">
+        <div class="col-xs-12" v-if="itemCount > 0">
             <div class="pager pagination">
                 <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
                     <template #first-page-button>

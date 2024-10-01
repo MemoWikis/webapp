@@ -84,6 +84,9 @@ function setTopic() {
 
                 else if (t == Tab.Analytics)
                     router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id, Tab.Analytics))
+
+                else if (t == Tab.Feed)
+                    router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id, Tab.Feed))
             })
 
             watch(() => topicStore.name, () => {

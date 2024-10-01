@@ -32,13 +32,19 @@ export interface FeedItem {
     questionFeedItem?: QuestionFeedItem
 }
 
+export interface Author {
+    id: number
+    name: string
+    imageUrl: string
+}
+
 export interface TopicFeedItem {
     date: string
     type: TopicChangeType
     categoryChangeId: number
     topicId: number
     visibility: Visibility
-    authorName: string
+    author: Author
 }
 
 export interface QuestionFeedItem {
@@ -47,5 +53,10 @@ export interface QuestionFeedItem {
     questionChangeId: number
     questionId: number
     visibility: Visibility
-    authorName: string
+    author: Author
+}
+
+export const getTime = (date: string):string => {
+    const options = { hour: '2-digit', minute: '2-digit' } as Intl.DateTimeFormatOptions
+    return new Date(date).toLocaleString('de-DE', options)
 }
