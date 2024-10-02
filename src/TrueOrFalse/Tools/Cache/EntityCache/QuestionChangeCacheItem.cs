@@ -7,7 +7,7 @@ public class QuestionChangeCacheItem : IPersistable
     public virtual int Id { get; set; }
 
     private QuestionCacheItem? _questionCacheItem;
-    public virtual QuestionCacheItem Category => _questionCacheItem ??= EntityCache.GetQuestion(QuestionId);
+    public virtual QuestionCacheItem Question => _questionCacheItem ??= EntityCache.GetQuestion(QuestionId);
     public virtual int QuestionId { get; set; }
     public virtual string Data { get; set; }
     public virtual bool ShowInSidebar { get; set; } = true;

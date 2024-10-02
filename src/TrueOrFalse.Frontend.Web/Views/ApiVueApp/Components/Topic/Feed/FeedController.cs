@@ -28,8 +28,8 @@ public class FeedController(
             feedItems: pagedChanges.Select(ToFeedItem).ToList(),
             maxCount: maxCount);
     }
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, CategoryVisibility Visibility, Author Author);
-    public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, QuestionVisibility Visibility, Author Author);
+    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author);
+    public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
     private FeedItem ToFeedItem(CategoryCacheItem.FeedItem feedItem)
@@ -44,6 +44,7 @@ public class FeedController(
                 Type: change.Type,
                 CategoryChangeId: change.Id,
                 TopicId: change.CategoryId,
+                Title: change.Category.Name,
                 Visibility: change.Visibility,
                 Author: author);
 
@@ -60,6 +61,7 @@ public class FeedController(
                 Type: change.Type,
                 QuestionChangeId: change.Id,
                 QuestionId: change.QuestionId,
+                Text: change.Question.GetShortTitle(),
                 Visibility: change.Visibility,
                 Author: author);
 
@@ -84,4 +86,25 @@ public class FeedController(
         return author;
     }
 
+    public readonly record struct GetChangeRequest(int id, int changeId);
+
+    [HttpPost]
+    public void GetTopicChange([FromBody] GetChangeRequest req)
+    {
+        var topic = EntityCache.GetCategory(req.id);
+        if (!_permissionCheck.CanView(topic))
+        {
+            return;
+        }
+    }
+
+    [HttpPost]
+    public void GetQuestionChange([FromBody] GetChangeRequest req)
+    {
+        var question = EntityCache.GetQuestion(req.id);
+        if (!_permissionCheck.CanView(question))
+        {
+            return;
+        }
+    }
 }

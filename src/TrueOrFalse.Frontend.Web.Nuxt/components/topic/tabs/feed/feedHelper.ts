@@ -27,6 +27,7 @@ export enum QuestionChangeType {
 
 export interface FeedItem {
     date: string
+    title: string
     type: FeedType
     topicFeedItem?: TopicFeedItem
     questionFeedItem?: QuestionFeedItem
@@ -44,6 +45,7 @@ export interface TopicFeedItem {
     type: TopicChangeType
     categoryChangeId: number
     topicId: number
+    title: string
     visibility: Visibility
     author: Author
 }
@@ -53,6 +55,7 @@ export interface QuestionFeedItem {
     type: QuestionChangeType
     questionChangeId: number
     questionId: number
+    text: string
     visibility: Visibility
     author: Author
 }

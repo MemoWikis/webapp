@@ -45,7 +45,7 @@ const groupedFeedItemsByAuthor = computed(() => {
     let currentGroup: FeedItemGroupByAuthor = { author: { id: -2 } as Author, feedItems: [], dateLabel: '' }
 
     feedItems.value.forEach((feedItem: FeedItem) => {
-        if (currentGroup.author.id !== feedItem.author.id) {
+        if (currentGroup.author.id !== feedItem.author.id || currentGroup.dateLabel !== getDateLabel(feedItem.date)) {
             currentGroup = { author: feedItem.author, feedItems: [], dateLabel: getDateLabel(feedItem.date) }
             groupedFeedItems.push(currentGroup)
         }
@@ -114,21 +114,15 @@ onMounted(() => {
     }
 })
 
+const showModal = ref(false)
+
 </script>
 
 <template>
     <div class="row">
-        <div class="col-xs-12">
-            <h2>Feed</h2>
-        </div>
 
         <div class="col-xs-12">
-            <div v-for="groupedFeedItems in groupedFeedItemsByDay">
-                <h3>{{ groupedFeedItems.dateLabel }}</h3>
-                <div class="feed-item" v-for="feedItemsByAuthor in groupedFeedItems.feedItemsByAuthor">
-                    <TopicTabsFeedUserCard :authorGroup="feedItemsByAuthor" />
-                </div>
-            </div>
+            <TopicTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="showModal = true" class="feed-item" />
         </div>
 
         <div class="col-xs-12" v-if="itemCount > 0">
@@ -155,20 +149,18 @@ onMounted(() => {
                 </vue-awesome-paginate>
             </div>
         </div>
+
+        <TopicTabsFeedModal :show="showModal" @close="showModal = false" />
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.col-xs-12 {
-    width: 100%;
-}
-
 .feed-item {
 
     margin: 8px;
     padding: 8px;
-
+    width: 100%;
 }
 </style>
