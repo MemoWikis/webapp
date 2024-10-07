@@ -14,30 +14,6 @@ watch(() => currentPage.value, async () => {
     getFeedItems()
 })
 
-interface FeedItemGroupByDay {
-    dateLabel: string
-    feedItemsByAuthor: FeedItemGroupByAuthor[]
-}
-
-const groupedFeedItemsByDay = computed(() => {
-    if (!groupedFeedItemsByAuthor.value) return []
-
-    const groupedFeedItems: FeedItemGroupByDay[] = []
-
-    groupedFeedItemsByAuthor.value.forEach((group: FeedItemGroupByAuthor) => {
-        let currentGroup = groupedFeedItems.find(g => g.dateLabel === group.dateLabel)
-
-        if (!currentGroup) {
-            currentGroup = { dateLabel: group.dateLabel, feedItemsByAuthor: [] }
-            groupedFeedItems.push(currentGroup)
-        }
-
-        currentGroup.feedItemsByAuthor.push(group)
-    })
-
-    return groupedFeedItems
-})
-
 const groupedFeedItemsByAuthor = computed(() => {
     if (!feedItems.value) return []
 

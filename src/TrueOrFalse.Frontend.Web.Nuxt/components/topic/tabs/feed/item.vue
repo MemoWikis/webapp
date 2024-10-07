@@ -97,6 +97,11 @@ onBeforeMount(() => {
         date.value = getTime(feedItem.value.date)
 })
 
+watch(() => props.topicFeedItem, (newValue) => {
+    if (newValue)
+        setFeedItem(newValue)
+}, { deep: true })
+
 const emit = defineEmits(['openFeedModal'])
 
 </script>
@@ -183,6 +188,10 @@ const emit = defineEmits(['openFeedModal'])
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
+        flex-basis: 0;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
 
         .feed-item-label-text {
             overflow: hidden;

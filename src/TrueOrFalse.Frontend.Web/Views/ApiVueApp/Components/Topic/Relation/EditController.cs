@@ -118,7 +118,7 @@ public class TopicRelationEditController(
                 MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
             };
 
-        var childmodifier = new ChildModifier(_permissionCheck,
+        var childModifier = new ChildModifier(_permissionCheck,
             _sessionUser,
             _categoryRepository,
             _userWritingRepo,
@@ -126,13 +126,9 @@ public class TopicRelationEditController(
             _webHostEnvironment,
             _categoryRelationRepo);
 
-        var result = childmodifier
-            .AddChild(childId,
-                parentIdToAdd);
+        var result = childModifier.AddChild(childId, parentIdToAdd);
 
-        childmodifier.RemoveParent(parentIdToRemove,
-            childId,
-            new int[] { parentIdToAdd, parentIdToRemove });
+        childModifier.RemoveParent(parentIdToRemove, childId);
         return new MoveChildResult(result.Success, result.MessageKey, result.Data);
     }
 
@@ -168,8 +164,7 @@ public class TopicRelationEditController(
 
     public readonly record struct RemoveParentParam(
         int parentIdToRemove,
-        int childId,
-        int[] affectedParentIdsByMove = null);
+        int childId);
     public readonly record struct RemoveParentResult(
         bool Success,
         string MessageKey,
@@ -188,8 +183,7 @@ public class TopicRelationEditController(
                 _categoryRelationRepo)
             .RemoveParent(
                 param.parentIdToRemove,
-                param.childId,
-                param.affectedParentIdsByMove);
+                param.childId);
         return new RemoveParentResult(result.Success, result.MessageKey, result.Data);
     }
 

@@ -17,15 +17,10 @@ const emit = defineEmits(['open-feed-modal'])
         </div>
         <div class="feed-container">
             <div class="feed-header">
-                <div class="feed-sub-header">
-                    {{ authorGroup.dateLabel }} von: <NuxtLink :to="$urlHelper.getUserUrl(authorGroup.author.name, authorGroup.author.id)">{{ authorGroup.author.name }}</NuxtLink>
-                </div>
+                {{ authorGroup.dateLabel }} von: <NuxtLink :to="$urlHelper.getUserUrl(authorGroup.author.name, authorGroup.author.id)">{{ authorGroup.author.name }}</NuxtLink>
             </div>
             <div class="feed-body">
-                <div v-for="feedItem in authorGroup.feedItems">
-                    <TopicTabsFeedItem :topic-feed-item="feedItem.topicFeedItem" :question-feed-item="feedItem.questionFeedItem" @open-feed-modal="emit('open-feed-modal', $event)" />
-                    <!-- <TopicTabsFeedItem v-else-if="feedItem.type == 1" :question-feed-item="feedItem.questionFeedItem" /> -->
-                </div>
+                <TopicTabsFeedItem v-for=" feedItem in authorGroup.feedItems" :topic-feed-item="feedItem.topicFeedItem" :question-feed-item="feedItem.questionFeedItem" @open-feed-modal="emit('open-feed-modal', $event)" />
             </div>
         </div>
     </div>
@@ -52,20 +47,18 @@ const emit = defineEmits(['open-feed-modal'])
 
     .feed-container {
         flex-grow: 2;
-    overflow: hidden;
+        overflow: hidden;
         .feed-header {
-            .feed-main-header { 
-
+            display: flex;
+            flex-wrap: flex;
+            margin: 8px 0px;
+            a {
+                margin-left: 4px;
             }
+        }
 
-            .feed-sub-header {
-                display: flex;
-                flex-wrap: flex;
-                margin-bottom: 16px;
-                a {
-                    margin-left: 4px;
-                }
-            }
+        .feed-body {
+            overflow:hidden;
         }
 
     }

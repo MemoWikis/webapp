@@ -16,8 +16,7 @@ public class CategoryCacheItem : IPersistable
         Name = name;
     }
 
-    public virtual UserCacheItem Creator =>
-        EntityCache.GetUserById(CreatorId);
+    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
 
     public virtual int[] AuthorIds { get; set; }
     public virtual string CategoriesToExcludeIdsString { get; set; }
@@ -330,10 +329,35 @@ public class CategoryCacheItem : IPersistable
 
             if (categoryChanges != null)
             {
-                categoryCacheItem.CategoryChangeCacheItems = categoryChanges
-                    .Select(CategoryChangeCacheItem.ToCategoryChangeCacheItem)
+                CategoryEditData? previousData = null;
+                CategoryEditData currentData;
+                var categoryChangeCacheItems = new List<CategoryChangeCacheItem>();
+
+                foreach (var curr in categoryChanges)
+                {
+                    if (curr.DataVersion == 1)
+                    {
+                        currentData = CategoryEditData_V1.CreateFromJson(curr.Data);
+                    }
+                    else if (curr.DataVersion == 2)
+                    {
+                        currentData = CategoryEditData_V2.CreateFromJson(curr.Data);
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
+                    }
+
+                    var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData);
+                    categoryChangeCacheItems.Add(cacheItem);
+
+                    previousData = currentData;
+                }
+
+                categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
+
             }
         }
         return categoryCacheItem;
@@ -509,12 +533,16 @@ public class CategoryCacheItem : IPersistable
 
     public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)
     {
+        CategoryEditData? previousData = null;
+
         if (CategoryChangeCacheItems == null)
         {
             CategoryChangeCacheItems = new List<CategoryChangeCacheItem>();
         }
 
-        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange);
+        var currentData = categoryChange.GetCategoryChangeData();
+
+        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData);
         CategoryChangeCacheItems.Insert(0, cacheItem);
         EntityCache.AddOrUpdate(this);
     }

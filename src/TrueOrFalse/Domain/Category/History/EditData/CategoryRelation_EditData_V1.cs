@@ -1,4 +1,13 @@
-public class CategoryRelation_EditData_V1(CategoryRelation _categoryRelation)
+public class CategoryRelation_EditData_V1 : CategoryRelation_EditData
 {
-    public int CategoryId = _categoryRelation.Child.Id;
+    public CategoryRelation_EditData_V1() { }
+
+    public CategoryRelation_EditData_V1(CategoryRelation? categoryRelation)
+    {
+        if (categoryRelation != null)
+        {
+            CategoryId = categoryRelation.Child.Id;
+            RelatedCategoryId = (int)categoryRelation.Parent.Id;
+        }
+    }
 }

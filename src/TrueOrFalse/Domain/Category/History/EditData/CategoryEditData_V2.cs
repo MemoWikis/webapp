@@ -21,8 +21,10 @@ public class CategoryEditData_V2 : CategoryEditData
     public CategoryEditData_V2(
         Category category,
         bool imageWasUpdated,
-        int[] affectedParentIdsByMove,
-        ISession nhibernateSession)
+        int[]? affectedParentIdsByMove,
+        ISession nhibernateSession,
+        int[]? parentIds,
+        int[]? childIds)
     {
         Name = category.Name;
         Description = category.Description;
@@ -33,6 +35,8 @@ public class CategoryEditData_V2 : CategoryEditData
         _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;
         AffectedParentIds = affectedParentIdsByMove ?? new int[] { };
+        ParentIds = parentIds;
+        ChildIds = childIds;
     }
 
     public override string ToJson()
