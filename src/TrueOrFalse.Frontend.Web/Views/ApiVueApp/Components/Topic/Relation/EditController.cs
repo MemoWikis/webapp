@@ -110,7 +110,8 @@ public class TopicRelationEditController(
             };
 
         if (parentIdToRemove == RootCategory.RootCategoryId &&
-            !_sessionUser.IsInstallationAdmin || parentIdToAdd == RootCategory.RootCategoryId &&
+            !_sessionUser.IsInstallationAdmin ||
+            parentIdToAdd == RootCategory.RootCategoryId &&
             !_sessionUser.IsInstallationAdmin)
             return new MoveChildResult
             {

@@ -25,6 +25,10 @@ public class CategoryEditData_V1 : CategoryEditData
         Visibility = category.Visibility;
     }
 
+    public CategoryEditData_V1()
+    {
+    }
+
     public override Category ToCategory(int categoryId)
     {
         var category = _categoryRepository.GetById(categoryId);

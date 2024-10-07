@@ -40,6 +40,11 @@ export interface Author {
     imageUrl: string
 }
 
+export interface NameChange {
+    oldName: string
+    newName: string
+}
+
 export interface TopicFeedItem {
     date: string
     type: TopicChangeType
@@ -48,6 +53,7 @@ export interface TopicFeedItem {
     title: string
     visibility: Visibility
     author: Author
+    nameChange?: NameChange
 }
 
 export interface QuestionFeedItem {

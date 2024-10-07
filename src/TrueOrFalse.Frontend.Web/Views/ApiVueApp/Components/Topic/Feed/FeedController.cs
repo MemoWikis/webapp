@@ -28,7 +28,8 @@ public class FeedController(
             feedItems: pagedChanges.Select(ToFeedItem).ToList(),
             maxCount: maxCount);
     }
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author);
+
+    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
@@ -38,6 +39,9 @@ public class FeedController(
         {
             var change = feedItem.CategoryChangeCacheItem;
             var author = SetAuthor(change.Author());
+            var cachedNameChange = change.CategoryChangeRecord?.NameChange;
+
+            var nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
 
             var topicFeedItem = new TopicFeedItem(
                 Date: change.DateCreated,
@@ -46,7 +50,8 @@ public class FeedController(
                 TopicId: change.CategoryId,
                 Title: change.Category.Name,
                 Visibility: change.Visibility,
-                Author: author);
+                Author: author,
+                NameChange: nameChange);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
         }

@@ -21,6 +21,8 @@ public class CategoryChangeCacheItem : IPersistable
 
     public virtual CategoryVisibility Visibility { get; set; }
 
+    public virtual CategoryChangeRecord? CategoryChangeRecord { get; set; }
+
     public virtual CategoryEditData GetCategoryChangeData()
     {
         switch (DataVersion)
@@ -54,6 +56,7 @@ public class CategoryChangeCacheItem : IPersistable
             Type = currentCategoryChange.Type,
             DateCreated = currentCategoryChange.DateCreated,
             Visibility = currentData.Visibility,
+            CategoryChangeRecord = changeData
         };
     }
 

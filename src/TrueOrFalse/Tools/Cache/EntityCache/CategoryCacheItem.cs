@@ -348,16 +348,17 @@ public class CategoryCacheItem : IPersistable
                         throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
                     }
 
+                    if (currentData == null)
+                        continue;
+
                     var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData);
                     categoryChangeCacheItems.Add(cacheItem);
-
                     previousData = currentData;
                 }
 
                 categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
-
             }
         }
         return categoryCacheItem;
@@ -533,7 +534,6 @@ public class CategoryCacheItem : IPersistable
 
     public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)
     {
-        CategoryEditData? previousData = null;
 
         if (CategoryChangeCacheItems == null)
         {
@@ -541,6 +541,7 @@ public class CategoryCacheItem : IPersistable
         }
 
         var currentData = categoryChange.GetCategoryChangeData();
+        CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? CategoryChangeCacheItems.First().GetCategoryChangeData() : null;
 
         var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData);
         CategoryChangeCacheItems.Insert(0, cacheItem);

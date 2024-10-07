@@ -33,6 +33,9 @@ interface FeedItem {
 const feedItem = ref<FeedItem>()
 const date = ref<string>()
 
+const oldName = ref<string>()
+const newName = ref<string>()
+
 const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
     // if item is TopicFeedItem
     if ('topicId' in item) {
@@ -44,6 +47,11 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
             visibility: item.visibility,
             label: item.title
         } as FeedItem
+
+        if (item.type === TopicChangeType.Renamed && item.nameChange) {
+            oldName.value = item.nameChange.oldName
+            newName.value = item.nameChange.newName
+        }
     }
     else if ('questionId' in item) {
         feedItem.value = {
@@ -116,15 +124,22 @@ const emit = defineEmits(['openFeedModal'])
                 <font-awesome-icon :icon="['fas', 'circle-question']" />
             </div>
             <div class="feed-item-label-text">
-                {{ feedItem.label }}
+                <template v-if="feedItem.feedType == FeedType.Topic && feedItem.changeType.label === TopicChangeType[TopicChangeType.Renamed]">
+                    {{ oldName }}
+                    <font-awesome-icon :icon="['fas', 'arrow-right-long']" />
+                    {{ newName }}
+                </template>
+
+                <template v-else>
+                    {{ feedItem.label }}
+                </template>
             </div>
         </div>
         <div class="feed-item-change-type" :style="`background: ${feedItem.changeType.color}`">
             {{ feedItem.changeType.label }}
         </div>
         <div class="feed-item-visibility">
-            <font-awesome-icon :icon="['fas', 'lock']"
-                v-if="feedItem.visibility === Visibility.Owner" />
+            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" />
         </div>
     </div>
 </template>
