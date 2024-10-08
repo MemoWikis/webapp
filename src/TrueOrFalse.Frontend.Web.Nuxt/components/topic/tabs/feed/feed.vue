@@ -95,13 +95,14 @@ const oldContent = ref('')
 const newContent = ref('')
 
 const openModal = (e: { type: FeedType, id: number, index: number }) => {
+    oldContent.value = ''
+    newContent.value = ''
+
     showModal.value = true
     if (feedItems.value) {
-
         const feedItem = feedItems.value[e.index]
-
         if (feedItem.topicFeedItem?.type === TopicChangeType.Text && feedItem.topicFeedItem?.contentChange) {
-            oldContent.value = feedItem.topicFeedItem.contentChange.newContent
+            oldContent.value = feedItem.topicFeedItem.contentChange.oldContent
             newContent.value = feedItem.topicFeedItem.contentChange.newContent
         }
     }
@@ -113,7 +114,7 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
     <div class="row">
 
         <div class="col-xs-12">
-            <TopicTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="showModal = true" class="feed-item" />
+            <TopicTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
         </div>
 
         <div class="col-xs-12" v-if="itemCount > 0">
@@ -141,7 +142,7 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
             </div>
         </div>
 
-        <TopicTabsFeedModal :show="showModal" @close="showModal = false" />
+        <TopicTabsFeedModal :show="showModal" @close="showModal = false" :old-content="oldContent" :new-content="newContent" />
     </div>
 </template>
 

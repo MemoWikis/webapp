@@ -13,11 +13,9 @@ const emit = defineEmits(['close'])
 
     <Modal :show="props.show" @close="emit('close')">
         <template #body>
-            test
-
             <div class="feed-modal-content-change" v-if="oldContent && newContent">
-                <div class="feed-modal-old-content" v-html="props.oldContent"></div>
-                <div class="feed-modal-new-content" v-html="props.newContent"></div>
+                <div class="feed-modal-old-content feed-modal-content" v-html="props.oldContent"></div>
+                <div class="feed-modal-new-content feed-modal-content" v-html="props.newContent"></div>
             </div>
         </template>
     </Modal>
@@ -32,11 +30,14 @@ const emit = defineEmits(['close'])
     justify-content: space-between;
     margin-top: 20px;
     .feed-modal-old-content {
-        width: 50%;
         border-right: 1px solid @memo-grey-lighter;
     }
     .feed-modal-new-content {
+    }
+
+    .feed-modal-content {
         width: 50%;
+        padding: 16px;
     }
 }
 </style>
