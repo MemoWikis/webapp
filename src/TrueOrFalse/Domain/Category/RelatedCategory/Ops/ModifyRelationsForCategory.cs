@@ -39,7 +39,7 @@
         _categoryRelationRepo.Create(categoryRelationToAdd);
     }
 
-    public void AddChild(int parentId, int childId)
+    public void AddChild(int parentId, int childId, int authorId)
     {
         var cachedParent = EntityCache.GetCategory(parentId);
         var previousCacheRelation = cachedParent?.ChildRelations.LastOrDefault();
@@ -68,6 +68,8 @@
         }
 
         ModifyRelationsEntityCache.AddChild(relation);
+        _categoryRepository.Update(child, authorId, type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, authorId, type: CategoryChangeType.Relations);
     }
 
     public int CreateNewRelationAndGetId(int parentId, int childId, int? nextId, int? previousId)

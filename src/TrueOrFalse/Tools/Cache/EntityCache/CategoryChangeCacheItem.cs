@@ -21,7 +21,7 @@ public class CategoryChangeCacheItem : IPersistable
 
     public virtual CategoryVisibility Visibility { get; set; }
 
-    public virtual CategoryChangeRecord? CategoryChangeRecord { get; set; }
+    public virtual CategoryChangeRecord CategoryChangeRecord { get; set; }
 
     public virtual CategoryEditData GetCategoryChangeData()
     {
@@ -44,7 +44,7 @@ public class CategoryChangeCacheItem : IPersistable
 
     public static CategoryChangeCacheItem ToCategoryChangeCacheItem(CategoryChange currentCategoryChange, CategoryEditData currentData, CategoryEditData? previousData)
     {
-        CategoryChangeRecord? changeData = previousData == null ? null : GetCategoryChangeRecord(currentData, previousData);
+        var changeData = GetCategoryChangeRecord(currentData, previousData, currentCategoryChange.Type);
 
         return new CategoryChangeCacheItem
         {
@@ -60,13 +60,13 @@ public class CategoryChangeCacheItem : IPersistable
         };
     }
 
-    public static CategoryChangeRecord GetCategoryChangeRecord(CategoryEditData currentData, CategoryEditData previousData)
+    public static CategoryChangeRecord GetCategoryChangeRecord(CategoryEditData currentData, CategoryEditData? previousData, CategoryChangeType changeType)
     {
         return new CategoryChangeRecord(
-            NameChange: new NameChange(previousData.Name, currentData.Name),
-            RelationChange: GetRelationChange(previousData.ParentIds, previousData.ChildIds, currentData.ParentIds, currentData.ChildIds),
+            NameChange: new NameChange(previousData?.Name, currentData.Name),
+            RelationChange: GetRelationChange(previousData?.ParentIds, previousData?.ChildIds, currentData.ParentIds, currentData.ChildIds),
             ContentChange: GetContentChange(currentData, previousData),
-            VisibilityChange: new VisibilityChange(previousData.Visibility, currentData.Visibility)
+            VisibilityChange: new VisibilityChange(previousData?.Visibility, currentData.Visibility)
         );
     }
 
@@ -108,14 +108,14 @@ public class CategoryChangeCacheItem : IPersistable
         return new RelationChange(addedParentIds, removedParentIds, addedChildIds, removedChildIds);
     }
 
-    public static ContentChange GetContentChange(CategoryEditData currentData, CategoryEditData previousData)
+    public static ContentChange GetContentChange(CategoryEditData currentData, CategoryEditData? previousData)
     {
         string previousContent;
         string currentContent;
 
-        if (previousData.Content != null)
+        if (previousData?.Content != null)
             previousContent = previousData.Content;
-        else if (previousData.TopicMardkown != null)
+        else if (previousData?.TopicMardkown != null)
             previousContent = previousData.TopicMardkown;
         else
             previousContent = "";
@@ -131,8 +131,8 @@ public class CategoryChangeCacheItem : IPersistable
     }
 }
 
-public record struct NameChange(string OldName, string NewName);
+public record struct NameChange(string? OldName, string NewName);
 public record struct RelationChange(List<int> AddedParentIds, List<int> RemovedParentIds, List<int> AddedChildIds, List<int> RemovedChildIds);
 public record struct ContentChange(string OldContent, string NewContent);
-public record struct VisibilityChange(CategoryVisibility OldVisibility, CategoryVisibility NewVisibility);
-public record struct CategoryChangeRecord(NameChange? NameChange, RelationChange? RelationChange, ContentChange? ContentChange, VisibilityChange? VisibilityChange);
+public record struct VisibilityChange(CategoryVisibility? OldVisibility, CategoryVisibility NewVisibility);
+public record struct CategoryChangeRecord(NameChange NameChange, RelationChange RelationChange, ContentChange ContentChange, VisibilityChange VisibilityChange);

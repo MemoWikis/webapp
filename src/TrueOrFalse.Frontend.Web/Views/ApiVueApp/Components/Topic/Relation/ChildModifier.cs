@@ -66,9 +66,8 @@ public class ChildModifier(
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        modifyRelationsForCategory.AddChild(parentId, childId);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        modifyRelationsForCategory.AddChild(parentId, childId, _sessionUser.UserId);
 
         return new AddChildResult
         {
@@ -98,8 +97,7 @@ public class ChildModifier(
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
-        var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
         var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(
             EntityCache.GetCategory(childId),

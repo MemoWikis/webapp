@@ -24,7 +24,9 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         AddUpdateOrCreateEntryDbOnly(categoryRepository, category, author, CategoryChangeType.Create);
     public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>
         AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category,
+    public void AddUpdateEntry(
+        CategoryRepository categoryRepository,
+        Category category,
         int authorId,
         bool imageWasUpdated,
         CategoryChangeType type) =>

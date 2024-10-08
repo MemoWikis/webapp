@@ -46,9 +46,8 @@
         topic.Visibility = CategoryVisibility.Owner;
         _categoryRepository.Create(topic);
 
-        var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        modifyRelationsForCategory.AddChild(parentTopicId, topic.Id);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        modifyRelationsForCategory.AddChild(parentTopicId, topic.Id, sessionUser.UserId);
 
         return new CreateResult
         {

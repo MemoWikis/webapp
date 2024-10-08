@@ -29,7 +29,7 @@ public class FeedController(
             maxCount: maxCount);
     }
 
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null);
+    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null, RelationChanges? RelationChanges = null);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
@@ -39,9 +39,12 @@ public class FeedController(
         {
             var change = feedItem.CategoryChangeCacheItem;
             var author = SetAuthor(change.Author());
-            var cachedNameChange = change.CategoryChangeRecord?.NameChange;
+            var cachedNameChange = change.CategoryChangeRecord.NameChange;
 
-            var nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
+            NameChange? nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
+
+            var relationChange = change.CategoryChangeRecord.RelationChange;
+            var relationChanges = change.Type == CategoryChangeType.Relations ? GetRelationChanges(relationChange) : null;
 
             var topicFeedItem = new TopicFeedItem(
                 Date: change.DateCreated,
@@ -51,7 +54,8 @@ public class FeedController(
                 Title: change.Category.Name,
                 Visibility: change.Visibility,
                 Author: author,
-                NameChange: nameChange);
+                NameChange: nameChange,
+                RelationChanges: relationChanges);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
         }
@@ -75,7 +79,31 @@ public class FeedController(
 
         throw new Exception("no valid changeItem");
     }
+    public record struct RelatedTopic(int Id, string Name);
+    public record struct RelationChanges(List<RelatedTopic> AddedParents, List<RelatedTopic> RemovedParents, List<RelatedTopic> AddedChildren, List<RelatedTopic> RemovedChildren);
 
+    private List<RelatedTopic> GetRelatedTopics(IEnumerable<int> ids)
+    {
+        var relatedTopics = new List<RelatedTopic>();
+        foreach (var id in ids)
+        {
+            if (_permissionCheck.CanViewCategory(id))
+            {
+                var relatedTopic = EntityCache.GetCategory(id);
+                if (relatedTopic != null) relatedTopics.Add(new RelatedTopic(id, relatedTopic.Name));
+            }
+        }
+        return relatedTopics;
+    }
+    private RelationChanges? GetRelationChanges(RelationChange relationChange)
+    {
+        var addedParentIds = GetRelatedTopics(relationChange.AddedParentIds);
+        var removedParentIds = GetRelatedTopics(relationChange.RemovedParentIds);
+        var addedChildIds = GetRelatedTopics(relationChange.AddedChildIds);
+        var removedChildIds = GetRelatedTopics(relationChange.RemovedChildIds);
+
+        return new RelationChanges(addedParentIds, removedParentIds, addedChildIds, removedChildIds);
+    }
     private Author SetAuthor([CanBeNull] UserCacheItem user)
     {
         var author = new Author();

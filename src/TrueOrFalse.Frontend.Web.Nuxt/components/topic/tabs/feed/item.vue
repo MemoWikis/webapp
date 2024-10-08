@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { TopicFeedItem, TopicChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author } from './feedHelper'
+import { TopicFeedItem, TopicChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, RelatedTopic } from './feedHelper'
 import { color } from '~/components/shared/colors'
 
 interface Props {
@@ -112,32 +112,40 @@ watch(() => props.topicFeedItem, (newValue) => {
 
 const emit = defineEmits(['openFeedModal'])
 
+
 </script>
 
 <template>
     <div class="feed-item" v-if="feedItem" @click="emit('openFeedModal', { type: feedItem.feedType, id: feedItem.id })">
-        <div class="feed-item-date">
-            {{ date }}
+        <div class="feed-item-info">
+            <div class="feed-item-change-type" :style="`background: ${feedItem.changeType.color}`">
+                {{ feedItem.changeType.label }}
+            </div>
+            <div class="feed-item-date">
+                {{ date }}
+            </div>
         </div>
         <div class="feed-item-label">
             <div class="feed-item-feed-type-label" v-if="feedItem.feedType === FeedType.Question">
                 <font-awesome-icon :icon="['fas', 'circle-question']" />
             </div>
-            <div class="feed-item-label-text">
+            <div class="feed-item-label-body">
+                <div class="feed-item-label-text">
+                    <NuxtLink :to="$urlHelper.getTopicUrl(feedItem.label, feedItem.id)" @click.stop>
+                        {{ feedItem.label }}
+                    </NuxtLink>
+                </div>
+
                 <template v-if="feedItem.feedType == FeedType.Topic && feedItem.changeType.label === TopicChangeType[TopicChangeType.Renamed]">
                     {{ oldName }}
                     <font-awesome-icon :icon="['fas', 'arrow-right-long']" />
                     {{ newName }}
                 </template>
 
-                <template v-else>
-                    {{ feedItem.label }}
-                </template>
+                <TopicTabsFeedRelations v-else-if="props.topicFeedItem?.type === TopicChangeType.Relations && props.topicFeedItem.relationChanges" :relation-changes="props.topicFeedItem.relationChanges" />
             </div>
         </div>
-        <div class="feed-item-change-type" :style="`background: ${feedItem.changeType.color}`">
-            {{ feedItem.changeType.label }}
-        </div>
+
         <div class="feed-item-visibility">
             <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" />
         </div>
@@ -153,20 +161,25 @@ const emit = defineEmits(['openFeedModal'])
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    justify-content: space-between;
-    align-items: center;
     min-height: 32px;
     border-radius: 4px;
     font-size: 1em;
     margin-bottom: 8px;
     cursor: pointer;
     background: white;
+
     &:hover{
         filter: brightness(0.95);
     }
 
     &:active {
         filter: brightness(0.9);
+    }
+
+    .feed-item-info {
+        display: flex;
+        height: 100%;
+        flex-direction: column;
     }
 
     .feed-item-date {
@@ -199,7 +212,6 @@ const emit = defineEmits(['openFeedModal'])
         flex-grow: 1;
         padding: 4px 8px;
         margin: 0 15px;
-        max-width: 260px;
         display: flex;
         flex-wrap: nowrap;
         align-items: center;
@@ -208,10 +220,16 @@ const emit = defineEmits(['openFeedModal'])
         overflow: hidden;
         white-space: nowrap;
 
-        .feed-item-label-text {
+        .feed-item-label-body {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+
+            .feed-item-label-text {
+                font-size: 1.2em;
+                font-weight: 600;
+                margin-bottom: 8px;
+            }
         }
     }
 
@@ -229,10 +247,9 @@ const emit = defineEmits(['openFeedModal'])
         min-width: 52px;
         display: flex;
         justify-content: center;
-        align-items: center;
         padding: 0 16px;
         margin-right: 0px;
-
+        color: @memo-grey-dark;
     }
 }
 </style>

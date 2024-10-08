@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 interface Props {
-    show: boolean
+    show: boolean,
+    oldContent?: string,
+    newContent?: string
 }
 
 const props = defineProps<Props>()

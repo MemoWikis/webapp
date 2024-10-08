@@ -45,6 +45,18 @@ export interface NameChange {
     newName: string
 }
 
+export interface RelatedTopic {
+    id: number
+    name: string
+}
+
+export interface RelationChanges {
+    addedParents: RelatedTopic[]
+    removedParents: RelatedTopic[]
+    addedChildren: RelatedTopic[]
+    removedChildren: RelatedTopic[]
+}
+
 export interface TopicFeedItem {
     date: string
     type: TopicChangeType
@@ -54,6 +66,7 @@ export interface TopicFeedItem {
     visibility: Visibility
     author: Author
     nameChange?: NameChange
+    relationChanges?: RelationChanges
 }
 
 export interface QuestionFeedItem {
