@@ -20,7 +20,8 @@ const emit = defineEmits(['open-feed-modal'])
                 {{ authorGroup.dateLabel }} von: <NuxtLink :to="$urlHelper.getUserUrl(authorGroup.author.name, authorGroup.author.id)">{{ authorGroup.author.name }}</NuxtLink>
             </div>
             <div class="feed-body">
-                <TopicTabsFeedItem v-for=" feedItem in authorGroup.feedItems" :topic-feed-item="feedItem.topicFeedItem" :question-feed-item="feedItem.questionFeedItem" @open-feed-modal="emit('open-feed-modal', $event)" />
+                <TopicTabsFeedItem v-for=" feedItem in authorGroup.feedItems" :topic-feed-item="feedItem.topicFeedItem" :question-feed-item="feedItem.questionFeedItem" :index="feedItem.index"
+                    @open-feed-modal="emit('open-feed-modal', $event)" />
             </div>
         </div>
     </div>

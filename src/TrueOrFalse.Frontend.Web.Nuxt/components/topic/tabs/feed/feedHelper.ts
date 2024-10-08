@@ -26,6 +26,7 @@ export enum QuestionChangeType {
 }
 
 export interface FeedItem {
+    index?: number
     date: string
     title: string
     type: FeedType
@@ -57,6 +58,11 @@ export interface RelationChanges {
     removedChildren: RelatedTopic[]
 }
 
+export interface ContentChange {
+    oldContent: string
+    newContent: string
+}
+
 export interface TopicFeedItem {
     date: string
     type: TopicChangeType
@@ -67,6 +73,7 @@ export interface TopicFeedItem {
     author: Author
     nameChange?: NameChange
     relationChanges?: RelationChanges
+    contentChange?: ContentChange
 }
 
 export interface QuestionFeedItem {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTopicStore } from '../../topicStore'
 import { Tab, useTabsStore } from '../tabsStore'
-import { Author, FeedItem, FeedItemGroupByAuthor } from './feedHelper'
+import { Author, FeedItem, FeedItemGroupByAuthor, FeedType, TopicChangeType } from './feedHelper'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
@@ -20,12 +20,12 @@ const groupedFeedItemsByAuthor = computed(() => {
     const groupedFeedItems: FeedItemGroupByAuthor[] = []
     let currentGroup: FeedItemGroupByAuthor = { author: { id: -2 } as Author, feedItems: [], dateLabel: '' }
 
-    feedItems.value.forEach((feedItem: FeedItem) => {
+    feedItems.value.forEach((feedItem: FeedItem, index: number) => {
         if (currentGroup.author.id !== feedItem.author.id || currentGroup.dateLabel !== getDateLabel(feedItem.date)) {
             currentGroup = { author: feedItem.author, feedItems: [], dateLabel: getDateLabel(feedItem.date) }
             groupedFeedItems.push(currentGroup)
         }
-
+        feedItem.index = index
         currentGroup.feedItems.push(feedItem)
     })
 
@@ -91,6 +91,21 @@ onMounted(() => {
 })
 
 const showModal = ref(false)
+const oldContent = ref('')
+const newContent = ref('')
+
+const openModal = (e: { type: FeedType, id: number, index: number }) => {
+    showModal.value = true
+    if (feedItems.value) {
+
+        const feedItem = feedItems.value[e.index]
+
+        if (feedItem.topicFeedItem?.type === TopicChangeType.Text && feedItem.topicFeedItem?.contentChange) {
+            oldContent.value = feedItem.topicFeedItem.contentChange.newContent
+            newContent.value = feedItem.topicFeedItem.contentChange.newContent
+        }
+    }
+}
 
 </script>
 

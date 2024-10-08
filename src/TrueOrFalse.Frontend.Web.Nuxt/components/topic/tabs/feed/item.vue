@@ -4,6 +4,7 @@ import { TopicFeedItem, TopicChangeType, QuestionChangeType, QuestionFeedItem, g
 import { color } from '~/components/shared/colors'
 
 interface Props {
+    index?: number
     topicFeedItem?: TopicFeedItem
     questionFeedItem?: QuestionFeedItem
 }
@@ -116,7 +117,7 @@ const emit = defineEmits(['openFeedModal'])
 </script>
 
 <template>
-    <div class="feed-item" v-if="feedItem" @click="emit('openFeedModal', { type: feedItem.feedType, id: feedItem.id })">
+    <div class="feed-item" v-if="feedItem" @click="emit('openFeedModal', { type: feedItem.feedType, id: feedItem.id, index: props.index })">
         <div class="feed-item-info">
             <div class="feed-item-change-type" :style="`background: ${feedItem.changeType.color}`">
                 {{ feedItem.changeType.label }}

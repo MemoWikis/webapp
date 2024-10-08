@@ -29,7 +29,7 @@ public class FeedController(
             maxCount: maxCount);
     }
 
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null, RelationChanges? RelationChanges = null);
+    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null, RelationChanges? RelationChanges = null, ContentChange? ContentChange = null);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
@@ -55,7 +55,8 @@ public class FeedController(
                 Visibility: change.Visibility,
                 Author: author,
                 NameChange: nameChange,
-                RelationChanges: relationChanges);
+                RelationChanges: relationChanges,
+                ContentChange: change.CategoryChangeRecord.ContentChange);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
         }
