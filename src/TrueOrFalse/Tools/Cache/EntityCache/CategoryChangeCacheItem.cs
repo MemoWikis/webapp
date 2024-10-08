@@ -127,12 +127,15 @@ public class CategoryChangeCacheItem : IPersistable
         else
             currentContent = "";
 
-        return new ContentChange(previousContent, currentContent);
+        HtmlDiff.HtmlDiff diffHelper = new HtmlDiff.HtmlDiff(previousContent, currentContent);
+        string diffOutput = diffHelper.Build();
+
+        return new ContentChange(previousContent, currentContent, diffOutput);
     }
 }
 
 public record struct NameChange(string? OldName, string NewName);
 public record struct RelationChange(List<int> AddedParentIds, List<int> RemovedParentIds, List<int> AddedChildIds, List<int> RemovedChildIds);
-public record struct ContentChange(string OldContent, string NewContent);
+public record struct ContentChange(string OldContent, string NewContent, string DiffContent);
 public record struct VisibilityChange(CategoryVisibility? OldVisibility, CategoryVisibility NewVisibility);
 public record struct CategoryChangeRecord(NameChange NameChange, RelationChange RelationChange, ContentChange ContentChange, VisibilityChange VisibilityChange);

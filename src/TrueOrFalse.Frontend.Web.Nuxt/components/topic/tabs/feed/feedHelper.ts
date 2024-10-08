@@ -61,6 +61,7 @@ export interface RelationChanges {
 export interface ContentChange {
     oldContent: string
     newContent: string
+    diffContent: string
 }
 
 export interface TopicFeedItem {

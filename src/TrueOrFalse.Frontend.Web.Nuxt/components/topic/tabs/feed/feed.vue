@@ -93,10 +93,11 @@ onMounted(() => {
 const showModal = ref(false)
 const oldContent = ref('')
 const newContent = ref('')
-
+const diffContent = ref('')
 const openModal = (e: { type: FeedType, id: number, index: number }) => {
     oldContent.value = ''
     newContent.value = ''
+    diffContent.value = ''
 
     showModal.value = true
     if (feedItems.value) {
@@ -104,6 +105,7 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
         if (feedItem.topicFeedItem?.type === TopicChangeType.Text && feedItem.topicFeedItem?.contentChange) {
             oldContent.value = feedItem.topicFeedItem.contentChange.oldContent
             newContent.value = feedItem.topicFeedItem.contentChange.newContent
+            diffContent.value = feedItem.topicFeedItem.contentChange.diffContent
         }
     }
 }
@@ -142,7 +144,7 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
             </div>
         </div>
 
-        <TopicTabsFeedModal :show="showModal" @close="showModal = false" :old-content="oldContent" :new-content="newContent" />
+        <TopicTabsFeedModal :show="showModal" @close="showModal = false" :old-content="oldContent" :new-content="newContent" :diff-content="diffContent" />
     </div>
 </template>
 
