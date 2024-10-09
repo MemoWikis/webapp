@@ -16,11 +16,8 @@ const setRelatedTopics = () => {
 }
 
 const addedParents = ref<RelatedTopic[]>([])
-const showRemainingParents = ref<boolean>(false)
-
 const removedParents = ref<RelatedTopic[]>([])
 const addedChildren = ref<RelatedTopic[]>([])
-const showRemainingAddedChildren = ref<boolean>(false)
 const removedChildren = ref<RelatedTopic[]>([])
 
 
@@ -55,17 +52,18 @@ watch(() => props.relationChanges, () => {
                         {{ addedParent.name }}
                     </NuxtLink>
                 </div>
-                <div v-if="addedParents.length > 3">weitere anzeigen...</div>
-                <!-- <div v-if="showRemainingParents == false && addedParents.length > 3" @click.stop="showRemainingParents = true">weitere anzeigen...</div> -->
+                <div v-if="addedParents.length > 3">...</div>
             </div>
 
             <div v-if="removedParents.length > 0">
                 {{ removedParents.length > 1 ? 'Oberthemen entfernt' : 'Oberthema entfernt' }}
-                <div class="feed-item-relation-list" v-for="removedParent in removedParents">
+                <div class="feed-item-relation-list" v-for="removedParent in removedParents.slice(0, 3)">
                     <NuxtLink :to="$urlHelper.getTopicUrl(removedParent.name, removedParent.id)" @click.stop>
                         {{ removedParent.name }}
                     </NuxtLink>
                 </div>
+                <div v-if="removedParents.length > 3">...</div>
+
             </div>
 
             <div v-if="addedChildren.length > 0">
@@ -77,23 +75,17 @@ watch(() => props.relationChanges, () => {
                     </NuxtLink>
                 </div>
 
-                <div v-if="showRemainingAddedChildren == false && addedChildren.length > 3" @click.stop="showRemainingAddedChildren = true">weitere anzeigen...</div>
-                <template v-if="showRemainingAddedChildren">
-                    <div class="feed-item-relation-list" v-for="addedChild in addedChildren.slice(3)">
-                        <NuxtLink :to="$urlHelper.getTopicUrl(addedChild.name, addedChild.id)" @click.stop>
-                            {{ addedChild.name }}
-                        </NuxtLink>
-                    </div>
-                </template>
+                <div v-if="addedChildren.length > 3">...</div>
             </div>
 
             <div v-if="removedChildren.length > 0">
                 {{ removedChildren.length > 1 ? 'Unterthemen entfernt' : 'Unterthema entfernt' }}
-                <div class="feed-item-relation-list" v-for="removedChild in removedChildren">
+                <div class="feed-item-relation-list" v-for="removedChild in removedChildren.slice(0, 3)">
                     <NuxtLink :to="$urlHelper.getTopicUrl(removedChild.name, removedChild.id)" @click.stop>
                         {{ removedChild.name }}
                     </NuxtLink>
                 </div>
+                <div v-if="removedChildren.length > 3">...</div>
             </div>
 
         </div>

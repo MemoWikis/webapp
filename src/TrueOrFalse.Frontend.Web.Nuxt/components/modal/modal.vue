@@ -22,17 +22,22 @@ const slots = useSlots()
 
 const emit = defineEmits(['close', 'primary-btn', 'secondary-btn'])
 const openModal = ref(false)
-watch(() => props.show, (val) => openModal.value = val, { immediate: true })
+const hasHeader = ref(false)
+watch(() => props.show, (val) => {
+    hasHeader.value = slots.header !== undefined
+    openModal.value = val
+}, { immediate: true })
 </script>
 
 
 <template>
     <VueFinalModal v-model="openModal" class="modal-container" content-class="modal-content" :z-index-auto="false">
+
         <div class="modal-default">
             <div class="modal-default-mask" @click="emit('close')">
                 <div class="modal-default-wrapper">
                     <div class="modal-default-container" v-on:click.stop
-                        :class="{ 'no-close-button': !props.showCloseButton }">
+                        :class="{ 'no-close-button': !props.showCloseButton, 'has-header': hasHeader }">
                         <div>
                             <font-awesome-icon v-if="props.showCloseButton" icon="fa-solid fa-xmark"
                                 class="pull-right pointer modal-close-button" @click="emit('close')" />
@@ -95,12 +100,15 @@ watch(() => props.show, (val) => openModal.value = val, { immediate: true })
             </div>
         </div>
 
-
     </VueFinalModal>
 </template>
-    
+
 <style scoped lang="less">
 .no-close-button {
     padding-top: 24px;
 }
+</style>
+
+<style lang="less">
+
 </style>

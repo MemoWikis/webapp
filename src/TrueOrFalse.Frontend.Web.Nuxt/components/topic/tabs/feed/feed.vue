@@ -46,13 +46,16 @@ function getDateLabel(dateString: string) {
     return date.toLocaleDateString('de-DE', options)
 }
 
+const getDescendants = ref(true)
+const getQuestions = ref(true)
+
 const getFeedItems = async () => {
     const data = {
         topicId: topicStore.id,
         page: currentPage.value,
-        pageSize: 100,
-        getDescendants: true,
-        getQuestions: true
+        pageSize: 50,
+        getDescendants: getDescendants.value,
+        getQuestions: getQuestions.value
     }
 
     interface GetFeedResponse {
@@ -75,8 +78,9 @@ const getFeedItems = async () => {
     itemCount.value = result.maxCount
 }
 
-const getDescendants = ref(true)
-const getQuestions = ref(true)
+watch(getDescendants, () => {
+    getFeedItems()
+})
 
 watch(() => tabsStore.activeTab, (tab) => {
     if (tab === Tab.Feed && import.meta.client) {
@@ -91,22 +95,15 @@ onMounted(() => {
 })
 
 const showModal = ref(false)
-const oldContent = ref('')
-const newContent = ref('')
-const diffContent = ref('')
-const openModal = (e: { type: FeedType, id: number, index: number }) => {
-    oldContent.value = ''
-    newContent.value = ''
-    diffContent.value = ''
 
+const selectedFeedItem = ref<FeedItem>()
+const openModal = (e: { type: FeedType, id: number, index: number }) => {
     showModal.value = true
     if (feedItems.value) {
         const feedItem = feedItems.value[e.index]
-        if (feedItem.topicFeedItem?.type === TopicChangeType.Text && feedItem.topicFeedItem?.contentChange) {
-            oldContent.value = feedItem.topicFeedItem.contentChange.oldContent
-            newContent.value = feedItem.topicFeedItem.contentChange.newContent
-            diffContent.value = feedItem.topicFeedItem.contentChange.diffContent
-        }
+        if (feedItem.topicFeedItem)
+            selectedFeedItem.value = feedItem
+
     }
 }
 
@@ -114,6 +111,20 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
 
 <template>
     <div class="row">
+
+        <div class="col-xs-12">
+            <div class="header">
+                <div class="checkbox-container" @click="getDescendants = !getDescendants">
+                    <label>inkl. Unterthemen</label>
+                    <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
+
+                    <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
+                </div>
+            </div>
+
+
+
+        </div>
 
         <div class="col-xs-12">
             <TopicTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
@@ -144,12 +155,53 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
             </div>
         </div>
 
-        <TopicTabsFeedModal :show="showModal" @close="showModal = false" :old-content="oldContent" :new-content="newContent" :diff-content="diffContent" />
+        <TopicTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" />
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    .checkbox-container {
+        border-radius: 44px;
+        padding: 2px 8px;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-top: 4px;
+        background: white;
+
+        label  {
+            margin-bottom: 0;
+            color: @memo-grey-dark;
+            cursor: pointer;
+        }
+
+        .active, .not-active {
+            margin-left: 8px;
+            font-size: 1.8em;
+        }
+
+        .active {
+            color: @memo-blue-link;
+        }
+        .not-active {
+            color: @memo-grey-light;
+        }
+        &:hover{
+            filter: brightness(0.95);
+        }
+
+        &:active {
+            filter: brightness(0.9);
+        }
+    }
+}
 
 .feed-item {
 

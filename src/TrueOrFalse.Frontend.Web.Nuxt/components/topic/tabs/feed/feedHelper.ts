@@ -19,6 +19,25 @@ export enum TopicChangeType {
     Moved = 10,
 }
 
+
+const TopicChangeTypeNames: { [key in TopicChangeType]: string } = {
+    [TopicChangeType.Create]: 'Erstellt',
+    [TopicChangeType.Update]: 'Aktualisiert',
+    [TopicChangeType.Delete]: 'Gelöscht',
+    [TopicChangeType.Published]: 'Veröffentlicht',
+    [TopicChangeType.Privatized]: 'Privatisiert',
+    [TopicChangeType.Renamed]: 'Umbenannt',
+    [TopicChangeType.Text]: 'Textinhalt',
+    [TopicChangeType.Relations]: 'Verknüpfungen',
+    [TopicChangeType.Image]: 'Bild',
+    [TopicChangeType.Restore]: 'Wiederhergestellt',
+    [TopicChangeType.Moved]: 'Verschoben',
+}
+
+export function getTopicChangeTypeName(type: TopicChangeType): string {
+    return TopicChangeTypeNames[type];
+}
+
 export enum QuestionChangeType {
     Create = 0,
     Update = 1,

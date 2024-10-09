@@ -1,54 +1,47 @@
 <script lang="ts" setup>
+import { FeedItem, FeedType, getTopicChangeTypeName } from '../feedHelper'
+
 interface Props {
     show: boolean,
-    oldContent?: string,
-    newContent?: string,
-    diffContent?: string
+    feedItem: FeedItem,
 }
 
 const props = defineProps<Props>()
 const emit = defineEmits(['close'])
+
+const isTopic = ref(props.feedItem.type === FeedType.Topic)
+
+watch(() => props.show, (val) => {
+    if (val) {
+        console.log(props.feedItem)
+    }
+})
 </script>
 
 <template>
 
-    <Modal :show="props.show" @close="emit('close')">
+    <Modal :show="props.show" @close="emit('close')" :show-close-button="true" :has-header="true">
+        <template #header>
+            <h2 v-if="isTopic && feedItem.topicFeedItem">{{ getTopicChangeTypeName(feedItem.topicFeedItem.type) }}</h2>
+        </template>
         <template #body>
             <!-- <div class="feed-modal-content-change" v-if="oldContent && newContent">
                 <div class="feed-modal-old-content feed-modal-content" v-html="props.oldContent"></div>
                 <div class="feed-modal-new-content feed-modal-content" v-html="props.newContent"></div>
             </div> -->
 
-            <div class="feed-modal-content-change" v-if="props.diffContent">
-                <div class="feed-modal-diff-content" v-html="props.diffContent"></div>
-            </div>
+
+            <template v-if="isTopic && feedItem.topicFeedItem">
+                <TopicTabsFeedModalTopic :topicFeedItem="feedItem.topicFeedItem" />
+
+            </template>
         </template>
     </Modal>
 </template>
 
 
 <style lang="less" scoped>
-@import (reference) '~~/assets/includes/imports.less';
 
-.feed-modal-content-change {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    .feed-modal-old-content {
-        border-right: 1px solid @memo-grey-lighter;
-    }
-    .feed-modal-new-content {
-    }
-
-    .feed-modal-content {
-        width: 50%;
-        padding: 16px;
-    }
-
-    .feed-modal-diff-content {
-        padding: 16px;
-    }
-}
 </style>
 
 <style lang="less">
@@ -56,7 +49,7 @@ const emit = defineEmits(['close'])
 
 .feed-modal-content-change {
     ins {
-        background: fade(@memo-green, 10%);
+        // background: fade(@memo-green, 10%);
         border-radius: 4px;
         color: @memo-green;
 
@@ -65,7 +58,7 @@ const emit = defineEmits(['close'])
         }
     }
     del {
-        background: fade(@memo-wuwi-red, 10%);
+        // background: fade(@memo-wuwi-red, 10%);
         text-decoration: line-through;
         border-radius: 4px;
         color: @memo-wuwi-red;
