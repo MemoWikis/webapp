@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
 
 [Serializable]
 public class QuestionChangeCacheItem : IPersistable
@@ -25,6 +24,7 @@ public class QuestionChangeCacheItem : IPersistable
     public virtual DateTime DateCreated { get; set; }
 
     public virtual QuestionVisibility Visibility { get; set; }
+    public virtual QuestionChangeData QuestionChangeData { get; set; }
 
     public virtual QuestionEditData GetQuestionChangeData()
     {
@@ -38,19 +38,9 @@ public class QuestionChangeCacheItem : IPersistable
         }
     }
 
-    public static QuestionChangeCacheItem ToQuestionChangeCacheItem(QuestionChange questionChange)
+    public static QuestionChangeCacheItem ToQuestionChangeCacheItem(QuestionChange questionChange, QuestionEditData currentQuestionData, QuestionEditData? previousQuestionData)
     {
-        var visibility = QuestionVisibility.Owner;
-
-        if (!string.IsNullOrEmpty(questionChange.Data))
-        {
-            var jObject = JObject.Parse(questionChange.Data);
-            if (jObject["Visibility"] != null)
-            {
-                var visibilityValue = jObject["Visibility"].Value<int>();
-                visibility = (QuestionVisibility)visibilityValue;
-            }
-        }
+        var data = GetQuestionData(currentQuestionData, previousQuestionData);
 
         return new QuestionChangeCacheItem
         {
@@ -62,8 +52,29 @@ public class QuestionChangeCacheItem : IPersistable
             AuthorId = questionChange.AuthorId,
             Type = questionChange.Type,
             DateCreated = questionChange.DateCreated,
-            Visibility = visibility
+            Visibility = currentQuestionData.Visibility,
+            QuestionChangeData = data
         };
+    }
+
+    private static QuestionChangeData GetQuestionData(QuestionEditData currentData, QuestionEditData? previousData)
+    {
+        return new QuestionChangeData(CommentIdsChange: GetCommentIds(currentData, previousData));
+    }
+
+    public static CommentIdsChange GetCommentIds(QuestionEditData currentData, QuestionEditData? previousData)
+    {
+        if (previousData == null || previousData.CommentIds == null || previousData.CommentIds?.Length == 0)
+            return new CommentIdsChange(new List<int>(), currentData.CommentIds?.ToList());
+
+        if (previousData.CommentIds?.Length > 0)
+        {
+            var newComments = currentData.CommentIds?.Except(previousData.CommentIds).ToList();
+            if (newComments.Count > 0)
+                return new CommentIdsChange(previousData.CommentIds.ToList(), currentData.CommentIds?.ToList());
+        }
+
+        return new CommentIdsChange(new List<int>(), new List<int>());
     }
 
     public virtual QuestionCacheItem ToHistoricQuestionCacheItem()
@@ -71,3 +82,6 @@ public class QuestionChangeCacheItem : IPersistable
         return GetQuestionChangeData().ToQuestionCacheItem(_questionCacheItem.Id);
     }
 }
+public record struct CommentIdsChange(List<int> OldCommentIds, List<int> NewCommentIds);
+
+public record struct QuestionChangeData(CommentIdsChange CommentIdsChange);

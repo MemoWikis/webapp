@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { FeedItem, FeedType, getTopicChangeTypeName } from '../feedHelper'
+import { ContentChange, FeedItem, FeedType, getTopicChangeTypeName, TopicChangeType } from '../feedHelper'
 
 interface Props {
     show: boolean,
@@ -11,11 +11,39 @@ const emit = defineEmits(['close'])
 
 const isTopic = ref(props.feedItem.type === FeedType.Topic)
 
-watch(() => props.show, (val) => {
-    if (val) {
-        console.log(props.feedItem)
-    }
+onBeforeMount(() => {
+    if (props.show)
+        getContentChange()
 })
+
+watch(() => props.show, (val) => {
+    console.log('show', val)
+    if (val)
+        getContentChange()
+})
+
+const contentChange = ref<ContentChange>()
+
+const getContentChange = async () => {
+    if (props.feedItem.topicFeedItem?.type === TopicChangeType.Text) {
+        const data = {
+            topicId: props.feedItem.topicFeedItem.topicId,
+            changeId: props.feedItem.topicFeedItem.categoryChangeId
+        }
+        const response = await $api<ContentChange>(`/apiVue/FeedModalTopic/GetContentChange/`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            body: data,
+            onResponseError(context) {
+                const { $logger } = useNuxtApp()
+                $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+            }
+        })
+
+        contentChange.value = response
+    }
+}
 </script>
 
 <template>
@@ -32,7 +60,7 @@ watch(() => props.show, (val) => {
 
 
             <template v-if="isTopic && feedItem.topicFeedItem">
-                <TopicTabsFeedModalTopic :topicFeedItem="feedItem.topicFeedItem" />
+                <TopicTabsFeedModalTopic :topicFeedItem="feedItem.topicFeedItem" :content-change="contentChange" />
 
             </template>
         </template>
@@ -42,30 +70,8 @@ watch(() => props.show, (val) => {
 
 <style lang="less" scoped>
 
-</style>
-
-<style lang="less">
-@import (reference) '~~/assets/includes/imports.less';
-
-.feed-modal-content-change {
-    ins {
-        // background: fade(@memo-green, 10%);
-        border-radius: 4px;
-        color: @memo-green;
-
-        img {
-            border: solid 4px @memo-green;
-        }
-    }
-    del {
-        // background: fade(@memo-wuwi-red, 10%);
-        text-decoration: line-through;
-        border-radius: 4px;
-        color: @memo-wuwi-red;
-
-        img {
-            border: solid 4px @memo-wuwi-red;
-        }
-    }
+h2 {
+    margin-bottom: 36px;
 }
+
 </style>

@@ -50,10 +50,11 @@ const getDescendants = ref(true)
 const getQuestions = ref(true)
 
 const getFeedItems = async () => {
+
     const data = {
         topicId: topicStore.id,
         page: currentPage.value,
-        pageSize: 50,
+        pageSize: 1,
         getDescendants: getDescendants.value,
         getQuestions: getQuestions.value
     }
@@ -73,6 +74,7 @@ const getFeedItems = async () => {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
         }
     })
+    feedItems.value = []
 
     feedItems.value = result.feedItems
     itemCount.value = result.maxCount
@@ -101,9 +103,8 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
     showModal.value = true
     if (feedItems.value) {
         const feedItem = feedItems.value[e.index]
-        if (feedItem.topicFeedItem)
-            selectedFeedItem.value = feedItem
 
+        selectedFeedItem.value = feedItem
     }
 }
 
@@ -115,7 +116,7 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
         <div class="col-xs-12">
             <div class="header">
                 <div class="checkbox-container" @click="getDescendants = !getDescendants">
-                    <label>inkl. Unterthemen</label>
+                    <label>Unterthemen einschließen</label>
                     <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
 
                     <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
@@ -166,6 +167,9 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    z-index: 2;
+    margin-bottom: -24px;
+
     .checkbox-container {
         border-radius: 44px;
         padding: 2px 8px;
@@ -175,11 +179,14 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
         cursor: pointer;
         margin-top: 4px;
         background: white;
+        z-index: 2;
 
         label  {
             margin-bottom: 0;
             color: @memo-grey-dark;
             cursor: pointer;
+                z-index: 2;
+
         }
 
         .active, .not-active {

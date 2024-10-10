@@ -116,7 +116,7 @@ export const messages: any = {
         passwordResetRequested: (email: string) => `Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an ${email} geschickt.`,
         joinNow: 'Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!',
         feed: {
-            private: 'Diesen Eintrag kannst nur Du sehen.'
+            private: 'Nur Du kannst diesen Eintrag sehen'
         }
     },
     getByCompositeKey(messageKey: string): string | undefined {

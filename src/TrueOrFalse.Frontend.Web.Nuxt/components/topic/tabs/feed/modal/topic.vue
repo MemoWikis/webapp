@@ -1,54 +1,101 @@
 <script setup lang="ts">
-import { TopicChangeType, TopicFeedItem } from '../feedHelper'
+import { ContentChange, TopicChangeType, TopicFeedItem } from '../feedHelper'
 
 interface Props {
-    topicFeedItem: TopicFeedItem
+    topicFeedItem: TopicFeedItem,
+    contentChange?: ContentChange
 }
 const props = defineProps<Props>()
 
 const showDiff = ref(true)
+
+const { $urlHelper } = useNuxtApp()
 
 </script>
 
 <template>
     <div class="feed-modal-topic-container">
         <template v-if="topicFeedItem.type === TopicChangeType.Renamed">
-            <div class="feed-modal-content-change">
+            <div class="feed-modal-topic-body">
                 <div class="">{{ topicFeedItem.nameChange?.oldName }}</div>
                 <font-awesome-icon :icon="['fas', 'chevron-right']" />
                 <div class="">{{ topicFeedItem.nameChange?.newName }}</div>
             </div>
         </template>
 
-        <template v-if="topicFeedItem.type === TopicChangeType.Text">
+        <template v-if="topicFeedItem.type === TopicChangeType.Text && contentChange">
 
             <div class="show-diff-toggle">
                 <div class="show-diff-toggle-button" :class="{ 'is-active': showDiff }" @click="showDiff = true">Änderungen anzeigen</div>
-                <div class="show-diff-toggle-button" :class="{ 'is-active': !showDiff }" @click="showDiff = false">Themenvorschau</div>
+                <div class="show-diff-toggle-button" :class="{ 'is-active': !showDiff }" @click="showDiff = false">Vorschau</div>
             </div>
-            <div class="feed-modal-content-change" v-if="props.topicFeedItem.contentChange?.diffContent && showDiff">
-                <div class="feed-modal-diff-content" v-html="props.topicFeedItem.contentChange?.diffContent"></div>
+
+            <div class="feed-modal-topic-body" v-if="contentChange.diffContent && showDiff">
+                <div class="feed-modal-diff-content" v-html="contentChange.diffContent"></div>
             </div>
-            <div class="feed-modal-content-change" v-else-if="props.topicFeedItem.contentChange?.newContent && !showDiff">
-                <div class="feed-modal-diff-content" v-html="props.topicFeedItem.contentChange?.newContent"></div>
+            <div class="feed-modal-topic-body" v-else-if="contentChange.newContent && !showDiff">
+                <div class="feed-modal-diff-content" v-html="contentChange.newContent"></div>
             </div>
+
         </template>
+
+        <template v-if="topicFeedItem.type === TopicChangeType.Relations && topicFeedItem.relationChanges">
+
+            <template v-if="topicFeedItem.relationChanges.addedParents && topicFeedItem.relationChanges.addedParents.length > 0">
+                <h4>Hinzugefügte Oberthemen</h4>
+                <div class="feed-modal-topic-body">
+                    <ul>
+                        <li v-for="parent in topicFeedItem.relationChanges.addedParents">
+                            <NuxtLink :to="$urlHelper.getTopicUrl(parent.name, parent.id)">{{ parent.name }}</NuxtLink>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+
+            <template v-if="topicFeedItem.relationChanges.removedParents && topicFeedItem.relationChanges.removedParents.length > 0">
+                <h4>Entfernte Oberthemen</h4>
+                <div class="feed-modal-topic-body">
+                    <ul>
+                        <li v-for="parent in topicFeedItem.relationChanges.removedParents">
+                            <NuxtLink :to="$urlHelper.getTopicUrl(parent.name, parent.id)">{{ parent.name }}</NuxtLink>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+
+            <template v-if="topicFeedItem.relationChanges.addedChildren && topicFeedItem.relationChanges.addedChildren.length > 0">
+                <h4>Hinzugefügte Unterthemen</h4>
+                <div class="feed-modal-topic-body">
+                    <ul>
+                        <li v-for="child in topicFeedItem.relationChanges.addedChildren">
+                            <NuxtLink :to="$urlHelper.getTopicUrl(child.name, child.id)">{{ child.name }}</NuxtLink>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+
+            <template v-if="topicFeedItem.relationChanges.removedChildren && topicFeedItem.relationChanges.removedChildren.length > 0">
+                <h4>Entfernte Unterthemen</h4>
+                <div class="feed-modal-topic-body">
+                    <ul>
+                        <li v-for="child in topicFeedItem.relationChanges.removedChildren">
+                            <NuxtLink :to="$urlHelper.getTopicUrl(child.name, child.id)">{{ child.name }}</NuxtLink>
+                        </li>
+                    </ul>
+                </div>
+            </template>
+        </template>
+
     </div>
 </template>
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-
-.feed-modal-content-change {
+.feed-modal-topic-body {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
-    .feed-modal-old-content {
-        border-right: 1px solid @memo-grey-lighter;
-    }
-    .feed-modal-new-content {
-    }
 
     .feed-modal-content {
         width: 50%;
@@ -89,4 +136,30 @@ const showDiff = ref(true)
     }
 }
 
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.feed-modal-topic-body {
+    ins {
+        // background: fade(@memo-green, 10%);
+        border-radius: 4px;
+        color: @memo-green;
+
+        img {
+            border: solid 4px @memo-green;
+        }
+    }
+    del {
+        // background: fade(@memo-wuwi-red, 10%);
+        text-decoration: line-through;
+        border-radius: 4px;
+        color: @memo-wuwi-red;
+
+        img {
+            border: solid 4px @memo-wuwi-red;
+        }
+    }
+}
 </style>

@@ -19,7 +19,6 @@ export enum TopicChangeType {
     Moved = 10,
 }
 
-
 const TopicChangeTypeNames: { [key in TopicChangeType]: string } = {
     [TopicChangeType.Create]: 'Erstellt',
     [TopicChangeType.Update]: 'Aktualisiert',
@@ -35,13 +34,25 @@ const TopicChangeTypeNames: { [key in TopicChangeType]: string } = {
 }
 
 export function getTopicChangeTypeName(type: TopicChangeType): string {
-    return TopicChangeTypeNames[type];
+    return TopicChangeTypeNames[type]
 }
 
 export enum QuestionChangeType {
     Create = 0,
     Update = 1,
-    Delete = 2
+    Delete = 2,
+    AddComment = 3,
+}
+
+const QuestionChangeTypeNames: { [key in QuestionChangeType]: string } = {
+    [QuestionChangeType.Create]: 'Erstellt',
+    [QuestionChangeType.Update]: 'Aktualisiert',
+    [QuestionChangeType.Delete]: 'Gelöscht',
+    [QuestionChangeType.AddComment]: 'Kommentar',
+}
+
+export function getQuestionChangeTypeName(type: QuestionChangeType): string {
+    return QuestionChangeTypeNames[type]
 }
 
 export interface FeedItem {
@@ -93,7 +104,6 @@ export interface TopicFeedItem {
     author: Author
     nameChange?: NameChange
     relationChanges?: RelationChanges
-    contentChange?: ContentChange
 }
 
 export interface QuestionFeedItem {
@@ -104,6 +114,12 @@ export interface QuestionFeedItem {
     text: string
     visibility: Visibility
     author: Author
+    comment?: Comment
+}
+
+export interface Comment {
+    title: string
+    id: number
 }
 
 export interface FeedItemGroupByAuthor {

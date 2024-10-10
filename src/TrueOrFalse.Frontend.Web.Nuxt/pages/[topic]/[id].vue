@@ -211,7 +211,7 @@ watch(() => props.tab, (t) => {
                                 </div>
                             </template>
                             <TopicTabsAnalytics v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
-                            <TopicTabsFeed v-show="tabsStore.activeTab == Tab.Feed || (props.tab == Tab.Feed && !tabSwitched)" />
+                            <LazyTopicTabsFeed v-show="tabsStore.activeTab == Tab.Feed || (props.tab == Tab.Feed && !tabSwitched)" />
                         </ClientOnly>
 
                         <ClientOnly>

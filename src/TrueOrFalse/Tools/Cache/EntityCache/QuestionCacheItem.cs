@@ -76,6 +76,7 @@ public class QuestionCacheItem
 
     public virtual List<QuestionChangeCacheItem> QuestionChangeCacheItems { get; set; }
 
+    public virtual List<int> CommentIds { get; set; }
 
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
@@ -199,8 +200,30 @@ public class QuestionCacheItem
 
             if (questionChanges != null)
             {
-                questionCacheItem.QuestionChangeCacheItems = questionChanges
-                    .Select(QuestionChangeCacheItem.ToQuestionChangeCacheItem)
+                QuestionEditData? previousData = null;
+                QuestionEditData currentData;
+                var questionChangeCacheItems = new List<QuestionChangeCacheItem>();
+
+                foreach (var curr in questionChanges)
+                {
+                    if (curr.DataVersion == 1)
+                    {
+                        currentData = QuestionEditData_V1.CreateFromJson(curr.Data);
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
+                    }
+
+                    if (currentData == null)
+                        continue;
+
+                    var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(curr, currentData, previousData);
+                    questionChangeCacheItems.Add(cacheItem);
+                    previousData = currentData;
+                }
+
+                questionCacheItem.QuestionChangeCacheItems = questionChangeCacheItems
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
             }
@@ -389,9 +412,22 @@ public class QuestionCacheItem
             QuestionChangeCacheItems = new List<QuestionChangeCacheItem>();
         }
 
-        var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(questionChange);
+        var currentData = questionChange.GetQuestionChangeData();
+        QuestionEditData? previousData = QuestionChangeCacheItems.Count > 0 ? QuestionChangeCacheItems.First().GetQuestionChangeData() : null;
+
+        var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(questionChange, currentData, previousData);
+
         QuestionChangeCacheItems.Insert(0, cacheItem);
         EntityCache.AddOrUpdate(this);
     }
 
+    public void AddComment(Comment comment)
+    {
+        if (CommentIds == null)
+        {
+            CommentIds = new List<int>();
+        }
+
+        CommentIds.Add(comment.Id);
+    }
 }

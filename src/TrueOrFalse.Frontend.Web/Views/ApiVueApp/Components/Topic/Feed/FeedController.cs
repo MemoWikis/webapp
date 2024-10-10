@@ -11,7 +11,8 @@ namespace VueApp;
 public class FeedController(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
-    IHttpContextAccessor _httpContextAccessor) : Controller
+    IHttpContextAccessor _httpContextAccessor,
+    CommentRepository _commentRepository) : Controller
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
     public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);
@@ -29,8 +30,8 @@ public class FeedController(
             maxCount: maxCount);
     }
 
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null, RelationChanges? RelationChanges = null, ContentChange? ContentChange = null);
-    public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author);
+    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null, RelationChanges? RelationChanges = null);
+    public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author, Comment? Comment);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
     private FeedItem ToFeedItem(CategoryCacheItem.FeedItem feedItem)
@@ -39,11 +40,11 @@ public class FeedController(
         {
             var change = feedItem.CategoryChangeCacheItem;
             var author = SetAuthor(change.Author());
-            var cachedNameChange = change.CategoryChangeRecord.NameChange;
+            var cachedNameChange = change.CategoryChangeData.NameChange;
 
             NameChange? nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
 
-            var relationChange = change.CategoryChangeRecord.RelationChange;
+            var relationChange = change.CategoryChangeData.RelationChange;
             var relationChanges = change.Type == CategoryChangeType.Relations ? GetRelationChanges(relationChange) : null;
 
             var topicFeedItem = new TopicFeedItem(
@@ -55,8 +56,7 @@ public class FeedController(
                 Visibility: change.Visibility,
                 Author: author,
                 NameChange: nameChange,
-                RelationChanges: relationChanges,
-                ContentChange: change.CategoryChangeRecord.ContentChange);
+                RelationChanges: relationChanges);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
         }
@@ -66,6 +66,10 @@ public class FeedController(
             var change = feedItem.QuestionChangeCacheItem;
             var author = SetAuthor(change.Author());
 
+            var commentId = change.QuestionChangeData.CommentIdsChange.NewCommentIds?.Except(change.QuestionChangeData.CommentIdsChange.OldCommentIds).ToList().LastOrDefault();
+
+            var comment = commentId != null ? _commentRepository.GetById((int)commentId) : null;
+
             var questionFeedItem = new QuestionFeedItem(
                 Date: change.DateCreated,
                 Type: change.Type,
@@ -73,13 +77,16 @@ public class FeedController(
                 QuestionId: change.QuestionId,
                 Text: change.Question.GetShortTitle(),
                 Visibility: change.Visibility,
-                Author: author);
+                Author: author,
+                Comment: comment != null ? new Comment(comment.Title, comment.Id) : null);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem, Author: author);
         }
 
         throw new Exception("no valid changeItem");
     }
+
+    public record struct Comment(string Title, int Id);
     public record struct RelatedTopic(int Id, string Name);
     public record struct RelationChanges(List<RelatedTopic> AddedParents, List<RelatedTopic> RemovedParents, List<RelatedTopic> AddedChildren, List<RelatedTopic> RemovedChildren);
 

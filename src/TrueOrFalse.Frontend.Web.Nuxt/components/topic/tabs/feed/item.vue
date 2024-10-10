@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { TopicFeedItem, TopicChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getTopicChangeTypeName } from './feedHelper'
+import { TopicFeedItem, TopicChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getTopicChangeTypeName, getQuestionChangeTypeName } from './feedHelper'
 import { color } from '~/components/shared/colors'
 import { messages } from '~/components/alert/messages'
+import { useTopicStore } from '../../topicStore'
 
 interface Props {
     index?: number
@@ -10,6 +11,7 @@ interface Props {
     questionFeedItem?: QuestionFeedItem
 }
 const props = defineProps<Props>()
+const topicStore = useTopicStore()
 
 enum FeedType {
     Topic,
@@ -20,7 +22,7 @@ interface Change {
     label: string
     color: string
     id: number
-    type: TopicChangeType
+    type: TopicChangeType | QuestionChangeType
 }
 
 interface FeedItem {
@@ -43,15 +45,31 @@ const canOpen = ref<boolean>(false)
 
 const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
     canOpen.value = false
-
-    if ('topicId' in item) {
+    if ('questionId' in item) {
+        const questionItem = item as QuestionFeedItem
         feedItem.value = {
-            date: item.date,
-            changeType: { label: getTopicChangeTypeName(item.type), color: getTopicChangeColor(item.type), id: item.categoryChangeId, type: item.type },
+            date: questionItem.date,
+            changeType: { label: getQuestionChangeTypeName(questionItem.type), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
+            feedType: FeedType.Question,
+            id: questionItem.questionId,
+            visibility: questionItem.visibility,
+            label: questionItem.text
+        } as FeedItem
+
+        if (item.type === QuestionChangeType.AddComment) {
+            canOpen.value = true
+        }
+
+    }
+    else if ('topicId' in item) {
+        const topicItem = item as TopicFeedItem
+        feedItem.value = {
+            date: topicItem.date,
+            changeType: { label: getTopicChangeTypeName(topicItem.type), color: getTopicChangeColor(topicItem.type), id: topicItem.categoryChangeId, type: topicItem.type },
             feedType: FeedType.Topic,
-            id: item.topicId,
-            visibility: item.visibility,
-            label: item.title
+            id: topicItem.topicId,
+            visibility: topicItem.visibility,
+            label: topicItem.title
         } as FeedItem
 
         if (item.type === TopicChangeType.Renamed && item.nameChange) {
@@ -59,33 +77,17 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
             newName.value = item.nameChange.newName
         }
 
-        const hasRelations = item.relationChanges &&
-            (item.relationChanges.addedParents.length > 0 ||
-                item.relationChanges.addedChildren.length > 0 ||
-                item.relationChanges.removedParents.length > 0 ||
-                item.relationChanges.removedChildren.length > 0)
-
         switch (item.type) {
             case TopicChangeType.Text:
             case TopicChangeType.Renamed:
+            case TopicChangeType.Relations:
                 canOpen.value = true
                 break
-            case TopicChangeType.Relations:
-                canOpen.value = !!hasRelations
-                break
+            default:
+                canOpen.value = false
         }
+    }
 
-    }
-    else if ('questionId' in item) {
-        feedItem.value = {
-            date: item.date,
-            changeType: { label: QuestionChangeType[item.type], color: getQuestionChangeColor(item.type), id: item.questionChangeId },
-            feedType: FeedType.Question,
-            id: item.questionId,
-            visibility: item.visibility,
-            label: item.text
-        } as FeedItem
-    }
 }
 
 const getTopicChangeColor = (changeType: TopicChangeType) => {
@@ -130,9 +132,14 @@ watch(feedItem, (newValue) => {
         date.value = getTime(newValue.date)
 }, { deep: true })
 
-watch(() => props.topicFeedItem, (newValue) => {
-    if (newValue)
-        setFeedItem(newValue)
+watch(() => props.topicFeedItem, (newTopicItem) => {
+    if (newTopicItem)
+        setFeedItem(newTopicItem)
+}, { deep: true })
+
+watch(() => props.questionFeedItem, (newQuestionItem) => {
+    if (newQuestionItem)
+        setFeedItem(newQuestionItem)
 }, { deep: true })
 
 const emit = defineEmits(['openFeedModal'])
@@ -160,7 +167,11 @@ const handleClick = () => {
             </div>
             <div class="feed-item-label-body">
                 <div class="feed-item-label-text">
-                    <NuxtLink :to="$urlHelper.getTopicUrl(feedItem.label, feedItem.id)" @click.stop>
+                    <NuxtLink v-if="feedItem.feedType === FeedType.Topic" :to="$urlHelper.getTopicUrl(feedItem.label, feedItem.id)" @click.stop>
+                        {{ feedItem.label }}
+                    </NuxtLink>
+                    <NuxtLink v-else-if="feedItem.feedType === FeedType.Question" :to="$urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, feedItem.id)"
+                        @click.stop>
                         {{ feedItem.label }}
                     </NuxtLink>
                 </div>
@@ -179,6 +190,11 @@ const handleClick = () => {
                     </div>
 
                     <TopicTabsFeedRelations v-else-if="feedItem.changeType.type === TopicChangeType.Relations && props.topicFeedItem?.relationChanges" :relation-changes="props.topicFeedItem.relationChanges" />
+
+                </template>
+
+                <template v-if="feedItem.feedType === FeedType.Question && feedItem.changeType.type === QuestionChangeType.AddComment && props.questionFeedItem">
+                    <div class="feed-item-label-commentadd" v-html="props.questionFeedItem.comment?.title"> </div>
 
                 </template>
 
@@ -262,7 +278,6 @@ const handleClick = () => {
         margin: 0 15px;
         display: flex;
         flex-wrap: nowrap;
-        align-items: center;
         flex-basis: 0;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -299,6 +314,12 @@ const handleClick = () => {
                     white-space: nowrap;
                 }
             }
+
+            .feed-item-label-commentadd {
+                color: @memo-grey-dark;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
     }
 
@@ -307,7 +328,7 @@ const handleClick = () => {
         padding: 4px 16px;
         border-radius: 4px;
         color: @memo-grey-darker;
-        min-width: 160px;
+        min-width: 140px;
         text-align: center;
         margin: 0 16px;
         font-weight: 600;

@@ -21,7 +21,7 @@ public class CategoryChangeCacheItem : IPersistable
 
     public virtual CategoryVisibility Visibility { get; set; }
 
-    public virtual CategoryChangeRecord CategoryChangeRecord { get; set; }
+    public virtual CategoryChangeData CategoryChangeData { get; set; }
 
     public virtual CategoryEditData GetCategoryChangeData()
     {
@@ -44,7 +44,7 @@ public class CategoryChangeCacheItem : IPersistable
 
     public static CategoryChangeCacheItem ToCategoryChangeCacheItem(CategoryChange currentCategoryChange, CategoryEditData currentData, CategoryEditData? previousData)
     {
-        var changeData = GetCategoryChangeRecord(currentData, previousData, currentCategoryChange.Type);
+        var changeData = GetCategoryChangeData(currentData, previousData, currentCategoryChange.Type);
 
         return new CategoryChangeCacheItem
         {
@@ -56,13 +56,13 @@ public class CategoryChangeCacheItem : IPersistable
             Type = currentCategoryChange.Type,
             DateCreated = currentCategoryChange.DateCreated,
             Visibility = currentData.Visibility,
-            CategoryChangeRecord = changeData
+            CategoryChangeData = changeData
         };
     }
 
-    public static CategoryChangeRecord GetCategoryChangeRecord(CategoryEditData currentData, CategoryEditData? previousData, CategoryChangeType changeType)
+    public static CategoryChangeData GetCategoryChangeData(CategoryEditData currentData, CategoryEditData? previousData, CategoryChangeType changeType)
     {
-        return new CategoryChangeRecord(
+        return new CategoryChangeData(
             NameChange: new NameChange(previousData?.Name, currentData.Name),
             RelationChange: GetRelationChange(previousData?.ParentIds, previousData?.ChildIds, currentData.ParentIds, currentData.ChildIds),
             ContentChange: GetContentChange(currentData, previousData),
@@ -138,4 +138,4 @@ public record struct NameChange(string? OldName, string NewName);
 public record struct RelationChange(List<int> AddedParentIds, List<int> RemovedParentIds, List<int> AddedChildIds, List<int> RemovedChildIds);
 public record struct ContentChange(string OldContent, string NewContent, string DiffContent);
 public record struct VisibilityChange(CategoryVisibility? OldVisibility, CategoryVisibility NewVisibility);
-public record struct CategoryChangeRecord(NameChange NameChange, RelationChange RelationChange, ContentChange ContentChange, VisibilityChange VisibilityChange);
+public record struct CategoryChangeData(NameChange NameChange, RelationChange RelationChange, ContentChange ContentChange, VisibilityChange VisibilityChange);

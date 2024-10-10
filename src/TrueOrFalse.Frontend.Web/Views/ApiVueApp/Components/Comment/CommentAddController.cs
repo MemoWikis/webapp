@@ -9,7 +9,8 @@ public class CommentAddController(
     SessionUser _sessionUser,
     CommentRepository _commentRepository,
     UserReadingRepo _userReadingRepo,
-    IHttpContextAccessor _httpContextAccessor) : Controller
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionChangeRepo _questionChangeRepo) : Controller
 {
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -29,6 +30,11 @@ public class CommentAddController(
         comment.Creator = _userReadingRepo.GetById(userId);
 
         _commentRepository.Create(comment);
+
+        var question = EntityCache.GetQuestion(request.id);
+        question.AddComment(comment);
+        var commentIds = question.CommentIds.ToArray();
+        _questionChangeRepo.AddCommentEntry(request.id, userId, commentIds);
     }
 
     public record struct SaveAnswerResult(int Id,
@@ -67,6 +73,12 @@ public class CommentAddController(
 
         _commentRepository.Create(comment);
         var commentModel = new CommentModel(comment, _httpContextAccessor);
+
+        var question = EntityCache.GetQuestion(comment.TypeId);
+        question.AddComment(comment);
+        var commentIds = question.CommentIds.ToArray();
+        _questionChangeRepo.AddCommentEntry(comment.TypeId, _sessionUser.UserId, commentIds);
+
         return SetAnswerResult(commentModel);
 
     }

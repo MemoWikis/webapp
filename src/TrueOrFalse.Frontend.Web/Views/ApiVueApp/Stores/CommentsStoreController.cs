@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 namespace VueApp;
 
 public class CommentsStoreController(
@@ -15,7 +15,6 @@ public class CommentsStoreController(
         var settledComments = comments.Where(c => c.IsSettled).Select(c => GetComment(c)).ToArray();
         var unsettledComments = comments.Where(c => !c.IsSettled).Select(c => GetComment(c)).ToArray();
         var result = new Comments(
-
             SettledComments: settledComments,
             UnsettledComments: unsettledComments);
         return result;
