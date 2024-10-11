@@ -725,18 +725,9 @@
     margin: 24px 0 24px 0;
 }
 
-.commentAnswersContainer {
-    padding-top: 25px;
-}
-
 .commentPanel {
     background-color: #0032640A;
     margin-bottom: 24px;
-}
-
-.commentPanelSpace {
-    margin-top: 18px;
-    padding-top: 16px;
 }
 
 .commentEditor {
@@ -759,13 +750,12 @@
 }
 
 .commentUserDetails {
-    padding-bottom: 30px;
+    padding-bottom: 16px;
     padding-left: 0;
     border: none !important;
 }
 
 .answerUserDetails {
-    padding-bottom: 30px;
     padding-left: 15px;
     border-bottom: 1px solid #DDDDDD;
 }
@@ -773,7 +763,6 @@
 @media (max-width: 767px) {
 
     .answerUserDetails {
-        padding-bottom: 30px;
         padding-left: 15px;
         padding-right: 15px;
         border-bottom: 1px solid #DDDDDD;
@@ -901,6 +890,8 @@
     font-size: 14px;
     color: @memo-grey-dark;
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .commentSpeechBubbleText {
@@ -989,10 +980,6 @@ commentAnswersCount {
 
 .commentAnswerAddTopBorder {
     border-top: 1px solid #DDDDDD;
-}
-
-.commentAnswerAddTopSpace {
-    padding-top: 40px;
 }
 
 .commentAnswerAddTextArea {

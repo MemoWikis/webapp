@@ -1,23 +1,39 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 namespace VueApp;
 
 public class CommentsStoreController(
     CommentRepository _commentRepository,
-    IHttpContextAccessor _httpContextAccessor) : Controller
+    IHttpContextAccessor _httpContextAccessor,
+    PermissionCheck _permissionCheck) : Controller
 {
     [HttpGet]
     public Comments GetAllComments([FromRoute] int id)
     {
         var comments = _commentRepository.GetForDisplay(id);
+
         var settledComments = comments.Where(c => c.IsSettled).Select(c => GetComment(c)).ToArray();
         var unsettledComments = comments.Where(c => !c.IsSettled).Select(c => GetComment(c)).ToArray();
         var result = new Comments(
             SettledComments: settledComments,
             UnsettledComments: unsettledComments);
         return result;
+    }
+
+    [HttpGet]
+    public CommentJson GetComment([FromRoute] int id)
+    {
+        var comment = _commentRepository.GetById(id);
+        if (!_permissionCheck.CanViewQuestion(comment.TypeId))
+            throw new Exception("No permission to view this comment");
+
+        if (comment.AnswerTo != null)
+            return GetComment(comment.AnswerTo, showSettled: true);
+
+        return GetComment(comment, showSettled: true);
     }
 
     private CommentJson GetComment(Comment c, bool showSettled = false)

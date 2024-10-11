@@ -54,7 +54,7 @@ const getFeedItems = async () => {
     const data = {
         topicId: topicStore.id,
         page: currentPage.value,
-        pageSize: 1,
+        pageSize: 100,
         getDescendants: getDescendants.value,
         getQuestions: getQuestions.value
     }

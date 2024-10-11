@@ -56,5 +56,13 @@ export const useCommentsStore = defineStore('commentsStore', () => {
         return false
     }
 
-    return { show, questionId, unsettledComments, settledComments, openModal, loadComments, loadFirst }
+    async function loadComment(id: number) {
+        const result = await $api<CommentModel>(`/apiVue/CommentsStore/GetComment/${id}`, {
+            mode: 'cors',
+            credentials: 'include'
+        })
+        return result
+    }
+
+    return { show, questionId, unsettledComments, settledComments, openModal, loadComments, loadFirst, loadComment }
 })

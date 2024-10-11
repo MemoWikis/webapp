@@ -70,6 +70,8 @@ public class FeedController(
 
             var comment = commentId != null ? _commentRepository.GetById((int)commentId) : null;
 
+            var commentTitle = comment?.Title?.Length > 0 ? comment.Title : comment?.Text;
+
             var questionFeedItem = new QuestionFeedItem(
                 Date: change.DateCreated,
                 Type: change.Type,
@@ -78,7 +80,7 @@ public class FeedController(
                 Text: change.Question.GetShortTitle(),
                 Visibility: change.Visibility,
                 Author: author,
-                Comment: comment != null ? new Comment(comment.Title, comment.Id) : null);
+                Comment: comment != null ? new Comment(commentTitle, comment.Id) : null);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem, Author: author);
         }

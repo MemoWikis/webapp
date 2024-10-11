@@ -77,11 +77,19 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
             newName.value = item.nameChange.newName
         }
 
+        const hasRelations = item.relationChanges &&
+            (item.relationChanges.addedParents.length > 0 ||
+                item.relationChanges.addedChildren.length > 0 ||
+                item.relationChanges.removedParents.length > 0 ||
+                item.relationChanges.removedChildren.length > 0)
+
         switch (item.type) {
             case TopicChangeType.Text:
             case TopicChangeType.Renamed:
-            case TopicChangeType.Relations:
                 canOpen.value = true
+                break
+            case TopicChangeType.Relations:
+                canOpen.value = !!hasRelations
                 break
             default:
                 canOpen.value = false

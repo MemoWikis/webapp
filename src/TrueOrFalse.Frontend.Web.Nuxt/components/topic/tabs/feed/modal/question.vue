@@ -1,8 +1,11 @@
 <script lang="ts" setup>
+import { CommentModel } from '~/components/comment/commentsStore'
 import { QuestionFeedItem, QuestionChangeType } from '../feedHelper'
 
 interface Props {
     questionFeedItem: QuestionFeedItem
+    comment?: CommentModel
+    highlightId?: number
 }
 const props = defineProps<Props>()
 
@@ -14,7 +17,7 @@ const { $urlHelper } = useNuxtApp()
 <template>
     <div class="feed-modal-question-container">
 
-        <template v-if="questionFeedItem.type === QuestionChangeType.Update && questionFeedItem">
+        <template v-if="questionFeedItem.type === QuestionChangeType.AddComment && comment">
 
             <!-- <div class="show-diff-toggle">
                 <div class="show-diff-toggle-button" :class="{ 'is-active': showDiff }" @click="showDiff = true">Änderungen anzeigen</div>
@@ -27,7 +30,7 @@ const { $urlHelper } = useNuxtApp()
             <div class="feed-modal-question-body" v-else-if="questionFeedItem.contentChange.newContent && !showDiff">
                 <div class="feed-modal-diff-content" v-html="questionFeedItem.contentChange.newContent"></div>
             </div> -->
-
+            <Comment :comment="comment" :question-id="questionFeedItem.questionId" :creator-id="comment.creatorId" :highlight-id="highlightId" />
         </template>
 
     </div>

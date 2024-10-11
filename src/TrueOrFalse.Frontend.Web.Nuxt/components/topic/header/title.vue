@@ -40,6 +40,11 @@ function resize() {
 }
 
 const readonly = ref(false)
+onMounted(() => {
+    if (tabsStore.activeTab != Tab.Topic) {
+        readonly.value = true
+    }
+})
 watch(() => tabsStore.activeTab, (val: any) => {
 
     if (val == Tab.Topic)

@@ -13,9 +13,11 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
 </script>
 
 <template>
-    <Modal :show="commentsStore.show" @close="commentsStore.show = false" :show-close-button="true"
+    <Modal :show="commentsStore.show" @close="commentsStore.show = false" :show-close-button="false"
         @keydown.esc="commentsStore.show = false">
-        <template v-slot:header>Diskussion</template>
+        <template v-slot:header>
+            <h2>Diskussion</h2>
+        </template>
         <template v-slot:body>
             <div id="CommentsSection">
                 <div class="commentSection">
@@ -50,3 +52,11 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
         </template>
     </Modal>
 </template>
+
+<style lang="less" scoped>
+
+h2 {
+    margin-bottom: 36px;
+}
+
+</style>
