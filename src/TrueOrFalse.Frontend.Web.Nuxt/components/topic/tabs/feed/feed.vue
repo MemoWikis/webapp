@@ -108,6 +108,11 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
     }
 }
 
+const onGetFeedItems = () => {
+    console.log('getFeedItems')
+    getFeedItems()
+}
+
 </script>
 
 <template>
@@ -156,7 +161,7 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
             </div>
         </div>
 
-        <TopicTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" />
+        <TopicTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="onGetFeedItems" />
     </div>
 </template>
 

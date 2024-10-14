@@ -10,7 +10,7 @@ interface Props {
 const props = defineProps<Props>()
 const commentsStore = useCommentsStore()
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'get-feed-items'])
 
 const isTopic = ref(false)
 const isQuestion = ref(false)
@@ -63,10 +63,16 @@ const comment = ref<CommentModel>()
 
 const getComment = async () => {
     if (isQuestion.value && props.feedItem.questionFeedItem?.type === QuestionChangeType.AddComment && props.feedItem.questionFeedItem.comment) {
-        const response = await commentsStore.loadComment(props.feedItem.questionFeedItem.comment.id)
+        const response: CommentModel = await commentsStore.loadComment(props.feedItem.questionFeedItem.comment.id)
         comment.value = response
     }
 }
+
+const addAnswer = () => {
+    getComment()
+    emit('get-feed-items')
+}
+
 </script>
 
 <template>
@@ -78,7 +84,7 @@ const getComment = async () => {
         </template>
         <template #body>
             <TopicTabsFeedModalTopic v-if="isTopic && feedItem.topicFeedItem" :topicFeedItem="feedItem.topicFeedItem" :content-change="contentChange" />
-            <TopicTabsFeedModalQuestion v-else-if="isQuestion && feedItem.questionFeedItem" :question-feed-item="feedItem.questionFeedItem" :comment="comment" :highlight-id="feedItem.questionFeedItem.comment?.id" />
+            <TopicTabsFeedModalQuestion v-else-if="isQuestion && feedItem.questionFeedItem" :question-feed-item="feedItem.questionFeedItem" :comment="comment" :highlight-id="feedItem.questionFeedItem.comment?.id" @add-answer="addAnswer" />
         </template>
     </Modal>
 </template>

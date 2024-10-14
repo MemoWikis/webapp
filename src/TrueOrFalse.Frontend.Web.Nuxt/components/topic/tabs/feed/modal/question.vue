@@ -12,6 +12,7 @@ const props = defineProps<Props>()
 const showDiff = ref(true)
 
 const { $urlHelper } = useNuxtApp()
+const emit = defineEmits(['add-answer'])
 </script>
 
 <template>
@@ -30,7 +31,7 @@ const { $urlHelper } = useNuxtApp()
             <div class="feed-modal-question-body" v-else-if="questionFeedItem.contentChange.newContent && !showDiff">
                 <div class="feed-modal-diff-content" v-html="questionFeedItem.contentChange.newContent"></div>
             </div> -->
-            <Comment :comment="comment" :question-id="questionFeedItem.questionId" :creator-id="comment.creatorId" :highlight-id="highlightId" />
+            <Comment :comment="comment" :question-id="questionFeedItem.questionId" :creator-id="comment.creatorId" :highlight-id="highlightId" @add-answer="emit('add-answer')" />
         </template>
 
     </div>
