@@ -13,7 +13,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
 </script>
 
 <template>
-    <Modal :show="commentsStore.show" @close="commentsStore.show = false" :show-close-button="false"
+    <Modal :show="commentsStore.show" @close="commentsStore.show = false" :show-close-button="true"
         @keydown.esc="commentsStore.show = false">
         <template v-slot:header>
             <h2>Diskussion</h2>

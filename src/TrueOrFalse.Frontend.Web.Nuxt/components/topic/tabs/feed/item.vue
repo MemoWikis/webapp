@@ -157,16 +157,22 @@ const handleClick = () => {
         emit('openFeedModal', { type: feedItem.value.feedType, id: feedItem.value.id, index: props.index })
 }
 
+const { isDesktop } = useDevice()
+
 </script>
 
 <template>
-    <div class="feed-item" v-if="feedItem" @click="handleClick" :class="{ 'no-modal': !canOpen }">
+    <div class="feed-item" v-if="feedItem" @click="handleClick" :class="{ 'no-modal': !canOpen, 'mobile': !isDesktop }">
         <div class="feed-item-info">
             <div class="feed-item-change-type" :style="`background: ${feedItem.changeType.color}`">
                 {{ feedItem.changeType.label }}
             </div>
             <div class="feed-item-date">
                 {{ date }}
+            </div>
+
+            <div v-if="!isDesktop" class="feed-item-info-visibility" @click.stop>
+                <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
             </div>
         </div>
         <div class="feed-item-label">
@@ -210,8 +216,8 @@ const handleClick = () => {
             </div>
         </div>
 
-        <div class="feed-item-visibility">
-            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
+        <div class="feed-item-visibility" v-if="isDesktop">
+            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility !== Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
         </div>
     </div>
 </template>
@@ -301,6 +307,8 @@ const handleClick = () => {
                 font-size: 1.2em;
                 font-weight: 600;
                 margin-bottom: 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .feed-item-label-renamed {
@@ -343,16 +351,50 @@ const handleClick = () => {
     }
 
     .feed-item-visibility {
-        min-width: 30px;
         display: flex;
         justify-content: center;
-        padding: 0 0 0 16px;
-        margin-right: -8px;
-        color: @memo-grey-light;
+        color: @memo-grey-dark;
         font-size: 18px;
+        position: relative;
+        right: 0;
+        top: 0;
+        opacity: 0.5;
 
         svg.feed-item-visibility-icon {
             cursor: help;
+            position:absolute;
+        }
+    }
+
+    &.mobile {
+        flex-direction: column;
+
+        .feed-item-info {
+            flex-direction: row;
+
+            .feed-item-change-type {
+                margin-left: 0;
+            }
+        }
+
+        .feed-item-info-visibility {
+            height: 28px;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            color: @memo-grey-dark;
+            opacity: 0.5;
+        }
+
+        .feed-item-label {
+            margin-top: 16px;
+            margin-left: 0;
+            padding-left: 0;
+            overflow: visible;
+            .feed-item-label-text {
+                max-height: 50px;
+                text-wrap: wrap;
+            }
         }
     }
 }

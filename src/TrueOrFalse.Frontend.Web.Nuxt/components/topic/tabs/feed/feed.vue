@@ -49,12 +49,14 @@ function getDateLabel(dateString: string) {
 const getDescendants = ref(true)
 const getQuestions = ref(true)
 
+const { isDesktop } = useDevice()
+
 const getFeedItems = async () => {
 
     const data = {
         topicId: topicStore.id,
         page: currentPage.value,
-        pageSize: 100,
+        pageSize: isDesktop ? 100 : 20,
         getDescendants: getDescendants.value,
         getQuestions: getQuestions.value
     }
@@ -108,18 +110,13 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
     }
 }
 
-const onGetFeedItems = () => {
-    console.log('getFeedItems')
-    getFeedItems()
-}
-
 </script>
 
 <template>
     <div class="row">
 
-        <div class="col-xs-12">
-            <div class="header">
+        <div class="col-xs-12 feed">
+            <div class="header" :class="{ 'mobile': !isDesktop }">
                 <div class="checkbox-container" @click="getDescendants = !getDescendants">
                     <label>Unterthemen einschließen</label>
                     <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
@@ -128,15 +125,9 @@ const onGetFeedItems = () => {
                 </div>
             </div>
 
-
-
-        </div>
-
-        <div class="col-xs-12">
             <TopicTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
-        </div>
 
-        <div class="col-xs-12" v-if="itemCount > 0">
+
             <div class="pager pagination">
                 <vue-awesome-paginate :total-items="itemCount" :items-per-page="100" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
                     <template #first-page-button>
@@ -161,7 +152,7 @@ const onGetFeedItems = () => {
             </div>
         </div>
 
-        <TopicTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="onGetFeedItems" />
+        <TopicTabsFeedModal :show="showModal" @close="showModal = false" v-if="selectedFeedItem" :feed-item="selectedFeedItem" @get-feed-items="getFeedItems" />
     </div>
 </template>
 
@@ -213,6 +204,15 @@ const onGetFeedItems = () => {
             filter: brightness(0.9);
         }
     }
+
+    &.mobile {
+        justify-content: center;
+        margin-bottom: -8px;
+        border-bottom: solid 1px @memo-grey-light;
+        padding-top: 4px;
+        padding-bottom: 8px;
+        margin: 0 32px;
+    }
 }
 
 .feed-item {
@@ -220,5 +220,9 @@ const onGetFeedItems = () => {
     margin: 8px;
     padding: 8px;
     width: 100%;
+}
+
+.feed {
+        max-width: calc(100vw - 20px);
 }
 </style>
