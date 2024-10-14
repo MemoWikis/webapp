@@ -35,21 +35,21 @@ function scrollToTitle() {
                 <SidebarCard>
                     <template v-slot:body>
 
-                        <div class="overline-s no-line">
+                        <div class="overline-s no-line sidebar-link-container">
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(props.footerTopics.rootWiki.name, props.footerTopics.rootWiki.id)"
                                 class="sidebar-link">
                                 {{ props.footerTopics.rootWiki.name }}
                             </NuxtLink>
                         </div>
-                        <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s no-line">
+                        <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s no-line sidebar-link-container">
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
                                 class="sidebar-link">
                                 Dein Wiki
                             </NuxtLink>
                         </div>
-                        <div v-else class="overline-s no-line">
+                        <div v-else class="overline-s no-line sidebar-link-container">
                             <NuxtLink
                                 :to="$urlHelper.getTopicUrl(props.footerTopics.memoTopics[0].name, props.footerTopics.memoTopics[0].id)"
                                 class="sidebar-link">
@@ -136,6 +136,13 @@ function scrollToTitle() {
             }
         }
 
+    }
+    .sidebar-link-container{
+        max-height: 17px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 239px;   
     }
 
     .sidebar-link {
