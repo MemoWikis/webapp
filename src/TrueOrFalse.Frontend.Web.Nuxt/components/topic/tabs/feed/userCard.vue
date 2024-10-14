@@ -25,7 +25,7 @@ const { isDesktop, isMobile } = useDevice()
                 </NuxtLink>
             </div>
             <div class="feed-body">
-                <TopicTabsFeedItem v-for=" feedItem in authorGroup.feedItems" :topic-feed-item="feedItem.topicFeedItem" :question-feed-item="feedItem.questionFeedItem" :index="feedItem.index"
+                <TopicTabsFeedItem v-for="feedItem in authorGroup.feedItems" :topic-feed-item="feedItem.topicFeedItem" :question-feed-item="feedItem.questionFeedItem" :index="feedItem.index"
                     @open-feed-modal="emit('open-feed-modal', $event)" />
             </div>
         </div>

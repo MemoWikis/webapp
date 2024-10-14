@@ -27,7 +27,7 @@ const { $urlHelper } = useNuxtApp()
 
             <div class="show-diff-toggle">
                 <div class="show-diff-toggle-button" :class="{ 'is-active': showDiff }" @click="showDiff = true">Änderungen anzeigen</div>
-                <div class="show-diff-toggle-button" :class="{ 'is-active': !showDiff }" @click="showDiff = false">Vorschau</div>
+                <div class="show-diff-toggle-button" :class="{ 'is-active': !showDiff }" @click="showDiff = false">Text ohne Änderung</div>
             </div>
 
             <div class="feed-modal-topic-body" v-if="contentChange.diffContent && showDiff">
