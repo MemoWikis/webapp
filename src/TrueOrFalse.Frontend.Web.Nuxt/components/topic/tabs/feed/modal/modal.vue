@@ -73,6 +73,10 @@ const addAnswer = () => {
     emit('get-feed-items')
 }
 
+const niceDate = (date: string) => {
+    return new Date(date).toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+}
+
 </script>
 
 <template>
@@ -81,6 +85,13 @@ const addAnswer = () => {
         <template #header>
             <h2 v-if="isTopic && feedItem.topicFeedItem">{{ getTopicChangeTypeName(feedItem.topicFeedItem.type) }}</h2>
             <h2 v-else-if="isQuestion && feedItem.questionFeedItem?.type === QuestionChangeType.AddComment">Neuer Kommentar</h2>
+            <div class="modal-header-date">
+                {{ niceDate(feedItem.date) }}
+                von:
+                <NuxtLink :to="$urlHelper.getUserUrl(feedItem.author.name, feedItem.author.id)">
+                    {{ feedItem.author.name }}
+                </NuxtLink>
+            </div>
         </template>
         <template #body>
             <TopicTabsFeedModalTopic v-if="isTopic && feedItem.topicFeedItem" :topicFeedItem="feedItem.topicFeedItem" :content-change="contentChange" />
@@ -91,8 +102,16 @@ const addAnswer = () => {
 
 
 <style lang="less" scoped>
+@import (reference) '~~/assets/includes/imports.less';
 
 h2 {
+    margin-bottom: 0px;
+}
+
+.modal-header-date {
+    font-size: 14px;
+    color: @memo-grey-dark;
+    margin-top: 5px;
     margin-bottom: 36px;
 }
 
