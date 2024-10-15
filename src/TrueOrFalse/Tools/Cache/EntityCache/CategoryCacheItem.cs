@@ -543,7 +543,7 @@ public class CategoryCacheItem : IPersistable
         }
 
         var currentData = categoryChange.GetCategoryChangeData();
-        var previousChange = CategoryChangeCacheItems.First();
+        var previousChange = CategoryChangeCacheItems.FirstOrDefault();
         CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetCategoryChangeData() : null;
         var previousId = CategoryChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;
 
