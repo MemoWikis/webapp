@@ -18,6 +18,7 @@ using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
 using static System.Int32;
 
+Console.WriteLine("Builder: Started");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,6 +45,8 @@ builder.Services.AddControllersWithViews()
     });
 
 Settings.Initialize(builder.Configuration);
+Console.WriteLine("Builder: Settings Initialized");
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Error()
     .Enrich.WithExceptionDetails()
@@ -92,6 +95,8 @@ builder.WebHost.ConfigureServices(services =>
 });
 
 var app = builder.Build();
+Console.WriteLine("App: Start - builder.Build()");
+
 var env = app.Environment;
 App.Environment = env;
 
@@ -114,12 +119,12 @@ if (string.IsNullOrEmpty(env.WebRootPath))
     env.WebRootPath = Path.Combine(AppContext.BaseDirectory, "wwwroot");
 }
 
+Console.WriteLine("Update: Start Run");
 var update = app.Services.GetRequiredService<Update>();
 update.Run();
+Console.WriteLine("Update: End Run");
 
 StripeConfiguration.ApiKey = Settings.StripeSecurityKey;
-Console.WriteLine("StripeKey: " + Settings.StripeSecurityKey);
-Console.Out.Flush();
 
 var imagesPath = Settings.ImagePath;
 app.UseStaticFiles(new StaticFileOptions
@@ -150,3 +155,5 @@ app.Urls.Add("http://*:5069");
 var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitializer.Init();
 app.Run();
+Console.WriteLine("App: Run");
+
