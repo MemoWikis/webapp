@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { CommentModel, useCommentsStore } from '~/components/comment/commentsStore'
 import { ContentChange, FeedItem, FeedType, getTopicChangeTypeName, QuestionChangeType, TopicChangeType } from '../feedHelper'
+import { useSpinnerStore } from '~/components/spinner/spinnerStore'
 
 interface Props {
     show: boolean,
@@ -9,15 +10,19 @@ interface Props {
 
 const props = defineProps<Props>()
 const commentsStore = useCommentsStore()
-
+const spinnerStore = useSpinnerStore()
 const emit = defineEmits(['close', 'get-feed-items'])
 
 const isTopic = ref(false)
 const isQuestion = ref(false)
 
 function initModal() {
+    spinnerStore.hideSpinner()
+
     isTopic.value = props.feedItem.type === FeedType.Topic
     isQuestion.value = props.feedItem.type === FeedType.Question
+    comment.value = undefined
+    contentChange.value = undefined
     if (isTopic.value) {
         getContentChange()
     } else if (isQuestion.value)
@@ -31,6 +36,8 @@ onBeforeMount(() => {
 })
 
 watch(() => props.show, (val) => {
+    spinnerStore.hideSpinner()
+
     if (val) {
         initModal()
     }
@@ -40,6 +47,7 @@ const contentChange = ref<ContentChange>()
 
 const getContentChange = async () => {
     if (isTopic.value && props.feedItem.topicFeedItem?.type === TopicChangeType.Text) {
+        spinnerStore.showSpinner()
         const data = {
             topicId: props.feedItem.topicFeedItem.topicId,
             changeId: props.feedItem.topicFeedItem.categoryChangeId
@@ -54,8 +62,9 @@ const getContentChange = async () => {
                 $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
             }
         })
-
         contentChange.value = response
+        spinnerStore.hideSpinner()
+
     }
 }
 
@@ -63,8 +72,11 @@ const comment = ref<CommentModel>()
 
 const getComment = async () => {
     if (isQuestion.value && props.feedItem.questionFeedItem?.type === QuestionChangeType.AddComment && props.feedItem.questionFeedItem.comment) {
+        spinnerStore.showSpinner()
         const response: CommentModel = await commentsStore.loadComment(props.feedItem.questionFeedItem.comment.id)
         comment.value = response
+        spinnerStore.hideSpinner()
+
     }
 }
 
