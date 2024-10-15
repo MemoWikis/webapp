@@ -42,9 +42,9 @@ public class CategoryChangeCacheItem : IPersistable
         return haveVersionData ? GetCategoryChangeData().ToCacheCategory(_categoryCacheItem.Id) : new CategoryCacheItem();
     }
 
-    public static CategoryChangeCacheItem ToCategoryChangeCacheItem(CategoryChange currentCategoryChange, CategoryEditData currentData, CategoryEditData? previousData)
+    public static CategoryChangeCacheItem ToCategoryChangeCacheItem(CategoryChange currentCategoryChange, CategoryEditData currentData, CategoryEditData? previousData, int? previousId)
     {
-        var changeData = GetCategoryChangeData(currentData, previousData, currentCategoryChange.Type);
+        var changeData = GetCategoryChangeData(currentData, previousData, currentCategoryChange.Type, previousId);
 
         return new CategoryChangeCacheItem
         {
@@ -60,12 +60,12 @@ public class CategoryChangeCacheItem : IPersistable
         };
     }
 
-    public static CategoryChangeData GetCategoryChangeData(CategoryEditData currentData, CategoryEditData? previousData, CategoryChangeType changeType)
+    public static CategoryChangeData GetCategoryChangeData(CategoryEditData currentData, CategoryEditData? previousData, CategoryChangeType changeType, int? previousId)
     {
         return new CategoryChangeData(
             NameChange: new NameChange(previousData?.Name, currentData.Name),
             RelationChange: GetRelationChange(previousData?.ParentIds, previousData?.ChildIds, currentData.ParentIds, currentData.ChildIds),
-            ContentChange: GetContentChange(currentData, previousData),
+            PreviousId: previousId,
             VisibilityChange: new VisibilityChange(previousData?.Visibility, currentData.Visibility)
         );
     }
@@ -107,35 +107,9 @@ public class CategoryChangeCacheItem : IPersistable
 
         return new RelationChange(addedParentIds, removedParentIds, addedChildIds, removedChildIds);
     }
-
-    public static ContentChange GetContentChange(CategoryEditData currentData, CategoryEditData? previousData)
-    {
-        string previousContent;
-        string currentContent;
-
-        if (previousData?.Content != null)
-            previousContent = previousData.Content;
-        else if (previousData?.TopicMardkown != null)
-            previousContent = previousData.TopicMardkown;
-        else
-            previousContent = "";
-
-        if (currentData.Content != null)
-            currentContent = currentData.Content;
-        else if (currentData.TopicMardkown != null)
-            currentContent = currentData.TopicMardkown;
-        else
-            currentContent = "";
-
-        HtmlDiff.HtmlDiff diffHelper = new HtmlDiff.HtmlDiff(previousContent, currentContent);
-        string diffOutput = diffHelper.Build();
-
-        return new ContentChange(previousContent, currentContent, diffOutput);
-    }
 }
 
 public record struct NameChange(string? OldName, string NewName);
 public record struct RelationChange(List<int> AddedParentIds, List<int> RemovedParentIds, List<int> AddedChildIds, List<int> RemovedChildIds);
-public record struct ContentChange(string OldContent, string NewContent, string DiffContent);
 public record struct VisibilityChange(CategoryVisibility? OldVisibility, CategoryVisibility NewVisibility);
-public record struct CategoryChangeData(NameChange NameChange, RelationChange RelationChange, ContentChange ContentChange, VisibilityChange VisibilityChange);
+public record struct CategoryChangeData(NameChange NameChange, RelationChange RelationChange, int? PreviousId, VisibilityChange VisibilityChange);

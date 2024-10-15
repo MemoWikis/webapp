@@ -29,14 +29,11 @@ watch(() => props.authorGroup, () => {
                     {{ authorGroup.author.name }}
                 </NuxtLink>
 
-                <DevOnly>
-                    <div @click="showCard = !showCard" class="collapse-button">
-                        <font-awesome-icon v-if="showCard" icon="fa-solid fa-chevron-up"
-                            class="filter-button-icon" />
-                        <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
-                    </div>
-                </DevOnly>
-
+                <div @click="showCard = !showCard" class="collapse-button">
+                    <font-awesome-icon v-if="showCard" icon="fa-solid fa-chevron-up"
+                        class="filter-button-icon" />
+                    <font-awesome-icon v-else icon="fa-solid fa-chevron-down" class="filter-button-icon" />
+                </div>
 
             </div>
             <Transition name="collapse">

@@ -217,7 +217,7 @@ const { isDesktop } = useDevice()
         </div>
 
         <div class="feed-item-visibility" v-if="isDesktop">
-            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility !== Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
+            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
         </div>
     </div>
 </template>
