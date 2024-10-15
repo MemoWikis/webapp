@@ -33,8 +33,8 @@ const { $urlHelper } = useNuxtApp()
             <div class="feed-modal-topic-body" v-if="contentChange.diffContent && showDiff">
                 <div class="feed-modal-diff-content" v-html="contentChange.diffContent"></div>
             </div>
-            <div class="feed-modal-topic-body" v-else-if="contentChange.newContent && !showDiff">
-                <div class="feed-modal-diff-content" v-html="contentChange.newContent"></div>
+            <div class="feed-modal-topic-body" v-else-if="contentChange.currentContent && !showDiff">
+                <div class="feed-modal-diff-content" v-html="contentChange.currentContent"></div>
             </div>
 
         </template>

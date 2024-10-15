@@ -89,8 +89,7 @@ export interface RelationChanges {
 }
 
 export interface ContentChange {
-    oldContent: string
-    newContent: string
+    currentContent: string
     diffContent: string
 }
 

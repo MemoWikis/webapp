@@ -8,18 +8,21 @@ const imageLicenseStore = useImageLicenseStore()
     <LazyModal :show="imageLicenseStore.show" @close="imageLicenseStore.show = false" :show-close-button="true"
         @keydown.esc="imageLicenseStore.show = false">
         <template v-slot:header>
-            Bilddetails
+            <h2>
+                Bilddetails
+            </h2>
         </template>
         <template v-slot:body>
             <div class="ImageContainer">
                 <img :src="imageLicenseStore.url" />
                 <div class="ImageInfo">
                     <div v-if="imageLicenseStore.attributionHtmlString.length > 0"
-                        v-html="handleNewLine(imageLicenseStore.attributionHtmlString)"> </div>
-                    <div class="description" v-if="imageLicenseStore.description.length > 0">
+                        v-html="handleNewLine(imageLicenseStore.attributionHtmlString)">
+                    </div>
+                    <p class="description" v-if="imageLicenseStore.description.length > 0">
                         <span class="InfoLabel">Beschreibung:</span>
                         {{ imageLicenseStore.description }}
-                    </div>
+                    </p>
                 </div>
             </div>
         </template>

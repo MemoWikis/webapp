@@ -1,5 +1,5 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Net;
 using static System.String;
 
 public class ImageFrontendData
@@ -162,7 +162,7 @@ public class ImageFrontendData
         else
         {
             AttributionHtmlString +=
-                "Die Lizenzangaben werden zur Zeit geprüft und aufbereitet. ";
+                "Die Lizenzangaben konnten nicht überprüft werden.";
         }
     }
 

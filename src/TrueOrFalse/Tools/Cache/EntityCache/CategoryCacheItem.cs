@@ -331,6 +331,7 @@ public class CategoryCacheItem : IPersistable
             {
                 CategoryEditData? previousData = null;
                 CategoryEditData currentData;
+                int? previousId = null;
                 var categoryChangeCacheItems = new List<CategoryChangeCacheItem>();
 
                 foreach (var curr in categoryChanges)
@@ -351,9 +352,10 @@ public class CategoryCacheItem : IPersistable
                     if (currentData == null)
                         continue;
 
-                    var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData);
+                    var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData, previousId);
                     categoryChangeCacheItems.Add(cacheItem);
                     previousData = currentData;
+                    previousId = curr.Id;
                 }
 
                 categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
@@ -541,9 +543,11 @@ public class CategoryCacheItem : IPersistable
         }
 
         var currentData = categoryChange.GetCategoryChangeData();
-        CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? CategoryChangeCacheItems.First().GetCategoryChangeData() : null;
+        var previousChange = CategoryChangeCacheItems.First();
+        CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetCategoryChangeData() : null;
+        var previousId = CategoryChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;
 
-        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData);
+        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData, previousId);
         CategoryChangeCacheItems.Insert(0, cacheItem);
         EntityCache.AddOrUpdate(this);
     }

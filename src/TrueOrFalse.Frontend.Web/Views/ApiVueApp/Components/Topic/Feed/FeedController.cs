@@ -128,26 +128,4 @@ public class FeedController(
 
         return author;
     }
-
-    public readonly record struct GetChangeRequest(int id, int changeId);
-
-    [HttpPost]
-    public void GetTopicChange([FromBody] GetChangeRequest req)
-    {
-        var topic = EntityCache.GetCategory(req.id);
-        if (!_permissionCheck.CanView(topic))
-        {
-            return;
-        }
-    }
-
-    [HttpPost]
-    public void GetQuestionChange([FromBody] GetChangeRequest req)
-    {
-        var question = EntityCache.GetQuestion(req.id);
-        if (!_permissionCheck.CanView(question))
-        {
-            return;
-        }
-    }
 }
