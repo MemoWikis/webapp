@@ -42,7 +42,7 @@ public class TopicStoreController(
 
         var categoryCacheItem = EntityCache.GetCategory(param.id);
         var category = _categoryRepository.GetById(param.id);
-        //todo(Jun) Please adjust, this return was Json(false). 
+
         if (categoryCacheItem == null || category == null)
             return new SaveTopicResult { Success = false };
 

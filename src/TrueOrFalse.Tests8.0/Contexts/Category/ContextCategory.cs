@@ -54,9 +54,8 @@
 
     public ContextCategory AddChild(Category parent, Category child)
     {
-        var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
-        modifyRelationsForCategory.AddChild(parent.Id, child.Id);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
+        modifyRelationsForCategory.AddChild(parent.Id, child.Id, 1);
 
         return this;
     }

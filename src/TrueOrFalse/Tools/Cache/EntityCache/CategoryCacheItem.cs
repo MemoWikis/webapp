@@ -16,8 +16,7 @@ public class CategoryCacheItem : IPersistable
         Name = name;
     }
 
-    public virtual UserCacheItem Creator =>
-        EntityCache.GetUserById(CreatorId);
+    public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
 
     public virtual int[] AuthorIds { get; set; }
     public virtual string CategoriesToExcludeIdsString { get; set; }
@@ -251,20 +250,25 @@ public class CategoryCacheItem : IPersistable
             : new List<CategoryCacheItem>();
     }
 
-    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, IList<CategoryViewRepo.TopicViewSummaryWithId> views)
+    public static IEnumerable<CategoryCacheItem> ToCacheCategories(IEnumerable<Category> categories, IList<CategoryViewRepo.TopicViewSummaryWithId> views, IList<CategoryChange> categoryChanges)
     {
         var categoryViews = views
             .GroupBy(cv => cv.Category_Id)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        var categoryChangesDictionary = categoryChanges
+            .GroupBy(cc => cc.Category?.Id ?? -1)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         return categories.Select(c =>
         {
             categoryViews.TryGetValue(c.Id, out var categoryViewsWithId);
-            return ToCacheCategory(c, categoryViewsWithId);
+            categoryChangesDictionary.TryGetValue(c.Id, out var categoryChanges);
+            return ToCacheCategory(c, categoryViewsWithId, categoryChanges);
         });
     }
 
-    public static CategoryCacheItem ToCacheCategory(Category category, List<CategoryViewRepo.TopicViewSummaryWithId>? views = null)
+    public static CategoryCacheItem ToCacheCategory(Category category, List<CategoryViewRepo.TopicViewSummaryWithId>? views = null, List<CategoryChange>? categoryChanges = null)
     {
         var creatorId = category.Creator == null ? -1 : category.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(category.Id);
@@ -300,24 +304,62 @@ public class CategoryCacheItem : IPersistable
             TextIsHidden = category.TextIsHidden,
         };
 
-        if (EntityCache.IsFirstStart && views != null)
+        if (EntityCache.IsFirstStart)
         {
-            categoryCacheItem.TotalViews = views.Count();
 
-            var startDate = DateTime.Now.Date.AddDays(-90);
-            var endDate = DateTime.Now.Date;
+            if (views != null)
+            {
+                categoryCacheItem.TotalViews = views.Count();
 
-            var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                .Select(d => startDate.AddDays(d));
+                var startDate = DateTime.Now.Date.AddDays(-90);
+                var endDate = DateTime.Now.Date;
 
-            categoryCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
-                .Select(qv => new DailyViews
+                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                    .Select(d => startDate.AddDays(d));
+
+                categoryCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
+                    .Select(qv => new DailyViews
+                    {
+                        Date = qv.DateOnly,
+                        Count = qv.Count
+                    })
+                    .OrderBy(v => v.Date)
+                    .ToList();
+            }
+
+            if (categoryChanges != null)
+            {
+                CategoryEditData? previousData = null;
+                CategoryEditData currentData;
+                var categoryChangeCacheItems = new List<CategoryChangeCacheItem>();
+
+                foreach (var curr in categoryChanges)
                 {
-                    Date = qv.DateOnly,
-                    Count = qv.Count
-                })
-                .OrderBy(v => v.Date)
-                .ToList();
+                    if (curr.DataVersion == 1)
+                    {
+                        currentData = CategoryEditData_V1.CreateFromJson(curr.Data);
+                    }
+                    else if (curr.DataVersion == 2)
+                    {
+                        currentData = CategoryEditData_V2.CreateFromJson(curr.Data);
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
+                    }
+
+                    if (currentData == null)
+                        continue;
+
+                    var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData);
+                    categoryChangeCacheItems.Add(cacheItem);
+                    previousData = currentData;
+                }
+
+                categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
+                    .OrderByDescending(change => change.DateCreated)
+                    .ToList();
+            }
         }
         return categoryCacheItem;
     }
@@ -382,6 +424,128 @@ public class CategoryCacheItem : IPersistable
             })
             .Reverse()
             .ToList();
+    }
+
+    public virtual List<CategoryChangeCacheItem> CategoryChangeCacheItems { get; set; }
+
+    public enum FeedType
+    {
+        Topic,
+        Question
+    }
+
+    public record struct FeedItem(DateTime DateCreated, CategoryChangeCacheItem? CategoryChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
+    public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false)
+    {
+        IList<FeedItem> changes;
+
+        if (getDescendants)
+        {
+            var allVisibleDescendants = GraphService.VisibleDescendants(Id, permissionCheck, userId);
+
+            var allTopics = new List<CategoryCacheItem> { this }.Concat(allVisibleDescendants).ToList();
+            var unsortedTopicChanges = allTopics
+                .Where(c => c != null && c.CategoryChangeCacheItems != null)
+                .SelectMany(c => c.CategoryChangeCacheItems)
+                .Select(tc => ToFeedItem(tc, null));
+
+            if (getQuestions)
+            {
+                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: true, categoryId: Id);
+                var unsortedQuestionChanges = allQuestions
+                    .Where(q => q != null && q.QuestionChangeCacheItems != null)
+                    .SelectMany(q => q.QuestionChangeCacheItems)
+                    .Select(qc => ToFeedItem(null, qc));
+
+                changes = unsortedTopicChanges
+                    .Concat(unsortedQuestionChanges)
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+            else
+            {
+                changes = unsortedTopicChanges
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+        }
+        else
+        {
+            var topicChanges = CategoryChangeCacheItems.Select(tc => ToFeedItem(tc, null));
+
+            if (getQuestions)
+            {
+                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: false, categoryId: Id);
+                var unsortedQuestionChanges = allQuestions
+                    .Where(q => q != null && q.QuestionChangeCacheItems != null)
+                    .SelectMany(q => q.QuestionChangeCacheItems)
+                    .Select(qc => ToFeedItem(null, qc));
+                changes = topicChanges
+                    .Concat(unsortedQuestionChanges)
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+            else
+            {
+                changes = topicChanges
+                    .OrderByDescending(c => c.DateCreated)
+                    .ToList();
+            }
+        }
+
+        var visibleChanges = changes.Where(c => IsVisibleForUser(userId, c));
+        var pagedChanges = visibleChanges
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        return (pagedChanges, visibleChanges.Count());
+    }
+    private FeedItem ToFeedItem(CategoryChangeCacheItem? categoryChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
+    {
+        if (categoryChangeCacheItem != null)
+            return new FeedItem
+            {
+                DateCreated = categoryChangeCacheItem.DateCreated,
+                CategoryChangeCacheItem = categoryChangeCacheItem
+            };
+        if (questionChangeCacheItem != null)
+        {
+            return new FeedItem
+            {
+                DateCreated = questionChangeCacheItem.DateCreated,
+                QuestionChangeCacheItem = questionChangeCacheItem
+            };
+        }
+
+        throw new Exception("no valid changeItem");
+    }
+
+    private bool IsVisibleForUser(int userId, FeedItem feedItem)
+    {
+        if (feedItem.CategoryChangeCacheItem != null)
+            return feedItem.CategoryChangeCacheItem.Visibility != CategoryVisibility.Owner || feedItem.CategoryChangeCacheItem.AuthorId == userId;
+
+        if (feedItem.QuestionChangeCacheItem != null)
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || feedItem.QuestionChangeCacheItem.AuthorId == userId;
+
+        return false;
+
+    }
+
+    public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)
+    {
+
+        if (CategoryChangeCacheItems == null)
+        {
+            CategoryChangeCacheItems = new List<CategoryChangeCacheItem>();
+        }
+
+        var currentData = categoryChange.GetCategoryChangeData();
+        CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? CategoryChangeCacheItems.First().GetCategoryChangeData() : null;
+
+        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData);
+        CategoryChangeCacheItems.Insert(0, cacheItem);
+        EntityCache.AddOrUpdate(this);
     }
 }
 

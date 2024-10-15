@@ -83,6 +83,8 @@ interface GetTopicAnalyticsResponse {
 	viewsPast90DaysDirectQuestions: ViewSummary[]
 }
 
+
+
 export const useTopicStore = defineStore('topicStore', {
 	state: () => {
 		return {
@@ -347,7 +349,7 @@ export const useTopicStore = defineStore('topicStore', {
 
 				this.analyticsLoaded = true
 			}
-		}
+		},
 	},
 	getters: {
 		getTopicName(): string {

@@ -21,3 +21,20 @@
   opacity: 0;
   // transform: translateX(30px);
 }
+
+.collapse-enter-active,
+.collapse-leave-active {
+  transition: max-height 0.2s ease, opacity 0.2s ease,
+}
+
+.collapse-enter-from,
+.collapse-leave-to {
+  max-height: 0;
+  opacity: 0;
+}
+
+.collapse-enter-to,
+.collapse-leave-from {
+  max-height: 500px; /* Arbitrary max-height to accommodate content */
+  opacity: 1;
+}

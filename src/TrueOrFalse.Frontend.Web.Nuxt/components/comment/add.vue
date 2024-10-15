@@ -64,37 +64,35 @@ async function saveComment() {
     <div id="AddCommentComponent">
         <div v-if="userStore.isLoggedIn" class="commentAddContainer">
             <div class="panel-body" style="padding-right: 10px;">
-                <div>
-                    <div class="commentAnswerAddTopSpace row">
-                        <div class="col-xs-1 addCommentUsrImgContainer">
-                            <img class="addCommentUsrImg" :src="userStore.imgUrl">
-                        </div>
-                        <div>
-                            <div class="inline-question-editor col-xs-11 noPadding">
+                <div class="row">
+                    <div class="col-xs-1 addCommentUsrImgContainer">
+                        <img class="addCommentUsrImg" :src="userStore.imgUrl">
+                    </div>
+                    <div>
+                        <div class="inline-question-editor col-xs-11 noPadding">
 
-                                <div class="input-container" id="AddCommentTitleFormContainer">
-                                    <div class="overline-s no-line">Titel der Diskussion</div>
-                                    <CommentTitleEditor :highlight-empty-fields="highlightEmptyTitle"
-                                        :content="commentTitle" @set-title="setTitle" />
-                                </div>
-                                <div class="input-container" id="AddCommentTextFormContainer">
-                                    <div class="overline-s no-line">Dein Diskussionsbeitrag</div>
+                            <div class="input-container" id="AddCommentTitleFormContainer">
+                                <div class="overline-s no-line">Titel der Diskussion</div>
+                                <CommentTitleEditor :highlight-empty-fields="highlightEmptyTitle"
+                                    :content="commentTitle" @set-title="setTitle" />
+                            </div>
+                            <div class="input-container" id="AddCommentTextFormContainer">
+                                <div class="overline-s no-line">Dein Diskussionsbeitrag</div>
 
-                                    <CommentTextEditor :highlight-empty-fields="highlightEmptyComment"
-                                        :content="commentText" @set-text="setText" />
-                                </div>
+                                <CommentTextEditor :highlight-empty-fields="highlightEmptyComment"
+                                    :content="commentText" @set-text="setText" />
                             </div>
                         </div>
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-11 noPadding">
-                            <button class="btn btn-primary memo-button pull-right" @click="saveComment()">
-                                Diskussion hinzufügen
-                            </button>
-                            <button class="btn btn-lg btn-link memo-button pull-right "
-                                @click="commentsStore.show = false">
-                                Abbrechen
-                            </button>
-                        </div>
+                    </div>
+                    <div class="col-xs-1"></div>
+                    <div class="col-xs-11 noPadding">
+                        <button class="btn btn-primary memo-button pull-right" @click="saveComment()">
+                            Diskussion hinzufügen
+                        </button>
+                        <button class="btn btn-lg btn-link memo-button pull-right "
+                            @click="commentsStore.show = false">
+                            Abbrechen
+                        </button>
                     </div>
                 </div>
             </div>

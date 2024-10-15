@@ -12,6 +12,7 @@ const { isMobile } = useDevice()
 const topicLabelEl = ref()
 const learningLabelEl = ref()
 const analyticsLabelEl = ref()
+const feedLabelEl = ref()
 
 function getWidth(e: VueElement) {
 	if (e != null)
@@ -93,6 +94,23 @@ const ariaId2 = useId()
 							</div>
 
 							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
+							<div class="inactive-tab" v-else>
+								<div class="tab-border"></div>
+							</div>
+						</div>
+
+						<div class="tab" @click="tabsStore.activeTab = Tab.Feed">
+
+							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed"
+								:style="getWidth(feedLabelEl)">
+								Feed
+							</div>
+							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }"
+								ref="feedLabelEl">
+								Feed
+							</div>
+
+							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
 							<div class="inactive-tab" v-else>
 								<div class="tab-border"></div>
 							</div>
@@ -214,19 +232,38 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
+					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed && isMobile" style="width:65px"
+						:style="getWidth(topicLabelEl)">
+						Feed
+					</div>
+					<div class="tab-label active" v-else-if="tabsStore.activeTab == Tab.Feed" style="width:73px"
+						:style="getWidth(topicLabelEl)">
+						Feed
+					</div>
+					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }"
+						ref="feedLabelEl">
+						Feed
+					</div>
+
+					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
+					<div class="inactive-tab" v-else>
+						<div class="tab-border"></div>
+					</div>
+				</div>
+
+				<div class="tab">
+
 					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab == Tab.Analytics"
 						:style="getWidth(analyticsLabelEl)">
 
 						<template v-if="!isMobile">
 							Analytics
 						</template>
-						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
 					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							Analytics
 						</template>
-						<!-- <ChartPie class="pie-chart" :data="chartData" :height="24" :width="24" /> -->
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>

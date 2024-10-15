@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace VueApp;
 
@@ -9,30 +9,36 @@ public class CommentAddController(
     SessionUser _sessionUser,
     CommentRepository _commentRepository,
     UserReadingRepo _userReadingRepo,
-    IHttpContextAccessor _httpContextAccessor) : Controller
+    IHttpContextAccessor _httpContextAccessor,
+    QuestionChangeRepo _questionChangeRepo) : Controller
 {
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public bool SaveComment([FromBody] AddCommentJson json)
+    public bool SaveComment([FromBody] AddCommentRequest request)
     {
-        SaveComment(CommentType.AnswerQuestion, json, _sessionUser.UserId);
+        SaveComment(CommentType.AnswerQuestion, request, _sessionUser.UserId);
         return true;
     }
 
-    private void SaveComment(CommentType type, AddCommentJson json, int userId)
+    private void SaveComment(CommentType type, AddCommentRequest request, int userId)
     {
         var comment = new Comment();
         comment.Type = type;
-        comment.TypeId = json.id;
-        comment.Text = json.text;
-        comment.Title = json.title;
+        comment.TypeId = request.id;
+        comment.Text = request.text;
+        comment.Title = request.title;
         comment.Creator = _userReadingRepo.GetById(userId);
 
         _commentRepository.Create(comment);
+
+        var question = EntityCache.GetQuestion(request.id);
+        question.AddComment(comment);
+        var commentIds = question.CommentIds.ToArray();
+        _questionChangeRepo.AddCommentEntry(request.id, userId, commentIds);
     }
 
-    public record struct SaveAnswerResult(int Id, 
-        string CreatorName, 
+    public record struct SaveAnswerResult(int Id,
+        string CreatorName,
         string CreationDate,
         string CreationDateNiceText,
         string CreatorImgUrl,
@@ -45,11 +51,11 @@ public class CommentAddController(
         List<CommentModel> Answers,
         int AnswersSettledCount,
         bool ShowSettledAnswers,
-        string CreatorUrl); 
+        string CreatorUrl);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public SaveAnswerResult? SaveAnswer([FromBody]AddAnswerType addAnswerType)
+    public SaveAnswerResult? SaveAnswer([FromBody] AddAnswerType addAnswerType)
     {
         var parentComment = _commentRepository.GetById(addAnswerType.commentId);
 
@@ -67,11 +73,17 @@ public class CommentAddController(
 
         _commentRepository.Create(comment);
         var commentModel = new CommentModel(comment, _httpContextAccessor);
+
+        var question = EntityCache.GetQuestion(comment.TypeId);
+        question.AddComment(comment);
+        var commentIds = question.CommentIds.ToArray();
+        _questionChangeRepo.AddCommentEntry(comment.TypeId, _sessionUser.UserId, commentIds);
+
         return SetAnswerResult(commentModel);
 
     }
 
-    public record struct MarkSettled(int commentId); 
+    public record struct MarkSettled(int commentId);
     [HttpPost]
     public bool MarkCommentAsSettled([FromBody] MarkSettled markSettled)
     {
@@ -108,6 +120,6 @@ public class CommentAddController(
 
         };
     }
-}  
-public readonly record struct AddCommentJson(int id, string text, string title);
+}
+public readonly record struct AddCommentRequest(int id, string text, string title);
 public readonly record struct AddAnswerType(int commentId, string text);

@@ -73,20 +73,6 @@ public class TopicDataManager(
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
-        //var childIds = topic.ChildRelations.Select(t => t.ChildId);
-        //var last30DaysTopicViews = topic.ViewsLast30DaysTopic;
-
-        //var countAggregatedChildTopicViews = EntityCache.GetCategories(childIds);
-        //foreach (var child in countAggregatedChildTopicViews)
-        //{
-        //    foreach (var childView in child.ViewsLast30DaysTopic)
-        //    {
-        //        var matchingView = last30DaysTopicViews.First(v => v.Date == childView.Date);
-        //        matchingView.Views += childView.Views;
-
-        //    }
-        //}
-
         var authorIds = topic.AuthorIds.Distinct();
         return new TopicDataResult
         {

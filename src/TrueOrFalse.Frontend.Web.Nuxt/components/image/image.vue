@@ -95,7 +95,6 @@ const getCustomStyle = computed(() => {
 	&.header-author-icon {
 		img {
 			border-radius: 24px;
-
 		}
 	}
 

@@ -21,21 +21,22 @@ public class CategoryEditData_V2 : CategoryEditData
     public CategoryEditData_V2(
         Category category,
         bool imageWasUpdated,
-        int[] affectedParentIdsByMove,
-        ISession nhibernateSession)
+        int[]? affectedParentIdsByMove,
+        ISession nhibernateSession,
+        int[]? parentIds,
+        int[]? childIds)
     {
         Name = category.Name;
         Description = category.Description;
         TopicMardkown = category.TopicMarkdown;
         Content = category.Content;
-        CustomSegments = category.CustomSegments;
-        WikipediaURL = category.WikipediaURL;
-        DisableLearningFunctions = category.DisableLearningFunctions;
         CategoryRelations = null;
         ImageWasUpdated = imageWasUpdated;
         _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;
         AffectedParentIds = affectedParentIdsByMove ?? new int[] { };
+        ParentIds = parentIds;
+        ChildIds = childIds;
     }
 
     public override string ToJson()
@@ -55,6 +56,25 @@ public class CategoryEditData_V2 : CategoryEditData
         _nhibernateSession.Evict(category);
 
         category = category == null ? new Category() : category;
+        category.IsHistoric = true;
+        category.Name = this.Name;
+        category.Description = this.Description;
+        category.TopicMarkdown = this.TopicMardkown;
+        category.Content = this.Content;
+        category.Visibility = this.Visibility;
+
+        // Historic category relations cannot be loaded because we do not have archive data and
+        // loading them leads to nasty conflicts and nuisance with NHibernate.
+
+        return category;
+    }
+
+    public override CategoryCacheItem ToCacheCategory(int categoryId)
+    {
+        var category = EntityCache.GetCategory(categoryId);
+        //_nhibernateSession.Evict(category);
+
+        category = category == null ? new CategoryCacheItem() : category;
         category.IsHistoric = true;
         category.Name = this.Name;
         category.Description = this.Description;

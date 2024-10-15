@@ -9,6 +9,7 @@ interface Props {
     comment: CommentModel
     questionId: number
     creatorId: number
+    highlightId?: number
 }
 
 const props = defineProps<Props>()
@@ -16,12 +17,8 @@ const props = defineProps<Props>()
 const readMore = ref(false)
 const foldOut = ref(false)
 const showIsSettled = ref(false)
-const showCommentAnswers = ref(false)
+const showCommentAnswers = ref(true)
 const { $logger, $urlHelper } = useNuxtApp()
-
-function handleWindowClick(e: MouseEvent) {
-    showIsSettled.value = false
-}
 
 async function markAsSettled() {
     const result = await $api<boolean>(`/apiVue/CommentAdd/MarkCommentAsSettled/`, {
@@ -102,36 +99,21 @@ async function saveAnswer() {
     }
 }
 
-function toggleShowCommentAnswers() {
-    showCommentAnswers.value = !showCommentAnswers.value
-}
-
 </script>
 
 <template>
     <div :class="{ commentPanelSpace: !props.comment.isSettled }" class="commentPanel" id="CommentComponent">
-        <div class="panel-body">
+        <div class="panel-body discussion" :class="{ 'highlight': props.comment.id === highlightId }">
             <div class="col-xs-12">
 
-                <div v-if="!props.comment.isSettled">
-                    <span class="commentTitle" v-if="props.comment.title.length > 0"
-                        v-html="props.comment.title + '&nbsp &nbsp'">
-                    </span>
+                <div v-if="!props.comment.isSettled" class="commentHeader">
+                    <div class="commentTitle" v-if="props.comment.title?.length > 0" v-html="props.comment.title">
+                    </div>
                     <template v-else>
-                        <span class="commentTitle" v-if="props.comment.text.length > 25"
-                            v-html="props.comment.text.slice(0, 25) + '...' + '&nbsp &nbsp'"></span>
-                        <span class="commentTitle" v-else v-html="props.comment.text + '&nbsp &nbsp'"></span>
+                        <div class="commentTitle" v-if="props.comment.text.length > 25"
+                            v-html="props.comment.text.slice(0, 25) + '...'"></div>
+                        <div class="commentTitle" v-else v-html="props.comment.text"></div>
                     </template>
-
-                    <span class="commentSpeechBubbleIcon" @click="toggleShowCommentAnswers()">
-                        <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                        <div class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">
-                            &nbsp; {{ props.comment.answers.length }} Beitrag
-                        </div>
-                        <div class="commentSpeechBubbleText" v-else>
-                            &nbsp; {{ props.comment.answers.length }} Beiträge
-                        </div>
-                    </span>
                 </div>
 
                 <div v-else class="pointer" @click="foldOut = !foldOut">
@@ -177,8 +159,7 @@ function toggleShowCommentAnswers() {
 
                 <div v-if="foldOut || !props.comment.isSettled">
                     <div class="commentTextContainer">
-                        <span class="commentText" v-if="props.comment.text.length < 350"
-                            v-html="props.comment.text"></span>
+                        <span class="commentText" v-if="props.comment.text.length < 350" v-html="props.comment.text"></span>
                         <span v-else class="commentText">
                             <span v-if="readMore" v-html="props.comment.text">
                             </span>
@@ -189,15 +170,28 @@ function toggleShowCommentAnswers() {
                             </button>
                         </span>
                     </div>
+                    <div class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers" :class="{ 'clickable': props.comment.answers.length > 0 }">
+                        <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
+                        <div class="commentSpeechBubbleText">
+                            {{ props.comment.answers.length == 1 ? '1 Antwort' : props.comment.answers.length + ' Antworten' }}
+                            <template v-if="props.comment.answers.length > 0 && !showCommentAnswers">
+                                anzeigen
+                            </template>
+                            <template v-else-if="props.comment.answers.length > 0 && showCommentAnswers">
+                                verbergen
+                            </template>
+                        </div>
+                    </div>
+
                     <div class="commentUserDetails">
-                        <NuxtLink class="pointer comment-header" v-if="props.comment.creatorId > 0"
-                            :to="$urlHelper.getUserUrl(props.comment.creatorName, props.comment.creatorId)">
+
+                        <span class="greyed commentDate">
+                            vor <span class="show-tooltip">{{ props.comment.creationDateNiceText }}</span> von:
+                        </span>
+                        <NuxtLink class="pointer comment-header" v-if="props.comment.creatorId > 0" :to="$urlHelper.getUserUrl(props.comment.creatorName, props.comment.creatorId)">
                             <img class="commentUserImg" :src="props.comment.creatorImgUrl">
                             <span class="commentUserName">{{ props.comment.creatorName }}</span>
                         </NuxtLink>
-                        <span class="greyed commentDate">
-                            vor <span class="show-tooltip">{{ props.comment.creationDateNiceText }}</span>
-                        </span>
                     </div>
                 </div>
 
@@ -206,15 +200,12 @@ function toggleShowCommentAnswers() {
 
         <div class="commentAnswersContainer" v-if="showAnswers">
 
-            <CommentAnswer v-if="showCommentAnswers" v-for="(answer, index) in props.comment.answers" :answer="answer"
-                :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 == index" />
+            <CommentAnswer v-if="showCommentAnswers" v-for="(answer, index) in props.comment.answers" :answer="answer" :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 == index"
+                :highlight-id="props.highlightId" />
 
-            <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled"
-                :parentCommentId="props.comment.id" :highlight-empty-fields="highlightEmptyAnswer"
-                @set-answer="setAnswer" :content="answerText" />
+            <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled" :parentCommentId="props.comment.id" :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" :content="answerText" />
 
-            <div class="commentButtonsContainer row" style=""
-                v-if="userStore.isLoggedIn && !props.comment.isSettled || userStore.isAdmin">
+            <div class="commentButtonsContainer row" style="" v-if="userStore.isLoggedIn && !props.comment.isSettled || userStore.isAdmin">
                 <div class="col-xs-12 col-sm-12">
                     <div v-if="!props.comment.isSettled" class="pull-right col-xs-12 col-sm-4">
                         <button @click="saveAnswer()" class="btn btn-primary memo-button col-xs-12 answerBtn">
@@ -222,13 +213,10 @@ function toggleShowCommentAnswers() {
                         </button>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-5">
-                        <button
-                            v-if="userStore.isAdmin && !props.comment.isSettled || props.creatorId == userStore.id && !props.comment.isSettled"
-                            @click="markAsSettled()" class="btn btn-lg btn-link memo-button col-xs-12">
+                        <button v-if="userStore.isAdmin && !props.comment.isSettled || props.creatorId == userStore.id && !props.comment.isSettled" @click="markAsSettled()" class="btn btn-lg btn-link memo-button col-xs-12">
                             Diskussion schliessen
                         </button>
-                        <button v-if="userStore.isAdmin && props.comment.isSettled" @click.stop="markAsUnsettled()"
-                            class="btn btn-lg btn-link memo-button col-xs-12">
+                        <button v-if="userStore.isAdmin && props.comment.isSettled" @click.stop="markAsUnsettled()" class="btn btn-lg btn-link memo-button col-xs-12">
                             Diskussion wieder eröffnen
                         </button>
                     </div>
@@ -252,5 +240,59 @@ function toggleShowCommentAnswers() {
     padding: 15px;
     display: flex;
     justify-content: center;
+}
+
+.commentAnswersCount {
+    font-size: 0.8em;
+}
+
+.commentSpeechBubbleText  {
+    padding-left: 8px;
+    user-select: none;
+}
+
+.commentSpeechBubbleIcon  {
+    cursor: default;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid @memo-grey-light;
+    display: flex;
+    justify-content: end;
+
+    &.clickable {
+        cursor: pointer;
+        color: @memo-blue-link;
+    }
+}
+
+.commentUserDetails {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .commentDate {
+        padding-right: 8px;
+    }
+}
+
+.commentAnswersContainer {
+    padding-top: 16px;
+}
+
+.discussion {
+    &.highlight {
+        background-color: fade(@memo-green, 10%)
+    }
+}
+</style>
+
+<style lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+.commentTitle {
+    p {
+        margin-bottom: 0;
+        color: @memo-blue;
+    }
 }
 </style>

@@ -58,6 +58,8 @@ class UrlHelper {
                 return `${url}/Lernen`
             case Tab.Analytics:
                 return `${url}/Analytics`
+            case Tab.Feed:
+                return `${url}/Feed`
             default:
                 return url
         }

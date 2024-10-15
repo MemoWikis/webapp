@@ -3,9 +3,11 @@
 public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
 {
     private readonly SessionUser _sessionUser;
-    public QuestionChangeRepo(ISession session, SessionUser sessionUser) : base(session)
+    private readonly QuestionReadingRepo _questionReadingRepo;
+    public QuestionChangeRepo(ISession session, SessionUser sessionUser, QuestionReadingRepo questionReadingRepo) : base(session)
     {
         _sessionUser = sessionUser;
+        _questionReadingRepo = questionReadingRepo;
     }
 
     public void AddDeleteEntry(Question question, int userId)
@@ -21,12 +23,12 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(QuestionChange);
     }
 
-    public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange)
+    public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange, int[]? commentIds = null)
     {
         switch (questionChange.DataVersion)
         {
             case 1:
-                questionChange.Data = new QuestionEditData_V1(question, imageWasChanged, _session).ToJson();
+                questionChange.Data = new QuestionEditData_V1(question, imageWasChanged, _session, commentIds).ToJson();
                 break;
 
             default:
@@ -34,12 +36,14 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         }
     }
 
-    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged:true);
+    public void AddCreateEntry(Question question) => AddUpdateOrCreateEntry(question, QuestionChangeType.Create, question.Creator, imageWasChanged: true);
     public void AddUpdateEntry(Question question, User author = null, bool imageWasChanged = false) => AddUpdateOrCreateEntry(question, QuestionChangeType.Update, author, imageWasChanged);
+
     private void AddUpdateOrCreateEntry(Question question,
         QuestionChangeType questionChangeType,
         User author,
-        bool imageWasChanged)
+        bool imageWasChanged,
+        int[]? commentIds = null)
     {
         var questionChange = new QuestionChange
         {
@@ -49,24 +53,40 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             DataVersion = 1
         };
 
-        SetData(question, imageWasChanged, questionChange);
+        SetData(question, imageWasChanged, questionChange, commentIds);
 
         base.Create(questionChange);
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
+        if (questionCacheItem != null)
+            questionCacheItem.AddCategoryChangeToCategoryChangeCacheItems(questionChange);
     }
 
-    public void Create(Question question)
+    public void AddCommentEntry(int questionId, int authorId, int[] commentIds) =>
+        AddUpdateEntryForComment(questionId, QuestionChangeType.AddComment, authorId, commentIds);
+    private void AddUpdateEntryForComment(int questionId,
+        QuestionChangeType questionChangeType,
+        int authorId,
+        int[]? commentIds = null)
     {
-        var questionChange = new QuestionChange
+        var question = _questionReadingRepo.GetById(questionId);
+        if (question != null)
         {
-            Question = question,
-            Type = QuestionChangeType.Create,
-            AuthorId = question.Creator == null ? -1 : question.Creator.Id,
-            DataVersion = 1
-        };
+            var questionChange = new QuestionChange
+            {
+                Question = question,
+                Type = questionChangeType,
+                AuthorId = authorId,
+                DataVersion = 1,
+            };
 
-        SetData(question, true, questionChange);
+            SetData(question, imageWasChanged: false, questionChange, commentIds);
 
-        base.Create(questionChange);
+            base.Create(questionChange);
+            var questionCacheItem = EntityCache.GetQuestion(question.Id);
+            if (questionCacheItem != null)
+                questionCacheItem.AddCategoryChangeToCategoryChangeCacheItems(questionChange);
+        }
+
     }
 
     public QuestionChange GetByIdEager(int questionChangeId)

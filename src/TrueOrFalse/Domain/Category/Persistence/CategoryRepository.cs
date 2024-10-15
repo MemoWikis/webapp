@@ -174,16 +174,15 @@ public class CategoryRepository(
         Category category,
         int authorId = 0,
         bool imageWasUpdated = false,
-        bool isFromModifiyRelations = false,
+        bool isFromModifyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,
-        bool createCategoryChange = true,
-        int[] affectedParentIdsByMove = null)
+        bool createCategoryChange = true)
     {
         base.Update(category);
 
         if (authorId != 0 && createCategoryChange)
         {
-            categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type, affectedParentIdsByMove);
+            categoryChangeRepo.AddUpdateEntry(this, category, authorId, imageWasUpdated, type);
         }
 
         Flush();
@@ -210,15 +209,13 @@ public class CategoryRepository(
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         CategoryChangeType type = CategoryChangeType.Update,
-        bool createCategoryChange = true,
-        int[] affectedParentIdsByMove = null)
+        bool createCategoryChange = true)
     {
         base.Update(category);
 
         if (author != null && createCategoryChange)
         {
-            categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type,
-                affectedParentIdsByMove);
+            categoryChangeRepo.AddUpdateEntry(this, category, author.Id, imageWasUpdated, type);
         }
 
         Flush();

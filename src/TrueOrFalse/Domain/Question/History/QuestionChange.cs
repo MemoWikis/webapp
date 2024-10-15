@@ -13,12 +13,12 @@ public class QuestionChange : Entity, WithDateCreated
 
     public virtual int AuthorId { get; set; }
 
-    public virtual UserCacheItem Author(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment) 
+    public virtual UserCacheItem Author(IHttpContextAccessor httpContextAccessor, IWebHostEnvironment webHostEnvironment)
         => _author ??= EntityCache.GetUserById(AuthorId);
 
     private UserCacheItem? _author;
 
-    public virtual QuestionChangeType Type { get; set; } 
+    public virtual QuestionChangeType Type { get; set; }
 
     public virtual DateTime DateCreated { get; set; }
 
@@ -29,7 +29,7 @@ public class QuestionChange : Entity, WithDateCreated
         {
             case 1:
                 return QuestionEditData_V1.CreateFromJson(Data);
-                
+
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for question change id {Id}");
         }
@@ -45,5 +45,6 @@ public enum QuestionChangeType
 {
     Create = 0,
     Update = 1,
-    Delete = 2
+    Delete = 2,
+    AddComment = 3,
 }

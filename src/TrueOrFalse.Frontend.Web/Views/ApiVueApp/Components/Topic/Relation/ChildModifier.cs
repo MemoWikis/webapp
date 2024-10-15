@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace VueApp;
 
@@ -66,9 +66,8 @@ public class ChildModifier(
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
-        modifyRelationsForCategory.AddChild(parentId, childId);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        modifyRelationsForCategory.AddChild(parentId, childId, _sessionUser.UserId);
 
         return new AddChildResult
         {
@@ -88,8 +87,7 @@ public class ChildModifier(
 
     public RemoveParentResult RemoveParent(
         int parentIdToRemove,
-        int childId,
-        int[] affectedParentIdsByMove = null)
+        int childId)
     {
         if (!_permissionCheck.CanEditCategory(parentIdToRemove) &&
             !_permissionCheck.CanEditCategory(childId))
@@ -99,8 +97,7 @@ public class ChildModifier(
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
-        var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
 
         var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(
             EntityCache.GetCategory(childId),
@@ -115,16 +112,9 @@ public class ChildModifier(
             };
 
         var parent = _categoryRepository.GetById(parentIdToRemove);
-        _categoryRepository.Update(parent, _sessionUser.UserId,
-            type: CategoryChangeType.Relations);
+        _categoryRepository.Update(parent, _sessionUser.UserId, type: CategoryChangeType.Relations);
         var child = _categoryRepository.GetById(childId);
-        if (affectedParentIdsByMove != null)
-            _categoryRepository.Update(child, _sessionUser.UserId,
-                type: CategoryChangeType.Moved,
-                affectedParentIdsByMove: affectedParentIdsByMove);
-        else
-            _categoryRepository.Update(child, _sessionUser.UserId,
-                type: CategoryChangeType.Relations);
+        _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
 
         return new RemoveParentResult
         {

@@ -74,6 +74,10 @@ public class QuestionCacheItem
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
 
+    public virtual List<QuestionChangeCacheItem> QuestionChangeCacheItems { get; set; }
+
+    public virtual List<int> CommentIds { get; set; }
+
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
         switch (solutionType)
@@ -137,7 +141,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.All;
     }
 
-    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -172,24 +176,57 @@ public class QuestionCacheItem
             License = question.License
         };
 
-        if (questionViews != null && EntityCache.IsFirstStart)
+        if (EntityCache.IsFirstStart)
         {
-            questionCacheItem.TotalViews = (int)questionViews.Sum(qv => qv.Count);
+            if (questionViews != null)
+            {
+                questionCacheItem.TotalViews = (int)questionViews.Sum(qv => qv.Count);
 
-            var startDate = DateTime.Now.Date.AddDays(-90);
-            var endDate = DateTime.Now.Date;
+                var startDate = DateTime.Now.Date.AddDays(-90);
+                var endDate = DateTime.Now.Date;
 
-            var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
-                .Select(d => startDate.AddDays(d));
+                var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+                    .Select(d => startDate.AddDays(d));
 
-            questionCacheItem.ViewsOfPast90Days = questionViews.Where(qv => dateRange.Contains(qv.DateOnly))
-                .Select(qv => new DailyViews
+                questionCacheItem.ViewsOfPast90Days = questionViews.Where(qv => dateRange.Contains(qv.DateOnly))
+                    .Select(qv => new DailyViews
+                    {
+                        Date = qv.DateOnly,
+                        Count = qv.Count
+                    })
+                    .OrderBy(v => v.Date)
+                    .ToList();
+            }
+
+            if (questionChanges != null)
+            {
+                QuestionEditData? previousData = null;
+                QuestionEditData currentData;
+                var questionChangeCacheItems = new List<QuestionChangeCacheItem>();
+
+                foreach (var curr in questionChanges)
                 {
-                    Date = qv.DateOnly,
-                    Count = qv.Count
-                })
-                .OrderBy(v => v.Date)
-                .ToList();
+                    if (curr.DataVersion == 1)
+                    {
+                        currentData = QuestionEditData_V1.CreateFromJson(curr.Data);
+                    }
+                    else
+                    {
+                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
+                    }
+
+                    if (currentData == null)
+                        continue;
+
+                    var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(curr, currentData, previousData);
+                    questionChangeCacheItems.Add(cacheItem);
+                    previousData = currentData;
+                }
+
+                questionCacheItem.QuestionChangeCacheItems = questionChangeCacheItems
+                    .OrderByDescending(change => change.DateCreated)
+                    .ToList();
+            }
         }
 
         if (!EntityCache.IsFirstStart)
@@ -201,16 +238,22 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews)
+    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges)
     {
         var questionViewsByQuestionId = questionViews
             .GroupBy(qv => qv.QuestionId)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        var questionChangesDictionary = questionChanges
+            .GroupBy(qc => qc.Question?.Id ?? -1)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         return questions.Select(q =>
         {
             questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
-            return ToCacheQuestion(q, questionViewsWithId);
+            questionChangesDictionary.TryGetValue(q.Id, out var questionChanges);
+
+            return ToCacheQuestion(q, questionViewsWithId, questionChanges);
         });
     }
 
@@ -360,5 +403,31 @@ public class QuestionCacheItem
             })
             .Reverse()
             .ToList();
+    }
+
+    public void AddCategoryChangeToCategoryChangeCacheItems(QuestionChange questionChange)
+    {
+        if (QuestionChangeCacheItems == null)
+        {
+            QuestionChangeCacheItems = new List<QuestionChangeCacheItem>();
+        }
+
+        var currentData = questionChange.GetQuestionChangeData();
+        QuestionEditData? previousData = QuestionChangeCacheItems.Count > 0 ? QuestionChangeCacheItems.First().GetQuestionChangeData() : null;
+
+        var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(questionChange, currentData, previousData);
+
+        QuestionChangeCacheItems.Insert(0, cacheItem);
+        EntityCache.AddOrUpdate(this);
+    }
+
+    public void AddComment(Comment comment)
+    {
+        if (CommentIds == null)
+        {
+            CommentIds = new List<int>();
+        }
+
+        CommentIds.Add(comment.Id);
     }
 }

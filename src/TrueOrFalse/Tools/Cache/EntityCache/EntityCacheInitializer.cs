@@ -6,7 +6,9 @@ public class EntityCacheInitializer(
     QuestionReadingRepo _questionReadingRepo,
     CategoryRelationRepo _categoryRelationRepo,
     CategoryViewRepo _categoryViewRepo,
-    QuestionViewRepository _questionViewRepository) : IRegisterAsInstancePerLifetime
+    QuestionViewRepository _questionViewRepository,
+    CategoryChangeRepo _categoryChangeRepo,
+    QuestionChangeRepo _questionChangeRepo) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {
@@ -31,17 +33,22 @@ public class EntityCacheInitializer(
         var allCategoryViews = _categoryViewRepo.GetAllEager();
         Logg.r.Information("EntityCache CategoryViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = CategoryCacheItem.ToCacheCategories(allCategories, allCategoryViews).ToList();
+        var allCategoryChanges = _categoryChangeRepo.GetAll();
+        Logg.r.Information("EntityCache CategoryChangesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
+        var categories = CategoryCacheItem.ToCacheCategories(allCategories, allCategoryViews, allCategoryChanges).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Cache.IntoForeverCache(EntityCache.CacheKeyCategories, categories.ToConcurrentDictionary());
         EntityCache.AddViewsLast30DaysToTopics(_categoryViewRepo, categories);
         Logg.r.Information("EntityCache CategoriesPutIntoForeverCache " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
+        var allQuestionChanges = _questionChangeRepo.GetAll();
+
         var allQuestions = _questionReadingRepo.GetAllEager();
         Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var allQuestionViews = _questionViewRepository.GetAllEager();
         Logg.r.Information("EntityCache QuestionViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews).ToList();
+        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges).ToList();
         Logg.r.Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Logg.r.Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 

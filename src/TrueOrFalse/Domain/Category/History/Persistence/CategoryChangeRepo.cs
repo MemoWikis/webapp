@@ -19,19 +19,20 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
     }
 
     public void AddCreateEntry(CategoryRepository categoryRepository, Category category, int authorId) =>
-        AddUpdateOrCreateEntry(categoryRepository,category, authorId, CategoryChangeType.Create);
+        AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Create);
     public void AddCreateEntryDbOnly(CategoryRepository categoryRepository, Category category, User author) =>
-        AddUpdateOrCreateEntryDbOnly(categoryRepository,category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>    
+        AddUpdateOrCreateEntryDbOnly(categoryRepository, category, author, CategoryChangeType.Create);
+    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>
         AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Update, imageWasUpdated);
-    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category,
+    public void AddUpdateEntry(
+        CategoryRepository categoryRepository,
+        Category category,
         int authorId,
         bool imageWasUpdated,
-        CategoryChangeType type,
-        int[] affectedParentIdsByMove = null) =>
-        AddUpdateOrCreateEntry(categoryRepository, category, authorId, type, imageWasUpdated, affectedParentIdsByMove);
+        CategoryChangeType type) =>
+        AddUpdateOrCreateEntry(categoryRepository, category, authorId, type, imageWasUpdated);
 
-    private void AddUpdateOrCreateEntry(CategoryRepository categoryRepository, Category category, int authorId, CategoryChangeType categoryChangeType, bool imageWasUpdated = false, int[] affectedParentIdsByMove = null)
+    private void AddUpdateOrCreateEntry(CategoryRepository categoryRepository, Category category, int authorId, CategoryChangeType categoryChangeType, bool imageWasUpdated = false)
     {
         var categoryChange = new CategoryChange
         {
@@ -40,6 +41,8 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             AuthorId = authorId,
             DataVersion = 2
         };
+        var categoryCacheItem = EntityCache.GetCategory(category);
+
         if (category.AuthorIds == null)
         {
             category.AuthorIds = "";
@@ -49,26 +52,58 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             var newAuthorIdsInts = category.AuthorIdsInts.ToList();
             newAuthorIdsInts.Add(authorId);
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
-            var categoryCacheItem = EntityCache.GetCategory(category);
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
             //the line should not be needed
             EntityCache.AddOrUpdate(categoryCacheItem);
             categoryRepository.Update(category);
         }
-        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
+
+        var parentIds = categoryCacheItem.ParentRelations.Any()
+            ? GetParentIds(categoryCacheItem.ParentRelations)
+            : null;
+
+        var childIds = categoryCacheItem.ChildRelations.Any()
+            ? GetChildIds(categoryCacheItem.ChildRelations)
+            : null;
+
+        SetData(categoryRepository, category, imageWasUpdated, categoryChange, parentIds: parentIds, childIds: childIds);
         base.Create(categoryChange);
+        categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(categoryChange);
     }
 
-    private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, int[] affectedParentIds, CategoryChange categoryChange)
+    private int[] GetParentIds(IList<CategoryCacheRelation> parentRelations)
+    {
+        var parentIds = new List<int>();
+
+        foreach (var parentRelation in parentRelations)
+        {
+            parentIds.Add(parentRelation.ParentId);
+        }
+
+        return parentIds.ToArray();
+    }
+
+    private int[] GetChildIds(IList<CategoryCacheRelation> childrenRelations)
+    {
+        var childrenIds = new List<int>();
+
+        foreach (var childrenRelation in childrenRelations)
+        {
+            childrenIds.Add(childrenRelation.ChildId);
+        }
+
+        return childrenIds.ToArray();
+    }
+
+    private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, CategoryChange categoryChange, int[]? affectedParentIds = null, int[]? parentIds = null, int[]? childIds = null)
     {
         switch (categoryChange.DataVersion)
         {
             case 1:
                 categoryChange.Data = new CategoryEditData_V1(category, _session, categoryRepository).ToJson();
                 break;
-
             case 2:
-                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds, _session).ToJson();
+                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds, _session, parentIds, childIds).ToJson();
                 break;
 
             default:
@@ -169,8 +204,7 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
     private void AddUpdateOrCreateEntryDbOnly(CategoryRepository categoryRepository, Category category,
         User author,
         CategoryChangeType categoryChangeType,
-        bool imageWasUpdated = false,
-        int[] affectedParentIdsByMove = null)
+        bool imageWasUpdated = false)
     {
         var categoryChange = new CategoryChange
         {
@@ -182,14 +216,15 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         if (category.AuthorIds == null)
         {
             category.AuthorIds = "";
-        } else if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && category.AuthorIdsInts.All(id => id != author.Id))
+        }
+        else if (AuthorWorthyChangeCheck(categoryChangeType) && author.Id > 0 && category.AuthorIdsInts.All(id => id != author.Id))
         {
             var newAuthorIdsInts = category.AuthorIdsInts.ToList();
             newAuthorIdsInts.Add(author.Id);
             category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
             categoryRepository.UpdateOnlyDb(category);
         }
-        SetData(categoryRepository, category, imageWasUpdated, affectedParentIdsByMove, categoryChange);
+        SetData(categoryRepository, category, imageWasUpdated, categoryChange);
         base.Create(categoryChange);
     }
 }

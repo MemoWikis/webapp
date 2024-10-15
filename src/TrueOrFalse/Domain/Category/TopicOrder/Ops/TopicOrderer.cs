@@ -26,9 +26,13 @@
             throw new Exception(FrontendMessageKeys.Error.Category.CircularReference);
         }
 
-        modifyRelationsForCategory.AddChild(newParentId, relation.ChildId);
-        ModifyRelationsEntityCache.RemoveParent(EntityCache.GetCategory(relation.ChildId),
-            relation.ParentId, authorId, modifyRelationsForCategory, permissionCheck);
+        modifyRelationsForCategory.AddChild(newParentId, relation.ChildId, authorId);
+        ModifyRelationsEntityCache.RemoveParent(
+            EntityCache.GetCategory(relation.ChildId),
+            relation.ParentId,
+            authorId,
+            modifyRelationsForCategory,
+            permissionCheck);
     }
 
     public static (List<CategoryCacheRelation> UpdatedOldOrder, List<CategoryCacheRelation>

@@ -53,7 +53,7 @@ const editor = useEditor({
             let eventContent = event.content as any
             let content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src;
+                let src = content[0].attrs.src
                 if (src.length > 1048576 && src.startsWith('data:image')) {
                     alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
                     return true
@@ -76,8 +76,7 @@ watch(() => props.content, (c) => {
     <div>
         <div class="commentAnswerAddContainer" id="CommentAnswerAddComponent">
             <div class="row">
-                <div class="col-sm-2 hidden-xs"></div>
-                <div class="col-sm-10 col-xs-12">
+                <div class="col-xs-12">
                     <div id="AddAnswerTextFormContainer" class="inline-question-editor">
                         <div class="input-container">
                             <div class="overline-s no-line">Deine Antwort</div>
@@ -97,3 +96,12 @@ watch(() => props.content, (c) => {
         </div>
     </div>
 </template>
+
+<style lang="less" scoped>
+.commentAnswersContainer {
+    padding-top: 0px;
+}
+.commentAnswerAddContainer {
+    padding-top: 24px;
+}
+</style>

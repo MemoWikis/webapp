@@ -334,7 +334,6 @@ public class EntityCache
     {
         AddOrUpdate(Categories, categoryCacheItem);
     }
-
     public static void UpdateCategoryReferencesInQuestions(CategoryCacheItem categoryCacheItem)
     {
         var affectedQuestionsIds = GetQuestionsIdsForCategory(categoryCacheItem.Id);

@@ -25,6 +25,10 @@ public class CategoryEditData_V1 : CategoryEditData
         Visibility = category.Visibility;
     }
 
+    public CategoryEditData_V1()
+    {
+    }
+
     public override Category ToCategory(int categoryId)
     {
         var category = _categoryRepository.GetById(categoryId);
@@ -56,4 +60,7 @@ public class CategoryEditData_V1 : CategoryEditData
 
     public static CategoryEditData_V1 CreateFromJson(string json) =>
         JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
+
+    //placeholder
+    public override CategoryCacheItem ToCacheCategory(int categoryId) => new CategoryCacheItem();
 }
