@@ -55,7 +55,7 @@ const showFacebookPluginInfo = ref(false)
 const allowFacebookPlugin = ref(false)
 
 function loadFacebookPlugin(login = false) {
-    document.cookie = "allowFacebookPlugin=true";
+    document.cookie = "allowFacebookPlugin=true"
     allowFacebookPlugin.value = true
     showLoginIsInProgress.value = true
     facebookLoginComponent.value.loadPlugin(login)
@@ -108,10 +108,10 @@ onMounted(() => {
             @close="userStore.showLoginModal = false" @primary-btn="primaryAction" :show="userStore.showLoginModal"
             @keydown.esc="userStore.showLoginModal = false">
             <template v-slot:header>
-                <span v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</span>
-                <span v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</span>
-                <span v-else-if="showPasswordReset">Passwort zürcksetzen</span>
-                <span v-else>Anmelden</span>
+                <h2 v-if="showGooglePluginInfo && !allowGooglePlugin">Login mit Google</h2>
+                <h2 v-else-if="showFacebookPluginInfo && !allowFacebookPlugin">Login mit Facebook</h2>
+                <h2 v-else-if="showPasswordReset">Passwort zürcksetzen</h2>
+                <h2 v-else>Anmelden</h2>
             </template>
             <template v-slot:body>
                 <div v-if="showLoginIsInProgress">
@@ -322,4 +322,8 @@ onMounted(() => {
 
 <style scoped lang="less">
 @import '~~/assets/shared/register.less';
+
+h2 {
+    margin-bottom: 36px;
+}
 </style>

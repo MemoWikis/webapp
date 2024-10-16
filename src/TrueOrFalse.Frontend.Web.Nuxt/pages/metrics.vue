@@ -401,6 +401,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
 .chart-container {
     margin-bottom: 40px;
+    min-height: 300px;
 }
 
 .chart-toggle-section {
