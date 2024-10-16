@@ -291,6 +291,10 @@ const ariaId2 = useId()
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+.tab {
+	user-select: none;
+}
+
 .fallback {
 	.learning-tab {
 		margin-left: 15px;

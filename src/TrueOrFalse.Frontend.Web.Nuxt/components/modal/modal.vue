@@ -110,5 +110,11 @@ watch(() => props.show, (val) => {
 </style>
 
 <style lang="less">
-
+.modal-default-container  {
+    &.has-header {
+        h2 {
+            margin-bottom: 36px;
+        }
+    }
+}
 </style>
