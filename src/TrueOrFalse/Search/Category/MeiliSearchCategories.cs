@@ -28,8 +28,7 @@ namespace TrueOrFalse.Search
         public async Task<ISearchCategoriesResult> RunAsync(
             string searchTerm)
         {
-            var client = new MeilisearchClient(MeiliSearchConstants.Url,
-                MeiliSearchConstants.MasterKey);
+            var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
             var index = client.Index(MeiliSearchConstants.Categories);
             _result = new MeiliSearchCategoriesResult();
 
@@ -42,9 +41,7 @@ namespace TrueOrFalse.Search
         private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
         {
             var sq = new SearchQuery { Limit = _count };
-            var categoryMaps =
-                (await index.SearchAsync<MeiliSearchCategoryMap>(searchTerm, sq))
-                .Hits;
+            var categoryMaps = (await index.SearchAsync<MeiliSearchCategoryMap>(searchTerm, sq)).Hits;
 
             _result.Count = categoryMaps.Count;
 

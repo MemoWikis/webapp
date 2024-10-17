@@ -27,6 +27,7 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
             CreatorId = c.Creator == null ? -1 : c.Creator.Id,
             DateCreated = c.DateCreated,
             Description = c.Description,
+            Content = c.Content,
         });
 
         var index = _client.Index(MeiliSearchConstants.Categories);
