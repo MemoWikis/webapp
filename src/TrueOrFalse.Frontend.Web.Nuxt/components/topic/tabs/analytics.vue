@@ -155,7 +155,7 @@ onMounted(() => {
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedTopics" :datasets="past90DaysCountsAggregatedTopics" :color="color.darkBlue"
-                                :title="`Inkl. ${topicStore.childTopicCount} Unterthemen)`" />
+                                :title="`Inkl. ${topicStore.childTopicCount} Unterthemen`" />
                         </div>
 
                     </div>
