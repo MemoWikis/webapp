@@ -268,6 +268,10 @@ watch(() => props.tab, (t) => {
     
     ul {
         margin-bottom: 10px;
+
+        ul {
+            margin-bottom: 0px;
+        }
     }
 
     pre {
