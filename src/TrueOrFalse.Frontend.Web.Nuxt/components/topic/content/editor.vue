@@ -114,7 +114,7 @@ const deleteImageSrc = ref()
 
 const initEditor = () => {
     editor.value = new Editor({
-        content: topicStore.initialContent,
+        content: provider.value?.isConnected ? null : topicStore.initialContent,
         extensions: [
             StarterKit.configure({
                 heading: false,
@@ -264,11 +264,8 @@ const recreate = (login: boolean = false) => {
 
     if (userStore.isLoggedIn && loadCollab.value) {
         initProvider()
-
-
     }
     else if (!userStore.isLoggedIn) providerLoaded.value = true
-
     initEditor()
 }
 
