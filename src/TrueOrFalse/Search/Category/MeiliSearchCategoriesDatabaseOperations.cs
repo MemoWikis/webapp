@@ -63,7 +63,7 @@ namespace TrueOrFalse.Search
             index = client.Index(indexConstant);
             var categoryMap = new MeiliSearchCategoryMap
             {
-                CreatorId = category.Creator.Id,
+                CreatorName = category.Creator.Name,
                 DateCreated = category.DateCreated == DateTime.MinValue
                     ? DateTime.Now
                     : category.DateCreated,

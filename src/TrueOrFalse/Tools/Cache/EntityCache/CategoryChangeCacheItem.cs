@@ -81,7 +81,7 @@ public class CategoryChangeCacheItem : IPersistable
         };
 
         return allowedGroupingTypes.Contains(previousCacheItem.Type)
-               && previousCacheItem.DateCreated - currentCacheItem.DateCreated <= TimeSpan.FromMinutes(timeSpan)
+               && Math.Abs((previousCacheItem.DateCreated - currentCacheItem.DateCreated).TotalMinutes) <= timeSpan
                && previousCacheItem.AuthorId == currentCacheItem.AuthorId
                && previousCacheItem.Visibility == currentCacheItem.Visibility;
     }
