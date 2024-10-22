@@ -23,6 +23,10 @@ public class CategoryChangeCacheItem : IPersistable
 
     public virtual CategoryChangeData CategoryChangeData { get; set; }
 
+    public virtual List<CategoryChangeCacheItem> GroupedCategoryChangeCacheItems { get; set; } = new List<CategoryChangeCacheItem>();
+    public virtual bool IsGroup => GroupedCategoryChangeCacheItems.Count > 1;
+    public virtual bool IsPartOfGroup { get; set; } = false;
+
     public virtual CategoryEditData GetCategoryChangeData()
     {
         switch (DataVersion)
@@ -57,6 +61,50 @@ public class CategoryChangeCacheItem : IPersistable
             DateCreated = currentCategoryChange.DateCreated,
             Visibility = currentData.Visibility,
             CategoryChangeData = changeData
+        };
+    }
+
+    public static bool CanBeGrouped(CategoryChangeCacheItem previousCacheItem, CategoryChangeCacheItem currentCacheItem)
+    {
+        var timeSpan = previousCacheItem.Type switch
+        {
+            CategoryChangeType.Renamed => 2,
+            CategoryChangeType.Relations => 5,
+            _ => 15
+        };
+
+        var allowedGroupingTypes = new List<CategoryChangeType>
+        {
+            CategoryChangeType.Text,
+            CategoryChangeType.Renamed,
+            CategoryChangeType.Relations
+        };
+
+        return allowedGroupingTypes.Contains(previousCacheItem.Type)
+               && previousCacheItem.DateCreated - currentCacheItem.DateCreated <= TimeSpan.FromMinutes(timeSpan)
+               && previousCacheItem.AuthorId == currentCacheItem.AuthorId
+               && previousCacheItem.Visibility == currentCacheItem.Visibility;
+    }
+
+    public static CategoryChangeCacheItem ToGroupedCategoryChangeCacheItem(List<CategoryChangeCacheItem> groupedCacheItems)
+    {
+        var oldestCategoryChangeItem = groupedCacheItems.First();
+        var newestCategoryChangeItem = groupedCacheItems.Last();
+
+        var changeData = GetCategoryChangeData(newestCategoryChangeItem.GetCategoryChangeData(), oldestCategoryChangeItem.GetCategoryChangeData(), newestCategoryChangeItem.Type, oldestCategoryChangeItem.Id);
+
+        return new CategoryChangeCacheItem
+        {
+            Id = newestCategoryChangeItem.Id,
+            CategoryId = newestCategoryChangeItem.CategoryId,
+            DataVersion = newestCategoryChangeItem.DataVersion,
+            Data = newestCategoryChangeItem.Data,
+            AuthorId = newestCategoryChangeItem.AuthorId,
+            Type = newestCategoryChangeItem.Type,
+            DateCreated = newestCategoryChangeItem.DateCreated,
+            Visibility = newestCategoryChangeItem.Visibility,
+            CategoryChangeData = changeData,
+            GroupedCategoryChangeCacheItems = groupedCacheItems
         };
     }
 

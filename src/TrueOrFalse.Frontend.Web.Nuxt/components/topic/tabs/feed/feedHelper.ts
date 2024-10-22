@@ -94,6 +94,7 @@ export interface ContentChange {
 }
 
 export interface TopicFeedItem {
+    oldestChangeIdInGroup?: number
     date: string
     type: TopicChangeType
     categoryChangeId: number

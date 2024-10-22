@@ -16,21 +16,31 @@ public class FeedController(
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
     public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);
-    public readonly record struct GetFeedRequest(int TopicId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true);
+    public readonly record struct GetFeedRequest(int TopicId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true, bool GetItemsInGroups = false);
 
     [HttpPost]
     public GetFeedResponse Get([FromBody] GetFeedRequest req)
     {
         var topic = EntityCache.GetCategory(req.TopicId);
 
-        var (pagedChanges, maxCount) = topic.GetVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize, req.GetDescendants, req.GetQuestions);
+        var (pagedChanges, maxCount) = topic.GetVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize, req.GetDescendants, req.GetQuestions, req.GetItemsInGroups);
 
         return new GetFeedResponse(
             feedItems: pagedChanges.Select(ToFeedItem).ToList(),
             maxCount: maxCount);
     }
 
-    public record struct TopicFeedItem(DateTime Date, CategoryChangeType Type, int CategoryChangeId, int TopicId, string Title, CategoryVisibility Visibility, Author Author, NameChange? NameChange = null, RelationChanges? RelationChanges = null);
+    public record struct TopicFeedItem(
+        DateTime Date,
+        CategoryChangeType Type,
+        int CategoryChangeId,
+        int TopicId, string Title,
+        CategoryVisibility Visibility,
+        Author Author,
+        NameChange? NameChange = null,
+        RelationChanges? RelationChanges = null,
+        bool IsGroup = false,
+        int? OldestChangeIdInGroup = null);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author, Comment? Comment);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
@@ -56,7 +66,9 @@ public class FeedController(
                 Visibility: change.Visibility,
                 Author: author,
                 NameChange: nameChange,
-                RelationChanges: relationChanges);
+                RelationChanges: relationChanges,
+                IsGroup: change.IsGroup,
+                OldestChangeIdInGroup: change.IsGroup ? change.GroupedCategoryChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
         }
