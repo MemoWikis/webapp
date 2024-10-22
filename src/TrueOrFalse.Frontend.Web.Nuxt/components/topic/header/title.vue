@@ -315,7 +315,7 @@ const ariaId2 = useId()
             width: 20px;
             min-height: 20px;
             min-width: 20px;
-            margin-left: 0px;
+            margin: 0 2px;
         }
 
         .topic-detail {

@@ -70,7 +70,7 @@ public class CategoryChangeCacheItem : IPersistable
         {
             CategoryChangeType.Renamed => 2,
             CategoryChangeType.Relations => 5,
-            _ => 15
+            _ => 10
         };
 
         var allowedGroupingTypes = new List<CategoryChangeType>

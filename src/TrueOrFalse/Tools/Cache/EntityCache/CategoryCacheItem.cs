@@ -564,8 +564,19 @@ public class CategoryCacheItem : IPersistable
 
     private bool FilteredGroupItem(FeedItem feedItem, bool getItemsInGroup)
     {
-        if (feedItem.CategoryChangeCacheItem != null && !getItemsInGroup)
-            return feedItem.CategoryChangeCacheItem.IsGroup || !feedItem.CategoryChangeCacheItem.IsPartOfGroup;
+        if (feedItem.CategoryChangeCacheItem != null)
+        {
+            if (getItemsInGroup)
+            {
+                if (feedItem.CategoryChangeCacheItem.IsGroup)
+                    return false;
+            }
+            else
+            {
+                if (feedItem.CategoryChangeCacheItem.IsPartOfGroup)
+                    return false;
+            }
+        }
 
         return true;
     }
