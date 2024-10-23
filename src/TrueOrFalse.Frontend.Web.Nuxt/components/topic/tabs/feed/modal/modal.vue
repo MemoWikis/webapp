@@ -50,7 +50,8 @@ const getContentChange = async () => {
         spinnerStore.showSpinner()
         const data = {
             topicId: props.feedItem.topicFeedItem.topicId,
-            changeId: props.feedItem.topicFeedItem.categoryChangeId
+            changeId: props.feedItem.topicFeedItem.categoryChangeId,
+            oldestChangeId: props.feedItem.topicFeedItem.oldestChangeIdInGroup
         }
         const response = await $api<ContentChange>(`/apiVue/FeedModalTopic/GetContentChange/`, {
             method: 'POST',
@@ -126,5 +127,4 @@ h2 {
     margin-top: 5px;
     margin-bottom: 36px;
 }
-
 </style>

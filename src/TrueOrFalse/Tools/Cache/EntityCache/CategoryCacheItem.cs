@@ -333,6 +333,7 @@ public class CategoryCacheItem : IPersistable
                 CategoryEditData currentData;
                 int? previousId = null;
                 var categoryChangeCacheItems = new List<CategoryChangeCacheItem>();
+                var currentGroupedCacheItem = new List<CategoryChangeCacheItem>();
 
                 foreach (var curr in categoryChanges)
                 {
@@ -352,10 +353,38 @@ public class CategoryCacheItem : IPersistable
                     if (currentData == null)
                         continue;
 
-                    var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData, previousId);
-                    categoryChangeCacheItems.Add(cacheItem);
+                    var currentCacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(curr, currentData, previousData, previousId);
+
+                    if (categoryChangeCacheItems.Count > 0)
+                    {
+                        if (CategoryChangeCacheItem.CanBeGrouped(categoryChangeCacheItems.Last(), currentCacheItem))
+                        {
+                            if (currentGroupedCacheItem.Count == 0)
+                            {
+                                var previousCacheItem = categoryChangeCacheItems.Last();
+                                previousCacheItem.IsPartOfGroup = true;
+                                currentGroupedCacheItem.Add(previousCacheItem);
+                            }
+                            currentCacheItem.IsPartOfGroup = true;
+                            currentGroupedCacheItem.Add(currentCacheItem);
+                        }
+                        else if (currentGroupedCacheItem.Count > 1)
+                        {
+                            var groupedCategoryChangeCacheItem = CategoryChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
+                            categoryChangeCacheItems.Add(groupedCategoryChangeCacheItem);
+                        }
+                    }
+
+                    categoryChangeCacheItems.Add(currentCacheItem);
                     previousData = currentData;
                     previousId = curr.Id;
+                }
+
+                // handle last group
+                if (currentGroupedCacheItem.Count > 1)
+                {
+                    var groupedCategoryChangeCacheItem = CategoryChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
+                    categoryChangeCacheItems.Add(groupedCategoryChangeCacheItem);
                 }
 
                 categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
@@ -437,7 +466,7 @@ public class CategoryCacheItem : IPersistable
     }
 
     public record struct FeedItem(DateTime DateCreated, CategoryChangeCacheItem? CategoryChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
-    public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false)
+    public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false, bool getItemsInGroup = false)
     {
         IList<FeedItem> changes;
 
@@ -495,7 +524,7 @@ public class CategoryCacheItem : IPersistable
             }
         }
 
-        var visibleChanges = changes.Where(c => IsVisibleForUser(userId, c));
+        var visibleChanges = changes.Where(c => IsVisibleForUser(userId, c) && FilteredGroupItem(c, getItemsInGroup));
         var pagedChanges = visibleChanges
             .Skip((page - 1) * pageSize)
             .Take(pageSize);
@@ -531,24 +560,75 @@ public class CategoryCacheItem : IPersistable
             return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || feedItem.QuestionChangeCacheItem.AuthorId == userId;
 
         return false;
+    }
 
+    private bool FilteredGroupItem(FeedItem feedItem, bool getItemsInGroup)
+    {
+        if (feedItem.CategoryChangeCacheItem != null)
+        {
+            if (getItemsInGroup)
+            {
+                if (feedItem.CategoryChangeCacheItem.IsGroup)
+                    return false;
+            }
+            else
+            {
+                if (feedItem.CategoryChangeCacheItem.IsPartOfGroup)
+                    return false;
+            }
+        }
+
+        return true;
     }
 
     public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)
     {
-
-        if (CategoryChangeCacheItems == null)
-        {
-            CategoryChangeCacheItems = new List<CategoryChangeCacheItem>();
-        }
+        CategoryChangeCacheItems ??= new List<CategoryChangeCacheItem>();
 
         var currentData = categoryChange.GetCategoryChangeData();
         var previousChange = CategoryChangeCacheItems.FirstOrDefault();
         CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetCategoryChangeData() : null;
         var previousId = CategoryChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;
 
-        var cacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData, previousId);
-        CategoryChangeCacheItems.Insert(0, cacheItem);
+        var newCacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(categoryChange, currentData, previousData, previousId);
+        HandleNewGroup(newCacheItem);
+    }
+
+    private void HandleNewGroup(CategoryChangeCacheItem newCacheItem)
+    {
+        if (CategoryChangeCacheItems.Count > 0)
+        {
+            var previousCacheItem = CategoryChangeCacheItems.First();
+
+            if (CategoryChangeCacheItem.CanBeGrouped(previousCacheItem, newCacheItem))
+            {
+                if (previousCacheItem.IsGroup)
+                {
+                    var newGroupedCacheItems = new List<CategoryChangeCacheItem>(previousCacheItem.GroupedCategoryChangeCacheItems);
+                    newCacheItem.IsPartOfGroup = true;
+                    newGroupedCacheItems.Add(newCacheItem);
+
+                    CategoryChangeCacheItems[0] = newCacheItem;
+                    var newGroup = CategoryChangeCacheItem.ToGroupedCategoryChangeCacheItem(newGroupedCacheItems);
+                    CategoryChangeCacheItems.Insert(0, newGroup);
+                }
+                else
+                {
+                    previousCacheItem.IsPartOfGroup = true;
+                    newCacheItem.IsPartOfGroup = true;
+
+                    var groupedCacheItems = new List<CategoryChangeCacheItem> { previousCacheItem, newCacheItem };
+                    CategoryChangeCacheItems.Insert(0, newCacheItem);
+                    var newGroup = CategoryChangeCacheItem.ToGroupedCategoryChangeCacheItem(groupedCacheItems);
+                    CategoryChangeCacheItems.Insert(0, newGroup);
+                }
+
+                EntityCache.AddOrUpdate(this);
+                return;
+            }
+        }
+
+        CategoryChangeCacheItems.Insert(0, newCacheItem);
         EntityCache.AddOrUpdate(this);
     }
 }

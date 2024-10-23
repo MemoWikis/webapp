@@ -9,7 +9,7 @@ public class FeedModalTopicController(
     PermissionCheck _permissionCheck,
     CategoryChangeRepo _categoryChangeRepo) : Controller
 {
-    public readonly record struct GetContentChangeRequest(int Topicid, int ChangeId);
+    public readonly record struct GetContentChangeRequest(int Topicid, int ChangeId, int? OldestChangeId = null);
     public record struct ContentChange(string CurrentContent, string DiffContent);
 
     [HttpPost]
@@ -21,7 +21,7 @@ public class FeedModalTopicController(
 
         var currentChange = _categoryChangeRepo.GetById(req.ChangeId);
 
-        var previousId = topic?.CategoryChangeCacheItems.First(cc => cc.Id == req.ChangeId).CategoryChangeData.PreviousId;
+        var previousId = topic?.CategoryChangeCacheItems.First(cc => cc.Id == (req.OldestChangeId > 0 ? req.OldestChangeId : req.ChangeId)).CategoryChangeData.PreviousId;
 
         if (currentChange == null || previousId == null)
             throw new Exception("No content change found");
@@ -38,6 +38,9 @@ public class FeedModalTopicController(
 
         if (String.IsNullOrEmpty(previousContent) && previousChange.DataVersion == 1 && !String.IsNullOrEmpty(previousChangeData.TopicMardkown))
             previousContent = MarkdownMarkdig.ToHtml(previousChangeData.TopicMardkown);
+
+        if (previousContent == null)
+            previousContent = "";
 
         HtmlDiff.HtmlDiff diffHelper = new HtmlDiff.HtmlDiff(previousContent, currentContent);
         string diffOutput = diffHelper.Build();

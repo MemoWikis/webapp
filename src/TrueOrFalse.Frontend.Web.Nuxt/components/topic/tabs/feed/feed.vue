@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useUserStore } from '~/components/user/userStore'
 import { useTopicStore } from '../../topicStore'
 import { Tab, useTabsStore } from '../tabsStore'
 import { Author, FeedItem, FeedItemGroupByAuthor, FeedType, TopicChangeType } from './feedHelper'
 
 const topicStore = useTopicStore()
 const tabsStore = useTabsStore()
+const userStore = useUserStore()
 
 const feedItems = ref<FeedItem[]>()
 const currentPage = ref(1)
@@ -48,8 +50,7 @@ function getDateLabel(dateString: string) {
 
 const getDescendants = ref(true)
 const getQuestions = ref(true)
-
-const { isDesktop } = useDevice()
+const getGroups = ref(true)
 
 const getFeedItems = async () => {
 
@@ -58,7 +59,8 @@ const getFeedItems = async () => {
         page: currentPage.value,
         pageSize: 100,
         getDescendants: getDescendants.value,
-        getQuestions: getQuestions.value
+        getQuestions: getQuestions.value,
+        getItemsInGroups: !getGroups.value
     }
 
     interface GetFeedResponse {
@@ -85,6 +87,12 @@ const getFeedItems = async () => {
 watch(getDescendants, () => {
     getFeedItems()
 })
+watch(getGroups, () => {
+    getFeedItems()
+})
+watch(getQuestions, () => {
+    getFeedItems()
+})
 
 watch(() => tabsStore.activeTab, (tab) => {
     if (tab === Tab.Feed && import.meta.client) {
@@ -109,20 +117,45 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
         selectedFeedItem.value = feedItem
     }
 }
-
+const ariaId = useId()
 </script>
 
 <template>
     <div class="row">
 
         <div class="col-xs-12 feed">
-            <div class="header" :class="{ 'mobile': !isDesktop }">
-                <div class="checkbox-container" @click="getDescendants = !getDescendants">
-                    <label>Unterthemen einschließen</label>
-                    <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
+            <div class="header">
+                <VDropdown :aria-id="ariaId" :distance="0" :popperHideTriggers="(triggers: any) => []" :arrow-padding="300" placement="auto">
+                    <div class="feed-settings-btn">
+                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" />
+                    </div>
+                    <template #popper>
+                        <div class="checkbox-container dropdown-row" @click="getDescendants = !getDescendants">
+                            <label>Unterthemen einschließen</label>
+                            <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
 
-                    <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
-                </div>
+                            <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
+                        </div>
+
+                        <template v-if="userStore.isAdmin">
+                            <div class="checkbox-container dropdown-row" @click="getGroups = !getGroups">
+                                <label>Gruppieren</label>
+                                <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getGroups" class="active" />
+
+                                <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
+                            </div>
+
+                            <div class="checkbox-container dropdown-row" @click="getQuestions = !getQuestions">
+                                <label>Fragen einschließen</label>
+                                <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getQuestions" class="active" />
+
+                                <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
+                            </div>
+                        </template>
+
+                    </template>
+                </VDropdown>
+
             </div>
 
             <TopicTabsFeedUserCard v-for="feedItemsByAuthor in groupedFeedItemsByAuthor" :authorGroup="feedItemsByAuthor" @open-feed-modal="openModal" class="feed-item" />
@@ -165,53 +198,64 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
     align-items: center;
     z-index: 2;
     margin-bottom: -24px;
+    margin-top: 8px;
+    position: relative;
+}
 
-    .checkbox-container {
-        border-radius: 44px;
-        padding: 2px 8px;
-        user-select: none;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        margin-top: 4px;
-        background: white;
-        z-index: 2;
+.feed-settings-btn {
+    cursor: pointer;
+    font-size: 18px;
+    color: @memo-grey-dark;
+    background: white;
+    border-radius: 44px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    z-index: 5;
 
-        label  {
-            margin-bottom: 0;
-            color: @memo-grey-dark;
-            cursor: pointer;
-                z-index: 2;
-
-        }
-
-        .active, .not-active {
-            margin-left: 8px;
-            font-size: 1.8em;
-        }
-
-        .active {
-            color: @memo-blue-link;
-        }
-        .not-active {
-            color: @memo-grey-light;
-        }
-        &:hover{
-            filter: brightness(0.95);
-        }
-
-        &:active {
-            filter: brightness(0.9);
-        }
+    &:hover {
+        filter: brightness(0.95);
     }
 
-    &.mobile {
-        justify-content: center;
-        margin-bottom: -8px;
-        border-bottom: solid 1px @memo-grey-light;
-        padding-top: 4px;
-        padding-bottom: 8px;
-        margin: 0 32px;
+    &:active {
+        filter: brightness(0.9);
+    }
+}
+
+.checkbox-container {
+    padding: 2px 8px;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    margin-top: 4px;
+    background: white;
+    z-index: 2;
+
+    label {
+        margin-bottom: 0;
+        color: @memo-grey-dark;
+        cursor: pointer;
+        z-index: 2;
+
+    }
+
+    .active,
+    .not-active {
+        margin-left: 8px;
+        font-size: 1.8em;
+    }
+
+    .active {
+        color: @memo-blue-link;
+    }
+
+    .not-active {
+        color: @memo-grey-light;
     }
 }
 
@@ -223,6 +267,6 @@ const openModal = (e: { type: FeedType, id: number, index: number }) => {
 }
 
 .feed {
-        max-width: calc(100vw - 20px);
+    max-width: calc(100vw - 20px);
 }
 </style>

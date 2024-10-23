@@ -24,7 +24,7 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
         {
             Id = c.Id,
             Name = c.Name,
-            CreatorId = c.Creator == null ? -1 : c.Creator.Id,
+            CreatorName = c.Creator == null ? "Unbekannt" : c.Creator.Name,
             DateCreated = c.DateCreated,
             Description = c.Description,
             Content = c.Content,
