@@ -14,11 +14,11 @@ function footerCheck() {
     var topicContentElement = document.getElementById('TopicContent')
     if (topicContentElement) {
         var contentWidth = topicContentElement.clientWidth
-        var windowWidth = window.innerWidth;
+        var windowWidth = window.innerWidth
         const elFooter = document.getElementById('EditBarAnchor')
 
         if (elFooter) {
-            var rect = elFooter.getBoundingClientRect();
+            var rect = elFooter.getBoundingClientRect()
             var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight)
             if (rect.top - viewHeight >= 0) {
                 if (footerIsVisible.value && editMode.value) {
@@ -42,7 +42,8 @@ function footerCheck() {
 function handleSaveShortcut(e: KeyboardEvent) {
     if (e.ctrlKey && e.key === 's') {
         e.preventDefault()
-        topicStore.saveTopic()
+        topicStore.saveContent()
+        topicStore.saveName()
     }
 }
 
@@ -55,8 +56,18 @@ watch(() => topicStore.contentHasChanged, (val) => {
     }
 })
 
+watch(() => topicStore.nameHasChanged, (val) => {
+    footerCheck()
+    if (userStore.isLoggedIn) {
+        if (val)
+            document.addEventListener('keydown', handleSaveShortcut)
+        else document.removeEventListener('keydown', handleSaveShortcut)
+    }
+})
+
 watch(() => topicStore.id, () => {
     topicStore.contentHasChanged = false
+    topicStore.nameHasChanged = false
 })
 
 const isExtended = ref(false)
@@ -87,12 +98,12 @@ const { isMobile } = useDevice()
 
 <template>
     <div id="EditBar" class="col-xs-12"
-        :class="{ 'is-shown': topicStore.contentHasChanged && tabsStore.activeTab == Tab.Topic }">
+        :class="{ 'is-shown': (topicStore.contentHasChanged || topicStore.nameHasChanged) && tabsStore.activeTab == Tab.Topic }">
         <div class="fab-container">
             <template v-if="tabsStore.activeTab == Tab.Topic">
-                <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged">
+                <div class="edit-mode-bar-container" v-if="topicStore.contentHasChanged || topicStore.nameHasChanged">
                     <div class="toolbar"
-                        :class="{ 'stuck': footerIsVisible, 'is-hidden': !topicStore.contentHasChanged, 'shrink': shrink, 'expand': expand, 'not-logged-in': !userStore.isLoggedIn }">
+                        :class="{ 'stuck': footerIsVisible, 'is-hidden': (!topicStore.contentHasChanged && !topicStore.nameHasChanged), 'shrink': shrink, 'expand': expand, 'not-logged-in': !userStore.isLoggedIn }">
                         <div class="toolbar-btn-container">
                             <div class="centerText mobile" v-if="isMobile && !userStore.isLoggedIn">
                                 <div @click="userStore.openLoginModal()">
@@ -119,25 +130,28 @@ const { isMobile } = useDevice()
                                 </div>
                             </div>
 
-                            <div class="btn-right" v-show="topicStore.contentHasChanged" v-else-if="userStore.isLoggedIn">
-                                <div class="button" @click.prevent="topicStore.saveTopic()" :class="{ expanded: editMode }">
-                                    <div class="icon">
-                                        <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                            <template v-else-if="userStore.isLoggedIn">
+                                <div class="btn-right" v-show="topicStore.contentHasChanged || topicStore.nameHasChanged">
+                                    <div class="button" @click.prevent="topicStore.saveContent(); topicStore.saveName()" :class="{ expanded: editMode }">
+                                        <div class="icon">
+                                            <font-awesome-icon icon="fa-solid fa-floppy-disk" />
+                                        </div>
+                                        <div class="btn-label">
+                                            Veröffentlichen
+                                        </div>
                                     </div>
-                                    <div class="btn-label">
-                                        Veröffentlichen
+
+                                    <div class="button" @click.prevent="topicStore.reset()" :class="{ expanded: editMode }">
+                                        <div class="icon">
+                                            <font-awesome-icon icon="fa-solid fa-xmark" />
+                                        </div>
+                                        <div class="btn-label">
+                                            Verwerfen
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="button" @click.prevent="topicStore.resetContent()" :class="{ expanded: editMode }">
-                                    <div class="icon">
-                                        <font-awesome-icon icon="fa-solid fa-xmark" />
-                                    </div>
-                                    <div class="btn-label">
-                                        Verwerfen
-                                    </div>
-                                </div>
-                            </div>
+                            </template>
                             <div class="btn-right" v-else-if="!isMobile"></div>
 
                         </div>

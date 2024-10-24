@@ -98,6 +98,7 @@ export const useTopicStore = defineStore('topicStore', {
 			content: '',
 			initialContent: '',
 			contentHasChanged: false,
+			nameHasChanged: false,
 			parentTopicCount: 0,
 			parents: [] as TinyTopicModel[],
 			childTopicCount: 0,
@@ -122,7 +123,8 @@ export const useTopicStore = defineStore('topicStore', {
 			viewsPast90DaysTopic: [] as ViewSummary[],
 			viewsPast90DaysAggregatedQuestions: [] as ViewSummary[],
 			viewsPast90DaysDirectQuestions: [] as ViewSummary[],
-			analyticsLoaded: false
+			analyticsLoaded: false,
+			saveTrackingArray: [] as string[],
 		}
 	},
 	actions: {
@@ -169,7 +171,7 @@ export const useTopicStore = defineStore('topicStore', {
 				this.viewsPast90DaysDirectQuestions = []
 			}
 		},
-		async saveTopic() {
+		async saveContent() {
 			const userStore = useUserStore()
 			const snackbarStore = useSnackbarStore()
 
@@ -178,18 +180,20 @@ export const useTopicStore = defineStore('topicStore', {
 				return
 			}
 
-			
+			if (this.contentHasChanged == false)
+				return
 			await this.waitUntilAllUploadsComplete()
-					
+			await this.waitUntilAllSavingsComplete()
+
+			const uploadId = nanoid(5)
+			this.saveTrackingArray.push(uploadId)
+
 			const data = {
 				id: this.id,
-				name: this.name,
-				saveName: this.name != this.initialName,
 				content: this.content,
-				saveContent: this.content != this.initialContent && this.contentHasChanged
 			}
 
-			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveTopic', {
+			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveContent', {
 				method: 'POST', 
 				body: data, 
 				mode: 'cors', 
@@ -206,8 +210,6 @@ export const useTopicStore = defineStore('topicStore', {
                     text: messages.success.category.saved
                 }
                 snackbarStore.showSnackbar(data)
-				this.contentHasChanged = false
-				this.initialName = this.name
 				this.initialContent = this.content
 				this.contentHasChanged = false
 			}
@@ -215,9 +217,66 @@ export const useTopicStore = defineStore('topicStore', {
 				const alertStore = useAlertStore()
 				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 			}
+
+			this.saveTrackingArray = this.saveTrackingArray.filter(id => id !== uploadId)
 		},
-		resetContent() {
+		async saveName() {
+			const userStore = useUserStore()
+			const snackbarStore = useSnackbarStore()
+
+			if (!userStore.isLoggedIn) {
+				userStore.openLoginModal()
+				return
+			}
+			if (this.name == this.initialName)
+				return
+
+			await this.waitUntilAllUploadsComplete()
+			await this.waitUntilAllSavingsComplete()
+
+			const uploadId = nanoid(5)
+			this.saveTrackingArray.push(uploadId)
+
+			const data = {
+				id: this.id,
+				name: this.name,
+			}
+
+			const result = await $api<FetchResult<boolean>>('/apiVue/TopicStore/SaveName', {
+				method: 'POST', 
+				body: data, 
+				mode: 'cors', 
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+				}
+			})
+
+			if (result.success == true && this.visibility != Visibility.Owner) {
+				const data: SnackbarData = {
+                    type: 'success',
+                    text: messages.success.category.saved
+                }
+                snackbarStore.showSnackbar(data)
+				this.initialName = this.name
+				this.nameHasChanged = false
+			}
+			else if (result.success == false) {
+				const alertStore = useAlertStore()
+				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+			}
+
+			this.saveTrackingArray = this.saveTrackingArray.filter(id => id !== uploadId)
+		},
+		async waitUntilAllSavingsComplete() {
+			while (this.saveTrackingArray.length > 0) {
+				await new Promise(resolve => setTimeout(resolve, 100))
+			}
+		},
+		reset() {
 			this.name = this.initialName
+			this.nameHasChanged = false
 			this.content = this.initialContent
 			this.contentHasChanged = false
 			this.uploadedImagesInContent = []

@@ -36,7 +36,7 @@ public class CategoryRepository(
         return GetByIdsEager();
     }
 
-    public Category GetByIdEager(int categoryId) =>
+    public Category? GetByIdEager(int categoryId) =>
         GetByIdsEager(new[] { categoryId }).FirstOrDefault();
 
 
@@ -69,7 +69,7 @@ public class CategoryRepository(
         return result;
     }
 
-    public Category GetById(int categoryId)
+    public Category? GetById(int categoryId)
     {
         return _session.QueryOver<Category>()
             .Where(c => c.Id == categoryId)

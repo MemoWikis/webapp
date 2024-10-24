@@ -63,7 +63,7 @@ const autoSave = () => {
         clearTimeout(autoSaveTimer.value)
     }
     autoSaveTimer.value = setTimeout(() => {
-        topicStore.saveTopic()
+        topicStore.saveName()
     }, 200)
 }
 
@@ -75,7 +75,7 @@ onBeforeMount(() => {
             if (topicStore.visibility == Visibility.Owner)
                 autoSave()
             else
-                topicStore.contentHasChanged = true
+                topicStore.nameHasChanged = true
         }
     })
 })

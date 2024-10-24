@@ -16,53 +16,79 @@ public class TopicStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     CategoryUpdater _categoryUpdater,
-    ImageStore _imageStore,
-    CategoryViewRepo _categoryViewRepo,
-    QuestionViewRepository _questionViewRepository) : Controller
+    ImageStore _imageStore) : Controller
 {
-    public readonly record struct SaveTopicParam(
-        int id,
-        string name,
-        bool saveName,
-        string content,
-        bool saveContent);
+    public readonly record struct SaveContentRequest(
+        int Id,
+        string Content);
 
-    public readonly record struct SaveTopicResult(bool Success, string MessageKey);
+    public readonly record struct SaveResult(bool Success, string MessageKey);
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public SaveTopicResult SaveTopic([FromBody] SaveTopicParam param)
+    public SaveResult SaveContent([FromBody] SaveContentRequest req)
     {
-        if (!_permissionCheck.CanEditCategory(param.id))
-            return new SaveTopicResult
+        var categoryCacheItem = EntityCache.GetCategory(req.Id);
+
+        if (categoryCacheItem == null || categoryCacheItem.Content.Trim() == req.Content.Trim())
+            return new SaveResult { Success = false };
+
+        if (!_permissionCheck.CanEdit(categoryCacheItem))
+            return new SaveResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Category.MissingRights
             };
 
-        var categoryCacheItem = EntityCache.GetCategory(param.id);
-        var category = _categoryRepository.GetById(param.id);
+        var category = _categoryRepository.GetByIdEager(req.Id);
 
-        if (categoryCacheItem == null || category == null)
-            return new SaveTopicResult { Success = false };
+        if (category == null)
+            return new SaveResult { Success = false };
 
-        if (param.saveName)
-        {
-            categoryCacheItem.Name = param.name;
-            category.Name = param.name;
-            _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Renamed);
-        }
-
-        if (param.saveContent)
-        {
-            categoryCacheItem.Content = param.content;
-            category.Content = param.content;
-            _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
-        }
+        categoryCacheItem.Content = req.Content;
+        category.Content = req.Content;
+        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
 
         EntityCache.AddOrUpdate(categoryCacheItem);
 
-        return new SaveTopicResult
+        return new SaveResult
+        {
+            Success = true
+        };
+    }
+
+    public readonly record struct SaveNameRequest(
+        int Id,
+        string Name);
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public SaveResult SaveName([FromBody] SaveNameRequest req)
+    {
+        var categoryCacheItem = EntityCache.GetCategory(req.Id);
+
+        if (categoryCacheItem == null || categoryCacheItem.Name.Trim() == req.Name.Trim())
+            return new SaveResult { Success = false };
+
+        if (!_permissionCheck.CanEdit(categoryCacheItem))
+            return new SaveResult
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+            };
+
+        var category = _categoryRepository.GetByIdEager(req.Id);
+
+        if (category == null)
+            return new SaveResult { Success = false };
+
+        categoryCacheItem.Name = req.Name;
+        category.Name = req.Name;
+        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Renamed);
+
+        EntityCache.AddOrUpdate(categoryCacheItem);
+
+        return new SaveResult
         {
             Success = true
         };
