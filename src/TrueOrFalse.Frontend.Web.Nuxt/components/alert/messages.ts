@@ -51,6 +51,7 @@ export const messages: any = {
             circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
             topicNotSelected: "Du hast kein Thema ausgewählt",
             newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
+            noChange: "Es wurden keine Änderungen vorgenommen.",
         },
         question: {
             missingText: "Der Fragetext fehlt.",
@@ -135,5 +136,5 @@ export const messages: any = {
             }
         }
         return currentLevel as string;
-    }
+    },
 }

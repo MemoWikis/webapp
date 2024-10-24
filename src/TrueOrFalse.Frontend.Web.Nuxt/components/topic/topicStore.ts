@@ -212,10 +212,11 @@ export const useTopicStore = defineStore('topicStore', {
                 snackbarStore.showSnackbar(data)
 				this.initialContent = this.content
 				this.contentHasChanged = false
-			}
-			else if (result.success == false) {
-				const alertStore = useAlertStore()
-				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+			} else if (result.success == false && result.messageKey != null ) {
+				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.category.noChange && this.visibility == Visibility.Owner)) {
+					const alertStore = useAlertStore()
+					alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+				}
 			}
 
 			this.saveTrackingArray = this.saveTrackingArray.filter(id => id !== uploadId)
@@ -261,10 +262,11 @@ export const useTopicStore = defineStore('topicStore', {
                 snackbarStore.showSnackbar(data)
 				this.initialName = this.name
 				this.nameHasChanged = false
-			}
-			else if (result.success == false) {
-				const alertStore = useAlertStore()
-				alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+			} else if (result.success == false && result.messageKey != null ) {
+				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.category.noChange && this.visibility == Visibility.Owner)) {
+					const alertStore = useAlertStore()
+					alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+				}
 			}
 
 			this.saveTrackingArray = this.saveTrackingArray.filter(id => id !== uploadId)

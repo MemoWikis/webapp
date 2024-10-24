@@ -30,8 +30,12 @@ public class TopicStoreController(
     {
         var categoryCacheItem = EntityCache.GetCategory(req.Id);
 
-        if (categoryCacheItem == null || categoryCacheItem.Content.Trim() == req.Content.Trim())
-            return new SaveResult { Success = false };
+        if (categoryCacheItem == null)
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
+
+
+        if (categoryCacheItem.Content.Trim() == req.Content.Trim())
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.NoChange };
 
         if (!_permissionCheck.CanEdit(categoryCacheItem))
             return new SaveResult
@@ -43,7 +47,7 @@ public class TopicStoreController(
         var category = _categoryRepository.GetByIdEager(req.Id);
 
         if (category == null)
-            return new SaveResult { Success = false };
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         categoryCacheItem.Content = req.Content;
         category.Content = req.Content;
@@ -67,8 +71,11 @@ public class TopicStoreController(
     {
         var categoryCacheItem = EntityCache.GetCategory(req.Id);
 
-        if (categoryCacheItem == null || categoryCacheItem.Name.Trim() == req.Name.Trim())
-            return new SaveResult { Success = false };
+        if (categoryCacheItem == null)
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
+
+        if (categoryCacheItem.Name.Trim() == req.Name.Trim())
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.NoChange };
 
         if (!_permissionCheck.CanEdit(categoryCacheItem))
             return new SaveResult
@@ -80,10 +87,10 @@ public class TopicStoreController(
         var category = _categoryRepository.GetByIdEager(req.Id);
 
         if (category == null)
-            return new SaveResult { Success = false };
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        categoryCacheItem.Name = req.Name;
-        category.Name = req.Name;
+        categoryCacheItem.Name = req.Name.Trim();
+        category.Name = req.Name.Trim();
         _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Renamed);
 
         EntityCache.AddOrUpdate(categoryCacheItem);
