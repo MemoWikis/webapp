@@ -62,6 +62,7 @@
             public static readonly string NotFound = Route.NotFound;
             public static readonly string NoRights = Route.NoRights;
             public static readonly string Unauthorized = Route.Unauthorized;
+            public static readonly string NoChange = "error_category_noChange";
         }
 
         public static class Question
