@@ -277,7 +277,7 @@ function setHeadings() {
 
 topicStore.$onAction(({ name, after }) => {
     after(async () => {
-        if (name == 'resetContent') {
+        if (name == 'reset') {
             editor.value?.commands.setContent(topicStore.content)
             setHeadings()
         }
@@ -369,7 +369,7 @@ const autoSave = () => {
 
     autoSaveTimer.value = setTimeout(() => {
         if (editor.value) {
-            topicStore.saveTopic()
+            topicStore.saveContent()
         }
     }, 3000)
 
@@ -537,26 +537,29 @@ const { isMobile } = useDevice()
             font-size: 12px;
 
         })
+}
+
+.large-font {
+    h2 {
+        font-size: 2.6rem;
     }
 
-    .large-font {
-        h2 {
-            font-size: 2.6rem;
-        }
-        h3 {
-            font-size: 2.3rem;
-        }
-        h4 {
-            font-size: 2.1rem;
-        }
-        p {
-            font-size: 20px;
-        }
-
-        .media-below-sm({
-            font-size: 16px;
-        })
+    h3 {
+        font-size: 2.3rem;
     }
+
+    h4 {
+        font-size: 2.1rem;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .media-below-sm({
+        font-size: 16px;
+    })
+}
 }
 
 .private-topic {
