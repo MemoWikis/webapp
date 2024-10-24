@@ -83,7 +83,8 @@ public class CategoryChangeCacheItem : IPersistable
         return allowedGroupingTypes.Contains(previousCacheItem.Type)
                && Math.Abs((previousCacheItem.DateCreated - currentCacheItem.DateCreated).TotalMinutes) <= timeSpan
                && previousCacheItem.AuthorId == currentCacheItem.AuthorId
-               && previousCacheItem.Visibility == currentCacheItem.Visibility;
+               && previousCacheItem.Visibility == currentCacheItem.Visibility
+               && previousCacheItem.Type == currentCacheItem.Type;
     }
 
     public static CategoryChangeCacheItem ToGroupedCategoryChangeCacheItem(List<CategoryChangeCacheItem> groupedCacheItems)
