@@ -478,6 +478,8 @@ function drawCounterArcs() {
 }
 
 function updateCounters() {
+    if (!personalCounter.value || !overallCounter.value || angleIsNaN(personalWrongAnswerCountData.value) || angleIsNaN(personalCorrectAnswerCountData.value))
+        return
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter,.personalCorrectAnswerCounter")
         .style("visibility", () => {
