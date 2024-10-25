@@ -39,6 +39,7 @@ public class FeedController(
         Author Author,
         NameChange? NameChange = null,
         RelationChanges? RelationChanges = null,
+        DeleteData? DeleteData = null,
         bool IsGroup = false,
         int? OldestChangeIdInGroup = null);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author, Comment? Comment);
@@ -56,6 +57,7 @@ public class FeedController(
 
             var relationChange = change.CategoryChangeData.RelationChange;
             var relationChanges = change.Type == CategoryChangeType.Relations ? GetRelationChanges(relationChange) : null;
+            var deleteData = change.CategoryChangeData.DeleteData != null ? GetDeleteData(change.Type, change.CategoryChangeData.DeleteData?.DeletedName, change.CategoryChangeData.DeleteData?.DeleteChangeId) : null;
 
             var topicFeedItem = new TopicFeedItem(
                 Date: change.DateCreated,
@@ -67,6 +69,7 @@ public class FeedController(
                 Author: author,
                 NameChange: nameChange,
                 RelationChanges: relationChanges,
+                DeleteData: deleteData,
                 IsGroup: change.IsGroup,
                 OldestChangeIdInGroup: change.IsGroup ? change.GroupedCategoryChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
 
@@ -103,6 +106,7 @@ public class FeedController(
     public record struct Comment(string Title, int Id);
     public record struct RelatedTopic(int Id, string Name);
     public record struct RelationChanges(List<RelatedTopic> AddedParents, List<RelatedTopic> RemovedParents, List<RelatedTopic> AddedChildren, List<RelatedTopic> RemovedChildren);
+    public record struct DeleteData(int? DeleteChangeId, string DeletedName);
 
     private List<RelatedTopic> GetRelatedTopics(IEnumerable<int> ids)
     {
@@ -139,5 +143,13 @@ public class FeedController(
         }
 
         return author;
+    }
+
+    private DeleteData? GetDeleteData(CategoryChangeType type, [CanBeNull] string deletedName, int? changeId)
+    {
+        if (type == CategoryChangeType.ChildTopicDeleted || type == CategoryChangeType.QuestionDeleted)
+            return new DeleteData(changeId, deletedName);
+
+        return null;
     }
 }

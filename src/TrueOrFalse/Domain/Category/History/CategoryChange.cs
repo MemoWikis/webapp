@@ -51,4 +51,6 @@ public enum CategoryChangeType
     Image = 8,
     Restore = 9,
     Moved = 10,
+    ChildTopicDeleted = 11,
+    QuestionDeleted = 12,
 }

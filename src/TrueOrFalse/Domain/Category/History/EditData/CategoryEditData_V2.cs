@@ -21,10 +21,12 @@ public class CategoryEditData_V2 : CategoryEditData
     public CategoryEditData_V2(
         Category category,
         bool imageWasUpdated,
-        int[]? affectedParentIdsByMove,
         ISession nhibernateSession,
         int[]? parentIds,
-        int[]? childIds)
+        int[]? childIds,
+        int? deleteChangeId = null,
+        string? deletedName = null,
+        CategoryVisibility? deletedVisibility = null)
     {
         Name = category.Name;
         Description = category.Description;
@@ -34,9 +36,13 @@ public class CategoryEditData_V2 : CategoryEditData
         ImageWasUpdated = imageWasUpdated;
         _nhibernateSession = nhibernateSession;
         Visibility = category.Visibility;
-        AffectedParentIds = affectedParentIdsByMove ?? new int[] { };
         ParentIds = parentIds;
         ChildIds = childIds;
+        DeleteChangeId = deleteChangeId;
+        DeletedName = deletedName;
+
+        if (deleteChangeId != null && deletedVisibility != null && deleteChangeId > 0)
+            Visibility = deletedVisibility.Value;
     }
 
     public override string ToJson()

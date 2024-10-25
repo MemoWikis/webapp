@@ -38,7 +38,7 @@
         _categoryToQuestionRepo.DeleteByCategoryId(category.Id);
         _userActivityRepo.DeleteForCategory(category.Id);
 
-        _categoryChangeRepo.AddDeleteEntry(category, userId);
+        var deleteChangeId = _categoryChangeRepo.AddDeleteEntry(category, userId);
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
         var deleteImage = new DeleteImage();
@@ -47,6 +47,7 @@
         _categoryRepo.Delete(category.Id);
 
         hasDeleted.DeletedSuccessful = true;
+        hasDeleted.ChangeId = deleteChangeId;
         return hasDeleted;
     }
 
@@ -114,8 +115,12 @@
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
+        var topicName = topic.Name;
+        var topicVisibility = topic.Visibility;
+
         var parentIds = EntityCache.GetCategory(topicToDeleteId)?
             .Parents()
+            .OrderBy(c => c.DateCreated)
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
@@ -127,10 +132,31 @@
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
-        var parentTopics = _categoryRepo.GetByIds(parentIds);
+        if (parentIds != null && parentIds.Any())
+        {
+            var parentsToUpdateWithDeleteEntry = new HashSet<int>(parentIds);
 
-        foreach (var parent in parentTopics)
-            _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
+            var parents = EntityCache.GetCategories(parentIds);
+
+            var allAscendantIds = new HashSet<int>();
+            foreach (var parent in parents)
+            {
+                var ascendantIds = GraphService.Ascendants(parent.Id).Select(p => p.Id);
+                foreach (var id in ascendantIds)
+                {
+                    allAscendantIds.Add(id);
+                }
+            }
+
+            parentsToUpdateWithDeleteEntry.ExceptWith(allAscendantIds);
+
+            var parentTopics = _categoryRepo.GetByIds(parentsToUpdateWithDeleteEntry.ToList());
+
+            foreach (var parent in parentTopics)
+            {
+                _categoryChangeRepo.AddDeletedChildTopicEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, topicName, topicVisibility);
+            }
+        }
 
         return new DeleteTopicResult(
             HasChildren: hasDeleted.HasChildren,
@@ -178,5 +204,6 @@
         public bool DeletedSuccessful { get; set; }
         public bool HasChildren { get; set; }
         public bool IsNotCreatorOrAdmin { get; set; }
+        public int ChangeId { get; set; }
     }
 }

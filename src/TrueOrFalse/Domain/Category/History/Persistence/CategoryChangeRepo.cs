@@ -3,7 +3,7 @@ using NHibernate.Criterion;
 
 public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryChange>(_session)
 {
-    public void AddDeleteEntry(Category category,
+    public int AddDeleteEntry(Category category,
         int userId)
     {
         var categoryChange = new CategoryChange
@@ -16,14 +16,13 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         };
 
         base.Create(categoryChange);
+        return categoryChange.Id;
     }
 
     public void AddCreateEntry(CategoryRepository categoryRepository, Category category, int authorId) =>
         AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Create);
     public void AddCreateEntryDbOnly(CategoryRepository categoryRepository, Category category, User author) =>
         AddUpdateOrCreateEntryDbOnly(categoryRepository, category, author, CategoryChangeType.Create);
-    public void AddUpdateEntry(CategoryRepository categoryRepository, Category category, int authorId, bool imageWasUpdated) =>
-        AddUpdateOrCreateEntry(categoryRepository, category, authorId, CategoryChangeType.Update, imageWasUpdated);
     public void AddUpdateEntry(
         CategoryRepository categoryRepository,
         Category category,
@@ -49,9 +48,9 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         }
         else if (AuthorWorthyChangeCheck(categoryChangeType) && authorId > 0 && category.AuthorIdsInts.All(id => id != authorId))
         {
-            var newAuthorIdsInts = category.AuthorIdsInts.ToList();
-            newAuthorIdsInts.Add(authorId);
-            category.AuthorIds = string.Join(",", newAuthorIdsInts.Distinct());
+            var newAuthorIds = category.AuthorIdsInts.ToList();
+            newAuthorIds.Add(authorId);
+            category.AuthorIds = string.Join(",", newAuthorIds.Distinct());
             categoryCacheItem.AuthorIds = category.AuthorIdsInts.Distinct().ToArray();
             //the line should not be needed
             EntityCache.AddOrUpdate(categoryCacheItem);
@@ -67,6 +66,32 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             : null;
 
         SetData(categoryRepository, category, imageWasUpdated, categoryChange, parentIds: parentIds, childIds: childIds);
+        base.Create(categoryChange);
+        categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(categoryChange);
+    }
+
+    public void AddDeletedChildTopicEntry(Category category, int authorId, int deleteChangeId, string deletedTopicName, CategoryVisibility deletedVisibility)
+    {
+        var categoryChange = new CategoryChange
+        {
+            Category = category,
+            Type = CategoryChangeType.ChildTopicDeleted,
+            AuthorId = authorId,
+            DataVersion = 2,
+        };
+        var categoryCacheItem = EntityCache.GetCategory(category);
+
+        category.AuthorIds ??= "";
+
+        var parentIds = categoryCacheItem.ParentRelations.Any()
+            ? GetParentIds(categoryCacheItem.ParentRelations)
+            : null;
+
+        var childIds = categoryCacheItem.ChildRelations.Any()
+            ? GetChildIds(categoryCacheItem.ChildRelations)
+            : null;
+
+        SetDeleteData(category, categoryChange, deleteChangeId, deletedTopicName, deletedVisibility, parentIds: parentIds, childIds: childIds);
         base.Create(categoryChange);
         categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(categoryChange);
     }
@@ -95,7 +120,7 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         return childrenIds.ToArray();
     }
 
-    private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, CategoryChange categoryChange, int[]? affectedParentIds = null, int[]? parentIds = null, int[]? childIds = null)
+    private void SetData(CategoryRepository categoryRepository, Category category, bool imageWasUpdated, CategoryChange categoryChange, int[]? parentIds = null, int[]? childIds = null)
     {
         switch (categoryChange.DataVersion)
         {
@@ -103,12 +128,17 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
                 categoryChange.Data = new CategoryEditData_V1(category, _session, categoryRepository).ToJson();
                 break;
             case 2:
-                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, affectedParentIds, _session, parentIds, childIds).ToJson();
+                categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated, _session, parentIds, childIds).ToJson();
                 break;
 
             default:
                 throw new ArgumentOutOfRangeException($"Invalid data version number {categoryChange.DataVersion} for category change id {categoryChange.Id}");
         }
+    }
+
+    private void SetDeleteData(Category category, CategoryChange categoryChange, int deleteChangeId, string deletedTopicName, CategoryVisibility deletedVisibility, int[]? parentIds = null, int[]? childIds = null)
+    {
+        categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated: false, _session, parentIds, childIds, deleteChangeId: deleteChangeId, deletedName: deletedTopicName).ToJson();
     }
 
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
@@ -179,7 +209,8 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
         if (type != CategoryChangeType.Privatized &&
             type != CategoryChangeType.Relations &&
             type != CategoryChangeType.Restore &&
-            type != CategoryChangeType.Moved)
+            type != CategoryChangeType.Moved &&
+            type != CategoryChangeType.ChildTopicDeleted)
             return true;
 
         return false;

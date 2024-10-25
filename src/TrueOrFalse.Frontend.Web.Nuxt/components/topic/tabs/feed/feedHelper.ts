@@ -17,6 +17,8 @@ export enum TopicChangeType {
     Image = 8,
     Restore = 9,
     Moved = 10,
+    ChildTopicDeleted = 11,
+    QuestionDeleted = 12,
 }
 
 const TopicChangeTypeNames: { [key in TopicChangeType]: string } = {
@@ -31,6 +33,8 @@ const TopicChangeTypeNames: { [key in TopicChangeType]: string } = {
     [TopicChangeType.Image]: 'Bild',
     [TopicChangeType.Restore]: 'Wiederhergestellt',
     [TopicChangeType.Moved]: 'Verschoben',
+    [TopicChangeType.ChildTopicDeleted]: 'Gelöscht',
+    [TopicChangeType.QuestionDeleted]: 'Gelöscht',
 }
 
 export function getTopicChangeTypeName(type: TopicChangeType): string {
@@ -93,6 +97,11 @@ export interface ContentChange {
     diffContent: string
 }
 
+export interface DeleteData {
+    deleteChangeId: number
+    deletedName: string
+}
+
 export interface TopicFeedItem {
     oldestChangeIdInGroup?: number
     date: string
@@ -104,6 +113,7 @@ export interface TopicFeedItem {
     author: Author
     nameChange?: NameChange
     relationChanges?: RelationChanges
+    deleteData?: DeleteData
 }
 
 export interface QuestionFeedItem {
