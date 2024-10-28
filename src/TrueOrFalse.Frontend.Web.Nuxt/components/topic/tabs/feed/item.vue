@@ -77,7 +77,7 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
             newName.value = item.nameChange.newName
         }
 
-        if (item.type === TopicChangeType.ChildTopicDeleted && topicItem.deleteData) {
+        if ((item.type === TopicChangeType.ChildTopicDeleted || item.type === TopicChangeType.QuestionDeleted) && topicItem.deleteData) {
             feedItem.value.label = topicItem.deleteData.deletedName
         }
 
@@ -181,7 +181,7 @@ const { isDesktop } = useDevice()
             </div>
         </div>
         <div class="feed-item-label">
-            <div class="feed-item-feed-type-icon" v-if="feedItem.feedType === FeedType.Question">
+            <div class="feed-item-feed-type-icon" v-if="feedItem.feedType === FeedType.Question || feedItem.params.type === TopicChangeType.QuestionDeleted">
                 <font-awesome-icon :icon="['fas', 'circle-question']" />
             </div>
             <div class="feed-item-label-body">
@@ -220,6 +220,9 @@ const { isDesktop } = useDevice()
 
                     <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.ChildTopicDeleted">
                         Unterthema gelöscht
+                    </div>
+                    <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.QuestionDeleted">
+                        Frage gelöscht
                     </div>
                 </template>
 

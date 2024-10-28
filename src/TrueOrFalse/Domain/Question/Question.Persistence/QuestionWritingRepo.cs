@@ -47,22 +47,20 @@ public class QuestionWritingRepo(
             .CreateAsync(question));
     }
 
-    public List<int> Delete(int questionId, int userId)
+    public List<int> Delete(int questionId, int userId, List<int> parentIds)
     {
         var question = GetById(questionId);
-        var categoriesToUpdate = question.Categories.ToList();
-        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        _updateQuestionCountForCategory.Run(categoriesToUpdate);
+        var parentTopics = _categoryRepository.GetByIds(parentIds);
+
+        _updateQuestionCountForCategory.Run(parentTopics, userId);
         var safeText = Regex.Replace(question.Text, "<.*?>", "");
 
         var changeId = DeleteAndGetChangeId(question, userId);
 
-        var parentTopics = _categoryRepository.GetByIds(categoriesToUpdateIds);
-
         foreach (var parent in parentTopics)
             _categoryChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
 
-        return categoriesToUpdateIds;
+        return parentIds;
     }
 
     public int DeleteAndGetChangeId(Question question, int userId)

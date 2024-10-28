@@ -13,8 +13,6 @@ public class DeleteQuestion : IJob
     private readonly ISession _nhibernateSession;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryRepository _categoryRepository;
 
 
     public DeleteQuestion(ReferenceRepo referenceRepo,
@@ -24,9 +22,7 @@ public class DeleteQuestion : IJob
         CommentRepository commentRepository,
         ISession nhibernateSession,
         QuestionWritingRepo questionWritingRepo,
-        QuestionValuationWritingRepo questionValuationWritingRepo,
-        CategoryChangeRepo categoryChangeRepo,
-        CategoryRepository categoryRepository)
+        QuestionValuationWritingRepo questionValuationWritingRepo)
     {
         _referenceRepo = referenceRepo;
         _answerRepo = answerRepo;
@@ -36,14 +32,14 @@ public class DeleteQuestion : IJob
         _nhibernateSession = nhibernateSession;
         _questionWritingRepo = questionWritingRepo;
         _questionValuationWritingRepo = questionValuationWritingRepo;
-        _categoryChangeRepo = categoryChangeRepo;
-        _categoryRepository = categoryRepository;
     }
     public Task Execute(IJobExecutionContext context)
     {
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
         var userId = dataMap.GetInt("userId");
+        var parentIdsString = dataMap.GetString("parentIdString");
+        var parentIds = parentIdsString?.Split(',').Select(int.Parse).ToList();
         Logg.r.Information("Job started - DeleteQuestion {id}", questionId);
 
         //delete connected db-entries
@@ -55,11 +51,10 @@ public class DeleteQuestion : IJob
         _questionValuationWritingRepo.DeleteForQuestion(questionId);
         _commentRepository.DeleteForQuestion(questionId);
         _nhibernateSession
-            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = questionId")
+            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = :questionId")
             .SetParameter("questionId", questionId)
             .ExecuteUpdate();
-
-        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId);
+        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId, parentIds);
 
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, userId);
         Logg.r.Information("Question {id} deleted", questionId);
