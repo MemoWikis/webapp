@@ -74,8 +74,8 @@ public class CategoryChangeCacheItem : IPersistable
             _ => 10
         };
 
-        //if (currentCacheItem.Type == CategoryChangeType.Create && previousCacheItem.Type == CategoryChangeType.Relations)
-        //    timeSpan = 1;
+        if (currentCacheItem.Type == CategoryChangeType.Create && previousCacheItem.Type == CategoryChangeType.Relations)
+            timeSpan = 1;
 
         var allowedGroupingTypes = new List<CategoryChangeType>
         {

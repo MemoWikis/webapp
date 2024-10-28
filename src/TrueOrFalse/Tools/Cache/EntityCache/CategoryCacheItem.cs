@@ -372,6 +372,7 @@ public class CategoryCacheItem : IPersistable
                         {
                             var groupedCategoryChangeCacheItem = CategoryChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
                             categoryChangeCacheItems.Add(groupedCategoryChangeCacheItem);
+                            currentGroupedCacheItem = new List<CategoryChangeCacheItem>();
                         }
                     }
 
@@ -388,6 +389,7 @@ public class CategoryCacheItem : IPersistable
                 }
 
                 categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
+                    .Distinct()
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
             }
@@ -550,7 +552,7 @@ public class CategoryCacheItem : IPersistable
                 continue;
             }
 
-            if (getItemsInGroup && IsPartOfTopicCreate(previousChange, c.CategoryChangeCacheItem) && previousChange?.CategoryId == visibleChanges.LastOrDefault().CategoryChangeCacheItem?.CategoryId)
+            if (!getItemsInGroup && IsPartOfTopicCreate(previousChange, c.CategoryChangeCacheItem) && previousChange?.CategoryId == visibleChanges.LastOrDefault().CategoryChangeCacheItem?.CategoryId)
             {
                 visibleChanges.RemoveAt(visibleChanges.Count - 1);
             }
