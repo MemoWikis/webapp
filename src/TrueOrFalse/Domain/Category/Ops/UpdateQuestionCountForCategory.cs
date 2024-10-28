@@ -16,9 +16,9 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         _nhinbernateSession = nhinbernateSession;
     }
 
-    public void Run(Category category)
+    public void Run(Category category, int userId)
     {
-        category.UpdateCountQuestionsAggregated(_sessionUser.UserId);
+        category.UpdateCountQuestionsAggregated(userId);
     }
 
     public void RunForJob(Category category, int authorId)
@@ -26,11 +26,13 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         category.UpdateCountQuestionsAggregated(authorId);
     }
 
-    public void Run(IList<Category> categories)
+    public void Run(IList<Category> categories, int? userId = null)
     {
+        userId ??= _sessionUser.UserId;
+
         foreach (var category in categories)
         {
-            Run(category);
+            Run(category, (int)userId);
         }
     }
 }

@@ -39,6 +39,7 @@ public class FeedController(
         Author Author,
         NameChange? NameChange = null,
         RelationChanges? RelationChanges = null,
+        DeleteData? DeleteData = null,
         bool IsGroup = false,
         int? OldestChangeIdInGroup = null);
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author, Comment? Comment);
@@ -54,8 +55,8 @@ public class FeedController(
 
             NameChange? nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
 
-            var relationChange = change.CategoryChangeData.RelationChange;
-            var relationChanges = change.Type == CategoryChangeType.Relations ? GetRelationChanges(relationChange) : null;
+            var relationChanges = GetRelationChanges(change);
+            var deleteData = change.CategoryChangeData.DeleteData != null ? GetDeleteData(change.Type, change.CategoryChangeData.DeleteData?.DeletedName, change.CategoryChangeData.DeleteData?.DeleteChangeId) : null;
 
             var topicFeedItem = new TopicFeedItem(
                 Date: change.DateCreated,
@@ -67,6 +68,7 @@ public class FeedController(
                 Author: author,
                 NameChange: nameChange,
                 RelationChanges: relationChanges,
+                DeleteData: deleteData,
                 IsGroup: change.IsGroup,
                 OldestChangeIdInGroup: change.IsGroup ? change.GroupedCategoryChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
 
@@ -103,6 +105,7 @@ public class FeedController(
     public record struct Comment(string Title, int Id);
     public record struct RelatedTopic(int Id, string Name);
     public record struct RelationChanges(List<RelatedTopic> AddedParents, List<RelatedTopic> RemovedParents, List<RelatedTopic> AddedChildren, List<RelatedTopic> RemovedChildren);
+    public record struct DeleteData(int? DeleteChangeId, string DeletedName);
 
     private List<RelatedTopic> GetRelatedTopics(IEnumerable<int> ids)
     {
@@ -117,14 +120,22 @@ public class FeedController(
         }
         return relatedTopics;
     }
-    private RelationChanges? GetRelationChanges(RelationChange relationChange)
+    private RelationChanges? GetRelationChanges(CategoryChangeCacheItem change)
     {
-        var addedParentIds = GetRelatedTopics(relationChange.AddedParentIds);
-        var removedParentIds = GetRelatedTopics(relationChange.RemovedParentIds);
-        var addedChildIds = GetRelatedTopics(relationChange.AddedChildIds);
-        var removedChildIds = GetRelatedTopics(relationChange.RemovedChildIds);
+        if (change.Type != CategoryChangeType.Relations && !(change.Type == CategoryChangeType.Create && change.IsGroup))
+            return null;
 
-        return new RelationChanges(addedParentIds, removedParentIds, addedChildIds, removedChildIds);
+        var relationChange = change.Type == CategoryChangeType.Relations ? change.CategoryChangeData.RelationChange : change.GroupedCategoryChangeCacheItems.Where(c => c.Type == CategoryChangeType.Relations).MinBy(c => c.DateCreated)?.CategoryChangeData.RelationChange;
+
+        if (relationChange == null)
+            return null;
+
+        var addedParents = GetRelatedTopics(relationChange?.AddedParentIds);
+        var removedParents = GetRelatedTopics(relationChange?.RemovedParentIds);
+        var addedChildren = GetRelatedTopics(relationChange?.AddedChildIds);
+        var removedChildren = GetRelatedTopics(relationChange?.RemovedChildIds);
+
+        return new RelationChanges(addedParents, removedParents, addedChildren, removedChildren);
     }
     private Author SetAuthor([CanBeNull] UserCacheItem user)
     {
@@ -139,5 +150,13 @@ public class FeedController(
         }
 
         return author;
+    }
+
+    private DeleteData? GetDeleteData(CategoryChangeType type, [CanBeNull] string deletedName, int? changeId)
+    {
+        if (type == CategoryChangeType.ChildTopicDeleted || type == CategoryChangeType.QuestionDeleted)
+            return new DeleteData(changeId, deletedName);
+
+        return null;
     }
 }

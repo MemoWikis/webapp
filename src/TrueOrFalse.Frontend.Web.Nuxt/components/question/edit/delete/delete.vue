@@ -106,7 +106,7 @@ watch(() => deleteQuestionStore.showModal, (val) => {
         :show-cancel-btn="!deletionInProgress" @close="deleteQuestionStore.showModal = false"
         @primary-btn="deleteQuestion()" :show="deleteQuestionStore.showModal">
         <template v-slot:header>
-            <h4 class="modal-title">Frage löschen</h4>
+            <h2 class="modal-title">Frage löschen</h2>
         </template>
         <template v-slot:body>
 

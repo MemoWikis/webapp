@@ -38,7 +38,7 @@
         _categoryToQuestionRepo.DeleteByCategoryId(category.Id);
         _userActivityRepo.DeleteForCategory(category.Id);
 
-        _categoryChangeRepo.AddDeleteEntry(category, userId);
+        var deleteChangeId = _categoryChangeRepo.AddDeleteEntry(category, userId);
         _extendedUserCache.RemoveAllForCategory(category.Id, _categoryValuationWritingRepo);
 
         var deleteImage = new DeleteImage();
@@ -47,6 +47,7 @@
         _categoryRepo.Delete(category.Id);
 
         hasDeleted.DeletedSuccessful = true;
+        hasDeleted.ChangeId = deleteChangeId;
         return hasDeleted;
     }
 
@@ -114,6 +115,9 @@
             throw new Exception(
                 "Category couldn't be deleted. Category with specified Id cannot be found.");
 
+        var topicName = topic.Name;
+        var topicVisibility = topic.Visibility;
+
         var parentIds = EntityCache.GetCategory(topicToDeleteId)?
             .Parents()
             .Select(c => c.Id)
@@ -127,10 +131,13 @@
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
-        var parentTopics = _categoryRepo.GetByIds(parentIds);
+        if (parentIds != null && parentIds.Any())
+        {
+            var parentTopics = _categoryRepo.GetByIds(parentIds);
 
-        foreach (var parent in parentTopics)
-            _categoryChangeRepo.AddUpdateEntry(_categoryRepo, parent, _sessionUser.UserId, false);
+            foreach (var parent in parentTopics)
+                _categoryChangeRepo.AddDeletedChildTopicEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, topicName, topicVisibility);
+        }
 
         return new DeleteTopicResult(
             HasChildren: hasDeleted.HasChildren,
@@ -178,5 +185,6 @@
         public bool DeletedSuccessful { get; set; }
         public bool HasChildren { get; set; }
         public bool IsNotCreatorOrAdmin { get; set; }
+        public int ChangeId { get; set; }
     }
 }

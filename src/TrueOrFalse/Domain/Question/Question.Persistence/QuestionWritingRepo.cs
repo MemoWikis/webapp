@@ -1,4 +1,5 @@
-﻿using TrueOrFalse.Search;
+﻿using System.Text.RegularExpressions;
+using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
@@ -10,7 +11,9 @@ public class QuestionWritingRepo(
     UserActivityRepo _userActivityRepo,
     QuestionChangeRepo _questionChangeRepo,
     ISession _nhibernateSession,
-    SessionUser _sessionUser) : RepositoryDbBase<Question>(_nhibernateSession)
+    SessionUser _sessionUser,
+    CategoryChangeRepo _categoryChangeRepo,
+    CategoryRepository _categoryRepository) : RepositoryDbBase<Question>(_nhibernateSession)
 {
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -44,23 +47,29 @@ public class QuestionWritingRepo(
             .CreateAsync(question));
     }
 
-    public List<int> Delete(int questionId, int userId)
+    public List<int> Delete(int questionId, int userId, List<int> parentIds)
     {
         var question = GetById(questionId);
-        var categoriesToUpdate = question.Categories.ToList();
-        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        _updateQuestionCountForCategory.Run(categoriesToUpdate);
+        var parentTopics = _categoryRepository.GetByIds(parentIds);
 
-        Delete(question, userId);
-        return categoriesToUpdateIds;
+        _updateQuestionCountForCategory.Run(parentTopics, userId);
+        var safeText = Regex.Replace(question.Text, "<.*?>", "");
+
+        var changeId = DeleteAndGetChangeId(question, userId);
+
+        foreach (var parent in parentTopics)
+            _categoryChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
+
+        return parentIds;
     }
 
-    public void Delete(Question question, int userId)
+    public int DeleteAndGetChangeId(Question question, int userId)
     {
         base.Delete(question);
-        _questionChangeRepo.AddDeleteEntry(question, userId);
+        var changeId = _questionChangeRepo.AddDeleteEntry(question, userId);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .DeleteAsync(question));
+        return changeId;
     }
 
     public void UpdateOrMerge(Question question, bool withMerge)
@@ -96,7 +105,12 @@ public class QuestionWritingRepo(
             .ToList();
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
+        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
+        var questionInEntityCache = EntityCache.GetQuestion(question.Id);
+        if (questionInEntityCache != null && questionInEntityCache.QuestionChangeCacheItems.Count > 0)
+            questionCacheItem.QuestionChangeCacheItems = questionInEntityCache.QuestionChangeCacheItems;
+
+        EntityCache.AddOrUpdate(questionCacheItem, categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds,
             _sessionUser.UserId);

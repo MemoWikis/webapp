@@ -372,6 +372,7 @@ public class CategoryCacheItem : IPersistable
                         {
                             var groupedCategoryChangeCacheItem = CategoryChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
                             categoryChangeCacheItems.Add(groupedCategoryChangeCacheItem);
+                            currentGroupedCacheItem = new List<CategoryChangeCacheItem>();
                         }
                     }
 
@@ -388,6 +389,7 @@ public class CategoryCacheItem : IPersistable
                 }
 
                 categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
+                    .Distinct()
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
             }
@@ -468,7 +470,7 @@ public class CategoryCacheItem : IPersistable
     public record struct FeedItem(DateTime DateCreated, CategoryChangeCacheItem? CategoryChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
     public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false, bool getItemsInGroup = false)
     {
-        IList<FeedItem> changes;
+        IEnumerable<FeedItem> changes;
 
         if (getDescendants)
         {
@@ -489,15 +491,11 @@ public class CategoryCacheItem : IPersistable
                     .Select(qc => ToFeedItem(null, qc));
 
                 changes = unsortedTopicChanges
-                    .Concat(unsortedQuestionChanges)
-                    .OrderByDescending(c => c.DateCreated)
-                    .ToList();
+                    .Concat(unsortedQuestionChanges);
             }
             else
             {
-                changes = unsortedTopicChanges
-                    .OrderByDescending(c => c.DateCreated)
-                    .ToList();
+                changes = unsortedTopicChanges;
             }
         }
         else
@@ -512,20 +510,59 @@ public class CategoryCacheItem : IPersistable
                     .SelectMany(q => q.QuestionChangeCacheItems)
                     .Select(qc => ToFeedItem(null, qc));
                 changes = topicChanges
-                    .Concat(unsortedQuestionChanges)
-                    .OrderByDescending(c => c.DateCreated)
-                    .ToList();
+                    .Concat(unsortedQuestionChanges);
             }
             else
             {
-                changes = topicChanges
-                    .OrderByDescending(c => c.DateCreated)
-                    .ToList();
+                changes = topicChanges;
             }
         }
 
-        var visibleChanges = changes.Where(c => IsVisibleForUser(userId, c) && FilteredGroupItem(c, getItemsInGroup));
-        var pagedChanges = visibleChanges
+        var topicChangeIds = new HashSet<int>();
+        var questionChangeIds = new HashSet<int>();
+        var visibleChanges = new List<FeedItem>();
+        CategoryChangeCacheItem? previousChange = null;
+
+        changes = changes
+            .OrderByDescending(c => c.DateCreated)
+            .ToList();
+
+        foreach (var c in changes)
+        {
+
+            if (!IsVisibleForUser(userId, c))
+            {
+                continue;
+            }
+
+            if (c.CategoryChangeCacheItem == null)
+            {
+                if (c.QuestionChangeCacheItem != null)
+                    visibleChanges.Add(c);
+
+                continue;
+            }
+
+            if (!IsGroupItem(c.CategoryChangeCacheItem!, getItemsInGroup))
+            {
+                continue;
+            }
+
+            if (!IsDuplicateOfDelete(c.CategoryChangeCacheItem!, topicChangeIds, questionChangeIds))
+            {
+                continue;
+            }
+
+            if (!getItemsInGroup && IsPartOfTopicCreate(previousChange, c.CategoryChangeCacheItem) && previousChange?.CategoryId == visibleChanges.LastOrDefault().CategoryChangeCacheItem?.CategoryId)
+            {
+                visibleChanges.RemoveAt(visibleChanges.Count - 1);
+            }
+
+            previousChange = c.CategoryChangeCacheItem;
+            visibleChanges.Add(c);
+        }
+
+        var pagedChanges = visibleChanges.Distinct()
             .Skip((page - 1) * pageSize)
             .Take(pageSize);
 
@@ -554,31 +591,62 @@ public class CategoryCacheItem : IPersistable
     private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
         if (feedItem.CategoryChangeCacheItem != null)
-            return feedItem.CategoryChangeCacheItem.Visibility != CategoryVisibility.Owner || feedItem.CategoryChangeCacheItem.AuthorId == userId;
+            return feedItem.CategoryChangeCacheItem.Visibility != CategoryVisibility.Owner || (feedItem.CategoryChangeCacheItem.AuthorId == userId || feedItem.CategoryChangeCacheItem.Category.CreatorId == userId);
 
         if (feedItem.QuestionChangeCacheItem != null)
-            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || feedItem.QuestionChangeCacheItem.AuthorId == userId;
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
 
         return false;
     }
 
-    private bool FilteredGroupItem(FeedItem feedItem, bool getItemsInGroup)
+    private bool IsGroupItem(CategoryChangeCacheItem change, bool getItemsInGroup)
     {
-        if (feedItem.CategoryChangeCacheItem != null)
+        if (getItemsInGroup)
         {
-            if (getItemsInGroup)
-            {
-                if (feedItem.CategoryChangeCacheItem.IsGroup)
-                    return false;
-            }
-            else
-            {
-                if (feedItem.CategoryChangeCacheItem.IsPartOfGroup)
-                    return false;
-            }
+            if (change.IsGroup)
+                return false;
+        }
+        else
+        {
+            if (change.IsPartOfGroup)
+                return false;
         }
 
         return true;
+    }
+
+    private bool IsDuplicateOfDelete(CategoryChangeCacheItem change, HashSet<int> topicChangeIds, HashSet<int> questionChangeIds)
+    {
+
+        var deleteChangeId = change.CategoryChangeData.DeleteData?.DeleteChangeId;
+        if (deleteChangeId == null)
+            return true;
+
+        int changeId = deleteChangeId.Value;
+
+        switch (change.Type)
+        {
+            case CategoryChangeType.ChildTopicDeleted:
+                return topicChangeIds.Add(changeId);
+
+            case CategoryChangeType.QuestionDeleted:
+                return questionChangeIds.Add(changeId);
+
+            default:
+                return true;
+        }
+    }
+
+    private bool IsPartOfTopicCreate(CategoryChangeCacheItem? previousChange, CategoryChangeCacheItem currentChange)
+    {
+        if (previousChange == null || previousChange.Type != CategoryChangeType.Relations)
+            return false;
+
+        if (currentChange.Type == CategoryChangeType.Create && currentChange.CategoryId ==
+            previousChange.CategoryChangeData.RelationChange.AddedChildIds.LastOrDefault())
+            return true;
+
+        return false;
     }
 
     public void AddCategoryChangeToCategoryChangeCacheItems(CategoryChange categoryChange)

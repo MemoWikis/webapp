@@ -19,6 +19,7 @@ public class QuestionDelete(
             throw new Exception("Question cannot be deleted: Question is " +
                                 canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
+        var parentIds = questionCacheItem.Categories.Select(c => c.Id).ToList();
 
         EntityCache.Remove(questionCacheItem);
         _extendedUserCache.RemoveQuestionForAllUsers(questionId);
@@ -26,7 +27,9 @@ public class QuestionDelete(
         var deleteImage = new DeleteImage();
         deleteImage.RemoveAllForQuestion(questionId);
 
-        JobScheduler.StartImmediately_DeleteQuestion(questionId, _sessionUser.UserId);
+        var parentIdsString = string.Join("-", parentIds);
+
+        JobScheduler.StartImmediately_DeleteQuestion(questionId, _sessionUser.UserId, parentIdsString);
     }
 
     public CanBeDeletedResult CanBeDeleted(int currentUserId, Question question)

@@ -70,21 +70,27 @@ public class CategoryChangeCacheItem : IPersistable
         {
             CategoryChangeType.Renamed => 2,
             CategoryChangeType.Relations => 5,
+            CategoryChangeType.Create => 1,
             _ => 10
         };
+
+        if (currentCacheItem.Type == CategoryChangeType.Create && previousCacheItem.Type == CategoryChangeType.Relations)
+            timeSpan = 1;
 
         var allowedGroupingTypes = new List<CategoryChangeType>
         {
             CategoryChangeType.Text,
             CategoryChangeType.Renamed,
-            CategoryChangeType.Relations
+            CategoryChangeType.Relations,
+            CategoryChangeType.Create
         };
 
         return allowedGroupingTypes.Contains(previousCacheItem.Type)
                && Math.Abs((previousCacheItem.DateCreated - currentCacheItem.DateCreated).TotalMinutes) <= timeSpan
                && previousCacheItem.AuthorId == currentCacheItem.AuthorId
                && previousCacheItem.Visibility == currentCacheItem.Visibility
-               && previousCacheItem.Type == currentCacheItem.Type;
+        //&& previousCacheItem.Type == currentCacheItem.Type;
+        && (previousCacheItem.Type == currentCacheItem.Type || (previousCacheItem.Type == CategoryChangeType.Create && currentCacheItem.Type == CategoryChangeType.Relations));
     }
 
     public static CategoryChangeCacheItem ToGroupedCategoryChangeCacheItem(List<CategoryChangeCacheItem> groupedCacheItems)
@@ -93,6 +99,9 @@ public class CategoryChangeCacheItem : IPersistable
         var newestCategoryChangeItem = groupedCacheItems.Last();
 
         var changeData = GetCategoryChangeData(newestCategoryChangeItem.GetCategoryChangeData(), oldestCategoryChangeItem.GetCategoryChangeData(), newestCategoryChangeItem.Type, oldestCategoryChangeItem.Id);
+        var type = oldestCategoryChangeItem.Type == CategoryChangeType.Create
+            ? CategoryChangeType.Create
+            : newestCategoryChangeItem.Type;
 
         return new CategoryChangeCacheItem
         {
@@ -101,7 +110,7 @@ public class CategoryChangeCacheItem : IPersistable
             DataVersion = newestCategoryChangeItem.DataVersion,
             Data = newestCategoryChangeItem.Data,
             AuthorId = newestCategoryChangeItem.AuthorId,
-            Type = newestCategoryChangeItem.Type,
+            Type = type,
             DateCreated = newestCategoryChangeItem.DateCreated,
             Visibility = newestCategoryChangeItem.Visibility,
             CategoryChangeData = changeData,
@@ -115,11 +124,20 @@ public class CategoryChangeCacheItem : IPersistable
             NameChange: new NameChange(previousData?.Name, currentData.Name),
             RelationChange: GetRelationChange(previousData?.ParentIds, previousData?.ChildIds, currentData.ParentIds, currentData.ChildIds),
             PreviousId: previousId,
-            VisibilityChange: new VisibilityChange(previousData?.Visibility, currentData.Visibility)
+            VisibilityChange: new VisibilityChange(previousData?.Visibility, currentData.Visibility),
+            DeleteData: GetDeleteData(currentData, changeType)
         );
     }
 
-    public static RelationChange GetRelationChange(int[]? previousParentIds, int[]? previousChildIds, int[]? currentParentIds, int[]? currentChildIds)
+    private static DeleteData? GetDeleteData(CategoryEditData currentData, CategoryChangeType changeType)
+    {
+        if (changeType == CategoryChangeType.ChildTopicDeleted || changeType == CategoryChangeType.QuestionDeleted)
+            return new DeleteData(currentData.DeleteChangeId, currentData.DeletedName);
+
+        return null;
+    }
+
+    private static RelationChange GetRelationChange(int[]? previousParentIds, int[]? previousChildIds, int[]? currentParentIds, int[]? currentChildIds)
     {
         var addedParentIds = new List<int>();
         var removedParentIds = new List<int>();
@@ -161,4 +179,5 @@ public class CategoryChangeCacheItem : IPersistable
 public record struct NameChange(string? OldName, string NewName);
 public record struct RelationChange(List<int> AddedParentIds, List<int> RemovedParentIds, List<int> AddedChildIds, List<int> RemovedChildIds);
 public record struct VisibilityChange(CategoryVisibility? OldVisibility, CategoryVisibility NewVisibility);
-public record struct CategoryChangeData(NameChange NameChange, RelationChange RelationChange, int? PreviousId, VisibilityChange VisibilityChange);
+public record struct DeleteData(int? DeleteChangeId, string? DeletedName);
+public record struct CategoryChangeData(NameChange NameChange, RelationChange RelationChange, int? PreviousId, VisibilityChange VisibilityChange, DeleteData? DeleteData);

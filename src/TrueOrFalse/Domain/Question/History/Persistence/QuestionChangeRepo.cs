@@ -10,9 +10,9 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public void AddDeleteEntry(Question question, int userId)
+    public int AddDeleteEntry(Question question, int userId)
     {
-        var QuestionChange = new QuestionChange
+        var questionChange = new QuestionChange
         {
             Question = question,
             AuthorId = userId,
@@ -20,7 +20,8 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             DataVersion = 1
         };
 
-        base.Create(QuestionChange);
+        base.Create(questionChange);
+        return questionChange.Id;
     }
 
     public virtual void SetData(Question question, bool imageWasChanged, QuestionChange questionChange, int[]? commentIds = null)
@@ -58,7 +59,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(questionChange);
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
         if (questionCacheItem != null)
-            questionCacheItem.AddCategoryChangeToCategoryChangeCacheItems(questionChange);
+            questionCacheItem.AddQuestionChangeToCategoryChangeCacheItems(questionChange);
     }
 
     public void AddCommentEntry(int questionId, int authorId, int[] commentIds) =>
@@ -84,7 +85,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             base.Create(questionChange);
             var questionCacheItem = EntityCache.GetQuestion(question.Id);
             if (questionCacheItem != null)
-                questionCacheItem.AddCategoryChangeToCategoryChangeCacheItems(questionChange);
+                questionCacheItem.AddQuestionChangeToCategoryChangeCacheItems(questionChange);
         }
 
     }

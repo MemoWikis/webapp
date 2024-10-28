@@ -18,7 +18,7 @@ enum FeedType {
     Question
 }
 
-interface Change {
+interface Params {
     label: string
     color: string
     id: number
@@ -27,7 +27,7 @@ interface Change {
 
 interface FeedItem {
     date: string
-    changeType: Change
+    params: Params
     feedType: FeedType
     id: number
     visibility: Visibility
@@ -49,7 +49,7 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
         const questionItem = item as QuestionFeedItem
         feedItem.value = {
             date: questionItem.date,
-            changeType: { label: getQuestionChangeTypeName(questionItem.type), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
+            params: { label: getQuestionChangeTypeName(questionItem.type), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
             feedType: FeedType.Question,
             id: questionItem.questionId,
             visibility: questionItem.visibility,
@@ -65,7 +65,7 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
         const topicItem = item as TopicFeedItem
         feedItem.value = {
             date: topicItem.date,
-            changeType: { label: getTopicChangeTypeName(topicItem.type), color: getTopicChangeColor(topicItem.type), id: topicItem.categoryChangeId, type: topicItem.type },
+            params: { label: getTopicChangeTypeName(topicItem.type), color: getTopicChangeColor(topicItem.type), id: topicItem.categoryChangeId, type: topicItem.type },
             feedType: FeedType.Topic,
             id: topicItem.topicId,
             visibility: topicItem.visibility,
@@ -75,6 +75,10 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
         if (item.type === TopicChangeType.Renamed && item.nameChange) {
             oldName.value = item.nameChange.oldName
             newName.value = item.nameChange.newName
+        }
+
+        if ((item.type === TopicChangeType.ChildTopicDeleted || item.type === TopicChangeType.QuestionDeleted) && topicItem.deleteData) {
+            feedItem.value.label = topicItem.deleteData.deletedName
         }
 
         const hasRelations = item.relationChanges &&
@@ -95,7 +99,6 @@ const setFeedItem = (item: TopicFeedItem | QuestionFeedItem) => {
                 canOpen.value = false
         }
     }
-
 }
 
 const getTopicChangeColor = (changeType: TopicChangeType) => {
@@ -109,7 +112,9 @@ const getTopicChangeColor = (changeType: TopicChangeType) => {
         case TopicChangeType.Image:
             return color.memoGreen
         case TopicChangeType.Delete:
-            return color.memoWuwiRed
+        case TopicChangeType.ChildTopicDeleted:
+        case TopicChangeType.QuestionDeleted:
+            return color.lightRed
         default:
             return color.memoGreyLight
     }
@@ -122,7 +127,7 @@ const getQuestionChangeColor = (changeType: QuestionChangeType) => {
         case QuestionChangeType.Update:
             return color.memoGreen
         case QuestionChangeType.Delete:
-            return color.memoWuwiRed
+            return color.lightRed
         default:
             return color.memoGreyLight
     }
@@ -164,8 +169,8 @@ const { isDesktop } = useDevice()
 <template>
     <div class="feed-item" v-if="feedItem" @click="handleClick" :class="{ 'no-modal': !canOpen, 'mobile': !isDesktop }">
         <div class="feed-item-info">
-            <div class="feed-item-change-type" :style="`background: ${feedItem.changeType.color}`">
-                {{ feedItem.changeType.label }}
+            <div class="feed-item-change-type" :style="`background: ${feedItem.params.color}`">
+                {{ feedItem.params.label }}
             </div>
             <div class="feed-item-date">
                 {{ date }}
@@ -176,22 +181,27 @@ const { isDesktop } = useDevice()
             </div>
         </div>
         <div class="feed-item-label">
-            <div class="feed-item-feed-type-icon" v-if="feedItem.feedType === FeedType.Question">
+            <div class="feed-item-feed-type-icon" v-if="feedItem.feedType === FeedType.Question || feedItem.params.type === TopicChangeType.QuestionDeleted">
                 <font-awesome-icon :icon="['fas', 'circle-question']" />
             </div>
             <div class="feed-item-label-body">
                 <div class="feed-item-label-text">
-                    <NuxtLink v-if="feedItem.feedType === FeedType.Topic" :to="$urlHelper.getTopicUrl(feedItem.label, feedItem.id)" @click.stop>
-                        {{ feedItem.label }}
-                    </NuxtLink>
-                    <NuxtLink v-else-if="feedItem.feedType === FeedType.Question" :to="$urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, feedItem.id)"
-                        @click.stop>
+                    <template v-if="feedItem.feedType === FeedType.Topic">
+                        <span v-if="feedItem.params.type === TopicChangeType.ChildTopicDeleted || feedItem.params.type === TopicChangeType.QuestionDeleted">
+                            {{ feedItem.label }}
+                        </span>
+                        <NuxtLink v-else :to="$urlHelper.getTopicUrl(feedItem.label, feedItem.id)" @click.stop>
+                            {{ feedItem.label }}
+                        </NuxtLink>
+                    </template>
+
+                    <NuxtLink v-else-if="feedItem.feedType === FeedType.Question" :to="$urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, feedItem.id)" @click.stop>
                         {{ feedItem.label }}
                     </NuxtLink>
                 </div>
 
                 <template v-if="feedItem.feedType === FeedType.Topic">
-                    <div class="feed-item-label-renamed" v-if="feedItem.changeType.type === TopicChangeType.Renamed">
+                    <div class="feed-item-label-renamed" v-if="feedItem.params.type === TopicChangeType.Renamed">
                         <div class="feed-item-label-renamed-text">
                             {{ oldName }}
                         </div>
@@ -203,16 +213,22 @@ const { isDesktop } = useDevice()
                         </div>
                     </div>
 
-                    <TopicTabsFeedRelations v-else-if="feedItem.changeType.type === TopicChangeType.Relations && props.topicFeedItem?.relationChanges" :relation-changes="props.topicFeedItem.relationChanges" />
+                    <TopicTabsFeedRelations v-else-if="feedItem.params.type === TopicChangeType.Relations && props.topicFeedItem?.relationChanges"
+                        :relation-changes="props.topicFeedItem.relationChanges" />
+                    <TopicTabsFeedCreate v-else-if="feedItem.params.type === TopicChangeType.Create && props.topicFeedItem?.relationChanges && props.topicFeedItem.relationChanges.addedParents.length > 0"
+                        :added-parent="props.topicFeedItem.relationChanges.addedParents[0]" />
 
+                    <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.ChildTopicDeleted">
+                        Unterthema gelöscht
+                    </div>
+                    <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.QuestionDeleted">
+                        Frage gelöscht
+                    </div>
                 </template>
 
-                <template v-if="feedItem.feedType === FeedType.Question && feedItem.changeType.type === QuestionChangeType.AddComment && props.questionFeedItem">
+                <template v-if="feedItem.feedType === FeedType.Question && feedItem.params.type === QuestionChangeType.AddComment && props.questionFeedItem">
                     <div class="feed-item-label-commentadd" v-html="props.questionFeedItem.comment?.title"> </div>
-
                 </template>
-
-
             </div>
         </div>
 
@@ -238,7 +254,7 @@ const { isDesktop } = useDevice()
     cursor: pointer;
     background: white;
 
-    &:hover{
+    &:hover {
         filter: brightness(0.95);
     }
 
@@ -248,7 +264,9 @@ const { isDesktop } = useDevice()
 
     &.no-modal {
         cursor: default;
-        &:hover, &:active {
+
+        &:hover,
+        &:active {
             filter: brightness(1);
         }
     }
@@ -278,7 +296,7 @@ const { isDesktop } = useDevice()
         text-align: center;
         min-width: 25px;
         height: 25px;
-        display:flex;
+        display: flex;
         justify-content: center;
         align-items: center;
         margin-right: 8px;
@@ -309,6 +327,8 @@ const { isDesktop } = useDevice()
                 margin-bottom: 8px;
                 overflow: hidden;
                 text-overflow: ellipsis;
+
+                color: @memo-grey-dark;
             }
 
             .feed-item-label-renamed {
@@ -329,6 +349,12 @@ const { isDesktop } = useDevice()
                     text-overflow: ellipsis;
                     white-space: nowrap;
                 }
+            }
+
+            .feed-item-label-deleted {
+                color: @memo-grey-dark;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
 
             .feed-item-label-commentadd {
@@ -362,7 +388,7 @@ const { isDesktop } = useDevice()
 
         svg.feed-item-visibility-icon {
             cursor: help;
-            position:absolute;
+            position: absolute;
         }
     }
 
@@ -379,7 +405,7 @@ const { isDesktop } = useDevice()
 
         .feed-item-info-visibility {
             height: 28px;
-            display:flex;
+            display: flex;
             justify-content: center;
             align-items: center;
             color: @memo-grey-dark;
@@ -391,6 +417,7 @@ const { isDesktop } = useDevice()
             margin-left: 0;
             padding-left: 0;
             overflow: visible;
+
             .feed-item-label-text {
                 max-height: 50px;
                 text-wrap: wrap;

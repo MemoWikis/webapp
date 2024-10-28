@@ -38,6 +38,8 @@ public class DeleteQuestion : IJob
         var dataMap = context.JobDetail.JobDataMap;
         var questionId = dataMap.GetInt("questionId");
         var userId = dataMap.GetInt("userId");
+        var parentIdsString = dataMap.GetString("parentIdString");
+        var parentIds = parentIdsString?.Split(',').Select(int.Parse).ToList();
         Logg.r.Information("Job started - DeleteQuestion {id}", questionId);
 
         //delete connected db-entries
@@ -49,11 +51,11 @@ public class DeleteQuestion : IJob
         _questionValuationWritingRepo.DeleteForQuestion(questionId);
         _commentRepository.DeleteForQuestion(questionId);
         _nhibernateSession
-            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = questionId")
+            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = :questionId")
             .SetParameter("questionId", questionId)
             .ExecuteUpdate();
+        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId, parentIds);
 
-        var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, userId);
         Logg.r.Information("Question {id} deleted", questionId);
 

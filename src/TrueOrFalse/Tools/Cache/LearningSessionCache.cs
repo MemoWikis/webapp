@@ -1,8 +1,8 @@
-﻿using System.Collections.Concurrent;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Concurrent;
 using TrueOrFalse.Web.Context;
 
-public class LearningSessionCache: IRegisterAsInstancePerLifetime
+public class LearningSessionCache : IRegisterAsInstancePerLifetime
 {
     private readonly HttpContext _httpContext;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
@@ -43,9 +43,10 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
     {
         var learningSession = GetLearningSession();
 
-        foreach (var step in learningSession.Steps)
-            if (step.Question.Id == question.Id)
-                step.Question = question;
+        if (learningSession != null)
+            foreach (var step in learningSession.Steps)
+                if (step.Question.Id == question.Id)
+                    step.Question = question;
     }
 
     public int RemoveQuestionFromLearningSession(int sessionIndex, int questionId)
@@ -74,8 +75,8 @@ public class LearningSessionCache: IRegisterAsInstancePerLifetime
         return new RemovalResult
         {
             reloadAnswerBody = reloadAnswerBody,
-            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ? 
-                learningSession.CurrentIndex : 
+            sessionIndex = learningSession.Steps.Count > learningSession.CurrentIndex + 1 ?
+                learningSession.CurrentIndex :
                 learningSession.Steps.Count - 1
         };
     }

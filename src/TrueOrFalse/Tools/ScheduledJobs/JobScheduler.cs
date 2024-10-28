@@ -157,12 +157,13 @@ public static class JobScheduler
             TriggerBuilder.Create().StartNow().Build());
     }
 
-    public static void StartImmediately_DeleteQuestion(int questionId, int userId)
+    public static void StartImmediately_DeleteQuestion(int questionId, int userId, string? parentIdString)
     {
         _scheduler.ScheduleJob(
             JobBuilder.Create<DeleteQuestion>()
                 .UsingJobData("questionId", questionId)
                 .UsingJobData("userId", userId)
+                .UsingJobData("parentIdString", parentIdString)
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }

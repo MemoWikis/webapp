@@ -8,9 +8,10 @@
     public string WikipediaURL;
     public bool DisableLearningFunctions;
     public CategoryVisibility Visibility;
-    public int[] AffectedParentIds;
     public int[]? ParentIds;
     public int[]? ChildIds;
+    public int? DeleteChangeId;
+    public string? DeletedName;
 
     public abstract string ToJson();
 
