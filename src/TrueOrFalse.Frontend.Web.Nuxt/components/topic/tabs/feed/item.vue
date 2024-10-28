@@ -213,7 +213,10 @@ const { isDesktop } = useDevice()
                         </div>
                     </div>
 
-                    <TopicTabsFeedRelations v-else-if="feedItem.params.type === TopicChangeType.Relations && props.topicFeedItem?.relationChanges" :relation-changes="props.topicFeedItem.relationChanges" />
+                    <TopicTabsFeedRelations v-else-if="feedItem.params.type === TopicChangeType.Relations && props.topicFeedItem?.relationChanges"
+                        :relation-changes="props.topicFeedItem.relationChanges" />
+                    <TopicTabsFeedCreate v-else-if="feedItem.params.type === TopicChangeType.Create && props.topicFeedItem?.relationChanges && props.topicFeedItem.relationChanges.addedParents.length > 0"
+                        :added-parent="props.topicFeedItem.relationChanges.addedParents[0]" />
 
                     <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.ChildTopicDeleted">
                         Unterthema gelöscht

@@ -55,8 +55,7 @@ public class FeedController(
 
             NameChange? nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
 
-            var relationChange = change.CategoryChangeData.RelationChange;
-            var relationChanges = change.Type == CategoryChangeType.Relations ? GetRelationChanges(relationChange) : null;
+            var relationChanges = GetRelationChanges(change);
             var deleteData = change.CategoryChangeData.DeleteData != null ? GetDeleteData(change.Type, change.CategoryChangeData.DeleteData?.DeletedName, change.CategoryChangeData.DeleteData?.DeleteChangeId) : null;
 
             var topicFeedItem = new TopicFeedItem(
@@ -121,14 +120,22 @@ public class FeedController(
         }
         return relatedTopics;
     }
-    private RelationChanges? GetRelationChanges(RelationChange relationChange)
+    private RelationChanges? GetRelationChanges(CategoryChangeCacheItem change)
     {
-        var addedParentIds = GetRelatedTopics(relationChange.AddedParentIds);
-        var removedParentIds = GetRelatedTopics(relationChange.RemovedParentIds);
-        var addedChildIds = GetRelatedTopics(relationChange.AddedChildIds);
-        var removedChildIds = GetRelatedTopics(relationChange.RemovedChildIds);
+        if (change.Type != CategoryChangeType.Relations && !(change.Type == CategoryChangeType.Create && change.IsGroup))
+            return null;
 
-        return new RelationChanges(addedParentIds, removedParentIds, addedChildIds, removedChildIds);
+        var relationChange = change.Type == CategoryChangeType.Relations ? change.CategoryChangeData.RelationChange : change.GroupedCategoryChangeCacheItems.Where(c => c.Type == CategoryChangeType.Relations).MinBy(c => c.DateCreated)?.CategoryChangeData.RelationChange;
+
+        if (relationChange == null)
+            return null;
+
+        var addedParents = GetRelatedTopics(relationChange?.AddedParentIds);
+        var removedParents = GetRelatedTopics(relationChange?.RemovedParentIds);
+        var addedChildren = GetRelatedTopics(relationChange?.AddedChildIds);
+        var removedChildren = GetRelatedTopics(relationChange?.RemovedChildIds);
+
+        return new RelationChanges(addedParents, removedParents, addedChildren, removedChildren);
     }
     private Author SetAuthor([CanBeNull] UserCacheItem user)
     {
