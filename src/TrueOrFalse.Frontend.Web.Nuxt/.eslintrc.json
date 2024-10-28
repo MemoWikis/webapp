@@ -28,6 +28,7 @@
         "@typescript-eslint/no-non-null-asserted-optional-chain": "off"
     },
     "globals": {
-    }    
+    },
+    "ignorePatterns": ["*.less", "**/*.less"]
 }
  

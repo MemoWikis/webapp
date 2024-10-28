@@ -52,7 +52,8 @@ export default defineNuxtConfig({
         tsConfig: {
             compilerOptions: {
                 verbatimModuleSyntax: false
-        }
+        },
+        exclude:["**/*.less"]
     }
     },
     build: {
