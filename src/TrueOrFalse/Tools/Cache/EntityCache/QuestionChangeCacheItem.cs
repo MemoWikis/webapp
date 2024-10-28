@@ -81,6 +81,45 @@ public class QuestionChangeCacheItem : IPersistable
     {
         return GetQuestionChangeData().ToQuestionCacheItem(_questionCacheItem.Id);
     }
+
+    public static bool CanBeGrouped(QuestionChangeCacheItem previousCacheItem, QuestionChangeCacheItem currentCacheItem)
+    {
+        var timeSpan = 10;
+
+        var allowedGroupingTypes = new List<QuestionChangeType>
+        {
+            QuestionChangeType.Update
+        };
+
+        return allowedGroupingTypes.Contains(previousCacheItem.Type)
+               && Math.Abs((previousCacheItem.DateCreated - currentCacheItem.DateCreated).TotalMinutes) <= timeSpan
+               && previousCacheItem.AuthorId == currentCacheItem.AuthorId
+               && previousCacheItem.Visibility == currentCacheItem.Visibility
+               && previousCacheItem.Type == currentCacheItem.Type;
+    }
+
+    public static QuestionChangeCacheItem ToGroupedCategoryChangeCacheItem(List<QuestionChangeCacheItem> groupedCacheItems)
+    {
+        var oldestCategoryChangeItem = groupedCacheItems.First();
+        var newestCategoryChangeItem = groupedCacheItems.Last();
+
+        var currentQuestionData = newestCategoryChangeItem.GetQuestionChangeData();
+        var data = GetQuestionData(currentQuestionData, oldestCategoryChangeItem.GetQuestionChangeData());
+
+        return new QuestionChangeCacheItem
+        {
+            Id = newestCategoryChangeItem.Id,
+            QuestionId = newestCategoryChangeItem.Question.Id,
+            Data = newestCategoryChangeItem.Data,
+            ShowInSidebar = newestCategoryChangeItem.ShowInSidebar,
+            DataVersion = newestCategoryChangeItem.DataVersion,
+            AuthorId = newestCategoryChangeItem.AuthorId,
+            Type = newestCategoryChangeItem.Type,
+            DateCreated = newestCategoryChangeItem.DateCreated,
+            Visibility = currentQuestionData.Visibility,
+            QuestionChangeData = data
+        };
+    }
 }
 public record struct CommentIdsChange(List<int> OldCommentIds, List<int> NewCommentIds);
 
