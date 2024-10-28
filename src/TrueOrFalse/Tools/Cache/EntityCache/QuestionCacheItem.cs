@@ -405,12 +405,9 @@ public class QuestionCacheItem
             .ToList();
     }
 
-    public void AddCategoryChangeToCategoryChangeCacheItems(QuestionChange questionChange)
+    public void AddQuestionChangeToCategoryChangeCacheItems(QuestionChange questionChange)
     {
-        if (QuestionChangeCacheItems == null)
-        {
-            QuestionChangeCacheItems = new List<QuestionChangeCacheItem>();
-        }
+        QuestionChangeCacheItems ??= new List<QuestionChangeCacheItem>();
 
         var currentData = questionChange.GetQuestionChangeData();
         QuestionEditData? previousData = QuestionChangeCacheItems.Count > 0 ? QuestionChangeCacheItems.First().GetQuestionChangeData() : null;

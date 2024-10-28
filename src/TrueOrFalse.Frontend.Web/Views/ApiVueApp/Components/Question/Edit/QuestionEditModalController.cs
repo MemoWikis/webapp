@@ -25,8 +25,7 @@ public class QuestionEditModalController(
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     IActionContextAccessor _actionContextAccessor,
-    Logg _logg,
-    ImageStore _imageStore) : Controller
+    Logg _logg) : Controller
 {
     public readonly record struct QuestionDataRequest(
         int[] CategoryIds,
@@ -293,7 +292,9 @@ public class QuestionEditModalController(
         question.License = _sessionUser.IsInstallationAdmin
             ? LicenseQuestionRepo.GetById(request.LicenseId)
             : LicenseQuestionRepo.GetDefaultLicense();
+        var questionChanges = EntityCache.GetQuestion(question.Id).QuestionChangeCacheItems;
         var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
+        questionCacheItem.QuestionChangeCacheItems = questionChanges;
         EntityCache.AddOrUpdate(questionCacheItem);
 
         return question;

@@ -96,7 +96,12 @@ public class QuestionWritingRepo(
             .ToList();
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoriesToUpdateIds);
+        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
+        var questionInEntityCache = EntityCache.GetQuestion(question.Id);
+        if (questionInEntityCache != null && questionInEntityCache.QuestionChangeCacheItems.Count > 0)
+            questionCacheItem.QuestionChangeCacheItems = questionInEntityCache.QuestionChangeCacheItems;
+
+        EntityCache.AddOrUpdate(questionCacheItem, categoriesToUpdateIds);
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds,
             _sessionUser.UserId);
