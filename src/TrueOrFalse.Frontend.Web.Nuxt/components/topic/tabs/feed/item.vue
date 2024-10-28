@@ -222,10 +222,7 @@ const { isDesktop } = useDevice()
 
                 <template v-if="feedItem.feedType === FeedType.Question && feedItem.params.type === QuestionChangeType.AddComment && props.questionFeedItem">
                     <div class="feed-item-label-commentadd" v-html="props.questionFeedItem.comment?.title"> </div>
-
                 </template>
-
-
             </div>
         </div>
 

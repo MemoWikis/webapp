@@ -120,7 +120,6 @@
 
         var parentIds = EntityCache.GetCategory(topicToDeleteId)?
             .Parents()
-            .OrderBy(c => c.DateCreated)
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
@@ -134,28 +133,10 @@
 
         if (parentIds != null && parentIds.Any())
         {
-            var parentsToUpdateWithDeleteEntry = new HashSet<int>(parentIds);
-
-            var parents = EntityCache.GetCategories(parentIds);
-
-            var allAscendantIds = new HashSet<int>();
-            foreach (var parent in parents)
-            {
-                var ascendantIds = GraphService.Ascendants(parent.Id).Select(p => p.Id);
-                foreach (var id in ascendantIds)
-                {
-                    allAscendantIds.Add(id);
-                }
-            }
-
-            parentsToUpdateWithDeleteEntry.ExceptWith(allAscendantIds);
-
-            var parentTopics = _categoryRepo.GetByIds(parentsToUpdateWithDeleteEntry.ToList());
+            var parentTopics = _categoryRepo.GetByIds(parentIds);
 
             foreach (var parent in parentTopics)
-            {
                 _categoryChangeRepo.AddDeletedChildTopicEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, topicName, topicVisibility);
-            }
         }
 
         return new DeleteTopicResult(
