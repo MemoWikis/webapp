@@ -13,6 +13,8 @@ public class DeleteQuestion : IJob
     private readonly ISession _nhibernateSession;
     private readonly QuestionWritingRepo _questionWritingRepo;
     private readonly QuestionValuationWritingRepo _questionValuationWritingRepo;
+    private readonly CategoryChangeRepo _categoryChangeRepo;
+    private readonly CategoryRepository _categoryRepository;
 
 
     public DeleteQuestion(ReferenceRepo referenceRepo,
@@ -22,7 +24,9 @@ public class DeleteQuestion : IJob
         CommentRepository commentRepository,
         ISession nhibernateSession,
         QuestionWritingRepo questionWritingRepo,
-        QuestionValuationWritingRepo questionValuationWritingRepo)
+        QuestionValuationWritingRepo questionValuationWritingRepo,
+        CategoryChangeRepo categoryChangeRepo,
+        CategoryRepository categoryRepository)
     {
         _referenceRepo = referenceRepo;
         _answerRepo = answerRepo;
@@ -32,6 +36,8 @@ public class DeleteQuestion : IJob
         _nhibernateSession = nhibernateSession;
         _questionWritingRepo = questionWritingRepo;
         _questionValuationWritingRepo = questionValuationWritingRepo;
+        _categoryChangeRepo = categoryChangeRepo;
+        _categoryRepository = categoryRepository;
     }
     public Task Execute(IJobExecutionContext context)
     {
@@ -54,6 +60,7 @@ public class DeleteQuestion : IJob
             .ExecuteUpdate();
 
         var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId);
+
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, userId);
         Logg.r.Information("Question {id} deleted", questionId);
 

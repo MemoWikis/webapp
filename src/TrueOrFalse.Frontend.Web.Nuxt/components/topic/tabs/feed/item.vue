@@ -114,7 +114,7 @@ const getTopicChangeColor = (changeType: TopicChangeType) => {
         case TopicChangeType.Delete:
         case TopicChangeType.ChildTopicDeleted:
         case TopicChangeType.QuestionDeleted:
-            return color.memoSalmon
+            return color.lightRed
         default:
             return color.memoGreyLight
     }
@@ -127,7 +127,7 @@ const getQuestionChangeColor = (changeType: QuestionChangeType) => {
         case QuestionChangeType.Update:
             return color.memoGreen
         case QuestionChangeType.Delete:
-            return color.memoWuwiRed
+            return color.lightRed
         default:
             return color.memoGreyLight
     }

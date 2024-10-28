@@ -539,6 +539,7 @@ public class CategoryCacheItem : IPersistable
             {
                 if (c.QuestionChangeCacheItem != null)
                     visibleChanges.Add(c);
+
                 continue;
             }
 
@@ -590,10 +591,10 @@ public class CategoryCacheItem : IPersistable
     private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
         if (feedItem.CategoryChangeCacheItem != null)
-            return feedItem.CategoryChangeCacheItem.Visibility != CategoryVisibility.Owner || feedItem.CategoryChangeCacheItem.AuthorId == userId;
+            return feedItem.CategoryChangeCacheItem.Visibility != CategoryVisibility.Owner || (feedItem.CategoryChangeCacheItem.AuthorId == userId || feedItem.CategoryChangeCacheItem.Category.CreatorId == userId);
 
         if (feedItem.QuestionChangeCacheItem != null)
-            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || feedItem.QuestionChangeCacheItem.AuthorId == userId;
+            return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
 
         return false;
     }

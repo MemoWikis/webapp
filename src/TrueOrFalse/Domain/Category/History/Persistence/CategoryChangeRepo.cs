@@ -79,6 +79,27 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
             AuthorId = authorId,
             DataVersion = 2,
         };
+
+        AddDeleteEntry(categoryChange, category, authorId, deleteChangeId, deletedTopicName, deletedVisibility);
+    }
+
+    public void AddDeletedQuestionEntry(Category category, int authorId, int deleteChangeId, string deletedTopicName, QuestionVisibility deletedVisibility)
+    {
+        var categoryChange = new CategoryChange
+        {
+            Category = category,
+            Type = CategoryChangeType.QuestionDeleted,
+            AuthorId = authorId,
+            DataVersion = 2,
+        };
+
+        var visibility = (CategoryVisibility)deletedVisibility;
+
+        AddDeleteEntry(categoryChange, category, authorId, deleteChangeId, deletedTopicName, visibility);
+    }
+
+    private void AddDeleteEntry(CategoryChange categoryChange, Category category, int authorId, int deleteChangeId, string deletedTopicName, CategoryVisibility deletedVisibility)
+    {
         var categoryCacheItem = EntityCache.GetCategory(category);
 
         category.AuthorIds ??= "";
@@ -138,7 +159,7 @@ public class CategoryChangeRepo(ISession _session) : RepositoryDbBase<CategoryCh
 
     private void SetDeleteData(Category category, CategoryChange categoryChange, int deleteChangeId, string deletedTopicName, CategoryVisibility deletedVisibility, int[]? parentIds = null, int[]? childIds = null)
     {
-        categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated: false, _session, parentIds, childIds, deleteChangeId: deleteChangeId, deletedName: deletedTopicName).ToJson();
+        categoryChange.Data = new CategoryEditData_V2(category, imageWasUpdated: false, _session, parentIds, childIds, deleteChangeId: deleteChangeId, deletedName: deletedTopicName, deletedVisibility: deletedVisibility).ToJson();
     }
 
     public IList<CategoryChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)

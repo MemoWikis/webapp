@@ -1,4 +1,5 @@
-﻿using TrueOrFalse.Search;
+﻿using System.Text.RegularExpressions;
+using TrueOrFalse.Search;
 using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
@@ -10,7 +11,9 @@ public class QuestionWritingRepo(
     UserActivityRepo _userActivityRepo,
     QuestionChangeRepo _questionChangeRepo,
     ISession _nhibernateSession,
-    SessionUser _sessionUser) : RepositoryDbBase<Question>(_nhibernateSession)
+    SessionUser _sessionUser,
+    CategoryChangeRepo _categoryChangeRepo,
+    CategoryRepository _categoryRepository) : RepositoryDbBase<Question>(_nhibernateSession)
 {
     public void Create(Question question, CategoryRepository categoryRepository)
     {
@@ -50,17 +53,25 @@ public class QuestionWritingRepo(
         var categoriesToUpdate = question.Categories.ToList();
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
+        var safeText = Regex.Replace(question.Text, "<.*?>", "");
 
-        Delete(question, userId);
+        var changeId = DeleteAndGetChangeId(question, userId);
+
+        var parentTopics = _categoryRepository.GetByIds(categoriesToUpdateIds);
+
+        foreach (var parent in parentTopics)
+            _categoryChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
+
         return categoriesToUpdateIds;
     }
 
-    public void Delete(Question question, int userId)
+    public int DeleteAndGetChangeId(Question question, int userId)
     {
         base.Delete(question);
-        _questionChangeRepo.AddDeleteEntry(question, userId);
+        var changeId = _questionChangeRepo.AddDeleteEntry(question, userId);
         Task.Run(async () => await new MeiliSearchQuestionsDatabaseOperations()
             .DeleteAsync(question));
+        return changeId;
     }
 
     public void UpdateOrMerge(Question question, bool withMerge)
