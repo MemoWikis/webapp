@@ -45,7 +45,7 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
         Assert.IsNotNull(parentFromDb);
         Assert.AreEqual(CategoryChangeType.Create, categoryChange.First().Type);
         Assert.AreEqual(CategoryChangeType.Relations, categoryChange[1].Type);
-        Assert.AreEqual(CategoryChangeType.Update, categoryChange.Last().Type);
+        Assert.AreEqual(CategoryChangeType.ChildTopicDeleted, categoryChange.Last().Type);
         Assert.NotNull(questionChange);
         Assert.AreEqual(QuestionChangeType.Create, questionChange.Type);
 
