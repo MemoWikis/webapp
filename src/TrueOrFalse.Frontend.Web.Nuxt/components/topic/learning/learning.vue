@@ -3,11 +3,13 @@ import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { useLearningSessionStore, AnswerState } from './learningSessionStore'
 import { useTopicStore } from '../topicStore'
+import { Tab, useTabsStore } from '../tabs/tabsStore'
 
 const userStore = useUserStore()
 const learningSessionStore = useLearningSessionStore()
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const topicStore = useTopicStore()
+const tabsStore = useTabsStore()
 
 const route = useRoute()
 const openFilter = ref(true)
@@ -23,34 +25,59 @@ onBeforeMount(async () => {
     learningSessionConfigurationStore.checkKnowledgeSummarySelection()
     await learningSessionConfigurationStore.loadSessionFromLocalStorage()
 
-    if (route.params.questionId != null) {
-        const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(parseInt(route.params.questionId.toString()))
-        if (errorMsg) {
-            if (import.meta.server) {
-                alertOnMounted.value = true
-                alertOnMountedMsg.value = errorMsg
-            } else {
-                learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId.toString()), errorMsg)
-            }
-        }
-    }
+    if (route.params.questionId != null)
+        mountNewQuestion()
     else
         await learningSessionStore.startNewSession()
 })
+
+const mountNewQuestion = async () => {
+    console.log('test')
+    if (route.params.questionId == null)
+        return
+    const questionId = parseInt(route.params.questionId.toString())
+    const errorMsg = await learningSessionStore.startNewSessionWithJumpToQuestion(questionId)
+    if (errorMsg) {
+        if (import.meta.server) {
+            alertOnMounted.value = true
+            alertOnMountedMsg.value = errorMsg
+        } else {
+            learningSessionStore.handleQuestionNotInSessionAlert(questionId, errorMsg)
+        }
+    }
+}
+
 onMounted(() => {
-    if (process.client && alertOnMounted.value)
-        learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId.toString()), alertOnMountedMsg.value)
+    if (import.meta.client && alertOnMounted.value)
+        learningSessionStore.handleQuestionNotInSessionAlert(parseInt(route.params.questionId?.toString()), alertOnMountedMsg.value)
 })
+
 const filterOpened = useCookie('show-top-dropdown')
+
 onBeforeMount(() => {
     if (filterOpened.value?.toString() == 'true')
         openFilter.value = true
     else if (filterOpened.value?.toString() == 'false' || filterOpened.value == undefined)
         openFilter.value = false
 })
+const oldId = ref()
 onMounted(() => {
     watch(() => learningSessionConfigurationStore.selectedQuestionCount, (oldNumber, newNumber) => {
         learningSessionConfigurationStore.questionCountIsInvalid = newNumber <= 0 || isNaN(newNumber)
+    })
+
+    watch(() => tabsStore.activeTab, async (tab) => {
+        if (tab === Tab.Learning && route.params?.questionId != null) {
+            const newId = parseInt(route.params.questionId?.toString())
+            if (isNaN(newId)) {
+                return
+            }
+
+            if (newId != oldId.value) {
+                oldId.value = newId
+                await mountNewQuestion()
+            }
+        }
     })
 })
 watch(() => learningSessionConfigurationStore.showSelectionError, (val) => {

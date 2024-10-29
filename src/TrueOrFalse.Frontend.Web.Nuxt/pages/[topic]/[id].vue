@@ -98,11 +98,6 @@ function setTopic() {
     }
 }
 
-onMounted(() => {
-    watch(() => route, (val) => {
-    }, { deep: true, immediate: true })
-
-})
 setTopic()
 const emit = defineEmits(['setPage'])
 emit('setPage', Page.Topic)
@@ -129,7 +124,7 @@ onMounted(() => setTab())
 const loginStateHasChanged = ref<boolean>(false)
 watch(() => userStore.isLoggedIn, () => loginStateHasChanged.value = true)
 watch(topic, async (oldTopic, newTopic) => {
-    if (oldTopic?.id == newTopic?.id && loginStateHasChanged.value && process.client) {
+    if (oldTopic?.id == newTopic?.id && loginStateHasChanged.value && import.meta.client) {
         await nextTick()
         setTopic()
     }
@@ -249,34 +244,35 @@ watch(() => props.tab, (t) => {
             min-height: 1.5em;
         });
 
-        img {
-            // Apply styles to p if it contains img
-            & {
-                margin-bottom: 40px !important;
-            }
-        }
+    img {
 
-        .tiptapImgMixin(false)
-    }
-
-
-    &.is-mobile {
-        p {
-            min-height: 21px;
+        // Apply styles to p if it contains img
+        & {
+            margin-bottom: 40px !important;
         }
     }
-    
+
+    .tiptapImgMixin(false)
+}
+
+
+&.is-mobile {
+    p {
+        min-height: 21px;
+    }
+}
+
+ul {
+    margin-bottom: 10px;
+
     ul {
-        margin-bottom: 10px;
-
-        ul {
-            margin-bottom: 0px;
-        }
+        margin-bottom: 0px;
     }
+}
 
-    pre {
-        margin-bottom: 20px;
-    }
+pre {
+    margin-bottom: 20px;
+}
 }
 
 .small-font {
@@ -293,12 +289,15 @@ watch(() => props.tab, (t) => {
     h2 {
         font-size: 2.6rem;
     }
+
     h3 {
         font-size: 2.3rem;
     }
+
     h4 {
-       font-size: 2.1rem;
+        font-size: 2.1rem;
     }
+
     p {
         font-size: 20px;
     }
