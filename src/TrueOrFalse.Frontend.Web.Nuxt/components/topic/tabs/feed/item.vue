@@ -163,7 +163,7 @@ const handleClick = () => {
 }
 
 const { isDesktop } = useDevice()
-
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>

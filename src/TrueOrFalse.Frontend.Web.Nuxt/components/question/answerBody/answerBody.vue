@@ -236,8 +236,10 @@ async function handleUrl() {
         router.push(newPath)
     }
 }
-watch(() => tabsStore.activeTab, (tab) => {
-    if (tab === Tab.Learning) {
+
+const route = useRoute()
+watch(() => tabsStore.activeTab, async (tab) => {
+    if (tab === Tab.Learning && isNaN(parseInt(route.params.questionId?.toString()))) {
         handleUrl()
     }
 })
