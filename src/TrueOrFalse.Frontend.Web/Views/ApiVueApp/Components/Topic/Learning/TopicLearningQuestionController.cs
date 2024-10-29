@@ -6,7 +6,7 @@ using System.Linq;
 public class TopicLearningQuestionController(
     SessionUser _sessionUser,
     CommentRepository _commentRepository,
-    TotalsPersUserLoader _totalsPersUserLoader,
+    TotalsPerUserLoader totalsPerUserLoader,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _sessionUserCache) : Controller
 {
@@ -38,7 +38,7 @@ public class TopicLearningQuestionController(
         var solution = GetQuestionSolution.Run(question);
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
-            _totalsPersUserLoader,
+            totalsPerUserLoader,
             _sessionUserCache);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
 

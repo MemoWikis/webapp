@@ -25,7 +25,7 @@ public class QuestionController(
     ExtendedUserCache _extendedUserCache,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
-    TotalsPersUserLoader _totalsPersUserLoader,
+    TotalsPerUserLoader totalsPerUserLoader,
     SaveQuestionView _saveQuestionView) : Controller
 {
     public readonly record struct QuestionPageResult(
@@ -152,7 +152,7 @@ public class QuestionController(
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
             _sessionUser.UserId,
-            _totalsPersUserLoader,
+            totalsPerUserLoader,
             _extendedUserCache);
 
         var correctnessProbability =

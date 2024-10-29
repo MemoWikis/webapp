@@ -75,7 +75,7 @@ public class QuestionEditModalController(
         var question = new Question();
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId);
 
-        question = UpdateQuestion(question, request, safeText);
+        question = SetQuestion(question, request, safeText);
 
         _questionWritingRepo.Create(question, _categoryRepository);
 
@@ -121,7 +121,7 @@ public class QuestionEditModalController(
             { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         var question = _questionReadingRepo.GetById((int)request.QuestionId);
-        var updatedQuestion = UpdateQuestion(question, request, safeText);
+        var updatedQuestion = SetQuestion(question, request, safeText);
 
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
@@ -133,6 +133,55 @@ public class QuestionEditModalController(
         deleteImage.RunForQuestionContentImages(request.UploadedImagesMarkedForDeletion);
 
         return new QuestionEditResult { Success = true, Data = LoadQuestion(updatedQuestion.Id) };
+    }
+
+    private Question SetQuestion(Question question, QuestionDataRequest request, string safeText)
+    {
+        question.TextHtml = request.TextHtml;
+        question.Text = safeText;
+        question.TextExtendedHtml = request.QuestionExtensionHtml;
+        question.DescriptionHtml = request.DescriptionHtml;
+        question.SolutionType = request.SolutionType;
+
+        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
+        var newCategoryIds = request.CategoryIds.ToList();
+
+        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+
+        foreach (var categoryId in categoriesToRemove)
+            if (!_permissionCheck.CanViewCategory(categoryId))
+                newCategoryIds.Add(categoryId);
+
+        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
+        question.Visibility = (QuestionVisibility)request.Visibility;
+
+        if (question.SolutionType == SolutionType.FlashCard)
+        {
+            var solutionModelFlashCard = new QuestionSolutionFlashCard();
+            solutionModelFlashCard.Text = request.Solution;
+            question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
+        }
+        else
+            question.Solution = request.Solution;
+
+        question.SolutionMetadataJson = request.SolutionMetadataJson;
+
+        if (!String.IsNullOrEmpty(request.ReferencesJson))
+        {
+            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
+            foreach (var reference in references)
+            {
+                reference.DateCreated = DateTime.Now;
+                reference.DateModified = DateTime.Now;
+                question.References.Add(reference);
+            }
+        }
+
+        question.License = _sessionUser.IsInstallationAdmin
+            ? LicenseQuestionRepo.GetById(request.LicenseId)
+            : LicenseQuestionRepo.GetDefaultLicense();
+
+        return question;
     }
 
     public record struct GetDataResult(
@@ -245,59 +294,6 @@ public class QuestionEditModalController(
     private string RemoveHtmlTags(string text)
     {
         return Regex.Replace(text, "<.*?>", "");
-    }
-
-    private Question UpdateQuestion(Question question, QuestionDataRequest request, string safeText)
-    {
-        question.TextHtml = request.TextHtml;
-        question.Text = safeText;
-        question.TextExtendedHtml = request.QuestionExtensionHtml;
-        question.DescriptionHtml = request.DescriptionHtml;
-        question.SolutionType = request.SolutionType;
-
-        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
-        var newCategoryIds = request.CategoryIds.ToList();
-
-        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
-
-        foreach (var categoryId in categoriesToRemove)
-            if (!_permissionCheck.CanViewCategory(categoryId))
-                newCategoryIds.Add(categoryId);
-
-        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
-        question.Visibility = (QuestionVisibility)request.Visibility;
-
-        if (question.SolutionType == SolutionType.FlashCard)
-        {
-            var solutionModelFlashCard = new QuestionSolutionFlashCard();
-            solutionModelFlashCard.Text = request.Solution;
-            question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
-        }
-        else
-            question.Solution = request.Solution;
-
-        question.SolutionMetadataJson = request.SolutionMetadataJson;
-
-        if (!String.IsNullOrEmpty(request.ReferencesJson))
-        {
-            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
-            foreach (var reference in references)
-            {
-                reference.DateCreated = DateTime.Now;
-                reference.DateModified = DateTime.Now;
-                question.References.Add(reference);
-            }
-        }
-
-        question.License = _sessionUser.IsInstallationAdmin
-            ? LicenseQuestionRepo.GetById(request.LicenseId)
-            : LicenseQuestionRepo.GetDefaultLicense();
-        var questionChanges = EntityCache.GetQuestion(question.Id).QuestionChangeCacheItems;
-        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        questionCacheItem.QuestionChangeCacheItems = questionChanges;
-        EntityCache.AddOrUpdate(questionCacheItem);
-
-        return question;
     }
 
     private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
