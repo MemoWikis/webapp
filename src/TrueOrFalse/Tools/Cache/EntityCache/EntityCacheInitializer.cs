@@ -8,13 +8,15 @@ public class EntityCacheInitializer(
     CategoryViewRepo _categoryViewRepo,
     QuestionViewRepository _questionViewRepository,
     CategoryChangeRepo _categoryChangeRepo,
-    QuestionChangeRepo _questionChangeRepo) : IRegisterAsInstancePerLifetime
+    QuestionChangeRepo _questionChangeRepo,
+    AnswerRepo _answerRepo) : IRegisterAsInstancePerLifetime
 {
     public void Init(string customMessage = "")
     {
         var stopWatch = Stopwatch.StartNew();
 
         Logg.r.Information("EntityCache Start" + customMessage + "{Elapsed}", stopWatch.Elapsed);
+
         var allUsers = _userReadingRepo.GetAll();
         Logg.r.Information("EntityCache UsersLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var users = UserCacheItem.ToCacheUsers(allUsers).ToList();
@@ -48,15 +50,16 @@ public class EntityCacheInitializer(
         Logg.r.Information("EntityCache QuestionsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var allQuestionViews = _questionViewRepository.GetAllEager();
         Logg.r.Information("EntityCache QuestionViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges).ToList();
+
+        var answers = _answerRepo.GetAll();
+
+        var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges, answers).ToList();
         Logg.r.Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Logg.r.Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         Cache.IntoForeverCache(EntityCache.CacheKeyQuestions, questions.ToConcurrentDictionary());
 
         Cache.IntoForeverCache(EntityCache.CacheKeyCategoryQuestionsList, EntityCache.GetCategoryQuestionsListForCacheInitilizer(questions));
-        //EntityCache.AddViewsLast30DaysToQuestion(_questionViewRepository, categories);
-
 
         foreach (var question in allQuestions.Where(q => q.References.Any()))
         {

@@ -27,8 +27,8 @@ public class AnswerQuestion(
         var result = Run(questionId, answer, userId, (question, answerQuestionResult) =>
         {
             _answerLog.Run(
-                question, 
-                answerQuestionResult, 
+                question,
+                answerQuestionResult,
                 userId,
                 questionViewGuid,
                 interactionNumber,
@@ -42,7 +42,6 @@ public class AnswerQuestion(
         });
         return result;
     }
-
 
     public AnswerQuestionResult SetCurrentStepAsCorrect(
         int questionId,
@@ -68,8 +67,8 @@ public class AnswerQuestion(
     }
 
     public AnswerQuestionResult Run(
-        int questionId, 
-        string answer, 
+        int questionId,
+        string answer,
         int userId,
         Action<Question, AnswerQuestionResult> action,
         bool countLastAnswerAsCorrect = false,

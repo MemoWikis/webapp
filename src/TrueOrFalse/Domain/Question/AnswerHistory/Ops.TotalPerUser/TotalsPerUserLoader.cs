@@ -19,7 +19,25 @@ public class TotalsPerUserLoader(ISession session) : IRegisterAsInstancePerLifet
 
         var totals = new List<TotalPerUser>();
 
-        if (userId > -1)
+        if (userId == 0)
+        {
+            var questions = EntityCache.GetQuestionsByIds(questionIds);
+
+            foreach (var question in questions)
+            {
+                var answers = question.AnswersByAnonymousUsers;
+                var totalTrue = answers.Count(a => a.AnswerredCorrectly == AnswerCorrectness.True || a.AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue);
+                var totalFalse = answers.Count(a => a.AnswerredCorrectly == AnswerCorrectness.False);
+
+                totals.Add(new TotalPerUser
+                {
+                    QuestionId = question.Id,
+                    TotalTrue = totalTrue,
+                    TotalFalse = totalFalse
+                });
+            }
+        }
+        else if (userId > -1)
         {
             var sbQuestionIdRestriction = new StringBuilder();
 

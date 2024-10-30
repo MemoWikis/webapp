@@ -108,17 +108,18 @@ public class QuestionEditModalController(
     {
         var safeText = RemoveHtmlTags(request.TextHtml);
         if (safeText.Length <= 0)
-        {
             return new QuestionEditResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Question.MissingText
             };
-        }
 
         if (request.QuestionId == null)
             return new QuestionEditResult
-            { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
+            {
+                Success = false,
+                MessageKey = FrontendMessageKeys.Error.Default
+            };
 
         var question = _questionReadingRepo.GetById((int)request.QuestionId);
         var updatedQuestion = SetQuestion(question, request, safeText);
@@ -126,8 +127,7 @@ public class QuestionEditModalController(
         _questionWritingRepo.UpdateOrMerge(updatedQuestion, false);
 
         if (request.IsLearningTab)
-            _learningSessionCache.EditQuestionInLearningSession(
-                EntityCache.GetQuestion(updatedQuestion.Id));
+            _learningSessionCache.EditQuestionInLearningSession(EntityCache.GetQuestion(updatedQuestion.Id));
 
         var deleteImage = new DeleteImage();
         deleteImage.RunForQuestionContentImages(request.UploadedImagesMarkedForDeletion);

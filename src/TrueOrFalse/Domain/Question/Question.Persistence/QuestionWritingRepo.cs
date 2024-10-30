@@ -145,6 +145,6 @@ public class QuestionWritingRepo(
         questionCacheItem.License = question.License;
 
         questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
-        EntityCache.AddOrUpdate(questionCacheItem, categoriesToUpdateIds);
+        EntityCache.AddOrUpdate(questionCacheItem, affectedCategoryIds: categoriesToUpdateIds);
     }
 }
