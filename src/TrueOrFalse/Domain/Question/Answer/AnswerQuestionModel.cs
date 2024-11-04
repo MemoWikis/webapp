@@ -1,4 +1,5 @@
-﻿using TrueOrFalse;
+﻿using System.Diagnostics;
+using TrueOrFalse;
 using TrueOrFalse.Domain.Question.QuestionValuation;
 
 public class AnswerQuestionModel
@@ -11,15 +12,24 @@ public class AnswerQuestionModel
 
     public AnswerQuestionModel(
         QuestionCacheItem question,
-        int sessionUserId,
-        TotalsPersUserLoader totalsPersUserLoader,
+        SessionUser sessionUser,
+        TotalsPerUserLoader totalsPerUserLoader,
         ExtendedUserCache extendedUserCache)
     {
-        var valuationForUser = totalsPersUserLoader.Run(sessionUserId, question.Id);
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
+        Logg.r.Information("AnswerQuestionDetailsTimer 1 - {0}", stopWatch.ElapsedMilliseconds);
+
+        var valuationForUser = totalsPerUserLoader.Run(sessionUser, question.Id);
+
+        Logg.r.Information("AnswerQuestionDetailsTimer 2 - {0}", stopWatch.ElapsedMilliseconds);
+
         var questionValuationForUser =
             NotNull.Run(
                 new QuestionValuationCache(extendedUserCache).GetByFromCache(question.Id,
-                    sessionUserId));
+                    sessionUser.UserId));
+        Logg.r.Information("AnswerQuestionDetailsTimer 3 - {0}", stopWatch.ElapsedMilliseconds);
+        stopWatch.Stop();
 
         HistoryAndProbability = new HistoryAndProbabilityModel
         {

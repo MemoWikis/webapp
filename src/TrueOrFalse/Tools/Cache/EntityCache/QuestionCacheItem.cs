@@ -78,6 +78,8 @@ public class QuestionCacheItem
 
     public virtual List<int> CommentIds { get; set; }
 
+    public virtual List<AnswerCacheItem> AnswersByAnonymousUsers { get; set; } = new List<AnswerCacheItem>();
+
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
         switch (solutionType)
@@ -141,7 +143,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.All;
     }
 
-    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, List<Answer>? answers = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -227,6 +229,11 @@ public class QuestionCacheItem
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
             }
+
+            if (answers != null)
+            {
+                questionCacheItem.AnswersByAnonymousUsers = AnswerCacheItem.AnswersToAnswerCacheItems(answers);
+            }
         }
 
         if (!EntityCache.IsFirstStart)
@@ -238,7 +245,7 @@ public class QuestionCacheItem
         return questionCacheItem;
     }
 
-    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges)
+    public static IEnumerable<QuestionCacheItem> ToCacheQuestions(IList<Question> questions, IList<QuestionViewRepository.QuestionViewSummaryWithId> questionViews, IList<QuestionChange> questionChanges, IList<Answer>? answers = null)
     {
         var questionViewsByQuestionId = questionViews
             .GroupBy(qv => qv.QuestionId)
@@ -248,15 +255,24 @@ public class QuestionCacheItem
             .GroupBy(qc => qc.Question?.Id ?? -1)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        var answersDictionary = answers?
+            .GroupBy(a => a.Question?.Id ?? -1)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         return questions.Select(q =>
         {
             questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
             questionChangesDictionary.TryGetValue(q.Id, out var questionChanges);
 
-            return ToCacheQuestion(q, questionViewsWithId, questionChanges);
+            if (answersDictionary != null)
+            {
+                answersDictionary.TryGetValue(q.Id, out var answersByQuestionId);
+                return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: answersByQuestionId);
+            }
+            return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: null);
+
         });
     }
-
 
     public virtual int TotalAnswers()
     {

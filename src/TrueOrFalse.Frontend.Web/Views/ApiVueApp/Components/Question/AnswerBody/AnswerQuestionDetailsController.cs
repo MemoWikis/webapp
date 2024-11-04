@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
 using TrueOrFalse.Domain.Question.Answer;
 
@@ -9,7 +10,7 @@ public class AnswerQuestionDetailsController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
-    TotalsPersUserLoader _totalsPersUserLoader,
+    TotalsPerUserLoader totalsPerUserLoader,
     IHttpContextAccessor _httpContextAccessor,
     ExtendedUserCache _extendedUserCache,
     QuestionReadingRepo _questionReadingRepo,
@@ -22,23 +23,26 @@ public class AnswerQuestionDetailsController(
 
         if (question.Id == 0 || !_permissionCheck.CanView(question))
             return null;
-
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
+        Logg.r.Information("AnswerQuestionDetailsTimer a - {0}", stopWatch.ElapsedMilliseconds);
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
-            _sessionUser.UserId,
-            _totalsPersUserLoader,
+            _sessionUser,
+            totalsPerUserLoader,
             _extendedUserCache);
 
-        var correctnessProbability =
-            answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
+        var correctnessProbability = answerQuestionModel.HistoryAndProbability.CorrectnessProbability;
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;
         var sessionUser = _extendedUserCache.GetItem(_sessionUser.UserId);
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? sessionUser.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();
-
+        Logg.r.Information("AnswerQuestionDetailsTimer b - {0}", stopWatch.ElapsedMilliseconds);
         var hasUserValuation =
             userQuestionValuation.ContainsKey(question.Id) && _sessionUser.IsLoggedIn;
+        stopWatch.Stop();
+
         var result = new AnswerQuestionDetailsResult(
             KnowledgeStatus: hasUserValuation
                 ? userQuestionValuation[question.Id].KnowledgeStatus

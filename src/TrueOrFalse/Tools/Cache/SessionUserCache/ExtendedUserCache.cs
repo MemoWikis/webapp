@@ -2,7 +2,8 @@
 
 public class ExtendedUserCache(
     CategoryValuationReadingRepo _categoryValuationReadingRepo,
-    QuestionValuationReadingRepo _questionValuationReadingRepo)
+    QuestionValuationReadingRepo _questionValuationReadingRepo,
+    AnswerRepo _answerRepo)
     : IRegisterAsInstancePerLifetime
 {
     public const int ExpirationSpanInMinutes = 600;
@@ -183,6 +184,16 @@ public class ExtendedUserCache(
                     )
                 )
         );
+
+        var answers = _answerRepo.GetByUser(userId);
+
+        if (answers != null)
+        {
+            cacheItem.Answers = new ConcurrentDictionary<int, List<AnswerCacheItem>>(answers
+                .Where(a => a.Question != null)
+                .GroupBy(a => a.Question.Id)
+                .ToDictionary(g => g.Key, AnswerCacheItem.AnswersToAnswerCacheItems));
+        }
 
         return cacheItem;
     }

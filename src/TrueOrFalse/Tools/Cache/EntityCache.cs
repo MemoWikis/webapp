@@ -313,10 +313,10 @@ public class EntityCache
 
     public static void AddOrUpdate(
         QuestionCacheItem question,
-        List<int> categoriesIdsToRemove = null)
+        List<int> affectedCategoryIds = null)
     {
         AddOrUpdate(Questions, question);
-        UpdateCategoryQuestionList(CategoryQuestionsList, question, categoriesIdsToRemove);
+        UpdateCategoryQuestionList(CategoryQuestionsList, question, affectedCategoryIds);
     }
 
     public static void Remove(QuestionCacheItem question)

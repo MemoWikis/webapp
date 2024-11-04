@@ -105,12 +105,9 @@ public class QuestionWritingRepo(
             .ToList();
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
-        var questionCacheItem = QuestionCacheItem.ToCacheQuestion(question);
-        var questionInEntityCache = EntityCache.GetQuestion(question.Id);
-        if (questionInEntityCache != null && questionInEntityCache.QuestionChangeCacheItems.Count > 0)
-            questionCacheItem.QuestionChangeCacheItems = questionInEntityCache.QuestionChangeCacheItems;
 
-        EntityCache.AddOrUpdate(questionCacheItem, categoriesToUpdateIds);
+        UpdateQuestionCacheItem(question, categoriesToUpdateIds);
+
         _updateQuestionCountForCategory.Run(categoriesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds,
             _sessionUser.UserId);
@@ -123,5 +120,31 @@ public class QuestionWritingRepo(
     public void UpdateFieldsOnly(Question question)
     {
         base.Update(question);
+    }
+
+    private void UpdateQuestionCacheItem(Question question, List<int>? categoriesToUpdateIds)
+    {
+        var questionCacheItem = EntityCache.GetQuestion(question.Id);
+
+        if (questionCacheItem == null)
+            return;
+
+        questionCacheItem.Visibility = question.Visibility;
+        questionCacheItem.Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList();
+        questionCacheItem.DateCreated = question.DateCreated;
+        questionCacheItem.DateModified = question.DateModified;
+        questionCacheItem.DescriptionHtml = question.DescriptionHtml;
+        questionCacheItem.TextExtended = question.TextExtended;
+        questionCacheItem.TextExtendedHtml = question.TextExtendedHtml;
+        questionCacheItem.Text = question.Text;
+        questionCacheItem.TextHtml = question.TextHtml;
+        questionCacheItem.SolutionType = question.SolutionType;
+        questionCacheItem.LicenseId = question.LicenseId;
+        questionCacheItem.Solution = question.Solution;
+        questionCacheItem.SolutionMetadataJson = question.SolutionMetadataJson;
+        questionCacheItem.License = question.License;
+
+        questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
+        EntityCache.AddOrUpdate(questionCacheItem, affectedCategoryIds: categoriesToUpdateIds);
     }
 }

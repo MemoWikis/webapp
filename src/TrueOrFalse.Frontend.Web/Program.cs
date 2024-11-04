@@ -154,6 +154,7 @@ app.Urls.Add("http://*:5069");
 
 var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitializer.Init();
-app.Run();
 Console.WriteLine("App: Run");
+
+app.Run();
 

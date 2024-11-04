@@ -12,7 +12,7 @@ using TrueOrFalse.Web;
 namespace VueApp;
 
 public class QuestionLandingPageController(
-    TotalsPersUserLoader _totalsPersUserLoader,
+    TotalsPerUserLoader totalsPerUserLoader,
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -170,8 +170,8 @@ public class QuestionLandingPageController(
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
-            _sessionUser.UserId,
-            _totalsPersUserLoader,
+            _sessionUser,
+            totalsPerUserLoader,
             _extendedUserCache);
 
         var correctnessProbability =
