@@ -512,7 +512,7 @@ const ariaId2 = useId()
 
 <template>
     <div>
-        <div id="QuestionDetailsApp">
+        <div id="ExtendedQuestionDetails">
             <div class="separationBorderTop" style="min-height: 20px;"></div>
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
@@ -849,7 +849,7 @@ const ariaId2 = useId()
     }
 }
 
-#QuestionDetailsApp {
+#ExtendedQuestionDetails {
     .separationBorderTop {
         min-height: 20px;
     }

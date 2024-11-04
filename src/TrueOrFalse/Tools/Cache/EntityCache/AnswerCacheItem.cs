@@ -4,7 +4,7 @@
 [Serializable]
 public class AnswerCacheItem
 {
-    public virtual AnswerCorrectness AnswerredCorrectly { get; set; }
+    public virtual AnswerCorrectness AnswerCorrectness { get; set; }
     public virtual string AnswerText { get; set; }
 
     public virtual int InteractionNumber { get; set; }
@@ -20,7 +20,7 @@ public class AnswerCacheItem
 
     public virtual bool AnsweredCorrectly()
     {
-        return AnswerredCorrectly == AnswerCorrectness.True || AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue;
+        return AnswerCorrectness == AnswerCorrectness.True || AnswerCorrectness == AnswerCorrectness.MarkedAsTrue;
     }
 
     public virtual double GetAnswerOffsetInMinutes()
@@ -36,7 +36,7 @@ public class AnswerCacheItem
     {
         return new AnswerCacheItem
         {
-            AnswerredCorrectly = answer.AnswerredCorrectly,
+            AnswerCorrectness = answer.AnswerredCorrectly,
             AnswerText = answer.AnswerText,
             InteractionNumber = answer.InteractionNumber,
             MillisecondsSinceQuestionView = answer.MillisecondsSinceQuestionView,

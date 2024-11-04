@@ -11,6 +11,7 @@ import { useCommentsStore } from '~~/components/comment/commentsStore'
 import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
+import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
@@ -765,7 +766,7 @@ async function initData(e: AnswerQuestionDetailsResult) {
             drawCounterArcs()
         else
             updateCounters()
-    } else {
+    } else if (showExtendedDetails.value) {
         drawArc()
         drawCounterArcs()
     }
@@ -774,7 +775,7 @@ async function initData(e: AnswerQuestionDetailsResult) {
 }
 
 const { $logger } = useNuxtApp()
-
+const loadDataResult = ref<AnswerQuestionDetailsResult>()
 async function loadData() {
     await nextTick()
 
@@ -787,8 +788,10 @@ async function loadData() {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     })
-    if (result)
+    if (result) {
+        loadDataResult.value = result
         initData(result)
+    }
 }
 
 onMounted(async () => {
@@ -872,12 +875,83 @@ watch(() => userStore.isLoggedIn, () => {
 const ariaId = useId()
 const ariaId2 = useId()
 
+// wip
+
+const backgroundColor = ref('')
+const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
+const correctnessProbabilityLabel = ref('Nicht gelernt')
+
+function setKnowledgebarData() {
+
+    switch (currentKnowledgeStatus.value) {
+        case KnowledgeStatus.Solid:
+            backgroundColor.value = "solid"
+            correctnessProbabilityLabel.value = "Sicheres Wissen"
+            break
+        case KnowledgeStatus.NeedsConsolidation:
+            backgroundColor.value = "needsConsolidation"
+            correctnessProbabilityLabel.value = "Zu festigen"
+            break
+        case KnowledgeStatus.NeedsLearning:
+            backgroundColor.value = "needsLearning"
+            correctnessProbabilityLabel.value = "Zu lernen"
+            break
+        default:
+            backgroundColor.value = "notLearned"
+            correctnessProbabilityLabel.value = "Nicht gelernt"
+            break
+    }
+}
+
+const showExtendedDetails = ref(false)
+watch(showExtendedDetails, () => {
+    if (loadDataResult.value)
+        initData(loadDataResult.value)
+})
+
+const activityPointsStore = useActivityPointsStore()
 </script>
 
 <template>
     <div>
-        <div id="QuestionDetailsApp">
-            <div class="separationBorderTop" style="min-height: 20px;"></div>
+        <div id="MiniQuestionDetails">
+            <div v-show="!showExtendedDetails">
+                <div class="questionStats questionStatsInQuestionList">
+                    <div class="probabilitySection">
+                        <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
+                    </div>
+                    <div class="answerCountFooter">
+                        {{ answerCount }} mal beantwortet <span class="spacer">•</span> {{ correctAnswers }} richtig / {{ wrongAnswers }} falsch
+                    </div>
+                    <div class="spacer">•</div>
+                    <div @click="showExtendedDetails = true" class="extendDetailsToggle">
+                        Weitere Daten anzeigen
+                    </div>
+                </div>
+            </div>
+            <div v-show="showExtendedDetails">
+                <div @click="showExtendedDetails = false" class="extendDetailsToggle">
+                    Weitere Daten ausblenden
+                </div>
+            </div>
+
+            <div id="ActivityPointsDisplay">
+                <div>
+                    <small>Dein Punktestand</small>
+                </div>
+                <div class="activitypoints-display-detail">
+                    <span id="ActivityPoints">
+                        {{ activityPointsStore.points }}
+                    </span>
+                    <font-awesome-icon icon="fa-solid fa-circle-info" class="activity-points-icon" v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
+                </div>
+
+            </div>
+
+        </div>
+        <div class="separationBorderTop"></div>
+
+        <div id="ExtendedQuestionDetails" v-show="showExtendedDetails">
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
                 <div id="categoryList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
@@ -1207,10 +1281,12 @@ const ariaId2 = useId()
     }
 }
 
-#QuestionDetailsApp {
-    .separationBorderTop {
-        min-height: 20px;
-    }
+.separationBorderTop {
+    min-height: 10px;
+    margin-bottom: 10px;
+}
+
+#ExtendedQuestionDetails {
 
     #questionDetailsContainer {
         padding-left: 15px;
@@ -1438,7 +1514,7 @@ const ariaId2 = useId()
         display: flex;
         justify-content: flex-end;
         padding-right: 4px;
-        align-items: center;
+        height: 100%;
         flex-wrap: wrap;
 
         .wishknowledgeCount,
@@ -1467,6 +1543,124 @@ const ariaId2 = useId()
 
 .detail-label {
     padding-left: 3px;
+}
+
+.extendDetailsToggle {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    color: @memo-blue-link;
+    cursor: pointer;
+    align-items: center;
+}
+
+.spacer {
+    margin-left: 12px;
+    margin-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: @memo-grey-dark;
+}
+
+#MiniQuestionDetails {
+    // margin-top: -24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 8px;
+
+    .separationBorderTop {
+        margin-top: 8px;
+    }
+
+    .questionStats {
+        display: flex;
+        font-size: 14px;
+        padding-left: 12px;
+        padding-right: 12px;
+        width: 100%;
+
+        .answerCountFooter {
+            align-items: center;
+            display: flex;
+            color: @memo-grey-dark;
+            font-size: 14px;
+
+            @media(max-width: @screen-xxs-max) {
+                padding-right: 0px;
+            }
+
+
+        }
+
+        .probabilitySection {
+            padding-right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                &.percentageLabel {
+                    font-weight: bold;
+                    color: @memo-grey-light;
+
+                    &.solid {
+                        color: @memo-green;
+                    }
+
+                    &.needsConsolidation {
+                        color: @memo-yellow;
+                    }
+
+                    &.needsLearning {
+                        color: @memo-salmon;
+                    }
+
+                    &.notLearned {
+                        color: @memo-grey-light;
+                    }
+                }
+
+                &.chip {
+                    padding: 2px 12px;
+                    border-radius: 20px;
+                    background: @memo-grey-light;
+                    color: @memo-grey-darker;
+                    white-space: nowrap;
+
+                    &.solid {
+                        background: @memo-green;
+                    }
+
+                    &.needsConsolidation {
+                        background: @memo-yellow;
+                    }
+
+                    &.needsLearning {
+                        background: @memo-salmon;
+                    }
+
+                    &.notLearned {
+                        background: @memo-grey-light;
+                        color: @memo-grey-darker;
+                    }
+                }
+            }
+
+            &.open {
+                height: unset;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                transition: all .2s ease-out;
+                box-shadow: 0px 1px 6px 0px #C4C4C4;
+            }
+        }
+
+        @media(max-width: @screen-sm-min) {
+            flex-wrap: wrap;
+        }
+    }
 }
 </style>
 

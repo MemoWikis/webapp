@@ -24,8 +24,8 @@
 
     private TotalPerUser GetTotalPerUser(List<AnswerCacheItem> answers, int questionId)
     {
-        var totalTrue = answers.Count(a => a.AnswerredCorrectly == AnswerCorrectness.True || a.AnswerredCorrectly == AnswerCorrectness.MarkedAsTrue);
-        var totalFalse = answers.Count(a => a.AnswerredCorrectly == AnswerCorrectness.False);
+        var totalTrue = answers.Count(a => a.AnswerCorrectness == AnswerCorrectness.True || a.AnswerCorrectness == AnswerCorrectness.MarkedAsTrue);
+        var totalFalse = answers.Count(a => a.AnswerCorrectness == AnswerCorrectness.False);
 
         return new TotalPerUser
         {

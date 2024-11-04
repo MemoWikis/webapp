@@ -568,10 +568,9 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
             </div>
         </div>
 
-        <div id="ActivityPointsDisplay">
+        <!-- <div id="ActivityPointsDisplay">
             <div>
                 <small>Dein Punktestand</small>
-
             </div>
             <div class="activitypoints-display-detail">
                 <span id="ActivityPoints">
@@ -580,7 +579,7 @@ watch(() => topicStore.id, () => learningSessionStore.showResult = false)
                 <font-awesome-icon icon="fa-solid fa-circle-info" class="activity-points-icon" v-tooltip="'Du bekommst Lernpunkte für das Beantworten von Fragen'" />
             </div>
 
-        </div>
+        </div> -->
         <QuestionAnswerBodyAnswerQuestionDetails :id="answerBodyModel.id" />
     </div>
     <div v-else-if="learningSessionStore.showResult === true">
