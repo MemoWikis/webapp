@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using NHibernate.Util;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using NHibernate.Util;
 using TrueOrFalse;
 using TrueOrFalse.Domain.Question.Answer;
 using TrueOrFalse.Frontend.Web.Code;
@@ -68,7 +68,7 @@ public class QuestionController(
     public QuestionPageResult GetQuestionPage([FromRoute] int id)
     {
         var question = EntityCache.GetQuestion(id);
-      
+
         if (question == null)
         {
             return new QuestionPageResult
@@ -151,7 +151,7 @@ public class QuestionController(
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
-            _sessionUser.UserId,
+            _sessionUser,
             totalsPerUserLoader,
             _extendedUserCache);
 

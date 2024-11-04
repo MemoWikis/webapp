@@ -28,7 +28,7 @@ public class AnswerQuestionDetailsController(
         Logg.r.Information("AnswerQuestionDetailsTimer a - {0}", stopWatch.ElapsedMilliseconds);
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
-            _sessionUser.UserId,
+            _sessionUser,
             totalsPerUserLoader,
             _extendedUserCache);
 

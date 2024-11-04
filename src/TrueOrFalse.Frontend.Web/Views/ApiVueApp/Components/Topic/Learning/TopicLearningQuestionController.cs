@@ -37,7 +37,7 @@ public class TopicLearningQuestionController(
             .GetUrl_128px_square(author);
         var solution = GetQuestionSolution.Run(question);
         var answerQuestionModel = new AnswerQuestionModel(question,
-            _sessionUser.UserId,
+            _sessionUser,
             totalsPerUserLoader,
             _sessionUserCache);
         var history = answerQuestionModel.HistoryAndProbability.AnswerHistory;

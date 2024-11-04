@@ -170,7 +170,7 @@ public class QuestionLandingPageController(
 
         var dateNow = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
         var answerQuestionModel = new AnswerQuestionModel(question,
-            _sessionUser.UserId,
+            _sessionUser,
             totalsPerUserLoader,
             _extendedUserCache);
 

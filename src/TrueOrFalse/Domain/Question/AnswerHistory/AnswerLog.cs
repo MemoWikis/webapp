@@ -1,14 +1,6 @@
-﻿public class AnswerLog : IRegisterAsInstancePerLifetime
+﻿public class AnswerLog(AnswerRepo answerRepo, QuestionReadingRepo questionReadingRepo, ExtendedUserCache _extendedUserCache)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly AnswerRepo _answerRepo;
-    private readonly QuestionReadingRepo _questionReadingRepo;
-
-    public AnswerLog(AnswerRepo answerRepo, QuestionReadingRepo questionReadingRepo)
-    {
-        _answerRepo = answerRepo;
-        _questionReadingRepo = questionReadingRepo;
-    }
-
     public void Run(
         Question question,
         AnswerQuestionResult answerQuestionResult,
@@ -37,12 +29,13 @@
                 : dateCreated
         };
 
-        _answerRepo.Create(answer);
+        answerRepo.Create(answer);
+        AnswerCacheItem.AddAnswerToCache(_extendedUserCache, answer);
     }
 
     public void CountLastAnswerAsCorrect(Guid questionViewGuid)
     {
-        var correctedAnswer = _answerRepo
+        var correctedAnswer = answerRepo
             .GetByQuestionViewGuid(questionViewGuid)
             .OrderBy(a => a.InteractionNumber)
             .LastOrDefault(a => a.AnswerredCorrectly == AnswerCorrectness.False);
@@ -51,7 +44,7 @@
             correctedAnswer.AnswerredCorrectly == AnswerCorrectness.False)
         {
             correctedAnswer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
-            _answerRepo.Update(correctedAnswer);
+            answerRepo.Update(correctedAnswer);
         }
     }
 
@@ -74,7 +67,7 @@
             DateCreated = DateTime.Now,
         };
 
-        _answerRepo.Create(answer);
+        answerRepo.Create(answer);
     }
 
     public void LogAnswerView(
@@ -89,7 +82,7 @@
     {
         var answer = new Answer
         {
-            Question = _questionReadingRepo.GetById(question.Id),
+            Question = questionReadingRepo.GetById(question.Id),
             UserId = userId,
             QuestionViewGuid = questionViewGuid,
             InteractionNumber = interactionNumber,
@@ -99,6 +92,6 @@
             DateCreated = DateTime.Now,
         };
 
-        _answerRepo.Create(answer);
+        answerRepo.Create(answer);
     }
 }

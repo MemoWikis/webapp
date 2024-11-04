@@ -12,7 +12,7 @@ public class AnswerQuestionModel
 
     public AnswerQuestionModel(
         QuestionCacheItem question,
-        int sessionUserId,
+        SessionUser sessionUser,
         TotalsPerUserLoader totalsPerUserLoader,
         ExtendedUserCache extendedUserCache)
     {
@@ -20,14 +20,14 @@ public class AnswerQuestionModel
         stopWatch.Start();
         Logg.r.Information("AnswerQuestionDetailsTimer 1 - {0}", stopWatch.ElapsedMilliseconds);
 
-        var valuationForUser = totalsPerUserLoader.Run(sessionUserId, question.Id);
+        var valuationForUser = totalsPerUserLoader.Run(sessionUser, question.Id);
 
         Logg.r.Information("AnswerQuestionDetailsTimer 2 - {0}", stopWatch.ElapsedMilliseconds);
 
         var questionValuationForUser =
             NotNull.Run(
                 new QuestionValuationCache(extendedUserCache).GetByFromCache(question.Id,
-                    sessionUserId));
+                    sessionUser.UserId));
         Logg.r.Information("AnswerQuestionDetailsTimer 3 - {0}", stopWatch.ElapsedMilliseconds);
         stopWatch.Stop();
 
