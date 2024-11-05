@@ -914,24 +914,33 @@ const activityPointsStore = useActivityPointsStore()
 
 <template>
     <div>
-        <div id="MiniQuestionDetails">
-            <div v-show="!showExtendedDetails">
-                <div class="questionStats questionStatsInQuestionList">
+        <div id="MiniQuestionDetailsContainer">
+            <div id="MiniQuestionDetails">
+                <div class="questionStats" v-show="!showExtendedDetails">
                     <div class="probabilitySection">
                         <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                     </div>
-                    <div class="answerCountFooter">
-                        {{ answerCount }} mal beantwortet <span class="spacer">•</span> {{ correctAnswers }} richtig / {{ wrongAnswers }} falsch
+                    <div class="answerDetails">
+                        <div>
+                            <strong>{{ personalProbability }}%</strong> Antwortwahrscheinlichkeit
+                        </div>
+                        <div class="counter">
+                            <div>
+                                <strong>{{ answerCount }}</strong> mal beantwortet
+                            </div>
+                            <div class="spacer"></div>
+                            <div>
+                                <strong>{{ correctAnswers }} </strong> richtig /<strong>{{ wrongAnswers }}</strong> falsch
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="spacer">•</div>
-                    <div @click="showExtendedDetails = true" class="extendDetailsToggle">
-                        Weitere Daten anzeigen
+                    <div @click="showExtendedDetails = true" class="expendDetailsToggle">
+                        Details anzeigen
                     </div>
                 </div>
-            </div>
-            <div v-show="showExtendedDetails">
-                <div @click="showExtendedDetails = false" class="extendDetailsToggle">
-                    Weitere Daten ausblenden
+                <div @click="showExtendedDetails = false" class="expendDetailsToggle" v-if="showExtendedDetails">
+                    Details ausblenden
                 </div>
             </div>
 
@@ -1031,7 +1040,7 @@ const activityPointsStore = useActivityPointsStore()
                     </div>
                 </div>
             </div>
-            <div class="separationBorderTop" style="min-height: 10px;"></div>
+            <div class="separationBorderTop"></div>
         </div>
         <div id="QuestionDetailsFooter">
             <div class="questionDetailsFooterPartialLeft">
@@ -1477,6 +1486,7 @@ const activityPointsStore = useActivityPointsStore()
     display: flex;
     justify-content: space-between;
     color: @memo-grey-dark;
+    margin-top: -10px;
 
     .questionDetailsFooterPartialLeft {
         width: 60%;
@@ -1545,122 +1555,150 @@ const activityPointsStore = useActivityPointsStore()
     padding-left: 3px;
 }
 
-.extendDetailsToggle {
+.expendDetailsToggle {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    font-size: 14px;
+    align-items: flex-end;
     color: @memo-blue-link;
     cursor: pointer;
-    align-items: center;
+    user-select: none;
+    font-size: 11px;
+    margin: 12px 4px 0;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .spacer {
-    margin-left: 12px;
-    margin-right: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: @memo-grey-dark;
+    margin-left: 8px;
+    margin-right: 4px;
+    height: 8px;
+    width: 1px;
+    background-color: @memo-grey-light;
 }
 
-#MiniQuestionDetails {
-    // margin-top: -24px;
+#MiniQuestionDetailsContainer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     padding-bottom: 8px;
 
-    .separationBorderTop {
-        margin-top: 8px;
-    }
-
-    .questionStats {
+    #MiniQuestionDetails {
         display: flex;
-        font-size: 14px;
-        padding-left: 12px;
+        justify-content: flex-start;
+        align-items: center;
         padding-right: 12px;
         width: 100%;
 
-        .answerCountFooter {
-            align-items: center;
-            display: flex;
-            color: @memo-grey-dark;
-            font-size: 14px;
-
-            @media(max-width: @screen-xxs-max) {
-                padding-right: 0px;
-            }
-
-
+        .separationBorderTop {
+            margin-top: 8px;
         }
 
-        .probabilitySection {
-            padding-right: 10px;
+        .questionStats {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            font-size: 14px;
+            padding-left: 12px;
+            padding-right: 12px;
+            width: 100%;
 
-            span {
-                &.percentageLabel {
-                    font-weight: bold;
-                    color: @memo-grey-light;
+            .answerDetails {
+                margin-top: 12px;
+                align-items: flex-start;
+                display: flex;
+                color: @memo-grey-dark;
+                font-size: 11px;
+                flex-direction: column;
+                margin-right: 12px;
 
-                    &.solid {
-                        color: @memo-green;
-                    }
-
-                    &.needsConsolidation {
-                        color: @memo-yellow;
-                    }
-
-                    &.needsLearning {
-                        color: @memo-salmon;
-                    }
-
-                    &.notLearned {
-                        color: @memo-grey-light;
-                    }
+                @media(max-width: @screen-xxs-max) {
+                    padding-right: 0px;
                 }
 
-                &.chip {
-                    padding: 2px 12px;
-                    border-radius: 20px;
-                    background: @memo-grey-light;
-                    color: @memo-grey-darker;
-                    white-space: nowrap;
+                .counter {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                    flex-direction: row;
+                }
 
-                    &.solid {
-                        background: @memo-green;
+                strong {
+                    margin: 0 4px;
+                }
+            }
+
+            .probabilitySection {
+                margin-top: 12px;
+                padding-right: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                span {
+                    &.percentageLabel {
+                        font-weight: bold;
+                        color: @memo-grey-light;
+
+                        &.solid {
+                            color: @memo-green;
+                        }
+
+                        &.needsConsolidation {
+                            color: @memo-yellow;
+                        }
+
+                        &.needsLearning {
+                            color: @memo-salmon;
+                        }
+
+                        &.notLearned {
+                            color: @memo-grey-light;
+                        }
                     }
 
-                    &.needsConsolidation {
-                        background: @memo-yellow;
-                    }
-
-                    &.needsLearning {
-                        background: @memo-salmon;
-                    }
-
-                    &.notLearned {
+                    &.chip {
+                        padding: 2px 12px;
+                        border-radius: 20px;
                         background: @memo-grey-light;
                         color: @memo-grey-darker;
+                        white-space: nowrap;
+
+                        &.solid {
+                            background: @memo-green;
+                        }
+
+                        &.needsConsolidation {
+                            background: @memo-yellow;
+                        }
+
+                        &.needsLearning {
+                            background: @memo-salmon;
+                        }
+
+                        &.notLearned {
+                            background: @memo-grey-light;
+                            color: @memo-grey-darker;
+                        }
                     }
+                }
+
+                &.open {
+                    height: unset;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    transition: all .2s ease-out;
+                    box-shadow: 0px 1px 6px 0px #C4C4C4;
                 }
             }
 
-            &.open {
-                height: unset;
-                margin-top: 20px;
-                margin-bottom: 20px;
-                transition: all .2s ease-out;
-                box-shadow: 0px 1px 6px 0px #C4C4C4;
+            @media(max-width: @screen-sm-min) {
+                flex-wrap: wrap;
             }
         }
-
-        @media(max-width: @screen-sm-min) {
-            flex-wrap: wrap;
-        }
     }
+
+
 }
 </style>
 

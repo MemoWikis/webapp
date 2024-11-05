@@ -5,46 +5,21 @@
 public class AnswerCacheItem
 {
     public virtual AnswerCorrectness AnswerCorrectness { get; set; }
-    public virtual string AnswerText { get; set; }
-
-    public virtual int InteractionNumber { get; set; }
-
-    /// <summary>Duration</summary>
-    public virtual int MillisecondsSinceQuestionView { get; set; }
 
     public virtual int QuestionId { get; set; }
 
-    public virtual Guid QuestionViewGuid { get; set; }
-
     public virtual int UserId { get; set; }
 
-    public virtual bool AnsweredCorrectly()
-    {
-        return AnswerCorrectness == AnswerCorrectness.True || AnswerCorrectness == AnswerCorrectness.MarkedAsTrue;
-    }
-
-    public virtual double GetAnswerOffsetInMinutes()
-    {
-        return (DateTimeX.Now() - DateCreated).TotalMinutes;
-    }
-
     public virtual int Id { get; set; }
-
-    public virtual DateTime DateCreated { get; set; }
 
     public static AnswerCacheItem AnswerToAnswerCacheItem(Answer answer)
     {
         return new AnswerCacheItem
         {
             AnswerCorrectness = answer.AnswerredCorrectly,
-            AnswerText = answer.AnswerText,
-            InteractionNumber = answer.InteractionNumber,
-            MillisecondsSinceQuestionView = answer.MillisecondsSinceQuestionView,
             QuestionId = answer.Question.Id,
-            QuestionViewGuid = answer.QuestionViewGuid,
             UserId = answer.UserId,
             Id = answer.Id,
-            DateCreated = answer.DateCreated
         };
     }
 
