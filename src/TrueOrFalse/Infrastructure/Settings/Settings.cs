@@ -78,4 +78,7 @@ public class Settings
     public static string CollaborationTokenSecretKey => _configuration["Collaboration:TokenSecretKey"];
     public static string CollaborationHocuspocusSecretKey => _configuration["Collaboration:HocuspocusSecretKey"];
 
+    private static string _trackersToIgnoreString => _configuration["General:TrackersToIgnore"];
+    public static List<string> TrackersToIgnore => _trackersToIgnoreString.Split(',').ToList();
+
 }

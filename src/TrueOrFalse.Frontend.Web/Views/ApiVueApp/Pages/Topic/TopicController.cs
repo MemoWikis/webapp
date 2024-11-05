@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 
 public class TopicController(
     SessionUser _sessionUser,
@@ -18,8 +19,8 @@ public class TopicController(
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
 
-        _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
-        //EntityCache.GetCategory(id)?.IncrementTodayViewCounters(false);
+        if (!Settings.TrackersToIgnore.Any(item => userAgent.Contains(item)))
+            _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
 
         var data = new TopicDataManager(
                 _sessionUser,
