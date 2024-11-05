@@ -331,8 +331,13 @@ const ariaId = useId()
                             <span class="percentageLabel" :class="backgroundColor">{{ correctnessProbability }}</span>
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
-                        <div class="answerCountFooter">
-                            {{ answerCount }} mal beantwortet | {{ correctAnswers }} richtig / {{ wrongAnswers }} falsch
+                        <div class="answerDetails">
+                            <div>{{ answerCount }} mal beantwortet</div>
+                            <div class="spacercontainer">
+                                <div class="spacer"></div>
+
+                            </div>
+                            <div>{{ correctAnswers }} richtig / {{ wrongAnswers }} falsch</div>
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
@@ -669,13 +674,32 @@ const ariaId = useId()
                     padding-right: 12px;
                     width: 100%;
 
-                    .answerCountFooter {
+                    .answerDetails {
                         width: 260px;
                         padding-bottom: 16px;
-
+                        display: flex;
+                        justify-content: flex-start;
+                        align-items: center;
+                        flex-direction: row;
+                        color: @memo-grey-dark;
 
                         @media(max-width: @screen-xxs-max) {
                             padding-right: 0px;
+                        }
+
+                        .spacercontainer {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100%;
+
+                            .spacer {
+                                margin-left: 8px;
+                                margin-right: 8px;
+                                height: 8px;
+                                width: 1px;
+                                background-color: @memo-grey-light;
+                            }
                         }
                     }
 
