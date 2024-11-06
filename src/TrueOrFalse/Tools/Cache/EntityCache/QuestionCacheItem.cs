@@ -78,7 +78,8 @@ public class QuestionCacheItem
 
     public virtual List<int> CommentIds { get; set; }
 
-    public virtual List<AnswerCacheItem> AnswersByAnonymousUsers { get; set; } = new List<AnswerCacheItem>();
+    public virtual List<AnswerCache> AnswersByAnonymousUsers { get; set; } = new List<AnswerCache>();
+    public virtual AnswerRecord AnswerCounter { get; set; }
 
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
@@ -232,7 +233,7 @@ public class QuestionCacheItem
 
             if (answers != null)
             {
-                questionCacheItem.AnswersByAnonymousUsers = AnswerCacheItem.AnswersToAnswerCacheItems(answers);
+                questionCacheItem.AnswerCounter = AnswerCache.AnswersToAnswerRecord(answers);
             }
         }
 

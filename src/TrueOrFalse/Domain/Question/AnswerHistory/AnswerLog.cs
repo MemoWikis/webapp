@@ -30,7 +30,7 @@
         };
 
         answerRepo.Create(answer);
-        AnswerCacheItem.AddAnswerToCache(_extendedUserCache, answer);
+        AnswerCache.AddAnswerToCache(_extendedUserCache, answer);
     }
 
     public void CountLastAnswerAsCorrect(Guid questionViewGuid)
