@@ -144,7 +144,7 @@ public class QuestionCacheItem
         return Visibility != QuestionVisibility.All;
     }
 
-    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, List<Answer>? answers = null)
+    public static QuestionCacheItem ToCacheQuestion(Question question, IList<QuestionViewRepository.QuestionViewSummaryWithId>? questionViews = null, List<QuestionChange>? questionChanges = null, AnswerRecord? answers = null)
     {
         var questionCacheItem = new QuestionCacheItem
         {
@@ -233,7 +233,7 @@ public class QuestionCacheItem
 
             if (answers != null)
             {
-                questionCacheItem.AnswerCounter = AnswerCache.AnswersToAnswerRecord(answers);
+                questionCacheItem.AnswerCounter = (AnswerRecord)answers;
             }
         }
 
@@ -258,9 +258,9 @@ public class QuestionCacheItem
 
         var answersDictionary = answers?
             .GroupBy(a => a.Question?.Id ?? -1)
-            .ToDictionary(g => g.Key, g => g.ToList());
+            .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord);
 
-        return questions.Select(q =>
+        var result = questions.Select(q =>
         {
             questionViewsByQuestionId.TryGetValue(q.Id, out var questionViewsWithId);
             questionChangesDictionary.TryGetValue(q.Id, out var questionChanges);
@@ -271,8 +271,9 @@ public class QuestionCacheItem
                 return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: answersByQuestionId);
             }
             return ToCacheQuestion(q, questionViewsWithId, questionChanges, answers: null);
-
         });
+
+        return result;
     }
 
     public virtual int TotalAnswers()
