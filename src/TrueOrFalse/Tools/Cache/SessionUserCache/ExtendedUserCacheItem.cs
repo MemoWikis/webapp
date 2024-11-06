@@ -4,7 +4,7 @@ public class ExtendedUserCacheItem : UserCacheItem
 {
     public ConcurrentDictionary<int, CategoryValuation> CategoryValuations = new();
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
-    public ConcurrentDictionary<int, List<AnswerCacheItem>> Answers = new();
+    public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
 
     public static ExtendedUserCacheItem CreateCacheItem(User user)
     {

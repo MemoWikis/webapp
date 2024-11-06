@@ -11,7 +11,8 @@ public class AnswerQuestion(
     UpdateQuestionAnswerCount _updateQuestionAnswerCount,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
     ProbabilityCalc_Simple1 _probabilityCalcSimple1,
-    UserReadingRepo _userReadingRepo) : IRegisterAsInstancePerLifetime
+    UserReadingRepo _userReadingRepo,
+    ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public AnswerQuestionResult Run(
        int questionId,
@@ -60,6 +61,8 @@ public class AnswerQuestion(
 
             var answer = _answerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();
             answer.AnswerredCorrectly = AnswerCorrectness.MarkedAsTrue;
+
+            AnswerCache.UpdateAnswerInCache(_extendedUserCache, answer);
             return Run(questionId, "", userId, (question, answerQuestionResult) =>
                 _answerLog.CountLastAnswerAsCorrect(questionViewGuid), countLastAnswerAsCorrect: true);
         }

@@ -189,10 +189,10 @@ public class ExtendedUserCache(
 
         if (answers != null)
         {
-            cacheItem.Answers = new ConcurrentDictionary<int, List<AnswerCacheItem>>(answers
+            cacheItem.AnswerCounter = new ConcurrentDictionary<int, AnswerRecord>(answers
                 .Where(a => a.Question != null)
                 .GroupBy(a => a.Question.Id)
-                .ToDictionary(g => g.Key, AnswerCacheItem.AnswersToAnswerCacheItems));
+                .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord));
         }
 
         return cacheItem;
