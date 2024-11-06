@@ -247,6 +247,7 @@ watch(() => tabsStore.activeTab, async (tab) => {
 async function markAsCorrect() {
 
     const data = {
+        id: answerBodyModel.value!.id,
         questionViewGuid: answerBodyModel.value!.questionViewGuid,
         amountOfTries: amountOfTries.value,
     }

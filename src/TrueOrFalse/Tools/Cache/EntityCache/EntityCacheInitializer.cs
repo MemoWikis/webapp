@@ -54,6 +54,8 @@ public class EntityCacheInitializer(
         var answers = _answerRepo.GetAll();
 
         var questions = QuestionCacheItem.ToCacheQuestions(allQuestions, allQuestionViews, allQuestionChanges, answers).ToList();
+        answers.Clear();
+
         Logg.r.Information("EntityCache QuestionsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Logg.r.Information("EntityCache LoadAllEntities" + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
@@ -66,8 +68,10 @@ public class EntityCacheInitializer(
             EntityCache.Questions.FirstOrDefault(q => q.Key == question.Id).Value.References =
                 ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
         }
+
         Logg.r.Information("EntityCache PutIntoCache" + customMessage + "{Elapsed}", stopWatch.Elapsed);
         EntityCache.IsFirstStart = false;
+
     }
 }
 
