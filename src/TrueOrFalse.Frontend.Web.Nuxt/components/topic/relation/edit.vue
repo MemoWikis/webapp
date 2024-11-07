@@ -125,7 +125,7 @@ function selectTopic(t: TopicItem) {
     selectedTopic.value = t
     selectedTopicId.value = t.id
     showSelectedTopic.value = true
-    selectedParentInWikiId.value = t.id;
+    selectedParentInWikiId.value = t.id
 }
 
 const selectedParentInWikiId = ref(0)
@@ -349,7 +349,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
             </h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent || editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki"
                 class="modal-title">
-                Neues Oberthema verknüpfen
+                Neue Übergeordnete Seite verknüpfen
             </h4>
         </template>
 
@@ -418,8 +418,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                         Frage<template v-if="previousTopic.questionCount != 1">n</template>
                                     </div>
                                 </div>
-                                <div v-show="selectedParentInWikiId == previousTopic.id"
-                                    class="selectedSearchResultItemContainer">
+                                <div v-show="selectedParentInWikiId == previousTopic.id" class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
                                         Ausgewählt
                                         <font-awesome-icon icon="fa-solid fa-check" />
@@ -432,34 +431,30 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                         <p>Anderes Thema auswählen</p>
                     </div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.id }"
-                            @click="selectedParentInWikiId = selectedTopic?.id ?? 0" data-toggle="tooltip"
-                            data-placement="top" :title="selectedTopic?.name">
+                        <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.id }"
+                            @click="selectedParentInWikiId = selectedTopic?.id ?? 0"
+                            data-toggle="tooltip" data-placement="top" :title="selectedTopic?.name">
                             <img :src="selectedTopic?.imageUrl" />
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ selectedTopic?.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedTopic.questionCount }}
                                     Frage<template v-if="selectedTopic?.questionCount != 1">n</template></div>
                             </div>
-                            <div v-show="selectedParentInWikiId == selectedTopic.id"
-                                class="selectedSearchResultItemContainer">
+                            <div v-show="selectedParentInWikiId == selectedTopic.id" class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
                                     <font-awesome-icon icon="fa-solid fa-check" />
                                 </div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.topicInWiki" :show-search="true" v-on:select-item="selectTopic"
-                            :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
+                        <Search :search-type="SearchType.topicInWiki" :show-search="true" v-on:select-item="selectTopic" :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
 
                         <div class="swap-type-target">
                             <button @click="editTopicRelationStore.type = EditTopicRelationType.AddParent">
                                 <label>
                                     <div class="checkbox-container">
                                         <input type="checkbox" name="addToParent" class="hidden" />
-                                        <font-awesome-icon icon="fa-solid fa-square-check"
-                                            class="checkbox-icon active" />
+                                        <font-awesome-icon icon="fa-solid fa-square-check" class="checkbox-icon active" />
                                         <span class="checkbox-label">
                                             Nur im eigenen Wiki suchen
                                         </span>
@@ -493,8 +488,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                     Frage<template v-if="selectedTopic.questionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectTopic"
-                            :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
+                        <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectTopic" :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
 
                         <div class="swap-type-target">
                             <button @click="editTopicRelationStore.type = EditTopicRelationType.AddToPersonalWiki">
@@ -529,8 +523,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                                     Frage<template v-if="selectedTopic.questionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectTopic"
-                            :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
+                        <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectTopic" :topic-ids-to-filter="editTopicRelationStore.categoriesToFilter" />
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">

@@ -147,7 +147,7 @@ const ariaId2 = useId()
                                 <font-awesome-icon icon="fa-solid fa-link" />
                             </div>
                             <div class="dropdown-label">
-                                Oberthema verknüpfen
+                                Übergeordnete Seite verknüpfen
                             </div>
                         </div>
 
@@ -162,7 +162,7 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'link-slash']" />
                             </div>
-                            <div class="dropdown-label">'{{ props.parentName }}' <br /> als Oberthema entfernen </div>
+                            <div class="dropdown-label">'{{ props.parentName }}' <br /> als Übergeordnete Seite entfernen </div>
                         </div>
 
                         <div @click="openMoveTopicModal(); hide()" class="dropdown-row">

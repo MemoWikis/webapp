@@ -71,7 +71,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-link" />
                         </div>
                         <div class="dropdown-label">
-                            Oberthema verknüpfen
+                            Übergeordnete Seite verknüpfen
                         </div>
                     </div>
 

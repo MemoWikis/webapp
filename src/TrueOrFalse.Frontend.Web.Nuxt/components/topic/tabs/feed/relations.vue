@@ -44,7 +44,7 @@ watch(() => props.relationChanges, () => {
     <div class="feed-item-label-text-body">
 
         <div v-if="addedParents.length > 0">
-            {{ addedParents.length > 1 ? 'Oberthemen hinzugefügt' : 'Oberthema hinzugefügt' }}
+            {{ addedParents.length > 1 ? 'Übergeordnete Seiten hinzugefügt' : 'Übergeordnete Seite hinzugefügt' }}
 
             <div class="feed-item-relation-list" v-for="addedParent in addedParents.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getTopicUrl(addedParent.name, addedParent.id)" @click.stop>
@@ -55,7 +55,7 @@ watch(() => props.relationChanges, () => {
         </div>
 
         <div v-if="removedParents.length > 0">
-            {{ removedParents.length > 1 ? 'Oberthemen entfernt' : 'Oberthema entfernt' }}
+            {{ removedParents.length > 1 ? 'Übergeordnete Seiten entfernt' : 'Übergeordnete Seite entfernt' }}
             <div class="feed-item-relation-list" v-for="removedParent in removedParents.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getTopicUrl(removedParent.name, removedParent.id)" @click.stop>
                     {{ removedParent.name }}

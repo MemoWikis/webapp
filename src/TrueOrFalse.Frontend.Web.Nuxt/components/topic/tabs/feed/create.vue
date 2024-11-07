@@ -28,7 +28,7 @@ watch(() => props.addedParent, () => {
 <template>
     <div class="feed-item-label-text-body">
         <div>
-            Oberthema: <NuxtLink :to="$urlHelper.getTopicUrl(addedParent.name, addedParent.id)" @click.stop>
+            Übergeordnete Seite: <NuxtLink :to="$urlHelper.getTopicUrl(addedParent.name, addedParent.id)" @click.stop>
                 {{ addedParent.name }}
             </NuxtLink>
         </div>
