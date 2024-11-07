@@ -1,40 +1,5 @@
-﻿public class TotalsPerUserLoader : IRegisterAsInstancePerLifetime
+﻿public class TotalsPerUserLoader(AnswerRepo _answerRepo) : IRegisterAsInstancePerLifetime
 {
-    //public TotalPerUser Run(SessionUser sessionUser, int questionId)
-    //{
-    //    if (sessionUser.IsLoggedIn)
-    //    {
-    //        if (sessionUser.User.Answers.Count > 0 &&
-    //            sessionUser.User.Answers.TryGetValue(questionId, out var answersByUser))
-    //            return GetTotalPerUser(answersByUser, questionId);
-
-    //    }
-    //    else if (!sessionUser.IsLoggedIn)
-    //    {
-    //        var question = EntityCache.GetQuestionById(questionId);
-
-    //        var answers = question.AnswersByAnonymousUsers;
-    //        if (answers.Count > 0)
-    //            return GetTotalPerUser(answers, questionId);
-
-    //    }
-
-    //    return new TotalPerUser();
-    //}
-
-    //private TotalPerUser GetTotalPerUser(List<AnswerCacheItem> answers, int questionId)
-    //{
-    //    var totalTrue = answers.Count(a => a.AnswerCorrectness == AnswerCorrectness.True || a.AnswerCorrectness == AnswerCorrectness.MarkedAsTrue);
-    //    var totalFalse = answers.Count(a => a.AnswerCorrectness == AnswerCorrectness.False);
-
-    //    return new TotalPerUser
-    //    {
-    //        QuestionId = questionId,
-    //        TotalTrue = totalTrue,
-    //        TotalFalse = totalFalse
-    //    };
-    //}
-
     public TotalPerUser Run(SessionUser sessionUser, int questionId)
     {
         if (sessionUser.IsLoggedIn)
@@ -46,9 +11,9 @@
         }
         else if (!sessionUser.IsLoggedIn)
         {
-            var question = EntityCache.GetQuestionById(questionId);
+            var answerCounter = GetAnswerRecord(questionId);
 
-            return GetTotalPerUser(question.AnswerCounter, questionId);
+            return GetTotalPerUser(answerCounter, questionId);
         }
 
         return new TotalPerUser();
@@ -64,5 +29,21 @@
             TotalTrue = totalTrue,
             TotalFalse = totalFalse
         };
+    }
+
+    private AnswerRecord GetAnswerRecord(int questionId)
+    {
+        var question = EntityCache.GetQuestionById(questionId);
+        if (question.AnswerCounter.True == 0 &&
+            question.AnswerCounter.False == 0 &&
+            question.AnswerCounter.MarkedAsTrue == 0 &&
+            question.AnswerCounter.View == 0)
+        {
+            var answers = _answerRepo.GetByQuestion(questionId);
+            question.AnswerCounter = AnswerCache.AnswersToAnswerRecord(answers);
+            EntityCache.AddOrUpdate(question);
+        }
+
+        return question.AnswerCounter;
     }
 }
