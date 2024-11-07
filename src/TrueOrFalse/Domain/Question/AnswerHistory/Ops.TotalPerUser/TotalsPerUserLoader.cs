@@ -11,7 +11,7 @@
         }
         else if (!sessionUser.IsLoggedIn)
         {
-            var answerCounter = GetAnswerRecord(questionId);
+            var answerCounter = GetAnswerRecordForAnonymousUsers(questionId);
 
             return GetTotalPerUser(answerCounter, questionId);
         }
@@ -31,7 +31,7 @@
         };
     }
 
-    private AnswerRecord GetAnswerRecord(int questionId)
+    private AnswerRecord GetAnswerRecordForAnonymousUsers(int questionId)
     {
         var question = EntityCache.GetQuestionById(questionId);
         if (question.AnswerCounter.True == 0 &&
@@ -39,7 +39,7 @@
             question.AnswerCounter.MarkedAsTrue == 0 &&
             question.AnswerCounter.View == 0)
         {
-            var answers = _answerRepo.GetByQuestion(questionId);
+            var answers = _answerRepo.GetByQuestion(questionId).Where(a => a.UserId < 1);
             question.AnswerCounter = AnswerCache.AnswersToAnswerRecord(answers);
             EntityCache.AddOrUpdate(question);
         }
