@@ -41,13 +41,13 @@ function resize() {
 
 const readonly = ref(false)
 onMounted(() => {
-    if (tabsStore.activeTab != Tab.Topic) {
+    if (tabsStore.activeTab != Tab.Text) {
         readonly.value = true
     }
 })
 watch(() => tabsStore.activeTab, (val: any) => {
 
-    if (val == Tab.Topic)
+    if (val == Tab.Text)
         readonly.value = false
     else {
         readonly.value = true
@@ -90,8 +90,8 @@ onUnmounted(() => {
 })
 
 async function scrollToChildTopics() {
-    if (tabsStore.activeTab != Tab.Topic) {
-        tabsStore.activeTab = Tab.Topic
+    if (tabsStore.activeTab != Tab.Text) {
+        tabsStore.activeTab = Tab.Text
         await nextTick()
         await nextTick()
     }

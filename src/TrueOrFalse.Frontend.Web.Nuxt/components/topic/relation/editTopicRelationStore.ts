@@ -56,7 +56,7 @@ export const useEditTopicRelationStore = defineStore('editTopicRelationStore', {
         openModal(data: EditRelationData) {
             const tabsStore = useTabsStore()
             this.parentId = data.parentId ?? 0
-            this.addTopicBtnExists = tabsStore.activeTab == Tab.Topic
+            this.addTopicBtnExists = tabsStore.activeTab == Tab.Text
             this.type = data.editCategoryRelation
             this.categoriesToFilter = data.categoriesToFilter ?? []
             this.childId = data.childId ?? 0

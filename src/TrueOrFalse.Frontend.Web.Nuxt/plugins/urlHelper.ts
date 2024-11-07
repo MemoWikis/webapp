@@ -50,7 +50,7 @@ class UrlHelper {
         }
     }
 
-    public getTopicUrl(name: string, id: number | string, tab: Tab = Tab.Topic): string {
+    public getTopicUrl(name: string, id: number | string, tab: Tab = Tab.Text): string {
         const url = `/${this.sanitizeUri(name)}/${id}`
 
         switch (tab) {

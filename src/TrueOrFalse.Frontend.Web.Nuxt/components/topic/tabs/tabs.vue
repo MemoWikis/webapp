@@ -59,18 +59,18 @@ const ariaId2 = useId()
 				<perfect-scrollbar>
 					<div id="TopicTabBar" class="col-xs-12" :class="{ 'is-mobile': isMobile }">
 
-						<div class="tab" @click="tabsStore.activeTab = Tab.Topic">
+						<div class="tab" @click="tabsStore.activeTab = Tab.Text">
 
-							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Topic"
+							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Text"
 								:style="getWidth(topicLabelEl)">
-								Thema
+								Text
 							</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Topic }"
+							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Text }"
 								ref="topicLabelEl">
-								Thema
+								Text
 							</div>
 
-							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Topic"></div>
+							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Text"></div>
 							<div class="inactive-tab" v-else>
 								<div class="tab-border"></div>
 							</div>
@@ -187,20 +187,20 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Topic && isMobile" style="width:82px"
+					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Text && isMobile" style="width:60px"
 						:style="getWidth(topicLabelEl)">
-						Thema
+						Text
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab == Tab.Topic" style="width:90px"
+					<div class="tab-label active" v-else-if="tabsStore.activeTab == Tab.Text" style="width:68px"
 						:style="getWidth(topicLabelEl)">
-						Thema
+						Text
 					</div>
-					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Topic }"
+					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Text }"
 						ref="topicLabelEl">
-						Thema
+						Text
 					</div>
 
-					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Topic"></div>
+					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Text"></div>
 					<div class="inactive-tab" v-else>
 						<div class="tab-border"></div>
 					</div>
@@ -300,7 +300,7 @@ const ariaId2 = useId()
 		margin-left: 15px;
 		margin-right: -15px;
 	}
-	
+
 	.analytics-tab {
 		&.active {
 			margin-left: 15px;

@@ -73,7 +73,7 @@ function setTopic() {
                 tabSwitched.value = true
                 if (topic.value == null)
                     return
-                if (t == Tab.Topic)
+                if (t == Tab.Text)
                     router.push($urlHelper.getTopicUrl(topic.value.name, topic.value.id))
 
                 else if (t == Tab.Learning && route.params.questionId != null)
@@ -114,7 +114,7 @@ function setTab() {
             case Tab.Analytics:
                 tabsStore.activeTab = Tab.Analytics
                 break
-            default: tabsStore.activeTab = Tab.Topic
+            default: tabsStore.activeTab = Tab.Text
         }
     }
 }
@@ -181,12 +181,12 @@ watch(() => props.tab, (t) => {
                     <template v-if="topicStore?.id != 0">
                         <ClientOnly>
                             <TopicTabsContent
-                                v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)"
+                                v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)"
                                 :text-is-hidden="topicStore.textIsHidden" />
                             <template #fallback>
                                 <div id="TopicContent" class="row" :class="{ 'is-mobile': isMobile }"
                                     v-if="!topicStore.textIsHidden"
-                                    v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)">
+                                    v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)">
                                     <div class="col-xs-12" :class="{ 'private-topic': topicStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="topicStore.content"
                                             id="TopicContentPlaceholder" :class="{ 'is-mobile': isMobile }">
@@ -197,7 +197,7 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                         <div id="EditBarAnchor"></div>
 
-                        <TopicContentGrid v-show="tabsStore.activeTab == Tab.Topic || (props.tab == Tab.Topic && !tabSwitched)" :children="topicStore.gridItems" />
+                        <TopicContentGrid v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)" :children="topicStore.gridItems" />
 
                         <ClientOnly>
                             <TopicTabsQuestions v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
