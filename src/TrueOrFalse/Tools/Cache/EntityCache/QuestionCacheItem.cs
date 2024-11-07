@@ -78,7 +78,6 @@ public class QuestionCacheItem
 
     public virtual List<int> CommentIds { get; set; }
 
-    public virtual List<AnswerCache> AnswersByAnonymousUsers { get; set; } = new List<AnswerCache>();
     public virtual AnswerRecord AnswerCounter { get; set; }
 
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
