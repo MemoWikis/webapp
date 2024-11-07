@@ -83,11 +83,11 @@ function scrollToTitle() {
             </div>
             <template v-if="props.showOutline && topicStore.id && topicStore.name">
 
-                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Topic">
+                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Text">
                     <div class="sidebarcard-divider"></div>
                 </div>
 
-                <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Topic">
+                <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Text">
                     <template v-slot:body>
                         <SidebarOutline />
                     </template>
@@ -137,12 +137,13 @@ function scrollToTitle() {
         }
 
     }
-    .sidebar-link-container{
+
+    .sidebar-link-container {
         max-height: 17px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 239px;   
+        max-width: 239px;
     }
 
     .sidebar-link {

@@ -11,7 +11,7 @@ export default <RouterConfig>{
             name: 'welcomePage',
             path: '/',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Topic },
+            props: { tab: TopicTab.Text },
             meta: {
                 middleware: ['startpage'],
             },
@@ -123,7 +123,7 @@ export default <RouterConfig>{
             name: 'topicContentPage',
             path: '/:topic/:id(\\d+)',
             component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Topic },
+            props: { tab: TopicTab.Text },
             meta: {
                 key: route => `/${route.params.topic}/${route.params.id}`
             },

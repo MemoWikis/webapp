@@ -124,7 +124,7 @@ const tabsStore = useTabsStore()
                             style="padding-right: 10px">
                             Weiterlernen
                         </button>
-                        <button v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Topic"
+                        <button v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Text"
                             class="memo-button btn btn-link">
                             Zum Thema
                         </button>
@@ -136,14 +136,12 @@ const tabsStore = useTabsStore()
                             </button>
                         </NuxtLink>
                     </template>
-                    <button v-else class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px"
-                        @click="emit('startNewSession')">
+                    <button v-else class="btn btn-primary nextLearningSession memo-button" style="padding-right: 10px" @click="emit('startNewSession')">
                         Neue Lernsitzung
                     </button>
                 </div>
 
-                <QuestionAnswerBodyLearningSessionResultQuestionDetail v-if="learningSessionResult.questions"
-                    :questions="learningSessionResult.questions" />
+                <QuestionAnswerBodyLearningSessionResultQuestionDetail v-if="learningSessionResult.questions" :questions="learningSessionResult.questions" />
 
                 <div v-if="learningSessionResult.questions.length > 300">
                     Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export enum Tab {
-  Topic,
+  Text,
   Learning,
   Feed,
   Analytics
