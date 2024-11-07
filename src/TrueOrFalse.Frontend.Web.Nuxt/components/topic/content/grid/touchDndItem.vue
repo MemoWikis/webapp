@@ -108,7 +108,7 @@ async function prepareDragStart() {
         snackbar.add({
             type: 'warning',
             title: '',
-            text: { html: `Änderung im Thema <b>${props.parentName}</b> sind für alle sichtbar` },
+            text: { html: `Änderung auf der Seite <b>${props.parentName}</b> sind für alle sichtbar` },
             dismissible: true
         })
 
@@ -368,13 +368,10 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
 
             </TopicContentGridItem>
 
-            <div v-if="dragStore.active" class="emptydropzone"
-                :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }"
-                :data-dropzonedata="getDropZoneData(TargetPosition.After)">
+            <div v-if="dragStore.active" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }" :data-dropzonedata="getDropZoneData(TargetPosition.After)">
 
                 <div class="inner bottom">
-                    <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
-                        :name="placeHolderTopicName" />
+                    <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData" :name="placeHolderTopicName" />
                 </div>
 
             </div>

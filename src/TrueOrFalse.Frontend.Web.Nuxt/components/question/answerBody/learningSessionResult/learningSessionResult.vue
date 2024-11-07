@@ -126,13 +126,13 @@ const tabsStore = useTabsStore()
                         </button>
                         <button v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Text"
                             class="memo-button btn btn-link">
-                            Zum Thema
+                            Zur Seite
                         </button>
                         <NuxtLink v-else
                             :to="$urlHelper.getTopicUrl(learningSessionResult.topicName, learningSessionResult.topicId)"
                             class="memo-button btn btn-link" style="padding-right: 10px">
                             <button class="memo-button btn btn-link">
-                                Zum Thema
+                                Zur Seite
                             </button>
                         </NuxtLink>
                     </template>

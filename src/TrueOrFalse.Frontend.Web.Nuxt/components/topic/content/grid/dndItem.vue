@@ -135,7 +135,7 @@ function handleDragStart(e: DragEvent) {
         snackbar.add({
             type: 'warning',
             title: '',
-            text: { html: `Änderung im Thema <b>${props.parentName}</b> sind für alle sichtbar` },
+            text: { html: `Änderung auf der Seite <b>${props.parentName}</b> sind für alle sichtbar` },
             dismissible: true
         })
 
@@ -246,18 +246,16 @@ watch(() => dragStore.transferData, (t) => {
                         <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
                             :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
                             @dragleave="hoverBottomHalf = false">
-                            <div class="dropzone-label">Thema unterordnen</div>
+                            <div class="dropzone-label">Seite unterordnen</div>
                         </div>
                     </template>
 
                 </TopicContentGridItem>
 
-                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false"
-                    class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
+                <div v-if="dragStore.active" @dragover="hoverBottomHalf = true" @dragleave="hoverBottomHalf = false" class="emptydropzone" :class="{ 'open': hoverBottomHalf && !dragging, 'inside': dropIn }">
 
                     <div class="inner bottom">
-                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData"
-                            :name="placeHolderTopicName" />
+                        <LazyTopicContentGridDndPlaceholder v-if="dragStore.isMoveTopicTransferData" :name="placeHolderTopicName" />
                     </div>
 
                 </div>

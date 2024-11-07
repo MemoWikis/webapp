@@ -482,7 +482,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                 </div>
                                 <Search :search-type="SearchType.category" :show-search-icon="false" :show-search="true"
                                     :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
-                                    placeholder-label="Bitte gib den Namen des Themas ein"
+                                    placeholder-label="Bitte gib den Namen der Seite ein"
                                     :show-default-search-icon="true" @select-item="selectTopic" />
                             </div>
 

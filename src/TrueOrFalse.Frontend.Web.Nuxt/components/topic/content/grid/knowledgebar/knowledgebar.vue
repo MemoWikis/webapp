@@ -69,7 +69,7 @@ const ariaId = useId()
                 <div>{{ getTooltipLabel(d.class!, d.value) }}</div>
             </div>
             <div v-else>
-                Du hast noch keine Fragen in diesem Thema
+                Du hast noch keine Fragen auf dieser Seite
             </div>
         </template>
     </VTooltip>
