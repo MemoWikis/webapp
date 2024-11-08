@@ -5,7 +5,7 @@ using System.Linq;
 
 public class TopicController(
     SessionUser _sessionUser,
-    CategoryViewRepo _categoryViewRepo,
+    PageViewRepo pageViewRepo,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -20,13 +20,13 @@ public class TopicController(
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         if (!Settings.TrackersToIgnore.Any(item => userAgent.Contains(item)))
-            _categoryViewRepo.AddView(userAgent, id, _sessionUser.UserId);
+            pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
 
         var data = new TopicDataManager(
                 _sessionUser,
                 _permissionCheck,
                 _knowledgeSummaryLoader,
-                _categoryViewRepo,
+                pageViewRepo,
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
@@ -75,7 +75,7 @@ public class TopicController(
         int ChildTopicCount,
         int DirectVisibleChildTopicCount,
         int Views,
-        CategoryVisibility Visibility,
+        PageVisibility Visibility,
         int[] AuthorIds,
         TopicDataManager.Author[] Authors,
         bool IsWiki,

@@ -13,11 +13,11 @@ public class BreadcrumbController(
     public Breadcrumb GetBreadcrumb([FromBody] GetBreadcrumbParam param)
     {
         var wikiId = param.WikiId;
-        int currentCategoryId = param.CurrentCategoryId;
+        int currentPageId = param.CurrentCategoryId;
 
         var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
-        var category = EntityCache.GetCategory(currentCategoryId);
+        var category = EntityCache.GetPage(currentPageId);
         var currentWiki = _crumbtrailService.GetWiki(category, _sessionUser);
         _sessionUser.SetWikiId(currentWiki);
 
@@ -29,7 +29,7 @@ public class BreadcrumbController(
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var topic = _sessionUser.IsLoggedIn ? EntityCache.GetCategory(_sessionUser.User.StartTopicId) : RootCategory.Get;
+        var topic = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartTopicId) : RootCategory.Get;
         return new BreadcrumbItem
         {
             Name = topic.Name,
@@ -37,17 +37,17 @@ public class BreadcrumbController(
         };
     }
 
-    private Breadcrumb GetBreadcrumbItems(Crumbtrail breadcrumb, CategoryCacheItem currentWiki)
+    private Breadcrumb GetBreadcrumbItems(Crumbtrail breadcrumb, PageCacheItem currentWiki)
     {
         var breadcrumbItems = new List<BreadcrumbItem>();
 
         foreach (var item in breadcrumb.Items)
         {
-            if (item.Category.Id != breadcrumb.Root.Category.Id)
+            if (item.Page.Id != breadcrumb.Root.Page.Id)
                 breadcrumbItems.Add(new BreadcrumbItem
                 {
                     Name = item.Text,
-                    Id = item.Category.Id
+                    Id = item.Page.Id
                 });
         }
 
@@ -56,7 +56,7 @@ public class BreadcrumbController(
         {
             var personalWikiId = _sessionUser.User.StartTopicId;
             personalWiki.Id = personalWikiId;
-            personalWiki.Name = EntityCache.GetCategory(personalWikiId)?.Name;
+            personalWiki.Name = EntityCache.GetPage(personalWikiId)?.Name;
         }
         else
         {
@@ -72,15 +72,15 @@ public class BreadcrumbController(
             RootTopic = new BreadcrumbItem
             {
                 Name = breadcrumb.Root.Text,
-                Id = breadcrumb.Root.Category.Id
+                Id = breadcrumb.Root.Page.Id
             },
             CurrentTopic = new BreadcrumbItem
             {
                 Name = breadcrumb.Current.Text,
-                Id = breadcrumb.Current.Category.Id
+                Id = breadcrumb.Current.Page.Id
             },
-            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Category.Id == RootCategory.RootCategoryId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Category.Id : RootCategory.RootCategoryId == breadcrumb.Root.Category.Id
+            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == RootCategory.RootCategoryId),
+            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId == breadcrumb.Root.Page.Id : RootCategory.RootCategoryId == breadcrumb.Root.Page.Id
         };
     }
 

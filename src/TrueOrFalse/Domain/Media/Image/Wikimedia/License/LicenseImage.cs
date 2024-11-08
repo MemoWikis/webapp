@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using Seedworks.Lib;
+﻿using Seedworks.Lib;
+using System.Text.RegularExpressions;
 
 public class LicenseImage
 {
@@ -99,7 +99,7 @@ public class LicenseImage
             CopyOfLicenseTextRequired = false;
             ChangesNotAllowed = false;
         }
-        else if (LicenseRequirementsType == LicenseRequirementsType.NoCategory)
+        else if (LicenseRequirementsType == LicenseRequirementsType.NoPage)
         {
             AuthorRequired = true;
             LicenseLinkRequired = true;
@@ -157,7 +157,7 @@ public enum LicenseRequirementsType
 {
     //Order by priority (order can be changed, not written to db, adjust test), add requirements to InitLicenseSettings() (and maybe identifier method to ParseLicenseRequirementsType):
 
-    NoCategory = 0, //Rank: 999
+    NoPage = 0, //Rank: 999
 
     Cc_By = 1,
     Cc_By_Sa = 2,

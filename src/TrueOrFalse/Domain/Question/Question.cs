@@ -9,11 +9,11 @@ public class Question : DomainEntity, ICreator
 {
     public Question()
     {
-        Categories = new List<Category>();
+        Categories = new List<Page>();
         References = new List<Reference>();
     }
 
-    public virtual IList<Category> Categories { get; set; }
+    public virtual IList<Page> Categories { get; set; }
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
     public virtual string Description { get; set; }

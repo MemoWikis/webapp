@@ -15,7 +15,7 @@ public class UserStoreController(
     IHttpContextAccessor _httpContextAccessor,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    CategoryViewRepo _categoryViewRepo,
+    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
@@ -148,7 +148,7 @@ public class UserStoreController(
                 PersonalWiki = new TopicDataManager(_sessionUser,
                         _permissionCheck,
                         _knowledgeSummaryLoader,
-                        _categoryViewRepo,
+                        pageViewRepo,
                         _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)

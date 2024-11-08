@@ -178,8 +178,8 @@ public class ImageFrontendData
 
         switch (imageType)
         {
-            case ImageType.Category:
-                imageSettings = new CategoryImageSettings(typeId, _httpContextAccessor);
+            case ImageType.Page:
+                imageSettings = new PageImageSettings(typeId, _httpContextAccessor);
                 break;
             case ImageType.User:
                 imageSettings = new UserImageSettings(typeId, _httpContextAccessor);

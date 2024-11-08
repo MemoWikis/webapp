@@ -80,7 +80,7 @@ public class AnswerBodyController(
 
         _saveQuestionView.Run(question, _sessionUser.UserId);
 
-        var primaryTopic = question.Categories.LastOrDefault();
+        var primaryTopic = question.Pages.LastOrDefault();
         var title = Regex.Replace(question.Text, "<.*?>", String.Empty);
         var learningBody = new LearningBody(
             Id: question.Id,
@@ -90,7 +90,7 @@ public class AnswerBodyController(
             SolutionType: question.SolutionType,
             RenderedQuestionTextExtended: question.GetRenderedQuestionTextExtended(),
             Description: question.Description,
-            HasTopics: question.Categories.Any(),
+            HasTopics: question.Pages.Any(),
             PrimaryTopicId: primaryTopic?.Id,
             PrimaryTopicName: primaryTopic?.Name,
             Solution: question.Solution,
@@ -159,7 +159,7 @@ public class AnswerBodyController(
             AnswerDescriptionHtml: question.DescriptionHtml,
             AnswerReferences: question.References.Select(r => new AnswerReferences(
                 ReferenceId: r.Id,
-                TopicId: r.Category?.Id ?? null,
+                TopicId: r.Page?.Id ?? null,
                 ReferenceType: r.ReferenceType.GetName(),
                 AdditionalInfo: r.AdditionalInfo ?? "",
                 ReferenceText: r.ReferenceText ?? ""

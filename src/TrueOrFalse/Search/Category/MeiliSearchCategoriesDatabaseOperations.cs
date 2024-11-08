@@ -7,13 +7,13 @@ namespace TrueOrFalse.Search
         /// <summary>
         /// Create MeiliSearch Category
         /// </summary>
-        /// <param name="category"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
         public async Task CreateAsync(
-            Category category,
+            Page page,
             string indexConstant = MeiliSearchConstants.Categories)
         {
-            var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
+            var categoryMapAndIndex = CreateCategoryMap(page, indexConstant, out var index);
             var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchCategoryMap>
                     { categoryMapAndIndex })
                 .ConfigureAwait(false);
@@ -23,13 +23,13 @@ namespace TrueOrFalse.Search
         /// <summary>
         /// Update MeiliSearch Category
         /// </summary>
-        /// <param name="category"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
         public async Task UpdateAsync(
-            Category category,
+            Page page,
             string indexConstant = MeiliSearchConstants.Categories)
         {
-            var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
+            var categoryMapAndIndex = CreateCategoryMap(page, indexConstant, out var index);
             var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchCategoryMap>
                     { categoryMapAndIndex })
                 .ConfigureAwait(false);
@@ -40,13 +40,13 @@ namespace TrueOrFalse.Search
         /// <summary>
         /// Delete MeiliSearch Category
         /// </summary>
-        /// <param name="category"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
         public async Task DeleteAsync(
-            Category category,
+            Page page,
             string indexConstant = MeiliSearchConstants.Categories)
         {
-            var categoryMapAndIndex = CreateCategoryMap(category, indexConstant, out var index);
+            var categoryMapAndIndex = CreateCategoryMap(page, indexConstant, out var index);
             var taskInfo = await index.DeleteOneDocumentAsync(categoryMapAndIndex.Id.ToString())
                 .ConfigureAwait(false);
 
@@ -54,7 +54,7 @@ namespace TrueOrFalse.Search
         }
 
         private static MeiliSearchCategoryMap CreateCategoryMap(
-            Category category,
+            Page page,
             string indexConstant,
             out Meilisearch.Index index)
         {
@@ -63,13 +63,13 @@ namespace TrueOrFalse.Search
             index = client.Index(indexConstant);
             var categoryMap = new MeiliSearchCategoryMap
             {
-                CreatorName = category.Creator.Name,
-                DateCreated = category.DateCreated == DateTime.MinValue
+                CreatorName = page.Creator.Name,
+                DateCreated = page.DateCreated == DateTime.MinValue
                     ? DateTime.Now
-                    : category.DateCreated,
-                Description = category.Description ?? "",
-                Name = category.Name,
-                Id = category.Id,
+                    : page.DateCreated,
+                Description = page.Description ?? "",
+                Name = page.Name,
+                Id = page.Id,
             };
             return categoryMap;
         }

@@ -17,7 +17,7 @@ public class QuestionEditModalController(
     PermissionCheck _permissionCheck,
     LearningSessionCreator _learningSessionCreator,
     QuestionInKnowledge _questionInKnowledge,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
@@ -77,7 +77,7 @@ public class QuestionEditModalController(
 
         question = SetQuestion(question, request, safeText);
 
-        _questionWritingRepo.Create(question, _categoryRepository);
+        _questionWritingRepo.Create(question, pageRepository);
 
         if (request.UploadedImagesInContent.Length > 0)
             SaveImageToFile.ReplaceTempQuestionContentImages(request.UploadedImagesInContent, question, _questionWritingRepo);
@@ -168,7 +168,7 @@ public class QuestionEditModalController(
 
         if (!String.IsNullOrEmpty(request.ReferencesJson))
         {
-            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
+            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, pageRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -206,7 +206,7 @@ public class QuestionEditModalController(
             ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml()
             : question.Solution;
         var topicsVisibleToCurrentUser =
-            question.Categories.Where(_permissionCheck.CanView).Distinct();
+            question.Pages.Where(_permissionCheck.CanView).Distinct();
 
         return new GetDataResult(
             Id: id,
@@ -225,7 +225,7 @@ public class QuestionEditModalController(
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetCategory(id)
+    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetPage(id)
         .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     private QuestionListJson.Question LoadQuestion(int questionId)
@@ -270,20 +270,20 @@ public class QuestionEditModalController(
         return question;
     }
 
-    private SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)
+    private SearchTopicItem FillMiniTopicItem(PageCacheItem topic)
     {
         var miniTopicItem = new SearchTopicItem
         {
             Id = topic.Id,
             Name = topic.Name,
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor)
+            ImageUrl = new PageImageSettings(topic.Id, _httpContextAccessor)
                 .GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Page),
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .GetImageUrl(30, true, false, ImageType.Category)
+                .GetImageUrl(30, true, false, ImageType.Page)
                 .Url,
             Visibility = (int)topic.Visibility
         };
@@ -296,14 +296,14 @@ public class QuestionEditModalController(
         return Regex.Replace(text, "<.*?>", "");
     }
 
-    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    private List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var topics = new List<Category>();
+        var topics = new List<Page>();
         var privateTopics = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         topics.AddRange(privateTopics);
 
         foreach (var categoryId in newCategoryIds)
-            topics.Add(_categoryRepository.GetById(categoryId));
+            topics.Add(pageRepository.GetById(categoryId));
 
         return topics;
     }

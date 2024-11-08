@@ -36,33 +36,33 @@
             public static readonly string CantSavePrivateTopic = "error_subscription_cantSavePrivateTopic";
         }
 
-        public static class Category
+        public static class Page
         {
-            public static readonly string ParentIsPrivate = "error_category_parentIsPrivate";
-            public static readonly string PublicChildCategories = "error_category_publicChildCategories";
-            public static readonly string PublicQuestions = "error_category_publicQuestions";
-            public static readonly string NotLastChild = "error_category_notLastChild";
-            public static readonly string NoRemainingParents = "error_category_noRemainingParents";
-            public static readonly string ParentIsRoot = "error_category_parentIsRoot";
-            public static readonly string LoopLink = "error_category_loopLink";
-            public static readonly string IsAlreadyLinkedAsChild = "error_category_isAlreadyLinkedAsChild";
-            public static readonly string IsNotAChild = "error_category_isNotAChild";
-            public static readonly string IsLinkedInNonWuwi = "error_category_isLinkedInNonWuwi";
-            public static readonly string ChildIsParent = "error_category_childIsParent";
-            public static readonly string NameIsTaken = "error_category_nameIsTaken";
-            public static readonly string NameIsForbidden = "error_category_nameIsForbidden";
-            public static readonly string RootCategoryMustBePublic = "error_category_rootCategoryMustBePublic";
-            public static readonly string MissingRights = "error_category_missingRights";
-            public static readonly string TooPopular = "error_category_tooPopular";
-            public static readonly string SaveImageError = "error_category_saveImageError";
-            public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
-            public static readonly string CircularReference = "error_category_circularReference";
-            public static readonly string TopicNotSelected = "error_category_topicNotSelected";
-            public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_category_newTopicIdIsTopicIdToBeDeleted";
+            public static readonly string ParentIsPrivate = "error_page_parentIsPrivate";
+            public static readonly string PublicChildCategories = "error_page_publicChildCategories";
+            public static readonly string PublicQuestions = "error_page_publicQuestions";
+            public static readonly string NotLastChild = "error_page_notLastChild";
+            public static readonly string NoRemainingParents = "error_page_noRemainingParents";
+            public static readonly string ParentIsRoot = "error_page_parentIsRoot";
+            public static readonly string LoopLink = "error_page_loopLink";
+            public static readonly string IsAlreadyLinkedAsChild = "error_page_isAlreadyLinkedAsChild";
+            public static readonly string IsNotAChild = "error_page_isNotAChild";
+            public static readonly string IsLinkedInNonWuwi = "error_page_isLinkedInNonWuwi";
+            public static readonly string ChildIsParent = "error_page_childIsParent";
+            public static readonly string NameIsTaken = "error_page_nameIsTaken";
+            public static readonly string NameIsForbidden = "error_page_nameIsForbidden";
+            public static readonly string RootCategoryMustBePublic = "error_page_rootCategoryMustBePublic";
+            public static readonly string MissingRights = "error_page_missingRights";
+            public static readonly string TooPopular = "error_page_tooPopular";
+            public static readonly string SaveImageError = "error_page_saveImageError";
+            public static readonly string PinnedQuestions = "error_page_pinnedQuestions";
+            public static readonly string CircularReference = "error_page_circularReference";
+            public static readonly string TopicNotSelected = "error_page_topicNotSelected";
+            public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_page_newTopicIdIsTopicIdToBeDeleted";
             public static readonly string NotFound = Route.NotFound;
             public static readonly string NoRights = Route.NoRights;
             public static readonly string Unauthorized = Route.Unauthorized;
-            public static readonly string NoChange = "error_category_noChange";
+            public static readonly string NoChange = "error_page_noChange";
         }
 
         public static class Question

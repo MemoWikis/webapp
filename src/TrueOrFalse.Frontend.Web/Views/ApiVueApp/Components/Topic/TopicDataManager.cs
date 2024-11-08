@@ -7,24 +7,24 @@ public class TopicDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    CategoryViewRepo _categoryViewRepo,
+    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
 {
     public TopicDataResult GetTopicData(int id)
     {
-        var topic = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetPage(id);
         if (topic == null)
             return new TopicDataResult
             {
                 ErrorCode = NuxtErrorPageType.NotFound,
-                MessageKey = FrontendMessageKeys.Error.Category.NotFound
+                MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
         if (_permissionCheck.CanView(_sessionUser.UserId, topic))
         {
-            var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Category);
+            var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
             var knowledgeSummary =
                 _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
@@ -35,32 +35,32 @@ public class TopicDataManager(
             return new TopicDataResult
             {
                 ErrorCode = NuxtErrorPageType.Unauthorized,
-                MessageKey = FrontendMessageKeys.Error.Category.NoRights
+                MessageKey = FrontendMessageKeys.Error.Page.NoRights
             };
 
         return new TopicDataResult
         {
             ErrorCode = NuxtErrorPageType.Unauthorized,
-            MessageKey = FrontendMessageKeys.Error.Category.Unauthorized
+            MessageKey = FrontendMessageKeys.Error.Page.Unauthorized
         };
     }
 
-    private SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)
+    private SearchTopicItem FillMiniTopicItem(PageCacheItem topic)
     {
         var miniTopicItem = new SearchTopicItem
         {
             Id = topic.Id,
             Name = topic.Name,
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new CategoryImageSettings(topic.Id,
+            ImageUrl = new PageImageSettings(topic.Id,
                     _httpContextAccessor)
                 .GetUrl_128px(true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Page),
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .GetImageUrl(30, true, false, ImageType.Category).Url,
+                .GetImageUrl(30, true, false, ImageType.Page).Url,
             Visibility = (int)topic.Visibility
         };
 
@@ -69,7 +69,7 @@ public class TopicDataManager(
 
     private TopicDataResult CreateTopicDataObject(
         int id,
-        CategoryCacheItem topic,
+        PageCacheItem topic,
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
@@ -79,7 +79,7 @@ public class TopicDataManager(
             CanAccess = true,
             Id = id,
             Name = topic.Name,
-            ImageUrl = new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
+            ImageUrl = new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
             Content = topic.Content,
             ParentTopicCount = topic.Parents()
                 .Where(_permissionCheck.CanView)
@@ -92,7 +92,7 @@ public class TopicDataManager(
                     {
                         Id = p.Id,
                         Name = p.Name,
-                        ImgUrl = new CategoryImageSettings(p.Id, _httpContextAccessor)
+                        ImgUrl = new PageImageSettings(p.Id, _httpContextAccessor)
                             .GetUrl(50, true)
                             .Url
                     })
@@ -101,7 +101,7 @@ public class TopicDataManager(
                 .VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             DirectVisibleChildTopicCount = GraphService
                 .VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            Views = _categoryViewRepo.GetViewCount(id),
+            Views = pageViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
             AuthorIds = authorIds.ToArray(),
             Authors = authorIds.Select(authorId =>
@@ -142,7 +142,7 @@ public class TopicDataManager(
                 _knowledgeSummaryLoader,
                 _questionReadingRepo).GetChildren(id),
             IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache
-                .GetCategory(_sessionUser.User.StartTopicId)
+                .GetPage(_sessionUser.User.StartTopicId)
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id),
             TextIsHidden = topic.TextIsHidden,
@@ -150,7 +150,7 @@ public class TopicDataManager(
         };
     }
 
-    private bool CurrentUserIsCreator(CategoryCacheItem topic)
+    private bool CurrentUserIsCreator(PageCacheItem topic)
     {
         if (_sessionUser.IsLoggedIn == false)
             return false;
@@ -184,7 +184,7 @@ public class TopicDataManager(
         int ChildTopicCount,
         int DirectVisibleChildTopicCount,
         int Views,
-        CategoryVisibility Visibility,
+        PageVisibility Visibility,
         int[] AuthorIds,
         Author[] Authors,
         bool IsWiki,

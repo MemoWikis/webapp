@@ -11,7 +11,7 @@ public class TopicStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
@@ -28,30 +28,30 @@ public class TopicStoreController(
     [AccessOnlyAsLoggedIn]
     public SaveResult SaveContent([FromBody] SaveContentRequest req)
     {
-        var categoryCacheItem = EntityCache.GetCategory(req.Id);
+        var categoryCacheItem = EntityCache.GetPage(req.Id);
 
         if (categoryCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
 
         if (categoryCacheItem.Content.Trim() == req.Content.Trim())
-            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.NoChange };
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
         if (!_permissionCheck.CanEdit(categoryCacheItem))
             return new SaveResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var category = _categoryRepository.GetByIdEager(req.Id);
+        var category = pageRepository.GetByIdEager(req.Id);
 
         if (category == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         categoryCacheItem.Content = req.Content;
         category.Content = req.Content;
-        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Text);
+        pageRepository.Update(category, _sessionUser.UserId, type: PageChangeType.Text);
 
         EntityCache.AddOrUpdate(categoryCacheItem);
 
@@ -69,29 +69,29 @@ public class TopicStoreController(
     [AccessOnlyAsLoggedIn]
     public SaveResult SaveName([FromBody] SaveNameRequest req)
     {
-        var categoryCacheItem = EntityCache.GetCategory(req.Id);
+        var categoryCacheItem = EntityCache.GetPage(req.Id);
 
         if (categoryCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         if (categoryCacheItem.Name.Trim() == req.Name.Trim())
-            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Category.NoChange };
+            return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
         if (!_permissionCheck.CanEdit(categoryCacheItem))
             return new SaveResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var category = _categoryRepository.GetByIdEager(req.Id);
+        var category = pageRepository.GetByIdEager(req.Id);
 
         if (category == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         categoryCacheItem.Name = req.Name.Trim();
         category.Name = req.Name.Trim();
-        _categoryRepository.Update(category, _sessionUser.UserId, type: CategoryChangeType.Renamed);
+        pageRepository.Update(category, _sessionUser.UserId, type: PageChangeType.Renamed);
 
         EntityCache.AddOrUpdate(categoryCacheItem);
 
@@ -105,7 +105,7 @@ public class TopicStoreController(
     public string GetTopicImageUrl([FromRoute] int id)
     {
         if (_permissionCheck.CanViewCategory(id))
-            return new CategoryImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true)
+            return new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true)
                 .Url;
 
         return "";
@@ -138,7 +138,7 @@ public class TopicStoreController(
         int QuestionCount,
         int ChildrenCount,
         string ImageUrl,
-        CategoryVisibility Visibility,
+        PageVisibility Visibility,
         TopicGridManager.TinyTopicModel[] Parents,
         TopicGridManager.KnowledgebarData KnowledgebarData,
         bool IsChildOfPersonalWiki,
@@ -228,7 +228,7 @@ public class TopicStoreController(
     [HttpGet]
     public TopicAnalyticsResponse GetTopicAnalytics([FromRoute] int id)
     {
-        var topic = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetPage(id);
 
         var viewsPast90DaysTopics = topic.GetViewsOfPast90Days();
         var viewsPast90DaysAggregatedTopics = GetAggregatedTopicViewsOfPast90Days(id, viewsPast90DaysTopics);
@@ -278,13 +278,13 @@ public class TopicStoreController(
         return result;
     }
 
-    private List<DailyViews> GetQuestionViewsOfPast90Days(CategoryCacheItem topic)
+    private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem topic)
     {
         var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, categoryId: topic.Id);
         return GetQuestionViews(questions);
     }
 
-    private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(CategoryCacheItem topic)
+    private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem topic)
     {
         var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, categoryId: topic.Id);
         return GetQuestionViews(questions);

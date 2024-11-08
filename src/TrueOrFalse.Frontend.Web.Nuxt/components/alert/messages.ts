@@ -29,7 +29,7 @@ export const messages: any = {
             cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
             cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
         },
-        category: {
+        page: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
             publicChildCategories: "Diese Seite hat öffentliche untergeordnete Themen.",
             publicQuestions: "Diese Seite hat öffentliche Fragen.",

@@ -80,7 +80,7 @@ public class QuestionController(
 
         if (_permissionCheck.CanViewQuestion(id))
         {
-            var primaryTopic = question.Categories.LastOrDefault();
+            var primaryTopic = question.Pages.LastOrDefault();
             var solution = GetQuestionSolution.Run(question);
 
             EscapeReferencesText(question.References);
@@ -95,7 +95,7 @@ public class QuestionController(
                     SolutionType = question.SolutionType,
                     RenderedQuestionTextExtended = question.GetRenderedQuestionTextExtended(),
                     Description = question.Description,
-                    HasTopics = question.Categories.Any(),
+                    HasTopics = question.Pages.Any(),
                     PrimaryTopicId = primaryTopic?.Id,
                     PrimaryTopicName = primaryTopic?.Name,
                     Solution = question.Solution,
@@ -114,7 +114,7 @@ public class QuestionController(
                     AnswerReferences = question.References.Select(r => new AnswerReferences
                     {
                         ReferenceId = r.Id,
-                        TopicId = r.Category?.Id ?? null,
+                        TopicId = r.Page?.Id ?? null,
                         ReferenceType = r.ReferenceType.GetName(),
                         AdditionalInfo = r.AdditionalInfo ?? "",
                         ReferenceText = r.ReferenceText ?? ""
@@ -184,13 +184,13 @@ public class QuestionController(
                     Id: t.Id,
                     Name: t.Name,
                     QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor)
+                    ImageUrl: new PageImageSettings(t.Id, _httpContextAccessor)
                         .GetUrl_128px(asSquare: true).Url,
                     MiniImageUrl: new ImageFrontendData(
-                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
+                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Page),
                             _httpContextAccessor,
                             _questionReadingRepo)
-                        .GetImageUrl(30, true, false, ImageType.Category).Url,
+                        .GetImageUrl(30, true, false, ImageType.Page).Url,
                     Visibility: (int)t.Visibility,
                     IsSpoiler: IsSpoilerCategory.Yes(t.Name, question)
                 )).Distinct().ToArray(),

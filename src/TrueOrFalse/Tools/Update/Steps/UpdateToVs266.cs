@@ -3,11 +3,11 @@
 internal class UpdateToVs266
 {
     public static void Run(
-        CategoryRepository categoryRepository,
+        PageRepository pageRepository,
         UserWritingRepo userWritingRepo,
         UserReadingRepo userReadingRepo)
     {
         PersonalTopicMigration.CreateOrAddPersonalTopicForUsersWithoutStartTopicId(
-            categoryRepository, userWritingRepo, userReadingRepo);
+            pageRepository, userWritingRepo, userReadingRepo);
     }
 }

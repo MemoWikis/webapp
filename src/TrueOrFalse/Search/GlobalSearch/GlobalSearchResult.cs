@@ -3,8 +3,8 @@
 public class GlobalSearchResult
 {
     public ISearchCategoriesResult CategoriesResult;
-    private IList<CategoryCacheItem> _categories;
-    public IList<CategoryCacheItem> Categories => _categories ??= CategoriesResult.GetCategories();
+    private IList<PageCacheItem> _categories;
+    public IList<PageCacheItem> Categories => _categories ??= CategoriesResult.GetCategories();
     public int CategoriesResultCount => CategoriesResult.Count;
     public ISearchQuestionsResult QuestionsResult;
     private IList<QuestionCacheItem> _questions;

@@ -18,7 +18,7 @@ public class AnswerRepo : RepositoryDb<Answer>
             .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public IList<Answer> GetByCategories(int categoryId, bool includingSolutionViews = false)
+    public IList<Answer> GetByPages(int categoryId, bool includingSolutionViews = false)
     {
         var query = @"
             SELECT ah.Id FROM answer ah

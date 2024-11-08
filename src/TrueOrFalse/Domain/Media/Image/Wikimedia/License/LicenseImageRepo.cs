@@ -324,7 +324,7 @@ public class LicenseImageRepo
                 LicenseApplicability =
                     LicenseApplicability.LicenseAuthorizedAndAllRequirementsRecorded,
 
-                LicenseRequirementsType = LicenseRequirementsType.NoCategory,
+                LicenseRequirementsType = LicenseRequirementsType.NoPage,
                 LicenseLink = "http://www.gnu.org/licenses/lgpl.html",
                 CopyOfLicenseTextUrl = "https://www.gnu.org/licenses/gpl-3.0.txt",
                 LicenseShortDescriptionLink = "http://www.gnu.org/licenses/lgpl.html",

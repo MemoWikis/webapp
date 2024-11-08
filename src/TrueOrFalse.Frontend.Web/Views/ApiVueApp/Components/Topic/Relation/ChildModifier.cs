@@ -7,11 +7,11 @@ namespace VueApp;
 public class ChildModifier(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     UserWritingRepo _userWritingRepo,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    CategoryRelationRepo _categoryRelationRepo)
+    PageRelationRepo pageRelationRepo)
 {
     public readonly record struct AddChildResult(
         bool Success,
@@ -29,22 +29,22 @@ public class ChildModifier(
             return new AddChildResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
+                MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
         if (parentId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new AddChildResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
             };
 
-        var parent = EntityCache.GetCategory(parentId);
+        var parent = EntityCache.GetPage(parentId);
 
         if (parent.ChildRelations.Any(r => r.ChildId == childId))
             return new AddChildResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
+                MessageKey = FrontendMessageKeys.Error.Page.IsAlreadyLinkedAsChild
             };
         var selectedTopicIsParent = GraphService.Ascendants(parentId)
             .Any(c => c.Id == childId);
@@ -55,7 +55,7 @@ public class ChildModifier(
             return new AddChildResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.ChildIsParent
+                MessageKey = FrontendMessageKeys.Error.Page.ChildIsParent
             };
         }
 
@@ -66,7 +66,7 @@ public class ChildModifier(
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(pageRepository, pageRelationRepo);
         modifyRelationsForCategory.AddChild(parentId, childId, _sessionUser.UserId);
 
         return new AddChildResult
@@ -74,7 +74,7 @@ public class ChildModifier(
             Success = true,
             Data = new TinyTopicItem
             {
-                Name = EntityCache.GetCategory(parentId).Name,
+                Name = EntityCache.GetPage(parentId).Name,
                 Id = childId
             }
         };
@@ -94,13 +94,13 @@ public class ChildModifier(
             return new RemoveParentResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(pageRepository, pageRelationRepo);
 
         var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(
-            EntityCache.GetCategory(childId),
+            EntityCache.GetPage(childId),
             parentIdToRemove, _sessionUser.UserId, modifyRelationsForCategory,
             _permissionCheck);
 
@@ -108,13 +108,13 @@ public class ChildModifier(
             return new RemoveParentResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.NoRemainingParents
+                MessageKey = FrontendMessageKeys.Error.Page.NoRemainingParents
             };
 
-        var parent = _categoryRepository.GetById(parentIdToRemove);
-        _categoryRepository.Update(parent, _sessionUser.UserId, type: CategoryChangeType.Relations);
-        var child = _categoryRepository.GetById(childId);
-        _categoryRepository.Update(child, _sessionUser.UserId, type: CategoryChangeType.Relations);
+        var parent = pageRepository.GetById(parentIdToRemove);
+        pageRepository.Update(parent, _sessionUser.UserId, type: PageChangeType.Relations);
+        var child = pageRepository.GetById(childId);
+        pageRepository.Update(child, _sessionUser.UserId, type: PageChangeType.Relations);
 
         return new RemoveParentResult
         {

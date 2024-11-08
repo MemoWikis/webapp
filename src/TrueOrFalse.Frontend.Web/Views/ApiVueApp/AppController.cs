@@ -94,32 +94,32 @@ public class AppController(
             RootWiki: new TinyTopicItem
             (
                 Id: RootCategory.RootCategoryId,
-                Name: EntityCache.GetCategory(RootCategory.RootCategoryId)?.Name
+                Name: EntityCache.GetPage(RootCategory.RootCategoryId)?.Name
             ),
             MainTopics: RootCategory.MainCategoryIds.Select(id => new TinyTopicItem(
                 Id: id,
-                Name: EntityCache.GetCategory(id).Name
+                Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             MemoWiki: new TinyTopicItem
             (
                 Id: RootCategory.MemuchoWikiId,
-                Name: EntityCache.GetCategory(RootCategory.MemuchoWikiId).Name
+                Name: EntityCache.GetPage(RootCategory.MemuchoWikiId).Name
             ),
             MemoTopics: RootCategory.MemuchoCategoryIds.Select(id => new TinyTopicItem(
                 Id: id,
-                Name: EntityCache.GetCategory(id).Name
+                Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             HelpTopics: RootCategory.MemuchoHelpIds.Select(id => new TinyTopicItem(
                 Id: id,
-                Name: EntityCache.GetCategory(id).Name
+                Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             PopularTopics: RootCategory.PopularCategoryIds.Select(id => new TinyTopicItem(
                 Id: id,
-                Name: EntityCache.GetCategory(id).Name
+                Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             Documentation: new TinyTopicItem(
                 Id: RootCategory.IntroCategoryId,
-                Name: EntityCache.GetCategory(RootCategory.IntroCategoryId).Name
+                Name: EntityCache.GetPage(RootCategory.IntroCategoryId).Name
             )
         );
         return footerTopics;

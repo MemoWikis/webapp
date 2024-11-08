@@ -25,16 +25,16 @@ public class UserActivityAdd
     /// <summary>
     /// Add Category to UserActivityRepo
     /// </summary>
-    /// <param name="category"></param>
+    /// <param name="page"></param>
     public static void CreatedCategory(
-        Category category,
+        Page page,
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo)
     {
-        if (category.Creator == null)
+        if (page.Creator == null)
             return;
         //need to reload user, because no session here, so lazy-load would prevent visibility of followers
-        var userCreator = userReadingRepo.GetById(category.Creator.Id);
+        var userCreator = userReadingRepo.GetById(page.Creator.Id);
         foreach (var follower in userCreator.Followers)
         {
             userActivityRepo.Create(new UserActivity
@@ -42,8 +42,8 @@ public class UserActivityAdd
                 UserConcerned = follower.Follower,
                 At = DateTime.Now,
                 Type = UserActivityType.CreatedCategory,
-                Category = category,
-                UserCauser = category.Creator
+                Page = page,
+                UserCauser = page.Creator
             });
         }
     }

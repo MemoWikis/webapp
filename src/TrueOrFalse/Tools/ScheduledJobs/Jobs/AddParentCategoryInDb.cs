@@ -4,14 +4,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class AddParentCategoryInDb : IJob
     {
-        private readonly CategoryRepository _categoryRepository;
-        private readonly CategoryRelationRepo _categoryRelationRepo;
+        private readonly PageRepository _pageRepository;
+        private readonly PageRelationRepo _pageRelationRepo;
         private int _authorId; 
 
-        public AddParentCategoryInDb(CategoryRepository categoryRepository, CategoryRelationRepo categoryRelationRepo)
+        public AddParentCategoryInDb(PageRepository pageRepository, PageRelationRepo pageRelationRepo)
         {
-            _categoryRepository = categoryRepository;
-            _categoryRelationRepo = categoryRelationRepo;
+            _pageRepository = pageRepository;
+            _pageRelationRepo = pageRelationRepo;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -29,13 +29,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         private Task Run(int childCategoryId, int parentCategoryId)
         {
-            var childCategory = _categoryRepository.GetById(childCategoryId);
-            var parentCategory = _categoryRepository.GetById(parentCategoryId);
+            var childCategory = _pageRepository.GetById(childCategoryId);
+            var parentCategory = _pageRepository.GetById(parentCategoryId);
 
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo).AddParentCategory(childCategory, parentCategoryId);
+            new ModifyRelationsForCategory(_pageRepository, _pageRelationRepo).AddParentCategory(childCategory, parentCategoryId);
 
-             _categoryRepository.Update(childCategory, _authorId, type: CategoryChangeType.Relations);
-             _categoryRepository.Update(parentCategory, _authorId, type: CategoryChangeType.Relations);
+             _pageRepository.Update(childCategory, _authorId, type: PageChangeType.Relations);
+             _pageRepository.Update(parentCategory, _authorId, type: PageChangeType.Relations);
              return Task.CompletedTask;
         }
     }

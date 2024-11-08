@@ -7,13 +7,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class EditCategoryInWishKnowledge : IJob
     {
-        private readonly CategoryInKnowledge _categoryInKnowledge;
+        private readonly PageInKnowledge _pageInKnowledge;
 
         public const int IntervalInSeconds = 2;
 
-        public EditCategoryInWishKnowledge(CategoryInKnowledge categoryInKnowledge)
+        public EditCategoryInWishKnowledge(PageInKnowledge pageInKnowledge)
         {
-            _categoryInKnowledge = categoryInKnowledge;
+            _pageInKnowledge = pageInKnowledge;
         }
         public async Task Execute(IJobExecutionContext context)
         {
@@ -42,7 +42,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             try
             { 
                 categoryUserPair = GetCategoryUserPair(job);
-                _categoryInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
+                _pageInKnowledge.UnpinQuestionsInCategoryInDatabase(categoryUserPair.CategoryId, categoryUserPair.UserId);
                 
                 scope.Resolve<JobQueueRepo>().Delete(job.Id);
                 Logg.r.Information($"Job EditCategoryInWishKnowledge removed QuestionValuations for Category { categoryUserPair.CategoryId } and User { categoryUserPair.UserId }");

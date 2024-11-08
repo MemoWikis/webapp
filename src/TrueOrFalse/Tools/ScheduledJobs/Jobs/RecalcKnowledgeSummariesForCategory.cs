@@ -6,17 +6,17 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcKnowledgeSummariesForCategory : IJob
     {
-        private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
+        private readonly PageValuationReadingRepository _pageValuationReadingRepository;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-        private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
+        private readonly PageValuationWritingRepo _pageValuationWritingRepo;
 
-        public RecalcKnowledgeSummariesForCategory(CategoryValuationReadingRepo categoryValuationReadingRepo,
+        public RecalcKnowledgeSummariesForCategory(PageValuationReadingRepository pageValuationReadingRepository,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
-            CategoryValuationWritingRepo categoryValuationWritingRepo)
+            PageValuationWritingRepo pageValuationWritingRepo)
         {
-            _categoryValuationReadingRepo = categoryValuationReadingRepo;
+            _pageValuationReadingRepository = pageValuationReadingRepository;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
-            _categoryValuationWritingRepo = categoryValuationWritingRepo;
+            _pageValuationWritingRepo = pageValuationWritingRepo;
         }
 
         public Task Execute(IJobExecutionContext context)
@@ -30,9 +30,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     try
                     {
-                        KnowledgeSummaryUpdate.RunForCategory(Convert.ToInt32(grouping.Key), 
-                            _categoryValuationReadingRepo, 
-                            _categoryValuationWritingRepo,
+                        KnowledgeSummaryUpdate.RunForPage(Convert.ToInt32(grouping.Key), 
+                            _pageValuationReadingRepository, 
+                            _pageValuationWritingRepo,
                             _knowledgeSummaryLoader);
 
                         successfullJobIds.AddRange(grouping.Select(j => j.Id).ToList<int>());

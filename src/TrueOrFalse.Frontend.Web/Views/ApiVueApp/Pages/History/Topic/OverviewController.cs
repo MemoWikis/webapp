@@ -10,23 +10,23 @@ namespace VueApp;
 
 public class HistoryTopicOverviewController(
     PermissionCheck permissionCheck,
-    CategoryChangeRepo categoryChangeRepo,
+    PageChangeRepo pageChangeRepo,
     IHttpContextAccessor httpContextAccessor,
     SessionUser sessionUser)
     : BaseController(sessionUser)
 {
-    private IOrderedEnumerable<CategoryChange> _allOrderedTopicChanges;
+    private IOrderedEnumerable<PageChange> _allOrderedTopicChanges;
 
     public readonly record struct TinyTopic(string TopicName, Day[] Days);
 
     [HttpGet]
     public TinyTopic? Get(int id)
     {
-        var topic = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetPage(id);
 
         if (permissionCheck.CanView(topic))
         {
-            _allOrderedTopicChanges = categoryChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
+            _allOrderedTopicChanges = pageChangeRepo.GetForTopic(id).OrderBy(c => c.Id);
 
             var days = _allOrderedTopicChanges
                 .GroupBy(change => change.DateCreated.Date)
@@ -46,7 +46,7 @@ public class HistoryTopicOverviewController(
         return null;
     }
 
-    public Day GetDay(DateTime date, IList<CategoryChange> topicChanges)
+    public Day GetDay(DateTime date, IList<PageChange> topicChanges)
     {
         var day = new Day
         {
@@ -101,12 +101,12 @@ public class HistoryTopicOverviewController(
     {
         var currentGroup = tempGroup.Changes.LastOrDefault();
         return currentGroup != null && currentGroup?.TopicId == change?.TopicId &&
-               change?.TopicChangeType == CategoryChangeType.Text &&
+               change?.TopicChangeType == PageChangeType.Text &&
                currentGroup?.TopicChangeType == change?.TopicChangeType &&
                currentGroup?.Author?.Id == change?.Author?.Id;
     }
 
-    public Author? GetAuthor(CategoryChange change)
+    public Author? GetAuthor(PageChange change)
     {
         if (change.AuthorId < 1)
             return null;
@@ -123,25 +123,25 @@ public class HistoryTopicOverviewController(
         };
     }
 
-    public Change? BuildChange(CategoryChange topicChange)
+    public Change? BuildChange(PageChange topicChange)
     {
         var change = new Change
         {
-            TopicId = topicChange.Category.Id,
+            TopicId = topicChange.Page.Id,
             Author = GetAuthor(topicChange),
             ElapsedTime = TimeElapsedAsText.Run(topicChange.DateCreated),
             TopicChangeType = topicChange.Type,
             RevisionId = topicChange.Id
         };
 
-        if (topicChange.Type == CategoryChangeType.Relations)
+        if (topicChange.Type == PageChangeType.Relations)
         {
             var previousChange = _allOrderedTopicChanges.LastOrDefault(c => c.Id < topicChange.Id);
             if (previousChange != null)
             {
-                var previousRelations = CategoryEditData_V2.CreateFromJson(previousChange.Data)
+                var previousRelations = PageEditData_V2.CreateFromJson(previousChange.Data)
                     .CategoryRelations;
-                var currentRelations = CategoryEditData_V2.CreateFromJson(topicChange.Data)
+                var currentRelations = PageEditData_V2.CreateFromJson(topicChange.Data)
                     .CategoryRelations;
 
                 if (previousRelations != null && currentRelations != null)
@@ -153,12 +153,12 @@ public class HistoryTopicOverviewController(
                             previousRelations.Except(currentRelations).LastOrDefault();
 
                         if (permissionCheck.CanViewCategory(lastRelationDifference
-                                .RelatedCategoryId) && lastRelationDifference.CategoryId ==
-                            topicChange.Category.Id)
+                                .RelatedPageId) && lastRelationDifference.PageId ==
+                            topicChange.Page.Id)
                             change = GetAffectedTopicData(change,
-                                lastRelationDifference.RelatedCategoryId);
-                        else if (permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
-                            change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                                lastRelationDifference.RelatedPageId);
+                        else if (permissionCheck.CanViewCategory(lastRelationDifference.PageId))
+                            change = GetAffectedTopicData(change, lastRelationDifference.PageId);
                         else return null;
                     }
                     else if (previousRelations.Count < currentRelations.Count)
@@ -168,12 +168,12 @@ public class HistoryTopicOverviewController(
                             currentRelations.Except(previousRelations).LastOrDefault();
 
                         if (permissionCheck.CanViewCategory(lastRelationDifference
-                                .RelatedCategoryId) && lastRelationDifference.CategoryId ==
-                            topicChange.Category.Id)
+                                .RelatedPageId) && lastRelationDifference.PageId ==
+                            topicChange.Page.Id)
                             change = GetAffectedTopicData(change,
-                                lastRelationDifference.RelatedCategoryId);
-                        else if (permissionCheck.CanViewCategory(lastRelationDifference.CategoryId))
-                            change = GetAffectedTopicData(change, lastRelationDifference.CategoryId);
+                                lastRelationDifference.RelatedPageId);
+                        else if (permissionCheck.CanViewCategory(lastRelationDifference.PageId))
+                            change = GetAffectedTopicData(change, lastRelationDifference.PageId);
                         else return null;
                     }
                 }
@@ -185,7 +185,7 @@ public class HistoryTopicOverviewController(
 
     private Change GetAffectedTopicData(Change change, int id)
     {
-        var affectedTopic = EntityCache.GetCategory(id);
+        var affectedTopic = EntityCache.GetPage(id);
         change.AffectedTopicId = affectedTopic.Id;
         change.AffectedTopicName = affectedTopic.Name;
 
@@ -205,6 +205,6 @@ public class HistoryTopicOverviewController(
         int AffectedTopicId,
         string AffectedTopicName,
         string AffectedTopicNameEncoded,
-        CategoryChangeType TopicChangeType = CategoryChangeType.Update
+        PageChangeType TopicChangeType = PageChangeType.Update
     );
 }

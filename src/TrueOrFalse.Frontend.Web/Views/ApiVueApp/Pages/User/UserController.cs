@@ -52,7 +52,7 @@ public class UserController(
             };
         }
 
-        var userWiki = EntityCache.GetCategory(user.StartTopicId);
+        var userWiki = EntityCache.GetPage(user.StartTopicId);
         var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
         var isCurrentUser = _sessionUser.UserId == user.Id;
         var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
@@ -92,9 +92,9 @@ public class UserController(
                     allQuestionsCreatedByUser.Count(q =>
                         q.Visibility != QuestionVisibility.All),
                 PublicTopicsCount =
-                    allTopicsCreatedByUser.Count(c => c.Visibility == CategoryVisibility.All),
+                    allTopicsCreatedByUser.Count(c => c.Visibility == PageVisibility.All),
                 PrivateTopicsCount =
-                    allTopicsCreatedByUser.Count(c => c.Visibility != CategoryVisibility.All),
+                    allTopicsCreatedByUser.Count(c => c.Visibility != PageVisibility.All),
                 WuwiCount = user.WishCountQuestions
             },
             IsCurrentUser = isCurrentUser
@@ -143,12 +143,12 @@ public class UserController(
                     Id = q.Id
                 }).ToArray(),
                 Topics = wishQuestions.QuestionsInCategories()
-                    .Where(t => _permissionCheck.CanView(t.CategoryCacheItem)).Select(t =>
+                    .Where(t => _permissionCheck.CanView(t.PageCacheItem)).Select(t =>
                         new WuwiTopic
                         {
-                            Name = t.CategoryCacheItem.Name,
-                            Id = t.CategoryCacheItem.Id,
-                            QuestionCount = t.CategoryCacheItem.CountQuestions
+                            Name = t.PageCacheItem.Name,
+                            Id = t.PageCacheItem.Id,
+                            QuestionCount = t.PageCacheItem.CountQuestions
                         }).ToArray()
             };
         }

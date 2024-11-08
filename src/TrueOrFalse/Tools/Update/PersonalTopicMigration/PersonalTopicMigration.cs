@@ -1,12 +1,12 @@
 ﻿public class PersonalTopicMigration
 {
     public static void CreateOrAddPersonalTopicForUsersWithoutStartTopicId(
-        CategoryRepository categoryRepository,
+        PageRepository pageRepository,
         UserWritingRepo userWritingRepo,
         UserReadingRepo userReadingRepo)
     {
         var users = userReadingRepo.GetAll();
-        var allCategories = categoryRepository.GetAll();
+        var allCategories = pageRepository.GetAll();
 
         foreach (var user in users)
         {
@@ -25,8 +25,8 @@
                 }
                 else
                 {
-                    var newTopic = PersonalTopic.GetPersonalCategory(user, categoryRepository);
-                    categoryRepository.CreateOnlyDb(newTopic);
+                    var newTopic = PersonalTopic.GetPersonalCategory(user, pageRepository);
+                    pageRepository.CreateOnlyDb(newTopic);
                     user.StartTopicId = newTopic.Id;
                     Logg.r.Information(
                         "PersonalTopicMigration - User: {userId}, TopicCreated: {topicId}", user.Id,

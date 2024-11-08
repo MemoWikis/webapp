@@ -79,8 +79,8 @@ public class VueLearningSessionResultController(LearningSessionCache _learningSe
                 Percentage: model.NumberNotAnsweredPercentage,
                 Count: model.NumberNotAnswered
             ),
-            TopicName: learningSession.Config.Category.Name,
-            TopicId: learningSession.Config.Category.Id,
+            TopicName: learningSession.Config.Page.Name,
+            TopicId: learningSession.Config.Page.Id,
             InWuwi: learningSession.Config.InWuwi,
             Questions:  tinyQuestions
         );

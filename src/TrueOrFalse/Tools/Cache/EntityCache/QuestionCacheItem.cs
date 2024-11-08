@@ -10,14 +10,14 @@ public class QuestionCacheItem
 {
     public QuestionCacheItem()
     {
-        Categories = new List<CategoryCacheItem>();
+        Pages = new List<PageCacheItem>();
         References = new List<ReferenceCacheItem>();
     }
 
     public virtual UserCacheItem Creator
         => EntityCache.GetUserById(CreatorId);
 
-    public virtual IList<CategoryCacheItem> Categories { get; set; }
+    public virtual IList<PageCacheItem> Pages { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
@@ -127,10 +127,10 @@ public class QuestionCacheItem
         return safeText.TruncateAtWord(length);
     }
 
-    public virtual IEnumerable<CategoryCacheItem> CategoriesVisibleToCurrentUser(
+    public virtual IEnumerable<PageCacheItem> CategoriesVisibleToCurrentUser(
         PermissionCheck permissionCheck)
     {
-        return Categories.Where(permissionCheck.CanView);
+        return Pages.Where(permissionCheck.CanView);
     }
 
     public virtual bool IsInWishknowledge(int userId, ExtendedUserCache extendedUserCache)
@@ -154,7 +154,7 @@ public class QuestionCacheItem
             SkipMigration = question.SkipMigration,
             Visibility = question.Visibility,
             TotalRelevancePersonalEntries = question.TotalRelevancePersonalEntries,
-            Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList(),
+            Pages = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList(),
             CreatorId = question.Creator?.Id ?? -1,
             DateCreated = question.DateCreated,
             DateModified = question.DateModified,

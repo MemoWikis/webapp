@@ -88,7 +88,7 @@
 		<PackageReference Include="ZstdNet" Version="1.4.5" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Domain\Category\TopicOrder\Persistence\" />
+	  <Folder Include="Domain\Page\TopicOrder\Persistence\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="Web\Crawlers\list-of-crawlers.json">

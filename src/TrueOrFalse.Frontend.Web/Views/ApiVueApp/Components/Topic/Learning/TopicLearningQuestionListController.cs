@@ -46,7 +46,7 @@ public class TopicLearningQuestionListController(
         if (_permissionCheck.CanViewCategory(json.TopicId))
         {
             if (_learningSessionCache.GetLearningSession() == null ||
-                json.TopicId != _learningSessionCache.GetLearningSession()?.Config.CategoryId)
+                json.TopicId != _learningSessionCache.GetLearningSession()?.Config.PageId)
                 _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId,
                     _sessionUser.UserId);
 

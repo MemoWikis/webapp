@@ -9,7 +9,7 @@ public class FrontEndUserData(
     IHttpContextAccessor _httpContextAccessor,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    CategoryViewRepo _categoryViewRepo,
+    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo)
     : IRegisterAsInstancePerLifetime
@@ -78,7 +78,7 @@ public class FrontEndUserData(
                 PersonalWiki = new TopicDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
-                    _categoryViewRepo,
+                    pageViewRepo,
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo).GetTopicData(user.StartTopicId),
@@ -126,7 +126,7 @@ public class FrontEndUserData(
             PersonalWiki = new TopicDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
-                    _categoryViewRepo,
+                    pageViewRepo,
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)

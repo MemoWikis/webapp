@@ -85,18 +85,18 @@ public class Links
             }, null);
     }
 
-    public string CategoryDetail(Category category)
+    public string CategoryDetail(Page page)
     {
         return _httpContext == null
             ? ""
-            : CategoryDetail(category.Name, category.Id);
+            : CategoryDetail(page.Name, page.Id);
     }
 
-    public string CategoryDetail(CategoryCacheItem category)
+    public string CategoryDetail(PageCacheItem page)
     {
         return _httpContext == null
             ? ""
-            : CategoryDetail(category.Name, category.Id);
+            : CategoryDetail(page.Name, page.Id);
     }
 
     public string CategoryDetail(string name, int id)
@@ -118,15 +118,15 @@ public class Links
             return "";
         }
 
-        if (type is Category)
+        if (type is Page)
         {
-            var topic = (Category)type;
+            var topic = (Page)type;
             return GetTopicUrl(UriSanitizer.Run(topic.Name), topic.Id);
         }
 
-        if (type is CategoryCacheItem)
+        if (type is PageCacheItem)
         {
-            var topic = (CategoryCacheItem)type;
+            var topic = (PageCacheItem)type;
             return GetTopicUrl(UriSanitizer.Run(topic.Name), topic.Id);
         }
 

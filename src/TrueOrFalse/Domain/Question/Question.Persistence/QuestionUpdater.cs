@@ -3,7 +3,7 @@ using TrueOrFalse;
 
 public class QuestionUpdater(
     PermissionCheck _permissionCheck,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public Question UpdateQuestion(
@@ -45,7 +45,7 @@ public class QuestionUpdater(
         if (!String.IsNullOrEmpty(questionDataParam.ReferencesJson))
         {
             var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question,
-                _categoryRepository);
+                pageRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -80,19 +80,19 @@ public class QuestionUpdater(
         LearningSessionConfig SessionConfig
     );
 
-    public List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    public List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var categories = new List<Category>();
+        var categories = new List<Page>();
         var privateCategories =
             question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         categories.AddRange(privateCategories);
 
         foreach (var categoryId in newCategoryIds)
-            categories.Add(_categoryRepository.GetById(categoryId));
+            categories.Add(pageRepository.GetById(categoryId));
 
         return categories;
     }
 
-    public List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) =>
+    public List<Page> GetAllParentsForQuestion(int newCategoryId, Question question) =>
         GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
 }

@@ -25,12 +25,12 @@ public class UserSummary : IRegisterAsInstancePerLifetime
     public int AmountCreatedCategories(int creatorId, bool inclPrivateCategories = true)
     {
         var query = _nhibernateSession
-            .QueryOver<Category>()
+            .QueryOver<Page>()
             .Select(Projections.RowCount())
             .Where(c => c.Creator != null && c.Creator.Id == creatorId);
 
         if (!inclPrivateCategories)
-            query = query.Where(q => q.Visibility == CategoryVisibility.All);
+            query = query.Where(q => q.Visibility == PageVisibility.All);
 
         return query.FutureValue<int>().Value;
     }

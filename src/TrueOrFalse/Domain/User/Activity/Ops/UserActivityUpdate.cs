@@ -50,11 +50,11 @@ class UserActivityUpdate
         ISession nhibernateSession)
     {
         var amount = 10;
-        var categories = nhibernateSession.QueryOver<Category>()
+        var categories = nhibernateSession.QueryOver<Page>()
             .OrderBy(x => x.DateCreated).Desc
             .Where(q => q.Creator == userCauser)
             .Take(amount)
-            .List<Category>();
+            .List<Page>();
 
         foreach (var category in categories)
         {
@@ -63,7 +63,7 @@ class UserActivityUpdate
                 UserConcerned = userFollower,
                 At = category.DateCreated,
                 Type = UserActivityType.CreatedCategory,
-                Category = category,
+                Page = category,
                 UserCauser = category.Creator
             });
         }

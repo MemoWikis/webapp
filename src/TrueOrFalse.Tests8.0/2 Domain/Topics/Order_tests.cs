@@ -4,13 +4,13 @@
     public void Should_Sort_Topics()
     {
         //Arrange
-        var unsortedRelations = new List<CategoryCacheRelation>
+        var unsortedRelations = new List<PageRelationCache>
         {
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 }
         };
 
@@ -29,20 +29,20 @@
     public void Should_Sort_Topics_with_faulty_relations()
     {
         //Arrange
-        var unsortedRelations = new List<CategoryCacheRelation>
+        var unsortedRelations = new List<PageRelationCache>
         {
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 1, ChildId = 3, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 2, ChildId = 1, ParentId = 10, PreviousId = null, NextId = 2 },
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 3, ChildId = 2, ParentId = 10, PreviousId = 1, NextId = 3 },
 
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 4, ChildId = 4, ParentId = 10, PreviousId = 2, NextId = null },
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 5, ChildId = 5, ParentId = 10, PreviousId = null, NextId = null },
-            new CategoryCacheRelation
+            new PageRelationCache
                 { Id = 6, ChildId = 6, ParentId = 10, PreviousId = null, NextId = 3 },
         };
 
@@ -86,7 +86,7 @@
         entityCacheInitializer.Init();
 
         //Assert
-        var cachedRoot = EntityCache.GetCategory(root);
+        var cachedRoot = EntityCache.GetPage(root);
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(2));
         Assert.IsNull(cachedRoot.ChildRelations[0].PreviousId);
 
@@ -125,11 +125,11 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var cachedRoot = EntityCache.GetCategory(root);
+        var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[0];
-        var categoryRelationRepo = R<CategoryRelationRepo>();
+        var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
@@ -197,11 +197,11 @@
 
         RecycleContainerAndEntityCache();
 
-        var cachedRoot = EntityCache.GetCategory(root);
+        var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[2];
-        var categoryRelationRepo = R<CategoryRelationRepo>();
+        var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         TopicOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
@@ -277,11 +277,11 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var cachedRoot = EntityCache.GetCategory(root);
+        var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[0];
-        var categoryRelationRepo = R<CategoryRelationRepo>();
+        var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
@@ -357,22 +357,22 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var cachedRoot = EntityCache.GetCategory(root);
+        var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[0];
-        var categoryRelationRepo = R<CategoryRelationRepo>();
+        var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act & Assert
         var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove,
             sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
 
-        Assert.That(ex.Message, Is.EqualTo(FrontendMessageKeys.Error.Category.CircularReference));
+        Assert.That(ex.Message, Is.EqualTo(FrontendMessageKeys.Error.Page.CircularReference));
 
         var ex2 = Assert.Throws<Exception>(() =>
             TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
                 modifyRelationsForCategory));
-        Assert.That(ex2.Message, Is.EqualTo(FrontendMessageKeys.Error.Category.CircularReference));
+        Assert.That(ex2.Message, Is.EqualTo(FrontendMessageKeys.Error.Page.CircularReference));
     }
 
     [Test]
@@ -403,11 +403,11 @@
         var entityCacheInitializer = R<EntityCacheInitializer>();
         entityCacheInitializer.Init();
 
-        var cachedSub1 = EntityCache.GetCategory(sub1);
+        var cachedSub1 = EntityCache.GetPage(sub1);
         var relationToMove = cachedSub1.ChildRelations[0];
-        var categoryRelationRepo = R<CategoryRelationRepo>();
+        var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<CategoryRepository>(), categoryRelationRepo);
+            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         TopicOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
@@ -416,10 +416,10 @@
         //Assert
         Assert.That(cachedSub1.ChildRelations.Count, Is.EqualTo(0));
 
-        var cachedSub2 = EntityCache.GetCategory(sub2);
+        var cachedSub2 = EntityCache.GetPage(sub2);
         Assert.That(cachedSub2.ChildRelations.Count, Is.EqualTo(1));
 
-        var movedSub = EntityCache.GetCategory(sub1sub1);
+        var movedSub = EntityCache.GetPage(sub1sub1);
 
         Assert.That(cachedSub2.ChildRelations[0].ChildId, Is.EqualTo(movedSub.Id));
         Assert.That(movedSub.ParentRelations.Count, Is.EqualTo(1));

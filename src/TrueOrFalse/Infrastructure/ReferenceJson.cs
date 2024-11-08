@@ -11,7 +11,7 @@ public class ReferenceJson
     public static IList<Reference> LoadFromJson(
         string json,
         Question question,
-        CategoryRepository categoryRepository)
+        PageRepository pageRepository)
     {
         var referencesJson = JsonConvert.DeserializeObject<IEnumerable<ReferenceJson>>(json);
 
@@ -22,7 +22,7 @@ public class ReferenceJson
                 Id = refJson.ReferenceId == -1 ? default(int) : refJson.ReferenceId,
                 ReferenceType = Reference.GetReferenceType(refJson.ReferenceType),
                 Question = question,
-                Category = categoryRepository.GetByIdEager(refJson.CategoryId),
+                Page = pageRepository.GetByIdEager(refJson.CategoryId),
                 AdditionalInfo = refJson.AdditionalText,
                 ReferenceText = refJson.ReferenceText
             };

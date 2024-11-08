@@ -12,8 +12,8 @@ using TrueOrFalse.Frontend.Web.Code;
 public class CategoryHistoryDetailModel
 {
     private readonly PermissionCheck _permissionCheck;
-    private readonly CategoryChangeRepo _categoryChangeRepo;
-    private readonly CategoryRepository _categoryRepository;
+    private readonly PageChangeRepo _pageChangeRepo;
+    private readonly PageRepository _pageRepository;
     public int CategoryId;
     public string CategoryName;
     public string CategoryUrl;
@@ -36,7 +36,7 @@ public class CategoryHistoryDetailModel
     public string CurrentDescription;
     public string CurrentWikipediaUrl;
     public string CurrentRelations;
-    public CategoryVisibility CurrentVisibility;
+    public PageVisibility CurrentVisibility;
 
     public string PrevName;
     public string PrevMarkdown;
@@ -45,18 +45,18 @@ public class CategoryHistoryDetailModel
     public string PrevDescription;
     public string PrevWikipediaUrl;
     public string PrevRelations;
-    public CategoryVisibility PrevVisibility;
+    public PageVisibility PrevVisibility;
 
-    public CategoryChangeType ChangeType;
+    public PageChangeType ChangeType;
 
     public CategoryHistoryDetailModel(
-        CategoryChange currentRevision,
-        CategoryChange previousRevision,
-        CategoryChange nextRevision,
+        PageChange currentRevision,
+        PageChange previousRevision,
+        PageChange nextRevision,
         bool isCategoryDeleted,
         PermissionCheck permissionCheck,
-        CategoryChangeRepo categoryChangeRepo,
-        CategoryRepository categoryRepository,
+        PageChangeRepo pageChangeRepo,
+        PageRepository pageRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor,
@@ -64,11 +64,11 @@ public class CategoryHistoryDetailModel
     )
     {
         _permissionCheck = permissionCheck;
-        _categoryChangeRepo = categoryChangeRepo;
-        _categoryRepository = categoryRepository;
+        _pageChangeRepo = pageChangeRepo;
+        _pageRepository = pageRepository;
         var httpContextAccessor1 = httpContextAccessor;
         ChangeType = currentRevision.Type;
-        var currentVersionTypeDelete = currentRevision.Type == CategoryChangeType.Delete;
+        var currentVersionTypeDelete = currentRevision.Type == PageChangeType.Delete;
 
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
@@ -76,12 +76,12 @@ public class CategoryHistoryDetailModel
         var previousRevisionData = !PrevRevExists ? null : previousRevision.GetCategoryChangeData();
         var currentRevisionData = currentRevision.GetCategoryChangeData();
         currentRevisionData = currentVersionTypeDelete
-            ? new CategoryEditData_V2(_categoryRepository)
+            ? new PageEditData_V2(_pageRepository)
             : currentRevisionData;
 
-        CategoryId = currentRevision.Category == null
-            ? _categoryChangeRepo.GetCategoryId(currentRevision.Id)
-            : currentRevision.Category.Id;
+        CategoryId = currentRevision.Page == null
+            ? _pageChangeRepo.GetCategoryId(currentRevision.Id)
+            : currentRevision.Page.Id;
 
         if (currentVersionTypeDelete) // is currentVersion deleted then is too category deleted
             CategoryName = previousRevisionData.Name;
@@ -89,7 +89,7 @@ public class CategoryHistoryDetailModel
         else if (isCategoryDeleted)
             CategoryName = currentRevisionData.Name;
         else
-            CategoryName = currentRevision.Category.Name;
+            CategoryName = currentRevision.Page.Name;
 
         var author =
             new UserTinyModel(currentRevision.Author());
@@ -118,8 +118,8 @@ public class CategoryHistoryDetailModel
 
         if (currentRevision.DataVersion == 2)
         {
-            ImageWasUpdated = ((CategoryEditData_V2)currentRevisionData).ImageWasUpdated;
-            var imageMetaData = imageMetaDataReadingRepo.GetBy(CategoryId, ImageType.Category);
+            ImageWasUpdated = ((PageEditData_V2)currentRevisionData).ImageWasUpdated;
+            var imageMetaData = imageMetaDataReadingRepo.GetBy(CategoryId, ImageType.Page);
             ImageFrontendData = new ImageFrontendData(imageMetaData,
                 httpContextAccessor1,
                 questionReadingRepo);
@@ -138,15 +138,15 @@ public class CategoryHistoryDetailModel
             PrevWikipediaUrl = prevRevisionData?.WikipediaURL;
             PrevVisibility = prevRevisionData != null
                 ? prevRevisionData.Visibility
-                : CategoryVisibility.Owner;
+                : PageVisibility.Owner;
 
             if (currentRevision.DataVersion >= 2 && previousRevision.DataVersion >= 2)
             {
-                var currentRelationsList = ((CategoryEditData_V2)currentRevisionData)
+                var currentRelationsList = ((PageEditData_V2)currentRevisionData)
                     .CategoryRelations.Where(cr =>
-                        CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId)).ToList();
-                var prevRelationsList = ((CategoryEditData_V2)prevRevisionData).CategoryRelations
-                    .Where(cr => CrIsVisibleToCurrentUser(cr.CategoryId, cr.RelatedCategoryId))
+                        CrIsVisibleToCurrentUser(cr.PageId, cr.RelatedPageId)).ToList();
+                var prevRelationsList = ((PageEditData_V2)prevRevisionData).CategoryRelations
+                    .Where(cr => CrIsVisibleToCurrentUser(cr.PageId, cr.RelatedPageId))
                     .ToList();
 
                 CurrentRelations = SortedListOfRelations(currentRelationsList);
@@ -175,37 +175,37 @@ public class CategoryHistoryDetailModel
 
     private bool CrIsVisibleToCurrentUser(int categoryId, int relatedCategoryId)
     {
-        CategoryCacheItem category = null;
-        CategoryCacheItem relatedCategory = null;
+        PageCacheItem page = null;
+        PageCacheItem relatedPage = null;
 
         try
         {
-            category = EntityCache.GetCategory(categoryId);
-            relatedCategory = EntityCache.GetCategory(relatedCategoryId);
+            page = EntityCache.GetPage(categoryId);
+            relatedPage = EntityCache.GetPage(relatedCategoryId);
         }
         catch (Exception e)
         {
             Logg.Error(e);
         }
 
-        if (category != null && relatedCategory != null)
-            return _permissionCheck.CanView(category) && _permissionCheck.CanView(relatedCategory);
+        if (page != null && relatedPage != null)
+            return _permissionCheck.CanView(page) && _permissionCheck.CanView(relatedPage);
 
         return false;
     }
 
-    private string Relation2String(CategoryRelation_EditData relation)
+    private string Relation2String(PageRelation_EditData relation)
     {
-        var relatedCategory = _categoryRepository.GetById(relation.RelatedCategoryId);
+        var relatedCategory = _pageRepository.GetById(relation.RelatedPageId);
         var isRelatedCategoryNull = relatedCategory == null;
 
         string name;
         if (isRelatedCategoryNull) // then is category deleted
         {
-            var prevVersion = _categoryChangeRepo.GetForCategory(relation.RelatedCategoryId)
-                .Where(cc => cc.Type != CategoryChangeType.Delete)
+            var prevVersion = _pageChangeRepo.GetForCategory(relation.RelatedPageId)
+                .Where(cc => cc.Type != PageChangeType.Delete)
                 .OrderByDescending(cc => cc.DateCreated)
-                .Select(cc => CategoryEditData_V2.CreateFromJson(cc.Data)).First();
+                .Select(cc => PageEditData_V2.CreateFromJson(cc.Data)).First();
             name = prevVersion.Name;
         }
         else
@@ -219,7 +219,7 @@ public class CategoryHistoryDetailModel
         return res;
     }
 
-    private string SortedListOfRelations(IList<CategoryRelation_EditData_V2> relations)
+    private string SortedListOfRelations(IList<PageRelation_EditData_V2> relations)
     {
         string res = "";
         if (relations != null && relations.IsNotEmpty())

@@ -1,7 +1,7 @@
 ﻿public class LearningSessionConfig
 {
-    public int CategoryId { get; set; }
-    public CategoryCacheItem Category { get; set; }
+    public int PageId { get; set; }
+    public PageCacheItem Page { get; set; }
     public int MaxQuestionCount { get; set; } = 0;
 
     /// <summary>

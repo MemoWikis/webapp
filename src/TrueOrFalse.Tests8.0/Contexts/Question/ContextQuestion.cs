@@ -5,7 +5,7 @@ public class ContextQuestion
     private readonly ContextUser _contextUser;
     private readonly AnswerRepo _answerRepo;
     private readonly AnswerQuestion _answerQuestion;
-    private readonly CategoryRepository _categoryRepository;
+    private readonly PageRepository _pageRepository;
     private readonly QuestionWritingRepo _questionWritingRepo;
 
     public List<Question> All = new();
@@ -23,7 +23,7 @@ public class ContextQuestion
         _contextUser.Add("Learner").Persist();
         _answerRepo = BaseTest.R<AnswerRepo>();
         _answerQuestion = BaseTest.R<AnswerQuestion>();
-        _categoryRepository = BaseTest.R<CategoryRepository>();
+        _pageRepository = BaseTest.R<PageRepository>();
         _questionWritingRepo = BaseTest.R<QuestionWritingRepo>();
     }
 
@@ -47,7 +47,7 @@ public class ContextQuestion
         int id = 0,
         bool withId = false,
         User? creator = null,
-        IList<Category> categories = null,
+        IList<Page> categories = null,
         int correctnessProbability = 0,
         bool persistImmediately = false,
         QuestionVisibility questionVisibility = QuestionVisibility.Owner)
@@ -75,7 +75,7 @@ public class ContextQuestion
 
         if (_persistQuestionsImmediately || persistImmediately)
         {
-            _questionWritingRepo.Create(question, _categoryRepository);
+            _questionWritingRepo.Create(question, _pageRepository);
         }
 
         return this;
@@ -85,7 +85,7 @@ public class ContextQuestion
         int amount,
         User creator = null,
         bool withId = false,
-        IList<Category> categoriesQuestions = null,
+        IList<Page> categoriesQuestions = null,
         bool persistImmediately = false)
     {
         for (var i = 0; i < amount; i++)
@@ -141,16 +141,16 @@ public class ContextQuestion
         return this;
     }
 
-    public static void PutQuestionsIntoMemoryCache(CategoryRepository categoryRepository,
+    public static void PutQuestionsIntoMemoryCache(PageRepository pageRepository,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserWritingRepo userWritingRepo,
         QuestionWritingRepo questionWritingRepo,
-        Category category,
+        Page page,
         int amount = 20)
     {
-        ContextCategory.New(false).AddToEntityCache(category).Persist();
-        var categories = categoryRepository.GetAllEager();
+        ContextCategory.New(false).AddToEntityCache(page).Persist();
+        var categories = pageRepository.GetAllEager();
 
         var questions = New().AddRandomQuestions(amount, null, true, categories).All;
 
@@ -163,12 +163,12 @@ public class ContextQuestion
     }
 
     public static List<ExtendedUserCacheItem> SetWuwi(int amountQuestion,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
+        PageValuationReadingRepository pageValuationReadingRepository,
         AnswerRepo answerRepo,
         AnswerQuestion answerQuestion,
         UserReadingRepo userReadingRepo,
         QuestionValuationReadingRepo questionValuationRepo,
-        CategoryRepository categoryRepository,
+        PageRepository pageRepository,
         QuestionWritingRepo questionWritingRepo,
         UserWritingRepo userWritingRepo)
     {
@@ -182,7 +182,7 @@ public class ContextQuestion
 
         //SessionUserCache.AddOrUpdate(users.FirstOrDefault());
 
-        PutQuestionValuationsIntoUserCache(questions, users, categoryValuationReadingRepo, userReadingRepo,
+        PutQuestionValuationsIntoUserCache(questions, users, pageValuationReadingRepository, userReadingRepo,
             questionValuationRepo);
 
         //return SessionUserCache.GetAllCacheItems();
@@ -191,7 +191,7 @@ public class ContextQuestion
     }
 
     private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users,
-        CategoryValuationReadingRepo categoryValuationReadingRepo, UserReadingRepo userReadingRepo,
+        PageValuationReadingRepository pageValuationReadingRepository, UserReadingRepo userReadingRepo,
         QuestionValuationReadingRepo questionValuationRepo)
     {
         var rand = new Random();

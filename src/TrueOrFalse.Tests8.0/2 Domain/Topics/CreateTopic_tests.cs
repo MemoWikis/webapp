@@ -19,14 +19,14 @@
             var childName = "child";
 
             //Act
-            R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
+            R<PageCreator>().Create(childName, parent.Id, sessionUser);
 
             //Assert
             RecycleContainerAndEntityCache();
 
-            var childFromDatabase = R<CategoryRepository>().GetByName(childName).Single();
+            var childFromDatabase = R<PageRepository>().GetByName(childName).Single();
             DateTime referenceDate = DateTime.Now;
-            var relations = R<CategoryRelationRepo>().GetByRelationId(parent.Id);
+            var relations = R<PageRelationRepo>().GetByRelationId(parent.Id);
 
             Assert.IsNotNull(childFromDatabase);
             Assert.IsNotNull(sessionUser);
@@ -60,7 +60,7 @@
             var childName = "child";
 
             //Act
-            R<CategoryCreator>().Create(childName, parent.Id, sessionUser);
+            R<PageCreator>().Create(childName, parent.Id, sessionUser);
 
             //Arrange
             var childFromEntityCache = EntityCache.GetCategoryByName(childName).Single();

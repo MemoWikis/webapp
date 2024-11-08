@@ -7,7 +7,7 @@ namespace VueApp
     public class PublishTopicStoreController(
         SessionUser _sessionUser,
         PermissionCheck _permissionCheck,
-        CategoryRepository _categoryRepository,
+        PageRepository pageRepository,
         QuestionReadingRepo _questionReadingRepo,
         QuestionWritingRepo _questionWritingRepo,
         ExtendedUserCache _extendedUserCache) : Controller
@@ -23,7 +23,7 @@ namespace VueApp
         [AccessOnlyAsLoggedIn]
         public PublishTopicResult PublishTopic([FromBody] PublishTopicJson json)
         {
-            var topicCacheItem = EntityCache.GetCategory(json.id);
+            var topicCacheItem = EntityCache.GetPage(json.id);
 
             if (topicCacheItem != null)
             {
@@ -35,14 +35,14 @@ namespace VueApp
                         return new PublishTopicResult
                         {
                             Success = false,
-                            MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                            MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
                         };
 
-                    topicCacheItem.Visibility = CategoryVisibility.All;
-                    var topic = _categoryRepository.GetById(json.id);
-                    topic.Visibility = CategoryVisibility.All;
-                    _categoryRepository.Update(topic, _sessionUser.UserId,
-                        type: CategoryChangeType.Published);
+                    topicCacheItem.Visibility = PageVisibility.All;
+                    var topic = pageRepository.GetById(json.id);
+                    topic.Visibility = PageVisibility.All;
+                    pageRepository.Update(topic, _sessionUser.UserId,
+                        type: PageChangeType.Published);
                     return new PublishTopicResult
                     {
                         Success = true,
@@ -52,7 +52,7 @@ namespace VueApp
                 return new PublishTopicResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Category.ParentIsPrivate,
+                    MessageKey = FrontendMessageKeys.Error.Page.ParentIsPrivate,
                     Data = topicCacheItem.Parents().Select(c => c.Id).ToList()
                 };
             }
@@ -95,7 +95,7 @@ namespace VueApp
         [AccessOnlyAsLoggedIn]
         public TinyTopic Get([FromRoute] int id)
         {
-            var topicCacheItem = EntityCache.GetCategory(id);
+            var topicCacheItem = EntityCache.GetPage(id);
             var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
 
             if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)

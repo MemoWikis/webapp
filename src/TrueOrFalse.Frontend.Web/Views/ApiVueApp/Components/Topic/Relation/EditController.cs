@@ -10,11 +10,11 @@ namespace VueApp;
 
 public class TopicRelationEditController(
     SessionUser _sessionUser,
-    CategoryCreator _categoryCreator,
+    PageCreator pageCreator,
     PermissionCheck _permissionCheck,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     IHttpContextAccessor _httpContextAccessor,
-    CategoryRelationRepo _categoryRelationRepo,
+    PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
     IWebHostEnvironment _webHostEnvironment,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
@@ -46,7 +46,7 @@ public class TopicRelationEditController(
     [HttpPost]
     public QuickCreateResult QuickCreate([FromBody] QuickCreateParam param)
     {
-        var data = _categoryCreator.Create(param.Name, param.ParentTopicId, _sessionUser);
+        var data = pageCreator.Create(param.Name, param.ParentTopicId, _sessionUser);
         var result = new QuickCreateResult
         {
             Success = data.Success,
@@ -106,7 +106,7 @@ public class TopicRelationEditController(
             return new MoveChildResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
+                MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
         if (parentIdToRemove == RootCategory.RootCategoryId &&
@@ -116,16 +116,16 @@ public class TopicRelationEditController(
             return new MoveChildResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.ParentIsRoot
+                MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
             };
 
         var childModifier = new ChildModifier(_permissionCheck,
             _sessionUser,
-            _categoryRepository,
+            pageRepository,
             _userWritingRepo,
             _httpContextAccessor,
             _webHostEnvironment,
-            _categoryRelationRepo);
+            pageRelationRepo);
 
         var result = childModifier.AddChild(childId, parentIdToAdd);
 
@@ -150,11 +150,11 @@ public class TopicRelationEditController(
         var result =
             new ChildModifier(_permissionCheck,
                     _sessionUser,
-                    _categoryRepository,
+                    pageRepository,
                     _userWritingRepo,
                     _httpContextAccessor,
                     _webHostEnvironment,
-                    _categoryRelationRepo)
+                    pageRelationRepo)
                 .AddChild(
                     param.ChildId,
                     param.ParentId,
@@ -177,11 +177,11 @@ public class TopicRelationEditController(
     {
         var result = new ChildModifier(_permissionCheck,
                 _sessionUser,
-                _categoryRepository,
+                pageRepository,
                 _userWritingRepo,
                 _httpContextAccessor,
                 _webHostEnvironment,
-                _categoryRelationRepo)
+                pageRelationRepo)
             .RemoveParent(
                 param.parentIdToRemove,
                 param.childId);
@@ -259,7 +259,7 @@ public class TopicRelationEditController(
             return new ValidateNameResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.NameIsForbidden,
+                MessageKey = FrontendMessageKeys.Error.Page.NameIsForbidden,
                 Data = new ValidateTinyTopicItem
                 {
                     CategoryNameAllowed = false,

@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using NHibernate.Util;
+﻿using NHibernate.Util;
+using System.Diagnostics;
 
 public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 {
@@ -39,6 +37,6 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
         _questionWritingRepo.UpdateFieldsOnly(question);
 
         question.Categories
-            .ForEach(c => KnowledgeSummaryUpdate.ScheduleForCategory(c.Id, _jobQueueRepo));
+            .ForEach(c => KnowledgeSummaryUpdate.ScheduleForPage(c.Id, _jobQueueRepo));
     }
 }

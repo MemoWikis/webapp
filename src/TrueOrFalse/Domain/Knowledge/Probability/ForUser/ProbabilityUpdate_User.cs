@@ -50,7 +50,7 @@ public class ProbabilityUpdate_User
 
         var answers = _answerRepo.GetByUser(user.Id);
 
-        user.CorrectnessProbability = ProbabilityCalc_Category.Run(answers);
+        user.CorrectnessProbability = ProbabilityCalc_Page.Run(answers);
         user.CorrectnessProbabilityAnswerCount = answers.Count;
 
         _userWritingRepo.Update(user);

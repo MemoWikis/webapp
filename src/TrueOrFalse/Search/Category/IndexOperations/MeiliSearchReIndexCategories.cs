@@ -5,11 +5,11 @@ namespace TrueOrFalse.Search;
 public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
 
 {
-    private readonly CategoryRepository _categoryRepository;
+    private readonly PageRepository _pageRepository;
 
-    public MeiliSearchReIndexCategories(CategoryRepository categoryRepository)
+    public MeiliSearchReIndexCategories(PageRepository pageRepository)
     {
-        _categoryRepository = categoryRepository;
+        _pageRepository = pageRepository;
         _client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
     }
 
@@ -18,7 +18,7 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
     public async Task Run()
     {
         await _client.DeleteIndexAsync(MeiliSearchConstants.Categories);
-        var allCateogoriesFromDb = _categoryRepository.GetAll();
+        var allCateogoriesFromDb = _pageRepository.GetAll();
 
         var meiliSearchCategories = allCateogoriesFromDb.Select(c => new MeiliSearchCategoryMap
         {

@@ -33,7 +33,7 @@ public class TopicGridManager
         int QuestionCount,
         int ChildrenCount,
         string ImageUrl,
-        CategoryVisibility Visibility,
+        PageVisibility Visibility,
         TinyTopicModel[] Parents,
         KnowledgebarData KnowledgebarData,
         bool IsChildOfPersonalWiki,
@@ -66,9 +66,9 @@ public class TopicGridManager
         return visibleChildren.Select(BuildGridTopicItem).ToArray();
     }
 
-    public GridTopicItem BuildGridTopicItem(CategoryCacheItem topic)
+    public GridTopicItem BuildGridTopicItem(PageCacheItem topic)
     {
-        var imageMetaData = _imageMetaDataReading.GetBy(topic.Id, ImageType.Category);
+        var imageMetaData = _imageMetaDataReading.GetBy(topic.Id, ImageType.Page);
         var imageFrontendData =
             new ImageFrontendData(imageMetaData, _httpContextAccessor, _questionReadingRepo);
 
@@ -80,7 +80,7 @@ public class TopicGridManager
             ChildrenCount = GraphService
                 .VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId)
                 .Count,
-            ImageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Category).Url,
+            ImageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Page).Url,
             Visibility = topic.Visibility,
             Parents = GetParents(topic),
             KnowledgebarData = GetKnowledgebarData(topic),
@@ -94,11 +94,11 @@ public class TopicGridManager
         };
     }
 
-    private KnowledgebarData GetKnowledgebarData(CategoryCacheItem topic)
+    private KnowledgebarData GetKnowledgebarData(PageCacheItem topic)
     {
         var knowledgeBarSummary =
-            new CategoryKnowledgeBarModel(topic, _sessionUser.UserId, _knowledgeSummaryLoader)
-                .CategoryKnowledgeSummary;
+            new PageKnowledgeBarModel(topic, _sessionUser.UserId, _knowledgeSummaryLoader)
+                .PageKnowledgeSummary;
 
         return new KnowledgebarData
         {
@@ -114,12 +114,12 @@ public class TopicGridManager
         };
     }
 
-    private TinyTopicModel[] GetParents(CategoryCacheItem topic)
+    private TinyTopicModel[] GetParents(PageCacheItem topic)
     {
         return topic.Parents().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
             {
                 Id = p.Id, Name = p.Name, ImgUrl =
-                    new CategoryImageSettings(p.Id, _httpContextAccessor)
+                    new PageImageSettings(p.Id, _httpContextAccessor)
                         .GetUrl(50, true).Url
             })
             .ToArray();

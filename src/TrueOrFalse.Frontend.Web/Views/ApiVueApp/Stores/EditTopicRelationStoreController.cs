@@ -15,8 +15,8 @@ public class EditTopicRelationStoreController(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
     PermissionCheck _permissionCheck,
-    CategoryRepository _categoryRepository,
-    CategoryRelationRepo _categoryRelationRepo,
+    PageRepository pageRepository,
+    PageRelationRepo pageRelationRepo,
     UserWritingRepo _userWritingRepo,
     IWebHostEnvironment _webHostEnvironment) : Controller
 {
@@ -37,10 +37,10 @@ public class EditTopicRelationStoreController(
             return new GetPersonalWikiDataResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.LoopLink
+                MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartTopicId);
         var personalWikiItem = new SearchHelper(_imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
@@ -51,7 +51,7 @@ public class EditTopicRelationStoreController(
         {
             foreach (var topicId in _sessionUser.User.RecentlyUsedRelationTargetTopicIds)
             {
-                var topicCacheItem = EntityCache.GetCategory(topicId);
+                var topicCacheItem = EntityCache.GetPage(topicId);
                 recentlyUsedRelationTargetTopics.Add(new SearchHelper(_imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
@@ -85,11 +85,11 @@ public class EditTopicRelationStoreController(
             var result = new ChildModifier(
                 _permissionCheck,
                 _sessionUser,
-                _categoryRepository,
+                pageRepository,
                 _userWritingRepo,
                 _httpContextAccessor,
                 _webHostEnvironment,
-                _categoryRelationRepo).RemoveParent(json.parentId, childId);
+                pageRelationRepo).RemoveParent(json.parentId, childId);
             if (result.Success)
                 removedChildrenIds.Add(childId);
         }
@@ -128,17 +128,17 @@ public class EditTopicRelationStoreController(
 
         if (!_permissionCheck.CanMoveTopic(json.MovingTopicId, json.OldParentId, json.NewParentId))
         {
-            if (json.NewParentId == RootCategory.RootCategoryId && EntityCache.GetCategory(json.MovingTopicId)?.Visibility == CategoryVisibility.All)
-                throw new SecurityException(FrontendMessageKeys.Error.Category.ParentIsRoot);
+            if (json.NewParentId == RootCategory.RootCategoryId && EntityCache.GetPage(json.MovingTopicId)?.Visibility == PageVisibility.All)
+                throw new SecurityException(FrontendMessageKeys.Error.Page.ParentIsRoot);
 
-            throw new SecurityException(FrontendMessageKeys.Error.Category.MissingRights);
+            throw new SecurityException(FrontendMessageKeys.Error.Page.MissingRights);
         }
 
         if (json.MovingTopicId == json.NewParentId)
             throw new InvalidOperationException(
-                FrontendMessageKeys.Error.Category.CircularReference);
+                FrontendMessageKeys.Error.Page.CircularReference);
 
-        var relationToMove = EntityCache.GetCategory(json.OldParentId)?.ChildRelations
+        var relationToMove = EntityCache.GetPage(json.OldParentId)?.ChildRelations
             .FirstOrDefault(r => r.ChildId == json.MovingTopicId);
 
         if (relationToMove == null)
@@ -153,7 +153,7 @@ public class EditTopicRelationStoreController(
             GetUndoMoveTopicData(relationToMove, json.NewParentId, json.TargetId);
 
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(_categoryRepository, _categoryRelationRepo);
+            new ModifyRelationsForCategory(pageRepository, pageRelationRepo);
 
         if (json.Position == TargetPosition.Before)
             TopicOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId,
@@ -191,7 +191,7 @@ public class EditTopicRelationStoreController(
     }
 
     private MoveTopicJson GetUndoMoveTopicData(
-        CategoryCacheRelation relation,
+        PageRelationCache relation,
         int newParentId,
         int targetId)
     {
@@ -219,7 +219,7 @@ public class EditTopicRelationStoreController(
     [HttpPost]
     public PersonalWikiResult AddToPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartTopicId);
 
         if (personalWiki == null)
             return new PersonalWikiResult
@@ -233,7 +233,7 @@ public class EditTopicRelationStoreController(
             return new PersonalWikiResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.IsAlreadyLinkedAsChild
+                MessageKey = FrontendMessageKeys.Error.Page.IsAlreadyLinkedAsChild
             };
         }
 
@@ -242,11 +242,11 @@ public class EditTopicRelationStoreController(
             Success = true,
             Data = new ChildModifier(_permissionCheck,
                     _sessionUser,
-                    _categoryRepository,
+                    pageRepository,
                     _userWritingRepo,
                     _httpContextAccessor,
                     _webHostEnvironment,
-                    _categoryRelationRepo)
+                    pageRelationRepo)
                 .AddChild(id, personalWiki.Id)
         };
     }
@@ -258,7 +258,7 @@ public class EditTopicRelationStoreController(
     [HttpPost]
     public RemoveFromPersonalWikiResult RemoveFromPersonalWiki([FromRoute] int id)
     {
-        var personalWiki = EntityCache.GetCategory(_sessionUser.User.StartTopicId);
+        var personalWiki = EntityCache.GetPage(_sessionUser.User.StartTopicId);
 
         if (personalWiki == null)
             return new RemoveFromPersonalWikiResult
@@ -272,7 +272,7 @@ public class EditTopicRelationStoreController(
             return new RemoveFromPersonalWikiResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.IsNotAChild
+                MessageKey = FrontendMessageKeys.Error.Page.IsNotAChild
             };
         }
 
@@ -281,11 +281,11 @@ public class EditTopicRelationStoreController(
             Success = true,
             Data = new ChildModifier(_permissionCheck,
                     _sessionUser,
-                    _categoryRepository,
+                    pageRepository,
                     _userWritingRepo,
                     _httpContextAccessor,
                     _webHostEnvironment,
-                    _categoryRelationRepo)
+                    pageRelationRepo)
                 .RemoveParent(personalWiki.Id, id)
         };
     }

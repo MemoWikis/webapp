@@ -37,7 +37,7 @@ public class QuestionGetCount : IRegisterAsInstancePerLifetime
                 q.Creator.Id == creatorId &&
                 q.IsWorkInProgress == false)
                 .AndRestrictionOn(q => q.Visibility).IsIn(visibility)
-            .JoinQueryOver<Category>(q => q.Categories)
+            .JoinQueryOver<Page>(q => q.Categories)
             .Where(c => c.Id == categoryId)
             .Select(Projections.RowCount())
             .FutureValue<int>()

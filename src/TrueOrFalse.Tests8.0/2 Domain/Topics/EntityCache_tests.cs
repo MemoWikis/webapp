@@ -4,7 +4,7 @@
     public void Should_be_added_to_EntityCache()
     {
         var context = ContextCategory.New(false);
-        var category = new Category
+        var category = new Page
         {
             Id = 15,
             Name = "Test",
@@ -16,7 +16,7 @@
         };
         context.AddToEntityCache(category);
 
-        var cacheCategory = EntityCache.GetCategory(category);
+        var cacheCategory = EntityCache.GetPage(category);
 
         Assert.NotNull(cacheCategory);
         Assert.That(category.Id, Is.EqualTo(cacheCategory.Id));

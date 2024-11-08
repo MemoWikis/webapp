@@ -32,7 +32,7 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
     {
         return _session.QueryOver<Question>()
             .Where(q => q.Visibility == QuestionVisibility.All)
-            .JoinQueryOver<Category>(q => q.Categories)
+            .JoinQueryOver<Page>(q => q.Categories)
             .Where(c => c.Id == categoryId)
             .List<Question>();
     }

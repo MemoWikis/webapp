@@ -132,7 +132,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         int topicId,
         int questionId)
     {
-        var topic = EntityCache.GetCategory(topicId);
+        var topic = EntityCache.GetPage(topicId);
         var allQuestions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
 
@@ -151,7 +151,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
             result.MessageKey = FrontendMessageKeys.Info.Question.IsPrivate;
 
         var (allQuestions, questionNotInTopic) =
-            CheckQuestionInTopic(config.CategoryId, questionId);
+            CheckQuestionInTopic(config.PageId, questionId);
         if (questionNotInTopic)
             result.MessageKey = FrontendMessageKeys.Info.Question.NotInTopic;
 
@@ -183,7 +183,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     {
         var config = new LearningSessionConfig
         {
-            CategoryId = topicId,
+            PageId = topicId,
             CurrentUserId = userId
         };
         _learningSessionCache.AddOrUpdate(BuildLearningSession(config));
@@ -213,7 +213,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
-        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId)
+        IList<QuestionCacheItem> allQuestions = EntityCache.GetPage(config.PageId)
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
             .Where(q => q.Id > 0)
             .Where(_permissionCheck.CanView).ToList();

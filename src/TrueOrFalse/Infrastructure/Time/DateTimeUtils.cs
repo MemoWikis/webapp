@@ -35,7 +35,7 @@
         return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
     }
 
-    public static bool IsToday(CategoryCacheItem topic)
+    public static bool IsToday(PageCacheItem topic)
     {
         return IsToday(topic.DateCreated);
     }

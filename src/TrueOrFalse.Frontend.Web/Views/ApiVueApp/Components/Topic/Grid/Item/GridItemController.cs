@@ -19,10 +19,10 @@ public class GridItemController(
     [HttpGet]
     public GetChildrenResult GetChildren([FromRoute] int id)
     {
-        var topic = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetPage(id);
         if (!_permissionCheck.CanView(topic))
             return new GetChildrenResult(
-                Success: false, MessageKey: FrontendMessageKeys.Error.Category.MissingRights);
+                Success: false, MessageKey: FrontendMessageKeys.Error.Page.MissingRights);
         var children = new TopicGridManager(
             _permissionCheck,
             _sessionUser,
@@ -41,12 +41,12 @@ public class GridItemController(
     [HttpGet]
     public GetItemResult GetItem([FromRoute] int id)
     {
-        var topic = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetPage(id);
         if (!_permissionCheck.CanView(topic))
             return new GetItemResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
         var gridItem = new TopicGridManager(

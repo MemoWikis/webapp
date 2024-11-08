@@ -49,7 +49,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
         return
             _session
                 .QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory)
+                .Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForPage)
                 .List();
     }
 

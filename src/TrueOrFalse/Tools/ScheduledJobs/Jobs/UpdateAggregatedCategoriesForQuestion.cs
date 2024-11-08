@@ -5,12 +5,12 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class UpdateAggregatedCategoriesForQuestion : IJob
     {
         private readonly JobQueueRepo _jobQueueRepo;
-        private readonly CategoryRepository _categoryRepository;
+        private readonly PageRepository _pageRepository;
 
-        public UpdateAggregatedCategoriesForQuestion(JobQueueRepo jobQueueRepo, CategoryRepository categoryRepository)
+        public UpdateAggregatedCategoriesForQuestion(JobQueueRepo jobQueueRepo, PageRepository pageRepository)
         {
             _jobQueueRepo = jobQueueRepo;
-            _categoryRepository = categoryRepository;
+            _pageRepository = pageRepository;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -21,13 +21,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var userId = (int)dataMap["userId"];
 
             var aggregatedCategoriesToUpdate =
-                CategoryAggregation.GetAggregatingAncestors(_categoryRepository.GetByIds(categoryIds), _categoryRepository);
+                CategoryAggregation.GetAggregatingAncestors(_pageRepository.GetByIds(categoryIds), _pageRepository);
 
             foreach (var category in aggregatedCategoriesToUpdate)
             {
                 category.UpdateCountQuestionsAggregated(userId);
-                _categoryRepository.Update(category);
-                KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
+                _pageRepository.Update(category);
+                KnowledgeSummaryUpdate.ScheduleForPage(category.Id, _jobQueueRepo);
                 Logg.r.Information("Update Category from Update Question - {id}", category.Id);
             }
 

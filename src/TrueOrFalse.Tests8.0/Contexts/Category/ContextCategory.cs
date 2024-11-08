@@ -1,10 +1,10 @@
 ﻿public class ContextCategory : BaseTest
 {
-    private readonly CategoryRepository _categoryRepository;
+    private readonly PageRepository _pageRepository;
     private readonly ContextUser _contextUser = ContextUser.New(R<UserWritingRepo>());
     private int NamesCounter = 0;
 
-    public List<Category> All = new();
+    public List<Page> All = new();
 
     public static ContextCategory New(bool addContextUser = true)
     {
@@ -13,7 +13,7 @@
 
     private ContextCategory(bool addContextUser = true)
     {
-        _categoryRepository = R<CategoryRepository>();
+        _pageRepository = R<PageRepository>();
 
         if (addContextUser)
             _contextUser.Add("User" + NamesCounter).Persist();
@@ -27,23 +27,23 @@
         return this;
     }
 
-    public ContextCategory Add(Category category)
+    public ContextCategory Add(Page page)
     {
-        All.Add(category);
+        All.Add(page);
         return this;
     }
 
     public ContextCategory Add(
         string categoryName,
-        CategoryType categoryType = CategoryType.Standard,
+        PageType pageType = PageType.Standard,
         User? creator = null,
-        CategoryVisibility visibility = CategoryVisibility.All)
+        PageVisibility visibility = PageVisibility.All)
     {
-        var category = new Category
+        var category = new Page
         {
             Name = categoryName,
             Creator = creator ?? _contextUser.All.First(),
-            Type = categoryType,
+            Type = pageType,
             Visibility = visibility
         };
 
@@ -52,24 +52,24 @@
         return this;
     }
 
-    public ContextCategory AddChild(Category parent, Category child)
+    public ContextCategory AddChild(Page parent, Page child)
     {
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_categoryRepository, R<CategoryRelationRepo>());
+        var modifyRelationsForCategory = new ModifyRelationsForCategory(_pageRepository, R<PageRelationRepo>());
         modifyRelationsForCategory.AddChild(parent.Id, child.Id, 1);
 
         return this;
     }
 
-    public ContextCategory AddToEntityCache(Category category)
+    public ContextCategory AddToEntityCache(Page page)
     {
-        var categoryCacheItem = CategoryCacheItem.ToCacheCategory(category);
+        var categoryCacheItem = PageCacheItem.ToCacheCategory(page);
 
-        var cacheUser = UserCacheItem.ToCacheUser(category.Creator);
+        var cacheUser = UserCacheItem.ToCacheUser(page.Creator);
         EntityCache.AddOrUpdate(cacheUser);
         EntityCache.AddOrUpdate(categoryCacheItem);
         EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
 
-        All.Add(category);
+        All.Add(page);
         return this;
     }
 
@@ -77,26 +77,26 @@
     {
         foreach (var cat in All)
             if (cat.Id <= 0) //if not already created
-                _categoryRepository.Create(cat);
+                _pageRepository.Create(cat);
             else
             {
-                _categoryRepository.Update(cat, authorId: cat.AuthorIds.First(),
-                    type: CategoryChangeType.Relations);
+                _pageRepository.Update(cat, authorId: cat.AuthorIds.First(),
+                    type: PageChangeType.Relations);
             }
 
         return this;
     }
 
-    public ContextCategory Update(Category category)
+    public ContextCategory Update(Page page)
     {
-        _categoryRepository.Update(category);
+        _pageRepository.Update(page);
         return this;
     }
 
     public ContextCategory UpdateAll()
     {
         foreach (var cat in All)
-            _categoryRepository.Update(cat);
+            _pageRepository.Update(cat);
 
         return this;
     }
@@ -152,11 +152,11 @@
     //    return user;
     //}
 
-    public static bool HasCorrectChild(CategoryCacheItem categoryCachedItem, int childId)
+    public static bool HasCorrectChild(PageCacheItem pageCachedItem, int childId)
     {
         var permissionCheck = R<PermissionCheck>();
 
-        var aggregatedCategorys = categoryCachedItem.AggregatedCategories(permissionCheck);
+        var aggregatedCategorys = pageCachedItem.AggregatedCategories(permissionCheck);
 
         if (aggregatedCategorys.Any() == false)
             return false;
@@ -164,13 +164,13 @@
         return aggregatedCategorys.TryGetValue(childId, out _);
     }
 
-    public static bool isIdAvailableInRelations(CategoryCacheItem categoryCacheItem, int deletedId)
+    public static bool isIdAvailableInRelations(PageCacheItem pageCacheItem, int deletedId)
     {
-        return categoryCacheItem.ParentRelations.Any(cr =>
+        return pageCacheItem.ParentRelations.Any(cr =>
             cr.ParentId == deletedId || cr.ChildId == deletedId);
     }
 
-    public Category GetTopicByName(string name)
+    public Page GetTopicByName(string name)
     {
         return All.Single(c => c.Name == name);
     }

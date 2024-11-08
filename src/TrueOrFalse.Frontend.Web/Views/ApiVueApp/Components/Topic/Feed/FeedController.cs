@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static CategoryCacheItem;
+using static PageCacheItem;
 
 namespace VueApp;
 
@@ -21,7 +21,7 @@ public class FeedController(
     [HttpPost]
     public GetFeedResponse Get([FromBody] GetFeedRequest req)
     {
-        var topic = EntityCache.GetCategory(req.TopicId);
+        var topic = EntityCache.GetPage(req.TopicId);
 
         var (pagedChanges, maxCount) = topic.GetVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize, req.GetDescendants, req.GetQuestions, req.GetItemsInGroups);
 
@@ -32,10 +32,10 @@ public class FeedController(
 
     public record struct TopicFeedItem(
         DateTime Date,
-        CategoryChangeType Type,
+        PageChangeType Type,
         int CategoryChangeId,
         int TopicId, string Title,
-        CategoryVisibility Visibility,
+        PageVisibility Visibility,
         Author Author,
         NameChange? NameChange = null,
         RelationChanges? RelationChanges = null,
@@ -45,7 +45,7 @@ public class FeedController(
     public record struct QuestionFeedItem(DateTime Date, QuestionChangeType Type, int QuestionChangeId, int QuestionId, string Text, QuestionVisibility Visibility, Author Author, Comment? Comment);
 
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
-    private FeedItem ToFeedItem(CategoryCacheItem.FeedItem feedItem)
+    private FeedItem ToFeedItem(PageCacheItem.FeedItem feedItem)
     {
         if (feedItem.CategoryChangeCacheItem != null)
         {
@@ -53,7 +53,7 @@ public class FeedController(
             var author = SetAuthor(change.Author());
             var cachedNameChange = change.CategoryChangeData.NameChange;
 
-            NameChange? nameChange = change.Type == CategoryChangeType.Renamed ? cachedNameChange : null;
+            NameChange? nameChange = change.Type == PageChangeType.Renamed ? cachedNameChange : null;
 
             var relationChanges = GetRelationChanges(change);
             var deleteData = change.CategoryChangeData.DeleteData != null ? GetDeleteData(change.Type, change.CategoryChangeData.DeleteData?.DeletedName, change.CategoryChangeData.DeleteData?.DeleteChangeId) : null;
@@ -63,7 +63,7 @@ public class FeedController(
                 Type: change.Type,
                 CategoryChangeId: change.Id,
                 TopicId: change.CategoryId,
-                Title: change.Category.Name,
+                Title: change.Page.Name,
                 Visibility: change.Visibility,
                 Author: author,
                 NameChange: nameChange,
@@ -114,7 +114,7 @@ public class FeedController(
         {
             if (_permissionCheck.CanViewCategory(id))
             {
-                var relatedTopic = EntityCache.GetCategory(id);
+                var relatedTopic = EntityCache.GetPage(id);
                 if (relatedTopic != null) relatedTopics.Add(new RelatedTopic(id, relatedTopic.Name));
             }
         }
@@ -122,10 +122,10 @@ public class FeedController(
     }
     private RelationChanges? GetRelationChanges(CategoryChangeCacheItem change)
     {
-        if (change.Type != CategoryChangeType.Relations && !(change.Type == CategoryChangeType.Create && change.IsGroup))
+        if (change.Type != PageChangeType.Relations && !(change.Type == PageChangeType.Create && change.IsGroup))
             return null;
 
-        var relationChange = change.Type == CategoryChangeType.Relations ? change.CategoryChangeData.RelationChange : change.GroupedCategoryChangeCacheItems.Where(c => c.Type == CategoryChangeType.Relations).MinBy(c => c.DateCreated)?.CategoryChangeData.RelationChange;
+        var relationChange = change.Type == PageChangeType.Relations ? change.CategoryChangeData.RelationChange : change.GroupedCategoryChangeCacheItems.Where(c => c.Type == PageChangeType.Relations).MinBy(c => c.DateCreated)?.CategoryChangeData.RelationChange;
 
         if (relationChange == null)
             return null;
@@ -152,9 +152,9 @@ public class FeedController(
         return author;
     }
 
-    private DeleteData? GetDeleteData(CategoryChangeType type, [CanBeNull] string deletedName, int? changeId)
+    private DeleteData? GetDeleteData(PageChangeType type, [CanBeNull] string deletedName, int? changeId)
     {
-        if (type == CategoryChangeType.ChildTopicDeleted || type == CategoryChangeType.QuestionDeleted)
+        if (type == PageChangeType.ChildTopicDeleted || type == PageChangeType.QuestionDeleted)
             return new DeleteData(changeId, deletedName);
 
         return null;

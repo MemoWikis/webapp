@@ -8,5 +8,5 @@ public interface ISearchCategoriesResult
     List<int> CategoryIds { get; set; }
     IPager Pager { get; set; }
 
-    IList<CategoryCacheItem> GetCategories();
+    IList<PageCacheItem> GetCategories();
 }

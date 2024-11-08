@@ -1,14 +1,14 @@
 ﻿public class PersonalTopic 
 {
-    public static Category GetPersonalCategory(User user, CategoryRepository categoryRepo)
+    public static Page GetPersonalCategory(User user, PageRepository pageRepo)
     {
-        return new Category
+        return new Page
         {
             Name = user.Name + "s Wiki",
             Content = PersonalCategoryContent,
-            Visibility = CategoryVisibility.Owner,
+            Visibility = PageVisibility.Owner,
             Creator = user,
-            Type = CategoryType.Standard,
+            Type = PageType.Standard,
             IsUserStartTopic = true
         };
     }

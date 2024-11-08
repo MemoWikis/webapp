@@ -4,7 +4,7 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchCategories : MeiliSearchHelper, IRegisterAsInstancePerLifetime
     {
-        private List<CategoryCacheItem> _categories = new();
+        private List<PageCacheItem> _categories = new();
         private MeiliSearchCategoriesResult _result;
         private readonly PermissionCheck _permissionCheck;
         private int _size;

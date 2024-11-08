@@ -6,7 +6,7 @@ using System.Linq;
 namespace ApiVueApp;
 public class MetricsController(
 QuestionViewRepository _questionViewRepository,
-CategoryViewRepo _categoryViewRepo,
+PageViewRepo pageViewRepo,
 SessionUser _sessionUser) : Controller
 {
     public readonly record struct GetAllDataResponse(
@@ -80,7 +80,7 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysActiveUserCount, List<ViewsResult> dailyActiveUsersOfPastYear, List<ViewsResult> monthlyActiveUsersOfPastYear) GetActiveUserCounts()
     {
-        var activeUserCountForPastYear = _categoryViewRepo.GetActiveUserCountForPastNDays(365);
+        var activeUserCountForPastYear = pageViewRepo.GetActiveUserCountForPastNDays(365);
 
         var todaysActiveUserCount = activeUserCountForPastYear.TryGetValue(DateTime.Now.Date, out var todaysCount)
             ? todaysCount
@@ -229,7 +229,7 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysTopicViews, List<ViewsResult> topicViewsOfPastYear) GetTopicViews()
     {
-        var topicViewsOfPastYear = _categoryViewRepo.GetViewsForPastNDays(365);
+        var topicViewsOfPastYear = pageViewRepo.GetViewsForPastNDays(365);
 
         var startDate = DateTime.Now.Date.AddDays(-365);
         var endDate = DateTime.Now.Date;

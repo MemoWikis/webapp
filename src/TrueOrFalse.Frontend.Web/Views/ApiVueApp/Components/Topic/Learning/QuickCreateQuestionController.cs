@@ -14,7 +14,7 @@ public class QuickCreateQuestionController(
     LearningSessionCreator _learningSessionCreator,
     QuestionInKnowledge _questionInKnowledge,
     LearningSessionCache _learningSessionCache,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
@@ -77,16 +77,16 @@ public class QuickCreateQuestionController(
 
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId)!;
 
-        question.Categories = new List<Category>
+        question.Categories = new List<Page>
         {
-            _categoryRepository.GetById(request.TopicId)
+            pageRepository.GetById(request.TopicId)
         };
 
         var visibility = (QuestionVisibility)request.Visibility;
         question.Visibility = visibility;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
-        _questionWritingRepo.Create(question, _categoryRepository);
+        _questionWritingRepo.Create(question, pageRepository);
 
         if (request.AddToWishknowledge)
             _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);

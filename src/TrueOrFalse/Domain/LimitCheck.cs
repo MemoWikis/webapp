@@ -67,8 +67,7 @@
 
             return true;
 
-        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() <
-                          _privateTopicsQuantity;
+        var withinLimit = EntityCache.GetPrivatePageIdsFromUser(_sessionUser.UserId).Count() < _privateTopicsQuantity;
 
         if (!withinLimit && logExceedance)
         {

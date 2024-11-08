@@ -7,7 +7,7 @@ namespace VueApp;
 public class TopicToPrivateStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     QuestionReadingRepo _questionReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
     ExtendedUserCache _extendedUserCache) : Controller
@@ -26,7 +26,7 @@ public class TopicToPrivateStoreController(
     [AccessOnlyAsLoggedIn]
     public GetResult Get([FromRoute] int id)
     {
-        var topicCacheItem = EntityCache.GetCategory(id);
+        var topicCacheItem = EntityCache.GetPage(id);
         var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
         if (topicCacheItem == null)
             return new GetResult
@@ -39,11 +39,11 @@ public class TopicToPrivateStoreController(
             return new GetResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
         var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
-            .Where(c => c.Value.Visibility == CategoryVisibility.All);
+            .Where(c => c.Value.Visibility == PageVisibility.All);
         var publicAggregatedQuestions = topicCacheItem
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
             .Where(q => q.Visibility == QuestionVisibility.All).ToList();
@@ -54,20 +54,20 @@ public class TopicToPrivateStoreController(
                 return new GetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
+                    MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
                 };
 
             foreach (var c in aggregatedTopics)
             {
                 var parentCategories = c.Value.Parents();
                 bool childHasPublicParent = parentCategories.Any(p =>
-                    p.Visibility == CategoryVisibility.All && p.Id != id);
+                    p.Visibility == PageVisibility.All && p.Id != id);
 
                 if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
                     return new GetResult
                     {
                         Success = false,
-                        MessageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
+                        MessageKey = FrontendMessageKeys.Error.Page.PublicChildCategories
                     };
             }
 
@@ -83,7 +83,7 @@ public class TopicToPrivateStoreController(
                 return new GetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Category.PinnedQuestions,
+                    MessageKey = FrontendMessageKeys.Error.Page.PinnedQuestions,
                     Data = pinnedQuestionIds
                 };
 
@@ -92,7 +92,7 @@ public class TopicToPrivateStoreController(
                 return new GetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Category.TooPopular
+                    MessageKey = FrontendMessageKeys.Error.Page.TooPopular
                 };
             }
         }
@@ -121,7 +121,7 @@ public class TopicToPrivateStoreController(
     [AccessOnlyAsLoggedIn]
     public SetResult Set([FromRoute] int id)
     {
-        var topicCacheItem = EntityCache.GetCategory(id);
+        var topicCacheItem = EntityCache.GetPage(id);
         if (topicCacheItem == null)
             return new SetResult
             {
@@ -133,10 +133,10 @@ public class TopicToPrivateStoreController(
             return new SetResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Category.MissingRights
+                MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var topic = _categoryRepository.GetById(id);
+        var topic = pageRepository.GetById(id);
         var pinCount = topic.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
@@ -144,23 +144,23 @@ public class TopicToPrivateStoreController(
                 return new SetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Category.RootCategoryMustBePublic
+                    MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
                 };
 
             var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
-                .Where(c => c.Value.Visibility == CategoryVisibility.All);
+                .Where(c => c.Value.Visibility == PageVisibility.All);
 
             foreach (var c in aggregatedTopics)
             {
                 var parentCategories = c.Value.Parents();
                 bool childHasPublicParent = parentCategories.Any(p =>
-                    p.Visibility == CategoryVisibility.All && p.Id != id);
+                    p.Visibility == PageVisibility.All && p.Id != id);
 
                 if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
                     return new SetResult
                     {
                         Success = false,
-                        MessageKey = FrontendMessageKeys.Error.Category.PublicChildCategories
+                        MessageKey = FrontendMessageKeys.Error.Page.PublicChildCategories
                     };
             }
 
@@ -169,14 +169,14 @@ public class TopicToPrivateStoreController(
                 return new SetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Category.TooPopular
+                    MessageKey = FrontendMessageKeys.Error.Page.TooPopular
                 };
             }
         }
 
-        topicCacheItem.Visibility = CategoryVisibility.Owner;
-        topic.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Update(topic, _sessionUser.UserId, type: CategoryChangeType.Privatized);
+        topicCacheItem.Visibility = PageVisibility.Owner;
+        topic.Visibility = PageVisibility.Owner;
+        pageRepository.Update(topic, _sessionUser.UserId, type: PageChangeType.Privatized);
 
         return new SetResult
         {

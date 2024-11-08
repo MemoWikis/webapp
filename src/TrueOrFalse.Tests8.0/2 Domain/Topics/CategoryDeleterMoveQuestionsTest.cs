@@ -14,12 +14,12 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var child = contextTopic.Add(childName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childName);
 
@@ -28,24 +28,24 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
 
         var questionContext = ContextQuestion.New(persistImmediately: true);
 
-        questionContext.AddQuestion("question1", creator: creator, categories: new List<Category> { child });
-        var categoryDeleter = R<CategoryDeleter>();
+        questionContext.AddQuestion("question1", creator: creator, categories: new List<Page> { child });
+        var categoryDeleter = R<PageDeleter>();
         //Act
         categoryDeleter.DeleteTopic(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
-        var parentFromDb = R<CategoryRepository>().GetByIdEager(parent.Id);
+        var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
         var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
-        var parentFromCache = EntityCache.GetCategory(parentFromDb.Id);
+        var parentFromCache = EntityCache.GetPage(parentFromDb.Id);
         var questionFromCache = EntityCache.GetQuestionById(questionFromDb.Id);
 
-        var categoryChange = R<CategoryChangeRepo>().GetForCategory(parent.Id);
+        var categoryChange = R<PageChangeRepo>().GetForCategory(parent.Id);
         var questionChange = R<QuestionChangeRepo>().GetByQuestionId(questionFromDb.Id);
 
         //Assert
         Assert.IsNotNull(parentFromDb);
-        Assert.AreEqual(CategoryChangeType.Create, categoryChange.First().Type);
-        Assert.AreEqual(CategoryChangeType.Relations, categoryChange[1].Type);
-        Assert.AreEqual(CategoryChangeType.ChildTopicDeleted, categoryChange.Last().Type);
+        Assert.AreEqual(PageChangeType.Create, categoryChange.First().Type);
+        Assert.AreEqual(PageChangeType.Relations, categoryChange[1].Type);
+        Assert.AreEqual(PageChangeType.ChildTopicDeleted, categoryChange.Last().Type);
         Assert.NotNull(questionChange);
         Assert.AreEqual(QuestionChangeType.Create, questionChange.Type);
 
@@ -56,7 +56,7 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
         Assert.IsNotNull(parentFromCache);
         Assert.AreEqual(parentFromCache.CountQuestionsAggregated, 1);
         Assert.AreEqual(parentFromCache.Id, questionFromDb.Categories.First().Id);
-        Assert.AreEqual(questionFromCache.Categories.Count(), 1);
+        Assert.AreEqual(questionFromCache.Pages.Count(), 1);
     }
 
     [Test]
@@ -69,24 +69,24 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
 
 
         var child = contextTopic.Add("child",
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName("child");
 
         contextTopic.Persist();
 
-        var categoryRepo = R<CategoryRepository>();
+        var categoryRepo = R<PageRepository>();
 
         var questionContext = ContextQuestion.New();
 
-        questionContext.AddQuestion("question1", creator: creator, categories: new List<Category> { child });
+        questionContext.AddQuestion("question1", creator: creator, categories: new List<Page> { child });
         var parentId = 0;
         RecycleContainerAndEntityCache();
 
-        var result = R<CategoryDeleter>().DeleteTopic(child.Id, parentId);
+        var result = R<PageDeleter>().DeleteTopic(child.Id, parentId);
 
         Assert.AreEqual(result.Success, false);
-        Assert.AreEqual(result.MessageKey, FrontendMessageKeys.Error.Category.TopicNotSelected);
+        Assert.AreEqual(result.MessageKey, FrontendMessageKeys.Error.Page.TopicNotSelected);
 
     }
 }

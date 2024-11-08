@@ -6,7 +6,7 @@ public class UserActivity : DomainEntity
     public virtual DateTime At { get; set; }
     public virtual UserActivityType Type { get; set; }
     public virtual Question Question { get; set; }
-    public virtual Category Category { get; set; }
+    public virtual Page Page { get; set; }
 
     /// <summary>
     /// relevant for activity "FollowedUser": UserCauser follows UserIsFollowed

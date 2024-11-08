@@ -33,10 +33,10 @@ public class ImageUploadModalController(
         if (json.Url == null || !permissionCheck.CanEditCategory(json.TopicId))
             return false;
 
-        imageStore.RunWikimedia<CategoryImageSettings>(
+        imageStore.RunWikimedia<PageImageSettings>(
             json.Url,
             json.TopicId,
-            ImageType.Category,
+            ImageType.Page,
             _sessionUser.UserId);
         return true;
     }
@@ -54,7 +54,7 @@ public class ImageUploadModalController(
         if (form.File == null || !permissionCheck.CanEditCategory(form.TopicId))
             return false;
 
-        imageStore.RunUploaded<CategoryImageSettings>(
+        imageStore.RunUploaded<PageImageSettings>(
             form.File,
             form.TopicId,
             _sessionUser.UserId,

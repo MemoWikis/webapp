@@ -10,8 +10,8 @@ public class HistoryTopicDetailController(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
     RestoreCategory _restoreCategory,
-    CategoryChangeRepo _categoryChangeRepo,
-    CategoryRepository _categoryRepository,
+    PageChangeRepo pageChangeRepo,
+    PageRepository pageRepository,
     IHttpContextAccessor _httpContextAccessor,
     IActionContextAccessor _actionContextAccessor,
     QuestionReadingRepo _questionReadingRepo,
@@ -26,8 +26,8 @@ public class HistoryTopicDetailController(
         if (!_permissionCheck.CanViewCategory(topicId))
             throw new Exception("not allowed");
 
-        var listWithAllVersions = _categoryChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
-        var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
+        var listWithAllVersions = pageChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
+        var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == PageChangeType.Delete);
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == currentRevisionId);
 
@@ -35,7 +35,7 @@ public class HistoryTopicDetailController(
             ? listWithAllVersions.LastOrDefault(c => c.Id < currentRevisionId)
             : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
 
-        if (currentRevision.Category.Id != previousRevision.Category.Id)
+        if (currentRevision.Page.Id != previousRevision.Page.Id)
             throw new Exception("different topic ids");
 
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > currentRevisionId);
@@ -44,8 +44,8 @@ public class HistoryTopicDetailController(
             nextRevision,
             isCategoryDeleted,
             _permissionCheck,
-            _categoryChangeRepo,
-            _categoryRepository,
+            pageChangeRepo,
+            pageRepository,
             _imageMetaDataReadingRepo,
             _httpContextAccessor,
             _actionContextAccessor,
@@ -111,7 +111,7 @@ public class HistoryTopicDetailController(
         string TopicName,
         bool ImageWasUpdated,
         bool IsCurrent,
-        CategoryChangeType ChangeType,
+        PageChangeType ChangeType,
         string AuthorName,
         int AuthorId,
         string AuthorImgUrl,
@@ -136,8 +136,8 @@ public class HistoryTopicDetailController(
         int firstEditId,
         int selectedRevId)
     {
-        var listWithAllVersions = _categoryChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
-        var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == CategoryChangeType.Delete);
+        var listWithAllVersions = pageChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
+        var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == PageChangeType.Delete);
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == selectedRevId);
         var previousRevision = listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
@@ -147,8 +147,8 @@ public class HistoryTopicDetailController(
             nextRevision,
             isCategoryDeleted,
             _permissionCheck,
-            _categoryChangeRepo,
-            _categoryRepository,
+            pageChangeRepo,
+            pageRepository,
             _imageMetaDataReadingRepo,
             _httpContextAccessor,
             _actionContextAccessor,
@@ -159,12 +159,12 @@ public class HistoryTopicDetailController(
     [HttpGet]
     public void RestoreTopic(int topicChangeId)
     {
-        var topicChange = _categoryChangeRepo.GetByIdEager(topicChangeId);
+        var topicChange = pageChangeRepo.GetByIdEager(topicChangeId);
         var isCorrectType =
-            topicChange.Type is CategoryChangeType.Text or CategoryChangeType.Renamed;
+            topicChange.Type is PageChangeType.Text or PageChangeType.Renamed;
 
-        if (!_permissionCheck.CanViewCategory(topicChange.Category.Id) ||
-            !_permissionCheck.CanEditCategory(topicChange.Category.Id))
+        if (!_permissionCheck.CanViewCategory(topicChange.Page.Id) ||
+            !_permissionCheck.CanEditCategory(topicChange.Page.Id))
             throw new Exception("not allowed");
 
         _restoreCategory.Run(topicChangeId, _sessionUser.User);

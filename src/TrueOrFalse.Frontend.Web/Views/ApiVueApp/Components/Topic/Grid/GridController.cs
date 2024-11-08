@@ -15,11 +15,11 @@ public class GridController(
     [HttpGet]
     public GetItemJson GetItem([FromRoute] int id)
     {
-        var topic = EntityCache.GetCategory(id);
+        var topic = EntityCache.GetPage(id);
         if (topic == null)
             return new GetItemJson(false, FrontendMessageKeys.Error.Default);
         if (!_permissionCheck.CanView(topic))
-            return new GetItemJson(false, FrontendMessageKeys.Error.Category.MissingRights);
+            return new GetItemJson(false, FrontendMessageKeys.Error.Page.MissingRights);
 
         var gridItem = new TopicGridManager(
                 _permissionCheck,

@@ -12,10 +12,10 @@ public class QuestionWritingRepo(
     QuestionChangeRepo _questionChangeRepo,
     ISession _nhibernateSession,
     SessionUser _sessionUser,
-    CategoryChangeRepo _categoryChangeRepo,
-    CategoryRepository _categoryRepository) : RepositoryDbBase<Question>(_nhibernateSession)
+    PageChangeRepo pageChangeRepo,
+    PageRepository pageRepository) : RepositoryDbBase<Question>(_nhibernateSession)
 {
-    public void Create(Question question, CategoryRepository categoryRepository)
+    public void Create(Question question, PageRepository pageRepository)
     {
         if (question.Creator == null)
         {
@@ -30,8 +30,8 @@ public class QuestionWritingRepo(
         foreach (var category in question.Categories.ToList())
         {
             category.UpdateCountQuestionsAggregated(question.Creator.Id);
-            categoryRepository.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
+            pageRepository.Update(category);
+            KnowledgeSummaryUpdate.ScheduleForPage(category.Id, _jobQueueRepo);
         }
 
         if (question.Visibility != QuestionVisibility.Owner)
@@ -50,7 +50,7 @@ public class QuestionWritingRepo(
     public List<int> Delete(int questionId, int userId, List<int> parentIds)
     {
         var question = GetById(questionId);
-        var parentTopics = _categoryRepository.GetByIds(parentIds);
+        var parentTopics = pageRepository.GetByIds(parentIds);
 
         _updateQuestionCountForCategory.Run(parentTopics, userId);
         var safeText = Regex.Replace(question.Text, "<.*?>", "");
@@ -58,7 +58,7 @@ public class QuestionWritingRepo(
         var changeId = DeleteAndGetChangeId(question, userId);
 
         foreach (var parent in parentTopics)
-            _categoryChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
+            pageChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
 
         return parentIds;
     }
@@ -87,7 +87,7 @@ public class QuestionWritingRepo(
             .ToList();
 
         var categoriesBeforeUpdate = _nhibernateSession
-            .QueryOver<Category>()
+            .QueryOver<Page>()
             .WhereRestrictionOn(c => c.Id)
             .IsIn(categoriesBeforeUpdateIds)
             .List();
@@ -100,8 +100,8 @@ public class QuestionWritingRepo(
         Flush();
         var categoriesToUpdate = categoriesBeforeUpdate
             .Union(question.Categories)
-            .Union(question.References.Where(r => r.Category != null)
-                .Select(r => r.Category))
+            .Union(question.References.Where(r => r.Page != null)
+                .Select(r => r.Page))
             .ToList();
 
         var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
@@ -130,7 +130,7 @@ public class QuestionWritingRepo(
             return;
 
         questionCacheItem.Visibility = question.Visibility;
-        questionCacheItem.Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList();
+        questionCacheItem.Pages = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList();
         questionCacheItem.DateCreated = question.DateCreated;
         questionCacheItem.DateModified = question.DateModified;
         questionCacheItem.DescriptionHtml = question.DescriptionHtml;

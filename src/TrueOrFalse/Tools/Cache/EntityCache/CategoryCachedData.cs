@@ -11,41 +11,41 @@ public class CategoryCachedData
             _childrenIds.Add(childId);
     }
 
-    public static string GetIconHtml(CategoryCacheItem category)
+    public static string GetIconHtml(PageCacheItem page)
     {
         var iconHTML = "";
-        switch (category.Type)
+        switch (page.Type)
         {
-            case CategoryType.Book:
+            case PageType.Book:
                 iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
                 break;
-            case CategoryType.VolumeChapter:
+            case PageType.VolumeChapter:
                 iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
                 break;
-            case CategoryType.Magazine:
+            case PageType.Magazine:
                 iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
                 break;
-            case CategoryType.MagazineArticle:
+            case PageType.MagazineArticle:
                 iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
                 break;
-            case CategoryType.MagazineIssue:
+            case PageType.MagazineIssue:
                 iconHTML = "<i class=\"fa fa-book\">&nbsp;</i>";
                 break;
-            case CategoryType.WebsiteArticle:
+            case PageType.WebsiteArticle:
                 iconHTML = "<i class=\"fa fa-globe\">&nbsp;</i>";
                 break;
-            case CategoryType.Daily:
+            case PageType.Daily:
                 iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
                 break;
-            case CategoryType.DailyIssue:
+            case PageType.DailyIssue:
                 iconHTML = "<i class=\"fa fa-newspaper-o\"&nbsp;></i>";
                 break;
-            case CategoryType.DailyArticle:
+            case PageType.DailyArticle:
                 iconHTML = "<i class=\"fa fa-newspaper-o\">&nbsp;</i>";
                 break;
         }
 
-        if (category.Type.GetCategoryTypeGroup() == CategoryTypeGroup.Education)
+        if (page.Type.GetPageTypeGroup() == PageTypeGroup.Education)
             iconHTML = "<i class=\"fa fa-university\">&nbsp;</i>";
 
         return iconHTML;

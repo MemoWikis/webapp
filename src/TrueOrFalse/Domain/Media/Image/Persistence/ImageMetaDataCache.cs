@@ -18,7 +18,7 @@ public class ImageMetaDataCache
             if (RequestCache_Questions(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
                 return true;
 
-        if (imageType == ImageType.Category)
+        if (imageType == ImageType.Page)
             if (RequestCache_Categories(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
                 return true;
 
@@ -33,7 +33,7 @@ public class ImageMetaDataCache
             return RequestCache_Questions(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
         }
 
-        if (imageType == ImageType.Category)
+        if (imageType == ImageType.Page)
         {
             return RequestCache_Categories(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
         }
@@ -60,7 +60,7 @@ public class ImageMetaDataCache
         if (key.Equals(_imageMetaDatasQuestionsKey))
             return ImageType.Question;
         else if (key.Equals(_imageMetaDatasCategoriesKey))
-            return ImageType.Category;
+            return ImageType.Page;
 
         throw new InvalidOperationException("Type not found");
     }

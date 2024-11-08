@@ -5,7 +5,7 @@ internal class ContextCategory_tests : BaseTest
     public void Topic_should_be_persisted()
     {
         var firstTopic = ContextCategory.New().Add("A").Persist().All.First();
-        var categoryRepo = R<CategoryRepository>();
+        var categoryRepo = R<PageRepository>();
         var topicFromDatabase = categoryRepo.GetById(firstTopic.Id);
         Assert.IsNotNull(firstTopic);
         Assert.IsNotNull(topicFromDatabase);
@@ -16,7 +16,7 @@ internal class ContextCategory_tests : BaseTest
     public void TopicsShouldInDatabase()
     {
         var topicIds = ContextCategory.New().Add(5).Persist().All.Select(c => c.Id).ToList();
-        var categoryRepo = R<CategoryRepository>();
+        var categoryRepo = R<PageRepository>();
         var idsFromDatabase = categoryRepo.GetAllIds().ToList();
 
         CollectionAssert.AreEquivalent(topicIds, idsFromDatabase);
@@ -27,7 +27,7 @@ internal class ContextCategory_tests : BaseTest
     {
         var categoryName = "C1";
         var contextCategory = ContextCategory.New();
-        var categoryRepo = R<CategoryRepository>();
+        var categoryRepo = R<PageRepository>();
 
         contextCategory.Add(categoryName).Persist();
         var categoryBeforUpdated = categoryRepo
@@ -49,7 +49,7 @@ internal class ContextCategory_tests : BaseTest
         var categoryNameOne = "C1";
         var categoryNameTwo = "C2";
         var contextCategory = ContextCategory.New();
-        var categoryRepo = R<CategoryRepository>();
+        var categoryRepo = R<PageRepository>();
 
         contextCategory.Add(categoryNameOne).Persist();
         contextCategory.Add(categoryNameTwo).Persist();

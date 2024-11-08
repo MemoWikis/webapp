@@ -17,7 +17,7 @@ public class CancelController(IActionContextAccessor actionContextAccessor, IHtt
         var list = new List<TinyTopic>();
         for (var i = 0; i < count; i++)
         {
-            var category = EntityCache.GetCategory(RootCategory.MemuchoHelpIds[i]);
+            var category = EntityCache.GetPage(RootCategory.MemuchoHelpIds[i]);
 
             list.Add(new TinyTopic
             (

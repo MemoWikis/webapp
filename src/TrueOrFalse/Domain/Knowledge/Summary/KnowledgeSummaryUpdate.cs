@@ -1,38 +1,38 @@
 ﻿class KnowledgeSummaryUpdate
 {
-    public static void RunForCategory(int catgoryId,
-        CategoryValuationReadingRepo categoryValuationReadingRepo, 
-        CategoryValuationWritingRepo categoryValuationWritingRepo, 
+    public static void RunForPage(int pageId,
+        PageValuationReadingRepository pageValuationReadingRepository,
+        PageValuationWritingRepo pageValuationWritingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        foreach (var categoryValuation in categoryValuationReadingRepo.GetByCategory(catgoryId))
+        foreach (var categoryValuation in pageValuationReadingRepository.GetByPage(pageId))
         {
-            Run(categoryValuation, categoryValuationWritingRepo, knowledgeSummaryLoader);
+            Run(categoryValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
         }
     }
 
     public static void RunForUser(int userId,
-        CategoryValuationReadingRepo categoryValuationReadingRepo,
-        CategoryValuationWritingRepo categoryValuationWritingRepo,
+        PageValuationReadingRepository pageValuationReadingRepository,
+        PageValuationWritingRepo pageValuationWritingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        foreach (var categoryValuation in categoryValuationReadingRepo.GetByUser(userId))
+        foreach (var categoryValuation in pageValuationReadingRepository.GetByUser(userId))
         {
-            Run(categoryValuation, categoryValuationWritingRepo, knowledgeSummaryLoader);
+            Run(categoryValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
         }
     }
 
-    private static void Run(CategoryValuation categoryValuation, CategoryValuationWritingRepo categoryValuationWritingRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
+    private static void Run(PageValuation pageValuation, PageValuationWritingRepo pageValuationWritingRepo, KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        var knowledgeSummary = knowledgeSummaryLoader.Run(categoryValuation.UserId, categoryValuation.CategoryId, false);
-        categoryValuation.CountNotLearned = knowledgeSummary.NotLearned;
-        categoryValuation.CountNeedsLearning = knowledgeSummary.NeedsLearning;
-        categoryValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
-        categoryValuation.CountSolid = knowledgeSummary.Solid;
+        var knowledgeSummary = knowledgeSummaryLoader.Run(pageValuation.UserId, pageValuation.PageId, false);
+        pageValuation.CountNotLearned = knowledgeSummary.NotLearned;
+        pageValuation.CountNeedsLearning = knowledgeSummary.NeedsLearning;
+        pageValuation.CountNeedsConsolidation = knowledgeSummary.NeedsConsolidation;
+        pageValuation.CountSolid = knowledgeSummary.Solid;
 
-        categoryValuationWritingRepo.Update(categoryValuation);
+        pageValuationWritingRepo.Update(pageValuation);
     }
 
-    public static void ScheduleForCategory(int categoryId, JobQueueRepo jobQueueRepo)
-        => jobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForCategory, categoryId.ToString());
+    public static void ScheduleForPage(int pageId, JobQueueRepo jobQueueRepo)
+        => jobQueueRepo.Add(JobQueueType.RecalcKnowledgeSummaryForPage, pageId.ToString());
 }

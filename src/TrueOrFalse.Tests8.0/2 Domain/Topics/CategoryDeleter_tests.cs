@@ -13,12 +13,12 @@ public class CategoryDeleter_tests : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var child = contextTopic.Add(childName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childName);
 
@@ -27,7 +27,7 @@ public class CategoryDeleter_tests : BaseTest
 
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<CategoryDeleter>();
+        var categoryDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
@@ -53,17 +53,17 @@ public class CategoryDeleter_tests : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var child = contextTopic.Add(childName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childName);
 
         var childOfChild = contextTopic.Add(childOfChildName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childOfChildName);
 
@@ -72,7 +72,7 @@ public class CategoryDeleter_tests : BaseTest
         contextTopic.AddChild(child, childOfChild);
 
         RecycleContainerAndEntityCache();
-        var categoryDeleter = R<CategoryDeleter>();
+        var categoryDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id, parent.Id);
@@ -80,12 +80,12 @@ public class CategoryDeleter_tests : BaseTest
         //Assert
         RecycleContainerAndEntityCache();
 
-        var categoryRepo = R<CategoryRepository>();
+        var categoryRepo = R<PageRepository>();
         var allAvailableTopics = categoryRepo.GetAll();
         var parentChildren =
-            categoryRepo.GetChildren(CategoryType.Standard, CategoryType.Standard, parent.Id);
-        var childrenOfChild = categoryRepo.GetChildren(CategoryType.Standard,
-            CategoryType.Standard, child.Id);
+            categoryRepo.GetChildren(PageType.Standard, PageType.Standard, parent.Id);
+        var childrenOfChild = categoryRepo.GetChildren(PageType.Standard,
+            PageType.Standard, child.Id);
 
         Assert.IsNotNull(requestResult);
         Assert.IsTrue(requestResult.Success);
@@ -114,16 +114,16 @@ public class CategoryDeleter_tests : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var child = contextTopic.Add(childName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childName);
         var childOfChild = contextTopic.Add(childOfChildName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childOfChildName);
 
@@ -132,7 +132,7 @@ public class CategoryDeleter_tests : BaseTest
         contextTopic.AddChild(child, childOfChild);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<CategoryDeleter>();
+        var categoryDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id, parent.Id);
@@ -140,8 +140,8 @@ public class CategoryDeleter_tests : BaseTest
 
         //Assert
         var allCategoriesInEntityCache = EntityCache.GetAllCategoriesList();
-        var cachedParent = EntityCache.GetCategory(parent.Id);
-        var cachedChild = EntityCache.GetCategory(child.Id);
+        var cachedParent = EntityCache.GetPage(parent.Id);
+        var cachedChild = EntityCache.GetPage(child.Id);
 
         Assert.IsNotNull(requestResult);
         Assert.IsTrue(requestResult.Success);
@@ -179,22 +179,22 @@ public class CategoryDeleter_tests : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var firstChild = contextTopic.Add(firstChildName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(firstChildName);
 
         var secondChild = contextTopic.Add(secondChildName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(secondChildName);
 
         var childOfChild = contextTopic.Add(childOfChildName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childOfChildName);
 
@@ -205,7 +205,7 @@ public class CategoryDeleter_tests : BaseTest
         contextTopic.AddChild(secondChild, childOfChild);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<CategoryDeleter>();
+        var categoryDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = categoryDeleter.DeleteTopic(firstChild.Id, parent.Id);
@@ -231,16 +231,16 @@ public class CategoryDeleter_tests : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var child = contextTopic.Add(childName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childName);
         var childOfChild = contextTopic.Add(childOfChildName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childOfChildName);
 
@@ -249,7 +249,7 @@ public class CategoryDeleter_tests : BaseTest
         contextTopic.AddChild(child, childOfChild);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<CategoryDeleter>();
+        var categoryDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
@@ -276,13 +276,13 @@ public class CategoryDeleter_tests : BaseTest
 
         var parent = contextTopic.Add(
                 parentName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(parentName);
 
         var child = contextTopic.Add(
                 childName,
-                CategoryType.Standard,
+                PageType.Standard,
                 creator)
             .GetTopicByName(childName);
 
@@ -290,7 +290,7 @@ public class CategoryDeleter_tests : BaseTest
         contextTopic.AddChild(parent, child);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<CategoryDeleter>();
+        var categoryDeleter = R<PageDeleter>();
 
         //Act
         var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);

@@ -8,7 +8,7 @@ public class MiddlewareStartpageController(SessionUser _sessionUser) : Controlle
     public TinyTopic Get()
     {
         var topic = _sessionUser.IsLoggedIn
-            ? EntityCache.GetCategory(_sessionUser.User.StartTopicId)
+            ? EntityCache.GetPage(_sessionUser.User.StartTopicId)
             : RootCategory.Get;
         return new TinyTopic { Name = topic.Name, Id = topic.Id };
     }
