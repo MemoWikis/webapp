@@ -219,7 +219,7 @@ const { $urlHelper } = useNuxtApp()
                         :added-parent="props.topicFeedItem.relationChanges.addedParents[0]" />
 
                     <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.ChildTopicDeleted">
-                        Unterthema gelöscht
+                        Unterseite gelöscht
                     </div>
                     <div class="feed-item-label-deleted" v-else-if="feedItem.params.type === TopicChangeType.QuestionDeleted">
                         Frage gelöscht

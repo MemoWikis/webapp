@@ -1004,7 +1004,7 @@ const activityPointsStore = useActivityPointsStore()
                             <div class="counterHalf">
                                 <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="personalAnswerCount > 0" class="counterLabel">
-                                    Von Dir: <br />
+                                    {{ userStore.isLoggedIn ? 'Von Dir' : 'Von nicht angemeldeten Nutzern' }} : <br />
                                     <strong>{{ answerCount }}</strong> mal beantwortet <br />
                                     <strong>{{ correctAnswers }}</strong> richtig / <strong>{{ wrongAnswers }}</strong>
                                     falsch

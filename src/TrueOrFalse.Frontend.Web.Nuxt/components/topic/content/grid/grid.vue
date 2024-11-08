@@ -255,7 +255,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                         <button @click="addTopic(true)">
                             <font-awesome-icon :icon="['fas', 'plus']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? 'Seite erstellen' : 'Unterthema erstellen' }}
+                                {{ isMobile ? 'Seite erstellen' : 'Unterseite erstellen' }}
                             </span>
                         </button>
                     </div>
@@ -264,7 +264,7 @@ editTopicRelationStore.$onAction(({ name, after }) => {
                         <button @click="addTopic(false)">
                             <font-awesome-icon :icon="['fas', 'link']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? 'Seite verknüpfen' : 'Unterthema verknüpfen' }}
+                                {{ isMobile ? 'Seite verknüpfen' : 'Unterseite verknüpfen' }}
                             </span>
                         </button>
                     </div>

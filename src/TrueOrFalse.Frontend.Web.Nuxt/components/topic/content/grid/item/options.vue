@@ -123,7 +123,7 @@ const ariaId2 = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon :icon="['fas', 'plus']" />
                         </div>
-                        <div class="dropdown-label">Unterthema erstellen</div>
+                        <div class="dropdown-label">Unterseite erstellen</div>
                     </div>
                     <div class="divider"></div>
                     <div @click="showAllLinkOptions = !showAllLinkOptions" class="dropdown-row"
@@ -155,7 +155,7 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fas', 'link']" />
                             </div>
-                            <div class="dropdown-label">Unterthema verknüpfen</div>
+                            <div class="dropdown-label">Unterseite verknüpfen</div>
                         </div>
 
                         <div @click="removeParent(); hide()" class="dropdown-row">

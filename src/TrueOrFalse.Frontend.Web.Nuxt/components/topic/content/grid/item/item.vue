@@ -85,7 +85,7 @@ const { $urlHelper } = useNuxtApp()
 const detailLabel = computed(() => {
     const { questionCount, childrenCount } = props.topic
 
-    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterthema' : 'Unterthemen'}`
+    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterseite' : 'Unterthemen'}`
     const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
 
     if (childrenCount > 0 && questionCount > 0)
@@ -311,8 +311,7 @@ const { isDesktop } = useDevice()
             </div>
         </div>
 
-        <TopicContentGridItemOptions :topic="props.topic" :parent-id="props.parentId" @add-topic="addTopic"
-            :parent-name="props.parentName" />
+        <TopicContentGridItemOptions :topic="props.topic" :parent-id="props.parentId" @add-topic="addTopic" :parent-name="props.parentName" />
     </div>
 
     <div v-if="props.topic.childrenCount > 0 && expanded && !dragActive" class="grid-item-children">
