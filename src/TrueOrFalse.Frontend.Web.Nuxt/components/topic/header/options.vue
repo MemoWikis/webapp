@@ -45,13 +45,6 @@ const ariaId = useId()
                     </div>
                     <div class="dropdown-divider"></div>
 
-                    <!-- <NuxtLink :to="`/Historie/Thema/${topicStore.id}`" class="dropdown-row">
-                        <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-history" />
-                        </div>
-                        <div class="dropdown-label">Bearbeitungshistorie</div>
-                    </NuxtLink> -->
-
                     <div @click="editQuestionStore.create(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />

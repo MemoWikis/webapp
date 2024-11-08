@@ -164,31 +164,6 @@ export default <RouterConfig>{
                 key: route => `/${route.params.topic}/${route.params.id}`
             },
         },
-        // {
-        //     name: 'allTopicHistoryOverview',
-        //     path: '/Historie/Themen',
-        //     component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
-        // },
-        // {
-        //     name: 'allTopicHistoryOverviewWithPage',
-        //     path: '/Historie/Themen/:page(\\d+)',
-        //     component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
-        // },
-        // {
-        //     name: 'topicHistoryOverview',
-        //     path: '/Historie/Thema/:id(\\d+)',
-        //     component: () => import('~~/pages/history/topic/overview.vue'),
-        // },
-        // {
-        //     name: 'topicHistoryDetail',
-        //     path: '/Historie/Thema/:topicId/:currentRevisionId/:firstEditId',
-        //     component: () => import('~/pages/history/topic/detail.vue'),
-        // },
-        // {
-        //     name: 'topicHistoryDetailWithPrevRev',
-        //     path: '/Historie/Thema/:topicId/:currentRevisionId/',
-        //     component: () => import('~/pages/history/topic/detail.vue'),
-        // },
         {
             name: 'maintenantePage',
             path: '/Maintenance',
