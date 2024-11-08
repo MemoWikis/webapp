@@ -45,12 +45,12 @@ const ariaId = useId()
                     </div>
                     <div class="dropdown-divider"></div>
 
-                    <NuxtLink :to="`/Historie/Thema/${topicStore.id}`" class="dropdown-row">
+                    <!-- <NuxtLink :to="`/Historie/Thema/${topicStore.id}`" class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-history" />
                         </div>
                         <div class="dropdown-label">Bearbeitungshistorie</div>
-                    </NuxtLink>
+                    </NuxtLink> -->
 
                     <div @click="editQuestionStore.create(); hide()" class="dropdown-row">
                         <div class="dropdown-icon">
@@ -63,7 +63,7 @@ const ariaId = useId()
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-circle-plus" />
                         </div>
-                        <div class="dropdown-label">Thema erstellen</div>
+                        <div class="dropdown-label">Seite erstellen</div>
                     </div>
 
                     <div @click="editTopicRelationStore.addParent(topicStore.id); hide()" class="dropdown-row">
@@ -105,7 +105,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-lock" />
                         </div>
                         <div class="dropdown-label">
-                            Thema auf privat setzen
+                            Seite auf privat setzen
                         </div>
                     </div>
                     <div v-else-if="topicStore.isOwnerOrAdmin() && topicStore.visibility == Visibility.Owner"
@@ -114,7 +114,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-unlock" />
                         </div>
                         <div class="dropdown-label">
-                            Thema veröffentlichen
+                            Seite veröffentlichen
                         </div>
                     </div>
                     <div v-if="topicStore.canBeDeleted" class="dropdown-row"
@@ -124,7 +124,7 @@ const ariaId = useId()
                             <font-awesome-icon icon="fa-solid fa-trash" />
                         </div>
                         <div class="dropdown-label">
-                            Thema löschen
+                            Seite löschen
                         </div>
                     </div>
                 </template>

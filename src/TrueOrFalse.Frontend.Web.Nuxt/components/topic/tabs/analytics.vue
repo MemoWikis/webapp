@@ -96,13 +96,13 @@ onMounted(() => {
                         </div>
 
                         <div v-else>
-                            Du hast noch keine Fragen in diesem Thema
+                            Du hast noch keine Fragen auf dieser Seite beantwortet.
                         </div>
                     </div>
                 </div>
 
                 <div class="topicdata-section">
-                    <h3>Daten zum Thema</h3>
+                    <h3>Daten zu dieser Seite</h3>
                     <div class="topicdata-container">
                         <div class="topicdata-sub-label">
                             Fragen:
@@ -250,22 +250,23 @@ onMounted(() => {
 }
 
 .statistics-content {
-    display:flex;
+    display: flex;
     flex-wrap: wrap;
     margin-bottom: 60px;
 
     .statistics-chart-section {
         width: 50%;
-        position: relative; 
+        position: relative;
         height: 100%;
         min-height: 300px;
+
         @media screen and (max-width: 991px) {
             width: 100%;
         }
     }
 }
 
-.statistics-sub-label{
+.statistics-sub-label {
     margin-bottom: 16px;
     text-align: center;
     margin-top: 24px;
@@ -279,11 +280,12 @@ onMounted(() => {
 
 .knowledgesummary-section,
 .topicdata-section {
-    width: 50%; 
-        @media screen and (max-width: 991px) {
-            width: 100%;
-        }
+    width: 50%;
+
+    @media screen and (max-width: 991px) {
+        width: 100%;
     }
+}
 
 h3 {
     margin-top: 36px;

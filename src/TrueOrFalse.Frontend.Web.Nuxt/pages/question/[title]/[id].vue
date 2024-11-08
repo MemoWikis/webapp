@@ -185,7 +185,7 @@ useHead(() => ({
 															:to="$urlHelper.getTopicUrlWithQuestionId(question.answerBodyModel.primaryTopicName, question.answerBodyModel.primaryTopicId, question.answerBodyModel.id)"
 															id="btnStartTestSession"
 															class="btn btn-primary show-tooltip" rel="nofollow"
-															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + question.answerBodyModel.primaryTopicName">
+															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen auf dieser Seite' : 'Lerne 5 zufällig ausgewählte Fragen von ' + question.answerBodyModel.primaryTopicName">
 															<b>Weiterlernen</b>
 														</NuxtLink>
 													</div>

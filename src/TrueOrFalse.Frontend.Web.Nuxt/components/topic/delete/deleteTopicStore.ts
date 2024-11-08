@@ -52,7 +52,7 @@ export const useDeleteTopicStore = defineStore('deleteTopicStore', {
                 this.hasPublicQuestion = result.hasPublicQuestion
                 if (result.hasChildren) {
                     const alertStore = useAlertStore()
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.category.notLastChild }, 'Verstanden', undefined, `Das Thema '${this.name}' kann nicht gelöscht werden`)
+                    alertStore.openAlert(AlertType.Error, { text: messages.error.category.notLastChild }, 'Verstanden', undefined, `Die Seite: '${this.name}' kann nicht gelöscht werden`)
                     return false
                 }
                 return true

@@ -65,7 +65,7 @@ const ariaId = useId()
                             </template>
                             <template v-if="learningSessionStore.steps.length == 1"> Frage </template>
                             <template v-else> Fragen </template>
-                            <span class="hidden-xs">aus diesem Thema</span>
+                            <span class="hidden-xs">auf dieser Seite</span>
                             ({{ topicStore.questionCount }})
                         </div>
 
@@ -123,7 +123,7 @@ const ariaId = useId()
             <div class="session-configurator no-questions" v-else-if="!learningSessionConfigurationStore.showFilter">
                 <div class="session-config-header">
                     <div class="col-xs-12 drop-down-question-sort">
-                        Leider hat dieses Thema noch keine Fragen, erstelle oder füge eine Frage hinzu.
+                        Leider hat diese Seite noch keine Fragen, erstelle oder füge eine Frage hinzu.
                     </div>
                 </div>
             </div>

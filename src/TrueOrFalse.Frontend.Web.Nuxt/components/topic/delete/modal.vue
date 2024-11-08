@@ -4,12 +4,12 @@ import { SearchType, TopicItem } from '~~/components/search/searchHelper'
 
 const deleteTopicStore = useDeleteTopicStore()
 
-const primaryBtnLabel = ref('Thema löschen')
+const primaryBtnLabel = ref('Seite löschen')
 const newParentForQuestions = ref<TopicItem>()
 watch(() => deleteTopicStore.topicDeleted, (val) => {
     if (val)
         primaryBtnLabel.value = 'Weiter'
-    else primaryBtnLabel.value = 'Thema löschen'
+    else primaryBtnLabel.value = 'Seite löschen'
 })
 
 watch(() => deleteTopicStore.suggestedNewParent, (val) => {
@@ -50,10 +50,10 @@ const showDropdown = ref(true)
         <template v-slot:header>
             <h4 class="modal-title">
                 <template v-if="deleteTopicStore.topicDeleted">
-                    Thema gelöscht
+                    Seite gelöscht
                 </template>
                 <template v-else>
-                    Thema '{{ deleteTopicStore.name }}' löschen
+                    Seite '{{ deleteTopicStore.name }}' löschen
                 </template>
             </h4>
 
@@ -61,10 +61,10 @@ const showDropdown = ref(true)
         <template v-slot:body>
             <div class="delete-modal">
                 <template v-if="deleteTopicStore.topicDeleted && deleteTopicStore.redirect">
-                    Beim schliessen dieses Fensters wirst Du zum nächsten übergeordnetem Thema weitergeleitet.
+                    Beim Schließen dieses Fensters wirst du zur nächsten übergeordneten Seite weitergeleitet.
                 </template>
                 <template v-else-if="deleteTopicStore.topicDeleted && !deleteTopicStore.redirect">
-                    Das Thema '<strong>{{ deleteTopicStore.name }}</strong>' wurde erfolgreich gelöscht.
+                    Die Seite '<strong>{{ deleteTopicStore.name }}</strong>' wurde erfolgreich gelöscht.
                 </template>
                 <template v-else>
                     <div>
@@ -80,32 +80,27 @@ const showDropdown = ref(true)
                         <div v-if="deleteTopicStore.hasQuestion" class="new-parent-topic-selection-container">
                             <div class="body-s">
                                 <strong> Fragen werden nicht gelöscht. </strong>
-                                Verschiebe die Fragen in ein anderes Thema.
+                                Verschiebe die Fragen auf eine andere Seite.
                                 <br />
                                 <template v-if="!deleteTopicStore.hasPublicQuestion">
-                                    Es gibt öffentliche Fragen in diesem Thema.
+                                    Es gibt öffentliche Fragen auf dieser Seite.
                                     Du kannst nur öffentliche Themen auswählen.
                                     <br />
                                 </template>
                             </div>
                             <div class="body-s" v-if="newParentForQuestions">
                                 Wie wäre es mit
-                                <NuxtLink
-                                    :to="$urlHelper.getTopicUrl(newParentForQuestions.name, newParentForQuestions.id)">
+                                <NuxtLink :to="$urlHelper.getTopicUrl(newParentForQuestions.name, newParentForQuestions.id)">
                                     {{ newParentForQuestions.name }}
                                 </NuxtLink>?
                             </div>
-                            <div class="form-group dropdown categorySearchAutocomplete"
-                                :class="{ 'open': showDropdown }">
-                                <div v-if="showSelectedTopic && newParentForQuestions != null"
-                                    class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top"
-                                    :title="newParentForQuestions.name">
+                            <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                                <div v-if="showSelectedTopic && newParentForQuestions != null" class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top" :title="newParentForQuestions.name">
                                     <img :src="newParentForQuestions.imageUrl" />
                                     <div class="searchResultBody">
                                         <div class="searchResultLabel body-m">{{ newParentForQuestions.name }}</div>
                                         <div class="searchResultQuestionCount body-s">
-                                            {{ newParentForQuestions.questionCount }} Frage<template
-                                                v-if="newParentForQuestions.questionCount != 1">n</template>
+                                            {{ newParentForQuestions.questionCount }} Frage<template v-if="newParentForQuestions.questionCount != 1">n</template>
                                         </div>
                                     </div>
                                     <!-- <div class="selectedSearchResultItemContainer">
@@ -115,11 +110,8 @@ const showDropdown = ref(true)
                                         </div>
                                     </div> -->
                                 </div>
-                                <div class="body-s">Oder suche ein anderes Thema aus.</div>
-                                <Search :search-type="SearchType.topic" :show-search="true"
-                                    v-on:select-item="selectNewParentForQuestions"
-                                    :topic-ids-to-filter="[deleteTopicStore.id]"
-                                    :public-only="deleteTopicStore.hasPublicQuestion" />
+                                <div class="body-s">Oder suche eine andere Seite aus.</div>
+                                <Search :search-type="SearchType.topic" :show-search="true" v-on:select-item="selectNewParentForQuestions" :topic-ids-to-filter="[deleteTopicStore.id]" :public-only="deleteTopicStore.hasPublicQuestion" />
                             </div>
                         </div>
                     </div>

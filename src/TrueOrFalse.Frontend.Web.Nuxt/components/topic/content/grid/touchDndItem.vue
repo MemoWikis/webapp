@@ -362,7 +362,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
                     <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
                         :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
                         @dragleave="hoverBottomHalf = false" :data-dropzonedata="getDropZoneData(TargetPosition.Inner)">
-                        <div class="dropzone-label">Thema unterordnen</div>
+                        <div class="dropzone-label">Seite unterordnen</div>
                     </div>
                 </template>
 

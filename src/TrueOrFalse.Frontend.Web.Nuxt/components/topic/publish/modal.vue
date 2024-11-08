@@ -26,7 +26,7 @@ async function publish() {
         :show-cancel-btn="true">
 
         <template v-slot:header>
-            <h4>Thema {{ publishTopicStore.name }} veröffentlichen</h4>
+            <h4>{{ publishTopicStore.name }} veröffentlichen</h4>
         </template>
 
         <template v-slot:body>

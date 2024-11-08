@@ -138,7 +138,7 @@ const ariaId2 = useId()
 <template>
     <div id="TopicHeaderContainer">
         <h1 id="TopicTitle" ref="topicTitle">
-            <textarea placeholder="Gib deinem Thema einen Namen" @input="resize()" ref="textArea"
+            <textarea placeholder="Gib deiner Seite einen Titel" @input="resize()" ref="textArea"
                 v-model="topicStore.name" v-if="topicStore" :readonly="readonly" @focus="focus" @blur="blur"></textarea>
             <template v-else-if="topic">
                 {{ topic.name }}

@@ -286,21 +286,21 @@ editTopicRelationStore.$onAction(({ name, after }) => {
     })
 })
 
-const primaryBtnLabel = ref('Thema erstellen')
+const primaryBtnLabel = ref('Seite erstellen')
 watch(() => editTopicRelationStore.type, (type) => {
     switch (type) {
         case EditTopicRelationType.Create:
-            primaryBtnLabel.value = 'Thema erstellen'
+            primaryBtnLabel.value = 'Seite erstellen'
             break
         case EditTopicRelationType.Move:
-            primaryBtnLabel.value = 'Thema verschieben'
+            primaryBtnLabel.value = 'Seite verschieben'
             break
         case EditTopicRelationType.AddChild:
         case EditTopicRelationType.AddParent:
-            primaryBtnLabel.value = 'Thema verknüpfen'
+            primaryBtnLabel.value = 'Seite verknüpfen'
             break
         case EditTopicRelationType.AddToPersonalWiki:
-            primaryBtnLabel.value = 'Thema verknüpfen'
+            primaryBtnLabel.value = 'Seite verknüpfen'
             editTopicRelationStore.initWikiData()
             break
     }
@@ -339,13 +339,13 @@ watch(() => editTopicRelationStore.showModal, (val) => {
 
         <template v-slot:header>
             <h4 v-if="editTopicRelationStore.type == EditTopicRelationType.Create" class="modal-title">
-                Neues Thema erstellen
+                Neue Seite erstellen
             </h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.Move" class="modal-title">
-                Thema verschieben nach
+                Seite verschieben nach
             </h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddChild" class="modal-title">
-                Bestehendes Thema verknüpfen
+                Bestehende Seite verknüpfen
             </h4>
             <h4 v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent || editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki"
                 class="modal-title">
@@ -370,15 +370,17 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                     <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
                 </div>
                 <div class="categoryPrivate" v-else>
-                    <p><b> Das Thema ist privat.</b> Du kannst es später im das Dreipunkt-Menü oder direkt über das
-                        Schloss-Icon veröffentlichen.</p>
+                    <p>
+                        <b>Diese Seite ist privat.</b> Du kannst sie später im Dreipunkt-Menü oder direkt über das
+                        Schloss-Icon veröffentlichen.
+                    </p>
                 </div>
             </template>
 
 
             <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddToPersonalWiki">
                 <div class="mb-250">
-                    <p>Wo soll das Thema hinzugefügt werden?</p>
+                    <p>Wo soll die Seite hinzugefügt werden?</p>
                 </div>
                 <div>
                     <div class="categorySearchAutocomplete mb-250" v-if="editTopicRelationStore.personalWiki != null"
@@ -428,7 +430,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
                         </template>
                     </div>
                     <div class="mb-125">
-                        <p>Anderes Thema auswählen</p>
+                        <p>Andere Seite auswählen</p>
                     </div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedTopic && selectedTopic != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedTopic.id }"
@@ -475,7 +477,7 @@ watch(() => editTopicRelationStore.showModal, (val) => {
             </template>
             <template v-else-if="editTopicRelationStore.type == EditTopicRelationType.AddParent">
                 <div class="mb-250">
-                    <p>Wo soll das Thema hinzugefügt werden?</p>
+                    <p>Wo soll die Seite hinzugefügt werden?</p>
                 </div>
                 <div>
                     <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">

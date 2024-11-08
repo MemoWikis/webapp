@@ -169,7 +169,7 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'circle-right']" />
                             </div>
-                            <div class="dropdown-label">Thema verschieben</div>
+                            <div class="dropdown-label">Seite verschieben</div>
                         </div>
                         <!-- <div @click="editTopicRelationStore.removeFromPersonalWiki(props.topic.id); hide()" class="dropdown-row"
                         v-if="props.topic.isChildOfPersonalWiki">
@@ -208,13 +208,13 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'lock']" />
                             </div>
-                            <div class="dropdown-label">Thema privat stellen</div>
+                            <div class="dropdown-label">Seite privat stellen</div>
                         </div>
                         <div v-else @click="publishTopicStore.openModal(props.topic.id); hide()" class="dropdown-row">
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                             </div>
-                            <div class="dropdown-label">Thema veröffentlichen</div>
+                            <div class="dropdown-label">Seite veröffentlichen</div>
                         </div>
 
                         <div @click="deleteTopicStore.openModal(props.topic.id); hide()" data-allowed="logged-in"
@@ -222,7 +222,7 @@ const ariaId2 = useId()
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fas', 'trash']" />
                             </div>
-                            <div class="dropdown-label">Thema löschen</div>
+                            <div class="dropdown-label">Seite löschen</div>
                         </div>
                     </template>
 

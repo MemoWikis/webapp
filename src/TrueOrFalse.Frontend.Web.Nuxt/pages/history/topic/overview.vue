@@ -41,7 +41,6 @@ const emit = defineEmits(['setBreadcrumb', 'setPage'])
 watch(historyResult, (val) => {
     if (val)
         emit('setBreadcrumb', [{ name: `Bearbeitungshistorie von ${val.topicName}`, url: `/Historie/Thema/${route.params.id}` }])
-
 })
 const spinnerStore = useSpinnerStore()
 watch(status, (val) => {
@@ -97,8 +96,7 @@ function handleClick(g: GroupedChanges) {
                                     </template>
                                 </TopicHistoryChange>
                                 <div v-if="g.changes.length > 1 && !g.collapsed">
-                                    <TopicHistoryChange v-for="c, i in g.changes" :change="c" :group-index="i"
-                                        :is-last="i == g.changes.length - 1" />
+                                    <TopicHistoryChange v-for="c, i in g.changes" :change="c" :group-index="i" :is-last="i == g.changes.length - 1" />
                                 </div>
                             </template>
 
