@@ -12,6 +12,7 @@ import { useDeleteQuestionStore } from '../edit/delete/deleteQuestionStore'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
 import { useActivityPointsStore } from '~/components/activityPoints/activityPointsStore'
+import { color } from '~/components/shared/colors'
 
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
@@ -30,7 +31,7 @@ await commentsStore.loadFirst(props.id)
 const visibility = ref<Visibility>(Visibility.All)
 const personalProbability = ref(0)
 const personalProbabilityText = ref('Nicht im Wunschwissen')
-const personalColor = ref('#DDDDDD')
+const personalColor = ref(color.memoGreyLight)
 const avgProbability = ref(0)
 const personalAnswerCount = ref(0)
 const personalAnsweredCorrectly = ref(0)
@@ -55,7 +56,7 @@ const baseArcData = ref({
     endAngle: 0.55 * Math.PI,
     innerRadius: 45,
     outerRadius: 50,
-    fill: "#DDDDDD",
+    fill: color.memoGreyLight,
     class: "baseArc",
 })
 
@@ -82,7 +83,7 @@ const avgArcData = ref<ArcData>({
     endAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI + 0.01,
     innerRadius: 37.5,
     outerRadius: 57.5,
-    fill: "#707070",
+    fill: color.memoGreyDark,
     class: "avgArc"
 })
 
@@ -102,7 +103,7 @@ const baseCounterData = ref<ArcData>({
     endAngle: 2 * Math.PI,
     innerRadius: 20,
     outerRadius: 25,
-    fill: "#DDDDDD",
+    fill: color.memoGreyLight,
 })
 
 const personalWrongAnswerCountData = ref<ArcData>({
@@ -110,7 +111,7 @@ const personalWrongAnswerCountData = ref<ArcData>({
     endAngle: 2 * Math.PI,
     innerRadius: 20,
     outerRadius: 25,
-    fill: "#FFA07A",
+    fill: color.memoSalmon,
     class: "personalWrongAnswerCounter",
 })
 const personalCorrectAnswerCountData = ref<ArcData>({
@@ -118,7 +119,7 @@ const personalCorrectAnswerCountData = ref<ArcData>({
     endAngle: 2 * Math.PI,
     innerRadius: 20,
     outerRadius: 25,
-    fill: "#AFD534",
+    fill: color.memoGreen,
     class: "personalCorrectAnswerCounter",
 })
 
@@ -127,7 +128,7 @@ const overallWrongAnswerCountData = ref<ArcData>({
     endAngle: 2 * Math.PI,
     innerRadius: 20,
     outerRadius: 25,
-    fill: "#FFA07A",
+    fill: color.memoSalmon,
     class: "overallWrongAnswerCounter",
 })
 const overallCorrectAnswerCountData = ref<ArcData>({
@@ -135,7 +136,7 @@ const overallCorrectAnswerCountData = ref<ArcData>({
     endAngle: 2 * Math.PI,
     innerRadius: 20,
     outerRadius: 25,
-    fill: "#AFD534",
+    fill: color.memoGreen,
     class: "overallCorrectAnswerCounter",
 })
 
@@ -185,7 +186,7 @@ function setAvgArcData() {
         endAngle: (-0.55 + avgProbability.value / 100 * 1.1) * Math.PI + 0.01,
         innerRadius: avgInnerRadius,
         outerRadius: avgOuterRadius,
-        fill: "#707070",
+        fill: color.memoGreyDark,
         class: "avgArc"
     }
 
@@ -198,7 +199,7 @@ function setPersonalCounterData() {
         endAngle: (personalStartAngle.value / 100 * 1) * Math.PI * 2,
         innerRadius: 20,
         outerRadius: 25,
-        fill: "#FFA07A",
+        fill: color.memoSalmon,
         class: "personalWrongAnswerCounter",
     }
 
@@ -207,7 +208,7 @@ function setPersonalCounterData() {
         endAngle: 2 * Math.PI,
         innerRadius: 20,
         outerRadius: 25,
-        fill: "#AFD534",
+        fill: color.memoGreen,
         class: "personalCorrectAnswerCounter",
     }
 }
@@ -219,7 +220,7 @@ function setOverallCounterData() {
         endAngle: (overallStartAngle.value / 100 * 1) * Math.PI * 2,
         innerRadius: 20,
         outerRadius: 25,
-        fill: "#FFA07A",
+        fill: color.memoSalmon,
         class: "overallWrongAnswerCounter",
     }
 
@@ -228,7 +229,7 @@ function setOverallCounterData() {
         endAngle: 2 * Math.PI,
         innerRadius: 20,
         outerRadius: 25,
-        fill: "#AFD534",
+        fill: color.memoGreen,
         class: "overallCorrectAnswerCounter",
     }
 }
@@ -294,7 +295,7 @@ function updateArc() {
         .transition()
         .duration(800)
         .attr("dx", -(labelWidth / 2) - 5 + "px")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .style("fill", () => showPersonalArc.value ? personalColor.value : color.memoGreyLight)
         .tween("text", function (this: any) {
             const selection = d3.select(this)
             const start = d3.select(this).text()
@@ -342,7 +343,7 @@ function updateArc() {
     arcSvg.value.selectAll(".percentageLabel").transition()
         .duration(800)
         .attr("dx", (labelWidth / 2) - percentageLabelWidth.value - 5 + "px")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .style("fill", () => showPersonalArc.value ? personalColor.value : color.memoGreyLight)
 
     arcSvg.value.selectAll(".personalArc")
         .transition()
@@ -379,7 +380,7 @@ function updateArc() {
         .transition()
         .delay(200)
         .duration(200)
-        .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555")
+        .style("fill", () => personalColor.value == color.memoGrey ? "white" : color.memoGreyDarker)
 
     if (probabilityTextWidth != null)
         arcSvg.value.selectAll(".personalProbabilityChip")
@@ -433,7 +434,7 @@ function drawCounterArcs() {
         .attr('x', -7)
         .attr('y', -8)
         .html(() => {
-            var fontColor = personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            var fontColor = personalAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
             return "<i class='fa-solid fa-user' style='font-size:16px; color:" + fontColor + "'> </i>"
         })
 
@@ -459,7 +460,7 @@ function drawCounterArcs() {
 
     overallCounterSvg.value.selectAll("i")
         .style("color", () => {
-            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            return overallAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
         })
 
     overallCounterSvg.value
@@ -469,7 +470,7 @@ function drawCounterArcs() {
         .attr('x', visibility.value == Visibility.Owner ? -7 : -10)
         .attr('y', -8)
         .html(() => {
-            var fontColor = overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            var fontColor = overallAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
             if (visibility.value == Visibility.Owner)
                 return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
@@ -489,7 +490,7 @@ function updateCounters() {
 
     personalCounterSvg.value.selectAll("i")
         .style("color", () => {
-            return personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            return personalAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
         })
 
     personalCounterSvg.value.selectAll(".personalWrongAnswerCounter")
@@ -517,7 +518,7 @@ function updateCounters() {
     personalCounterSvg.value.selectAll("text")
         .transition()
         .duration(800)
-        .style("fill", () => personalAnswerCount.value > 0 ? "#999999" : "#DDDDDD")
+        .style("fill", () => personalAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight)
 
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter, .overallCorrectAnswerCounter")
@@ -527,7 +528,7 @@ function updateCounters() {
 
     overallCounterSvg.value.selectAll("i")
         .style("color", () => {
-            return overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD"
+            return overallAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
         })
 
     overallCounterSvg.value.selectAll(".overallWrongAnswerCounter")
@@ -555,7 +556,7 @@ function updateCounters() {
     overallCounterSvg.value.selectAll("text")
         .transition()
         .duration(800)
-        .style("fill", () => overallAnswerCount.value > 0 ? "#999999" : "#DDDDDD")
+        .style("fill", () => overallAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight)
 }
 
 function drawProbabilityLabel() {
@@ -568,7 +569,7 @@ function drawProbabilityLabel() {
         .attr("style", "font-family:'Open Sans'")
         .attr("font-size", "30")
         .attr("font-weight", "bold")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .style("fill", () => showPersonalArc.value ? personalColor.value : color.memoGreyLight)
         .attr("class", "personalProbabilityLabel")
         .text(() => personalAnswerCount.value > 0 ? personalProbability.value : avgProbability.value)
 
@@ -580,7 +581,7 @@ function drawProbabilityLabel() {
         .attr("font-size", "18")
         .attr("font-weight", "medium")
         .attr("class", "percentageLabel")
-        .style("fill", () => showPersonalArc.value ? personalColor.value : "#DDDDDD")
+        .style("fill", () => showPersonalArc.value ? personalColor.value : color.memoGreyLight)
         .text("%")
 
     arcSvg.value.append("svg:rect")
@@ -604,7 +605,7 @@ function drawProbabilityLabel() {
         .attr("font-size", "10")
         .attr("font-weight", "medium")
         .attr("class", "personalProbabilityText")
-        .style("fill", () => personalColor.value == "#999999" ? "white" : "#555555")
+        .style("fill", () => personalColor.value == color.memoGrey ? "white" : color.memoGreyDarker)
         .attr("transform", "translate(0,0)")
         .text(personalProbabilityText.value)
         .each(function (this: any) {
@@ -680,7 +681,7 @@ function setAvgLabel() {
         .attr("style", "font-family:'Open Sans'")
         .attr("font-size", "12")
         .attr("font-weight", "regular")
-        .style("fill", "#555555")
+        .style("fill", color.memoGreyDarker)
         .style("opacity", 1.0)
         .attr("class", "avgProbabilityLabel")
         .text("∅ " + avgProbability.value + "%")
@@ -1004,7 +1005,14 @@ const activityPointsStore = useActivityPointsStore()
                             <div class="counterHalf">
                                 <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="personalAnswerCount > 0" class="counterLabel">
-                                    {{ userStore.isLoggedIn ? 'Von Dir' : 'Von nicht angemeldeten Nutzern' }} : <br />
+                                    <template v-if="userStore.isLoggedIn">
+                                        Von Dir:
+                                    </template>
+                                    <template v-else>
+                                        Von unangemeldeten
+                                        <br />
+                                        Nutzern:
+                                    </template> <br />
                                     <strong>{{ answerCount }}</strong> mal beantwortet <br />
                                     <strong>{{ correctAnswers }}</strong> richtig / <strong>{{ wrongAnswers }}</strong>
                                     falsch
@@ -1013,8 +1021,7 @@ const activityPointsStore = useActivityPointsStore()
                                     Du hast diese Frage noch nie beantwortet.
                                 </div>
                                 <div v-else class="counterLabel">
-                                    Du bist nicht angemeldet. Wir haben keine Daten. <button class="btn-link"
-                                        @click="userStore.openLoginModal()">Anmelden</button>
+                                    Du bist nicht angemeldet. Wir haben keine Daten. <button class="btn-link" @click="userStore.openLoginModal()">Anmelden</button>
                                 </div>
                             </div>
                             <div class="counterHalf">
