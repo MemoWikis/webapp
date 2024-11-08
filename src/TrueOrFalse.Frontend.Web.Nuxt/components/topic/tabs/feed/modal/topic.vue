@@ -113,8 +113,8 @@ const { $urlHelper } = useNuxtApp()
     margin-top: 20px;
     height: 56px;
     padding-bottom: 20px;
-    border-bottom: solid 1px @memo-grey-lighter;    
-    
+    border-bottom: solid 1px @memo-grey-lighter;
+
     .show-diff-toggle-button {
         padding: 8px 16px;
         cursor: pointer;
@@ -122,20 +122,20 @@ const { $urlHelper } = useNuxtApp()
         background: white;
         color: @memo-grey-darker;
 
-        &:hover{
+        &:hover {
             filter: brightness(0.95);
         }
 
         &:active {
             filter: brightness(0.9);
         }
+
         &.is-active {
             background: @memo-info;
 
-        }   
+        }
     }
 }
-
 </style>
 
 <style lang="less">
@@ -151,6 +151,7 @@ const { $urlHelper } = useNuxtApp()
             border: solid 4px @memo-green;
         }
     }
+
     del {
         // background: fade(@memo-wuwi-red, 10%);
         text-decoration: line-through;
