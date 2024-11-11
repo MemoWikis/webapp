@@ -8,7 +8,7 @@ using static VueApp.ChildModifier;
 
 namespace VueApp;
 
-public class TopicRelationEditController(
+public class PageRelationEditController(
     SessionUser _sessionUser,
     PageCreator pageCreator,
     PermissionCheck _permissionCheck,
@@ -30,15 +30,15 @@ public class TopicRelationEditController(
         return data;
     }
 
-    public readonly record struct QuickCreateParam(string Name, int ParentTopicId);
+    public readonly record struct QuickCreateParam(string Name, int ParentPageId);
 
     public readonly record struct QuickCreateResult(
         bool Success,
         string MessageKey,
-        CreateTinyTopicItem Data);
+        CreateTinyPageItem Data);
 
-    public readonly record struct CreateTinyTopicItem(
-        bool CantSavePrivateTopic,
+    public readonly record struct CreateTinyPageItem(
+        bool CantSavePrivatePage,
         string Name,
         int Id);
 
@@ -46,16 +46,16 @@ public class TopicRelationEditController(
     [HttpPost]
     public QuickCreateResult QuickCreate([FromBody] QuickCreateParam param)
     {
-        var data = pageCreator.Create(param.Name, param.ParentTopicId, _sessionUser);
+        var data = pageCreator.Create(param.Name, param.ParentPageId, _sessionUser);
         var result = new QuickCreateResult
         {
             Success = data.Success,
             MessageKey = data.MessageKey,
-            Data = new CreateTinyTopicItem
+            Data = new CreateTinyPageItem
             {
                 Name = data.Data.Name,
                 Id = data.Data.Id,
-                CantSavePrivateTopic = data.Data.CantSavePrivateTopic
+                CantSavePrivatePage = data.Data.CantSavePrivatePage
             }
         };
 
@@ -66,19 +66,19 @@ public class TopicRelationEditController(
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public async Task<SearchTopicResult> SearchTopicAsync([FromBody] SearchParam param)
+    public async Task<SearchPageResult> SearchPageAsync([FromBody] SearchParam param)
     {
-        var data = await SearchTopicAsync(param.term, param.topicIdsToFilter)
+        var data = await SearchPageAsync(param.term, param.topicIdsToFilter)
             .ConfigureAwait(false);
         return data;
     }
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
-    public async Task<SearchTopicInPersonalWikiResult> SearchTopicInPersonalWiki(
+    public async Task<SearchPageInPersonalWikiResult> SearchPageInPersonalWiki(
         [FromBody] SearchParam param)
     {
-        var data = await SearchTopicInPersonalWikiAsync(param.term, param.topicIdsToFilter);
+        var data = await SearchPageInPersonalWikiAsync(param.term, param.topicIdsToFilter);
         return data;
     }
 
@@ -89,7 +89,7 @@ public class TopicRelationEditController(
     public readonly record struct MoveChildResult(
         bool Success,
         string MessageKey,
-        TinyTopicItem Data);
+        TinyPageItem Data);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public MoveChildResult MoveChild([FromBody] MoveChildParam param)
@@ -109,9 +109,9 @@ public class TopicRelationEditController(
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        if (parentIdToRemove == RootCategory.RootCategoryId &&
+        if (parentIdToRemove == RootPage.RootCategoryId &&
             !_sessionUser.IsInstallationAdmin ||
-            parentIdToAdd == RootCategory.RootCategoryId &&
+            parentIdToAdd == RootPage.RootCategoryId &&
             !_sessionUser.IsInstallationAdmin)
             return new MoveChildResult
             {
@@ -141,7 +141,7 @@ public class TopicRelationEditController(
     public readonly record struct AddChildResult(
         bool Success,
         string MessageKey,
-        TinyTopicItem Data);
+        TinyPageItem Data);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -169,7 +169,7 @@ public class TopicRelationEditController(
     public readonly record struct RemoveParentResult(
         bool Success,
         string MessageKey,
-        TinyTopicItem Data);
+        TinyPageItem Data);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
@@ -188,15 +188,15 @@ public class TopicRelationEditController(
         return new RemoveParentResult(result.Success, result.MessageKey, result.Data);
     }
 
-    public readonly record struct SearchTopicResult(
+    public readonly record struct SearchPageResult(
         int TotalCount,
-        List<SearchTopicItem> Topics);
+        List<SearchPageItem> Pages);
 
-    private async Task<SearchTopicResult> SearchTopicAsync(
+    private async Task<SearchPageResult> SearchPageAsync(
         string term,
         int[] topicIdsToFilter = null)
     {
-        var items = new List<SearchTopicItem>();
+        var items = new List<SearchPageItem>();
         var elements = await _search.GoAllCategoriesAsync(term)
             .ConfigureAwait(false);
 
@@ -204,24 +204,24 @@ public class TopicRelationEditController(
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId);
+                .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId);
 
-        return new SearchTopicResult
+        return new SearchPageResult
         {
             TotalCount = elements.CategoriesResultCount,
-            Topics = items,
+            Pages = items,
         };
     }
 
-    public readonly record struct SearchTopicInPersonalWikiResult(
+    public readonly record struct SearchPageInPersonalWikiResult(
         int TotalCount,
-        List<SearchTopicItem> Topics);
+        List<SearchPageItem> Pages);
 
-    private async Task<SearchTopicInPersonalWikiResult> SearchTopicInPersonalWikiAsync(
+    private async Task<SearchPageInPersonalWikiResult> SearchPageInPersonalWikiAsync(
         string term,
         int[] topicIdsToFilter = null)
     {
-        var items = new List<SearchTopicItem>();
+        var items = new List<SearchPageItem>();
         var elements = await _search
             .GoAllCategoriesAsync(term)
             .ConfigureAwait(false);
@@ -230,29 +230,29 @@ public class TopicRelationEditController(
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId, topicIdsToFilter);
+                .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, topicIdsToFilter);
 
-        var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartTopicId,
+        var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartPageId,
             _permissionCheck, _sessionUser.UserId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
-        return new SearchTopicInPersonalWikiResult
+        return new SearchPageInPersonalWikiResult
         {
             TotalCount = elements.CategoriesResultCount,
-            Topics = items,
+            Pages = items,
         };
     }
 
     public readonly record struct ValidateNameResult(
         bool Success,
         string MessageKey,
-        ValidateTinyTopicItem Data);
+        ValidateTinyPageItem Data);
 
-    public readonly record struct ValidateTinyTopicItem(bool CategoryNameAllowed, string name);
+    public readonly record struct ValidateTinyPageItem(bool CategoryNameAllowed, string name);
 
     private ValidateNameResult ValidateName(string name)
     {
-        var nameValidator = new TopicNameValidator();
+        var nameValidator = new PageNameValidator();
 
         if (nameValidator.IsForbiddenName(name))
         {
@@ -260,7 +260,7 @@ public class TopicRelationEditController(
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.NameIsForbidden,
-                Data = new ValidateTinyTopicItem
+                Data = new ValidateTinyPageItem
                 {
                     CategoryNameAllowed = false,
                     name = name,

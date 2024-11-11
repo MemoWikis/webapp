@@ -45,7 +45,7 @@ public class QuestionEditData_V1 : QuestionEditData
     {
         // Query Categories and References properties to load and thus prevent an
         // NHibernate.LazyInitializationException
-        question.Categories.ToList();
+        question.Pages.ToList();
         question.References.ToList();
 
         _nhibernateSession.Evict(question);

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using TrueOrFalse.Frontend.Web.Code;
 
-public class TopicLearningQuestionListController(
+public class PageLearningQuestionListController(
     SessionUser _sessionUser,
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache,
@@ -38,16 +38,16 @@ public class TopicLearningQuestionListController(
     public readonly record struct LoadQuestionsJson(
         int ItemCountPerPage,
         int PageNumber,
-        int TopicId);
+        int PageId);
 
     [HttpPost]
     public List<LoadQuestionsResult> LoadQuestions([FromBody] LoadQuestionsJson json)
     {
-        if (_permissionCheck.CanViewCategory(json.TopicId))
+        if (_permissionCheck.CanViewPage(json.PageId))
         {
             if (_learningSessionCache.GetLearningSession() == null ||
-                json.TopicId != _learningSessionCache.GetLearningSession()?.Config.PageId)
-                _learningSessionCreator.LoadDefaultSessionIntoCache(json.TopicId,
+                json.PageId != _learningSessionCache.GetLearningSession()?.Config.PageId)
+                _learningSessionCreator.LoadDefaultSessionIntoCache(json.PageId,
                     _sessionUser.UserId);
 
             return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);

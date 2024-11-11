@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using static TopicGridManager;
+using static PageGridManager;
 
 namespace VueApp;
 
@@ -21,14 +21,14 @@ public class GridController(
         if (!_permissionCheck.CanView(topic))
             return new GetItemJson(false, FrontendMessageKeys.Error.Page.MissingRights);
 
-        var gridItem = new TopicGridManager(
+        var gridItem = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _knowledgeSummaryLoader,
                 _questionReadingRepo)
-            .BuildGridTopicItem(topic);
+            .BuildGridPageItem(topic);
 
         return new GetItemJson(true, "", gridItem);
     }
@@ -36,5 +36,5 @@ public class GridController(
     public readonly record struct GetItemJson(
         bool Success,
         string MessageKey = "",
-        GridTopicItem? Data = null);
+        GridPageItem? Data = null);
 }

@@ -1,4 +1,4 @@
-﻿public class PersonalTopic 
+﻿public class PersonalPage
 {
     public static Page GetPersonalCategory(User user, PageRepository pageRepo)
     {
@@ -9,7 +9,7 @@
             Visibility = PageVisibility.Owner,
             Creator = user,
             Type = PageType.Standard,
-            IsUserStartTopic = true
+            IsUserStartPage = true
         };
     }
 

@@ -33,7 +33,7 @@
         {
             public static readonly string CantAddKnowledge = "error_subscription_cantAddKnowledge";
             public static readonly string CantSavePrivateQuestion = "error_subscription_cantSavePrivateQuestion";
-            public static readonly string CantSavePrivateTopic = "error_subscription_cantSavePrivateTopic";
+            public static readonly string CantSavePrivatePage = "error_subscription_cantSavePrivatePage";
         }
 
         public static class Page
@@ -57,8 +57,8 @@
             public static readonly string SaveImageError = "error_page_saveImageError";
             public static readonly string PinnedQuestions = "error_page_pinnedQuestions";
             public static readonly string CircularReference = "error_page_circularReference";
-            public static readonly string TopicNotSelected = "error_page_topicNotSelected";
-            public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_page_newTopicIdIsTopicIdToBeDeleted";
+            public static readonly string PageNotSelected = "error_page_topicNotSelected";
+            public static readonly string NewPageIdIsPageIdToBeDeleted = "error_page_newPageIdIsPageIdToBeDeleted";
             public static readonly string NotFound = Route.NotFound;
             public static readonly string NoRights = Route.NoRights;
             public static readonly string Unauthorized = Route.Unauthorized;
@@ -129,7 +129,7 @@
             public static readonly string NewQuestionNotInFilter = "info_question_newQuestionNotInFilter";
             public static readonly string NotInFilter = "info_question_notInFilter";
             public static readonly string IsPrivate = "info_question_isPrivate";
-            public static readonly string NotInTopic = "info_question_notInTopic";
+            public static readonly string NotInPage = "info_question_notInPage";
         }
 
         public static readonly string GoogleLogin = "info_googleLogin";

@@ -58,8 +58,8 @@ public class AnswerQuestionDetailsController(
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
                 .IsInWishKnowledge,
-            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
-                new AnswerQuestionDetailsTopicItem(
+            Pages: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
+                new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
                     Name: t.Name,
                     QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),

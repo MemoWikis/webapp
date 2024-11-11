@@ -17,10 +17,10 @@
             Run(basePath, filename);
     }
 
-    public void RemoveAllForTopic(int id)
+    public void RemoveAllForPage(int id)
     {
-        Run(Settings.TopicContentImageBasePath, $"{id}_*");
-        Run(Settings.TopicImageBasePath, $"{id}_*");
+        Run(Settings.PageContentImageBasePath, $"{id}_*");
+        Run(Settings.PageImageBasePath, $"{id}_*");
     }
 
     public void RemoveAllForQuestion(int id)

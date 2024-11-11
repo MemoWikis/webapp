@@ -9,11 +9,11 @@ public class PageViewRepo(
     UserReadingRepo _userReadingRepo) : RepositoryDb<PageView>(_session)
 {
 
-    public int GetViewCount(int categoryId)
+    public int GetViewCount(int pageId)
     {
         return _session.QueryOver<PageView>()
             .Select(Projections.RowCount())
-            .Where(x => x.Page.Id == categoryId)
+            .Where(x => x.Page.Id == pageId)
             .FutureValue<int>()
             .Value;
     }
@@ -29,8 +29,8 @@ public class PageViewRepo(
 
         query.SetParameter("days", days);
 
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
-            .List<TopicViewSummary>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
+            .List<PageViewSummary>();
 
         var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
         foreach (var item in result)
@@ -41,24 +41,24 @@ public class PageViewRepo(
         return dictionaryResult;
     }
 
-    public IList<TopicViewSummary> GetViewsForPastNDaysById(int days, int id)
+    public IList<PageViewSummary> GetViewsForPastNDaysById(int days, int id)
     {
         var query = _session.CreateSQLQuery(@"
             SELECT COUNT(DateOnly) AS Count, DateOnly 
             FROM CategoryView 
-            WHERE Category_id = :categoryId AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
+            WHERE Category_id = :pageId AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
             GROUP BY DateOnly");
 
         query.SetParameter("days", days);
-        query.SetParameter("categoryId", id);
+        query.SetParameter("pageId", id);
 
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
-            .List<TopicViewSummary>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
+            .List<PageViewSummary>();
 
         return result;
     }
 
-    public IList<TopicViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
+    public IList<PageViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
     {
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly 
@@ -69,14 +69,14 @@ public class PageViewRepo(
         query.SetParameterList("categoryIds", ids);
         query.SetParameter("days", days);
 
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
-            .List<TopicViewSummary>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
+            .List<PageViewSummary>();
 
         return result;
     }
 
 
-    public IList<TopicViewSummaryWithId> GetViewsForLastNDaysGroupByCategoryId(int days)
+    public IList<PageViewSummaryWithId> GetViewsForLastNDaysGroupByCategoryId(int days)
     {
         var query = _session.CreateSQLQuery(@"
         SELECT Category_Id AS PageId, DateOnly, COUNT(DateOnly) AS Count 
@@ -87,15 +87,15 @@ public class PageViewRepo(
         ORDER BY Category_Id, DateOnly;");
 
         query.SetParameter("days", days);
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummaryWithId)))
-            .List<TopicViewSummaryWithId>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
+            .List<PageViewSummaryWithId>();
 
         return result;
     }
 
-    public void AddView(string userAgent, int topicId, int userId)
+    public void AddView(string userAgent, int pageId, int userId)
     {
-        var topic = pageRepository.GetById(topicId);
+        var topic = pageRepository.GetById(pageId);
         var user = userId > 0 ? _userReadingRepo.GetById(userId) : null;
 
         var categoryView = new PageView
@@ -108,12 +108,12 @@ public class PageViewRepo(
         };
 
         Create(categoryView);
-        EntityCache.GetPage(topicId)?.AddTopicView(categoryView.DateOnly);
-        GraphService.IncrementTotalViewsForAllAscendants(topicId);
+        EntityCache.GetPage(pageId)?.AddPageView(categoryView.DateOnly);
+        GraphService.IncrementTotalViewsForAllAscendants(pageId);
     }
 
-    public record struct TopicViewSummaryWithId(Int64 Count, DateTime DateOnly, int PageId);
-    public record struct TopicViewSummary(Int64 Count, DateTime DateOnly);
+    public record struct PageViewSummaryWithId(Int64 Count, DateTime DateOnly, int PageId);
+    public record struct PageViewSummary(Int64 Count, DateTime DateOnly);
 
     public ConcurrentDictionary<DateTime, int> GetActiveUserCountForPastNDays(int days)
     {
@@ -128,8 +128,8 @@ public class PageViewRepo(
         query.SetParameter("days", days);
 
         var result = query
-            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummary)))
-            .List<TopicViewSummary>();
+            .SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
+            .List<PageViewSummary>();
 
         var dictionaryResult = new ConcurrentDictionary<DateTime, int>();
         foreach (var item in result)
@@ -140,7 +140,7 @@ public class PageViewRepo(
         return dictionaryResult;
     }
 
-    public IList<TopicViewSummaryWithId> GetAllEager()
+    public IList<PageViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly, Category_Id
@@ -152,8 +152,8 @@ public class PageViewRepo(
             Category_Id, 
             DateOnly;");
 
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(TopicViewSummaryWithId)))
-            .List<TopicViewSummaryWithId>();
+        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
+            .List<PageViewSummaryWithId>();
 
         return result;
     }

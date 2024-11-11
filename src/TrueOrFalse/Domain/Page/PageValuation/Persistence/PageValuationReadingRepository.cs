@@ -6,9 +6,9 @@ public class PageValuationReadingRepository(ISession _session) : IRegisterAsInst
 {
     private readonly RepositoryDb<PageValuation> _repo = new(_session);
 
-    public PageValuation GetBy(int categoryId, int userId) =>
+    public PageValuation GetBy(int pageId, int userId) =>
         _repo.Session.QueryOver<PageValuation>()
-            .Where(q => q.UserId == userId && q.PageId == categoryId)
+            .Where(q => q.UserId == userId && q.PageId == pageId)
             .SingleOrDefault();
 
     public IList<PageValuation> GetByUser(int userId, bool onlyActiveKnowledge = true)
@@ -22,10 +22,10 @@ public class PageValuationReadingRepository(ISession _session) : IRegisterAsInst
         return query.List<PageValuation>();
     }
 
-    public IList<PageValuation> GetByPage(int categoryId) =>
+    public IList<PageValuation> GetByPage(int pageId) =>
         _repo.Session.QueryOver<PageValuation>()
             .Where(q =>
-                q.PageId == categoryId &&
+                q.PageId == pageId &&
                 q.RelevancePersonal >= 0)
             .List<PageValuation>();
 }

@@ -36,7 +36,7 @@ public class ProbabilityUpdate_Question : IRegisterAsInstancePerLifetime
 
         _questionWritingRepo.UpdateFieldsOnly(question);
 
-        question.Categories
+        question.Pages
             .ForEach(c => KnowledgeSummaryUpdate.ScheduleForPage(c.Id, _jobQueueRepo));
     }
 }

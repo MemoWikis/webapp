@@ -17,7 +17,7 @@ public class PageChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual PageEditData GetCategoryChangeData()
+    public virtual PageEditData GetPageChangeData()
     {
         switch (DataVersion)
         {
@@ -28,13 +28,13 @@ public class PageChange : Entity, WithDateCreated
                 return PageEditData_V2.CreateFromJson(Data);
 
             default:
-                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
+                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for page change id {Id}");
         }
     }
 
-    public virtual Page ToHistoricCategory(bool haveVersionData = true)
+    public virtual Page ToHistoryPage(bool haveVersionData = true)
     {
-        return haveVersionData ? GetCategoryChangeData().ToPage(Page.Id) : new Page();
+        return haveVersionData ? GetPageChangeData().ToPage(Page.Id) : new Page();
     }
 }
 
@@ -51,6 +51,6 @@ public enum PageChangeType
     Image = 8,
     Restore = 9,
     Moved = 10,
-    ChildTopicDeleted = 11,
+    ChildPageDeleted = 11,
     QuestionDeleted = 12,
 }

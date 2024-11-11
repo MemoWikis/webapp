@@ -13,8 +13,8 @@ public class VueLearningSessionResultController(LearningSessionCache _learningSe
         CorrectWrongOrNotAnswered CorrectAfterRepetition,
         CorrectWrongOrNotAnswered Wrong,
         CorrectWrongOrNotAnswered NotAnswered,
-        string TopicName,
-        int TopicId,
+        string PageName,
+        int PageId,
         bool InWuwi,
         TinyQuestion[] Questions);
     public record struct CorrectWrongOrNotAnswered(int Percentage, int Count);
@@ -79,8 +79,8 @@ public class VueLearningSessionResultController(LearningSessionCache _learningSe
                 Percentage: model.NumberNotAnsweredPercentage,
                 Count: model.NumberNotAnswered
             ),
-            TopicName: learningSession.Config.Page.Name,
-            TopicId: learningSession.Config.Page.Id,
+            PageName: learningSession.Config.Page.Name,
+            PageId: learningSession.Config.Page.Id,
             InWuwi: learningSession.Config.InWuwi,
             Questions:  tinyQuestions
         );

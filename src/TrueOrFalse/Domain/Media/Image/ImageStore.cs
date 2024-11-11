@@ -88,11 +88,11 @@ public class ImageStore(
             licenseGiverName);
     }
 
-    public string RunTopicContentUploadAndGetPath(IFormFile imageFile, int topicId, int userId, string licenseGiverName)
+    public string RunPageContentUploadAndGetPath(IFormFile imageFile, int pageId, int userId, string licenseGiverName)
     {
-        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<TopicContentImageSettings>(topicId);
+        var imageSettings = new ImageSettingsFactory(_httpContextAccessor, _questionReadingRepo).Create<PageContentImageSettings>(pageId);
 
-        imageSettings.Init(topicId);
+        imageSettings.Init(pageId);
 
         if (imageFile.Length == 0)
             throw new Exception("imageFile is empty");

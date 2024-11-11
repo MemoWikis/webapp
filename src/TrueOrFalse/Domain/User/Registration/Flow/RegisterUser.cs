@@ -69,10 +69,10 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user, _messageRepo);
         _sessionUser.Login(user);
 
-        var category = PersonalTopic.GetPersonalCategory(user, _pageRepository);
+        var category = PersonalPage.GetPersonalCategory(user, _pageRepository);
         category.Visibility = PageVisibility.Owner;
         _pageRepository.Create(category);
-        user.StartTopicId = category.Id;
+        user.StartPageId = category.Id;
         user.DateCreated = DateTime.Now;
         _userWritingRepo.Update(user);
         return new RegisterResult

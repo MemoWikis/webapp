@@ -73,8 +73,8 @@ public class CategoryHistoryDetailModel
         PrevRevExists = previousRevision != null;
         NextRevExists = nextRevision != null;
 
-        var previousRevisionData = !PrevRevExists ? null : previousRevision.GetCategoryChangeData();
-        var currentRevisionData = currentRevision.GetCategoryChangeData();
+        var previousRevisionData = !PrevRevExists ? null : previousRevision.GetPageChangeData();
+        var currentRevisionData = currentRevision.GetPageChangeData();
         currentRevisionData = currentVersionTypeDelete
             ? new PageEditData_V2(_pageRepository)
             : currentRevisionData;
@@ -109,7 +109,7 @@ public class CategoryHistoryDetailModel
         CurrentName = currentVersionTypeDelete
             ? previousRevisionData.Name
             : currentRevisionData.Name;
-        CurrentMarkdown = currentRevisionData.TopicMardkown?.Replace("\\r\\n", "\r\n");
+        CurrentMarkdown = currentRevisionData.PageMardkown?.Replace("\\r\\n", "\r\n");
         CurrentContent = FormatHtmlString(currentRevisionData.Content);
         CurrentSegments = currentRevisionData.CustomSegments;
         CurrentDescription = currentRevisionData.Description?.Replace("\\r\\n", "\r\n");
@@ -127,9 +127,9 @@ public class CategoryHistoryDetailModel
 
         if (PrevRevExists)
         {
-            var prevRevisionData = previousRevision.GetCategoryChangeData();
+            var prevRevisionData = previousRevision.GetPageChangeData();
             PrevName = prevRevisionData?.Name;
-            PrevMarkdown = prevRevisionData?.TopicMardkown?.Replace("\\r\\n", "\r\n");
+            PrevMarkdown = prevRevisionData?.PageMardkown?.Replace("\\r\\n", "\r\n");
             PrevContent = prevRevisionData != null
                 ? FormatHtmlString(prevRevisionData?.Content)
                 : null;
@@ -173,14 +173,14 @@ public class CategoryHistoryDetailModel
         return formatted;
     }
 
-    private bool CrIsVisibleToCurrentUser(int categoryId, int relatedCategoryId)
+    private bool CrIsVisibleToCurrentUser(int pageId, int relatedCategoryId)
     {
         PageCacheItem page = null;
         PageCacheItem relatedPage = null;
 
         try
         {
-            page = EntityCache.GetPage(categoryId);
+            page = EntityCache.GetPage(pageId);
             relatedPage = EntityCache.GetPage(relatedCategoryId);
         }
         catch (Exception e)

@@ -25,9 +25,9 @@ public class QuestionWritingRepo(
         Create(question);
         Flush();
 
-        _updateQuestionCountForCategory.Run(question.Categories);
+        _updateQuestionCountForCategory.Run(question.Pages);
 
-        foreach (var category in question.Categories.ToList())
+        foreach (var category in question.Pages.ToList())
         {
             category.UpdateCountQuestionsAggregated(question.Creator.Id);
             pageRepository.Update(category);
@@ -50,14 +50,14 @@ public class QuestionWritingRepo(
     public List<int> Delete(int questionId, int userId, List<int> parentIds)
     {
         var question = GetById(questionId);
-        var parentTopics = pageRepository.GetByIds(parentIds);
+        var parentPages = pageRepository.GetByIds(parentIds);
 
-        _updateQuestionCountForCategory.Run(parentTopics, userId);
+        _updateQuestionCountForCategory.Run(parentPages, userId);
         var safeText = Regex.Replace(question.Text, "<.*?>", "");
 
         var changeId = DeleteAndGetChangeId(question, userId);
 
-        foreach (var parent in parentTopics)
+        foreach (var parent in parentPages)
             pageChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
 
         return parentIds;
@@ -99,7 +99,7 @@ public class QuestionWritingRepo(
 
         Flush();
         var categoriesToUpdate = categoriesBeforeUpdate
-            .Union(question.Categories)
+            .Union(question.Pages)
             .Union(question.References.Where(r => r.Page != null)
                 .Select(r => r.Page))
             .ToList();
@@ -130,7 +130,7 @@ public class QuestionWritingRepo(
             return;
 
         questionCacheItem.Visibility = question.Visibility;
-        questionCacheItem.Pages = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList();
+        questionCacheItem.Pages = EntityCache.GetCategories(question.Pages?.Select(c => c.Id)).ToList();
         questionCacheItem.DateCreated = question.DateCreated;
         questionCacheItem.DateModified = question.DateModified;
         questionCacheItem.DescriptionHtml = question.DescriptionHtml;

@@ -5,17 +5,17 @@ using TrueOrFalse.Web;
 
 namespace VueApp;
 
-public class FeedModalTopicController(
+public class FeedModalPageController(
     PermissionCheck _permissionCheck,
     PageChangeRepo pageChangeRepo) : Controller
 {
-    public readonly record struct GetContentChangeRequest(int Topicid, int ChangeId, int? OldestChangeId = null);
+    public readonly record struct GetContentChangeRequest(int Pageid, int ChangeId, int? OldestChangeId = null);
     public record struct ContentChange(string CurrentContent, string DiffContent);
 
     [HttpPost]
     public ContentChange GetContentChange([FromBody] GetContentChangeRequest req)
     {
-        var topic = EntityCache.GetPage(req.Topicid);
+        var topic = EntityCache.GetPage(req.Pageid);
         if (!_permissionCheck.CanView(topic))
             throw new Exception("No permission");
 
@@ -31,13 +31,13 @@ public class FeedModalTopicController(
         if (previousChange == null)
             throw new Exception("No content change found");
 
-        var currentContent = currentChange.GetCategoryChangeData().Content;
+        var currentContent = currentChange.GetPageChangeData().Content;
 
-        var previousChangeData = previousChange.GetCategoryChangeData();
+        var previousChangeData = previousChange.GetPageChangeData();
         var previousContent = previousChangeData.Content;
 
-        if (String.IsNullOrEmpty(previousContent) && previousChange.DataVersion == 1 && !String.IsNullOrEmpty(previousChangeData.TopicMardkown))
-            previousContent = MarkdownMarkdig.ToHtml(previousChangeData.TopicMardkown);
+        if (String.IsNullOrEmpty(previousContent) && previousChange.DataVersion == 1 && !String.IsNullOrEmpty(previousChangeData.PageMardkown))
+            previousContent = MarkdownMarkdig.ToHtml(previousChangeData.PageMardkown);
 
         if (previousContent == null)
             previousContent = "";

@@ -143,16 +143,16 @@ public class QuestionEditModalController(
         question.DescriptionHtml = request.DescriptionHtml;
         question.SolutionType = request.SolutionType;
 
-        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
+        var preEditedCategoryIds = question.Pages.Select(c => c.Id);
         var newCategoryIds = request.CategoryIds.ToList();
 
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
-        foreach (var categoryId in categoriesToRemove)
-            if (!_permissionCheck.CanViewCategory(categoryId))
-                newCategoryIds.Add(categoryId);
+        foreach (var pageId in categoriesToRemove)
+            if (!_permissionCheck.CanViewPage(pageId))
+                newCategoryIds.Add(pageId);
 
-        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
+        question.Pages = GetAllParentsForQuestion(newCategoryIds, question);
         question.Visibility = (QuestionVisibility)request.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
@@ -191,10 +191,10 @@ public class QuestionEditModalController(
         string SolutionMetadataJson,
         string Text,
         string TextExtended,
-        int[] PublicTopicIds,
+        int[] PublicPageIds,
         string DescriptionHtml,
-        SearchTopicItem[] Topics,
-        int[] TopicIds,
+        SearchPageItem[] Pages,
+        int[] PageIds,
         int LicenseId,
         QuestionVisibility Visibility);
 
@@ -215,10 +215,10 @@ public class QuestionEditModalController(
             SolutionMetadataJson: question.SolutionMetadataJson,
             Text: question.TextHtml,
             TextExtended: question.TextExtendedHtml,
-            PublicTopicIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            PublicPageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             DescriptionHtml: question.DescriptionHtml,
-            Topics: topicsVisibleToCurrentUser.Select(t => FillMiniTopicItem(t)).ToArray(),
-            TopicIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            Pages: topicsVisibleToCurrentUser.Select(t => FillMiniPageItem(t)).ToArray(),
+            PageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             LicenseId: question.LicenseId,
             Visibility: question.Visibility
         );
@@ -270,9 +270,9 @@ public class QuestionEditModalController(
         return question;
     }
 
-    private SearchTopicItem FillMiniTopicItem(PageCacheItem topic)
+    private SearchPageItem FillMiniPageItem(PageCacheItem topic)
     {
-        var miniTopicItem = new SearchTopicItem
+        var miniPageItem = new SearchPageItem
         {
             Id = topic.Id,
             Name = topic.Name,
@@ -288,7 +288,7 @@ public class QuestionEditModalController(
             Visibility = (int)topic.Visibility
         };
 
-        return miniTopicItem;
+        return miniPageItem;
     }
 
     private string RemoveHtmlTags(string text)
@@ -299,11 +299,11 @@ public class QuestionEditModalController(
     private List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
         var topics = new List<Page>();
-        var privateTopics = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
-        topics.AddRange(privateTopics);
+        var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+        topics.AddRange(privatePages);
 
-        foreach (var categoryId in newCategoryIds)
-            topics.Add(pageRepository.GetById(categoryId));
+        foreach (var pageId in newCategoryIds)
+            topics.Add(pageRepository.GetById(pageId));
 
         return topics;
     }

@@ -2,14 +2,14 @@
 
 public class MiddlewareStartpageController(SessionUser _sessionUser) : Controller
 {
-    public readonly record struct TinyTopic(int Id, string Name);
+    public readonly record struct TinyPage(int Id, string Name);
 
     [HttpGet]
-    public TinyTopic Get()
+    public TinyPage Get()
     {
         var topic = _sessionUser.IsLoggedIn
-            ? EntityCache.GetPage(_sessionUser.User.StartTopicId)
-            : RootCategory.Get;
-        return new TinyTopic { Name = topic.Name, Id = topic.Id };
+            ? EntityCache.GetPage(_sessionUser.User.StartPageId)
+            : RootPage.Get;
+        return new TinyPage { Name = topic.Name, Id = topic.Id };
     }
 }

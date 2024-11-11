@@ -20,21 +20,21 @@
     public readonly record struct CreateResult(
         bool Success,
         string MessageKey,
-        TinyTopicItem Data);
+        TinyPageItem Data);
 
-    public readonly record struct TinyTopicItem(bool CantSavePrivateTopic, string Name, int Id);
+    public readonly record struct TinyPageItem(bool CantSavePrivatePage, string Name, int Id);
 
-    public CreateResult Create(string name, int parentTopicId, SessionUser sessionUser)
+    public CreateResult Create(string name, int parentPageId, SessionUser sessionUser)
     {
-        if (!new LimitCheck(_logg, sessionUser).CanSavePrivateTopic(true))
+        if (!new LimitCheck(_logg, sessionUser).CanSavePrivatePage(true))
         {
             return new CreateResult
             {
                 Success = false,
-                MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivateTopic,
-                Data = new TinyTopicItem
+                MessageKey = FrontendMessageKeys.Error.Subscription.CantSavePrivatePage,
+                Data = new TinyPageItem
                 {
-                    CantSavePrivateTopic = true
+                    CantSavePrivatePage = true
                 }
             };
         }
@@ -47,12 +47,12 @@
         _pageRepository.Create(topic);
 
         var modifyRelationsForCategory = new ModifyRelationsForCategory(_pageRepository, _pageRelationRepo);
-        modifyRelationsForCategory.AddChild(parentTopicId, topic.Id, sessionUser.UserId);
+        modifyRelationsForCategory.AddChild(parentPageId, topic.Id, sessionUser.UserId);
 
         return new CreateResult
         {
             Success = true,
-            Data = new TinyTopicItem
+            Data = new TinyPageItem
             {
                 Name = topic.Name,
                 Id = topic.Id

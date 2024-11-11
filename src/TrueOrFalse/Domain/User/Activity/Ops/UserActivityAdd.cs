@@ -41,7 +41,7 @@ public class UserActivityAdd
             {
                 UserConcerned = follower.Follower,
                 At = DateTime.Now,
-                Type = UserActivityType.CreatedCategory,
+                Type = UserActivityType.CreatedPage,
                 Page = page,
                 UserCauser = page.Creator
             });

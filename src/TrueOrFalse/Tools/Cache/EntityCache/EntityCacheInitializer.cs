@@ -41,7 +41,7 @@ public class EntityCacheInitializer(
         var categories = PageCacheItem.ToCacheCategories(allCategories, allCategoryViews, allCategoryChanges).ToList();
         Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         Cache.IntoForeverCache(EntityCache.CacheKeyPages, categories.ToConcurrentDictionary());
-        EntityCache.AddViewsLast30DaysToTopics(pageViewRepo, categories);
+        EntityCache.AddViewsLast30DaysToPages(pageViewRepo, categories);
         Logg.r.Information("EntityCache CategoriesPutIntoForeverCache " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var allQuestionChanges = _questionChangeRepo.GetAll();

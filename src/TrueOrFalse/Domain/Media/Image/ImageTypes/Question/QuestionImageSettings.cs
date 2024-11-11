@@ -45,8 +45,8 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
         if (imageUrl.HasUploadedImage)
             return imageUrl;
 
-        if (_question.Categories.Any())
-            return new PageImageSettings(_question.Categories.First().Id,
+        if (_question.Pages.Any())
+            return new PageImageSettings(_question.Pages.First().Id,
                 _contextAccessor).GetUrl(width, isSquare);
 
         return imageUrl;

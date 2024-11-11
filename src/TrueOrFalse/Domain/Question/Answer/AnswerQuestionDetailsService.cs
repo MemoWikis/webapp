@@ -12,7 +12,7 @@ public record struct AnswerQuestionDetailsResult(
     int OverallAnsweredCorrectly,
     int OverallAnsweredWrongly,
     bool IsInWishknowledge,
-    AnswerQuestionDetailsTopicItem[] Topics,
+    AnswerQuestionDetailsPageItem[] Pages,
     QuestionVisibility Visibility,
     long DateNow,
     long EndTimer,
@@ -24,7 +24,7 @@ public record struct AnswerQuestionDetailsResult(
 
 public record struct MacroCreator(int Id, string Name);
 
-public record struct AnswerQuestionDetailsTopicItem(
+public record struct AnswerQuestionDetailsPageItem(
     int Id,
     string Name,
     int QuestionCount,

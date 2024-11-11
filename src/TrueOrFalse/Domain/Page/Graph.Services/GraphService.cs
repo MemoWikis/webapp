@@ -3,8 +3,8 @@
 /// </summary>
 public class GraphService
 {
-    public static IList<PageCacheItem> Ascendants(int categoryId) =>
-        Ascendants(EntityCache.GetPage(categoryId));
+    public static IList<PageCacheItem> Ascendants(int pageId) =>
+        Ascendants(EntityCache.GetPage(pageId));
 
     private static IList<PageCacheItem> Ascendants(PageCacheItem page)
     {
@@ -41,9 +41,9 @@ public class GraphService
         return allParents;
     }
 
-    public static void IncrementTotalViewsForAllAscendants(int topicId)
+    public static void IncrementTotalViewsForAllAscendants(int pageId)
     {
-        var ascendants = Ascendants(topicId);
+        var ascendants = Ascendants(pageId);
         foreach (var ascendant in ascendants)
             ascendant.TotalViews++;
     }
@@ -83,13 +83,13 @@ public class GraphService
     }
 
     public static List<PageCacheItem> VisibleParents(
-        int categoryId,
+        int pageId,
         PermissionCheck permissionCheck)
     {
-        var allCategories = EntityCache.GetAllCategoriesList();
+        var allPages = EntityCache.GetAllPagesList();
 
-        return allCategories.SelectMany(c => c.ParentRelations
-            .Where(cr => cr.ChildId == categoryId && permissionCheck.CanViewCategory(cr.ParentId))
+        return allPages.SelectMany(c => c.ParentRelations
+            .Where(cr => cr.ChildId == pageId && permissionCheck.CanViewPage(cr.ParentId))
             .Select(cr => EntityCache.GetPage(cr.ParentId))).ToList();
     }
 
@@ -99,25 +99,25 @@ public class GraphService
     }
 
     public static List<PageCacheItem> VisibleChildren(
-        int categoryId,
+        int pageId,
         PermissionCheck permissionCheck,
         int userId)
     {
         var visibleChildren = new List<PageCacheItem>();
 
-        var parent = EntityCache.GetPage(categoryId);
+        var parent = EntityCache.GetPage(pageId);
         foreach (var relation in parent.ChildRelations)
         {
-            if (EntityCache.Pages.TryGetValue(relation.ChildId, out var childCategory) &&
-                permissionCheck.CanView(userId, childCategory))
-                visibleChildren.Add(childCategory);
+            if (EntityCache.Pages.TryGetValue(relation.ChildId, out var childPage) &&
+                permissionCheck.CanView(userId, childPage))
+                visibleChildren.Add(childPage);
         }
 
         return visibleChildren;
     }
 
     public static IList<PageCacheItem> VisibleDescendants(
-        int categoryId,
+        int pageId,
         PermissionCheck permissionCheck,
         int userId)
     {
@@ -141,7 +141,7 @@ public class GraphService
             }
         }
 
-        AddDescendants(categoryId);
+        AddDescendants(pageId);
 
         return allDescendants.ToList();
     }
@@ -151,25 +151,25 @@ public class GraphService
         var childrenIds = page.ChildRelations.Select(r => r.ChildId);
         var children = childrenIds
             .Select(id =>
-                EntityCache.Pages.TryGetValue(id, out var childCategory)
-                    ? childCategory
+                EntityCache.Pages.TryGetValue(id, out var childPage)
+                    ? childPage
                     : null)
             .Where(c => c != null)
             .ToList();
         return children;
     }
 
-    public static List<PageCacheItem> Children(int categoryId) =>
-        Children(EntityCache.GetPage(categoryId));
+    public static List<PageCacheItem> Children(int pageId) =>
+        Children(EntityCache.GetPage(pageId));
 
     public static IList<PageCacheItem> Descendants(int parentId)
     {
         var descendants = new List<PageCacheItem>();
         var toProcess = new Queue<int>();
 
-        if (EntityCache.Pages.TryGetValue(parentId, out var parentCategory))
+        if (EntityCache.Pages.TryGetValue(parentId, out var parentPage))
         {
-            foreach (var childRelation in parentCategory.ChildRelations)
+            foreach (var childRelation in parentPage.ChildRelations)
             {
                 toProcess.Enqueue(childRelation.ChildId);
             }
@@ -178,11 +178,11 @@ public class GraphService
         while (toProcess.Count > 0)
         {
             var currentId = toProcess.Dequeue();
-            if (EntityCache.Pages.TryGetValue(currentId, out var currentCategory))
+            if (EntityCache.Pages.TryGetValue(currentId, out var currentPage))
             {
-                descendants.Add(currentCategory);
+                descendants.Add(currentPage);
 
-                foreach (var childRelation in currentCategory.ChildRelations)
+                foreach (var childRelation in currentPage.ChildRelations)
                 {
                     if (!descendants.Any(d => d.Id == childRelation.ChildId) &&
                         !toProcess.Contains(childRelation.ChildId))

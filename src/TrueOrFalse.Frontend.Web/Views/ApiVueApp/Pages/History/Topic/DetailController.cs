@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System;
+using System.Linq;
 
 namespace VueApp;
 
-public class HistoryTopicDetailController(
+public class HistoryPageDetailController(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
-    RestoreCategory _restoreCategory,
+    RestorePage restorePage,
     PageChangeRepo pageChangeRepo,
     PageRepository pageRepository,
     IHttpContextAccessor _httpContextAccessor,
@@ -19,14 +19,14 @@ public class HistoryTopicDetailController(
 {
     [HttpGet]
     public ChangeDetailResult Get(
-        [FromQuery] int topicId,
+        [FromQuery] int pageId,
         int currentRevisionId,
         int firstEditId = 0)
     {
-        if (!_permissionCheck.CanViewCategory(topicId))
+        if (!_permissionCheck.CanViewPage(pageId))
             throw new Exception("not allowed");
 
-        var listWithAllVersions = pageChangeRepo.GetForTopic(topicId).OrderBy(c => c.Id);
+        var listWithAllVersions = pageChangeRepo.GetForPage(pageId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == PageChangeType.Delete);
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == currentRevisionId);
@@ -36,7 +36,7 @@ public class HistoryTopicDetailController(
             : listWithAllVersions.LastOrDefault(c => c.Id < firstEditId);
 
         if (currentRevision.Page.Id != previousRevision.Page.Id)
-            throw new Exception("different topic ids");
+            throw new Exception("different page ids");
 
         var nextRevision = listWithAllVersions.FirstOrDefault(c => c.Id > currentRevisionId);
         var topicHistoryDetailModel = new CategoryHistoryDetailModel(currentRevision,
@@ -54,7 +54,7 @@ public class HistoryTopicDetailController(
         var currentAuthor = currentRevision.Author();
         var result = new ChangeDetailResult
         {
-            TopicName = topicHistoryDetailModel.CategoryName,
+            PageName = topicHistoryDetailModel.CategoryName,
             ImageWasUpdated = topicHistoryDetailModel.ImageWasUpdated,
             IsCurrent = !topicHistoryDetailModel.NextRevExists,
             ChangeType = topicHistoryDetailModel.ChangeType,
@@ -108,7 +108,7 @@ public class HistoryTopicDetailController(
     }
 
     public record struct ChangeDetailResult(
-        string TopicName,
+        string PageName,
         bool ImageWasUpdated,
         bool IsCurrent,
         PageChangeType ChangeType,
@@ -132,11 +132,11 @@ public class HistoryTopicDetailController(
     );
 
     public CategoryHistoryDetailModel GetCategoryHistoryDetailModel(
-        int categoryId,
+        int pageId,
         int firstEditId,
         int selectedRevId)
     {
-        var listWithAllVersions = pageChangeRepo.GetForCategory(categoryId).OrderBy(c => c.Id);
+        var listWithAllVersions = pageChangeRepo.GetForCategory(pageId).OrderBy(c => c.Id);
         var isCategoryDeleted = listWithAllVersions.Any(cc => cc.Type == PageChangeType.Delete);
 
         var currentRevision = listWithAllVersions.FirstOrDefault(c => c.Id == selectedRevId);
@@ -157,16 +157,16 @@ public class HistoryTopicDetailController(
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
-    public void RestoreTopic(int topicChangeId)
+    public void RestorePage(int topicChangeId)
     {
         var topicChange = pageChangeRepo.GetByIdEager(topicChangeId);
         var isCorrectType =
             topicChange.Type is PageChangeType.Text or PageChangeType.Renamed;
 
-        if (!_permissionCheck.CanViewCategory(topicChange.Page.Id) ||
+        if (!_permissionCheck.CanViewPage(topicChange.Page.Id) ||
             !_permissionCheck.CanEditCategory(topicChange.Page.Id))
             throw new Exception("not allowed");
 
-        _restoreCategory.Run(topicChangeId, _sessionUser.User);
+        restorePage.Run(topicChangeId, _sessionUser.User);
     }
 }

@@ -14,7 +14,7 @@ public class GridItemController(
     public readonly record struct GetChildrenResult(
         bool Success,
         string MessageKey = "",
-        TopicGridManager.GridTopicItem[] Data = null);
+        PageGridManager.GridPageItem[] Data = null);
 
     [HttpGet]
     public GetChildrenResult GetChildren([FromRoute] int id)
@@ -23,7 +23,7 @@ public class GridItemController(
         if (!_permissionCheck.CanView(topic))
             return new GetChildrenResult(
                 Success: false, MessageKey: FrontendMessageKeys.Error.Page.MissingRights);
-        var children = new TopicGridManager(
+        var children = new PageGridManager(
             _permissionCheck,
             _sessionUser,
             _imageMetaDataReadingRepo,
@@ -36,7 +36,7 @@ public class GridItemController(
     public readonly record struct GetItemResult(
         bool Success,
         string MessageKey,
-        TopicGridManager.GridTopicItem Data);
+        PageGridManager.GridPageItem Data);
 
     [HttpGet]
     public GetItemResult GetItem([FromRoute] int id)
@@ -49,13 +49,13 @@ public class GridItemController(
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var gridItem = new TopicGridManager(
+        var gridItem = new PageGridManager(
             _permissionCheck,
             _sessionUser,
             _imageMetaDataReadingRepo,
             _httpContextAccessor,
             _knowledgeSummaryLoader,
-            _questionReadingRepo).BuildGridTopicItem(topic);
+            _questionReadingRepo).BuildGridPageItem(topic);
         return new GetItemResult { Success = true, Data = gridItem };
     }
 }

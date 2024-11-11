@@ -36,14 +36,14 @@ public class PageRepository(
         return GetByIdsEager();
     }
 
-    public Page? GetByIdEager(int categoryId) =>
-        GetByIdsEager(new[] { categoryId }).FirstOrDefault();
+    public Page? GetByIdEager(int pageId) =>
+        GetByIdsEager(new[] { pageId }).FirstOrDefault();
 
 
-    public override void Delete(int categoryId)
+    public override void Delete(int pageId)
     {
-        _session.CreateSQLQuery("DELETE FROM category WHERE Id = :categoryId")
-            .SetParameter("categoryId", categoryId)
+        _session.CreateSQLQuery("DELETE FROM category WHERE Id = :pageId")
+            .SetParameter("pageId", pageId)
             .ExecuteUpdate();
         ClearAllItemCache();
     }
@@ -69,10 +69,10 @@ public class PageRepository(
         return result;
     }
 
-    public Page? GetById(int categoryId)
+    public Page? GetById(int pageId)
     {
         return _session.QueryOver<Page>()
-            .Where(c => c.Id == categoryId)
+            .Where(c => c.Id == pageId)
             .SingleOrDefault();
     }
 

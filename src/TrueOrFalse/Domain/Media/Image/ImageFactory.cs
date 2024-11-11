@@ -19,9 +19,9 @@ public class ImageSettingsFactory
         {
             return (T)(IImageSettings)new PageImageSettings(typeId, _httpContextAccessor);
         }
-        if (typeof(T) == typeof(TopicContentImageSettings))
+        if (typeof(T) == typeof(PageContentImageSettings))
         {
-            return (T)(IImageSettings)new TopicContentImageSettings(typeId, _httpContextAccessor);
+            return (T)(IImageSettings)new PageContentImageSettings(typeId, _httpContextAccessor);
         }
 
         if (typeof(T) == typeof(QuestionContentImageSettings))

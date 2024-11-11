@@ -5,8 +5,8 @@ public static class ImageDirectoryCreator
     {
         var imageDirectories = new List<string>
         {
-            Settings.TopicImageBasePath,
-            Settings.TopicContentImageBasePath,
+            Settings.PageImageBasePath,
+            Settings.PageContentImageBasePath,
             Settings.UserImageBasePath,
             Settings.QuestionImageBasePath,
             Settings.QuestionContentImageBasePath,

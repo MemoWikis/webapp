@@ -18,16 +18,16 @@ public class QuestionUpdater(
             (SolutionType)Enum.Parse(typeof(TrueOrFalse.SolutionType),
                 questionDataParam.SolutionType);
 
-        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
+        var preEditedCategoryIds = question.Pages.Select(c => c.Id);
         var newCategoryIds = questionDataParam.CategoryIds.ToList();
 
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
-        foreach (var categoryId in categoriesToRemove)
-            if (!_permissionCheck.CanViewCategory(categoryId))
-                newCategoryIds.Add(categoryId);
+        foreach (var pageId in categoriesToRemove)
+            if (!_permissionCheck.CanViewPage(pageId))
+                newCategoryIds.Add(pageId);
 
-        question.Categories =
+        question.Pages =
             GetAllParentsForQuestion(newCategoryIds, question);
         question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
 
@@ -84,11 +84,11 @@ public class QuestionUpdater(
     {
         var categories = new List<Page>();
         var privateCategories =
-            question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+            question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         categories.AddRange(privateCategories);
 
-        foreach (var categoryId in newCategoryIds)
-            categories.Add(pageRepository.GetById(categoryId));
+        foreach (var pageId in newCategoryIds)
+            categories.Add(pageRepository.GetById(pageId));
 
         return categories;
     }

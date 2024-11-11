@@ -121,13 +121,13 @@ public class Links
         if (type is Page)
         {
             var topic = (Page)type;
-            return GetTopicUrl(UriSanitizer.Run(topic.Name), topic.Id);
+            return GetPageUrl(UriSanitizer.Run(topic.Name), topic.Id);
         }
 
         if (type is PageCacheItem)
         {
             var topic = (PageCacheItem)type;
-            return GetTopicUrl(UriSanitizer.Run(topic.Name), topic.Id);
+            return GetPageUrl(UriSanitizer.Run(topic.Name), topic.Id);
         }
 
         if (type is Question)
@@ -172,7 +172,7 @@ public class Links
         return "/Nutzer/Suche/" + searchTerm;
     }
 
-    public string GetTopicUrl(string text, int id)
+    public string GetPageUrl(string text, int id)
     {
         return $"/{text}/{id}";
     }

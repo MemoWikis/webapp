@@ -1,25 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-public class TopicContentImageSettings : ImageSettings, IImageSettings
+public class PageContentImageSettings : ImageSettings, IImageSettings
 {
     public override int Id { get; set; }
-    public ImageType ImageType => ImageType.TopicContent;
+    public ImageType ImageType => ImageType.PageContent;
     public IEnumerable<int> SizesSquare => [128];
     public IEnumerable<int> SizesFixedWidth => [800];
 
-    public override string BasePath => Settings.TopicContentImageBasePath;
+    public override string BasePath => Settings.PageContentImageBasePath;
     public string BaseDummyUrl => "no-category-picture-128.png";
 
-    public TopicContentImageSettings(
-        int categoryId,
+    public PageContentImageSettings(
+        int pageId,
         IHttpContextAccessor contextAccessor) :
         base(contextAccessor)
     {
-        Id = categoryId;
+        Id = pageId;
     }
 
-    public void Init(int categoryId)
+    public void Init(int pageId)
     {
-        Id = categoryId;
+        Id = pageId;
     }
 }

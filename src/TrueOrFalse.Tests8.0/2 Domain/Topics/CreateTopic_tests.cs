@@ -1,9 +1,9 @@
-﻿namespace TrueOrFalse.Tests8._0.Domain.Topics
+﻿namespace TrueOrFalse.Tests8._0.Domain.Pages
 {
-    internal class CreateTopic_tests : BaseTest
+    internal class CreatePage_tests : BaseTest
     {
         [Test]
-        public void Should_create_Topic_in_Db()
+        public void Should_create_Page_in_Db()
         {
             //Arrange
             var context = ContextCategory.New();
@@ -44,7 +44,7 @@
         }
 
         [Test]
-        public void Should_create_Topic_in_EntityCache()
+        public void Should_create_Page_in_EntityCache()
         {
             //Arrange
             var context = ContextCategory.New();

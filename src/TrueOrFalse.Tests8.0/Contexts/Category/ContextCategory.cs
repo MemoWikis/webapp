@@ -170,7 +170,7 @@
             cr.ParentId == deletedId || cr.ChildId == deletedId);
     }
 
-    public Page GetTopicByName(string name)
+    public Page GetPageByName(string name)
     {
         return All.Single(c => c.Name == name);
     }

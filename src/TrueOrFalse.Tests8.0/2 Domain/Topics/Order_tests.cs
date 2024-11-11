@@ -1,7 +1,7 @@
 ﻿class Order_tests : BaseTest
 {
     [Test]
-    public void Should_Sort_Topics()
+    public void Should_Sort_Pages()
     {
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
@@ -15,7 +15,7 @@
         };
 
         //Act
-        var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
+        var sortedRelations = PageOrderer.Sort(unsortedRelations, 10);
 
         //Assert
         Assert.IsNotNull(sortedRelations);
@@ -26,7 +26,7 @@
     }
 
     [Test]
-    public void Should_Sort_Topics_with_faulty_relations()
+    public void Should_Sort_Pages_with_faulty_relations()
     {
         //Arrange
         var unsortedRelations = new List<PageRelationCache>
@@ -47,7 +47,7 @@
         };
 
         //Act
-        var sortedRelations = TopicOrderer.Sort(unsortedRelations, 10);
+        var sortedRelations = PageOrderer.Sort(unsortedRelations, 10);
 
         Assert.IsNotNull(sortedRelations);
         Assert.That(sortedRelations.Count, Is.EqualTo(6));
@@ -132,7 +132,7 @@
             new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
+        PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
             modifyRelationsForCategory);
 
         //Assert
@@ -204,7 +204,7 @@
             new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
+        PageOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
             modifyRelationsForCategory);
 
         //Assert
@@ -284,7 +284,7 @@
             new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
+        PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
             modifyRelationsForCategory);
 
         //Assert
@@ -364,13 +364,13 @@
             new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act & Assert
-        var ex = Assert.Throws<Exception>(() => TopicOrderer.MoveAfter(relationToMove,
+        var ex = Assert.Throws<Exception>(() => PageOrderer.MoveAfter(relationToMove,
             sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
 
         Assert.That(ex.Message, Is.EqualTo(FrontendMessageKeys.Error.Page.CircularReference));
 
         var ex2 = Assert.Throws<Exception>(() =>
-            TopicOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
+            PageOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
                 modifyRelationsForCategory));
         Assert.That(ex2.Message, Is.EqualTo(FrontendMessageKeys.Error.Page.CircularReference));
     }
@@ -410,7 +410,7 @@
             new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
 
         //Act
-        TopicOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
+        PageOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
             R<PermissionCheck>());
 
         //Assert

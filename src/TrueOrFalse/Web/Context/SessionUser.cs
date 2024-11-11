@@ -73,7 +73,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
-        CurrentWikiId = user.StartTopicId;
+        CurrentWikiId = user.StartPageId;
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
-public class TopicController(
+public class PageController(
     SessionUser _sessionUser,
     PageViewRepo pageViewRepo,
     PermissionCheck _permissionCheck,
@@ -15,14 +15,14 @@ public class TopicController(
 
 {
     [HttpGet]
-    public TopicDataResult GetTopic([FromRoute] int id)
+    public PageDataResult GetPage([FromRoute] int id)
     {
         var userAgent = Request.Headers["User-Agent"].ToString();
 
         if (!Settings.TrackersToIgnore.Any(item => userAgent.Contains(item)))
             pageViewRepo.AddView(userAgent, id, _sessionUser.UserId);
 
-        var data = new TopicDataManager(
+        var data = new PageDataManager(
                 _sessionUser,
                 _permissionCheck,
                 _knowledgeSummaryLoader,
@@ -30,9 +30,9 @@ public class TopicController(
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
-            .GetTopicData(id);
+            .GetPageData(id);
 
-        return new TopicDataResult
+        return new PageDataResult
         {
             Name = data.Name,
             Id = data.Id,
@@ -40,11 +40,11 @@ public class TopicController(
             AuthorIds = data.AuthorIds,
             CanAccess = data.CanAccess,
             CanBeDeleted = data.CanBeDeleted,
-            ChildTopicCount = data.ChildTopicCount,
+            ChildPageCount = data.ChildPageCount,
             Content = data.Content,
             CurrentUserIsCreator = data.CurrentUserIsCreator,
             DirectQuestionCount = data.DirectQuestionCount,
-            DirectVisibleChildTopicCount = data.DirectVisibleChildTopicCount,
+            DirectVisibleChildPageCount = data.DirectVisibleChildPageCount,
             GridItems = data.GridItems,
             ImageId = data.ImageId,
             ImageUrl = data.ImageUrl,
@@ -52,10 +52,10 @@ public class TopicController(
             IsWiki = data.IsWiki,
             KnowledgeSummary = data.KnowledgeSummary,
             MetaDescription = data.MetaDescription,
-            ParentTopicCount = data.ParentTopicCount,
+            ParentPageCount = data.ParentPageCount,
             Parents = data.Parents,
             QuestionCount = data.QuestionCount,
-            TopicItem = data.TopicItem,
+            PageItem = data.PageItem,
             Views = data.Views,
             Visibility = data.Visibility,
             TextIsHidden = data.TextIsHidden,
@@ -64,36 +64,36 @@ public class TopicController(
         };
     }
 
-    public record struct TopicDataResult(
+    public record struct PageDataResult(
         bool CanAccess,
         int Id,
         string Name,
         string ImageUrl,
         string Content,
-        int ParentTopicCount,
-        TopicDataManager.Parent[] Parents,
-        int ChildTopicCount,
-        int DirectVisibleChildTopicCount,
+        int ParentPageCount,
+        PageDataManager.Parent[] Parents,
+        int ChildPageCount,
+        int DirectVisibleChildPageCount,
         int Views,
         PageVisibility Visibility,
         int[] AuthorIds,
-        TopicDataManager.Author[] Authors,
+        PageDataManager.Author[] Authors,
         bool IsWiki,
         bool CurrentUserIsCreator,
         bool CanBeDeleted,
         int QuestionCount,
         int DirectQuestionCount,
         int ImageId,
-        SearchTopicItem TopicItem,
+        SearchPageItem PageItem,
         string MetaDescription,
-        TopicDataManager.KnowledgeSummarySlim KnowledgeSummary,
-        TopicGridManager.GridTopicItem[] GridItems,
+        PageDataManager.KnowledgeSummarySlim KnowledgeSummary,
+        PageGridManager.GridPageItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
-        List<DailyViews> ViewsLast30DaysAggregatedTopic,
-        List<DailyViews> ViewsLast30DaysTopic,
+        List<DailyViews> ViewsLast30DaysAggregatedPage,
+        List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> ViewsLast30DaysQuestions
     );

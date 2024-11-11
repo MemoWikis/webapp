@@ -42,7 +42,7 @@
         _extendedUserCache.RemoveAllForCategory(page.Id, pageValuationWritingRepo);
 
         var deleteImage = new DeleteImage();
-        deleteImage.RemoveAllForTopic(page.Id);
+        deleteImage.RemoveAllForPage(page.Id);
 
         pageRepo.Delete(page.Id);
 
@@ -99,16 +99,16 @@
         return true;
     }
 
-    public record struct DeleteTopicResult(
+    public record struct DeletePageResult(
         bool HasChildren = false,
         bool IsNotCreatorOrAdmin = false,
         bool Success = false,
         RedirectParent? RedirectParent = null,
         string? MessageKey = null);
 
-    public DeleteTopicResult DeleteTopic(int topicToDeleteId, int? newParentForQuestionsId)
+    public DeletePageResult DeletePage(int topicToDeleteId, int? newParentForQuestionsId)
     {
-        var redirectParent = GetRedirectTopic(topicToDeleteId);
+        var redirectParent = GetRedirectPage(topicToDeleteId);
         var topic = pageRepo.GetById(topicToDeleteId);
 
         if (topic == null)
@@ -123,23 +123,23 @@
             .Select(c => c.Id)
             .ToList(); //if the parents are fetched directly from the category there is a problem with the flush
 
-        var hasQuestions = EntityCache.TopicHasQuestion(topicToDeleteId);
+        var hasQuestions = EntityCache.PageHasQuestion(topicToDeleteId);
         if (hasQuestions && newParentForQuestionsId != null)
             MoveQuestionsToParent(topicToDeleteId, (int)newParentForQuestionsId);
         else if (hasQuestions && newParentForQuestionsId == null || newParentForQuestionsId == 0)
-            return new DeleteTopicResult(MessageKey: FrontendMessageKeys.Error.Page.TopicNotSelected, Success: false);
+            return new DeletePageResult(MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected, Success: false);
 
         var hasDeleted = Run(topic, _sessionUser.UserId);
 
         if (parentIds != null && parentIds.Any())
         {
-            var parentTopics = pageRepo.GetByIds(parentIds);
+            var parentPages = pageRepo.GetByIds(parentIds);
 
-            foreach (var parent in parentTopics)
-                pageChangeRepo.AddDeletedChildTopicEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, topicName, topicVisibility);
+            foreach (var parent in parentPages)
+                pageChangeRepo.AddDeletedChildPageEntry(parent, _sessionUser.UserId, hasDeleted.ChangeId, topicName, topicVisibility);
         }
 
-        return new DeleteTopicResult(
+        return new DeletePageResult(
             HasChildren: hasDeleted.HasChildren,
             IsNotCreatorOrAdmin: hasDeleted.IsNotCreatorOrAdmin,
             Success: hasDeleted.DeletedSuccessful,
@@ -154,18 +154,18 @@
         }
 
         var parent = pageRepo.GetById(parentId);
-        var questionIdsFromTopicToDelete = EntityCache.GetQuestionsIdsForCategory(topicToDeleteId);
+        var questionIdsFromPageToDelete = EntityCache.GetQuestionsIdsForCategory(topicToDeleteId);
 
-        if (questionIdsFromTopicToDelete.Any())
-            pageToQuestionRepo.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
+        if (questionIdsFromPageToDelete.Any())
+            pageToQuestionRepo.AddQuestionsToCategory(parentId, questionIdsFromPageToDelete);
         pageRepo.Update(parent);
 
-        EntityCache.AddQuestionsToCategory(parentId, questionIdsFromTopicToDelete);
+        EntityCache.AddQuestionsToCategory(parentId, questionIdsFromPageToDelete);
     }
 
     public record RedirectParent(string Name, int Id);
 
-    private RedirectParent GetRedirectTopic(int id)
+    private RedirectParent GetRedirectPage(int id)
     {
         var topic = EntityCache.GetPage(id);
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);

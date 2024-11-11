@@ -28,12 +28,12 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
             .RowCount();
     }
 
-    public IList<Question> GetForCategory(int categoryId)
+    public IList<Question> GetForCategory(int pageId)
     {
         return _session.QueryOver<Question>()
             .Where(q => q.Visibility == QuestionVisibility.All)
-            .JoinQueryOver<Page>(q => q.Categories)
-            .Where(c => c.Id == categoryId)
+            .JoinQueryOver<Page>(q => q.Pages)
+            .Where(c => c.Id == pageId)
             .List<Question>();
     }
 
@@ -42,7 +42,7 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
         var questions = _session.QueryOver<Question>().Future().ToList();
 
         _session.QueryOver<Question>()
-            .Fetch(SelectMode.Fetch, x => x.Categories)
+            .Fetch(SelectMode.Fetch, x => x.Pages)
             .Future();
 
         _session.QueryOver<Question>()

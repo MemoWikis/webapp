@@ -2,7 +2,7 @@
 {
     public string Name;
     public string Description;
-    public string? TopicMardkown;
+    public string? PageMardkown;
     public string? Content;
     public string CustomSegments;
     public string WikipediaURL;

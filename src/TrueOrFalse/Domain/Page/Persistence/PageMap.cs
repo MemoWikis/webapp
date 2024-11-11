@@ -15,7 +15,7 @@ public class PageMap : ClassMap<Page>
         Map(x => x.CategoriesToIncludeIdsString);
         Map(x => x.DisableLearningFunctions);
         References(x => x.Creator).LazyLoad();
-        Map(x => x.TopicMarkdown);
+        Map(x => x.Markdown);
         Map(x => x.Content);
         Map(x => x.CustomSegments);
         Map(x => x.CountQuestionsAggregated);
@@ -28,7 +28,7 @@ public class PageMap : ClassMap<Page>
         Map(x => x.DateModified);
         Map(x => x.SkipMigration);
         Map(x => x.Visibility).CustomType<PageVisibility>();
-        Map(x => x.IsUserStartTopic);
+        Map(x => x.IsUserStartPage);
         Map(x => x.TextIsHidden).CustomType<bool>();
         Map(x => x.AuthorIds);
     }

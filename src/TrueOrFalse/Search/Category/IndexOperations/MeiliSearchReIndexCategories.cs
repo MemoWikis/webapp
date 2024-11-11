@@ -17,7 +17,7 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
 
     public async Task Run()
     {
-        await _client.DeleteIndexAsync(MeiliSearchConstants.Categories);
+        await _client.DeleteIndexAsync(MeiliSearchConstants.Pages);
         var allCateogoriesFromDb = _pageRepository.GetAll();
 
         var meiliSearchCategories = allCateogoriesFromDb.Select(c => new MeiliSearchCategoryMap
@@ -30,7 +30,7 @@ public class MeiliSearchReIndexCategories : IRegisterAsInstancePerLifetime
             Content = c.Content,
         });
 
-        var index = _client.Index(MeiliSearchConstants.Categories);
+        var index = _client.Index(MeiliSearchConstants.Pages);
         await index.AddDocumentsAsync(meiliSearchCategories);
     }
 }

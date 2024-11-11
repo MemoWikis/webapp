@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Concurrent;
 using System.Linq;
 
-public class TopicLearningQuestionController(
+public class PageLearningQuestionController(
     SessionUser _sessionUser,
     CommentRepository _commentRepository,
     TotalsPerUserLoader totalsPerUserLoader,

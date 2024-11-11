@@ -32,21 +32,21 @@
 
         if (page.Parents().All(c => c.Id != crumbtrailItems[0].Page.Id))
             Logg.r.Error(
-                "Breadcrumb - {currentPageId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}",
+                "Breadcrumb - {currentPageId}: next item is not a direct parent, currentItemId: {pageId}, nextItemId: {nextItemId}",
                 page.Id, page.Id, crumbtrailItems[0].Page.Id);
 
         for (int i = 0; i < crumbtrailItems.Count - 1; i++)
         {
-            var categoryCacheItem = crumbtrailItems[i].Page;
+            var pageCacheItem = crumbtrailItems[i].Page;
             var nextItemId = crumbtrailItems[i + 1].Page.Id;
 
-            if (!_permissionCheck.CanView(categoryCacheItem))
+            if (!_permissionCheck.CanView(pageCacheItem))
                 Logg.r.Error("Breadcrumb - {currentPageId}: visibility/permission", page.Id);
 
-            if (categoryCacheItem.Parents().All(c => c.Id != nextItemId))
+            if (pageCacheItem.Parents().All(c => c.Id != nextItemId))
                 Logg.r.Error(
-                    "Breadcrumb - {currentPageId}: next item is not a direct parent, currentItemId: {categoryId}, nextItemId: {nextItemId}",
-                    page.Id, categoryCacheItem.Id, nextItemId);
+                    "Breadcrumb - {currentPageId}: next item is not a direct parent, currentItemId: {pageid}, nextItemId: {nextItemId}",
+                    page.Id, pageCacheItem.Id, nextItemId);
         }
     }
 
@@ -121,7 +121,7 @@
 
     private PageCacheItem GetAlternativeWiki(PageCacheItem pageCacheItem, SessionUser sessionUser, IList<PageCacheItem> parents)
     {
-        var creatorWikiId = pageCacheItem.Creator.StartTopicId;
+        var creatorWikiId = pageCacheItem.Creator.StartPageId;
         if (_permissionCheck.CanView(EntityCache.GetPage(creatorWikiId)))
         {
             var newWiki = parents.FirstOrDefault(c => c.Id == creatorWikiId) ?? GetUserWiki(sessionUser, parents);
@@ -129,7 +129,7 @@
                 return newWiki;
         }
 
-        return parents.FirstOrDefault(p => p.IsStartPage()) ?? RootCategory.Get;
+        return parents.FirstOrDefault(p => p.IsStartPage()) ?? RootPage.Get;
     }
 
     private PageCacheItem? GetUserWiki(SessionUser sessionUser, IList<PageCacheItem> parents)
@@ -137,7 +137,7 @@
         if (!sessionUser.IsLoggedIn)
             return null;
 
-        var userWikiId = _extendedUserCache.GetUser(sessionUser.UserId).StartTopicId;
+        var userWikiId = _extendedUserCache.GetUser(sessionUser.UserId).StartPageId;
         var userWiki = EntityCache.GetPage(userWikiId);
 
         if (parents.Any(c => c.Id == userWiki?.Id))

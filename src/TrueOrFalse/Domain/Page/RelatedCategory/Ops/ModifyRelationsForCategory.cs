@@ -9,10 +9,10 @@
     /// <param name="relatedCategorieIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
     public void UpdateCategoryRelationsOfType(
-        int categoryId,
+        int pageId,
         IList<int> relatedCategorieIds)
     {
-        var category = pageRepository.GetByIdEager(categoryId);
+        var category = pageRepository.GetByIdEager(pageId);
     }
 
     public void AddParentCategory(Page page, int parentId)

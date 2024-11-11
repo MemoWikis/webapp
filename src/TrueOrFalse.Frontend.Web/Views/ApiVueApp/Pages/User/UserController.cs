@@ -28,8 +28,8 @@ public class UserController(
         ActivityPoints ActivityPoints,
         int PublicQuestionsCount,
         int PrivateQuestionsCount,
-        int PublicTopicsCount,
-        int PrivateTopicsCount,
+        int PublicPagesCount,
+        int PrivatePagesCount,
         int WuwiCount);
 
     public readonly record struct ActivityPoints(
@@ -52,12 +52,12 @@ public class UserController(
             };
         }
 
-        var userWiki = EntityCache.GetPage(user.StartTopicId);
+        var userWiki = EntityCache.GetPage(user.StartPageId);
         var reputation = _rpReputationCalc.RunWithQuestionCacheItems(user);
         var isCurrentUser = _sessionUser.UserId == user.Id;
         var allQuestionsCreatedByUser = EntityCache.GetAllQuestions()
             .Where(q => q.Creator != null && q.CreatorId == user.Id);
-        var allTopicsCreatedByUser = EntityCache.GetAllCategoriesList()
+        var allPagesCreatedByUser = EntityCache.GetAllPagesList()
             .Where(c => c.Creator != null && c.CreatorId == user.Id);
         var result = new GetResult
         {
@@ -66,7 +66,7 @@ public class UserController(
                 Id = user.Id,
                 Name = user.Name,
                 WikiUrl = _permissionCheck.CanView(userWiki)
-                    ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartTopicId
+                    ? "/" + UriSanitizer.Run(userWiki.Name) + "/" + user.StartPageId
                     : null,
                 ImageUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                     .GetUrl_256px_square(user)
@@ -91,10 +91,10 @@ public class UserController(
                 PrivateQuestionsCount =
                     allQuestionsCreatedByUser.Count(q =>
                         q.Visibility != QuestionVisibility.All),
-                PublicTopicsCount =
-                    allTopicsCreatedByUser.Count(c => c.Visibility == PageVisibility.All),
-                PrivateTopicsCount =
-                    allTopicsCreatedByUser.Count(c => c.Visibility != PageVisibility.All),
+                PublicPagesCount =
+                    allPagesCreatedByUser.Count(c => c.Visibility == PageVisibility.All),
+                PrivatePagesCount =
+                    allPagesCreatedByUser.Count(c => c.Visibility != PageVisibility.All),
                 WuwiCount = user.WishCountQuestions
             },
             IsCurrentUser = isCurrentUser
@@ -102,15 +102,15 @@ public class UserController(
         return result;
     }
 
-    public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiTopic[] Topics);
+    public readonly record struct WuwiResult(WuwiQuestion[] Questions, WuwiPage[] Pages);
 
     public readonly record struct WuwiQuestion(
         string Title,
-        string PrimaryTopicName,
-        int? PrimaryTopicId,
+        string PrimaryPageName,
+        int? PrimaryPageId,
         int Id);
 
-    public readonly record struct WuwiTopic(
+    public readonly record struct WuwiPage(
         string Name,
         int Id,
         int QuestionCount);
@@ -136,15 +136,15 @@ public class UserController(
                 Questions = wishQuestions.Select(q => new WuwiQuestion
                 {
                     Title = q.GetShortTitle(200),
-                    PrimaryTopicName = q.CategoriesVisibleToCurrentUser(_permissionCheck)
+                    PrimaryPageName = q.CategoriesVisibleToCurrentUser(_permissionCheck)
                         .LastOrDefault()?.Name,
-                    PrimaryTopicId = q.CategoriesVisibleToCurrentUser(_permissionCheck)
+                    PrimaryPageId = q.CategoriesVisibleToCurrentUser(_permissionCheck)
                         .LastOrDefault()?.Id,
                     Id = q.Id
                 }).ToArray(),
-                Topics = wishQuestions.QuestionsInCategories()
+                Pages = wishQuestions.QuestionsInCategories()
                     .Where(t => _permissionCheck.CanView(t.PageCacheItem)).Select(t =>
-                        new WuwiTopic
+                        new WuwiPage
                         {
                             Name = t.PageCacheItem.Name,
                             Id = t.PageCacheItem.Id,

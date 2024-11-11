@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace VueApp;
 
-public class TopicStoreController(
+public class PageStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
@@ -102,9 +102,9 @@ public class TopicStoreController(
     }
 
     [HttpGet]
-    public string GetTopicImageUrl([FromRoute] int id)
+    public string GetPageImageUrl([FromRoute] int id)
     {
-        if (_permissionCheck.CanViewCategory(id))
+        if (_permissionCheck.CanViewPage(id))
             return new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(asSquare: true)
                 .Url;
 
@@ -132,30 +132,30 @@ public class TopicStoreController(
         };
     }
 
-    public readonly record struct GridTopicItem(
+    public readonly record struct GridPageItem(
         int Id,
         string Name,
         int QuestionCount,
         int ChildrenCount,
         string ImageUrl,
         PageVisibility Visibility,
-        TopicGridManager.TinyTopicModel[] Parents,
-        TopicGridManager.KnowledgebarData KnowledgebarData,
+        PageGridManager.TinyPageModel[] Parents,
+        PageGridManager.KnowledgebarData KnowledgebarData,
         bool IsChildOfPersonalWiki,
         int CreatorId,
         bool CanDelete
     );
 
-    public readonly record struct HideOrShowItem(bool hideText, int topicId);
+    public readonly record struct HideOrShowItem(bool hideText, int pageId);
 
     [HttpPost]
     public bool HideOrShowText([FromBody] HideOrShowItem hideOrShowItem) =>
-        pageUpdater.HideOrShowTopicText(hideOrShowItem.hideText, hideOrShowItem.topicId);
+        pageUpdater.HideOrShowPageText(hideOrShowItem.hideText, hideOrShowItem.pageId);
 
     [HttpGet]
-    public GridTopicItem[] GetGridTopicItems([FromRoute] int id)
+    public GridPageItem[] GetGridPageItems([FromRoute] int id)
     {
-        var data = new TopicGridManager(
+        var data = new PageGridManager(
             _permissionCheck,
             _sessionUser,
             _imageMetaDataReadingRepo,
@@ -163,7 +163,7 @@ public class TopicStoreController(
             _knowledgeSummaryLoader,
             _questionReadingRepo).GetChildren(id);
 
-        return data.Select(git => new GridTopicItem
+        return data.Select(git => new GridPageItem
         {
             CanDelete = git.CanDelete,
             ChildrenCount = git.ChildrenCount,
@@ -181,7 +181,7 @@ public class TopicStoreController(
 
     public class UploadContentImageRequest
     {
-        public int TopicId { get; set; }
+        public int PageId { get; set; }
         public IFormFile File { get; set; }
     }
 
@@ -189,14 +189,14 @@ public class TopicStoreController(
     [HttpPost]
     public string UploadContentImage([FromForm] UploadContentImageRequest form)
     {
-        if (!_permissionCheck.CanEditCategory(form.TopicId))
+        if (!_permissionCheck.CanEditCategory(form.PageId))
             throw new Exception("No Upload rights");
 
-        Logg.r.Information("UploadContentImage {id}, {file}", form.TopicId, form.File);
+        Logg.r.Information("UploadContentImage {id}, {file}", form.PageId, form.File);
 
-        var url = _imageStore.RunTopicContentUploadAndGetPath(
+        var url = _imageStore.RunPageContentUploadAndGetPath(
             form.File,
-            form.TopicId,
+            form.PageId,
             _sessionUser.UserId,
             _sessionUser.User.Name);
 
@@ -208,7 +208,7 @@ public class TopicStoreController(
     [HttpPost]
     public void DeleteContentImages([FromBody] DeleteContentImagesRequest req)
     {
-        var imageSettings = new TopicContentImageSettings(req.id, _httpContextAccessor);
+        var imageSettings = new PageContentImageSettings(req.id, _httpContextAccessor);
         var deleteImage = new DeleteImage();
 
         var filenames = new List<string>();
@@ -219,31 +219,31 @@ public class TopicStoreController(
         deleteImage.Run(imageSettings.BasePath, filenames);
     }
 
-    public record struct TopicAnalyticsResponse(
-        List<DailyViews> ViewsPast90DaysAggregatedTopics,
-        List<DailyViews> ViewsPast90DaysTopic,
+    public record struct PageAnalyticsResponse(
+        List<DailyViews> ViewsPast90DaysAggregatedPages,
+        List<DailyViews> ViewsPast90DaysPage,
         List<DailyViews> ViewsPast90DaysAggregatedQuestions,
         List<DailyViews> ViewsPast90DaysDirectQuestions);
 
     [HttpGet]
-    public TopicAnalyticsResponse GetTopicAnalytics([FromRoute] int id)
+    public PageAnalyticsResponse GetPageAnalytics([FromRoute] int id)
     {
         var topic = EntityCache.GetPage(id);
 
-        var viewsPast90DaysTopics = topic.GetViewsOfPast90Days();
-        var viewsPast90DaysAggregatedTopics = GetAggregatedTopicViewsOfPast90Days(id, viewsPast90DaysTopics);
+        var viewsPast90DaysPages = topic.GetViewsOfPast90Days();
+        var viewsPast90DaysAggregatedPages = GetAggregatedPageViewsOfPast90Days(id, viewsPast90DaysPages);
         var viewsPast90DaysAggregatedQuestions = GetAggregatedQuestionViewsOfPast90Days(topic);
         var viewsPast90DaysQuestion = GetQuestionViewsOfPast90Days(topic);
 
-        return new TopicAnalyticsResponse(
-            viewsPast90DaysAggregatedTopics,
-            viewsPast90DaysTopics,
+        return new PageAnalyticsResponse(
+            viewsPast90DaysAggregatedPages,
+            viewsPast90DaysPages,
             viewsPast90DaysAggregatedQuestions,
             viewsPast90DaysQuestion
 );
     }
 
-    private List<DailyViews> GetAggregatedTopicViewsOfPast90Days(int id, List<DailyViews> topicViews)
+    private List<DailyViews> GetAggregatedPageViewsOfPast90Days(int id, List<DailyViews> topicViews)
     {
         var descendants = GraphService.VisibleDescendants(id, _permissionCheck, _sessionUser.UserId);
 
@@ -280,13 +280,13 @@ public class TopicStoreController(
 
     private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem topic)
     {
-        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, categoryId: topic.Id);
+        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: topic.Id);
         return GetQuestionViews(questions);
     }
 
     private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem topic)
     {
-        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, categoryId: topic.Id);
+        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: topic.Id);
         return GetQuestionViews(questions);
     }
 }

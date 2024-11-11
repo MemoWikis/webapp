@@ -131,7 +131,7 @@ public class CategoryChangeCacheItem : IPersistable
 
     private static DeleteData? GetDeleteData(PageEditData currentData, PageChangeType changeType)
     {
-        if (changeType == PageChangeType.ChildTopicDeleted || changeType == PageChangeType.QuestionDeleted)
+        if (changeType == PageChangeType.ChildPageDeleted || changeType == PageChangeType.QuestionDeleted)
             return new DeleteData(currentData.DeleteChangeId, currentData.DeletedName);
 
         return null;

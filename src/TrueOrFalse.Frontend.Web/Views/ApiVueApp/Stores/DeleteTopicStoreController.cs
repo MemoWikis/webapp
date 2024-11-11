@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using static PageDeleter;
 
-public class DeleteTopicStoreController(
+public class DeletePageStoreController(
     SessionUser sessionUser,
     PageDeleter pageDeleter,
     CrumbtrailService _crumbtrailService,
@@ -85,7 +85,7 @@ public class DeleteTopicStoreController(
         return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion);
     }
 
-    public readonly record struct DeleteRequest(int TopicToDeleteId, int? ParentForQuestionsId);
+    public readonly record struct DeleteRequest(int PageToDeleteId, int? ParentForQuestionsId);
 
     public record struct DeleteResponse(
         bool Success,
@@ -98,17 +98,17 @@ public class DeleteTopicStoreController(
     [HttpPost]
     public DeleteResponse Delete([FromBody] DeleteRequest deleteRequest)
     {
-        if (EntityCache.TopicHasQuestion(deleteRequest.TopicToDeleteId))
+        if (EntityCache.PageHasQuestion(deleteRequest.PageToDeleteId))
         {
 
             if (deleteRequest.ParentForQuestionsId == 0)
-                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.TopicNotSelected);
+                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.PageNotSelected);
 
-            if (deleteRequest.ParentForQuestionsId == deleteRequest.TopicToDeleteId)
-                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.NewTopicIdIsTopicIdToBeDeleted);
+            if (deleteRequest.ParentForQuestionsId == deleteRequest.PageToDeleteId)
+                return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.NewPageIdIsPageIdToBeDeleted);
         }
 
-        var deleteResult = pageDeleter.DeleteTopic(deleteRequest.TopicToDeleteId, deleteRequest.ParentForQuestionsId);
+        var deleteResult = pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
 
         return new DeleteResponse(
             Success: deleteResult.Success,

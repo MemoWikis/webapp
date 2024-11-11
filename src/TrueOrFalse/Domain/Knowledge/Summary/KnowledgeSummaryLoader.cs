@@ -2,33 +2,32 @@
 
 public class KnowledgeSummaryLoader(
     PageValuationReadingRepository pageValuationReadingRepository,
-    PageRepository pageRepository,
     ExtendedUserCache _extendedUserCache) : IRegisterAsInstancePerLifetime
 {
     public KnowledgeSummary RunFromDbCache(Page page, int userId)
     {
-        var categoryValuation = pageValuationReadingRepository.GetBy(page.Id, userId);
+        var pageValuation = pageValuationReadingRepository.GetBy(page.Id, userId);
 
-        if (categoryValuation == null)
+        if (pageValuation == null)
         {
             return new KnowledgeSummary(notInWishKnowledge: page.CountQuestionsAggregated);
         }
 
         return new KnowledgeSummary(
-            notLearned: categoryValuation.CountNotLearned,
-            needsLearning: categoryValuation.CountNeedsLearning,
-            needsConsolidation: categoryValuation.CountNeedsConsolidation,
-            solid: categoryValuation.CountSolid,
+            notLearned: pageValuation.CountNotLearned,
+            needsLearning: pageValuation.CountNeedsLearning,
+            needsConsolidation: pageValuation.CountNeedsConsolidation,
+            solid: pageValuation.CountSolid,
             notInWishKnowledge: Math.Max(0,
-                page.CountQuestionsAggregated - categoryValuation.CountNotLearned -
-                categoryValuation.CountNeedsLearning - categoryValuation.CountNeedsConsolidation -
-                categoryValuation.CountSolid)
+                page.CountQuestionsAggregated - pageValuation.CountNotLearned -
+                pageValuation.CountNeedsLearning - pageValuation.CountNeedsConsolidation -
+                pageValuation.CountSolid)
         );
     }
 
-    public KnowledgeSummary RunFromMemoryCache(int categoryId, int userId)
+    public KnowledgeSummary RunFromMemoryCache(int pageId, int userId)
     {
-        return RunFromMemoryCache(EntityCache.GetPage(categoryId), userId);
+        return RunFromMemoryCache(EntityCache.GetPage(pageId), userId);
     }
 
     public KnowledgeSummary RunFromMemoryCache(PageCacheItem pageCacheItem, int userId)
@@ -78,9 +77,9 @@ public class KnowledgeSummaryLoader(
         return knowledgeSummary;
     }
 
-    public KnowledgeSummary Run(int userId, int categoryId, bool onlyValuated = true)
+    public KnowledgeSummary Run(int userId, int pageId, bool onlyValuated = true)
         => Run(userId,
-            EntityCache.GetPage(categoryId).GetAggregatedQuestionsFromMemoryCache(userId)
+            EntityCache.GetPage(pageId).GetAggregatedQuestionsFromMemoryCache(userId)
                 .GetIds(),
             onlyValuated);
 

@@ -15,13 +15,13 @@ public class FeedController(
     CommentRepository _commentRepository) : Controller
 {
     public readonly record struct GetFeedResponse(IList<FeedItem> feedItems, int maxCount);
-    public record struct FeedItem(DateTime Date, FeedType Type, TopicFeedItem? TopicFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);
-    public readonly record struct GetFeedRequest(int TopicId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true, bool GetItemsInGroups = false);
+    public record struct FeedItem(DateTime Date, FeedType Type, PageFeedItem? PageFeedItem, QuestionFeedItem? QuestionFeedItem, Author Author);
+    public readonly record struct GetFeedRequest(int PageId, int Page, int PageSize, bool GetDescendants = true, bool GetQuestions = true, bool GetItemsInGroups = false);
 
     [HttpPost]
     public GetFeedResponse Get([FromBody] GetFeedRequest req)
     {
-        var topic = EntityCache.GetPage(req.TopicId);
+        var topic = EntityCache.GetPage(req.PageId);
 
         var (pagedChanges, maxCount) = topic.GetVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize, req.GetDescendants, req.GetQuestions, req.GetItemsInGroups);
 
@@ -30,11 +30,11 @@ public class FeedController(
             maxCount: maxCount);
     }
 
-    public record struct TopicFeedItem(
+    public record struct PageFeedItem(
         DateTime Date,
         PageChangeType Type,
         int CategoryChangeId,
-        int TopicId, string Title,
+        int PageId, string Title,
         PageVisibility Visibility,
         Author Author,
         NameChange? NameChange = null,
@@ -58,11 +58,11 @@ public class FeedController(
             var relationChanges = GetRelationChanges(change);
             var deleteData = change.CategoryChangeData.DeleteData != null ? GetDeleteData(change.Type, change.CategoryChangeData.DeleteData?.DeletedName, change.CategoryChangeData.DeleteData?.DeleteChangeId) : null;
 
-            var topicFeedItem = new TopicFeedItem(
+            var topicFeedItem = new PageFeedItem(
                 Date: change.DateCreated,
                 Type: change.Type,
                 CategoryChangeId: change.Id,
-                TopicId: change.CategoryId,
+                PageId: change.CategoryId,
                 Title: change.Page.Name,
                 Visibility: change.Visibility,
                 Author: author,
@@ -72,7 +72,7 @@ public class FeedController(
                 IsGroup: change.IsGroup,
                 OldestChangeIdInGroup: change.IsGroup ? change.GroupedCategoryChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Topic, topicFeedItem, QuestionFeedItem: null, Author: author);
+            return new FeedItem(feedItem.DateCreated, FeedType.Page, topicFeedItem, QuestionFeedItem: null, Author: author);
         }
 
         if (feedItem.QuestionChangeCacheItem != null)
@@ -96,29 +96,29 @@ public class FeedController(
                 Author: author,
                 Comment: comment != null ? new Comment(commentTitle, comment.Id) : null);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Question, TopicFeedItem: null, questionFeedItem, Author: author);
+            return new FeedItem(feedItem.DateCreated, FeedType.Question, PageFeedItem: null, questionFeedItem, Author: author);
         }
 
         throw new Exception("no valid changeItem");
     }
 
     public record struct Comment(string Title, int Id);
-    public record struct RelatedTopic(int Id, string Name);
-    public record struct RelationChanges(List<RelatedTopic> AddedParents, List<RelatedTopic> RemovedParents, List<RelatedTopic> AddedChildren, List<RelatedTopic> RemovedChildren);
+    public record struct RelatedPage(int Id, string Name);
+    public record struct RelationChanges(List<RelatedPage> AddedParents, List<RelatedPage> RemovedParents, List<RelatedPage> AddedChildren, List<RelatedPage> RemovedChildren);
     public record struct DeleteData(int? DeleteChangeId, string DeletedName);
 
-    private List<RelatedTopic> GetRelatedTopics(IEnumerable<int> ids)
+    private List<RelatedPage> GetRelatedPages(IEnumerable<int> ids)
     {
-        var relatedTopics = new List<RelatedTopic>();
+        var relatedPages = new List<RelatedPage>();
         foreach (var id in ids)
         {
-            if (_permissionCheck.CanViewCategory(id))
+            if (_permissionCheck.CanViewPage(id))
             {
-                var relatedTopic = EntityCache.GetPage(id);
-                if (relatedTopic != null) relatedTopics.Add(new RelatedTopic(id, relatedTopic.Name));
+                var relatedPage = EntityCache.GetPage(id);
+                if (relatedPage != null) relatedPages.Add(new RelatedPage(id, relatedPage.Name));
             }
         }
-        return relatedTopics;
+        return relatedPages;
     }
     private RelationChanges? GetRelationChanges(CategoryChangeCacheItem change)
     {
@@ -130,10 +130,10 @@ public class FeedController(
         if (relationChange == null)
             return null;
 
-        var addedParents = GetRelatedTopics(relationChange?.AddedParentIds);
-        var removedParents = GetRelatedTopics(relationChange?.RemovedParentIds);
-        var addedChildren = GetRelatedTopics(relationChange?.AddedChildIds);
-        var removedChildren = GetRelatedTopics(relationChange?.RemovedChildIds);
+        var addedParents = GetRelatedPages(relationChange?.AddedParentIds);
+        var removedParents = GetRelatedPages(relationChange?.RemovedParentIds);
+        var addedChildren = GetRelatedPages(relationChange?.AddedChildIds);
+        var removedChildren = GetRelatedPages(relationChange?.RemovedChildIds);
 
         return new RelationChanges(addedParents, removedParents, addedChildren, removedChildren);
     }
@@ -154,7 +154,7 @@ public class FeedController(
 
     private DeleteData? GetDeleteData(PageChangeType type, [CanBeNull] string deletedName, int? changeId)
     {
-        if (type == PageChangeType.ChildTopicDeleted || type == PageChangeType.QuestionDeleted)
+        if (type == PageChangeType.ChildPageDeleted || type == PageChangeType.QuestionDeleted)
             return new DeleteData(changeId, deletedName);
 
         return null;

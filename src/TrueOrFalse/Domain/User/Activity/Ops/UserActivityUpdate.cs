@@ -62,7 +62,7 @@ class UserActivityUpdate
             {
                 UserConcerned = userFollower,
                 At = category.DateCreated,
-                Type = UserActivityType.CreatedCategory,
+                Type = UserActivityType.CreatedPage,
                 Page = category,
                 UserCauser = category.Creator
             });

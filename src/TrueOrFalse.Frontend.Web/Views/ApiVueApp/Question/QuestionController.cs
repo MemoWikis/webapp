@@ -42,9 +42,9 @@ public class QuestionController(
         SolutionType SolutionType,
         string RenderedQuestionTextExtended,
         string Description,
-        bool HasTopics,
-        int? PrimaryTopicId,
-        string PrimaryTopicName,
+        bool HasPages,
+        int? PrimaryPageId,
+        string PrimaryPageName,
         string Solution,
         bool IsCreator,
         bool IsInWishknowledge,
@@ -59,7 +59,7 @@ public class QuestionController(
 
     public readonly record struct AnswerReferences(
         int ReferenceId,
-        int? TopicId,
+        int? PageId,
         string ReferenceType,
         string AdditionalInfo,
         string ReferenceText);
@@ -80,7 +80,7 @@ public class QuestionController(
 
         if (_permissionCheck.CanViewQuestion(id))
         {
-            var primaryTopic = question.Pages.LastOrDefault();
+            var primaryPage = question.Pages.LastOrDefault();
             var solution = GetQuestionSolution.Run(question);
 
             EscapeReferencesText(question.References);
@@ -95,9 +95,9 @@ public class QuestionController(
                     SolutionType = question.SolutionType,
                     RenderedQuestionTextExtended = question.GetRenderedQuestionTextExtended(),
                     Description = question.Description,
-                    HasTopics = question.Pages.Any(),
-                    PrimaryTopicId = primaryTopic?.Id,
-                    PrimaryTopicName = primaryTopic?.Name,
+                    HasPages = question.Pages.Any(),
+                    PrimaryPageId = primaryPage?.Id,
+                    PrimaryPageName = primaryPage?.Name,
                     Solution = question.Solution,
                     IsCreator = question.Creator.Id == _sessionUser.UserId,
                     IsInWishknowledge = _sessionUser.IsLoggedIn &&
@@ -114,7 +114,7 @@ public class QuestionController(
                     AnswerReferences = question.References.Select(r => new AnswerReferences
                     {
                         ReferenceId = r.Id,
-                        TopicId = r.Page?.Id ?? null,
+                        PageId = r.Page?.Id ?? null,
                         ReferenceType = r.ReferenceType.GetName(),
                         AdditionalInfo = r.AdditionalInfo ?? "",
                         ReferenceText = r.ReferenceText ?? ""
@@ -179,8 +179,8 @@ public class QuestionController(
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
                 .IsInWishKnowledge,
-            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
-                new AnswerQuestionDetailsTopicItem(
+            Pages: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
+                new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
                     Name: t.Name,
                     QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),

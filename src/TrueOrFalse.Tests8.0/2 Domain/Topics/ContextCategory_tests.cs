@@ -1,19 +1,19 @@
-﻿namespace TrueOrFalse.Tests8._0.Topics;
+﻿namespace TrueOrFalse.Tests8._0.Pages;
 internal class ContextCategory_tests : BaseTest
 {
     [Test]
-    public void Topic_should_be_persisted()
+    public void Page_should_be_persisted()
     {
-        var firstTopic = ContextCategory.New().Add("A").Persist().All.First();
+        var firstPage = ContextCategory.New().Add("A").Persist().All.First();
         var categoryRepo = R<PageRepository>();
-        var topicFromDatabase = categoryRepo.GetById(firstTopic.Id);
-        Assert.IsNotNull(firstTopic);
+        var topicFromDatabase = categoryRepo.GetById(firstPage.Id);
+        Assert.IsNotNull(firstPage);
         Assert.IsNotNull(topicFromDatabase);
-        Assert.AreEqual(topicFromDatabase?.Name, firstTopic.Name);
+        Assert.AreEqual(topicFromDatabase?.Name, firstPage.Name);
     }
 
     [Test]
-    public void TopicsShouldInDatabase()
+    public void PagesShouldInDatabase()
     {
         var topicIds = ContextCategory.New().Add(5).Persist().All.Select(c => c.Id).ToList();
         var categoryRepo = R<PageRepository>();
@@ -23,7 +23,7 @@ internal class ContextCategory_tests : BaseTest
     }
 
     [Test]
-    public void TopicShouldUpdated()
+    public void PageShouldUpdated()
     {
         var categoryName = "C1";
         var contextCategory = ContextCategory.New();
@@ -44,7 +44,7 @@ internal class ContextCategory_tests : BaseTest
     }
 
     [Test]
-    public void TopicsShouldUpdated()
+    public void PagesShouldUpdated()
     {
         var categoryNameOne = "C1";
         var categoryNameTwo = "C2";

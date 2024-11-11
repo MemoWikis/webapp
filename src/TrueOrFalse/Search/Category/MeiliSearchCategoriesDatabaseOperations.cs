@@ -11,9 +11,9 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task CreateAsync(
             Page page,
-            string indexConstant = MeiliSearchConstants.Categories)
+            string indexConstant = MeiliSearchConstants.Pages)
         {
-            var categoryMapAndIndex = CreateCategoryMap(page, indexConstant, out var index);
+            var categoryMapAndIndex = CreatePageMap(page, indexConstant, out var index);
             var taskInfo = await index.AddDocumentsAsync(new List<MeiliSearchCategoryMap>
                     { categoryMapAndIndex })
                 .ConfigureAwait(false);
@@ -27,9 +27,9 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task UpdateAsync(
             Page page,
-            string indexConstant = MeiliSearchConstants.Categories)
+            string indexConstant = MeiliSearchConstants.Pages)
         {
-            var categoryMapAndIndex = CreateCategoryMap(page, indexConstant, out var index);
+            var categoryMapAndIndex = CreatePageMap(page, indexConstant, out var index);
             var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchCategoryMap>
                     { categoryMapAndIndex })
                 .ConfigureAwait(false);
@@ -44,16 +44,16 @@ namespace TrueOrFalse.Search
         /// <returns></returns>
         public async Task DeleteAsync(
             Page page,
-            string indexConstant = MeiliSearchConstants.Categories)
+            string indexConstant = MeiliSearchConstants.Pages)
         {
-            var categoryMapAndIndex = CreateCategoryMap(page, indexConstant, out var index);
-            var taskInfo = await index.DeleteOneDocumentAsync(categoryMapAndIndex.Id.ToString())
+            var pageMapIndex = CreatePageMap(page, indexConstant, out var index);
+            var taskInfo = await index.DeleteOneDocumentAsync(pageMapIndex.Id.ToString())
                 .ConfigureAwait(false);
 
             await CheckStatus(taskInfo);
         }
 
-        private static MeiliSearchCategoryMap CreateCategoryMap(
+        private static MeiliSearchCategoryMap CreatePageMap(
             Page page,
             string indexConstant,
             out Meilisearch.Index index)

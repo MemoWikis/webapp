@@ -5,32 +5,32 @@ public class CategoryDeleter_tests : BaseTest
     public void Should_delete_child()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var childName = "child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var child = contextTopic.Add(childName,
+        var child = contextPage.Add(childName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childName);
+            .GetPageByName(childName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, child);
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
 
         RecycleContainerAndEntityCache();
 
         var categoryDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
+        var requestResult = categoryDeleter.DeletePage(child.Id, parent.Id);
 
         //Assert
         Assert.IsNotNull(requestResult);
@@ -44,44 +44,44 @@ public class CategoryDeleter_tests : BaseTest
     public void Should_delete_child_of_child_and_remove_relation()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var child = contextTopic.Add(childName,
+        var child = contextPage.Add(childName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childName);
+            .GetPageByName(childName);
 
-        var childOfChild = contextTopic.Add(childOfChildName,
+        var childOfChild = contextPage.Add(childOfChildName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childOfChildName);
+            .GetPageByName(childOfChildName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, child);
-        contextTopic.AddChild(child, childOfChild);
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
+        contextPage.AddChild(child, childOfChild);
 
         RecycleContainerAndEntityCache();
         var categoryDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id, parent.Id);
+        var requestResult = categoryDeleter.DeletePage(childOfChild.Id, parent.Id);
 
         //Assert
         RecycleContainerAndEntityCache();
 
         var categoryRepo = R<PageRepository>();
-        var allAvailableTopics = categoryRepo.GetAll();
+        var allAvailablePages = categoryRepo.GetAll();
         var parentChildren =
             categoryRepo.GetChildren(PageType.Standard, PageType.Standard, parent.Id);
         var childrenOfChild = categoryRepo.GetChildren(PageType.Standard,
@@ -92,9 +92,9 @@ public class CategoryDeleter_tests : BaseTest
         Assert.IsFalse(requestResult.HasChildren);
         Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
         Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
-        Assert.IsTrue(allAvailableTopics.Any());
-        Assert.IsTrue(allAvailableTopics.Contains(parent));
-        Assert.IsTrue(allAvailableTopics.Contains(child));
+        Assert.IsTrue(allAvailablePages.Any());
+        Assert.IsTrue(allAvailablePages.Contains(parent));
+        Assert.IsTrue(allAvailablePages.Contains(child));
         Assert.IsNotEmpty(parentChildren);
         Assert.IsTrue(parentChildren.Count == 1);
         Assert.That(childName, Is.EqualTo(parentChildren.First().Name));
@@ -105,41 +105,41 @@ public class CategoryDeleter_tests : BaseTest
     public void Should_delete_child_of_child_and_remove_relations_in_EntityCache()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var child = contextTopic.Add(childName,
+        var child = contextPage.Add(childName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childName);
-        var childOfChild = contextTopic.Add(childOfChildName,
+            .GetPageByName(childName);
+        var childOfChild = contextPage.Add(childOfChildName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childOfChildName);
+            .GetPageByName(childOfChildName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, child);
-        contextTopic.AddChild(child, childOfChild);
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
+        contextPage.AddChild(child, childOfChild);
         RecycleContainerAndEntityCache();
 
         var categoryDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeleteTopic(childOfChild.Id, parent.Id);
+        var requestResult = categoryDeleter.DeletePage(childOfChild.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert
-        var allCategoriesInEntityCache = EntityCache.GetAllCategoriesList();
+        var allCategoriesInEntityCache = EntityCache.GetAllPagesList();
         var cachedParent = EntityCache.GetPage(parent.Id);
         var cachedChild = EntityCache.GetPage(child.Id);
 
@@ -169,7 +169,7 @@ public class CategoryDeleter_tests : BaseTest
         Should_delete_child_and_remove_relations_in_EntityCache_child_of_child_has_extra_parent()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var firstChildName = "first child name";
         var secondChildName = "second child name";
@@ -177,38 +177,38 @@ public class CategoryDeleter_tests : BaseTest
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var firstChild = contextTopic.Add(firstChildName,
+        var firstChild = contextPage.Add(firstChildName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(firstChildName);
+            .GetPageByName(firstChildName);
 
-        var secondChild = contextTopic.Add(secondChildName,
+        var secondChild = contextPage.Add(secondChildName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(secondChildName);
+            .GetPageByName(secondChildName);
 
-        var childOfChild = contextTopic.Add(childOfChildName,
+        var childOfChild = contextPage.Add(childOfChildName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childOfChildName);
+            .GetPageByName(childOfChildName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, firstChild);
-        contextTopic.AddChild(parent, secondChild);
-        contextTopic.AddChild(firstChild, childOfChild);
-        contextTopic.AddChild(secondChild, childOfChild);
+        contextPage.Persist();
+        contextPage.AddChild(parent, firstChild);
+        contextPage.AddChild(parent, secondChild);
+        contextPage.AddChild(firstChild, childOfChild);
+        contextPage.AddChild(secondChild, childOfChild);
         RecycleContainerAndEntityCache();
 
         var categoryDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeleteTopic(firstChild.Id, parent.Id);
+        var requestResult = categoryDeleter.DeletePage(firstChild.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert
@@ -222,37 +222,37 @@ public class CategoryDeleter_tests : BaseTest
     public void Should_fail_delete_child_and_remove_relations_in_EntityCache_child_has_child()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var childName = "child name";
         var childOfChildName = "child of child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var child = contextTopic.Add(childName,
+        var child = contextPage.Add(childName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childName);
-        var childOfChild = contextTopic.Add(childOfChildName,
+            .GetPageByName(childName);
+        var childOfChild = contextPage.Add(childOfChildName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childOfChildName);
+            .GetPageByName(childOfChildName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, child);
-        contextTopic.AddChild(child, childOfChild);
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
+        contextPage.AddChild(child, childOfChild);
         RecycleContainerAndEntityCache();
 
         var categoryDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
+        var requestResult = categoryDeleter.DeletePage(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert
@@ -268,32 +268,32 @@ public class CategoryDeleter_tests : BaseTest
     public void Should_fail_delete_child_and_remove_relations_in_EntityCache_no_rights()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var childName = "child name";
 
         var creator = new User { Id = 2, IsInstallationAdmin = false, Name = "Creator" };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var child = contextTopic.Add(
+        var child = contextPage.Add(
                 childName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childName);
+            .GetPageByName(childName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, child);
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
         RecycleContainerAndEntityCache();
 
         var categoryDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeleteTopic(child.Id, parent.Id);
+        var requestResult = categoryDeleter.DeletePage(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert

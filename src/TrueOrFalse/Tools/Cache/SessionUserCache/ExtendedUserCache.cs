@@ -147,13 +147,13 @@ public class ExtendedUserCache(
 
     /// <summary> Used for category delete </summary>
     public void RemoveAllForCategory(
-        int categoryId,
+        int pageId,
         PageValuationWritingRepo pageValuationWritingRepo)
     {
-        pageValuationWritingRepo.DeleteCategoryValuation(categoryId);
+        pageValuationWritingRepo.DeleteCategoryValuation(pageId);
         foreach (var userCache in GetAllActiveCaches())
         {
-            userCache.CategoryValuations.TryRemove(categoryId, out var result);
+            userCache.CategoryValuations.TryRemove(pageId, out var result);
         }
     }
 

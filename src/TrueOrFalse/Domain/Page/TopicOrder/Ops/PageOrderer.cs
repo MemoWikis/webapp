@@ -1,4 +1,4 @@
-﻿public class TopicOrderer
+﻿public class PageOrderer
 {
     public static bool CanBeMoved(int childId, int parentId)
     {
@@ -38,7 +38,7 @@
     public static (List<PageRelationCache> UpdatedOldOrder, List<PageRelationCache>
         UpdatedNewOrder) MoveBefore(
             PageRelationCache relation,
-            int beforeTopicId,
+            int beforePageId,
             int newParentId,
             int authorId,
             ModifyRelationsForCategory modifyRelationsForCategory)
@@ -51,7 +51,7 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        var updatedNewOrder = AddBefore(relation.ChildId, beforeTopicId, newParentId, authorId,
+        var updatedNewOrder = AddBefore(relation.ChildId, beforePageId, newParentId, authorId,
             modifyRelationsForCategory);
         var updatedOldOrder =
             Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
@@ -62,7 +62,7 @@
     public static (List<PageRelationCache> UpdatedOldOrder, List<PageRelationCache>
         UpdatedNewOrder) MoveAfter(
             PageRelationCache relation,
-            int afterTopicId,
+            int afterPageId,
             int newParentId,
             int authorId,
             ModifyRelationsForCategory modifyRelationsForCategory)
@@ -75,7 +75,7 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        var updatedNewOrder = AddAfter(relation.ChildId, afterTopicId, newParentId, authorId,
+        var updatedNewOrder = AddAfter(relation.ChildId, afterPageId, newParentId, authorId,
             modifyRelationsForCategory);
         var updatedOldOrder =
             Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
@@ -139,8 +139,8 @@
     }
 
     private static List<PageRelationCache> AddBefore(
-        int topicId,
-        int beforeTopicId,
+        int pageId,
+        int beforePageId,
         int parentId,
         int authorId,
         ModifyRelationsForCategory modifyRelationsForCategory)
@@ -150,8 +150,8 @@
         var relations = parent.ChildRelations.ToList();
         var newRelations =
             Insert(
-                topicId,
-                beforeTopicId,
+                pageId,
+                beforePageId,
                 parentId,
                 relations,
                 false,
@@ -163,8 +163,8 @@
     }
 
     private static List<PageRelationCache> AddAfter(
-        int topicId,
-        int afterTopicId,
+        int pageId,
+        int afterPageId,
         int parentId,
         int authorId,
         ModifyRelationsForCategory modifyRelationsForCategory)
@@ -174,8 +174,8 @@
         var relations = parent.ChildRelations.ToList();
         var newRelations =
             Insert(
-                topicId,
-                afterTopicId,
+                pageId,
+                afterPageId,
                 parentId,
                 relations,
                 true,
@@ -188,7 +188,7 @@
 
     private static List<PageRelationCache> Insert(
         int childId,
-        int targetTopicId,
+        int targetPageId,
         int parentId,
         List<PageRelationCache> relations,
         bool insertAfter,
@@ -199,16 +199,16 @@
         {
             ChildId = childId,
             ParentId = parentId,
-            PreviousId = insertAfter ? targetTopicId : null,
-            NextId = !insertAfter ? targetTopicId : null,
+            PreviousId = insertAfter ? targetPageId : null,
+            NextId = !insertAfter ? targetPageId : null,
         };
 
-        var targetPosition = relations.FindIndex(r => r.ChildId == targetTopicId);
+        var targetPosition = relations.FindIndex(r => r.ChildId == targetPageId);
         if (targetPosition == -1)
         {
             Logg.r.Error(
-                "CategoryRelations - Insert: Targetposition not found - parentId:{0}, targetTopicId:{1}",
-                parentId, targetTopicId);
+                "CategoryRelations - Insert: Targetposition not found - parentId:{0}, targetPageId:{1}",
+                parentId, targetPageId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
 
@@ -294,15 +294,15 @@
         }
     }
 
-    public static IList<PageRelationCache> Sort(int topicId)
+    public static IList<PageRelationCache> Sort(int pageId)
     {
-        var childRelations = EntityCache.GetChildRelationsByParentId(topicId);
-        return childRelations.Count <= 0 ? childRelations : Sort(childRelations, topicId);
+        var childRelations = EntityCache.GetChildRelationsByParentId(pageId);
+        return childRelations.Count <= 0 ? childRelations : Sort(childRelations, pageId);
     }
 
     public static IList<PageRelationCache> Sort(
         IList<PageRelationCache> childRelations,
-        int topicId)
+        int pageId)
     {
         var currentRelation = childRelations.FirstOrDefault(r => r.PreviousId == null);
         var sortedRelations = new List<PageRelationCache>();
@@ -319,8 +319,8 @@
                 addedRelationIds.Add(currentRelation.Id);
 
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force break 'while loop', duplicate child - TopicId:{0}, RelationId: {1}",
-                    topicId, currentRelation.Id);
+                    "CategoryRelations - Sort: Force break 'while loop', duplicate child - PageId:{0}, RelationId: {1}",
+                    pageId, currentRelation.Id);
 
                 break;
             }
@@ -336,27 +336,27 @@
             if (addedRelationIds.Count >= childRelations.Count && currentRelation != null)
             {
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force break 'while loop', faulty links - TopicId:{0}, RelationId: {1}",
-                    topicId, currentRelation.Id);
+                    "CategoryRelations - Sort: Force break 'while loop', faulty links - PageId:{0}, RelationId: {1}",
+                    pageId, currentRelation.Id);
                 break;
             }
         }
 
         if (sortedRelations.Count < childRelations.Count)
-            AppendMissingRelations(topicId, sortedRelations, childRelations, addedRelationIds, addedChildIds);
+            AppendMissingRelations(pageId, sortedRelations, childRelations, addedRelationIds, addedChildIds);
 
         return sortedRelations;
     }
 
     private static void AppendMissingRelations(
-        int topicId,
+        int pageId,
         List<PageRelationCache> sortedRelations,
         IList<PageRelationCache> childRelations,
         HashSet<int> addedRelationIds,
         HashSet<int> addedChildIds)
     {
-        Logg.r.Error("CategoryRelations - Sort: Broken Link Start - TopicId:{0}, RelationId:{1}",
-            topicId, sortedRelations.LastOrDefault()?.Id);
+        Logg.r.Error("CategoryRelations - Sort: Broken Link Start - PageId:{0}, RelationId:{1}",
+            pageId, sortedRelations.LastOrDefault()?.Id);
 
         foreach (var childRelation in childRelations)
         {
@@ -365,11 +365,11 @@
                 if (!addedChildIds.Contains(childRelation.ChildId))
                     sortedRelations.Add(childRelation);
 
-                Logg.r.Error("CategoryRelations - Sort: Broken Link - TopicId:{0}, RelationId:{1}",
-                    topicId, childRelation.Id);
+                Logg.r.Error("CategoryRelations - Sort: Broken Link - PageId:{0}, RelationId:{1}",
+                    pageId, childRelation.Id);
             }
         }
 
-        Logg.r.Error("CategoryRelations - Sort: Broken Link End - TopicId:{0}", topicId);
+        Logg.r.Error("CategoryRelations - Sort: Broken Link End - PageId:{0}", pageId);
     }
 }

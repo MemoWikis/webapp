@@ -7,7 +7,7 @@ public class ModifyRelationsEntityCache
         int userId,
         ModifyRelationsForCategory modifyRelationsForCategory)
     {
-        var allRelations = EntityCache.GetCacheRelationsByTopicId(page.Id);
+        var allRelations = EntityCache.GetCacheRelationsByPageId(page.Id);
         foreach (var relation in allRelations)
         {
             if (relation.ChildId == page.Id)
@@ -81,7 +81,7 @@ public class ModifyRelationsEntityCache
 
         if (relationToRemove != null)
         {
-            TopicOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
+            PageOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
             childPage.ParentRelations.Remove(relationToRemove);
             return true;
         }

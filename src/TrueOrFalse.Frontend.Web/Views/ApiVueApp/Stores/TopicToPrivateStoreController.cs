@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
-public class TopicToPrivateStoreController(
+public class PageToPrivateStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     PageRepository pageRepository,
@@ -12,7 +12,7 @@ public class TopicToPrivateStoreController(
     QuestionWritingRepo _questionWritingRepo,
     ExtendedUserCache _extendedUserCache) : Controller
 {
-    public readonly record struct PersonalTopic(
+    public readonly record struct PersonalPage(
         string Name,
         List<int> PersonalQuestionIds,
         int PersonalQuestionCount,
@@ -42,7 +42,7 @@ public class TopicToPrivateStoreController(
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck)
+        var aggregatedPages = topicCacheItem.AggregatedCategories(_permissionCheck)
             .Where(c => c.Value.Visibility == PageVisibility.All);
         var publicAggregatedQuestions = topicCacheItem
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
@@ -50,14 +50,14 @@ public class TopicToPrivateStoreController(
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
-            if (id == RootCategory.RootCategoryId)
+            if (id == RootPage.RootCategoryId)
                 return new GetResult
                 {
                     Success = false,
                     MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
                 };
 
-            foreach (var c in aggregatedTopics)
+            foreach (var c in aggregatedPages)
             {
                 var parentCategories = c.Value.Parents();
                 bool childHasPublicParent = parentCategories.Any(p =>
@@ -104,7 +104,7 @@ public class TopicToPrivateStoreController(
         return new GetResult
         {
             Success = true,
-            Data = new PersonalTopic
+            Data = new PersonalPage
             {
                 Name = topicCacheItem.Name,
                 PersonalQuestionIds = filteredAggregatedQuestions,
@@ -140,17 +140,17 @@ public class TopicToPrivateStoreController(
         var pinCount = topic.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
-            if (id == RootCategory.RootCategoryId)
+            if (id == RootPage.RootCategoryId)
                 return new SetResult
                 {
                     Success = false,
                     MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
                 };
 
-            var aggregatedTopics = topicCacheItem.AggregatedCategories(_permissionCheck, false)
+            var aggregatedPages = topicCacheItem.AggregatedCategories(_permissionCheck, false)
                 .Where(c => c.Value.Visibility == PageVisibility.All);
 
-            foreach (var c in aggregatedTopics)
+            foreach (var c in aggregatedPages)
             {
                 var parentCategories = c.Value.Parents();
                 bool childHasPublicParent = parentCategories.Any(p =>

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-public class TopicGridManager
+public class PageGridManager
     : IRegisterAsInstancePerLifetime
 {
     private readonly PermissionCheck _permissionCheck;
@@ -11,7 +11,7 @@ public class TopicGridManager
     private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
     private readonly QuestionReadingRepo _questionReadingRepo;
 
-    public TopicGridManager(
+    public PageGridManager(
         PermissionCheck permissionCheck,
         SessionUser sessionUser,
         ImageMetaDataReadingRepo imageMetaDataReading,
@@ -27,21 +27,21 @@ public class TopicGridManager
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public readonly record struct GridTopicItem(
+    public readonly record struct GridPageItem(
         int Id,
         string Name,
         int QuestionCount,
         int ChildrenCount,
         string ImageUrl,
         PageVisibility Visibility,
-        TinyTopicModel[] Parents,
+        TinyPageModel[] Parents,
         KnowledgebarData KnowledgebarData,
         bool IsChildOfPersonalWiki,
         int CreatorId,
         bool CanDelete
     );
 
-    public readonly record struct TinyTopicModel(
+    public readonly record struct TinyPageModel(
         int Id,
         string Name,
         string ImgUrl
@@ -59,20 +59,20 @@ public class TopicGridManager
         double NotLearnedPercentage
     );
 
-    public GridTopicItem[] GetChildren(int id)
+    public GridPageItem[] GetChildren(int id)
     {
         var visibleChildren =
             GraphService.VisibleChildren(id, _permissionCheck, _sessionUser.UserId);
-        return visibleChildren.Select(BuildGridTopicItem).ToArray();
+        return visibleChildren.Select(BuildGridPageItem).ToArray();
     }
 
-    public GridTopicItem BuildGridTopicItem(PageCacheItem topic)
+    public GridPageItem BuildGridPageItem(PageCacheItem topic)
     {
         var imageMetaData = _imageMetaDataReading.GetBy(topic.Id, ImageType.Page);
         var imageFrontendData =
             new ImageFrontendData(imageMetaData, _httpContextAccessor, _questionReadingRepo);
 
-        return new GridTopicItem
+        return new GridPageItem
         {
             Id = topic.Id,
             Name = topic.Name,
@@ -85,7 +85,7 @@ public class TopicGridManager
             Parents = GetParents(topic),
             KnowledgebarData = GetKnowledgebarData(topic),
             IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && GraphService
-                .VisibleDescendants(_sessionUser.User.StartTopicId, _permissionCheck,
+                .VisibleDescendants(_sessionUser.User.StartPageId, _permissionCheck,
                     _sessionUser.UserId).Any(c => c.Id == topic.Id),
             CreatorId = topic.CreatorId,
             CanDelete = _sessionUser.IsLoggedIn &&
@@ -114,9 +114,9 @@ public class TopicGridManager
         };
     }
 
-    private TinyTopicModel[] GetParents(PageCacheItem topic)
+    private TinyPageModel[] GetParents(PageCacheItem topic)
     {
-        return topic.Parents().Where(_permissionCheck.CanView).Select(p => new TinyTopicModel
+        return topic.Parents().Where(_permissionCheck.CanView).Select(p => new TinyPageModel
             {
                 Id = p.Id, Name = p.Name, ImgUrl =
                     new PageImageSettings(p.Id, _httpContextAccessor)

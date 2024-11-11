@@ -12,7 +12,7 @@ public class Page : DomainEntity, ICreator
     public virtual string UrlLinkText { get; set; }
     public virtual bool DisableLearningFunctions { get; set; }
     public virtual User Creator { get; set; }
-    public virtual bool IsUserStartTopic { get; set; }
+    public virtual bool IsUserStartPage { get; set; }
     public virtual bool TextIsHidden { get; set; }
     public virtual string AuthorIds { get; set; } = "";
     public virtual string CategoriesToExcludeIdsString { get; set; }
@@ -33,7 +33,7 @@ public class Page : DomainEntity, ICreator
             CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated(userId);
     }
 
-    public virtual string TopicMarkdown { get; set; }
+    public virtual string Markdown { get; set; }
     public virtual string Content { get; set; }
     public virtual string CustomSegments { get; set; }
     public virtual PageType Type { get; set; }

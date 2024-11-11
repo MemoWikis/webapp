@@ -30,7 +30,7 @@ public class PageEditData_V2 : PageEditData
     {
         Name = page.Name;
         Description = page.Description;
-        TopicMardkown = page.TopicMarkdown;
+        PageMardkown = page.Markdown;
         Content = page.Content;
         CategoryRelations = null;
         ImageWasUpdated = imageWasUpdated;
@@ -58,42 +58,42 @@ public class PageEditData_V2 : PageEditData
 
     public override Page ToPage(int pageId)
     {
-        var category = _pageRepository.GetById(pageId);
-        _nhibernateSession.Evict(category);
+        var page = _pageRepository.GetById(pageId);
+        _nhibernateSession.Evict(page);
 
-        category = category == null ? new Page() : category;
-        category.IsHistoric = true;
-        category.Name = this.Name;
-        category.Description = this.Description;
-        category.TopicMarkdown = this.TopicMardkown;
-        category.Content = this.Content;
-        category.Visibility = this.Visibility;
+        page = page == null ? new Page() : page;
+        page.IsHistoric = true;
+        page.Name = this.Name;
+        page.Description = this.Description;
+        page.Markdown = this.PageMardkown;
+        page.Content = this.Content;
+        page.Visibility = this.Visibility;
 
-        // Historic category relations cannot be loaded because we do not have archive data and
+        // Historic page relations cannot be loaded because we do not have archive data and
         // loading them leads to nasty conflicts and nuisance with NHibernate.
 
-        return category;
+        return page;
     }
 
     public override PageCacheItem ToCachePage(int pageId)
     {
-        var category = EntityCache.GetPage(pageId);
-        //_nhibernateSession.Evict(category);
+        var page = EntityCache.GetPage(pageId);
+        //_nhibernateSession.Evict(page);
 
-        category = category == null ? new PageCacheItem() : category;
-        category.IsHistoric = true;
-        category.Name = this.Name;
-        category.Description = this.Description;
-        category.TopicMarkdown = this.TopicMardkown;
-        category.Content = this.Content;
-        category.CustomSegments = this.CustomSegments;
-        category.WikipediaURL = this.WikipediaURL;
-        category.DisableLearningFunctions = this.DisableLearningFunctions;
-        category.Visibility = this.Visibility;
+        page = page == null ? new PageCacheItem() : page;
+        page.IsHistoric = true;
+        page.Name = this.Name;
+        page.Description = this.Description;
+        page.PageMarkdown = this.PageMardkown;
+        page.Content = this.Content;
+        page.CustomSegments = this.CustomSegments;
+        page.WikipediaURL = this.WikipediaURL;
+        page.DisableLearningFunctions = this.DisableLearningFunctions;
+        page.Visibility = this.Visibility;
 
-        // Historic category relations cannot be loaded because we do not have archive data and
+        // Historic page relations cannot be loaded because we do not have archive data and
         // loading them leads to nasty conflicts and nuisance with NHibernate.
 
-        return category;
+        return page;
     }
 }

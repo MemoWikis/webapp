@@ -155,7 +155,7 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> ReIndexAllTopics()
+    public async Task<VueMaintenanceResult> ReIndexAllPages()
     {
         await _meiliSearchReIndexCategories.Run();
 
@@ -197,7 +197,7 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllTopics()
+    public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
     {
         await _meiliSearchReIndexCategories.Run();
 

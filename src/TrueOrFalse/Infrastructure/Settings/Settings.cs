@@ -57,8 +57,8 @@ public class Settings
                 "Images")
             : _configuration["Paths:AbsoluteImagePath"];
 
-    public static string TopicContentImageBasePath => _configuration["Paths:TopicContentImages"];
-    public static string TopicImageBasePath => _configuration["Paths:TopicImages"];
+    public static string PageContentImageBasePath => _configuration["Paths:PageContentImages"];
+    public static string PageImageBasePath => _configuration["Paths:PageImages"];
     public static string QuestionContentImageBasePath => _configuration["Paths:QuestionContentImages"];
     public static string QuestionImageBasePath => _configuration["Paths:QuestionImages"];
 

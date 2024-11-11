@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-public class TopicDataManager(
+public class PageDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
@@ -12,11 +12,11 @@ public class TopicDataManager(
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
 {
-    public TopicDataResult GetTopicData(int id)
+    public PageDataResult GetPageData(int id)
     {
         var topic = EntityCache.GetPage(id);
         if (topic == null)
-            return new TopicDataResult
+            return new PageDataResult
             {
                 ErrorCode = NuxtErrorPageType.NotFound,
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
@@ -28,26 +28,26 @@ public class TopicDataManager(
             var knowledgeSummary =
                 _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
-            return CreateTopicDataObject(id, topic, imageMetaData, knowledgeSummary);
+            return CreatePageDataObject(id, topic, imageMetaData, knowledgeSummary);
         }
 
         if (_sessionUser.IsLoggedIn)
-            return new TopicDataResult
+            return new PageDataResult
             {
                 ErrorCode = NuxtErrorPageType.Unauthorized,
                 MessageKey = FrontendMessageKeys.Error.Page.NoRights
             };
 
-        return new TopicDataResult
+        return new PageDataResult
         {
             ErrorCode = NuxtErrorPageType.Unauthorized,
             MessageKey = FrontendMessageKeys.Error.Page.Unauthorized
         };
     }
 
-    private SearchTopicItem FillMiniTopicItem(PageCacheItem topic)
+    private SearchPageItem FillMiniPageItem(PageCacheItem topic)
     {
-        var miniTopicItem = new SearchTopicItem
+        var miniPageItem = new SearchPageItem
         {
             Id = topic.Id,
             Name = topic.Name,
@@ -64,24 +64,24 @@ public class TopicDataManager(
             Visibility = (int)topic.Visibility
         };
 
-        return miniTopicItem;
+        return miniPageItem;
     }
 
-    private TopicDataResult CreateTopicDataObject(
+    private PageDataResult CreatePageDataObject(
         int id,
         PageCacheItem topic,
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
         var authorIds = topic.AuthorIds.Distinct();
-        return new TopicDataResult
+        return new PageDataResult
         {
             CanAccess = true,
             Id = id,
             Name = topic.Name,
             ImageUrl = new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
             Content = topic.Content,
-            ParentTopicCount = topic.Parents()
+            ParentPageCount = topic.Parents()
                 .Where(_permissionCheck.CanView)
                 .ToList()
                 .Count,
@@ -97,9 +97,9 @@ public class TopicDataManager(
                             .Url
                     })
                 .ToArray(),
-            ChildTopicCount = GraphService
+            ChildPageCount = GraphService
                 .VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
-            DirectVisibleChildTopicCount = GraphService
+            DirectVisibleChildPageCount = GraphService
                 .VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
             Views = pageViewRepo.GetViewCount(id),
             Visibility = topic.Visibility,
@@ -123,7 +123,7 @@ public class TopicDataManager(
             DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId, true,
                 topic.Id),
             ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-            TopicItem = FillMiniTopicItem(topic),
+            PageItem = FillMiniPageItem(topic),
             MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null
                     ? null
                     : Regex.Replace(topic.Content, "<.*?>", ""))
@@ -134,7 +134,7 @@ public class TopicDataManager(
                 NeedsConsolidation: knowledgeSummary.NeedsConsolidation,
                 Solid: knowledgeSummary.Solid
             ),
-            GridItems = new TopicGridManager(
+            GridItems = new PageGridManager(
                 _permissionCheck,
                 _sessionUser,
                 _imageMetaDataReadingRepo,
@@ -142,7 +142,7 @@ public class TopicDataManager(
                 _knowledgeSummaryLoader,
                 _questionReadingRepo).GetChildren(id),
             IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache
-                .GetPage(_sessionUser.User.StartTopicId)
+                .GetPage(_sessionUser.User.StartPageId)
                 .ChildRelations
                 .Any(r => r.ChildId == topic.Id),
             TextIsHidden = topic.TextIsHidden,
@@ -173,16 +173,16 @@ public class TopicDataManager(
         int NeedsConsolidation,
         int Solid);
 
-    public record struct TopicDataResult(
+    public record struct PageDataResult(
         bool CanAccess,
         int Id,
         string Name,
         string ImageUrl,
         string Content,
-        int ParentTopicCount,
+        int ParentPageCount,
         Parent[] Parents,
-        int ChildTopicCount,
-        int DirectVisibleChildTopicCount,
+        int ChildPageCount,
+        int DirectVisibleChildPageCount,
         int Views,
         PageVisibility Visibility,
         int[] AuthorIds,
@@ -193,17 +193,17 @@ public class TopicDataManager(
         int QuestionCount,
         int DirectQuestionCount,
         int ImageId,
-        SearchTopicItem TopicItem,
+        SearchPageItem PageItem,
         string MetaDescription,
         KnowledgeSummarySlim KnowledgeSummary,
-        TopicGridManager.GridTopicItem[] GridItems,
+        PageGridManager.GridPageItem[] GridItems,
         bool IsChildOfPersonalWiki,
         bool TextIsHidden,
         string? MessageKey,
         NuxtErrorPageType? ErrorCode,
         int TodayViews,
-        List<DailyViews> ViewsLast30DaysAggregatedTopic,
-        List<DailyViews> ViewsLast30DaysTopic,
+        List<DailyViews> ViewsLast30DaysAggregatedPage,
+        List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
         List<DailyViews> viewsLast30DaysQuestions
     );

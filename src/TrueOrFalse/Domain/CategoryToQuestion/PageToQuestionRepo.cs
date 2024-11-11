@@ -47,7 +47,7 @@ public class PageToQuestionRepo(ISession _session)
             {
                 transaction.Rollback();
                 Logg.r.Error("Questions add to Category is fails - {msg}", ex.Message);
-                throw new Exception("An error occurred while adding questions to the category.", ex);
+                throw new Exception("An error occurred while adding questions to the page.", ex);
             }
         }
     }

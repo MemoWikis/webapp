@@ -7,20 +7,20 @@ public class PageImageSettings : ImageSettings, IImageSettings
     public IEnumerable<int> SizesSquare => new[] { 206, 50 };
     public IEnumerable<int> SizesFixedWidth => new[] { 500 };
 
-    public override string BasePath => Settings.TopicImageBasePath;
+    public override string BasePath => Settings.PageImageBasePath;
     public string BaseDummyUrl => "no-category-picture-";
 
     public PageImageSettings(
-        int categoryId,
+        int pageId,
         IHttpContextAccessor contextAccessor) :
         base(contextAccessor)
     {
-        Id = categoryId;
+        Id = pageId;
     }
 
-    public void Init(int categoryId)
+    public void Init(int pageId)
     {
-        Id = categoryId;
+        Id = pageId;
     }
 
     public ImageUrl GetUrl_128px(bool asSquare = false)

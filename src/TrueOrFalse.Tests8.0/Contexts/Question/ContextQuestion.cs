@@ -68,7 +68,7 @@ public class ContextQuestion
         question.Visibility = questionVisibility;
         if (categories != null)
         {
-            question.Categories = categories;
+            question.Pages = categories;
         }
 
         All.Add(question);

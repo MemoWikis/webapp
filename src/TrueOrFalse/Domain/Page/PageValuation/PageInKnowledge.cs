@@ -37,15 +37,15 @@ public class PageInKnowledge(
         return questionsInOtherValuatedCategories;
     }
 
-    public void UnpinQuestionsInCategoryInDatabase(int categoryId, int userId)
+    public void UnpinQuestionsInCategoryInDatabase(int pageId, int userId)
     {
         var user = _userReadingRepo.GetByIds(userId).First();
-        var questionsInCategory = EntityCache.GetPage(categoryId)
+        var questionsInCategory = EntityCache.GetPage(pageId)
             .GetAggregatedQuestionsFromMemoryCache(userId);
         var questionIds = questionsInCategory.GetIds();
 
         var questionsInPinnedCategories =
-            QuestionsInValuatedCategories(user.Id, questionIds, exeptCategoryId: categoryId);
+            QuestionsInValuatedCategories(user.Id, questionIds, exeptCategoryId: pageId);
 
         var questionInOtherPinnedEntitites = questionsInPinnedCategories;
         var questionsToUnpin = questionsInCategory

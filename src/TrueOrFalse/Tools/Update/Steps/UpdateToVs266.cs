@@ -7,7 +7,7 @@ internal class UpdateToVs266
         UserWritingRepo userWritingRepo,
         UserReadingRepo userReadingRepo)
     {
-        PersonalTopicMigration.CreateOrAddPersonalTopicForUsersWithoutStartTopicId(
+        PersonalPageMigration.CreateOrAddPersonalPageForUsersWithoutStartPageId(
             pageRepository, userWritingRepo, userReadingRepo);
     }
 }

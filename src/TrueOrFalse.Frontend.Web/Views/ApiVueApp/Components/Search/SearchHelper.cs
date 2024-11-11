@@ -19,8 +19,8 @@ public class SearchHelper
         _questionReadingRepo = questionReadingRepo;
     }
 
-    public void AddTopicItems(
-        List<SearchTopicItem> items,
+    public void AddPageItems(
+        List<SearchPageItem> items,
         GlobalSearchResult elements,
         PermissionCheck permissionCheck,
         int userId,
@@ -28,18 +28,18 @@ public class SearchHelper
             elements.Categories
                 .Where(c => permissionCheck.CanView(c) &&
                     (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
-                .Select(c => FillSearchTopicItem(c, userId))
+                .Select(c => FillSearchPageItem(c, userId))
             );
 
-    public void AddPublicTopicItems(
-        List<SearchTopicItem> items,
+    public void AddPublicPageItems(
+        List<SearchPageItem> items,
         GlobalSearchResult elements,
         int userId,
         int[] topicIdsToFilter = null) => items.AddRange(
         elements.Categories
             .Where(c => c.Visibility == PageVisibility.All &&
                         (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
-            .Select(c => FillSearchTopicItem(c, userId))
+            .Select(c => FillSearchPageItem(c, userId))
     );
 
     public int? SuggestNewParent(Crumbtrail breadcrumb, bool hasPublicQuestion)
@@ -61,9 +61,9 @@ public class SearchHelper
         return breadcrumbItem.Page.Id;
     }
 
-    public SearchTopicItem FillSearchTopicItem(PageCacheItem topic, int userId)
+    public SearchPageItem FillSearchPageItem(PageCacheItem topic, int userId)
     {
-        return new SearchTopicItem
+        return new SearchPageItem
         {
             Id = topic.Id,
             Name = topic.Name,
@@ -93,8 +93,8 @@ public class SearchHelper
                     ImageUrl = new QuestionImageSettings(q.Id, _httpContextAccessor, questionReadingRepo)
                         .GetUrl_50px_square()
                         .Url,
-                    PrimaryTopicId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
-                    PrimaryTopicName = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
+                    PrimaryPageId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
+                    PrimaryPageName = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
                 }));
     }
 

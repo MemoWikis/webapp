@@ -9,8 +9,8 @@
             return new MeiliSearchQuestionMap
             {
                 Id = question.Id,
-                Categories = question.Categories.Select(c => c.Name).ToList(),
-                CategoryIds = question.Categories.Select(c => c.Id).ToList(),
+                Categories = question.Pages.Select(c => c.Name).ToList(),
+                CategoryIds = question.Pages.Select(c => c.Id).ToList(),
                 CreatorId = question.Creator == null ? -1 : question.Creator.Id,
                 Description = question.Description,
                 Solution = question.Solution,

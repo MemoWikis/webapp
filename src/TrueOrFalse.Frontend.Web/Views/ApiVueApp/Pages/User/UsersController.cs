@@ -20,7 +20,7 @@ public class UsersController(
 {
     public record struct UserResult(
         int CreatedQuestionsCount,
-        int CreatedTopicsCount,
+        int CreatedPagesCount,
         int Id,
         string ImgUrl,
         string Name,
@@ -29,7 +29,7 @@ public class UsersController(
         bool ShowWuwi,
         int WikiId,
         int WuwiQuestionsCount,
-        int WuwiTopicsCount
+        int WuwiPagesCount
     );
 
     public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
@@ -84,15 +84,15 @@ public class UsersController(
             Rank = user.ReputationPos,
             CreatedQuestionsCount =
                 _userSummary.AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
-            CreatedTopicsCount =
+            CreatedPagesCount =
                 _userSummary.AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
             ShowWuwi = user.ShowWishKnowledge,
             WuwiQuestionsCount = wishQuestionCount,
-            WuwiTopicsCount = topicsWithWishQuestionCount,
+            WuwiPagesCount = topicsWithWishQuestionCount,
             ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
-            WikiId = _permissionCheck.CanViewCategory(user.StartTopicId) ? user.StartTopicId : -1
+            WikiId = _permissionCheck.CanViewPage(user.StartPageId) ? user.StartPageId : -1
         };
     }
 }

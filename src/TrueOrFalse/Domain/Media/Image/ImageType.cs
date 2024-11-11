@@ -5,6 +5,6 @@
 
     User = 3,
     Page = 4,
-    TopicContent = 5,
+    PageContent = 5,
     QuestionContent = 6
 }

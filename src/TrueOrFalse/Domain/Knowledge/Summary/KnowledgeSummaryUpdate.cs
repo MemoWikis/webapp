@@ -5,9 +5,9 @@
         PageValuationWritingRepo pageValuationWritingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        foreach (var categoryValuation in pageValuationReadingRepository.GetByPage(pageId))
+        foreach (var pageValuation in pageValuationReadingRepository.GetByPage(pageId))
         {
-            Run(categoryValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
+            Run(pageValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
         }
     }
 
@@ -16,9 +16,9 @@
         PageValuationWritingRepo pageValuationWritingRepo,
         KnowledgeSummaryLoader knowledgeSummaryLoader)
     {
-        foreach (var categoryValuation in pageValuationReadingRepository.GetByUser(userId))
+        foreach (var pageValuation in pageValuationReadingRepository.GetByUser(userId))
         {
-            Run(categoryValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
+            Run(pageValuation, pageValuationWritingRepo, knowledgeSummaryLoader);
         }
     }
 

@@ -43,7 +43,7 @@ public class PageCacheItem : IPersistable
     public virtual bool IsHistoric { get; set; }
     public virtual string Name { get; set; }
     public virtual bool SkipMigration { get; set; }
-    public virtual string TopicMarkdown { get; set; }
+    public virtual string PageMarkdown { get; set; }
 
     public virtual int TotalRelevancePersonalEntries { get; set; }
 
@@ -87,7 +87,7 @@ public class PageCacheItem : IPersistable
     }
 
     /// <summary>
-    /// Get Aggregated Topics
+    /// Get Aggregated Pages
     /// </summary>
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
@@ -113,7 +113,7 @@ public class PageCacheItem : IPersistable
         return visibleVisited;
     }
     /// <summary>
-    /// Get Aggregated Topics
+    /// Get Aggregated Pages
     /// </summary>
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
@@ -172,7 +172,7 @@ public class PageCacheItem : IPersistable
         int userId,
         bool onlyVisible = true,
         bool fullList = true,
-        int categoryId = 0)
+        int pageId = 0)
     {
         IList<QuestionCacheItem> questions;
 
@@ -185,7 +185,7 @@ public class PageCacheItem : IPersistable
         }
         else
         {
-            questions = EntityCache.GetQuestionsForPage(categoryId)
+            questions = EntityCache.GetQuestionsForPage(pageId)
                 .Distinct().ToList();
         }
 
@@ -208,7 +208,7 @@ public class PageCacheItem : IPersistable
     public virtual int GetCountQuestionsAggregated(
         int userId,
         bool inCategoryOnly = false,
-        int categoryId = 0)
+        int pageId = 0)
     {
         if (inCategoryOnly)
         {
@@ -216,7 +216,7 @@ public class PageCacheItem : IPersistable
                 userId,
                 true,
                 false,
-                categoryId
+                pageId
             ).Count;
         }
 
@@ -231,13 +231,13 @@ public class PageCacheItem : IPersistable
 
     public bool IsStartPage()
     {
-        if (Id == RootCategory.RootCategoryId)
+        if (Id == RootPage.RootCategoryId)
             return true;
 
         if (Parents().Count == 0)
             return true;
 
-        return Id == Creator.StartTopicId;
+        return Id == Creator.StartPageId;
     }
 
     public virtual List<PageCacheItem> Parents()
@@ -250,7 +250,7 @@ public class PageCacheItem : IPersistable
             : new List<PageCacheItem>();
     }
 
-    public static IEnumerable<PageCacheItem> ToCacheCategories(IEnumerable<Page> categories, IList<PageViewRepo.TopicViewSummaryWithId> views, IList<PageChange> categoryChanges)
+    public static IEnumerable<PageCacheItem> ToCacheCategories(IEnumerable<Page> categories, IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> categoryChanges)
     {
         var categoryViews = views
             .GroupBy(cv => cv.PageId)
@@ -268,11 +268,11 @@ public class PageCacheItem : IPersistable
         });
     }
 
-    public static PageCacheItem ToCacheCategory(Page page, List<PageViewRepo.TopicViewSummaryWithId>? views = null, List<PageChange>? categoryChanges = null)
+    public static PageCacheItem ToCacheCategory(Page page, List<PageViewRepo.PageViewSummaryWithId>? views = null, List<PageChange>? categoryChanges = null)
     {
         var creatorId = page.Creator == null ? -1 : page.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(page.Id);
-        var childRelations = TopicOrderer.Sort(page.Id);
+        var childRelations = PageOrderer.Sort(page.Id);
         var categoryCacheItem = new PageCacheItem
         {
             Id = page.Id,
@@ -292,7 +292,7 @@ public class PageCacheItem : IPersistable
             Name = page.Name,
             SkipMigration = page.SkipMigration,
             Visibility = page.Visibility,
-            TopicMarkdown = page.TopicMarkdown,
+            PageMarkdown = page.Markdown,
             TotalRelevancePersonalEntries = page.TotalRelevancePersonalEntries,
             Type = page.Type,
             TypeJson = page.TypeJson,
@@ -397,7 +397,7 @@ public class PageCacheItem : IPersistable
         return categoryCacheItem;
     }
 
-    public void AddTopicView(DateTime date)
+    public void AddPageView(DateTime date)
     {
         if (ViewsOfPast90Days == null)
             GenerateEmptyViewsOfPast90DaysList();
@@ -463,7 +463,7 @@ public class PageCacheItem : IPersistable
 
     public enum FeedType
     {
-        Topic,
+        Page,
         Question
     }
 
@@ -476,26 +476,26 @@ public class PageCacheItem : IPersistable
         {
             var allVisibleDescendants = GraphService.VisibleDescendants(Id, permissionCheck, userId);
 
-            var allTopics = new List<PageCacheItem> { this }.Concat(allVisibleDescendants).ToList();
-            var unsortedTopicChanges = allTopics
+            var allPages = new List<PageCacheItem> { this }.Concat(allVisibleDescendants).ToList();
+            var unsortedPageChanges = allPages
                 .Where(c => c != null && c.CategoryChangeCacheItems != null)
                 .SelectMany(c => c.CategoryChangeCacheItems)
                 .Select(tc => ToFeedItem(tc, null));
 
             if (getQuestions)
             {
-                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: true, categoryId: Id);
+                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: true, pageId: Id);
                 var unsortedQuestionChanges = allQuestions
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)
                     .Select(qc => ToFeedItem(null, qc));
 
-                changes = unsortedTopicChanges
+                changes = unsortedPageChanges
                     .Concat(unsortedQuestionChanges);
             }
             else
             {
-                changes = unsortedTopicChanges;
+                changes = unsortedPageChanges;
             }
         }
         else
@@ -504,7 +504,7 @@ public class PageCacheItem : IPersistable
 
             if (getQuestions)
             {
-                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: false, categoryId: Id);
+                var allQuestions = GetAggregatedQuestionsFromMemoryCache(userId, onlyVisible: true, fullList: false, pageId: Id);
                 var unsortedQuestionChanges = allQuestions
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)
@@ -553,7 +553,7 @@ public class PageCacheItem : IPersistable
                 continue;
             }
 
-            if (!getItemsInGroup && IsPartOfTopicCreate(previousChange, c.CategoryChangeCacheItem) && previousChange?.CategoryId == visibleChanges.LastOrDefault().CategoryChangeCacheItem?.CategoryId)
+            if (!getItemsInGroup && IsPartOfPageCreate(previousChange, c.CategoryChangeCacheItem) && previousChange?.CategoryId == visibleChanges.LastOrDefault().CategoryChangeCacheItem?.CategoryId)
             {
                 visibleChanges.RemoveAt(visibleChanges.Count - 1);
             }
@@ -626,7 +626,7 @@ public class PageCacheItem : IPersistable
 
         switch (change.Type)
         {
-            case PageChangeType.ChildTopicDeleted:
+            case PageChangeType.ChildPageDeleted:
                 return topicChangeIds.Add(changeId);
 
             case PageChangeType.QuestionDeleted:
@@ -637,7 +637,7 @@ public class PageCacheItem : IPersistable
         }
     }
 
-    private bool IsPartOfTopicCreate(CategoryChangeCacheItem? previousChange, CategoryChangeCacheItem currentChange)
+    private bool IsPartOfPageCreate(CategoryChangeCacheItem? previousChange, CategoryChangeCacheItem currentChange)
     {
         if (previousChange == null || previousChange.Type != PageChangeType.Relations)
             return false;
@@ -653,7 +653,7 @@ public class PageCacheItem : IPersistable
     {
         CategoryChangeCacheItems ??= new List<CategoryChangeCacheItem>();
 
-        var currentData = pageChange.GetCategoryChangeData();
+        var currentData = pageChange.GetPageChangeData();
         var previousChange = CategoryChangeCacheItems.FirstOrDefault();
         PageEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetCategoryChangeData() : null;
         var previousId = CategoryChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;

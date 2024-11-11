@@ -40,8 +40,8 @@ public abstract class ImageSettings
                 return new SetImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.User:
                 return new UserImageSettings(imageMetaData.TypeId, _contextAccessor);
-            case ImageType.TopicContent:
-                return new TopicContentImageSettings(imageMetaData.TypeId, _contextAccessor);
+            case ImageType.PageContent:
+                return new PageContentImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.QuestionContent:
                 return new QuestionContentImageSettings(imageMetaData.TypeId, _contextAccessor);
             default:

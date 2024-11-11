@@ -6,32 +6,32 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
     public void Should_Move_Questions_To_Parent()
     {
         //Arrange
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
         var parentName = "parent name";
         var childName = "child name";
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
-        var parent = contextTopic.Add(
+        var parent = contextPage.Add(
                 parentName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(parentName);
+            .GetPageByName(parentName);
 
-        var child = contextTopic.Add(childName,
+        var child = contextPage.Add(childName,
                 PageType.Standard,
                 creator)
-            .GetTopicByName(childName);
+            .GetPageByName(childName);
 
-        contextTopic.Persist();
-        contextTopic.AddChild(parent, child);
+        contextPage.Persist();
+        contextPage.AddChild(parent, child);
 
         var questionContext = ContextQuestion.New(persistImmediately: true);
 
         questionContext.AddQuestion("question1", creator: creator, categories: new List<Page> { child });
         var categoryDeleter = R<PageDeleter>();
         //Act
-        categoryDeleter.DeleteTopic(child.Id, parent.Id);
+        categoryDeleter.DeletePage(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
         var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
         var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
@@ -45,35 +45,35 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
         Assert.IsNotNull(parentFromDb);
         Assert.AreEqual(PageChangeType.Create, categoryChange.First().Type);
         Assert.AreEqual(PageChangeType.Relations, categoryChange[1].Type);
-        Assert.AreEqual(PageChangeType.ChildTopicDeleted, categoryChange.Last().Type);
+        Assert.AreEqual(PageChangeType.ChildPageDeleted, categoryChange.Last().Type);
         Assert.NotNull(questionChange);
         Assert.AreEqual(QuestionChangeType.Create, questionChange.Type);
 
         Assert.AreEqual(parentFromDb.CountQuestionsAggregated, 1);
-        Assert.AreEqual(parentFromDb.Id, questionFromDb.Categories.First().Id);
-        Assert.AreEqual(questionFromDb.Categories.Count(), 1);
+        Assert.AreEqual(parentFromDb.Id, questionFromDb.Pages.First().Id);
+        Assert.AreEqual(questionFromDb.Pages.Count(), 1);
 
         Assert.IsNotNull(parentFromCache);
         Assert.AreEqual(parentFromCache.CountQuestionsAggregated, 1);
-        Assert.AreEqual(parentFromCache.Id, questionFromDb.Categories.First().Id);
+        Assert.AreEqual(parentFromCache.Id, questionFromDb.Pages.First().Id);
         Assert.AreEqual(questionFromCache.Pages.Count(), 1);
     }
 
     [Test]
     public void MoveQuestionNoParent()
     {
-        var contextTopic = ContextCategory.New();
+        var contextPage = ContextCategory.New();
 
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
 
 
-        var child = contextTopic.Add("child",
+        var child = contextPage.Add("child",
                 PageType.Standard,
                 creator)
-            .GetTopicByName("child");
+            .GetPageByName("child");
 
-        contextTopic.Persist();
+        contextPage.Persist();
 
         var categoryRepo = R<PageRepository>();
 
@@ -83,10 +83,10 @@ public class CategoryDeleterMoveQuestionsTest : BaseTest
         var parentId = 0;
         RecycleContainerAndEntityCache();
 
-        var result = R<PageDeleter>().DeleteTopic(child.Id, parentId);
+        var result = R<PageDeleter>().DeletePage(child.Id, parentId);
 
         Assert.AreEqual(result.Success, false);
-        Assert.AreEqual(result.MessageKey, FrontendMessageKeys.Error.Page.TopicNotSelected);
+        Assert.AreEqual(result.MessageKey, FrontendMessageKeys.Error.Page.PageNotSelected);
 
     }
 }

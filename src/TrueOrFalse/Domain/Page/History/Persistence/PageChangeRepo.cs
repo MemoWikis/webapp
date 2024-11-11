@@ -70,20 +70,20 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
         categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(categoryChange);
     }
 
-    public void AddDeletedChildTopicEntry(Page page, int authorId, int deleteChangeId, string deletedTopicName, PageVisibility deletedVisibility)
+    public void AddDeletedChildPageEntry(Page page, int authorId, int deleteChangeId, string deletedPageName, PageVisibility deletedVisibility)
     {
         var categoryChange = new PageChange
         {
             Page = page,
-            Type = PageChangeType.ChildTopicDeleted,
+            Type = PageChangeType.ChildPageDeleted,
             AuthorId = authorId,
             DataVersion = 2,
         };
 
-        AddDeleteEntry(categoryChange, page, authorId, deleteChangeId, deletedTopicName, deletedVisibility);
+        AddDeleteEntry(categoryChange, page, authorId, deleteChangeId, deletedPageName, deletedVisibility);
     }
 
-    public void AddDeletedQuestionEntry(Page page, int authorId, int deleteChangeId, string deletedTopicName, QuestionVisibility deletedVisibility)
+    public void AddDeletedQuestionEntry(Page page, int authorId, int deleteChangeId, string deletedPageName, QuestionVisibility deletedVisibility)
     {
         var categoryChange = new PageChange
         {
@@ -95,10 +95,10 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
         var visibility = (PageVisibility)deletedVisibility;
 
-        AddDeleteEntry(categoryChange, page, authorId, deleteChangeId, deletedTopicName, visibility);
+        AddDeleteEntry(categoryChange, page, authorId, deleteChangeId, deletedPageName, visibility);
     }
 
-    private void AddDeleteEntry(PageChange pageChange, Page page, int authorId, int deleteChangeId, string deletedTopicName, PageVisibility deletedVisibility)
+    private void AddDeleteEntry(PageChange pageChange, Page page, int authorId, int deleteChangeId, string deletedPageName, PageVisibility deletedVisibility)
     {
         var categoryCacheItem = EntityCache.GetPage(page);
 
@@ -112,7 +112,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             ? GetChildIds(categoryCacheItem.ChildRelations)
             : null;
 
-        SetDeleteData(page, pageChange, deleteChangeId, deletedTopicName, deletedVisibility, parentIds: parentIds, childIds: childIds);
+        SetDeleteData(page, pageChange, deleteChangeId, deletedPageName, deletedVisibility, parentIds: parentIds, childIds: childIds);
         base.Create(pageChange);
         categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(pageChange);
     }
@@ -153,19 +153,19 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException($"Invalid data version number {pageChange.DataVersion} for category change id {pageChange.Id}");
+                throw new ArgumentOutOfRangeException($"Invalid data version number {pageChange.DataVersion} for page change id {pageChange.Id}");
         }
     }
 
-    private void SetDeleteData(Page page, PageChange pageChange, int deleteChangeId, string deletedTopicName, PageVisibility deletedVisibility, int[]? parentIds = null, int[]? childIds = null)
+    private void SetDeleteData(Page page, PageChange pageChange, int deleteChangeId, string deletedPageName, PageVisibility deletedVisibility, int[]? parentIds = null, int[]? childIds = null)
     {
-        pageChange.Data = new PageEditData_V2(page, imageWasUpdated: false, _session, parentIds, childIds, deleteChangeId: deleteChangeId, deletedName: deletedTopicName, deletedVisibility: deletedVisibility).ToJson();
+        pageChange.Data = new PageEditData_V2(page, imageWasUpdated: false, _session, parentIds, childIds, deleteChangeId: deleteChangeId, deletedName: deletedPageName, deletedVisibility: deletedVisibility).ToJson();
     }
 
-    public IList<PageChange> GetForCategory(int categoryId, bool filterUsersForSidebar = false)
+    public IList<PageChange> GetForCategory(int pageId, bool filterUsersForSidebar = false)
     {
         Page aliasPage = null;
-        var categoryCacheItem = EntityCache.GetPage(categoryId);
+        var categoryCacheItem = EntityCache.GetPage(pageId);
         var childIds = categoryCacheItem
             .ParentRelations
             .Select(cr => cr.ParentId)
@@ -173,7 +173,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
         var query = _session
             .QueryOver<PageChange>()
-            .Where(c => c.Page.Id == categoryId || c.Page.Id.IsIn(childIds));
+            .Where(c => c.Page.Id == pageId || c.Page.Id.IsIn(childIds));
 
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
@@ -185,7 +185,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             .List();
 
         categoryChangeList = categoryChangeList.Where(cc =>
-            cc.Page.Id == categoryId ||
+            cc.Page.Id == pageId ||
             cc.Type != PageChangeType.Text &&
             cc.Type != PageChangeType.Image &&
             cc.Type != PageChangeType.Restore &&
@@ -196,13 +196,13 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
         return categoryChangeList;
     }
 
-    public IList<PageChange> GetForTopic(int categoryId, bool filterUsersForSidebar = false)
+    public IList<PageChange> GetForPage(int pageId, bool filterUsersForSidebar = false)
     {
         Page aliasPage = null;
 
         var query = _session
             .QueryOver<PageChange>()
-            .Where(c => c.Page.Id == categoryId);
+            .Where(c => c.Page.Id == pageId);
 
         if (filterUsersForSidebar)
             query.And(c => c.ShowInSidebar);
@@ -214,7 +214,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
 
         categoryChangeList = categoryChangeList.Where(cc =>
-                cc.Page.Id == categoryId ||
+                cc.Page.Id == pageId ||
                 cc.Type != PageChangeType.Text &&
                 cc.Type != PageChangeType.Image &&
                 cc.Type != PageChangeType.Restore &&
@@ -231,7 +231,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             type != PageChangeType.Relations &&
             type != PageChangeType.Restore &&
             type != PageChangeType.Moved &&
-            type != PageChangeType.ChildTopicDeleted)
+            type != PageChangeType.ChildPageDeleted)
             return true;
 
         return false;

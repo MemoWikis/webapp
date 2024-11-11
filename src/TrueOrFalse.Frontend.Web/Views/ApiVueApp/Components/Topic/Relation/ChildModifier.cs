@@ -16,9 +16,9 @@ public class ChildModifier(
     public readonly record struct AddChildResult(
         bool Success,
         string MessageKey,
-        TinyTopicItem Data);
+        TinyPageItem Data);
 
-    public readonly record struct TinyTopicItem(int Id, string Name);
+    public readonly record struct TinyPageItem(int Id, string Name);
 
     public AddChildResult AddChild(
         int childId,
@@ -31,7 +31,7 @@ public class ChildModifier(
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
-        if (parentId == RootCategory.RootCategoryId && !_sessionUser.IsInstallationAdmin)
+        if (parentId == RootPage.RootCategoryId && !_sessionUser.IsInstallationAdmin)
             return new AddChildResult
             {
                 Success = false,
@@ -46,10 +46,10 @@ public class ChildModifier(
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.IsAlreadyLinkedAsChild
             };
-        var selectedTopicIsParent = GraphService.Ascendants(parentId)
+        var selectedPageIsParent = GraphService.Ascendants(parentId)
             .Any(c => c.Id == childId);
 
-        if (selectedTopicIsParent)
+        if (selectedPageIsParent)
         {
             Logg.r.Error("Child is Parent ");
             return new AddChildResult
@@ -72,7 +72,7 @@ public class ChildModifier(
         return new AddChildResult
         {
             Success = true,
-            Data = new TinyTopicItem
+            Data = new TinyPageItem
             {
                 Name = EntityCache.GetPage(parentId).Name,
                 Id = childId
@@ -83,7 +83,7 @@ public class ChildModifier(
     public readonly record struct RemoveParentResult(
         bool Success,
         string MessageKey,
-        TinyTopicItem Data);
+        TinyPageItem Data);
 
     public RemoveParentResult RemoveParent(
         int parentIdToRemove,

@@ -4,39 +4,39 @@
     public void Ensure_TextIsHidden_consistency_between_cache_and_db()
     {
         //Arrange
-        //visibleTopic
+        //visiblePage
         var sessionUser = R<SessionUser>();
         var creator = new User { Id = sessionUser.UserId };
         var contextCategory = ContextCategory.New(false);
-        var publicTopicName = "category1";
-        var publicTopic = contextCategory
-            .Add(publicTopicName, creator: creator)
+        var publicPageName = "category1";
+        var publicPage = contextCategory
+            .Add(publicPageName, creator: creator)
             .Persist()
-            .GetTopicByName(publicTopicName);
+            .GetPageByName(publicPageName);
 
-        //NotVisibleTopic
+        //NotVisiblePage
         var creator1 = new User { Name = "Daniel" };
         ContextUser.New(R<UserWritingRepo>()).Add(creator1).Persist();
-        var privateTopicName = "category2";
-        var privateTopic = contextCategory
-            .Add(privateTopicName, creator: creator1, visibility: PageVisibility.Owner)
+        var privatePageName = "category2";
+        var privatePage = contextCategory
+            .Add(privatePageName, creator: creator1, visibility: PageVisibility.Owner)
             .Persist()
-            .GetTopicByName(privateTopicName);
+            .GetPageByName(privatePageName);
 
         //Act
-        var resultVisibleTopic = R<PageUpdater>().HideOrShowTopicText(hideText: true, publicTopic.Id);
+        var resultVisiblePage = R<PageUpdater>().HideOrShowPageText(hideText: true, publicPage.Id);
 
-        var dbCategory = R<PageRepository>().GetById(publicTopic.Id);
-        var cacheCategory = EntityCache.GetPage(publicTopic.Id);
+        var dbCategory = R<PageRepository>().GetById(publicPage.Id);
+        var cacheCategory = EntityCache.GetPage(publicPage.Id);
         //Assert
         Assert.NotNull(dbCategory);
         Assert.NotNull(cacheCategory);
-        Assert.True(resultVisibleTopic);
+        Assert.True(resultVisiblePage);
         Assert.True(dbCategory.TextIsHidden);
         Assert.True(cacheCategory.TextIsHidden);
 
-        var ex = Assert.Throws<AccessViolationException>(() => R<PageUpdater>().HideOrShowTopicText(hideText: true, privateTopic.Id));
-        Assert.That(ex.Message, Is.EqualTo($"{nameof(PageUpdater.HideOrShowTopicText)}: No permission for user"));
+        var ex = Assert.Throws<AccessViolationException>(() => R<PageUpdater>().HideOrShowPageText(hideText: true, privatePage.Id));
+        Assert.That(ex.Message, Is.EqualTo($"{nameof(PageUpdater.HideOrShowPageText)}: No permission for user"));
     }
 }
 

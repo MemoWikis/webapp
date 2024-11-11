@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
-public class TopicNameValidator
+public class PageNameValidator
 {
     private static readonly HashSet<string> ForbiddenWords = new(StringComparer.OrdinalIgnoreCase)
     {

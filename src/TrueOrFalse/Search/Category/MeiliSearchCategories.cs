@@ -29,7 +29,7 @@ namespace TrueOrFalse.Search
             string searchTerm)
         {
             var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
-            var index = client.Index(MeiliSearchConstants.Categories);
+            var index = client.Index(MeiliSearchConstants.Pages);
             _result = new MeiliSearchCategoriesResult();
 
             _result.CategoryIds.AddRange(await LoadSearchResults(searchTerm, index)

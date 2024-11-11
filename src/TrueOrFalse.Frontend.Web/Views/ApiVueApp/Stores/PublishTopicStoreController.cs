@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp
 {
-    public class PublishTopicStoreController(
+    public class PublishPageStoreController(
         SessionUser _sessionUser,
         PermissionCheck _permissionCheck,
         PageRepository pageRepository,
@@ -12,27 +12,27 @@ namespace VueApp
         QuestionWritingRepo _questionWritingRepo,
         ExtendedUserCache _extendedUserCache) : Controller
     {
-        public readonly record struct PublishTopicJson(int id);
+        public readonly record struct PublishPageJson(int id);
 
-        public readonly record struct PublishTopicResult(
+        public readonly record struct PublishPageResult(
             bool Success,
             string MessageKey,
             List<int> Data);
 
         [HttpPost]
         [AccessOnlyAsLoggedIn]
-        public PublishTopicResult PublishTopic([FromBody] PublishTopicJson json)
+        public PublishPageResult PublishPage([FromBody] PublishPageJson json)
         {
             var topicCacheItem = EntityCache.GetPage(json.id);
 
             if (topicCacheItem != null)
             {
                 if (topicCacheItem.HasPublicParent() ||
-                    topicCacheItem.Creator.StartTopicId == json.id)
+                    topicCacheItem.Creator.StartPageId == json.id)
                 {
                     if (topicCacheItem.Parents().Any(c => c.Id == 1) &&
                         !_sessionUser.IsInstallationAdmin)
-                        return new PublishTopicResult
+                        return new PublishPageResult
                         {
                             Success = false,
                             MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
@@ -43,13 +43,13 @@ namespace VueApp
                     topic.Visibility = PageVisibility.All;
                     pageRepository.Update(topic, _sessionUser.UserId,
                         type: PageChangeType.Published);
-                    return new PublishTopicResult
+                    return new PublishPageResult
                     {
                         Success = true,
                     };
                 }
 
-                return new PublishTopicResult
+                return new PublishPageResult
                 {
                     Success = false,
                     MessageKey = FrontendMessageKeys.Error.Page.ParentIsPrivate,
@@ -57,7 +57,7 @@ namespace VueApp
                 };
             }
 
-            return new PublishTopicResult
+            return new PublishPageResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
@@ -85,7 +85,7 @@ namespace VueApp
             }
         }
 
-        public readonly record struct TinyTopic(
+        public readonly record struct TinyPage(
             bool Success,
             string Name,
             List<int> QuestionIds,
@@ -93,13 +93,13 @@ namespace VueApp
 
         [HttpGet]
         [AccessOnlyAsLoggedIn]
-        public TinyTopic Get([FromRoute] int id)
+        public TinyPage Get([FromRoute] int id)
         {
             var topicCacheItem = EntityCache.GetPage(id);
             var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
 
             if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
-                return new TinyTopic
+                return new TinyPage
                 {
                     Success = false,
                 };
@@ -113,7 +113,7 @@ namespace VueApp
                     _permissionCheck.CanEdit(q))
                 .Select(q => q.Id).ToList();
 
-            return new TinyTopic
+            return new TinyPage
             {
                 Success = true,
                 Name = topicCacheItem.Name,

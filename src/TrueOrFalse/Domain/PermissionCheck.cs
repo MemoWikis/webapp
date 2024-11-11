@@ -24,19 +24,19 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     }
 
     //setter is for tests
-    public bool CanViewCategory(int id) => CanView(EntityCache.GetPage(id));
+    public bool CanViewPage(int id) => CanView(EntityCache.GetPage(id));
     public bool CanView(Page page) => CanView(EntityCache.GetPage(page.Id));
-    public bool CanView(PageCacheItem? category) => CanView(_userId, category);
+    public bool CanView(PageCacheItem? page) => CanView(_userId, page);
 
-    public bool CanView(int userId, PageCacheItem? category)
+    public bool CanView(int userId, PageCacheItem? page)
     {
-        if (category == null)
+        if (page == null)
             return false;
 
-        if (category.Visibility == PageVisibility.All)
+        if (page.Visibility == PageVisibility.All)
             return true;
 
-        if (category.Visibility == PageVisibility.Owner && category.CreatorId == userId)
+        if (page.Visibility == PageVisibility.Owner && page.CreatorId == userId)
             return true;
 
         return false;
@@ -53,7 +53,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetPage(categoryId));
+    public bool CanEditCategory(int paegId) => CanEdit(EntityCache.GetPage(paegId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
     public bool CanView(PageChange change)
@@ -61,7 +61,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return change.Page != null &&
                change.Page.Id > 0 &&
                CanView(change.Page) &&
-               CanView(change.Page.Creator.Id, change.GetCategoryChangeData().Visibility);
+               CanView(change.Page.Creator.Id, change.GetPageChangeData().Visibility);
     }
 
     public bool CanEdit(PageCacheItem page)
@@ -72,7 +72,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (page == null)
             return false;
 
-        if (RootCategory.LockedCategory(page.Id) && !_isInstallationAdmin)
+        if (RootPage.Lockedpage(page.Id) && !_isInstallationAdmin)
             return false;
 
         if (!CanView(page))
@@ -100,7 +100,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (_userId == default || page == null || page.Id == 0)
             return false;
 
-        if (page.Id == RootCategory.RootCategoryId || page.Id == page.Creator.StartTopicId)
+        if (page.Id == RootPage.RootCategoryId || page.Id == page.Creator.StartPageId)
             return false;
 
         if (page.Creator.Id == _userId || _isInstallationAdmin)
@@ -109,22 +109,22 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public bool CanMoveTopic(int topicId, int oldParentId, int newParentId) => CanMoveTopic(
-        EntityCache.GetPage(topicId), EntityCache.GetPage(oldParentId), newParentId);
+    public bool CanMovePage(int pageId, int oldParentId, int newParentId) => CanMovePage(
+        EntityCache.GetPage(pageId), EntityCache.GetPage(oldParentId), newParentId);
 
-    public bool CanMoveTopic(PageCacheItem? movingTopic, PageCacheItem? oldParent, int newParentId)
+    public bool CanMovePage(PageCacheItem? movingPage, PageCacheItem? oldParent, int newParentId)
     {
         if (_userId == default
-            || movingTopic == null
-            || movingTopic.Id == 0
+            || movingPage == null
+            || movingPage.Id == 0
             || oldParent == null
             || oldParent.Id == 0)
             return false;
 
-        if (RootCategory.RootCategoryId == newParentId && !_isInstallationAdmin && movingTopic.Visibility == PageVisibility.All)
+        if (RootPage.RootCategoryId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
             return false;
 
-        return _isInstallationAdmin || movingTopic.CreatorId == _userId || oldParent.CreatorId == _userId;
+        return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;
     }
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));

@@ -24,7 +24,7 @@ public class QuickCreateQuestionController(
     QuestionReadingRepo _questionReadingRepo) : Controller
 {
     public readonly record struct CreateFlashcardRequest(
-        int TopicId,
+        int PageId,
         string TextHtml,
         string Answer,
         int Visibility,
@@ -77,9 +77,9 @@ public class QuickCreateQuestionController(
 
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId)!;
 
-        question.Categories = new List<Page>
+        question.Pages = new List<Page>
         {
-            pageRepository.GetById(request.TopicId)
+            pageRepository.GetById(request.PageId)
         };
 
         var visibility = (QuestionVisibility)request.Visibility;

@@ -9,10 +9,10 @@ public class ProbabilityUpdate_Page(
     {
         var sp = Stopwatch.StartNew();
 
-        foreach (var category in pageRepository.GetAll())
-            Run(category);
+        foreach (var page in pageRepository.GetAll())
+            Run(page);
 
-        Log.Information("Calculated all category probabilities in {elapsed} ", sp.Elapsed);
+        Log.Information("Calculated all page probabilities in {elapsed} ", sp.Elapsed);
     }
 
     public void Run(Page page)
@@ -26,6 +26,6 @@ public class ProbabilityUpdate_Page(
 
         pageRepository.Update(page);
 
-        Logg.r.Information("Calculated probability in {elapsed} for category {categoryId}", sp.Elapsed, page.Id);
+        Logg.r.Information("Calculated probability in {elapsed} for page {pageid}", sp.Elapsed, page.Id);
     }
 }

@@ -18,7 +18,7 @@ public class AppController(
         string ImgUrl,
         int Reputation,
         int ReputationPos,
-        TopicDataManager.TopicDataResult PersonalWiki,
+        PageDataManager.PageDataResult PersonalWiki,
         ActivityPoints ActivityPoints,
         int UnreadMessagesCount,
         SubscriptionType SubscriptionType,
@@ -75,53 +75,53 @@ public class AppController(
         };
     }
 
-    public readonly record struct GetFooterTopicsResult(
-        TinyTopicItem RootWiki,
-        TinyTopicItem[] MainTopics,
-        TinyTopicItem MemoWiki,
-        TinyTopicItem[] MemoTopics,
-        TinyTopicItem[] HelpTopics,
-        TinyTopicItem[] PopularTopics,
-        TinyTopicItem Documentation);
+    public readonly record struct GetFooterPagesResult(
+        TinyPageItem RootWiki,
+        TinyPageItem[] MainPages,
+        TinyPageItem MemoWiki,
+        TinyPageItem[] MemoPages,
+        TinyPageItem[] HelpPages,
+        TinyPageItem[] PopularPages,
+        TinyPageItem Documentation);
 
-    public readonly record struct TinyTopicItem(int Id, string Name);
+    public readonly record struct TinyPageItem(int Id, string Name);
 
     [HttpGet]
-    public GetFooterTopicsResult GetFooterTopics()
+    public GetFooterPagesResult GetFooterPages()
     {
-        var footerTopics = new GetFooterTopicsResult
+        var footerPages = new GetFooterPagesResult
         (
-            RootWiki: new TinyTopicItem
+            RootWiki: new TinyPageItem
             (
-                Id: RootCategory.RootCategoryId,
-                Name: EntityCache.GetPage(RootCategory.RootCategoryId)?.Name
+                Id: RootPage.RootCategoryId,
+                Name: EntityCache.GetPage(RootPage.RootCategoryId)?.Name
             ),
-            MainTopics: RootCategory.MainCategoryIds.Select(id => new TinyTopicItem(
+            MainPages: RootPage.MainCategoryIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            MemoWiki: new TinyTopicItem
+            MemoWiki: new TinyPageItem
             (
-                Id: RootCategory.MemuchoWikiId,
-                Name: EntityCache.GetPage(RootCategory.MemuchoWikiId).Name
+                Id: RootPage.MemuchoWikiId,
+                Name: EntityCache.GetPage(RootPage.MemuchoWikiId).Name
             ),
-            MemoTopics: RootCategory.MemuchoCategoryIds.Select(id => new TinyTopicItem(
+            MemoPages: RootPage.MemuchoCategoryIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            HelpTopics: RootCategory.MemuchoHelpIds.Select(id => new TinyTopicItem(
+            HelpPages: RootPage.MemuchoHelpIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            PopularTopics: RootCategory.PopularCategoryIds.Select(id => new TinyTopicItem(
+            PopularPages: RootPage.PopularCategoryIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            Documentation: new TinyTopicItem(
-                Id: RootCategory.IntroCategoryId,
-                Name: EntityCache.GetPage(RootCategory.IntroCategoryId).Name
+            Documentation: new TinyPageItem(
+                Id: RootPage.IntroCategoryId,
+                Name: EntityCache.GetPage(RootPage.IntroCategoryId).Name
             )
         );
-        return footerTopics;
+        return footerPages;
     }
 }

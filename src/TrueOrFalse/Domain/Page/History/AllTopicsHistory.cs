@@ -1,6 +1,6 @@
 ﻿using NHibernate;
 
-public class AllTopicsHistory(
+public class AllPagesHistory(
     PermissionCheck _permissionCheck,
     SessionUser _sessionUser,
     ISession _nhibernateSession)
@@ -15,19 +15,19 @@ public class AllTopicsHistory(
             ORDER BY cc.DateCreated DESC 
             LIMIT :revisionsToSkip, :revisionsToShow";
 
-        var orderedTopicChangesOnPage = _nhibernateSession.CreateSQLQuery(query)
+        var orderedPageChangesOnPage = _nhibernateSession.CreateSQLQuery(query)
             .AddEntity(typeof(PageChange))
             .SetParameter("userId", _sessionUser.UserId)
             .SetParameter("revisionsToSkip", revisionsToSkip)
             .SetParameter("revisionsToShow", revisionsToShow)
             .List<PageChange>().OrderBy(c => c.Id);
 
-        var groupedChanges = orderedTopicChangesOnPage
+        var groupedChanges = orderedPageChangesOnPage
             .Where(_permissionCheck.CanView)
             .GroupBy(change => change.DateCreated.Date)
             .OrderByDescending(group => @group.Key);
 
         return groupedChanges;
     }
-    
+
 }

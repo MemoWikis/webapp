@@ -24,7 +24,7 @@ public class EntityCache
         Cache.Mgr.Get<ConcurrentDictionary<int, PageRelationCache>>(CacheKeyRelations);
 
     /// <summary>
-    /// Dictionary(key:categoryId, value:questions)
+    /// Dictionary(key:pageId, value:questions)
     /// </summary>
     private static ConcurrentDictionary<int, ConcurrentDictionary<int, int>>
         PageQuestionsList =>
@@ -35,7 +35,7 @@ public class EntityCache
         ids.Select(id => GetUserById(id))
             .ToList();
 
-    public static void AddViewsLast30DaysToTopics(PageViewRepo pageViewRepo, List<PageCacheItem> pageCacheItems)
+    public static void AddViewsLast30DaysToPages(PageViewRepo pageViewRepo, List<PageCacheItem> pageCacheItems)
     {
         var pagesViewsLast30Days = pageViewRepo.GetViewsForLastNDaysGroupByCategoryId(30);
         foreach (var pageCacheItem in pageCacheItems)
@@ -69,7 +69,7 @@ public class EntityCache
 
             DateTimeUtils.EnsureLastDaysIncluded(aggregatedPageViews30Days, 30);
             DateTimeUtils.EnsureLastDaysIncluded(selfCategoryViews30Days, 30);
-            //categoryCacheItem.AddTopicViews(aggregatedTopicViews30Days, selfCategoryViews30Days);
+            //categoryCacheItem.AddPageViews(aggregatedPageViews30Days, selfCategoryViews30Days);
         }
     }
 
@@ -79,11 +79,11 @@ public class EntityCache
         var questionViewsLast90Days = questionViewRepo.GetViewsForLastNDaysGroupByQuestionId(90);
         foreach (var categoryCacheItem in categoryCacheItems)
         {
-            var aggregatedQuestionsFromAllAggregatedTopics = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, true, categoryCacheItem.Id)
+            var aggregatedQuestionsFromAllAggregatedPages = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, true, categoryCacheItem.Id)
                 .Select(t => t.Id);
 
             var aggregatedQuestionsViews90Days = questionViewsLast90Days
-                .Where(view => aggregatedQuestionsFromAllAggregatedTopics.Contains(view.QuestionId))
+                .Where(view => aggregatedQuestionsFromAllAggregatedPages.Contains(view.QuestionId))
                 .GroupBy(view => view.DateOnly)
                 .Select(g => new
                 {
@@ -94,11 +94,11 @@ public class EntityCache
                 .Select(v => new DailyViews() { Date = v.Date, Count = v.TotalCount })
                 .ToList();
 
-            var selfQuestionsFromTopic = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, false, categoryCacheItem.Id)
+            var selfQuestionsFromPage = categoryCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, false, categoryCacheItem.Id)
                 .Select(t => t.Id);
 
             var topicQuestions90Days = questionViewsLast90Days
-                .Where(view => selfQuestionsFromTopic.Contains(view.QuestionId))
+                .Where(view => selfQuestionsFromPage.Contains(view.QuestionId))
                 .GroupBy(view => view.DateOnly)
                 .Select(g => new
                 {
@@ -143,20 +143,20 @@ public class EntityCache
         return categoryQuestionList;
     }
 
-    public static bool TopicHasQuestion(int topicId)
+    public static bool PageHasQuestion(int pageId)
     {
-        return EntityCache.GetQuestionsIdsForCategory(topicId)?
+        return EntityCache.GetQuestionsIdsForCategory(pageId)?
             .Any() ?? false;
     }
 
-    public static IList<QuestionCacheItem> GetQuestionsForPage(int categoryId)
+    public static IList<QuestionCacheItem> GetQuestionsForPage(int pageId)
     {
-        return GetQuestionsByIds(GetQuestionsIdsForCategory(categoryId));
+        return GetQuestionsByIds(GetQuestionsIdsForCategory(pageId));
     }
 
-    public static List<int> GetQuestionsIdsForCategory(int categoryId)
+    public static List<int> GetQuestionsIdsForCategory(int pageId)
     {
-        PageQuestionsList.TryGetValue(categoryId, out var questionIds);
+        PageQuestionsList.TryGetValue(pageId, out var questionIds);
 
         return questionIds?.Keys.ToList() ?? new List<int>();
     }
@@ -223,22 +223,22 @@ public class EntityCache
     {
         if (affectedCategoryIds != null)
         {
-            foreach (var categoryId in affectedCategoryIds.Except(question.Pages.GetIds()))
+            foreach (var pageId in affectedCategoryIds.Except(question.Pages.GetIds()))
             {
-                if (categoryQuestionsList.ContainsKey(categoryId))
-                    categoryQuestionsList[categoryId]?.TryRemove(question.Id, out var outVar);
+                if (categoryQuestionsList.ContainsKey(pageId))
+                    categoryQuestionsList[pageId]?.TryRemove(question.Id, out var outVar);
             }
         }
     }
 
-    public static void AddQuestionsToCategory(int categoryId, List<int> questionIds)
+    public static void AddQuestionsToCategory(int pageId, List<int> questionIds)
     {
         foreach (int questionId in questionIds)
         {
-            PageQuestionsList.AddOrUpdate(categoryId, new ConcurrentDictionary<int, int>(),
+            PageQuestionsList.AddOrUpdate(pageId, new ConcurrentDictionary<int, int>(),
                 (k, existingList) => existingList);
 
-            PageQuestionsList[categoryId]?.AddOrUpdate(questionId, 0, (k, v) => 0);
+            PageQuestionsList[pageId]?.AddOrUpdate(questionId, 0, (k, v) => 0);
         }
     }
 
@@ -434,7 +434,7 @@ public class EntityCache
 
     public static IEnumerable<PageCacheItem> GetCategories(IEnumerable<int> getIds)
     {
-        var c = getIds.Select(categoryId => GetPage(categoryId)).ToList();
+        var c = getIds.Select(pageId => GetPage(pageId)).ToList();
         return c;
     }
 
@@ -442,17 +442,17 @@ public class EntityCache
 
     //There is an infinite loop when the user is logged in to complaints and when the server is restarted
     //https://docs.google.com/document/d/1XgfHVvUY_Fh1ID93UZEWFriAqTwC1crhCwJ9yqAPtTY
-    public static PageCacheItem? GetPage(int categoryId)
+    public static PageCacheItem? GetPage(int pageId)
     {
         if (Pages == null) return null;
-        Pages.TryGetValue(categoryId, out var category);
+        Pages.TryGetValue(pageId, out var category);
         return category;
     }
 
-    public static IList<PageCacheItem> GetAllCategoriesList() => Pages.Values.ToList();
+    public static IList<PageCacheItem> GetAllPagesList() => Pages.Values.ToList();
 
     public static IEnumerable<int> GetPrivatePageIdsFromUser(int userId) =>
-        GetAllCategoriesList()
+        GetAllPagesList()
             .Where(c => c.Creator.Id == userId && c.Visibility == PageVisibility.Owner)
             .Select(c => c.Id);
 
@@ -460,7 +460,7 @@ public class EntityCache
         string name,
         PageType type = PageType.Standard)
     {
-        var allCategories = GetAllCategoriesList();
+        var allCategories = GetAllPagesList();
         return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 
@@ -489,8 +489,8 @@ public class EntityCache
     public static List<PageRelationCache> GetCacheRelationsByParentId(int parentId) =>
         GetAllRelations().Where(r => r.ParentId == parentId).ToList();
 
-    public static IEnumerable<PageRelationCache> GetCacheRelationsByTopicId(int topicId) =>
-        GetAllRelations().Where(r => r.ParentId == topicId || r.ChildId == topicId);
+    public static IEnumerable<PageRelationCache> GetCacheRelationsByPageId(int pageId) =>
+        GetAllRelations().Where(r => r.ParentId == pageId || r.ChildId == pageId);
 
     public static void Clear()
     {
