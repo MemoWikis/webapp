@@ -48,7 +48,7 @@ public class ModifyRelationsEntityCache
 
         var newParentRelationsIds = childPage.ParentRelations.Where(r => r.ParentId != parentId)
             .Select(r => r.ParentId);
-        var parentCategories = EntityCache.GetCategories(newParentRelationsIds);
+        var parentCategories = EntityCache.GetPages(newParentRelationsIds);
 
         if (!childPage.IsStartPage() &&
             !CheckParentAvailability(parentCategories, childPage))

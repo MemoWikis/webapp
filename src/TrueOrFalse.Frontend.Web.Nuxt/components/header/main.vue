@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
-import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
+import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
 import { Page } from '../shared/pageEnum'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import { BreadcrumbItem } from './breadcrumbItems'
@@ -9,8 +9,8 @@ import { BreadcrumbItem } from './breadcrumbItems'
 interface Props {
     page: Page
     questionPageData?: {
-        primaryTopicName: string
-        primaryTopicUrl: string
+        primaryPageName: string
+        primaryPageUrl: string
         title: string
     }
     breadcrumbItems?: BreadcrumbItem[]
@@ -19,7 +19,7 @@ const props = defineProps<Props>()
 
 const showSearch = ref(false)
 
-async function openUrl(val: TopicItem | QuestionItem | UserItem) {
+async function openUrl(val: PageItem | QuestionItem | UserItem) {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
     return await navigateTo(val.url)

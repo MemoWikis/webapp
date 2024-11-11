@@ -1,5 +1,5 @@
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
-import { TopicItem } from '~~/components/search/searchHelper'
+import { PageItem } from '~~/components/search/searchHelper'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 
 export interface AnswerQuestionDetailsResult {
@@ -14,7 +14,7 @@ export interface AnswerQuestionDetailsResult {
     overallAnsweredCorrectly: number,
     overallAnsweredWrongly: number,
     isInWishknowledge: boolean,
-    topics: TopicItem[],
+    pages: PageItem[],
 
     visibility: Visibility,
     dateNow: number,

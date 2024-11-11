@@ -19,15 +19,15 @@ interface GetAllDataResponse {
     monthlyRegistrationsOfPastYear: ViewsResult[]
     dailyRegistrationsOfPastYear: ViewsResult[]
 
-    todaysPublicTopicCreatedCount: number
-    monthlyPublicCreatedTopicsOfPastYear: ViewsResult[]
+    todaysPublicPageCreatedCount: number
+    monthlyPublicCreatedPagesOfPastYear: ViewsResult[]
 
-    createdPrivateTopicCount: number
-    monthlyPrivateCreatedTopicsOfPastYear: ViewsResult[]
-    dailyPrivateCreatedTopicsOfPastYear: ViewsResult[]
+    createdPrivatePageCount: number
+    monthlyPrivateCreatedPagesOfPastYear: ViewsResult[]
+    dailyPrivateCreatedPagesOfPastYear: ViewsResult[]
 
-    todaysTopicViewCount: number
-    topicViewsOfPastYear: ViewsResult[]
+    todaysPageViewCount: number
+    pageViewsOfPastYear: ViewsResult[]
 
     todaysQuestionViewCount: number
     questionViewsOfPastYear: ViewsResult[]
@@ -72,34 +72,34 @@ const dailyActiveUsersOfPastYearLabels = computed(() => overviewData.value?.dail
 const dailyActiveUsersOfPastYearCounts = computed(() => overviewData.value?.dailyActiveUsersOfPastYear?.map(v => v.views) as number[])
 const showDailyActiveUsersAsBars = ref(true)
 
-//PublicTopics Creation
-const monthlyPublicCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => {
+//PublicPages Creation
+const monthlyPublicCreatedPagesOfPastYearLabels = computed(() => overviewData.value?.monthlyPublicCreatedPagesOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
-const monthlyPublicCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.monthlyPublicCreatedTopicsOfPastYear?.map(v => v.views) as number[])
-const showMonthlyPublicCreatedTopicsAsBars = ref(true)
+const monthlyPublicCreatedPagesOfPastYearCounts = computed(() => overviewData.value?.monthlyPublicCreatedPagesOfPastYear?.map(v => v.views) as number[])
+const showMonthlyPublicCreatedPagesAsBars = ref(true)
 
-//PrivateTopics Creation
-const monthlyPrivateCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.monthlyPrivateCreatedTopicsOfPastYear?.map(v => {
+//PrivatePages Creation
+const monthlyPrivateCreatedPagesOfPastYearLabels = computed(() => overviewData.value?.monthlyPrivateCreatedPagesOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
-const monthlyPrivateCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.monthlyPrivateCreatedTopicsOfPastYear?.map(v => v.views) as number[])
-const showMonthlyPrivateCreatedTopicsAsBars = ref(true)
+const monthlyPrivateCreatedPagesOfPastYearCounts = computed(() => overviewData.value?.monthlyPrivateCreatedPagesOfPastYear?.map(v => v.views) as number[])
+const showMonthlyPrivateCreatedPagesAsBars = ref(true)
 
-const dailyPrivateCreatedTopicsOfPastYearLabels = computed(() => overviewData.value?.dailyPrivateCreatedTopicsOfPastYear?.map(v => {
+const dailyPrivateCreatedPagesOfPastYearLabels = computed(() => overviewData.value?.dailyPrivateCreatedPagesOfPastYear?.map(v => {
     const [year, month] = v.dateTime.split("T")[0].split("-")
     return `${year}-${month}`
 }) as string[])
-const dailyPrivateCreatedTopicsOfPastYearCounts = computed(() => overviewData.value?.dailyPrivateCreatedTopicsOfPastYear?.map(v => v.views) as number[])
-const showDailyPrivateCreatedTopicsAsBars = ref(true)
+const dailyPrivateCreatedPagesOfPastYearCounts = computed(() => overviewData.value?.dailyPrivateCreatedPagesOfPastYear?.map(v => v.views) as number[])
+const showDailyPrivateCreatedPagesAsBars = ref(true)
 
 
-//TopicViews
-const topicViewsOfPastYearLabels = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
-const topicViewsOfPastYearCounts = computed(() => overviewData.value?.topicViewsOfPastYear?.map(v => v.views) as number[])
-const showTopicViewsAsBars = ref(true)
+//PageViews
+const pageViewsOfPastYearLabels = computed(() => overviewData.value?.pageViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
+const pageViewsOfPastYearCounts = computed(() => overviewData.value?.pageViewsOfPastYear?.map(v => v.views) as number[])
+const showPageViewsAsBars = ref(true)
 
 //QuestionViews
 const questionViewsOfPastYearLabels = computed(() => overviewData.value?.questionViewsOfPastYear?.map(v => v.dateTime.split("T")[0]) as string[])
@@ -239,52 +239,52 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                         <div class="chart-section">
                             <h3>Private Themen</h3>
                             <div class="chart-header">
-                                Heute erstellt: {{ overviewData?.createdPrivateTopicCount }}
+                                Heute erstellt: {{ overviewData?.createdPrivatePageCount }}
                             </div>
 
                             <div class="chart-container">
                                 <div class="chart-toggle-section">
-                                    <div class="chart-toggle-container" @click="showMonthlyPrivateCreatedTopicsAsBars = !showMonthlyPrivateCreatedTopicsAsBars">
-                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyPrivateCreatedTopicsAsBars }">
+                                    <div class="chart-toggle-container" @click="showMonthlyPrivateCreatedPagesAsBars = !showMonthlyPrivateCreatedPagesAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyPrivateCreatedPagesAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-column']" />
                                         </div>
-                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyPrivateCreatedTopicsAsBars }">
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyPrivateCreatedPagesAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-line']" />
                                         </div>
                                     </div>
                                 </div>
-                                <LazySharedChartsBar v-if="showMonthlyPrivateCreatedTopicsAsBars"
-                                    :labels="monthlyPrivateCreatedTopicsOfPastYearLabels"
-                                    :datasets="monthlyPrivateCreatedTopicsOfPastYearCounts"
-                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                <LazySharedChartsBar v-if="showMonthlyPrivateCreatedPagesAsBars"
+                                    :labels="monthlyPrivateCreatedPagesOfPastYearLabels"
+                                    :datasets="monthlyPrivateCreatedPagesOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Pages'"
                                     :color="color.lightRed" />
                                 <LazySharedChartsLine v-else
-                                    :labels="monthlyPrivateCreatedTopicsOfPastYearLabels"
-                                    :datasets="monthlyPrivateCreatedTopicsOfPastYearCounts"
-                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                    :labels="monthlyPrivateCreatedPagesOfPastYearLabels"
+                                    :datasets="monthlyPrivateCreatedPagesOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Pages'"
                                     :color="color.lightRed" />
                             </div>
 
                             <div class="chart-container">
                                 <div class="chart-toggle-section">
-                                    <div class="chart-toggle-container" @click="showDailyPrivateCreatedTopicsAsBars = !showDailyPrivateCreatedTopicsAsBars">
-                                        <div class="chart-toggle" :class="{ 'is-active': showDailyPrivateCreatedTopicsAsBars }">
+                                    <div class="chart-toggle-container" @click="showDailyPrivateCreatedPagesAsBars = !showDailyPrivateCreatedPagesAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showDailyPrivateCreatedPagesAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-column']" />
                                         </div>
-                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyPrivateCreatedTopicsAsBars }">
+                                        <div class="chart-toggle" :class="{ 'is-active': !showDailyPrivateCreatedPagesAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-line']" />
                                         </div>
                                     </div>
                                 </div>
-                                <LazySharedChartsBar v-if="showDailyPrivateCreatedTopicsAsBars"
-                                    :labels="dailyPrivateCreatedTopicsOfPastYearLabels"
-                                    :datasets="dailyPrivateCreatedTopicsOfPastYearCounts"
-                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                <LazySharedChartsBar v-if="showDailyPrivateCreatedPagesAsBars"
+                                    :labels="dailyPrivateCreatedPagesOfPastYearLabels"
+                                    :datasets="dailyPrivateCreatedPagesOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Pages'"
                                     :color="color.lightRed" />
                                 <LazySharedChartsLine v-else
-                                    :labels="dailyPrivateCreatedTopicsOfPastYearLabels"
-                                    :datasets="dailyPrivateCreatedTopicsOfPastYearCounts"
-                                    :title="'Jahresübersicht erstellte Private Topics'"
+                                    :labels="dailyPrivateCreatedPagesOfPastYearLabels"
+                                    :datasets="dailyPrivateCreatedPagesOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Private Pages'"
                                     :color="color.lightRed" />
                             </div>
                         </div>
@@ -292,60 +292,60 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                         <div class="chart-section">
                             <h3>Öffentliche Themen</h3>
                             <div class="chart-header">
-                                Heute erstellt: {{ overviewData?.todaysPublicTopicCreatedCount }}
+                                Heute erstellt: {{ overviewData?.todaysPublicPageCreatedCount }}
                             </div>
 
                             <div class="chart-container">
                                 <div class="chart-toggle-section">
-                                    <div class="chart-toggle-container" @click="showMonthlyPublicCreatedTopicsAsBars = !showMonthlyPublicCreatedTopicsAsBars">
-                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyPublicCreatedTopicsAsBars }">
+                                    <div class="chart-toggle-container" @click="showMonthlyPublicCreatedPagesAsBars = !showMonthlyPublicCreatedPagesAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showMonthlyPublicCreatedPagesAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-column']" />
                                         </div>
-                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyPublicCreatedTopicsAsBars }">
+                                        <div class="chart-toggle" :class="{ 'is-active': !showMonthlyPublicCreatedPagesAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-line']" />
                                         </div>
                                     </div>
                                 </div>
-                                <LazySharedChartsBar v-if="showMonthlyPublicCreatedTopicsAsBars"
-                                    :labels="monthlyPublicCreatedTopicsOfPastYearLabels"
-                                    :datasets="monthlyPublicCreatedTopicsOfPastYearCounts"
-                                    :title="'Jahresübersicht erstellte Public Topics'"
+                                <LazySharedChartsBar v-if="showMonthlyPublicCreatedPagesAsBars"
+                                    :labels="monthlyPublicCreatedPagesOfPastYearLabels"
+                                    :datasets="monthlyPublicCreatedPagesOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Public Pages'"
                                     :color="color.darkRed" />
                                 <LazySharedChartsLine v-else
-                                    :labels="monthlyPublicCreatedTopicsOfPastYearLabels"
-                                    :datasets="monthlyPublicCreatedTopicsOfPastYearCounts"
-                                    :title="'Jahresübersicht erstellte Public Topics'"
+                                    :labels="monthlyPublicCreatedPagesOfPastYearLabels"
+                                    :datasets="monthlyPublicCreatedPagesOfPastYearCounts"
+                                    :title="'Jahresübersicht erstellte Public Pages'"
                                     :color="color.darkRed" />
                             </div>
                         </div>
 
                         <div class="chart-section">
-                            <h3>Topicviews</h3>
+                            <h3>Pageviews</h3>
                             <div class="chart-header">
-                                Heutige Topicviews: {{ overviewData?.todaysTopicViewCount }}
+                                Heutige Pageviews: {{ overviewData?.todaysPageViewCount }}
                             </div>
 
                             <div class="chart-container">
                                 <div class="chart-toggle-section">
-                                    <div class="chart-toggle-container" @click="showTopicViewsAsBars = !showTopicViewsAsBars">
-                                        <div class="chart-toggle" :class="{ 'is-active': showTopicViewsAsBars }">
+                                    <div class="chart-toggle-container" @click="showPageViewsAsBars = !showPageViewsAsBars">
+                                        <div class="chart-toggle" :class="{ 'is-active': showPageViewsAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-column']" />
                                         </div>
-                                        <div class="chart-toggle" :class="{ 'is-active': !showTopicViewsAsBars }">
+                                        <div class="chart-toggle" :class="{ 'is-active': !showPageViewsAsBars }">
                                             <font-awesome-icon :icon="['fas', 'chart-line']" />
                                         </div>
                                     </div>
                                 </div>
 
-                                <LazySharedChartsBar v-if="showTopicViewsAsBars"
-                                    :labels="topicViewsOfPastYearLabels"
-                                    :datasets="topicViewsOfPastYearCounts"
-                                    :title="'Jahresübersicht Topic Views'"
+                                <LazySharedChartsBar v-if="showPageViewsAsBars"
+                                    :labels="pageViewsOfPastYearLabels"
+                                    :datasets="pageViewsOfPastYearCounts"
+                                    :title="'Jahresübersicht Page Views'"
                                     :color="color.memoGreen" />
                                 <LazySharedChartsLine v-else
-                                    :labels="topicViewsOfPastYearLabels"
-                                    :datasets="topicViewsOfPastYearCounts"
-                                    :title="'Jahresübersicht Topic Views'"
+                                    :labels="pageViewsOfPastYearLabels"
+                                    :datasets="pageViewsOfPastYearCounts"
+                                    :title="'Jahresübersicht Page Views'"
                                     :color="color.memoGreen" />
                             </div>
                         </div>

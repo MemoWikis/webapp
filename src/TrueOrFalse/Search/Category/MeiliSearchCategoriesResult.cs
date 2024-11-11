@@ -12,7 +12,7 @@ namespace TrueOrFalse.Search
         public IPager Pager { get; set; }
 
         public IList<PageCacheItem> GetCategories() =>
-            EntityCache.GetCategories(CategoryIds).ToList();
+            EntityCache.GetPages(CategoryIds).ToList();
 
         public MeiliSearchCategoriesResult()
         {

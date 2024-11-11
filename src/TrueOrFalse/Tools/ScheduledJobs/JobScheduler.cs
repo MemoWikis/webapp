@@ -142,7 +142,7 @@ public static class JobScheduler
             TriggerBuilder.Create().StartNow().Build());
     }
 
-    public static void StartImmediately_UpdateAggregatedCategoriesForQuestion(
+    public static void StartImmediately_UpdateAggregatedPagesForQuestion(
         List<int> categoryIds,
         int userId = -1)
     {

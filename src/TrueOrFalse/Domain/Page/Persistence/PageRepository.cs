@@ -90,20 +90,20 @@ public class PageRepository(
             .Select(c => c.First())
             .ToList();
 
-        foreach (var category in result)
+        foreach (var page in result)
         {
-            NHibernateUtil.Initialize(category.Creator);
+            NHibernateUtil.Initialize(page.Creator);
         }
 
         return result;
     }
 
-    public IList<Page> GetByName(string categoryName)
+    public IList<Page> GetByName(string pageTitle)
     {
-        categoryName ??= "";
+        pageTitle ??= "";
 
-        return _session.CreateQuery("from Category as c where c.Name = :categoryName")
-            .SetString("categoryName", categoryName)
+        return _session.CreateQuery("from Category as c where c.Name = :pageTitle")
+            .SetString("pageTitle", pageTitle)
             .List<Page>();
     }
 

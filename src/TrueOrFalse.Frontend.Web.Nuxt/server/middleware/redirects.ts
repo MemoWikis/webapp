@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
         const filteredArray = splitArray.filter(element => element !== '')
 
         if (filteredArray.length === 3) {
-            log.debug('Redirecting to correct Topic page', [{ pathName: pathName }])
+            log.debug('Redirecting to correct Page page', [{ pathName: pathName }])
 
             if (!isNaN(parseInt(filteredArray[1])) ) {
                 await sendRedirect(event, `${filteredArray[0]}/${filteredArray[1]}/Analytics}`, 301)

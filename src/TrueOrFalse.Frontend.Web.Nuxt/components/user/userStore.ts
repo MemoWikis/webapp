@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
 import { useSpinnerStore } from '../spinner/spinnerStore'
-import { Topic } from '../topic/topicStore'
+import { Page } from '../page/pageStore'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import * as Subscription from '~~/components/user/membership/subscription'
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
@@ -17,7 +17,7 @@ export interface CurrentUser {
     imgUrl: string
     reputation: number
     reputationPos: number
-    personalWiki: Topic
+    personalWiki: Page
     activityPoints: {
         points: number
         level: number
@@ -50,7 +50,7 @@ export const useUserStore = defineStore('userStore', {
             showLoginModal: false,
             isAdmin: false,
             name: '',
-            personalWiki: null as Topic | null,
+            personalWiki: null as Page | null,
             imgUrl: '',
             reputation: 0,
             reputationPos: 0,

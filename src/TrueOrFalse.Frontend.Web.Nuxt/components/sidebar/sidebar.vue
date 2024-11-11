@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { FooterTopics, useTopicStore } from '../topic/topicStore'
-import { useTabsStore, Tab } from '../topic/tabs/tabsStore'
+import { FooterPages, usePageStore } from '../page/pageStore'
+import { useTabsStore, Tab } from '../page/tabs/tabsStore'
 import { useUserStore } from '../user/userStore'
 
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
 
 const { isDesktop } = useDevice()
 interface Props {
-    footerTopics: FooterTopics
+    footerPages: FooterPages
     showOutline?: boolean
 }
 const props = defineProps<Props>()
@@ -20,7 +20,7 @@ const { $urlHelper } = useNuxtApp()
 
 
 function scrollToTitle() {
-    document.getElementById("TopicTitle")?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    document.getElementById("PageTitle")?.scrollIntoView({ behavior: 'smooth', block: 'end' })
 }
 
 </script>
@@ -37,23 +37,23 @@ function scrollToTitle() {
 
                         <div class="overline-s no-line sidebar-link-container">
                             <NuxtLink
-                                :to="$urlHelper.getTopicUrl(props.footerTopics.rootWiki.name, props.footerTopics.rootWiki.id)"
+                                :to="$urlHelper.getPageUrl(props.footerPages.rootWiki.name, props.footerPages.rootWiki.id)"
                                 class="sidebar-link">
-                                {{ props.footerTopics.rootWiki.name }}
+                                {{ props.footerPages.rootWiki.name }}
                             </NuxtLink>
                         </div>
                         <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s no-line sidebar-link-container">
                             <NuxtLink
-                                :to="$urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
+                                :to="$urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
                                 class="sidebar-link">
                                 Dein Wiki
                             </NuxtLink>
                         </div>
                         <div v-else class="overline-s no-line sidebar-link-container">
                             <NuxtLink
-                                :to="$urlHelper.getTopicUrl(props.footerTopics.memoTopics[0].name, props.footerTopics.memoTopics[0].id)"
+                                :to="$urlHelper.getPageUrl(props.footerPages.memoPages[0].name, props.footerPages.memoPages[0].id)"
                                 class="sidebar-link">
-                                {{ props.footerTopics.memoTopics[0].name }}
+                                {{ props.footerPages.memoPages[0].name }}
                             </NuxtLink>
                         </div>
 
@@ -65,7 +65,7 @@ function scrollToTitle() {
                     <template v-slot:body>
                         <div id="SidebarHelpBody">
                             <NuxtLink
-                                :to="$urlHelper.getTopicUrl(props.footerTopics.documentation.name, props.footerTopics.documentation.id)"
+                                :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
                                 class="sidebar-link">
                                 Doku
                             </NuxtLink>
@@ -81,13 +81,13 @@ function scrollToTitle() {
                 </SidebarCard>
 
             </div>
-            <template v-if="props.showOutline && topicStore.id && topicStore.name">
+            <template v-if="props.showOutline && pageStore.id && pageStore.name">
 
                 <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Text">
                     <div class="sidebarcard-divider"></div>
                 </div>
 
-                <SidebarCard id="TopicOutline" v-show="tabsStore?.activeTab == Tab.Text">
+                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab == Tab.Text">
                     <template v-slot:body>
                         <SidebarOutline />
                     </template>
@@ -122,7 +122,7 @@ function scrollToTitle() {
         }
     }
 
-    &.is-topic {
+    &.is-page {
         #SidebarDivider {
             margin-top: 20px;
             margin-bottom: 20px;
@@ -169,7 +169,7 @@ function scrollToTitle() {
         }
     }
 
-    #TopicOutline {
+    #PageOutline {
         margin-top: 20px;
         position: sticky;
         top: 60px;

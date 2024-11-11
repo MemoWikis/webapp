@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { messages } from '~/components/alert/alertStore'
 import { Page } from '~/components/shared/pageEnum'
-import { FooterTopics } from '~/components/topic/topicStore'
+import { FooterPages } from '~/components/page/pageStore'
 import { useUserStore } from '~/components/user/userStore'
 
 const userStore = useUserStore()
 interface Props {
-    footerTopics: FooterTopics
+    footerPages: FooterPages
 }
 const props = defineProps<Props>()
 
@@ -146,7 +146,7 @@ async function requestVerificationMail() {
                     </div>
                 </div>
             </div>
-            <Sidebar :footer-topics="props.footerTopics" />
+            <Sidebar :footer-pages="props.footerPages" />
 
         </div>
     </div>

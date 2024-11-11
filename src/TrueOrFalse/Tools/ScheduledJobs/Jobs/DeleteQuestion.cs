@@ -56,7 +56,7 @@ public class DeleteQuestion : IJob
             .ExecuteUpdate();
         var categoriesToUpdateIds = _questionWritingRepo.Delete(questionId, userId, parentIds);
 
-        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds, userId);
+        JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(categoriesToUpdateIds, userId);
         Logg.r.Information("Question {id} deleted", questionId);
 
         return Task.CompletedTask;

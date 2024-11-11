@@ -11,7 +11,7 @@ public static class QuestionListExt
     public static IEnumerable<PageCacheItem> GetAllCategories(
         this IEnumerable<Question> questions) =>
         questions.SelectMany(q =>
-                EntityCache.GetCategories(
+                EntityCache.GetPages(
                     q.Pages.Where(c => c != null)
                         .Select(c => c.Id)))
             .Distinct();
@@ -19,7 +19,7 @@ public static class QuestionListExt
     public static IEnumerable<PageCacheItem> GetAllCategories(
         this IEnumerable<QuestionCacheItem> questions) =>
         questions.SelectMany(q =>
-                EntityCache.GetCategories(
+                EntityCache.GetPages(
                     q.Pages.Where(c => c != null)
                         .Select(c => c.Id)))
             .Distinct();

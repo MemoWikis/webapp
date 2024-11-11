@@ -249,7 +249,7 @@ public class EntityCache
     {
         if (categories == null)
         {
-            categories = GetCategories(question.Pages.GetIds()).ToList();
+            categories = GetPages(question.Pages.GetIds()).ToList();
         }
 
         foreach (var category in categories)
@@ -432,7 +432,7 @@ public class EntityCache
         objectToCache.TryRemove(obj.Id, out _);
     }
 
-    public static IEnumerable<PageCacheItem> GetCategories(IEnumerable<int> getIds)
+    public static IEnumerable<PageCacheItem> GetPages(IEnumerable<int> getIds)
     {
         var c = getIds.Select(pageId => GetPage(pageId)).ToList();
         return c;

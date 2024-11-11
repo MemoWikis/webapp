@@ -1,6 +1,6 @@
 export enum Page {
     Welcome,
-    Topic,
+    Page,
     Question,
     User,
     Imprint,

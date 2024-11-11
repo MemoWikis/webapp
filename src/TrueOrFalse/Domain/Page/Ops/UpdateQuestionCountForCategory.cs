@@ -26,13 +26,13 @@ public class UpdateQuestionCountForCategory : IRegisterAsInstancePerLifetime
         page.UpdateCountQuestionsAggregated(authorId);
     }
 
-    public void Run(IList<Page> categories, int? userId = null)
+    public void Run(IList<Page> pages, int? userId = null)
     {
         userId ??= _sessionUser.UserId;
 
-        foreach (var category in categories)
+        foreach (var page in pages)
         {
-            Run(category, (int)userId);
+            Run(page, (int)userId);
         }
     }
 }

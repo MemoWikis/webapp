@@ -22,6 +22,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
             },
         })
-    return navigateTo($urlHelper.getTopicUrl(result.name, result.id))
+    return navigateTo($urlHelper.getPageUrl(result.name, result.id))
 
 })

@@ -5,15 +5,9 @@
     /// <summary>
     /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
-    /// <param name="categoryCacheItem"></param>
-    /// <param name="relatedCategorieIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
+    /// <param name="pageCacheItem"></param>
+    /// <param name="relatedPageIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
-    public void UpdateCategoryRelationsOfType(
-        int pageId,
-        IList<int> relatedCategorieIds)
-    {
-        var category = pageRepository.GetByIdEager(pageId);
-    }
 
     public void AddParentCategory(Page page, int parentId)
     {

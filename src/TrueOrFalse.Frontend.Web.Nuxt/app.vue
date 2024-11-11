@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
-import { Topic, useTopicStore, FooterTopics } from '~/components/topic/topicStore'
+import { Page, usePageStore, FooterPages } from '~/components/page/pageStore'
 import { Page } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
-import { useRootTopicChipStore } from '~/components/header/rootTopicChipStore'
+import { useRootPageChipStore } from '~/components/header/rootPageChipStore'
 import { AlertType, messages, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
@@ -13,7 +13,7 @@ import { NuxtError } from '#app'
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 const spinnerStore = useSpinnerStore()
-const rootTopicChipStore = useRootTopicChipStore()
+const rootPageChipStore = useRootPageChipStore()
 
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
@@ -51,7 +51,7 @@ if (currentUser.value != null) {
 	}
 }
 
-const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFooterTopics`, {
+const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooterPages`, {
 	method: 'GET',
 	mode: 'no-cors',
 	onRequest({ options }) {
@@ -66,24 +66,24 @@ const { data: footerTopics } = await useFetch<FooterTopics>(`/apiVue/App/GetFoot
 
 const page = ref(Page.Default)
 
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 
 function setPage(type: Page | null = null) {
 	if (type != null) {
 		page.value = type
-		if (type != Page.Topic) {
-			topicStore.setTopic(new Topic())
+		if (type != Page.Page) {
+			pageStore.setPage(new Page())
 		}
 	}
 }
 const questionPageData = ref<{
-	primaryTopicName: string
-	primaryTopicUrl: string
+	primaryPageName: string
+	primaryPageUrl: string
 	title: string
 }>()
 function setQuestionpageBreadcrumb(e: {
-	primaryTopicName: string
-	primaryTopicUrl: string
+	primaryPageName: string
+	primaryPageUrl: string
 	title: string
 }) {
 	questionPageData.value = e
@@ -106,7 +106,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					spinnerStore.hideSpinner()
-					if (page.value == Page.Topic && topicStore.visibility != Visibility.All)
+					if (page.value == Page.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
 			}
@@ -134,8 +134,8 @@ userStore.$onAction(({ name, after }) => {
 async function handleLogin() {
 	if (page.value == Page.Error)
 		return
-	if ((page.value == Page.Topic || page.value == Page.Register) && route.params.id == rootTopicChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootTopicChipStore.id)
-		await navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id))
+	if ((page.value == Page.Page || page.value == Page.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
 }
@@ -219,19 +219,19 @@ useHead(() => ({
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 	<ClientOnly>
-		<BannerInfo v-if="footerTopics && !userStore.isLoggedIn" :documentation="footerTopics?.documentation" />
+		<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
 	</ClientOnly>
 
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-			@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
+			@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
 			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 
 		<template #error="{ error }">
 			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
 				:error="error" :in-error-boundary="true" @clear-error="clearErr" />
 			<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-				@set-breadcrumb="setBreadcrumb" :footer-topics="footerTopics"
+				@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
 				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 		</template>
 	</NuxtErrorBoundary>
@@ -245,7 +245,7 @@ useHead(() => ({
 		<SnackBar />
 
 	</ClientOnly>
-	<Footer :footer-topics="footerTopics" v-if="footerTopics" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" />
 </template>
 
 <style lang="less">

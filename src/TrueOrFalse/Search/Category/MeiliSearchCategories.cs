@@ -67,7 +67,7 @@ namespace TrueOrFalse.Search
 
         private void FilterCacheItems(List<MeiliSearchCategoryMap> categoryMaps)
         {
-            var categoriesTemp = EntityCache.GetCategories(
+            var categoriesTemp = EntityCache.GetPages(
                     categoryMaps.Select(c => c.Id))
                 .Where(_permissionCheck.CanView)
                 .ToList();

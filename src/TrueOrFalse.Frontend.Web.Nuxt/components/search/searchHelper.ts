@@ -7,12 +7,12 @@ export enum SearchType {
     users = 3,
     categoryInWiki = 4,
 
-    topic = category,
-    topicInWiki = categoryInWiki
+    page = category,
+    pageInWiki = categoryInWiki
 }
 
-export interface TopicItem {
-    type?: 'TopicItem'
+export interface PageItem {
+    type?: 'PageItem'
     id: number
     name: string
     url: string | null
@@ -30,8 +30,8 @@ export interface QuestionItem {
     url: string | null
     imageUrl: string
     visibility: number
-    primaryTopicId: number
-    primaryTopicName: string
+    primaryPageId: number
+    primaryPageName: string
 }
 
 export interface UserItem {
@@ -44,8 +44,8 @@ export interface UserItem {
 }
 
 export type FullSearch = {
-    topics: TopicItem[]
-    topicCount: number
+    pages: PageItem[]
+    pageCount: number
     questions: QuestionItem[]
     questionCount: number
     users: UserItem[]
@@ -53,7 +53,7 @@ export type FullSearch = {
     userSearchUrl: string
 }
 
-export type TopicResult = {
-    topics: TopicItem[]
+export type PageResult = {
+    pages: PageItem[]
     totalCount: number
 }

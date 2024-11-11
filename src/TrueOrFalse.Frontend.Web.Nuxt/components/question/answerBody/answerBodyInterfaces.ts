@@ -8,9 +8,9 @@ export interface AnswerBodyModel {
     solutionType: SolutionType
     renderedQuestionTextExtended: string
     description: string
-    hasTopics: boolean
-    primaryTopicId: number
-    primaryTopicName: string
+    hasPages: boolean
+    primaryPageId: number
+    primaryPageName: string
     solution: string
 
     isCreator: boolean
@@ -24,7 +24,7 @@ export interface AnswerBodyModel {
 }
 export interface Reference {
     referenceId: number
-    topicId?: number
+    pageId?: number
     referenceType: string
     additionalInfo: string
     referenceText: string

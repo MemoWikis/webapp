@@ -521,7 +521,7 @@ const ariaId2 = useId()
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
-                            <TopicChip v-for="(t, index) in model.topics" :key="t.id + index" :topic="t" :index="index"
+                            <PageChip v-for="(t, index) in model.pages" :key="t.id + index" :page="t" :index="index"
                                 :is-spoiler="false" />
                         </div>
                     </div>

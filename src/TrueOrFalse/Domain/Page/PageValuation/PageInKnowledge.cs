@@ -24,11 +24,11 @@ public class PageInKnowledge(
         var questionsInOtherValuatedCategories = valuatedCategories
             .SelectMany(v =>
             {
-                var category = EntityCache.GetPage(v.PageId);
+                var page = EntityCache.GetPage(v.PageId);
 
-                return category == null
+                return page == null
                     ? new List<QuestionCacheItem>()
-                    : category.GetAggregatedQuestionsFromMemoryCache(userId);
+                    : page.GetAggregatedQuestionsFromMemoryCache(userId);
             })
             .GetIds()
             .Distinct()

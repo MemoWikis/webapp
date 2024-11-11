@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { TopicItem } from '~~/components/search/searchHelper'
+import { PageItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '~~/components/user/userStore'
 import * as d3 from 'd3'
-import { Tab, useTabsStore } from '~~/components/topic/tabs/tabsStore'
+import { Tab, useTabsStore } from '~/components/page/tabs/tabsStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
-import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
 import { useCommentsStore } from '~~/components/comment/commentsStore'
@@ -143,7 +143,7 @@ const overallCorrectAnswerCountData = ref<ArcData>({
 const tabsStore = useTabsStore()
 const questionIdHasChanged = ref(false)
 
-const topics = ref<TopicItem[]>([])
+const pages = ref<PageItem[]>([])
 
 function setPersonalProbability() {
     switch (knowledgeStatus.value) {
@@ -751,7 +751,7 @@ async function initData(e: AnswerQuestionDetailsResult) {
     knowledgeStatus.value = e.knowledgeStatus
 
     if (!learningSessionStore.isInTestMode)
-        topics.value = e.topics
+        pages.value = e.pages
 
     setPersonalProbability()
     setPersonalArcData()
@@ -969,7 +969,7 @@ const activityPointsStore = useActivityPointsStore()
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
-                            <TopicChip v-for="(t, index) in topics" :key="t.id + index" :topic="t" :index="index"
+                            <PageChip v-for="(t, index) in pages" :key="t.id + index" :page="t" :index="index"
                                 :is-spoiler="learningSessionStore.isInTestMode && t.isSpoiler && !$props.landingPage" />
                         </div>
                     </div>

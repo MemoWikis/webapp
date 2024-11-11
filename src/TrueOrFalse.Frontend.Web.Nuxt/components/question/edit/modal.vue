@@ -4,23 +4,23 @@ import { useUserStore } from '../../user/userStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from './editQuestionStore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
-import { TopicResult, TopicItem } from '../../search/searchHelper'
+import { PageResult, PageItem } from '../../search/searchHelper'
 import { debounce } from 'underscore'
 import { useSpinnerStore } from '../../spinner/spinnerStore'
-import { useTabsStore, Tab } from '../../topic/tabs/tabsStore'
-import { useTopicStore } from '../../topic/topicStore'
+import { useTabsStore, Tab } from '../../page/tabs/tabsStore'
+import { usePageStore } from '../../page/pageStore'
 import { Editor } from '@tiptap/vue-3'
-import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
-import { useLearningSessionConfigurationStore } from '~~/components/topic/learning/learningSessionConfigurationStore'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
+import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
 import { SearchType } from '../../search/searchHelper'
-import { QuestionListItem } from '~~/components/topic/learning/questionListItem'
+import { QuestionListItem } from '~/components/page/learning/questionListItem'
 
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
 const spinnerStore = useSpinnerStore()
 const editQuestionStore = useEditQuestionStore()
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 const visibility = ref(Visibility.All)
 const solutionType = ref(SolutionType.Text)
 const addToWuwi = ref(true)
@@ -61,15 +61,15 @@ const multipleChoiceJson = ref<string>()
 const matchListJson = ref<string>()
 const flashCardAnswer = ref<string>()
 
-const topicIds = ref<number[]>([])
-const selectedTopics = ref<TopicItem[]>([])
-function removeTopic(t: TopicItem) {
-    if (selectedTopics.value.length > 1) {
-        var index = selectedTopics.value.findIndex(s => s == t)
-        selectedTopics.value.splice(index, 1)
+const pageIds = ref<number[]>([])
+const selectedPages = ref<PageItem[]>([])
+function removePage(t: PageItem) {
+    if (selectedPages.value.length > 1) {
+        var index = selectedPages.value.findIndex(s => s == t)
+        selectedPages.value.splice(index, 1)
 
-        var topicIdIndex = topicIds.value.findIndex(i => i == t.id)
-        topicIds.value.splice(topicIdIndex, 1)
+        var pageIdIndex = pageIds.value.findIndex(i => i == t.id)
+        pageIds.value.splice(pageIdIndex, 1)
     }
 }
 const { $logger } = useNuxtApp()
@@ -81,7 +81,7 @@ async function search() {
         term: searchTerm.value,
     }
 
-    const result = await $api<TopicResult>('/apiVue/Search/Topic', {
+    const result = await $api<PageResult>('/apiVue/Search/Page', {
         body: data,
         method: 'POST',
         mode: 'cors',
@@ -92,7 +92,7 @@ async function search() {
     })
 
     if (result != null) {
-        topics.value = result.topics
+        pages.value = result.pages
         totalCount.value = result.totalCount
     }
 }
@@ -114,17 +114,17 @@ watch(searchTerm, (term) => {
         showDropdown.value = false
 })
 
-const topics = ref([] as TopicItem[])
+const pages = ref([] as PageItem[])
 
-function selectTopic(t: TopicItem) {
+function selectPage(t: PageItem) {
     showDropdown.value = false
     lockDropdown.value = true
     searchTerm.value = ''
 
-    var index = topicIds.value.indexOf(t.id)
+    var index = pageIds.value.indexOf(t.id)
     if (index < 0) {
-        topicIds.value.push(t.id)
-        selectedTopics.value.push(t)
+        pageIds.value.push(t.id)
+        selectedPages.value.push(t)
     }
 }
 
@@ -178,7 +178,7 @@ function getData() {
     const visibility = isPrivate.value ? 1 : 0
 
     const dataExtension = {
-        CategoryIds: topicIds.value,
+        CategoryIds: pageIds.value,
         TextHtml: questionHtml.value,
         QuestionExtensionHtml: questionExtensionHtml.value,
         DescriptionHtml: descriptionHtml.value,
@@ -198,7 +198,7 @@ function getData() {
     return { ...data, ...dataExtension }
 }
 async function updateQuestionCount() {
-    let count = await $api<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${topicStore.id}`, {
+    let count = await $api<number>(`/apiVue/QuestionEditModal/GetCurrentQuestionCount/${pageStore.id}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include',
@@ -208,8 +208,8 @@ async function updateQuestionCount() {
     })
 
     if (count) {
-        topicStore.questionCount = count
-        topicStore.reloadKnowledgeSummary()
+        pageStore.questionCount = count
+        pageStore.reloadKnowledgeSummary()
     }
 }
 async function save() {
@@ -303,9 +303,9 @@ type QuestionData = {
     solutionMetadataJson: string
     text: string
     textExtended: string
-    topicIds: number[]
+    pageIds: number[]
     descriptionHtml: string
-    topics: TopicItem[]
+    pages: PageItem[]
     licenseId: number
     visibility: Visibility
 }
@@ -349,8 +349,8 @@ async function getQuestionData(id: number) {
         questionHtml.value = result.text
         questionExtensionHtml.value = result.textExtended
         descriptionHtml.value = result.descriptionHtml
-        topicIds.value = result.topicIds
-        selectedTopics.value = result.topics
+        pageIds.value = result.pageIds
+        selectedPages.value = result.pages
         licenseId.value = result.licenseId
         solutionMetadataJson.value = result.solutionMetadataJson
         if (result.visibility == 1)
@@ -371,10 +371,10 @@ watch(() => editQuestionStore.showModal, (showModal) => {
             getQuestionData(editQuestionStore.id)
         }
         else {
-            if (editQuestionStore.topicId == topicStore.id)
-                selectedTopics.value = [topicStore.searchTopicItem!]
+            if (editQuestionStore.pageId == pageStore.id)
+                selectedPages.value = [pageStore.searchPageItem!]
 
-            topicIds.value = [editQuestionStore.topicId]
+            pageIds.value = [editQuestionStore.pageId]
             questionHtml.value = editQuestionStore.questionHtml
             solutionType.value = SolutionType.FlashCard
             initiateSolution(editQuestionStore.flashCardAnswerHtml)
@@ -475,15 +475,15 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                             <div class="form-group dropdown categorySearchAutocomplete"
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-categories-container">
-                                    <TopicChip v-for="(t, index) in selectedTopics" :key="index" :topic="t"
-                                        :index="index" @removeTopic="removeTopic"
-                                        :removable-chip="selectedTopics.length > 1" />
+                                    <PageChip v-for="(t, index) in selectedPages" :key="index" :page="t"
+                                        :index="index" @removePage="removePage"
+                                        :removable-chip="selectedPages.length > 1" />
 
                                 </div>
                                 <Search :search-type="SearchType.category" :show-search-icon="false" :show-search="true"
-                                    :topic-ids-to-filter="topicIds" placement="bottom" :auto-hide="true"
+                                    :page-ids-to-filter="pageIds" placement="bottom" :auto-hide="true"
                                     placeholder-label="Bitte gib den Namen der Seite ein"
-                                    :show-default-search-icon="true" @select-item="selectTopic" />
+                                    :show-default-search-icon="true" @select-item="selectPage" />
                             </div>
 
                         </form>
@@ -672,17 +672,17 @@ textarea,
     display: flex;
     flex-wrap: wrap;
 
-    .topic-chip-component {
+    .page-chip-component {
         display: flex;
         align-items: center;
         margin-right: 15px;
         overflow: hidden;
 
-        .topic-chip-container {
+        .page-chip-container {
             padding: 4px 0;
         }
 
-        .topic-chip-deleteBtn {
+        .page-chip-deleteBtn {
             display: flex;
             justify-content: center;
             align-items: center;

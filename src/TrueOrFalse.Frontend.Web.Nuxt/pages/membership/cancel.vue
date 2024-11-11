@@ -6,9 +6,9 @@ interface NameAndLink {
     link: string;
     name: string;
 }
-const topicArray = ref<NameAndLink[]>()
+const pageArray = ref<NameAndLink[]>()
 
-const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Cancel/GetHelperTopics', {
+const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Cancel/GetHelperPages', {
     method: 'GET',
     credentials: 'include',
     onRequest({ options }) {
@@ -19,14 +19,14 @@ const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Can
     },
 });
 if (result.value?.success == true) {
-    topicArray.value = result.value.data
+    pageArray.value = result.value.data
 }
 
 </script>
 
 <template>
     <div class="container">
-        <div class="row topic-container main-page">
+        <div class="row page-container main-page">
             <h1>Abbruch</h1>
             <p>Es tut uns leid zu sehen, dass Sie Ihre Zahlung abgebrochen haben.
                 Wenn Sie auf Probleme gestoßen sind oder Fragen haben,
@@ -38,7 +38,7 @@ if (result.value?.success == true) {
                     <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                 </NuxtLink>
 
-                <NuxtLink v-for="(nameAndLink) in topicArray " :to="nameAndLink.link" target="_blank"
+                <NuxtLink v-for="(nameAndLink) in pageArray " :to="nameAndLink.link" target="_blank"
                     :key="nameAndLink.link" v-if="result?.success == true">
                     {{ nameAndLink.name }}
                 </NuxtLink>

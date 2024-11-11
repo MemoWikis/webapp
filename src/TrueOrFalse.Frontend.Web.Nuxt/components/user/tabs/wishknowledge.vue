@@ -3,11 +3,11 @@
 interface Props {
     questions?: {
         title: string
-        primaryTopicName: string
-        primaryTopicId: number
+        primaryPageName: string
+        primaryPageId: number
         id: number
     }[],
-    topics?: {
+    pages?: {
         name: string
         id: number
         questionCount: number
@@ -32,22 +32,22 @@ const filteredQuestionsOnPage = computed(() => {
     return filteredQuestions.value?.slice(rangeStart, rangeEnd)
 })
 
-const searchTopic = ref('')
-const currentTopicPage = ref(1)
-const topicsPerPage = ref(20)
-const filteredTopics = computed(() => {
-    if (searchTopic.value.length > 0) {
-        return props.topics?.filter(t => t.name.includes(searchTopic.value))
+const searchPage = ref('')
+const currentPagePage = ref(1)
+const pagesPerPage = ref(20)
+const filteredPages = computed(() => {
+    if (searchPage.value.length > 0) {
+        return props.pages?.filter(t => t.name.includes(searchPage.value))
     }
     else {
-        return props.topics
+        return props.pages
     }
 })
 
-const filteredTopicsOnPage = computed(() => {
-    const rangeStart = (currentTopicPage.value - 1) * topicsPerPage.value
-    const rangeEnd = currentTopicPage.value * topicsPerPage.value - 1
-    return filteredTopics.value?.slice(rangeStart, rangeEnd)
+const filteredPagesOnPage = computed(() => {
+    const rangeStart = (currentPagePage.value - 1) * pagesPerPage.value
+    const rangeEnd = currentPagePage.value * pagesPerPage.value - 1
+    return filteredPages.value?.slice(rangeStart, rangeEnd)
 })
 
 const { $urlHelper } = useNuxtApp()
@@ -69,7 +69,7 @@ const { $urlHelper } = useNuxtApp()
         </div>
         <div class="wuwi-list">
             <div v-for="q in filteredQuestionsOnPage" class="wuwi-link">
-                <NuxtLink :to="`${$urlHelper.getTopicUrl(q.primaryTopicName, q.primaryTopicId)}/Lernen/${q.id}`">
+                <NuxtLink :to="`${$urlHelper.getPageUrl(q.primaryPageName, q.primaryPageId)}/Lernen/${q.id}`">
                     {{ q.title }}
                 </NuxtLink>
             </div>
@@ -92,12 +92,12 @@ const { $urlHelper } = useNuxtApp()
     </div>
     <div class="divider"></div>
     <div class="wuwi-partial">
-        <h4>Themen mit Wunschwissen ({{ props.topics?.length }})</h4>
-        <div class="search-section" v-if="(props.topics ?? []).length > 0">
+        <h4>Themen mit Wunschwissen ({{ props.pages?.length }})</h4>
+        <div class="search-section" v-if="(props.pages ?? []).length > 0">
 
             <div class="search-container">
-                <input type="text" v-model="searchTopic" class="search-input" placeholder="Suche" />
-                <div class="search-icon reset-icon" v-if="searchTopic.length > 0" @click="searchTopic = ''">
+                <input type="text" v-model="searchPage" class="search-input" placeholder="Suche" />
+                <div class="search-icon reset-icon" v-if="searchPage.length > 0" @click="searchPage = ''">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
                 <div class="search-icon" v-else>
@@ -106,23 +106,23 @@ const { $urlHelper } = useNuxtApp()
             </div>
         </div>
         <div class="wuwi-list">
-            <div v-for="t in filteredTopicsOnPage" class="wuwi-link">
+            <div v-for="t in filteredPagesOnPage" class="wuwi-link">
                 <NuxtLink :to="`/${t.name}/${t.id}/`">
                     {{ t.name }}
                 </NuxtLink>
                 <span> mit {{ t.questionCount }} Fragen</span>
             </div>
-            <div v-if="filteredTopics?.length == 0 && searchTopic.length > 0" class="search-error">
-                Huch! Wir haben keine Seite "{{ searchTopic }}" gefunden.
+            <div v-if="filteredPages?.length == 0 && searchPage.length > 0" class="search-error">
+                Huch! Wir haben keine Seite "{{ searchPage }}" gefunden.
             </div>
         </div>
         <div class="pagination">
-            <vue-awesome-paginate v-if="filteredTopics" :total-items="filteredTopics?.length"
-                :items-per-page="topicsPerPage" :max-pages-shown="5" v-model="currentTopicPage" :show-ending-buttons="false"
+            <vue-awesome-paginate v-if="filteredPages" :total-items="filteredPages?.length"
+                :items-per-page="pagesPerPage" :max-pages-shown="5" v-model="currentPagePage" :show-ending-buttons="false"
                 :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
                 first-page-content="Erste" last-page-content="Letzte" class="hidden-xs" />
-            <vue-awesome-paginate v-if="filteredTopics" :total-items="filteredTopics?.length"
-                :items-per-page="topicsPerPage" :max-pages-shown="3" v-model="currentTopicPage" :show-ending-buttons="false"
+            <vue-awesome-paginate v-if="filteredPages" :total-items="filteredPages?.length"
+                :items-per-page="pagesPerPage" :max-pages-shown="3" v-model="currentPagePage" :show-ending-buttons="false"
                 :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
                 first-page-content="Erste" last-page-content="Letzte" class="hidden-sm hidden-md hidden-lg" />
         </div>

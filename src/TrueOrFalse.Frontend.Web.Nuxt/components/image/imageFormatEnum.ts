@@ -1,4 +1,4 @@
 export enum ImageFormat {
-    Topic = 'topic',
+    Page = 'page',
     Author = 'author'
 }

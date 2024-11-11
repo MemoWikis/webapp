@@ -27,7 +27,7 @@ export const messages: any = {
         subscription: {
             cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
             cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
-            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
+            cantSavePrivatePage: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
         },
         page: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
@@ -49,8 +49,8 @@ export const messages: any = {
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
             pinnedQuestions: "",
             circularReference: "Die übergeordnete Seite kann nicht als Unterseite eingeordnet werden",
-            topicNotSelected: "Du hast keine Seite ausgewählt",
-            newTopicIdIsTopicIdToBeDeleted: "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
+            pageNotSelected: "Du hast keine Seite ausgewählt",
+            newPageIdIsPageIdToBeDeleted: "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
             noChange: "Es wurden keine Änderungen vorgenommen.",
         },
         question: {
@@ -110,7 +110,7 @@ export const messages: any = {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.',
             notInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',
             isPrivate: 'Die Frage ist privat. Bitte logge Dich ein.',
-            notInTopic: 'Die Frage ist nicht auf der Seite enthalten.',
+            notInPage: 'Die Frage ist nicht auf der Seite enthalten.',
         },
         googleLogin: '<p>Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
         facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',

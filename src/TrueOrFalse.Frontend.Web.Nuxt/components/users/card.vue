@@ -30,17 +30,17 @@ const { $urlHelper } = useNuxtApp()
                     </div>
 
                     <div>
-                        Erstellt: {{ props.user.createdQuestionsCount }} Fragen / {{ props.user.createdTopicsCount }} Themen
+                        Erstellt: {{ props.user.createdQuestionsCount }} Fragen / {{ props.user.createdPagesCount }} Themen
                     </div>
                     <div v-if="props.user.showWuwi" class="mb-8">
-                        Wunschwissen: {{ props.user.wuwiQuestionsCount }} Fragen / {{ props.user.wuwiTopicsCount }} Themen
+                        Wunschwissen: {{ props.user.wuwiQuestionsCount }} Fragen / {{ props.user.wuwiPagesCount }} Themen
                     </div>
                     <div v-else class="inactive mb-8"><font-awesome-icon icon="fa-solid fa-lock" />
                         {{ props.user.name }}s Wunschwissen ist privat
                     </div>
 
                     <div v-if="props.user.wikiId != -1">
-                        <NuxtLink :to="$urlHelper.getTopicUrl(`${props.user.name}s-Wiki`, props.user.wikiId)">
+                        <NuxtLink :to="$urlHelper.getPageUrl(`${props.user.name}s-Wiki`, props.user.wikiId)">
                             Zu {{ props.user.name }}s Wiki
                         </NuxtLink>
                     </div>

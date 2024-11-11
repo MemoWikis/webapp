@@ -6,14 +6,14 @@ import { Google } from '~~/components/user/Google'
 import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { FooterTopics } from '~~/components/topic/topicStore'
+import { FooterPages } from '~/components/page/pageStore'
 import { isValidEmail } from '~/components/shared/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 const spinnerStore = useSpinnerStore()
 interface Props {
-    footerTopics: FooterTopics
+    footerPages: FooterPages
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
@@ -147,7 +147,7 @@ async function register() {
     const result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
     if (result == 'success' && userStore.personalWiki)
-        return navigateTo($urlHelper.getTopicUrl(userStore.personalWiki.name, userStore.personalWiki.id))
+        return navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
     else if (result)
         errorMessage.value = result
 }
@@ -293,7 +293,7 @@ async function register() {
                     </div>
                 </div>
             </div>
-            <Sidebar :footer-topics="props.footerTopics" />
+            <Sidebar :footer-pages="props.footerPages" />
         </div>
 
     </div>
