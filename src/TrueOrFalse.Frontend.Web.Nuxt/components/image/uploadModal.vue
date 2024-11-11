@@ -144,11 +144,11 @@ async function upload() {
 
     if (result) {
         emit('close')
-        alertStore.openAlert(AlertType.Success, { text: messages.success.category.saveImage })
+        alertStore.openAlert(AlertType.Success, { text: messages.success.page.saveImage })
         topicStore.refreshTopicImage()
         resetModal()
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.category.saveImageError })
+        alertStore.openAlert(AlertType.Error, { text: messages.error.page.saveImageError })
     }
 }
 

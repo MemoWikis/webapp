@@ -15,7 +15,7 @@ public class TopicStoreController(
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    CategoryUpdater _categoryUpdater,
+    PageUpdater pageUpdater,
     ImageStore _imageStore) : Controller
 {
     public readonly record struct SaveContentRequest(
@@ -150,7 +150,7 @@ public class TopicStoreController(
 
     [HttpPost]
     public bool HideOrShowText([FromBody] HideOrShowItem hideOrShowItem) =>
-        _categoryUpdater.HideOrShowTopicText(hideOrShowItem.hideText, hideOrShowItem.topicId);
+        pageUpdater.HideOrShowTopicText(hideOrShowItem.hideText, hideOrShowItem.topicId);
 
     [HttpGet]
     public GridTopicItem[] GetGridTopicItems([FromRoute] int id)

@@ -146,7 +146,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
         switch (pageChange.DataVersion)
         {
             case 1:
-                pageChange.Data = new CategoryEditData_V1(page, _session, pageRepository).ToJson();
+                pageChange.Data = new PageEditDataV1(page, _session, pageRepository).ToJson();
                 break;
             case 2:
                 pageChange.Data = new PageEditData_V2(page, imageWasUpdated, _session, parentIds, childIds).ToJson();

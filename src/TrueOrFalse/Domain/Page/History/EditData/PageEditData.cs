@@ -1,4 +1,4 @@
-﻿public abstract class CategoryEditData
+﻿public abstract class PageEditData
 {
     public string Name;
     public string Description;
@@ -15,6 +15,6 @@
 
     public abstract string ToJson();
 
-    public abstract Page ToCategory(int categoryId);
-    public abstract PageCacheItem ToCacheCategory(int categoryId);
+    public abstract Page ToPage(int pageId);
+    public abstract PageCacheItem ToCachePage(int pageId);
 }

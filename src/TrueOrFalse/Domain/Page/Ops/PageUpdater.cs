@@ -1,4 +1,4 @@
-﻿public class CategoryUpdater(
+﻿public class PageUpdater(
     PageRepository pageRepository,
     PermissionCheck permissionCheck) : IRegisterAsInstancePerLifetime
 {

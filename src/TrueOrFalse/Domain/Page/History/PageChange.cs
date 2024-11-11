@@ -17,12 +17,12 @@ public class PageChange : Entity, WithDateCreated
 
     public virtual DateTime DateCreated { get; set; }
 
-    public virtual CategoryEditData GetCategoryChangeData()
+    public virtual PageEditData GetCategoryChangeData()
     {
         switch (DataVersion)
         {
             case 1:
-                return CategoryEditData_V1.CreateFromJson(Data);
+                return PageEditDataV1.CreateFromJson(Data);
 
             case 2:
                 return PageEditData_V2.CreateFromJson(Data);
@@ -34,7 +34,7 @@ public class PageChange : Entity, WithDateCreated
 
     public virtual Page ToHistoricCategory(bool haveVersionData = true)
     {
-        return haveVersionData ? GetCategoryChangeData().ToCategory(Page.Id) : new Page();
+        return haveVersionData ? GetCategoryChangeData().ToPage(Page.Id) : new Page();
     }
 }
 

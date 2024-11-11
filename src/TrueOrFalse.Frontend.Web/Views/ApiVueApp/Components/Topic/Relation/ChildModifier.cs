@@ -119,7 +119,7 @@ public class ChildModifier(
         return new RemoveParentResult
         {
             Success = true,
-            MessageKey = FrontendMessageKeys.Success.Category.Unlinked
+            MessageKey = FrontendMessageKeys.Success.Page.Unlinked
         };
     }
 }

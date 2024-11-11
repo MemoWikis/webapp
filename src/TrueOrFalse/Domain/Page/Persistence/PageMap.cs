@@ -1,8 +1,8 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class CategoryMap : ClassMap<Page>
+public class PageMap : ClassMap<Page>
 {
-    public CategoryMap()
+    public PageMap()
     {
         Id(x => x.Id);
 

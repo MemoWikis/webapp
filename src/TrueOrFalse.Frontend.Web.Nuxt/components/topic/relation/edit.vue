@@ -139,7 +139,7 @@ async function moveTopicToNewParent() {
     spinnerStore.showSpinner()
 
     if (selectedTopicId.value == editTopicRelationStore.parentId) {
-        errorMsg.value = messages.error.category.loopLink
+        errorMsg.value = messages.error.page.loopLink
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
         return
@@ -209,7 +209,7 @@ async function addExistingTopic() {
     const data = getAddChildPayload()
 
     if (data.childId == data.parentId) {
-        errorMsg.value = messages.error.category.loopLink
+        errorMsg.value = messages.error.page.loopLink
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
         return

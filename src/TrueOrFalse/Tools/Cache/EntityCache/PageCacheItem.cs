@@ -329,8 +329,8 @@ public class PageCacheItem : IPersistable
 
             if (categoryChanges != null)
             {
-                CategoryEditData? previousData = null;
-                CategoryEditData currentData;
+                PageEditData? previousData = null;
+                PageEditData currentData;
                 int? previousId = null;
                 var categoryChangeCacheItems = new List<CategoryChangeCacheItem>();
                 var currentGroupedCacheItem = new List<CategoryChangeCacheItem>();
@@ -339,7 +339,7 @@ public class PageCacheItem : IPersistable
                 {
                     if (curr.DataVersion == 1)
                     {
-                        currentData = CategoryEditData_V1.CreateFromJson(curr.Data);
+                        currentData = PageEditDataV1.CreateFromJson(curr.Data);
                     }
                     else if (curr.DataVersion == 2)
                     {
@@ -655,7 +655,7 @@ public class PageCacheItem : IPersistable
 
         var currentData = pageChange.GetCategoryChangeData();
         var previousChange = CategoryChangeCacheItems.FirstOrDefault();
-        CategoryEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetCategoryChangeData() : null;
+        PageEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetCategoryChangeData() : null;
         var previousId = CategoryChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;
 
         var newCacheItem = CategoryChangeCacheItem.ToCategoryChangeCacheItem(pageChange, currentData, previousData, previousId);

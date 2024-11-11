@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using NHibernate;
 
-public class CategoryEditData_V1 : CategoryEditData
+public class PageEditDataV1 : PageEditData
 {
     private readonly ISession _nhibernateSession;
     private readonly PageRepository _pageRepository;
     public IList<PageRelationEditDataV1> CategoryRelations;
 
-    public CategoryEditData_V1(
+    public PageEditDataV1(
         Page page,
         ISession nhibernateSession,
         PageRepository pageRepository)
@@ -25,13 +25,13 @@ public class CategoryEditData_V1 : CategoryEditData
         Visibility = page.Visibility;
     }
 
-    public CategoryEditData_V1()
+    public PageEditDataV1()
     {
     }
 
-    public override Page ToCategory(int categoryId)
+    public override Page ToPage(int pageId)
     {
-        var category = _pageRepository.GetById(categoryId);
+        var category = _pageRepository.GetById(pageId);
 
         _nhibernateSession.Evict(category);
         var categoryIsNull = category == null;
@@ -58,9 +58,9 @@ public class CategoryEditData_V1 : CategoryEditData
 
     public override string ToJson() => JsonConvert.SerializeObject(this);
 
-    public static CategoryEditData_V1 CreateFromJson(string json) =>
-        JsonConvert.DeserializeObject<CategoryEditData_V1>(json);
+    public static PageEditDataV1 CreateFromJson(string json) =>
+        JsonConvert.DeserializeObject<PageEditDataV1>(json);
 
     //placeholder
-    public override PageCacheItem ToCacheCategory(int categoryId) => new PageCacheItem();
+    public override PageCacheItem ToCachePage(int pageId) => new PageCacheItem();
 }

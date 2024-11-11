@@ -2,7 +2,7 @@
 {
     public static class Success
     {
-        public static class Category
+        public static class Page
         {
             public static readonly string Publish = "success_category_publish";
             public static readonly string SetToPrivate = "success_category_setToPrivate";
@@ -120,7 +120,7 @@
 
     public static class Info
     {
-        public static class Category
+        public static class Page
         {
         }
 

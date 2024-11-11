@@ -35,7 +35,7 @@ const ariaId = useId()
                         :class="{ 'topic-has-content': topicStore.content?.length > 0 || topicStore.contentHasChanged }">
                         <div class="dropdown-label">
                             Keine Texteingabe <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
-                                v-tooltip="messages.info.category.toggleHideText" />
+                                v-tooltip="messages.info.page.toggleHideText" />
                         </div>
                         <div class="toggle-icon-container">
                             <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="topicStore.textIsHidden"

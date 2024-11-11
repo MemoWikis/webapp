@@ -181,7 +181,7 @@ public class TopicToPrivateStoreController(
         return new SetResult
         {
             Success = true,
-            MessageKey = FrontendMessageKeys.Success.Category.SetToPrivate
+            MessageKey = FrontendMessageKeys.Success.Page.SetToPrivate
         };
     }
 

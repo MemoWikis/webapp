@@ -27,12 +27,12 @@ public class CategoryChangeCacheItem : IPersistable
     public virtual bool IsGroup => GroupedCategoryChangeCacheItems.Count > 1;
     public virtual bool IsPartOfGroup { get; set; } = false;
 
-    public virtual CategoryEditData GetCategoryChangeData()
+    public virtual PageEditData GetCategoryChangeData()
     {
         switch (DataVersion)
         {
             case 1:
-                return CategoryEditData_V1.CreateFromJson(Data);
+                return PageEditDataV1.CreateFromJson(Data);
             case 2:
                 return PageEditData_V2.CreateFromJson(Data);
 
@@ -43,10 +43,10 @@ public class CategoryChangeCacheItem : IPersistable
 
     public virtual PageCacheItem ToHistoricCategoryCacheItem(bool haveVersionData = true)
     {
-        return haveVersionData ? GetCategoryChangeData().ToCacheCategory(_categoryCacheItem.Id) : new PageCacheItem();
+        return haveVersionData ? GetCategoryChangeData().ToCachePage(_categoryCacheItem.Id) : new PageCacheItem();
     }
 
-    public static CategoryChangeCacheItem ToCategoryChangeCacheItem(PageChange currentPageChange, CategoryEditData currentData, CategoryEditData? previousData, int? previousId)
+    public static CategoryChangeCacheItem ToCategoryChangeCacheItem(PageChange currentPageChange, PageEditData currentData, PageEditData? previousData, int? previousId)
     {
         var changeData = GetCategoryChangeData(currentData, previousData, currentPageChange.Type, previousId);
 
@@ -118,7 +118,7 @@ public class CategoryChangeCacheItem : IPersistable
         };
     }
 
-    public static CategoryChangeData GetCategoryChangeData(CategoryEditData currentData, CategoryEditData? previousData, PageChangeType changeType, int? previousId)
+    public static CategoryChangeData GetCategoryChangeData(PageEditData currentData, PageEditData? previousData, PageChangeType changeType, int? previousId)
     {
         return new CategoryChangeData(
             NameChange: new NameChange(previousData?.Name, currentData.Name),
@@ -129,7 +129,7 @@ public class CategoryChangeCacheItem : IPersistable
         );
     }
 
-    private static DeleteData? GetDeleteData(CategoryEditData currentData, PageChangeType changeType)
+    private static DeleteData? GetDeleteData(PageEditData currentData, PageChangeType changeType)
     {
         if (changeType == PageChangeType.ChildTopicDeleted || changeType == PageChangeType.QuestionDeleted)
             return new DeleteData(currentData.DeleteChangeId, currentData.DeletedName);

@@ -24,7 +24,7 @@
             .GetTopicByName(privateTopicName);
 
         //Act
-        var resultVisibleTopic = R<CategoryUpdater>().HideOrShowTopicText(hideText: true, publicTopic.Id);
+        var resultVisibleTopic = R<PageUpdater>().HideOrShowTopicText(hideText: true, publicTopic.Id);
 
         var dbCategory = R<PageRepository>().GetById(publicTopic.Id);
         var cacheCategory = EntityCache.GetPage(publicTopic.Id);
@@ -35,8 +35,8 @@
         Assert.True(dbCategory.TextIsHidden);
         Assert.True(cacheCategory.TextIsHidden);
 
-        var ex = Assert.Throws<AccessViolationException>(() => R<CategoryUpdater>().HideOrShowTopicText(hideText: true, privateTopic.Id));
-        Assert.That(ex.Message, Is.EqualTo($"{nameof(CategoryUpdater.HideOrShowTopicText)}: No permission for user"));
+        var ex = Assert.Throws<AccessViolationException>(() => R<PageUpdater>().HideOrShowTopicText(hideText: true, privateTopic.Id));
+        Assert.That(ex.Message, Is.EqualTo($"{nameof(PageUpdater.HideOrShowTopicText)}: No permission for user"));
     }
 }
 

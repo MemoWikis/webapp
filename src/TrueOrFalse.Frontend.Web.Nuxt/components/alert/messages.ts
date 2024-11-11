@@ -1,6 +1,6 @@
 export const messages: any = {
     success: {
-        category: {
+        page: {
             publish: "Deine Seite wurde erfolgreich veröffentlicht.",
             setToPrivate: "Die Seite wurde erfolgreich auf 'Privat' gesetzt.",
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
@@ -103,7 +103,7 @@ export const messages: any = {
         }
     },
     info: {
-        category: {
+        page: {
             toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Themen ohne Textinhalt.",
         },
         question: {
