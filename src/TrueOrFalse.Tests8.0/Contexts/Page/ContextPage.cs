@@ -22,7 +22,7 @@
     public ContextPage Add(int amount)
     {
         for (var i = 0; i < amount; i++)
-            Add($"category name {i + 1}");
+            Add($"page name {i + 1}");
 
         return this;
     }
@@ -34,40 +34,40 @@
     }
 
     public ContextPage Add(
-        string categoryName,
+        string pageName,
         PageType pageType = PageType.Standard,
         User? creator = null,
         PageVisibility visibility = PageVisibility.All)
     {
-        var category = new Page
+        var page = new Page
         {
-            Name = categoryName,
+            Name = pageName,
             Creator = creator ?? _contextUser.All.First(),
             Type = pageType,
             Visibility = visibility
         };
 
-        All.Add(category);
+        All.Add(page);
 
         return this;
     }
 
     public ContextPage AddChild(Page parent, Page child)
     {
-        var modifyRelationsForCategory = new ModifyRelationsForPage(_pageRepository, R<PageRelationRepo>());
-        modifyRelationsForCategory.AddChild(parent.Id, child.Id, 1);
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, R<PageRelationRepo>());
+        modifyRelationsForPage.AddChild(parent.Id, child.Id, 1);
 
         return this;
     }
 
     public ContextPage AddToEntityCache(Page page)
     {
-        var categoryCacheItem = PageCacheItem.ToCacheCategory(page);
+        var pageCacheItem = PageCacheItem.ToCachePage(page);
 
         var cacheUser = UserCacheItem.ToCacheUser(page.Creator);
         EntityCache.AddOrUpdate(cacheUser);
-        EntityCache.AddOrUpdate(categoryCacheItem);
-        EntityCache.UpdateCategoryReferencesInQuestions(categoryCacheItem);
+        EntityCache.AddOrUpdate(pageCacheItem);
+        EntityCache.UpdatePageReferencesInQuestions(pageCacheItem);
 
         All.Add(page);
         return this;
@@ -137,13 +137,13 @@
     //    Add("I", parent: secondChildren.ByName("E")).Persist();
     //    Add("I", parent: secondChildren.ByName("G")).Persist();
 
-    //    foreach (var category in firstChildren)
+    //    foreach (var page in firstChildren)
     //    {
-    //        category.Visibility = CategoryVisibility.All;
+    //        page.Visibility = PageVisibility.All;
     //    }
-    //    foreach (var category in secondChildren)
+    //    foreach (var page in secondChildren)
     //    {
-    //        category.Visibility = CategoryVisibility.All;
+    //        page.Visibility = PageVisibility.All;
     //    }
     //    Resolve<EntityCacheInitializer>().Init();
 
@@ -156,12 +156,12 @@
     {
         var permissionCheck = R<PermissionCheck>();
 
-        var aggregatedCategorys = pageCachedItem.AggregatedPages(permissionCheck);
+        var aggregatedPages = pageCachedItem.AggregatedPages(permissionCheck);
 
-        if (aggregatedCategorys.Any() == false)
+        if (aggregatedPages.Any() == false)
             return false;
 
-        return aggregatedCategorys.TryGetValue(childId, out _);
+        return aggregatedPages.TryGetValue(childId, out _);
     }
 
     public static bool isIdAvailableInRelations(PageCacheItem pageCacheItem, int deletedId)

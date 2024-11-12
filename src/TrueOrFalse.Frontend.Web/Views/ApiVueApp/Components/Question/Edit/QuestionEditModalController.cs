@@ -143,16 +143,16 @@ public class QuestionEditModalController(
         question.DescriptionHtml = request.DescriptionHtml;
         question.SolutionType = request.SolutionType;
 
-        var preEditedCategoryIds = question.Pages.Select(c => c.Id);
-        var newCategoryIds = request.CategoryIds.ToList();
+        var preEditedPageIds = question.Pages.Select(c => c.Id);
+        var newPageIds = request.CategoryIds.ToList();
 
-        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+        var pagesToRemove = preEditedPageIds.Except(newPageIds);
 
-        foreach (var pageId in categoriesToRemove)
+        foreach (var pageId in pagesToRemove)
             if (!_permissionCheck.CanViewPage(pageId))
-                newCategoryIds.Add(pageId);
+                newPageIds.Add(pageId);
 
-        question.Pages = GetAllParentsForQuestion(newCategoryIds, question);
+        question.Pages = GetAllParentsForQuestion(newPageIds, question);
         question.Visibility = (QuestionVisibility)request.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)

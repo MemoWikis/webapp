@@ -20,9 +20,9 @@ public class PageRelationCache : IPersistable
         {
             return result;
         }
-        foreach (var categoryRelation in parentRelations)
+        foreach (var parentRelation in parentRelations)
         {
-            result.Add(ToPageCacheRelation(categoryRelation));
+            result.Add(ToPageCacheRelation(parentRelation));
         }
 
         return result;

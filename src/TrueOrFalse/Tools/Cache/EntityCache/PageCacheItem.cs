@@ -248,30 +248,30 @@ public class PageCacheItem : IPersistable
             : new List<PageCacheItem>();
     }
 
-    public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> categories, IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> categoryChanges)
+    public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> pages, IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> changes)
     {
-        var categoryViews = views
+        var pageViewsDict = views
             .GroupBy(cv => cv.PageId)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        var categoryChangesDictionary = categoryChanges
+        var pageChangesDict = changes
             .GroupBy(cc => cc.Page?.Id ?? -1)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        return categories.Select(c =>
+        return pages.Select(c =>
         {
-            categoryViews.TryGetValue(c.Id, out var categoryViewsWithId);
-            categoryChangesDictionary.TryGetValue(c.Id, out var categoryChanges);
-            return ToCacheCategory(c, categoryViewsWithId, categoryChanges);
+            pageViewsDict.TryGetValue(c.Id, out var pageViews);
+            pageChangesDict.TryGetValue(c.Id, out var pageChanges);
+            return ToCachePage(c, pageViews, pageChanges);
         });
     }
 
-    public static PageCacheItem ToCacheCategory(Page page, List<PageViewRepo.PageViewSummaryWithId>? views = null, List<PageChange>? categoryChanges = null)
+    public static PageCacheItem ToCachePage(Page page, List<PageViewRepo.PageViewSummaryWithId>? views = null, List<PageChange>? pageChanges = null)
     {
         var creatorId = page.Creator == null ? -1 : page.Creator.Id;
         var parentRelations = EntityCache.GetParentRelationsByChildId(page.Id);
         var childRelations = PageOrderer.Sort(page.Id);
-        var categoryCacheItem = new PageCacheItem
+        var pageCacheItem = new PageCacheItem
         {
             Id = page.Id,
             ChildRelations = childRelations,
@@ -305,7 +305,7 @@ public class PageCacheItem : IPersistable
 
             if (views != null)
             {
-                categoryCacheItem.TotalViews = views.Count();
+                pageCacheItem.TotalViews = views.Count();
 
                 var startDate = DateTime.Now.Date.AddDays(-90);
                 var endDate = DateTime.Now.Date;
@@ -313,7 +313,7 @@ public class PageCacheItem : IPersistable
                 var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
                     .Select(d => startDate.AddDays(d));
 
-                categoryCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
+                pageCacheItem.ViewsOfPast90Days = views.Where(qv => dateRange.Contains(qv.DateOnly))
                     .Select(qv => new DailyViews
                     {
                         Date = qv.DateOnly,
@@ -323,15 +323,15 @@ public class PageCacheItem : IPersistable
                     .ToList();
             }
 
-            if (categoryChanges != null)
+            if (pageChanges != null)
             {
                 PageEditData? previousData = null;
                 PageEditData currentData;
                 int? previousId = null;
-                var categoryChangeCacheItems = new List<PageChangeCacheItem>();
+                var pageChangeCacheItem = new List<PageChangeCacheItem>();
                 var currentGroupedCacheItem = new List<PageChangeCacheItem>();
 
-                foreach (var curr in categoryChanges)
+                foreach (var curr in pageChanges)
                 {
                     if (curr.DataVersion == 1)
                     {
@@ -343,7 +343,7 @@ public class PageCacheItem : IPersistable
                     }
                     else
                     {
-                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
+                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for page change id {curr.Id}");
                     }
 
                     if (currentData == null)
@@ -351,13 +351,13 @@ public class PageCacheItem : IPersistable
 
                     var currentCacheItem = PageChangeCacheItem.ToPageChangeCacheItem(curr, currentData, previousData, previousId);
 
-                    if (categoryChangeCacheItems.Count > 0)
+                    if (pageChangeCacheItem.Count > 0)
                     {
-                        if (PageChangeCacheItem.CanBeGrouped(categoryChangeCacheItems.Last(), currentCacheItem))
+                        if (PageChangeCacheItem.CanBeGrouped(pageChangeCacheItem.Last(), currentCacheItem))
                         {
                             if (currentGroupedCacheItem.Count == 0)
                             {
-                                var previousCacheItem = categoryChangeCacheItems.Last();
+                                var previousCacheItem = pageChangeCacheItem.Last();
                                 previousCacheItem.IsPartOfGroup = true;
                                 currentGroupedCacheItem.Add(previousCacheItem);
                             }
@@ -367,12 +367,12 @@ public class PageCacheItem : IPersistable
                         else if (currentGroupedCacheItem.Count > 1)
                         {
                             var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
-                            categoryChangeCacheItems.Add(groupedCategoryChangeCacheItem);
+                            pageChangeCacheItem.Add(groupedCategoryChangeCacheItem);
                             currentGroupedCacheItem = new List<PageChangeCacheItem>();
                         }
                     }
 
-                    categoryChangeCacheItems.Add(currentCacheItem);
+                    pageChangeCacheItem.Add(currentCacheItem);
                     previousData = currentData;
                     previousId = curr.Id;
                 }
@@ -381,16 +381,16 @@ public class PageCacheItem : IPersistable
                 if (currentGroupedCacheItem.Count > 1)
                 {
                     var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
-                    categoryChangeCacheItems.Add(groupedCategoryChangeCacheItem);
+                    pageChangeCacheItem.Add(groupedCategoryChangeCacheItem);
                 }
 
-                categoryCacheItem.CategoryChangeCacheItems = categoryChangeCacheItems
+                pageCacheItem.CategoryChangeCacheItems = pageChangeCacheItem
                     .Distinct()
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
             }
         }
-        return categoryCacheItem;
+        return pageCacheItem;
     }
 
     public void AddPageView(DateTime date)
@@ -564,13 +564,13 @@ public class PageCacheItem : IPersistable
 
         return (pagedChanges, visibleChanges.Count());
     }
-    private FeedItem ToFeedItem(PageChangeCacheItem? categoryChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
+    private FeedItem ToFeedItem(PageChangeCacheItem? pageChangeCacheItem = null, QuestionChangeCacheItem? questionChangeCacheItem = null)
     {
-        if (categoryChangeCacheItem != null)
+        if (pageChangeCacheItem != null)
             return new FeedItem
             {
-                DateCreated = categoryChangeCacheItem.DateCreated,
-                PageChangeCacheItem = categoryChangeCacheItem
+                DateCreated = pageChangeCacheItem.DateCreated,
+                PageChangeCacheItem = pageChangeCacheItem
             };
         if (questionChangeCacheItem != null)
         {
@@ -668,7 +668,7 @@ public class PageCacheItem : IPersistable
             {
                 if (previousCacheItem.IsGroup)
                 {
-                    var newGroupedCacheItems = new List<PageChangeCacheItem>(previousCacheItem.GroupedCategoryChangeCacheItems);
+                    var newGroupedCacheItems = new List<PageChangeCacheItem>(previousCacheItem.GroupedPageChangeCacheItems);
                     newCacheItem.IsPartOfGroup = true;
                     newGroupedCacheItems.Add(newCacheItem);
 

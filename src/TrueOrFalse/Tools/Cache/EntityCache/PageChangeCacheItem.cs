@@ -5,8 +5,8 @@ public class PageChangeCacheItem : IPersistable
 {
     public virtual int Id { get; set; }
 
-    private PageCacheItem? _categoryCacheItem;
-    public virtual PageCacheItem Page => _categoryCacheItem ??= EntityCache.GetPage(PageId);
+    private PageCacheItem? _pageCacheItem;
+    public virtual PageCacheItem Page => _pageCacheItem ??= EntityCache.GetPage(PageId);
     public virtual int PageId { get; set; }
 
     public virtual int DataVersion { get; set; }
@@ -23,8 +23,8 @@ public class PageChangeCacheItem : IPersistable
 
     public virtual PageChangeData PageChangeData { get; set; }
 
-    public virtual List<PageChangeCacheItem> GroupedCategoryChangeCacheItems { get; set; } = new List<PageChangeCacheItem>();
-    public virtual bool IsGroup => GroupedCategoryChangeCacheItems.Count > 1;
+    public virtual List<PageChangeCacheItem> GroupedPageChangeCacheItems { get; set; } = new List<PageChangeCacheItem>();
+    public virtual bool IsGroup => GroupedPageChangeCacheItems.Count > 1;
     public virtual bool IsPartOfGroup { get; set; } = false;
 
     public virtual PageEditData GetPageChangeData()
@@ -37,13 +37,13 @@ public class PageChangeCacheItem : IPersistable
                 return PageEditData_V2.CreateFromJson(Data);
 
             default:
-                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for category change id {Id}");
+                throw new ArgumentOutOfRangeException($"Invalid data version number {DataVersion} for page change id {Id}");
         }
     }
 
     public virtual PageCacheItem ToHistoricPageCacheItem(bool haveVersionData = true)
     {
-        return haveVersionData ? GetPageChangeData().ToCachePage(_categoryCacheItem.Id) : new PageCacheItem();
+        return haveVersionData ? GetPageChangeData().ToCachePage(_pageCacheItem.Id) : new PageCacheItem();
     }
 
     public static PageChangeCacheItem ToPageChangeCacheItem(PageChange currentPageChange, PageEditData currentData, PageEditData? previousData, int? previousId)
@@ -114,7 +114,7 @@ public class PageChangeCacheItem : IPersistable
             DateCreated = newestCategoryChangeItem.DateCreated,
             Visibility = newestCategoryChangeItem.Visibility,
             PageChangeData = changeData,
-            GroupedCategoryChangeCacheItems = groupedCacheItems
+            GroupedPageChangeCacheItems = groupedCacheItems
         };
     }
 

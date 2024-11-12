@@ -1,12 +1,12 @@
 ﻿public static class PageListExtensions
 {
-    public static Page ByName(this IEnumerable<Page> categories, string name) =>
-        categories.First(c => c.Name == name);
+    public static Page ByName(this IEnumerable<Page> pages, string name) =>
+        pages.First(c => c.Name == name);
 
     public static PageCacheItem ByName(
-        this IEnumerable<PageCacheItem> categories,
+        this IEnumerable<PageCacheItem> pages,
         string name) =>
-        categories.First(c => c.Name == name);
+        pages.First(c => c.Name == name);
 
     public static IEnumerable<int> GetIds(this IEnumerable<PageCacheItem> sets)
     {

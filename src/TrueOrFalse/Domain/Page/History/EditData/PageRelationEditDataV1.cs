@@ -2,12 +2,12 @@ public class PageRelationEditDataV1 : PageRelation_EditData
 {
     public PageRelationEditDataV1() { }
 
-    public PageRelationEditDataV1(PageRelation? categoryRelation)
+    public PageRelationEditDataV1(PageRelation? pageRelation)
     {
-        if (categoryRelation != null)
+        if (pageRelation != null)
         {
-            PageId = categoryRelation.Child.Id;
-            RelatedPageId = (int)categoryRelation.Parent.Id;
+            PageId = pageRelation.Child.Id;
+            RelatedPageId = (int)pageRelation.Parent.Id;
         }
     }
 }

@@ -24,9 +24,9 @@ public class Page : DomainEntity, ICreator
 
     public virtual void UpdateCountQuestionsAggregated(int userId)
     {
-        var categoryCacheItem = EntityCache.GetPage(Id);
-        if (categoryCacheItem != null)
-            CountQuestionsAggregated = categoryCacheItem.GetCountQuestionsAggregated(userId);
+        var pageCacheItem = EntityCache.GetPage(Id);
+        if (pageCacheItem != null)
+            CountQuestionsAggregated = pageCacheItem.GetCountQuestionsAggregated(userId);
     }
 
     public virtual string Markdown { get; set; }

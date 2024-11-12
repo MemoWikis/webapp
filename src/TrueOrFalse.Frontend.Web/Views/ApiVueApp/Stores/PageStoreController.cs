@@ -28,32 +28,32 @@ public class PageStoreController(
     [AccessOnlyAsLoggedIn]
     public SaveResult SaveContent([FromBody] SaveContentRequest req)
     {
-        var categoryCacheItem = EntityCache.GetPage(req.Id);
+        var pageCacheItem = EntityCache.GetPage(req.Id);
 
-        if (categoryCacheItem == null)
+        if (pageCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
 
-        if (categoryCacheItem.Content.Trim() == req.Content.Trim())
+        if (pageCacheItem.Content.Trim() == req.Content.Trim())
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
-        if (!_permissionCheck.CanEdit(categoryCacheItem))
+        if (!_permissionCheck.CanEdit(pageCacheItem))
             return new SaveResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var category = pageRepository.GetByIdEager(req.Id);
+        var page = pageRepository.GetByIdEager(req.Id);
 
-        if (category == null)
+        if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        categoryCacheItem.Content = req.Content;
-        category.Content = req.Content;
-        pageRepository.Update(category, _sessionUser.UserId, type: PageChangeType.Text);
+        pageCacheItem.Content = req.Content;
+        page.Content = req.Content;
+        pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
-        EntityCache.AddOrUpdate(categoryCacheItem);
+        EntityCache.AddOrUpdate(pageCacheItem);
 
         return new SaveResult
         {
@@ -69,31 +69,31 @@ public class PageStoreController(
     [AccessOnlyAsLoggedIn]
     public SaveResult SaveName([FromBody] SaveNameRequest req)
     {
-        var categoryCacheItem = EntityCache.GetPage(req.Id);
+        var pageCacheItem = EntityCache.GetPage(req.Id);
 
-        if (categoryCacheItem == null)
+        if (pageCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        if (categoryCacheItem.Name.Trim() == req.Name.Trim())
+        if (pageCacheItem.Name.Trim() == req.Name.Trim())
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
-        if (!_permissionCheck.CanEdit(categoryCacheItem))
+        if (!_permissionCheck.CanEdit(pageCacheItem))
             return new SaveResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var category = pageRepository.GetByIdEager(req.Id);
+        var page = pageRepository.GetByIdEager(req.Id);
 
-        if (category == null)
+        if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        categoryCacheItem.Name = req.Name.Trim();
-        category.Name = req.Name.Trim();
-        pageRepository.Update(category, _sessionUser.UserId, type: PageChangeType.Renamed);
+        pageCacheItem.Name = req.Name.Trim();
+        page.Name = req.Name.Trim();
+        pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
 
-        EntityCache.AddOrUpdate(categoryCacheItem);
+        EntityCache.AddOrUpdate(pageCacheItem);
 
         return new SaveResult
         {
@@ -120,8 +120,8 @@ public class PageStoreController(
     [HttpGet]
     public KnowledgeSummaryResult GetUpdatedKnowledgeSummary([FromRoute] int id)
     {
-        var sessionuserId = _sessionUser == null ? -1 : _sessionUser.UserId;
-        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, sessionuserId);
+        var sessionUserId = _sessionUser?.UserId ?? -1;
+        var knowledgeSummary = _knowledgeSummaryLoader.RunFromMemoryCache(id, sessionUserId);
 
         return new KnowledgeSummaryResult
         {

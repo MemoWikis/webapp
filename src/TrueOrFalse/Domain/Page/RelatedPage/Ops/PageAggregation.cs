@@ -1,10 +1,10 @@
 ﻿class PageAggregation
 {
     public static IList<Page> GetAggregatingAncestors(
-        IList<Page> categories,
+        IList<Page> pages,
         PageRepository pageRepository)
     {
-        return categories.SelectMany(c => pageRepository.GetIncludingPages(c)).Distinct()
+        return pages.SelectMany(c => pageRepository.GetIncludingPages(c)).Distinct()
             .ToList();
     }
 }

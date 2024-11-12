@@ -4,11 +4,11 @@
     {
         public static class Page
         {
-            public static readonly string Publish = "success_category_publish";
-            public static readonly string SetToPrivate = "success_category_setToPrivate";
-            public static readonly string Unlinked = "success_category_unlinked";
-            public static readonly string AddedToPersonalWiki = "success_category_addedToPersonalWiki";
-            public static readonly string SaveImage = "success_category_saveImage";
+            public static readonly string Publish = "success_page_publish";
+            public static readonly string SetToPrivate = "success_page_setToPrivate";
+            public static readonly string Unlinked = "success_page_unlinked";
+            public static readonly string AddedToPersonalWiki = "success_page_addedToPersonalWiki";
+            public static readonly string SaveImage = "success_page_saveImage";
         }
 
         public static class Question

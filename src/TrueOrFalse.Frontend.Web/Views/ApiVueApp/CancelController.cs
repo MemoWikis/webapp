@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TrueOrFalse.Frontend.Web.Code;
+using System.Collections.Generic;
 
 namespace VueApp;
 
 public class CancelController(IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
     : Controller
 {
-    public readonly record struct TinyPage(string Name, string Link);
+    public readonly record struct TinyPage(string Name, int Id);
     [HttpGet]
     public List<TinyPage> GetHelperPages()
     {
@@ -17,12 +16,12 @@ public class CancelController(IActionContextAccessor actionContextAccessor, IHtt
         var list = new List<TinyPage>();
         for (var i = 0; i < count; i++)
         {
-            var category = EntityCache.GetPage(RootPage.MemuchoHelpIds[i]);
+            var page = EntityCache.GetPage(RootPage.MemuchoHelpIds[i]);
 
             list.Add(new TinyPage
             (
-                Name: category.Name,
-                Link: new Links(actionContextAccessor, httpContextAccessor).CategoryDetail(category)
+                Name: page.Name,
+                Id: page.Id
             ));
         }
         return list;

@@ -70,7 +70,7 @@ public class FeedController(
                 RelationChanges: relationChanges,
                 DeleteData: deleteData,
                 IsGroup: change.IsGroup,
-                OldestChangeIdInGroup: change.IsGroup ? change.GroupedCategoryChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
+                OldestChangeIdInGroup: change.IsGroup ? change.GroupedPageChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
 
             return new FeedItem(feedItem.DateCreated, FeedType.Page, pageFeedItem, QuestionFeedItem: null, Author: author);
         }
@@ -125,7 +125,7 @@ public class FeedController(
         if (change.Type != PageChangeType.Relations && !(change.Type == PageChangeType.Create && change.IsGroup))
             return null;
 
-        var relationChange = change.Type == PageChangeType.Relations ? change.PageChangeData.RelationChange : change.GroupedCategoryChangeCacheItems.Where(c => c.Type == PageChangeType.Relations).MinBy(c => c.DateCreated)?.PageChangeData.RelationChange;
+        var relationChange = change.Type == PageChangeType.Relations ? change.PageChangeData.RelationChange : change.GroupedPageChangeCacheItems.Where(c => c.Type == PageChangeType.Relations).MinBy(c => c.DateCreated)?.PageChangeData.RelationChange;
 
         if (relationChange == null)
             return null;

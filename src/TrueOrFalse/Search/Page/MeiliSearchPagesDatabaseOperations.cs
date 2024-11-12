@@ -28,9 +28,9 @@ namespace TrueOrFalse.Search
             Page page,
             string indexConstant = MeiliSearchConstants.Pages)
         {
-            var categoryMapAndIndex = CreatePageMap(page, indexConstant, out var index);
+            var pageMapAndIndex = CreatePageMap(page, indexConstant, out var index);
             var taskInfo = await index.UpdateDocumentsAsync(new List<MeiliSearchPageMap>
-                    { categoryMapAndIndex })
+                    { pageMapAndIndex })
                 .ConfigureAwait(false);
 
             await CheckStatus(taskInfo);
@@ -60,7 +60,7 @@ namespace TrueOrFalse.Search
             var client = new MeilisearchClient(MeiliSearchConstants.Url,
                 MeiliSearchConstants.MasterKey);
             index = client.Index(indexConstant);
-            var categoryMap = new MeiliSearchPageMap
+            var pageMap = new MeiliSearchPageMap
             {
                 CreatorName = page.Creator.Name,
                 DateCreated = page.DateCreated == DateTime.MinValue
@@ -70,7 +70,7 @@ namespace TrueOrFalse.Search
                 Name = page.Name,
                 Id = page.Id,
             };
-            return categoryMap;
+            return pageMap;
         }
     }
 }

@@ -27,10 +27,10 @@ public class PageDeleter_tests : BaseTest
 
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<PageDeleter>();
+        var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeletePage(child.Id, parent.Id);
+        var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
 
         //Assert
         Assert.IsNotNull(requestResult);
@@ -72,19 +72,19 @@ public class PageDeleter_tests : BaseTest
         contextPage.AddChild(child, childOfChild);
 
         RecycleContainerAndEntityCache();
-        var categoryDeleter = R<PageDeleter>();
+        var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeletePage(childOfChild.Id, parent.Id);
+        var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
 
         //Assert
         RecycleContainerAndEntityCache();
 
-        var categoryRepo = R<PageRepository>();
-        var allAvailablePages = categoryRepo.GetAll();
+        var pageRepo = R<PageRepository>();
+        var allAvailablePages = pageRepo.GetAll();
         var parentChildren =
-            categoryRepo.GetChildren(PageType.Standard, PageType.Standard, parent.Id);
-        var childrenOfChild = categoryRepo.GetChildren(PageType.Standard,
+            pageRepo.GetChildren(PageType.Standard, PageType.Standard, parent.Id);
+        var childrenOfChild = pageRepo.GetChildren(PageType.Standard,
             PageType.Standard, child.Id);
 
         Assert.IsNotNull(requestResult);
@@ -132,10 +132,10 @@ public class PageDeleter_tests : BaseTest
         contextPage.AddChild(child, childOfChild);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<PageDeleter>();
+        var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeletePage(childOfChild.Id, parent.Id);
+        var requestResult = pageDeleter.DeletePage(childOfChild.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert
@@ -205,10 +205,10 @@ public class PageDeleter_tests : BaseTest
         contextPage.AddChild(secondChild, childOfChild);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<PageDeleter>();
+        var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeletePage(firstChild.Id, parent.Id);
+        var requestResult = pageDeleter.DeletePage(firstChild.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert
@@ -249,10 +249,10 @@ public class PageDeleter_tests : BaseTest
         contextPage.AddChild(child, childOfChild);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<PageDeleter>();
+        var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeletePage(child.Id, parent.Id);
+        var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert
@@ -290,10 +290,10 @@ public class PageDeleter_tests : BaseTest
         contextPage.AddChild(parent, child);
         RecycleContainerAndEntityCache();
 
-        var categoryDeleter = R<PageDeleter>();
+        var pageDeleter = R<PageDeleter>();
 
         //Act
-        var requestResult = categoryDeleter.DeletePage(child.Id, parent.Id);
+        var requestResult = pageDeleter.DeletePage(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
 
         //Assert

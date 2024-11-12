@@ -21,8 +21,8 @@ public class PageRepository(
 
         UserActivityAdd.CreatedCategory(page, userReadingRepo, userActivityRepo);
 
-        var categoryCacheItem = PageCacheItem.ToCacheCategory(page);
-        EntityCache.AddOrUpdate(categoryCacheItem);
+        var pageCacheItem = PageCacheItem.ToCachePage(page);
+        EntityCache.AddOrUpdate(pageCacheItem);
 
         pageChangeRepo.AddCreateEntry(this, page, page.Creator?.Id ?? -1);
 
@@ -53,16 +53,16 @@ public class PageRepository(
         return GetByIds(questionIds.ToArray());
     }
 
-    public override IList<Page> GetByIds(params int[] categoryIds)
+    public override IList<Page> GetByIds(params int[] pageIds)
     {
-        var resultTmp = base.GetByIds(categoryIds);
+        var resultTmp = base.GetByIds(pageIds);
 
         var result = new List<Page>();
-        for (var i = 0; i < categoryIds.Length; i++)
+        for (var i = 0; i < pageIds.Length; i++)
         {
-            if (resultTmp.Any(c => c.Id == categoryIds[i]))
+            if (resultTmp.Any(c => c.Id == pageIds[i]))
             {
-                result.Add(resultTmp.First(c => c.Id == categoryIds[i]));
+                result.Add(resultTmp.First(c => c.Id == pageIds[i]));
             }
         }
 
@@ -76,12 +76,12 @@ public class PageRepository(
             .SingleOrDefault();
     }
 
-    public IList<Page> GetByIdsEager(IEnumerable<int> categoryIds = null)
+    public IList<Page> GetByIdsEager(IEnumerable<int> pageIds = null)
     {
         var query = _session.QueryOver<Page>();
-        if (categoryIds != null)
+        if (pageIds != null)
         {
-            query = query.Where(Restrictions.In("Id", categoryIds.ToArray()));
+            query = query.Where(Restrictions.In("Id", pageIds.ToArray()));
         }
 
         var result = query

@@ -127,13 +127,13 @@
 
         var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[0];
-        var categoryRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForCategory =
-            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
+        var pageRelationRepo = R<PageRelationRepo>();
+        var modifyRelationsForPage =
+            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
 
         //Act
         PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
-            modifyRelationsForCategory);
+            modifyRelationsForPage);
 
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
@@ -150,13 +150,13 @@
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub3.Id));
         Assert.IsNull(cachedRoot.ChildRelations[2].NextId);
 
-        var allRelationsInDb = categoryRelationRepo.GetAll();
+        var allRelationsInDb = pageRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(3));
 
         var firstCachedId = cachedRoot.ChildRelations[0].Id;
         var firstRelation = allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId);
-        categoryRelationRepo.Refresh(firstRelation);
+        pageRelationRepo.Refresh(firstRelation);
 
         Assert.That(allRelationsInDb.FirstOrDefault(r => r.Id == firstCachedId)?.Child.Id,
             Is.EqualTo(cachedRoot.ChildRelations[0].ChildId));
@@ -199,13 +199,13 @@
 
         var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[2];
-        var categoryRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForCategory =
-            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
+        var pageRelationRepo = R<PageRelationRepo>();
+        var modifyRelationsForPage =
+            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
 
         //Act
         PageOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
-            modifyRelationsForCategory);
+            modifyRelationsForPage);
 
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(3));
@@ -222,7 +222,7 @@
         Assert.That(cachedRoot.ChildRelations[2].PreviousId, Is.EqualTo(sub1.Id));
         Assert.IsNull(cachedRoot.ChildRelations[2].NextId);
 
-        var allRelationsInDb = categoryRelationRepo.GetAll();
+        var allRelationsInDb = pageRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(3));
 
@@ -279,13 +279,13 @@
 
         var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[0];
-        var categoryRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForCategory =
-            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
+        var pageRelationRepo = R<PageRelationRepo>();
+        var modifyRelationsForPage =
+            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
 
         //Act
         PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
-            modifyRelationsForCategory);
+            modifyRelationsForPage);
 
         //Assert
         Assert.That(cachedRoot.ChildRelations.Count, Is.EqualTo(4));
@@ -306,7 +306,7 @@
         Assert.That(cachedRoot.ChildRelations[3].PreviousId, Is.EqualTo(sub1.Id));
         Assert.IsNull(cachedRoot.ChildRelations[3].NextId);
 
-        var allRelationsInDb = categoryRelationRepo.GetAll();
+        var allRelationsInDb = pageRelationRepo.GetAll();
 
         Assert.That(allRelationsInDb.Count, Is.EqualTo(4));
 
@@ -359,19 +359,19 @@
 
         var cachedRoot = EntityCache.GetPage(root);
         var relationToMove = cachedRoot.ChildRelations[0];
-        var categoryRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForCategory =
-            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
+        var pageRelationRepo = R<PageRelationRepo>();
+        var modifyRelationsForPage =
+            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
 
         //Act & Assert
         var ex = Assert.Throws<Exception>(() => PageOrderer.MoveAfter(relationToMove,
-            sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForCategory));
+            sub1sub1sub1.Id, sub1sub1.Id, 1, modifyRelationsForPage));
 
         Assert.That(ex.Message, Is.EqualTo(FrontendMessageKeys.Error.Page.CircularReference));
 
         var ex2 = Assert.Throws<Exception>(() =>
             PageOrderer.MoveAfter(relationToMove, sub1sub1.Id, sub1.Id, 1,
-                modifyRelationsForCategory));
+                modifyRelationsForPage));
         Assert.That(ex2.Message, Is.EqualTo(FrontendMessageKeys.Error.Page.CircularReference));
     }
 
@@ -405,12 +405,12 @@
 
         var cachedSub1 = EntityCache.GetPage(sub1);
         var relationToMove = cachedSub1.ChildRelations[0];
-        var categoryRelationRepo = R<PageRelationRepo>();
-        var modifyRelationsForCategory =
-            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
+        var pageRelationRepo = R<PageRelationRepo>();
+        var modifyRelationsForPage =
+            new ModifyRelationsForPage(R<PageRepository>(), pageRelationRepo);
 
         //Act
-        PageOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,
+        PageOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForPage,
             R<PermissionCheck>());
 
         //Assert

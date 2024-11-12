@@ -122,7 +122,7 @@ public class QuestionWritingRepo(
         base.Update(question);
     }
 
-    private void UpdateQuestionCacheItem(Question question, List<int>? categoriesToUpdateIds)
+    private void UpdateQuestionCacheItem(Question question, List<int>? pagesToUpdateIds)
     {
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
@@ -145,6 +145,6 @@ public class QuestionWritingRepo(
         questionCacheItem.License = question.License;
 
         questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
-        EntityCache.AddOrUpdate(questionCacheItem, affectedCategoryIds: categoriesToUpdateIds);
+        EntityCache.AddOrUpdate(questionCacheItem, affectedPageIds: pagesToUpdateIds);
     }
 }

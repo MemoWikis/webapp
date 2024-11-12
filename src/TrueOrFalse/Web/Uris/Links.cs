@@ -35,26 +35,26 @@ public class Links
         Question question,
         int paramElementOnPage = 1,
         string pagerKey = "",
-        string categoryFilter = "")
+        string pageToFilter = "")
     {
         return AnswerQuestion(question.Text,
             question.Id,
             paramElementOnPage,
             pagerKey,
-            categoryFilter);
+            pageToFilter);
     }
 
     public string AnswerQuestion(
         QuestionCacheItem question,
         int paramElementOnPage = 1,
         string pagerKey = "",
-        string categoryFilter = "")
+        string pageToFilter = "")
     {
         return AnswerQuestion(question.Text,
             question.Id,
             paramElementOnPage,
             pagerKey,
-            categoryFilter);
+            pageToFilter);
     }
 
     public string AnswerQuestion(
@@ -62,7 +62,7 @@ public class Links
         int questionId,
         int paramElementOnPage = 1,
         string pagerKey = "",
-        string categoryFilter = "")
+        string pageToFilter = "")
     {
         if (paramElementOnPage == -1)
         {
@@ -81,29 +81,8 @@ public class Links
                 id = questionId,
                 elementOnPage = paramElementOnPage,
                 pager = pagerKey,
-                category = categoryFilter
+                category = pageToFilter
             }, null);
-    }
-
-    public string CategoryDetail(Page page)
-    {
-        return _httpContext == null
-            ? ""
-            : CategoryDetail(page.Name, page.Id);
-    }
-
-    public string CategoryDetail(PageCacheItem page)
-    {
-        return _httpContext == null
-            ? ""
-            : CategoryDetail(page.Name, page.Id);
-    }
-
-    public string CategoryDetail(string name, int id)
-    {
-        var url = GetUrlHelper()
-            .UrlAction("Category", CategoryController, new { text = UriSanitizer.Run(name), id });
-        return url;
     }
 
     public string ErrorNotLoggedIn(string backTo)

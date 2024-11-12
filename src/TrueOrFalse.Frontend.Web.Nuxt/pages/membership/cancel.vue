@@ -2,13 +2,11 @@
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const config = useRuntimeConfig()
 
-interface NameAndLink {
-    link: string;
-    name: string;
+interface HelperPages {
+    name: string
+    id: number
 }
-const pageArray = ref<NameAndLink[]>()
-
-const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Cancel/GetHelperPages', {
+const { data: helperPages } = await useFetch<FetchResult<HelperPages[]>>('/apiVue/Cancel/GetHelperPages', {
     method: 'GET',
     credentials: 'include',
     onRequest({ options }) {
@@ -17,10 +15,8 @@ const { data: result } = await useFetch<FetchResult<NameAndLink[]>>('/apiVue/Can
             options.baseURL = config.public.serverBase
         }
     },
-});
-if (result.value?.success == true) {
-    pageArray.value = result.value.data
-}
+})
+const { $urlHelper } = useNuxtApp()
 
 </script>
 
@@ -28,21 +24,23 @@ if (result.value?.success == true) {
     <div class="container">
         <div class="row page-container main-page">
             <h1>Abbruch</h1>
-            <p>Es tut uns leid zu sehen, dass Sie Ihre Zahlung abgebrochen haben.
+            <p>
+                Es tut uns leid zu sehen, dass Sie Ihre Zahlung abgebrochen haben.
                 Wenn Sie auf Probleme gestoßen sind oder Fragen haben,
                 zögern Sie bitte nicht, uns zu kontaktieren.
-                Unser freundliches Support-Team steht Ihnen gerne zur Verfügung.</p>
+                Unser freundliches Support-Team steht Ihnen gerne zur Verfügung.
+            </p>
             <div class="helper-links">
 
                 <NuxtLink to="https://discord.com/invite/nXKwGrN" external>
                     <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                 </NuxtLink>
 
-                <NuxtLink v-for="(nameAndLink) in pageArray " :to="nameAndLink.link" target="_blank"
-                    :key="nameAndLink.link" v-if="result?.success == true">
-                    {{ nameAndLink.name }}
-                </NuxtLink>
-                <br />
+                <template v-if="helperPages?.success === true">
+                    <NuxtLink v-for="helperPage in helperPages.data" :to="$urlHelper.getPageUrl(helperPage.name, helperPage.id)" :key="helperPage.id">
+                        {{ helperPage.name }}
+                    </NuxtLink>
+                </template>
             </div>
         </div>
     </div>

@@ -47,7 +47,7 @@ public class ContextQuestion
         int id = 0,
         bool withId = false,
         User? creator = null,
-        IList<Page> categories = null,
+        IList<Page> pages = null,
         int correctnessProbability = 0,
         bool persistImmediately = false,
         QuestionVisibility questionVisibility = QuestionVisibility.Owner)
@@ -66,9 +66,9 @@ public class ContextQuestion
         question.Creator = creator ?? _contextUser.All.First();
         question.CorrectnessProbability = correctnessProbability == 0 ? Rand.Next(1, 101) : correctnessProbability;
         question.Visibility = questionVisibility;
-        if (categories != null)
+        if (pages != null)
         {
-            question.Pages = categories;
+            question.Pages = pages;
         }
 
         All.Add(question);
@@ -85,12 +85,12 @@ public class ContextQuestion
         int amount,
         User creator = null,
         bool withId = false,
-        IList<Page> categoriesQuestions = null,
+        IList<Page> pagesQuestions = null,
         bool persistImmediately = false)
     {
         for (var i = 0; i < amount; i++)
         {
-            AddQuestion("Question" + i, "Solution" + i, i, withId, creator, categoriesQuestions,
+            AddQuestion("Question" + i, "Solution" + i, i, withId, creator, pagesQuestions,
                 persistImmediately: persistImmediately);
         }
 
@@ -139,82 +139,5 @@ public class ContextQuestion
     {
         _persistQuestionsImmediately = true;
         return this;
-    }
-
-    public static void PutQuestionsIntoMemoryCache(PageRepository pageRepository,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserWritingRepo userWritingRepo,
-        QuestionWritingRepo questionWritingRepo,
-        Page page,
-        int amount = 20)
-    {
-        ContextPage.New(false).AddToEntityCache(page).Persist();
-        var categories = pageRepository.GetAllEager();
-
-        var questions = New().AddRandomQuestions(amount, null, true, categories).All;
-
-        var categoryIds = new List<int> { 1 };
-
-        foreach (var question in questions)
-        {
-            EntityCache.AddOrUpdate(QuestionCacheItem.ToCacheQuestion(question), categoryIds);
-        }
-    }
-
-    public static List<ExtendedUserCacheItem> SetWuwi(int amountQuestion,
-        PageValuationReadingRepository pageValuationReadingRepository,
-        AnswerRepo answerRepo,
-        AnswerQuestion answerQuestion,
-        UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationRepo,
-        PageRepository pageRepository,
-        QuestionWritingRepo questionWritingRepo,
-        UserWritingRepo userWritingRepo)
-    {
-        var contextUser = ContextUser.New(userWritingRepo);
-        var users = contextUser.Add().All;
-        var categoryList = ContextPage.New().Add("Daniel").All;
-        categoryList.First().Id = 1;
-
-        var questions = New().AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;
-        users.ForEach(u => userWritingRepo.Create(u));
-
-        //SessionUserCache.AddOrUpdate(users.FirstOrDefault());
-
-        PutQuestionValuationsIntoUserCache(questions, users, pageValuationReadingRepository, userReadingRepo,
-            questionValuationRepo);
-
-        //return SessionUserCache.GetAllCacheItems();
-
-        throw new NotImplementedException();
-    }
-
-    private static void PutQuestionValuationsIntoUserCache(List<Question> questions, List<User> users,
-        PageValuationReadingRepository pageValuationReadingRepository, UserReadingRepo userReadingRepo,
-        QuestionValuationReadingRepo questionValuationRepo)
-    {
-        var rand = new Random();
-        for (var i = 0; i < questions.Count; i++)
-        {
-            var questionValuation = new QuestionValuationCacheItem();
-
-            questionValuation.Id = i;
-            questionValuation.Question = QuestionCacheItem.ToCacheQuestion(questions[i]);
-
-            if (i == 0)
-            {
-                questionValuation.IsInWishKnowledge = false;
-            }
-            else
-            {
-                questionValuation.IsInWishKnowledge = rand.Next(-1, 2) != -1;
-            }
-
-            //questionValuation.User = SessionUserCache.CreateItemFromDatabase(users.FirstOrDefault().Id, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
-            //SessionUserCache.AddOrUpdate(questionValuation, categoryValuationReadingRepo, userReadingRepo, questionValuationRepo);
-
-            throw new NotImplementedException();
-        }
     }
 }

@@ -63,10 +63,10 @@ public class PageViewRepo(
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly 
         FROM CategoryView 
-        WHERE Category_id IN (:categoryIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
+        WHERE Category_id IN (:pageIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
         GROUP BY DateOnly");
 
-        query.SetParameterList("categoryIds", ids);
+        query.SetParameterList("pageIds", ids);
         query.SetParameter("days", days);
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
@@ -98,7 +98,7 @@ public class PageViewRepo(
         var topic = pageRepository.GetById(pageId);
         var user = userId > 0 ? _userReadingRepo.GetById(userId) : null;
 
-        var categoryView = new PageView
+        var pageView = new PageView
         {
             UserAgent = userAgent,
             Page = topic,
@@ -107,8 +107,8 @@ public class PageViewRepo(
             DateOnly = DateTime.UtcNow.Date
         };
 
-        Create(categoryView);
-        EntityCache.GetPage(pageId)?.AddPageView(categoryView.DateOnly);
+        Create(pageView);
+        EntityCache.GetPage(pageId)?.AddPageView(pageView.DateOnly);
         GraphService.IncrementTotalViewsForAllAscendants(pageId);
     }
 

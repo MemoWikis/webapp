@@ -19,16 +19,15 @@ public class QuestionUpdater(
                 questionDataParam.SolutionType);
 
         var preEditedCategoryIds = question.Pages.Select(c => c.Id);
-        var newCategoryIds = questionDataParam.PageIds.ToList();
+        var newPageIds = questionDataParam.PageIds.ToList();
 
-        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+        var pagesToRemove = preEditedCategoryIds.Except(newPageIds);
 
-        foreach (var pageId in categoriesToRemove)
+        foreach (var pageId in pagesToRemove)
             if (!_permissionCheck.CanViewPage(pageId))
-                newCategoryIds.Add(pageId);
+                newPageIds.Add(pageId);
 
-        question.Pages =
-            GetAllParentsForQuestion(newCategoryIds, question);
+        question.Pages = GetAllParentsForQuestion(newPageIds, question);
         question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)

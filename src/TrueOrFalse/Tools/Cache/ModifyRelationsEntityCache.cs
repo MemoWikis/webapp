@@ -64,7 +64,7 @@ public class ModifyRelationsEntityCache
             Logg.r.Error(
                 "PageRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
                 childPage.Id, parentId);
-            throw new SecurityException("Not allowed to edit category");
+            throw new SecurityException("Not allowed to edit page");
         }
 
         return RemoveParent(childPage, parent, authorId, modifyRelationsForPage);

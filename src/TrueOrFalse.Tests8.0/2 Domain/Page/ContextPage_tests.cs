@@ -5,8 +5,8 @@ internal class ContextPage_tests : BaseTest
     public void Page_should_be_persisted()
     {
         var firstPage = ContextPage.New().Add("A").Persist().All.First();
-        var categoryRepo = R<PageRepository>();
-        var topicFromDatabase = categoryRepo.GetById(firstPage.Id);
+        var pageRepo = R<PageRepository>();
+        var topicFromDatabase = pageRepo.GetById(firstPage.Id);
         Assert.IsNotNull(firstPage);
         Assert.IsNotNull(topicFromDatabase);
         Assert.AreEqual(topicFromDatabase?.Name, firstPage.Name);
@@ -16,8 +16,8 @@ internal class ContextPage_tests : BaseTest
     public void PagesShouldInDatabase()
     {
         var topicIds = ContextPage.New().Add(5).Persist().All.Select(c => c.Id).ToList();
-        var categoryRepo = R<PageRepository>();
-        var idsFromDatabase = categoryRepo.GetAllIds().ToList();
+        var pageRepo = R<PageRepository>();
+        var idsFromDatabase = pageRepo.GetAllIds().ToList();
 
         CollectionAssert.AreEquivalent(topicIds, idsFromDatabase);
     }
@@ -25,55 +25,55 @@ internal class ContextPage_tests : BaseTest
     [Test]
     public void PageShouldUpdated()
     {
-        var categoryName = "C1";
-        var contextCategory = ContextPage.New();
-        var categoryRepo = R<PageRepository>();
+        var pageName = "C1";
+        var contextPage = ContextPage.New();
+        var pageRepo = R<PageRepository>();
 
-        contextCategory.Add(categoryName).Persist();
-        var categoryBeforUpdated = categoryRepo
-            .GetByName(categoryName)
+        contextPage.Add(pageName).Persist();
+        var pageBeforUpdated = pageRepo
+            .GetByName(pageName)
             .Single();
-        var newCategoryName = "newC2";
-        categoryBeforUpdated.Name = newCategoryName;
-        contextCategory.Update(categoryBeforUpdated);
+        var newPageName = "newC2";
+        pageBeforUpdated.Name = newPageName;
+        contextPage.Update(pageBeforUpdated);
 
-        var categoryAfterUpdate = categoryRepo.GetByName(newCategoryName).SingleOrDefault();
+        var pageAfterUpdate = pageRepo.GetByName(newPageName).SingleOrDefault();
 
-        Assert.IsNotNull(categoryAfterUpdate);
-        Assert.AreEqual(newCategoryName, categoryAfterUpdate.Name);
+        Assert.IsNotNull(pageAfterUpdate);
+        Assert.AreEqual(newPageName, pageAfterUpdate.Name);
     }
 
     [Test]
     public void PagesShouldUpdated()
     {
-        var categoryNameOne = "C1";
-        var categoryNameTwo = "C2";
-        var contextCategory = ContextPage.New();
-        var categoryRepo = R<PageRepository>();
+        var pageNameOne = "C1";
+        var pageNameTwo = "C2";
+        var contextPage = ContextPage.New();
+        var pageRepo = R<PageRepository>();
 
-        contextCategory.Add(categoryNameOne).Persist();
-        contextCategory.Add(categoryNameTwo).Persist();
-        var categoryOneBeforUpdated = contextCategory
+        contextPage.Add(pageNameOne).Persist();
+        contextPage.Add(pageNameTwo).Persist();
+        var pageOneBeforUpdated = contextPage
             .All
-            .Single(c => c.Name.Equals(categoryNameOne));
-        var categoryTwoBeforUpdated = contextCategory
+            .Single(c => c.Name.Equals(pageNameOne));
+        var pageTwoBeforUpdated = contextPage
             .All
-            .Single(c => c.Name.Equals(categoryNameTwo));
+            .Single(c => c.Name.Equals(pageNameTwo));
 
-        var newCategoryOneName = "newC1";
-        var newCategoryTwoName = "newC2";
-        categoryOneBeforUpdated.Name = newCategoryOneName;
-        categoryTwoBeforUpdated.Name = newCategoryTwoName;
+        var newPageOneName = "newC1";
+        var newPageTwoName = "newC2";
+        pageOneBeforUpdated.Name = newPageOneName;
+        pageTwoBeforUpdated.Name = newPageTwoName;
 
-        contextCategory.UpdateAll();
+        contextPage.UpdateAll();
 
-        var categoryOneAfterUpdate = categoryRepo.GetByName(newCategoryOneName).SingleOrDefault();
-        Assert.IsNotNull(categoryOneAfterUpdate);
-        Assert.AreEqual(newCategoryOneName, categoryOneAfterUpdate.Name);
+        var pageOneAfterUpdate = pageRepo.GetByName(newPageOneName).SingleOrDefault();
+        Assert.IsNotNull(pageOneAfterUpdate);
+        Assert.AreEqual(newPageOneName, pageOneAfterUpdate.Name);
 
-        var categoryTwoAfterUpdate = categoryRepo.GetByName(newCategoryTwoName).SingleOrDefault();
-        Assert.IsNotNull(categoryTwoAfterUpdate);
-        Assert.AreEqual(newCategoryTwoName, categoryTwoAfterUpdate.Name);
+        var pageTwoAfterUpdate = pageRepo.GetByName(newPageTwoName).SingleOrDefault();
+        Assert.IsNotNull(pageTwoAfterUpdate);
+        Assert.AreEqual(newPageTwoName, pageTwoAfterUpdate.Name);
     }
 
 

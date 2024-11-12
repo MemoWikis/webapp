@@ -3,7 +3,7 @@
     PageRelationRepo pageRelationRepo)
 {
     /// <summary>
-    /// Updates relations with related pages (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
+    /// Updates relations with related pages (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of page (Standard, Book etc.)
     /// </summary>
     /// <param name="pageCacheItem"></param>
     /// <param name="relatedPageIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
@@ -11,7 +11,7 @@
 
     public void AddParentPage(Page page, int parentId)
     {
-        var relatedCategory = pageRepository.GetByIdEager(parentId);
+        var relatedPage = pageRepository.GetByIdEager(parentId);
         var previousCachedRelation =
             EntityCache.GetPage(parentId).ChildRelations.LastOrDefault();
 
@@ -23,14 +23,14 @@
             pageRelationRepo.Update(previousRelation);
         }
 
-        var categoryRelationToAdd = new PageRelation()
+        var pageRelationToAdd = new PageRelation()
         {
             Child = page,
-            Parent = relatedCategory,
+            Parent = relatedPage,
             PreviousId = previousCachedRelation?.ChildId
         };
 
-        pageRelationRepo.Create(categoryRelationToAdd);
+        pageRelationRepo.Create(pageRelationToAdd);
     }
 
     public void AddChild(int parentId, int childId, int authorId)

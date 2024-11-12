@@ -4,7 +4,7 @@ namespace TrueOrFalse.Search
 {
     public class MeiliSearchPages : MeiliSearchHelper, IRegisterAsInstancePerLifetime
     {
-        private List<PageCacheItem> _categories = new();
+        private List<PageCacheItem> _pages = new();
         private MeiliSearchPagesResult _result;
         private readonly PermissionCheck _permissionCheck;
         private int _size;
@@ -41,17 +41,17 @@ namespace TrueOrFalse.Search
         private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
         {
             var sq = new SearchQuery { Limit = _count };
-            var categoryMaps = (await index.SearchAsync<MeiliSearchPageMap>(searchTerm, sq)).Hits;
+            var maps = (await index.SearchAsync<MeiliSearchPageMap>(searchTerm, sq)).Hits;
 
-            _result.Count = categoryMaps.Count;
+            _result.Count = maps.Count;
 
-            var categoryMapsSkip = categoryMaps
+            var mapsSkip = maps
                 .Skip(_count - 20)
                 .ToList();
 
-            FilterCacheItems(categoryMapsSkip);
+            FilterCacheItems(mapsSkip);
 
-            if (IsReloadRequired(categoryMaps.Count, _categories.Count()))
+            if (IsReloadRequired(maps.Count, _pages.Count()))
             {
                 _count += 20;
                 await LoadSearchResults(searchTerm, index);
@@ -59,20 +59,20 @@ namespace TrueOrFalse.Search
 
             ;
 
-            return _categories
+            return _pages
                 .Select(c => c.Id)
                 .Take(_size)
                 .ToList();
         }
 
-        private void FilterCacheItems(List<MeiliSearchPageMap> categoryMaps)
+        private void FilterCacheItems(List<MeiliSearchPageMap> pageMaps)
         {
-            var categoriesTemp = EntityCache.GetPages(
-                    categoryMaps.Select(c => c.Id))
+            var pagesTemp = EntityCache.GetPages(
+                    pageMaps.Select(c => c.Id))
                 .Where(_permissionCheck.CanView)
                 .ToList();
-            _categories.AddRange(categoriesTemp);
-            _categories = _categories
+            _pages.AddRange(pagesTemp);
+            _pages = _pages
                 .Distinct()
                 .ToList();
         }

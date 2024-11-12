@@ -214,7 +214,7 @@ public class QuestionCacheItem
                     }
                     else
                     {
-                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for category change id {curr.Id}");
+                        throw new ArgumentOutOfRangeException($"Invalid data version number {curr.DataVersion} for page change id {curr.Id}");
                     }
 
                     if (currentData == null)

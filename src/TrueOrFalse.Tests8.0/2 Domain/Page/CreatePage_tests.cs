@@ -63,7 +63,7 @@
             R<PageCreator>().Create(childName, parent.Id, sessionUser);
 
             //Arrange
-            var childFromEntityCache = EntityCache.GetCategoryByName(childName).Single();
+            var childFromEntityCache = EntityCache.GetByPageName(childName).Single();
             DateTime referenceDate = DateTime.Now;
 
             Assert.IsNotNull(childFromEntityCache);

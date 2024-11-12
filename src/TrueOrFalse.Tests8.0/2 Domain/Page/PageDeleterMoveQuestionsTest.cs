@@ -28,24 +28,24 @@ public class PageDeleterMoveQuestionsTest : BaseTest
 
         var questionContext = ContextQuestion.New(persistImmediately: true);
 
-        questionContext.AddQuestion("question1", creator: creator, categories: new List<Page> { child });
-        var categoryDeleter = R<PageDeleter>();
+        questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
+        var pageDeleter = R<PageDeleter>();
         //Act
-        categoryDeleter.DeletePage(child.Id, parent.Id);
+        pageDeleter.DeletePage(child.Id, parent.Id);
         RecycleContainerAndEntityCache();
         var parentFromDb = R<PageRepository>().GetByIdEager(parent.Id);
         var questionFromDb = R<QuestionReadingRepo>().GetById(questionContext.All.First().Id);
         var parentFromCache = EntityCache.GetPage(parentFromDb.Id);
         var questionFromCache = EntityCache.GetQuestionById(questionFromDb.Id);
 
-        var categoryChange = R<PageChangeRepo>().GetForCategory(parent.Id);
+        var pageChange = R<PageChangeRepo>().GetForPage(parent.Id);
         var questionChange = R<QuestionChangeRepo>().GetByQuestionId(questionFromDb.Id);
 
         //Assert
         Assert.IsNotNull(parentFromDb);
-        Assert.AreEqual(PageChangeType.Create, categoryChange.First().Type);
-        Assert.AreEqual(PageChangeType.Relations, categoryChange[1].Type);
-        Assert.AreEqual(PageChangeType.ChildPageDeleted, categoryChange.Last().Type);
+        Assert.AreEqual(PageChangeType.Create, pageChange.First().Type);
+        Assert.AreEqual(PageChangeType.Relations, pageChange[1].Type);
+        Assert.AreEqual(PageChangeType.ChildPageDeleted, pageChange.Last().Type);
         Assert.NotNull(questionChange);
         Assert.AreEqual(QuestionChangeType.Create, questionChange.Type);
 
@@ -75,11 +75,11 @@ public class PageDeleterMoveQuestionsTest : BaseTest
 
         contextPage.Persist();
 
-        var categoryRepo = R<PageRepository>();
+        var pageRepo = R<PageRepository>();
 
         var questionContext = ContextQuestion.New();
 
-        questionContext.AddQuestion("question1", creator: creator, categories: new List<Page> { child });
+        questionContext.AddQuestion("question1", creator: creator, pages: new List<Page> { child });
         var parentId = 0;
         RecycleContainerAndEntityCache();
 

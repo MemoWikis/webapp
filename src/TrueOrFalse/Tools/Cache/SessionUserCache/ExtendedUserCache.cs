@@ -145,7 +145,7 @@ public class ExtendedUserCache(
         return userCacheItems;
     }
 
-    /// <summary> Used for category delete </summary>
+    /// <summary> Used for page delete </summary>
     public void RemoveAllForPage(
         int pageId,
         PageValuationWritingRepo pageValuationWritingRepo)

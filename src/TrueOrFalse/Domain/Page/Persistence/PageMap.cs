@@ -12,8 +12,6 @@ public class PageMap : ClassMap<Page>
         Map(x => x.WikipediaURL);
         Map(x => x.Url);
         Map(x => x.UrlLinkText);
-        Map(x => x.PagesToExcludeIdsString).Column("CategoriesToExcludeIdsString");
-        Map(x => x.PagesToIncludeIdsString).Column("CategoriesToIncludeIdsString");
         Map(x => x.DisableLearningFunctions);
         References(x => x.Creator).LazyLoad();
         Map(x => x.Markdown).Column("TopicMarkdown");
