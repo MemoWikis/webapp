@@ -88,7 +88,7 @@
         }
 
         .cat-color {
-            color: @color-category;
+            color: @color-page;
         }
 
         &.quest {
@@ -110,15 +110,15 @@
         }
 
         &.cat {
-            border-left-color: @color-category;
-            border-right-color: @color-category;
+            border-left-color: @color-page;
+            border-right-color: @color-page;
 
             i.fa-caret-right {
-                color: @color-category;
+                color: @color-page;
             }
 
             &:hover {
-                background-color: lighten(@color-category, 10);
+                background-color: lighten(@color-page, 10);
                 color: black;
             }
         }
@@ -368,12 +368,12 @@
         .fa-stack {
             font-size: 15px;
 
-            .default-category-icon {
+            .default-page-icon {
                 color: @memo-blue;
             }
         }
 
-        &.actual-category {
+        &.actual-page {
             &:hover {
                 background-color: @menu-light-blue;
             }
@@ -390,7 +390,7 @@
             line-height: 22px;
             background-color: white;
 
-            &.actual-category, &.under-sub-category {
+            &.actual-page, &.under-sub-page {
                 padding-left: 81px;
             }
 

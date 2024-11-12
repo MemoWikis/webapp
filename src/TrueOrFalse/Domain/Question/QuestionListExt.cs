@@ -2,74 +2,36 @@
 
 public static class QuestionListExt
 {
-    public static Question ById(this IEnumerable<Question> questions, int id) =>
-        questions.FirstOrDefault(question => question.Id == id);
-
     public static IList<int> GetIds(this IEnumerable<QuestionCacheItem> questions) =>
         questions.Select(q => q.Id).ToList();
 
-    public static IEnumerable<CategoryCacheItem> GetAllCategories(
-        this IEnumerable<Question> questions) =>
-        questions.SelectMany(q =>
-                EntityCache.GetCategories(
-                    q.Categories.Where(c => c != null)
-                        .Select(c => c.Id)))
-            .Distinct();
-
-    public static IEnumerable<CategoryCacheItem> GetAllCategories(
+    public static IEnumerable<PageCacheItem> GetAllPages(
         this IEnumerable<QuestionCacheItem> questions) =>
         questions.SelectMany(q =>
-                EntityCache.GetCategories(
-                    q.Categories.Where(c => c != null)
+                EntityCache.GetPages(
+                    q.Pages.Where(c => c != null)
                         .Select(c => c.Id)))
             .Distinct();
 
-    public static IEnumerable<QuestionsInCategory> QuestionsInCategories(
-        this IEnumerable<Question> questions)
-    {
-        var questionsArray = questions as Question[] ?? questions.ToArray();
-
-        return questionsArray.GetAllCategories()
-            .Select(c => new QuestionsInCategory
-            {
-                CategoryCacheItem = c,
-                Questions = questionsArray.Where(q => q.Categories.Any(x => x.Id == c.Id)).ToList()
-            });
-    }
-
-    public static IEnumerable<QuestionCacheItemInCategory> QuestionsInCategories(
+    public static IEnumerable<QuestionCacheItemInPage> QuestionsInPages(
         this IEnumerable<QuestionCacheItem> questions)
     {
         var questionsArray = questions as QuestionCacheItem[] ?? questions.ToArray();
 
-        return questionsArray.GetAllCategories()
-            .Select(c => new QuestionCacheItemInCategory
+        return questionsArray.GetAllPages()
+            .Select(c => new QuestionCacheItemInPage
             {
-                CategoryCacheItem = c,
-                QuestionCacheItems = questionsArray.Where(q => q.Categories.Any(x => x.Id == c.Id))
+                PageCacheItem = c,
+                QuestionCacheItems = questionsArray.Where(q => q.Pages.Any(x => x.Id == c.Id))
                     .ToList()
             });
     }
-
-    public static IList<Question> AllowedForUser(this IEnumerable<Question> questions, User user) =>
-        questions.Where(q => q.Visibility == QuestionVisibility.All || q.Creator == user).ToList();
-
-    public static IList<Question> PrivateForUserOnly(
-        this IEnumerable<Question> questions,
-        User user) =>
-        questions.Where(q => q.Visibility == QuestionVisibility.Owner && q.Creator == user)
-            .ToList();
 }
 
-[DebuggerDisplay("{CategoryCacheItem.Name} {Questions.Count}")]
-public class QuestionsInCategory
-{
-    public CategoryCacheItem CategoryCacheItem;
-    public IList<Question> Questions;
-}
+[DebuggerDisplay("{PageCacheItem.Name} {Questions.Count}")]
 
-public class QuestionCacheItemInCategory
+public class QuestionCacheItemInPage
 {
-    public CategoryCacheItem CategoryCacheItem;
+    public PageCacheItem PageCacheItem;
     public IList<QuestionCacheItem> QuestionCacheItems;
 }

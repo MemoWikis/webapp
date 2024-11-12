@@ -5,30 +5,30 @@ public class RecentlyUsedRelationTargets
 {
     public static void Add(
         int userId,
-        int topicId,
+        int pageId,
         UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
     {
         var userCacheItem = EntityCache.GetUserById(userId);
 
-        if (userCacheItem.StartTopicId == topicId)
+        if (userCacheItem.StartPageId == pageId)
             return;
 
-        var recentlyUsedRelationTargetTopicIds =
-            userCacheItem.RecentlyUsedRelationTargetTopicIds == null
+        var recentlyUsedRelationTargetPageIds =
+            userCacheItem.RecentlyUsedRelationTargetPageIds == null
                 ? new List<int>()
-                : new List<int>(userCacheItem.RecentlyUsedRelationTargetTopicIds);
+                : new List<int>(userCacheItem.RecentlyUsedRelationTargetPageIds);
 
-        if (recentlyUsedRelationTargetTopicIds.Count >= 3)
-            recentlyUsedRelationTargetTopicIds.RemoveAt(0);
+        if (recentlyUsedRelationTargetPageIds.Count >= 3)
+            recentlyUsedRelationTargetPageIds.RemoveAt(0);
 
-        recentlyUsedRelationTargetTopicIds.Add(topicId);
+        recentlyUsedRelationTargetPageIds.Add(pageId);
 
-        var recentlyUsedRelationTargetTopics = string.Join(",", recentlyUsedRelationTargetTopicIds);
+        var recentlyUsedRelationTargetPages = string.Join(",", recentlyUsedRelationTargetPageIds);
 
-        userCacheItem.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics;
+        userCacheItem.RecentlyUsedRelationTargetPages = recentlyUsedRelationTargetPages;
         userWritingRepo.ApplyChangeAndUpdate(userId,
-            user => { user.RecentlyUsedRelationTargetTopics = recentlyUsedRelationTargetTopics; });
+            user => { user.RecentlyUsedRelationTargetPages = recentlyUsedRelationTargetPages; });
     }
 }

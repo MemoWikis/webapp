@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { QuestionItem, SearchType, TopicItem, UserItem } from '~~/components/search/searchHelper'
+import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
 import { useUserStore } from '../user/userStore'
-import { useRootTopicChipStore } from './rootTopicChipStore'
+import { useRootPageChipStore } from './rootPageChipStore'
 
 interface Props {
     isError?: boolean
@@ -13,7 +13,7 @@ const userStore = useUserStore()
 
 const showSearch = ref(true)
 const { $urlHelper } = useNuxtApp()
-async function openUrl(val: TopicItem | QuestionItem | UserItem) {
+async function openUrl(val: PageItem | QuestionItem | UserItem) {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
     return navigateTo(val.url)
@@ -44,7 +44,7 @@ function handleError() {
         clearError()
 }
 
-const rootTopicChipStore = useRootTopicChipStore()
+const rootPageChipStore = useRootPageChipStore()
 </script>
 
 <template>
@@ -53,7 +53,7 @@ const rootTopicChipStore = useRootTopicChipStore()
             <div class="row">
                 <div id="LogoContainer" class="col-Logo col-sm-4 col-md-4 col-xs-4">
                     <NuxtLink id="LogoLink" @click="handleError"
-                        :to="userStore.isLoggedIn ? $urlHelper.getTopicUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getTopicUrl(rootTopicChipStore.name, rootTopicChipStore.id)"
+                        :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id)"
                         alt="homepage">
                         <div id="Logo">
                             <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />

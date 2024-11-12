@@ -27,7 +27,7 @@ function openImage() {
 
 const imgSrc = ref('')
 function setImgSrc() {
-	if (props.src.startsWith('/Images/Categories/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/'))
+	if (props.src.startsWith('/Images/Pages/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/'))
 		imgSrc.value = props.src
 	else if (props.src.startsWith('/Images'))
 		imgSrc.value = props.src.replace("/Images", "/img")
@@ -75,7 +75,7 @@ const getCustomStyle = computed(() => {
 		<slot name="top"></slot>
 		<img v-if="props.format == ImageFormat.Author" :src="imgSrc" class="author" :alt="props.alt"
 			:style="getCustomStyle" />
-		<img v-else :src="imgSrc" class="topic" :alt="props.alt" :style="getCustomStyle" />
+		<img v-else :src="imgSrc" class="page" :alt="props.alt" :style="getCustomStyle" />
 
 		<div v-if="props.showLicense && props.imageId != undefined && !props.src.includes('no-category-picture')"
 			class="license-btn" @click="openImage()">Lizenzinfos
@@ -117,7 +117,7 @@ const getCustomStyle = computed(() => {
 	}
 }
 
-.topic {
+.page {
 	border-radius: 0;
 }
 

@@ -180,8 +180,8 @@ ul.ui-autocomplete {
         border-bottom: @colored-line-width solid @color-set;
     }
 
-    &.Category header {
-        border-bottom: @colored-line-width solid @color-category;
+    &.Page header {
+        border-bottom: @colored-line-width solid @color-page;
     }
 
     .ImageContainer {
@@ -217,7 +217,7 @@ ul.ui-autocomplete {
 @item-row-image-padding: 5px;
 
 
-.question-row, .category-row, .set-row, .user-row, .date-row, .game-row {
+.question-row, .page-row, .set-row, .user-row, .date-row, .game-row {
 
     &:hover{
         background-color: #f3f5f8;
@@ -236,7 +236,7 @@ div.selected-row:hover { background-color: #d6e0f4;}
 //Row contents
 
 .rowBase{
-    &.question-row, &.category-row, &.set-row, &.user-row {
+    &.question-row, &.page-row, &.set-row, &.user-row {
         .media-sm-up ({//make all columns (image, main content, additional) have the same height
             display: flex;
             -ms-flex-direction: row;

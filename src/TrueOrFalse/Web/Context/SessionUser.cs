@@ -73,7 +73,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         HasBetaAccess = true;
         IsLoggedIn = true;
         _userId = user.Id;
-        CurrentWikiId = user.StartTopicId;
+        CurrentWikiId = user.StartPageId;
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
@@ -108,7 +108,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         private set => _httpContext.Session.SetInt32("currentWikiId", value);
     }
 
-    public void SetWikiId(CategoryCacheItem category) => CurrentWikiId = category.Id;
+    public void SetWikiId(PageCacheItem page) => CurrentWikiId = page.Id;
 
     public void SetWikiId(int id) => CurrentWikiId = id;
 }

@@ -1,6 +1,6 @@
 import type { RouterConfig } from '@nuxt/schema'
 import { Content } from '~/components/user/settings/contentEnum'
-import { Tab as TopicTab } from '~~/components/topic/tabs/tabsStore'
+import { Tab as PageTab } from '~/components/page/tabs/tabsStore'
 import { Tab as UsersTab } from '~~/components/users/tabsEnum'
 import { Tab as UserTab } from '~~/components/user/tabs/tabsEnum'
 
@@ -10,8 +10,8 @@ export default <RouterConfig>{
         {
             name: 'welcomePage',
             path: '/',
-            component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Text },
+            component: () => import('~/pages/[page]/[id].vue'),
+            props: { tab: PageTab.Text },
             meta: {
                 middleware: ['startpage'],
             },
@@ -120,74 +120,49 @@ export default <RouterConfig>{
             },
         },
         {
-            name: 'topicContentPage',
-            path: '/:topic/:id(\\d+)',
-            component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Text },
+            name: 'pageContentPage',
+            path: '/:page/:id(\\d+)',
+            component: () => import('~/pages/[page]/[id].vue'),
+            props: { tab: PageTab.Text },
             meta: {
-                key: route => `/${route.params.topic}/${route.params.id}`
+                key: route => `/${route.params.page}/${route.params.id}`
             },
         },
         {
-            name: 'topicLearningPage',
-            path: '/:topic/:id(\\d+)/Lernen',
-            component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Learning },
+            name: 'pageLearningPage',
+            path: '/:page/:id(\\d+)/Lernen',
+            component: () => import('~/pages/[page]/[id].vue'),
+            props: { tab: PageTab.Learning },
             meta: {
-                key: route => `/${route.params.topic}/${route.params.id}`
+                key: route => `/${route.params.page}/${route.params.id}`
             },
         },
         {
-            name: 'topicLearningPageWithQuestion',
-            path: '/:topic/:id(\\d+)/Lernen/:questionId(\\d+)',
-            component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Learning },
+            name: 'pageLearningPageWithQuestion',
+            path: '/:page/:id(\\d+)/Lernen/:questionId(\\d+)',
+            component: () => import('~/pages/[page]/[id].vue'),
+            props: { tab: PageTab.Learning },
             meta: {
-                key: route => `/${route.params.topic}/${route.params.id}`
+                key: route => `/${route.params.page}/${route.params.id}`
             },
         },
         {
-            name: 'topicFeedPage',
-            path: '/:topic/:id(\\d+)/Feed',
-            component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Feed },
+            name: 'pageFeedPage',
+            path: '/:page/:id(\\d+)/Feed',
+            component: () => import('~/pages/[page]/[id].vue'),
+            props: { tab: PageTab.Feed },
             meta: {
-                key: route => `/${route.params.topic}/${route.params.id}`
+                key: route => `/${route.params.page}/${route.params.id}`
             },
         },
         {
-            name: 'topicAnalyticsPage',
-            path: '/:topic/:id(\\d+)/Analytics',
-            component: () => import('~/pages/[topic]/[id].vue'),
-            props: { tab: TopicTab.Analytics },
+            name: 'pageAnalyticsPage',
+            path: '/:page/:id(\\d+)/Analytics',
+            component: () => import('~/pages/[page]/[id].vue'),
+            props: { tab: PageTab.Analytics },
             meta: {
-                key: route => `/${route.params.topic}/${route.params.id}`
+                key: route => `/${route.params.page}/${route.params.id}`
             },
-        },
-        {
-            name: 'allTopicHistoryOverview',
-            path: '/Historie/Themen',
-            component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
-        },
-        {
-            name: 'allTopicHistoryOverviewWithPage',
-            path: '/Historie/Themen/:page(\\d+)',
-            component: () => import('~~/pages/history/topic/allTopicsOverview.vue'),
-        },
-        {
-            name: 'topicHistoryOverview',
-            path: '/Historie/Thema/:id(\\d+)',
-            component: () => import('~~/pages/history/topic/overview.vue'),
-        },
-        {
-            name: 'topicHistoryDetail',
-            path: '/Historie/Thema/:topicId/:currentRevisionId/:firstEditId',
-            component: () => import('~/pages/history/topic/detail.vue'),
-        },
-        {
-            name: 'topicHistoryDetailWithPrevRev',
-            path: '/Historie/Thema/:topicId/:currentRevisionId/',
-            component: () => import('~/pages/history/topic/detail.vue'),
         },
         {
             name: 'maintenantePage',

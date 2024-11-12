@@ -80,7 +80,7 @@ public class AnswerBodyController(
 
         _saveQuestionView.Run(question, _sessionUser.UserId);
 
-        var primaryTopic = question.Categories.LastOrDefault();
+        var primaryPage = question.Pages.LastOrDefault();
         var title = Regex.Replace(question.Text, "<.*?>", String.Empty);
         var learningBody = new LearningBody(
             Id: question.Id,
@@ -90,9 +90,9 @@ public class AnswerBodyController(
             SolutionType: question.SolutionType,
             RenderedQuestionTextExtended: question.GetRenderedQuestionTextExtended(),
             Description: question.Description,
-            HasTopics: question.Categories.Any(),
-            PrimaryTopicId: primaryTopic?.Id,
-            PrimaryTopicName: primaryTopic?.Name,
+            HasPages: question.Pages.Any(),
+            PrimaryPageId: primaryPage?.Id,
+            PrimaryPageName: primaryPage?.Name,
             Solution: question.Solution,
             IsCreator: question.Creator.Id == _sessionUser.UserId,
             IsInWishknowledge: _sessionUser.IsLoggedIn &&
@@ -159,7 +159,7 @@ public class AnswerBodyController(
             AnswerDescriptionHtml: question.DescriptionHtml,
             AnswerReferences: question.References.Select(r => new AnswerReferences(
                 ReferenceId: r.Id,
-                TopicId: r.Category?.Id ?? null,
+                PageId: r.Page?.Id ?? null,
                 ReferenceType: r.ReferenceType.GetName(),
                 AdditionalInfo: r.AdditionalInfo ?? "",
                 ReferenceText: r.ReferenceText ?? ""
@@ -187,9 +187,9 @@ public class AnswerBodyController(
         SolutionType SolutionType,
         string RenderedQuestionTextExtended,
         string Description,
-        bool HasTopics,
-        int? PrimaryTopicId,
-        string? PrimaryTopicName,
+        bool HasPages,
+        int? PrimaryPageId,
+        string? PrimaryPageName,
         string Solution,
         bool IsCreator,
         bool IsInWishknowledge,
@@ -213,7 +213,7 @@ public class AnswerBodyController(
 
     public record struct AnswerReferences(
         int ReferenceId,
-        int? TopicId,
+        int? PageId,
         string ReferenceType,
         string AdditionalInfo,
         string ReferenceText);

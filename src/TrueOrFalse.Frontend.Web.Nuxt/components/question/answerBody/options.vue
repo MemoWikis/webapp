@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
+import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { useEditQuestionStore } from '../edit/editQuestionStore'
 import { useUserStore } from '~/components/user/userStore'
 import { useCommentsStore } from '~/components/comment/commentsStore'

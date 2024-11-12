@@ -45,10 +45,10 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string MailBounceReason { get; set; }
     public virtual string PasswordHashedAndSalted { get; set; }
 
-    public virtual string RecentlyUsedRelationTargetTopics { get; set; }
+    public virtual string RecentlyUsedRelationTargetPages { get; set; }
     public virtual int ReputationPos { get; set; }
     public virtual string Salt { get; set; }
-    public virtual int StartTopicId { get; set; }
+    public virtual int StartPageId { get; set; }
     public virtual string StripeId { get; set; }
     public virtual DateTime? SubscriptionStartDate { get; set; }
     public virtual int TotalInOthersWishknowledge { get; set; }
@@ -76,9 +76,9 @@ public class User : DomainEntity, IUserTinyModel
         return Following.Select(f => f.User.Id).ToList();
     }
 
-    public virtual bool IsStartTopicTopicId(int categoryId)
+    public virtual bool IsStartPagePageId(int pageId)
     {
-        return categoryId == StartTopicId;
+        return pageId == StartPageId;
     }
 
     /// <summary>Joined list of FollowerIds and FollowingIds</summary>

@@ -58,20 +58,20 @@ public class AnswerQuestionDetailsController(
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
                 .IsInWishKnowledge,
-            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
-                new AnswerQuestionDetailsTopicItem(
+            Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
+                new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
                     Name: t.Name,
                     QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor)
+                    ImageUrl: new PageImageSettings(t.Id, _httpContextAccessor)
                         .GetUrl_128px(asSquare: true).Url,
                     MiniImageUrl: new ImageFrontendData(
-                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
+                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Page),
                             _httpContextAccessor,
                             _questionReadingRepo)
-                        .GetImageUrl(30, true, false, ImageType.Category).Url,
+                        .GetImageUrl(30, true, false, ImageType.Page).Url,
                     Visibility: (int)t.Visibility,
-                    IsSpoiler: IsSpoilerCategory.Yes(t.Name, question)
+                    IsSpoiler: IsSpoilerPage.Yes(t.Name, question)
                 )).Distinct().ToArray(),
             Visibility: question.Visibility,
             DateNow: dateNow,

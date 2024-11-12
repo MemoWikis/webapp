@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { useLearningSessionStore, AnswerState } from '~/components/topic/learning/learningSessionStore'
+import { useLearningSessionStore, AnswerState } from '~/components/page/learning/learningSessionStore'
 import { useUserStore } from '~/components/user/userStore'
-import { useTabsStore, Tab } from '~/components/topic/tabs/tabsStore'
+import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { getHighlightedCode, random } from '~~/components/shared/utils'
 import { Activity, useActivityPointsStore } from '~~/components/activityPoints/activityPointsStore'
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
-import { useTopicStore } from '~~/components/topic/topicStore'
+import { usePageStore } from '~/components/page/pageStore'
 import { useCommentsStore } from '~/components/comment/commentsStore'
 
 const learningSessionStore = useLearningSessionStore()
 const activityPointsStore = useActivityPointsStore()
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const commentsStore = useCommentsStore()
@@ -147,7 +147,7 @@ async function answer() {
 
     if (result) {
         learningSessionStore.knowledgeStatusChanged(answerBodyModel.value!.id)
-        topicStore.reloadKnowledgeSummary()
+        pageStore.reloadKnowledgeSummary()
         if (result.correct) {
             activityPointsStore.addPoints(Activity.CorrectAnswer)
             learningSessionStore.markCurrentStepAsCorrect()
@@ -231,8 +231,8 @@ async function loadAnswerBodyModel() {
 
 const router = useRouter()
 async function handleUrl() {
-    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)) {
-        const newPath = $urlHelper.getTopicUrlWithQuestionId(topicStore.name, topicStore.id, answerBodyModel.value.id)
+    if (tabsStore.activeTab === Tab.Learning && answerBodyModel.value?.id && answerBodyModel.value?.id > 0 && window.location.pathname != $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)) {
+        const newPath = $urlHelper.getPageUrlWithQuestionId(pageStore.name, pageStore.id, answerBodyModel.value.id)
         router.push(newPath)
     }
 }
@@ -359,7 +359,7 @@ const allMultipleChoiceCombinationTried = computed(() => {
     return false
 })
 
-watch(() => topicStore.id, () => learningSessionStore.showResult = false)
+watch(() => pageStore.id, () => learningSessionStore.showResult = false)
 
 </script>
 

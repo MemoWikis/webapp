@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { FullSearch, QuestionItem, SearchType, TopicItem, UserItem } from './searchHelper'
+import { FullSearch, QuestionItem, SearchType, PageItem, UserItem } from './searchHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
     showSearchIcon?: boolean
     showSearch: boolean
     placement?: string
-    topicIdsToFilter?: number[]
+    pageIdsToFilter?: number[]
     autoHide?: boolean
     placeholderLabel?: string
     showDefaultSearchIcon?: boolean
@@ -20,14 +20,14 @@ const props = withDefaults(defineProps<Props>(), {
     showSearchIcon: true,
     placement: 'bottom-start',
     placeholderLabel: 'Suche',
-    topicIdsToFilter: () => [],
+    pageIdsToFilter: () => [],
     distance: 6
 })
 
 const emit = defineEmits(['selectItem', 'navigateToUrl'])
 
-const selectedItem = ref(null as TopicItem | QuestionItem | UserItem | null)
-watch(selectedItem, (item: TopicItem | QuestionItem | UserItem | null) => {
+const selectedItem = ref(null as PageItem | QuestionItem | UserItem | null)
+watch(selectedItem, (item: PageItem | QuestionItem | UserItem | null) => {
     emit('selectItem', item)
 })
 
@@ -51,10 +51,10 @@ function inputValue(e: Event) {
 onBeforeMount(() => {
     switch (props.searchType) {
         case SearchType.category:
-            searchUrl.value = '/apiVue/Search/Topic'
+            searchUrl.value = '/apiVue/Search/Page'
             break
         case SearchType.categoryInWiki:
-            searchUrl.value = '/apiVue/Search/TopicInPersonalWiki'
+            searchUrl.value = '/apiVue/Search/PageInPersonalWiki'
             break
         default:
             searchUrl.value = '/apiVue/Search/All'
@@ -63,12 +63,12 @@ onBeforeMount(() => {
 
 const searchUrl = ref('')
 const noResults = ref(false)
-const topicCount = ref(0)
+const pageCount = ref(0)
 const questionCount = ref(0)
 const userCount = ref(0)
 const userSearchUrl = ref('')
 
-const topics = ref([] as TopicItem[])
+const pages = ref([] as PageItem[])
 const questions = ref([] as QuestionItem[])
 const users = ref([] as UserItem[])
 const { $urlHelper, $logger } = useNuxtApp()
@@ -77,8 +77,8 @@ async function search() {
 
     type BodyType = {
         term: string
-        topicIdsToFilter?: number[]
-        includePrivateTopics?: boolean
+        pageIdsToFilter?: number[]
+        includePrivatePages?: boolean
     }
 
     let data: BodyType = {
@@ -86,10 +86,10 @@ async function search() {
     }
     if ((props.searchType == SearchType.category ||
         props.searchType == SearchType.categoryInWiki))
-        data = { ...data, topicIdsToFilter: props.topicIdsToFilter }
+        data = { ...data, pageIdsToFilter: props.pageIdsToFilter }
 
     if (props.publicOnly)
-        data = { ...data, includePrivateTopics: false }
+        data = { ...data, includePrivatePages: false }
 
     const result = await $api<FullSearch>(searchUrl.value, {
         method: 'POST',
@@ -101,10 +101,10 @@ async function search() {
         }
     })
     if (result != null) {
-        if (result.topics) {
-            topics.value = result.topics
-            topics.value.forEach((t) => t.type = 'TopicItem')
-            topicCount.value = result.topicCount
+        if (result.pages) {
+            pages.value = result.pages
+            pages.value.forEach((t) => t.type = 'PageItem')
+            pageCount.value = result.pageCount
         }
         if (result.questions) {
             questions.value = result.questions
@@ -117,18 +117,18 @@ async function search() {
             users.value.forEach((u) => u.type = 'UserItem')
             userCount.value = result.userCount
         }
-        noResults.value = result.topics?.length + result.questions?.length + result.users?.length <= 0
+        noResults.value = result.pages?.length + result.questions?.length + result.users?.length <= 0
         userSearchUrl.value = result.userSearchUrl ? result.userSearchUrl : ''
     }
 }
 
-function selectItem(item: TopicItem | QuestionItem | UserItem) {
+function selectItem(item: PageItem | QuestionItem | UserItem) {
     switch (item.type) {
-        case 'TopicItem':
-            item.url = $urlHelper.getTopicUrl(item.name, item.id)
+        case 'PageItem':
+            item.url = $urlHelper.getPageUrl(item.name, item.id)
             break
         case 'QuestionItem':
-            item.url = $urlHelper.getTopicUrlWithQuestionId(item.primaryTopicName, item.primaryTopicId, item.id)
+            item.url = $urlHelper.getPageUrlWithQuestionId(item.primaryPageName, item.primaryPageId, item.id)
             break
         case 'UserItem':
             item.url = $urlHelper.getUserUrl(item.name, item.id)
@@ -178,12 +178,12 @@ const ariaId = useId()
                 :placement="props.placement">
                 <template #popper>
                     <div class="searchDropdown">
-                        <div v-if="topics.length > 0" class="searchBanner">
+                        <div v-if="pages.length > 0" class="searchBanner">
                             <div>Themen </div>
-                            <div>{{ topicCount }} Treffer</div>
+                            <div>{{ pageCount }} Treffer</div>
                         </div>
-                        <div class="searchResultItem" v-for="t in topics" @click="selectItem(t)" v-tooltip="t.name">
-                            <Image :src="t.imageUrl" :format="ImageFormat.Topic" />
+                        <div class="searchResultItem" v-for="t in pages" @click="selectItem(t)" v-tooltip="t.name">
+                            <Image :src="t.imageUrl" :format="ImageFormat.Page" />
                             <div class="searchResultLabelContainer">
                                 <div class="searchResultLabel body-m">{{ t.name }}</div>
                                 <div class="searchResultSubLabel body-s">{{ t.questionCount }} Frage<template

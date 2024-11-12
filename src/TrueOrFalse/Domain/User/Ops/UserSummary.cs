@@ -9,28 +9,28 @@ public class UserSummary : IRegisterAsInstancePerLifetime
     {
         _nhibernateSession = nhibernateSession;
     }
-    public int AmountCreatedQuestions(int creatorId, bool inclPrivateQuestions = true)
+    public int GetCreatedQuestionCount(int creatorId, bool includePrivateQuestions = true)
     {
         var query = _nhibernateSession
             .QueryOver<Question>()
             .Select(Projections.RowCount())
             .Where(q => q.Creator != null && q.Creator.Id == creatorId);
 
-        if (!inclPrivateQuestions)
+        if (!includePrivateQuestions)
             query = query.Where(q => q.Visibility == QuestionVisibility.All);
 
         return query.FutureValue<int>().Value;
     }
 
-    public int AmountCreatedCategories(int creatorId, bool inclPrivateCategories = true)
+    public int GetCreatedPagesCount(int creatorId, bool includePrivatePages = true)
     {
         var query = _nhibernateSession
-            .QueryOver<Category>()
+            .QueryOver<Page>()
             .Select(Projections.RowCount())
             .Where(c => c.Creator != null && c.Creator.Id == creatorId);
 
-        if (!inclPrivateCategories)
-            query = query.Where(q => q.Visibility == CategoryVisibility.All);
+        if (!includePrivatePages)
+            query = query.Where(q => q.Visibility == PageVisibility.All);
 
         return query.FutureValue<int>().Value;
     }

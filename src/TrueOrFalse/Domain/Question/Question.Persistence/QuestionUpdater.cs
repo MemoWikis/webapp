@@ -3,7 +3,7 @@ using TrueOrFalse;
 
 public class QuestionUpdater(
     PermissionCheck _permissionCheck,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
     public Question UpdateQuestion(
@@ -18,17 +18,16 @@ public class QuestionUpdater(
             (SolutionType)Enum.Parse(typeof(TrueOrFalse.SolutionType),
                 questionDataParam.SolutionType);
 
-        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
-        var newCategoryIds = questionDataParam.CategoryIds.ToList();
+        var preEditedCategoryIds = question.Pages.Select(c => c.Id);
+        var newPageIds = questionDataParam.PageIds.ToList();
 
-        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+        var pagesToRemove = preEditedCategoryIds.Except(newPageIds);
 
-        foreach (var categoryId in categoriesToRemove)
-            if (!_permissionCheck.CanViewCategory(categoryId))
-                newCategoryIds.Add(categoryId);
+        foreach (var pageId in pagesToRemove)
+            if (!_permissionCheck.CanViewPage(pageId))
+                newPageIds.Add(pageId);
 
-        question.Categories =
-            GetAllParentsForQuestion(newCategoryIds, question);
+        question.Pages = GetAllParentsForQuestion(newPageIds, question);
         question.Visibility = (QuestionVisibility)questionDataParam.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
@@ -45,7 +44,7 @@ public class QuestionUpdater(
         if (!String.IsNullOrEmpty(questionDataParam.ReferencesJson))
         {
             var references = ReferenceJson.LoadFromJson(questionDataParam.ReferencesJson, question,
-                _categoryRepository);
+                pageRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -64,7 +63,7 @@ public class QuestionUpdater(
     }
 
     public readonly record struct QuestionDataParam(
-        int[] CategoryIds,
+        int[] PageIds,
         int QuestionId,
         string TextHtml,
         string DescriptionHtml,
@@ -80,19 +79,15 @@ public class QuestionUpdater(
         LearningSessionConfig SessionConfig
     );
 
-    public List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    public List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var categories = new List<Category>();
-        var privateCategories =
-            question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
-        categories.AddRange(privateCategories);
+        var pages = new List<Page>();
+        var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+        pages.AddRange(privatePages);
 
-        foreach (var categoryId in newCategoryIds)
-            categories.Add(_categoryRepository.GetById(categoryId));
+        foreach (var pageId in newCategoryIds)
+            pages.Add(pageRepository.GetById(pageId));
 
-        return categories;
+        return pages;
     }
-
-    public List<Category> GetAllParentsForQuestion(int newCategoryId, Question question) =>
-        GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
 }

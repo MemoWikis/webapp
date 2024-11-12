@@ -4,7 +4,7 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
-import { Page } from '~/components/shared/pageEnum'
+import { PageEnum } from '~/components/shared/pageEnum'
 import { messages } from '~/components/alert/messages'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 
@@ -30,25 +30,25 @@ interface Overview {
         publicWishknowledges: number
     }
     publicQuestionsCount: number
-    publicTopicsCount: number
+    publicPagesCount: number
     privateQuestionsCount: number
-    privateTopicsCount: number
+    privatePagesCount: number
     wuwiCount: number
 }
 interface Question {
     title: string
-    primaryTopicName: string
-    primaryTopicId: number
+    primaryPageName: string
+    primaryPageId: number
     id: number
 }
-interface Topic {
+interface Page {
     name: string
     id: number
     questionCount: number
 }
 interface Wuwi {
     questions: Question[]
-    topics: Topic[]
+    pages: Page[]
 }
 interface User {
     id: number
@@ -163,7 +163,7 @@ function handleBreadcrumb(t: Tab) {
 
 
 onMounted(() => {
-    emit('setPage', Page.User)
+    emit('setPage', PageEnum.User)
     handleBreadcrumb(tab.value)
 })
 
@@ -305,7 +305,7 @@ userStore.$onAction(({ name, after }) => {
 
                             <div class="main-counter-container">
                                 <div class="count">
-                                    <h1>{{ profile.overview.publicTopicsCount }}</h1>
+                                    <h1>{{ profile.overview.publicPagesCount }}</h1>
                                 </div>
                                 <div class="count-label">
                                     <div>
@@ -328,7 +328,7 @@ userStore.$onAction(({ name, after }) => {
 
                             <div class="main-counter-container">
                                 <div class="count">
-                                    <h1>{{ profile.overview.privateTopicsCount }}</h1>
+                                    <h1>{{ profile.overview.privatePagesCount }}</h1>
                                 </div>
                                 <div class="count-label">
                                     <div>
@@ -371,7 +371,7 @@ userStore.$onAction(({ name, after }) => {
                             </template>
                         </div>
                         <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-                            <UserTabsWishknowledge :questions="wuwi.questions" :topics="wuwi.topics" keep-alive />
+                            <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" keep-alive />
                         </div>
 
                     </div>

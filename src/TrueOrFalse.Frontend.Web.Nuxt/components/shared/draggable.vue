@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useDragStore, MoveTopicTransferData } from './dragStore'
+import { useDragStore, MovePageTransferData } from './dragStore'
 interface Props {
-    transferData: MoveTopicTransferData | string
+    transferData: MovePageTransferData | string
     disabled?: boolean
 }
 const props = defineProps<Props>()

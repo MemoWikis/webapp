@@ -3,7 +3,7 @@
     private readonly Logg _logg;
     private readonly SessionUser _sessionUser;
     private static readonly int _privateQuestionsQuantity = 20;
-    private static readonly int _privateTopicsQuantity = 10;
+    private static readonly int _privatePagesQuantity = 10;
     private static readonly int _wishCountKnowledge = 50;
 
     public LimitCheck(Logg logg, SessionUser sessionUser)
@@ -13,7 +13,7 @@
     }
 
     public readonly record struct BasicLimits(
-        int MaxPrivateTopicCount,
+        int MaxPrivatePageCount,
         int MaxPrivateQuestionCount,
         int MaxWishknowledgeCount,
         bool TestToBeDeleted = true);
@@ -22,7 +22,7 @@
     {
         return new BasicLimits
         {
-            MaxPrivateTopicCount = _privateTopicsQuantity,
+            MaxPrivatePageCount = _privatePagesQuantity,
             MaxPrivateQuestionCount = _privateQuestionsQuantity,
             MaxWishknowledgeCount = _wishCountKnowledge,
             TestToBeDeleted = true
@@ -61,14 +61,13 @@
         return withinLimit;
     }
 
-    public bool CanSavePrivateTopic(bool logExceedance = false)
+    public bool CanSavePrivatePage(bool logExceedance = false)
     {
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
 
             return true;
 
-        var withinLimit = EntityCache.GetPrivateCategoryIdsFromUser(_sessionUser.UserId).Count() <
-                          _privateTopicsQuantity;
+        var withinLimit = EntityCache.GetPrivatePageIdsFromUser(_sessionUser.UserId).Count() < _privatePagesQuantity;
 
         if (!withinLimit && logExceedance)
         {

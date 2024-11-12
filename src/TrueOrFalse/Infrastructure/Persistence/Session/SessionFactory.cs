@@ -19,7 +19,7 @@ namespace TrueOrFalse
                     MySQLConfiguration.Standard
                         .ConnectionString(Settings.ConnectionString)
                 )
-                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Category>())
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Page>())
                 .BuildSessionFactory();
             return sessionFactory;
         }

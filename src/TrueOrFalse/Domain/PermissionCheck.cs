@@ -24,107 +24,107 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
     }
 
     //setter is for tests
-    public bool CanViewCategory(int id) => CanView(EntityCache.GetCategory(id));
-    public bool CanView(Category category) => CanView(EntityCache.GetCategory(category.Id));
-    public bool CanView(CategoryCacheItem? category) => CanView(_userId, category);
+    public bool CanViewPage(int id) => CanView(EntityCache.GetPage(id));
+    public bool CanView(Page page) => CanView(EntityCache.GetPage(page.Id));
+    public bool CanView(PageCacheItem? page) => CanView(_userId, page);
 
-    public bool CanView(int userId, CategoryCacheItem? category)
+    public bool CanView(int userId, PageCacheItem? page)
     {
-        if (category == null)
+        if (page == null)
             return false;
 
-        if (category.Visibility == CategoryVisibility.All)
+        if (page.Visibility == PageVisibility.All)
             return true;
 
-        if (category.Visibility == CategoryVisibility.Owner && category.CreatorId == userId)
-            return true;
-
-        return false;
-    }
-
-    public bool CanView(int creatorId, CategoryVisibility visibility)
-    {
-        if (visibility == CategoryVisibility.All)
-            return true;
-
-        if (visibility == CategoryVisibility.Owner && creatorId == _userId)
+        if (page.Visibility == PageVisibility.Owner && page.CreatorId == userId)
             return true;
 
         return false;
     }
 
-    public bool CanEditCategory(int categoryId) => CanEdit(EntityCache.GetCategory(categoryId));
-    public bool CanEdit(Category category) => CanEdit(EntityCache.GetCategory(category.Id));
-
-    public bool CanView(CategoryChange change)
+    public bool CanView(int creatorId, PageVisibility visibility)
     {
-        return change.Category != null &&
-               change.Category.Id > 0 &&
-               CanView(change.Category) &&
-               CanView(change.Category.Creator.Id, change.GetCategoryChangeData().Visibility);
+        if (visibility == PageVisibility.All)
+            return true;
+
+        if (visibility == PageVisibility.Owner && creatorId == _userId)
+            return true;
+
+        return false;
     }
 
-    public bool CanEdit(CategoryCacheItem category)
+    public bool CanEditCategory(int paegId) => CanEdit(EntityCache.GetPage(paegId));
+    public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
+
+    public bool CanView(PageChange change)
+    {
+        return change.Page != null &&
+               change.Page.Id > 0 &&
+               CanView(change.Page) &&
+               CanView(change.Page.Creator.Id, change.GetPageChangeData().Visibility);
+    }
+
+    public bool CanEdit(PageCacheItem page)
     {
         if (_userId == default)
             return false;
 
-        if (category == null)
+        if (page == null)
             return false;
 
-        if (RootCategory.LockedCategory(category.Id) && !_isInstallationAdmin)
+        if (RootPage.Lockedpage(page.Id) && !_isInstallationAdmin)
             return false;
 
-        if (!CanView(category))
+        if (!CanView(page))
             return false;
 
         return true;
     }
 
-    public bool CanDelete(CategoryCacheItem category)
+    public bool CanDelete(PageCacheItem page)
     {
-        if (_userId == default || category == null || category.Id == 0)
+        if (_userId == default || page == null || page.Id == 0)
             return false;
 
-        if (category.IsStartPage())
+        if (page.IsStartPage())
             return false;
 
-        if (category.Creator.Id == _userId || _isInstallationAdmin)
+        if (page.Creator.Id == _userId || _isInstallationAdmin)
             return true;
 
         return false;
     }
 
-    public bool CanDelete(Category category)
+    public bool CanDelete(Page page)
     {
-        if (_userId == default || category == null || category.Id == 0)
+        if (_userId == default || page == null || page.Id == 0)
             return false;
 
-        if (category.Id == RootCategory.RootCategoryId || category.Id == category.Creator.StartTopicId)
+        if (page.Id == RootPage.RootCategoryId || page.Id == page.Creator.StartPageId)
             return false;
 
-        if (category.Creator.Id == _userId || _isInstallationAdmin)
+        if (page.Creator.Id == _userId || _isInstallationAdmin)
             return true;
 
         return false;
     }
 
-    public bool CanMoveTopic(int topicId, int oldParentId, int newParentId) => CanMoveTopic(
-        EntityCache.GetCategory(topicId), EntityCache.GetCategory(oldParentId), newParentId);
+    public bool CanMovePage(int pageId, int oldParentId, int newParentId) => CanMovePage(
+        EntityCache.GetPage(pageId), EntityCache.GetPage(oldParentId), newParentId);
 
-    public bool CanMoveTopic(CategoryCacheItem? movingTopic, CategoryCacheItem? oldParent, int newParentId)
+    public bool CanMovePage(PageCacheItem? movingPage, PageCacheItem? oldParent, int newParentId)
     {
         if (_userId == default
-            || movingTopic == null
-            || movingTopic.Id == 0
+            || movingPage == null
+            || movingPage.Id == 0
             || oldParent == null
             || oldParent.Id == 0)
             return false;
 
-        if (RootCategory.RootCategoryId == newParentId && !_isInstallationAdmin && movingTopic.Visibility == CategoryVisibility.All)
+        if (RootPage.RootCategoryId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
             return false;
 
-        return _isInstallationAdmin || movingTopic.CreatorId == _userId || oldParent.CreatorId == _userId;
+        return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;
     }
 
     public bool CanViewQuestion(int id) => CanView(EntityCache.GetQuestion(id));

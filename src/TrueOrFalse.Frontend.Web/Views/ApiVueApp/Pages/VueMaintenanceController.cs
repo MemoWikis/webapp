@@ -20,16 +20,16 @@ public class VueMaintenanceController(
     MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
     UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
     UpdateWishcount _updateWishcount,
-    MeiliSearchReIndexCategories _meiliSearchReIndexCategories,
+    MeiliSearchReIndexPages meiliSearchReIndexPages,
     MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     AnswerRepo _answerRepo,
     UserReadingRepo _userReadingRepo,
     UserWritingRepo _userWritingRepo,
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    UpdateQuestionCountForCategory _updateQuestionCountForCategory) : Controller
+    UpdateQuestionCountForPage updateQuestionCountForPage) : Controller
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -61,11 +61,9 @@ public class VueMaintenanceController(
         _probabilityUpdateValuationAll.Run();
         _probabilityUpdateQuestion.Run();
 
-        new ProbabilityUpdate_Category(
-                _categoryRepository,
-                _answerRepo,
-                _httpContextAccessor,
-                _webHostEnvironment)
+        new ProbabilityUpdate_Page(
+                pageRepository,
+                _answerRepo)
             .Run();
 
         ProbabilityUpdate_User.Initialize(
@@ -157,9 +155,9 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> ReIndexAllTopics()
+    public async Task<VueMaintenanceResult> ReIndexAllPages()
     {
-        await _meiliSearchReIndexCategories.Run();
+        await meiliSearchReIndexPages.Run();
 
         return new VueMaintenanceResult
         {
@@ -199,9 +197,9 @@ public class VueMaintenanceController(
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
-    public async Task<VueMaintenanceResult> MeiliReIndexAllTopics()
+    public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
     {
-        await _meiliSearchReIndexCategories.Run();
+        await meiliSearchReIndexPages.Run();
 
         return new VueMaintenanceResult
         {

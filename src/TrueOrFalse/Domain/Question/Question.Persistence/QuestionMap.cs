@@ -39,8 +39,10 @@ public class QuestionMap : ClassMap<Question>
         Map(x => x.SolutionMetadataJson).CustomSqlType("VARCHAR(7000)").Length(7000);
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();
-        HasManyToMany(x => x.Categories)
+        HasManyToMany(x => x.Pages)
             .Table("categories_to_questions")
+            .ParentKeyColumn("Question_id")
+            .ChildKeyColumn("Category_id")
             .Cascade.SaveUpdate();
 
         Map(x => x.IsWorkInProgress);

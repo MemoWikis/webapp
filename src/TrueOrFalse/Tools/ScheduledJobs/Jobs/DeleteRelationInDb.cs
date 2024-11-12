@@ -4,15 +4,15 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class DeleteRelationInDb : IJob
     {
-        private readonly CategoryRepository _categoryRepository;
-        private readonly CategoryRelationRepo _categoryRelationRepo;
+        private readonly PageRepository _pageRepository;
+        private readonly PageRelationRepo _pageRelationRepo;
 
         public DeleteRelationInDb(
-            CategoryRepository categoryRepository,
-            CategoryRelationRepo categoryRelationRepo)
+            PageRepository pageRepository,
+            PageRelationRepo pageRelationRepo)
         {
-            _categoryRepository = categoryRepository;
-            _categoryRelationRepo = categoryRelationRepo;
+            _pageRepository = pageRepository;
+            _pageRelationRepo = pageRelationRepo;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -28,18 +28,18 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         private Task Run(int relationId, int authorId)
         {
             var relationToDelete =
-                relationId > 0 ? _categoryRelationRepo.GetById(relationId) : null;
+                relationId > 0 ? _pageRelationRepo.GetById(relationId) : null;
             Logg.r.Information(
                 "Job started - DeleteRelation RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
                 relationToDelete.Id, relationToDelete.Child.Id, relationToDelete.Parent.Id);
 
-            _categoryRepository.Update(relationToDelete.Child, authorId,
-                type: CategoryChangeType.Relations);
-            _categoryRepository.Update(relationToDelete.Parent, authorId,
-                type: CategoryChangeType.Relations);
+            _pageRepository.Update(relationToDelete.Child, authorId,
+                type: PageChangeType.Relations);
+            _pageRepository.Update(relationToDelete.Parent, authorId,
+                type: PageChangeType.Relations);
 
             if (relationToDelete != null)
-                _categoryRelationRepo.Delete(relationToDelete);
+                _pageRelationRepo.Delete(relationToDelete);
 
             return Task.CompletedTask;
         }

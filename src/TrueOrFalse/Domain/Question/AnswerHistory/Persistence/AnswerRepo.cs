@@ -18,7 +18,7 @@ public class AnswerRepo : RepositoryDb<Answer>
             .SetParameter("questionId", questionId).ExecuteUpdate();
     }
 
-    public IList<Answer> GetByCategories(int categoryId, bool includingSolutionViews = false)
+    public IList<Answer> GetByPages(int pageId, bool includingSolutionViews = false)
     {
         var query = @"
             SELECT ah.Id FROM answer ah
@@ -26,7 +26,7 @@ public class AnswerRepo : RepositoryDb<Answer>
             ON q.Id = ah.QuestionId
             LEFT JOIN categories_to_questions cq
             ON cq.Question_id = q.Id
-            WHERE cq.Category_id = " + categoryId;
+            WHERE cq.Category_id = " + pageId;
 
         var ids = Session.CreateSQLQuery(query).List<int>();
 

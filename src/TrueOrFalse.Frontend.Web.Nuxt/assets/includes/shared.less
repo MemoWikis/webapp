@@ -546,15 +546,15 @@
         }
     }
 
-    &.Category {
+    &.Page {
         .ItemTitle {
-            border-bottom-color: @color-category !important;
+            border-bottom-color: @color-page !important;
         }
 
         .ImageContainer {
-            border-bottom-color: @color-category !important;
+            border-bottom-color: @color-page !important;
             border-bottom-style: hidden !important;
-            border-right-color: @color-category !important;
+            border-right-color: @color-page !important;
         }
     }
 
@@ -748,8 +748,8 @@
         border-bottom: @colored-line-width solid @memo-blue;
         margin-bottom: 15px;
 
-        .Category& {
-            border-bottom-color: @color-category;
+        .Page& {
+            border-bottom-color: @color-page;
         }
         
         .Set& {
@@ -944,7 +944,7 @@
             }
         }
 
-        .setTitle, .categoryTitle {
+        .setTitle, .pageTitle {
             margin-bottom: 20px;
 
             h3 {
@@ -957,11 +957,11 @@
             border-bottom: 5px solid @color-set;
         }
 
-        .categoryTitle {
-            border-bottom: 5px solid @color-category;
+        .pageTitle {
+            border-bottom: 5px solid @color-page;
         }
 
-        .setQuestionCount, .categoryQuestionCount {
+        .setQuestionCount, .pageQuestionCount {
             display: inline-block;
             vertical-align: top;
             margin-right: 15px;
@@ -994,7 +994,7 @@
                 }
             }
 
-            .set-knowledge-bar, .category-knowledge-bar {
+            .set-knowledge-bar, .page-knowledge-bar {
                 display: inline-block;
                 //margin-top: 15px;
                 height: 10px;
@@ -1159,8 +1159,8 @@
     line-height: 130%;
 }
 
-.color-category {
-    color: @color-category;
+.color-page {
+    color: @color-page;
 }
 
 .color-wuwi {

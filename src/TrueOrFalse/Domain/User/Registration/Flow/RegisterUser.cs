@@ -10,7 +10,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
     private readonly MessageRepo _messageRepo;
     private readonly UserWritingRepo _userWritingRepo;
     private readonly SessionUser _sessionUser;
-    private readonly CategoryRepository _categoryRepository;
+    private readonly PageRepository _pageRepository;
 
     public RegisterUser(
         ISession session,
@@ -19,7 +19,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         MessageRepo messageRepo,
         UserWritingRepo userWritingRepo,
         SessionUser sessionUser,
-        CategoryRepository categoryRepository)
+        PageRepository pageRepository)
     {
         _session = session;
         _jobQueueRepo = jobQueueRepo;
@@ -27,7 +27,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         _messageRepo = messageRepo;
         _userWritingRepo = userWritingRepo;
         _sessionUser = sessionUser;
-        _categoryRepository = categoryRepository;
+        _pageRepository = pageRepository;
     }
 
     public readonly record struct RegisterResult(bool Success, string MessageKey);
@@ -69,10 +69,10 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user, _messageRepo);
         _sessionUser.Login(user);
 
-        var category = PersonalTopic.GetPersonalCategory(user, _categoryRepository);
-        category.Visibility = CategoryVisibility.Owner;
-        _categoryRepository.Create(category);
-        user.StartTopicId = category.Id;
+        var page = PersonalPage.GetPersonalCategory(user, _pageRepository);
+        page.Visibility = PageVisibility.Owner;
+        _pageRepository.Create(page);
+        user.StartPageId = page.Id;
         user.DateCreated = DateTime.Now;
         _userWritingRepo.Update(user);
         return new RegisterResult

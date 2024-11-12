@@ -25,25 +25,25 @@ public class ImageUploadModalController(
         );
     }
 
-    public readonly record struct SaveWikimediaImageJson(int TopicId, string Url);
+    public readonly record struct SaveWikimediaImageJson(int PageId, string Url);
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
     {
-        if (json.Url == null || !permissionCheck.CanEditCategory(json.TopicId))
+        if (json.Url == null || !permissionCheck.CanEditCategory(json.PageId))
             return false;
 
-        imageStore.RunWikimedia<CategoryImageSettings>(
+        imageStore.RunWikimedia<PageImageSettings>(
             json.Url,
-            json.TopicId,
-            ImageType.Category,
+            json.PageId,
+            ImageType.Page,
             _sessionUser.UserId);
         return true;
     }
 
     public class SaveCustomImageForm
     {
-        public int TopicId { get; set; }
+        public int PageId { get; set; }
         public string LicenseGiverName { get; set; }
         public IFormFile File { get; set; }
     }
@@ -51,12 +51,12 @@ public class ImageUploadModalController(
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageForm form)
     {
-        if (form.File == null || !permissionCheck.CanEditCategory(form.TopicId))
+        if (form.File == null || !permissionCheck.CanEditCategory(form.PageId))
             return false;
 
-        imageStore.RunUploaded<CategoryImageSettings>(
+        imageStore.RunUploaded<PageImageSettings>(
             form.File,
-            form.TopicId,
+            form.PageId,
             _sessionUser.UserId,
             form.LicenseGiverName);
 

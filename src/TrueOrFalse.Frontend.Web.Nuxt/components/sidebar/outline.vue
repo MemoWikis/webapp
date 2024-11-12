@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
-import { useTopicStore } from '../topic/topicStore'
+import { usePageStore } from '../page/pageStore'
 import { throttle } from 'underscore'
 
 const outlineStore = useOutlineStore()
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 
 const { $urlHelper } = useNuxtApp()
 
@@ -137,7 +137,7 @@ function headingClass(level: number, index: number) {
             <div class="outline-container">
                 <div v-for="(heading, index) in outlineStore.headings" :key="heading.id" class="outline-heading"
                     :class="headingClass(heading.level, index)">
-                    <NuxtLink :to="`${$urlHelper.getTopicUrl(topicStore.name, topicStore.id)}#${heading.id}`"
+                    <NuxtLink :to="`${$urlHelper.getPageUrl(pageStore.name, pageStore.id)}#${heading.id}`"
                         class="outline-link" :class="{ 'current-heading': heading.id === currentHeadingId }">
                         <div v-for="text in heading.text">
                             {{ text }}

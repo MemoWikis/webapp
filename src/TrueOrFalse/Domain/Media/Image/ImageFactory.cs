@@ -15,13 +15,13 @@ public class ImageSettingsFactory
 
     public T Create<T>(int typeId) where T : IImageSettings
     {
-        if (typeof(T) == typeof(CategoryImageSettings))
+        if (typeof(T) == typeof(PageImageSettings))
         {
-            return (T)(IImageSettings)new CategoryImageSettings(typeId, _httpContextAccessor);
+            return (T)(IImageSettings)new PageImageSettings(typeId, _httpContextAccessor);
         }
-        if (typeof(T) == typeof(TopicContentImageSettings))
+        if (typeof(T) == typeof(PageContentImageSettings))
         {
-            return (T)(IImageSettings)new TopicContentImageSettings(typeId, _httpContextAccessor);
+            return (T)(IImageSettings)new PageContentImageSettings(typeId, _httpContextAccessor);
         }
 
         if (typeof(T) == typeof(QuestionContentImageSettings))

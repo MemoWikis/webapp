@@ -2,99 +2,99 @@
 
 public class ModifyRelationsEntityCache
 {
-    public static void RemoveRelationsForCategoryDeleter(
-        CategoryCacheItem category,
+    public static void RemoveRelationsForPageDeleter(
+        PageCacheItem page,
         int userId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
-        var allRelations = EntityCache.GetCacheRelationsByTopicId(category.Id);
+        var allRelations = EntityCache.GetCacheRelationsByPageId(page.Id);
         foreach (var relation in allRelations)
         {
-            if (relation.ChildId == category.Id)
+            if (relation.ChildId == page.Id)
             {
-                var parent = EntityCache.GetCategory(relation.ParentId);
-                RemoveParent(category, parent, userId, modifyRelationsForCategory);
+                var parent = EntityCache.GetPage(relation.ParentId);
+                RemoveParent(page, parent, userId, modifyRelationsForPage);
             }
             else
             {
-                var child = EntityCache.GetCategory(relation.ChildId);
-                RemoveParent(child, category, userId, modifyRelationsForCategory);
+                var child = EntityCache.GetPage(relation.ChildId);
+                RemoveParent(child, page, userId, modifyRelationsForPage);
             }
         }
     }
 
     private static bool CheckParentAvailability(
-        IEnumerable<CategoryCacheItem> parentCategories,
-        CategoryCacheItem childCategory)
+        IEnumerable<PageCacheItem> parentPages,
+        PageCacheItem childPage)
     {
         var allParentsArePrivate =
-            parentCategories.All(c => c.Visibility != CategoryVisibility.All);
-        var childIsPublic = childCategory.Visibility == CategoryVisibility.All;
+            parentPages.All(c => c.Visibility != PageVisibility.All);
+        var childIsPublic = childPage.Visibility == PageVisibility.All;
 
-        if (!parentCategories.Any() || allParentsArePrivate && childIsPublic)
+        if (!parentPages.Any() || allParentsArePrivate && childIsPublic)
             return false;
 
         return true;
     }
 
     public static bool RemoveParent(
-        CategoryCacheItem childCategory,
+        PageCacheItem childPage,
         int parentId,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory,
+        ModifyRelationsForPage modifyRelationsForPage,
         PermissionCheck permissionCheck)
     {
-        var parent = EntityCache.GetCategory(parentId);
+        var parent = EntityCache.GetPage(parentId);
 
-        var newParentRelationsIds = childCategory.ParentRelations.Where(r => r.ParentId != parentId)
+        var newParentRelationsIds = childPage.ParentRelations.Where(r => r.ParentId != parentId)
             .Select(r => r.ParentId);
-        var parentCategories = EntityCache.GetCategories(newParentRelationsIds);
+        var parentPages = EntityCache.GetPages(newParentRelationsIds);
 
-        if (!childCategory.IsStartPage() &&
-            !CheckParentAvailability(parentCategories, childCategory))
+        if (!childPage.IsStartPage() &&
+            !CheckParentAvailability(parentPages, childPage))
         {
             Logg.r.Error(
-                "CategoryRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
-                childCategory.Id, parentId);
+                "PageRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
+                childPage.Id, parentId);
             throw new Exception("No parents remaining");
         }
 
-        if (!permissionCheck.CanEdit(childCategory) && !permissionCheck.CanEdit(parent))
+        if (!permissionCheck.CanEdit(childPage) && !permissionCheck.CanEdit(parent))
         {
             Logg.r.Error(
-                "CategoryRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
-                childCategory.Id, parentId);
-            throw new SecurityException("Not allowed to edit category");
+                "PageRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
+                childPage.Id, parentId);
+            throw new SecurityException("Not allowed to edit page");
         }
 
-        return RemoveParent(childCategory, parent, authorId, modifyRelationsForCategory);
+        return RemoveParent(childPage, parent, authorId, modifyRelationsForPage);
     }
 
     private static bool RemoveParent(
-        CategoryCacheItem childCategory,
-        CategoryCacheItem parent,
+        PageCacheItem childPage,
+        PageCacheItem parent,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var relationToRemove =
-            parent.ChildRelations.FirstOrDefault(r => r.ChildId == childCategory.Id);
+            parent.ChildRelations.FirstOrDefault(r => r.ChildId == childPage.Id);
 
         if (relationToRemove != null)
         {
-            TopicOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
-            childCategory.ParentRelations.Remove(relationToRemove);
+            PageOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForPage);
+            childPage.ParentRelations.Remove(relationToRemove);
             return true;
         }
 
         return false;
     }
 
-    public static CategoryCacheRelation AddChild(CategoryRelation categoryRelation)
+    public static PageRelationCache AddChild(PageRelation pageRelation)
     {
-        var newRelation = CategoryCacheRelation.ToCategoryCacheRelation(categoryRelation);
+        var newRelation = PageRelationCache.ToPageCacheRelation(pageRelation);
 
-        EntityCache.GetCategory(newRelation.ParentId)?.ChildRelations.Add(newRelation);
-        EntityCache.GetCategory(newRelation.ChildId)?.ParentRelations.Add(newRelation);
+        EntityCache.GetPage(newRelation.ParentId)?.ChildRelations.Add(newRelation);
+        EntityCache.GetPage(newRelation.ChildId)?.ParentRelations.Add(newRelation);
         EntityCache.AddOrUpdate(newRelation);
 
         return newRelation;

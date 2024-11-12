@@ -31,11 +31,11 @@
 //        }
 //    }
 
-//    public void CreateStartTopicAndSetToUser(User user)
+//    public void CreateStartPageAndSetToUser(User user)
 //    {
-//        var topic = PersonalTopic.GetPersonalCategory(user);
+//        var topic = PersonalPage.GetPersonalCategory(user);
 //        Sl.CategoryRepo.Create(topic);
-//        user.StartTopicId = topic.Id;
+//        user.StartPageId = topic.Id;
 
 //        Sl.UserRepo.Update(user);
 //    }

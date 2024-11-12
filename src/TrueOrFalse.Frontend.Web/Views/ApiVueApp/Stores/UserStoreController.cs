@@ -15,7 +15,7 @@ public class UserStoreController(
     IHttpContextAccessor _httpContextAccessor,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    CategoryViewRepo _categoryViewRepo,
+    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
@@ -100,7 +100,7 @@ public class UserStoreController(
         string ImgUrl,
         int Reputation,
         int ReputationPos,
-        TopicDataManager.TopicDataResult PersonalWiki,
+        PageDataManager.PageDataResult PersonalWiki,
         FrontEndUserData.ActivityPoints ActivityPoints);
 
 
@@ -135,7 +135,7 @@ public class UserStoreController(
                 Id = _sessionUser.UserId,
                 Name = _sessionUser.IsLoggedIn ? _sessionUser.User.Name : "",
                 IsAdmin = _sessionUser.IsInstallationAdmin,
-                PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1,
+                PersonalWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId : 1,
                 Type = UserType.Normal,
                 ImgUrl = _sessionUser.IsLoggedIn
                     ? new UserImageSettings(_sessionUser.UserId,
@@ -145,14 +145,14 @@ public class UserStoreController(
                     : "",
                 Reputation = _sessionUser.IsLoggedIn ? _sessionUser.User.Reputation : 0,
                 ReputationPos = _sessionUser.IsLoggedIn ? _sessionUser.User.ReputationPos : 0,
-                PersonalWiki = new TopicDataManager(_sessionUser,
+                PersonalWiki = new PageDataManager(_sessionUser,
                         _permissionCheck,
                         _knowledgeSummaryLoader,
-                        _categoryViewRepo,
+                        pageViewRepo,
                         _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
-                    .GetTopicData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartTopicId : 1),
+                    .GetPageData(_sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId : 1),
                 ActivityPoints = new FrontEndUserData.ActivityPoints
                 {
                     Points = activityPoints,

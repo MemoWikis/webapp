@@ -10,11 +10,11 @@ public class UserActivityMap : ClassMap<UserActivity>
         Map(x => x.At);
         Map(x => x.Type).CustomType<UserActivityType>();
         References(x => x.Question);
-        References(x => x.Category);
+        References(x => x.Page).Column("Category_id");
         References(x => x.UserIsFollowed);
         References(x => x.UserCauser);
 
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
-    }           
+    }
 }

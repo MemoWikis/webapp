@@ -1,4 +1,4 @@
-import { Tab } from "~/components/topic/tabs/tabsStore";
+import { Tab } from "~/components/page/tabs/tabsStore";
 
 class UrlHelper {
     public sanitizeUri(string: string = '', maxLength: number = 50): string {
@@ -50,7 +50,7 @@ class UrlHelper {
         }
     }
 
-    public getTopicUrl(name: string, id: number | string, tab: Tab = Tab.Text): string {
+    public getPageUrl(name: string, id: number | string, tab: Tab = Tab.Text): string {
         const url = `/${this.sanitizeUri(name)}/${id}`
 
         switch (tab) {
@@ -65,8 +65,8 @@ class UrlHelper {
         }
     }
 
-    public getTopicUrlWithQuestionId(name: string, topicId: number | string, questionId: number | string) {
-        return `${this.getTopicUrl(name, topicId)}/Lernen/${questionId}`
+    public getPageUrlWithQuestionId(name: string, pageId: number | string, questionId: number | string) {
+        return `${this.getPageUrl(name, pageId)}/Lernen/${questionId}`
     }
     public getQuestionUrl(title: string, id: number | string): string {
         return `/Fragen/${this.sanitizeUri(title)}/${id}`

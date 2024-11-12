@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Text.RegularExpressions;
@@ -13,7 +12,7 @@ public class ImageMaintenanceInfo
     public string TypeUrl;
 
     public bool InQuestionFolder;
-    public bool InCategoryFolder;
+    public bool InPageFolder;
     public bool InSetFolder;
 
     public ImageMetaData MetaData;
@@ -41,24 +40,21 @@ public class ImageMaintenanceInfo
         ImageType imageType,
         QuestionReadingRepo questionReadingRepo,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
-        CategoryRepository categoryRepository,
+        PageRepository pageRepository,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor)
         : this(imageMetaDataReadingRepo.GetBy(typeId, imageType),
             questionReadingRepo,
-            categoryRepository,
+            pageRepository,
             httpContextAccessor,
-            webHostEnvironment,
             actionContextAccessor)
     {
     }
 
     public ImageMaintenanceInfo(ImageMetaData imageMetaData,
         QuestionReadingRepo questionReadingRepo,
-        CategoryRepository categoryRepository,
+        PageRepository pageRepository,
         IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment,
         IActionContextAccessor actionContextAccessor)
     {
         ImageId = imageMetaData.Id;
@@ -67,14 +63,14 @@ public class ImageMaintenanceInfo
         TypeId = imageMetaData.TypeId;
         TypeNotFound = false;
 
-        var categoryImgBasePath = new CategoryImageSettings(0, httpContextAccessor).BasePath;
+        var pageImageBasePath = new PageImageSettings(0, httpContextAccessor).BasePath;
         var questionImgBasePath = new QuestionImageSettings(questionReadingRepo, httpContextAccessor).BasePath;
         var setImgBasePath = new SetImageSettings(httpContextAccessor).BasePath;
 
         switch (MetaData.Type)
         {
-            case ImageType.Category:
-                Type = categoryRepository.GetById(MetaData.TypeId);
+            case ImageType.Page:
+                Type = pageRepository.GetById(MetaData.TypeId);
                 TypeUrl = new Links(actionContextAccessor, httpContextAccessor).GetUrl(Type);
                 break;
             case ImageType.Question:
@@ -145,15 +141,15 @@ public class ImageMaintenanceInfo
         EvaluateImageDeployability();
         SetLicenseStateCssClass();
 
-        InCategoryFolder = File.Exists(Path.Combine(Settings.ImagePath,
-            categoryImgBasePath + imageMetaData.TypeId + ".jpg"));
+        InPageFolder = File.Exists(Path.Combine(Settings.ImagePath,
+            pageImageBasePath + imageMetaData.TypeId + ".jpg"));
         InQuestionFolder = File.Exists(Path.Combine(Settings.ImagePath,
             questionImgBasePath + imageMetaData.TypeId + ".jpg"));
         InSetFolder = File.Exists(Path.Combine(Settings.ImagePath,
             setImgBasePath + imageMetaData.TypeId + ".jpg"));
 
-        if (MetaData.Type == ImageType.Category)
-            Url_128 = new CategoryImageSettings(MetaData.TypeId, httpContextAccessor).GetUrl_128px(asSquare: true).Url;
+        if (MetaData.Type == ImageType.Page)
+            Url_128 = new PageImageSettings(MetaData.TypeId, httpContextAccessor).GetUrl_128px(asSquare: true).Url;
 
         if (MetaData.Type == ImageType.Question)
             Url_128 = new QuestionImageSettings(MetaData.TypeId, httpContextAccessor, questionReadingRepo).GetUrl_128px_square().Url;
@@ -279,14 +275,14 @@ public class ImageMaintenanceInfo
     {
         int amountTrues = 0;
         if (InQuestionFolder) amountTrues++;
-        if (InCategoryFolder) amountTrues++;
+        if (InPageFolder) amountTrues++;
         if (InSetFolder) amountTrues++;
         return amountTrues;
     }
 
     public bool IsNothing()
     {
-        return !InQuestionFolder && !InCategoryFolder && !InSetFolder;
+        return !InQuestionFolder && !InPageFolder && !InSetFolder;
     }
 
     public bool IsClear()
@@ -306,8 +302,8 @@ public class ImageMaintenanceInfo
             if (InQuestionFolder)
                 return ImageType.Question;
 
-            if (InCategoryFolder)
-                return ImageType.Category;
+            if (InPageFolder)
+                return ImageType.Page;
 
             if (InSetFolder)
                 return ImageType.QuestionSet;

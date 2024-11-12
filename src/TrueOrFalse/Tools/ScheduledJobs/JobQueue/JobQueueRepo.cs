@@ -44,21 +44,21 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 .List();
     }
 
-    public IList<JobQueue> GetRecalcKnowledgeSummariesForCategory()
+    public IList<JobQueue> GetRecalcKnowledgeSummariesForPage()
     {
         return
             _session
                 .QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForCategory)
+                .Where(j => j.JobQueueType == JobQueueType.RecalcKnowledgeSummaryForPage)
                 .List();
     }
 
-    public IList<JobQueue> GetRemoveQuestionsInCategoryFromWishKnowledge()
+    public IList<JobQueue> GetRemoveQuestionsInPageFromWishKnowledge()
     {
         return
             _session
                 .QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInCategoryFromWishKnowledge)
+                .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInPageFromWishKnowledge)
                 .List();
     }
     public JobQueue GetTopPriorityMailMessage()

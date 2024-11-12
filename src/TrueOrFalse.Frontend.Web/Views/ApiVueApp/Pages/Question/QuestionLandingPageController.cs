@@ -47,9 +47,9 @@ public class QuestionLandingPageController(
         SolutionType SolutionType,
         string RenderedQuestionTextExtended,
         string Description,
-        bool HasTopics,
-        int? PrimaryTopicId,
-        string PrimaryTopicName,
+        bool HasPages,
+        int? PrimaryPageId,
+        string PrimaryPageName,
         string Solution,
         bool IsCreator,
         bool IsInWishknowledge,
@@ -66,7 +66,7 @@ public class QuestionLandingPageController(
 
     public readonly record struct AnswerReference(
         int ReferenceId,
-        int? TopicId,
+        int? PageId,
         string ReferenceType,
         string AdditionalInfo,
         string ReferenceText);
@@ -103,7 +103,7 @@ public class QuestionLandingPageController(
             };
         }
 
-        var primaryTopic = question.Categories.LastOrDefault();
+        var primaryPage = question.Pages.LastOrDefault();
         var solution = GetQuestionSolution.Run(question);
         var title = Regex.Replace(question.Text, "<.*?>", string.Empty);
         EscapeReferencesText(question.References);
@@ -123,9 +123,9 @@ public class QuestionLandingPageController(
                     ? MarkdownMarkdig.ToHtml(question.TextExtended)
                     : "",
                 Description = question.Description,
-                HasTopics = question.Categories.Any(),
-                PrimaryTopicId = primaryTopic?.Id,
-                PrimaryTopicName = primaryTopic?.Name,
+                HasPages = question.Pages.Any(),
+                PrimaryPageId = primaryPage?.Id,
+                PrimaryPageName = primaryPage?.Name,
                 Solution = question.Solution,
                 IsCreator = question.Creator.Id == _sessionUser.UserId,
                 IsInWishknowledge = _sessionUser.IsLoggedIn &&
@@ -149,7 +149,7 @@ public class QuestionLandingPageController(
                 AnswerReferences = question.References.Select(r => new AnswerReference
                 {
                     ReferenceId = r.Id,
-                    TopicId = r.Category?.Id,
+                    PageId = r.Page?.Id,
                     ReferenceType = r.ReferenceType.GetName(),
                     AdditionalInfo = r.AdditionalInfo ?? "",
                     ReferenceText = r.ReferenceText ?? ""
@@ -198,20 +198,20 @@ public class QuestionLandingPageController(
             OverallAnsweredWrongly: history.TimesAnsweredWrongTotal,
             IsInWishknowledge: answerQuestionModel.HistoryAndProbability.QuestionValuation
                 .IsInWishKnowledge,
-            Topics: question.CategoriesVisibleToCurrentUser(_permissionCheck).Select(t =>
-                new AnswerQuestionDetailsTopicItem(
+            Pages: question.PagesVisibleToCurrentUser(_permissionCheck).Select(t =>
+                new AnswerQuestionDetailsPageItem(
                     Id: t.Id,
                     Name: t.Name,
                     QuestionCount: t.GetCountQuestionsAggregated(_sessionUser.UserId),
-                    ImageUrl: new CategoryImageSettings(t.Id, _httpContextAccessor)
+                    ImageUrl: new PageImageSettings(t.Id, _httpContextAccessor)
                         .GetUrl_128px(asSquare: true).Url,
                     MiniImageUrl: new ImageFrontendData(
-                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Category),
+                            _imageMetaDataReadingRepo.GetBy(t.Id, ImageType.Page),
                             _httpContextAccessor,
                             _questionReadingRepo)
-                        .GetImageUrl(30, true, false, ImageType.Category).Url,
+                        .GetImageUrl(30, true, false, ImageType.Page).Url,
                     Visibility: (int)t.Visibility,
-                    IsSpoiler: IsSpoilerCategory.Yes(t.Name, question)
+                    IsSpoiler: IsSpoilerPage.Yes(t.Name, question)
                 )).Distinct().ToArray(),
             Visibility: question.Visibility,
             DateNow: dateNow,

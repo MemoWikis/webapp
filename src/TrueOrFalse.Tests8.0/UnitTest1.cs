@@ -9,7 +9,7 @@ namespace TrueOrFalse.Tests8._0
         [Test]
         public void Test1()
         {
-            ContextCategory.New().Add("A").Persist();
+            ContextPage.New().Add("A").Persist();
         }
     }
 }

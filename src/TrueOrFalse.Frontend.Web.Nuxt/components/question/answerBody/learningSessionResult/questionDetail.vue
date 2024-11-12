@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { handleNewLine } from '~~/components/shared/utils'
-import { AnswerState } from '~~/components/topic/learning/learningSessionStore'
+import { AnswerState } from '~/components/page/learning/learningSessionStore'
 
 interface Step {
     answerState: AnswerState

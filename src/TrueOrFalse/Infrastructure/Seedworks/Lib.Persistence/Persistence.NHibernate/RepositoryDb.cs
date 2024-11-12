@@ -243,11 +243,11 @@ namespace Seedworks.Lib.Persistence
             return result;
         }
 
-        public virtual IList<TDomainObject> GetByIds(params int[] ids)
+        public virtual IList<TDomainObject> GetByIds(params int[] pageIds)
         {
             var list = new List<TDomainObject>();
             list.AddRange(_session.CreateCriteria(typeof(TDomainObject))
-                .Add(Restrictions.In("Id", ids))
+                .Add(Restrictions.In("Id", pageIds))
                 .List<TDomainObject>());
 
             if (AfterItemListRetrieved != null)

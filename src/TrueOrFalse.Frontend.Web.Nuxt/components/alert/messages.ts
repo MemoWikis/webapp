@@ -1,12 +1,12 @@
 export const messages: any = {
     success: {
-        category: {
-            publish: "Dein Thema wurde erfolgreich veröffentlicht.",
-            setToPrivate: "Das Thema wurde erfolgreich auf 'Privat' gesetzt.",
+        page: {
+            publish: "Deine Seite wurde erfolgreich veröffentlicht.",
+            setToPrivate: "Die Seite wurde erfolgreich auf 'Privat' gesetzt.",
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
-            addedToPersonalWiki: "Das Thema wurde erfolgreich zu deinem Wiki hinzugefügt.",
-            saveImage: "Das neue Themenbild wurde gespeichert",
-            saved: 'Das Thema wurde erfolgreich gespeichert.'
+            addedToPersonalWiki: "Die Seite wurde erfolgreich zu deinem Wiki hinzugefügt.",
+            saveImage: "Das neue Bild wurde gespeichert",
+            saved: 'Die Seite wurde erfolgreich gespeichert.'
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
@@ -27,30 +27,30 @@ export const messages: any = {
         subscription: {
             cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
             cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
-            cantSavePrivateTopic: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
+            cantSavePrivatePage: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
         },
-        category: {
-            parentIsPrivate: "Veröffentlichung ist nicht möglich. Das übergeordnete Thema ist privat.",
-            publicChildCategories: "Dieses Thema hat öffentliche untergeordnete Themen.",
-            publicQuestions: "Dieses Thema hat öffentliche Fragen.",
-            notLastChild: "Dieses Thema kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterthemen und versuche es erneut.",
-            noRemainingParents: "Die Verknüpfung des Themas kann nicht gelöst werden. Das Thema muss mindestens einem öffentlichen Oberthema zugeordnet sein.",
-            parentIsRoot: "Unter 'Globales Wiki', darfst du nur private Themen hinzufügen",
-            loopLink: "Man kann keine Themen sich selber unterordnen",
-            isAlreadyLinkedAsChild: "Das Thema ist schon untergeordnet.",
-            isNotAChild: "Das Thema ist bereits kein Unterthema",
-            isLinkedInNonWuwi: "Du hast das Thema außerhalb deines Wunschwissens schon untergeordnet, bitte stelle: 'Zeige nur dein Wunschwissen' aus und füge die Kategorie deinem Wunschwissen hinzu. ",
-            childIsParent: "Übergeordnete Themen können nicht untergeordnet werden.",
+        page: {
+            parentIsPrivate: "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
+            publicChildPages: "Diese Seite hat öffentliche untergeordnete Themen.",
+            publicQuestions: "Diese Seite hat öffentliche Fragen.",
+            notLastChild: "Diese Seite kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterseiten und versuche es erneut.",
+            noRemainingParents: "Die Verknüpfung der Seite kann nicht gelöst werden. Diese Seite muss mindestens einer öffentlichen übergeordneten Seite zugeordnet sein.",
+            parentIsRoot: "Unter 'Globales Wiki', darfst du nur private Seite hinzufügen",
+            loopLink: "Seiten können sich nicht selbst untergeordnet werden",
+            isAlreadyLinkedAsChild: "Diese Seite ist schon untergeordnet.",
+            isNotAChild: "Diese Seite ist bereits keine Unterseite",
+            isLinkedInNonWuwi: "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
+            childIsParent: "Übergeordnete Seiten können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
             nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
-            rootCategoryMustBePublic: "Das Root Thema kann nicht auf privat gesetzt werden.",
+            rootCategoryMustBePublic: "Die Ursprungsseite kann nicht auf privat gesetzt werden.",
             missingRights: "Dir fehlen die notwendigen Rechte.",
-            tooPopular: "Dieses Thema ist zu oft im Wunschwissen anderer User",
+            tooPopular: "Diese Seite ist zu oft im Wunschwissen anderer User",
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
             pinnedQuestions: "",
-            circularReference: "Das Oberthema kann nicht als Unterthema eingeordnet werden",
-            topicNotSelected: "Du hast kein Thema ausgewählt",
-            newTopicIdIsTopicIdToBeDeleted: "Das neue Thema kann nicht das Thema sein, das gelöscht werden soll.",
+            circularReference: "Die übergeordnete Seite kann nicht als Unterseite eingeordnet werden",
+            pageNotSelected: "Du hast keine Seite ausgewählt",
+            newPageIdIsPageIdToBeDeleted: "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
             noChange: "Es wurden keine Änderungen vorgenommen.",
         },
         question: {
@@ -103,14 +103,14 @@ export const messages: any = {
         }
     },
     info: {
-        category: {
+        page: {
             toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Themen ohne Textinhalt.",
         },
         question: {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.',
             notInFilter: 'Die Frage kann mit deinem Fragefilter nicht angezeigt werden.',
             isPrivate: 'Die Frage ist privat. Bitte logge Dich ein.',
-            notInTopic: 'Die Frage ist nicht im Thema enthalten.',
+            notInPage: 'Die Frage ist nicht auf der Seite enthalten.',
         },
         googleLogin: '<p>Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',
         facebookLogin: '<p>Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer <a href="/Impressum"> Datenschutzerklärung</a>.</p>',

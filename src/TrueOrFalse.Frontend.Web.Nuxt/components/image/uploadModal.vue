@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { AlertType, messages, useAlertStore } from '../alert/alertStore'
-import { useTopicStore } from '../topic/topicStore'
+import { usePageStore } from '../page/pageStore'
 import { ImageFormat } from './imageFormatEnum'
 
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 const alertStore = useAlertStore()
 
 interface Props {
@@ -117,7 +117,7 @@ async function upload() {
     if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia) {
         url = '/apiVue/ImageUploadModal/SaveWikimediaImage'
         data = {
-            topicId: topicStore.id,
+            pageId: pageStore.id,
             url: wikimediaUrl.value
         }
     } else {
@@ -128,7 +128,7 @@ async function upload() {
             return
 
         data.append('file', imgFile.value)
-        data.append('topicId', topicStore.id.toString())
+        data.append('pageId', pageStore.id.toString())
         data.append('licenseOwner', licenseGiverName.value)
     }
     const result = await $api<boolean>(url, {
@@ -144,11 +144,11 @@ async function upload() {
 
     if (result) {
         emit('close')
-        alertStore.openAlert(AlertType.Success, { text: messages.success.category.saveImage })
-        topicStore.refreshTopicImage()
+        alertStore.openAlert(AlertType.Success, { text: messages.success.page.saveImage })
+        pageStore.refreshPageImage()
         resetModal()
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.category.saveImageError })
+        alertStore.openAlert(AlertType.Error, { text: messages.error.page.saveImageError })
     }
 }
 
@@ -233,7 +233,7 @@ function resetModal() {
 
                     <div v-if="imageLoaded" class="image-preview-container">
                         <b>Bildvorschau:</b>
-                        <Image :src="wikiMediaPreviewUrl" :format="ImageFormat.Topic" class="image-preview"
+                        <Image :src="wikiMediaPreviewUrl" :format="ImageFormat.Page" class="image-preview"
                             :square="true" />
                     </div>
                 </div>
@@ -266,7 +266,7 @@ function resetModal() {
                     </div>
                     <div v-if="imageLoaded" class="image-preview-container">
                         <b>Bildvorschau:</b>
-                        <Image :src="customImgUrl" :format="ImageFormat.Topic" class="image-preview" :square="true" />
+                        <Image :src="customImgUrl" :format="ImageFormat.Page" class="image-preview" :square="true" />
                     </div>
                     <div v-if="imageLoaded" class="license-container">
                         <b>Urheberrechtsinformation:</b>

@@ -36,17 +36,17 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     }
 
     public ImageUrl GetUrl_50px_square() =>
-        GetUrl_WithCategoriesFailover(50, isSquare: true);
+        GetUrl_WithPagesFailover(50, isSquare: true);
 
-    private ImageUrl GetUrl_WithCategoriesFailover(int width, bool isSquare)
+    private ImageUrl GetUrl_WithPagesFailover(int width, bool isSquare)
     {
         var imageUrl = GetUrl(50, isSquare: true);
 
         if (imageUrl.HasUploadedImage)
             return imageUrl;
 
-        if (_question.Categories.Any())
-            return new CategoryImageSettings(_question.Categories.First().Id,
+        if (_question.Pages.Any())
+            return new PageImageSettings(_question.Pages.First().Id,
                 _contextAccessor).GetUrl(width, isSquare);
 
         return imageUrl;

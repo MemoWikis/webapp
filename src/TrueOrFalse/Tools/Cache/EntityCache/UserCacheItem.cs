@@ -4,11 +4,11 @@ using static System.String;
 public class UserCacheItem : IUserTinyModel, IPersistable
 {
     public int ReputationPos;
-    public int StartTopicId;
+    public int StartPageId;
     public int WishCountQuestions;
     public bool IsMemuchoUser => Settings.MemuchoUserId == Id;
 
-    public virtual List<int> RecentlyUsedRelationTargetTopicIds => RecentlyUsedRelationTargetTopics?
+    public virtual List<int> RecentlyUsedRelationTargetPageIds => RecentlyUsedRelationTargetPages?
         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()
         .ToList();
@@ -27,7 +27,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
     public bool IsMember { get; set; }
     public UserSettingNotificationInterval KnowledgeReportInterval { get; set; }
-    public virtual string RecentlyUsedRelationTargetTopics { get; set; }
+    public virtual string RecentlyUsedRelationTargetPages { get; set; }
     public string StripeId { get; set; }
     public DateTime? SubscriptionStartDate { get; set; }
     public int TotalInOthersWishknowledge { get; set; }
@@ -59,11 +59,11 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ShowWishKnowledge = user.ShowWishKnowledge;
         IsInstallationAdmin = user.IsInstallationAdmin;
 
-        StartTopicId = user.StartTopicId;
+        StartPageId = user.StartPageId;
         WishCountQuestions = user.WishCountQuestions;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         KnowledgeReportInterval = user.KnowledgeReportInterval;
-        RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics;
+        RecentlyUsedRelationTargetPages = user.RecentlyUsedRelationTargetPages;
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
@@ -92,11 +92,11 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ShowWishKnowledge = user.ShowWishKnowledge;
         IsInstallationAdmin = user.IsInstallationAdmin;
 
-        StartTopicId = user.StartTopicId;
+        StartPageId = user.StartPageId;
         WishCountQuestions = user.WishCountQuestions;
         AllowsSupportiveLogin = user.AllowsSupportiveLogin;
         KnowledgeReportInterval = user.KnowledgeReportInterval;
-        RecentlyUsedRelationTargetTopics = user.RecentlyUsedRelationTargetTopics;
+        RecentlyUsedRelationTargetPages = user.RecentlyUsedRelationTargetPages;
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;

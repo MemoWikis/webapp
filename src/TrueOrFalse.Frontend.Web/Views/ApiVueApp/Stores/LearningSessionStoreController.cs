@@ -25,7 +25,7 @@ public class LearningSessionStoreController(
     [HttpPost]
     public LearningSessionResponse NewSession([FromBody] LearningSessionConfig config)
     {
-        if (config == null || config.CategoryId < 1 || !_permissionCheck.CanViewCategory(config.CategoryId))
+        if (config == null || config.PageId < 1 || !_permissionCheck.CanViewPage(config.PageId))
             return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,
@@ -54,7 +54,7 @@ public class LearningSessionStoreController(
     public LearningSessionResponse NewSessionWithJumpToQuestion(
         [FromBody] NewSessionWithJumpToQuestionData data)
     {
-        if (data.Config == null || data.Config.CategoryId < 1 || !_permissionCheck.CanViewCategory(data.Config.CategoryId))
+        if (data.Config == null || data.Config.PageId < 1 || !_permissionCheck.CanViewPage(data.Config.PageId))
             return new LearningSessionResponse
             {
                 MessageKey = FrontendMessageKeys.Error.Default,

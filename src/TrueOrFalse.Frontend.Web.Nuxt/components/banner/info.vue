@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { Topic } from '../topic/topicStore'
+import { Page } from '../page/pageStore'
 import { useUserStore } from '../user/userStore'
 
 const userStore = useUserStore()
 interface Props {
-    documentation: Topic
+    documentation: Page
 }
 
 const props = defineProps<Props>()
@@ -62,7 +62,7 @@ watch(showBanner, (val) => {
                 </div>
                 <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
                     <NuxtLink class="memo-button btn btn-primary"
-                        :to="$urlHelper.getTopicUrl(props.documentation.name, props.documentation.id)">
+                        :to="$urlHelper.getPageUrl(props.documentation.name, props.documentation.id)">
                         Zur Dokumentation
                     </NuxtLink>
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"

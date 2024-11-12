@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
-import { Page } from '~~/components/shared/pageEnum'
-import { FooterTopics, Topic } from '~~/components/topic/topicStore'
+import { PageEnum } from '~~/components/shared/pageEnum'
+import { FooterPages, Page } from '~/components/page/pageStore'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
@@ -13,8 +13,8 @@ const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
 interface Props {
-	footerTopics: FooterTopics
-	documentation: Topic
+	footerPages: FooterPages
+	documentation: Page
 }
 
 const props = defineProps<Props>()
@@ -63,12 +63,12 @@ function highlightCode(id: string) {
 }
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
-	emit('setPage', Page.Question)
+	emit('setPage', PageEnum.Question)
 
 	if (question.value?.answerBodyModel != null)
 		emit('setQuestionPageData', {
-			primaryTopicName: question.value.answerBodyModel?.primaryTopicName,
-			primaryTopicUrl: $urlHelper.getTopicUrlWithQuestionId(question.value.answerBodyModel.primaryTopicName, question.value.answerBodyModel.primaryTopicId, question.value.answerBodyModel.id),
+			primaryPageName: question.value.answerBodyModel?.primaryPageName,
+			primaryPageUrl: $urlHelper.getPageUrlWithQuestionId(question.value.answerBodyModel.primaryPageName, question.value.answerBodyModel.primaryPageId, question.value.answerBodyModel.id),
 			title: question.value.answerBodyModel.title
 		})
 	if (!question.value)
@@ -181,11 +181,11 @@ useHead(() => ({
 												<div id="Buttons">
 													<div id="btnGoToTestSession">
 
-														<NuxtLink v-if="question.answerBodyModel.hasTopics"
-															:to="$urlHelper.getTopicUrlWithQuestionId(question.answerBodyModel.primaryTopicName, question.answerBodyModel.primaryTopicId, question.answerBodyModel.id)"
+														<NuxtLink v-if="question.answerBodyModel.hasPages"
+															:to="$urlHelper.getPageUrlWithQuestionId(question.answerBodyModel.primaryPageName, question.answerBodyModel.primaryPageId, question.answerBodyModel.id)"
 															id="btnStartTestSession"
 															class="btn btn-primary show-tooltip" rel="nofollow"
-															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen im Thema' : 'Lerne 5 zufällig ausgewählte Fragen aus dem Thema ' + question.answerBodyModel.primaryTopicName">
+															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen auf dieser Seite' : 'Lerne 5 zufällig ausgewählte Fragen von ' + question.answerBodyModel.primaryPageName">
 															<b>Weiterlernen</b>
 														</NuxtLink>
 													</div>
@@ -233,7 +233,7 @@ useHead(() => ({
 
 					</div>
 				</div>
-				<Sidebar :footer-topics="props.footerTopics" />
+				<Sidebar :footer-pages="props.footerPages" />
 			</template>
 		</div>
 	</div>

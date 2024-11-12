@@ -4,10 +4,10 @@ export interface UserResult {
     reputationPoints: number
     rank: number
     createdQuestionsCount: number
-    createdTopicsCount: number
+    createdPagesCount: number
     showWuwi: boolean
     wuwiQuestionsCount: number
-    wuwiTopicsCount: number
+    wuwiPagesCount: number
     imgUrl: string
     wikiId: number
 }

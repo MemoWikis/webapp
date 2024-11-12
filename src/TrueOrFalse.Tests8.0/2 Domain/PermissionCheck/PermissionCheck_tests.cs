@@ -1,11 +1,11 @@
 ﻿class PermissionCheck_tests : BaseTest
 {
     [Test]
-    public void CanMoveTopic_MoveTopicCreator_And_ParentTopicCreator_IsUser()
+    public void CanMovePage_MovePageCreator_And_ParentPageCreator_IsUser()
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
 
         context.Add("root", creator: user).Persist();
@@ -31,15 +31,15 @@
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user.Id);
-        Assert.IsTrue(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42));
+        Assert.IsTrue(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42));
     }
 
     [Test]
-    public void CanMoveTopic_MoveTopicCreator_IsUser()
+    public void CanMovePage_MovePageCreator_IsUser()
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -65,15 +65,15 @@
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user.Id);
-        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
+        Assert.That(true, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42)));
     }
 
     [Test]
-    public void CanMoveTopic_ParentTopicCreator_IsUser()
+    public void CanMovePage_ParentPageCreator_IsUser()
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -99,15 +99,15 @@
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user2.Id);
-        Assert.That(true, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
+        Assert.That(true, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42)));
     }
 
     [Test]
-    public void CanMoveTopic_Disallowed()
+    public void CanMovePage_Disallowed()
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         var user3 = new User { Id = 3 };
@@ -135,7 +135,7 @@
         entityCacheInitializer.Init();
 
         var permissionCheck = new PermissionCheck(user3.Id);
-        Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, 42)));
-        Assert.That(false, Is.EqualTo(permissionCheck.CanMoveTopic(subsub1.Id, sub1.Id, root.Id)));
+        Assert.That(false, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, 42)));
+        Assert.That(false, Is.EqualTo(permissionCheck.CanMovePage(subsub1.Id, sub1.Id, root.Id)));
     }
 }

@@ -19,7 +19,7 @@ public class QuestionDelete(
             throw new Exception("Question cannot be deleted: Question is " +
                                 canBeDeletedResult.WuwiCount + "x in Wishknowledge");
         }
-        var parentIds = questionCacheItem.Categories.Select(c => c.Id).ToList();
+        var parentIds = questionCacheItem.Pages.Select(c => c.Id).ToList();
 
         EntityCache.Remove(questionCacheItem);
         _extendedUserCache.RemoveQuestionForAllUsers(questionId);

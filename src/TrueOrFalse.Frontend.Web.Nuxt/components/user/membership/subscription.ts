@@ -15,7 +15,7 @@ export enum Type {
 }
 
 export interface BasicLimits {
-    maxPrivateTopicCount: number
+    maxPrivatePageCount: number
     maxPrivateQuestionCount: number
     maxWishknowledgeCount: number
 }
@@ -27,7 +27,7 @@ export const plans = (limit: BasicLimits) => {
             price: 0,
             priceLabel: 'Kostenlos für immer!',
             description: ['Du kannst alles machen. Nur die Anzahl der privaten Inhalte ist begrenzt.'],
-            list: ['Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)', `${limit.maxPrivateTopicCount} private Themen`, `${limit.maxPrivateQuestionCount} private Fragen`, `max ${limit.maxWishknowledgeCount} Fragen im Wunschwissen`],
+            list: ['Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)', `${limit.maxPrivatePageCount} private Themen`, `${limit.maxPrivateQuestionCount} private Fragen`, `max ${limit.maxWishknowledgeCount} Fragen im Wunschwissen`],
         } as Plan,
         plus: {
             name: 'Plus',

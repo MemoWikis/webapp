@@ -32,16 +32,16 @@ public abstract class ImageSettings
     {
         switch (imageMetaData.Type)
         {
-            case ImageType.Category:
-                return new CategoryImageSettings(imageMetaData.TypeId, _contextAccessor);
+            case ImageType.Page:
+                return new PageImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.Question:
                 return new QuestionImageSettings(imageMetaData.TypeId, _contextAccessor, questionReadingRepo);
             case ImageType.QuestionSet:
                 return new SetImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.User:
                 return new UserImageSettings(imageMetaData.TypeId, _contextAccessor);
-            case ImageType.TopicContent:
-                return new TopicContentImageSettings(imageMetaData.TypeId, _contextAccessor);
+            case ImageType.PageContent:
+                return new PageContentImageSettings(imageMetaData.TypeId, _contextAccessor);
             case ImageType.QuestionContent:
                 return new QuestionContentImageSettings(imageMetaData.TypeId, _contextAccessor);
             default:

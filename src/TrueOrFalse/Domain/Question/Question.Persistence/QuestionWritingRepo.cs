@@ -4,7 +4,7 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
 public class QuestionWritingRepo(
-    UpdateQuestionCountForCategory _updateQuestionCountForCategory,
+    UpdateQuestionCountForPage updateQuestionCountForPage,
     JobQueueRepo _jobQueueRepo,
     ReputationUpdate _reputationUpdate,
     UserReadingRepo _userReadingRepo,
@@ -12,10 +12,10 @@ public class QuestionWritingRepo(
     QuestionChangeRepo _questionChangeRepo,
     ISession _nhibernateSession,
     SessionUser _sessionUser,
-    CategoryChangeRepo _categoryChangeRepo,
-    CategoryRepository _categoryRepository) : RepositoryDbBase<Question>(_nhibernateSession)
+    PageChangeRepo pageChangeRepo,
+    PageRepository pageRepository) : RepositoryDbBase<Question>(_nhibernateSession)
 {
-    public void Create(Question question, CategoryRepository categoryRepository)
+    public void Create(Question question, PageRepository pageRepository)
     {
         if (question.Creator == null)
         {
@@ -25,13 +25,13 @@ public class QuestionWritingRepo(
         Create(question);
         Flush();
 
-        _updateQuestionCountForCategory.Run(question.Categories);
+        updateQuestionCountForPage.Run(question.Pages);
 
-        foreach (var category in question.Categories.ToList())
+        foreach (var page in question.Pages.ToList())
         {
-            category.UpdateCountQuestionsAggregated(question.Creator.Id);
-            categoryRepository.Update(category);
-            KnowledgeSummaryUpdate.ScheduleForCategory(category.Id, _jobQueueRepo);
+            page.UpdateCountQuestionsAggregated(question.Creator.Id);
+            pageRepository.Update(page);
+            KnowledgeSummaryUpdate.ScheduleForPage(page.Id, _jobQueueRepo);
         }
 
         if (question.Visibility != QuestionVisibility.Owner)
@@ -50,15 +50,15 @@ public class QuestionWritingRepo(
     public List<int> Delete(int questionId, int userId, List<int> parentIds)
     {
         var question = GetById(questionId);
-        var parentTopics = _categoryRepository.GetByIds(parentIds);
+        var parentPages = pageRepository.GetByIds(parentIds);
 
-        _updateQuestionCountForCategory.Run(parentTopics, userId);
+        updateQuestionCountForPage.Run(parentPages, userId);
         var safeText = Regex.Replace(question.Text, "<.*?>", "");
 
         var changeId = DeleteAndGetChangeId(question, userId);
 
-        foreach (var parent in parentTopics)
-            _categoryChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
+        foreach (var parent in parentPages)
+            pageChangeRepo.AddDeletedQuestionEntry(parent, userId, changeId, safeText, question.Visibility);
 
         return parentIds;
     }
@@ -74,22 +74,22 @@ public class QuestionWritingRepo(
 
     public void UpdateOrMerge(Question question, bool withMerge)
     {
-        var categoriesIds = _nhibernateSession
+        var pageIds = _nhibernateSession
             .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" +
                             question.Id)
             .List<int>();
         var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
                     " AND Category_id is not null";
-        var categoriesReferences = _nhibernateSession
+        var pageReferences = _nhibernateSession
             .CreateSQLQuery(query)
             .List<int>();
-        var categoriesBeforeUpdateIds = categoriesIds.Union(categoriesReferences)
+        var pagesBeforeUpdateIds = pageIds.Union(pageReferences)
             .ToList();
 
-        var categoriesBeforeUpdate = _nhibernateSession
-            .QueryOver<Category>()
+        var pagesBeforeUpdate = _nhibernateSession
+            .QueryOver<Page>()
             .WhereRestrictionOn(c => c.Id)
-            .IsIn(categoriesBeforeUpdateIds)
+            .IsIn(pagesBeforeUpdateIds)
             .List();
 
         if (withMerge)
@@ -98,18 +98,18 @@ public class QuestionWritingRepo(
             Update(question);
 
         Flush();
-        var categoriesToUpdate = categoriesBeforeUpdate
-            .Union(question.Categories)
-            .Union(question.References.Where(r => r.Category != null)
-                .Select(r => r.Category))
+        var pagesToUpdate = pagesBeforeUpdate
+            .Union(question.Pages)
+            .Union(question.References.Where(r => r.Page != null)
+                .Select(r => r.Page))
             .ToList();
 
-        var categoriesToUpdateIds = categoriesToUpdate.Select(c => c.Id).ToList();
+        var pagesToUpdateIds = pagesToUpdate.Select(c => c.Id).ToList();
 
-        UpdateQuestionCacheItem(question, categoriesToUpdateIds);
+        UpdateQuestionCacheItem(question, pagesToUpdateIds);
 
-        _updateQuestionCountForCategory.Run(categoriesToUpdate);
-        JobScheduler.StartImmediately_UpdateAggregatedCategoriesForQuestion(categoriesToUpdateIds,
+        updateQuestionCountForPage.Run(pagesToUpdate);
+        JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds,
             _sessionUser.UserId);
         _questionChangeRepo.AddUpdateEntry(question);
 
@@ -122,7 +122,7 @@ public class QuestionWritingRepo(
         base.Update(question);
     }
 
-    private void UpdateQuestionCacheItem(Question question, List<int>? categoriesToUpdateIds)
+    private void UpdateQuestionCacheItem(Question question, List<int>? pagesToUpdateIds)
     {
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
 
@@ -130,7 +130,7 @@ public class QuestionWritingRepo(
             return;
 
         questionCacheItem.Visibility = question.Visibility;
-        questionCacheItem.Categories = EntityCache.GetCategories(question.Categories?.Select(c => c.Id)).ToList();
+        questionCacheItem.Pages = EntityCache.GetPages(question.Pages?.Select(c => c.Id)).ToList();
         questionCacheItem.DateCreated = question.DateCreated;
         questionCacheItem.DateModified = question.DateModified;
         questionCacheItem.DescriptionHtml = question.DescriptionHtml;
@@ -145,6 +145,6 @@ public class QuestionWritingRepo(
         questionCacheItem.License = question.License;
 
         questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
-        EntityCache.AddOrUpdate(questionCacheItem, affectedCategoryIds: categoriesToUpdateIds);
+        EntityCache.AddOrUpdate(questionCacheItem, affectedPageIds: pagesToUpdateIds);
     }
 }

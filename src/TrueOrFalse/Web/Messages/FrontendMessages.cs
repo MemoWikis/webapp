@@ -2,13 +2,13 @@
 {
     public static class Success
     {
-        public static class Category
+        public static class Page
         {
-            public static readonly string Publish = "success_category_publish";
-            public static readonly string SetToPrivate = "success_category_setToPrivate";
-            public static readonly string Unlinked = "success_category_unlinked";
-            public static readonly string AddedToPersonalWiki = "success_category_addedToPersonalWiki";
-            public static readonly string SaveImage = "success_category_saveImage";
+            public static readonly string Publish = "success_page_publish";
+            public static readonly string SetToPrivate = "success_page_setToPrivate";
+            public static readonly string Unlinked = "success_page_unlinked";
+            public static readonly string AddedToPersonalWiki = "success_page_addedToPersonalWiki";
+            public static readonly string SaveImage = "success_page_saveImage";
         }
 
         public static class Question
@@ -33,36 +33,36 @@
         {
             public static readonly string CantAddKnowledge = "error_subscription_cantAddKnowledge";
             public static readonly string CantSavePrivateQuestion = "error_subscription_cantSavePrivateQuestion";
-            public static readonly string CantSavePrivateTopic = "error_subscription_cantSavePrivateTopic";
+            public static readonly string CantSavePrivatePage = "error_subscription_cantSavePrivatePage";
         }
 
-        public static class Category
+        public static class Page
         {
-            public static readonly string ParentIsPrivate = "error_category_parentIsPrivate";
-            public static readonly string PublicChildCategories = "error_category_publicChildCategories";
-            public static readonly string PublicQuestions = "error_category_publicQuestions";
-            public static readonly string NotLastChild = "error_category_notLastChild";
-            public static readonly string NoRemainingParents = "error_category_noRemainingParents";
-            public static readonly string ParentIsRoot = "error_category_parentIsRoot";
-            public static readonly string LoopLink = "error_category_loopLink";
-            public static readonly string IsAlreadyLinkedAsChild = "error_category_isAlreadyLinkedAsChild";
-            public static readonly string IsNotAChild = "error_category_isNotAChild";
-            public static readonly string IsLinkedInNonWuwi = "error_category_isLinkedInNonWuwi";
-            public static readonly string ChildIsParent = "error_category_childIsParent";
-            public static readonly string NameIsTaken = "error_category_nameIsTaken";
-            public static readonly string NameIsForbidden = "error_category_nameIsForbidden";
-            public static readonly string RootCategoryMustBePublic = "error_category_rootCategoryMustBePublic";
-            public static readonly string MissingRights = "error_category_missingRights";
-            public static readonly string TooPopular = "error_category_tooPopular";
-            public static readonly string SaveImageError = "error_category_saveImageError";
-            public static readonly string PinnedQuestions = "error_category_pinnedQuestions";
-            public static readonly string CircularReference = "error_category_circularReference";
-            public static readonly string TopicNotSelected = "error_category_topicNotSelected";
-            public static readonly string NewTopicIdIsTopicIdToBeDeleted = "error_category_newTopicIdIsTopicIdToBeDeleted";
+            public static readonly string ParentIsPrivate = "error_page_parentIsPrivate";
+            public static readonly string PublicChildPages = "error_page_publicChildPages";
+            public static readonly string PublicQuestions = "error_page_publicQuestions";
+            public static readonly string NotLastChild = "error_page_notLastChild";
+            public static readonly string NoRemainingParents = "error_page_noRemainingParents";
+            public static readonly string ParentIsRoot = "error_page_parentIsRoot";
+            public static readonly string LoopLink = "error_page_loopLink";
+            public static readonly string IsAlreadyLinkedAsChild = "error_page_isAlreadyLinkedAsChild";
+            public static readonly string IsNotAChild = "error_page_isNotAChild";
+            public static readonly string IsLinkedInNonWuwi = "error_page_isLinkedInNonWuwi";
+            public static readonly string ChildIsParent = "error_page_childIsParent";
+            public static readonly string NameIsTaken = "error_page_nameIsTaken";
+            public static readonly string NameIsForbidden = "error_page_nameIsForbidden";
+            public static readonly string RootCategoryMustBePublic = "error_page_rootCategoryMustBePublic";
+            public static readonly string MissingRights = "error_page_missingRights";
+            public static readonly string TooPopular = "error_page_tooPopular";
+            public static readonly string SaveImageError = "error_page_saveImageError";
+            public static readonly string PinnedQuestions = "error_page_pinnedQuestions";
+            public static readonly string CircularReference = "error_page_circularReference";
+            public static readonly string PageNotSelected = "error_page_topicNotSelected";
+            public static readonly string NewPageIdIsPageIdToBeDeleted = "error_page_newPageIdIsPageIdToBeDeleted";
             public static readonly string NotFound = Route.NotFound;
             public static readonly string NoRights = Route.NoRights;
             public static readonly string Unauthorized = Route.Unauthorized;
-            public static readonly string NoChange = "error_category_noChange";
+            public static readonly string NoChange = "error_page_noChange";
         }
 
         public static class Question
@@ -120,7 +120,7 @@
 
     public static class Info
     {
-        public static class Category
+        public static class Page
         {
         }
 
@@ -129,7 +129,7 @@
             public static readonly string NewQuestionNotInFilter = "info_question_newQuestionNotInFilter";
             public static readonly string NotInFilter = "info_question_notInFilter";
             public static readonly string IsPrivate = "info_question_isPrivate";
-            public static readonly string NotInTopic = "info_question_notInTopic";
+            public static readonly string NotInPage = "info_question_notInPage";
         }
 
         public static readonly string GoogleLogin = "info_googleLogin";

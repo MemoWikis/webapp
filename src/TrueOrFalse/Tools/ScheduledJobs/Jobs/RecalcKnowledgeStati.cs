@@ -7,28 +7,28 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
     public class RecalcKnowledgeStati : IJob
     {
         private readonly ISession _nhibernateSession;
-        private readonly CategoryValuationReadingRepo _categoryValuationReadingRepo;
+        private readonly PageValuationReadingRepository _pageValuationReadingRepository;
         private readonly QuestionValuationReadingRepo _questionValuationReadingRepo;
         private readonly ProbabilityCalc_Simple1 _probabilityCalcSimple1;
         private readonly AnswerRepo _answerRepo;
         private readonly KnowledgeSummaryLoader _knowledgeSummaryLoader;
-        private readonly CategoryValuationWritingRepo _categoryValuationWritingRepo;
+        private readonly PageValuationWritingRepo _pageValuationWritingRepo;
 
         public RecalcKnowledgeStati(ISession nhibernateSession,
-            CategoryValuationReadingRepo categoryValuationReadingRepo,
+            PageValuationReadingRepository pageValuationReadingRepository,
             QuestionValuationReadingRepo questionValuationReadingRepo,
             ProbabilityCalc_Simple1 probabilityCalcSimple1,
             AnswerRepo answerRepo,
             KnowledgeSummaryLoader knowledgeSummaryLoader,
-            CategoryValuationWritingRepo categoryValuationWritingRepo)
+            PageValuationWritingRepo pageValuationWritingRepo)
         {
             _nhibernateSession = nhibernateSession;
-            _categoryValuationReadingRepo = categoryValuationReadingRepo;
+            _pageValuationReadingRepository = pageValuationReadingRepository;
             _questionValuationReadingRepo = questionValuationReadingRepo;
             _probabilityCalcSimple1 = probabilityCalcSimple1;
             _answerRepo = answerRepo;
             _knowledgeSummaryLoader = knowledgeSummaryLoader;
-            _categoryValuationWritingRepo = categoryValuationWritingRepo;
+            _pageValuationWritingRepo = pageValuationWritingRepo;
         }
         public Task Execute(IJobExecutionContext context)
         {
@@ -41,8 +41,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         _probabilityCalcSimple1,
                         _answerRepo).Run(user.Id);
                     KnowledgeSummaryUpdate.RunForUser(user.Id,
-                        _categoryValuationReadingRepo,
-                        _categoryValuationWritingRepo, 
+                        _pageValuationReadingRepository,
+                        _pageValuationWritingRepo, 
                         _knowledgeSummaryLoader);
                 }
             }, "RecalcKnowledgeStati");

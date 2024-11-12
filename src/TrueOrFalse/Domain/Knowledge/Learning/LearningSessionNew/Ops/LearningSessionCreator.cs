@@ -128,17 +128,17 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return result;
     }
 
-    private (IList<QuestionCacheItem> allQuestions, bool questionNotInTopic) CheckQuestionInTopic(
-        int topicId,
+    private (IList<QuestionCacheItem> allQuestions, bool questionNotInPage) CheckQuestionInPage(
+        int pageId,
         int questionId)
     {
-        var topic = EntityCache.GetCategory(topicId);
+        var topic = EntityCache.GetPage(pageId);
         var allQuestions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
 
-        bool questionNotInTopic = allQuestions.All(q => q.Id != questionId);
+        bool questionNotInPage = allQuestions.All(q => q.Id != questionId);
 
-        return (allQuestions, questionNotInTopic);
+        return (allQuestions, questionNotInPage);
     }
 
     public LearningSessionResult GetLearningSessionResult(
@@ -150,10 +150,10 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         if (!_permissionCheck.CanViewQuestion(questionId))
             result.MessageKey = FrontendMessageKeys.Info.Question.IsPrivate;
 
-        var (allQuestions, questionNotInTopic) =
-            CheckQuestionInTopic(config.CategoryId, questionId);
-        if (questionNotInTopic)
-            result.MessageKey = FrontendMessageKeys.Info.Question.NotInTopic;
+        var (allQuestions, questionNotInPage) =
+            CheckQuestionInPage(config.PageId, questionId);
+        if (questionNotInPage)
+            result.MessageKey = FrontendMessageKeys.Info.Question.NotInPage;
 
         var learningSession = GetLearningSession(config, questionId, allQuestions);
 
@@ -179,11 +179,11 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return FillLearningSessionResult(learningSession, result);
     }
 
-    public void LoadDefaultSessionIntoCache(int topicId, int userId = default)
+    public void LoadDefaultSessionIntoCache(int pageId, int userId = default)
     {
         var config = new LearningSessionConfig
         {
-            CategoryId = topicId,
+            PageId = pageId,
             CurrentUserId = userId
         };
         _learningSessionCache.AddOrUpdate(BuildLearningSession(config));
@@ -213,7 +213,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
 
     public LearningSession BuildLearningSession(LearningSessionConfig config)
     {
-        IList<QuestionCacheItem> allQuestions = EntityCache.GetCategory(config.CategoryId)
+        IList<QuestionCacheItem> allQuestions = EntityCache.GetPage(config.PageId)
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
             .Where(q => q.Id > 0)
             .Where(_permissionCheck.CanView).ToList();

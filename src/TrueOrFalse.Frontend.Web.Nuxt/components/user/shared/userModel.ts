@@ -4,7 +4,7 @@ export interface UserModel {
     name: string,
     amountCreatedQuestions: number,
     amountCreatedSets: number,
-    amountCreatedCategories: number,
+    amountCreatedPages: number,
     amountWishCountQuestions: number,
     amountWishCountSets: number,
     imageUrl_250: string,

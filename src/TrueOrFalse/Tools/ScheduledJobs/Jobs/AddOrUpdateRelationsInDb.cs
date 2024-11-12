@@ -5,30 +5,30 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class AddOrUpdateRelationsInDb : IJob
     {
-        private readonly CategoryRepository _categoryRepository;
-        private readonly CategoryRelationRepo _categoryRelationRepo;
+        private readonly PageRepository _pageRepository;
+        private readonly PageRelationRepo _pageRelationRepo;
         private int _authorId;
 
         public AddOrUpdateRelationsInDb(
-            CategoryRepository categoryRepository,
-            CategoryRelationRepo categoryRelationRepo)
+            PageRepository pageRepository,
+            PageRelationRepo pageRelationRepo)
         {
-            _categoryRepository = categoryRepository;
-            _categoryRelationRepo = categoryRelationRepo;
+            _pageRepository = pageRepository;
+            _pageRelationRepo = pageRelationRepo;
         }
 
         public async Task Execute(IJobExecutionContext context)
         {
             var dataMap = context.JobDetail.JobDataMap;
             var relationsJson = dataMap.GetString("relations");
-            var relations = JsonSerializer.Deserialize<List<CategoryCacheRelation>>(relationsJson);
+            var relations = JsonSerializer.Deserialize<List<PageRelationCache>>(relationsJson);
             _authorId = dataMap.GetInt("authorId");
 
             await Run(relations);
             Logg.r.Information("Job ended - ModifyRelations");
         }
 
-        private Task Run(List<CategoryCacheRelation> relations)
+        private Task Run(List<PageRelationCache> relations)
         {
             foreach (var r in relations)
             {
@@ -36,9 +36,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     "Job started - ModifyRelations RelationId: {relationId}, Child: {childId}, Parent: {parentId}",
                     r.Id, r.ChildId, r.ParentId);
 
-                var relationToUpdate = r.Id > 0 ? _categoryRelationRepo.GetById(r.Id) : null;
-                var child = _categoryRepository.GetById(r.ChildId);
-                var parent = _categoryRepository.GetById(r.ParentId);
+                var relationToUpdate = r.Id > 0 ? _pageRelationRepo.GetById(r.Id) : null;
+                var child = _pageRepository.GetById(r.ChildId);
+                var parent = _pageRepository.GetById(r.ParentId);
 
                 if (relationToUpdate != null)
                 {
@@ -47,11 +47,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     relationToUpdate.PreviousId = r.PreviousId;
                     relationToUpdate.NextId = r.NextId;
 
-                    _categoryRelationRepo.Update(relationToUpdate);
+                    _pageRelationRepo.Update(relationToUpdate);
                 }
                 else
                 {
-                    var relation = new CategoryRelation
+                    var relation = new PageRelation
                     {
                         Child = child,
                         Parent = parent,
@@ -59,11 +59,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         NextId = r.NextId,
                     };
 
-                    _categoryRelationRepo.Create(relation);
+                    _pageRelationRepo.Create(relation);
                 }
 
-                _categoryRepository.Update(child, _authorId, type: CategoryChangeType.Relations);
-                _categoryRepository.Update(parent, _authorId, type: CategoryChangeType.Relations);
+                _pageRepository.Update(child, _authorId, type: PageChangeType.Relations);
+                _pageRepository.Update(parent, _authorId, type: PageChangeType.Relations);
             }
 
             return Task.CompletedTask;

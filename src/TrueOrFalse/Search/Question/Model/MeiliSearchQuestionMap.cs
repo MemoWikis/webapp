@@ -9,7 +9,7 @@
         public int SolutionType { get; set; }
 
         public int? CreatorId { get; set; }
-        public ICollection<string> Categories { get; set; }
-        public ICollection<int> CategoryIds { get; set; }
+        public ICollection<string> Pages { get; set; }
+        public ICollection<int> PageIds { get; set; }
     }
 }

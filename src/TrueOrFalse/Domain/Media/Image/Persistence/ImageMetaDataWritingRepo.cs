@@ -10,7 +10,7 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
 {
     private readonly QuestionReadingRepo _questionReadingRepo;
     private readonly LoadImageMarkups _loadImageMarkups;
-    private readonly CategoryRepository _categoryRepository;
+    private readonly PageRepository _pageRepository;
     private readonly ImageMetaDataReadingRepo _imageMetaDataReadingRepo;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IActionContextAccessor _contextAction;
@@ -20,7 +20,7 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
     public ImageMetaDataWritingRepo(ISession session,
         QuestionReadingRepo questionReadingRepo,
         LoadImageMarkups loadImageMarkups,
-        CategoryRepository categoryRepository,
+        PageRepository pageRepository,
         ImageMetaDataReadingRepo imageMetaDataReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor contextAction,
@@ -28,7 +28,7 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
     {
         _questionReadingRepo = questionReadingRepo;
         _loadImageMarkups = loadImageMarkups;
-        _categoryRepository = categoryRepository;
+        _pageRepository = pageRepository;
         _imageMetaDataReadingRepo = imageMetaDataReadingRepo;
         _httpContextAccessor = httpContextAccessor;
         _contextAction = contextAction;
@@ -92,9 +92,8 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
         if (_httpContextAccessor.HttpContext != null)
             imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData,
                 _questionReadingRepo,
-                _categoryRepository,
+                _pageRepository,
                 _httpContextAccessor,
-                _webHostEnvironment,
                 _contextAction)
                 .LicenseState;
 
@@ -106,9 +105,8 @@ public class ImageMetaDataWritingRepo : IRegisterAsInstancePerLifetime
         if (_httpContextAccessor.HttpContext != null)
             imageMetaData.LicenseState = new ImageMaintenanceInfo(imageMetaData,
                 _questionReadingRepo,
-                _categoryRepository,
+                _pageRepository,
                 _httpContextAccessor,
-                _webHostEnvironment,
                 _contextAction)
                 .LicenseState;
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 
 public class ExtendedUserCache(
-    CategoryValuationReadingRepo _categoryValuationReadingRepo,
+    PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
     AnswerRepo _answerRepo)
     : IRegisterAsInstancePerLifetime
@@ -55,7 +55,7 @@ public class ExtendedUserCache(
         GetItem(userId)?.QuestionValuations.Values
             .ToList() ?? new List<QuestionValuationCacheItem>();
 
-    public IList<CategoryValuation> GetCategoryValuations(int userId)
+    public IList<PageValuation> GetPageValuations(int userId)
     {
         var item = GetItem(userId);
 
@@ -64,7 +64,7 @@ public class ExtendedUserCache(
 
         Logg.r.Error("sessionUserItem is null {userId}", userId);
 
-        return new List<CategoryValuation>();
+        return new List<PageValuation>();
     }
 
     public ExtendedUserCacheItem? GetItem(int userId) =>
@@ -145,15 +145,15 @@ public class ExtendedUserCache(
         return userCacheItems;
     }
 
-    /// <summary> Used for category delete </summary>
-    public void RemoveAllForCategory(
-        int categoryId,
-        CategoryValuationWritingRepo categoryValuationWritingRepo)
+    /// <summary> Used for page delete </summary>
+    public void RemoveAllForPage(
+        int pageId,
+        PageValuationWritingRepo pageValuationWritingRepo)
     {
-        categoryValuationWritingRepo.DeleteCategoryValuation(categoryId);
+        pageValuationWritingRepo.DeleteCategoryValuation(pageId);
         foreach (var userCache in GetAllActiveCaches())
         {
-            userCache.CategoryValuations.TryRemove(categoryId, out var result);
+            userCache.CategoryValuations.TryRemove(pageId, out var result);
         }
     }
 
@@ -169,10 +169,10 @@ public class ExtendedUserCache(
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
-        cacheItem.CategoryValuations = new ConcurrentDictionary<int, CategoryValuation>(
-            _categoryValuationReadingRepo
+        cacheItem.CategoryValuations = new ConcurrentDictionary<int, PageValuation>(
+            pageValuationReadingRepository
                 .GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, CategoryValuation>(v.CategoryId, v)));
+                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)));
 
         cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             _questionValuationReadingRepo

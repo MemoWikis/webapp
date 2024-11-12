@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 <template>
     <div class="container">
-        <div class="row topic-container main-page">
+        <div class="row page-container main-page">
             <div>
                 <h1>Vielen Dank für Ihr Vertrauen!</h1>
                 <p>

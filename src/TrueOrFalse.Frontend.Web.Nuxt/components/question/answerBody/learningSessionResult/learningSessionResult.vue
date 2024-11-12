@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { AnswerState } from '~~/components/topic/learning/learningSessionStore'
-import { useTabsStore, Tab } from '~~/components/topic/tabs/tabsStore'
+import { AnswerState } from '~/components/page/learning/learningSessionStore'
+import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { useUserStore } from '~~/components/user/userStore'
 
 const userStore = useUserStore()
@@ -36,8 +36,8 @@ interface LearningSessionResult {
         imgUrl: string
         id: number
     }[]
-    topicName: string
-    topicId: number
+    pageName: string
+    pageId: number
     inWuwi: boolean
 }
 const { $logger } = useNuxtApp()
@@ -126,13 +126,13 @@ const tabsStore = useTabsStore()
                         </button>
                         <button v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Text"
                             class="memo-button btn btn-link">
-                            Zum Thema
+                            Zur Seite
                         </button>
                         <NuxtLink v-else
-                            :to="$urlHelper.getTopicUrl(learningSessionResult.topicName, learningSessionResult.topicId)"
+                            :to="$urlHelper.getPageUrl(learningSessionResult.pageName, learningSessionResult.pageId)"
                             class="memo-button btn btn-link" style="padding-right: 10px">
                             <button class="memo-button btn btn-link">
-                                Zum Thema
+                                Zur Seite
                             </button>
                         </NuxtLink>
                     </template>

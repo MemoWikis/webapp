@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { useAlertStore, messages, AlertType } from '~~/components/alert/alertStore'
-import { useLearningSessionStore } from '~~/components/topic/learning/learningSessionStore'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { useDeleteQuestionStore } from './deleteQuestionStore'
-import { useTopicStore } from '~~/components/topic/topicStore'
+import { usePageStore } from '~/components/page/pageStore'
 
 const showDeleteInfo = ref(false)
 
@@ -58,7 +58,7 @@ const deletionInProgress = ref(false)
 const learningSessionStore = useLearningSessionStore()
 const spinnerStore = useSpinnerStore()
 const deleteQuestionStore = useDeleteQuestionStore()
-const topicStore = useTopicStore()
+const pageStore = usePageStore()
 
 async function deleteQuestion() {
     deletionInProgress.value = true
@@ -82,7 +82,7 @@ async function deleteQuestion() {
         deleteQuestionStore.questionDeleted(result.id)
         if (result.reloadAnswerBody)
             learningSessionStore.changeActiveQuestion(result.sessionIndex)
-        topicStore.questionCount--
+        pageStore.questionCount--
         alertStore.openAlert(AlertType.Success, { text: messages.success.question.delete })
         deleteQuestionStore.showModal = false
     } else {

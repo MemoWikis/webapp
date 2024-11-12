@@ -10,10 +10,10 @@ public class LearningSession
         List<LearningSessionStep> learningSessionSteps,
         LearningSessionConfig config)
     {
-        
+
         Steps = learningSessionSteps;
         Config = config;
-        Config.Category = EntityCache.GetCategory(Config.CategoryId) ??
+        Config.Page = EntityCache.GetPage(Config.PageId) ??
                           throw new InvalidOperationException();
     }
 

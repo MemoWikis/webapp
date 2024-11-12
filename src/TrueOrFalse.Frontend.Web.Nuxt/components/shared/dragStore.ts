@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { GridTopicItem } from '../topic/content/grid/item/gridTopicItem'
+import { GridPageItem } from '../page/content/grid/item/gridPageItem'
 
 export enum TargetPosition {
     Before,
@@ -19,8 +19,8 @@ export interface DropZoneData {
 	parentId: number
 }
 
-export interface MoveTopicTransferData {
-	topic: GridTopicItem
+export interface MovePageTransferData {
+	page: GridPageItem
     oldParentId: number
 }
 
@@ -28,7 +28,7 @@ export const useDragStore = defineStore('dragStore', {
 	state: () => {
 		return {
 			active: false,
-			transferData: null as MoveTopicTransferData | string | null,
+			transferData: null as MovePageTransferData | string | null,
 			dropZoneData: null as DropZoneData | null,
 			x: 0,
 			y: 0,
@@ -40,10 +40,10 @@ export const useDragStore = defineStore('dragStore', {
 		}
 	},
 	actions: {
-		setTransferData(e: MoveTopicTransferData | string) {
+		setTransferData(e: MovePageTransferData | string) {
 			this.transferData = e
 		},
-		dragStart(e: MoveTopicTransferData | string) {
+		dragStart(e: MovePageTransferData | string) {
 			this.active = true
 			this.transferData = e
 		},
@@ -83,15 +83,15 @@ export const useDragStore = defineStore('dragStore', {
 			} else if (this.transferData === null) {
 				return 'null'
 			} else if (typeof this.transferData === 'object') {
-				if ('topic' in this.transferData && typeof this.transferData.topic === 'object' &&
+				if ('page' in this.transferData && typeof this.transferData.page === 'object' &&
 					'oldParentId' in this.transferData && typeof this.transferData.oldParentId === 'number') {
-				return 'MoveTopicTransferData'
+				return 'MovePageTransferData'
 				}
 			}
 			return 'unknown'
 		},
-		isMoveTopicTransferData(): boolean {
-			return this.transferDataType == 'MoveTopicTransferData'
+		isMovePageTransferData(): boolean {
+			return this.transferDataType == 'MovePageTransferData'
 		}
 	}
 })

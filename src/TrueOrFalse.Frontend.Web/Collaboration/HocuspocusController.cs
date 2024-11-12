@@ -4,7 +4,7 @@ namespace VueApp;
 
 public class HocuspocusController : Controller
 {
-    public readonly record struct AuthoriseRequest(string Token, string HocuspocusKey, int TopicId);
+    public readonly record struct AuthoriseRequest(string Token, string HocuspocusKey, int PageId);
 
     [HttpPost]
     public bool Authorise([FromBody] AuthoriseRequest req)
@@ -24,9 +24,9 @@ public class HocuspocusController : Controller
         }
 
         var permissionCheck = new PermissionCheck(userId);
-        if (!permissionCheck.CanEditCategory(req.TopicId))
+        if (!permissionCheck.CanEditCategory(req.PageId))
         {
-            Logg.r.Error("Collaboration - Authorise: No Permission - userId:{0}, topicId:{1}", userId, req.TopicId);
+            Logg.r.Error("Collaboration - Authorise: No Permission - userId:{0}, pageId:{1}", userId, req.PageId);
             return false;
         }
 

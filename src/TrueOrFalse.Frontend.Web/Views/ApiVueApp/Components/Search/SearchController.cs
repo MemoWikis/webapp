@@ -19,8 +19,8 @@ public class SearchController(
     public readonly record struct SearchAllJson(string term);
 
     public readonly record struct AllResult(
-        List<SearchTopicItem> Topics,
-        int TopicCount,
+        List<SearchPageItem> Pages,
+        int PageCount,
         List<SearchQuestionItem> Questions,
         int QuestionCount,
         List<SearchUserItem> Users,
@@ -30,7 +30,7 @@ public class SearchController(
     [HttpPost]
     public async Task<AllResult> All([FromBody] SearchAllJson json)
     {
-        var topicItems = new List<SearchTopicItem>();
+        var topicItems = new List<SearchPageItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
         var elements = await _search.Go(json.term);
@@ -39,8 +39,8 @@ public class SearchController(
             _httpContextAccessor,
             _questionReadingRepo);
 
-        if (elements.Categories.Any())
-            searchHelper.AddTopicItems(topicItems, elements, _permissionCheck,
+        if (elements.Pages.Any())
+            searchHelper.AddPageItems(topicItems, elements, _permissionCheck,
                 _sessionUser.UserId);
 
         if (elements.Questions.Any())
@@ -50,8 +50,8 @@ public class SearchController(
         if (elements.Users.Any())
             searchHelper.AddUserItems(userItems, elements);
         var result = new AllResult(
-            Topics: topicItems,
-            TopicCount: elements.CategoriesResultCount,
+            Pages: topicItems,
+            PageCount: elements.PageCount,
             Questions: questionItems,
             QuestionCount: elements.QuestionsResultCount,
             Users: userItems,
@@ -62,64 +62,64 @@ public class SearchController(
         return result;
     }
 
-    public readonly record struct SearchTopicJson(
+    public readonly record struct SearchPageJson(
         string term,
-        int[] topicIdsToFilter,
-        bool? includePrivateTopics = null
+        int[] pageIdsToFilter,
+        bool? includePrivatePages = null
     );
 
-    public readonly record struct TopicResult(List<SearchTopicItem> Topics, int TotalCount);
+    public readonly record struct PageResult(List<SearchPageItem> Pages, int TotalCount);
 
     [HttpPost]
-    public async Task<TopicResult> Topic([FromBody] SearchTopicJson json)
+    public async Task<PageResult> Page([FromBody] SearchPageJson json)
     {
-        var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term);
+        var items = new List<SearchPageItem>();
+        var elements = await _search.GoAllPagesAsync(json.term);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
         {
-            bool includePrivateTopics = json.includePrivateTopics ?? true;
+            bool includePrivatePages = json.includePrivatePages ?? true;
 
-            if (includePrivateTopics)
+            if (includePrivatePages)
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddTopicItems(items, elements, _permissionCheck, _sessionUser.UserId, json.topicIdsToFilter);
+                    .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.pageIdsToFilter);
             else
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddPublicTopicItems(items, elements, _sessionUser.UserId, json.topicIdsToFilter);
+                    .AddPublicPageItems(items, elements, _sessionUser.UserId, json.pageIdsToFilter);
         }
 
         return new
         (
-            TotalCount: elements.CategoriesResultCount,
-            Topics: items
+            TotalCount: elements.PageCount,
+            Pages: items
         );
     }
 
 
     [HttpPost]
-    public async Task<TopicResult> TopicInPersonalWiki(
-        [FromBody] SearchTopicJson json)
+    public async Task<PageResult> PageInPersonalWiki(
+        [FromBody] SearchPageJson json)
     {
-        var items = new List<SearchTopicItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term);
+        var items = new List<SearchPageItem>();
+        var elements = await _search.GoAllPagesAsync(json.term);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .AddTopicItems(items,
+                .AddPageItems(items,
                     elements,
                     _permissionCheck,
                     _sessionUser.UserId,
-                    json.topicIdsToFilter);
+                    json.pageIdsToFilter);
 
-        var wikiChildren = GraphService.Descendants(_sessionUser.User.StartTopicId);
+        var wikiChildren = GraphService.Descendants(_sessionUser.User.StartPageId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();
 
         return new
         (
-            TotalCount: elements.CategoriesResultCount,
-            Topics: items
+            TotalCount: elements.PageCount,
+            Pages: items
         );
     }
 }

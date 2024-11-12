@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { useUserStore } from '../../user/userStore'
-import { useTopicStore } from '~~/components/topic/topicStore'
+import { usePageStore } from '~/components/page/pageStore'
 import { nanoid } from 'nanoid'
 
 enum Type {
@@ -18,7 +18,7 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			sessionIndex: 0,
 			questionHtml: '',
 			flashCardAnswerHtml: '',
-			topicId: 0,
+			pageId: 0,
 			uploadedImagesInContent: [] as string[],
 			uploadedImagesMarkedForDeletion: [] as string[],
 			uploadTrackingArray: [] as string[]
@@ -26,11 +26,11 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 	},
 	actions: {
 		createQuestion(q: {
-			topicId: number
+			pageId: number
 			questionHtml: string,
 			flashCardAnswerHtml: string,
 		}) {
-			this.topicId = q.topicId
+			this.pageId = q.pageId
 			this.questionHtml = q.questionHtml
 			this.flashCardAnswerHtml = q.flashCardAnswerHtml
 
@@ -51,8 +51,8 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			const userStore = useUserStore()
 			if (userStore.isLoggedIn) {
 				this.edit = false
-				const topicStore = useTopicStore()
-				this.topicId = topicStore.id
+				const pageStore = usePageStore()
+				this.pageId = pageStore.id
 				this.openModal()
 			} else {
 				userStore.openLoginModal()
@@ -88,12 +88,12 @@ export const useEditQuestionStore = defineStore('editQuestionStore', {
 			const imagesToKeep = this.uploadedImagesInContent
 			this.uploadedImagesMarkedForDeletion = this.uploadedImagesMarkedForDeletion.filter(url => imagesToKeep.includes(url))
 		},
-		async deleteTopicContentImages() {
+		async deletePageContentImages() {
 			if (this.uploadedImagesMarkedForDeletion.length == 0)
 				return
 
 			const data = {
-				topicId: this.id,
+				pageId: this.id,
 				imageUrls: this.uploadedImagesMarkedForDeletion
 			}
 			await $api<void>('/apiVue/EditQuestionStore/DeleteContentImages', {

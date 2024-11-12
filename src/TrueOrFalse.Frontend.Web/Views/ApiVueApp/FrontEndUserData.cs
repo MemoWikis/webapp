@@ -9,7 +9,7 @@ public class FrontEndUserData(
     IHttpContextAccessor _httpContextAccessor,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    CategoryViewRepo _categoryViewRepo,
+    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo)
     : IRegisterAsInstancePerLifetime
@@ -25,7 +25,7 @@ public class FrontEndUserData(
         string ImgUrl,
         int Reputation,
         int ReputationPos,
-        TopicDataManager.TopicDataResult PersonalWiki,
+        PageDataManager.PageDataResult PersonalWiki,
         ActivityPoints ActivityPoints,
         int UnreadMessagesCount,
         SubscriptionType SubscriptionType,
@@ -68,20 +68,20 @@ public class FrontEndUserData(
                 Name = user.Name,
                 Email = user.EmailAddress,
                 IsAdmin = _sessionUser.IsInstallationAdmin,
-                PersonalWikiId = user.StartTopicId,
+                PersonalWikiId = user.StartPageId,
                 Type = type,
                 ImgUrl = new UserImageSettings(_sessionUser.UserId, _httpContextAccessor)
                     .GetUrl_50px_square(_sessionUser.User)
                     .Url,
                 Reputation = user.Reputation,
                 ReputationPos = user.ReputationPos,
-                PersonalWiki = new TopicDataManager(_sessionUser,
+                PersonalWiki = new PageDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
-                    _categoryViewRepo,
+                    pageViewRepo,
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
-                    _questionReadingRepo).GetTopicData(user.StartTopicId),
+                    _questionReadingRepo).GetPageData(user.StartPageId),
                 ActivityPoints = new ActivityPoints
                 {
                     Points = activityPoints,
@@ -118,19 +118,19 @@ public class FrontEndUserData(
             Id = -1,
             Name = "",
             IsAdmin = false,
-            PersonalWikiId = RootCategory.RootCategoryId,
+            PersonalWikiId = RootPage.RootCategoryId,
             Type = type,
             ImgUrl = "",
             Reputation = 0,
             ReputationPos = 0,
-            PersonalWiki = new TopicDataManager(_sessionUser,
+            PersonalWiki = new PageDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
-                    _categoryViewRepo,
+                    pageViewRepo,
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .GetTopicData(RootCategory.RootCategoryId),
+                .GetPageData(RootPage.RootCategoryId),
             ActivityPoints = new ActivityPoints
             {
                 Points = _sessionUser.GetTotalActivityPoints(),

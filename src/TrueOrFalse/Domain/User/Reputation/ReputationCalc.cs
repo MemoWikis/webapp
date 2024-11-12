@@ -42,7 +42,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
             .List<Question>();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
-        /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
+        /*Calculate Reputation for Questions, Sets, Pages in other user's wish knowledge */
 
         var countQuestionsInOtherWishknowledge = _userReadingRepo.GetByIds(user.Id);
         result.ForQuestionsInOtherWishknowledge =
@@ -71,7 +71,7 @@ public class ReputationCalc : IRegisterAsInstancePerLifetime
                         q.Visibility == QuestionVisibility.All).ToList();
         result.ForQuestionsCreated = createdQuestions.Count * PointsPerQuestionCreated;
 
-        /*Calculate Reputation for Questions, Sets, Categories in other user's wish knowledge */
+        /*Calculate Reputation for Questions, Sets, Pages in other user's wish knowledge */
 
         result.ForQuestionsInOtherWishknowledge =
             user.TotalInOthersWishknowledge * PointsPerQuestionInOtherWishknowledge;

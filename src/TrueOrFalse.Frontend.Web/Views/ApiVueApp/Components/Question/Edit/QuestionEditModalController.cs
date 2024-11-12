@@ -17,7 +17,7 @@ public class QuestionEditModalController(
     PermissionCheck _permissionCheck,
     LearningSessionCreator _learningSessionCreator,
     QuestionInKnowledge _questionInKnowledge,
-    CategoryRepository _categoryRepository,
+    PageRepository pageRepository,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
@@ -77,7 +77,7 @@ public class QuestionEditModalController(
 
         question = SetQuestion(question, request, safeText);
 
-        _questionWritingRepo.Create(question, _categoryRepository);
+        _questionWritingRepo.Create(question, pageRepository);
 
         if (request.UploadedImagesInContent.Length > 0)
             SaveImageToFile.ReplaceTempQuestionContentImages(request.UploadedImagesInContent, question, _questionWritingRepo);
@@ -143,16 +143,16 @@ public class QuestionEditModalController(
         question.DescriptionHtml = request.DescriptionHtml;
         question.SolutionType = request.SolutionType;
 
-        var preEditedCategoryIds = question.Categories.Select(c => c.Id);
-        var newCategoryIds = request.CategoryIds.ToList();
+        var preEditedPageIds = question.Pages.Select(c => c.Id);
+        var newPageIds = request.CategoryIds.ToList();
 
-        var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
+        var pagesToRemove = preEditedPageIds.Except(newPageIds);
 
-        foreach (var categoryId in categoriesToRemove)
-            if (!_permissionCheck.CanViewCategory(categoryId))
-                newCategoryIds.Add(categoryId);
+        foreach (var pageId in pagesToRemove)
+            if (!_permissionCheck.CanViewPage(pageId))
+                newPageIds.Add(pageId);
 
-        question.Categories = GetAllParentsForQuestion(newCategoryIds, question);
+        question.Pages = GetAllParentsForQuestion(newPageIds, question);
         question.Visibility = (QuestionVisibility)request.Visibility;
 
         if (question.SolutionType == SolutionType.FlashCard)
@@ -168,7 +168,7 @@ public class QuestionEditModalController(
 
         if (!String.IsNullOrEmpty(request.ReferencesJson))
         {
-            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, _categoryRepository);
+            var references = ReferenceJson.LoadFromJson(request.ReferencesJson, question, pageRepository);
             foreach (var reference in references)
             {
                 reference.DateCreated = DateTime.Now;
@@ -191,10 +191,10 @@ public class QuestionEditModalController(
         string SolutionMetadataJson,
         string Text,
         string TextExtended,
-        int[] PublicTopicIds,
+        int[] PublicPageIds,
         string DescriptionHtml,
-        SearchTopicItem[] Topics,
-        int[] TopicIds,
+        SearchPageItem[] Pages,
+        int[] PageIds,
         int LicenseId,
         QuestionVisibility Visibility);
 
@@ -206,7 +206,7 @@ public class QuestionEditModalController(
             ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml()
             : question.Solution;
         var topicsVisibleToCurrentUser =
-            question.Categories.Where(_permissionCheck.CanView).Distinct();
+            question.Pages.Where(_permissionCheck.CanView).Distinct();
 
         return new GetDataResult(
             Id: id,
@@ -215,17 +215,17 @@ public class QuestionEditModalController(
             SolutionMetadataJson: question.SolutionMetadataJson,
             Text: question.TextHtml,
             TextExtended: question.TextExtendedHtml,
-            PublicTopicIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            PublicPageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             DescriptionHtml: question.DescriptionHtml,
-            Topics: topicsVisibleToCurrentUser.Select(t => FillMiniTopicItem(t)).ToArray(),
-            TopicIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            Pages: topicsVisibleToCurrentUser.Select(t => FillMiniPageItem(t)).ToArray(),
+            PageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             LicenseId: question.LicenseId,
             Visibility: question.Visibility
         );
     }
 
     [HttpGet]
-    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetCategory(id)
+    public int GetCurrentQuestionCount([FromRoute] int id) => EntityCache.GetPage(id)
         .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId).Count;
 
     private QuestionListJson.Question LoadQuestion(int questionId)
@@ -270,25 +270,25 @@ public class QuestionEditModalController(
         return question;
     }
 
-    private SearchTopicItem FillMiniTopicItem(CategoryCacheItem topic)
+    private SearchPageItem FillMiniPageItem(PageCacheItem topic)
     {
-        var miniTopicItem = new SearchTopicItem
+        var miniPageItem = new SearchPageItem
         {
             Id = topic.Id,
             Name = topic.Name,
             QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new CategoryImageSettings(topic.Id, _httpContextAccessor)
+            ImageUrl = new PageImageSettings(topic.Id, _httpContextAccessor)
                 .GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Category),
+                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Page),
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .GetImageUrl(30, true, false, ImageType.Category)
+                .GetImageUrl(30, true, false, ImageType.Page)
                 .Url,
             Visibility = (int)topic.Visibility
         };
 
-        return miniTopicItem;
+        return miniPageItem;
     }
 
     private string RemoveHtmlTags(string text)
@@ -296,14 +296,14 @@ public class QuestionEditModalController(
         return Regex.Replace(text, "<.*?>", "");
     }
 
-    private List<Category> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    private List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var topics = new List<Category>();
-        var privateTopics = question.Categories.Where(c => !_permissionCheck.CanEdit(c)).ToList();
-        topics.AddRange(privateTopics);
+        var topics = new List<Page>();
+        var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+        topics.AddRange(privatePages);
 
-        foreach (var categoryId in newCategoryIds)
-            topics.Add(_categoryRepository.GetById(categoryId));
+        foreach (var pageId in newCategoryIds)
+            topics.Add(pageRepository.GetById(pageId));
 
         return topics;
     }

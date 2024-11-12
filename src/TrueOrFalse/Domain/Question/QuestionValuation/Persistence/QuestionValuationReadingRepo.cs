@@ -59,7 +59,7 @@ public class QuestionValuationReadingRepo : RepositoryDb<QuestionValuation>
             .Query<QuestionValuation>()
             .Where(qv => qv.User.Id == userId)
             .Fetch(qv => qv.Question)
-            .ThenFetchMany(q => q.Categories)
+            .ThenFetchMany(q => q.Pages)
             .ToList();
 
         return result;

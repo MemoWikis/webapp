@@ -16,9 +16,9 @@ public class GetQuestionImageFrontendData
                 questionReadingRepo);
         ;
 
-        foreach (var category in question.Categories)
+        foreach (var page in question.Pages)
         {
-            imageMetaData = imageMetaDataReadingRepo.GetBy(category.Id, ImageType.Category);
+            imageMetaData = imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page);
 
             if (imageMetaData != null)
                 break;

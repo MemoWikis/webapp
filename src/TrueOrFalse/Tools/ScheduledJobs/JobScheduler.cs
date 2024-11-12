@@ -60,7 +60,7 @@ public static class JobScheduler
 
     private static void Schedule_RecalcKnowledgeSummariesForCategory()
     {
-        _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForCategory>().Build(),
+        _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForPage>().Build(),
             TriggerBuilder.Create()
                 .WithSimpleSchedule(x => x
                     .WithIntervalInSeconds(RecalcReputation.IntervalInSeconds)
@@ -129,9 +129,9 @@ public static class JobScheduler
 
     private static void Schedule_EditCategoryInWishKnowledge()
     {
-        _scheduler.ScheduleJob(JobBuilder.Create<EditCategoryInWishKnowledge>().Build(),
+        _scheduler.ScheduleJob(JobBuilder.Create<EditPageInWishKnowledge>().Build(),
             TriggerBuilder.Create().WithSimpleSchedule(x => x
-                .WithIntervalInSeconds(EditCategoryInWishKnowledge.IntervalInSeconds)
+                .WithIntervalInSeconds(EditPageInWishKnowledge.IntervalInSeconds)
                 .RepeatForever()).Build());
     }
 
@@ -142,14 +142,14 @@ public static class JobScheduler
             TriggerBuilder.Create().StartNow().Build());
     }
 
-    public static void StartImmediately_UpdateAggregatedCategoriesForQuestion(
-        List<int> categoryIds,
+    public static void StartImmediately_UpdateAggregatedPagesForQuestion(
+        List<int> pageIds,
         int userId = -1)
     {
-        var job = JobBuilder.Create<UpdateAggregatedCategoriesForQuestion>()
+        var job = JobBuilder.Create<UpdateAggregatedPagesForQuestion>()
             .Build();
 
-        job.JobDataMap["categoryIds"] = categoryIds;
+        job.JobDataMap["pageIds"] = pageIds;
         job.JobDataMap["userId"] = userId;
 
         _scheduler.ScheduleJob(
