@@ -5,7 +5,7 @@
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
 
         context.Add("root", creator: user).Persist();
@@ -39,7 +39,7 @@
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -73,7 +73,7 @@
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         context.Add("root", creator: user2).Persist();
@@ -107,7 +107,7 @@
     {
         RecycleContainerAndEntityCache();
 
-        var context = ContextCategory.New();
+        var context = ContextPage.New();
         var user = new User { Id = 1 };
         var user2 = new User { Id = 2 };
         var user3 = new User { Id = 3 };

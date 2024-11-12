@@ -2,6 +2,6 @@
 {
     UpdateReputationForUser = 1,
     RecalcKnowledgeSummaryForPage = 2,
-    RemoveQuestionsInCategoryFromWishKnowledge = 4,
+    RemoveQuestionsInPageFromWishKnowledge = 4,
     MailMessage = 5
 }

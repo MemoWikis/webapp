@@ -62,13 +62,13 @@ public class PageRelationEditController(
         return result;
     }
 
-    public readonly record struct SearchParam(string term, int[] topicIdsToFilter);
+    public readonly record struct SearchParam(string term, int[] pageIdsToFilter);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public async Task<SearchPageResult> SearchPageAsync([FromBody] SearchParam param)
     {
-        var data = await SearchPageAsync(param.term, param.topicIdsToFilter)
+        var data = await SearchPageAsync(param.term, param.pageIdsToFilter)
             .ConfigureAwait(false);
         return data;
     }
@@ -78,7 +78,7 @@ public class PageRelationEditController(
     public async Task<SearchPageInPersonalWikiResult> SearchPageInPersonalWiki(
         [FromBody] SearchParam param)
     {
-        var data = await SearchPageInPersonalWikiAsync(param.term, param.topicIdsToFilter);
+        var data = await SearchPageInPersonalWikiAsync(param.term, param.pageIdsToFilter);
         return data;
     }
 

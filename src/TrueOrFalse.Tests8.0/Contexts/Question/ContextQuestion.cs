@@ -149,7 +149,7 @@ public class ContextQuestion
         Page page,
         int amount = 20)
     {
-        ContextCategory.New(false).AddToEntityCache(page).Persist();
+        ContextPage.New(false).AddToEntityCache(page).Persist();
         var categories = pageRepository.GetAllEager();
 
         var questions = New().AddRandomQuestions(amount, null, true, categories).All;
@@ -174,7 +174,7 @@ public class ContextQuestion
     {
         var contextUser = ContextUser.New(userWritingRepo);
         var users = contextUser.Add().All;
-        var categoryList = ContextCategory.New().Add("Daniel").All;
+        var categoryList = ContextPage.New().Add("Daniel").All;
         categoryList.First().Id = 1;
 
         var questions = New().AddRandomQuestions(amountQuestion, users.FirstOrDefault(), true, categoryList).All;

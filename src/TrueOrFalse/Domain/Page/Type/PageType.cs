@@ -35,7 +35,7 @@ public enum PageTypeGroup
     Media = 2,
     Education = 3,
 }
-public static class CategoryTypeExts
+public static class PageTypeExts
 {
     public static PageTypeGroup GetPageTypeGroup(this PageType e)
     {
@@ -72,6 +72,6 @@ public static class CategoryTypeExts
             return PageTypeGroup.Education;
         }
 
-        throw new Exception("CategoryType isn't assigned to any CategoryTypeGroup.");
+        throw new Exception("PageType isn't assigned to any PageTypeGroup.");
     }
 }

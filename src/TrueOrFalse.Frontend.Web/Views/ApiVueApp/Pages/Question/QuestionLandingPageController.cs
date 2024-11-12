@@ -211,7 +211,7 @@ public class QuestionLandingPageController(
                             _questionReadingRepo)
                         .GetImageUrl(30, true, false, ImageType.Page).Url,
                     Visibility: (int)t.Visibility,
-                    IsSpoiler: IsSpoilerCategory.Yes(t.Name, question)
+                    IsSpoiler: IsSpoilerPage.Yes(t.Name, question)
                 )).Distinct().ToArray(),
             Visibility: question.Visibility,
             DateNow: dateNow,

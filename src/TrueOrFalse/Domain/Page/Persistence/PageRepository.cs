@@ -5,7 +5,7 @@ using TrueOrFalse.Search;
 public class PageRepository(
     ISession session,
     PageChangeRepo pageChangeRepo,
-    UpdateQuestionCountForCategory updateQuestionCountForCategory,
+    UpdateQuestionCountForPage updateQuestionCountForPage,
     UserReadingRepo userReadingRepo,
     UserActivityRepo userActivityRepo)
     : RepositoryDbBase<Page>(session)
@@ -26,7 +26,7 @@ public class PageRepository(
 
         pageChangeRepo.AddCreateEntry(this, page, page.Creator?.Id ?? -1);
 
-        Task.Run(async () => await new MeiliSearchCategoriesDatabaseOperations()
+        Task.Run(async () => await new MeiliSearchPagesDatabaseOperations()
             .CreateAsync(page)
             .ConfigureAwait(false));
     }
@@ -186,10 +186,10 @@ public class PageRepository(
         }
 
         Flush();
-        updateQuestionCountForCategory.RunForJob(page, authorId);
+        updateQuestionCountForPage.RunForJob(page, authorId);
         Task.Run(async () =>
         {
-            await new MeiliSearchCategoriesDatabaseOperations()
+            await new MeiliSearchPagesDatabaseOperations()
                 .UpdateAsync(page)
                 .ConfigureAwait(false);
         });
@@ -221,7 +221,7 @@ public class PageRepository(
         Flush();
         Task.Run(async () =>
         {
-            await new MeiliSearchCategoriesDatabaseOperations()
+            await new MeiliSearchPagesDatabaseOperations()
                 .UpdateAsync(page)
                 .ConfigureAwait(false);
         });

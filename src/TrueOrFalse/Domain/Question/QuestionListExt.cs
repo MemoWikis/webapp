@@ -24,51 +24,42 @@ public static class QuestionListExt
                         .Select(c => c.Id)))
             .Distinct();
 
-    public static IEnumerable<QuestionsInCategory> QuestionsInCategories(
+    public static IEnumerable<QuestionsInPage> QuestionsInCategories(
         this IEnumerable<Question> questions)
     {
         var questionsArray = questions as Question[] ?? questions.ToArray();
 
         return questionsArray.GetAllCategories()
-            .Select(c => new QuestionsInCategory
+            .Select(c => new QuestionsInPage
             {
                 PageCacheItem = c,
                 Questions = questionsArray.Where(q => q.Pages.Any(x => x.Id == c.Id)).ToList()
             });
     }
 
-    public static IEnumerable<QuestionCacheItemInCategory> QuestionsInCategories(
+    public static IEnumerable<QuestionCacheItemInPage> QuestionsInCategories(
         this IEnumerable<QuestionCacheItem> questions)
     {
         var questionsArray = questions as QuestionCacheItem[] ?? questions.ToArray();
 
         return questionsArray.GetAllCategories()
-            .Select(c => new QuestionCacheItemInCategory
+            .Select(c => new QuestionCacheItemInPage
             {
                 PageCacheItem = c,
                 QuestionCacheItems = questionsArray.Where(q => q.Pages.Any(x => x.Id == c.Id))
                     .ToList()
             });
     }
-
-    public static IList<Question> AllowedForUser(this IEnumerable<Question> questions, User user) =>
-        questions.Where(q => q.Visibility == QuestionVisibility.All || q.Creator == user).ToList();
-
-    public static IList<Question> PrivateForUserOnly(
-        this IEnumerable<Question> questions,
-        User user) =>
-        questions.Where(q => q.Visibility == QuestionVisibility.Owner && q.Creator == user)
-            .ToList();
 }
 
 [DebuggerDisplay("{PageCacheItem.Name} {Questions.Count}")]
-public class QuestionsInCategory
+public class QuestionsInPage
 {
     public PageCacheItem PageCacheItem;
     public IList<Question> Questions;
 }
 
-public class QuestionCacheItemInCategory
+public class QuestionCacheItemInPage
 {
     public PageCacheItem PageCacheItem;
     public IList<QuestionCacheItem> QuestionCacheItems;

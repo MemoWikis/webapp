@@ -37,7 +37,7 @@ public class PageInKnowledge(
         return questionsInOtherValuatedCategories;
     }
 
-    public void UnpinQuestionsInCategoryInDatabase(int pageId, int userId)
+    public void UnpinQuestionsInPageInDatabase(int pageId, int userId)
     {
         var user = _userReadingRepo.GetByIds(userId).First();
         var questionsInCategory = EntityCache.GetPage(pageId)

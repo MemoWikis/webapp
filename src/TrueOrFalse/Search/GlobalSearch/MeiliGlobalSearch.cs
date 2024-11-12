@@ -21,7 +21,7 @@ public class MeiliGlobalSearch : IGlobalSearch
     public async Task<GlobalSearchResult> Go(string term)
     {
         var result = new GlobalSearchResult();
-        result.CategoriesResult = await new MeiliSearchCategories(_permissionCheck).RunAsync(term);
+        result.PagesResult = await new MeiliSearchPages(_permissionCheck).RunAsync(term);
         result.QuestionsResult = await new MeiliSearchQuestions(_permissionCheck).RunAsync(term);
         result.UsersResult = await new MeiliSearchUsers(_httpContextAccessor, _webHostEnvironment)
             .RunAsync(term);
@@ -32,8 +32,8 @@ public class MeiliGlobalSearch : IGlobalSearch
         string term)
     {
         var result = new GlobalSearchResult();
-        result.CategoriesResult =
-            await new MeiliSearchCategories(_permissionCheck, 10).RunAsync(term)
+        result.PagesResult =
+            await new MeiliSearchPages(_permissionCheck, 10).RunAsync(term)
                 .ConfigureAwait(false);
         return result;
     }
@@ -41,8 +41,8 @@ public class MeiliGlobalSearch : IGlobalSearch
     public async Task<GlobalSearchResult> GoNumberOfCategories(string term, int size)
     {
         var result = new GlobalSearchResult();
-        result.CategoriesResult =
-            await new MeiliSearchCategories(_permissionCheck, size).RunAsync(term);
+        result.PagesResult =
+            await new MeiliSearchPages(_permissionCheck, size).RunAsync(term);
         return result;
     }
 }

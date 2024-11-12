@@ -2,10 +2,10 @@
 
 public class GlobalSearchResult
 {
-    public ISearchCategoriesResult CategoriesResult;
+    public ISearchPagesResult PagesResult;
     private IList<PageCacheItem> _categories;
-    public IList<PageCacheItem> Categories => _categories ??= CategoriesResult.GetCategories();
-    public int CategoriesResultCount => CategoriesResult.Count;
+    public IList<PageCacheItem> Categories => _categories ??= PagesResult.GetPages();
+    public int CategoriesResultCount => PagesResult.Count;
     public ISearchQuestionsResult QuestionsResult;
     private IList<QuestionCacheItem> _questions;
     public IList<QuestionCacheItem> Questions => _questions ??= QuestionsResult.GetQuestions();

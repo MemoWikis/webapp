@@ -64,7 +64,7 @@ public class SearchController(
 
     public readonly record struct SearchPageJson(
         string term,
-        int[] topicIdsToFilter,
+        int[] pageIdsToFilter,
         bool? includePrivatePages = null
     );
 
@@ -82,10 +82,10 @@ public class SearchController(
 
             if (includePrivatePages)
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.topicIdsToFilter);
+                    .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, json.pageIdsToFilter);
             else
                 new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
-                    .AddPublicPageItems(items, elements, _sessionUser.UserId, json.topicIdsToFilter);
+                    .AddPublicPageItems(items, elements, _sessionUser.UserId, json.pageIdsToFilter);
         }
 
         return new
@@ -111,7 +111,7 @@ public class SearchController(
                     elements,
                     _permissionCheck,
                     _sessionUser.UserId,
-                    json.topicIdsToFilter);
+                    json.pageIdsToFilter);
 
         var wikiChildren = GraphService.Descendants(_sessionUser.User.StartPageId);
         items = items.Where(i => wikiChildren.Any(c => c.Id == i.Id)).ToList();

@@ -4,7 +4,7 @@ using TrueOrFalse.Utilities.ScheduledJobs;
 using ISession = NHibernate.ISession;
 
 public class QuestionWritingRepo(
-    UpdateQuestionCountForCategory _updateQuestionCountForCategory,
+    UpdateQuestionCountForPage updateQuestionCountForPage,
     JobQueueRepo _jobQueueRepo,
     ReputationUpdate _reputationUpdate,
     UserReadingRepo _userReadingRepo,
@@ -25,7 +25,7 @@ public class QuestionWritingRepo(
         Create(question);
         Flush();
 
-        _updateQuestionCountForCategory.Run(question.Pages);
+        updateQuestionCountForPage.Run(question.Pages);
 
         foreach (var page in question.Pages.ToList())
         {
@@ -52,7 +52,7 @@ public class QuestionWritingRepo(
         var question = GetById(questionId);
         var parentPages = pageRepository.GetByIds(parentIds);
 
-        _updateQuestionCountForCategory.Run(parentPages, userId);
+        updateQuestionCountForPage.Run(parentPages, userId);
         var safeText = Regex.Replace(question.Text, "<.*?>", "");
 
         var changeId = DeleteAndGetChangeId(question, userId);
@@ -108,7 +108,7 @@ public class QuestionWritingRepo(
 
         UpdateQuestionCacheItem(question, pagesToUpdateIds);
 
-        _updateQuestionCountForCategory.Run(pagesToUpdate);
+        updateQuestionCountForPage.Run(pagesToUpdate);
         JobScheduler.StartImmediately_UpdateAggregatedPagesForQuestion(pagesToUpdateIds,
             _sessionUser.UserId);
         _questionChangeRepo.AddUpdateEntry(question);

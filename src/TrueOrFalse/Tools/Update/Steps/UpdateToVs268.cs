@@ -5,7 +5,7 @@ namespace TrueOrFalse.Updates;
 
 internal class UpdateToVs268
 {
-    public class CategoryRelationInfo
+    public class PageRelationInfo
     {
         public int Id { get; set; }
         public int ParentId { get; set; }
@@ -18,15 +18,15 @@ internal class UpdateToVs268
         try
         {
             var query = @"SELECT Id, Category_id AS ChildId, Related_id AS ParentId FROM relatedcategoriestorelatedcategories ORDER BY Related_id, Id";
-            IList<CategoryRelationInfo> allRecords = nhibernateSession.CreateSQLQuery(query)
-                .SetResultTransformer(Transformers.AliasToBean<CategoryRelationInfo>())
-                .List<CategoryRelationInfo>();
+            IList<PageRelationInfo> allRecords = nhibernateSession.CreateSQLQuery(query)
+                .SetResultTransformer(Transformers.AliasToBean<PageRelationInfo>())
+                .List<PageRelationInfo>();
 
             var groupedRecords = allRecords.GroupBy(x => x.ParentId);
 
             foreach (var group in groupedRecords)
             {
-                CategoryRelationInfo previousRecord = null;
+                PageRelationInfo previousRecord = null;
                 foreach (var currentRecord in group)
                 {
                     if (previousRecord != null)

@@ -20,7 +20,7 @@ public class VueMaintenanceController(
     MeiliSearchReIndexAllQuestions _meiliSearchReIndexAllQuestions,
     UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
     UpdateWishcount _updateWishcount,
-    MeiliSearchReIndexCategories _meiliSearchReIndexCategories,
+    MeiliSearchReIndexPages meiliSearchReIndexPages,
     MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers,
     PageRepository pageRepository,
     AnswerRepo _answerRepo,
@@ -29,7 +29,7 @@ public class VueMaintenanceController(
     IAntiforgery _antiforgery,
     IHttpContextAccessor _httpContextAccessor,
     IWebHostEnvironment _webHostEnvironment,
-    UpdateQuestionCountForCategory _updateQuestionCountForCategory) : Controller
+    UpdateQuestionCountForPage updateQuestionCountForPage) : Controller
 {
     public readonly record struct VueMaintenanceResult(bool Success, string Data);
 
@@ -157,7 +157,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> ReIndexAllPages()
     {
-        await _meiliSearchReIndexCategories.Run();
+        await meiliSearchReIndexPages.Run();
 
         return new VueMaintenanceResult
         {
@@ -199,7 +199,7 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllPages()
     {
-        await _meiliSearchReIndexCategories.Run();
+        await meiliSearchReIndexPages.Run();
 
         return new VueMaintenanceResult
         {
