@@ -102,7 +102,7 @@ public class PageRepository(
     {
         pageTitle ??= "";
 
-        return _session.CreateQuery("from Category as c where c.Name = :pageTitle")
+        return _session.CreateQuery("from Page as p where p.Name = :pageTitle")
             .SetString("pageTitle", pageTitle)
             .List<Page>();
     }
