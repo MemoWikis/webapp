@@ -15,14 +15,10 @@ public class Page : DomainEntity, ICreator
     public virtual bool IsUserStartPage { get; set; }
     public virtual bool TextIsHidden { get; set; }
     public virtual string AuthorIds { get; set; } = "";
-    public virtual string CategoriesToExcludeIdsString { get; set; }
-
     public virtual int[] AuthorIdsInts => AuthorIds?
         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
         .Select(x => Convert.ToInt32(x)).Distinct()
         .ToArray();
-
-    public virtual string CategoriesToIncludeIdsString { get; set; }
 
     public virtual int CountQuestionsAggregated { get; set; }
 

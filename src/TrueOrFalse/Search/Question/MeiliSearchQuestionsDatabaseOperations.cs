@@ -68,8 +68,8 @@ namespace TrueOrFalse.Search
             {
                 CreatorId = question.Creator.Id,
                 Description = question.Description ?? "",
-                Categories = question.Pages.Select(c => c.Name).ToList(),
-                CategoryIds = question.Pages.Select(c => c.Id).ToList(),
+                Pages = question.Pages.Select(c => c.Name).ToList(),
+                PageIds = question.Pages.Select(c => c.Id).ToList(),
                 Id = question.Id,
                 Solution = question.Solution,
                 SolutionType = (int)question.SolutionType,

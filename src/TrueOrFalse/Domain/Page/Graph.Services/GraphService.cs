@@ -122,16 +122,16 @@ public class GraphService
         int userId)
     {
         var allDescendants = new HashSet<PageCacheItem>();
-        var visitedCategories = new HashSet<int>();
+        var visitedPages = new HashSet<int>();
 
         void AddDescendants(int id)
         {
-            if (visitedCategories.Contains(id))
+            if (visitedPages.Contains(id))
             {
                 return;
             }
 
-            visitedCategories.Add(id);
+            visitedPages.Add(id);
 
             var children = VisibleChildren(id, permissionCheck, userId);
             foreach (var child in children)

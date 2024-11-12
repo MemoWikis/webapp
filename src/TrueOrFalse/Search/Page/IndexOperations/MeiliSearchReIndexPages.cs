@@ -20,7 +20,7 @@ public class MeiliSearchReIndexPages : IRegisterAsInstancePerLifetime
         await _client.DeleteIndexAsync(MeiliSearchConstants.Pages);
         var allPagesFromDb = _pageRepository.GetAll();
 
-        var meiliSearchCategories = allPagesFromDb.Select(c => new MeiliSearchPageMap
+        var meiliSearchPageMaps = allPagesFromDb.Select(c => new MeiliSearchPageMap
         {
             Id = c.Id,
             Name = c.Name,
@@ -31,6 +31,6 @@ public class MeiliSearchReIndexPages : IRegisterAsInstancePerLifetime
         });
 
         var index = _client.Index(MeiliSearchConstants.Pages);
-        await index.AddDocumentsAsync(meiliSearchCategories);
+        await index.AddDocumentsAsync(meiliSearchPageMaps);
     }
 }

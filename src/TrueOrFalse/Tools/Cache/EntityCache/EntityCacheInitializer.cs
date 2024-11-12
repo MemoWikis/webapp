@@ -24,25 +24,25 @@ public class EntityCacheInitializer(
 
         Cache.IntoForeverCache(EntityCache.CacheKeyUsers, users.ToConcurrentDictionary());
 
-        var allCategories = pageRepository.GetAllEager();
-        Logg.r.Information("EntityCache CategoriesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var allPages = pageRepository.GetAllEager();
+        Logg.r.Information("EntityCache PagesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
         var allRelations = pageRelationRepo.GetAll();
-        Logg.r.Information("EntityCache CategoryRelationsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        Logg.r.Information("EntityCache PageRelationsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var relations = PageRelationCache.ToCategoryCacheRelations(allRelations).ToList();
+        var relations = PageRelationCache.ToPageRelationCache(allRelations).ToList();
         Cache.IntoForeverCache(EntityCache.CacheKeyRelations, relations.ToConcurrentDictionary());
-        Logg.r.Information("EntityCache CategoryRelationsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        var allCategoryViews = pageViewRepo.GetAllEager();
-        Logg.r.Information("EntityCache CategoryViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        Logg.r.Information("EntityCache PageRelationsCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var allPageViews = pageViewRepo.GetAllEager();
+        Logg.r.Information("EntityCache PageViewsLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var allCategoryChanges = pageChangeRepo.GetAll();
-        Logg.r.Information("EntityCache CategoryChangesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var allPageChanges = pageChangeRepo.GetAll();
+        Logg.r.Information("EntityCache PageChangesLoadedFromRepo " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
-        var categories = PageCacheItem.ToCacheCategories(allCategories, allCategoryViews, allCategoryChanges).ToList();
-        Logg.r.Information("EntityCache CategoriesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
-        Cache.IntoForeverCache(EntityCache.CacheKeyPages, categories.ToConcurrentDictionary());
-        EntityCache.AddViewsLast30DaysToPages(pageViewRepo, categories);
-        Logg.r.Information("EntityCache CategoriesPutIntoForeverCache " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        var pages = PageCacheItem.ToCachePages(allPages, allPageViews, allPageChanges).ToList();
+        Logg.r.Information("EntityCache PagesCached " + customMessage + "{Elapsed}", stopWatch.Elapsed);
+        Cache.IntoForeverCache(EntityCache.CacheKeyPages, pages.ToConcurrentDictionary());
+        EntityCache.AddViewsLast30DaysToPages(pageViewRepo, pages);
+        Logg.r.Information("EntityCache PagesPutIntoForeverCache " + customMessage + "{Elapsed}", stopWatch.Elapsed);
 
         var allQuestionChanges = _questionChangeRepo.GetAll();
 

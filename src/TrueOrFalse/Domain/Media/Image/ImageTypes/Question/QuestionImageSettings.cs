@@ -36,9 +36,9 @@ public class QuestionImageSettings : ImageSettings, IImageSettings
     }
 
     public ImageUrl GetUrl_50px_square() =>
-        GetUrl_WithCategoriesFailover(50, isSquare: true);
+        GetUrl_WithPagesFailover(50, isSquare: true);
 
-    private ImageUrl GetUrl_WithCategoriesFailover(int width, bool isSquare)
+    private ImageUrl GetUrl_WithPagesFailover(int width, bool isSquare)
     {
         var imageUrl = GetUrl(50, isSquare: true);
 

@@ -19,8 +19,6 @@ public class PageCacheItem : IPersistable
     public virtual UserCacheItem Creator => EntityCache.GetUserById(CreatorId);
 
     public virtual int[] AuthorIds { get; set; }
-    public virtual string CategoriesToExcludeIdsString { get; set; }
-    public virtual string CategoriesToIncludeIdsString { get; set; }
     public virtual IList<PageRelationCache> ParentRelations { get; set; }
     public virtual IList<PageRelationCache> ChildRelations { get; set; }
 
@@ -92,11 +90,11 @@ public class PageCacheItem : IPersistable
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
-    public Dictionary<int, PageCacheItem> AggregatedCategories(
+    public Dictionary<int, PageCacheItem> AggregatedPages(
         PermissionCheck permissionCheck,
         bool includingSelf = true)
     {
-        var visibleVisited = VisibleChildCategories(this, permissionCheck);
+        var visibleVisited = VisibleChildPages(this, permissionCheck);
 
         if (includingSelf && !visibleVisited.ContainsKey(Id))
         {
@@ -120,24 +118,24 @@ public class PageCacheItem : IPersistable
     /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
     public Dictionary<int, PageCacheItem> GetAllAggregatedPages(bool includingSelf = true)
     {
-        var allChildCategories = AllChildCategories(this);
+        var allChildPages = AllChildPages(this);
 
-        if (includingSelf && !allChildCategories.ContainsKey(Id))
+        if (includingSelf && !allChildPages.ContainsKey(Id))
         {
-            allChildCategories.Add(Id, this);
+            allChildPages.Add(Id, this);
         }
         else
         {
-            if (allChildCategories.ContainsKey(Id))
+            if (allChildPages.ContainsKey(Id))
             {
-                allChildCategories.Remove(Id);
+                allChildPages.Remove(Id);
             }
         }
 
-        return allChildCategories;
+        return allChildPages;
     }
 
-    private Dictionary<int, PageCacheItem> VisibleChildCategories(
+    private Dictionary<int, PageCacheItem> VisibleChildPages(
         PageCacheItem parentCacheItem,
         PermissionCheck permissionCheck,
         Dictionary<int, PageCacheItem> _previousVisibleVisited = null)
@@ -159,7 +157,7 @@ public class PageCacheItem : IPersistable
                     if (permissionCheck.CanView(child))
                     {
                         visibleVisited.Add(r.ChildId, child);
-                        VisibleChildCategories(child, permissionCheck, visibleVisited);
+                        VisibleChildPages(child, permissionCheck, visibleVisited);
                     }
                 }
             }
@@ -178,7 +176,7 @@ public class PageCacheItem : IPersistable
 
         if (fullList)
         {
-            questions = AggregatedCategories(
+            questions = AggregatedPages(
                     new PermissionCheck(userId))
                 .SelectMany(c => EntityCache.GetQuestionsForPage(c.Key))
                 .Distinct().ToList();
@@ -250,7 +248,7 @@ public class PageCacheItem : IPersistable
             : new List<PageCacheItem>();
     }
 
-    public static IEnumerable<PageCacheItem> ToCacheCategories(IEnumerable<Page> categories, IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> categoryChanges)
+    public static IEnumerable<PageCacheItem> ToCachePages(IEnumerable<Page> categories, IList<PageViewRepo.PageViewSummaryWithId> views, IList<PageChange> categoryChanges)
     {
         var categoryViews = views
             .GroupBy(cv => cv.PageId)
@@ -278,8 +276,6 @@ public class PageCacheItem : IPersistable
             Id = page.Id,
             ChildRelations = childRelations,
             ParentRelations = parentRelations,
-            CategoriesToExcludeIdsString = page.CategoriesToExcludeIdsString,
-            CategoriesToIncludeIdsString = page.CategoriesToIncludeIdsString,
             Content = page.Content,
             CorrectnessProbability = page.CorrectnessProbability,
             CorrectnessProbabilityAnswerCount = page.CorrectnessProbabilityAnswerCount,
@@ -418,7 +414,7 @@ public class PageCacheItem : IPersistable
         TotalViews++;
     }
 
-    private Dictionary<int, PageCacheItem> AllChildCategories(
+    private Dictionary<int, PageCacheItem> AllChildPages(
         PageCacheItem parentCacheItem,
         Dictionary<int, PageCacheItem> _previousVisited = null)
     {
@@ -438,7 +434,7 @@ public class PageCacheItem : IPersistable
                     var child = EntityCache.GetPage(r.ChildId);
 
                     visibleVisited.Add(r.ChildId, child);
-                    AllChildCategories(child, visibleVisited);
+                    AllChildPages(child, visibleVisited);
 
                 }
             }

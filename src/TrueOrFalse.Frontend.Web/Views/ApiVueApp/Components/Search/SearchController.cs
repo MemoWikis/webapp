@@ -39,7 +39,7 @@ public class SearchController(
             _httpContextAccessor,
             _questionReadingRepo);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
             searchHelper.AddPageItems(topicItems, elements, _permissionCheck,
                 _sessionUser.UserId);
 
@@ -51,7 +51,7 @@ public class SearchController(
             searchHelper.AddUserItems(userItems, elements);
         var result = new AllResult(
             Pages: topicItems,
-            PageCount: elements.CategoriesResultCount,
+            PageCount: elements.PageCount,
             Questions: questionItems,
             QuestionCount: elements.QuestionsResultCount,
             Users: userItems,
@@ -74,9 +74,9 @@ public class SearchController(
     public async Task<PageResult> Page([FromBody] SearchPageJson json)
     {
         var items = new List<SearchPageItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term);
+        var elements = await _search.GoAllPagesAsync(json.term);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
         {
             bool includePrivatePages = json.includePrivatePages ?? true;
 
@@ -90,7 +90,7 @@ public class SearchController(
 
         return new
         (
-            TotalCount: elements.CategoriesResultCount,
+            TotalCount: elements.PageCount,
             Pages: items
         );
     }
@@ -101,9 +101,9 @@ public class SearchController(
         [FromBody] SearchPageJson json)
     {
         var items = new List<SearchPageItem>();
-        var elements = await _search.GoAllCategoriesAsync(json.term);
+        var elements = await _search.GoAllPagesAsync(json.term);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
@@ -118,7 +118,7 @@ public class SearchController(
 
         return new
         (
-            TotalCount: elements.CategoriesResultCount,
+            TotalCount: elements.PageCount,
             Pages: items
         );
     }

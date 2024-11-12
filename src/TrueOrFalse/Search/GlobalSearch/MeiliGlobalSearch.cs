@@ -28,7 +28,7 @@ public class MeiliGlobalSearch : IGlobalSearch
         return result;
     }
 
-    public async Task<GlobalSearchResult> GoAllCategoriesAsync(
+    public async Task<GlobalSearchResult> GoAllPagesAsync(
         string term)
     {
         var result = new GlobalSearchResult();
@@ -38,7 +38,7 @@ public class MeiliGlobalSearch : IGlobalSearch
         return result;
     }
 
-    public async Task<GlobalSearchResult> GoNumberOfCategories(string term, int size)
+    public async Task<GlobalSearchResult> GoNumberOfPages(string term, int size)
     {
         var result = new GlobalSearchResult();
         result.PagesResult =

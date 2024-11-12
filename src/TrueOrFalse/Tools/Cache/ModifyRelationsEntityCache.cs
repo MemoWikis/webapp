@@ -24,14 +24,14 @@ public class ModifyRelationsEntityCache
     }
 
     private static bool CheckParentAvailability(
-        IEnumerable<PageCacheItem> parentCategories,
+        IEnumerable<PageCacheItem> parentPages,
         PageCacheItem childPage)
     {
         var allParentsArePrivate =
-            parentCategories.All(c => c.Visibility != PageVisibility.All);
+            parentPages.All(c => c.Visibility != PageVisibility.All);
         var childIsPublic = childPage.Visibility == PageVisibility.All;
 
-        if (!parentCategories.Any() || allParentsArePrivate && childIsPublic)
+        if (!parentPages.Any() || allParentsArePrivate && childIsPublic)
             return false;
 
         return true;
@@ -48,10 +48,10 @@ public class ModifyRelationsEntityCache
 
         var newParentRelationsIds = childPage.ParentRelations.Where(r => r.ParentId != parentId)
             .Select(r => r.ParentId);
-        var parentCategories = EntityCache.GetPages(newParentRelationsIds);
+        var parentPages = EntityCache.GetPages(newParentRelationsIds);
 
         if (!childPage.IsStartPage() &&
-            !CheckParentAvailability(parentCategories, childPage))
+            !CheckParentAvailability(parentPages, childPage))
         {
             Logg.r.Error(
                 "PageRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",

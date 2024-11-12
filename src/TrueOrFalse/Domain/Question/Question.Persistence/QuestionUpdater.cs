@@ -19,7 +19,7 @@ public class QuestionUpdater(
                 questionDataParam.SolutionType);
 
         var preEditedCategoryIds = question.Pages.Select(c => c.Id);
-        var newCategoryIds = questionDataParam.CategoryIds.ToList();
+        var newCategoryIds = questionDataParam.PageIds.ToList();
 
         var categoriesToRemove = preEditedCategoryIds.Except(newCategoryIds);
 
@@ -64,7 +64,7 @@ public class QuestionUpdater(
     }
 
     public readonly record struct QuestionDataParam(
-        int[] CategoryIds,
+        int[] PageIds,
         int QuestionId,
         string TextHtml,
         string DescriptionHtml,
@@ -82,17 +82,13 @@ public class QuestionUpdater(
 
     public List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var categories = new List<Page>();
-        var privateCategories =
-            question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
-        categories.AddRange(privateCategories);
+        var pages = new List<Page>();
+        var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
+        pages.AddRange(privatePages);
 
         foreach (var pageId in newCategoryIds)
-            categories.Add(pageRepository.GetById(pageId));
+            pages.Add(pageRepository.GetById(pageId));
 
-        return categories;
+        return pages;
     }
-
-    public List<Page> GetAllParentsForQuestion(int newCategoryId, Question question) =>
-        GetAllParentsForQuestion(new List<int> { newCategoryId }, question);
 }

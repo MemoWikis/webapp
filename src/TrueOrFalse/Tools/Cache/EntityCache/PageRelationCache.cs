@@ -51,7 +51,7 @@ public class PageRelationCache : IPersistable
         return sortedList;
     }
 
-    public static IEnumerable<PageRelationCache> ToCategoryCacheRelations(IEnumerable<PageRelation> allRelations)
+    public static IEnumerable<PageRelationCache> ToPageRelationCache(IEnumerable<PageRelation> allRelations)
     {
         return allRelations.Select(ToPageCacheRelation);
     }
@@ -66,11 +66,5 @@ public class PageRelationCache : IPersistable
             PreviousId = pageRelation.PreviousId,
             NextId = pageRelation.NextId
         };
-    }
-
-    public static bool IsCategoryRelationEqual(PageRelationCache relation1, PageRelationCache relation2)
-    {
-        return relation1.ParentId == relation2.ParentId &&
-               relation1.ChildId == relation2.ChildId;
     }
 }

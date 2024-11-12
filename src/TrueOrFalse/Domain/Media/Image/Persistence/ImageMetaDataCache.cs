@@ -3,13 +3,13 @@
 public class ImageMetaDataCache
 {
 
-    private static readonly string _imageMetaDatasQuestionsKey = "imageMetaDatasQuestion";
-    private static readonly string _imageMetaDatasCategoriesKey = "imageMetaDatasCategories";
+    private static readonly string _imageMetaDataQuestionsKey = "imageMetaDatasQuestion";
+    private static readonly string _imageMetaDataPagesKey = "imageMetaDatasCategories";
 
     public static IDictionary<(int, int), ImageMetaData> RequestCache_Questions(ImageMetaDataReadingRepo imageMetaDataReadingRepo) =>
-        GetRequestItemsCache(_imageMetaDatasQuestionsKey, imageMetaDataReadingRepo);
-    public static IDictionary<(int, int), ImageMetaData> RequestCache_Categories(ImageMetaDataReadingRepo imageMetaDataReadingRepo) =>
-        GetRequestItemsCache(_imageMetaDatasCategoriesKey, imageMetaDataReadingRepo);
+        GetRequestItemsCache(_imageMetaDataQuestionsKey, imageMetaDataReadingRepo);
+    public static IDictionary<(int, int), ImageMetaData> RequestCache_Pages(ImageMetaDataReadingRepo imageMetaDataReadingRepo) =>
+        GetRequestItemsCache(_imageMetaDataPagesKey, imageMetaDataReadingRepo);
 
 
     public static bool IsInCache(int typeId, ImageType imageType, ImageMetaDataReadingRepo imageMetaDataReadingRepo)
@@ -19,7 +19,7 @@ public class ImageMetaDataCache
                 return true;
 
         if (imageType == ImageType.Page)
-            if (RequestCache_Categories(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
+            if (RequestCache_Pages(imageMetaDataReadingRepo).ContainsKey((typeId, (int)imageType)))
                 return true;
 
         return false;
@@ -35,7 +35,7 @@ public class ImageMetaDataCache
 
         if (imageType == ImageType.Page)
         {
-            return RequestCache_Categories(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
+            return RequestCache_Pages(imageMetaDataReadingRepo)[(typeId, (int)imageType)];
         }
 
         return null;
@@ -53,15 +53,5 @@ public class ImageMetaDataCache
         }
 
         return Cache.Mgr.Get<IDictionary<(int, int), ImageMetaData>>(cacheKey);
-    }
-
-    private static ImageType GetImageType(string key)
-    {
-        if (key.Equals(_imageMetaDatasQuestionsKey))
-            return ImageType.Question;
-        else if (key.Equals(_imageMetaDatasCategoriesKey))
-            return ImageType.Page;
-
-        throw new InvalidOperationException("Type not found");
     }
 }

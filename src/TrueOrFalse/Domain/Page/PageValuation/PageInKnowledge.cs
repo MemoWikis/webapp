@@ -6,22 +6,22 @@ public class PageInKnowledge(
     ExtendedUserCache _extendedUserCache)
     : IRegisterAsInstancePerLifetime
 {
-    private IList<int> QuestionsInValuatedCategories(
+    private IList<int> QuestionsInValuatedPages(
         int userId,
         IList<int> questionIds,
-        int exeptCategoryId = -1)
+        int exceptPageId = -1)
     {
         if (questionIds.IsEmpty())
             return new List<int>();
 
-        var valuatedCategories = _extendedUserCache
+        var evaluatedPages = _extendedUserCache
             .GetPageValuations(userId)
             .Where(v => v.IsInWishKnowledge());
 
-        if (exeptCategoryId != -1)
-            valuatedCategories = valuatedCategories.Where(v => v.PageId != exeptCategoryId);
+        if (exceptPageId != -1)
+            evaluatedPages = evaluatedPages.Where(v => v.PageId != exceptPageId);
 
-        var questionsInOtherValuatedCategories = valuatedCategories
+        var questionsInValuatedPages = evaluatedPages
             .SelectMany(v =>
             {
                 var page = EntityCache.GetPage(v.PageId);
@@ -34,7 +34,7 @@ public class PageInKnowledge(
             .Distinct()
             .ToList();
 
-        return questionsInOtherValuatedCategories;
+        return questionsInValuatedPages;
     }
 
     public void UnpinQuestionsInPageInDatabase(int pageId, int userId)
@@ -44,12 +44,11 @@ public class PageInKnowledge(
             .GetAggregatedQuestionsFromMemoryCache(userId);
         var questionIds = questionsInCategory.GetIds();
 
-        var questionsInPinnedCategories =
-            QuestionsInValuatedCategories(user.Id, questionIds, exeptCategoryId: pageId);
+        var questionsInValuatedPages = QuestionsInValuatedPages(user.Id, questionIds, exceptPageId: pageId);
 
-        var questionInOtherPinnedEntitites = questionsInPinnedCategories;
+        var questionInOtherPinnedEntities = questionsInValuatedPages;
         var questionsToUnpin = questionsInCategory
-            .Where(question => questionInOtherPinnedEntitites.All(id => id != question.Id))
+            .Where(question => questionInOtherPinnedEntities.All(id => id != question.Id))
             .ToList();
 
         foreach (var question in questionsToUnpin)

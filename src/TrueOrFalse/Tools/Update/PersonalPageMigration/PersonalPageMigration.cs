@@ -6,7 +6,7 @@
         UserReadingRepo userReadingRepo)
     {
         var users = userReadingRepo.GetAll();
-        var allCategories = pageRepository.GetAll();
+        var allPages = pageRepository.GetAll();
 
         foreach (var user in users)
         {
@@ -14,7 +14,7 @@
             {
                 Logg.r.Information("PersonalPageMigration - Start Migration for User: {userId}",
                     user.Id);
-                var firstPage = allCategories.FirstOrDefault(c => c.Creator == user);
+                var firstPage = allPages.FirstOrDefault(c => c.Creator == user);
 
                 if (firstPage != null && firstPage.Name.Contains("Wiki"))
                 {

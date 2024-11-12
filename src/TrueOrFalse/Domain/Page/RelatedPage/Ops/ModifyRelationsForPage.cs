@@ -3,7 +3,7 @@
     PageRelationRepo pageRelationRepo)
 {
     /// <summary>
-    /// Updates relations with relatedCategories (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
+    /// Updates relations with related pages (keeps existing and deletes missing) with possible restrictions on type of relation (IsChildOf etc.) and type of category (Standard, Book etc.)
     /// </summary>
     /// <param name="pageCacheItem"></param>
     /// <param name="relatedPageIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>

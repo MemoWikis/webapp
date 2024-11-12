@@ -34,7 +34,7 @@ public class KnowledgeSummaryLoader(
     {
         var aggregatedQuestions = new List<QuestionCacheItem>();
 
-        var aggregatedPages = pageCacheItem.AggregatedCategories(new PermissionCheck(userId), includingSelf: true);
+        var aggregatedPages = pageCacheItem.AggregatedPages(new PermissionCheck(userId), includingSelf: true);
 
         foreach (var currentPage in aggregatedPages)
         {

@@ -25,7 +25,7 @@ public class SearchHelper
         PermissionCheck permissionCheck,
         int userId,
         int[] topicIdsToFilter = null) => items.AddRange(
-            elements.Categories
+            elements.Pages
                 .Where(c => permissionCheck.CanView(c) &&
                     (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
                 .Select(c => FillSearchPageItem(c, userId))
@@ -36,7 +36,7 @@ public class SearchHelper
         GlobalSearchResult elements,
         int userId,
         int[] topicIdsToFilter = null) => items.AddRange(
-        elements.Categories
+        elements.Pages
             .Where(c => c.Visibility == PageVisibility.All &&
                         (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
             .Select(c => FillSearchPageItem(c, userId))
@@ -85,7 +85,7 @@ public class SearchHelper
     {
         items.AddRange(
             elements.Questions
-                .Where(q => permissionCheck.CanView(q) && q.CategoriesVisibleToCurrentUser(permissionCheck).Any())
+                .Where(q => permissionCheck.CanView(q) && q.PagesVisibleToCurrentUser(permissionCheck).Any())
                 .Select((q, index) => new SearchQuestionItem
                 {
                     Id = q.Id,
@@ -93,8 +93,8 @@ public class SearchHelper
                     ImageUrl = new QuestionImageSettings(q.Id, _httpContextAccessor, questionReadingRepo)
                         .GetUrl_50px_square()
                         .Url,
-                    PrimaryPageId = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
-                    PrimaryPageName = q.CategoriesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
+                    PrimaryPageId = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Id,
+                    PrimaryPageName = q.PagesVisibleToCurrentUser(permissionCheck).FirstOrDefault()!.Name
                 }));
     }
 

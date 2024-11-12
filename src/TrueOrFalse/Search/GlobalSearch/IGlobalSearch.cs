@@ -4,7 +4,7 @@ public interface IGlobalSearch
 {
     Task<GlobalSearchResult> Go(string term);
 
-    Task<GlobalSearchResult> GoAllCategoriesAsync(string term);
+    Task<GlobalSearchResult> GoAllPagesAsync(string term);
 
-    Task<GlobalSearchResult> GoNumberOfCategories(string term, int size = 5);
+    Task<GlobalSearchResult> GoNumberOfPages(string term, int size = 5);
 }

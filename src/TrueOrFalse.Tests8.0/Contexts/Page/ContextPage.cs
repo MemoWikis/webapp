@@ -156,7 +156,7 @@
     {
         var permissionCheck = R<PermissionCheck>();
 
-        var aggregatedCategorys = pageCachedItem.AggregatedCategories(permissionCheck);
+        var aggregatedCategorys = pageCachedItem.AggregatedPages(permissionCheck);
 
         if (aggregatedCategorys.Any() == false)
             return false;

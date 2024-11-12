@@ -127,7 +127,7 @@ public class QuestionCacheItem
         return safeText.TruncateAtWord(length);
     }
 
-    public virtual IEnumerable<PageCacheItem> CategoriesVisibleToCurrentUser(
+    public virtual IEnumerable<PageCacheItem> PagesVisibleToCurrentUser(
         PermissionCheck permissionCheck)
     {
         return Pages.Where(permissionCheck.CanView);

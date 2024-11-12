@@ -197,10 +197,10 @@ public class PageRelationEditController(
         int[] topicIdsToFilter = null)
     {
         var items = new List<SearchPageItem>();
-        var elements = await _search.GoAllCategoriesAsync(term)
+        var elements = await _search.GoAllPagesAsync(term)
             .ConfigureAwait(false);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
@@ -208,7 +208,7 @@ public class PageRelationEditController(
 
         return new SearchPageResult
         {
-            TotalCount = elements.CategoriesResultCount,
+            TotalCount = elements.PageCount,
             Pages = items,
         };
     }
@@ -223,10 +223,10 @@ public class PageRelationEditController(
     {
         var items = new List<SearchPageItem>();
         var elements = await _search
-            .GoAllCategoriesAsync(term)
+            .GoAllPagesAsync(term)
             .ConfigureAwait(false);
 
-        if (elements.Categories.Any())
+        if (elements.Pages.Any())
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
@@ -238,7 +238,7 @@ public class PageRelationEditController(
 
         return new SearchPageInPersonalWikiResult
         {
-            TotalCount = elements.CategoriesResultCount,
+            TotalCount = elements.PageCount,
             Pages = items,
         };
     }

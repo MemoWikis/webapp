@@ -73,7 +73,7 @@ public class UsersController(
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(_permissionCheck.CanView);
             wishQuestionCount = wishQuestions.Count();
-            topicsWithWishQuestionCount = wishQuestions.QuestionsInCategories().Count();
+            topicsWithWishQuestionCount = wishQuestions.QuestionsInPages().Count();
         }
 
         return new UserResult
@@ -82,10 +82,8 @@ public class UsersController(
             Id = user.Id,
             ReputationPoints = user.Reputation,
             Rank = user.ReputationPos,
-            CreatedQuestionsCount =
-                _userSummary.AmountCreatedQuestions(user.Id, _sessionUser.UserId == user.Id),
-            CreatedPagesCount =
-                _userSummary.AmountCreatedCategories(user.Id, _sessionUser.UserId == user.Id),
+            CreatedQuestionsCount = _userSummary.GetCreatedQuestionCount(user.Id, _sessionUser.UserId == user.Id),
+            CreatedPagesCount = _userSummary.GetCreatedPagesCount(user.Id, _sessionUser.UserId == user.Id),
             ShowWuwi = user.ShowWishKnowledge,
             WuwiQuestionsCount = wishQuestionCount,
             WuwiPagesCount = topicsWithWishQuestionCount,

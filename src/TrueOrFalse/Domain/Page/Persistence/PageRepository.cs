@@ -107,7 +107,7 @@ public class PageRepository(
             .List<Page>();
     }
 
-    public IList<Page> GetCategoriesIdsForRelatedCategory(Page relatedPage)
+    public IList<Page> GetPageIdsForRelatedPage(Page relatedPage)
     {
         var query = _session.QueryOver<PageRelation>()
             .Where(r => r.Parent == relatedPage);
@@ -143,17 +143,17 @@ public class PageRepository(
         return query.Select(r => r.Child).List<Page>();
     }
 
-    public IList<Page> GetIncludingCategories(Page page, bool includingSelf = true)
+    public IList<Page> GetIncludingPages(Page page, bool includingSelf = true)
     {
-        var includingCategories = GetCategoriesIdsForRelatedCategory(page);
+        var includingPages = GetPageIdsForRelatedPage(page);
 
         if (includingSelf)
         {
-            includingCategories =
-                includingCategories.Union(new List<Page> { page }).ToList();
+            includingPages =
+                includingPages.Union(new List<Page> { page }).ToList();
         }
 
-        return includingCategories;
+        return includingPages;
     }
 
     /// <summary>
@@ -176,11 +176,11 @@ public class PageRepository(
         bool imageWasUpdated = false,
         bool isFromModifyRelations = false,
         PageChangeType type = PageChangeType.Update,
-        bool createCategoryChange = true)
+        bool createPageChange = true)
     {
         base.Update(page);
 
-        if (authorId != 0 && createCategoryChange)
+        if (authorId != 0 && createPageChange)
         {
             pageChangeRepo.AddUpdateEntry(this, page, authorId, imageWasUpdated, type);
         }
@@ -209,11 +209,11 @@ public class PageRepository(
         bool imageWasUpdated = false,
         bool isFromModifiyRelations = false,
         PageChangeType type = PageChangeType.Update,
-        bool createCategoryChange = true)
+        bool createPageChange = true)
     {
         base.Update(page);
 
-        if (author != null && createCategoryChange)
+        if (author != null && createPageChange)
         {
             pageChangeRepo.AddUpdateEntry(this, page, author.Id, imageWasUpdated, type);
         }

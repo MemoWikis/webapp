@@ -128,7 +128,7 @@ public class UserController(
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(question => _permissionCheck.CanView(question)
                                    && question.IsInWishknowledge(id, _extendedUserCache)
-                                   && question.CategoriesVisibleToCurrentUser(_permissionCheck)
+                                   && question.PagesVisibleToCurrentUser(_permissionCheck)
                                        .Any());
 
             return new WuwiResult
@@ -136,13 +136,13 @@ public class UserController(
                 Questions = wishQuestions.Select(q => new WuwiQuestion
                 {
                     Title = q.GetShortTitle(200),
-                    PrimaryPageName = q.CategoriesVisibleToCurrentUser(_permissionCheck)
+                    PrimaryPageName = q.PagesVisibleToCurrentUser(_permissionCheck)
                         .LastOrDefault()?.Name,
-                    PrimaryPageId = q.CategoriesVisibleToCurrentUser(_permissionCheck)
+                    PrimaryPageId = q.PagesVisibleToCurrentUser(_permissionCheck)
                         .LastOrDefault()?.Id,
                     Id = q.Id
                 }).ToArray(),
-                Pages = wishQuestions.QuestionsInCategories()
+                Pages = wishQuestions.QuestionsInPages()
                     .Where(t => _permissionCheck.CanView(t.PageCacheItem)).Select(t =>
                         new WuwiPage
                         {

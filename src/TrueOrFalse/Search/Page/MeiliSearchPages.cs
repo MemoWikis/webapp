@@ -21,7 +21,7 @@ namespace TrueOrFalse.Search
         }
 
         /// <summary>
-        /// Get Categories From MeiliSearch Async
+        /// Get Pages From MeiliSearch Async
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>

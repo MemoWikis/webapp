@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VueApp;
 
@@ -42,7 +42,7 @@ public class PageToPrivateStoreController(
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var aggregatedPages = topicCacheItem.AggregatedCategories(_permissionCheck)
+        var aggregatedPages = topicCacheItem.AggregatedPages(_permissionCheck)
             .Where(c => c.Value.Visibility == PageVisibility.All);
         var publicAggregatedQuestions = topicCacheItem
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
@@ -59,15 +59,15 @@ public class PageToPrivateStoreController(
 
             foreach (var c in aggregatedPages)
             {
-                var parentCategories = c.Value.Parents();
-                bool childHasPublicParent = parentCategories.Any(p =>
+                var parents = c.Value.Parents();
+                bool childHasPublicParent = parents.Any(p =>
                     p.Visibility == PageVisibility.All && p.Id != id);
 
-                if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
+                if (!childHasPublicParent && parents.Any(p => p.Id != id))
                     return new GetResult
                     {
                         Success = false,
-                        MessageKey = FrontendMessageKeys.Error.Page.PublicChildCategories
+                        MessageKey = FrontendMessageKeys.Error.Page.PublicChildPages
                     };
             }
 
@@ -147,20 +147,20 @@ public class PageToPrivateStoreController(
                     MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
                 };
 
-            var aggregatedPages = topicCacheItem.AggregatedCategories(_permissionCheck, false)
+            var aggregatedPages = topicCacheItem.AggregatedPages(_permissionCheck, false)
                 .Where(c => c.Value.Visibility == PageVisibility.All);
 
             foreach (var c in aggregatedPages)
             {
-                var parentCategories = c.Value.Parents();
-                bool childHasPublicParent = parentCategories.Any(p =>
+                var parents = c.Value.Parents();
+                bool childHasPublicParent = parents.Any(p =>
                     p.Visibility == PageVisibility.All && p.Id != id);
 
-                if (!childHasPublicParent && parentCategories.Any(p => p.Id != id))
+                if (!childHasPublicParent && parents.Any(p => p.Id != id))
                     return new SetResult
                     {
                         Success = false,
-                        MessageKey = FrontendMessageKeys.Error.Page.PublicChildCategories
+                        MessageKey = FrontendMessageKeys.Error.Page.PublicChildPages
                     };
             }
 

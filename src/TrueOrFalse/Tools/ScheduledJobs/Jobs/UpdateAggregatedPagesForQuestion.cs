@@ -14,7 +14,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            Logg.r.Information("Job started - Update Aggregated Categories from Update Question");
+            Logg.r.Information("Job started - Update Aggregated Pages from Update Question");
 
             var dataMap = context.JobDetail.JobDataMap;
             var pageIds = (List<int>)dataMap["pageIds"];
@@ -28,7 +28,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 pages.UpdateCountQuestionsAggregated(userId);
                 _pageRepository.Update(pages);
                 KnowledgeSummaryUpdate.ScheduleForPage(pages.Id, _jobQueueRepo);
-                Logg.r.Information("Update Category from Update Question - {id}", pages.Id);
+                Logg.r.Information("Update Page from Update Question - {id}", pages.Id);
             }
 
             return Task.CompletedTask;

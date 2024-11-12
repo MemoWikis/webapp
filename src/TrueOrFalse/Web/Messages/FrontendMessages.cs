@@ -39,7 +39,7 @@
         public static class Page
         {
             public static readonly string ParentIsPrivate = "error_page_parentIsPrivate";
-            public static readonly string PublicChildCategories = "error_page_publicChildCategories";
+            public static readonly string PublicChildPages = "error_page_publicChildPages";
             public static readonly string PublicQuestions = "error_page_publicQuestions";
             public static readonly string NotLastChild = "error_page_notLastChild";
             public static readonly string NoRemainingParents = "error_page_noRemainingParents";

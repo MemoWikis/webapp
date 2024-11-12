@@ -4,7 +4,7 @@
         IList<Page> categories,
         PageRepository pageRepository)
     {
-        return categories.SelectMany(c => pageRepository.GetIncludingCategories(c)).Distinct()
+        return categories.SelectMany(c => pageRepository.GetIncludingPages(c)).Distinct()
             .ToList();
     }
 }

@@ -3,9 +3,9 @@
 public class GlobalSearchResult
 {
     public ISearchPagesResult PagesResult;
-    private IList<PageCacheItem> _categories;
-    public IList<PageCacheItem> Categories => _categories ??= PagesResult.GetPages();
-    public int CategoriesResultCount => PagesResult.Count;
+    private IList<PageCacheItem> _pages;
+    public IList<PageCacheItem> Pages => _pages ??= PagesResult.GetPages();
+    public int PageCount => PagesResult.Count;
     public ISearchQuestionsResult QuestionsResult;
     private IList<QuestionCacheItem> _questions;
     public IList<QuestionCacheItem> Questions => _questions ??= QuestionsResult.GetQuestions();
@@ -16,5 +16,5 @@ public class GlobalSearchResult
     public IList<UserCacheItem> Users => _users ??= UsersResult.GetUsers();
     public int UsersResultCount => UsersResult.Count;
 
-    public int TotalElements => Categories.Count + Questions.Count + Users.Count;
+    public int TotalElements => Pages.Count + Questions.Count + Users.Count;
 }

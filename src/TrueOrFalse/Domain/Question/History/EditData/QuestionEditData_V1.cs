@@ -43,7 +43,7 @@ public class QuestionEditData_V1 : QuestionEditData
 
     public override Question ToQuestion(Question question)
     {
-        // Query Categories and References properties to load and thus prevent an
+        // Query Pages and References properties to load and thus prevent an
         // NHibernate.LazyInitializationException
         question.Pages.ToList();
         question.References.ToList();

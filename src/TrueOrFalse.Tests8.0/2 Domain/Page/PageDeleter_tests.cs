@@ -139,7 +139,7 @@ public class PageDeleter_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         //Assert
-        var allCategoriesInEntityCache = EntityCache.GetAllPagesList();
+        var allPagesInEntityCache = EntityCache.GetAllPagesList();
         var cachedParent = EntityCache.GetPage(parent.Id);
         var cachedChild = EntityCache.GetPage(child.Id);
 
@@ -148,10 +148,10 @@ public class PageDeleter_tests : BaseTest
         Assert.IsFalse(requestResult.HasChildren);
         Assert.IsFalse(requestResult.IsNotCreatorOrAdmin);
         Assert.That(child.Id, Is.EqualTo(requestResult.RedirectParent.Id));
-        Assert.IsTrue(allCategoriesInEntityCache.Any());
-        Assert.IsTrue(allCategoriesInEntityCache.Any(c => c.Id == parent.Id));
-        Assert.IsTrue(allCategoriesInEntityCache.Any(c => c.Id == child.Id));
-        Assert.False(allCategoriesInEntityCache.Any(c => c.Name.Equals(childOfChildName)));
+        Assert.IsTrue(allPagesInEntityCache.Any());
+        Assert.IsTrue(allPagesInEntityCache.Any(c => c.Id == parent.Id));
+        Assert.IsTrue(allPagesInEntityCache.Any(c => c.Id == child.Id));
+        Assert.False(allPagesInEntityCache.Any(c => c.Name.Equals(childOfChildName)));
         Assert.IsNotEmpty(cachedParent.ChildRelations);
         Assert.That(cachedChild.Id,
             Is.EqualTo(cachedParent.ChildRelations.Single().ChildId));

@@ -460,8 +460,8 @@ public class EntityCache
         string name,
         PageType type = PageType.Standard)
     {
-        var allCategories = GetAllPagesList();
-        return allCategories.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
+        var allPages = GetAllPagesList();
+        return allPages.Where(c => c.Name.ToLower() == name.ToLower()).ToList();
     }
 
     public static IEnumerable<int> GetPrivateQuestionIdsFromUser(int userId) => GetAllQuestions()
