@@ -121,7 +121,7 @@ async function addPage(newPage: boolean) {
         editCategoryRelation: newPage
             ? EditPageRelationType.Create
             : EditPageRelationType.AddChild,
-        categoriesToFilter: await pagesToFilter.value,
+        pagesToFilter: await pagesToFilter.value,
     }
     editPageRelationStore.openModal(parent)
 }

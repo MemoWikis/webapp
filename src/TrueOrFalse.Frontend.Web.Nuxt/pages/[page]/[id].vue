@@ -2,7 +2,7 @@
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { FooterPages, Page, usePageStore } from '~/components/page/pageStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { Page } from '~~/components/shared/pageEnum'
+import { PageEnum } from '~~/components/shared/pageEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
@@ -100,7 +100,7 @@ function setPage() {
 
 setPage()
 const emit = defineEmits(['setPage'])
-emit('setPage', Page.Page)
+emit('setPage', PageEnum.Page)
 
 function setTab() {
     if (tabsStore != null) {

@@ -67,7 +67,7 @@ function openMovePageModal() {
         pageIdToRemove: props.parentId,
         childId: props.page.id,
         editCategoryRelation: EditPageRelationType.Move,
-        categoriesToFilter: [props.parentId, props.page.id]
+        pagesToFilter: [props.parentId, props.page.id]
     } as EditRelationData
 
     editPageRelationStore.openModal(data)

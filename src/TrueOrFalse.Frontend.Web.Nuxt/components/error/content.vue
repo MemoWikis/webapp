@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Page } from '~~/components/shared/pageEnum'
+import { PageEnum } from '~~/components/shared/pageEnum'
 import { ErrorCode } from '~~/components/error/errorCodeEnum'
 import type { NuxtError } from '#app'
 import { messages } from '../alert/messages'
@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['setPage', 'clearError'])
-emit('setPage', Page.Error)
+emit('setPage', PageEnum.Error)
 
 
 onBeforeMount(() => {
@@ -32,10 +32,10 @@ function setErrorImage(statusCode: number) {
     switch (statusCode) {
         case ErrorCode.NotFound:
             errorImgSrc.value = '/Images/Error/memo-404_german_600.png'
-            break;
+            break
         case ErrorCode.Unauthorized:
             errorImgSrc.value = '/Images/Error/memo-401_german_600.png'
-            break;
+            break
         case ErrorCode.Error:
         default:
             errorImgSrc.value = '/Images/Error/memo-500_german_600.png'

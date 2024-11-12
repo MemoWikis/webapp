@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
 import { usePageStore } from '../page/pageStore'
-import { Page } from '../shared/pageEnum'
+import { PageEnum } from '../shared/pageEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 import { useRootPageChipStore } from './rootPageChipStore'
 
 interface Props {
-	page: Page
+	page: PageEnum
 	showSearch: boolean
 	questionPageData?: {
 		primaryPageName: string
@@ -135,17 +135,17 @@ onBeforeMount(async () => {
 
 const route = useRoute()
 watch(() => route.params, () => {
-	if (props.page != Page.Page)
+	if (props.page != PageEnum.Page)
 		getBreadcrumb()
 })
 watch(() => pageStore.id, (newId, oldId) => {
-	if (newId > 0 && newId != oldId && props.page == Page.Page) {
+	if (newId > 0 && newId != oldId && props.page == PageEnum.Page) {
 		getBreadcrumb()
 	}
 }, { immediate: true })
 
 watch(() => props.page, (newPage, oldPage) => {
-	if (oldPage != newPage && (newPage == Page.Page && pageStore.id > 0))
+	if (oldPage != newPage && (newPage == PageEnum.Page && pageStore.id > 0))
 		getBreadcrumb()
 })
 const rootPageChipStore = useRootPageChipStore()
@@ -167,9 +167,9 @@ async function getBreadcrumb() {
 
 	const data = {
 		wikiId: !isNaN(sessionWikiId) ? sessionWikiId : 0,
-		currentCategoryId: pageStore.id,
+		currentPageId: pageStore.id,
 	}
-	if (props.page == Page.Page && pageStore.id > 0) {
+	if (props.page == PageEnum.Page && pageStore.id > 0) {
 		const result = await $api<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
@@ -216,39 +216,39 @@ async function getBreadcrumb() {
 function setPageTitle() {
 	pageTitle.value = ''
 	switch (props.page) {
-		case Page.Welcome:
+		case PageEnum.Welcome:
 			pageTitle.value = 'Willkommen'
 			break
-		case Page.Page:
+		case PageEnum.Page:
 			pageTitle.value = pageStore.name
 			break
 		// case Page.Question custom breadcrumb item set in the question/[id].vue
 		// case Page.Question custom breadcrumb item set in the user/[id].vue
-		case Page.Imprint:
+		case PageEnum.Imprint:
 			pageTitle.value = 'Impressum'
 			break
-		case Page.Terms:
+		case PageEnum.Terms:
 			pageTitle.value = 'Geschäftsbedingungen'
 			break
-		case Page.Register:
+		case PageEnum.Register:
 			pageTitle.value = 'Registrieren'
 			break
-		case Page.Messages:
+		case PageEnum.Messages:
 			pageTitle.value = 'Nachrichten'
 			break
 		// case Page.Default:
 		// 	pageTitle.value = ''
 		// 	break
-		case Page.Error:
+		case PageEnum.Error:
 			pageTitle.value = 'Fehler'
 			break
-		case Page.ResetPassword:
+		case PageEnum.ResetPassword:
 			pageTitle.value = 'Passwort zurücksetzen'
 			break
-		case Page.ConfirmEmail:
+		case PageEnum.ConfirmEmail:
 			pageTitle.value = 'E-Mail Bestätigung'
 			break
-		case Page.Metrics:
+		case PageEnum.Metrics:
 			pageTitle.value = 'Metriken'
 			break
 	}
@@ -326,7 +326,7 @@ const ariaId3 = useId()
 </script>
 
 <template>
-	<div v-if="breadcrumb != null && props.page == Page.Page" id="BreadCrumb" ref="breadcrumbEl"
+	<div v-if="breadcrumb != null && props.page == PageEnum.Page" id="BreadCrumb" ref="breadcrumbEl"
 		:style="breadcrumbWidth"
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">
@@ -426,10 +426,10 @@ const ariaId3 = useId()
 			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
 		</NuxtLink>
 		<div class="breadcrumb-divider"></div>
-		<div class="breadcrumb-item last" v-tooltip="pageStore.name" v-if="props.page == Page.Page">
+		<div class="breadcrumb-item last" v-tooltip="pageStore.name" v-if="props.page == PageEnum.Page">
 			{{ pageStore.name }}
 		</div>
-		<template v-else-if="props.page == Page.Question && props.questionPageData != null">
+		<template v-else-if="props.page == PageEnum.Question && props.questionPageData != null">
 			<NuxtLink :to="`${questionPageData?.primaryPageUrl}`" class="breadcrumb-item"
 				v-tooltip="questionPageData?.primaryPageName" :aria-label="questionPageData?.primaryPageName">
 				{{ questionPageData?.primaryPageName }}

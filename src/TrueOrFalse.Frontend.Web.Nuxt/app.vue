@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Page, usePageStore, FooterPages } from '~/components/page/pageStore'
-import { Page } from './components/shared/pageEnum'
+import { PageEnum } from './components/shared/pageEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
@@ -64,14 +64,14 @@ const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooter
 	},
 })
 
-const page = ref(Page.Default)
+const page = ref(PageEnum.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: Page | null = null) {
+function setPage(type: PageEnum | null = null) {
 	if (type != null) {
 		page.value = type
-		if (type != Page.Page) {
+		if (type != PageEnum.Page) {
 			pageStore.setPage(new Page())
 		}
 	}
@@ -106,7 +106,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					spinnerStore.hideSpinner()
-					if (page.value == Page.Page && pageStore.visibility != Visibility.All)
+					if (page.value == PageEnum.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
 			}
@@ -132,9 +132,9 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
-	if (page.value == Page.Error)
+	if (page.value == PageEnum.Error)
 		return
-	if ((page.value == Page.Page || page.value == Page.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+	if ((page.value == PageEnum.Page || page.value == PageEnum.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()

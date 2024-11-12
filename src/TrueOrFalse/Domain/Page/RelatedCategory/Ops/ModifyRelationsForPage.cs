@@ -1,4 +1,4 @@
-﻿public class ModifyRelationsForCategory(
+﻿public class ModifyRelationsForPage(
     PageRepository pageRepository,
     PageRelationRepo pageRelationRepo)
 {
@@ -9,7 +9,7 @@
     /// <param name="relatedPageIds">Existing relations are updated with this collection (existing are kept, non-included are deleted)</param>
     /// <param name="relationType">If specified only relations of this type will be updated</param>
 
-    public void AddParentCategory(Page page, int parentId)
+    public void AddParentPage(Page page, int parentId)
     {
         var relatedCategory = pageRepository.GetByIdEager(parentId);
         var previousCachedRelation =

@@ -178,7 +178,7 @@ function getData() {
     const visibility = isPrivate.value ? 1 : 0
 
     const dataExtension = {
-        CategoryIds: pageIds.value,
+        PageIds: pageIds.value,
         TextHtml: questionHtml.value,
         QuestionExtensionHtml: questionExtensionHtml.value,
         DescriptionHtml: descriptionHtml.value,
@@ -474,7 +474,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         <form class="" v-on:submit.prevent>
                             <div class="form-group dropdown categorySearchAutocomplete"
                                 :class="{ 'open': showDropdown }">
-                                <div class="related-categories-container">
+                                <div class="related-pages-container">
                                     <PageChip v-for="(t, index) in selectedPages" :key="index" :page="t"
                                         :index="index" @removePage="removePage"
                                         :removable-chip="selectedPages.length > 1" />
@@ -668,7 +668,7 @@ textarea,
     padding: 11px 15px 0;
 }
 
-.related-categories-container {
+.related-pages-container {
     display: flex;
     flex-wrap: wrap;
 

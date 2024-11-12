@@ -27,7 +27,7 @@ function openImage() {
 
 const imgSrc = ref('')
 function setImgSrc() {
-	if (props.src.startsWith('/Images/Categories/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/'))
+	if (props.src.startsWith('/Images/Pages/') || props.src.startsWith('/Images/Questions/') || props.src.startsWith('/Images/Users/'))
 		imgSrc.value = props.src
 	else if (props.src.startsWith('/Images'))
 		imgSrc.value = props.src.replace("/Images", "/img")

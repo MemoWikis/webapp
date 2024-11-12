@@ -4,9 +4,11 @@ public class PageViewMap : ClassMap<PageView>
 {
     public PageViewMap()
     {
+        Table("categoryview");
+
         Id(x => x.Id);
 
-        References(x => x.Page).Cascade.None();
+        References(x => x.Page).Column("Category_id").Cascade.None();
         References(x => x.User).Cascade.None();
 
         Map(x => x.UserAgent);

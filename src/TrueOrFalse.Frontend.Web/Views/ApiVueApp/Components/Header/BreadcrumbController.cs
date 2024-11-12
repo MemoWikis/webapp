@@ -7,21 +7,21 @@ public class BreadcrumbController(
     SessionUser _sessionUser,
     CrumbtrailService _crumbtrailService) : Controller
 {
-    public readonly record struct GetBreadcrumbParam(int WikiId, int CurrentCategoryId);
+    public readonly record struct GetBreadcrumbParam(int WikiId, int CurrentPageId);
 
     [HttpPost]
     public Breadcrumb GetBreadcrumb([FromBody] GetBreadcrumbParam param)
     {
         var wikiId = param.WikiId;
-        int currentPageId = param.CurrentCategoryId;
+        int currentPageId = param.CurrentPageId;
 
         var defaultWikiId = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId : 1;
         _sessionUser.SetWikiId(wikiId != 0 ? wikiId : defaultWikiId);
-        var category = EntityCache.GetPage(currentPageId);
-        var currentWiki = _crumbtrailService.GetWiki(category, _sessionUser);
+        var page = EntityCache.GetPage(currentPageId);
+        var currentWiki = _crumbtrailService.GetWiki(page, _sessionUser);
         _sessionUser.SetWikiId(currentWiki);
 
-        var breadcrumb = _crumbtrailService.BuildCrumbtrail(category, currentWiki);
+        var breadcrumb = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
 
         return GetBreadcrumbItems(breadcrumb, currentWiki);
     }
@@ -29,11 +29,11 @@ public class BreadcrumbController(
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var topic = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : RootPage.Get;
+        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : RootPage.Get;
         return new BreadcrumbItem
         {
-            Name = topic.Name,
-            Id = topic.Id
+            Name = page.Name,
+            Id = page.Id
         };
     }
 

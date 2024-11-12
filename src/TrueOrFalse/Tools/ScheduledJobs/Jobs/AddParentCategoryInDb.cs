@@ -32,7 +32,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             var childCategory = _pageRepository.GetById(childCategoryId);
             var parentCategory = _pageRepository.GetById(parentCategoryId);
 
-            new ModifyRelationsForCategory(_pageRepository, _pageRelationRepo).AddParentCategory(childCategory, parentCategoryId);
+            new ModifyRelationsForPage(_pageRepository, _pageRelationRepo).AddParentPage(childCategory, parentCategoryId);
 
              _pageRepository.Update(childCategory, _authorId, type: PageChangeType.Relations);
              _pageRepository.Update(parentCategory, _authorId, type: PageChangeType.Relations);

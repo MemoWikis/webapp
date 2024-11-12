@@ -1,4 +1,4 @@
-export enum Page {
+export enum PageEnum {
     Welcome,
     Page,
     Question,

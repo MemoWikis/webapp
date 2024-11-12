@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Page } from '~/components/shared/pageEnum'
+import { PageEnum } from '~/components/shared/pageEnum'
 import { color } from '~/components/shared/colors'
 
 const { $logger } = useNuxtApp()
@@ -107,7 +107,7 @@ const questionViewsOfPastYearCounts = computed(() => overviewData.value?.questio
 const showQuestionViewsAsBars = ref(true)
 
 const emit = defineEmits(['setPage', 'setBreadcrumb'])
-emit('setPage', Page.Metrics)
+emit('setPage', PageEnum.Metrics)
 emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
 </script>
@@ -396,7 +396,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
     display: flex;
     margin-bottom: 20px;
     justify-content: space-between;
-    font-size:18px;
+    font-size: 18px;
 }
 
 .chart-container {
@@ -432,6 +432,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
             &:hover {
                 filter: brightness(0.95);
             }
+
             &:active {
                 filter: brightness(0.9);
             }
@@ -439,6 +440,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
 
     }
 }
+
 .metrics-header {
     height: 54px;
     margin-top: 20px;

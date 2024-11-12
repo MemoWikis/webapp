@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Page } from '~~/components/shared/pageEnum'
+import { PageEnum } from '~~/components/shared/pageEnum'
 import { useUserStore } from '~~/components/user/userStore'
 
 import { Google } from '~~/components/user/Google'
@@ -18,7 +18,7 @@ interface Props {
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', Page.Register)
+    emit('setPage', PageEnum.Register)
 
     if (userStore.isLoggedIn)
         navigateTo('/')
@@ -89,7 +89,7 @@ function loadFacebookPlugin(toRegister = false) {
         if (toRegister) {
             setTimeout(() => {
                 FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
-            }, 500);
+            }, 500)
         }
     }
 }

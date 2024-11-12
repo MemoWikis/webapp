@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
-import { Page } from '~~/components/shared/pageEnum'
+import { PageEnum } from '~~/components/shared/pageEnum'
 import { FooterPages, Page } from '~/components/page/pageStore'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
@@ -63,7 +63,7 @@ function highlightCode(id: string) {
 }
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
-	emit('setPage', Page.Question)
+	emit('setPage', PageEnum.Question)
 
 	if (question.value?.answerBodyModel != null)
 		emit('setQuestionPageData', {

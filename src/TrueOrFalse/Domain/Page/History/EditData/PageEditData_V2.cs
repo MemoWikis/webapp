@@ -4,7 +4,7 @@ using NHibernate;
 public class PageEditData_V2 : PageEditData
 {
     private readonly PageRepository _pageRepository;
-    public IList<PageRelation_EditData_V2> CategoryRelations;
+    public IList<PageRelation_EditData_V2> PageRelations;
     public bool ImageWasUpdated;
     private readonly ISession _nhibernateSession;
 
@@ -32,7 +32,7 @@ public class PageEditData_V2 : PageEditData
         Description = page.Description;
         PageMardkown = page.Markdown;
         Content = page.Content;
-        CategoryRelations = null;
+        PageRelations = null;
         ImageWasUpdated = imageWasUpdated;
         _nhibernateSession = nhibernateSession;
         Visibility = page.Visibility;

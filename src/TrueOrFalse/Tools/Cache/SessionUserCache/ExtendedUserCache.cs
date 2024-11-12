@@ -55,7 +55,7 @@ public class ExtendedUserCache(
         GetItem(userId)?.QuestionValuations.Values
             .ToList() ?? new List<QuestionValuationCacheItem>();
 
-    public IList<PageValuation> GetCategoryValuations(int userId)
+    public IList<PageValuation> GetPageValuations(int userId)
     {
         var item = GetItem(userId);
 
@@ -146,7 +146,7 @@ public class ExtendedUserCache(
     }
 
     /// <summary> Used for category delete </summary>
-    public void RemoveAllForCategory(
+    public void RemoveAllForPage(
         int pageId,
         PageValuationWritingRepo pageValuationWritingRepo)
     {

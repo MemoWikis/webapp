@@ -129,7 +129,7 @@
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
+            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
@@ -201,7 +201,7 @@
         var relationToMove = cachedRoot.ChildRelations[2];
         var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
+            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         PageOrderer.MoveBefore(relationToMove, sub1.Id, cachedRoot.Id, 1,
@@ -281,7 +281,7 @@
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
+            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         PageOrderer.MoveAfter(relationToMove, sub3.Id, cachedRoot.Id, 1,
@@ -361,7 +361,7 @@
         var relationToMove = cachedRoot.ChildRelations[0];
         var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
+            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
 
         //Act & Assert
         var ex = Assert.Throws<Exception>(() => PageOrderer.MoveAfter(relationToMove,
@@ -407,7 +407,7 @@
         var relationToMove = cachedSub1.ChildRelations[0];
         var categoryRelationRepo = R<PageRelationRepo>();
         var modifyRelationsForCategory =
-            new ModifyRelationsForCategory(R<PageRepository>(), categoryRelationRepo);
+            new ModifyRelationsForPage(R<PageRepository>(), categoryRelationRepo);
 
         //Act
         PageOrderer.MoveIn(relationToMove, sub2.Id, 1, modifyRelationsForCategory,

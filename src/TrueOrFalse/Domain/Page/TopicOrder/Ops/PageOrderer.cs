@@ -15,7 +15,7 @@
         PageRelationCache relation,
         int newParentId,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory,
+        ModifyRelationsForPage modifyRelationsForPage,
         PermissionCheck permissionCheck)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
@@ -26,12 +26,12 @@
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
 
-        modifyRelationsForCategory.AddChild(newParentId, relation.ChildId, authorId);
+        modifyRelationsForPage.AddChild(newParentId, relation.ChildId, authorId);
         ModifyRelationsEntityCache.RemoveParent(
             EntityCache.GetPage(relation.ChildId),
             relation.ParentId,
             authorId,
-            modifyRelationsForCategory,
+            modifyRelationsForPage,
             permissionCheck);
     }
 
@@ -41,7 +41,7 @@
             int beforePageId,
             int newParentId,
             int authorId,
-            ModifyRelationsForCategory modifyRelationsForCategory)
+            ModifyRelationsForPage modifyRelationsForPage)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
@@ -52,9 +52,9 @@
         }
 
         var updatedNewOrder = AddBefore(relation.ChildId, beforePageId, newParentId, authorId,
-            modifyRelationsForCategory);
+            modifyRelationsForPage);
         var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
+            Remove(relation, relation.ParentId, authorId, modifyRelationsForPage);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -65,7 +65,7 @@
             int afterPageId,
             int newParentId,
             int authorId,
-            ModifyRelationsForCategory modifyRelationsForCategory)
+            ModifyRelationsForPage modifyRelationsForPage)
     {
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
@@ -76,9 +76,9 @@
         }
 
         var updatedNewOrder = AddAfter(relation.ChildId, afterPageId, newParentId, authorId,
-            modifyRelationsForCategory);
+            modifyRelationsForPage);
         var updatedOldOrder =
-            Remove(relation, relation.ParentId, authorId, modifyRelationsForCategory);
+            Remove(relation, relation.ParentId, authorId, modifyRelationsForPage);
 
         return (updatedOldOrder, updatedNewOrder);
     }
@@ -87,7 +87,7 @@
         PageRelationCache relation,
         int oldParentId,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var relations = EntityCache.GetPage(oldParentId).ChildRelations;
 
@@ -121,8 +121,8 @@
             relations.RemoveAt(relationIndex);
             RemoveRelationFromParentRelations(relation);
             EntityCache.Remove(relation);
-            modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
-            modifyRelationsForCategory.DeleteRelationInDb(relation.Id, authorId);
+            modifyRelationsForPage.UpdateRelationsInDb(changedRelations, authorId);
+            modifyRelationsForPage.DeleteRelationInDb(relation.Id, authorId);
         }
 
         return relations.ToList();
@@ -143,7 +143,7 @@
         int beforePageId,
         int parentId,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var parent = EntityCache.GetPage(parentId);
 
@@ -156,7 +156,7 @@
                 relations,
                 false,
                 authorId,
-                modifyRelationsForCategory);
+                modifyRelationsForPage);
 
         parent.ChildRelations = newRelations;
         return newRelations;
@@ -167,7 +167,7 @@
         int afterPageId,
         int parentId,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var parent = EntityCache.GetPage(parentId);
 
@@ -180,7 +180,7 @@
                 relations,
                 true,
                 authorId,
-                modifyRelationsForCategory);
+                modifyRelationsForPage);
 
         parent.ChildRelations = newRelations;
         return newRelations;
@@ -193,7 +193,7 @@
         List<PageRelationCache> relations,
         bool insertAfter,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var relation = new PageRelationCache
         {
@@ -233,7 +233,7 @@
                 currentRelation,
                 changedRelations);
 
-        var newRelationId = modifyRelationsForCategory.CreateNewRelationAndGetId(
+        var newRelationId = modifyRelationsForPage.CreateNewRelationAndGetId(
             currentRelation.ParentId, currentRelation.ChildId,
             currentRelation.NextId, currentRelation.PreviousId);
 
@@ -241,7 +241,7 @@
 
         EntityCache.AddOrUpdate(currentRelation);
         EntityCache.GetPage(currentRelation.ChildId)?.ParentRelations.Add(currentRelation);
-        modifyRelationsForCategory.UpdateRelationsInDb(changedRelations, authorId);
+        modifyRelationsForPage.UpdateRelationsInDb(changedRelations, authorId);
 
         return relations;
     }

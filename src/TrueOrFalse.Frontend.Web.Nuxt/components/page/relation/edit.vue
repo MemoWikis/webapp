@@ -255,7 +255,7 @@ async function search() {
     showDropdown.value = true
     const data = {
         term: searchTerm.value,
-        pagesIdToFilter: editPageRelationStore.categoriesToFilter
+        pagesIdToFilter: editPageRelationStore.pagesToFilter
     }
 
     const url = editPageRelationStore.type == EditPageRelationType.AddToPersonalWiki
@@ -449,7 +449,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                 </div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.pageInWiki" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.categoriesToFilter" />
+                        <Search :search-type="SearchType.pageInWiki" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
 
                         <div class="swap-type-target">
                             <button @click="editPageRelationStore.type = EditPageRelationType.AddParent">
@@ -490,7 +490,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                     Frage<template v-if="selectedPage.questionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.categoriesToFilter" />
+                        <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
 
                         <div class="swap-type-target">
                             <button @click="editPageRelationStore.type = EditPageRelationType.AddToPersonalWiki">
@@ -525,7 +525,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                     Frage<template v-if="selectedPage.questionCount != 1">n</template></div>
                             </div>
                         </div>
-                        <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.categoriesToFilter" />
+                        <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
                     </div>
                 </div>
                 <div class="alert alert-warning" role="alert" v-if="showErrorMsg">

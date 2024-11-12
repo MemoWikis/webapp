@@ -31,7 +31,7 @@ export const messages: any = {
         },
         page: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
-            publicChildCategories: "Diese Seite hat öffentliche untergeordnete Themen.",
+            publicChildPages: "Diese Seite hat öffentliche untergeordnete Themen.",
             publicQuestions: "Diese Seite hat öffentliche Fragen.",
             notLastChild: "Diese Seite kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterseiten und versuche es erneut.",
             noRemainingParents: "Die Verknüpfung der Seite kann nicht gelöst werden. Diese Seite muss mindestens einer öffentlichen übergeordneten Seite zugeordnet sein.",

@@ -39,23 +39,23 @@
             };
         }
 
-        var topic = new Page(name, sessionUser.UserId);
+        var page = new Page(name, sessionUser.UserId);
 
-        topic.Creator = _userReadingRepo.GetById(sessionUser.UserId);
-        topic.Type = PageType.Standard;
-        topic.Visibility = PageVisibility.Owner;
-        _pageRepository.Create(topic);
+        page.Creator = _userReadingRepo.GetById(sessionUser.UserId);
+        page.Type = PageType.Standard;
+        page.Visibility = PageVisibility.Owner;
+        _pageRepository.Create(page);
 
-        var modifyRelationsForCategory = new ModifyRelationsForCategory(_pageRepository, _pageRelationRepo);
-        modifyRelationsForCategory.AddChild(parentPageId, topic.Id, sessionUser.UserId);
+        var modifyRelationsForCategory = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
+        modifyRelationsForCategory.AddChild(parentPageId, page.Id, sessionUser.UserId);
 
         return new CreateResult
         {
             Success = true,
             Data = new TinyPageItem
             {
-                Name = topic.Name,
-                Id = topic.Id
+                Name = page.Name,
+                Id = page.Id
             }
         };
     }

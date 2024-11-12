@@ -832,7 +832,7 @@ const ariaId2 = useId()
     text-align: center;
 }
 
-.model-categories {
+.model-pages {
     padding-top: 0.375em;
 }
 

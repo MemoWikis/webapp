@@ -15,7 +15,7 @@ public class PageInKnowledge(
             return new List<int>();
 
         var valuatedCategories = _extendedUserCache
-            .GetCategoryValuations(userId)
+            .GetPageValuations(userId)
             .Where(v => v.IsInWishKnowledge());
 
         if (exeptCategoryId != -1)

@@ -15,7 +15,7 @@ public class PageToQuestionRepo(ISession _session)
         _session.Flush();
     }
 
-    public void AddQuestionsToCategory(int pageId, List<int> questionIds)
+    public void AddQuestionsToPage(int pageId, List<int> questionIds)
     {
         if (questionIds == null || !questionIds.Any())
             throw new ArgumentException("The list of questionIds cannot be null or empty.", nameof(questionIds));

@@ -118,7 +118,7 @@ public class PageCacheItem : IPersistable
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
     /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
-    public Dictionary<int, PageCacheItem> GetAllAggregatedCategories(bool includingSelf = true)
+    public Dictionary<int, PageCacheItem> GetAllAggregatedPages(bool includingSelf = true)
     {
         var allChildCategories = AllChildCategories(this);
 
@@ -467,7 +467,7 @@ public class PageCacheItem : IPersistable
         Question
     }
 
-    public record struct FeedItem(DateTime DateCreated, PageChangeCacheItem? CategoryChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
+    public record struct FeedItem(DateTime DateCreated, PageChangeCacheItem? PageChangeCacheItem, QuestionChangeCacheItem? QuestionChangeCacheItem);
     public (IEnumerable<FeedItem>, int maxCount) GetVisibleFeedItemsByPage(PermissionCheck permissionCheck, int userId, int page, int pageSize = 100, bool getDescendants = true, bool getQuestions = false, bool getItemsInGroup = false)
     {
         IEnumerable<FeedItem> changes;
@@ -535,7 +535,7 @@ public class PageCacheItem : IPersistable
                 continue;
             }
 
-            if (c.CategoryChangeCacheItem == null)
+            if (c.PageChangeCacheItem == null)
             {
                 if (c.QuestionChangeCacheItem != null)
                     visibleChanges.Add(c);
@@ -543,22 +543,22 @@ public class PageCacheItem : IPersistable
                 continue;
             }
 
-            if (!IsGroupItem(c.CategoryChangeCacheItem!, getItemsInGroup))
+            if (!IsGroupItem(c.PageChangeCacheItem!, getItemsInGroup))
             {
                 continue;
             }
 
-            if (!IsDuplicateOfDelete(c.CategoryChangeCacheItem!, topicChangeIds, questionChangeIds))
+            if (!IsDuplicateOfDelete(c.PageChangeCacheItem!, topicChangeIds, questionChangeIds))
             {
                 continue;
             }
 
-            if (!getItemsInGroup && IsPartOfPageCreate(previousChange, c.CategoryChangeCacheItem) && previousChange?.PageId == visibleChanges.LastOrDefault().CategoryChangeCacheItem?.PageId)
+            if (!getItemsInGroup && IsPartOfPageCreate(previousChange, c.PageChangeCacheItem) && previousChange?.PageId == visibleChanges.LastOrDefault().PageChangeCacheItem?.PageId)
             {
                 visibleChanges.RemoveAt(visibleChanges.Count - 1);
             }
 
-            previousChange = c.CategoryChangeCacheItem;
+            previousChange = c.PageChangeCacheItem;
             visibleChanges.Add(c);
         }
 
@@ -574,7 +574,7 @@ public class PageCacheItem : IPersistable
             return new FeedItem
             {
                 DateCreated = categoryChangeCacheItem.DateCreated,
-                CategoryChangeCacheItem = categoryChangeCacheItem
+                PageChangeCacheItem = categoryChangeCacheItem
             };
         if (questionChangeCacheItem != null)
         {
@@ -590,8 +590,8 @@ public class PageCacheItem : IPersistable
 
     private bool IsVisibleForUser(int userId, FeedItem feedItem)
     {
-        if (feedItem.CategoryChangeCacheItem != null)
-            return feedItem.CategoryChangeCacheItem.Visibility != PageVisibility.Owner || (feedItem.CategoryChangeCacheItem.AuthorId == userId || feedItem.CategoryChangeCacheItem.Page.CreatorId == userId);
+        if (feedItem.PageChangeCacheItem != null)
+            return feedItem.PageChangeCacheItem.Visibility != PageVisibility.Owner || (feedItem.PageChangeCacheItem.AuthorId == userId || feedItem.PageChangeCacheItem.Page.CreatorId == userId);
 
         if (feedItem.QuestionChangeCacheItem != null)
             return feedItem.QuestionChangeCacheItem.Visibility != QuestionVisibility.Owner || (feedItem.QuestionChangeCacheItem.AuthorId == userId || feedItem.QuestionChangeCacheItem.Question.CreatorId == userId);
@@ -649,7 +649,7 @@ public class PageCacheItem : IPersistable
         return false;
     }
 
-    public void AddCategoryChangeToCategoryChangeCacheItems(PageChange pageChange)
+    public void AddPageChangeToPageChangeCacheItems(PageChange pageChange)
     {
         CategoryChangeCacheItems ??= new List<PageChangeCacheItem>();
 

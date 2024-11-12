@@ -620,7 +620,7 @@ const ariaId = useId()
                             cursor: pointer;
                         }
 
-                        .relatedCategories {
+                        .relatedPages {
                             padding-bottom: 16px;
                         }
 

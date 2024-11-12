@@ -22,8 +22,8 @@ export interface EditRelationData {
     parentId?: number | undefined
     childId?: number
     editCategoryRelation: EditPageRelationType
-    categoriesToFilter?: number[]
-    selectedCategories?: any[]
+    pagesToFilter?: number[]
+    selectedPages?: any[]
     redirect?: boolean
     pageIdToRemove?: number
 }
@@ -45,7 +45,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
             childId: 0,
             redirect: false,
             addPageBtnExists: false,
-            categoriesToFilter: [] as number[],
+            pagesToFilter: [] as number[],
             personalWiki: null as PageItem | null,
             recentlyUsedRelationTargetPages: null as PageItem[] | null,
             pageIdToRemove: 0,
@@ -58,7 +58,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
             this.parentId = data.parentId ?? 0
             this.addPageBtnExists = tabsStore.activeTab == Tab.Text
             this.type = data.editCategoryRelation
-            this.categoriesToFilter = data.categoriesToFilter ?? []
+            this.pagesToFilter = data.pagesToFilter ?? []
             this.childId = data.childId ?? 0
             this.pageIdToRemove = data.pageIdToRemove ?? 0
             this.redirect = data.redirect ?? false
@@ -90,12 +90,12 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
 
             if (!!result && result.success) {
                 this.personalWiki = result.data.personalWiki
-                this.categoriesToFilter = []
-                this.categoriesToFilter.push(this.personalWiki.id)
+                this.pagesToFilter = []
+                this.pagesToFilter.push(this.personalWiki.id)
 
                 this.recentlyUsedRelationTargetPages = result.data.recentlyUsedRelationTargetPages?.reverse()
                 this.recentlyUsedRelationTargetPages?.forEach((el) => {
-                    this.categoriesToFilter.push(el.id)
+                    this.pagesToFilter.push(el.id)
                 })
             }
         },

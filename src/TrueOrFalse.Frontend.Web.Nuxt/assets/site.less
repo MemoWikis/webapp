@@ -215,8 +215,8 @@ a {
         border-bottom-color: @color-knowledge;
     }
 
-    &.Category {
-        border-bottom-color: @color-category;
+    &.Page {
+        border-bottom-color: @color-page;
     }
 
     &.Set {
@@ -245,8 +245,8 @@ a {
         color: @color-knowledge;
     }
 
-    &.Category {
-        color: @color-category;
+    &.Page {
+        color: @color-page;
     }
 }
 
@@ -507,8 +507,8 @@ ul.AutocompleteHeader {
     transform: rotate(90deg);
 }
 
-#CategorySuggestionCard {
-    .category-suggestion-footer {
+#PageSuggestionCard {
+    .page-suggestion-footer {
         padding: 0px 19px 0px 19px;
         margin-bottom: 23px;
         position: relative;
@@ -1051,8 +1051,8 @@ a.button span.ui-icon {
     border-color: @color-question;
 }
 
-.label-category {
-    background-color: lighten(@color-category, 35);
+.label-page {
+    background-color: lighten(@color-page, 35);
     border-color: @middle-blue;
 }
 
@@ -1073,7 +1073,7 @@ a.button span.ui-icon {
         &:before {
             content: "";
             border-color: rgba(255,255,255,0) @memo-blue;
-            //border-color: rgba(255,255,255,0) @color-category;
+            //border-color: rgba(255,255,255,0) @color-page;
             border-style: solid;
             border-width: 0.35em 0 0.35em 0.45em;
             display: block;
@@ -1084,8 +1084,8 @@ a.button span.ui-icon {
             position: relative;
         }
 
-        &.LabelItem-Category:before {
-            border-color: rgba(255,255,255,0) @color-category;
+        &.LabelItem-Page:before {
+            border-color: rgba(255,255,255,0) @color-page;
         }
 
         &.LabelItem-Set:before {
@@ -1244,9 +1244,9 @@ div.box-main .box-content {
     (lighten(@color-set, 20));
 }
 
-#category-main {
+#page-main {
     #tab-color
-    (lighten(@color-category, 10));
+    (lighten(@color-page, 10));
 }
 
 #user-main {
@@ -2052,7 +2052,7 @@ textarea, input {
     }
 }
 
-#AddCategoryApp {
+#AddPageApp {
     input {
         border: solid 1px @memo-grey-light;
         border-radius: 0;
@@ -2189,7 +2189,7 @@ textarea, input {
                     }
                 }
 
-                .categoryPrivate {
+                .pagePrivate {
                     padding-top: 10px;
                 }
             }
@@ -2855,7 +2855,7 @@ textarea, input {
         align-items: center;
         color: @memo-blue;
 
-        .topic-chip-container {
+        .page-chip-container {
             margin-left: 4px;
             color: @memo-grey-darker;
         }
@@ -2872,19 +2872,19 @@ textarea, input {
     margin: 0 0 -40px 0;
 }
 
-.category-change-day {
+.page-change-day {
     &.hide-row {
         .row {
             display: none;
         }
     }
-    .category-change-author {
+    .page-change-author {
 
         display:flex;
         align-items: center;
         height: 100%;
 
-        .category-change-author-img {
+        .page-change-author-img {
             max-width: 20px;
             min-width: 20px;
             max-height: 20px;

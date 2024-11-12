@@ -2,12 +2,12 @@
 import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
-import { Page } from '../shared/pageEnum'
+import { PageEnum } from '../shared/pageEnum'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import { BreadcrumbItem } from './breadcrumbItems'
 
 interface Props {
-    page: Page
+    page: PageEnum
     questionPageData?: {
         primaryPageName: string
         primaryPageUrl: string

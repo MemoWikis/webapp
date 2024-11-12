@@ -33,14 +33,14 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
     private void AddUpdateOrCreateEntry(PageRepository pageRepository, Page page, int authorId, PageChangeType pageChangeType, bool imageWasUpdated = false)
     {
-        var categoryChange = new PageChange
+        var pageChange = new PageChange
         {
             Page = page,
             Type = pageChangeType,
             AuthorId = authorId,
             DataVersion = 2
         };
-        var categoryCacheItem = EntityCache.GetPage(page);
+        var pageCacheItem = EntityCache.GetPage(page);
 
         if (page.AuthorIds == null)
         {
@@ -51,23 +51,23 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             var newAuthorIds = page.AuthorIdsInts.ToList();
             newAuthorIds.Add(authorId);
             page.AuthorIds = string.Join(",", newAuthorIds.Distinct());
-            categoryCacheItem.AuthorIds = page.AuthorIdsInts.Distinct().ToArray();
+            pageCacheItem.AuthorIds = page.AuthorIdsInts.Distinct().ToArray();
             //the line should not be needed
-            EntityCache.AddOrUpdate(categoryCacheItem);
+            EntityCache.AddOrUpdate(pageCacheItem);
             pageRepository.Update(page);
         }
 
-        var parentIds = categoryCacheItem.ParentRelations.Any()
-            ? GetParentIds(categoryCacheItem.ParentRelations)
+        var parentIds = pageCacheItem.ParentRelations.Any()
+            ? GetParentIds(pageCacheItem.ParentRelations)
             : null;
 
-        var childIds = categoryCacheItem.ChildRelations.Any()
-            ? GetChildIds(categoryCacheItem.ChildRelations)
+        var childIds = pageCacheItem.ChildRelations.Any()
+            ? GetChildIds(pageCacheItem.ChildRelations)
             : null;
 
-        SetData(pageRepository, page, imageWasUpdated, categoryChange, parentIds: parentIds, childIds: childIds);
-        base.Create(categoryChange);
-        categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(categoryChange);
+        SetData(pageRepository, page, imageWasUpdated, pageChange, parentIds: parentIds, childIds: childIds);
+        base.Create(pageChange);
+        pageCacheItem.AddPageChangeToPageChangeCacheItems(pageChange);
     }
 
     public void AddDeletedChildPageEntry(Page page, int authorId, int deleteChangeId, string deletedPageName, PageVisibility deletedVisibility)
@@ -114,7 +114,7 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
 
         SetDeleteData(page, pageChange, deleteChangeId, deletedPageName, deletedVisibility, parentIds: parentIds, childIds: childIds);
         base.Create(pageChange);
-        categoryCacheItem.AddCategoryChangeToCategoryChangeCacheItems(pageChange);
+        categoryCacheItem.AddPageChangeToPageChangeCacheItems(pageChange);
     }
 
     private int[] GetParentIds(IList<PageRelationCache> parentRelations)
@@ -246,13 +246,6 @@ public class PageChangeRepo(ISession _session) : RepositoryDbBase<PageChange>(_s
             .SingleOrDefault();
     }
 
-    public int GetCategoryId(int version)
-    {
-        var query = @"Select Category_id FROM categorychange where id = :version";
-        return _session.CreateSQLQuery(query)
-            .SetParameter("version", version)
-            .UniqueResult<int>();
-    }
     private void AddUpdateOrCreateEntryDbOnly(PageRepository pageRepository, Page page,
         User author,
         PageChangeType pageChangeType,

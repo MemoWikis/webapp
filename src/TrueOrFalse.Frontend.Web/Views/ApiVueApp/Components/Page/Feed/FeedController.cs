@@ -33,7 +33,7 @@ public class FeedController(
     public record struct PageFeedItem(
         DateTime Date,
         PageChangeType Type,
-        int CategoryChangeId,
+        int PageChangeId,
         int PageId, string Title,
         PageVisibility Visibility,
         Author Author,
@@ -47,9 +47,9 @@ public class FeedController(
     public record struct Author(string Name = "Unbekannt", int Id = -1, string ImageUrl = "");
     private FeedItem ToFeedItem(PageCacheItem.FeedItem feedItem)
     {
-        if (feedItem.CategoryChangeCacheItem != null)
+        if (feedItem.PageChangeCacheItem != null)
         {
-            var change = feedItem.CategoryChangeCacheItem;
+            var change = feedItem.PageChangeCacheItem;
             var author = SetAuthor(change.Author());
             var cachedNameChange = change.PageChangeData.NameChange;
 
@@ -58,10 +58,10 @@ public class FeedController(
             var relationChanges = GetRelationChanges(change);
             var deleteData = change.PageChangeData.DeleteData != null ? GetDeleteData(change.Type, change.PageChangeData.DeleteData?.DeletedName, change.PageChangeData.DeleteData?.DeleteChangeId) : null;
 
-            var topicFeedItem = new PageFeedItem(
+            var pageFeedItem = new PageFeedItem(
                 Date: change.DateCreated,
                 Type: change.Type,
-                CategoryChangeId: change.Id,
+                PageChangeId: change.Id,
                 PageId: change.PageId,
                 Title: change.Page.Name,
                 Visibility: change.Visibility,
@@ -72,7 +72,7 @@ public class FeedController(
                 IsGroup: change.IsGroup,
                 OldestChangeIdInGroup: change.IsGroup ? change.GroupedCategoryChangeCacheItems.OrderBy(c => c.DateCreated).First().Id : null);
 
-            return new FeedItem(feedItem.DateCreated, FeedType.Page, topicFeedItem, QuestionFeedItem: null, Author: author);
+            return new FeedItem(feedItem.DateCreated, FeedType.Page, pageFeedItem, QuestionFeedItem: null, Author: author);
         }
 
         if (feedItem.QuestionChangeCacheItem != null)

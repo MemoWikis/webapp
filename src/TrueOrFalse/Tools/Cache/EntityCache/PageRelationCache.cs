@@ -22,7 +22,7 @@ public class PageRelationCache : IPersistable
         }
         foreach (var categoryRelation in parentRelations)
         {
-            result.Add(ToCategoryCacheRelation(categoryRelation));
+            result.Add(ToPageCacheRelation(categoryRelation));
         }
 
         return result;
@@ -44,7 +44,7 @@ public class PageRelationCache : IPersistable
 
         while (current != null)
         {
-            sortedList.Add(ToCategoryCacheRelation(current));
+            sortedList.Add(ToPageCacheRelation(current));
             current = childRelations.FirstOrDefault(x => x.Child.Id == current.NextId);
         }
 
@@ -53,10 +53,10 @@ public class PageRelationCache : IPersistable
 
     public static IEnumerable<PageRelationCache> ToCategoryCacheRelations(IEnumerable<PageRelation> allRelations)
     {
-        return allRelations.Select(ToCategoryCacheRelation);
+        return allRelations.Select(ToPageCacheRelation);
     }
 
-    public static PageRelationCache ToCategoryCacheRelation(PageRelation pageRelation)
+    public static PageRelationCache ToPageCacheRelation(PageRelation pageRelation)
     {
         return new PageRelationCache
         {

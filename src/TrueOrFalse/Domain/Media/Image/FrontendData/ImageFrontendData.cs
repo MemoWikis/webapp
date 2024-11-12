@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System.Net;
 using static System.String;
 
 public class ImageFrontendData
@@ -194,81 +193,5 @@ public class ImageFrontendData
             new ImageUrl(_httpContextAccessor).GetFallbackImageUrl(imageSettings, width));
 
         return result;
-    }
-
-    public string RenderHtmlImageBasis(
-        int width,
-        bool asSquare,
-        ImageType imageTypeForDummies,
-        string insertLicenseLinkAfterAncestorOfClass = "ImageContainer",
-        string additionalCssClasses = "",
-        string linkToItem = "",
-        bool noFollow = false,
-        bool isHeader = false)
-    {
-        try
-        {
-            var imageUrl = GetImageUrl(width, asSquare, false, imageTypeForDummies);
-            var headerId = isHeader ? "id='CategoryHeaderImg'" : "";
-
-            if (additionalCssClasses != "")
-                additionalCssClasses = " " + additionalCssClasses;
-
-            if (ImageMetaDataExists && imageUrl.HasUploadedImage ||
-                ImageMetaData != null && ImageMetaData.IsYoutubePreviewImage)
-            {
-                if (!ImageCanBeDisplayed)
-                    additionalCssClasses += " JS-CantBeDisplayed";
-
-                var dataIsYoutubeVide = "";
-                if (ImageMetaData.IsYoutubePreviewImage)
-                    dataIsYoutubeVide = $" data-is-youtube-video='{ImageMetaData.YoutubeKey}' ";
-
-                var altDescription = IsNullOrEmpty(this.Description)
-                    ? ""
-                    : WebUtility.HtmlEncode(this.Description)
-                        .Replace("\"", "'")
-                        .Replace("„", "")
-                        .Replace("“", "")
-                        .Replace("{", "")
-                        .Replace("}", "")
-                        .StripHTMLTags()
-                        .Truncate(120, true);
-
-                return AddLink(
-                    "<img " + headerId +
-                    " src='" + GetImageUrl(width, asSquare, true, imageTypeForDummies).Url +
-                    "' " + //Dummy url gets replaced by javascript (look for class: LicensedImage) to avoid displaying images without license in case of no javascript
-                    "class='ItemImage LicensedImage JS-InitImage" + additionalCssClasses + "' " +
-                    "data-image-id='" + ImageMetaData.Id + "' data-image-url='" + imageUrl.Url +
-                    "' " +
-                    dataIsYoutubeVide +
-                    "data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass + "' " +
-                    "alt='" + altDescription + "'/>",
-                    linkToItem, noFollow);
-            }
-
-            return AddLink( //if no image, then display dummy picture
-                "<img " + headerId +
-                "src='" + imageUrl.Url
-                + "' class='ItemImage JS-InitImage" + additionalCssClasses
-                + "' data-append-image-link-to='" + insertLicenseLinkAfterAncestorOfClass
-                + "' alt=''/>",
-                linkToItem, noFollow);
-        }
-        catch (Exception e)
-        {
-            Logg.Error(e);
-            return "";
-        }
-    }
-
-    private static string AddLink(string html, string link, bool noFollow = false)
-    {
-        if (link == "")
-            return html;
-
-        var noFollowString = noFollow ? " rel='nofollow'" : "";
-        return $"<a href='{link}'{noFollowString}>{html}</a>";
     }
 }

@@ -876,8 +876,6 @@ watch(() => userStore.isLoggedIn, () => {
 const ariaId = useId()
 const ariaId2 = useId()
 
-// wip
-
 const backgroundColor = ref('')
 const currentKnowledgeStatus = ref<KnowledgeStatus>(KnowledgeStatus.NotLearned)
 const correctnessProbabilityLabel = ref('Nicht gelernt')
@@ -1280,7 +1278,7 @@ const activityPointsStore = useActivityPointsStore()
     text-align: center;
 }
 
-.model-categories {
+.model-pages {
     padding-top: 0.375em;
 }
 

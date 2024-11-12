@@ -2,10 +2,10 @@
 
 public class ModifyRelationsEntityCache
 {
-    public static void RemoveRelationsForCategoryDeleter(
+    public static void RemoveRelationsForPageDeleter(
         PageCacheItem page,
         int userId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var allRelations = EntityCache.GetCacheRelationsByPageId(page.Id);
         foreach (var relation in allRelations)
@@ -13,12 +13,12 @@ public class ModifyRelationsEntityCache
             if (relation.ChildId == page.Id)
             {
                 var parent = EntityCache.GetPage(relation.ParentId);
-                RemoveParent(page, parent, userId, modifyRelationsForCategory);
+                RemoveParent(page, parent, userId, modifyRelationsForPage);
             }
             else
             {
                 var child = EntityCache.GetPage(relation.ChildId);
-                RemoveParent(child, page, userId, modifyRelationsForCategory);
+                RemoveParent(child, page, userId, modifyRelationsForPage);
             }
         }
     }
@@ -41,7 +41,7 @@ public class ModifyRelationsEntityCache
         PageCacheItem childPage,
         int parentId,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory,
+        ModifyRelationsForPage modifyRelationsForPage,
         PermissionCheck permissionCheck)
     {
         var parent = EntityCache.GetPage(parentId);
@@ -54,7 +54,7 @@ public class ModifyRelationsEntityCache
             !CheckParentAvailability(parentCategories, childPage))
         {
             Logg.r.Error(
-                "CategoryRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
+                "PageRelations - RemoveParent: No parents remaining - childId:{0}, parentIdToRemove:{1}",
                 childPage.Id, parentId);
             throw new Exception("No parents remaining");
         }
@@ -62,26 +62,26 @@ public class ModifyRelationsEntityCache
         if (!permissionCheck.CanEdit(childPage) && !permissionCheck.CanEdit(parent))
         {
             Logg.r.Error(
-                "CategoryRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
+                "PageRelations - RemoveParent: No rights to edit - childId:{0}, parentId:{1}",
                 childPage.Id, parentId);
             throw new SecurityException("Not allowed to edit category");
         }
 
-        return RemoveParent(childPage, parent, authorId, modifyRelationsForCategory);
+        return RemoveParent(childPage, parent, authorId, modifyRelationsForPage);
     }
 
     private static bool RemoveParent(
         PageCacheItem childPage,
         PageCacheItem parent,
         int authorId,
-        ModifyRelationsForCategory modifyRelationsForCategory)
+        ModifyRelationsForPage modifyRelationsForPage)
     {
         var relationToRemove =
             parent.ChildRelations.FirstOrDefault(r => r.ChildId == childPage.Id);
 
         if (relationToRemove != null)
         {
-            PageOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForCategory);
+            PageOrderer.Remove(relationToRemove, parent.Id, authorId, modifyRelationsForPage);
             childPage.ParentRelations.Remove(relationToRemove);
             return true;
         }
@@ -91,7 +91,7 @@ public class ModifyRelationsEntityCache
 
     public static PageRelationCache AddChild(PageRelation pageRelation)
     {
-        var newRelation = PageRelationCache.ToCategoryCacheRelation(pageRelation);
+        var newRelation = PageRelationCache.ToPageCacheRelation(pageRelation);
 
         EntityCache.GetPage(newRelation.ParentId)?.ChildRelations.Add(newRelation);
         EntityCache.GetPage(newRelation.ChildId)?.ParentRelations.Add(newRelation);

@@ -4,6 +4,7 @@ public class PageMap : ClassMap<Page>
 {
     public PageMap()
     {
+        Table("category");
         Id(x => x.Id);
 
         Map(x => x.Name);
@@ -15,7 +16,7 @@ public class PageMap : ClassMap<Page>
         Map(x => x.CategoriesToIncludeIdsString);
         Map(x => x.DisableLearningFunctions);
         References(x => x.Creator).LazyLoad();
-        Map(x => x.Markdown);
+        Map(x => x.Markdown).Column("TopicMarkdown");
         Map(x => x.Content);
         Map(x => x.CustomSegments);
         Map(x => x.CountQuestionsAggregated);
@@ -28,7 +29,7 @@ public class PageMap : ClassMap<Page>
         Map(x => x.DateModified);
         Map(x => x.SkipMigration);
         Map(x => x.Visibility).CustomType<PageVisibility>();
-        Map(x => x.IsUserStartPage);
+        Map(x => x.IsUserStartPage).Column("IsUserStartTopic");
         Map(x => x.TextIsHidden).CustomType<bool>();
         Map(x => x.AuthorIds);
     }

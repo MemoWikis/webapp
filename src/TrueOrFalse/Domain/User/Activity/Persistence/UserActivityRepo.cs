@@ -7,7 +7,7 @@ public class UserActivityRepo : RepositoryDb<UserActivity>
     {
     }
 
-    public void DeleteForCategory(int pageId)
+    public void DeleteForPage(int pageId)
     {
         Session.CreateSQLQuery("DELETE FROM useractivity WHERE Category_id = :pageId")
             .SetParameter("pageId", pageId)

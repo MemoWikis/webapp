@@ -1,12 +1,14 @@
 ﻿using FluentNHibernate.Mapping;
 
-public class CategoryValuationMap : ClassMap<PageValuation>
+public class PageValuationMap : ClassMap<PageValuation>
 {
-    public CategoryValuationMap()
+    public PageValuationMap()
     {
+        Table("categoryvaluation");
+
         Id(x => x.Id);
         Map(x => x.UserId);
-        Map(x => x.PageId);
+        Map(x => x.PageId).Column("CategoryId");
 
         Map(x => x.RelevancePersonal);
 

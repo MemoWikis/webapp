@@ -64,7 +64,7 @@ function addPage(newPage: boolean) {
         editCategoryRelation: newPage
             ? EditPageRelationType.Create
             : EditPageRelationType.AddChild,
-        categoriesToFilter: pagesToFilter.value,
+        pagesToFilter: pagesToFilter.value,
     }
     editPageRelationStore.openModal(parent)
 }

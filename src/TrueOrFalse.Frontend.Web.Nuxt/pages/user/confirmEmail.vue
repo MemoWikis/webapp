@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { messages } from '~/components/alert/alertStore'
-import { Page } from '~/components/shared/pageEnum'
+import { PageEnum } from '~/components/shared/pageEnum'
 import { FooterPages } from '~/components/page/pageStore'
 import { useUserStore } from '~/components/user/userStore'
 
@@ -12,7 +12,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', Page.ConfirmEmail)
+    emit('setPage', PageEnum.ConfirmEmail)
 })
 
 const { $logger } = useNuxtApp()

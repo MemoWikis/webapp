@@ -394,7 +394,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
 
             const json: { [key: string]: any; } = {}
             const base: { [key: string]: any; } = {
-                categoryId: pageStore.id,
+                pageId: pageStore.id,
                 maxQuestionCount: this.selectedQuestionCount,
 
                 inWuwi: this.questionFilterOptions.inWuwi.isSelected,

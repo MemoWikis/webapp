@@ -5,7 +5,7 @@ public class PageEditDataV1 : PageEditData
 {
     private readonly ISession _nhibernateSession;
     private readonly PageRepository _pageRepository;
-    public IList<PageRelationEditDataV1> CategoryRelations;
+    public IList<PageRelationEditDataV1> PageRelations;
 
     public PageEditDataV1(
         Page page,
@@ -21,7 +21,7 @@ public class PageEditDataV1 : PageEditData
         CustomSegments = page.CustomSegments;
         WikipediaURL = page.WikipediaURL;
         DisableLearningFunctions = page.DisableLearningFunctions;
-        CategoryRelations = null;
+        PageRelations = null;
         Visibility = page.Visibility;
     }
 

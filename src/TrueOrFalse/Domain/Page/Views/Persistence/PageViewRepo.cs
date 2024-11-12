@@ -76,7 +76,7 @@ public class PageViewRepo(
     }
 
 
-    public IList<PageViewSummaryWithId> GetViewsForLastNDaysGroupByCategoryId(int days)
+    public IList<PageViewSummaryWithId> GetViewsForLastNDaysGroupByPageId(int days)
     {
         var query = _session.CreateSQLQuery(@"
         SELECT Category_Id AS PageId, DateOnly, COUNT(DateOnly) AS Count 
@@ -143,7 +143,7 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Category_Id
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Category_Id as PageId
         FROM categoryview 
         GROUP BY 
             Category_Id, 
