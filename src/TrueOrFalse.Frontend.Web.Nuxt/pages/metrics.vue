@@ -318,7 +318,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                     <h1>Gesamtdaten Memucho</h1>
                 </div>
 
-                <div class="row content">
+                <div class="row content" v-if="overviewData">
                     <div class="col-xs-12">
 
                         <MetricsSection title="Registrierungen" :sub-title="`Heutige Registrierungen: ${overviewData?.todaysRegistrationCount}`" :charts="registrationCharts" @toggle-bar="toggleBar" />
