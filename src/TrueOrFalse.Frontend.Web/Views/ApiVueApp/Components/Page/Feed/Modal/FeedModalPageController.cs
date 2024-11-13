@@ -21,7 +21,7 @@ public class FeedModalPageController(
 
         var currentChange = pageChangeRepo.GetById(req.ChangeId);
 
-        var previousId = topic?.CategoryChangeCacheItems.First(cc => cc.Id == (req.OldestChangeId > 0 ? req.OldestChangeId : req.ChangeId)).PageChangeData.PreviousId;
+        var previousId = topic?.PageChangeCacheItems.First(cc => cc.Id == (req.OldestChangeId > 0 ? req.OldestChangeId : req.ChangeId)).PageChangeData.PreviousId;
 
         if (currentChange == null || previousId == null)
             throw new Exception("No content change found");

@@ -46,8 +46,8 @@
         page.Visibility = PageVisibility.Owner;
         _pageRepository.Create(page);
 
-        var modifyRelationsForCategory = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
-        modifyRelationsForCategory.AddChild(parentPageId, page.Id, sessionUser.UserId);
+        var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
+        modifyRelationsForPage.AddChild(parentPageId, page.Id, sessionUser.UserId);
 
         return new CreateResult
         {

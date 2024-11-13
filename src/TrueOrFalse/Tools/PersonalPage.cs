@@ -1,6 +1,6 @@
 ﻿public class PersonalPage
 {
-    public static Page GetPersonalCategory(User user, PageRepository pageRepo)
+    public static Page GetPersonalPage(User user, PageRepository pageRepo)
     {
         return new Page
         {

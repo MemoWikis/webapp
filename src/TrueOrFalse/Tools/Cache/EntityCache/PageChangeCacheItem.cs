@@ -93,7 +93,7 @@ public class PageChangeCacheItem : IPersistable
         && (previousCacheItem.Type == currentCacheItem.Type || (previousCacheItem.Type == PageChangeType.Create && currentCacheItem.Type == PageChangeType.Relations));
     }
 
-    public static PageChangeCacheItem ToGroupedCategoryChangeCacheItem(List<PageChangeCacheItem> groupedCacheItems)
+    public static PageChangeCacheItem ToGroupedPageChangeCacheItem(List<PageChangeCacheItem> groupedCacheItems)
     {
         var oldestCategoryChangeItem = groupedCacheItems.First();
         var newestCategoryChangeItem = groupedCacheItems.Last();

@@ -50,11 +50,11 @@ public class PageToPrivateStoreController(
         var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
-            if (id == RootPage.RootCategoryId)
+            if (id == RootPage.RootPageId)
                 return new GetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
+                    MessageKey = FrontendMessageKeys.Error.Page.RootPageMustBePublic
                 };
 
             foreach (var c in aggregatedPages)
@@ -140,11 +140,11 @@ public class PageToPrivateStoreController(
         var pinCount = topic.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
-            if (id == RootPage.RootCategoryId)
+            if (id == RootPage.RootPageId)
                 return new SetResult
                 {
                     Success = false,
-                    MessageKey = FrontendMessageKeys.Error.Page.RootCategoryMustBePublic
+                    MessageKey = FrontendMessageKeys.Error.Page.RootPageMustBePublic
                 };
 
             var aggregatedPages = topicCacheItem.AggregatedPages(_permissionCheck, false)

@@ -17,7 +17,7 @@ public class Links
     private readonly HttpContext? _httpContext;
 
     /*Category*/
-    public const string CategoryController = "Category";
+    public const string PageController = "Page";
 
     /*Question*/
     public const string Questions = "Questions";

@@ -24,7 +24,7 @@ public class HocuspocusController : Controller
         }
 
         var permissionCheck = new PermissionCheck(userId);
-        if (!permissionCheck.CanEditCategory(req.PageId))
+        if (!permissionCheck.CanEditPage(req.PageId))
         {
             Logg.r.Error("Collaboration - Authorise: No Permission - userId:{0}, pageId:{1}", userId, req.PageId);
             return false;

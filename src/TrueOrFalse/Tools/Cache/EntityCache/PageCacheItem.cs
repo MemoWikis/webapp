@@ -205,10 +205,10 @@ public class PageCacheItem : IPersistable
 
     public virtual int GetCountQuestionsAggregated(
         int userId,
-        bool inCategoryOnly = false,
+        bool inPageOnly = false,
         int pageId = 0)
     {
-        if (inCategoryOnly)
+        if (inPageOnly)
         {
             return GetAggregatedQuestionsFromMemoryCache(
                 userId,
@@ -229,7 +229,7 @@ public class PageCacheItem : IPersistable
 
     public bool IsStartPage()
     {
-        if (Id == RootPage.RootCategoryId)
+        if (Id == RootPage.RootPageId)
             return true;
 
         if (Parents().Count == 0)
@@ -366,8 +366,8 @@ public class PageCacheItem : IPersistable
                         }
                         else if (currentGroupedCacheItem.Count > 1)
                         {
-                            var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
-                            pageChangeCacheItem.Add(groupedCategoryChangeCacheItem);
+                            var groupedPageChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
+                            pageChangeCacheItem.Add(groupedPageChangeCacheItem);
                             currentGroupedCacheItem = new List<PageChangeCacheItem>();
                         }
                     }
@@ -380,11 +380,11 @@ public class PageCacheItem : IPersistable
                 // handle last group
                 if (currentGroupedCacheItem.Count > 1)
                 {
-                    var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedCategoryChangeCacheItem(currentGroupedCacheItem);
+                    var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
                     pageChangeCacheItem.Add(groupedCategoryChangeCacheItem);
                 }
 
-                pageCacheItem.CategoryChangeCacheItems = pageChangeCacheItem
+                pageCacheItem.PageChangeCacheItems = pageChangeCacheItem
                     .Distinct()
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
@@ -455,7 +455,7 @@ public class PageCacheItem : IPersistable
             .ToList();
     }
 
-    public virtual List<PageChangeCacheItem> CategoryChangeCacheItems { get; set; }
+    public virtual List<PageChangeCacheItem> PageChangeCacheItems { get; set; }
 
     public enum FeedType
     {
@@ -474,8 +474,8 @@ public class PageCacheItem : IPersistable
 
             var allPages = new List<PageCacheItem> { this }.Concat(allVisibleDescendants).ToList();
             var unsortedPageChanges = allPages
-                .Where(c => c != null && c.CategoryChangeCacheItems != null)
-                .SelectMany(c => c.CategoryChangeCacheItems)
+                .Where(c => c != null && c.PageChangeCacheItems != null)
+                .SelectMany(c => c.PageChangeCacheItems)
                 .Select(tc => ToFeedItem(tc, null));
 
             if (getQuestions)
@@ -496,7 +496,7 @@ public class PageCacheItem : IPersistable
         }
         else
         {
-            var topicChanges = CategoryChangeCacheItems.Select(tc => ToFeedItem(tc, null));
+            var topicChanges = PageChangeCacheItems.Select(tc => ToFeedItem(tc, null));
 
             if (getQuestions)
             {
@@ -647,12 +647,12 @@ public class PageCacheItem : IPersistable
 
     public void AddPageChangeToPageChangeCacheItems(PageChange pageChange)
     {
-        CategoryChangeCacheItems ??= new List<PageChangeCacheItem>();
+        PageChangeCacheItems ??= new List<PageChangeCacheItem>();
 
         var currentData = pageChange.GetPageChangeData();
-        var previousChange = CategoryChangeCacheItems.FirstOrDefault();
-        PageEditData? previousData = CategoryChangeCacheItems.Count > 0 ? previousChange.GetPageChangeData() : null;
-        var previousId = CategoryChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;
+        var previousChange = PageChangeCacheItems.FirstOrDefault();
+        PageEditData? previousData = PageChangeCacheItems.Count > 0 ? previousChange.GetPageChangeData() : null;
+        var previousId = PageChangeCacheItems.Count > 0 ? previousChange.Id : (int?)null;
 
         var newCacheItem = PageChangeCacheItem.ToPageChangeCacheItem(pageChange, currentData, previousData, previousId);
         HandleNewGroup(newCacheItem);
@@ -660,9 +660,9 @@ public class PageCacheItem : IPersistable
 
     private void HandleNewGroup(PageChangeCacheItem newCacheItem)
     {
-        if (CategoryChangeCacheItems.Count > 0)
+        if (PageChangeCacheItems.Count > 0)
         {
-            var previousCacheItem = CategoryChangeCacheItems.First();
+            var previousCacheItem = PageChangeCacheItems.First();
 
             if (PageChangeCacheItem.CanBeGrouped(previousCacheItem, newCacheItem))
             {
@@ -672,9 +672,9 @@ public class PageCacheItem : IPersistable
                     newCacheItem.IsPartOfGroup = true;
                     newGroupedCacheItems.Add(newCacheItem);
 
-                    CategoryChangeCacheItems[0] = newCacheItem;
-                    var newGroup = PageChangeCacheItem.ToGroupedCategoryChangeCacheItem(newGroupedCacheItems);
-                    CategoryChangeCacheItems.Insert(0, newGroup);
+                    PageChangeCacheItems[0] = newCacheItem;
+                    var newGroup = PageChangeCacheItem.ToGroupedPageChangeCacheItem(newGroupedCacheItems);
+                    PageChangeCacheItems.Insert(0, newGroup);
                 }
                 else
                 {
@@ -682,9 +682,9 @@ public class PageCacheItem : IPersistable
                     newCacheItem.IsPartOfGroup = true;
 
                     var groupedCacheItems = new List<PageChangeCacheItem> { previousCacheItem, newCacheItem };
-                    CategoryChangeCacheItems.Insert(0, newCacheItem);
-                    var newGroup = PageChangeCacheItem.ToGroupedCategoryChangeCacheItem(groupedCacheItems);
-                    CategoryChangeCacheItems.Insert(0, newGroup);
+                    PageChangeCacheItems.Insert(0, newCacheItem);
+                    var newGroup = PageChangeCacheItem.ToGroupedPageChangeCacheItem(groupedCacheItems);
+                    PageChangeCacheItems.Insert(0, newGroup);
                 }
 
                 EntityCache.AddOrUpdate(this);
@@ -692,7 +692,7 @@ public class PageCacheItem : IPersistable
             }
         }
 
-        CategoryChangeCacheItems.Insert(0, newCacheItem);
+        PageChangeCacheItems.Insert(0, newCacheItem);
         EntityCache.AddOrUpdate(this);
     }
 }

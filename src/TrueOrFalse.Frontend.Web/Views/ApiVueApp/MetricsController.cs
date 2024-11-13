@@ -29,8 +29,18 @@ SessionUser _sessionUser) : Controller
         List<ViewsResult> PageViewsOfPastYear,
 
         int TodaysQuestionViewCount,
-        List<ViewsResult> QuestionViewsOfPastYear
-    );
+        List<ViewsResult> QuestionViewsOfPastYear,
+
+        int TodaysPublishedQuestionCount,
+        List<ViewsResult> MonthlyPublishedQuestionsOfPastYear,
+        List<ViewsResult> DailyPublishedQuestionsOfPastYear,
+
+        int TodaysPublicQuestionCreatedCount,
+        List<ViewsResult> MonthlyPublicCreatedQuestionsOfPastYear,
+
+        int TodaysPrivateQuestionCreatedCount,
+        List<ViewsResult> MonthlyPrivateCreatedQuestionsOfPastYear);
+
     public readonly record struct ViewsResult(DateTime DateTime, int Views);
 
     [AccessOnlyAsLoggedIn]
@@ -79,7 +89,17 @@ SessionUser _sessionUser) : Controller
             PageViewsOfPastYear = topicViewsOfPastYear,
 
             TodaysQuestionViewCount = todaysQuestionViewCount,
-            QuestionViewsOfPastYear = questionViewsOfPastYear
+            QuestionViewsOfPastYear = questionViewsOfPastYear,
+
+            TodaysPublishedQuestionCount = todaysPublishedQuestionCount,
+            MonthlyPublishedQuestionsOfPastYear = monthlyPublishedQuestionsOfPastYear,
+            DailyPublishedQuestionsOfPastYear = dailyPublishedQuestionsOfPastYear,
+
+            TodaysPublicQuestionCreatedCount = todaysPublicQuestionCreatedCount,
+            MonthlyPublicCreatedQuestionsOfPastYear = monthlyPublicCreatedQuestionsOfPastYear,
+
+            TodaysPrivateQuestionCreatedCount = todaysPrivateQuestionCreatedCount,
+            MonthlyPrivateCreatedQuestionsOfPastYear = monthlyPrivateCreatedQuestionsOfPastYear
         };
     }
 
@@ -235,7 +255,7 @@ SessionUser _sessionUser) : Controller
     private (int todaysPublishedQuestionCount, List<ViewsResult> monthlyPublishedQuestionsOfPastYear, List<ViewsResult> dailyPublishedQuestionsOfPastYear) GetPublishedQuestionCount()
     {
         var questions = EntityCache.GetAllQuestions();
-        var publicQuestions = questions.Where(q => q.IsPublic == false);
+        var publicQuestions = questions.Where(q => q.IsPublic);
         var lastYearPublishedQuestions = publicQuestions
             .Where(q => q.LastPublishDate.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
@@ -267,7 +287,7 @@ SessionUser _sessionUser) : Controller
             .OrderBy(v => v.DateTime)
             .ToList();
 
-        var todaysPublishedQuestionCount = lastYearPublishedQuestions.Count(q => q.DateCreated.Date == DateTime.Now.Date);
+        var todaysPublishedQuestionCount = lastYearPublishedQuestions.Count(q => q.LastPublishDate.Date == DateTime.Now.Date);
 
         return (todaysPublishedQuestionCount, monthlyPublishedQuestionsOfPastYear, dailyPublishedQuestionsOfPastYear);
     }

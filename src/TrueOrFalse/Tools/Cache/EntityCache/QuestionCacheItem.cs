@@ -436,7 +436,7 @@ public class QuestionCacheItem
             .ToList();
     }
 
-    public void AddQuestionChangeToCategoryChangeCacheItems(QuestionChange questionChange)
+    public void AddQuestionChangeToPageChangeCacheItems(QuestionChange questionChange)
     {
         QuestionChangeCacheItems ??= new List<QuestionChangeCacheItem>();
 

@@ -18,10 +18,10 @@ public class QuestionUpdater(
             (SolutionType)Enum.Parse(typeof(TrueOrFalse.SolutionType),
                 questionDataParam.SolutionType);
 
-        var preEditedCategoryIds = question.Pages.Select(c => c.Id);
+        var preEditPageIds = question.Pages.Select(c => c.Id);
         var newPageIds = questionDataParam.PageIds.ToList();
 
-        var pagesToRemove = preEditedCategoryIds.Except(newPageIds);
+        var pagesToRemove = preEditPageIds.Except(newPageIds);
 
         foreach (var pageId in pagesToRemove)
             if (!_permissionCheck.CanViewPage(pageId))
@@ -79,13 +79,13 @@ public class QuestionUpdater(
         LearningSessionConfig SessionConfig
     );
 
-    public List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    public List<Page> GetAllParentsForQuestion(List<int> newPageIds, Question question)
     {
         var pages = new List<Page>();
         var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
         pages.AddRange(privatePages);
 
-        foreach (var pageId in newCategoryIds)
+        foreach (var pageId in newPageIds)
             pages.Add(pageRepository.GetById(pageId));
 
         return pages;

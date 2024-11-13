@@ -21,7 +21,7 @@
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error(
-                "CategoryRelations - moveIn: circular reference - childId:{0}, parentId:{1}",
+                "PageRelations - moveIn: circular reference - childId:{0}, parentId:{1}",
                 relation.ChildId, newParentId);
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
@@ -46,7 +46,7 @@
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error(
-                "CategoryRelations - MoveBefore: circular reference - childId:{0}, parentId:{1}",
+                "PageRelations - MoveBefore: circular reference - childId:{0}, parentId:{1}",
                 relation.ChildId, newParentId);
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
@@ -70,7 +70,7 @@
         if (!CanBeMoved(relation.ChildId, newParentId))
         {
             Logg.r.Error(
-                "CategoryRelations - MoveAfter: circular reference - childId:{0}, parentId:{1}",
+                "PageRelations - MoveAfter: circular reference - childId:{0}, parentId:{1}",
                 relation.ChildId, newParentId);
             throw new Exception(FrontendMessageKeys.Error.Page.CircularReference);
         }
@@ -207,7 +207,7 @@
         if (targetPosition == -1)
         {
             Logg.r.Error(
-                "CategoryRelations - Insert: Targetposition not found - parentId:{0}, targetPageId:{1}",
+                "PageRelations - Insert: Targetposition not found - parentId:{0}, targetPageId:{1}",
                 parentId, targetPageId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
@@ -319,7 +319,7 @@
                 addedRelationIds.Add(currentRelation.Id);
 
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force break 'while loop', duplicate child - PageId:{0}, RelationId: {1}",
+                    "PageRelations - Sort: Force break 'while loop', duplicate child - PageId:{0}, RelationId: {1}",
                     pageId, currentRelation.Id);
 
                 break;
@@ -336,7 +336,7 @@
             if (addedRelationIds.Count >= childRelations.Count && currentRelation != null)
             {
                 Logg.r.Error(
-                    "CategoryRelations - Sort: Force break 'while loop', faulty links - PageId:{0}, RelationId: {1}",
+                    "PageRelations - Sort: Force break 'while loop', faulty links - PageId:{0}, RelationId: {1}",
                     pageId, currentRelation.Id);
                 break;
             }
@@ -355,7 +355,7 @@
         HashSet<int> addedRelationIds,
         HashSet<int> addedChildIds)
     {
-        Logg.r.Error("CategoryRelations - Sort: Broken Link Start - PageId:{0}, RelationId:{1}",
+        Logg.r.Error("PageRelations - Sort: Broken Link Start - PageId:{0}, RelationId:{1}",
             pageId, sortedRelations.LastOrDefault()?.Id);
 
         foreach (var childRelation in childRelations)
@@ -365,11 +365,11 @@
                 if (!addedChildIds.Contains(childRelation.ChildId))
                     sortedRelations.Add(childRelation);
 
-                Logg.r.Error("CategoryRelations - Sort: Broken Link - PageId:{0}, RelationId:{1}",
+                Logg.r.Error("PageRelations - Sort: Broken Link - PageId:{0}, RelationId:{1}",
                     pageId, childRelation.Id);
             }
         }
 
-        Logg.r.Error("CategoryRelations - Sort: Broken Link End - PageId:{0}", pageId);
+        Logg.r.Error("PageRelations - Sort: Broken Link End - PageId:{0}", pageId);
     }
 }

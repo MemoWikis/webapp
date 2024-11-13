@@ -93,10 +93,10 @@ public class AppController(
         (
             RootWiki: new TinyPageItem
             (
-                Id: RootPage.RootCategoryId,
-                Name: EntityCache.GetPage(RootPage.RootCategoryId)?.Name
+                Id: RootPage.RootPageId,
+                Name: EntityCache.GetPage(RootPage.RootPageId)?.Name
             ),
-            MainPages: RootPage.MainCategoryIds.Select(id => new TinyPageItem(
+            MainPages: RootPage.MainPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
@@ -105,7 +105,7 @@ public class AppController(
                 Id: RootPage.MemuchoWikiId,
                 Name: EntityCache.GetPage(RootPage.MemuchoWikiId).Name
             ),
-            MemoPages: RootPage.MemuchoCategoryIds.Select(id => new TinyPageItem(
+            MemoPages: RootPage.MemuchoPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
@@ -113,13 +113,13 @@ public class AppController(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            PopularPages: RootPage.PopularCategoryIds.Select(id => new TinyPageItem(
+            PopularPages: RootPage.PopularPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             Documentation: new TinyPageItem(
-                Id: RootPage.IntroCategoryId,
-                Name: EntityCache.GetPage(RootPage.IntroCategoryId).Name
+                Id: RootPage.IntroPageId,
+                Name: EntityCache.GetPage(RootPage.IntroPageId).Name
             )
         );
         return footerPages;

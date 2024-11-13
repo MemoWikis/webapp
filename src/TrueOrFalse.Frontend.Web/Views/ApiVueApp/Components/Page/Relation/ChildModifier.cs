@@ -31,7 +31,7 @@ public class ChildModifier(
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
-        if (parentId == RootPage.RootCategoryId && !_sessionUser.IsInstallationAdmin)
+        if (parentId == RootPage.RootPageId && !_sessionUser.IsInstallationAdmin)
             return new AddChildResult
             {
                 Success = false,
@@ -66,8 +66,8 @@ public class ChildModifier(
                 _httpContextAccessor,
                 _webHostEnvironment);
 
-        var modifyRelationsForCategory = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
-        modifyRelationsForCategory.AddChild(parentId, childId, _sessionUser.UserId);
+        var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
+        modifyRelationsForPage.AddChild(parentId, childId, _sessionUser.UserId);
 
         return new AddChildResult
         {
@@ -89,19 +89,19 @@ public class ChildModifier(
         int parentIdToRemove,
         int childId)
     {
-        if (!_permissionCheck.CanEditCategory(parentIdToRemove) &&
-            !_permissionCheck.CanEditCategory(childId))
+        if (!_permissionCheck.CanEditPage(parentIdToRemove) &&
+            !_permissionCheck.CanEditPage(childId))
             return new RemoveParentResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var modifyRelationsForCategory = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
+        var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
 
         var parentHasBeenRemoved = ModifyRelationsEntityCache.RemoveParent(
             EntityCache.GetPage(childId),
-            parentIdToRemove, _sessionUser.UserId, modifyRelationsForCategory,
+            parentIdToRemove, _sessionUser.UserId, modifyRelationsForPage,
             _permissionCheck);
 
         if (!parentHasBeenRemoved)

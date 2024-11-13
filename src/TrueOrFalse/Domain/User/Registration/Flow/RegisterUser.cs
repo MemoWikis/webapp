@@ -69,7 +69,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
         WelcomeMsg.Send(user, _messageRepo);
         _sessionUser.Login(user);
 
-        var page = PersonalPage.GetPersonalCategory(user, _pageRepository);
+        var page = PersonalPage.GetPersonalPage(user, _pageRepository);
         page.Visibility = PageVisibility.Owner;
         _pageRepository.Create(page);
         user.StartPageId = page.Id;

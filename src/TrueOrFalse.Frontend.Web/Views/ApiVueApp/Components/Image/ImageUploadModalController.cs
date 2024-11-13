@@ -30,7 +30,7 @@ public class ImageUploadModalController(
     [HttpPost]
     public bool SaveWikimediaImage([FromBody] SaveWikimediaImageJson json)
     {
-        if (json.Url == null || !permissionCheck.CanEditCategory(json.PageId))
+        if (json.Url == null || !permissionCheck.CanEditPage(json.PageId))
             return false;
 
         imageStore.RunWikimedia<PageImageSettings>(
@@ -51,7 +51,7 @@ public class ImageUploadModalController(
     [HttpPost]
     public bool SaveCustomImage([FromForm] SaveCustomImageForm form)
     {
-        if (form.File == null || !permissionCheck.CanEditCategory(form.PageId))
+        if (form.File == null || !permissionCheck.CanEditPage(form.PageId))
             return false;
 
         imageStore.RunUploaded<PageImageSettings>(

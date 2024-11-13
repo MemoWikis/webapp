@@ -59,7 +59,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
         base.Create(questionChange);
         var questionCacheItem = EntityCache.GetQuestion(question.Id);
         if (questionCacheItem != null)
-            questionCacheItem.AddQuestionChangeToCategoryChangeCacheItems(questionChange);
+            questionCacheItem.AddQuestionChangeToPageChangeCacheItems(questionChange);
     }
 
     public void AddCommentEntry(int questionId, int authorId, int[] commentIds) =>
@@ -85,7 +85,7 @@ public class QuestionChangeRepo : RepositoryDbBase<QuestionChange>
             base.Create(questionChange);
             var questionCacheItem = EntityCache.GetQuestion(question.Id);
             if (questionCacheItem != null)
-                questionCacheItem.AddQuestionChangeToCategoryChangeCacheItems(questionChange);
+                questionCacheItem.AddQuestionChangeToPageChangeCacheItems(questionChange);
         }
 
     }

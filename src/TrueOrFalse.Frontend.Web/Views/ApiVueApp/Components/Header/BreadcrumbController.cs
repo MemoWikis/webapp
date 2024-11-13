@@ -60,7 +60,7 @@ public class BreadcrumbController(
         }
         else
         {
-            personalWiki.Id = RootPage.RootCategoryId;
+            personalWiki.Id = RootPage.RootPageId;
             personalWiki.Name = RootPage.Get.Name;
         }
 
@@ -79,8 +79,8 @@ public class BreadcrumbController(
                 Name = breadcrumb.Current.Text,
                 Id = breadcrumb.Current.Page.Id
             },
-            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == RootPage.RootCategoryId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId == breadcrumb.Root.Page.Id : RootPage.RootCategoryId == breadcrumb.Root.Page.Id
+            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == RootPage.RootPageId),
+            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId == breadcrumb.Root.Page.Id : RootPage.RootPageId == breadcrumb.Root.Page.Id
         };
     }
 
