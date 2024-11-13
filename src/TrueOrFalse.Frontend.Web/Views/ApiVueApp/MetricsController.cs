@@ -51,6 +51,11 @@ SessionUser _sessionUser) : Controller
         var (todaysPageViewCount, topicViewsOfPastYear) = GetPageViews();
 
         //Questions
+        var (todaysPublishedQuestionCount, monthlyPublishedQuestionsOfPastYear, dailyPublishedQuestionsOfPastYear) = GetPublishedQuestionCount();
+        var (todaysPublicQuestionCreatedCount, monthlyPublicCreatedQuestionsOfPastYear) = GetPublicQuestionCount();
+        var (todaysPrivateQuestionCreatedCount, monthlyPrivateCreatedQuestionsOfPastYear) = GetPrivateQuestionCount();
+
+        //QuestionViews
         var (todaysQuestionViewCount, questionViewsOfPastYear) = GetQuestionViews();
 
         return new GetAllDataResponse
@@ -163,8 +168,8 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysPublicPageCreatedCount, List<ViewsResult> monthlyPublicCreatedPagesOfPastYear) GetPublicPageCounts()
     {
-        var topics = EntityCache.GetAllPagesList();
-        var publicPages = topics.Where(u => u.IsPublic);
+        var pages = EntityCache.GetAllPagesList();
+        var publicPages = pages.Where(u => u.IsPublic);
         var lastYearPublicCreatedPages = publicPages
             .Where(u => u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
@@ -178,7 +183,7 @@ SessionUser _sessionUser) : Controller
                 lastYearPublicCreatedPages,
                 month => new { month.Year, month.Month },
                 u => new { u.DateCreated.Year, Month = u.DateCreated.Month },
-                (month, topics) => new ViewsResult(new DateTime(month.Year, month.Month, 1), topics.Count()))
+                (month, pages) => new ViewsResult(new DateTime(month.Year, month.Month, 1), pages.Count()))
             .OrderBy(v => v.DateTime)
             .ToList();
 
@@ -189,8 +194,8 @@ SessionUser _sessionUser) : Controller
 
     private (int todaysPrivatePageCreatedCount, List<ViewsResult> monthlyPrivateCreatedPagesOfPastYear, List<ViewsResult> dailyPrivateCreatedPagesOfPastYear) GetPrivatePagesCounts()
     {
-        var topics = EntityCache.GetAllPagesList();
-        var privatePages = topics.Where(u => u.IsPublic == false);
+        var pages = EntityCache.GetAllPagesList();
+        var privatePages = pages.Where(u => u.IsPublic == false);
         var lastYearPrivateCreatedPages = privatePages
             .Where(u => u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
             .ToList();
@@ -218,13 +223,105 @@ SessionUser _sessionUser) : Controller
                 lastYearPrivateCreatedPages,
                 month => new { month.Year, month.Month },
                 u => new { u.DateCreated.Year, Month = u.DateCreated.Month },
-                (month, topics) => new ViewsResult(new DateTime(month.Year, month.Month, 1), topics.Count()))
+                (month, pages) => new ViewsResult(new DateTime(month.Year, month.Month, 1), pages.Count()))
             .OrderBy(v => v.DateTime)
             .ToList();
 
         var todaysPrivatePageCreatedCount = lastYearPrivateCreatedPages.Count(u => u.DateCreated.Date == DateTime.Now.Date);
 
         return (todaysPrivatePageCreatedCount, monthlyPrivateCreatedPagesOfPastYear, dailyPrivateCreatedPagesOfPastYear);
+    }
+
+    private (int todaysPublishedQuestionCount, List<ViewsResult> monthlyPublishedQuestionsOfPastYear, List<ViewsResult> dailyPublishedQuestionsOfPastYear) GetPublishedQuestionCount()
+    {
+        var questions = EntityCache.GetAllQuestions();
+        var publicQuestions = questions.Where(q => q.IsPublic == false);
+        var lastYearPublishedQuestions = publicQuestions
+            .Where(q => q.LastPublishDate.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+
+        var startDate = DateTime.Now.Date.AddDays(-365);
+        var endDate = DateTime.Now.Date;
+
+        var dateRange = Enumerable.Range(0, (endDate - startDate).Days + 1)
+            .Select(d => startDate.AddDays(d));
+
+        var dailyPublishedQuestionsOfPastYear = dateRange
+            .GroupJoin(
+                lastYearPublishedQuestions,
+                date => date,
+                q => q.LastPublishDate.Date,
+                (date, registrations) => new ViewsResult(date, registrations.Count()))
+            .OrderBy(v => v.DateTime)
+            .ToList();
+
+        var monthRange = Enumerable.Range(0, 12)
+            .Select(m => startDate.AddMonths(m));
+
+        var monthlyPublishedQuestionsOfPastYear = monthRange
+            .GroupJoin(
+                lastYearPublishedQuestions,
+                month => new { month.Year, month.Month },
+                q => new { q.LastPublishDate.Year, Month = q.LastPublishDate.Month },
+                (month, questions) => new ViewsResult(new DateTime(month.Year, month.Month, 1), questions.Count()))
+            .OrderBy(v => v.DateTime)
+            .ToList();
+
+        var todaysPublishedQuestionCount = lastYearPublishedQuestions.Count(q => q.DateCreated.Date == DateTime.Now.Date);
+
+        return (todaysPublishedQuestionCount, monthlyPublishedQuestionsOfPastYear, dailyPublishedQuestionsOfPastYear);
+    }
+
+    private (int todaysPublicQuestionCreatedCount, List<ViewsResult> monthlyPublishedQuestionsOfPastYear) GetPublicQuestionCount()
+    {
+        var questions = EntityCache.GetAllQuestions();
+        var publicQuestions = questions.Where(q => q.IsPublic);
+        var lastYearPublicCreatedQuestions = publicQuestions
+            .Where(u => u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+
+        var startDate = DateTime.Now.Date.AddDays(-365);
+        var monthRange = Enumerable.Range(0, 12)
+            .Select(m => startDate.AddMonths(m));
+
+        var monthlyPublicCreatedQuestionsOfPastYear = monthRange
+            .GroupJoin(
+                lastYearPublicCreatedQuestions,
+                month => new { month.Year, month.Month },
+                u => new { u.DateCreated.Year, Month = u.DateCreated.Month },
+                (month, pages) => new ViewsResult(new DateTime(month.Year, month.Month, 1), pages.Count()))
+            .OrderBy(v => v.DateTime)
+            .ToList();
+
+        var todaysPublicQuestionCreatedCount = lastYearPublicCreatedQuestions.Count(u => u.DateCreated.Date == DateTime.Now.Date);
+
+        return (todaysPublicQuestionCreatedCount, monthlyPublicCreatedQuestionsOfPastYear);
+    }
+
+    private (int todaysPrivateQuestionCreatedCount, List<ViewsResult> monthlyPublishedQuestionsOfPastYear) GetPrivateQuestionCount()
+    {
+        var questions = EntityCache.GetAllQuestions();
+        var privateQuestions = questions.Where(q => q.IsPublic == false);
+        var lastYearPrivateCreatedQuestions = privateQuestions
+            .Where(u => u.DateCreated.Date > DateTime.Now.Date.AddDays(-365))
+            .ToList();
+
+        var startDate = DateTime.Now.Date.AddDays(-365);
+        var monthRange = Enumerable.Range(0, 12)
+            .Select(m => startDate.AddMonths(m));
+
+        var monthlyPrivateCreatedQuestionsOfPastYear = monthRange
+            .GroupJoin(
+                lastYearPrivateCreatedQuestions,
+                month => new { month.Year, month.Month },
+                u => new { u.DateCreated.Year, Month = u.DateCreated.Month },
+                (month, pages) => new ViewsResult(new DateTime(month.Year, month.Month, 1), pages.Count()))
+            .OrderBy(v => v.DateTime)
+            .ToList();
+
+        var todaysPrivateQuestionCreatedCount = lastYearPrivateCreatedQuestions.Count(u => u.DateCreated.Date == DateTime.Now.Date);
+
+        return (todaysPrivateQuestionCreatedCount, monthlyPrivateCreatedQuestionsOfPastYear);
     }
 
     private (int todaysPageViews, List<ViewsResult> topicViewsOfPastYear) GetPageViews()

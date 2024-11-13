@@ -205,7 +205,7 @@ public class QuestionEditModalController(
         var solution = question.SolutionType == SolutionType.FlashCard
             ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml()
             : question.Solution;
-        var topicsVisibleToCurrentUser =
+        var pagesVisibleToCurrentUser =
             question.Pages.Where(_permissionCheck.CanView).Distinct();
 
         return new GetDataResult(
@@ -215,10 +215,10 @@ public class QuestionEditModalController(
             SolutionMetadataJson: question.SolutionMetadataJson,
             Text: question.TextHtml,
             TextExtended: question.TextExtendedHtml,
-            PublicPageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            PublicPageIds: pagesVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             DescriptionHtml: question.DescriptionHtml,
-            Pages: topicsVisibleToCurrentUser.Select(t => FillMiniPageItem(t)).ToArray(),
-            PageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            Pages: pagesVisibleToCurrentUser.Select(t => FillMiniPageItem(t)).ToArray(),
+            PageIds: pagesVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             LicenseId: question.LicenseId,
             Visibility: question.Visibility
         );
@@ -298,14 +298,14 @@ public class QuestionEditModalController(
 
     private List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
     {
-        var topics = new List<Page>();
+        var pages = new List<Page>();
         var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
-        topics.AddRange(privatePages);
+        pages.AddRange(privatePages);
 
         foreach (var pageId in newCategoryIds)
-            topics.Add(pageRepository.GetById(pageId));
+            pages.Add(pageRepository.GetById(pageId));
 
-        return topics;
+        return pages;
     }
 
 }

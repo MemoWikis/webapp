@@ -71,7 +71,7 @@
 
         if (!withinLimit && logExceedance)
         {
-            LogExceededLimit("private topics", _logg);
+            LogExceededLimit("private pages", _logg);
         }
 
         return withinLimit;

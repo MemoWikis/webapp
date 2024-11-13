@@ -63,7 +63,7 @@ public class UsersController(
     public UserResult GetUserResult(UserCacheItem user)
     {
         var wishQuestionCount = 0;
-        var topicsWithWishQuestionCount = 0;
+        var pagesWithWishQuestionCount = 0;
 
         if (user.Id > 0 && (user.ShowWishKnowledge || user.Id == _sessionUser.UserId))
         {
@@ -73,7 +73,7 @@ public class UsersController(
             var wishQuestions = EntityCache.GetQuestionsByIds(valuations)
                 .Where(_permissionCheck.CanView);
             wishQuestionCount = wishQuestions.Count();
-            topicsWithWishQuestionCount = wishQuestions.QuestionsInPages().Count();
+            pagesWithWishQuestionCount = wishQuestions.QuestionsInPages().Count();
         }
 
         return new UserResult
@@ -86,7 +86,7 @@ public class UsersController(
             CreatedPagesCount = _userSummary.GetCreatedPagesCount(user.Id, _sessionUser.UserId == user.Id),
             ShowWuwi = user.ShowWishKnowledge,
             WuwiQuestionsCount = wishQuestionCount,
-            WuwiPagesCount = topicsWithWishQuestionCount,
+            WuwiPagesCount = pagesWithWishQuestionCount,
             ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
