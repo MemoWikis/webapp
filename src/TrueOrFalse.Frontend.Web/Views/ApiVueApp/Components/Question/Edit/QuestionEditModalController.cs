@@ -28,7 +28,7 @@ public class QuestionEditModalController(
     Logg _logg) : Controller
 {
     public readonly record struct QuestionDataRequest(
-        int[] CategoryIds,
+        int[] PageIds,
         int? QuestionId,
         string TextHtml,
         string QuestionExtensionHtml,
@@ -144,7 +144,7 @@ public class QuestionEditModalController(
         question.SolutionType = request.SolutionType;
 
         var preEditedPageIds = question.Pages.Select(c => c.Id);
-        var newPageIds = request.CategoryIds.ToList();
+        var newPageIds = request.PageIds.ToList();
 
         var pagesToRemove = preEditedPageIds.Except(newPageIds);
 
@@ -205,7 +205,7 @@ public class QuestionEditModalController(
         var solution = question.SolutionType == SolutionType.FlashCard
             ? GetQuestionSolution.Run(question).GetCorrectAnswerAsHtml()
             : question.Solution;
-        var topicsVisibleToCurrentUser =
+        var pagesVisibleToCurrentUser =
             question.Pages.Where(_permissionCheck.CanView).Distinct();
 
         return new GetDataResult(
@@ -215,10 +215,10 @@ public class QuestionEditModalController(
             SolutionMetadataJson: question.SolutionMetadataJson,
             Text: question.TextHtml,
             TextExtended: question.TextExtendedHtml,
-            PublicPageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            PublicPageIds: pagesVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             DescriptionHtml: question.DescriptionHtml,
-            Pages: topicsVisibleToCurrentUser.Select(t => FillMiniPageItem(t)).ToArray(),
-            PageIds: topicsVisibleToCurrentUser.Select(t => t.Id).ToArray(),
+            Pages: pagesVisibleToCurrentUser.Select(t => FillMiniPageItem(t)).ToArray(),
+            PageIds: pagesVisibleToCurrentUser.Select(t => t.Id).ToArray(),
             LicenseId: question.LicenseId,
             Visibility: question.Visibility
         );
@@ -296,16 +296,16 @@ public class QuestionEditModalController(
         return Regex.Replace(text, "<.*?>", "");
     }
 
-    private List<Page> GetAllParentsForQuestion(List<int> newCategoryIds, Question question)
+    private List<Page> GetAllParentsForQuestion(List<int> newPageIds, Question question)
     {
-        var topics = new List<Page>();
+        var pages = new List<Page>();
         var privatePages = question.Pages.Where(c => !_permissionCheck.CanEdit(c)).ToList();
-        topics.AddRange(privatePages);
+        pages.AddRange(privatePages);
 
-        foreach (var pageId in newCategoryIds)
-            topics.Add(pageRepository.GetById(pageId));
+        foreach (var pageId in newPageIds)
+            pages.Add(pageRepository.GetById(pageId));
 
-        return topics;
+        return pages;
     }
 
 }

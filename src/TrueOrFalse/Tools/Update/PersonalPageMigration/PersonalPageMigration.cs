@@ -25,7 +25,7 @@
                 }
                 else
                 {
-                    var newPage = PersonalPage.GetPersonalCategory(user, pageRepository);
+                    var newPage = PersonalPage.GetPersonalPage(user, pageRepository);
                     pageRepository.CreateOnlyDb(newPage);
                     user.StartPageId = newPage.Id;
                     Logg.r.Information(

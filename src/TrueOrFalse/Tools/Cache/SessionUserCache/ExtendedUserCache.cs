@@ -60,7 +60,7 @@ public class ExtendedUserCache(
         var item = GetItem(userId);
 
         if (item != null)
-            return item.CategoryValuations.Values.ToList();
+            return item.PageValuations.Values.ToList();
 
         Logg.r.Error("sessionUserItem is null {userId}", userId);
 
@@ -150,10 +150,10 @@ public class ExtendedUserCache(
         int pageId,
         PageValuationWritingRepo pageValuationWritingRepo)
     {
-        pageValuationWritingRepo.DeleteCategoryValuation(pageId);
+        pageValuationWritingRepo.DeletePageValuation(pageId);
         foreach (var userCache in GetAllActiveCaches())
         {
-            userCache.CategoryValuations.TryRemove(pageId, out var result);
+            userCache.PageValuations.TryRemove(pageId, out var result);
         }
     }
 
@@ -169,7 +169,7 @@ public class ExtendedUserCache(
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
-        cacheItem.CategoryValuations = new ConcurrentDictionary<int, PageValuation>(
+        cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
             pageValuationReadingRepository
                 .GetByUser(userId, onlyActiveKnowledge: false)
                 .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)));

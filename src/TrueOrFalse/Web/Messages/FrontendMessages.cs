@@ -51,13 +51,13 @@
             public static readonly string ChildIsParent = "error_page_childIsParent";
             public static readonly string NameIsTaken = "error_page_nameIsTaken";
             public static readonly string NameIsForbidden = "error_page_nameIsForbidden";
-            public static readonly string RootCategoryMustBePublic = "error_page_rootCategoryMustBePublic";
+            public static readonly string RootPageMustBePublic = "error_page_rootPageMustBePublic";
             public static readonly string MissingRights = "error_page_missingRights";
             public static readonly string TooPopular = "error_page_tooPopular";
             public static readonly string SaveImageError = "error_page_saveImageError";
             public static readonly string PinnedQuestions = "error_page_pinnedQuestions";
             public static readonly string CircularReference = "error_page_circularReference";
-            public static readonly string PageNotSelected = "error_page_topicNotSelected";
+            public static readonly string PageNotSelected = "error_page_pageNotSelected";
             public static readonly string NewPageIdIsPageIdToBeDeleted = "error_page_newPageIdIsPageIdToBeDeleted";
             public static readonly string NotFound = Route.NotFound;
             public static readonly string NoRights = Route.NoRights;

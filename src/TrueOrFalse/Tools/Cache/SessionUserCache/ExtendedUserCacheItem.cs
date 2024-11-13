@@ -2,7 +2,7 @@ using System.Collections.Concurrent;
 
 public class ExtendedUserCacheItem : UserCacheItem
 {
-    public ConcurrentDictionary<int, PageValuation> CategoryValuations = new();
+    public ConcurrentDictionary<int, PageValuation> PageValuations = new();
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
     public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
 

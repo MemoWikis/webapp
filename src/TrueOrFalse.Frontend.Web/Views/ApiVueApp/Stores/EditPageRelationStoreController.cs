@@ -128,7 +128,7 @@ public class EditPageRelationStoreController(
 
         if (!_permissionCheck.CanMovePage(json.MovingPageId, json.OldParentId, json.NewParentId))
         {
-            if (json.NewParentId == RootPage.RootCategoryId && EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.All)
+            if (json.NewParentId == RootPage.RootPageId && EntityCache.GetPage(json.MovingPageId)?.Visibility == PageVisibility.All)
                 throw new SecurityException(FrontendMessageKeys.Error.Page.ParentIsRoot);
 
             throw new SecurityException(FrontendMessageKeys.Error.Page.MissingRights);
@@ -144,7 +144,7 @@ public class EditPageRelationStoreController(
         if (relationToMove == null)
         {
             Logg.r.Error(
-                "CategoryRelations - MovePage: no relation found to move - movingPageId:{0}, parentId:{1}",
+                "PageRelations - MovePage: no relation found to move - movingPageId:{0}, parentId:{1}",
                 json.MovingPageId, json.OldParentId);
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
         }
@@ -152,18 +152,18 @@ public class EditPageRelationStoreController(
         var undoMovePageData =
             GetUndoMovePageData(relationToMove, json.NewParentId, json.TargetId);
 
-        var modifyRelationsForCategory =
+        var modifyRelationsForPage =
             new ModifyRelationsForPage(pageRepository, pageRelationRepo);
 
         if (json.Position == TargetPosition.Before)
             PageOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId,
-                _sessionUser.UserId, modifyRelationsForCategory);
+                _sessionUser.UserId, modifyRelationsForPage);
         else if (json.Position == TargetPosition.After)
             PageOrderer.MoveAfter(relationToMove, json.TargetId, json.NewParentId,
-                _sessionUser.UserId, modifyRelationsForCategory);
+                _sessionUser.UserId, modifyRelationsForPage);
         else if (json.Position == TargetPosition.Inner)
             PageOrderer.MoveIn(relationToMove, json.TargetId, _sessionUser.UserId,
-                modifyRelationsForCategory, _permissionCheck);
+                modifyRelationsForPage, _permissionCheck);
         else if (json.Position == TargetPosition.None)
             throw new InvalidOperationException(FrontendMessageKeys.Error.Default);
 

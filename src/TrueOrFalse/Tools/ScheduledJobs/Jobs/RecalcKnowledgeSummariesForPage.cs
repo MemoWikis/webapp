@@ -25,8 +25,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 List<int> successfullJobIds = new List<int>();
                 var jobs = scope.Resolve<JobQueueRepo>().GetRecalcKnowledgeSummariesForPage();
-                var jobsByCategoryId = jobs.GroupBy(j => j.JobContent);
-                foreach (var grouping in jobsByCategoryId)
+                var jobsByPageId = jobs.GroupBy(j => j.JobContent);
+                foreach (var grouping in jobsByPageId)
                 {
                     try
                     {

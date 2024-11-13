@@ -19,7 +19,7 @@ public class PageRepository(
         base.Create(page);
         Flush();
 
-        UserActivityAdd.CreatedCategory(page, userReadingRepo, userActivityRepo);
+        UserActivityAdd.CreatedPage(page, userReadingRepo, userActivityRepo);
 
         var pageCacheItem = PageCacheItem.ToCachePage(page);
         EntityCache.AddOrUpdate(pageCacheItem);

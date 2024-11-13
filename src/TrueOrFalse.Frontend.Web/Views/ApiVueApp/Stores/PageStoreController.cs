@@ -189,7 +189,7 @@ public class PageStoreController(
     [HttpPost]
     public string UploadContentImage([FromForm] UploadContentImageRequest form)
     {
-        if (!_permissionCheck.CanEditCategory(form.PageId))
+        if (!_permissionCheck.CanEditPage(form.PageId))
             throw new Exception("No Upload rights");
 
         Logg.r.Information("UploadContentImage {id}, {file}", form.PageId, form.File);

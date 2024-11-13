@@ -31,10 +31,10 @@ public static class JobScheduler
 
         Schedule_CleanupWorkInProgressQuestions();
         Schedule_RecalcKnowledgeStati();
-        Schedule_RecalcKnowledgeSummariesForCategory();
+        Schedule_RecalcKnowledgeSummariesForPage();
         Schedule_RecalcReputation();
         Schedule_RecalcReputationForAll();
-        Schedule_EditCategoryInWishKnowledge();
+        Schedule_EditPageInWishKnowledge();
         Schedule_KnowledgeReportCheck();
         Schedule_RecalcTotalWishInOthersPeople();
         Schedule_MailTransmitter();
@@ -58,7 +58,7 @@ public static class JobScheduler
                         .EndingDailyAfterCount(1)).Build());
     }
 
-    private static void Schedule_RecalcKnowledgeSummariesForCategory()
+    private static void Schedule_RecalcKnowledgeSummariesForPage()
     {
         _scheduler.ScheduleJob(JobBuilder.Create<RecalcKnowledgeSummariesForPage>().Build(),
             TriggerBuilder.Create()
@@ -127,7 +127,7 @@ public static class JobScheduler
                         .EndingDailyAfterCount(1)).Build());
     }
 
-    private static void Schedule_EditCategoryInWishKnowledge()
+    private static void Schedule_EditPageInWishKnowledge()
     {
         _scheduler.ScheduleJob(JobBuilder.Create<EditPageInWishKnowledge>().Build(),
             TriggerBuilder.Create().WithSimpleSchedule(x => x

@@ -53,7 +53,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return false;
     }
 
-    public bool CanEditCategory(int paegId) => CanEdit(EntityCache.GetPage(paegId));
+    public bool CanEditPage(int paegId) => CanEdit(EntityCache.GetPage(paegId));
     public bool CanEdit(Page page) => CanEdit(EntityCache.GetPage(page.Id));
 
     public bool CanView(PageChange change)
@@ -100,7 +100,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (_userId == default || page == null || page.Id == 0)
             return false;
 
-        if (page.Id == RootPage.RootCategoryId || page.Id == page.Creator.StartPageId)
+        if (page.Id == RootPage.RootPageId || page.Id == page.Creator.StartPageId)
             return false;
 
         if (page.Creator.Id == _userId || _isInstallationAdmin)
@@ -121,7 +121,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             || oldParent.Id == 0)
             return false;
 
-        if (RootPage.RootCategoryId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
+        if (RootPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
             return false;
 
         return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;

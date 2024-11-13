@@ -26,7 +26,7 @@ public class UserActivityAdd
     /// Add Category to UserActivityRepo
     /// </summary>
     /// <param name="page"></param>
-    public static void CreatedCategory(
+    public static void CreatedPage(
         Page page,
         UserReadingRepo userReadingRepo,
         UserActivityRepo userActivityRepo)

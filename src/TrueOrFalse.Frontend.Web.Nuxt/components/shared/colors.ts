@@ -49,7 +49,10 @@ export const middleTurquoise = '#138992';
 export const lightBlue = '#E7ECF6';
 export const middleBlue = '#45aece';
 export const darkBlue = '#003264';
+
+export const lightPurple = '#a99bcf';
 export const middlePurple = '#7e63a1';
+export const darkPurple = '#4f2f7b';
 
 //CatgoryKnowledgeBar
 
@@ -104,10 +107,12 @@ export const color = {
   lightBlue,
   middleBlue,
   darkBlue,
-  middlePurple,
   solidKnowledgeColor,
   consolidationColor,
   learningColor,
   notLearnedColor,
-  notInWishKnowledgeColor
+  notInWishKnowledgeColor,
+  lightPurple,
+  middlePurple,
+  darkPurple
 };

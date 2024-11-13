@@ -109,9 +109,9 @@ public class PageRelationEditController(
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        if (parentIdToRemove == RootPage.RootCategoryId &&
+        if (parentIdToRemove == RootPage.RootPageId &&
             !_sessionUser.IsInstallationAdmin ||
-            parentIdToAdd == RootPage.RootCategoryId &&
+            parentIdToAdd == RootPage.RootPageId &&
             !_sessionUser.IsInstallationAdmin)
             return new MoveChildResult
             {
@@ -248,7 +248,7 @@ public class PageRelationEditController(
         string MessageKey,
         ValidateTinyPageItem Data);
 
-    public readonly record struct ValidateTinyPageItem(bool CategoryNameAllowed, string name);
+    public readonly record struct ValidateTinyPageItem(bool PageNameAllowed, string name);
 
     private ValidateNameResult ValidateName(string name)
     {
@@ -262,7 +262,7 @@ public class PageRelationEditController(
                 MessageKey = FrontendMessageKeys.Error.Page.NameIsForbidden,
                 Data = new ValidateTinyPageItem
                 {
-                    CategoryNameAllowed = false,
+                    PageNameAllowed = false,
                     name = name,
                 }
             };

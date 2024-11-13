@@ -21,7 +21,7 @@ public class PageValuationWritingRepo(ISession _session, KnowledgeSummaryLoader 
         _repo.Update(pageValuation);
     }
 
-    public void DeleteCategoryValuation(int pageId)
+    public void DeletePageValuation(int pageId)
     {
         _repo.Session.CreateSQLQuery("DELETE FROM categoryvaluation WHERE CategoryId = :pageId")
             .SetParameter("pageId", pageId).ExecuteUpdate();

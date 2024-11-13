@@ -73,12 +73,15 @@ public class QuestionCacheItem
     public virtual int TotalViews { get; set; }
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual QuestionVisibility Visibility { get; set; }
+    public bool IsPublic => Visibility == QuestionVisibility.All;
 
     public virtual List<QuestionChangeCacheItem> QuestionChangeCacheItems { get; set; }
 
     public virtual List<int> CommentIds { get; set; }
 
     public virtual AnswerRecord AnswerCounter { get; set; }
+
+    public virtual DateTime LastPublishDate { get; set; }
 
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
@@ -205,6 +208,8 @@ public class QuestionCacheItem
                 QuestionEditData? previousData = null;
                 QuestionEditData currentData;
                 var questionChangeCacheItems = new List<QuestionChangeCacheItem>();
+                var currentVisibility = QuestionVisibility.Owner;
+                var lastVisibilityChange = question.DateCreated;
 
                 foreach (var curr in questionChanges)
                 {
@@ -223,11 +228,20 @@ public class QuestionCacheItem
                     var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(curr, currentData, previousData);
                     questionChangeCacheItems.Add(cacheItem);
                     previousData = currentData;
+
+                    if (currentVisibility != cacheItem.Visibility)
+                    {
+                        lastVisibilityChange = cacheItem.DateCreated;
+                        currentVisibility = cacheItem.Visibility;
+                    }
                 }
 
                 questionCacheItem.QuestionChangeCacheItems = questionChangeCacheItems
                     .OrderByDescending(change => change.DateCreated)
                     .ToList();
+
+                if (question.Visibility == QuestionVisibility.All)
+                    questionCacheItem.LastPublishDate = lastVisibilityChange;
             }
 
             if (answers != null)
@@ -422,7 +436,7 @@ public class QuestionCacheItem
             .ToList();
     }
 
-    public void AddQuestionChangeToCategoryChangeCacheItems(QuestionChange questionChange)
+    public void AddQuestionChangeToPageChangeCacheItems(QuestionChange questionChange)
     {
         QuestionChangeCacheItems ??= new List<QuestionChangeCacheItem>();
 
@@ -430,6 +444,10 @@ public class QuestionCacheItem
         QuestionEditData? previousData = QuestionChangeCacheItems.Count > 0 ? QuestionChangeCacheItems.First().GetQuestionChangeData() : null;
 
         var cacheItem = QuestionChangeCacheItem.ToQuestionChangeCacheItem(questionChange, currentData, previousData);
+
+        if (previousData?.Visibility == QuestionVisibility.Owner &&
+            cacheItem.Visibility == QuestionVisibility.All)
+            LastPublishDate = cacheItem.DateCreated;
 
         QuestionChangeCacheItems.Insert(0, cacheItem);
         EntityCache.AddOrUpdate(this);
