@@ -667,10 +667,13 @@ watch(() => pageStore.id, () => learningSessionStore.showResult = false)
 }
 
 #ActivityPointsDisplay {
+    min-width: 100px;
+
     .activitypoints-display-detail {
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        flex-wrap: nowrap;
 
         #ActivityPoints {
             margin-right: 8px;
