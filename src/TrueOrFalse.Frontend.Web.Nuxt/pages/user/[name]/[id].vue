@@ -77,9 +77,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
         }
     },
     onResponseError(context) {
-
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-
     },
 })
 
@@ -116,6 +114,7 @@ const maxBadgeCount = ref(0)
 const router = useRouter()
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
+
 function handleBreadcrumb(t: Tab) {
     if (t == Tab.Settings) {
         router.push({ path: '/Nutzer/Einstellungen' })
@@ -159,8 +158,6 @@ function handleBreadcrumb(t: Tab) {
         emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])
     }
 }
-
-
 
 onMounted(() => {
     emit('setPage', PageEnum.User)
@@ -371,7 +368,7 @@ userStore.$onAction(({ name, after }) => {
                             </template>
                         </div>
                         <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">
-                            <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" keep-alive />
+                            <UserTabsWishknowledge :questions="wuwi.questions" :pages="wuwi.pages" />
                         </div>
 
                     </div>
