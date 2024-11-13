@@ -52,7 +52,7 @@ function getWidth(e: VueElement) {
                         <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
 
                             <div class="tab-label active" v-if="props.tab == Tab.Wishknowledge"
-                                :style="getWidth(wishknowledgeLabelEl)">
+                                :style="getWidth(wishknowledgeLabelEl)" style="width: 156px;">
                                 Wunschwissen</div>
                             <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Wishknowledge }"
                                 ref="wishknowledgeLabelEl">
@@ -67,7 +67,7 @@ function getWidth(e: VueElement) {
                         <button class="tab" @click="emit('setTab', Tab.Settings)"
                             v-if="userStore.isLoggedIn && props.isCurrentUser">
                             <div class="tab-label active" v-if="props.tab == Tab.Settings"
-                                :style="getWidth(settingsLabelEl)">
+                                :style="getWidth(settingsLabelEl)" style="width: 145px;">
                                 Einstellungen</div>
                             <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Settings }"
                                 ref="settingsLabelEl">
@@ -109,7 +109,7 @@ function getWidth(e: VueElement) {
                 <button class="tab" @click="emit('setTab', Tab.Wishknowledge)">
 
                     <div class="tab-label active" v-if="props.tab == Tab.Wishknowledge"
-                        :style="getWidth(wishknowledgeLabelEl)">
+                        :style="getWidth(wishknowledgeLabelEl)" style="width: 156px;">
                         Wunschwissen</div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Wishknowledge }"
                         ref="wishknowledgeLabelEl">
@@ -123,7 +123,7 @@ function getWidth(e: VueElement) {
 
                 <button class="tab" @click="emit('setTab', Tab.Settings)"
                     v-if="userStore.isLoggedIn && props.isCurrentUser">
-                    <div class="tab-label active" v-if="props.tab == Tab.Settings" :style="getWidth(settingsLabelEl)">
+                    <div class="tab-label active" v-if="props.tab == Tab.Settings" :style="getWidth(settingsLabelEl)" style="width: 145px;">
                         Einstellungen</div>
                     <div class="tab-label" :class="{ 'invisible-tab': props.tab == Tab.Settings }" ref="settingsLabelEl">
                         Einstellungen
