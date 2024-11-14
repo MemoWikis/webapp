@@ -32,7 +32,6 @@ async function markAsSettled() {
     })
 
     if (result) {
-        console.log('result', result)
         commentsStore.loadComments()
     }
 }
@@ -55,11 +54,6 @@ async function markAsUnsettled() {
 const showAnswers = computed(() =>
     foldOut.value && props.comment.answers.length > 0 ||
     !props.comment.isSettled)
-
-watch(showAnswers, (newVal) => {
-    if (newVal === true)
-        console.log('props ANswer', props.comment.answers)
-})
 
 const highlightEmptyAnswer = ref(false)
 const answerText = ref('')
@@ -246,12 +240,12 @@ async function saveAnswer() {
     font-size: 0.8em;
 }
 
-.commentSpeechBubbleText  {
+.commentSpeechBubbleText {
     padding-left: 8px;
     user-select: none;
 }
 
-.commentSpeechBubbleIcon  {
+.commentSpeechBubbleIcon {
     cursor: default;
     margin-bottom: 16px;
     padding-bottom: 8px;

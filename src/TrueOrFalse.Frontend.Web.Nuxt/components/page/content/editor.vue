@@ -53,20 +53,46 @@ const loadCollab = ref(true)
 const providerLoaded = ref(false)
 
 const connectionLostHandled = ref(false)
+
 const handleConnectionLost = () => {
     if (connectionLostHandled.value)
         return
 
     const data: SnackbarData = {
         type: 'error',
-        text: messages.error.collaboration.connectionLost
+        text: messages.error.collaboration.connectionLost,
+        duration: 8000
     }
     snackbarStore.showSnackbar(data)
+
+    reconnectTimer.value = setTimeout(() => {
+        tryReconnect()
+    }, 10000)
+}
+
+const reconnectTimer = ref()
+const isReconnecting = ref(false)
+const isSynced = ref(false)
+const tryReconnect = () => {
+    if (reconnectTimer.value)
+        clearTimeout(reconnectTimer.value)
+    if (isReconnecting.value || isSynced.value)
+        return
+
+    isReconnecting.value = true
+
+    if (provider.value)
+        provider.value?.destroy()
+
+    if (userStore.isLoggedIn && !isSynced.value)
+        initProvider()
+
+    isReconnecting.value = false
 }
 
 const initProvider = () => {
     provider.value = new TiptapCollabProvider({
-        baseUrl: config.public.hocuspocusWebsocketUrl,
+        baseUrl: config.public.hocuspocusWebsocketUrl + '92138238test',
         name: 'ydoc-' + pageStore.id,
         token: userStore.collaborationToken,
         preserveConnection: false,
@@ -75,6 +101,8 @@ const initProvider = () => {
             new IndexeddbPersistence(`${userStore.id}|document-${pageStore.id}`, doc)
         },
         onAuthenticationFailed: ({ reason }) => {
+            isSynced.value = false
+
             providerLoaded.value = true
             loadCollab.value = false
             recreate()
@@ -93,8 +121,11 @@ const initProvider = () => {
             }
             providerLoaded.value = true
             connectionLostHandled.value = false
+            isSynced.value = true
         },
         onClose(c) {
+            isSynced.value = false
+
             if (c.event.code === 1006 || c.event.code === 1005 || !providerLoaded.value) {
                 providerLoaded.value = true
 
@@ -260,12 +291,14 @@ const recreate = (login: boolean = false) => {
     provider.value?.destroy()
     editor.value?.destroy()
 
-    if (login) loadCollab.value = true
+    if (login)
+        loadCollab.value = true
 
-    if (userStore.isLoggedIn && loadCollab.value) {
+    if (userStore.isLoggedIn && loadCollab.value)
         initProvider()
-    }
-    else if (!userStore.isLoggedIn) providerLoaded.value = true
+    else if (!userStore.isLoggedIn)
+        providerLoaded.value = true
+
     initEditor()
 }
 
