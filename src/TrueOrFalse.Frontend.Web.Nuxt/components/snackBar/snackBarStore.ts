@@ -12,6 +12,8 @@ export interface SnackbarData{
 	title?: string
 	text?: SnackbarMessage
 	snackbarCustomAction?: SnackbarCustomAction
+	duration?: number
+	dismissible?: boolean
 }
 
 export interface SnackbarMessage {

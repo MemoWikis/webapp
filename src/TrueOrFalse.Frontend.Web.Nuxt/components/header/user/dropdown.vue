@@ -100,7 +100,6 @@ const ariaId = useId()
                         Ausloggen
                     </div>
                 </div>
-
             </div>
         </template>
     </VDropdown>
