@@ -92,7 +92,7 @@ const tryReconnect = () => {
 
 const initProvider = () => {
     provider.value = new TiptapCollabProvider({
-        baseUrl: config.public.hocuspocusWebsocketUrl + '92138238test',
+        baseUrl: config.public.hocuspocusWebsocketUrl,
         name: 'ydoc-' + pageStore.id,
         token: userStore.collaborationToken,
         preserveConnection: false,
