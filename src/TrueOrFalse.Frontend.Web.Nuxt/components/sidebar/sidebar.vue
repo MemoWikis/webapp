@@ -18,11 +18,6 @@ const config = useRuntimeConfig()
 const discordBounce = ref(false)
 const { $urlHelper } = useNuxtApp()
 
-
-function scrollToTitle() {
-    document.getElementById("PageTitle")?.scrollIntoView({ behavior: 'smooth', block: 'end' })
-}
-
 </script>
 
 <template>
@@ -107,6 +102,10 @@ function scrollToTitle() {
     align-items: stretch;
     flex-grow: 1;
     height: 100%;
+
+    @media (max-width: 1300px) {
+        display: none;
+    }
 
     #SidebarDivider {
         border-left: 1px solid @memo-grey-light;

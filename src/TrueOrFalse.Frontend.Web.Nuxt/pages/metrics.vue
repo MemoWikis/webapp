@@ -325,7 +325,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
                         <MetricsSection title="Aktive Nutzer" :sub-title="`Heutige Aktive Nutzer: ${overviewData?.todaysActiveUserCount}`" :charts="activeUsersChart" @toggle-bar="toggleBar" />
                         <MetricsSection title="Private Themen" :sub-title="`Heute erstellt: ${overviewData?.createdPrivatePageCount}`" :charts="privateCreatedPagesCharts" @toggle-bar="toggleBar" />
                         <MetricsSection title="Öffentliche Themen" :sub-title="`Heute erstellt: ${overviewData?.todaysPublicPageCreatedCount}`" :charts="publicCreatedPagesChart" @toggle-bar="toggleBar" />
-                        <MetricsSection title="Pageviews" :sub-title="`Heutige Pageviews: ${overviewData?.todaysPageViewCount}`" :charts="pageViewsCharts" @toggle-bar="toggleBar" />
+                        <MetricsSection title="Wiki-Pageviews" :sub-title="`Heutige Wiki-Pageviews: ${overviewData?.todaysPageViewCount}`" :charts="pageViewsCharts" @toggle-bar="toggleBar" />
                         <MetricsSection title="Questionviews" :sub-title="`Heutige Questionviews: ${overviewData?.todaysQuestionViewCount}`" :charts="questionViewsCharts" @toggle-bar="toggleBar" />
                         <MetricsSection title="Veröffentlichte Fragen" :sub-title="`Heute veröffentlicht: ${overviewData?.todaysPublishedQuestionCount}`" :charts="publishedQuestionsCharts" @toggle-bar="toggleBar" />
                         <MetricsSection title="Öffentliche Fragen" :sub-title="`Heute erstellt: ${overviewData?.todaysPublicQuestionCreatedCount}`" :charts="publicCreatedPagesCharts" @toggle-bar="toggleBar" />

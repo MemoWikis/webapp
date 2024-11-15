@@ -216,25 +216,37 @@ useHead(() => ({
 	<Html lang="de">
 
 	</Html>
-	<HeaderGuest v-if="!userStore.isLoggedIn" />
-	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-	<ClientOnly>
-		<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
-	</ClientOnly>
 
-	<NuxtErrorBoundary @error="logError">
-		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-			@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+	<div id="split">
+		<div class="leftside">
+			<Sidesheet />
 
-		<template #error="{ error }">
-			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-				:error="error" :in-error-boundary="true" @clear-error="clearErr" />
-			<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-				@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
-		</template>
-	</NuxtErrorBoundary>
+		</div>
+
+		<div class="rightside">
+			<HeaderGuest v-if="!userStore.isLoggedIn" />
+			<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+			<ClientOnly>
+				<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
+			</ClientOnly>
+
+
+			<NuxtErrorBoundary @error="logError">
+				<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+
+				<template #error="{ error }">
+					<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+						:error="error" :in-error-boundary="true" @clear-error="clearErr" />
+					<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+						:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+				</template>
+			</NuxtErrorBoundary>
+			<Footer :footer-pages="footerPages" v-if="footerPages" />
+		</div>
+	</div>
 
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
@@ -243,12 +255,28 @@ useHead(() => ({
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
 		<SnackBar />
-
 	</ClientOnly>
-	<Footer :footer-pages="footerPages" v-if="footerPages" />
 </template>
 
 <style lang="less">
+#split {
+
+	.rightside {
+		transition: all 0.3s ease-in-out;
+		padding-left: 0px;
+
+		@media (min-width: 1600px) {
+			padding-left: 700px;
+		}
+
+		@media (min-width: 900px) {
+			padding-left: 100px;
+		}
+	}
+
+
+}
+
 .mobile-headings {
 	h2 {
 		font-size: 28px;

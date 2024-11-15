@@ -238,9 +238,13 @@ const hidePartial = computed(() => {
 
 
 #Navigation {
-    width: 100%;
-    height: 45px;
+    width: calc(100% + 100px);
+    height: 47px;
     font-size: 14px;
+    margin-left: -100px;
+    padding-left: 100px;
+    margin-right: -100px;
+    overflow: hidden;
     background-color: white;
     line-height: 21px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
@@ -248,7 +252,8 @@ const hidePartial = computed(() => {
     z-index: 99;
     white-space: nowrap;
     top: 0;
-    min-height: 45px;
+    min-height: 47px;
+    padding-top: 2px;
 
     .container {
         height: 100%;
@@ -263,6 +268,15 @@ const hidePartial = computed(() => {
         justify-content: space-between;
         height: 100%;
         overflow: hidden;
+
+        // border-radius: 24px;
+        // background-color: white;
+        // line-height: 21px;
+        // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+
+        @media (min-width: 1300px) {
+            width: 100%;
+        }
 
         .partial {
             height: 100%;
