@@ -10,7 +10,7 @@
         <div class="content">
             <slot name="content"></slot>
         </div>
-        <div class="slot">
+        <div class="footer">
             <slot name="footer"></slot>
         </div>
 
@@ -64,10 +64,39 @@
                 }
             }
         }
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        :slotted(.sidesheet-button) {
+            border-radius: 24px;
+            padding: 8px 16px;
+            background: @memo-grey-lightest;
+            color: @memo-grey-dark;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            cursor: pointer;
+
+            border: 1px solid @memo-grey-light;
+
+            :slotted(*) {
+                margin-right: 8px;
+            }
+
+            &:hover {
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
 
 
-
-
+        }
     }
 }
 </style>

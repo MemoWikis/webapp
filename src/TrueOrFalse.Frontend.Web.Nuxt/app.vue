@@ -216,6 +216,11 @@ useHead(() => ({
 	<Html lang="de">
 
 	</Html>
+	<HeaderGuest v-if="!userStore.isLoggedIn" />
+	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+	<ClientOnly>
+		<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
+	</ClientOnly>
 
 	<div id="split">
 		<div class="leftside">
@@ -224,11 +229,6 @@ useHead(() => ({
 		</div>
 
 		<div class="rightside">
-			<HeaderGuest v-if="!userStore.isLoggedIn" />
-			<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-			<ClientOnly>
-				<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
-			</ClientOnly>
 
 
 			<NuxtErrorBoundary @error="logError">

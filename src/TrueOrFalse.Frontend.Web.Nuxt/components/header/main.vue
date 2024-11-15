@@ -245,8 +245,8 @@ const hidePartial = computed(() => {
     padding-left: 100px;
     margin-right: -100px;
     overflow: hidden;
-    background-color: white;
     line-height: 21px;
+    background-color: white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
     position: sticky;
     z-index: 99;

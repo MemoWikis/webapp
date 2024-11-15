@@ -51,9 +51,9 @@ watch(windowWidth, (oldWidth, newWidth) => {
 
 }, { immediate: true })
 
-const mockData = ref(
+const mockData = reactive(
     {
-        title: 'Favourites',
+        title: 'Favoriten',
         links: [
             {
                 title: 'Home',
@@ -70,6 +70,19 @@ const mockData = ref(
         ]
     }
 )
+
+const isFavourite = computed(() => {
+    return mockData.links.some((link) => link.url === $urlHelper.getPageUrl(pageStore.name, pageStore.id))
+})
+
+const addCurrentPageToFavourites = () => {
+    if (!isFavourite.value)
+
+        mockData.links.push({
+            title: pageStore.name,
+            url: $urlHelper.getPageUrl(pageStore.name, pageStore.id)
+        })
+}
 
 const previouslyCollapsed = ref(false)
 const recentPages = ref<TinyPageModel[]>()
@@ -119,16 +132,23 @@ const { $urlHelper } = useNuxtApp()
                             {{ mockData.title }}
 
                         </div>
-
                     </h4>
                 </template>
 
-                <template #content>
+                <template #content v-if="!collapsed">
                     <NuxtLink v-for="link in mockData.links" :to="link.url">
                         <div class="link">
                             {{ link.title }}
                         </div>
                     </NuxtLink>
+                </template>
+
+                <template #footer v-if="!isFavourite">
+                    <div class="sidesheet-button" @click="addCurrentPageToFavourites">
+                        <font-awesome-icon :icon="['fas', 'plus']" />
+                        add current page to fav
+                    </div>
+
                 </template>
             </SidesheetSection>
 
