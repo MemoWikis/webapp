@@ -20,6 +20,8 @@ snackbarStore.$onAction(({ name, after }) => {
 				type: data.type,
 				title: data.title ? data.title : '',
 				text: { html: data.text ? data.text : '' },
+				duration: data.duration ? data.duration : 4000,
+				dismissible: data.dismissible != null ? data.dismissible : true,
 			})
 		})
 	}
@@ -38,8 +40,8 @@ snackbarStore.$onAction(({ name, after }) => {
 		<template #message-close-icon="{ message, dismiss }">
 			<div class="snackbar-content-btn">
 				<div class="snackbar-btn-container">
-					<div @click="dismiss" class="snackbar-btn">
-						<font-awesome-icon icon="fa-solid fa-xmark" />
+					<div @click="dismiss" class="snackbar-btn" :disable="!message.dismissible">
+						<font-awesome-icon icon="fa-solid fa-xmark" v-if="message.dismissible" />
 					</div>
 				</div>
 				<div v-if="message.text.buttonId" @click="customFunction(message.text.buttonId, dismiss)"

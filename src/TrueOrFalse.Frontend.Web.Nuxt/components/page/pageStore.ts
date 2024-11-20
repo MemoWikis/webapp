@@ -207,13 +207,13 @@ export const usePageStore = defineStore('pageStore', {
 			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',
-                    text: messages.success.category.saved
+                    text: messages.success.page.saved
                 }
                 snackbarStore.showSnackbar(data)
 				this.initialContent = this.content
 				this.contentHasChanged = false
 			} else if (result.success == false && result.messageKey != null ) {
-				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.category.noChange && this.visibility == Visibility.Owner)) {
+				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.page.noChange && this.visibility == Visibility.Owner)) {
 					const alertStore = useAlertStore()
 					alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 				}
@@ -257,13 +257,13 @@ export const usePageStore = defineStore('pageStore', {
 			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',
-                    text: messages.success.category.saved
+                    text: messages.success.page.saved
                 }
                 snackbarStore.showSnackbar(data)
 				this.initialName = this.name
 				this.nameHasChanged = false
 			} else if (result.success == false && result.messageKey != null ) {
-				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.category.noChange && this.visibility == Visibility.Owner)) {
+				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.page.noChange && this.visibility == Visibility.Owner)) {
 					const alertStore = useAlertStore()
 					alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 				}

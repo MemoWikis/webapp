@@ -65,7 +65,7 @@ const setFeedItem = (item: PageFeedItem | QuestionFeedItem) => {
         const pageItem = item as PageFeedItem
         feedItem.value = {
             date: pageItem.date,
-            params: { label: getPageChangeTypeName(pageItem.type), color: getPageChangeColor(pageItem.type), id: pageItem.categoryChangeId, type: pageItem.type },
+            params: { label: getPageChangeTypeName(pageItem.type), color: getPageChangeColor(pageItem.type), id: pageItem.pageChangeId, type: pageItem.type },
             feedType: FeedType.Page,
             id: pageItem.pageId,
             visibility: pageItem.visibility,

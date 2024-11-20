@@ -7,8 +7,6 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { Indent } from '../../editor/indent'
 import { all, createLowlight } from 'lowlight'
-import { isEmpty } from 'underscore'
-import { useAlertStore } from '../../alert/alertStore'
 import { useEditQuestionStore } from './editQuestionStore'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 
@@ -21,7 +19,6 @@ interface Props {
 const editQuestionStore = useEditQuestionStore()
 
 const props = defineProps<Props>()
-const alertStore = useAlertStore()
 
 const emit = defineEmits(['setQuestionData'])
 const lowlight = createLowlight(all)

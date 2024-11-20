@@ -32,7 +32,6 @@ onBeforeMount(async () => {
 })
 
 const mountNewQuestion = async () => {
-    console.log('test')
     if (route.params.questionId == null)
         return
     const questionId = parseInt(route.params.questionId.toString())

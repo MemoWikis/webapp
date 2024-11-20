@@ -106,7 +106,7 @@ export interface PageFeedItem {
     oldestChangeIdInGroup?: number
     date: string
     type: PageChangeType
-    categoryChangeId: number
+    pageChangeId: number
     pageId: number
     title: string
     visibility: Visibility

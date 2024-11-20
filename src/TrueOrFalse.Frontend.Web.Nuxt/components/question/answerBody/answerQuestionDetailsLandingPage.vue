@@ -516,9 +516,9 @@ const ariaId2 = useId()
             <div class="separationBorderTop" style="min-height: 20px;"></div>
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
-                <div id="categoryList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
+                <div id="pageList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
                     <div class="overline-s no-line">Seiten</div>
-                    <div class="categoryListChips">
+                    <div class="pageListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
                             <PageChip v-for="(t, index) in model.pages" :key="t.id + index" :page="t" :index="index"
@@ -690,7 +690,7 @@ const ariaId2 = useId()
     font-size: @font-size12;
 }
 
-.SetAndCategory {
+.SetAndpage {
     margin-right: 10px;
 }
 
@@ -708,18 +708,18 @@ const ariaId2 = useId()
         margin-right: 5px;
     }
 
-    .category-set {
+    .page-set {
         display: flex;
 
-        .label-category {
-            .SetAndCategory();
+        .label-page {
+            .SetAndpage();
         }
 
         .label-set {
-            .SetAndCategory();
+            .SetAndpage();
         }
 
-        #Category {
+        #page {
             .font-size12();
         }
 
@@ -871,10 +871,10 @@ const ariaId2 = useId()
         }
 
 
-        #categoryList {
+        #pageList {
             padding-bottom: 30px;
 
-            .categoryListChips {
+            .pageListChips {
                 @media(max-width:479px) {
                     padding-top: 10px;
                 }
@@ -882,7 +882,7 @@ const ariaId2 = useId()
                 overflow: hidden
             }
 
-            .categoryListLinks {
+            .pageListLinks {
                 padding: 10px 0;
                 font-size: 12px;
 
