@@ -22,7 +22,7 @@ const emit = defineEmits(['add-answer'])
 
             <!-- <div class="show-diff-toggle">
                 <div class="show-diff-toggle-button" :class="{ 'is-active': showDiff }" @click="showDiff = true">Änderungen anzeigen</div>
-                <div class="show-diff-toggle-button" :class="{ 'is-active': !showDiff }" @click="showDiff = false">Themenvorschau</div>
+                <div class="show-diff-toggle-button" :class="{ 'is-active': !showDiff }" @click="showDiff = false">Seitenvorschau</div>
             </div>
 
             <div class="feed-modal-question-body" v-if="questionFeedItem.contentChange.diffContent && showDiff">
@@ -63,8 +63,8 @@ const emit = defineEmits(['add-answer'])
     margin-top: 20px;
     height: 56px;
     padding-bottom: 20px;
-    border-bottom: solid 1px @memo-grey-lighter;    
-    
+    border-bottom: solid 1px @memo-grey-lighter;
+
     .show-diff-toggle-button {
         padding: 8px 16px;
         cursor: pointer;
@@ -72,20 +72,20 @@ const emit = defineEmits(['add-answer'])
         background: white;
         color: @memo-grey-darker;
 
-        &:hover{
+        &:hover {
             filter: brightness(0.95);
         }
 
         &:active {
             filter: brightness(0.9);
         }
+
         &.is-active {
             background: @memo-info;
 
-        }   
+        }
     }
 }
-
 </style>
 
 <style lang="less">
@@ -101,6 +101,7 @@ const emit = defineEmits(['add-answer'])
             border: solid 4px @memo-green;
         }
     }
+
     del {
         // background: fade(@memo-wuwi-red, 10%);
         text-decoration: line-through;

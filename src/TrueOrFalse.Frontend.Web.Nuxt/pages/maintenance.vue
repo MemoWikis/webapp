@@ -40,11 +40,11 @@ const cacheMethods = ref<MethodData[]>([
     { url: 'ClearCache', label: 'Cache leeren' },
 ])
 const pageMethods = ref<MethodData[]>([
-    { url: 'UpdateCategoryAuthors', label: 'Themenautoren aktualisieren' }
+    { url: 'UpdateCategoryAuthors', label: 'Seitenautoren aktualisieren' }
 ])
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', label: 'Fragen' },
-    { url: 'MeiliReIndexAllPages', label: 'Themen' },
+    { url: 'MeiliReIndexAllPages', label: 'Seiten' },
     { url: 'MeiliReIndexAllUsers', label: 'Nutzer' }
 ])
 const userMethods = ref<MethodData[]>([
@@ -156,7 +156,7 @@ async function removeAdminRights() {
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Cache" :methods="cacheMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
-                        <MaintenanceSection title="Themen" :methods="pageMethods" @method-clicked="handleClick"
+                        <MaintenanceSection title="Seiten" :methods="pageMethods" @method-clicked="handleClick"
                             :icon="['fas', 'retweet']" />
                         <MaintenanceSection title="Suche MeiliSearch" :methods="meiliSearchMethods"
                             description="Alle für Suche neu indizieren:" @method-clicked="handleClick"

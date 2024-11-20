@@ -145,7 +145,7 @@ export const useEditPageRelationStore = defineStore('editPageRelationStore', {
                 const snackbarStore = useSnackbarStore()
                 const data: SnackbarData = {
                     type: 'success',
-                    text: messages.success.category.addedToPersonalWiki
+                    text: messages.success.page.addedToPersonalWiki
                 }
                 snackbarStore.showSnackbar(data)
 

@@ -306,7 +306,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Öffentliche Themen
+                                        Öffentliche Seiten
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +329,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Private Themen <font-awesome-icon icon="fa-solid fa-lock" />
+                                        Private Seiten <font-awesome-icon icon="fa-solid fa-lock" />
                                     </div>
                                 </div>
                             </div>

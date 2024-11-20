@@ -50,7 +50,7 @@ const getContentChange = async () => {
         spinnerStore.showSpinner()
         const data = {
             pageId: props.feedItem.pageFeedItem.pageId,
-            changeId: props.feedItem.pageFeedItem.categoryChangeId,
+            changeId: props.feedItem.pageFeedItem.pageChangeId,
             oldestChangeId: props.feedItem.pageFeedItem.oldestChangeIdInGroup
         }
         const response = await $api<ContentChange>(`/apiVue/FeedModalPage/GetContentChange/`, {

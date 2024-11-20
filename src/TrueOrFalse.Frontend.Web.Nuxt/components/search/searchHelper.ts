@@ -1,4 +1,3 @@
-import { Visibility } from "../shared/visibilityEnum"
 
 export enum SearchType {
     all = 0,

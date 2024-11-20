@@ -27,13 +27,13 @@ export const messages: any = {
         subscription: {
             cantAddKnowledge: "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
             cantSavePrivateQuestion: "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
-            cantSavePrivatePage: "Du kannst in der kostenlosen Version keine privaten Themen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Themen zu erstellen."
+            cantSavePrivatePage: "Du kannst in der kostenlosen Version keine privaten Seiten mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Seiten zu erstellen."
         },
         page: {
             parentIsPrivate: "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
-            publicChildPages: "Diese Seite hat öffentliche untergeordnete Themen.",
+            publicChildPages: "Diese Seite hat öffentliche untergeordnete Seiten.",
             publicQuestions: "Diese Seite hat öffentliche Fragen.",
-            notLastChild: "Diese Seite kann nicht gelöscht werden, da weitere Themen untergeordnet sind. Bitte entferne alle Unterseiten und versuche es erneut.",
+            notLastChild: "Diese Seite kann nicht gelöscht werden, da weitere Seiten untergeordnet sind. Bitte entferne alle Unterseiten und versuche es erneut.",
             noRemainingParents: "Die Verknüpfung der Seite kann nicht gelöst werden. Diese Seite muss mindestens einer öffentlichen übergeordneten Seite zugeordnet sein.",
             parentIsRoot: "Unter 'Globales Wiki', darfst du nur private Seite hinzufügen",
             loopLink: "Seiten können sich nicht selbst untergeordnet werden",
@@ -43,7 +43,7 @@ export const messages: any = {
             childIsParent: "Übergeordnete Seiten können nicht untergeordnet werden.",
             nameIsTaken: " ist bereits vergeben, bitte wähle einen anderen Namen!",
             nameIsForbidden: " ist verboten, bitte wähle einen anderen Namen!",
-            rootCategoryMustBePublic: "Die Ursprungsseite kann nicht auf privat gesetzt werden.",
+            rootPageMustBePublic: "Die Ursprungsseite kann nicht auf privat gesetzt werden.",
             missingRights: "Dir fehlen die notwendigen Rechte.",
             tooPopular: "Diese Seite ist zu oft im Wunschwissen anderer User",
             saveImageError: "Das Bild konnte nicht gespeichert werden.",
@@ -104,7 +104,7 @@ export const messages: any = {
     },
     info: {
         page: {
-            toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Themen ohne Textinhalt.",
+            toggleHideText: "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Seiten ohne Textinhalt.",
         },
         question: {
             newQuestionNotInFilter: '<b>Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt,</b> da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.',

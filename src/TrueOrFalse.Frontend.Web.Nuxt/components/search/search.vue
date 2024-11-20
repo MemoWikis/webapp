@@ -50,10 +50,10 @@ function inputValue(e: Event) {
 
 onBeforeMount(() => {
     switch (props.searchType) {
-        case SearchType.category:
+        case SearchType.page:
             searchUrl.value = '/apiVue/Search/Page'
             break
-        case SearchType.categoryInWiki:
+        case SearchType.pageInWiki:
             searchUrl.value = '/apiVue/Search/PageInPersonalWiki'
             break
         default:
@@ -84,8 +84,8 @@ async function search() {
     let data: BodyType = {
         term: searchTerm.value,
     }
-    if ((props.searchType == SearchType.category ||
-        props.searchType == SearchType.categoryInWiki))
+    if ((props.searchType == SearchType.page ||
+        props.searchType == SearchType.pageInWiki))
         data = { ...data, pageIdsToFilter: props.pageIdsToFilter }
 
     if (props.publicOnly)
@@ -160,7 +160,7 @@ const ariaId = useId()
 
 <template>
     <LazyClientOnly>
-        <div class="search-category-component">
+        <div class="search-page-component">
             <form v-on:submit.prevent :class="{ 'main-search': props.mainSearch, 'open': props.showSearch }">
                 <div class="form-group searchAutocomplete">
                     <div class="searchInputContainer">
@@ -179,7 +179,7 @@ const ariaId = useId()
                 <template #popper>
                     <div class="searchDropdown">
                         <div v-if="pages.length > 0" class="searchBanner">
-                            <div>Themen </div>
+                            <div>Seiten </div>
                             <div>{{ pageCount }} Treffer</div>
                         </div>
                         <div class="searchResultItem" v-for="t in pages" @click="selectItem(t)" v-tooltip="t.name">

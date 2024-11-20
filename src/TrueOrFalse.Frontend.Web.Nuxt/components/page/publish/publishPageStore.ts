@@ -58,7 +58,7 @@ export const usePublishPageStore = defineStore('publishPageStore', {
                 if (this.includeQuestionsToPublish)
                     this.publishQuestions()
 
-                alertStore.openAlert(AlertType.Success, { text: messages.success.category.publish })
+                alertStore.openAlert(AlertType.Success, { text: messages.success.page.publish })
 
                 const pageStore = usePageStore()
                 if (pageStore.id == this.id)

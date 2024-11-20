@@ -92,7 +92,7 @@ const { $urlHelper } = useNuxtApp()
     </div>
     <div class="divider"></div>
     <div class="wuwi-partial">
-        <h4>Themen mit Wunschwissen ({{ props.pages?.length }})</h4>
+        <h4>Seiten mit Wunschwissen ({{ props.pages?.length }})</h4>
         <div class="search-section" v-if="(props.pages ?? []).length > 0">
 
             <div class="search-container">

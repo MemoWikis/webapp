@@ -27,14 +27,14 @@ export const plans = (limit: BasicLimits) => {
             price: 0,
             priceLabel: 'Kostenlos für immer!',
             description: ['Du kannst alles machen. Nur die Anzahl der privaten Inhalte ist begrenzt.'],
-            list: ['Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)', `${limit.maxPrivatePageCount} private Themen`, `${limit.maxPrivateQuestionCount} private Fragen`, `max ${limit.maxWishknowledgeCount} Fragen im Wunschwissen`],
+            list: ['Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)', `${limit.maxPrivatePageCount} private Seiten`, `${limit.maxPrivateQuestionCount} private Fragen`, `max ${limit.maxWishknowledgeCount} Fragen im Wunschwissen`],
         } as Plan,
         plus: {
             name: 'Plus',
             price: 3,
             priceLabel: 'pro Monat',
             description: ['Du unterstützt die Weiterentwicklung! Uneingeschränkt private Inhalte!'],
-            list: ['Du unterstützt uns :-)', 'Unbeschränkt private Themen', 'Unbeschränkt private Fragen', 'Unbeschränktes Wunschwissen'],
+            list: ['Du unterstützt uns :-)', 'Unbeschränkt private Seiten', 'Unbeschränkt private Fragen', 'Unbeschränktes Wunschwissen'],
         } as Plan,
         team: {
             name: 'Team',
