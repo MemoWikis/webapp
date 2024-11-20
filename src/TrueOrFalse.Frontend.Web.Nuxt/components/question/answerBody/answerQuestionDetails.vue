@@ -962,9 +962,9 @@ const activityPointsStore = useActivityPointsStore()
         <div id="ExtendedQuestionDetails" v-show="showExtendedDetails">
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
-                <div id="categoryList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
+                <div id="pageList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
                     <div class="overline-s no-line">Seiten</div>
-                    <div class="categoryListChips">
+                    <div class="pageListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 
                             <PageChip v-for="(t, index) in pages" :key="t.id + index" :page="t" :index="index"
@@ -1136,7 +1136,7 @@ const activityPointsStore = useActivityPointsStore()
     font-size: @font-size12;
 }
 
-.SetAndCategory {
+.SetAndpage {
     margin-right: 10px;
 }
 
@@ -1154,18 +1154,18 @@ const activityPointsStore = useActivityPointsStore()
         margin-right: 5px;
     }
 
-    .category-set {
+    .page-set {
         display: flex;
 
-        .label-category {
-            .SetAndCategory();
+        .label-page {
+            .SetAndpage();
         }
 
         .label-set {
-            .SetAndCategory();
+            .SetAndpage();
         }
 
-        #Category {
+        #page {
             .font-size12();
         }
 
@@ -1319,12 +1319,12 @@ const activityPointsStore = useActivityPointsStore()
         }
 
 
-        #categoryList {
+        #pageList {
             padding-bottom: 30px;
 
             &.isLandingPage {}
 
-            .categoryListChips {
+            .pageListChips {
                 @media(max-width:479px) {
                     padding-top: 10px;
                 }
@@ -1332,7 +1332,7 @@ const activityPointsStore = useActivityPointsStore()
                 overflow: hidden
             }
 
-            .categoryListLinks {
+            .pageListLinks {
                 padding: 10px 0;
                 font-size: 12px;
 

@@ -416,10 +416,8 @@ const { isMobile } = useDevice()
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar :editor="editor" :heading="true" :is-page-content="true"
-            v-if="loadCollab && userStore.isLoggedIn" @handle-undo-redo="checkContentImages" />
-        <LazyEditorMenuBar :editor="editor" :heading="true" :is-page-content="true"
-            v-else />
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" />
+        <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
 
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
     </template>

@@ -472,7 +472,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="input-container">
                         <div class="overline-s no-line">Seitenzuordnung</div>
                         <form class="" v-on:submit.prevent>
-                            <div class="form-group dropdown categorySearchAutocomplete"
+                            <div class="form-group dropdown pageSearchAutocomplete"
                                 :class="{ 'open': showDropdown }">
                                 <div class="related-pages-container">
                                     <PageChip v-for="(t, index) in selectedPages" :key="index" :page="t"
@@ -480,7 +480,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                         :removable-chip="selectedPages.length > 1" />
 
                                 </div>
-                                <Search :search-type="SearchType.category" :show-search-icon="false" :show-search="true"
+                                <Search :search-type="SearchType.page" :show-search-icon="false" :show-search="true"
                                     :page-ids-to-filter="pageIds" placement="bottom" :auto-hide="true"
                                     placeholder-label="Bitte gib den Namen der Seite ein"
                                     :show-default-search-icon="true" @select-item="selectPage" />

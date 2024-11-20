@@ -67,7 +67,7 @@ export const usePageToPrivateStore = defineStore('pageToPrivateStore', {
                 if (this.questionsToPrivate || this.allQuestionsToPrivate)
                     this.setQuestionsToPrivate()
 
-                alertStore.openAlert(AlertType.Success, { text: messages.success.category.setToPrivate })
+                alertStore.openAlert(AlertType.Success, { text: messages.success.page.setToPrivate })
                 const pageStore = usePageStore()
                 if (pageStore.id == this.id)
                     pageStore.visibility = Visibility.Owner

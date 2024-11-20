@@ -369,7 +369,8 @@ watch(() => editPageRelationStore.showModal, (val) => {
                 <div class="link-to-sub-container" v-if="privatePageLimitReached">
                     <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
                 </div>
-                <div class="categoryPrivate" v-else>
+                <div class="pageIsPrivate
+                " v-else>
                     <p>
                         <b>Diese Seite ist privat.</b> Du kannst sie später im Dreipunkt-Menü oder direkt über das
                         Schloss-Icon veröffentlichen.
@@ -383,7 +384,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                     <p>Wo soll die Seite hinzugefügt werden?</p>
                 </div>
                 <div>
-                    <div class="categorySearchAutocomplete mb-250" v-if="editPageRelationStore.personalWiki != null"
+                    <div class="pageSearchAutocomplete mb-250" v-if="editPageRelationStore.personalWiki != null"
                         @click="selectedParentInWikiId = userStore.personalWiki?.id ?? 0">
                         <div class="searchResultItem"
                             :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editPageRelationStore.personalWiki.id }">
@@ -406,7 +407,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                         </div>
                     </div>
 
-                    <div class="categorySearchAutocomplete mb-250"
+                    <div class="pageSearchAutocomplete mb-250"
                         v-if="editPageRelationStore.recentlyUsedRelationTargetPages != null && editPageRelationStore.recentlyUsedRelationTargetPages.length > 0">
                         <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Seiten</div>
                         <template v-for="previousPage in editPageRelationStore.recentlyUsedRelationTargetPages">
@@ -432,7 +433,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                     <div class="mb-125">
                         <p>Andere Seite auswählen</p>
                     </div>
-                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                    <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedPage.id }"
                             @click="selectedParentInWikiId = selectedPage?.id ?? 0"
                             data-toggle="tooltip" data-placement="top" :title="selectedPage?.name">
@@ -480,7 +481,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                     <p>Wo soll die Seite hinzugefügt werden?</p>
                 </div>
                 <div>
-                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                    <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125"
                             data-toggle="tooltip" data-placement="top" :title="selectedPage.name">
                             <img :src="selectedPage.imageUrl" />
@@ -515,7 +516,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
             </template>
             <template v-else>
                 <div>
-                    <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                    <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125"
                             data-toggle="tooltip" data-placement="top" :title="selectedPage.name">
                             <img :src="selectedPage.imageUrl" />
@@ -551,7 +552,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
     margin-bottom: 24px;
 }
 
-.categorySearchAutocomplete {
+.pageSearchAutocomplete {
     .swap-type-target {
         display: flex;
         flex-direction: row-reverse;

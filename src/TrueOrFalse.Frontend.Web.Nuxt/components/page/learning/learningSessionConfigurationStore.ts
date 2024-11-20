@@ -128,7 +128,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             questionFilterOptions: sessionConfig.questionFilterOptions,
             isTestMode: false,
             isPracticeMode: true,
-            categoryHasNoQuestions: true,
+            pageHasNoQuestions: true,
             showError: false,
             activeCustomSettings: false,
 
@@ -136,7 +136,7 @@ export const useLearningSessionConfigurationStore = defineStore('learningSession
             maxSelectableQuestionCount: 0,
             selectedQuestionCount: 0,
 
-            categoryName: '',
+            pageName: '',
             selectedQuestionFilterOptionsDisplay: new SessionConfig().questionFilterOptions,
             selectedQuestionFilterOptionsExtraCount: 0,
             allQuestionFilterOptionsAreSelected: true,

@@ -94,7 +94,7 @@ const showDropdown = ref(true)
                                     {{ newParentForQuestions.name }}
                                 </NuxtLink>?
                             </div>
-                            <div class="form-group dropdown categorySearchAutocomplete" :class="{ 'open': showDropdown }">
+                            <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
                                 <div v-if="showSelectedPage && newParentForQuestions != null" class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top" :title="newParentForQuestions.name">
                                     <img :src="newParentForQuestions.imageUrl" />
                                     <div class="searchResultBody">
