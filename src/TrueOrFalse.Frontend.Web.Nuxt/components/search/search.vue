@@ -179,7 +179,7 @@ const ariaId = useId()
                 <template #popper>
                     <div class="searchDropdown">
                         <div v-if="pages.length > 0" class="searchBanner">
-                            <div>Themen </div>
+                            <div>Seiten </div>
                             <div>{{ pageCount }} Treffer</div>
                         </div>
                         <div class="searchResultItem" v-for="t in pages" @click="selectItem(t)" v-tooltip="t.name">

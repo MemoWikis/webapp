@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import urlHelper from '~/plugins/urlHelper';
+import urlHelper from '~/plugins/urlHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
 import { UserResult } from './userResult'
 
@@ -30,10 +30,10 @@ const { $urlHelper } = useNuxtApp()
                     </div>
 
                     <div>
-                        Erstellt: {{ props.user.createdQuestionsCount }} Fragen / {{ props.user.createdPagesCount }} Themen
+                        Erstellt: {{ props.user.createdQuestionsCount }} Fragen / {{ props.user.createdPagesCount }} Seiten
                     </div>
                     <div v-if="props.user.showWuwi" class="mb-8">
-                        Wunschwissen: {{ props.user.wuwiQuestionsCount }} Fragen / {{ props.user.wuwiPagesCount }} Themen
+                        Wunschwissen: {{ props.user.wuwiQuestionsCount }} Fragen / {{ props.user.wuwiPagesCount }} Seiten
                     </div>
                     <div v-else class="inactive mb-8"><font-awesome-icon icon="fa-solid fa-lock" />
                         {{ props.user.name }}s Wunschwissen ist privat

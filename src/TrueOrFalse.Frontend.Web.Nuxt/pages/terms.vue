@@ -78,7 +78,7 @@ useHead(() => ({
 
                 <h3>2) Urheberrecht & Geistiges Eigentum</h3>
                 <p>
-                    Urheberrecht und geistiges Eigentum sind sensible Themen im Internet. <strong>Du bist als Nutzer
+                    Urheberrecht und geistiges Eigentum sind sensible Seiten im Internet. <strong>Du bist als Nutzer
                         selbst verantwortlich für die Inhalte</strong>,
                     die du erstellst. memucho ist nicht für die Inhalte verantwortlich, die du oder andere Nutzer
                     erstellt haben, sondern stellt diese lediglich bereit.
@@ -88,7 +88,7 @@ useHead(() => ({
                     urheberrechtlich geschützt sind.
                     Dies bestätigst du jedesmal, wenn du eine Frage erstellst oder änderst, es gilt aber auch bei allen
                     anderen Bereichen
-                    (Themen, Lernsets etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative
+                    (Seiten, Lernsets etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative
                     Commons-Lizenz “CC BY 4.0” stehen.
                     Wenn du sie einmal eingestellt hast, können sie von allen anderen (unter bestimmten Bedingungen)
                     frei verwendet werden. Besondere

@@ -84,7 +84,7 @@ const showDropdown = ref(true)
                                 <br />
                                 <template v-if="!deletePageStore.hasPublicQuestion">
                                     Es gibt öffentliche Fragen auf dieser Seite.
-                                    Du kannst nur öffentliche Themen auswählen.
+                                    Du kannst nur öffentliche Seiten auswählen.
                                     <br />
                                 </template>
                             </div>

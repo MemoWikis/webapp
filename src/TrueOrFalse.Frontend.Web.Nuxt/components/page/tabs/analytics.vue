@@ -121,18 +121,18 @@ onMounted(() => {
                     </div>
                     <div class="pagedata-container">
                         <div class="pagedata-sub-label">
-                            Themen:
+                            Seiten:
                         </div>
                         <div class="pagedata-content">
                             <ul>
                                 <li>
-                                    <b>{{ pageStore.childPageCount }} </b> eingeschlossene Themen
+                                    <b>{{ pageStore.childPageCount }} </b> eingeschlossene Seiten
                                 </li>
                                 <li>
                                     <b>{{ pageStore.directVisibleChildPageCount }}</b> direkt verknüpfte Unterthemen
                                 </li>
                                 <li>
-                                    <b> {{ pageStore.parentPageCount }} </b> übergeordnete Themen
+                                    <b> {{ pageStore.parentPageCount }} </b> übergeordnete Seiten
                                 </li>
                             </ul>
                         </div>
@@ -143,7 +143,7 @@ onMounted(() => {
             <div class="statistics-section" v-if="pageStore.analyticsLoaded">
                 <h3>Statistiken</h3>
                 <div class="statistics-sub-label">
-                    Themenaufrufe der letzten 90 Tage
+                    Seitenaufrufe der letzten 90 Tage
                 </div>
                 <div class="statistics-container">
                     <div class="statistics-content">

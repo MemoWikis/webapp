@@ -91,14 +91,11 @@ const { $urlHelper } = useNuxtApp()
                         </div>
                         <div class="footer-group">
                             <div class="overline-m no-line">Software</div>
-                            <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank"
-                                :external="true">
+                            <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </NuxtLink>
                             <br />
-                            <NuxtLink @click="handleError()"
-                                to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1"
-                                target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
                             </NuxtLink>
                             <br />
@@ -121,8 +118,7 @@ const { $urlHelper } = useNuxtApp()
                             <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                             </NuxtLink><br />
-                            <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank"
-                                :external="true">
+                            <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
                             </NuxtLink>
                             <br />
@@ -137,8 +133,7 @@ const { $urlHelper } = useNuxtApp()
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <NuxtLink :to="$urlHelper.getPageUrl(footerPages.rootWiki.name, footerPages.rootWiki.id)"
-                                    v-if="props.footerPages?.rootWiki">
+                                <NuxtLink :to="$urlHelper.getPageUrl(footerPages.rootWiki.name, footerPages.rootWiki.id)" v-if="props.footerPages?.rootWiki">
                                     {{ props.footerPages.rootWiki.name }}
                                 </NuxtLink>
 
@@ -152,9 +147,8 @@ const { $urlHelper } = useNuxtApp()
                         </div>
 
                         <div class="footer-group">
-                            <div class="overline-m no-line">Beliebte Themen</div>
-                            <template v-for="(t, i) in props.footerPages.popularPages"
-                                v-if="props.footerPages?.popularPages">
+                            <div class="overline-m no-line">Beliebte Seiten</div>
+                            <template v-for="(t, i) in props.footerPages.popularPages" v-if="props.footerPages?.popularPages">
                                 <NuxtLink @click="handleError()" :to="$urlHelper.getPageUrl(t.name, t.id)">
                                     {{ t.name }}
                                 </NuxtLink>
