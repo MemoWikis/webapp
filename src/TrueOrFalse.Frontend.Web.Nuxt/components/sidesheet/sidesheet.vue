@@ -210,8 +210,6 @@ const handleMouseLeave = () => {
         collapsed.value = previouslyCollapsed.value
 }
 
-const showWikisChevron = ref(false)
-
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :style="`height: ${windowHeight}px`">
@@ -220,12 +218,12 @@ const showWikisChevron = ref(false)
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
                 <SideSheetSection :collapsed="collapsed" :class="{ 'no-b-padding': !showWikis }">
                     <template #header>
-                        <h4 @click="showWikis = !showWikis" @mouseover="showWikisChevron = true" @mouseleave="showWikisChevron = false">
-                            <template v-if="!collapsed && showWikisChevron">
+                        <h4 @click="showWikis = !showWikis">
+                            <template v-if="!collapsed">
                                 <font-awesome-icon v-if="showWikis" :icon="['fas', 'chevron-down']" class="chevron" />
                                 <font-awesome-icon v-else :icon="['fas', 'chevron-right']" class="chevron" />
                             </template>
-                            <font-awesome-icon :icon="['far', 'folder-open']" v-if="!showWikisChevron && !collapsed" />
+                            <font-awesome-icon :icon="['far', 'folder-open']" v-if="!collapsed" />
                             <div v-show="!hidden" class="header-title">
                                 Meine Wikis
                             </div>
@@ -375,7 +373,7 @@ const showWikisChevron = ref(false)
             user-select: none;
 
             .chevron {
-                color: @memo-grey-dark;
+                color: @memo-grey;
             }
         }
     }
