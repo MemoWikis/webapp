@@ -408,7 +408,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
 
                     <div class="categorySearchAutocomplete mb-250"
                         v-if="editPageRelationStore.recentlyUsedRelationTargetPages != null && editPageRelationStore.recentlyUsedRelationTargetPages.length > 0">
-                        <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Themen</div>
+                        <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Seiten</div>
                         <template v-for="previousPage in editPageRelationStore.recentlyUsedRelationTargetPages">
                             <div class="searchResultItem"
                                 :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousPage.id }"

@@ -517,7 +517,7 @@ const ariaId2 = useId()
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
                 <div id="categoryList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
-                    <div class="overline-s no-line">Themen</div>
+                    <div class="overline-s no-line">Seiten</div>
                     <div class="categoryListChips">
                         <div style="display: flex; flex-wrap: wrap;">
 

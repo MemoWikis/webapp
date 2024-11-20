@@ -224,7 +224,7 @@ useHead(() => ({
 
 	<div id="split">
 		<div class="leftside">
-			<Sidesheet />
+			<SideSheet />
 
 		</div>
 

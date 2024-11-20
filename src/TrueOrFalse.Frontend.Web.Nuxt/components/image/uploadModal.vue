@@ -178,7 +178,7 @@ function resetModal() {
     <Modal :show="props.show" :show-cancel-btn="true" @close="emit('close')" @primary-btn="upload"
         :primary-btn-label="primaryLabel" :disabled="disablePrimaryButton">
         <template v-slot:header>
-            Themenbild hochladen
+            Seitenbild hochladen
         </template>
         <template v-slot:body>
             <div class="alert alert-info">

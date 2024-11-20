@@ -8,7 +8,6 @@ public class PageViewRepo(
     PageRepository pageRepository,
     UserReadingRepo _userReadingRepo) : RepositoryDb<PageView>(_session)
 {
-
     public int GetViewCount(int pageId)
     {
         return _session.QueryOver<PageView>()
@@ -20,7 +19,6 @@ public class PageViewRepo(
 
     public ConcurrentDictionary<DateTime, int> GetViewsForPastNDays(int days)
     {
-
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly 
         FROM CategoryView 
@@ -40,41 +38,6 @@ public class PageViewRepo(
 
         return dictionaryResult;
     }
-
-    public IList<PageViewSummary> GetViewsForPastNDaysById(int days, int id)
-    {
-        var query = _session.CreateSQLQuery(@"
-            SELECT COUNT(DateOnly) AS Count, DateOnly 
-            FROM CategoryView 
-            WHERE Category_id = :pageId AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
-            GROUP BY DateOnly");
-
-        query.SetParameter("days", days);
-        query.SetParameter("pageId", id);
-
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
-            .List<PageViewSummary>();
-
-        return result;
-    }
-
-    public IList<PageViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
-    {
-        var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly 
-        FROM CategoryView 
-        WHERE Category_id IN (:pageIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
-        GROUP BY DateOnly");
-
-        query.SetParameterList("pageIds", ids);
-        query.SetParameter("days", days);
-
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
-            .List<PageViewSummary>();
-
-        return result;
-    }
-
 
     public IList<PageViewSummaryWithId> GetViewsForLastNDaysGroupByPageId(int days)
     {
@@ -156,5 +119,18 @@ public class PageViewRepo(
             .List<PageViewSummaryWithId>();
 
         return result;
+    }
+
+    public IList<int> GetRecentPagesForUser(int userId)
+    {
+        var query = _session.CreateSQLQuery(@"
+        SELECT DISTINCT category_id
+        FROM categoryview
+        WHERE user_id = :userId
+        LIMIT 5;");
+
+        query.SetParameter("userId", userId);
+
+        return query.List<int>();
     }
 }

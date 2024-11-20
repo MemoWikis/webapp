@@ -3,8 +3,9 @@ import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
 import { PageEnum } from '../shared/pageEnum'
-import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import { BreadcrumbItem } from './breadcrumbItems'
+import { useSideSheetStore } from '../sideSheet/sideSheetStore'
+
 
 interface Props {
     page: PageEnum
@@ -17,6 +18,9 @@ interface Props {
 }
 const props = defineProps<Props>()
 
+const userStore = useUserStore()
+const sideSheetStore = useSideSheetStore()
+
 const showSearch = ref(false)
 
 async function openUrl(val: PageItem | QuestionItem | UserItem) {
@@ -24,7 +28,6 @@ async function openUrl(val: PageItem | QuestionItem | UserItem) {
         showSearch.value = false
     return await navigateTo(val.url)
 }
-const userStore = useUserStore()
 
 const showRegisterButton = ref(false)
 function handleScroll() {
@@ -91,11 +94,23 @@ const hidePartial = computed(() => {
 
 <template>
     <div id="Navigation">
+        <div class="sidesheet-button" @click="sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet">
+            <font-awesome-layers v-if="sideSheetStore.showSideSheet">
+                <font-awesome-icon :icon="['fas', 'bars']" />
+                <font-awesome-icon :icon="['fas', 'caret-left']" transform="right-2" class="chevron-bg" />
+                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-5" />
+            </font-awesome-layers>
+            <font-awesome-icon v-else :icon="['fas', 'bars']" />
+        </div>
         <div class="container">
             <div class="row">
                 <div class="header-container col-xs-12" ref="headerContainer">
+
                     <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
                         ref="partialLeft">
+
+
+
                         <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
                             :question-page-data="props.questionPageData"
                             :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
@@ -236,7 +251,6 @@ const hidePartial = computed(() => {
     }
 }
 
-
 #Navigation {
     width: calc(100% + 100px);
     height: 47px;
@@ -247,13 +261,18 @@ const hidePartial = computed(() => {
     overflow: hidden;
     line-height: 21px;
     background-color: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
     position: sticky;
     z-index: 99;
     white-space: nowrap;
     top: 0;
     min-height: 47px;
     padding-top: 2px;
+
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .container {
         height: 100%;
@@ -348,6 +367,28 @@ const hidePartial = computed(() => {
 
             @media (min-width: 1200px) {
                 margin-right: 33px;
+            }
+        }
+
+        .sidesheet-button {
+            border-right: 1px solid @memo-grey-light;
+            margin-right: 12px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            padding-left: 6px;
+            padding-right: 16px;
+            width: 48px;
+
+            @media (min-width: 900px) {
+                display: none;
+            }
+
+            .chevron-bg {
+                color: white;
+                font-size: 24px;
             }
         }
     }

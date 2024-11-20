@@ -470,7 +470,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                             :content="descriptionHtml" @set-description-data="setDescriptionData" :is-init="isInit" />
                     </div>
                     <div class="input-container">
-                        <div class="overline-s no-line">Themenzuordnung</div>
+                        <div class="overline-s no-line">Seitenzuordnung</div>
                         <form class="" v-on:submit.prevent>
                             <div class="form-group dropdown categorySearchAutocomplete"
                                 :class="{ 'open': showDropdown }">

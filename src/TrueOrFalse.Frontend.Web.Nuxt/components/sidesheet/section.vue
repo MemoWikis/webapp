@@ -17,62 +17,138 @@
     </div>
 </template>
 
-<style lang="less" scoped>
+<style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 @memo-grey-lightest: #f9f9f9;
 
 .sidesheet-section {
     padding-bottom: 20px;
+    background: @memo-grey-lightest;
 
     .header,
     .content,
-    .slot {
+    .footer {
         padding: 0 10px;
     }
 
+    .content,
+    .footer {
+        padding-left: 24px;
+    }
+
     .header {
-        :slotted(h4) {
+        h4 {
             color: @memo-grey-darker;
+            background: @memo-grey-lightest;
+            border-radius: 4px;
+            padding: 8px;
+            margin-left: -4px;
+            margin-right: -4px;
+            font-size: 14px;
+
+            .svg-inline--fa {
+                font-size: 14px;
+                margin-right: 4px;
+                transition: all 0.3s ease-in-out;
+                width: 20px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+            }
+
+            &:hover {
+                filter: brightness(0.95);
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
+
         }
 
-        :slotted(.header-title) {
+        .header-title {
             padding: 8px 0p;
         }
     }
 
     .content {
-        :slotted(a) {
-            display: block;
-            text-decoration: none;
+
+        .content-item {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 4px;
+            padding: 2px 16px;
+            background: @memo-grey-lightest;
             color: @memo-grey-dark;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            user-select: none;
 
-            .link {
-                border-radius: 24px;
-                padding: 8px 16px;
-                background: @memo-grey-lightest;
+            &:hover {
+                filter: brightness(0.95);
+                color: @memo-blue-link;
+            }
+
+            &:active {
+                filter: brightness(0.9);
+            }
+
+            a {
+                display: block;
+                text-decoration: none;
                 color: @memo-grey-dark;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
+                flex-grow: 2;
+                max-width: 100%;
 
-                &:hover {
-                    filter: brightness(0.95);
+                .link {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    color: @memo-grey-dark;
+
+                    &:hover {
+                        color: @memo-blue-link;
+                    }
                 }
+            }
 
-                &:active {
-                    filter: brightness(0.9);
+            .content-item-options {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                opacity: 0;
+
+                .svg-inline--fa {
+                    color: @memo-grey-dark;
+
+                    &:hover {
+                        color: @memo-blue-link;
+                    }
+                }
+            }
+
+            &:hover {
+                .content-item-options {
+                    opacity: 1;
                 }
             }
         }
+
     }
 
     .footer {
         display: flex;
-        justify-content: center;
+        // justify-content: center;
         align-items: center;
+        padding-top: 16px;
 
-        :slotted(.sidesheet-button) {
-            border-radius: 24px;
+        .sidesheet-button {
+            border-radius: 4px;
             padding: 8px 16px;
             background: @memo-grey-lightest;
             color: @memo-grey-dark;
@@ -83,7 +159,7 @@
 
             border: 1px solid @memo-grey-light;
 
-            :slotted(*) {
+            * {
                 margin-right: 8px;
             }
 
@@ -96,6 +172,20 @@
             }
 
 
+        }
+    }
+}
+
+#SideSheet {
+    .no-b-padding {
+        .footer {
+            padding-top: 0px;
+        }
+    }
+
+    &.collapsed {
+        .footer {
+            padding-top: 0px;
         }
     }
 }

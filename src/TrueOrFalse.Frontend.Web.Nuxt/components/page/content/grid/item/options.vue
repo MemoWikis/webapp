@@ -90,7 +90,7 @@ const ariaId2 = useId()
                 </button>
                 <template #popper>
                     <div class="dropdown-row">
-                        <div class="overline-s no-line"> Übergeordnete Themen</div>
+                        <div class="overline-s no-line"> Übergeordnete Seiten</div>
 
                     </div>
                     <template v-for="parent in props.page.parents">
