@@ -33,7 +33,7 @@ public class PageStoreController(
         if (pageCacheItem == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
-        if (pageCacheItem.Content.Trim() == req.Content.Trim())
+        if (pageCacheItem.Content?.Trim() == req.Content.Trim())
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Page.NoChange };
 
         if (!_permissionCheck.CanEdit(pageCacheItem))
