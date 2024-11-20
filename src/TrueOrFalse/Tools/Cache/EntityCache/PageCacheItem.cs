@@ -22,7 +22,7 @@ public class PageCacheItem : IPersistable
     public virtual IList<PageRelationCache> ParentRelations { get; set; }
     public virtual IList<PageRelationCache> ChildRelations { get; set; }
 
-    public virtual string Content { get; set; }
+    public virtual string? Content { get; set; }
 
     public virtual int CorrectnessProbability { get; set; }
     public virtual int CorrectnessProbabilityAnswerCount { get; set; }
