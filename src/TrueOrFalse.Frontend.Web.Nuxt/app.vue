@@ -210,6 +210,12 @@ useHead(() => ({
 	]
 }))
 
+const windowLoaded = ref(false)
+onMounted(() => {
+	if (window)
+		windowLoaded.value = true
+})
+
 </script>
 
 <template>
