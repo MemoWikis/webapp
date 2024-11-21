@@ -19,7 +19,6 @@
 
 <style lang="less">
 @import (reference) '~~/assets/includes/imports.less';
-@memo-grey-lightest: #f9f9f9;
 
 .sidesheet-section {
     padding-bottom: 20px;
@@ -28,16 +27,11 @@
     .header,
     .content,
     .footer {
-        padding: 0 10px;
-    }
-
-    .content,
-    .footer {
-        padding-left: 24px;
+        padding: 0 24px;
     }
 
     .header {
-        h4 {
+        .header-container {
             color: @memo-grey-darker;
             background: @memo-grey-lightest;
             border-radius: 4px;
@@ -45,6 +39,8 @@
             margin-left: -4px;
             margin-right: -4px;
             font-size: 14px;
+            margin-bottom: 0px;
+            text-transform: uppercase;
 
             .svg-inline--fa {
                 font-size: 14px;
@@ -69,6 +65,7 @@
 
         .header-title {
             padding: 8px 0p;
+            font-weight: 600;
         }
     }
 
@@ -87,10 +84,10 @@
             overflow: hidden;
             white-space: nowrap;
             user-select: none;
+            padding-right: 2px;
 
             &:hover {
                 filter: brightness(0.95);
-                color: @memo-blue-link;
             }
 
             &:active {
@@ -122,13 +119,21 @@
                 align-items: center;
                 cursor: pointer;
                 opacity: 0;
+                border-radius: 4px;
+                margin: 2px;
+                height: 18px;
+                width: 18px;
+                padding: 2px;
+                background: @memo-grey-lightest;
 
                 .svg-inline--fa {
                     color: @memo-grey-dark;
 
-                    &:hover {
-                        color: @memo-blue-link;
-                    }
+
+                }
+
+                &:hover {
+                    filter: brightness(0.9);
                 }
             }
 
@@ -143,7 +148,7 @@
 
     .footer {
         display: flex;
-        // justify-content: center;
+        justify-content: center;
         align-items: center;
         padding-top: 16px;
 
@@ -156,8 +161,11 @@
             overflow: hidden;
             white-space: nowrap;
             cursor: pointer;
-
+            flex-grow: 2;
             border: 1px solid @memo-grey-light;
+            text-align: center;
+            margin-left: 16px;
+            // margin-right: 16px;
 
             * {
                 margin-right: 8px;
@@ -177,16 +185,82 @@
 }
 
 #SideSheet {
+
     .no-b-padding {
         .footer {
             padding-top: 0px;
         }
     }
 
+    #SideSheetContainer {
+        .header-container {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            flex-direction: row;
+            cursor: pointer;
+            user-select: none;
+
+            .angle-icon {
+                color: @memo-grey-light;
+                width: 16px;
+                margin-right: 0px;
+            }
+        }
+    }
+
     &.collapsed {
         .footer {
             padding-top: 0px;
+            display: none;
         }
+
+        #SideSheetContainer {
+            .footer {
+                display: none;
+            }
+
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 4px 0;
+                font-size: 14px;
+
+                .svg-inline--fa {
+                    font-size: 14px;
+                    margin-right: 0px;
+                }
+
+                .header-title {
+                    font-size: 1rem;
+                    margin-top: 4px;
+                }
+            }
+
+
+        }
+
+
+
+    }
+
+    &.animate-header {
+        .header-container {
+            transform-origin: left;
+            animation: grow 0.3s ease-in-out;
+        }
+    }
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 </style>

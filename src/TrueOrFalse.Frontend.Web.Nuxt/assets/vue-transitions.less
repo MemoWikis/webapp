@@ -38,3 +38,45 @@
   max-height: 500px; /* Arbitrary max-height to accommodate content */
   opacity: 1;
 }
+
+/* Grow Transition */
+.grow-enter {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.grow-enter-active {
+  animation: grow 0.15s forwards;
+}
+
+.grow-leave {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.grow-leave-active {
+  animation: growReverse 0.15s forwards;
+}
+
+/* Keyframes */
+@keyframes grow {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes growReverse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}

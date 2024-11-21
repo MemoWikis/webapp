@@ -95,21 +95,18 @@ const hidePartial = computed(() => {
 <template>
     <div id="Navigation">
         <div class="sidesheet-button" @click="sideSheetStore.showSideSheet = !sideSheetStore.showSideSheet">
-            <font-awesome-layers v-if="sideSheetStore.showSideSheet">
+            <font-awesome-layers>
                 <font-awesome-icon :icon="['fas', 'bars']" />
-                <font-awesome-icon :icon="['fas', 'caret-left']" transform="right-2" class="chevron-bg" />
-                <font-awesome-icon :icon="['fas', 'chevron-left']" transform="right-5" />
+                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'caret-left']" transform="right-2" class="angle-bg" />
+                <font-awesome-icon v-if="sideSheetStore.showSideSheet" :icon="['fas', 'angle-left']" transform="right-5" class="animate-grow" />
             </font-awesome-layers>
-            <font-awesome-icon v-else :icon="['fas', 'bars']" />
         </div>
-        <div class="container">
+        <div class="container nav-container">
             <div class="row">
                 <div class="header-container col-xs-12" ref="headerContainer">
 
                     <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
                         ref="partialLeft">
-
-
 
                         <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
                             :question-page-data="props.questionPageData"
@@ -267,8 +264,6 @@ const hidePartial = computed(() => {
     white-space: nowrap;
     top: 0;
     min-height: 47px;
-    padding-top: 2px;
-
 
     display: flex;
     justify-content: center;
@@ -276,6 +271,14 @@ const hidePartial = computed(() => {
 
     .container {
         height: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            margin-left: 0;
+            margin-right: 0;
+            width: 100%;
+        }
     }
 
     .row {
@@ -370,30 +373,42 @@ const hidePartial = computed(() => {
             }
         }
 
-        .sidesheet-button {
-            border-right: 1px solid @memo-grey-light;
-            margin-right: 12px;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            padding-left: 6px;
-            padding-right: 16px;
-            width: 48px;
 
-            @media (min-width: 900px) {
-                display: none;
-            }
-
-            .chevron-bg {
-                color: white;
-                font-size: 24px;
-            }
-        }
     }
 
+    .sidesheet-button {
+        border-right: 1px solid @memo-grey-light;
+        margin-right: 12px;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding-left: 16px;
+        padding-right: 16px;
+        width: 48px;
+        user-select: none;
+        background: white;
+        margin-top: -2px;
+        height: 47px;
 
+        @media (min-width: 900px) {
+            display: none;
+        }
+
+        .angle-bg {
+            color: white;
+            font-size: 24px;
+        }
+
+        &:hover {
+            filter: brightness(0.95);
+        }
+
+        &:active {
+            filter: brightness(0.9);
+        }
+    }
 }
 
 :global(#StickySearch,
@@ -474,6 +489,22 @@ const hidePartial = computed(() => {
                 color: @memo-green;
             }
         }
+    }
+}
+
+.animate-grow {
+    animation: grow 0.15s ease-in-out;
+}
+
+@keyframes grow {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 </style>

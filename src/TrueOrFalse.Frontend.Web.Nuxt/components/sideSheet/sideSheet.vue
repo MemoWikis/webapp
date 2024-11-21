@@ -210,24 +210,25 @@ const handleMouseLeave = () => {
         collapsed.value = previouslyCollapsed.value
 }
 
+const ariaId = useId()
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :style="`height: ${windowHeight}px`">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
-                <SideSheetSection :collapsed="collapsed" :class="{ 'no-b-padding': !showWikis }">
+                <SideSheetSection :class="{ 'no-b-padding': !showWikis }">
                     <template #header>
-                        <h4 @click="showWikis = !showWikis">
+                        <div class="header-container" @click="showWikis = !showWikis">
                             <template v-if="!collapsed">
-                                <font-awesome-icon v-if="showWikis" :icon="['fas', 'chevron-down']" class="chevron" />
-                                <font-awesome-icon v-else :icon="['fas', 'chevron-right']" class="chevron" />
+                                <font-awesome-icon v-if="showWikis" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
                             </template>
-                            <font-awesome-icon :icon="['far', 'folder-open']" v-if="!collapsed" />
+                            <font-awesome-icon :icon="['far', 'folder-open']" />
                             <div v-show="!hidden" class="header-title">
                                 Meine Wikis
                             </div>
-                        </h4>
+                        </div>
                     </template>
 
                     <template #content v-if="!collapsed">
@@ -239,9 +240,20 @@ const handleMouseLeave = () => {
                                             {{ wiki.name }}
                                         </div>
                                     </NuxtLink>
-                                    <div class="content-item-options">
-                                        <font-awesome-icon :icon="['fas', 'ellipsis']" />
-                                    </div>
+
+                                    <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0">
+                                        <div class="content-item-options">
+                                            <font-awesome-icon :icon="['fas', 'ellipsis']" />
+                                        </div>
+                                        <template #popper="{ hide }">
+                                            <p class="breadcrumb-dropdown dropdown-row" @click="hide">
+                                                Wiki löschen
+                                            </p>
+                                            <p class="breadcrumb-dropdown dropdown-row" @click="hide">
+                                                In Seite umwandeln
+                                            </p>
+                                        </template>
+                                    </VDropdown>
                                 </div>
                             </div>
                         </Transition>
@@ -249,11 +261,9 @@ const handleMouseLeave = () => {
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showWikis">
-                                <div class="sidesheet-button" @click="sideSheetStore.addToFavoriteWikis(pageStore.name, pageStore.id)">
-                                    <font-awesome-icon :icon="['far', 'square-plus']" />
-                                    {{ collapsed ? '' : 'Wiki erstellen' }} <!-- Modal öffnen -->
-                                </div>
+                            <div v-if="showWikis" class="sidesheet-button" @click="sideSheetStore.addToFavoriteWikis(pageStore.name, pageStore.id)">
+                                <font-awesome-icon :icon="['far', 'square-plus']" />
+                                {{ collapsed ? '' : 'Wiki erstellen' }} <!-- Modal öffnen -->
                             </div>
                         </Transition>
                     </template>
@@ -262,16 +272,16 @@ const handleMouseLeave = () => {
 
                 <SideSheetSection :class="{ 'no-b-padding': !showFavorites }">
                     <template #header>
-                        <h4 @click="showFavorites = !showFavorites">
+                        <div class="header-container" @click="showFavorites = !showFavorites">
                             <template v-if="!collapsed">
-                                <font-awesome-icon v-if="showFavorites" :icon="['fas', 'chevron-down']" />
-                                <font-awesome-icon v-else :icon="['fas', 'chevron-right']" />
+                                <font-awesome-icon v-if="showFavorites" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
                             </template>
                             <font-awesome-icon :icon="['fas', 'star']" />
                             <div v-show="!hidden" class="header-title">
                                 Favoriten
                             </div>
-                        </h4>
+                        </div>
                     </template>
 
                     <template #content v-if="!collapsed">
@@ -284,7 +294,7 @@ const handleMouseLeave = () => {
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options">
-                                        <font-awesome-icon :icon="['fas', 'ellipsis']" />
+                                        <font-awesome-icon :icon="['fas', 'trash']" />
                                     </div>
                                 </div>
 
@@ -294,11 +304,9 @@ const handleMouseLeave = () => {
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showFavorites && !isFavourite">
-                                <div class="sidesheet-button" @click="sideSheetStore.addToFavoritePages(pageStore.name, pageStore.id)">
-                                    <font-awesome-icon :icon="['fas', 'plus']" />
-                                    {{ collapsed ? '' : 'Zu Favoriten hinzufügen' }}
-                                </div>
+                            <div v-if="showFavorites && !isFavourite" class="sidesheet-button" @click="sideSheetStore.addToFavoritePages(pageStore.name, pageStore.id)">
+                                <font-awesome-icon :icon="['fas', 'plus']" />
+                                {{ collapsed ? '' : 'Zu Favoriten hinzufügen' }}
                             </div>
                         </Transition>
                     </template>
@@ -307,16 +315,16 @@ const handleMouseLeave = () => {
 
                 <SideSheetSection :class="{ 'no-b-padding': !showRecents }">
                     <template #header>
-                        <h4 @click="showRecents = !showRecents">
+                        <div class="header-container" @click="showRecents = !showRecents">
                             <template v-if="!collapsed">
-                                <font-awesome-icon v-if="showRecents" :icon="['fas', 'chevron-down']" />
-                                <font-awesome-icon v-else :icon="['fas', 'chevron-right']" />
+                                <font-awesome-icon v-if="showRecents" :icon="['fas', 'angle-down']" class="angle-icon" />
+                                <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
                             </template>
                             <font-awesome-icon :icon="['fas', 'clock-rotate-left']" />
                             <div v-show="!hidden" class="header-title">
                                 Zuletzt besucht
                             </div>
-                        </h4>
+                        </div>
                     </template>
 
                     <template #content v-if="!collapsed">
@@ -351,7 +359,6 @@ const handleMouseLeave = () => {
 
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
-@memo-grey-lightest: #f9f9f9;
 
 #SideSheet {
     background: @memo-grey-lightest;
@@ -359,23 +366,12 @@ const handleMouseLeave = () => {
     position: fixed;
     z-index: 51;
     transition: all 0.3s ease-in-out;
-    padding-top: 30px;
+    padding-top: 71px;
+    overscroll-behavior: none;
 
     #SideSheetContainer {
         height: 100%;
-
-        h4 {
-            display: flex;
-            flex-wrap: nowrap;
-            align-items: center;
-            flex-direction: row;
-            cursor: pointer;
-            user-select: none;
-
-            .chevron {
-                color: @memo-grey;
-            }
-        }
+        overscroll-behavior: none;
     }
 
     #SideSheetFooter {
@@ -398,29 +394,10 @@ const handleMouseLeave = () => {
     }
 
     &.collapsed {
-        width: 100px;
-
-        #SideSheetContainer {
-            h4 {
-                flex-direction: column;
-                text-align: center;
-                padding: 4px 0;
-                font-size: 14px;
-
-                .svg-inline--fa {
-                    font-size: 14px;
-                    margin-right: 0px;
-                }
-
-                .header-title {
-                    margin-top: 4px;
-                    font-size: 12px;
-                }
-            }
-        }
+        width: 80px;
 
         #SideSheetFooter {
-            width: 100px;
+            width: 80px;
         }
     }
 
@@ -437,7 +414,7 @@ const handleMouseLeave = () => {
     }
 
     &.animate-header {
-        h4 {
+        .header-container {
             transform-origin: left;
             animation: grow 0.3s ease-in-out;
         }
@@ -450,18 +427,6 @@ const handleMouseLeave = () => {
         .footer {
             padding-top: 0px;
         }
-    }
-}
-
-@keyframes grow {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
     }
 }
 </style>

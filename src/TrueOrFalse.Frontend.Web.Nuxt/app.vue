@@ -222,13 +222,13 @@ useHead(() => ({
 		<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
 	</ClientOnly>
 
-	<div id="split">
-		<div class="leftside">
+	<!-- <div id="Split">
+		<div class="sub">
 			<SideSheet />
 
 		</div>
 
-		<div class="rightside">
+		<div class="main">
 
 
 			<NuxtErrorBoundary @error="logError">
@@ -243,10 +243,25 @@ useHead(() => ({
 						@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
 						:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 				</template>
-			</NuxtErrorBoundary>
-			<Footer :footer-pages="footerPages" v-if="footerPages" />
-		</div>
-	</div>
+</NuxtErrorBoundary>
+<Footer :footer-pages="footerPages" v-if="footerPages" />
+</div>
+</div> -->
+	<SideSheet />
+
+
+	<NuxtErrorBoundary @error="logError">
+		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" class="nuxt-page" />
+
+		<template #error="{ error }">
+			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+				:error="error" :in-error-boundary="true" @clear-error="clearErr" />
+			<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+				@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+		</template>
+	</NuxtErrorBoundary>
+	<Footer :footer-pages="footerPages" v-if="footerPages" />
 
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
@@ -259,22 +274,17 @@ useHead(() => ({
 </template>
 
 <style lang="less">
-#split {
+.nuxt-page {
+	transition: all 0.3s ease-in-out;
+	padding-left: 0px;
 
-	.rightside {
-		transition: all 0.3s ease-in-out;
-		padding-left: 0px;
-
-		@media (min-width: 1600px) {
-			padding-left: 700px;
-		}
-
-		@media (min-width: 900px) {
-			padding-left: 100px;
-		}
+	@media (min-width: 1600px) {
+		padding-left: 700px;
 	}
 
-
+	@media (min-width: 900px) {
+		padding-left: 100px;
+	}
 }
 
 .mobile-headings {
