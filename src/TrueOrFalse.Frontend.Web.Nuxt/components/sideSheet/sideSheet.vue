@@ -44,19 +44,14 @@ onMounted(() => {
         window.addEventListener('resize', debounce(resize, 20))
         handleWidth(windowWidth.value)
     }
-
 })
 
 const collapsed = ref(false)
 const hidden = ref(false)
-
 watch(windowWidth, (oldWidth, newWidth) => {
-
     if (newWidth) {
         handleWidth(newWidth)
     }
-
-
 }, { immediate: true })
 
 onMounted(() => {
@@ -198,9 +193,7 @@ watch(() => sideSheetStore.showSideSheet, (show) => {
     } else {
         handleWidth(windowWidth.value)
     }
-}, {
-    immediate: true
-})
+}, { immediate: true })
 
 const handleMouseOver = () => {
     collapsed.value = false

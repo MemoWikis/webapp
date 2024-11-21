@@ -210,6 +210,12 @@ useHead(() => ({
 	]
 }))
 
+const windowLoaded = ref(false)
+onMounted(() => {
+	if (window)
+		windowLoaded.value = true
+})
+
 </script>
 
 <template>
@@ -225,7 +231,8 @@ useHead(() => ({
 	<SideSheet />
 
 	<NuxtErrorBoundary @error="logError">
-		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" :footer-pages="footerPages" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" class="nuxt-page" />
+		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" class="nuxt-page" />
 
 		<template #error="{ error }">
 			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
@@ -258,6 +265,10 @@ useHead(() => ({
 
 	@media (min-width: 900px) {
 		padding-left: 100px;
+	}
+
+	&.window-loading {
+		padding-left: 0px;
 	}
 }
 
