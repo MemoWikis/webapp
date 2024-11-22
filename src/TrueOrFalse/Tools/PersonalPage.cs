@@ -9,7 +9,7 @@
             Visibility = PageVisibility.Owner,
             Creator = user,
             Type = PageType.Standard,
-            IsUserStartPage = true
+            IsWiki = true
         };
     }
 

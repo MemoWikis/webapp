@@ -50,7 +50,7 @@ public class ModifyRelationsEntityCache
             .Select(r => r.ParentId);
         var parentPages = EntityCache.GetPages(newParentRelationsIds);
 
-        if (!childPage.IsStartPage() &&
+        if (!childPage.IsWikiType() &&
             !CheckParentAvailability(parentPages, childPage))
         {
             Logg.r.Error(

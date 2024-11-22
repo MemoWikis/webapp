@@ -3,7 +3,8 @@
 public class ExtendedUserCache(
     PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    AnswerRepo _answerRepo)
+    AnswerRepo _answerRepo,
+    PageViewRepo _pageViewRepo)
     : IRegisterAsInstancePerLifetime
 {
     public const int ExpirationSpanInMinutes = 600;
@@ -169,14 +170,28 @@ public class ExtendedUserCache(
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
+        PopulatePageValuations(cacheItem);
+        PopulateQuestionValuations(cacheItem);
+        PopulateAnswers(cacheItem);
+        PopulateRecentPages(cacheItem);
+
+        return cacheItem;
+    }
+
+    private void PopulatePageValuations(ExtendedUserCacheItem cacheItem)
+    {
         cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
             pageValuationReadingRepository
-                .GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)));
+                .GetByUser(cacheItem.Id, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v))
+        );
+    }
 
+    private void PopulateQuestionValuations(ExtendedUserCacheItem cacheItem)
+    {
         cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             _questionValuationReadingRepo
-                .GetByUserWithQuestion(userId)
+                .GetByUserWithQuestion(cacheItem.Id)
                 .Select(valuation =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(
                         valuation.Question.Id,
@@ -184,18 +199,28 @@ public class ExtendedUserCache(
                     )
                 )
         );
+    }
 
-        var answers = _answerRepo.GetByUser(userId);
-
+    private void PopulateAnswers(ExtendedUserCacheItem cacheItem)
+    {
+        var answers = _answerRepo.GetByUser(cacheItem.Id);
         if (answers != null)
         {
-            cacheItem.AnswerCounter = new ConcurrentDictionary<int, AnswerRecord>(answers
-                .Where(a => a.Question != null)
-                .GroupBy(a => a.Question.Id)
-                .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord));
+            cacheItem.AnswerCounter = new ConcurrentDictionary<int, AnswerRecord>(
+                answers
+                    .Where(a => a.Question != null)
+                    .GroupBy(a => a.Question.Id)
+                    .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord)
+            );
         }
+    }
 
-        return cacheItem;
+    private void PopulateRecentPages(ExtendedUserCacheItem cacheItem)
+    {
+        if (cacheItem.RecentPages == null || !cacheItem.RecentPages.PagesQueue.Any())
+        {
+            cacheItem.RecentPages = new RecentPages(cacheItem.Id, _pageViewRepo);
+        }
     }
 
     private void AddToCache(ExtendedUserCacheItem cacheItem)

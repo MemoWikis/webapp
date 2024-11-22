@@ -6,7 +6,8 @@ using System.Collections.Concurrent;
 public class PageViewRepo(
     ISession _session,
     PageRepository pageRepository,
-    UserReadingRepo _userReadingRepo) : RepositoryDb<PageView>(_session)
+    UserReadingRepo _userReadingRepo,
+    ExtendedUserCache _extendedUserCache) : RepositoryDb<PageView>(_session)
 {
     public int GetViewCount(int pageId)
     {
@@ -75,6 +76,15 @@ public class PageViewRepo(
         GraphService.IncrementTotalViewsForAllAscendants(pageId);
     }
 
+    private void AddToRecentPages(int pageId, int userId)
+    {
+        if (userId <= 0)
+            return;
+
+
+
+    }
+
     public record struct PageViewSummaryWithId(Int64 Count, DateTime DateOnly, int PageId);
     public record struct PageViewSummary(Int64 Count, DateTime DateOnly);
 
@@ -127,6 +137,7 @@ public class PageViewRepo(
         SELECT DISTINCT category_id
         FROM categoryview
         WHERE user_id = :userId
+        ORDER BY DateCreated DESC
         LIMIT 5;");
 
         query.SetParameter("userId", userId);

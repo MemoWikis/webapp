@@ -12,7 +12,7 @@ public class Page : DomainEntity, ICreator
     public virtual string UrlLinkText { get; set; }
     public virtual bool DisableLearningFunctions { get; set; }
     public virtual User Creator { get; set; }
-    public virtual bool IsUserStartPage { get; set; }
+    public virtual bool IsWiki { get; set; }
     public virtual bool TextIsHidden { get; set; }
     public virtual string AuthorIds { get; set; } = "";
     public virtual int[] AuthorIdsInts => AuthorIds?

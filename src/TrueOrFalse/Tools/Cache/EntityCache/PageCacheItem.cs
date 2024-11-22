@@ -58,6 +58,7 @@ public class PageCacheItem : IPersistable
 
     public virtual int TotalViews { get; set; }
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
+    public virtual bool IsWiki { get; set; }
 
     public virtual List<DailyViews> GetViewsOfPast90Days()
     {
@@ -227,8 +228,11 @@ public class PageCacheItem : IPersistable
         return Parents().Any(c => c.Visibility == PageVisibility.All);
     }
 
-    public bool IsStartPage()
+    public bool IsWikiType()
     {
+        if (IsWiki)
+            return true;
+
         if (Id == RootPage.RootPageId)
             return true;
 
@@ -298,6 +302,7 @@ public class PageCacheItem : IPersistable
             DateCreated = page.DateCreated,
             AuthorIds = page.AuthorIdsInts ?? [creatorId],
             TextIsHidden = page.TextIsHidden,
+            IsWiki = page.IsWiki
         };
 
         if (EntityCache.IsFirstStart)

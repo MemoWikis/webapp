@@ -287,7 +287,12 @@ const ariaId = useId()
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options">
-                                        <font-awesome-icon :icon="['fas', 'trash']" />
+
+                                        <font-awesome-layers>
+                                            <font-awesome-icon :icon="['far', 'star']" />
+                                            <font-awesome-icon :icon="['fas', 'slash']" transform="rotate-20 flip-v" class="slash-bg" />
+                                            <font-awesome-icon :icon="['fas', 'slash']" transform="rotate-20 flip-v" />
+                                        </font-awesome-layers>
                                     </div>
                                 </div>
 
@@ -421,5 +426,9 @@ const ariaId = useId()
             padding-top: 0px;
         }
     }
+}
+
+.slash-bg {
+    color: white;
 }
 </style>

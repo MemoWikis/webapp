@@ -271,6 +271,13 @@ const hidePartial = computed(() => {
 
     .container {
         height: 100%;
+
+        &.nav-container {
+
+            @media (min-width: 900px) {
+                padding-left: 100px;
+            }
+        }
     }
 
     @media (max-width: 768px) {

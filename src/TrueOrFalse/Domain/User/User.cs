@@ -14,10 +14,6 @@ public class User : DomainEntity, IUserTinyModel
         Followers = new List<FollowerInfo>();
         Following = new List<FollowerInfo>();
     }
-
-    public virtual bool IsBeltz => 356 == Id;
-
-    public virtual bool IsMemuchoUser => Settings.MemuchoUserId == Id;
     public virtual int ActivityLevel { get; set; }
 
     public virtual int ActivityPoints { get; set; }
@@ -65,6 +61,9 @@ public class User : DomainEntity, IUserTinyModel
 
     public virtual string FacebookId { get; set; }
     public virtual string GoogleId { get; set; }
+
+    public virtual List<int> WikiIds { get; set; } = new List<int>();
+    public virtual List<int> FavoriteIds { get; set; } = new List<int>();
 
     public virtual IList<int> FollowerIds()
     {

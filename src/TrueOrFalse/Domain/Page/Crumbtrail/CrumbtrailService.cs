@@ -6,7 +6,7 @@
     {
         var result = new Crumbtrail(page, root);
 
-        if (!page.IsStartPage())
+        if (!page.IsWikiType())
         {
             var parents = page.Parents();
             var rootWikiParent = parents.FirstOrDefault(c => c == root);
@@ -103,7 +103,7 @@
     {
         var currentWikiId = sessionUser.CurrentWikiId;
 
-        if (pageCacheItem.IsStartPage())
+        if (pageCacheItem.IsWikiType())
             return pageCacheItem;
 
         var parents = GraphService.VisibleAscendants(pageCacheItem.Id, _permissionCheck);
@@ -129,7 +129,7 @@
                 return newWiki;
         }
 
-        return parents.FirstOrDefault(p => p.IsStartPage()) ?? RootPage.Get;
+        return parents.FirstOrDefault(p => p.IsWikiType()) ?? RootPage.Get;
     }
 
     private PageCacheItem? GetUserWiki(SessionUser sessionUser, IList<PageCacheItem> parents)

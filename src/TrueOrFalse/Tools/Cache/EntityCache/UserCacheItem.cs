@@ -46,6 +46,12 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsEmailConfirmed { get; set; }
     public int Rank { get; set; }
 
+    private List<int> _wikiIds { get; set; } = new List<int>();
+    public List<PageCacheItem?> Wikis => EntityCache.GetPages(_wikiIds);
+    private List<int> _favoriteIds { get; set; } = new List<int>();
+    public List<PageCacheItem?> Favorites => EntityCache.GetPages(_favoriteIds);
+    public RecentPages? RecentPages { get; set; }
+
     public void Populate(User user)
     {
         Id = user.Id;
@@ -126,5 +132,27 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public static IEnumerable<UserCacheItem> ToCacheUsers(IEnumerable<User> users)
     {
         return users.Select(ToCacheUser);
+    }
+
+    public void AddWiki(int id)
+    {
+        if (!_wikiIds.Contains(id))
+            _wikiIds.Add(id);
+    }
+    public void RemoveWiki(int id)
+    {
+        if (_wikiIds.Contains(id))
+            _wikiIds.Remove(id);
+    }
+
+    public void AddFavorite(int id)
+    {
+        if (!_favoriteIds.Contains(id))
+            _favoriteIds.Add(id);
+    }
+    public void RemoveFavorite(int id)
+    {
+        if (_favoriteIds.Contains(id))
+            _favoriteIds.Remove(id);
     }
 }
