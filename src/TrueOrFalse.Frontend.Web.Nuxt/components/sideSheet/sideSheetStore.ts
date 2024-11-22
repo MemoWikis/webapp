@@ -24,13 +24,13 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
     }
 
 
-    const favoriteWikis = ref<SideSheetPage[]>([])
+    const wikis = ref<SideSheetPage[]>([])
 
-    const addToFavoriteWikis = (name: string, id: number) => addToList(favoriteWikis.value, name, id)
+    const addToFavoriteWikis = (name: string, id: number) => addToList(wikis.value, name, id)
 
-    const favoritePages = ref<SideSheetPage[]>([])
+    const favorites = ref<SideSheetPage[]>([])
 
-    const addToFavoritePages = (name: string, id: number) => addToList(favoritePages.value, name, id)
+    const addToFavoritePages = (name: string, id: number) => addToList(favorites.value, name, id)
 
     const recentPages = ref<SideSheetPage[]>([])
 
@@ -54,5 +54,5 @@ export const useSideSheetStore = defineStore('sideSheetStore', () => {
 }
 
 
-    return { favoriteWikis, favoritePages, recentPages, addToFavoriteWikis, addToFavoritePages, handleRecentPage, showSideSheet }
+    return { wikis, favorites, recentPages, addToFavoriteWikis, addToFavoritePages, handleRecentPage, showSideSheet }
 })

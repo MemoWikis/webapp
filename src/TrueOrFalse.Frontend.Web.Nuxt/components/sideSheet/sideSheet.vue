@@ -3,9 +3,11 @@
 import { debounce } from 'underscore'
 import { usePageStore } from '../page/pageStore'
 import { useSideSheetStore } from './sideSheetStore'
+import { useUserStore } from '../user/userStore'
 
 const pageStore = usePageStore()
 const sideSheetStore = useSideSheetStore()
+const userStore = useUserStore()
 
 const windowWidth = ref(0)
 const windowHeight = ref(0)
@@ -54,8 +56,26 @@ watch(windowWidth, (oldWidth, newWidth) => {
     }
 }, { immediate: true })
 
+interface TinyPageResponse {
+    id: number
+    name: string
+}
+
+
+const init = async () => {
+    sideSheetStore.wikis = await $api<TinyPageResponse[]>('/apiVue/SideSheet/GetWikis')
+    sideSheetStore.favorites = await $api<TinyPageResponse[]>('/apiVue/SideSheet/GetFavorites')
+    sideSheetStore.recentPages = await $api<TinyPageResponse[]>('/apiVue/SideSheet/GetRecentPages')
+}
+
+onBeforeMount(async () => {
+    if (userStore.isLoggedIn) {
+        init()
+    }
+})
+
 onMounted(() => {
-    sideSheetStore.favoriteWikis = [
+    sideSheetStore.wikis = [
         {
             name: 'Home',
             id: 3999
@@ -104,7 +124,7 @@ onMounted(() => {
 })
 
 onMounted(() => {
-    sideSheetStore.favoritePages = [
+    sideSheetStore.favorites = [
         {
             name: 'Home',
             id: 3999
@@ -157,18 +177,24 @@ onMounted(() => {
 })
 
 const isFavourite = computed(() => {
-    return sideSheetStore.favoritePages.some((page) => page.id === pageStore.id)
+    return sideSheetStore.favorites.some((page) => page.id === pageStore.id)
 })
 
 const previouslyCollapsed = ref(false)
 
 watch(() => pageStore.id, (id) => {
-    if (id)
+    if (userStore.isLoggedIn) {
+        init()
+    }
+    else if (id)
         sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)
 })
 
 onMounted(() => {
-    if (pageStore.id)
+    if (userStore.isLoggedIn) {
+        init()
+    }
+    else if (pageStore.id)
         sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)
 })
 
@@ -227,7 +253,7 @@ const ariaId = useId()
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showWikis">
-                                <div v-for="wiki in sideSheetStore.favoriteWikis" class="content-item">
+                                <div v-for="wiki in sideSheetStore.wikis" class="content-item">
                                     <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)">
                                         <div class="link">
                                             {{ wiki.name }}
@@ -280,7 +306,7 @@ const ariaId = useId()
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showFavorites">
-                                <div v-for="page in sideSheetStore.favoritePages" class="content-item">
+                                <div v-for="page in sideSheetStore.favorites" class="content-item">
                                     <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)">
                                         <div class="link">
                                             {{ page.name }}
