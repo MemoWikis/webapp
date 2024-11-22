@@ -56,16 +56,21 @@ watch(windowWidth, (oldWidth, newWidth) => {
     }
 }, { immediate: true })
 
-interface TinyPageResponse {
+interface GetWikisResponse {
+    id: number
+    name: string
+    hasParents: boolean
+}
+
+interface GetPageResponse {
     id: number
     name: string
 }
 
-
 const init = async () => {
-    sideSheetStore.wikis = await $api<TinyPageResponse[]>('/apiVue/SideSheet/GetWikis')
-    sideSheetStore.favorites = await $api<TinyPageResponse[]>('/apiVue/SideSheet/GetFavorites')
-    sideSheetStore.recentPages = await $api<TinyPageResponse[]>('/apiVue/SideSheet/GetRecentPages')
+    sideSheetStore.wikis = await $api<GetWikisResponse[]>('/apiVue/SideSheet/GetWikis')
+    sideSheetStore.favorites = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetFavorites')
+    sideSheetStore.recentPages = await $api<GetPageResponse[]>('/apiVue/SideSheet/GetRecentPages')
 }
 
 onBeforeMount(async () => {
@@ -78,47 +83,58 @@ onMounted(() => {
     sideSheetStore.wikis = [
         {
             name: 'Home',
-            id: 3999
+            id: 3999,
+            hasParents: false
         },
         {
             name: 'Globales Wiki',
-            id: 1
+            id: 1,
+            hasParents: false
         },
         {
             name: 'Home',
-            id: 3999
+            id: 3999,
+            hasParents: false
         },
         {
             name: 'About',
-            id: 1876
+            id: 1876,
+            hasParents: false
         },
         {
             name: 'Dokumentation',
-            id: 1864
+            id: 1864,
+            hasParents: false
         },
         {
             name: 'Home',
-            id: 3999
+            id: 3999,
+            hasParents: false
         },
         {
             name: 'About',
-            id: 1876
+            id: 1876,
+            hasParents: false
         },
         {
             name: 'Dokumentation',
-            id: 1864
+            id: 1864,
+            hasParents: false
         },
         {
             name: 'Home',
-            id: 3999
+            id: 3999,
+            hasParents: false
         },
         {
             name: 'About',
-            id: 1876
+            id: 1876,
+            hasParents: false
         },
         {
             name: 'Dokumentation',
-            id: 1864
+            id: 1864,
+            hasParents: false
         },
     ]
 })
