@@ -188,7 +188,18 @@
                 filter: brightness(0.9);
             }
 
+            &.disabled {
+                cursor: not-allowed;
+                opacity: 0.5;
 
+                &:hover {
+                    filter: brightness(1);
+                }
+
+                &:active {
+                    filter: brightness(1);
+                }
+            }
         }
     }
 }

@@ -6,7 +6,12 @@ public class RecentPages()
 
     public RecentPages(int userId, PageViewRepo pageViewRepo) : this()
     {
-        var recentPagesId = pageViewRepo.GetRecentPagesForUser(userId);
+        var recentPagesIds = pageViewRepo.GetRecentPagesForUser(userId);
+
+        foreach (var id in recentPagesIds)
+        {
+            VisitPage(id);
+        }
     }
 
     public void VisitPage(int pageId)

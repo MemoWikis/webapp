@@ -79,7 +79,7 @@ onBeforeMount(async () => {
     }
 })
 
-const isFavourite = computed(() => {
+const isFavorite = computed(() => {
     return sideSheetStore.favorites.some((page) => page.id === pageStore.id)
 })
 
@@ -149,6 +149,11 @@ const handleMouseLeave = () => {
 const ariaId = useId()
 
 const addToFavorites = async (name: string, id: number) => {
+
+    if (isFavorite.value) {
+        return
+    }
+
     interface Result {
         success: boolean,
         messageKey?: string
@@ -241,10 +246,11 @@ const addToFavorites = async (name: string, id: number) => {
                     <template #content v-if="!collapsed">
                         <Transition name="collapse">
                             <div v-if="showFavorites">
-                                <div v-for="page in sideSheetStore.favorites" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(page.name, page.id)">
+                                <div v-for="favorite in sideSheetStore.favorites" class="content-item">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)" :class="{ 'is-here': favorite.id === pageStore.id }">
                                         <div class="link">
-                                            {{ page.name }}
+                                            {{ favorite.name }}
+                                            <font-awesome-icon :icon="['fas', 'caret-left']" v-if="favorite.id === pageStore.id" v-tooltip="'Du bist hier'" />
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options">
@@ -262,9 +268,9 @@ const addToFavorites = async (name: string, id: number) => {
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showFavorites && !isFavourite" class="sidesheet-button" @click="addToFavorites(pageStore.name, pageStore.id)">
+                            <div v-if="showFavorites" class="sidesheet-button" @click="addToFavorites(pageStore.name, pageStore.id)" :class="{ 'disabled': isFavorite }">
                                 <font-awesome-icon :icon="['fas', 'plus']" />
-                                {{ collapsed ? '' : 'Zu Favoriten hinzufügen' }}
+                                {{ isFavorite ? 'Als Favorit hinzugefügt' : 'Zu Favoriten hinzufügen' }}
                             </div>
                         </Transition>
                     </template>

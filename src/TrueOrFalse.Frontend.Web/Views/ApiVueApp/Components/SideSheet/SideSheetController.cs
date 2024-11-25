@@ -8,7 +8,8 @@ namespace VueApp;
 public class SideSheetController(
     SessionUser _sessionUser,
     WikiCreator _wikiCreator,
-    UserWritingRepo _userWritingRepo) : Controller
+    UserWritingRepo _userWritingRepo,
+    ExtendedUserCache _extendedUserCache) : Controller
 {
     // Section: Wikis
 
@@ -121,7 +122,7 @@ public class SideSheetController(
         if (!_sessionUser.IsLoggedIn)
             return new List<RecentPageItem>();
 
-        var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
+        var userCacheItem = _extendedUserCache.GetUser(_sessionUser.UserId);
 
         var recentPages = userCacheItem.RecentPages?.GetRecentPages()
             .Select(rp => new RecentPageItem(rp.Name, rp.Id))

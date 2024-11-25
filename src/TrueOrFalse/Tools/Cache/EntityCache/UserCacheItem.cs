@@ -84,9 +84,9 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         Rank = user.ReputationPos;
         DateCreated = user.DateCreated;
 
-        if (user.WikiIds != null)
+        if (!String.IsNullOrEmpty(user.WikiIds))
             WikiIds = user.WikiIds.Split(',').Select(int.Parse).ToList();
-        if (user.FavoriteIds != null)
+        if (!String.IsNullOrEmpty(user.FavoriteIds))
             FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
     }
 

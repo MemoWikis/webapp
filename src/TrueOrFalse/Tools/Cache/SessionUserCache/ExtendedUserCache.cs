@@ -106,7 +106,12 @@ public class ExtendedUserCache(
             var sessionUserCacheItem = GetItem(userId);
 
             if (sessionUserCacheItem != null)
+            {
+                if (sessionUserCacheItem.RecentPages == null && _pageViewRepo != null)
+                    PopulateRecentPages(sessionUserCacheItem, _pageViewRepo);
+
                 return sessionUserCacheItem;
+            }
 
             var cacheItem = CreateExtendedUserCacheItem(userId, _pageViewRepo);
 
