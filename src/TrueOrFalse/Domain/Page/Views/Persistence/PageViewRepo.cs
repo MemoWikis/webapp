@@ -140,11 +140,12 @@ public class PageViewRepo(
     public IList<int> GetRecentPagesForUser(int userId)
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT DISTINCT Page_id
-        FROM pageview
-        WHERE user_id = :userId
-        ORDER BY DateCreated DESC
-        LIMIT 5;");
+            SELECT Page_id
+            FROM pageview
+            WHERE user_id = :userId
+            GROUP BY Page_id
+            ORDER BY MAX(DateCreated) DESC
+            LIMIT 5");
 
         query.SetParameter("userId", userId);
 
