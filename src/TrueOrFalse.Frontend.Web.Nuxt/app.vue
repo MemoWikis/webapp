@@ -257,11 +257,7 @@ onMounted(() => {
 <style lang="less">
 .nuxt-page {
 	transition: all 0.3s ease-in-out;
-	padding-left: 0px;
-
-	@media (min-width: 1600px) {
-		padding-left: 700px;
-	}
+	padding-left: 10px;
 
 	@media (min-width: 900px) {
 		padding-left: 100px;

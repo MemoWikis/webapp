@@ -77,9 +77,12 @@ async function updateBreadcrumb() {
 	if (breadcrumbEl.value != null && props.partialLeft != null && props.partialLeft.clientWidth != null && window != null) {
 
 		breadcrumbWidth.value = `max-width: ${0}px`
-		const width = userStore.isLoggedIn ?
+		let width = userStore.isLoggedIn ?
 			props.partialLeft.clientWidth - breadcrumbEl.value.clientHeight - 30 :
-			props.partialLeft.clientWidth - (breadcrumbEl.value.clientHeight + (window.innerWidth < 992 ? - 145 : 245))
+			props.partialLeft.clientWidth - (breadcrumbEl.value.clientHeight + (window.innerWidth < 900 ? - 190 : 245))
+
+		if (window.innerWidth < 900)
+			width -= 47
 		if (width > 0)
 			breadcrumbWidth.value = `max-width: ${width}px`
 

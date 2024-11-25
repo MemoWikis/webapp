@@ -396,7 +396,6 @@ const hidePartial = computed(() => {
         width: 48px;
         user-select: none;
         background: white;
-        margin-top: -2px;
         height: 47px;
 
         @media (min-width: 900px) {

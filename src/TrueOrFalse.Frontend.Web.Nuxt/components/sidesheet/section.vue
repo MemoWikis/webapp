@@ -85,6 +85,7 @@
             white-space: nowrap;
             user-select: none;
             padding-right: 2px;
+            height: 26px;
 
             &:hover {
                 filter: brightness(0.95);

@@ -16,6 +16,13 @@ function handleError() {
 }
 
 const { $urlHelper } = useNuxtApp()
+
+const windowLoaded = ref(false)
+onMounted(() => {
+    if (window)
+        windowLoaded.value = true
+})
+
 </script>
 
 <template>
@@ -37,7 +44,7 @@ const { $urlHelper } = useNuxtApp()
             </div>
         </div>
     </section>
-    <div id="MasterFooter">
+    <div id="MasterFooter" :class="{ 'window-loading': !windowLoaded }">
         <div class="row">
             <div class="container">
                 <div class="row Promoter">
@@ -203,5 +210,30 @@ const { $urlHelper } = useNuxtApp()
 
 .cc-license-text {
     color: @memo-grey-darker;
+}
+</style>
+
+<style lang="less">
+#MasterFooter {
+    transition: all 0.3s ease-in-out;
+    padding-left: 0px;
+
+    @media (min-width: 900px) {
+        padding-left: 200px;
+    }
+
+    &.window-loading {
+        padding-left: 0px;
+    }
+}
+
+#GlobalLicense {
+    .license-container {
+        transition: all 0.3s ease-in-out;
+
+        @media (min-width: 900px) {
+            padding-left: 170px;
+        }
+    }
 }
 </style>

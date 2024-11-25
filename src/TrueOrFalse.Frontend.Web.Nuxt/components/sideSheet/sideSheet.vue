@@ -27,7 +27,7 @@ const handleWidth = (newWidth: number) => {
         return
     }
 
-    if (newWidth < 1701 && newWidth > 900) {
+    if (newWidth < 1801 && newWidth > 900) {
         hidden.value = false
         collapsed.value = true
         previouslyCollapsed.value = true
@@ -318,9 +318,6 @@ const removeFromFavorites = async (id: number) => {
 
                                         </div>
                                     </NuxtLink>
-                                    <div class="content-item-options">
-                                        <font-awesome-icon :icon="['fas', 'ellipsis']" />
-                                    </div>
                                 </div>
                             </div>
                         </Transition>
