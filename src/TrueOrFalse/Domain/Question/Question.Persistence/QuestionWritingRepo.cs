@@ -75,11 +75,11 @@ public class QuestionWritingRepo(
     public void UpdateOrMerge(Question question, bool withMerge)
     {
         var pageIds = _nhibernateSession
-            .CreateSQLQuery("SELECT Category_id FROM categories_to_questions WHERE Question_id =" +
+            .CreateSQLQuery("SELECT Page_id FROM categories_to_questions WHERE Question_id =" +
                             question.Id)
             .List<int>();
-        var query = "SELECT Category_id FROM reference WHERE Question_id=" + question.Id +
-                    " AND Category_id is not null";
+        var query = "SELECT Page_id FROM reference WHERE Question_id=" + question.Id +
+                    " AND Page_id is not null";
         var pageReferences = _nhibernateSession
             .CreateSQLQuery(query)
             .List<int>();

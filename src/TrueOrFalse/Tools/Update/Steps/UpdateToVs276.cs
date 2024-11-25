@@ -101,7 +101,6 @@ namespace TrueOrFalse.Updates
                                 RENAME COLUMN `Category_id` TO `Page_id`")
                         .ExecuteUpdate();
 
-
                     // Commit the transaction if all operations succeed
                     transaction.Commit();
                 }

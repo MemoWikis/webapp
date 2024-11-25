@@ -7,7 +7,7 @@ public class ReferenceMap : ClassMap<Reference>
         Id(x => x.Id);
 
         References(x => x.Question).Cascade.None();
-        References(x => x.Page).Column("Category_id");
+        References(x => x.Page).Column("Page_id");
 
         Map(x => x.ReferenceType).CustomType<ReferenceType>();
         Map(x => x.AdditionalInfo);

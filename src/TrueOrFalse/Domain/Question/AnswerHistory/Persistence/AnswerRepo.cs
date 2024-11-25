@@ -26,7 +26,7 @@ public class AnswerRepo : RepositoryDb<Answer>
             ON q.Id = ah.QuestionId
             LEFT JOIN categories_to_questions cq
             ON cq.Question_id = q.Id
-            WHERE cq.Category_id = " + pageId;
+            WHERE cq.Page_id = " + pageId;
 
         var ids = Session.CreateSQLQuery(query).List<int>();
 

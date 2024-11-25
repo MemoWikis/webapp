@@ -2,7 +2,7 @@
 {
     public const int RootPageId = 1;
     public static PageCacheItem Get => EntityCache.GetPage(RootPageId);
-    public static IReadOnlyList<int> LockedPageIds => GetLockedCategoryIds();
+    public static IReadOnlyList<int> LockedPageIds => GetLockedPageIds();
 
     public static bool Lockedpage(int pageId) =>
         LockedPageIds.Any(c => c == pageId);
@@ -15,7 +15,7 @@
     public static IList<int> MemuchoPageIds = new List<int> { 1876, 8975, 8974 };
     public static IList<int> MemuchoHelpIds = new List<int> { 1864, 9002 };
 
-    private static IReadOnlyList<int> GetLockedCategoryIds()
+    private static IReadOnlyList<int> GetLockedPageIds()
     {
         var list = new List<int>();
         list.Add(RootPageId);

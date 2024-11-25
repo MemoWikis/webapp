@@ -42,7 +42,7 @@ public class QuestionMap : ClassMap<Question>
         HasManyToMany(x => x.Pages)
             .Table("categories_to_questions")
             .ParentKeyColumn("Question_id")
-            .ChildKeyColumn("Category_id")
+            .ChildKeyColumn("Page_id")
             .Cascade.SaveUpdate();
 
         Map(x => x.IsWorkInProgress);

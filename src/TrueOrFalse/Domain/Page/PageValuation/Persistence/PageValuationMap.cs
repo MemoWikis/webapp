@@ -8,7 +8,7 @@ public class PageValuationMap : ClassMap<PageValuation>
 
         Id(x => x.Id);
         Map(x => x.UserId);
-        Map(x => x.PageId).Column("CategoryId");
+        Map(x => x.PageId).Column("PageId");
 
         Map(x => x.RelevancePersonal);
 

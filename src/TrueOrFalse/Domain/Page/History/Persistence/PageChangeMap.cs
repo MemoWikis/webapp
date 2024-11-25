@@ -8,7 +8,7 @@ public class PageChangeMap : ClassMap<PageChange>
 
         Id(x => x.Id);
 
-        References(x => x.Page).Column("Category_id").NotFound.Ignore();
+        References(x => x.Page).Column("Page_id").NotFound.Ignore();
 
         Map(x => x.Data).CustomSqlType("longtext");
         Map(x => x.ShowInSidebar);
