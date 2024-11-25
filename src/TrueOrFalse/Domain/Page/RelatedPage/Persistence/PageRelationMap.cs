@@ -4,7 +4,7 @@ public class PageRelationMap : ClassMap<PageRelation>
 {
     public PageRelationMap()
     {
-        Table("relatedcategoriestorelatedcategories");
+        Table("pagerelation");
         Id(x => x.Id);
 
         References(x => x.Child).Column("Page_id").Cascade.None();

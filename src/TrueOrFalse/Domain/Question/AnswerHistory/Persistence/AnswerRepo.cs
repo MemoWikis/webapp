@@ -24,7 +24,7 @@ public class AnswerRepo : RepositoryDb<Answer>
             SELECT ah.Id FROM answer ah
             LEFT JOIN question q
             ON q.Id = ah.QuestionId
-            LEFT JOIN categories_to_questions cq
+            LEFT JOIN pages_to_questions cq
             ON cq.Question_id = q.Id
             WHERE cq.Page_id = " + pageId;
 

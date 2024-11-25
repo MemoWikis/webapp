@@ -40,7 +40,7 @@ public class QuestionMap : ClassMap<Question>
 
         HasMany(x => x.References).Cascade.AllDeleteOrphan();
         HasManyToMany(x => x.Pages)
-            .Table("categories_to_questions")
+            .Table("pages_to_questions")
             .ParentKeyColumn("Question_id")
             .ChildKeyColumn("Page_id")
             .Cascade.SaveUpdate();
