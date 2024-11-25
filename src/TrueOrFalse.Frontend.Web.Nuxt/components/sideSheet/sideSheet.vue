@@ -168,6 +168,22 @@ const addToFavorites = async (name: string, id: number) => {
         console.log(result.messageKey)
     }
 }
+
+const removeFromFavorites = async (id: number) => {
+    interface Result {
+        success: boolean,
+        messageKey?: string
+    }
+    const result = await $api<Result>(`/apiVue/SideSheet/RemoveFromFavorites/${id}`, {
+        method: 'POST'
+    })
+
+    if (result.success) {
+        sideSheetStore.removeFromFavoritePages(id)
+    } else if (result.messageKey) {
+        console.log(result.messageKey)
+    }
+}
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
@@ -253,7 +269,7 @@ const addToFavorites = async (name: string, id: number) => {
                                             <font-awesome-icon :icon="['fas', 'caret-left']" v-if="favorite.id === pageStore.id" v-tooltip="'Du bist hier'" />
                                         </div>
                                     </NuxtLink>
-                                    <div class="content-item-options">
+                                    <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
                                         <font-awesome-layers>
                                             <font-awesome-icon :icon="['far', 'star']" />
                                             <font-awesome-icon :icon="['fas', 'slash']" transform="rotate-20 flip-v" class="slash-bg" />
@@ -295,9 +311,11 @@ const addToFavorites = async (name: string, id: number) => {
                         <Transition name="collapse">
                             <div v-if="showRecents">
                                 <div v-for="recent in sideSheetStore.recentPages" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)" :class="{ 'is-here': recent.id === pageStore.id }">
                                         <div class="link">
                                             {{ recent.name }}
+                                            <font-awesome-icon :icon="['fas', 'caret-left']" v-if="recent.id === pageStore.id" v-tooltip="'Du bist hier'" />
+
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options">

@@ -87,8 +87,8 @@ public class SideSheetController(
         {
             return new AddToFavoriteResponse(false, FrontendMessageKeys.Error.Default);
         }
-        var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
+        var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         userCacheItem.AddFavorite(id);
 
         EntityCache.AddOrUpdate(userCacheItem);
@@ -99,20 +99,23 @@ public class SideSheetController(
     public readonly record struct AddToFavoriteResponse(bool Success, string? MessageKey = null);
 
     [HttpPost]
-    public void RemoveFavorites([FromBody] RemoveFavoritesRequest req)
+    public RemoveFromFavoritesResponse RemoveFromFavorites([FromRoute] int id)
     {
-        if (req == null || req.Id <= 0)
+        if (id <= 0)
         {
-            throw new ArgumentNullException(nameof(req), "Invalid request");
+            return new RemoveFromFavoritesResponse(false, FrontendMessageKeys.Error.Default);
         }
+
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        userCacheItem.RemoveFavorite(req.Id);
+        userCacheItem.RemoveFavorite(id);
 
         EntityCache.AddOrUpdate(userCacheItem);
         _userWritingRepo.Update(userCacheItem);
+
+        return new RemoveFromFavoritesResponse(true);
     }
 
-    public readonly record struct RemoveFavoritesRequest(int Id);
+    public readonly record struct RemoveFromFavoritesResponse(bool Success, string? MessageKey = null);
 
     // Section: Recent Pages
 
