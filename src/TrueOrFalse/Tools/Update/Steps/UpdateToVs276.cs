@@ -83,7 +83,8 @@ namespace TrueOrFalse.Updates
                     nhibernateSession
                         .CreateSQLQuery(
                             @"ALTER TABLE `user` 
-                                RENAME COLUMN `StartTopicId` TO `StartPageId`")
+                                RENAME COLUMN `StartTopicId` TO `StartPageId`,
+                                RENAME COLUMN `RecentlyUsedRelationTargetTopics` TO `RecentlyUsedRelationTargetPages`")
                         .ExecuteUpdate();
 
                     // Add New Columns to 'user' Table
