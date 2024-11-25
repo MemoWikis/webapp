@@ -13,21 +13,22 @@ public class SideSheetController(
     // Section: Wikis
 
     [HttpGet]
-    public GetWikisResponse GetWikis()
+    public IList<WikiItem> GetWikis()
     {
         if (_sessionUser == null || !_sessionUser.IsLoggedIn)
         {
-            return new GetWikisResponse(new List<WikiItem>());
+            return new List<WikiItem>();
         }
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         var wikis = userCacheItem.Wikis
             .Select(w => new WikiItem(w.Id, w.Name, w.Parents().Any()))
             .ToList();
-        return new GetWikisResponse(wikis);
+        var userStartPage = EntityCache.GetPage(userCacheItem.StartPageId);
+        wikis.Insert(0, new WikiItem(userStartPage.Id, userStartPage.Name, userStartPage.Parents().Any()));
+        return wikis;
     }
 
-    public readonly record struct GetWikisResponse(IList<WikiItem> Wikis);
     public readonly record struct WikiItem(int Id, string Name, bool HasParents);
 
     [HttpPost]
@@ -66,35 +67,35 @@ public class SideSheetController(
     // Section: Favorites
 
     [HttpGet]
-    public GetFavoritesResponse GetFavorites()
+    public IList<FavoriteItem> GetFavorites()
     {
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
         var favorites = userCacheItem.Favorites
             .Select(f => new FavoriteItem(f.Id, f.Name))
             .ToList();
-        return new GetFavoritesResponse(favorites);
+        return favorites;
     }
 
-    public readonly record struct GetFavoritesResponse(IList<FavoriteItem> Favorites);
     public readonly record struct FavoriteItem(int Id, string Name);
 
     [HttpPost]
-    public void AddToFavorites([FromBody] AddToFavoritesRequest req)
+    public AddToFavoriteResponse AddToFavorites([FromRoute] int id)
     {
-        if (req == null || req.Id <= 0)
+        if (id <= 0)
         {
-            throw new ArgumentNullException(nameof(req), "Invalid request");
+            return new AddToFavoriteResponse(false, FrontendMessageKeys.Error.Default);
         }
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
-        userCacheItem.AddFavorite(req.Id);
+        userCacheItem.AddFavorite(id);
 
         EntityCache.AddOrUpdate(userCacheItem);
         _userWritingRepo.Update(userCacheItem);
-    }
 
-    public readonly record struct AddToFavoritesRequest(int Id);
+        return new AddToFavoriteResponse(true);
+    }
+    public readonly record struct AddToFavoriteResponse(bool Success, string? MessageKey = null);
 
     [HttpPost]
     public void RemoveFavorites([FromBody] RemoveFavoritesRequest req)
@@ -115,19 +116,18 @@ public class SideSheetController(
     // Section: Recent Pages
 
     [HttpGet]
-    public GetRecentPagesResponse GetRecentPages()
+    public IList<RecentPageItem> GetRecentPages()
     {
         if (!_sessionUser.IsLoggedIn)
-            return new GetRecentPagesResponse(new List<RecentPageItem>());
+            return new List<RecentPageItem>();
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
 
         var recentPages = userCacheItem.RecentPages?.GetRecentPages()
             .Select(rp => new RecentPageItem(rp.Name, rp.Id))
             .ToList();
-        return new GetRecentPagesResponse(recentPages);
+        return recentPages;
     }
 
-    public readonly record struct GetRecentPagesResponse(IList<RecentPageItem> RecentPages);
     public readonly record struct RecentPageItem(string Name, int Id);
 }

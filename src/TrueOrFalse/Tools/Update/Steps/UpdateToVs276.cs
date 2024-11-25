@@ -90,8 +90,8 @@ namespace TrueOrFalse.Updates
                     nhibernateSession
                         .CreateSQLQuery(
                             @"ALTER TABLE `user` 
-                                ADD COLUMN `Wikis` JSON NULL,
-                                ADD COLUMN `Favorites` JSON NULL")
+                                ADD COLUMN `WikiIds` JSON NULL,
+                                ADD COLUMN `FavoriteIds` JSON NULL")
                         .ExecuteUpdate();
 
                     // Rename Columns in 'useractivity'

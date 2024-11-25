@@ -79,119 +79,6 @@ onBeforeMount(async () => {
     }
 })
 
-onMounted(() => {
-    sideSheetStore.wikis = [
-        {
-            name: 'Home',
-            id: 3999,
-            hasParents: false
-        },
-        {
-            name: 'Globales Wiki',
-            id: 1,
-            hasParents: false
-        },
-        {
-            name: 'Home',
-            id: 3999,
-            hasParents: false
-        },
-        {
-            name: 'About',
-            id: 1876,
-            hasParents: false
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864,
-            hasParents: false
-        },
-        {
-            name: 'Home',
-            id: 3999,
-            hasParents: false
-        },
-        {
-            name: 'About',
-            id: 1876,
-            hasParents: false
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864,
-            hasParents: false
-        },
-        {
-            name: 'Home',
-            id: 3999,
-            hasParents: false
-        },
-        {
-            name: 'About',
-            id: 1876,
-            hasParents: false
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864,
-            hasParents: false
-        },
-    ]
-})
-
-onMounted(() => {
-    sideSheetStore.favorites = [
-        {
-            name: 'Home',
-            id: 3999
-        },
-        {
-            name: 'About',
-            id: 1876
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864
-        },
-        {
-            name: 'Home',
-            id: 3999
-        },
-        {
-            name: 'About',
-            id: 1876
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864
-        },
-        {
-            name: 'Home',
-            id: 3999
-        },
-        {
-            name: 'About',
-            id: 1876
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864
-        },
-        {
-            name: 'Home',
-            id: 3999
-        },
-        {
-            name: 'About',
-            id: 1876
-        },
-        {
-            name: 'Dokumentation',
-            id: 1864
-        },
-    ]
-})
-
 const isFavourite = computed(() => {
     return sideSheetStore.favorites.some((page) => page.id === pageStore.id)
 })
@@ -212,6 +99,20 @@ onMounted(() => {
     }
     else if (pageStore.id)
         sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)
+})
+
+watch(() => userStore.isLoggedIn, (isLoggedIn) => {
+    if (isLoggedIn) {
+        init()
+    }
+    else {
+        sideSheetStore.wikis = []
+        sideSheetStore.favorites = []
+        sideSheetStore.recentPages = []
+
+        if (pageStore.id)
+            sideSheetStore.handleRecentPage(pageStore.name, pageStore.id)
+    }
 })
 
 const showWikis = ref(true)
@@ -246,9 +147,26 @@ const handleMouseLeave = () => {
 }
 
 const ariaId = useId()
+
+const addToFavorites = async (name: string, id: number) => {
+    interface Result {
+        success: boolean,
+        messageKey?: string
+    }
+    const result = await $api<Result>(`/apiVue/SideSheet/AddToFavorites/${id}`, {
+        method: 'POST'
+    })
+
+    if (result.success) {
+        sideSheetStore.addToFavoritePages(name, id)
+    } else if (result.messageKey) {
+        console.log(result.messageKey)
+    }
+}
 </script>
 <template>
-    <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave" :style="`height: ${windowHeight}px`">
+    <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
+        :style="`height: ${windowHeight}px`">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
             <div id="SideSheetContainer" :style="`max-height: calc(${windowHeight}px - 156px)`">
@@ -270,9 +188,10 @@ const ariaId = useId()
                         <Transition name="collapse">
                             <div v-if="showWikis">
                                 <div v-for="wiki in sideSheetStore.wikis" class="content-item">
-                                    <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)">
+                                    <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)" :class="{ 'is-here': wiki.id === pageStore.id }">
                                         <div class="link">
                                             {{ wiki.name }}
+                                            <font-awesome-icon :icon="['fas', 'caret-left']" v-if="wiki.id === pageStore.id" v-tooltip="'Du bist hier'" />
                                         </div>
                                     </NuxtLink>
 
@@ -296,7 +215,7 @@ const ariaId = useId()
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showWikis" class="sidesheet-button" @click="sideSheetStore.addToFavoriteWikis(pageStore.name, pageStore.id)">
+                            <div v-if="showWikis" class="sidesheet-button" @click="console.log('test')">
                                 <font-awesome-icon :icon="['far', 'square-plus']" />
                                 {{ collapsed ? '' : 'Wiki erstellen' }} <!-- Modal öffnen -->
                             </div>
@@ -329,7 +248,6 @@ const ariaId = useId()
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options">
-
                                         <font-awesome-layers>
                                             <font-awesome-icon :icon="['far', 'star']" />
                                             <font-awesome-icon :icon="['fas', 'slash']" transform="rotate-20 flip-v" class="slash-bg" />
@@ -344,7 +262,7 @@ const ariaId = useId()
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showFavorites && !isFavourite" class="sidesheet-button" @click="sideSheetStore.addToFavoritePages(pageStore.name, pageStore.id)">
+                            <div v-if="showFavorites && !isFavourite" class="sidesheet-button" @click="addToFavorites(pageStore.name, pageStore.id)">
                                 <font-awesome-icon :icon="['fas', 'plus']" />
                                 {{ collapsed ? '' : 'Zu Favoriten hinzufügen' }}
                             </div>
@@ -408,6 +326,10 @@ const ariaId = useId()
     transition: all 0.3s ease-in-out;
     padding-top: 71px;
     overscroll-behavior: none;
+
+    &.not-logged-in {
+        padding-top: 131px;
+    }
 
     #SideSheetContainer {
         height: 100%;

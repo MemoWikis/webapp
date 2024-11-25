@@ -108,6 +108,15 @@
                     color: @memo-grey-dark;
 
                     &:hover {
+                        color: @memo-grey-darker;
+                    }
+                }
+
+                &.is-here {
+                    color: @memo-blue-link;
+                    font-weight: 600;
+
+                    .link {
                         color: @memo-blue-link;
                     }
                 }
