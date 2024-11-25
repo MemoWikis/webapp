@@ -83,6 +83,11 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ActivityPoints = user.ActivityPoints;
         Rank = user.ReputationPos;
         DateCreated = user.DateCreated;
+
+        if (user.WikiIds != null)
+            WikiIds = user.WikiIds.Split(',').Select(int.Parse).ToList();
+        if (user.FavoriteIds != null)
+            FavoriteIds = user.FavoriteIds.Split(',').Select(int.Parse).ToList();
     }
 
     public void Populate(UserCacheItem user)
@@ -115,6 +120,11 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ActivityLevel = user.ActivityLevel;
         ActivityPoints = user.ActivityPoints;
         DateCreated = user.DateCreated;
+
+        Rank = user.ReputationPos;
+
+        WikiIds = user.WikiIds;
+        FavoriteIds = user.FavoriteIds;
     }
 
     public static UserCacheItem ToCacheUser(User user)

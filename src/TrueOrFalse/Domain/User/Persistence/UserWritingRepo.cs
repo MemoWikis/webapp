@@ -183,8 +183,8 @@ public class UserWritingRepo
         user.ReputationPos = userCacheItem.ReputationPos;
         user.FollowerCount = userCacheItem.FollowerCount;
         user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
-        user.WikiIds = userCacheItem.WikiIds;
-        user.FavoriteIds = userCacheItem.FavoriteIds;
+        user.WikiIds = string.Join(",", userCacheItem.WikiIds.Distinct());
+        user.FavoriteIds = string.Join(",", userCacheItem.FavoriteIds.Distinct());
 
         Update(user);
     }

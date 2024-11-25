@@ -62,8 +62,8 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string FacebookId { get; set; }
     public virtual string GoogleId { get; set; }
 
-    public virtual List<int> WikiIds { get; set; } = new List<int>();
-    public virtual List<int> FavoriteIds { get; set; } = new List<int>();
+    public virtual string? WikiIds { get; set; }
+    public virtual string? FavoriteIds { get; set; }
 
     public virtual IList<int> FollowerIds()
     {

@@ -53,6 +53,9 @@ public class UserMap : ClassMap<User>
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
 
-        Map(x => x.RecentlyUsedRelationTargetPages).Column("RecentlyUsedRelationTargetTopics");
+        Map(x => x.RecentlyUsedRelationTargetPages);
+
+        Map(x => x.WikiIds);
+        Map(x => x.FavoriteIds);
     }
 }
