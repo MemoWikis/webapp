@@ -4,7 +4,12 @@ using System;
 
 namespace VueApp;
 
-public class MiddlewareRefreshCookieController(SessionUser _sessionUser, PersistentLoginRepo _persistentLoginRepo, UserReadingRepo _userReadingRepo, IHttpContextAccessor _httpContextAccessor) : Controller
+public class MiddlewareRefreshCookieController(
+    SessionUser _sessionUser,
+    PersistentLoginRepo _persistentLoginRepo,
+    UserReadingRepo _userReadingRepo,
+    IHttpContextAccessor _httpContextAccessor,
+    PageViewRepo _pageViewRepo) : Controller
 {
     public readonly record struct RunResponse(bool Success, bool? DeleteCookie = null);
 
@@ -15,7 +20,7 @@ public class MiddlewareRefreshCookieController(SessionUser _sessionUser, Persist
     {
         try
         {
-            LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, _httpContextAccessor.HttpContext);
+            LoginFromCookie.Run(_sessionUser, _persistentLoginRepo, _userReadingRepo, _httpContextAccessor.HttpContext, _pageViewRepo);
             return new RunResponse(true);
         }
         catch (Exception ex)

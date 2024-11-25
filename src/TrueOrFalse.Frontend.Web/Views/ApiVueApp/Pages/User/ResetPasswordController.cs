@@ -10,6 +10,7 @@ public class ResetPasswordController(
     FrontEndUserData _frontEndUserData,
     UserReadingRepo _userReadingRepo,
     UserWritingRepo _userWritingRepo,
+    PageViewRepo _pageViewRepo,
     ISession _session) : Controller
 {
     public record struct ValidateTokenResult(bool Success, string MessageKey);
@@ -82,7 +83,7 @@ public class ResetPasswordController(
         SetUserPassword.Run(json.password.Trim(), user);
         _userWritingRepo.Update(user);
 
-        _sessionUser.Login(user);
+        _sessionUser.Login(user, _pageViewRepo);
         return new SetNewPasswordResult
         {
             Success = true,

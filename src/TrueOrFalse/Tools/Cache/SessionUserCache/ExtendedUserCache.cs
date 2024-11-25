@@ -3,8 +3,7 @@
 public class ExtendedUserCache(
     PageValuationReadingRepository pageValuationReadingRepository,
     QuestionValuationReadingRepo _questionValuationReadingRepo,
-    AnswerRepo _answerRepo,
-    PageViewRepo _pageViewRepo)
+    AnswerRepo _answerRepo)
     : IRegisterAsInstancePerLifetime
 {
     public const int ExpirationSpanInMinutes = 600;
@@ -100,7 +99,7 @@ public class ExtendedUserCache(
             Seedworks.Web.State.Cache.Remove(cacheKey);
     }
 
-    public ExtendedUserCacheItem Add(int userId)
+    public ExtendedUserCacheItem Add(int userId, PageViewRepo? _pageViewRepo = null)
     {
         lock ("2ba84bee-5294-420b-bd43-1decaa0d2d3e" + userId)
         {
@@ -109,7 +108,7 @@ public class ExtendedUserCache(
             if (sessionUserCacheItem != null)
                 return sessionUserCacheItem;
 
-            var cacheItem = CreateExtendedUserCacheItem(userId);
+            var cacheItem = CreateExtendedUserCacheItem(userId, _pageViewRepo);
 
             AddToCache(cacheItem);
             return cacheItem;
@@ -166,14 +165,15 @@ public class ExtendedUserCache(
         return sessionUserCacheItem;
     }
 
-    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId)
+    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId, PageViewRepo? _pageViewRepo)
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
         PopulatePageValuations(cacheItem);
         PopulateQuestionValuations(cacheItem);
         PopulateAnswers(cacheItem);
-        PopulateRecentPages(cacheItem);
+        if (_pageViewRepo != null)
+            PopulateRecentPages(cacheItem, _pageViewRepo);
 
         return cacheItem;
     }
@@ -215,7 +215,7 @@ public class ExtendedUserCache(
         }
     }
 
-    private void PopulateRecentPages(ExtendedUserCacheItem cacheItem)
+    private void PopulateRecentPages(ExtendedUserCacheItem cacheItem, PageViewRepo _pageViewRepo)
     {
         if (cacheItem.RecentPages == null || !cacheItem.RecentPages.PagesQueue.Any())
         {

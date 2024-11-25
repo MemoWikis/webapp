@@ -15,7 +15,8 @@ public class FacebookUsersController(
     SessionUser _sessionUser,
     RegisterUser _registerUser,
     JobQueueRepo _jobQueueRepo,
-    UserWritingRepo _userWritingRepo) : Controller
+    UserWritingRepo _userWritingRepo,
+    PageViewRepo _pageViewRepo) : Controller
 {
     public readonly record struct LoginJson(string facebookUserId, string facebookAccessToken);
 
@@ -41,7 +42,7 @@ public class FacebookUsersController(
         if (await IsFacebookAccessToken.IsAccessTokenValidAsync(json.facebookAccessToken,
             json.facebookUserId))
         {
-            _sessionUser.Login(user);
+            _sessionUser.Login(user, _pageViewRepo);
             _userWritingRepo.Update(user);
             return new LoginResult
             {
@@ -71,7 +72,7 @@ public class FacebookUsersController(
 
             if (user != null)
             {
-                _sessionUser.Login(user);
+                _sessionUser.Login(user, _pageViewRepo);
 
                 return new LoginResult
                 {
