@@ -6,9 +6,9 @@ using System.Linq;
 namespace VueApp;
 
 public class SideSheetController(
-    LimitCheck _limitCheck,
     SessionUser _sessionUser,
-    WikiCreator _wikiCreator) : Controller
+    WikiCreator _wikiCreator,
+    UserWritingRepo _userWritingRepo) : Controller
 {
     // Section: Wikis
 
@@ -87,12 +87,11 @@ public class SideSheetController(
             throw new ArgumentNullException(nameof(req), "Invalid request");
         }
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
-        var page = EntityCache.GetPage(req.Id);
 
         userCacheItem.AddFavorite(req.Id);
 
         EntityCache.AddOrUpdate(userCacheItem);
-
+        _userWritingRepo.Update(userCacheItem);
     }
 
     public readonly record struct AddToFavoritesRequest(int Id);
@@ -107,6 +106,8 @@ public class SideSheetController(
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         userCacheItem.RemoveFavorite(req.Id);
 
+        EntityCache.AddOrUpdate(userCacheItem);
+        _userWritingRepo.Update(userCacheItem);
     }
 
     public readonly record struct RemoveFavoritesRequest(int Id);

@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using Seedworks.Lib.Persistence;
+﻿using Seedworks.Lib.Persistence;
+using System.Diagnostics;
 using TrueOrFalse.Search;
 using ISession = NHibernate.ISession;
 
@@ -183,6 +183,8 @@ public class UserWritingRepo
         user.ReputationPos = userCacheItem.ReputationPos;
         user.FollowerCount = userCacheItem.FollowerCount;
         user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
+        user.WikiIds = userCacheItem.WikiIds;
+        user.FavoriteIds = userCacheItem.FavoriteIds;
 
         Update(user);
     }

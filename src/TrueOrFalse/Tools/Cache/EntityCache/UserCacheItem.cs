@@ -46,10 +46,10 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public bool IsEmailConfirmed { get; set; }
     public int Rank { get; set; }
 
-    private List<int> _wikiIds { get; set; } = new List<int>();
-    public List<PageCacheItem?> Wikis => EntityCache.GetPages(_wikiIds);
-    private List<int> _favoriteIds { get; set; } = new List<int>();
-    public List<PageCacheItem?> Favorites => EntityCache.GetPages(_favoriteIds);
+    public List<int> WikiIds { get; set; } = new List<int>();
+    public List<PageCacheItem?> Wikis => EntityCache.GetPages(WikiIds);
+    public List<int> FavoriteIds { get; set; } = new List<int>();
+    public List<PageCacheItem?> Favorites => EntityCache.GetPages(FavoriteIds);
     public RecentPages? RecentPages { get; set; }
 
     public void Populate(User user)
@@ -136,23 +136,23 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
     public void AddWiki(int id)
     {
-        if (!_wikiIds.Contains(id))
-            _wikiIds.Add(id);
+        if (!WikiIds.Contains(id))
+            WikiIds.Add(id);
     }
     public void RemoveWiki(int id)
     {
-        if (_wikiIds.Contains(id))
-            _wikiIds.Remove(id);
+        if (WikiIds.Contains(id))
+            WikiIds.Remove(id);
     }
 
     public void AddFavorite(int id)
     {
-        if (!_favoriteIds.Contains(id))
-            _favoriteIds.Add(id);
+        if (!FavoriteIds.Contains(id))
+            FavoriteIds.Add(id);
     }
     public void RemoveFavorite(int id)
     {
-        if (_favoriteIds.Contains(id))
-            _favoriteIds.Remove(id);
+        if (FavoriteIds.Contains(id))
+            FavoriteIds.Remove(id);
     }
 }
