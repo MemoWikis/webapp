@@ -27,7 +27,7 @@ public class PageMap : ClassMap<Page>
         Map(x => x.DateModified);
         Map(x => x.SkipMigration);
         Map(x => x.Visibility).CustomType<PageVisibility>();
-        Map(x => x.IsWiki).Column("IsUserStartTopic");
+        Map(x => x.IsWiki);
         Map(x => x.TextIsHidden).CustomType<bool>();
         Map(x => x.AuthorIds);
     }
