@@ -55,7 +55,7 @@ public class DeletePageStoreController(
         var hasChildren = children.Count > 0;
         if (topic == null)
             throw new Exception(
-                "Page couldn't be deleted. Category with specified Id cannot be found.");
+                "Page couldn't be deleted. Page with specified Id cannot be found.");
 
         var questions = EntityCache
             .GetPage(id)?

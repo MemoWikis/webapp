@@ -81,7 +81,7 @@ public class Links
                 id = questionId,
                 elementOnPage = paramElementOnPage,
                 pager = pagerKey,
-                category = pageToFilter
+                page = pageToFilter
             }, null);
     }
 

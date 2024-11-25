@@ -95,24 +95,24 @@ public class PageChangeCacheItem : IPersistable
 
     public static PageChangeCacheItem ToGroupedPageChangeCacheItem(List<PageChangeCacheItem> groupedCacheItems)
     {
-        var oldestCategoryChangeItem = groupedCacheItems.First();
-        var newestCategoryChangeItem = groupedCacheItems.Last();
+        var oldestPageChangeItem = groupedCacheItems.First();
+        var newestPageChangeItem = groupedCacheItems.Last();
 
-        var changeData = GetPageChangeData(newestCategoryChangeItem.GetPageChangeData(), oldestCategoryChangeItem.GetPageChangeData(), newestCategoryChangeItem.Type, oldestCategoryChangeItem.Id);
-        var type = oldestCategoryChangeItem.Type == PageChangeType.Create
+        var changeData = GetPageChangeData(newestPageChangeItem.GetPageChangeData(), oldestPageChangeItem.GetPageChangeData(), newestPageChangeItem.Type, oldestPageChangeItem.Id);
+        var type = oldestPageChangeItem.Type == PageChangeType.Create
             ? PageChangeType.Create
-            : newestCategoryChangeItem.Type;
+            : newestPageChangeItem.Type;
 
         return new PageChangeCacheItem
         {
-            Id = newestCategoryChangeItem.Id,
-            PageId = newestCategoryChangeItem.PageId,
-            DataVersion = newestCategoryChangeItem.DataVersion,
-            Data = newestCategoryChangeItem.Data,
-            AuthorId = newestCategoryChangeItem.AuthorId,
+            Id = newestPageChangeItem.Id,
+            PageId = newestPageChangeItem.PageId,
+            DataVersion = newestPageChangeItem.DataVersion,
+            Data = newestPageChangeItem.Data,
+            AuthorId = newestPageChangeItem.AuthorId,
             Type = type,
-            DateCreated = newestCategoryChangeItem.DateCreated,
-            Visibility = newestCategoryChangeItem.Visibility,
+            DateCreated = newestPageChangeItem.DateCreated,
+            Visibility = newestPageChangeItem.Visibility,
             PageChangeData = changeData,
             GroupedPageChangeCacheItems = groupedCacheItems
         };

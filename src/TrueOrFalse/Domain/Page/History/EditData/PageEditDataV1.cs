@@ -47,7 +47,7 @@ public class PageEditDataV1 : PageEditData
         page.DisableLearningFunctions = this.DisableLearningFunctions;
         page.Visibility = this.Visibility;
 
-        // Historic CategoryRelations cannot be loaded for DataVersion 1 because there
+        // Historic PageRelations cannot be loaded for DataVersion 1 because there
         // was a bug where data didn't get written properly so correct relation data
         // simply do not exist for V1.
         // Also they cannot be loaded because we do not have archive data and

@@ -84,16 +84,16 @@ public class UserWritingRepo
             .CreateSQLQuery("Update questionValuation SET Userid = null WHERE UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session
-            .CreateSQLQuery("Update categoryValuation SET Userid = null WHERE UserId = :userId")
+            .CreateSQLQuery("Update pagevaluation SET Userid = null WHERE UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session
             .CreateSQLQuery("UPDATE learningSession SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session
-            .CreateSQLQuery("UPDATE category SET Creator_Id = null WHERE Creator_id = :userId")
+            .CreateSQLQuery("UPDATE page SET Creator_Id = null WHERE Creator_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session
-            .CreateSQLQuery("UPDATE categoryview SET User_Id = null WHERE User_id = :userId")
+            .CreateSQLQuery("UPDATE pageview SET User_Id = null WHERE User_id = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
         _repo.Session.CreateSQLQuery("DELETE FROM answer WHERE UserId = :userId")
             .SetParameter("userId", userId)
@@ -110,7 +110,7 @@ public class UserWritingRepo
         _repo.Session
             .CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("UPDATE categoryChange c " +
+        _repo.Session.CreateSQLQuery("UPDATE paegchange c " +
                                      "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
                                      "WHERE u.id =  :userid;")
             .SetParameter("userid", userId)

@@ -4,7 +4,7 @@ public class PageChangeMap : ClassMap<PageChange>
 {
     public PageChangeMap()
     {
-        Table("categorychange");
+        Table("pagechange");
 
         Id(x => x.Id);
 

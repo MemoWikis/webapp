@@ -90,7 +90,7 @@ public class PageCacheItem : IPersistable
     /// </summary>
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
-    /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
+    /// <returns>Dictionary&lt;int, PageCacheItem&gt;</returns>
     public Dictionary<int, PageCacheItem> AggregatedPages(
         PermissionCheck permissionCheck,
         bool includingSelf = true)
@@ -116,7 +116,7 @@ public class PageCacheItem : IPersistable
     /// </summary>
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
-    /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
+    /// <returns>Dictionary&lt;int, PageCacheItem&gt;</returns>
     public Dictionary<int, PageCacheItem> GetAllAggregatedPages(bool includingSelf = true)
     {
         var allChildPages = AllChildPages(this);
@@ -385,8 +385,8 @@ public class PageCacheItem : IPersistable
                 // handle last group
                 if (currentGroupedCacheItem.Count > 1)
                 {
-                    var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
-                    pageChangeCacheItem.Add(groupedCategoryChangeCacheItem);
+                    var groupedPageChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
+                    pageChangeCacheItem.Add(groupedPageChangeCacheItem);
                 }
 
                 pageCacheItem.PageChangeCacheItems = pageChangeCacheItem

@@ -28,15 +28,6 @@ public class QuestionReadingRepo : RepositoryDbBase<Question>
             .RowCount();
     }
 
-    public IList<Question> GetForCategory(int pageId)
-    {
-        return _session.QueryOver<Question>()
-            .Where(q => q.Visibility == QuestionVisibility.All)
-            .JoinQueryOver<Page>(q => q.Pages)
-            .Where(c => c.Id == pageId)
-            .List<Question>();
-    }
-
     public IList<Question> GetAllEager()
     {
         var questions = _session.QueryOver<Question>().Future().ToList();

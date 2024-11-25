@@ -11,7 +11,7 @@ public class PageRepository(
     : RepositoryDbBase<Page>(session)
 {
     /// <summary>
-    ///     Add Category in Database,
+    ///     Add Page in Database,
     /// </summary>
     /// <param name="page"></param>
     public override void Create(Page page)
@@ -42,7 +42,7 @@ public class PageRepository(
 
     public override void Delete(int pageId)
     {
-        _session.CreateSQLQuery("DELETE FROM category WHERE Id = :pageId")
+        _session.CreateSQLQuery("DELETE FROM page WHERE Id = :pageId")
             .SetParameter("pageId", pageId)
             .ExecuteUpdate();
         ClearAllItemCache();

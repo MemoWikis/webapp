@@ -103,22 +103,22 @@ public class QuestionChangeCacheItem : IPersistable
 
     //public static QuestionChangeCacheItem ToGroupQuestionChangeCacheItem(List<QuestionChangeCacheItem> groupedCacheItems)
     //{
-    //    var oldestCategoryChangeItem = groupedCacheItems.First();
-    //    var newestCategoryChangeItem = groupedCacheItems.Last();
+    //    var oldestPageChangeItem = groupedCacheItems.First();
+    //    var newestPageChangeItem = groupedCacheItems.Last();
 
-    //    var currentQuestionData = newestCategoryChangeItem.GetQuestionChangeData();
-    //    var data = GetQuestionData(currentQuestionData, oldestCategoryChangeItem.GetQuestionChangeData());
+    //    var currentQuestionData = newestPageChangeItem.GetQuestionChangeData();
+    //    var data = GetQuestionData(currentQuestionData, oldestPageChangeItem.GetQuestionChangeData());
 
     //    return new QuestionChangeCacheItem
     //    {
-    //        Id = newestCategoryChangeItem.Id,
-    //        QuestionId = newestCategoryChangeItem.Question.Id,
-    //        Data = newestCategoryChangeItem.Data,
-    //        ShowInSidebar = newestCategoryChangeItem.ShowInSidebar,
-    //        DataVersion = newestCategoryChangeItem.DataVersion,
-    //        AuthorId = newestCategoryChangeItem.AuthorId,
-    //        Type = newestCategoryChangeItem.Type,
-    //        DateCreated = newestCategoryChangeItem.DateCreated,
+    //        Id = newestPageChangeItem.Id,
+    //        QuestionId = newestPageChangeItem.Question.Id,
+    //        Data = newestPageChangeItem.Data,
+    //        ShowInSidebar = newestPageChangeItem.ShowInSidebar,
+    //        DataVersion = newestPageChangeItem.DataVersion,
+    //        AuthorId = newestPageChangeItem.AuthorId,
+    //        Type = newestPageChangeItem.Type,
+    //        DateCreated = newestPageChangeItem.DateCreated,
     //        Visibility = currentQuestionData.Visibility,
     //        QuestionChangeData = data
     //    };

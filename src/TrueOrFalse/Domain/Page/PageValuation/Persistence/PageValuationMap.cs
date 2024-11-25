@@ -4,7 +4,7 @@ public class PageValuationMap : ClassMap<PageValuation>
 {
     public PageValuationMap()
     {
-        Table("categoryvaluation");
+        Table("pagevaluation");
 
         Id(x => x.Id);
         Map(x => x.UserId);

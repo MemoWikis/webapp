@@ -5,7 +5,7 @@ namespace TrueOrFalse.Search
     internal class MeiliSearchPagesDatabaseOperations : MeiliSearchBase
     {
         /// <summary>
-        /// Create MeiliSearch Category
+        /// Create MeiliSearch Page
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
@@ -20,7 +20,7 @@ namespace TrueOrFalse.Search
         }
 
         /// <summary>
-        /// Update MeiliSearch Category
+        /// Update MeiliSearch Page
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
@@ -37,7 +37,7 @@ namespace TrueOrFalse.Search
         }
 
         /// <summary>
-        /// Delete MeiliSearch Category
+        /// Delete MeiliSearch Page
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>

@@ -22,7 +22,7 @@ public class PageViewRepo(
     {
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly 
-        FROM CategoryView 
+        FROM pageview 
         WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() 
         GROUP BY DateOnly");
 
@@ -43,12 +43,12 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetViewsForLastNDaysGroupByPageId(int days)
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT Category_Id AS PageId, DateOnly, COUNT(DateOnly) AS Count 
-        FROM CategoryView 
+        SELECT Page_Id AS PageId, DateOnly, COUNT(DateOnly) AS Count 
+        FROM pageview 
         WHERE DateOnly 
             BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE()
-        GROUP BY Category_Id, DateOnly 
-        ORDER BY Category_Id, DateOnly;");
+        GROUP BY Page_Id, DateOnly 
+        ORDER BY Page_Id, DateOnly;");
 
         query.SetParameter("days", days);
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
@@ -92,7 +92,7 @@ public class PageViewRepo(
     {
         var query = _session.CreateSQLQuery(@"
         SELECT DateOnly, COUNT(DISTINCT User_id) AS Count
-        FROM categoryview
+        FROM pageview
         WHERE User_id > 0
           AND DateOnly >= CURDATE() - INTERVAL :days DAY
         GROUP BY DateOnly
@@ -116,13 +116,13 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Category_Id as PageId
-        FROM categoryview 
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId
+        FROM pageview 
         GROUP BY 
-            Category_Id, 
+            Page_Id, 
             DateOnly
         ORDER BY 
-            Category_Id, 
+            Page_Id, 
             DateOnly;");
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
@@ -134,8 +134,8 @@ public class PageViewRepo(
     public IList<int> GetRecentPagesForUser(int userId)
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT DISTINCT category_id
-        FROM categoryview
+        SELECT DISTINCT Page_id
+        FROM pageview
         WHERE user_id = :userId
         ORDER BY DateCreated DESC
         LIMIT 5;");

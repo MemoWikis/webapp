@@ -18,7 +18,7 @@ namespace TrueOrFalse.Search
         public async Task Run()
         {
             await _client.DeleteIndexAsync(MeiliSearchConstants.Users);
-            await _client.DeleteIndexAsync("MeiliSearchCategory");
+            await _client.DeleteIndexAsync("MeiliSearchPage");
 
             var allUser = _userReadingRepo.GetAll();
             var listMeilieSearchUser = new List<MeiliSearchUserMap>();

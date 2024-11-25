@@ -17,7 +17,7 @@ internal class UpdateToVs268
         using var transaction = nhibernateSession.BeginTransaction();
         try
         {
-            var query = @"SELECT Id, Category_id AS ChildId, Related_id AS ParentId FROM relatedcategoriestorelatedcategories ORDER BY Related_id, Id";
+            var query = @"SELECT Id, Page_id AS ChildId, Related_id AS ParentId FROM relatedcategoriestorelatedcategories ORDER BY Related_id, Id";
             IList<PageRelationInfo> allRecords = nhibernateSession.CreateSQLQuery(query)
                 .SetResultTransformer(Transformers.AliasToBean<PageRelationInfo>())
                 .List<PageRelationInfo>();

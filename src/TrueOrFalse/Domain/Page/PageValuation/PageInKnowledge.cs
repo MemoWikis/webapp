@@ -40,14 +40,14 @@ public class PageInKnowledge(
     public void UnpinQuestionsInPageInDatabase(int pageId, int userId)
     {
         var user = _userReadingRepo.GetByIds(userId).First();
-        var questionsInCategory = EntityCache.GetPage(pageId)
+        var questionsInPage = EntityCache.GetPage(pageId)
             .GetAggregatedQuestionsFromMemoryCache(userId);
-        var questionIds = questionsInCategory.GetIds();
+        var questionIds = questionsInPage.GetIds();
 
         var questionsInValuatedPages = QuestionsInValuatedPages(user.Id, questionIds, exceptPageId: pageId);
 
         var questionInOtherPinnedEntities = questionsInValuatedPages;
-        var questionsToUnpin = questionsInCategory
+        var questionsToUnpin = questionsInPage
             .Where(question => questionInOtherPinnedEntities.All(id => id != question.Id))
             .ToList();
 

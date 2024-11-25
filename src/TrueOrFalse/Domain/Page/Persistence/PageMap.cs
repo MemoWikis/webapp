@@ -4,7 +4,7 @@ public class PageMap : ClassMap<Page>
 {
     public PageMap()
     {
-        Table("category");
+        Table("page");
         Id(x => x.Id);
 
         Map(x => x.Name);

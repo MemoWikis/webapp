@@ -14,7 +14,7 @@ public class PageRelationCache : IPersistable
         var result = new List<PageRelationCache>();
 
         if (parentRelations == null)
-            Logg.r.Error("CategoryRelations cannot be null");
+            Logg.r.Error("PageRelations cannot be null");
 
         if (parentRelations.Count <= 0 || parentRelations == null)
         {
@@ -33,7 +33,7 @@ public class PageRelationCache : IPersistable
         var sortedList = new List<PageRelationCache>();
 
         if (childRelations == null)
-            Logg.r.Error("CategoryRelations cannot be null");
+            Logg.r.Error("PageRelations cannot be null");
 
         if (childRelations.Count <= 0 || childRelations == null)
         {

@@ -4,7 +4,7 @@ public class PageViewMap : ClassMap<PageView>
 {
     public PageViewMap()
     {
-        Table("categoryview");
+        Table("pageview");
 
         Id(x => x.Id);
 

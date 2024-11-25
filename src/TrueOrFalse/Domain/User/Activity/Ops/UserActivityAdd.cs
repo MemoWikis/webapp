@@ -23,7 +23,7 @@ public class UserActivityAdd
     }
 
     /// <summary>
-    /// Add Category to UserActivityRepo
+    /// Add Page to UserActivityRepo
     /// </summary>
     /// <param name="page"></param>
     public static void CreatedPage(
