@@ -1,9 +1,14 @@
 <script lang="ts" setup>
 
 import { debounce } from 'underscore'
-import { usePageStore } from '../page/pageStore'
+import { FooterPages, usePageStore } from '../page/pageStore'
 import { useSideSheetStore } from './sideSheetStore'
 import { useUserStore } from '../user/userStore'
+
+interface Props {
+    footerPages: FooterPages
+}
+const props = defineProps<Props>()
 
 const pageStore = usePageStore()
 const sideSheetStore = useSideSheetStore()
@@ -184,6 +189,16 @@ const removeFromFavorites = async (id: number) => {
         console.log(result.messageKey)
     }
 }
+
+const showCreateWikiModal = ref(false)
+const config = useRuntimeConfig()
+
+const discordBounce = ref(false)
+
+const handleWikiCreated = async () => {
+    showCreateWikiModal.value = false
+    sideSheetStore.wikis = await $api<GetWikisResponse[]>('/apiVue/SideSheet/GetWikis')
+}
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
@@ -236,9 +251,9 @@ const removeFromFavorites = async (id: number) => {
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showWikis" class="sidesheet-button" @click="console.log('test')">
+                            <div v-if="showWikis" class="sidesheet-button" @click="showCreateWikiModal = true">
                                 <font-awesome-icon :icon="['far', 'square-plus']" />
-                                {{ collapsed ? '' : 'Wiki erstellen' }} <!-- Modal öffnen -->
+                                {{ collapsed ? '' : 'Wiki erstellen' }}
                             </div>
                         </Transition>
                     </template>
@@ -329,10 +344,42 @@ const removeFromFavorites = async (id: number) => {
 
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>
-            <div class="sidesheet-content">
+            <div class="sidesheet-content footer">
+                <SideSheetSection class="no-b-padding">
+                    <template #header>
+                        <div class="header-container" @click="showWikis = !showWikis">
 
+                            <font-awesome-icon :icon="['far', 'circle-question']" />
+                            <div v-show="!hidden" class="header-title">
+                                Hilfe
+                            </div>
+                        </div>
+                    </template>
+
+                    <template #content v-if="!collapsed">
+                        <div class="help-links">
+                            <NuxtLink
+                                :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
+                                class="sidebar-link">
+                                Dokumentation
+                            </NuxtLink>
+                            <div class="link-divider-container">
+                                <div class="link-divider"></div>
+                            </div>
+                            <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
+                                @mouseleave="discordBounce = false">
+                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> Discord
+                            </NuxtLink>
+                        </div>
+                    </template>
+
+                </SideSheetSection>
             </div>
         </div>
+
+        <ClientOnly>
+            <SideSheetCreateWikiModal :show-modal="showCreateWikiModal" @close-wiki-modal="showCreateWikiModal = false" @wiki-created="handleWikiCreated" />
+        </ClientOnly>
     </div>
 </template>
 
@@ -358,7 +405,7 @@ const removeFromFavorites = async (id: number) => {
     }
 
     #SideSheetFooter {
-        height: 100px;
+        height: 110px;
         position: fixed;
         width: 400px;
         bottom: 0px;
@@ -373,6 +420,7 @@ const removeFromFavorites = async (id: number) => {
         .sidesheet-content {
             border-top: 1px solid @memo-grey-light;
             background: @memo-grey-lightest;
+
         }
     }
 
@@ -381,6 +429,14 @@ const removeFromFavorites = async (id: number) => {
 
         #SideSheetFooter {
             width: 80px;
+
+            .sidesheet-content {
+                &.footer {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
         }
     }
 
@@ -415,5 +471,27 @@ const removeFromFavorites = async (id: number) => {
 
 .slash-bg {
     color: white;
+}
+
+.help-links {
+    color: @memo-grey-dark;
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    .sidebar-link {
+        color: @memo-grey-dark;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 0 8px;
+        font-size: 14px;
+
+        &:hover {
+            color: @memo-blue-link;
+        }
+    }
 }
 </style>

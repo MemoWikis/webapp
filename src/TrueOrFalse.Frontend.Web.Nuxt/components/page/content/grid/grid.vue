@@ -188,7 +188,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Seiten' }} ({{ pageStore.childPageCount }})
+                        {{ isMobile ? 'UnterSeiten' : 'Untergeordnete Seiten' }} ({{ pageStore.childPageCount }})
                     </div>
 
                     <div class="grid-options">

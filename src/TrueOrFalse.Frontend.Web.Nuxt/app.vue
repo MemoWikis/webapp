@@ -228,7 +228,7 @@ onMounted(() => {
 		<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
 	</ClientOnly>
 
-	<SideSheet />
+	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
 
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"

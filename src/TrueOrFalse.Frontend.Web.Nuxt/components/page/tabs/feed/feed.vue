@@ -131,7 +131,7 @@ const ariaId = useId()
                     </div>
                     <template #popper>
                         <div class="checkbox-container dropdown-row" @click="getDescendants = !getDescendants">
-                            <label>Unterthemen einschließen</label>
+                            <label>UnterSeiten einschließen</label>
                             <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
 
                             <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />

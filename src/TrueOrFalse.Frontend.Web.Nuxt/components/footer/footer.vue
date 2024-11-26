@@ -46,7 +46,7 @@ onMounted(() => {
     </section>
     <div id="MasterFooter" :class="{ 'window-loading': !windowLoaded }">
         <div class="row">
-            <div class="container">
+            <div class="container footer-container">
                 <div class="row Promoter">
                     <div class="col-xs-12">
                     </div>
@@ -215,15 +215,17 @@ onMounted(() => {
 
 <style lang="less">
 #MasterFooter {
-    transition: all 0.3s ease-in-out;
-    padding-left: 0px;
-
-    @media (min-width: 900px) {
-        padding-left: 200px;
-    }
-
-    &.window-loading {
+    .footer-container {
+        transition: all 0.3s ease-in-out;
         padding-left: 0px;
+
+        @media (min-width: 900px) {
+            padding-left: 200px;
+        }
+
+        &.window-loading {
+            padding-left: 0px;
+        }
     }
 }
 

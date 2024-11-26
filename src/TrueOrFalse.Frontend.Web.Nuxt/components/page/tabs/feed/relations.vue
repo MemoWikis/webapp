@@ -66,7 +66,7 @@ watch(() => props.relationChanges, () => {
         </div>
 
         <div v-if="addedChildren.length > 0">
-            {{ addedChildren.length > 1 ? 'Unterthemen hinzugefügt' : 'Unterseite hinzugefügt' }}
+            {{ addedChildren.length > 1 ? 'UnterSeiten hinzugefügt' : 'Unterseite hinzugefügt' }}
 
             <div class="feed-item-relation-list" v-for="addedChild in addedChildren.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getPageUrl(addedChild.name, addedChild.id)" @click.stop>
@@ -78,7 +78,7 @@ watch(() => props.relationChanges, () => {
         </div>
 
         <div v-if="removedChildren.length > 0">
-            {{ removedChildren.length > 1 ? 'Unterthemen entfernt' : 'Unterseite entfernt' }}
+            {{ removedChildren.length > 1 ? 'UnterSeiten entfernt' : 'Unterseite entfernt' }}
             <div class="feed-item-relation-list" v-for="removedChild in removedChildren.slice(0, 3)">
                 <NuxtLink :to="$urlHelper.getPageUrl(removedChild.name, removedChild.id)" @click.stop>
                     {{ removedChild.name }}

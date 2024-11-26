@@ -213,7 +213,8 @@
         }
     }
 
-    #SideSheetContainer {
+    #SideSheetContainer,
+    #SideSheetFooter {
         .header-container {
             display: flex;
             flex-wrap: nowrap;
@@ -236,7 +237,8 @@
             display: none;
         }
 
-        #SideSheetContainer {
+        #SideSheetContainer,
+        #SideSheetFooter {
             .footer {
                 display: none;
             }

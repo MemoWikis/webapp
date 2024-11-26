@@ -145,7 +145,7 @@ const ariaId2 = useId()
             </template>
         </h1>
         <div id="PageHeaderDetails" :class="{ 'is-mobile': isMobile }">
-            <div v-if="pageStore.childPageCount > 0 && !isMobile" class="page-detail clickable" @click="scrollToChildPages()" v-tooltip="'Alle Unterthemen'">
+            <div v-if="pageStore.childPageCount > 0 && !isMobile" class="page-detail clickable" @click="scrollToChildPages()" v-tooltip="'Alle UnterSeiten'">
                 <font-awesome-icon icon="fa-solid fa-sitemap" class="page-fa-icon" />
                 <div class="page-detail-label">{{ pageStore.childPageCount }}</div>
             </div>

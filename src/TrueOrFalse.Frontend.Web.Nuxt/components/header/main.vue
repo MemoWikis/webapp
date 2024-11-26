@@ -385,7 +385,6 @@ const hidePartial = computed(() => {
 
     .sidesheet-button {
         border-right: 1px solid @memo-grey-light;
-        margin-right: 12px;
         height: 100%;
         display: flex;
         justify-content: center;
@@ -397,6 +396,7 @@ const hidePartial = computed(() => {
         user-select: none;
         background: white;
         height: 47px;
+        margin-right: 2px;
 
         @media (min-width: 900px) {
             display: none;

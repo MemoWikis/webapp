@@ -175,7 +175,7 @@ watch(() => props.tab, (t) => {
     <div class="container">
         <div class="row page-container main-page">
             <template v-if="page?.canAccess">
-                <div class="col-lg-9 col-md-12 container">
+                <div class="col-lg-9 col-md-12 container page">
                     <PageHeader />
 
                     <template v-if="pageStore?.id != 0">
@@ -320,6 +320,10 @@ pre {
     @media(min-width: 992px) {
         display: flex;
 
+    }
+
+    .page {
+        width: 100%;
     }
 }
 
