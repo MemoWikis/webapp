@@ -165,4 +165,10 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         if (FavoriteIds.Contains(id))
             FavoriteIds.Remove(id);
     }
+
+    public void CleanupWikiIdsAndFavoriteIds()
+    {
+        WikiIds = WikiIds.Where(id => EntityCache.GetPage(id) != null).ToList();
+        FavoriteIds = FavoriteIds.Where(id => EntityCache.GetPage(id) != null).ToList();
+    }
 }

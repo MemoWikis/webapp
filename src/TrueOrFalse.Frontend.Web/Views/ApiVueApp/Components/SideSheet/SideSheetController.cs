@@ -6,7 +6,6 @@ namespace VueApp;
 
 public class SideSheetController(
     SessionUser _sessionUser,
-    WikiCreator _wikiCreator,
     UserWritingRepo _userWritingRepo,
     ExtendedUserCache _extendedUserCache) : Controller
 {
@@ -21,7 +20,10 @@ public class SideSheetController(
         }
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
+        userCacheItem.CleanupWikiIdsAndFavoriteIds();
+
         var wikis = userCacheItem.Wikis
+            .Where(w => w != null && w.IsWiki)
             .Select(w => new WikiItem(w.Id, w.Name, w.Parents().Any()))
             .ToList();
         var userStartPage = EntityCache.GetPage(userCacheItem.StartPageId);
@@ -36,9 +38,16 @@ public class SideSheetController(
     [HttpGet]
     public IList<FavoriteItem> GetFavorites()
     {
+        if (_sessionUser == null || !_sessionUser.IsLoggedIn)
+        {
+            return new List<FavoriteItem>();
+        }
+
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
+        userCacheItem.CleanupWikiIdsAndFavoriteIds();
 
         var favorites = userCacheItem.Favorites
+            .Where(f => f != null)
             .Select(f => new FavoriteItem(f.Id, f.Name))
             .ToList();
         return favorites;
@@ -49,6 +58,10 @@ public class SideSheetController(
     [HttpPost]
     public AddToFavoriteResponse AddToFavorites([FromRoute] int id)
     {
+        if (_sessionUser == null || !_sessionUser.IsLoggedIn)
+        {
+            return new AddToFavoriteResponse(false, FrontendMessageKeys.Error.User.NotLoggedIn);
+        }
         if (id <= 0)
         {
             return new AddToFavoriteResponse(false, FrontendMessageKeys.Error.Default);
@@ -67,10 +80,16 @@ public class SideSheetController(
     [HttpPost]
     public RemoveFromFavoritesResponse RemoveFromFavorites([FromRoute] int id)
     {
+        if (_sessionUser == null || !_sessionUser.IsLoggedIn)
+        {
+            return new RemoveFromFavoritesResponse(false, FrontendMessageKeys.Error.User.NotLoggedIn);
+        }
+
         if (id <= 0)
         {
             return new RemoveFromFavoritesResponse(false, FrontendMessageKeys.Error.Default);
         }
+
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         userCacheItem.RemoveFavorite(id);

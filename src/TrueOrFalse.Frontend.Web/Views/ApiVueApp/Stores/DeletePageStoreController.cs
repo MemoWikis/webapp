@@ -5,12 +5,12 @@ using System.Linq;
 using static PageDeleter;
 
 public class DeletePageStoreController(
-    SessionUser sessionUser,
-    PageDeleter pageDeleter,
+    SessionUser _sessionUser,
+    PageDeleter _pageDeleter,
     CrumbtrailService _crumbtrailService,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : BaseController(sessionUser)
+    QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
 {
     public record struct SuggestedNewParent(
         int Id,
@@ -44,7 +44,8 @@ public class DeletePageStoreController(
         bool HasChildren,
         SuggestedNewParent? SuggestedNewParent,
         bool HasQuestion,
-        bool HasPublicQuestion);
+        bool HasPublicQuestion,
+        bool IsWiki);
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
@@ -64,7 +65,7 @@ public class DeletePageStoreController(
         var hasQuestion = questions?.Count > 0;
 
         if (!hasChildren && !hasQuestion)
-            return new DeleteData(topic.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false);
+            return new DeleteData(topic.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false, IsWiki: topic.IsWiki);
 
         var hasPublicQuestion = questions?
             .Any(q => q.Visibility == QuestionVisibility.All) ?? false;
@@ -78,11 +79,11 @@ public class DeletePageStoreController(
                 .SuggestNewParent(parents, hasPublicQuestion);
 
         if (newParentId == null)
-            return new DeleteData(topic.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion);
+            return new DeleteData(topic.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion, IsWiki: topic.IsWiki);
 
         var suggestedNewParent = FillSuggestedNewParent(EntityCache.GetPage((int)newParentId));
 
-        return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion);
+        return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion, IsWiki: topic.IsWiki);
     }
 
     public readonly record struct DeleteRequest(int PageToDeleteId, int? ParentForQuestionsId);
@@ -108,7 +109,8 @@ public class DeletePageStoreController(
                 return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.NewPageIdIsPageIdToBeDeleted);
         }
 
-        var deleteResult = pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
+        var deleteResult = _pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
+        _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
 
         return new DeleteResponse(
             Success: deleteResult.Success,

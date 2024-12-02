@@ -61,6 +61,16 @@
                 filter: brightness(0.9);
             }
 
+            &.no-hover {
+                &:hover {
+                    filter: brightness(1);
+                }
+
+                &:active {
+                    filter: brightness(1);
+                }
+            }
+
         }
 
         .header-title {
@@ -131,8 +141,8 @@
                 opacity: 0;
                 border-radius: 4px;
                 margin: 2px;
-                height: 18px;
-                width: 18px;
+                height: 20px;
+                width: 20px;
                 padding: 2px;
                 background: @memo-grey-lightest;
 

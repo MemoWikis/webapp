@@ -4,6 +4,9 @@ import { debounce } from 'underscore'
 import { FooterPages, usePageStore } from '../page/pageStore'
 import { useSideSheetStore } from './sideSheetStore'
 import { useUserStore } from '../user/userStore'
+import { useDeletePageStore } from '../page/delete/deletePageStore'
+import { useConvertStore } from '../page/convert/convertStore'
+import { messages } from '../alert/messages'
 
 interface Props {
     footerPages: FooterPages
@@ -13,6 +16,10 @@ const props = defineProps<Props>()
 const pageStore = usePageStore()
 const sideSheetStore = useSideSheetStore()
 const userStore = useUserStore()
+const deletePageStore = useDeletePageStore()
+const convertStore = useConvertStore()
+
+const snackbar = useSnackbar()
 
 const windowWidth = ref(0)
 const windowHeight = ref(0)
@@ -144,6 +151,7 @@ watch(() => sideSheetStore.showSideSheet, (show) => {
 }, { immediate: true })
 
 const handleMouseOver = () => {
+
     collapsed.value = false
 }
 const handleMouseLeave = () => {
@@ -156,6 +164,11 @@ const ariaId = useId()
 const addToFavorites = async (name: string, id: number) => {
 
     if (isFavorite.value) {
+        return
+    }
+
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
         return
     }
 
@@ -184,9 +197,17 @@ const removeFromFavorites = async (id: number) => {
     })
 
     if (result.success) {
+        const name = sideSheetStore.favorites.find(f => f.id == id)?.name
         sideSheetStore.removeFromFavoritePages(id)
+        snackbar.add({
+            message: `'${name}' wurde aus den Favoriten entfernt`,
+            type: 'success'
+        })
     } else if (result.messageKey) {
-        console.log(result.messageKey)
+        snackbar.add({
+            message: messages.getByCompositeKey(result.messageKey),
+            type: 'error'
+        })
     }
 }
 
@@ -199,6 +220,24 @@ const handleWikiCreated = async () => {
     showCreateWikiModal.value = false
     sideSheetStore.wikis = await $api<GetWikisResponse[]>('/apiVue/SideSheet/GetWikis')
 }
+
+deletePageStore.$onAction(({ after, name }) => {
+    if (name == 'deletePage') {
+        after((result) => {
+            if (result && result.id && (sideSheetStore.wikis.some(w => w.id == result.id) || sideSheetStore.favorites.some(f => f.id == result.id))) {
+                init()
+            }
+        })
+    }
+})
+
+convertStore.$onAction(({ after, name }) => {
+    if (name == 'convertPageToWiki' || name == 'convertWikiToPage') {
+        after((result) => {
+            init()
+        })
+    }
+})
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
@@ -236,10 +275,10 @@ const handleWikiCreated = async () => {
                                             <font-awesome-icon :icon="['fas', 'ellipsis']" />
                                         </div>
                                         <template #popper="{ hide }">
-                                            <p class="breadcrumb-dropdown dropdown-row" @click="hide">
+                                            <p class="breadcrumb-dropdown dropdown-row" @click="deletePageStore.openModal(wiki.id, false); hide()">
                                                 Wiki löschen
                                             </p>
-                                            <p class="breadcrumb-dropdown dropdown-row" @click="hide">
+                                            <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row" @click="convertStore.openModal(wiki.id)">
                                                 In Seite umwandeln
                                             </p>
                                         </template>
@@ -286,9 +325,9 @@ const handleWikiCreated = async () => {
                                     </NuxtLink>
                                     <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
                                         <font-awesome-layers>
-                                            <font-awesome-icon :icon="['far', 'star']" />
-                                            <font-awesome-icon :icon="['fas', 'slash']" transform="rotate-20 flip-v" class="slash-bg" />
-                                            <font-awesome-icon :icon="['fas', 'slash']" transform="rotate-20 flip-v" />
+                                            <font-awesome-icon :icon="['far', 'star']" transform="left-1" />
+                                            <font-awesome-icon :icon="['fas', 'slash']" transform="down-2 left-2" class="slash-bg" />
+                                            <font-awesome-icon :icon="['fas', 'slash']" transform="left-2 shrink-2" />
                                         </font-awesome-layers>
                                     </div>
                                 </div>
@@ -347,7 +386,7 @@ const handleWikiCreated = async () => {
             <div class="sidesheet-content footer">
                 <SideSheetSection class="no-b-padding">
                     <template #header>
-                        <div class="header-container" @click="showWikis = !showWikis">
+                        <div class="header-container no-hover" @click="showWikis = !showWikis">
 
                             <font-awesome-icon :icon="['far', 'circle-question']" />
                             <div v-show="!hidden" class="header-title">
@@ -435,6 +474,7 @@ const handleWikiCreated = async () => {
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    height: 70px;
                 }
             }
         }
@@ -469,9 +509,7 @@ const handleWikiCreated = async () => {
     }
 }
 
-.slash-bg {
-    color: white;
-}
+
 
 .help-links {
     color: @memo-grey-dark;
@@ -493,5 +531,11 @@ const handleWikiCreated = async () => {
             color: @memo-blue-link;
         }
     }
+}
+</style>
+
+<style lang="less">
+svg.slash-bg {
+    color: white !important;
 }
 </style>

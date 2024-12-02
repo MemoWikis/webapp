@@ -202,10 +202,12 @@ onMounted(() => {
 .master-footer-logo-img {
     margin-bottom: 20px;
     padding-right: 20px;
+    filter: brightness(0.36);
 }
 
 .bitwerke-logo {
     padding: 0 10px;
+    filter: brightness(0.36);
 }
 
 .cc-license-text {
@@ -220,7 +222,7 @@ onMounted(() => {
         padding-left: 0px;
 
         @media (min-width: 900px) {
-            padding-left: 200px;
+            padding-left: 100px;
         }
 
         &.window-loading {

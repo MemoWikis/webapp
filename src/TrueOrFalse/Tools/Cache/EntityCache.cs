@@ -286,6 +286,7 @@ public class EntityCache
 
     public static void AddOrUpdate(UserCacheItem user)
     {
+        user.CleanupWikiIdsAndFavoriteIds();
         AddOrUpdate(Users, user);
     }
 

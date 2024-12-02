@@ -251,6 +251,7 @@ onMounted(() => {
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />
 		<SnackBar />
+		<LazyPageConvertModal />
 	</ClientOnly>
 </template>
 

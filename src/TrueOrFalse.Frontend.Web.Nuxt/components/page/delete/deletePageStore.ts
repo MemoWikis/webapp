@@ -17,7 +17,8 @@ export const useDeletePageStore = defineStore('deletePageStore', {
             hasQuestion: false,
             hasPublicQuestion: false,
             messageKey: '',
-            showErrorMsg: false
+            showErrorMsg: false,
+            isWiki: false
         }
     },
     actions: {
@@ -31,6 +32,7 @@ export const useDeletePageStore = defineStore('deletePageStore', {
             this.suggestedNewParent = null
             this.hasQuestion = false
             this.hasPublicQuestion = false
+            this.isWiki = false
             
             if (await this.initDeleteData())
                 this.showModal = true
@@ -43,6 +45,7 @@ export const useDeletePageStore = defineStore('deletePageStore', {
                 suggestedNewParent: PageItem | null
                 hasQuestion: boolean
                 hasPublicQuestion: boolean
+                isWiki: boolean
             }
             const result = await $api<DeleteDataResult>(`/apiVue/DeletePageStore/GetDeleteData/${this.id}`, { method: 'GET', mode: 'cors', credentials: 'include' })
             if (result != null) {
@@ -50,6 +53,7 @@ export const useDeletePageStore = defineStore('deletePageStore', {
                 this.name = result.name
                 this.hasQuestion = result.hasQuestion
                 this.hasPublicQuestion = result.hasPublicQuestion
+                this.isWiki = result.isWiki
                 if (result.hasChildren) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(AlertType.Error, { text: messages.error.page.notLastChild }, 'Verstanden', undefined, `Die Seite: '${this.name}' kann nicht gelöscht werden`)

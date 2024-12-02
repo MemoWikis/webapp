@@ -81,6 +81,11 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         return true;
     }
 
+    public bool CanConvertPage(PageCacheItem page)
+    {
+        return _isInstallationAdmin || _userId == page.CreatorId;
+    }
+
     public bool CanDelete(PageCacheItem page)
     {
         if (_userId == default || page == null || page.Id == 0)
