@@ -14,21 +14,21 @@ public class PageDataManager(
 {
     public PageDataResult GetPageData(int id)
     {
-        var topic = EntityCache.GetPage(id);
-        if (topic == null)
+        var page = EntityCache.GetPage(id);
+        if (page == null)
             return new PageDataResult
             {
                 ErrorCode = NuxtErrorPageType.NotFound,
                 MessageKey = FrontendMessageKeys.Error.Page.NotFound
             };
 
-        if (_permissionCheck.CanView(_sessionUser.UserId, topic))
+        if (_permissionCheck.CanView(_sessionUser.UserId, page))
         {
             var imageMetaData = _imageMetaDataReadingRepo.GetBy(id, ImageType.Page);
             var knowledgeSummary =
                 _knowledgeSummaryLoader.RunFromMemoryCache(id, _sessionUser.UserId);
 
-            return CreatePageDataObject(id, topic, imageMetaData, knowledgeSummary);
+            return CreatePageDataObject(id, page, imageMetaData, knowledgeSummary);
         }
 
         if (_sessionUser.IsLoggedIn)
@@ -45,23 +45,23 @@ public class PageDataManager(
         };
     }
 
-    private SearchPageItem FillMiniPageItem(PageCacheItem topic)
+    private SearchPageItem FillMiniPageItem(PageCacheItem page)
     {
         var miniPageItem = new SearchPageItem
         {
-            Id = topic.Id,
-            Name = topic.Name,
-            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new PageImageSettings(topic.Id,
+            Id = page.Id,
+            Name = page.Name,
+            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),
+            ImageUrl = new PageImageSettings(page.Id,
                     _httpContextAccessor)
                 .GetUrl_128px(true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Page),
+                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page),
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
-            Visibility = (int)topic.Visibility
+            Visibility = (int)page.Visibility
         };
 
         return miniPageItem;
@@ -69,23 +69,23 @@ public class PageDataManager(
 
     private PageDataResult CreatePageDataObject(
         int id,
-        PageCacheItem topic,
+        PageCacheItem page,
         ImageMetaData imageMetaData,
         KnowledgeSummary knowledgeSummary)
     {
-        var authorIds = topic.AuthorIds.Distinct();
+        var authorIds = page.AuthorIds.Distinct();
         return new PageDataResult
         {
             CanAccess = true,
             Id = id,
-            Name = topic.Name,
+            Name = page.Name,
             ImageUrl = new PageImageSettings(id, _httpContextAccessor).GetUrl_128px(true).Url,
-            Content = topic.Content,
-            ParentPageCount = topic.Parents()
+            Content = page.Content,
+            ParentPageCount = page.Parents()
                 .Where(_permissionCheck.CanView)
                 .ToList()
                 .Count,
-            Parents = topic.Parents()
+            Parents = page.Parents()
                 .Where(_permissionCheck.CanView)
                 .Select(p =>
                     new Parent
@@ -98,11 +98,11 @@ public class PageDataManager(
                     })
                 .ToArray(),
             ChildPageCount = GraphService
-                .VisibleDescendants(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+                .VisibleDescendants(page.Id, _permissionCheck, _sessionUser.UserId).Count,
             DirectVisibleChildPageCount = GraphService
-                .VisibleChildren(topic.Id, _permissionCheck, _sessionUser.UserId).Count,
+                .VisibleChildren(page.Id, _permissionCheck, _sessionUser.UserId).Count,
             Views = pageViewRepo.GetViewCount(id),
-            Visibility = topic.Visibility,
+            Visibility = page.Visibility,
             AuthorIds = authorIds.ToArray(),
             Authors = authorIds.Select(authorId =>
             {
@@ -116,17 +116,17 @@ public class PageDataManager(
                     author.ReputationPos
                 );
             }).ToArray(),
-            IsWiki = topic.IsWikiType(),
-            CurrentUserIsCreator = CurrentUserIsCreator(topic),
-            CanBeDeleted = _permissionCheck.CanDelete(topic),
-            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            DirectQuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId, true,
-                topic.Id),
+            IsWiki = page.IsWikiType(),
+            CurrentUserIsCreator = CurrentUserIsCreator(page),
+            CanBeDeleted = _permissionCheck.CanDelete(page),
+            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),
+            DirectQuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId, true,
+                page.Id),
             ImageId = imageMetaData != null ? imageMetaData.Id : 0,
-            PageItem = FillMiniPageItem(topic),
-            MetaDescription = SeoUtils.ReplaceDoubleQuotes(topic.Content == null
+            PageItem = FillMiniPageItem(page),
+            MetaDescription = SeoUtils.ReplaceDoubleQuotes(page.Content == null
                     ? null
-                    : Regex.Replace(topic.Content, "<.*?>", ""))
+                    : Regex.Replace(page.Content, "<.*?>", ""))
                 .Truncate(250, true),
             KnowledgeSummary = new KnowledgeSummarySlim(
                 NotLearned: knowledgeSummary.NotLearned + knowledgeSummary.NotInWishknowledge,
@@ -144,18 +144,18 @@ public class PageDataManager(
             IsChildOfPersonalWiki = _sessionUser.IsLoggedIn && EntityCache
                 .GetPage(_sessionUser.User.StartPageId)
                 .ChildRelations
-                .Any(r => r.ChildId == topic.Id),
-            TextIsHidden = topic.TextIsHidden,
+                .Any(r => r.ChildId == page.Id),
+            TextIsHidden = page.TextIsHidden,
             MessageKey = ""
         };
     }
 
-    private bool CurrentUserIsCreator(PageCacheItem topic)
+    private bool CurrentUserIsCreator(PageCacheItem page)
     {
         if (_sessionUser.IsLoggedIn == false)
             return false;
 
-        return _sessionUser.UserId == topic.Creator?.Id;
+        return _sessionUser.UserId == page.Creator?.Id;
     }
 
     public record Author(int Id, string Name, string ImgUrl, int Reputation, int ReputationPos);

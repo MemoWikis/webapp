@@ -18,16 +18,17 @@ export const useConvertStore = defineStore('convertStore', () => {
     const itemId = ref<number>(0)
     const conversionTarget = ref<ConversionTarget>(ConversionTarget.Wiki)
     const name = ref('')
+    const keepParents = ref<boolean>(false)
 
     const openModal = async (id: number) => {
         itemId.value = id
         errorMsg.value = ''
         showErrorMsg.value = false
+        keepParents.value = false
 
         await initConvertData()
 
         showModal.value = true
-
     }
 
     const initConvertData = async () => {
@@ -70,7 +71,8 @@ export const useConvertStore = defineStore('convertStore', () => {
             credentials: 'include',
         })
         if (result && result.success) {
-console.log('success')
+            const snackbar = useSnackbar()
+            snackbar.add({ message: 'success', type: 'success' })
         } else if (result && !result.success && result.messageKey) {
             errorMsg.value = result.messageKey
             showErrorMsg.value = true
@@ -78,13 +80,19 @@ console.log('success')
     }
 
     const convertPageToWiki = async () => {
-        const result = await $api<ConversionResult>(`/apiVue/ConvertStore/ConvertPageToWiki/${itemId.value}`, {
+        const result = await $api<ConversionResult>(`/apiVue/ConvertStore/ConvertPageToWiki/`, {
             method: 'POST',
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'include',
+            body: { 
+                id: itemId.value,
+                keepParents: keepParents.value 
+            }
         })
         if (result && result.success) {
-console.log('success')
+            
+            const snackbar = useSnackbar()
+            snackbar.add({ message: 'success', type: 'success' })
 
         } else if (result && !result.success && result.messageKey) {
             errorMsg.value = result.messageKey

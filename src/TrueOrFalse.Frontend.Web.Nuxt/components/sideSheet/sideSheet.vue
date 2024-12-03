@@ -212,6 +212,14 @@ const removeFromFavorites = async (id: number) => {
 }
 
 const showCreateWikiModal = ref(false)
+
+const openCreateWikiModal = () => {
+    if (!userStore.isLoggedIn) {
+        userStore.openLoginModal()
+        return
+    }
+    showCreateWikiModal.value = true
+}
 const config = useRuntimeConfig()
 
 const discordBounce = ref(false)
@@ -252,7 +260,7 @@ convertStore.$onAction(({ after, name }) => {
                                 <font-awesome-icon v-if="showWikis" :icon="['fas', 'angle-down']" class="angle-icon" />
                                 <font-awesome-icon v-else :icon="['fas', 'angle-right']" class="angle-icon" />
                             </template>
-                            <font-awesome-icon :icon="['far', 'folder-open']" />
+                            <font-awesome-icon :icon="['fas', 'folder']" />
                             <div v-show="!hidden" class="header-title">
                                 Meine Wikis
                             </div>
@@ -290,8 +298,8 @@ convertStore.$onAction(({ after, name }) => {
 
                     <template #footer v-if="!collapsed">
                         <Transition name="collapse">
-                            <div v-if="showWikis" class="sidesheet-button" @click="showCreateWikiModal = true">
-                                <font-awesome-icon :icon="['far', 'square-plus']" />
+                            <div v-if="showWikis" class="sidesheet-button" @click="openCreateWikiModal">
+                                <font-awesome-icon :icon="['fas', 'folder-plus']" />
                                 {{ collapsed ? '' : 'Wiki erstellen' }}
                             </div>
                         </Transition>
@@ -388,7 +396,7 @@ convertStore.$onAction(({ after, name }) => {
                     <template #header>
                         <div class="header-container no-hover" @click="showWikis = !showWikis">
 
-                            <font-awesome-icon :icon="['far', 'circle-question']" />
+                            <font-awesome-icon :icon="['fas', 'circle-question']" />
                             <div v-show="!hidden" class="header-title">
                                 Hilfe
                             </div>
@@ -502,9 +510,14 @@ convertStore.$onAction(({ after, name }) => {
     .no-b-padding {
         padding-bottom: 0px;
 
-
         .footer {
             padding-top: 0px;
+        }
+    }
+
+    &.collapsed {
+        .no-b-padding {
+            margin-bottom: 16px;
         }
     }
 }

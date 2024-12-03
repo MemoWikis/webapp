@@ -125,6 +125,7 @@ export const usePageStore = defineStore('pageStore', {
 			viewsPast90DaysDirectQuestions: [] as ViewSummary[],
 			analyticsLoaded: false,
 			saveTrackingArray: [] as string[],
+			currentWiki: null as TinyPageModel | null,
 		}
 	},
 	actions: {

@@ -24,10 +24,10 @@ public class SearchHelper
         GlobalSearchResult elements,
         PermissionCheck permissionCheck,
         int userId,
-        int[] topicIdsToFilter = null) => items.AddRange(
+        int[] pageIdsToFilter = null) => items.AddRange(
             elements.Pages
                 .Where(c => permissionCheck.CanView(c) &&
-                    (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
+                    (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
                 .Select(c => FillSearchPageItem(c, userId))
             );
 
@@ -35,10 +35,10 @@ public class SearchHelper
         List<SearchPageItem> items,
         GlobalSearchResult elements,
         int userId,
-        int[] topicIdsToFilter = null) => items.AddRange(
+        int[] pageIdsToFilter = null) => items.AddRange(
         elements.Pages
             .Where(c => c.Visibility == PageVisibility.All &&
-                        (topicIdsToFilter == null || !topicIdsToFilter.Contains(c.Id)))
+                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)))
             .Select(c => FillSearchPageItem(c, userId))
     );
 
@@ -61,20 +61,20 @@ public class SearchHelper
         return breadcrumbItem.Page.Id;
     }
 
-    public SearchPageItem FillSearchPageItem(PageCacheItem topic, int userId)
+    public SearchPageItem FillSearchPageItem(PageCacheItem page, int userId)
     {
         return new SearchPageItem
         {
-            Id = topic.Id,
-            Name = topic.Name,
-            QuestionCount = EntityCache.GetPage(topic.Id).GetCountQuestionsAggregated(userId),
-            ImageUrl = new PageImageSettings(topic.Id,
+            Id = page.Id,
+            Name = page.Name,
+            QuestionCount = EntityCache.GetPage(page.Id).GetCountQuestionsAggregated(userId),
+            ImageUrl = new PageImageSettings(page.Id,
                     _httpContextAccessor).GetUrl_128px(true)
                 .Url,
             MiniImageUrl = new ImageFrontendData(_imageMetaDataReadingRepo
-                    .GetBy(topic.Id, ImageType.Page), _httpContextAccessor, _questionReadingRepo)
+                    .GetBy(page.Id, ImageType.Page), _httpContextAccessor, _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Page).Url,
-            Visibility = (int)topic.Visibility
+            Visibility = (int)page.Visibility
         };
     }
 

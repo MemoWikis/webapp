@@ -4,7 +4,7 @@ import { ImageFormat } from '~~/components/image/imageFormatEnum.js'
 import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
-import { PageEnum } from '~/components/shared/pageEnum'
+import { Site } from '~/components/shared/siteEnum'
 import { messages } from '~/components/alert/messages'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 
@@ -160,7 +160,7 @@ function handleBreadcrumb(t: Tab) {
 }
 
 onMounted(() => {
-    emit('setPage', PageEnum.User)
+    emit('setPage', Site.User)
     handleBreadcrumb(tab.value)
 })
 

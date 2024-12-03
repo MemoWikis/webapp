@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
-import { PageEnum } from '~~/components/shared/pageEnum'
-import { FooterPages, Page } from '~/components/page/pageStore'
+import { Site } from '~/components/shared/siteEnum'
 import { SolutionType } from '~~/components/question/solutionTypeEnum'
 import { useUserStore } from '~/components/user/userStore'
 import { handleNewLine, getHighlightedCode } from '~/components/shared/utils'
@@ -13,8 +12,7 @@ const { $logger } = useNuxtApp()
 const userStore = useUserStore()
 
 interface Props {
-	footerPages: FooterPages
-	documentation: Page
+	site: Site
 }
 
 const props = defineProps<Props>()
@@ -63,7 +61,7 @@ function highlightCode(id: string) {
 }
 const emit = defineEmits(['setQuestionPageData', 'setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
-	emit('setPage', PageEnum.Question)
+	emit('setPage', Site.Question)
 
 	if (question.value?.answerBodyModel != null)
 		emit('setQuestionPageData', {
@@ -233,7 +231,7 @@ useHead(() => ({
 
 					</div>
 				</div>
-				<Sidebar :footer-pages="props.footerPages" />
+				<Sidebar :site="props.site" />
 			</template>
 		</div>
 	</div>

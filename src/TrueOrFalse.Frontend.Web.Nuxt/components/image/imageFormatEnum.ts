@@ -1,4 +1,5 @@
 export enum ImageFormat {
     Page = 'page',
-    Author = 'author'
+    Author = 'author',
+    WikiLogo = 'wikiLogo',
 }

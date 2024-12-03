@@ -58,7 +58,7 @@ SessionUser _sessionUser) : Controller
         var (todaysPrivatePageCreatedCount, monthlyPrivateCreatedPagesOfPastYear, dailyPrivateCreatedPagesOfPastYear) = GetPrivatePagesCounts();
 
         //PageViews
-        var (todaysPageViewCount, topicViewsOfPastYear) = GetPageViews();
+        var (todaysPageViewCount, pageViewsOfPastYear) = GetPageViews();
 
         //Questions
         var (todaysPublishedQuestionCount, monthlyPublishedQuestionsOfPastYear, dailyPublishedQuestionsOfPastYear) = GetPublishedQuestionCount();
@@ -86,7 +86,7 @@ SessionUser _sessionUser) : Controller
             DailyPrivateCreatedPagesOfPastYear = dailyPrivateCreatedPagesOfPastYear,
 
             TodaysPageViewCount = todaysPageViewCount,
-            PageViewsOfPastYear = topicViewsOfPastYear,
+            PageViewsOfPastYear = pageViewsOfPastYear,
 
             TodaysQuestionViewCount = todaysQuestionViewCount,
             QuestionViewsOfPastYear = questionViewsOfPastYear,
@@ -344,9 +344,9 @@ SessionUser _sessionUser) : Controller
         return (todaysPrivateQuestionCreatedCount, monthlyPrivateCreatedQuestionsOfPastYear);
     }
 
-    private (int todaysPageViews, List<ViewsResult> topicViewsOfPastYear) GetPageViews()
+    private (int todaysPageViews, List<ViewsResult> pageViewsOfPastYear) GetPageViews()
     {
-        var topicViewsOfPastYear = pageViewRepo.GetViewsForPastNDays(365);
+        var pageViewsOfPastYear = pageViewRepo.GetViewsForPastNDays(365);
 
         var startDate = DateTime.Now.Date.AddDays(-365);
         var endDate = DateTime.Now.Date;
@@ -356,7 +356,7 @@ SessionUser _sessionUser) : Controller
 
         var sortedPageViewsOfPastYear = dateRange
             .GroupJoin(
-                topicViewsOfPastYear,
+                pageViewsOfPastYear,
                 date => date,
                 u => u.Key.Date,
                 (date, views) => new ViewsResult(date, views.Sum(v => v.Value)))

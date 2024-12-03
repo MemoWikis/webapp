@@ -49,38 +49,38 @@ public class PageGridManager(
         return visibleChildren.Select(BuildGridPageItem).ToArray();
     }
 
-    public GridPageItem BuildGridPageItem(PageCacheItem topic)
+    public GridPageItem BuildGridPageItem(PageCacheItem page)
     {
-        var imageMetaData = imageMetaDataReading.GetBy(topic.Id, ImageType.Page);
+        var imageMetaData = imageMetaDataReading.GetBy(page.Id, ImageType.Page);
         var imageFrontendData =
             new ImageFrontendData(imageMetaData, httpContextAccessor, questionReadingRepo);
 
         return new GridPageItem
         {
-            Id = topic.Id,
-            Name = topic.Name,
-            QuestionCount = topic.GetAggregatedQuestionsFromMemoryCache(sessionUser.UserId).Count,
+            Id = page.Id,
+            Name = page.Name,
+            QuestionCount = page.GetAggregatedQuestionsFromMemoryCache(sessionUser.UserId).Count,
             ChildrenCount = GraphService
-                .VisibleDescendants(topic.Id, permissionCheck, sessionUser.UserId)
+                .VisibleDescendants(page.Id, permissionCheck, sessionUser.UserId)
                 .Count,
             ImageUrl = imageFrontendData.GetImageUrl(128, true, false, ImageType.Page).Url,
-            Visibility = topic.Visibility,
-            Parents = GetParents(topic),
-            KnowledgebarData = GetKnowledgebarData(topic),
+            Visibility = page.Visibility,
+            Parents = GetParents(page),
+            KnowledgebarData = GetKnowledgebarData(page),
             IsChildOfPersonalWiki = sessionUser.IsLoggedIn && GraphService
                 .VisibleDescendants(sessionUser.User.StartPageId, permissionCheck,
-                    sessionUser.UserId).Any(c => c.Id == topic.Id),
-            CreatorId = topic.CreatorId,
+                    sessionUser.UserId).Any(c => c.Id == page.Id),
+            CreatorId = page.CreatorId,
             CanDelete = sessionUser.IsLoggedIn &&
-                        (topic.CreatorId == sessionUser.User.Id ||
+                        (page.CreatorId == sessionUser.User.Id ||
                          sessionUser.IsInstallationAdmin)
         };
     }
 
-    private KnowledgebarData GetKnowledgebarData(PageCacheItem topic)
+    private KnowledgebarData GetKnowledgebarData(PageCacheItem page)
     {
         var knowledgeBarSummary =
-            new PageKnowledgeBarModel(topic, sessionUser.UserId, knowledgeSummaryLoader)
+            new PageKnowledgeBarModel(page, sessionUser.UserId, knowledgeSummaryLoader)
                 .PageKnowledgeSummary;
 
         return new KnowledgebarData
@@ -97,9 +97,9 @@ public class PageGridManager(
         };
     }
 
-    private TinyPageModel[] GetParents(PageCacheItem topic)
+    private TinyPageModel[] GetParents(PageCacheItem page)
     {
-        return topic.Parents().Where(permissionCheck.CanView).Select(p => new TinyPageModel
+        return page.Parents().Where(permissionCheck.CanView).Select(p => new TinyPageModel
         {
             Id = p.Id,
             Name = p.Name,

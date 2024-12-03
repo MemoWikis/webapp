@@ -132,8 +132,8 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         int pageId,
         int questionId)
     {
-        var topic = EntityCache.GetPage(pageId);
-        var allQuestions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
+        var page = EntityCache.GetPage(pageId);
+        var allQuestions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId);
         allQuestions = allQuestions.Where(q => q.Id > 0 && _permissionCheck.CanView(q)).ToList();
 
         bool questionNotInPage = allQuestions.All(q => q.Id != questionId);

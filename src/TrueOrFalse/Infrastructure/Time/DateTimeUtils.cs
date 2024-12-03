@@ -35,9 +35,9 @@
         return TrueOrFalse.TimeElapsedAsText.Run(dateTimeBegin);
     }
 
-    public static bool IsToday(PageCacheItem topic)
+    public static bool IsToday(PageCacheItem page)
     {
-        return IsToday(topic.DateCreated);
+        return IsToday(page.DateCreated);
     }
 
     public static bool IsRegisterToday(UserCacheItem user)
@@ -50,13 +50,13 @@
         return date.Date == DateTime.Now.Date;
     }
 
-    public static List<DailyViews> EnsureLastDaysIncluded(List<DailyViews> topicViews, int daysCount)
+    public static List<DailyViews> EnsureLastDaysIncluded(List<DailyViews> pageViews, int daysCount)
     {
         var lastDays = Enumerable.Range(0, daysCount)
             .Select(i => DateTime.Now.Date.AddDays(-i))
             .ToList();
 
-        var missingDates = lastDays.Where(date => !topicViews.Any(tv => tv.Date == date))
+        var missingDates = lastDays.Where(date => !pageViews.Any(tv => tv.Date == date))
             .Select(date => new DailyViews
             {
                 Date = date,
@@ -64,11 +64,11 @@
             })
             .ToList();
 
-        topicViews.AddRange(missingDates);
+        pageViews.AddRange(missingDates);
 
     
-        topicViews = topicViews.OrderBy(tv => tv.Date).ToList();
+        pageViews = pageViews.OrderBy(tv => tv.Date).ToList();
 
-        return topicViews;
+        return pageViews;
     }
 }

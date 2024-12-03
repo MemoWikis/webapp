@@ -51,11 +51,11 @@ public class EditPageRelationStoreController(
         {
             foreach (var pageId in _sessionUser.User.RecentlyUsedRelationTargetPageIds)
             {
-                var topicCacheItem = EntityCache.GetPage(pageId);
+                var pageCacheItem = EntityCache.GetPage(pageId);
                 recentlyUsedRelationTargetPages.Add(new SearchHelper(_imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)
-                    .FillSearchPageItem(topicCacheItem, _sessionUser.UserId));
+                    .FillSearchPageItem(pageCacheItem, _sessionUser.UserId));
             }
         }
 

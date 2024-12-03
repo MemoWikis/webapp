@@ -59,13 +59,13 @@ public class PageViewRepo(
 
     public void AddView(string userAgent, int pageId, int userId)
     {
-        var topic = pageRepository.GetById(pageId);
+        var page = pageRepository.GetById(pageId);
         var user = userId > 0 ? _userReadingRepo.GetById(userId) : null;
 
         var pageView = new PageView
         {
             UserAgent = userAgent,
-            Page = topic,
+            Page = page,
             User = user,
             DateCreated = DateTime.UtcNow,
             DateOnly = DateTime.UtcNow.Date

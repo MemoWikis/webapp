@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 import { Page, usePageStore, FooterPages } from '~/components/page/pageStore'
-import { PageEnum } from './components/shared/pageEnum'
+import { Site } from './components/shared/siteEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useSpinnerStore } from './components/spinner/spinnerStore'
@@ -64,14 +64,14 @@ const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooter
 	},
 })
 
-const page = ref(PageEnum.Default)
+const page = ref(Site.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: PageEnum | null = null) {
+function setPage(type: Site | null = null) {
 	if (type != null) {
 		page.value = type
-		if (type != PageEnum.Page) {
+		if (type != Site.Page) {
 			pageStore.setPage(new Page())
 		}
 	}
@@ -106,7 +106,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					spinnerStore.hideSpinner()
-					if (page.value == PageEnum.Page && pageStore.visibility != Visibility.All)
+					if (page.value == Site.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
 			}
@@ -132,9 +132,9 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
-	if (page.value == PageEnum.Error)
+	if (page.value == Site.Error)
 		return
-	if ((page.value == PageEnum.Page || page.value == PageEnum.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+	if ((page.value == Site.Page || page.value == Site.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
@@ -223,16 +223,13 @@ onMounted(() => {
 
 	</Html>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
-	<HeaderMain :page="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
-	<ClientOnly>
-		<BannerInfo v-if="footerPages && !userStore.isLoggedIn" :documentation="footerPages?.documentation" />
-	</ClientOnly>
+	<HeaderMain :site="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
 
 	<NuxtErrorBoundary @error="logError">
-		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-			:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" class="nuxt-page" />
+		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
+			:site="page" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" class="nuxt-page" />
 
 		<template #error="{ error }">
 			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
@@ -261,12 +258,14 @@ onMounted(() => {
 	padding-left: 10px;
 
 	@media (min-width: 900px) {
-		padding-left: 100px;
+		padding-left: clamp(100px, 10vw, 160px);
 	}
 
 	&.window-loading {
 		padding-left: 0px;
 	}
+
+	min-height: 86vh;
 }
 
 .mobile-headings {

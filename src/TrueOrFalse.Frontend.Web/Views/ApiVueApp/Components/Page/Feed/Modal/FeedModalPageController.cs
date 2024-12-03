@@ -15,13 +15,13 @@ public class FeedModalPageController(
     [HttpPost]
     public ContentChange GetContentChange([FromBody] GetContentChangeRequest req)
     {
-        var topic = EntityCache.GetPage(req.Pageid);
-        if (!_permissionCheck.CanView(topic))
+        var page = EntityCache.GetPage(req.Pageid);
+        if (!_permissionCheck.CanView(page))
             throw new Exception("No permission");
 
         var currentChange = pageChangeRepo.GetById(req.ChangeId);
 
-        var previousId = topic?.PageChangeCacheItems.First(cc => cc.Id == (req.OldestChangeId > 0 ? req.OldestChangeId : req.ChangeId)).PageChangeData.PreviousId;
+        var previousId = page?.PageChangeCacheItems.First(cc => cc.Id == (req.OldestChangeId > 0 ? req.OldestChangeId : req.ChangeId)).PageChangeData.PreviousId;
 
         if (currentChange == null || previousId == null)
             throw new Exception("No content change found");

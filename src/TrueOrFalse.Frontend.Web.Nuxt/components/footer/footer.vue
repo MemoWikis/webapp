@@ -222,7 +222,7 @@ onMounted(() => {
         padding-left: 0px;
 
         @media (min-width: 900px) {
-            padding-left: 100px;
+            padding-left: clamp(100px, 10vw, 160px);
         }
 
         &.window-loading {

@@ -1,21 +1,19 @@
 <script lang="ts" setup>
-import { FooterPages, usePageStore } from '../page/pageStore'
+import { usePageStore } from '../page/pageStore'
 import { useTabsStore, Tab } from '../page/tabs/tabsStore'
-import { useUserStore } from '../user/userStore'
+import { Site } from '../shared/siteEnum'
+import { ImageFormat } from '../image/imageFormatEnum'
 
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
-const userStore = useUserStore()
 
 const { isDesktop } = useDevice()
 interface Props {
-    footerPages: FooterPages
     showOutline?: boolean
+    site: Site
 }
 const props = defineProps<Props>()
-const config = useRuntimeConfig()
 
-const discordBounce = ref(false)
 const { $urlHelper } = useNuxtApp()
 
 </script>
@@ -27,58 +25,25 @@ const { $urlHelper } = useNuxtApp()
             <div id="SidebarSpacer"></div>
             <div id="DefaultSidebar">
 
-                <SidebarCard>
+                <SidebarCard v-if="props.site === Site.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
                     <template v-slot:body>
+                        <Image :src="pageStore.currentWiki.imgUrl" class="page-header-image" :format="ImageFormat.WikiLogo" :show-license="false" :min-height="80" :min-width="80" :alt="`${pageStore.currentWiki.name}'s image'`" />
 
-                        <div class="overline-s no-line sidebar-link-container">
+                        <div class="overline-s no-line sidebar-link-container wiki-container">
                             <NuxtLink
-                                :to="$urlHelper.getPageUrl(props.footerPages.rootWiki.name, props.footerPages.rootWiki.id)"
+                                :to="$urlHelper.getPageUrl(pageStore.currentWiki.name, pageStore.currentWiki.id)"
                                 class="sidebar-link">
-                                {{ props.footerPages.rootWiki.name }}
-                            </NuxtLink>
-                        </div>
-                        <div v-if="userStore.isLoggedIn && userStore.personalWiki" class="overline-s no-line sidebar-link-container">
-                            <NuxtLink
-                                :to="$urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id)"
-                                class="sidebar-link">
-                                Dein Wiki
-                            </NuxtLink>
-                        </div>
-                        <div v-else class="overline-s no-line sidebar-link-container">
-                            <NuxtLink
-                                :to="$urlHelper.getPageUrl(props.footerPages.memoPages[0].name, props.footerPages.memoPages[0].id)"
-                                class="sidebar-link">
-                                {{ props.footerPages.memoPages[0].name }}
+                                {{ pageStore.currentWiki.name }}
                             </NuxtLink>
                         </div>
 
-                    </template>
-                </SidebarCard>
-
-                <SidebarCard>
-                    <template v-slot:header>Hilfe</template>
-                    <template v-slot:body>
-                        <div id="SidebarHelpBody">
-                            <NuxtLink
-                                :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
-                                class="sidebar-link">
-                                Doku
-                            </NuxtLink>
-                            <div class="link-divider-container">
-                                <div class="link-divider"></div>
-                            </div>
-                            <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
-                                @mouseleave="discordBounce = false">
-                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> Discord
-                            </NuxtLink>
-                        </div>
                     </template>
                 </SidebarCard>
 
             </div>
             <template v-if="props.showOutline && pageStore.id && pageStore.name">
 
-                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Text">
+                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Text && props.site === Site.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
                     <div class="sidebarcard-divider"></div>
                 </div>
 
@@ -143,6 +108,15 @@ const { $urlHelper } = useNuxtApp()
         text-overflow: ellipsis;
         white-space: nowrap;
         max-width: 239px;
+
+        &.wiki-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            max-height: 36px;
+            text-overflow: ellipsis;
+        }
     }
 
     .sidebar-link {
@@ -190,7 +164,7 @@ const { $urlHelper } = useNuxtApp()
 
 #DefaultSidebar {
     height: 145px;
-
+    width: 200px;
     // :deep(.sidebar-title) {
     //     padding-bottom: 0px;
     //     height: 30px;

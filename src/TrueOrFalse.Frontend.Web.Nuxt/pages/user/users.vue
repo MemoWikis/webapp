@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PageEnum } from '~/components/shared/pageEnum'
+import { Site } from '~/components/shared/siteEnum'
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { UserResult } from '~~/components/users/userResult'
@@ -78,7 +78,7 @@ const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
 
 onMounted(() => {
-    emit('setPage', PageEnum.Default)
+    emit('setPage', Site.Default)
     const breadcrumbItem: BreadcrumbItem = {
         name: 'Alle Nutzer',
         url: '/Nutzer'

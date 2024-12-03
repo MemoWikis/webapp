@@ -19,40 +19,42 @@ public class ConvertStoreController
     public record struct GetConvertDataResult(bool IsWiki, string Name, string? MessageKey = null);
 
     [HttpPost]
-    public ConversionResult ConvertPageToWiki([FromRoute] int id)
+    public ConversionResponse ConvertPageToWiki([FromBody] ConvertPageToWikiRequest req)
     {
-        var page = EntityCache.GetPage(id);
+        var page = EntityCache.GetPage(req.Id);
 
         if (page == null)
-            return new ConversionResult(false, FrontendMessageKeys.Error.Default);
+            return new ConversionResponse(false, FrontendMessageKeys.Error.Default);
 
 
         if (!_permissionCheck.CanConvertPage(page))
-            return new ConversionResult(false, FrontendMessageKeys.Error.Page.MissingRights);
+            return new ConversionResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
         page.IsWiki = true;
         EntityCache.AddOrUpdate(page);
 
-        var pageEntity = _pageRepository.GetByIdEager(id);
+        var pageEntity = _pageRepository.GetByIdEager(req.Id);
         pageEntity.IsWiki = true;
         _pageRepository.Update(pageEntity);
 
         _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
 
-        return new ConversionResult(true);
+        return new ConversionResponse(true);
     }
+
+    public readonly record struct ConvertPageToWikiRequest(int Id, bool KeepParents = false);
 
 
     [HttpPost]
-    public ConversionResult ConvertWkiToPage([FromRoute] int id)
+    public ConversionResponse ConvertWkiToPage([FromRoute] int id)
     {
         var page = EntityCache.GetPage(id);
 
         if (page == null)
-            return new ConversionResult(false, FrontendMessageKeys.Error.Default);
+            return new ConversionResponse(false, FrontendMessageKeys.Error.Default);
 
         if (!_permissionCheck.CanConvertPage(page))
-            return new ConversionResult(false, FrontendMessageKeys.Error.Page.MissingRights);
+            return new ConversionResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
         page.IsWiki = false;
         EntityCache.AddOrUpdate(page);
@@ -63,9 +65,9 @@ public class ConvertStoreController
 
         _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
 
-        return new ConversionResult(true);
+        return new ConversionResponse(true);
     }
 
-    public record struct ConversionResult(bool Success, string? MessageKey = null);
+    public record struct ConversionResponse(bool Success, string? MessageKey = null);
 
 }

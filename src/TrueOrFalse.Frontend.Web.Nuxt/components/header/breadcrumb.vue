@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { VueElement } from 'vue'
-import { usePageStore } from '../page/pageStore'
-import { PageEnum } from '../shared/pageEnum'
+import { TinyPageModel, usePageStore } from '../page/pageStore'
+import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
-import { useRootPageChipStore } from './rootPageChipStore'
 
 interface Props {
-	page: PageEnum
+	site: Site
 	showSearch: boolean
 	questionPageData?: {
 		primaryPageName: string
@@ -29,9 +28,8 @@ interface BreadcrumbItem {
 }
 interface Breadcrumb {
 	newWikiId: number
-	personalWiki: BreadcrumbItem
 	items: BreadcrumbItem[]
-	rootPage: BreadcrumbItem
+	currentWiki: TinyPageModel
 	currentPage: BreadcrumbItem
 	breadcrumbHasGlobalWiki: boolean
 	isInPersonalWiki: boolean
@@ -54,7 +52,6 @@ function handleScroll() {
 		return
 	updateBreadcrumb()
 }
-const personalWiki = ref<BreadcrumbItem | null>(null)
 
 const isUpdating = ref(false)
 const shouldCalc = ref(true)
@@ -110,9 +107,9 @@ function shiftToStackedBreadcrumbItems(update: boolean = true) {
 		if (breadcrumbEl.value!.clientHeight > 21 && breadcrumbItems.value.length > 0 && update) {
 			updateBreadcrumb()
 		}
-	} else if (breadcrumb.value?.rootPage && !rootWikiIsStacked.value) {
+	} else if (breadcrumb.value?.currentWiki && !rootWikiIsStacked.value) {
 		rootWikiIsStacked.value = true
-		stackedBreadcrumbItems.value.unshift(breadcrumb.value.rootPage)
+		stackedBreadcrumbItems.value.unshift(breadcrumb.value.currentWiki)
 	}
 }
 function insertToBreadcrumbItems() {
@@ -138,20 +135,19 @@ onBeforeMount(async () => {
 
 const route = useRoute()
 watch(() => route.params, () => {
-	if (props.page != PageEnum.Page)
+	if (props.site != Site.Page)
 		getBreadcrumb()
 })
 watch(() => pageStore.id, (newId, oldId) => {
-	if (newId > 0 && newId != oldId && props.page == PageEnum.Page) {
+	if (newId > 0 && newId != oldId && props.site == Site.Page) {
 		getBreadcrumb()
 	}
 }, { immediate: true })
 
-watch(() => props.page, (newPage, oldPage) => {
-	if (oldPage != newPage && (newPage == PageEnum.Page && pageStore.id > 0))
+watch(() => props.site, (newPage, oldPage) => {
+	if (oldPage != newPage && (newPage == Site.Page && pageStore.id > 0))
 		getBreadcrumb()
 })
-const rootPageChipStore = useRootPageChipStore()
 
 async function getBreadcrumb() {
 	shouldCalc.value = true
@@ -172,7 +168,7 @@ async function getBreadcrumb() {
 		wikiId: !isNaN(sessionWikiId) ? sessionWikiId : 0,
 		currentPageId: pageStore.id,
 	}
-	if (props.page == PageEnum.Page && pageStore.id > 0) {
+	if (props.site == Site.Page && pageStore.id > 0) {
 		const result = await $api<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
@@ -185,26 +181,11 @@ async function getBreadcrumb() {
 
 		if (result) {
 			breadcrumb.value = result
-			personalWiki.value = result.personalWiki
 			breadcrumbItems.value = result.items
 			sessionStorage.setItem('currentWikiId', result.newWikiId.toString())
+			pageStore.currentWiki = result.currentWiki
 		}
-	} else {
-		const result = await $api<BreadcrumbItem>(`/apiVue/Breadcrumb/GetPersonalWiki/`,
-			{
-				method: 'GET',
-				credentials: 'include',
-				mode: 'no-cors',
-				onResponseError(context) {
-					throw createError({ statusMessage: context.error?.message })
-				}
-			})
-		personalWiki.value = result
-
 	}
-	if (personalWiki.value?.id == 1 || breadcrumbItems.value.some(i => i.id == 1))
-		rootPageChipStore.showRootPageChip = false
-	else rootPageChipStore.showRootPageChip = true
 
 	setPageTitle()
 	updateBreadcrumb()
@@ -218,40 +199,40 @@ async function getBreadcrumb() {
 
 function setPageTitle() {
 	pageTitle.value = ''
-	switch (props.page) {
-		case PageEnum.Welcome:
+	switch (props.site) {
+		case Site.Welcome:
 			pageTitle.value = 'Willkommen'
 			break
-		case PageEnum.Page:
+		case Site.Page:
 			pageTitle.value = pageStore.name
 			break
 		// case Page.Question custom breadcrumb item set in the question/[id].vue
 		// case Page.Question custom breadcrumb item set in the user/[id].vue
-		case PageEnum.Imprint:
+		case Site.Imprint:
 			pageTitle.value = 'Impressum'
 			break
-		case PageEnum.Terms:
+		case Site.Terms:
 			pageTitle.value = 'Geschäftsbedingungen'
 			break
-		case PageEnum.Register:
+		case Site.Register:
 			pageTitle.value = 'Registrieren'
 			break
-		case PageEnum.Messages:
+		case Site.Messages:
 			pageTitle.value = 'Nachrichten'
 			break
 		// case Page.Default:
 		// 	pageTitle.value = ''
 		// 	break
-		case PageEnum.Error:
+		case Site.Error:
 			pageTitle.value = 'Fehler'
 			break
-		case PageEnum.ResetPassword:
+		case Site.ResetPassword:
 			pageTitle.value = 'Passwort zurücksetzen'
 			break
-		case PageEnum.ConfirmEmail:
+		case Site.ConfirmEmail:
 			pageTitle.value = 'E-Mail Bestätigung'
 			break
-		case PageEnum.Metrics:
+		case Site.Metrics:
 			pageTitle.value = 'Metriken'
 			break
 	}
@@ -329,57 +310,20 @@ const ariaId3 = useId()
 </script>
 
 <template>
-	<div v-if="breadcrumb != null && props.page == PageEnum.Page" id="BreadCrumb" ref="breadcrumbEl"
+	<div v-if="breadcrumb != null && props.site == Site.Page" id="BreadCrumb" ref="breadcrumbEl"
 		:style="breadcrumbWidth"
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">
 
-		<VDropdown :aria-id="ariaId" :distance="0" v-if="breadcrumb.personalWiki && pageStore.id == personalWiki?.id">
-			<NuxtLink :to="$urlHelper.getPageUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)"
-				class="breadcrumb-item root-page" :class="{ 'is-in-root-page': pageStore.id == personalWiki?.id }"
-				aria-label="home button">
-				<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
-				<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
-				<span class="root-page-label">
-					{{ pageStore.name }}
-				</span>
-			</NuxtLink>
-			<template #popper>
-				<p class="breadcrumb-dropdown dropdown-row" v-if="pageStore.id == personalWiki?.id">
-					{{ pageStore.name }}
-				</p>
-			</template>
-		</VDropdown>
-
-		<NuxtLink :to="$urlHelper.getPageUrl(breadcrumb.personalWiki.name, breadcrumb.personalWiki.id)" class="breadcrumb-item root-page" v-tooltip="breadcrumb.personalWiki.name" v-else-if="breadcrumb.personalWiki"
-			:class="{ 'is-in-root-page': pageStore.id == personalWiki?.id }" aria-label="home button">
-			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
-			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
-			<span class="root-page-label" v-if="pageStore.id == personalWiki?.id">
-				{{ pageStore.name }}
-			</span>
-		</NuxtLink>
-
-		<template v-if="breadcrumb.rootPage">
-			<div
-				v-if="breadcrumb.currentPage && breadcrumb.rootPage.id != breadcrumb.currentPage.id && breadcrumb.isInPersonalWiki">
+		<template v-if="breadcrumb.currentWiki">
+			<template v-if="pageStore.id != breadcrumb.currentWiki.id && !rootWikiIsStacked">
+				<NuxtLink :to="$urlHelper.getPageUrl(breadcrumb.currentWiki.name, breadcrumb.currentWiki.id)"
+					class="breadcrumb-item current-wiki" v-tooltip="breadcrumb.currentWiki.name" :aria-label="'root page button'">
+					{{ breadcrumb.currentWiki.name }}
+				</NuxtLink>
 				<div>
 					<font-awesome-icon icon="fa-solid fa-chevron-right" />
 				</div>
-			</div>
-
-			<template
-				v-else-if="breadcrumb.personalWiki && breadcrumb.rootPage.id != breadcrumb.personalWiki.id && !breadcrumb.isInPersonalWiki">
-				<div class="breadcrumb-divider"></div>
-				<template v-if="pageStore.id != breadcrumb.rootPage.id && !rootWikiIsStacked">
-					<NuxtLink :to="$urlHelper.getPageUrl(breadcrumb.rootPage.name, breadcrumb.rootPage.id)"
-						class="breadcrumb-item" v-tooltip="breadcrumb.rootPage.name" :aria-label="'root page button'">
-						{{ breadcrumb.rootPage.name }}
-					</NuxtLink>
-					<div>
-						<font-awesome-icon icon="fa-solid fa-chevron-right" />
-					</div>
-				</template>
 			</template>
 		</template>
 
@@ -411,8 +355,8 @@ const ariaId3 = useId()
 		</template>
 		<div ref="lastBreadcrumbItem"></div>
 
-		<VDropdown :aria-id="ariaId3" :distance="0" v-if="pageStore.id != personalWiki?.id">
-			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`">
+		<VDropdown :aria-id="ariaId3" :distance="0">
+			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`" :class="{ 'current-wiki': pageStore.id === pageStore.currentWiki?.id }">
 				{{ pageStore.name }}
 			</div>
 			<template #popper>
@@ -422,43 +366,6 @@ const ariaId3 = useId()
 			</template>
 		</VDropdown>
 
-	</div>
-	<div v-else-if="personalWiki != null" id="BreadCrumb" :style="breadcrumbWidth">
-		<NuxtLink :to="$urlHelper.getPageUrl(personalWiki.name, personalWiki.id)" class="breadcrumb-item" v-tooltip="personalWiki.name" aria-label="personal home button">
-			<font-awesome-icon icon="fa-solid fa-house-user" v-if="userStore.isLoggedIn" class="home-btn" />
-			<font-awesome-icon icon="fa-solid fa-house" v-else class="home-btn" />
-		</NuxtLink>
-		<div class="breadcrumb-divider"></div>
-		<div class="breadcrumb-item last" v-tooltip="pageStore.name" v-if="props.page == PageEnum.Page">
-			{{ pageStore.name }}
-		</div>
-		<template v-else-if="props.page == PageEnum.Question && props.questionPageData != null">
-			<NuxtLink :to="`${questionPageData?.primaryPageUrl}`" class="breadcrumb-item"
-				v-tooltip="questionPageData?.primaryPageName" :aria-label="questionPageData?.primaryPageName">
-				{{ questionPageData?.primaryPageName }}
-			</NuxtLink>
-			<div>
-				<font-awesome-icon icon="fa-solid fa-chevron-right" />
-			</div>
-			<div class="breadcrumb-item last">
-				{{ questionPageData?.title }}
-			</div>
-		</template>
-
-		<template v-else-if="props.customBreadcrumbItems != null && props.customBreadcrumbItems.length > 0">
-			<template v-for="e, index in props.customBreadcrumbItems">
-				<NuxtLink :to="`${e.url}`" class="breadcrumb-item" v-tooltip="e.name" :aria-label="e.name">
-					{{ e.name }}
-				</NuxtLink>
-				<div v-if="index != props.customBreadcrumbItems.length - 1">
-					<font-awesome-icon icon="fa-solid fa-chevron-right" />
-				</div>
-			</template>
-		</template>
-
-		<div class="breadcrumb-item last" v-tooltip="pageTitle" v-else>
-			{{ pageTitle }}
-		</div>
 	</div>
 	<div ref="remainingWidthDiv"></div>
 </template>
@@ -506,7 +413,7 @@ const ariaId3 = useId()
 
 		flex-shrink: 1;
 
-		&.root-page {
+		&.current-wiki {
 			padding-left: 0px;
 		}
 
@@ -527,7 +434,7 @@ const ariaId3 = useId()
 			color: @memo-blue;
 		}
 
-		&.is-in-root-page {
+		&.is-in-current-wiki {
 			padding-right: 0px;
 			display: block;
 

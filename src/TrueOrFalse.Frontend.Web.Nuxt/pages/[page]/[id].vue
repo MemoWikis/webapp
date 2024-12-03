@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
-import { FooterPages, Page, usePageStore } from '~/components/page/pageStore'
+import { Page, usePageStore } from '~/components/page/pageStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { PageEnum } from '~~/components/shared/pageEnum'
+import { Site } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
+import { BreadcrumbItem } from '~/components/header/breadcrumbItems'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
@@ -15,7 +16,7 @@ const spinnerStore = useSpinnerStore()
 
 interface Props {
     tab?: Tab,
-    footerPages: FooterPages
+    site: Site,
 }
 
 const props = defineProps<Props>()
@@ -100,7 +101,7 @@ function setPage() {
 
 setPage()
 const emit = defineEmits(['setPage'])
-emit('setPage', PageEnum.Page)
+emit('setPage', Site.Page)
 
 function setTab() {
     if (tabsStore != null) {
@@ -219,7 +220,7 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                     </template>
                 </div>
-                <Sidebar class="is-page" :show-outline="true" :footer-pages="props.footerPages" />
+                <Sidebar class="is-page" :show-outline="true" :site="props.site" />
             </template>
         </div>
     </div>

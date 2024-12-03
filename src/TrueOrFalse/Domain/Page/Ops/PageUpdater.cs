@@ -6,10 +6,10 @@
     {
         var cachePage = EntityCache.GetPage(pageId);
         if (cachePage == null)
-            throw new NullReferenceException($"{nameof(HideOrShowPageText)}: topicCacheItem is null");
+            throw new NullReferenceException($"{nameof(HideOrShowPageText)}: pageCacheItem is null");
 
         //if (cachePage.Content?.Length > 0)
-        //    throw new AccessViolationException($"{nameof(HideOrShowPageText)}: topicCacheItem has content");
+        //    throw new AccessViolationException($"{nameof(HideOrShowPageText)}: pageCacheItem has content");
 
         if (permissionCheck.CanView(cachePage) == false)
             throw new AccessViolationException($"{nameof(HideOrShowPageText)}: No permission for user");

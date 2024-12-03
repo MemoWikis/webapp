@@ -1,24 +1,22 @@
 <script lang="ts" setup>
-import { PageEnum } from '~~/components/shared/pageEnum'
+import { Site } from '~/components/shared/siteEnum'
 import { useUserStore } from '~~/components/user/userStore'
-
 import { Google } from '~~/components/user/Google'
 import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { FooterPages } from '~/components/page/pageStore'
 import { isValidEmail } from '~/components/shared/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 const spinnerStore = useSpinnerStore()
 interface Props {
-    footerPages: FooterPages
+    site: Site
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', PageEnum.Register)
+    emit('setPage', Site.Register)
 
     if (userStore.isLoggedIn)
         navigateTo('/')
@@ -293,7 +291,7 @@ async function register() {
                     </div>
                 </div>
             </div>
-            <Sidebar :footer-pages="props.footerPages" />
+            <Sidebar :site="props.site" />
         </div>
 
     </div>

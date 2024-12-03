@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace VueApp;
 public class BreadcrumbController(
     SessionUser _sessionUser,
-    CrumbtrailService _crumbtrailService) : Controller
+    CrumbtrailService _crumbtrailService,
+    IHttpContextAccessor _httpContextAccessor) : Controller
 {
     public readonly record struct GetBreadcrumbParam(int WikiId, int CurrentPageId);
 
@@ -51,28 +53,18 @@ public class BreadcrumbController(
                 });
         }
 
-        var personalWiki = new BreadcrumbItem();
-        if (_sessionUser.IsLoggedIn)
-        {
-            var personalWikiId = _sessionUser.User.StartPageId;
-            personalWiki.Id = personalWikiId;
-            personalWiki.Name = EntityCache.GetPage(personalWikiId)?.Name;
-        }
-        else
-        {
-            personalWiki.Id = RootPage.RootPageId;
-            personalWiki.Name = RootPage.Get.Name;
-        }
-
         return new Breadcrumb
         {
             NewWikiId = currentWiki.Id,
             Items = breadcrumbItems,
-            PersonalWiki = personalWiki,
-            RootPage = new BreadcrumbItem
+            CurrentWiki = new TinyPageModel
             {
                 Name = breadcrumb.Root.Text,
-                Id = breadcrumb.Root.Page.Id
+                Id = breadcrumb.Root.Page.Id,
+                ImgUrl = new PageImageSettings(breadcrumb.Root.Page.Id,
+                        _httpContextAccessor)
+                    .GetUrl(256, true)
+                    .Url
             },
             CurrentPage = new BreadcrumbItem
             {
@@ -86,13 +78,13 @@ public class BreadcrumbController(
 
     public record struct Breadcrumb(
         int NewWikiId,
-        BreadcrumbItem PersonalWiki,
         List<BreadcrumbItem> Items,
-        BreadcrumbItem RootPage,
+        TinyPageModel CurrentWiki,
         BreadcrumbItem CurrentPage,
         bool BreadcrumbHasGlobalWiki,
         bool IsInPersonalWiki);
 
     public record struct BreadcrumbItem(string Name, int Id);
 
+    public record struct TinyPageModel(string Name, int Id, string ImgUrl);
 }

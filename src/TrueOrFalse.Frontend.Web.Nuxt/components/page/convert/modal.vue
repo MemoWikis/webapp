@@ -12,8 +12,8 @@ const convertStore = useConvertStore()
         </template>
         <template v-slot:body>
             <p>
-                Möchten Sie wirklich
-                {{ convertStore.conversionTarget === ConversionTarget.Wiki
+                Möchtest Du wirklich
+                {{ convertStore.conversionTarget === ConversionTarget.Page
                     ? 'die Seite "' + convertStore.name + '" in ein Wiki'
                     : 'das Wiki "' + convertStore.name + '" in eine Seite' }}
                 umwandeln?

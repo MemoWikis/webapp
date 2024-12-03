@@ -2,13 +2,12 @@
 import { VueElement } from 'vue'
 import { useUserStore } from '../user/userStore'
 import { QuestionItem, SearchType, PageItem, UserItem } from '~~/components/search/searchHelper'
-import { PageEnum } from '../shared/pageEnum'
+import { Site } from '../shared/siteEnum'
 import { BreadcrumbItem } from './breadcrumbItems'
 import { useSideSheetStore } from '../sideSheet/sideSheetStore'
 
-
 interface Props {
-    page: PageEnum
+    site: Site
     questionPageData?: {
         primaryPageName: string
         primaryPageUrl: string
@@ -108,7 +107,7 @@ const hidePartial = computed(() => {
                     <div class="partial start" :class="{ 'search-open': showSearch, 'modal-is-open': modalIsOpen }"
                         ref="partialLeft">
 
-                        <HeaderBreadcrumb :page="props.page" :show-search="showSearch"
+                        <HeaderBreadcrumb :site="props.site" :show-search="showSearch"
                             :question-page-data="props.questionPageData"
                             :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                     </div>
@@ -275,7 +274,7 @@ const hidePartial = computed(() => {
         &.nav-container {
 
             @media (min-width: 900px) {
-                padding-left: 100px;
+                padding-left: clamp(100px, 10vw, 160px);
             }
         }
     }
@@ -297,11 +296,6 @@ const hidePartial = computed(() => {
         justify-content: space-between;
         height: 100%;
         overflow: hidden;
-
-        // border-radius: 24px;
-        // background-color: white;
-        // line-height: 21px;
-        // box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 
         @media (min-width: 1300px) {
             width: 100%;
