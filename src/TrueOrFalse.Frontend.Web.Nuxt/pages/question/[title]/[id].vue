@@ -67,7 +67,8 @@ onBeforeMount(() => {
 		emit('setQuestionPageData', {
 			primaryPageName: question.value.answerBodyModel?.primaryPageName,
 			primaryPageUrl: $urlHelper.getPageUrlWithQuestionId(question.value.answerBodyModel.primaryPageName, question.value.answerBodyModel.primaryPageId, question.value.answerBodyModel.id),
-			title: question.value.answerBodyModel.title
+			title: question.value.answerBodyModel.title,
+			isPrivate: question.value.answerBodyModel.isPrivate
 		})
 	if (!question.value)
 		emit('setBreadcrumb', [{ name: 'Fehler', url: '' }])

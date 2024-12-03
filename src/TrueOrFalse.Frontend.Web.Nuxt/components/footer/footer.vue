@@ -1,13 +1,18 @@
 <script lang="ts" setup>
-import { FooterPages } from '../page/pageStore'
+import { FooterPages, usePageStore } from '../page/pageStore'
+import { Site } from '../shared/siteEnum'
+import { Visibility } from '../shared/visibilityEnum'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
     footerPages: FooterPages,
     isError?: boolean
+    site: Site
+    questionPageIsPrivate?: boolean
 }
 const props = defineProps<Props>()
 const userStore = useUserStore()
+const pageStore = usePageStore()
 const config = useRuntimeConfig()
 
 function handleError() {
@@ -26,7 +31,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <section id="GlobalLicense">
+    <section id="GlobalLicense" v-if="(props.site === Site.Page && pageStore.visibility === Visibility.All) || (props.site === Site.Question && !props.questionPageIsPrivate)">
         <div class="license-container">
             <div class="license-text-container">
                 <NuxtLink @click="handleError()" class="CCLogo" rel="license"
@@ -163,23 +168,6 @@ onMounted(() => {
                             </template>
                         </div>
                     </div>
-
-
-                    <div id="FooterEndContainer" class="col-xs-12 col-lg-12 FooterCol">
-                        <div id="FooterEnd">
-                            <div>
-                                Entwickelt von:
-                            </div>
-                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
-                                <Image src="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" alt="bitwerke logo" />
-                            </NuxtLink>
-                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
-                                <div>
-                                    Individualsoftware, UX/UI, Entwicklung und Beratung
-                                </div>
-                            </NuxtLink>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -236,7 +224,7 @@ onMounted(() => {
         transition: all 0.3s ease-in-out;
 
         @media (min-width: 900px) {
-            padding-left: 170px;
+            padding-left: clamp(170px, 12vw, 260px);
         }
     }
 }

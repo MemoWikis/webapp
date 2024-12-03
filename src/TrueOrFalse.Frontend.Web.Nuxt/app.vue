@@ -64,28 +64,27 @@ const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooter
 	},
 })
 
-const page = ref(Site.Default)
+const site = ref(Site.Default)
 
 const pageStore = usePageStore()
 
 function setPage(type: Site | null = null) {
 	if (type != null) {
-		page.value = type
+		site.value = type
 		if (type != Site.Page) {
 			pageStore.setPage(new Page())
 		}
 	}
 }
-const questionPageData = ref<{
+
+interface QuestionPageData {
 	primaryPageName: string
 	primaryPageUrl: string
 	title: string
-}>()
-function setQuestionpageBreadcrumb(e: {
-	primaryPageName: string
-	primaryPageUrl: string
-	title: string
-}) {
+	isPrivate: boolean
+}
+const questionPageData = ref<QuestionPageData>()
+function setQuestionpageBreadcrumb(e: QuestionPageData) {
 	questionPageData.value = e
 }
 
@@ -106,7 +105,7 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					spinnerStore.hideSpinner()
-					if (page.value == Site.Page && pageStore.visibility != Visibility.All)
+					if (site.value == Site.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
 			}
@@ -132,9 +131,9 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
-	if (page.value == Site.Error)
+	if (site.value == Site.Error)
 		return
-	if ((page.value == Site.Page || page.value == Site.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+	if ((site.value == Site.Page || site.value == Site.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
@@ -223,13 +222,13 @@ onMounted(() => {
 
 	</Html>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
-	<HeaderMain :site="page" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+	<HeaderMain :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
 
 	<NuxtErrorBoundary @error="logError">
 		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-			:site="page" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" class="nuxt-page" />
+			:site="site" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" class="nuxt-page" />
 
 		<template #error="{ error }">
 			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
@@ -239,7 +238,7 @@ onMounted(() => {
 				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
 		</template>
 	</NuxtErrorBoundary>
-	<Footer :footer-pages="footerPages" v-if="footerPages" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" />
 
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />

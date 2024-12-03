@@ -152,8 +152,7 @@ public class EditPageRelationStoreController(
         var undoMovePageData =
             GetUndoMovePageData(relationToMove, json.NewParentId, json.TargetId);
 
-        var modifyRelationsForPage =
-            new ModifyRelationsForPage(pageRepository, pageRelationRepo);
+        var modifyRelationsForPage = new ModifyRelationsForPage(pageRepository, pageRelationRepo);
 
         if (json.Position == TargetPosition.Before)
             PageOrderer.MoveBefore(relationToMove, json.TargetId, json.NewParentId,

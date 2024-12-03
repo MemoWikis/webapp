@@ -130,6 +130,7 @@ const ariaId = useId()
     padding: 4px 12px;
     border-radius: 24px;
     transition: filter 0.1s;
+    user-select: none;
 
     &:hover {
         filter: brightness(0.95)

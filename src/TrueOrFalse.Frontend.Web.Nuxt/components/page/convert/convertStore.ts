@@ -107,6 +107,7 @@ export const useConvertStore = defineStore('convertStore', () => {
         itemId,
         conversionTarget,
         name,
+        keepParents,
         openModal,
         closeModal,
         confirmConversion,

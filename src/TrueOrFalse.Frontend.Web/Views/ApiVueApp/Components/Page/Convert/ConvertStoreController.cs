@@ -4,7 +4,7 @@ namespace VueApp;
 
 public class ConvertStoreController
 (
-    SessionUser _sessionUser, PermissionCheck _permissionCheck, PageRepository _pageRepository) : Controller
+    SessionUser _sessionUser, PermissionCheck _permissionCheck, PageRepository _pageRepository, PageRelationRepo _pageRelationRepo) : Controller
 {
     [HttpGet]
     public GetConvertDataResult GetConvertData([FromRoute] int id)
@@ -30,7 +30,19 @@ public class ConvertStoreController
         if (!_permissionCheck.CanConvertPage(page))
             return new ConversionResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
+
         page.IsWiki = true;
+
+        if (!req.KeepParents)
+        {
+            var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
+            ModifyRelationsEntityCache.RemoveAllParents(
+                page,
+                _sessionUser.UserId,
+                modifyRelationsForPage,
+                _permissionCheck);
+        }
+
         EntityCache.AddOrUpdate(page);
 
         var pageEntity = _pageRepository.GetByIdEager(req.Id);

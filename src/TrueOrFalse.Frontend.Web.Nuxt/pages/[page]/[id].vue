@@ -6,13 +6,14 @@ import { Site } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { BreadcrumbItem } from '~/components/header/breadcrumbItems'
+import { useConvertStore } from '~/components/page/convert/convertStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 const spinnerStore = useSpinnerStore()
+const convertStore = useConvertStore()
 
 interface Props {
     tab?: Tab,
@@ -25,7 +26,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
-const { data: page } = await useFetch<Page>(`/apiVue/Page/GetPage/${route.params.id}`,
+const { data: page, refresh } = await useFetch<Page>(`/apiVue/Page/GetPage/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -170,6 +171,14 @@ watch(() => props.tab, (t) => {
     }
 
 }, { immediate: true })
+
+convertStore.$onAction(({ name, after }) => {
+    if (name == 'convertPageToWiki' || name == 'convertWikiToPage') {
+        after(async () => {
+            await refresh()
+        })
+    }
+})
 </script>
 
 <template>

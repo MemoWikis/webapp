@@ -39,7 +39,7 @@ const handleWidth = (newWidth: number) => {
         return
     }
 
-    if (newWidth < 1801 && newWidth > 900) {
+    if (newWidth < 1651 && newWidth > 900) {
         hidden.value = false
         collapsed.value = true
         previouslyCollapsed.value = true
