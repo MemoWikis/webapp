@@ -387,7 +387,7 @@ const ariaId3 = useId()
 	transition: opacity 0.5s;
 	visibility: visible;
 	overflow: hidden;
-	min-width: 280px;
+	min-width: 220px;
 	align-items: center;
 
 	.search-is-open {

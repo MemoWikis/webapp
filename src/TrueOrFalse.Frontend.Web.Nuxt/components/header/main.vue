@@ -127,7 +127,7 @@ const hidePartial = computed(() => {
                                 </div>
                             </div>
 
-                            <HeaderUserDropdown v-if="userStore.isLoggedIn" />
+                            <HeaderUserDropdown v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
 
                             <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
                                 :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
@@ -200,6 +200,7 @@ const hidePartial = computed(() => {
     align-items: center;
     z-index: 20;
     margin-right: 0;
+    min-height: 47px;
 
     .search-button {
         align-items: center;
@@ -276,9 +277,15 @@ const hidePartial = computed(() => {
         justify-content: center;
         align-items: center;
         min-height: 47px;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
 
-        @media (min-width: 900px) {
-            padding-left: clamp(100px, 30vw, 320px);
+        @media (min-width: 900px) and (max-width: 1650px) {
+            padding-left: clamp(100px, 10vw, 320px);
+        }
+
+        @media (min-width: 1651px) {
+            padding-left: clamp(100px, 20vw, 320px);
         }
 
     }
