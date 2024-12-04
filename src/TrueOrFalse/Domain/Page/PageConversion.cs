@@ -1,7 +1,8 @@
 ﻿public class PageConversion(
     PermissionCheck _permissionCheck,
     PageRepository _pageRepository,
-    PageRelationRepo _pageRelationRepo) : IRegisterAsInstancePerLifetime
+    PageRelationRepo _pageRelationRepo,
+    UserWritingRepo _userWritingRepo) : IRegisterAsInstancePerLifetime
 {
     public void ConvertPageToWiki(PageCacheItem page, int userId, bool keepParents = false)
     {
@@ -39,8 +40,27 @@
         if (user == null)
             throw new InvalidOperationException($"User with ID {userId} not found in EntityCache.");
 
+        AddWikiId(user, page.Id);
         user.CleanupWikiIdsAndFavoriteIds();
         EntityCache.AddOrUpdate(user);
+        _userWritingRepo.Update(user);
+
+        if (page.CreatorId != userId)
+        {
+            var creator = EntityCache.GetUserById(page.CreatorId);
+            AddWikiId(creator, page.Id);
+            creator.CleanupWikiIdsAndFavoriteIds();
+            EntityCache.AddOrUpdate(creator);
+            _userWritingRepo.Update(creator);
+
+        }
+    }
+
+    private void AddWikiId(UserCacheItem user, int wikiId)
+    {
+        user.AddWiki(wikiId);
+        EntityCache.AddOrUpdate(user);
+        _userWritingRepo.Update(user);
     }
 
     public void ConvertWikiToPage(PageCacheItem page, int userId)
@@ -65,7 +85,23 @@
         if (user == null)
             throw new InvalidOperationException($"User with ID {userId} not found in EntityCache.");
 
+        RemoveWikiId(user, page.Id);
         user.CleanupWikiIdsAndFavoriteIds();
         EntityCache.AddOrUpdate(user);
+
+        if (page.CreatorId != userId)
+        {
+            var creator = EntityCache.GetUserById(page.CreatorId);
+            RemoveWikiId(creator, page.Id);
+            creator.CleanupWikiIdsAndFavoriteIds();
+            EntityCache.AddOrUpdate(creator);
+        }
+    }
+
+    private void RemoveWikiId(UserCacheItem user, int wikiId)
+    {
+        user.RemoveWiki(wikiId);
+        EntityCache.AddOrUpdate(user);
+        _userWritingRepo.Update(user);
     }
 }

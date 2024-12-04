@@ -174,19 +174,21 @@ public class UserWritingRepo
     public void Update(UserCacheItem userCacheItem)
     {
         var user = _repo.GetById(userCacheItem.Id);
+        if (user != null)
+        {
+            user.EmailAddress = userCacheItem.EmailAddress;
+            user.Name = userCacheItem.Name;
+            user.FacebookId = userCacheItem.FacebookId;
+            user.GoogleId = userCacheItem.GoogleId;
+            user.Reputation = userCacheItem.Reputation;
+            user.ReputationPos = userCacheItem.ReputationPos;
+            user.FollowerCount = userCacheItem.FollowerCount;
+            user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
+            user.WikiIds = string.Join(",", userCacheItem.WikiIds.Distinct());
+            user.FavoriteIds = string.Join(",", userCacheItem.FavoriteIds.Distinct());
 
-        user.EmailAddress = userCacheItem.EmailAddress;
-        user.Name = userCacheItem.Name;
-        user.FacebookId = userCacheItem.FacebookId;
-        user.GoogleId = userCacheItem.GoogleId;
-        user.Reputation = userCacheItem.Reputation;
-        user.ReputationPos = userCacheItem.ReputationPos;
-        user.FollowerCount = userCacheItem.FollowerCount;
-        user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
-        user.WikiIds = string.Join(",", userCacheItem.WikiIds.Distinct());
-        user.FavoriteIds = string.Join(",", userCacheItem.FavoriteIds.Distinct());
-
-        Update(user);
+            Update(user);
+        }
     }
 
     public void UpdateActivityPointsData()

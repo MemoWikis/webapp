@@ -6,7 +6,8 @@ namespace VueApp;
 public class SideSheetCreateWikiModalController
 (
     SessionUser _sessionUser,
-    WikiCreator _wikiCreator) : Controller
+    WikiCreator _wikiCreator,
+    UserWritingRepo _userWritingRepo) : Controller
 {
     [HttpPost]
     public CreateWikiResponse CreateWiki([FromBody] CreateWikiRequest req)
@@ -32,6 +33,8 @@ public class SideSheetCreateWikiModalController
 
         var userCacheItem = EntityCache.GetUserById(_sessionUser.UserId);
         userCacheItem.AddWiki(newWiki.Id);
+
+        _userWritingRepo.Update(userCacheItem);
 
         return new CreateWikiResponse(true, null, new CreateWikiData(newWiki.Id, newWiki.Name));
     }

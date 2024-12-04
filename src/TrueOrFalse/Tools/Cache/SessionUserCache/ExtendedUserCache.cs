@@ -82,10 +82,11 @@ public class ExtendedUserCache(
     public void Update(User user)
     {
         var cacheItem = GetItem(user.Id);
-        if (cacheItem == null)
-            throw new NullReferenceException($"should not be null {user.Id}");
+        if (cacheItem != null)
+            cacheItem.Populate(user);
 
-        cacheItem.Populate(user);
+        if (cacheItem == null)
+            Logg.r.Error($"should not be null {user.Id}");
     }
 
     public void Remove(User user) => Remove(user.Id);

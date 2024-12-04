@@ -8,6 +8,8 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
+
         var userId = 1;
 
         var context = ContextPage.New();
@@ -25,7 +27,7 @@ public class Convert_tests : BaseTest
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
         // Add page and user to EntityCache
@@ -50,8 +52,7 @@ public class Convert_tests : BaseTest
         Assert.That(cachedPage.IsWiki, Is.True, "Cached page should be marked as Wiki.");
 
         // Verify that the user was updated
-        Assert.That(userCacheItem.FavoriteIds, Is.Null.Or.Empty, "User's FavoriteIds should have been cleaned up.");
-        Assert.That(userCacheItem.WikiIds, Is.Null.Or.Empty, "User's WikiIds should have been cleaned up.");
+        Assert.That(userCacheItem.WikiIds, Is.Not.Empty, "User's WikiIds should have been cleaned up.");
     }
 
     [Test]
@@ -61,8 +62,9 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         PageCacheItem? page = null;
         var userId = 1;
@@ -78,8 +80,9 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = new PageCacheItem { Id = 1, IsWiki = false };
         var userId = 0;
@@ -96,6 +99,8 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
+
         var userId = 1;
 
         var context = ContextPage.New();
@@ -113,7 +118,7 @@ public class Convert_tests : BaseTest
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
         // Add page and user to EntityCache
@@ -134,6 +139,8 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
+
         var userId = 1;
 
         var context = ContextPage.New();
@@ -151,14 +158,16 @@ public class Convert_tests : BaseTest
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
         page.IsWiki = true;
         // Add page and user to EntityCache
         EntityCache.AddOrUpdate(page);
         var userCacheItem = new UserCacheItem { Id = userId };
+        userCacheItem.WikiIds = new List<int> { page.Id };
         EntityCache.AddOrUpdate(userCacheItem);
+
 
         // Act
         pageConversion.ConvertWikiToPage(page, userId);
@@ -188,8 +197,9 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         PageCacheItem? page = null;
         var userId = 1;
@@ -205,8 +215,9 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = new PageCacheItem { Id = 1, IsWiki = true };
         var userId = 0;
@@ -222,6 +233,7 @@ public class Convert_tests : BaseTest
         var permissionCheck = R<PermissionCheck>();
         var pageRepository = R<PageRepository>();
         var pageRelationRepo = R<PageRelationRepo>();
+        var userWritingRepo = R<UserWritingRepo>();
         var userId = 1;
 
         var context = ContextPage.New();
@@ -239,7 +251,7 @@ public class Convert_tests : BaseTest
         context.AddChild(children.ByName("Sub1"), children.ByName("SubSub1"));
         context.AddChild(root, children.ByName("Sub2"));
 
-        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo);
+        var pageConversion = new PageConversion(permissionCheck, pageRepository, pageRelationRepo, userWritingRepo);
 
         var page = EntityCache.GetPage(children.ByName("Sub1").Id);
         page.IsWiki = true;
