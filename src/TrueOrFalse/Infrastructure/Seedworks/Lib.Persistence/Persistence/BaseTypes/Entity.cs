@@ -40,7 +40,7 @@
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity left, Entity right)
+        public static bool operator !=(Entity? left, Entity? right)
         {
             return !Equals(left, right);
         }

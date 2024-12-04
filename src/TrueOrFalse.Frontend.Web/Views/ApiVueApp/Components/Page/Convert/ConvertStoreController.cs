@@ -4,7 +4,7 @@ namespace VueApp;
 
 public class ConvertStoreController
 (
-    SessionUser _sessionUser, PermissionCheck _permissionCheck, PageRepository _pageRepository, PageRelationRepo _pageRelationRepo) : Controller
+    SessionUser _sessionUser, PermissionCheck _permissionCheck, PageConversion _pageConversion) : Controller
 {
     [HttpGet]
     public GetConvertDataResult GetConvertData([FromRoute] int id)
@@ -26,30 +26,10 @@ public class ConvertStoreController
         if (page == null)
             return new ConversionResponse(false, FrontendMessageKeys.Error.Default);
 
-
         if (!_permissionCheck.CanConvertPage(page))
             return new ConversionResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
-
-        page.IsWiki = true;
-
-        if (!req.KeepParents)
-        {
-            var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
-            ModifyRelationsEntityCache.RemoveAllParents(
-                page,
-                _sessionUser.UserId,
-                modifyRelationsForPage,
-                _permissionCheck);
-        }
-
-        EntityCache.AddOrUpdate(page);
-
-        var pageEntity = _pageRepository.GetByIdEager(req.Id);
-        pageEntity.IsWiki = true;
-        _pageRepository.Update(pageEntity);
-
-        _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
+        _pageConversion.ConvertPageToWiki(page, _sessionUser.UserId, req.KeepParents);
 
         return new ConversionResponse(true);
     }
@@ -68,14 +48,7 @@ public class ConvertStoreController
         if (!_permissionCheck.CanConvertPage(page))
             return new ConversionResponse(false, FrontendMessageKeys.Error.Page.MissingRights);
 
-        page.IsWiki = false;
-        EntityCache.AddOrUpdate(page);
-
-        var pageEntity = _pageRepository.GetByIdEager(id);
-        pageEntity.IsWiki = false;
-        _pageRepository.Update(pageEntity);
-
-        _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
+        _pageConversion.ConvertWikiToPage(page, _sessionUser.UserId);
 
         return new ConversionResponse(true);
     }
