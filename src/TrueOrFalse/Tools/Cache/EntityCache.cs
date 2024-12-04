@@ -96,7 +96,7 @@ public class EntityCache
             var selfQuestionsFromPage = pageCacheItem.GetAggregatedQuestionsFromMemoryCache(2, false, false, pageCacheItem.Id)
                 .Select(t => t.Id);
 
-            var topicQuestions90Days = questionViewsLast90Days
+            var pageQuestions90Days = questionViewsLast90Days
                 .Where(view => selfQuestionsFromPage.Contains(view.QuestionId))
                 .GroupBy(view => view.DateOnly)
                 .Select(g => new
@@ -109,7 +109,7 @@ public class EntityCache
                 .ToList();
 
             DateTimeUtils.EnsureLastDaysIncluded(aggregatedQuestionsViews90Days, 90);
-            DateTimeUtils.EnsureLastDaysIncluded(topicQuestions90Days, 90);
+            DateTimeUtils.EnsureLastDaysIncluded(pageQuestions90Days, 90);
         }
 
         var elapsedTime = watch.ElapsedMilliseconds;
@@ -286,6 +286,7 @@ public class EntityCache
 
     public static void AddOrUpdate(UserCacheItem user)
     {
+        user.CleanupWikiIdsAndFavoriteIds();
         AddOrUpdate(Users, user);
     }
 

@@ -9,7 +9,7 @@ const newParentForQuestions = ref<PageItem>()
 watch(() => deletePageStore.pageDeleted, (val) => {
     if (val)
         primaryBtnLabel.value = 'Weiter'
-    else primaryBtnLabel.value = 'Seite löschen'
+    else primaryBtnLabel.value = deletePageStore.isWiki ? 'Wiki löschen' : 'Seite löschen'
 })
 
 watch(() => deletePageStore.suggestedNewParent, (val) => {
@@ -47,24 +47,27 @@ const showDropdown = ref(true)
     <LazyModal :show="deletePageStore.showModal" :show-cancel-btn="!deletePageStore.pageDeleted"
         v-if="deletePageStore.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="handlePrimaryAction()"
         @close="deletePageStore.showModal = false">
+
         <template v-slot:header>
             <h4 class="modal-title">
                 <template v-if="deletePageStore.pageDeleted">
-                    Seite gelöscht
+                    {{ deletePageStore.isWiki ? 'Wiki' : 'Seite' }} gelöscht
                 </template>
                 <template v-else>
-                    Seite '{{ deletePageStore.name }}' löschen
+                    {{ deletePageStore.isWiki ? 'Wiki' : 'Seite' }} '{{ deletePageStore.name }}' löschen
                 </template>
             </h4>
-
         </template>
+
         <template v-slot:body>
             <div class="delete-modal">
                 <template v-if="deletePageStore.pageDeleted && deletePageStore.redirect">
-                    Beim Schließen dieses Fensters wirst du zur nächsten übergeordneten Seite weitergeleitet.
+                    Beim Schließen dieses Fensters wirst Du zur
+                    {{ deletePageStore.isWiki ? ' Hauptseite ' : ' nächsten übergeordneten Seite ' }}
+                    weitergeleitet.
                 </template>
                 <template v-else-if="deletePageStore.pageDeleted && !deletePageStore.redirect">
-                    Die Seite '<strong>{{ deletePageStore.name }}</strong>' wurde erfolgreich gelöscht.
+                    {{ deletePageStore.isWiki ? 'Das Wiki ' : 'Die Seite' }}'<strong>{{ deletePageStore.name }}</strong>' wurde erfolgreich gelöscht.
                 </template>
                 <template v-else>
                     <div>
@@ -103,14 +106,8 @@ const showDropdown = ref(true)
                                             {{ newParentForQuestions.questionCount }} Frage<template v-if="newParentForQuestions.questionCount != 1">n</template>
                                         </div>
                                     </div>
-                                    <!-- <div class="selectedSearchResultItemContainer">
-                                        <div class="selectedSearchResultItem">
-                                            Ausgewählt
-                                            <font-awesome-icon icon="fa-solid fa-check" />
-                                        </div>
-                                    </div> -->
                                 </div>
-                                <div class="body-s">Oder suche eine andere Seite aus.</div>
+                                <div class="body-s">Oder suche eine andere Seite oder Wiki aus.</div>
                                 <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectNewParentForQuestions" :page-ids-to-filter="[deletePageStore.id]" :public-only="deletePageStore.hasPublicQuestion" />
                             </div>
                         </div>
@@ -120,8 +117,6 @@ const showDropdown = ref(true)
                     </div>
                 </template>
             </div>
-        </template>
-        <template v-slot:footer>
         </template>
     </LazyModal>
 </template>

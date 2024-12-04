@@ -42,7 +42,7 @@ const { $urlHelper } = useNuxtApp()
         <template v-if="pageFeedItem.type === PageChangeType.Relations && pageFeedItem.relationChanges">
 
             <template v-if="pageFeedItem.relationChanges.addedParents && pageFeedItem.relationChanges.addedParents.length > 0">
-                <h4>Hinzugefügte Oberthemen</h4>
+                <h4>Hinzugefügte OberSeiten</h4>
                 <div class="feed-modal-page-body">
                     <ul>
                         <li v-for="parent in pageFeedItem.relationChanges.addedParents">
@@ -53,7 +53,7 @@ const { $urlHelper } = useNuxtApp()
             </template>
 
             <template v-if="pageFeedItem.relationChanges.removedParents && pageFeedItem.relationChanges.removedParents.length > 0">
-                <h4>Entfernte Oberthemen</h4>
+                <h4>Entfernte OberSeiten</h4>
                 <div class="feed-modal-page-body">
                     <ul>
                         <li v-for="parent in pageFeedItem.relationChanges.removedParents">
@@ -64,7 +64,7 @@ const { $urlHelper } = useNuxtApp()
             </template>
 
             <template v-if="pageFeedItem.relationChanges.addedChildren && pageFeedItem.relationChanges.addedChildren.length > 0">
-                <h4>Hinzugefügte Unterthemen</h4>
+                <h4>Hinzugefügte UnterSeiten</h4>
                 <div class="feed-modal-page-body">
                     <ul>
                         <li v-for="child in pageFeedItem.relationChanges.addedChildren">
@@ -75,7 +75,7 @@ const { $urlHelper } = useNuxtApp()
             </template>
 
             <template v-if="pageFeedItem.relationChanges.removedChildren && pageFeedItem.relationChanges.removedChildren.length > 0">
-                <h4>Entfernte Unterthemen</h4>
+                <h4>Entfernte UnterSeiten</h4>
                 <div class="feed-modal-page-body">
                     <ul>
                         <li v-for="child in pageFeedItem.relationChanges.removedChildren">

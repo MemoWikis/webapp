@@ -24,9 +24,7 @@ public class RestorePage(
         pageCacheItem.Content = historicPage.Content;
 
         EntityCache.AddOrUpdate(pageCacheItem);
-        var authorSessionUserCacheItem = ExtendedUserCacheItem.CreateCacheItem(author);
-        pageRepository
-            .Update(page, authorSessionUserCacheItem.Id, type: PageChangeType.Restore);
+        pageRepository.Update(page, author.Id, type: PageChangeType.Restore);
 
         NotifyAboutRestore(pageChange);
     }

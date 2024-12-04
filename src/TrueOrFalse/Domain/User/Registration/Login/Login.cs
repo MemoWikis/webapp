@@ -2,30 +2,16 @@
 
 namespace TrueOrFalse.Domain.User
 {
-    public class Login : IRegisterAsInstancePerLifetime
+    public class Login(
+        CredentialsAreValid _credentialsAreValid,
+        UserWritingRepo _userWritingRepo,
+        SessionUser _sessionUser,
+        ActivityPointsRepo _activityPointsRepo,
+        PersistentLoginRepo _persistentLoginRepo,
+        IHttpContextAccessor _httpContextAccessor,
+        PageViewRepo _pageViewRepo)
+        : IRegisterAsInstancePerLifetime
     {
-        private readonly CredentialsAreValid _credentialsAreValid;
-        private readonly UserWritingRepo _userWritingRepo;
-        private readonly SessionUser _sessionUser;
-        private readonly ActivityPointsRepo _activityPointsRepo;
-        private readonly PersistentLoginRepo _persistentLoginRepo;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public Login(CredentialsAreValid credentialsAreValid,
-            UserWritingRepo userWritingRepo,
-            SessionUser sessionUser,
-            ActivityPointsRepo activityPointsRepo,
-            PersistentLoginRepo persistentLoginRepo,
-            IHttpContextAccessor httpContextAccessor)
-        {
-            _credentialsAreValid = credentialsAreValid;
-            _userWritingRepo = userWritingRepo;
-            _sessionUser = sessionUser;
-            _activityPointsRepo = activityPointsRepo;
-            _persistentLoginRepo = persistentLoginRepo;
-            _httpContextAccessor = httpContextAccessor;
-        }
-
         public bool UserLogin(LoginParam param)
         {
             if (_credentialsAreValid.Yes(param.EmailAddress, param.Password))
@@ -37,7 +23,7 @@ namespace TrueOrFalse.Domain.User
                         _httpContextAccessor.HttpContext);
                 }
                 var user = _credentialsAreValid.User;
-                _sessionUser.Login(user);
+                _sessionUser.Login(user, _pageViewRepo);
 
                 TransferActivityPoints.FromSessionToUser(_sessionUser, _activityPointsRepo);
                 _userWritingRepo.UpdateActivityPointsData();

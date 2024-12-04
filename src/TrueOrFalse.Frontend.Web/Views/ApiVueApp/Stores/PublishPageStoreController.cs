@@ -23,14 +23,14 @@ namespace VueApp
         [AccessOnlyAsLoggedIn]
         public PublishPageResult PublishPage([FromBody] PublishPageJson json)
         {
-            var topicCacheItem = EntityCache.GetPage(json.id);
+            var pageCacheItem = EntityCache.GetPage(json.id);
 
-            if (topicCacheItem != null)
+            if (pageCacheItem != null)
             {
-                if (topicCacheItem.HasPublicParent() ||
-                    topicCacheItem.Creator.StartPageId == json.id)
+                if (pageCacheItem.HasPublicParent() ||
+                    pageCacheItem.Creator.StartPageId == json.id)
                 {
-                    if (topicCacheItem.Parents().Any(c => c.Id == 1) &&
+                    if (pageCacheItem.Parents().Any(c => c.Id == 1) &&
                         !_sessionUser.IsInstallationAdmin)
                         return new PublishPageResult
                         {
@@ -38,10 +38,10 @@ namespace VueApp
                             MessageKey = FrontendMessageKeys.Error.Page.ParentIsRoot
                         };
 
-                    topicCacheItem.Visibility = PageVisibility.All;
-                    var topic = pageRepository.GetById(json.id);
-                    topic.Visibility = PageVisibility.All;
-                    pageRepository.Update(topic, _sessionUser.UserId,
+                    pageCacheItem.Visibility = PageVisibility.All;
+                    var page = pageRepository.GetById(json.id);
+                    page.Visibility = PageVisibility.All;
+                    pageRepository.Update(page, _sessionUser.UserId,
                         type: PageChangeType.Published);
                     return new PublishPageResult
                     {
@@ -53,7 +53,7 @@ namespace VueApp
                 {
                     Success = false,
                     MessageKey = FrontendMessageKeys.Error.Page.ParentIsPrivate,
-                    Data = topicCacheItem.Parents().Select(c => c.Id).ToList()
+                    Data = pageCacheItem.Parents().Select(c => c.Id).ToList()
                 };
             }
 
@@ -95,16 +95,16 @@ namespace VueApp
         [AccessOnlyAsLoggedIn]
         public TinyPage Get([FromRoute] int id)
         {
-            var topicCacheItem = EntityCache.GetPage(id);
+            var pageCacheItem = EntityCache.GetPage(id);
             var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
 
-            if (topicCacheItem.Creator == null || topicCacheItem.Creator.Id != userCacheItem.Id)
+            if (pageCacheItem.Creator == null || pageCacheItem.Creator.Id != userCacheItem.Id)
                 return new TinyPage
                 {
                     Success = false,
                 };
 
-            var filteredAggregatedQuestions = topicCacheItem
+            var filteredAggregatedQuestions = pageCacheItem
                 .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId)
                 .Where(q =>
                     q.Creator != null &&
@@ -116,7 +116,7 @@ namespace VueApp
             return new TinyPage
             {
                 Success = true,
-                Name = topicCacheItem.Name,
+                Name = pageCacheItem.Name,
                 QuestionIds = filteredAggregatedQuestions,
                 QuestionCount = filteredAggregatedQuestions.Count
             };

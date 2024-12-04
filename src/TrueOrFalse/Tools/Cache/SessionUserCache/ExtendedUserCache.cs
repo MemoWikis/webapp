@@ -82,10 +82,11 @@ public class ExtendedUserCache(
     public void Update(User user)
     {
         var cacheItem = GetItem(user.Id);
-        if (cacheItem == null)
-            throw new NullReferenceException($"should not be null {user.Id}");
+        if (cacheItem != null)
+            cacheItem.Populate(user);
 
-        cacheItem.Populate(user);
+        if (cacheItem == null)
+            Logg.r.Error($"should not be null {user.Id}");
     }
 
     public void Remove(User user) => Remove(user.Id);
@@ -99,16 +100,21 @@ public class ExtendedUserCache(
             Seedworks.Web.State.Cache.Remove(cacheKey);
     }
 
-    public ExtendedUserCacheItem Add(int userId)
+    public ExtendedUserCacheItem Add(int userId, PageViewRepo? _pageViewRepo = null)
     {
         lock ("2ba84bee-5294-420b-bd43-1decaa0d2d3e" + userId)
         {
             var sessionUserCacheItem = GetItem(userId);
 
             if (sessionUserCacheItem != null)
-                return sessionUserCacheItem;
+            {
+                if (sessionUserCacheItem.RecentPages == null && _pageViewRepo != null)
+                    PopulateRecentPages(sessionUserCacheItem, _pageViewRepo);
 
-            var cacheItem = CreateExtendedUserCacheItem(userId);
+                return sessionUserCacheItem;
+            }
+
+            var cacheItem = CreateExtendedUserCacheItem(userId, _pageViewRepo);
 
             AddToCache(cacheItem);
             return cacheItem;
@@ -165,18 +171,33 @@ public class ExtendedUserCache(
         return sessionUserCacheItem;
     }
 
-    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId)
+    public ExtendedUserCacheItem CreateExtendedUserCacheItem(int userId, PageViewRepo? _pageViewRepo)
     {
         var cacheItem = CreateCacheItem(EntityCache.GetUserById(userId));
 
+        PopulatePageValuations(cacheItem);
+        PopulateQuestionValuations(cacheItem);
+        PopulateAnswers(cacheItem);
+        if (_pageViewRepo != null)
+            PopulateRecentPages(cacheItem, _pageViewRepo);
+
+        return cacheItem;
+    }
+
+    private void PopulatePageValuations(ExtendedUserCacheItem cacheItem)
+    {
         cacheItem.PageValuations = new ConcurrentDictionary<int, PageValuation>(
             pageValuationReadingRepository
-                .GetByUser(userId, onlyActiveKnowledge: false)
-                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v)));
+                .GetByUser(cacheItem.Id, onlyActiveKnowledge: false)
+                .Select(v => new KeyValuePair<int, PageValuation>(v.PageId, v))
+        );
+    }
 
+    private void PopulateQuestionValuations(ExtendedUserCacheItem cacheItem)
+    {
         cacheItem.QuestionValuations = new ConcurrentDictionary<int, QuestionValuationCacheItem>(
             _questionValuationReadingRepo
-                .GetByUserWithQuestion(userId)
+                .GetByUserWithQuestion(cacheItem.Id)
                 .Select(valuation =>
                     new KeyValuePair<int, QuestionValuationCacheItem>(
                         valuation.Question.Id,
@@ -184,18 +205,28 @@ public class ExtendedUserCache(
                     )
                 )
         );
+    }
 
-        var answers = _answerRepo.GetByUser(userId);
-
+    private void PopulateAnswers(ExtendedUserCacheItem cacheItem)
+    {
+        var answers = _answerRepo.GetByUser(cacheItem.Id);
         if (answers != null)
         {
-            cacheItem.AnswerCounter = new ConcurrentDictionary<int, AnswerRecord>(answers
-                .Where(a => a.Question != null)
-                .GroupBy(a => a.Question.Id)
-                .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord));
+            cacheItem.AnswerCounter = new ConcurrentDictionary<int, AnswerRecord>(
+                answers
+                    .Where(a => a.Question != null)
+                    .GroupBy(a => a.Question.Id)
+                    .ToDictionary(g => g.Key, AnswerCache.AnswersToAnswerRecord)
+            );
         }
+    }
 
-        return cacheItem;
+    private void PopulateRecentPages(ExtendedUserCacheItem cacheItem, PageViewRepo _pageViewRepo)
+    {
+        if (cacheItem.RecentPages == null || !cacheItem.RecentPages.PagesQueue.Any())
+        {
+            cacheItem.RecentPages = new RecentPages(cacheItem.Id, _pageViewRepo);
+        }
     }
 
     private void AddToCache(ExtendedUserCacheItem cacheItem)

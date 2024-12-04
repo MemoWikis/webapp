@@ -6,20 +6,20 @@ internal class ContextPage_tests : BaseTest
     {
         var firstPage = ContextPage.New().Add("A").Persist().All.First();
         var pageRepo = R<PageRepository>();
-        var topicFromDatabase = pageRepo.GetById(firstPage.Id);
+        var pageFromDatabase = pageRepo.GetById(firstPage.Id);
         Assert.IsNotNull(firstPage);
-        Assert.IsNotNull(topicFromDatabase);
-        Assert.AreEqual(topicFromDatabase?.Name, firstPage.Name);
+        Assert.IsNotNull(pageFromDatabase);
+        Assert.AreEqual(pageFromDatabase?.Name, firstPage.Name);
     }
 
     [Test]
     public void PagesShouldInDatabase()
     {
-        var topicIds = ContextPage.New().Add(5).Persist().All.Select(c => c.Id).ToList();
+        var pageIds = ContextPage.New().Add(5).Persist().All.Select(c => c.Id).ToList();
         var pageRepo = R<PageRepository>();
         var idsFromDatabase = pageRepo.GetAllIds().ToList();
 
-        CollectionAssert.AreEquivalent(topicIds, idsFromDatabase);
+        CollectionAssert.AreEquivalent(pageIds, idsFromDatabase);
     }
 
     [Test]

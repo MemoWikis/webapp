@@ -1,21 +1,23 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
-import { FooterPages, Page, usePageStore } from '~/components/page/pageStore'
+import { Page, usePageStore } from '~/components/page/pageStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
-import { PageEnum } from '~~/components/shared/pageEnum'
+import { Site } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
+import { useConvertStore } from '~/components/page/convert/convertStore'
 
 const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 const spinnerStore = useSpinnerStore()
+const convertStore = useConvertStore()
 
 interface Props {
     tab?: Tab,
-    footerPages: FooterPages
+    site: Site,
 }
 
 const props = defineProps<Props>()
@@ -24,7 +26,7 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
 
-const { data: page } = await useFetch<Page>(`/apiVue/Page/GetPage/${route.params.id}`,
+const { data: page, refresh } = await useFetch<Page>(`/apiVue/Page/GetPage/${route.params.id}`,
     {
         credentials: 'include',
         mode: 'cors',
@@ -100,7 +102,7 @@ function setPage() {
 
 setPage()
 const emit = defineEmits(['setPage'])
-emit('setPage', PageEnum.Page)
+emit('setPage', Site.Page)
 
 function setTab() {
     if (tabsStore != null) {
@@ -169,13 +171,21 @@ watch(() => props.tab, (t) => {
     }
 
 }, { immediate: true })
+
+convertStore.$onAction(({ name, after }) => {
+    if (name == 'convertPageToWiki' || name == 'convertWikiToPage') {
+        after(async () => {
+            await refresh()
+        })
+    }
+})
 </script>
 
 <template>
-    <div class="container">
-        <div class="row page-container main-page">
+    <div class="container page-container">
+        <div class="row page-content main-page">
             <template v-if="page?.canAccess">
-                <div class="col-lg-9 col-md-12 container">
+                <div class="col-lg-9 col-md-12 container page">
                     <PageHeader />
 
                     <template v-if="pageStore?.id != 0">
@@ -219,7 +229,7 @@ watch(() => props.tab, (t) => {
                         </ClientOnly>
                     </template>
                 </div>
-                <Sidebar class="is-page" :show-outline="true" :footer-pages="props.footerPages" />
+                <Sidebar class="is-page" :show-outline="true" :site="props.site" />
             </template>
         </div>
     </div>
@@ -312,7 +322,7 @@ pre {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.page-container {
+.page-content {
     min-height: 400px;
     height: 100%;
     margin-top: 0;
@@ -320,6 +330,10 @@ pre {
     @media(min-width: 992px) {
         display: flex;
 
+    }
+
+    .page {
+        width: 100%;
     }
 }
 
@@ -337,6 +351,7 @@ pre {
 
 #PageContent {
     line-height: 1.5;
+    min-height: 50vh;
     .new-font-style();
     color: @global-text-color;
 

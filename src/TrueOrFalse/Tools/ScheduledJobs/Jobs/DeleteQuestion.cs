@@ -51,7 +51,7 @@ public class DeleteQuestion : IJob
         _questionValuationWritingRepo.DeleteForQuestion(questionId);
         _commentRepository.DeleteForQuestion(questionId);
         _nhibernateSession
-            .CreateSQLQuery("DELETE FROM categories_to_questions where Question_id = :questionId")
+            .CreateSQLQuery("DELETE FROM pages_to_questions where Question_id = :questionId")
             .SetParameter("questionId", questionId)
             .ExecuteUpdate();
         var pagesToUpdateIds = _questionWritingRepo.Delete(questionId, userId, parentIds);

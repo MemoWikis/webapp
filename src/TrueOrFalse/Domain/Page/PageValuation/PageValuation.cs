@@ -1,7 +1,7 @@
 ﻿using Seedworks.Lib.Persistence;
 using System.Diagnostics;
 
-[DebuggerDisplay("CategoryId={PageId} IsInWuwi: {IsInWishKnowledge()}")]
+[DebuggerDisplay("PageId={PageId} IsInWuwi: {IsInWishKnowledge()}")]
 public class PageValuation : DomainEntity
 {
     public virtual int UserId { get; set; }

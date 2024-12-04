@@ -227,12 +227,12 @@ public class PageStoreController(
     [HttpGet]
     public PageAnalyticsResponse GetPageAnalytics([FromRoute] int id)
     {
-        var topic = EntityCache.GetPage(id);
+        var page = EntityCache.GetPage(id);
 
-        var viewsPast90DaysPages = topic.GetViewsOfPast90Days();
+        var viewsPast90DaysPages = page.GetViewsOfPast90Days();
         var viewsPast90DaysAggregatedPages = GetAggregatedPageViewsOfPast90Days(id, viewsPast90DaysPages);
-        var viewsPast90DaysAggregatedQuestions = GetAggregatedQuestionViewsOfPast90Days(topic);
-        var viewsPast90DaysQuestion = GetQuestionViewsOfPast90Days(topic);
+        var viewsPast90DaysAggregatedQuestions = GetAggregatedQuestionViewsOfPast90Days(page);
+        var viewsPast90DaysQuestion = GetQuestionViewsOfPast90Days(page);
 
         return new PageAnalyticsResponse(
             viewsPast90DaysAggregatedPages,
@@ -242,13 +242,13 @@ public class PageStoreController(
 );
     }
 
-    private List<DailyViews> GetAggregatedPageViewsOfPast90Days(int id, List<DailyViews> topicViews)
+    private List<DailyViews> GetAggregatedPageViewsOfPast90Days(int id, List<DailyViews> pageViews)
     {
         var descendants = GraphService.VisibleDescendants(id, _permissionCheck, _sessionUser.UserId);
 
         var aggregatedViewsOfPast90Days = descendants
             .SelectMany(descendant => descendant.GetViewsOfPast90Days())
-            .Concat(topicViews)
+            .Concat(pageViews)
             .GroupBy(view => view.Date)
             .Select(group => new DailyViews
             {
@@ -277,15 +277,15 @@ public class PageStoreController(
         return result;
     }
 
-    private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem topic)
+    private List<DailyViews> GetQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: topic.Id);
+        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: false, pageId: page.Id);
         return GetQuestionViews(questions);
     }
 
-    private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem topic)
+    private List<DailyViews> GetAggregatedQuestionViewsOfPast90Days(PageCacheItem page)
     {
-        var questions = topic.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: topic.Id);
+        var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id);
         return GetQuestionViews(questions);
     }
 }

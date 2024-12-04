@@ -2,34 +2,17 @@
 using NHibernate.Criterion;
 using System.Data;
 
-public class RegisterUser : IRegisterAsInstancePerLifetime
+public class RegisterUser(
+    ISession _session,
+    JobQueueRepo _jobQueueRepo,
+    UserReadingRepo _userReadingRepo,
+    MessageRepo _messageRepo,
+    UserWritingRepo _userWritingRepo,
+    SessionUser _sessionUser,
+    PageRepository _pageRepository,
+    PageViewRepo _pageViewRepo)
+    : IRegisterAsInstancePerLifetime
 {
-    private readonly ISession _session;
-    private readonly JobQueueRepo _jobQueueRepo;
-    private readonly UserReadingRepo _userReadingRepo;
-    private readonly MessageRepo _messageRepo;
-    private readonly UserWritingRepo _userWritingRepo;
-    private readonly SessionUser _sessionUser;
-    private readonly PageRepository _pageRepository;
-
-    public RegisterUser(
-        ISession session,
-        JobQueueRepo jobQueueRepo,
-        UserReadingRepo userReadingRepo,
-        MessageRepo messageRepo,
-        UserWritingRepo userWritingRepo,
-        SessionUser sessionUser,
-        PageRepository pageRepository)
-    {
-        _session = session;
-        _jobQueueRepo = jobQueueRepo;
-        _userReadingRepo = userReadingRepo;
-        _messageRepo = messageRepo;
-        _userWritingRepo = userWritingRepo;
-        _sessionUser = sessionUser;
-        _pageRepository = pageRepository;
-    }
-
     public readonly record struct RegisterResult(bool Success, string MessageKey);
 
     private RegisterResult RegisterAndLogin(User user)
@@ -67,7 +50,7 @@ public class RegisterUser : IRegisterAsInstancePerLifetime
 
         SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
         WelcomeMsg.Send(user, _messageRepo);
-        _sessionUser.Login(user);
+        _sessionUser.Login(user, _pageViewRepo);
 
         var page = PersonalPage.GetPersonalPage(user, _pageRepository);
         page.Visibility = PageVisibility.Owner;

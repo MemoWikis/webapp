@@ -68,7 +68,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
         return userId == UserId;
     }
 
-    public void Login(User user)
+    public void Login(User user, PageViewRepo _pageViewRepo)
     {
         HasBetaAccess = true;
         IsLoggedIn = true;
@@ -77,7 +77,7 @@ public class SessionUser : IRegisterAsInstancePerLifetime
 
         if (user.IsInstallationAdmin)
             IsInstallationAdmin = true;
-        _extendedUserCache.Add(user.Id);
+        _extendedUserCache.Add(user.Id, _pageViewRepo);
     }
 
     public void Logout()

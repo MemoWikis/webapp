@@ -194,7 +194,7 @@ public class PageRelationEditController(
 
     private async Task<SearchPageResult> SearchPageAsync(
         string term,
-        int[] topicIdsToFilter = null)
+        int[] pageIdsToFilter = null)
     {
         var items = new List<SearchPageItem>();
         var elements = await _search.GoAllPagesAsync(term)
@@ -219,7 +219,7 @@ public class PageRelationEditController(
 
     private async Task<SearchPageInPersonalWikiResult> SearchPageInPersonalWikiAsync(
         string term,
-        int[] topicIdsToFilter = null)
+        int[] pageIdsToFilter = null)
     {
         var items = new List<SearchPageItem>();
         var elements = await _search
@@ -230,7 +230,7 @@ public class PageRelationEditController(
             new SearchHelper(_imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, topicIdsToFilter);
+                .AddPageItems(items, elements, _permissionCheck, _sessionUser.UserId, pageIdsToFilter);
 
         var wikiChildren = GraphService.VisibleDescendants(_sessionUser.User.StartPageId,
             _permissionCheck, _sessionUser.UserId);

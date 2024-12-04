@@ -7,9 +7,9 @@ public class MiddlewareStartpageController(SessionUser _sessionUser) : Controlle
     [HttpGet]
     public TinyPage Get()
     {
-        var topic = _sessionUser.IsLoggedIn
+        var page = _sessionUser.IsLoggedIn
             ? EntityCache.GetPage(_sessionUser.User.StartPageId)
             : RootPage.Get;
-        return new TinyPage { Name = topic.Name, Id = topic.Id };
+        return new TinyPage { Name = page.Name, Id = page.Id };
     }
 }

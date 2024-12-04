@@ -19,8 +19,8 @@ public class GridItemController(
     [HttpGet]
     public GetChildrenResult GetChildren([FromRoute] int id)
     {
-        var topic = EntityCache.GetPage(id);
-        if (!_permissionCheck.CanView(topic))
+        var page = EntityCache.GetPage(id);
+        if (!_permissionCheck.CanView(page))
             return new GetChildrenResult(
                 Success: false, MessageKey: FrontendMessageKeys.Error.Page.MissingRights);
         var children = new PageGridManager(
@@ -41,8 +41,8 @@ public class GridItemController(
     [HttpGet]
     public GetItemResult GetItem([FromRoute] int id)
     {
-        var topic = EntityCache.GetPage(id);
-        if (!_permissionCheck.CanView(topic))
+        var page = EntityCache.GetPage(id);
+        if (!_permissionCheck.CanView(page))
             return new GetItemResult
             {
                 Success = false,
@@ -55,7 +55,7 @@ public class GridItemController(
             _imageMetaDataReadingRepo,
             _httpContextAccessor,
             _knowledgeSummaryLoader,
-            _questionReadingRepo).BuildGridPageItem(topic);
+            _questionReadingRepo).BuildGridPageItem(page);
         return new GetItemResult { Success = true, Data = gridItem };
     }
 }

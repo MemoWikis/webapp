@@ -26,28 +26,28 @@ public class PageToPrivateStoreController(
     [AccessOnlyAsLoggedIn]
     public GetResult Get([FromRoute] int id)
     {
-        var topicCacheItem = EntityCache.GetPage(id);
+        var pageCacheItem = EntityCache.GetPage(id);
         var userCacheItem = _extendedUserCache.GetItem(_sessionUser.UserId);
-        if (topicCacheItem == null)
+        if (pageCacheItem == null)
             return new GetResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
             };
 
-        if (!_permissionCheck.CanEdit(topicCacheItem))
+        if (!_permissionCheck.CanEdit(pageCacheItem))
             return new GetResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var aggregatedPages = topicCacheItem.AggregatedPages(_permissionCheck)
+        var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck)
             .Where(c => c.Value.Visibility == PageVisibility.All);
-        var publicAggregatedQuestions = topicCacheItem
+        var publicAggregatedQuestions = pageCacheItem
             .GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, true)
             .Where(q => q.Visibility == QuestionVisibility.All).ToList();
-        var pinCount = topicCacheItem.TotalRelevancePersonalEntries;
+        var pinCount = pageCacheItem.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
             if (id == RootPage.RootPageId)
@@ -106,7 +106,7 @@ public class PageToPrivateStoreController(
             Success = true,
             Data = new PersonalPage
             {
-                Name = topicCacheItem.Name,
+                Name = pageCacheItem.Name,
                 PersonalQuestionIds = filteredAggregatedQuestions,
                 PersonalQuestionCount = filteredAggregatedQuestions.Count,
                 AllQuestionIds = publicAggregatedQuestions.Select(q => q.Id).ToList(),
@@ -121,23 +121,23 @@ public class PageToPrivateStoreController(
     [AccessOnlyAsLoggedIn]
     public SetResult Set([FromRoute] int id)
     {
-        var topicCacheItem = EntityCache.GetPage(id);
-        if (topicCacheItem == null)
+        var pageCacheItem = EntityCache.GetPage(id);
+        if (pageCacheItem == null)
             return new SetResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Default
             };
 
-        if (!_permissionCheck.CanEdit(topicCacheItem))
+        if (!_permissionCheck.CanEdit(pageCacheItem))
             return new SetResult
             {
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var topic = pageRepository.GetById(id);
-        var pinCount = topic.TotalRelevancePersonalEntries;
+        var page = pageRepository.GetById(id);
+        var pinCount = page.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
             if (id == RootPage.RootPageId)
@@ -147,7 +147,7 @@ public class PageToPrivateStoreController(
                     MessageKey = FrontendMessageKeys.Error.Page.RootPageMustBePublic
                 };
 
-            var aggregatedPages = topicCacheItem.AggregatedPages(_permissionCheck, false)
+            var aggregatedPages = pageCacheItem.AggregatedPages(_permissionCheck, false)
                 .Where(c => c.Value.Visibility == PageVisibility.All);
 
             foreach (var c in aggregatedPages)
@@ -174,9 +174,9 @@ public class PageToPrivateStoreController(
             }
         }
 
-        topicCacheItem.Visibility = PageVisibility.Owner;
-        topic.Visibility = PageVisibility.Owner;
-        pageRepository.Update(topic, _sessionUser.UserId, type: PageChangeType.Privatized);
+        pageCacheItem.Visibility = PageVisibility.Owner;
+        page.Visibility = PageVisibility.Owner;
+        pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Privatized);
 
         return new SetResult
         {

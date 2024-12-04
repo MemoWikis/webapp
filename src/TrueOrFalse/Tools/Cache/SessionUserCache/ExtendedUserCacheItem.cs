@@ -6,7 +6,7 @@ public class ExtendedUserCacheItem : UserCacheItem
     public ConcurrentDictionary<int, QuestionValuationCacheItem> QuestionValuations = new();
     public ConcurrentDictionary<int, AnswerRecord> AnswerCounter = new();
 
-    public static ExtendedUserCacheItem CreateCacheItem(User user)
+    public static ExtendedUserCacheItem CreateCacheItem(User user, PageViewRepo pageViewRepo)
     {
         var sessionUserCacheItem = new ExtendedUserCacheItem();
 

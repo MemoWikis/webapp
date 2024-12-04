@@ -5,12 +5,12 @@ using System.Linq;
 using static PageDeleter;
 
 public class DeletePageStoreController(
-    SessionUser sessionUser,
-    PageDeleter pageDeleter,
+    SessionUser _sessionUser,
+    PageDeleter _pageDeleter,
     CrumbtrailService _crumbtrailService,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
-    QuestionReadingRepo _questionReadingRepo) : BaseController(sessionUser)
+    QuestionReadingRepo _questionReadingRepo) : BaseController(_sessionUser)
 {
     public record struct SuggestedNewParent(
         int Id,
@@ -20,22 +20,22 @@ public class DeletePageStoreController(
         string MiniImageUrl,
         PageVisibility Visibility);
 
-    private SuggestedNewParent FillSuggestedNewParent(PageCacheItem topic)
+    private SuggestedNewParent FillSuggestedNewParent(PageCacheItem page)
     {
         return new SuggestedNewParent
         {
-            Id = topic.Id,
-            Name = topic.Name,
-            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new PageImageSettings(topic.Id, _httpContextAccessor)
+            Id = page.Id,
+            Name = page.Name,
+            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),
+            ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor)
                 .GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Page),
+                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page),
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Page)
                 .Url,
-            Visibility = topic.Visibility
+            Visibility = page.Visibility
         };
     }
 
@@ -44,18 +44,19 @@ public class DeletePageStoreController(
         bool HasChildren,
         SuggestedNewParent? SuggestedNewParent,
         bool HasQuestion,
-        bool HasPublicQuestion);
+        bool HasPublicQuestion,
+        bool IsWiki);
 
     [AccessOnlyAsLoggedIn]
     [HttpGet]
     public DeleteData GetDeleteData([FromRoute] int id)
     {
-        var topic = EntityCache.GetPage(id);
+        var page = EntityCache.GetPage(id);
         var children = GraphService.Descendants(id);
         var hasChildren = children.Count > 0;
-        if (topic == null)
+        if (page == null)
             throw new Exception(
-                "Page couldn't be deleted. Category with specified Id cannot be found.");
+                "Page couldn't be deleted. Page with specified Id cannot be found.");
 
         var questions = EntityCache
             .GetPage(id)?
@@ -64,25 +65,25 @@ public class DeletePageStoreController(
         var hasQuestion = questions?.Count > 0;
 
         if (!hasChildren && !hasQuestion)
-            return new DeleteData(topic.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false);
+            return new DeleteData(page.Name, HasChildren: false, SuggestedNewParent: null, HasQuestion: false, HasPublicQuestion: false, IsWiki: page.IsWiki);
 
         var hasPublicQuestion = questions?
             .Any(q => q.Visibility == QuestionVisibility.All) ?? false;
 
         var currentWiki = EntityCache.GetPage(_sessionUser.CurrentWikiId);
 
-        var parents = _crumbtrailService.BuildCrumbtrail(topic, currentWiki);
+        var parents = _crumbtrailService.BuildCrumbtrail(page, currentWiki);
 
         var newParentId =
             new SearchHelper(_imageMetaDataReadingRepo, _httpContextAccessor, _questionReadingRepo)
                 .SuggestNewParent(parents, hasPublicQuestion);
 
         if (newParentId == null)
-            return new DeleteData(topic.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion);
+            return new DeleteData(page.Name, hasChildren, SuggestedNewParent: null, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);
 
         var suggestedNewParent = FillSuggestedNewParent(EntityCache.GetPage((int)newParentId));
 
-        return new DeleteData(topic.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion);
+        return new DeleteData(page.Name, hasChildren, suggestedNewParent, hasQuestion, hasPublicQuestion, IsWiki: page.IsWiki);
     }
 
     public readonly record struct DeleteRequest(int PageToDeleteId, int? ParentForQuestionsId);
@@ -108,7 +109,8 @@ public class DeletePageStoreController(
                 return new DeleteResponse(Success: false, MessageKey: FrontendMessageKeys.Error.Page.NewPageIdIsPageIdToBeDeleted);
         }
 
-        var deleteResult = pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
+        var deleteResult = _pageDeleter.DeletePage(deleteRequest.PageToDeleteId, deleteRequest.ParentForQuestionsId);
+        _sessionUser.User.CleanupWikiIdsAndFavoriteIds();
 
         return new DeleteResponse(
             Success: deleteResult.Success,

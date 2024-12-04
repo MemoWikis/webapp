@@ -5,7 +5,7 @@
         // Definition KnowledgeStatus:
         //   NotLearned = no answer existing
         //   NeedsLearning = Last answer wrong OR among last five answers: wrong >= correct
-        //   NeedsConsolidation = residual category
+        //   NeedsConsolidation = residual page
         //   Solid = Last three answers correct AND c<4b
         //      where:  a = Distance between last incorrect answer and beginning of positive streak
         //              b = Length of last positive streak

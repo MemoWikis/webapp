@@ -270,22 +270,22 @@ public class QuestionEditModalController(
         return question;
     }
 
-    private SearchPageItem FillMiniPageItem(PageCacheItem topic)
+    private SearchPageItem FillMiniPageItem(PageCacheItem page)
     {
         var miniPageItem = new SearchPageItem
         {
-            Id = topic.Id,
-            Name = topic.Name,
-            QuestionCount = topic.GetCountQuestionsAggregated(_sessionUser.UserId),
-            ImageUrl = new PageImageSettings(topic.Id, _httpContextAccessor)
+            Id = page.Id,
+            Name = page.Name,
+            QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),
+            ImageUrl = new PageImageSettings(page.Id, _httpContextAccessor)
                 .GetUrl_128px(asSquare: true).Url,
             MiniImageUrl = new ImageFrontendData(
-                    _imageMetaDataReadingRepo.GetBy(topic.Id, ImageType.Page),
+                    _imageMetaDataReadingRepo.GetBy(page.Id, ImageType.Page),
                     _httpContextAccessor,
                     _questionReadingRepo)
                 .GetImageUrl(30, true, false, ImageType.Page)
                 .Url,
-            Visibility = (int)topic.Visibility
+            Visibility = (int)page.Visibility
         };
 
         return miniPageItem;

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
-import { PageEnum } from '~~/components/shared/pageEnum'
+import { Site } from '~/components/shared/siteEnum'
 import { Message } from '~~/components/user/messages/message'
 
 const emit = defineEmits(['setPage', 'setBreadcrumb'])
 onBeforeMount(() => {
-    emit('setPage', PageEnum.Messages)
+    emit('setPage', Site.Messages)
 
     const breadcrumbItems: BreadcrumbItem[] = [
         {

@@ -2,8 +2,6 @@
 import { usePageStore } from '~/components/page/pageStore'
 import { ToggleState } from './toggleStateEnum'
 import { GridPageItem } from './item/gridPageItem'
-import { useRootPageChipStore } from '~/components/header/rootPageChipStore'
-import { PageItem } from '~/components/search/searchHelper'
 import { EditRelationData, EditPageRelationType, useEditPageRelationStore } from '~/components/page/relation/editPageRelationStore'
 import { useUserStore } from '~/components/user/userStore'
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
@@ -13,7 +11,6 @@ import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
 import { TargetPosition, useDragStore } from '~/components/shared/dragStore'
 
 const pageStore = usePageStore()
-const rootPageChipStore = useRootPageChipStore()
 const editPageRelationStore = useEditPageRelationStore()
 const userStore = useUserStore()
 const alertStore = useAlertStore()
@@ -28,22 +25,6 @@ interface Props {
 const props = defineProps<Props>()
 
 const toggleState = ref(ToggleState.Collapsed)
-const { $urlHelper } = useNuxtApp()
-
-const rootPageItem = ref<PageItem>()
-
-onMounted(() => {
-    rootPageItem.value = {
-        type: 'PageItem',
-        id: rootPageChipStore.id,
-        name: rootPageChipStore.name,
-        url: $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id),
-        questionCount: 0,
-        imageUrl: rootPageChipStore.imgUrl,
-        miniImageUrl: rootPageChipStore.imgUrl,
-        visibility: 0,
-    }
-})
 
 const pagesToFilter = computed<number[]>(() => {
 
@@ -207,30 +188,20 @@ editPageRelationStore.$onAction(({ name, after }) => {
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? 'Unterthemen' : 'Untergeordnete Seiten' }} ({{ pageStore.childPageCount }})
+                        {{ isMobile ? 'UnterSeiten' : 'Untergeordnete Seiten' }} ({{ pageStore.childPageCount }})
                     </div>
 
                     <div class="grid-options">
-                        <div class="grid-divider"></div>
                         <div class="grid-option">
                             <button @click="addPage(true)">
                                 <font-awesome-icon :icon="['fas', 'plus']" />
                             </button>
                         </div>
-                        <!-- <div class="grid-divider"></div> -->
                         <div class="grid-option">
                             <button @click="addPage(false)">
                                 <font-awesome-icon :icon="['fas', 'link']" />
                             </button>
                         </div>
-
-                        <template v-if="rootPageChipStore.showRootPageChip && rootPageItem">
-                            <div class="grid-divider"></div>
-                            <div class="root-chip grid-option">
-                                <PageChip :page="rootPageItem" class="no-margin" :hide-label="isMobile" />
-                            </div>
-                        </template>
-
                     </div>
                 </div>
 
@@ -307,12 +278,6 @@ editPageRelationStore.$onAction(({ name, after }) => {
             display: flex;
             justify-content: flex-end;
             align-items: center;
-
-            .root-chip {
-                align-items: center;
-                color: @memo-grey-darker;
-
-            }
         }
 
         .grid-title {

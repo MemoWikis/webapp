@@ -6,7 +6,10 @@ export const messages: any = {
             unlinked: "Die Verknüpfung wurde erfolgreich gelöst.",
             addedToPersonalWiki: "Die Seite wurde erfolgreich zu deinem Wiki hinzugefügt.",
             saveImage: "Das neue Bild wurde gespeichert",
-            saved: 'Die Seite wurde erfolgreich gespeichert.'
+            saved: 'Die Seite wurde erfolgreich gespeichert.',
+            convertedToWiki: (name:  string) => `Die Seite '${name}' wurde erfolgreich in ein Wiki umgewandelt.`,
+            convertedToPage: (name:  string) => `Das Wiki '${name}' wurde erfolgreich in eine Seite umgewandelt.`
+
         },
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",

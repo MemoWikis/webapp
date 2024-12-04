@@ -20,7 +20,7 @@ public class UserMap : ClassMap<User>
         Map(x => x.FollowerCount);
         Map(x => x.LearningSessionOptions);
         Map(x => x.StripeId);
-        Map(x => x.StartPageId).Column("StartTopicId");
+        Map(x => x.StartPageId);
         Map(x => x.EndDate).Nullable();
         Map(x => x.SubscriptionStartDate).Nullable();
         Map(x => x.CorrectnessProbability);
@@ -53,6 +53,9 @@ public class UserMap : ClassMap<User>
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
 
-        Map(x => x.RecentlyUsedRelationTargetPages).Column("RecentlyUsedRelationTargetTopics");
+        Map(x => x.RecentlyUsedRelationTargetPages);
+
+        Map(x => x.WikiIds);
+        Map(x => x.FavoriteIds);
     }
 }

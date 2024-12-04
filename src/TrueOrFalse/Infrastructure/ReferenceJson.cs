@@ -2,7 +2,7 @@
 
 public class ReferenceJson
 {
-    public int CategoryId;
+    public int PageId;
     public int ReferenceId;
     public string ReferenceType;
     public string AdditionalText;
@@ -22,7 +22,7 @@ public class ReferenceJson
                 Id = refJson.ReferenceId == -1 ? default(int) : refJson.ReferenceId,
                 ReferenceType = Reference.GetReferenceType(refJson.ReferenceType),
                 Question = question,
-                Page = pageRepository.GetByIdEager(refJson.CategoryId),
+                Page = pageRepository.GetByIdEager(refJson.PageId),
                 AdditionalInfo = refJson.AdditionalText,
                 ReferenceText = refJson.ReferenceText
             };

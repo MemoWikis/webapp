@@ -744,7 +744,7 @@ ul.AutocompleteHeader {
 /* MASTER FOOTER
 ----------------------------------------------------------*/
 #MasterFooter {
-    background-color: @memo-blue;
+    background-color: @memo-grey-lightest;
     padding-top: 20px;
     padding-left: 30px; //for Bootstrap .row
     padding-right: 30px; //for Bootstrap .row
@@ -752,12 +752,12 @@ ul.AutocompleteHeader {
     position: relative;
     z-index: 50;
     flex: 1;
-    color: @white;
+    color: @memo-grey-darker;
     font-size: 14px;
     font-weight: 400;
 
     a {
-        color: @white;
+        color: @memo-grey-darker;
     }
 
     #footerOn {
@@ -803,15 +803,7 @@ ul.AutocompleteHeader {
 
         .media-below-xs ( {
             padding: 0 30px;
-        }
-
-        );
-
-        .media-xs-up ( {
-            min-height: 170px;
-        }
-
-        );
+        });
 
         &:last-child > div {
             .media-md-up( {
@@ -838,7 +830,7 @@ ul.AutocompleteHeader {
         }
 
         .overline-m, .overline-s {
-            color: @white;
+            color: @memo-grey-darker;
         }
     }
 
@@ -2970,4 +2962,8 @@ h1, h2, h3, h4 {
 
 ul, ol {
     text-align: left;
+}
+
+.page-container {
+    height: 100%;
 }

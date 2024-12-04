@@ -77,6 +77,8 @@
         return withinLimit;
     }
 
+    public bool CanCreatePrivateWiki(bool logExceedance = false) => CanSavePrivatePage(logExceedance);
+
     private bool HasActiveSubscriptionPlan()
     {
         return _sessionUser.User.EndDate != null && _sessionUser.User.EndDate > DateTime.Now;

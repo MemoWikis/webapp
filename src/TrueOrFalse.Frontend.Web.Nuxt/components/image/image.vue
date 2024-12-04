@@ -73,8 +73,9 @@ const getCustomStyle = computed(() => {
 <template>
 	<div class="img-container" :class="props.class" ref="imgContainer">
 		<slot name="top"></slot>
-		<img v-if="props.format == ImageFormat.Author" :src="imgSrc" class="author" :alt="props.alt"
+		<img v-if="props.format === ImageFormat.Author" :src="imgSrc" class="author" :alt="props.alt"
 			:style="getCustomStyle" />
+		<img v-else-if="props.format === ImageFormat.WikiLogo" :src="imgSrc" class="wiki-logo" :alt="props.alt" :style="getCustomStyle" />
 		<img v-else :src="imgSrc" class="page" :alt="props.alt" :style="getCustomStyle" />
 
 		<div v-if="props.showLicense && props.imageId != undefined && !props.src.includes('no-category-picture')"
@@ -115,13 +116,20 @@ const getCustomStyle = computed(() => {
 			color: @memo-blue-lighter;
 		}
 	}
-}
 
-.page {
-	border-radius: 0;
-}
+	.page {
+		border-radius: 0;
+	}
 
-.author {
-	border-radius: 50%;
+	.author {
+		border-radius: 50%;
+	}
+
+	.wiki-logo {
+		height: 80px;
+		width: 80px;
+		margin: auto;
+		margin-bottom: 16px;
+	}
 }
 </style>

@@ -10,7 +10,8 @@
             var parentName = "Parent";
 
             var sessionUser = R<SessionUser>();
-            sessionUser.Login(_sessionUser);
+            var pageViewRepo = R<PageViewRepo>();
+            sessionUser.Login(_sessionUser, pageViewRepo);
             var parent = context
                 .Add(parentName, creator: _sessionUser)
                 .Persist().All
@@ -54,8 +55,10 @@
                 .Persist()
                 .All
                 .Single(c => c.Name.Equals(parentname));
+            var pageViewRepo = R<PageViewRepo>();
+
             var sessionUser = R<SessionUser>();
-            sessionUser.Login(_sessionUser);
+            sessionUser.Login(_sessionUser, pageViewRepo);
 
             var childName = "child";
 

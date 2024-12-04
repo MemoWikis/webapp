@@ -81,7 +81,7 @@ public class Links
                 id = questionId,
                 elementOnPage = paramElementOnPage,
                 pager = pagerKey,
-                category = pageToFilter
+                page = pageToFilter
             }, null);
     }
 
@@ -99,14 +99,14 @@ public class Links
 
         if (type is Page)
         {
-            var topic = (Page)type;
-            return GetPageUrl(UriSanitizer.Run(topic.Name), topic.Id);
+            var page = (Page)type;
+            return GetPageUrl(UriSanitizer.Run(page.Name), page.Id);
         }
 
         if (type is PageCacheItem)
         {
-            var topic = (PageCacheItem)type;
-            return GetPageUrl(UriSanitizer.Run(topic.Name), topic.Id);
+            var page = (PageCacheItem)type;
+            return GetPageUrl(UriSanitizer.Run(page.Name), page.Id);
         }
 
         if (type is Question)

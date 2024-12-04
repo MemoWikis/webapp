@@ -129,7 +129,7 @@ onMounted(() => {
                                     <b>{{ pageStore.childPageCount }} </b> eingeschlossene Seiten
                                 </li>
                                 <li>
-                                    <b>{{ pageStore.directVisibleChildPageCount }}</b> direkt verknüpfte Unterthemen
+                                    <b>{{ pageStore.directVisibleChildPageCount }}</b> direkt verknüpfte UnterSeiten
                                 </li>
                                 <li>
                                     <b> {{ pageStore.parentPageCount }} </b> übergeordnete Seiten
@@ -150,12 +150,12 @@ onMounted(() => {
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsPages" :datasets="past90DaysCountsPages" :color="color.middleBlue"
-                                title="Ohne Unterthemen" />
+                                title="Ohne UnterSeiten" />
                         </div>
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedPages" :datasets="past90DaysCountsAggregatedPages" :color="color.darkBlue"
-                                :title="`Inkl. ${pageStore.childPageCount} Unterthemen`" />
+                                :title="`Inkl. ${pageStore.childPageCount} UnterSeiten`" />
                         </div>
 
                     </div>
@@ -173,7 +173,7 @@ onMounted(() => {
 
                         <div class="statistics-chart-section">
                             <LazySharedChartsBar :labels="past90DaysLabelsAggregatedQuestions" :datasets="past90DaysCountsAggregatedQuestions" :color="color.darkGreen"
-                                :title="`Eingeschlossene Fragen (${pageStore.childPageCount} Unterthemen)`" />
+                                :title="`Eingeschlossene Fragen (${pageStore.childPageCount} UnterSeiten)`" />
                         </div>
 
                     </div>

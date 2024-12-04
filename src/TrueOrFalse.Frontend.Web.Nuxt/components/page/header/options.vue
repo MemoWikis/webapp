@@ -8,6 +8,7 @@ import { usePageToPrivateStore } from '../toPrivate/pageToPrivateStore'
 import { usePublishPageStore } from '../publish/publishPageStore'
 import { useDeletePageStore } from '../delete/deletePageStore'
 import { messages } from '~/components/alert/messages'
+import { useConvertStore } from '../convert/convertStore'
 
 const userStore = useUserStore()
 const pageStore = usePageStore()
@@ -16,6 +17,7 @@ const editPageRelationStore = useEditPageRelationStore()
 const publishPageStore = usePublishPageStore()
 const deletePageStore = useDeletePageStore()
 const pageToPrivateStore = usePageToPrivateStore()
+const convertStore = useConvertStore()
 
 const hoverLock = ref(false)
 const ariaId = useId()
@@ -108,6 +110,25 @@ const ariaId = useId()
                         </div>
                         <div class="dropdown-label">
                             Seite veröffentlichen
+                        </div>
+                    </div>
+
+                    <div v-if="pageStore.isOwnerOrAdmin() && !pageStore.isWiki"
+                        class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon :icon="['fas', 'folder']" />
+                        </div>
+                        <div class="dropdown-label">
+                            Seite in Wiki konvertieren
+                        </div>
+                    </div>
+                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.isWiki"
+                        class="dropdown-row" @click="convertStore.openModal(pageStore.id); hide()">
+                        <div class="dropdown-icon">
+                            <font-awesome-icon :icon="['fas', 'file']" />
+                        </div>
+                        <div class="dropdown-label">
+                            Wiki in Seite konvertieren
                         </div>
                     </div>
                     <div v-if="pageStore.canBeDeleted" class="dropdown-row"

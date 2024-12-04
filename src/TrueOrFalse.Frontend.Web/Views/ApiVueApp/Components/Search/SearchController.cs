@@ -30,7 +30,7 @@ public class SearchController(
     [HttpPost]
     public async Task<AllResult> All([FromBody] SearchAllJson json)
     {
-        var topicItems = new List<SearchPageItem>();
+        var pageItems = new List<SearchPageItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
         var elements = await _search.Go(json.term);
@@ -40,7 +40,7 @@ public class SearchController(
             _questionReadingRepo);
 
         if (elements.Pages.Any())
-            searchHelper.AddPageItems(topicItems, elements, _permissionCheck,
+            searchHelper.AddPageItems(pageItems, elements, _permissionCheck,
                 _sessionUser.UserId);
 
         if (elements.Questions.Any())
@@ -50,7 +50,7 @@ public class SearchController(
         if (elements.Users.Any())
             searchHelper.AddUserItems(userItems, elements);
         var result = new AllResult(
-            Pages: topicItems,
+            Pages: pageItems,
             PageCount: elements.PageCount,
             Questions: questionItems,
             QuestionCount: elements.QuestionsResultCount,

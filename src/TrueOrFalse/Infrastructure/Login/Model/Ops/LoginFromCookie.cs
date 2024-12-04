@@ -6,6 +6,7 @@ public class LoginFromCookie
     private static void Run(SessionUser sessionUser,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
+        PageViewRepo pageViewRepo,
         string cookieString,
         bool? deletePersistentCookie = false)
     {
@@ -33,7 +34,7 @@ public class LoginFromCookie
             throw ex;
         }
 
-        sessionUser.Login(user);
+        sessionUser.Login(user, pageViewRepo);
 
         if (deletePersistentCookie == true)
             persistentLoginRepo.Delete(persistentLogin);
@@ -42,47 +43,49 @@ public class LoginFromCookie
     public static void Run(SessionUser sessionUser,
         PersistentLoginRepo persistentLoginRepo,
         UserReadingRepo userReadingRepo,
-        HttpContext httpContext)
+        HttpContext httpContext,
+        PageViewRepo pageViewRepo)
     {
         var cookieString = httpContext?.Request.Cookies[PersistentLoginCookie.Key];
 
         if (cookieString != null && httpContext != null)
         {
-            Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: true);
+            Run(sessionUser, persistentLoginRepo, userReadingRepo, pageViewRepo, cookieString, deletePersistentCookie: true);
             RemovePersistentLoginFromCookie.RunForGoogle(httpContext);
             WritePersistentLoginToCookie.Run(sessionUser.UserId, persistentLoginRepo, httpContext);
         }
     }
 
-    public static void GoogleLogin(UserReadingRepo userReadingRepo, string googleId, SessionUser sessionUser)
+    public static void RunToRestore(SessionUser sessionUser,
+        PersistentLoginRepo persistentLoginRepo,
+        UserReadingRepo userReadingRepo,
+        PageViewRepo pageViewRepo,
+        string cookieString) => Run(sessionUser, persistentLoginRepo, userReadingRepo, pageViewRepo, cookieString, deletePersistentCookie: false);
+
+    public static void GoogleLogin(UserReadingRepo userReadingRepo, PageViewRepo pageViewRepo, string googleId, SessionUser sessionUser)
     {
         var user = userReadingRepo.UserGetByGoogleId(googleId);
         if (user == null)
             throw new Exception("User does not exist");
 
-        sessionUser.Login(user);
+        sessionUser.Login(user, pageViewRepo);
     }
 
-    public static void RunToRestore(SessionUser sessionUser,
-        PersistentLoginRepo persistentLoginRepo,
-        UserReadingRepo userReadingRepo,
-        string cookieString) => Run(sessionUser, persistentLoginRepo, userReadingRepo, cookieString, deletePersistentCookie: false);
-
-    public static async Task RunToRestoreGoogleCredential(SessionUser sessionUser, UserReadingRepo userReadingRepo, GoogleLogin googleLogin, string googleCredential)
+    public static async Task RunToRestoreGoogleCredential(SessionUser sessionUser, UserReadingRepo userReadingRepo, PageViewRepo pageViewRepo, GoogleLogin googleLogin, string googleCredential)
     {
         var googleUser = await googleLogin.GetGoogleUserByCredential(googleCredential);
         if (googleUser == null)
             throw new Exception("GoogleCredentials are invalid");
 
-        GoogleLogin(userReadingRepo, googleUser.Subject, sessionUser);
+        GoogleLogin(userReadingRepo, pageViewRepo, googleUser.Subject, sessionUser);
     }
 
-    public static async Task RunToRestoreGoogleAccessToken(SessionUser sessionUser, UserReadingRepo userReadingRepo, GoogleLogin googleLogin, string googleAccessToken)
+    public static async Task RunToRestoreGoogleAccessToken(SessionUser sessionUser, UserReadingRepo userReadingRepo, PageViewRepo pageViewRepo, GoogleLogin googleLogin, string googleAccessToken)
     {
         var googleUser = await googleLogin.GetGoogleUserByAccessToken(googleAccessToken);
         if (googleUser == null)
             throw new Exception("GoogleCredentials are invalid");
 
-        GoogleLogin(userReadingRepo, googleUser.Id, sessionUser);
+        GoogleLogin(userReadingRepo, pageViewRepo, googleUser.Id, sessionUser);
     }
 }

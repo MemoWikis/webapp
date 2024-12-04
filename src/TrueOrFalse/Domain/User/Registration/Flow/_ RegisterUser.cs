@@ -33,9 +33,9 @@
 
 //    public void CreateStartPageAndSetToUser(User user)
 //    {
-//        var topic = PersonalPage.GetPersonalCategory(user);
-//        Sl.CategoryRepo.Create(topic);
-//        user.StartPageId = topic.Id;
+//        var page = PersonalPage.GetPersonalCategory(user);
+//        Sl.CategoryRepo.Create(page);
+//        user.StartPageId = page.Id;
 
 //        Sl.UserRepo.Update(user);
 //    }

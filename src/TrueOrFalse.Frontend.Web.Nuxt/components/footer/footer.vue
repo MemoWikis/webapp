@@ -1,13 +1,18 @@
 <script lang="ts" setup>
-import { FooterPages } from '../page/pageStore'
+import { FooterPages, usePageStore } from '../page/pageStore'
+import { Site } from '../shared/siteEnum'
+import { Visibility } from '../shared/visibilityEnum'
 import { useUserStore } from '../user/userStore'
 
 interface Props {
     footerPages: FooterPages,
     isError?: boolean
+    site: Site
+    questionPageIsPrivate?: boolean
 }
 const props = defineProps<Props>()
 const userStore = useUserStore()
+const pageStore = usePageStore()
 const config = useRuntimeConfig()
 
 function handleError() {
@@ -16,36 +21,47 @@ function handleError() {
 }
 
 const { $urlHelper } = useNuxtApp()
+
+const windowLoaded = ref(false)
+onMounted(() => {
+    if (window)
+        windowLoaded.value = true
+})
+
 </script>
 
 <template>
-    <section id="GlobalLicense">
-        <div class="license-container">
-            <div class="license-text-container">
-                <NuxtLink @click="handleError()" class="CCLogo" rel="license"
-                    to="https://creativecommons.org/licenses/by/4.0/" :external="true">
-                    <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
-                </NuxtLink>
-                <div class="Text cc-license-text">
-                    Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
-                        rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">Creative
-                        Commons Namensnennung
-                        4.0 (CC-BY-4.0)</NuxtLink>. Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder,
-                    Videos,
-                    Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet.
+    <section id="GlobalLicense" v-if="(props.site === Site.Page && pageStore.visibility === Visibility.All) || (props.site === Site.Question && !props.questionPageIsPrivate)">
+        <div class="license-container row">
+            <div class="license-text-container container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <NuxtLink @click="handleError()" class="CCLogo" rel="license"
+                            to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                            <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
+                        </NuxtLink>
+                        <div class="Text cc-license-text">
+                            Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
+                                rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">Creative
+                                Commons Namensnennung
+                                4.0 (CC-BY-4.0)</NuxtLink>. Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder,
+                            Videos,
+                            Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    <div id="MasterFooter">
+    <div id="MasterFooter" :class="{ 'window-loading': !windowLoaded }">
         <div class="row">
-            <div class="container">
+            <div class="container footer-container">
                 <div class="row Promoter">
                     <div class="col-xs-12">
                     </div>
                 </div>
 
-                <div class="row footer-links-memucho">
+                <div class="row footer-links-memucho col-xs-12">
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
@@ -156,23 +172,6 @@ const { $urlHelper } = useNuxtApp()
                             </template>
                         </div>
                     </div>
-
-
-                    <div id="FooterEndContainer" class="col-xs-12 col-lg-12 FooterCol">
-                        <div id="FooterEnd">
-                            <div>
-                                Entwickelt von:
-                            </div>
-                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
-                                <Image src="/Images/Logo/BitwerkeLogo.svg" class="bitwerke-logo" alt="bitwerke logo" />
-                            </NuxtLink>
-                            <NuxtLink @click="handleError()" to="https://bitwerke.de/" :external="true">
-                                <div>
-                                    Individualsoftware, UX/UI, Entwicklung und Beratung
-                                </div>
-                            </NuxtLink>
-                        </div>
-                    </div>
                 </div>
 
             </div>
@@ -195,13 +194,55 @@ const { $urlHelper } = useNuxtApp()
 .master-footer-logo-img {
     margin-bottom: 20px;
     padding-right: 20px;
+    filter: brightness(0.36);
 }
 
 .bitwerke-logo {
     padding: 0 10px;
+    filter: brightness(0.36);
 }
 
 .cc-license-text {
     color: @memo-grey-darker;
+}
+
+#MasterFooter {
+    transition: all 0.3s ease-in-out;
+
+    @media (min-width: 900px) and (max-width: 1650px) {
+        padding-left: clamp(100px, 10vw, 320px);
+    }
+
+    @media (min-width: 1651px) {
+        padding-left: clamp(100px, 20vw, 320px);
+    }
+
+    .footer-container {
+
+
+        &.window-loading {
+            padding-left: 0px;
+        }
+    }
+}
+
+#GlobalLicense {
+    background: @memo-grey-lighter;
+    transition: all 0.3s ease-in-out;
+    padding: 0 10px;
+
+    @media (min-width: 900px) and (max-width: 1650px) {
+        padding-left: clamp(100px, 10vw, 320px);
+    }
+
+    @media (min-width: 1651px) {
+        padding-left: clamp(100px, 20vw, 320px);
+    }
+
+    .license-container {
+        padding: 0px;
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
 }
 </style>

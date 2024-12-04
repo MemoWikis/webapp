@@ -12,9 +12,9 @@ namespace TrueOrFalse.Domain.User
         RegisterUser _registerUser,
         PersistentLoginRepo _persistentLoginRepo,
         UserReadingRepo _userReadingRepo,
-        UserWritingRepo _userWritingRepo) : IRegisterAsInstancePerLifetime
+        UserWritingRepo _userWritingRepo,
+        PageViewRepo _pageViewRepo) : IRegisterAsInstancePerLifetime
     {
-
         public async Task<(bool Success, string? MessageKey)> Login(string? credential = null, string? accessToken = null)
         {
             var googleUser = await GetGoogleUser(credential, accessToken);
@@ -38,7 +38,7 @@ namespace TrueOrFalse.Domain.User
                     return (true, result.MessageKey);
                 }
 
-                _sessionUser.Login(user);
+                _sessionUser.Login(user, _pageViewRepo);
                 _userWritingRepo.Update(user);
                 AppendGoogleCredentialCookie(_httpContextAccessor.HttpContext, credential, accessToken);
 

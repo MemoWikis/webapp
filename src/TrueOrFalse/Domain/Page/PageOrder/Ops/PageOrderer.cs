@@ -89,7 +89,8 @@
         int authorId,
         ModifyRelationsForPage modifyRelationsForPage)
     {
-        var relations = EntityCache.GetPage(oldParentId).ChildRelations;
+        var parent = EntityCache.GetPage(oldParentId);
+        var relations = parent.ChildRelations;
 
         var relationIndex = relations.IndexOf(relation);
         if (relationIndex != -1)
@@ -121,6 +122,8 @@
             relations.RemoveAt(relationIndex);
             RemoveRelationFromParentRelations(relation);
             EntityCache.Remove(relation);
+            parent.ChildRelations = relations;
+            EntityCache.AddOrUpdate(parent);
             modifyRelationsForPage.UpdateRelationsInDb(changedRelations, authorId);
             modifyRelationsForPage.DeleteRelationInDb(relation.Id, authorId);
         }

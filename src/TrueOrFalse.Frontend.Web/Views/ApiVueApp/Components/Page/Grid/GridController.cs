@@ -15,10 +15,10 @@ public class GridController(
     [HttpGet]
     public GetItemJson GetItem([FromRoute] int id)
     {
-        var topic = EntityCache.GetPage(id);
-        if (topic == null)
+        var page = EntityCache.GetPage(id);
+        if (page == null)
             return new GetItemJson(false, FrontendMessageKeys.Error.Default);
-        if (!_permissionCheck.CanView(topic))
+        if (!_permissionCheck.CanView(page))
             return new GetItemJson(false, FrontendMessageKeys.Error.Page.MissingRights);
 
         var gridItem = new PageGridManager(
@@ -28,7 +28,7 @@ public class GridController(
                 _httpContextAccessor,
                 _knowledgeSummaryLoader,
                 _questionReadingRepo)
-            .BuildGridPageItem(topic);
+            .BuildGridPageItem(page);
 
         return new GetItemJson(true, "", gridItem);
     }

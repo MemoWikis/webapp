@@ -33,14 +33,15 @@ public class AutoLoginMiddleware(RequestDelegate _next, IServiceProvider _servic
                     var userReadingRepo = scope.ServiceProvider.GetRequiredService<UserReadingRepo>();
                     var persistentLoginRepo = scope.ServiceProvider.GetRequiredService<PersistentLoginRepo>();
                     var googleLogin = scope.ServiceProvider.GetRequiredService<GoogleLogin>();
+                    var pageViewRepo = scope.ServiceProvider.GetRequiredService<PageViewRepo>();
                     try
                     {
                         if (persistentLoginCookieString != null)
-                            LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, persistentLoginCookieString);
+                            LoginFromCookie.RunToRestore(sessionUser, persistentLoginRepo, userReadingRepo, pageViewRepo, persistentLoginCookieString);
                         else if (googleCredentialCookieString != null)
-                            await LoginFromCookie.RunToRestoreGoogleCredential(sessionUser, userReadingRepo, googleLogin, googleCredentialCookieString);
+                            await LoginFromCookie.RunToRestoreGoogleCredential(sessionUser, userReadingRepo, pageViewRepo, googleLogin, googleCredentialCookieString);
                         else
-                            await LoginFromCookie.RunToRestoreGoogleAccessToken(sessionUser, userReadingRepo, googleLogin, googleAccessTokenCookieString);
+                            await LoginFromCookie.RunToRestoreGoogleAccessToken(sessionUser, userReadingRepo, pageViewRepo, googleLogin, googleAccessTokenCookieString);
                     }
                     catch (Exception ex)
                     {

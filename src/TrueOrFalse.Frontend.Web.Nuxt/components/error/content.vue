@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PageEnum } from '~~/components/shared/pageEnum'
+import { Site } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~~/components/error/errorCodeEnum'
 import type { NuxtError } from '#app'
 import { messages } from '../alert/messages'
@@ -10,7 +10,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['setPage', 'clearError'])
-emit('setPage', PageEnum.Error)
+emit('setPage', Site.Error)
 
 
 onBeforeMount(() => {

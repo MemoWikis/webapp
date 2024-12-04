@@ -37,6 +37,20 @@ public class ModifyRelationsEntityCache
         return true;
     }
 
+    public static bool RemoveAllParents(PageCacheItem childPage, int authorId,
+        ModifyRelationsForPage modifyRelationsForPage, PermissionCheck permissionCheck)
+    {
+        var parentRelations = childPage.ParentRelations.ToList();
+        foreach (var relation in parentRelations)
+        {
+            var result = RemoveParent(childPage, relation.ParentId, authorId, modifyRelationsForPage, permissionCheck);
+            if (!result)
+                throw new Exception("remove parent fail");
+        }
+
+        return true;
+    }
+
     public static bool RemoveParent(
         PageCacheItem childPage,
         int parentId,
@@ -50,7 +64,7 @@ public class ModifyRelationsEntityCache
             .Select(r => r.ParentId);
         var parentPages = EntityCache.GetPages(newParentRelationsIds);
 
-        if (!childPage.IsStartPage() &&
+        if (!childPage.IsWikiType() &&
             !CheckParentAvailability(parentPages, childPage))
         {
             Logg.r.Error(

@@ -6,9 +6,9 @@ using System.Collections.Concurrent;
 public class PageViewRepo(
     ISession _session,
     PageRepository pageRepository,
-    UserReadingRepo _userReadingRepo) : RepositoryDb<PageView>(_session)
+    UserReadingRepo _userReadingRepo,
+    ExtendedUserCache _extendedUserCache) : RepositoryDb<PageView>(_session)
 {
-
     public int GetViewCount(int pageId)
     {
         return _session.QueryOver<PageView>()
@@ -20,10 +20,9 @@ public class PageViewRepo(
 
     public ConcurrentDictionary<DateTime, int> GetViewsForPastNDays(int days)
     {
-
         var query = _session.CreateSQLQuery(@"
         SELECT COUNT(DateOnly) AS Count, DateOnly 
-        FROM CategoryView 
+        FROM pageview 
         WHERE DateOnly BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE() 
         GROUP BY DateOnly");
 
@@ -41,50 +40,15 @@ public class PageViewRepo(
         return dictionaryResult;
     }
 
-    public IList<PageViewSummary> GetViewsForPastNDaysById(int days, int id)
-    {
-        var query = _session.CreateSQLQuery(@"
-            SELECT COUNT(DateOnly) AS Count, DateOnly 
-            FROM CategoryView 
-            WHERE Category_id = :pageId AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
-            GROUP BY DateOnly");
-
-        query.SetParameter("days", days);
-        query.SetParameter("pageId", id);
-
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
-            .List<PageViewSummary>();
-
-        return result;
-    }
-
-    public IList<PageViewSummary> GetViewsForPastNDaysByIds(int days, List<int> ids)
-    {
-        var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly 
-        FROM CategoryView 
-        WHERE Category_id IN (:pageIds) AND DateOnly BETWEEN NOW() - INTERVAL :days DAY AND NOW()
-        GROUP BY DateOnly");
-
-        query.SetParameterList("pageIds", ids);
-        query.SetParameter("days", days);
-
-        var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummary)))
-            .List<PageViewSummary>();
-
-        return result;
-    }
-
-
     public IList<PageViewSummaryWithId> GetViewsForLastNDaysGroupByPageId(int days)
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT Category_Id AS PageId, DateOnly, COUNT(DateOnly) AS Count 
-        FROM CategoryView 
+        SELECT Page_Id AS PageId, DateOnly, COUNT(DateOnly) AS Count 
+        FROM pageview 
         WHERE DateOnly 
             BETWEEN CURDATE() - INTERVAL :days DAY AND CURDATE()
-        GROUP BY Category_Id, DateOnly 
-        ORDER BY Category_Id, DateOnly;");
+        GROUP BY Page_Id, DateOnly 
+        ORDER BY Page_Id, DateOnly;");
 
         query.SetParameter("days", days);
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
@@ -95,13 +59,13 @@ public class PageViewRepo(
 
     public void AddView(string userAgent, int pageId, int userId)
     {
-        var topic = pageRepository.GetById(pageId);
+        var page = pageRepository.GetById(pageId);
         var user = userId > 0 ? _userReadingRepo.GetById(userId) : null;
 
         var pageView = new PageView
         {
             UserAgent = userAgent,
-            Page = topic,
+            Page = page,
             User = user,
             DateCreated = DateTime.UtcNow,
             DateOnly = DateTime.UtcNow.Date
@@ -110,6 +74,21 @@ public class PageViewRepo(
         Create(pageView);
         EntityCache.GetPage(pageId)?.AddPageView(pageView.DateOnly);
         GraphService.IncrementTotalViewsForAllAscendants(pageId);
+
+        AddToRecentPages(pageId, userId);
+    }
+
+    private void AddToRecentPages(int pageId, int userId)
+    {
+        if (userId <= 0)
+            return;
+
+        if (!_extendedUserCache.ItemExists(userId))
+            return;
+
+        var userCacheItem = _extendedUserCache.GetUser(userId);
+        if (userCacheItem.RecentPages != null)
+            userCacheItem.RecentPages.VisitPage(pageId);
     }
 
     public record struct PageViewSummaryWithId(Int64 Count, DateTime DateOnly, int PageId);
@@ -119,7 +98,7 @@ public class PageViewRepo(
     {
         var query = _session.CreateSQLQuery(@"
         SELECT DateOnly, COUNT(DISTINCT User_id) AS Count
-        FROM categoryview
+        FROM pageview
         WHERE User_id > 0
           AND DateOnly >= CURDATE() - INTERVAL :days DAY
         GROUP BY DateOnly
@@ -143,18 +122,33 @@ public class PageViewRepo(
     public IList<PageViewSummaryWithId> GetAllEager()
     {
         var query = _session.CreateSQLQuery(@"
-        SELECT COUNT(DateOnly) AS Count, DateOnly, Category_Id as PageId
-        FROM categoryview 
+        SELECT COUNT(DateOnly) AS Count, DateOnly, Page_Id as PageId
+        FROM pageview 
         GROUP BY 
-            Category_Id, 
+            Page_Id, 
             DateOnly
         ORDER BY 
-            Category_Id, 
+            Page_Id, 
             DateOnly;");
 
         var result = query.SetResultTransformer(new NHibernate.Transform.AliasToBeanResultTransformer(typeof(PageViewSummaryWithId)))
             .List<PageViewSummaryWithId>();
 
         return result;
+    }
+
+    public IList<int> GetRecentPagesForUser(int userId)
+    {
+        var query = _session.CreateSQLQuery(@"
+            SELECT Page_id
+            FROM pageview
+            WHERE user_id = :userId
+            GROUP BY Page_id
+            ORDER BY MAX(DateCreated) DESC
+            LIMIT 5");
+
+        query.SetParameter("userId", userId);
+
+        return query.List<int>();
     }
 }

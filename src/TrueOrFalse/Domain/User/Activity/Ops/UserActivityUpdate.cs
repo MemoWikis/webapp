@@ -11,7 +11,7 @@ class UserActivityUpdate
     {
         var userActivities = new List<UserActivity>();
         AddCreatedQuestions(ref userActivities, userFollower, userIsFollowed, nhibernateSession);
-        AddCreatedCategory(ref userActivities, userFollower, userIsFollowed, nhibernateSession);
+        AddCreatedPage(ref userActivities, userFollower, userIsFollowed, nhibernateSession);
         AddFollowedUser(ref userActivities, userFollower, userIsFollowed, userReadingRepo);
 
         userActivityRepo.Create(userActivities);
@@ -43,7 +43,7 @@ class UserActivityUpdate
         }
     }
 
-    private static void AddCreatedCategory(
+    private static void AddCreatedPage(
         ref List<UserActivity> userActivities,
         User userFollower,
         User userCauser,

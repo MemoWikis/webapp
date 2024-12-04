@@ -1,18 +1,17 @@
 <script lang="ts" setup>
 import { messages } from '~/components/alert/alertStore'
-import { PageEnum } from '~/components/shared/pageEnum'
-import { FooterPages } from '~/components/page/pageStore'
+import { Site } from '~/components/shared/siteEnum'
 import { useUserStore } from '~/components/user/userStore'
 
 const userStore = useUserStore()
 interface Props {
-    footerPages: FooterPages
+    site: Site
 }
 const props = defineProps<Props>()
 
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
-    emit('setPage', PageEnum.ConfirmEmail)
+    emit('setPage', Site.ConfirmEmail)
 })
 
 const { $logger } = useNuxtApp()
@@ -146,7 +145,7 @@ async function requestVerificationMail() {
                     </div>
                 </div>
             </div>
-            <Sidebar :footer-pages="props.footerPages" />
+            <Sidebar :site="props.site" />
 
         </div>
     </div>

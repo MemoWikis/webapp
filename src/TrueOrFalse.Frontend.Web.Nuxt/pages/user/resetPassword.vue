@@ -1,18 +1,17 @@
 <script lang="ts" setup>
 import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
-import { PageEnum } from '~/components/shared/pageEnum'
-import { FooterPages } from '~/components/page/pageStore'
+import { Site } from '~/components/shared/siteEnum'
 import { CurrentUser, useUserStore } from '~/components/user/userStore'
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 interface Props {
-    footerPages: FooterPages
+    site: Site
 }
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
 
 onBeforeMount(() => {
-    emit('setPage', PageEnum.ResetPassword)
+    emit('setPage', Site.ResetPassword)
 
     if (userStore.isLoggedIn)
         return navigateTo('/')
@@ -155,7 +154,7 @@ async function saveNewPassword() {
                     </div>
                 </div>
             </div>
-            <Sidebar :footer-pages="props.footerPages" />
+            <Sidebar :site="props.site" />
 
         </div>
     </div>

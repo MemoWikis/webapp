@@ -58,6 +58,7 @@ public class PageCacheItem : IPersistable
 
     public virtual int TotalViews { get; set; }
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
+    public virtual bool IsWiki { get; set; }
 
     public virtual List<DailyViews> GetViewsOfPast90Days()
     {
@@ -89,7 +90,7 @@ public class PageCacheItem : IPersistable
     /// </summary>
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
-    /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
+    /// <returns>Dictionary&lt;int, PageCacheItem&gt;</returns>
     public Dictionary<int, PageCacheItem> AggregatedPages(
         PermissionCheck permissionCheck,
         bool includingSelf = true)
@@ -115,7 +116,7 @@ public class PageCacheItem : IPersistable
     /// </summary>
     /// <param name="permissionCheck"></param>
     /// <param name="includingSelf"></param>
-    /// <returns>Dictionary&lt;int, CategoryCacheItem&gt;</returns>
+    /// <returns>Dictionary&lt;int, PageCacheItem&gt;</returns>
     public Dictionary<int, PageCacheItem> GetAllAggregatedPages(bool includingSelf = true)
     {
         var allChildPages = AllChildPages(this);
@@ -227,8 +228,11 @@ public class PageCacheItem : IPersistable
         return Parents().Any(c => c.Visibility == PageVisibility.All);
     }
 
-    public bool IsStartPage()
+    public bool IsWikiType()
     {
+        if (IsWiki)
+            return true;
+
         if (Id == RootPage.RootPageId)
             return true;
 
@@ -298,6 +302,7 @@ public class PageCacheItem : IPersistable
             DateCreated = page.DateCreated,
             AuthorIds = page.AuthorIdsInts ?? [creatorId],
             TextIsHidden = page.TextIsHidden,
+            IsWiki = page.IsWiki
         };
 
         if (EntityCache.IsFirstStart)
@@ -380,8 +385,8 @@ public class PageCacheItem : IPersistable
                 // handle last group
                 if (currentGroupedCacheItem.Count > 1)
                 {
-                    var groupedCategoryChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
-                    pageChangeCacheItem.Add(groupedCategoryChangeCacheItem);
+                    var groupedPageChangeCacheItem = PageChangeCacheItem.ToGroupedPageChangeCacheItem(currentGroupedCacheItem);
+                    pageChangeCacheItem.Add(groupedPageChangeCacheItem);
                 }
 
                 pageCacheItem.PageChangeCacheItems = pageChangeCacheItem
@@ -496,7 +501,7 @@ public class PageCacheItem : IPersistable
         }
         else
         {
-            var topicChanges = PageChangeCacheItems.Select(tc => ToFeedItem(tc, null));
+            var pageChanges = PageChangeCacheItems.Select(tc => ToFeedItem(tc, null));
 
             if (getQuestions)
             {
@@ -505,16 +510,16 @@ public class PageCacheItem : IPersistable
                     .Where(q => q != null && q.QuestionChangeCacheItems != null)
                     .SelectMany(q => q.QuestionChangeCacheItems)
                     .Select(qc => ToFeedItem(null, qc));
-                changes = topicChanges
+                changes = pageChanges
                     .Concat(unsortedQuestionChanges);
             }
             else
             {
-                changes = topicChanges;
+                changes = pageChanges;
             }
         }
 
-        var topicChangeIds = new HashSet<int>();
+        var pageChangeIds = new HashSet<int>();
         var questionChangeIds = new HashSet<int>();
         var visibleChanges = new List<FeedItem>();
         PageChangeCacheItem? previousChange = null;
@@ -544,7 +549,7 @@ public class PageCacheItem : IPersistable
                 continue;
             }
 
-            if (!IsDuplicateOfDelete(c.PageChangeCacheItem!, topicChangeIds, questionChangeIds))
+            if (!IsDuplicateOfDelete(c.PageChangeCacheItem!, pageChangeIds, questionChangeIds))
             {
                 continue;
             }
@@ -611,7 +616,7 @@ public class PageCacheItem : IPersistable
         return true;
     }
 
-    private bool IsDuplicateOfDelete(PageChangeCacheItem change, HashSet<int> topicChangeIds, HashSet<int> questionChangeIds)
+    private bool IsDuplicateOfDelete(PageChangeCacheItem change, HashSet<int> pageChangeIds, HashSet<int> questionChangeIds)
     {
 
         var deleteChangeId = change.PageChangeData.DeleteData?.DeleteChangeId;
@@ -623,7 +628,7 @@ public class PageCacheItem : IPersistable
         switch (change.Type)
         {
             case PageChangeType.ChildPageDeleted:
-                return topicChangeIds.Add(changeId);
+                return pageChangeIds.Add(changeId);
 
             case PageChangeType.QuestionDeleted:
                 return questionChangeIds.Add(changeId);

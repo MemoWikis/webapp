@@ -8,7 +8,7 @@ public class PageToQuestionRepo(ISession _session)
     public void DeleteByPageId(int pageId)
     {
         _session
-            .CreateSQLQuery("DELETE FROM categories_to_questions WHERE Category_id = :pageId")
+            .CreateSQLQuery("DELETE FROM pages_to_questions WHERE Page_id = :pageId")
             .SetParameter("pageId", pageId)
             .ExecuteUpdate();
 
@@ -24,7 +24,7 @@ public class PageToQuestionRepo(ISession _session)
         {
             try
             {
-                var sql = new StringBuilder("INSERT INTO categories_to_questions (Category_id, Question_id) VALUES ");
+                var sql = new StringBuilder("INSERT INTO pages_to_questions (Page_id, Question_id) VALUES ");
 
                 var parameters = questionIds.Select((questionId, index) =>
                     $"(:pageId{index}, :questionId{index})").ToList();
@@ -46,7 +46,7 @@ public class PageToQuestionRepo(ISession _session)
             catch (Exception ex)
             {
                 transaction.Rollback();
-                Logg.r.Error("Questions add to Category is fails - {msg}", ex.Message);
+                Logg.r.Error("AddQuestionsToPage is failing - {msg}", ex.Message);
                 throw new Exception("An error occurred while adding questions to the page.", ex);
             }
         }

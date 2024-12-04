@@ -122,23 +122,25 @@ async function loadNewQuestion(index: number) {
 </script>
 
 <template>
-    <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
+    <div id="QuestionListComponentContainer" class="col-xs-12">
+        <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
-        <PageLearningQuestion v-for="(q, index) in questions" :question="q"
-            :is-last-item="index == (questions.length - 1)" :session-index="q.sessionIndex"
-            :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
+            <PageLearningQuestion v-for="(q, index) in questions" :question="q"
+                :is-last-item="index == (questions.length - 1)" :session-index="q.sessionIndex"
+                :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
-        <PageLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
+            <PageLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />
 
-        <div id="QuestionListPagination" class="pagination" v-show="questions.length > 0">
+            <div id="QuestionListPagination" class="pagination" v-show="questions.length > 0">
 
-            <vue-awesome-paginate v-if="currentPage > 0" :total-items="learningSessionStore?.activeQuestionCount"
-                :items-per-page="itemsPerPage" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
-                :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
-                first-page-content="Erste" last-page-content="Letzte" />
+                <vue-awesome-paginate v-if="currentPage > 0" :total-items="learningSessionStore?.activeQuestionCount"
+                    :items-per-page="itemsPerPage" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
+                    :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
+                    first-page-content="Erste" last-page-content="Letzte" />
+            </div>
+
+            <CommentModal />
         </div>
-
-        <CommentModal />
     </div>
 </template>
 
@@ -155,6 +157,11 @@ async function loadNewQuestion(index: number) {
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
+#QuestionListComponentContainer {
+    display: flex;
+    justify-content: center;
+}
+
 .drop-down-question-sort {
     display: flex;
     flex-wrap: wrap;
@@ -168,6 +175,8 @@ async function loadNewQuestion(index: number) {
 
 //Less
 #QuestionListComponent {
+    max-width: 840px;
+
     h4 {
         margin-bottom: 0;
 

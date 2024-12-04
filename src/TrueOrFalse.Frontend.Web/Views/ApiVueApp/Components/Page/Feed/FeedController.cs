@@ -21,9 +21,9 @@ public class FeedController(
     [HttpPost]
     public GetFeedResponse Get([FromBody] GetFeedRequest req)
     {
-        var topic = EntityCache.GetPage(req.PageId);
+        var page = EntityCache.GetPage(req.PageId);
 
-        var (pagedChanges, maxCount) = topic.GetVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize, req.GetDescendants, req.GetQuestions, req.GetItemsInGroups);
+        var (pagedChanges, maxCount) = page.GetVisibleFeedItemsByPage(_permissionCheck, _sessionUser.UserId, req.Page, req.PageSize, req.GetDescendants, req.GetQuestions, req.GetItemsInGroups);
 
         return new GetFeedResponse(
             feedItems: pagedChanges.Select(ToFeedItem).ToList(),

@@ -51,74 +51,76 @@ const ariaId = useId()
 <template>
     <div id="QuestionListSection" class="row" :class="getClass()">
         <div>
-            <PageLearningSessionConfiguration :is-in-question-list="true" cookie-name="show-bottom-dropdown"
-                v-if="learningSessionConfigurationStore.showFilter" :open-filter="openFilter">
-                <slot>
-                    <div class="drop-down-question-sort col-xs-12">
-                        <div class="session-config-header">
-                            <span class="hidden-xs">Du lernst </span>
-                            <template v-if="learningSessionStore.steps.length == pageStore.questionCount">
-                                <b> alle </b>
-                            </template>
-                            <template v-else>
-                                <b> {{ learningSessionStore.steps.length }} </b>
-                            </template>
-                            <template v-if="learningSessionStore.steps.length == 1"> Frage </template>
-                            <template v-else> Fragen </template>
-                            <span class="hidden-xs">auf dieser Seite</span>
-                            ({{ pageStore.questionCount }})
-                        </div>
+            <div v-if="learningSessionConfigurationStore.showFilter" id="PageLearnignSessionContainer" class="col-xs-12">
+                <PageLearningSessionConfiguration :is-in-question-list="true" cookie-name="show-bottom-dropdown"
+                    :open-filter="openFilter">
+                    <slot>
+                        <div class="drop-down-question-sort col-xs-12">
+                            <div class="session-config-header">
+                                <span class="hidden-xs">Du lernst </span>
+                                <template v-if="learningSessionStore.steps.length == pageStore.questionCount">
+                                    <b> alle </b>
+                                </template>
+                                <template v-else>
+                                    <b> {{ learningSessionStore.steps.length }} </b>
+                                </template>
+                                <template v-if="learningSessionStore.steps.length == 1"> Frage </template>
+                                <template v-else> Fragen </template>
+                                <span class="hidden-xs">auf dieser Seite</span>
+                                ({{ pageStore.questionCount }})
+                            </div>
 
-                        <div id="ButtonAndDropdown">
-                            <div id="QuestionListHeaderDropDown" class="Button dropdown">
-                                <VDropdown :aria-id="ariaId" :distance="0">
-                                    <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" class="btn btn-link btn-sm ButtonEllipsis" />
-                                    <template #popper>
+                            <div id="ButtonAndDropdown">
+                                <div id="QuestionListHeaderDropDown" class="Button dropdown">
+                                    <VDropdown :aria-id="ariaId" :distance="0">
+                                        <font-awesome-icon icon="fa-solid fa-ellipsis-vertical" class="btn btn-link btn-sm ButtonEllipsis" />
+                                        <template #popper>
 
-                                        <div v-if="userStore.isLoggedIn" class="dropdown-row"
-                                            @click="editQuestionStore.create()">
-                                            <div class="dropdown-icon">
-                                                <font-awesome-icon icon="fa-solid fa-circle-plus" />
-                                            </div>
-                                            <div class="dropdown-label">Frage hinzufügen</div>
+                                            <div v-if="userStore.isLoggedIn" class="dropdown-row"
+                                                @click="editQuestionStore.create()">
+                                                <div class="dropdown-icon">
+                                                    <font-awesome-icon icon="fa-solid fa-circle-plus" />
+                                                </div>
+                                                <div class="dropdown-label">Frage hinzufügen</div>
 
-                                        </div>
+                                            </div>
 
-                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
-                                            v-if="questionsExpanded">
-                                            <div class="dropdown-icon">
-                                                <font-awesome-icon icon="fa-solid fa-angles-up" />
+                                            <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
+                                                v-if="questionsExpanded">
+                                                <div class="dropdown-icon">
+                                                    <font-awesome-icon icon="fa-solid fa-angles-up" />
+                                                </div>
+                                                <div class="dropdown-label">
+                                                    Alle Fragen zuklappen
+                                                </div>
                                             </div>
-                                            <div class="dropdown-label">
-                                                Alle Fragen zuklappen
+                                            <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
+                                                v-else>
+                                                <div class="dropdown-icon">
+                                                    <font-awesome-icon icon="fa-solid fa-angles-down" />
+                                                </div>
+                                                <div class="dropdown-label">
+                                                    Alle Fragen erweitern
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="dropdown-row" @click="questionsExpanded = !questionsExpanded"
-                                            v-else>
-                                            <div class="dropdown-icon">
-                                                <font-awesome-icon icon="fa-solid fa-angles-down" />
-                                            </div>
-                                            <div class="dropdown-label">
-                                                Alle Fragen erweitern
-                                            </div>
-                                        </div>
 
-                                        <div class="dropdown-row" @click="learningSessionStore.startNewSession()">
-                                            <div class="dropdown-icon">
-                                                <font-awesome-icon icon="fa-solid fa-play" />
+                                            <div class="dropdown-row" @click="learningSessionStore.startNewSession()">
+                                                <div class="dropdown-icon">
+                                                    <font-awesome-icon icon="fa-solid fa-play" />
+                                                </div>
+                                                <div class="dropdown-label">
+                                                    Fragen jetzt lernen
+                                                </div>
                                             </div>
-                                            <div class="dropdown-label">
-                                                Fragen jetzt lernen
-                                            </div>
-                                        </div>
-                                    </template>
-                                </VDropdown>
+                                        </template>
+                                    </VDropdown>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </slot>
-            </PageLearningSessionConfiguration>
+                    </slot>
+                </PageLearningSessionConfiguration>
+            </div>
 
             <div class="session-configurator no-questions" v-else-if="!learningSessionConfigurationStore.showFilter">
                 <div class="session-config-header">
@@ -210,5 +212,12 @@ const ariaId = useId()
         }
     }
 
+}
+</style>
+
+<style lang="less" scoped>
+#PageLearnignSessionContainer {
+    display: flex;
+    justify-content: center;
 }
 </style>
