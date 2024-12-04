@@ -260,10 +260,10 @@ const ariaId = useId()
 }
 
 .feed-item {
-
     margin: 8px;
     padding: 8px;
     width: 100%;
+    max-width: 880px;
 }
 
 .feed {

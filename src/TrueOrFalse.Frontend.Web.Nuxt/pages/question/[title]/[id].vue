@@ -121,7 +121,7 @@ useHead(() => ({
 	<title v-if="question && question?.answerBodyModel != null">
 		Frageseite zu '{{ question.answerBodyModel.title }}'
 	</title>
-	<div class="container">
+	<div class="container page-container">
 		<div class="question-page-container row main-page">
 			<template v-if="question && question?.answerBodyModel != null">
 				<div class="col-lg-9 col-md-12 container main-content">

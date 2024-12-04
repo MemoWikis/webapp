@@ -225,19 +225,23 @@ onMounted(() => {
 	<HeaderMain :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
+	<div class="nuxt-page">
 
-	<NuxtErrorBoundary @error="logError">
-		<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
-			:site="site" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" class="nuxt-page" />
+		<NuxtErrorBoundary @error="logError">
+			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
+				:site="site" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
 
-		<template #error="{ error }">
-			<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
-				:error="error" :in-error-boundary="true" @clear-error="clearErr" />
-			<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
-				@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-				:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
-		</template>
-	</NuxtErrorBoundary>
+
+			<template #error="{ error }">
+				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
+					:error="error" :in-error-boundary="true" @clear-error="clearErr" />
+				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
+					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+			</template>
+		</NuxtErrorBoundary>
+	</div>
+
 	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" />
 
 	<ClientOnly>

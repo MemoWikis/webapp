@@ -182,8 +182,8 @@ convertStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="row page-container main-page">
+    <div class="container page-container">
+        <div class="row page-content main-page">
             <template v-if="page?.canAccess">
                 <div class="col-lg-9 col-md-12 container page">
                     <PageHeader />
@@ -322,7 +322,7 @@ pre {
 <style scoped lang="less">
 @import (reference) '~~/assets/includes/imports.less';
 
-.page-container {
+.page-content {
     min-height: 400px;
     height: 100%;
     margin-top: 0;
