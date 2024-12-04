@@ -260,8 +260,12 @@ onMounted(() => {
 	transition: all 0.3s ease-in-out;
 	padding-left: 10px;
 
-	@media (min-width: 900px) {
-		padding-left: clamp(100px, 10vw, 160px);
+	@media (min-width: 900px) and (max-width: 1650px) {
+		padding-left: clamp(100px, 10vw, 320px);
+	}
+
+	@media (min-width: 1651px) {
+		padding-left: clamp(100px, 20vw, 320px);
 	}
 
 	&.window-loading {
