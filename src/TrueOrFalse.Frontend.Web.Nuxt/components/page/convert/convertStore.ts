@@ -1,7 +1,10 @@
 import { defineStore } from "pinia"
+import { messages } from "~/components/alert/messages"
+import { useSnackbarStore, SnackbarData } from "~/components/snackBar/snackBarStore"
 
 interface ConversionResult {
     success: boolean
+    name: string
     messageKey?: string
 }
 
@@ -71,8 +74,12 @@ export const useConvertStore = defineStore('convertStore', () => {
             credentials: 'include',
         })
         if (result && result.success) {
-            const snackbar = useSnackbar()
-            snackbar.add({ message: 'success', type: 'success' })
+            const snackbarStore = useSnackbarStore()
+			const data: SnackbarData = {
+                type: 'success',
+                text: messages.success.page.convertedToPage(name.value)
+            }
+            snackbarStore.showSnackbar(data)
         } else if (result && !result.success && result.messageKey) {
             errorMsg.value = result.messageKey
             showErrorMsg.value = true
@@ -90,10 +97,12 @@ export const useConvertStore = defineStore('convertStore', () => {
             }
         })
         if (result && result.success) {
-            
-            const snackbar = useSnackbar()
-            snackbar.add({ message: 'success', type: 'success' })
-
+            const snackbarStore = useSnackbarStore()
+			const data: SnackbarData = {
+                type: 'success',
+                text: messages.success.page.convertedToWiki(name.value)
+            }
+            snackbarStore.showSnackbar(data)
         } else if (result && !result.success && result.messageKey) {
             errorMsg.value = result.messageKey
             showErrorMsg.value = true

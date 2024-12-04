@@ -63,7 +63,7 @@ public class BreadcrumbController(
                 Id = breadcrumb.Root.Page.Id,
                 ImgUrl = new PageImageSettings(breadcrumb.Root.Page.Id,
                         _httpContextAccessor)
-                    .GetUrl(256, true)
+                    .GetUrl_128px(true)
                     .Url
             },
             CurrentPage = new BreadcrumbItem

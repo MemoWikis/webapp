@@ -73,7 +73,9 @@ const createWiki = async () => {
 
     if (result.success) {
         spinnerStore.hideSpinner()
-        emit('wikiCreated')
+        emit('closeWikiModal')
+        await nextTick()
+        navigateTo(`/${result.data.name}/${result.data.id}`)
     } else if (result.success == false) {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true

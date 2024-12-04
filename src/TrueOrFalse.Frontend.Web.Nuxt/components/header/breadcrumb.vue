@@ -4,6 +4,7 @@ import { TinyPageModel, usePageStore } from '../page/pageStore'
 import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
+import { useConvertStore } from '../page/convert/convertStore'
 
 interface Props {
 	site: Site
@@ -21,6 +22,8 @@ const props = defineProps<Props>()
 
 const userStore = useUserStore()
 const pageStore = usePageStore()
+const convertStore = useConvertStore()
+
 interface BreadcrumbItem {
 	name: string
 	id: number
@@ -306,7 +309,16 @@ const computedMaxWidth = computed(() => {
 const maxWidth = ref(150)
 const ariaId = useId()
 const ariaId2 = useId()
-const ariaId3 = useId()
+
+convertStore.$onAction(({ name, after }) => {
+	if (name == 'confirmConversion') {
+		console.log('cbefore')
+		after(async () => {
+			console.log('cafter')
+			await getBreadcrumb()
+		})
+	}
+})
 </script>
 
 <template>
@@ -327,7 +339,7 @@ const ariaId3 = useId()
 			</template>
 		</template>
 
-		<VDropdown :aria-id="ariaId2" v-show="stackedBreadcrumbItems.length > 0" :distance="0">
+		<VDropdown :aria-id="ariaId" v-show="stackedBreadcrumbItems.length > 0" :distance="0">
 			<div>
 				<font-awesome-icon icon="fa-solid fa-ellipsis" class="breadcrumb-item" />
 				<font-awesome-icon icon="fa-solid fa-chevron-right" />
@@ -355,7 +367,7 @@ const ariaId3 = useId()
 		</template>
 		<div ref="lastBreadcrumbItem"></div>
 
-		<VDropdown :aria-id="ariaId3" :distance="0">
+		<VDropdown :aria-id="ariaId2" :distance="0">
 			<div class="breadcrumb-item last" :style="`max-width: ${maxWidth}px`" :class="{ 'current-wiki': pageStore.id === pageStore.currentWiki?.id }">
 				{{ pageStore.name }}
 			</div>

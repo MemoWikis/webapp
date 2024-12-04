@@ -351,6 +351,7 @@ pre {
 
 #PageContent {
     line-height: 1.5;
+    min-height: 50vh;
     .new-font-style();
     color: @global-text-color;
 
