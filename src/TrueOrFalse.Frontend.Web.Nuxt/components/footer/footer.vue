@@ -208,7 +208,6 @@ onMounted(() => {
 
 #MasterFooter {
     transition: all 0.3s ease-in-out;
-    padding-left: 0px;
 
     @media (min-width: 900px) and (max-width: 1650px) {
         padding-left: clamp(100px, 10vw, 320px);
@@ -237,7 +236,7 @@ onMounted(() => {
     }
 
     @media (min-width: 1651px) {
-        padding-left: clamp(100px, 20vw, 260px);
+        padding-left: clamp(100px, 20vw, 320px);
     }
 
     .license-container {
