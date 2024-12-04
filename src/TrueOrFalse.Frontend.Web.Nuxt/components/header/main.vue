@@ -278,7 +278,7 @@ const hidePartial = computed(() => {
         align-items: center;
         min-height: 47px;
         transition: all 0.3s ease-in-out;
-        width: 100%;
+        width: calc(100% - 50px);
 
         @media (min-width: 900px) and (max-width: 1650px) {
             padding-left: clamp(100px, 10vw, 320px);

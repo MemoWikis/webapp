@@ -32,19 +32,23 @@ onMounted(() => {
 
 <template>
     <section id="GlobalLicense" v-if="(props.site === Site.Page && pageStore.visibility === Visibility.All) || (props.site === Site.Question && !props.questionPageIsPrivate)">
-        <div class="license-container">
-            <div class="license-text-container">
-                <NuxtLink @click="handleError()" class="CCLogo" rel="license"
-                    to="https://creativecommons.org/licenses/by/4.0/" :external="true">
-                    <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
-                </NuxtLink>
-                <div class="Text cc-license-text">
-                    Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
-                        rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">Creative
-                        Commons Namensnennung
-                        4.0 (CC-BY-4.0)</NuxtLink>. Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder,
-                    Videos,
-                    Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet.
+        <div class="license-container row">
+            <div class="license-text-container container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <NuxtLink @click="handleError()" class="CCLogo" rel="license"
+                            to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                            <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
+                        </NuxtLink>
+                        <div class="Text cc-license-text">
+                            Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
+                                rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">Creative
+                                Commons Namensnennung
+                                4.0 (CC-BY-4.0)</NuxtLink>. Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder,
+                            Videos,
+                            Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,7 +61,7 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="row footer-links-memucho">
+                <div class="row footer-links-memucho col-xs-12">
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
@@ -201,17 +205,21 @@ onMounted(() => {
 .cc-license-text {
     color: @memo-grey-darker;
 }
-</style>
 
-<style lang="less">
 #MasterFooter {
-    .footer-container {
-        transition: all 0.3s ease-in-out;
-        padding-left: 0px;
+    transition: all 0.3s ease-in-out;
+    padding-left: 0px;
 
-        @media (min-width: 900px) {
-            padding-left: clamp(100px, 10vw, 160px);
-        }
+    @media (min-width: 900px) and (max-width: 1650px) {
+        padding-left: clamp(100px, 10vw, 320px);
+    }
+
+    @media (min-width: 1651px) {
+        padding-left: clamp(100px, 20vw, 320px);
+    }
+
+    .footer-container {
+
 
         &.window-loading {
             padding-left: 0px;
@@ -220,12 +228,22 @@ onMounted(() => {
 }
 
 #GlobalLicense {
-    .license-container {
-        transition: all 0.3s ease-in-out;
+    background: @memo-grey-lighter;
+    transition: all 0.3s ease-in-out;
+    padding: 0 10px;
 
-        @media (min-width: 900px) {
-            padding-left: clamp(170px, 12vw, 260px);
-        }
+    @media (min-width: 900px) and (max-width: 1650px) {
+        padding-left: clamp(100px, 10vw, 320px);
+    }
+
+    @media (min-width: 1651px) {
+        padding-left: clamp(100px, 20vw, 260px);
+    }
+
+    .license-container {
+        padding: 0px;
+        margin-top: 24px;
+        margin-bottom: 24px;
     }
 }
 </style>
