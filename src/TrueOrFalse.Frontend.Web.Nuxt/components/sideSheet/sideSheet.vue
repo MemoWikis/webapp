@@ -151,12 +151,17 @@ watch(() => sideSheetStore.showSideSheet, (show) => {
 }, { immediate: true })
 
 const handleMouseOver = () => {
-
     collapsed.value = false
 }
+
+const delayedMouseLeaveTimeOut = ref()
 const handleMouseLeave = () => {
-    if (sideSheetStore.showSideSheet && windowWidth.value > 900)
-        collapsed.value = previouslyCollapsed.value
+    if (sideSheetStore.showSideSheet && windowWidth.value > 900) {
+        clearTimeout(delayedMouseLeaveTimeOut.value)
+        delayedMouseLeaveTimeOut.value = setTimeout(() => {
+            collapsed.value = previouslyCollapsed.value
+        }, 500)
+    }
 }
 
 const ariaId = useId()
@@ -183,7 +188,10 @@ const addToFavorites = async (name: string, id: number) => {
     if (result.success) {
         sideSheetStore.addToFavoritePages(name, id)
     } else if (result.messageKey) {
-        console.log(result.messageKey)
+        snackbar.add({
+            message: messages.getByCompositeKey(result.messageKey),
+            type: 'error'
+        })
     }
 }
 
@@ -246,6 +254,10 @@ convertStore.$onAction(({ after, name }) => {
         })
     }
 })
+
+const cancelMouseLeave = () => {
+    clearTimeout(delayedMouseLeaveTimeOut.value)
+}
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
@@ -278,17 +290,19 @@ convertStore.$onAction(({ after, name }) => {
                                         </div>
                                     </NuxtLink>
 
-                                    <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0">
+                                    <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0" @hover="console.log('hover')">
                                         <div class="content-item-options">
                                             <font-awesome-icon :icon="['fas', 'ellipsis']" />
                                         </div>
                                         <template #popper="{ hide }">
-                                            <p class="breadcrumb-dropdown dropdown-row" @click="deletePageStore.openModal(wiki.id, false); hide()">
-                                                Wiki löschen
-                                            </p>
-                                            <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row" @click="convertStore.openModal(wiki.id)">
-                                                In Seite umwandeln
-                                            </p>
+                                            <div class="sidesheet-wikioptions" @mouseenter="cancelMouseLeave">
+                                                <p class="breadcrumb-dropdown dropdown-row" @click="deletePageStore.openModal(wiki.id, false); hide()">
+                                                    Wiki löschen
+                                                </p>
+                                                <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row" @click="convertStore.openModal(wiki.id)">
+                                                    In Seite umwandeln
+                                                </p>
+                                            </div>
                                         </template>
                                     </VDropdown>
                                 </div>
@@ -550,5 +564,9 @@ convertStore.$onAction(({ after, name }) => {
 <style lang="less">
 svg.slash-bg {
     color: white !important;
+}
+
+.sidesheet-wikioptions {
+    padding: 12px 0;
 }
 </style>
