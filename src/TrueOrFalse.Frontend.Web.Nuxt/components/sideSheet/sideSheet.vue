@@ -422,7 +422,7 @@ onMounted(() => {
             <div class="sidesheet-content footer">
                 <SideSheetSection class="no-b-padding">
                     <template #header>
-                        <div class="header-container no-hover" @click="showWikis = !showWikis">
+                        <div class="header-container no-hover help-header" @click="showWikis = !showWikis">
 
                             <font-awesome-icon :icon="['fas', 'circle-question']" />
                             <div v-show="!hidden" class="header-title">
@@ -584,7 +584,18 @@ svg.slash-bg {
     padding: 12px 0;
 }
 
+
+#SideSheet {
+    #SideSheetFooter {
+        .help-header {
+            padding-bottom: 0px;
+        }
+    }
+}
+
 .help-links {
+    height: 36px;
+
     .fa-discord {
         margin-right: 4px;
     }
