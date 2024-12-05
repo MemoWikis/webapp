@@ -8,6 +8,7 @@ import { GridPageItem } from './gridPageItem'
 import { ImageFormat } from '~/components/image/imageFormatEnum'
 import { usePageToPrivateStore } from '~/components/page/toPrivate/pageToPrivateStore'
 import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
+import { useConvertStore } from '~/components/page/convert/convertStore'
 
 const userStore = useUserStore()
 const publishPageStore = usePublishPageStore()
@@ -15,6 +16,7 @@ const editPageRelationStore = useEditPageRelationStore()
 const alertStore = useAlertStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const deletePageStore = useDeletePageStore()
+const convertStore = useConvertStore()
 
 interface Props {
     page: GridPageItem
@@ -216,6 +218,17 @@ const ariaId2 = useId()
                             </div>
                             <div class="dropdown-label">Seite veröffentlichen</div>
                         </div>
+
+                        <div v-if="props.page.creatorId === userStore.id && !props.page.isWiki"
+                            class="dropdown-row" @click="convertStore.openModal(props.page.id); hide()">
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'folder']" />
+                            </div>
+                            <div class="dropdown-label">
+                                Seite in Wiki konvertieren
+                            </div>
+                        </div>
+                        <div class="divider"></div>
 
                         <div @click="deletePageStore.openModal(props.page.id); hide()" data-allowed="logged-in"
                             class="dropdown-row" v-if="props.page.canDelete">

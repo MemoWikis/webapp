@@ -46,10 +46,10 @@ export const useConvertStore = defineStore('convertStore', () => {
             credentials: 'include'
         })
         if (result && result.isWiki) {
-            conversionTarget.value = ConversionTarget.Wiki
+            conversionTarget.value = ConversionTarget.Page
             name.value = result.name
         } else if (result) {
-            conversionTarget.value = ConversionTarget.Page
+            conversionTarget.value = ConversionTarget.Wiki
             name.value = result.name
         }
     }
@@ -60,9 +60,9 @@ export const useConvertStore = defineStore('convertStore', () => {
     
     const confirmConversion = () => {
         if (conversionTarget.value === ConversionTarget.Wiki) {
-            convertWikiToPage()
-        } else {
             convertPageToWiki()
+        } else {
+            convertWikiToPage()
         }
         closeModal()
     }

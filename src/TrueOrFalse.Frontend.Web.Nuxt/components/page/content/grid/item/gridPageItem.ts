@@ -14,4 +14,5 @@ export interface GridPageItem {
     isChildOfPersonalWiki: boolean
     creatorId: number
     canDelete: boolean
+    isWiki: boolean
 }

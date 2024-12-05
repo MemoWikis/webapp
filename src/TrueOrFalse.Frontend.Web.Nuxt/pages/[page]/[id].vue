@@ -173,9 +173,10 @@ watch(() => props.tab, (t) => {
 }, { immediate: true })
 
 convertStore.$onAction(({ name, after }) => {
-    if (name == 'convertPageToWiki' || name == 'convertWikiToPage') {
+    if (name == 'confirmConversion') {
         after(async () => {
             await refresh()
+            await setPage()
         })
     }
 })
@@ -194,7 +195,7 @@ convertStore.$onAction(({ name, after }) => {
                                 v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)"
                                 :text-is-hidden="pageStore.textIsHidden" />
                             <template #fallback>
-                                <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile }"
+                                <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
                                     v-if="!pageStore.textIsHidden"
                                     v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)">
                                     <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
@@ -316,6 +317,12 @@ pre {
         font-size: 16px;
     });
 }
+
+#PageContent {
+    &.no-grid-items {
+        min-height: 50vh;
+    }
+}
 </style>
 
 
@@ -351,7 +358,6 @@ pre {
 
 #PageContent {
     line-height: 1.5;
-    min-height: 50vh;
     .new-font-style();
     color: @global-text-color;
 

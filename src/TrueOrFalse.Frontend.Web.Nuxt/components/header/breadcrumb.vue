@@ -312,9 +312,7 @@ const ariaId2 = useId()
 
 convertStore.$onAction(({ name, after }) => {
 	if (name == 'confirmConversion') {
-		console.log('cbefore')
 		after(async () => {
-			console.log('cafter')
 			await getBreadcrumb()
 		})
 	}
