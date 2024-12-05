@@ -38,7 +38,7 @@ public class ConvertStoreController
 
 
     [HttpPost]
-    public ConversionResponse ConvertWkiToPage([FromRoute] int id)
+    public ConversionResponse ConvertWikiToPage([FromRoute] int id)
     {
         var page = EntityCache.GetPage(id);
 

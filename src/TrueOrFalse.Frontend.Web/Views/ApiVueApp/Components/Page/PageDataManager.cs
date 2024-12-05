@@ -116,7 +116,7 @@ public class PageDataManager(
                     author.ReputationPos
                 );
             }).ToArray(),
-            IsWiki = page.IsWikiType(),
+            IsWiki = page.IsWiki,
             CurrentUserIsCreator = CurrentUserIsCreator(page),
             CanBeDeleted = _permissionCheck.CanDelete(page),
             QuestionCount = page.GetCountQuestionsAggregated(_sessionUser.UserId),

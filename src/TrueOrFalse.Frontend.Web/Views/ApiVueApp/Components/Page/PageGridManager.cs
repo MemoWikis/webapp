@@ -21,7 +21,8 @@ public class PageGridManager(
         KnowledgebarData KnowledgebarData,
         bool IsChildOfPersonalWiki,
         int CreatorId,
-        bool CanDelete
+        bool CanDelete,
+        bool IsWiki
     );
 
     public readonly record struct TinyPageModel(
@@ -73,7 +74,8 @@ public class PageGridManager(
             CreatorId = page.CreatorId,
             CanDelete = sessionUser.IsLoggedIn &&
                         (page.CreatorId == sessionUser.User.Id ||
-                         sessionUser.IsInstallationAdmin)
+                         sessionUser.IsInstallationAdmin),
+            IsWiki = page.IsWiki
         };
     }
 

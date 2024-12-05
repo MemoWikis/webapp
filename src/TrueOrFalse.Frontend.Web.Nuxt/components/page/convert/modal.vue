@@ -8,17 +8,21 @@ const convertStore = useConvertStore()
 <template>
     <LazyModal :show="convertStore.showModal" :primary-btn-label="'Bestätigen'" @primary-btn="convertStore.confirmConversion" @close="convertStore.closeModal" :show-cancel-btn="true">
         <template v-slot:header>
-            <h4 class="modal-title">Konvertierung bestätigen</h4>
+            <h4 class="modal-title">
+                Konvertierung in {{ convertStore.conversionTarget === ConversionTarget.Wiki
+                    ? 'Wiki'
+                    : 'Seite' }} bestätigen
+            </h4>
         </template>
         <template v-slot:body>
             <p>
                 Möchtest Du wirklich
-                {{ convertStore.conversionTarget === ConversionTarget.Page
+                {{ convertStore.conversionTarget === ConversionTarget.Wiki
                     ? 'die Seite "' + convertStore.name + '" in ein Wiki'
                     : 'das Wiki "' + convertStore.name + '" in eine Seite' }}
                 umwandeln?
             </p>
-            <div class="keep-parents-container" @click="convertStore.keepParents = !convertStore.keepParents">
+            <div class="keep-parents-container" @click="convertStore.keepParents = !convertStore.keepParents" v-if="convertStore.conversionTarget === ConversionTarget.Wiki">
                 <font-awesome-icon icon="fa-solid fa-square-check" class="keep-parents-checkbox active" v-if="convertStore.keepParents" />
                 <font-awesome-icon icon="fa-regular fa-square" class="keep-parents-checkbox" v-else />
 

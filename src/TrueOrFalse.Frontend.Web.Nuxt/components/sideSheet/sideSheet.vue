@@ -248,8 +248,8 @@ deletePageStore.$onAction(({ after, name }) => {
 })
 
 convertStore.$onAction(({ after, name }) => {
-    if (name == 'convertPageToWiki' || name == 'convertWikiToPage') {
-        after((result) => {
+    if (name == 'confirmConversion') {
+        after(() => {
             init()
         })
     }
@@ -258,6 +258,24 @@ convertStore.$onAction(({ after, name }) => {
 const cancelMouseLeave = () => {
     clearTimeout(delayedMouseLeaveTimeOut.value)
 }
+
+pageStore.$onAction(({ after, name }) => {
+    if (name == 'saveName') {
+        after(() => {
+            init()
+        })
+    }
+})
+
+const route = useRoute()
+const { isMobile } = useDevice()
+onMounted(() => {
+    if (isMobile) {
+        watch(() => route.path, () => {
+            sideSheetStore.showSideSheet = false
+        })
+    }
+})
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
@@ -286,7 +304,6 @@ const cancelMouseLeave = () => {
                                     <NuxtLink :to="$urlHelper.getPageUrl(wiki.name, wiki.id)" :class="{ 'is-here': wiki.id === pageStore.id }">
                                         <div class="link">
                                             {{ wiki.name }}
-                                            <font-awesome-icon :icon="['fas', 'caret-left']" v-if="wiki.id === pageStore.id" v-tooltip="'Du bist hier'" />
                                         </div>
                                     </NuxtLink>
 
@@ -342,7 +359,6 @@ const cancelMouseLeave = () => {
                                     <NuxtLink :to="$urlHelper.getPageUrl(favorite.name, favorite.id)" :class="{ 'is-here': favorite.id === pageStore.id }">
                                         <div class="link">
                                             {{ favorite.name }}
-                                            <font-awesome-icon :icon="['fas', 'caret-left']" v-if="favorite.id === pageStore.id" v-tooltip="'Du bist hier'" />
                                         </div>
                                     </NuxtLink>
                                     <div class="content-item-options" @click="removeFromFavorites(favorite.id)">
@@ -390,8 +406,6 @@ const cancelMouseLeave = () => {
                                     <NuxtLink :to="$urlHelper.getPageUrl(recent.name, recent.id)" :class="{ 'is-here': recent.id === pageStore.id }">
                                         <div class="link">
                                             {{ recent.name }}
-                                            <font-awesome-icon :icon="['fas', 'caret-left']" v-if="recent.id === pageStore.id" v-tooltip="'Du bist hier'" />
-
                                         </div>
                                     </NuxtLink>
                                 </div>
@@ -568,5 +582,11 @@ svg.slash-bg {
 
 .sidesheet-wikioptions {
     padding: 12px 0;
+}
+
+.help-links {
+    .fa-discord {
+        margin-right: 4px;
+    }
 }
 </style>

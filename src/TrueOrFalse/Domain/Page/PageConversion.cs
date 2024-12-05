@@ -29,7 +29,7 @@
 
         EntityCache.AddOrUpdate(page);
 
-        var pageEntity = _pageRepository.GetByIdEager(page.Id);
+        var pageEntity = _pageRepository.GetById(page.Id);
         if (pageEntity == null)
             throw new InvalidOperationException($"Page with ID {page.Id} not found in repository.");
 
@@ -74,7 +74,7 @@
         page.IsWiki = false;
         EntityCache.AddOrUpdate(page);
 
-        var pageEntity = _pageRepository.GetByIdEager(page.Id);
+        var pageEntity = _pageRepository.GetById(page.Id);
         if (pageEntity == null)
             throw new InvalidOperationException($"Page with ID {page.Id} not found in repository.");
 
