@@ -420,7 +420,7 @@ onMounted(() => {
         <div id="SideSheetFooter">
             <div class="bg-fade"></div>
             <div class="sidesheet-content footer">
-                <SideSheetSection class="no-b-padding">
+                <SideSheetSection class="no-b-padding help-section">
                     <template #header>
                         <div class="header-container no-hover help-header" @click="showWikis = !showWikis">
 
@@ -584,11 +584,20 @@ svg.slash-bg {
     padding: 12px 0;
 }
 
-
 #SideSheet {
     #SideSheetFooter {
-        .help-header {
-            padding-bottom: 0px;
+        .help-section {
+            .help-header {
+                padding-bottom: 0px;
+            }
+        }
+    }
+
+    &.collapsed {
+        #SideSheetFooter {
+            .help-section {
+                margin-bottom: 0px;
+            }
         }
     }
 }
