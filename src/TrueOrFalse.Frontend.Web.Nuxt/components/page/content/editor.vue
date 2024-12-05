@@ -160,7 +160,7 @@ const initEditor = () => {
             }),
             Link.configure({
                 HTMLAttributes: {
-                    rel: 'noopener noreferrer nofollow',
+                    rel: 'noreferrer nofollow',
                     target: null,
                 },
                 openOnClick: true
