@@ -110,12 +110,16 @@ const { $urlHelper } = useNuxtApp()
         max-width: 239px;
 
         &.wiki-container {
-            display: flex;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
             justify-content: center;
             align-items: center;
             text-align: center;
             max-height: 36px;
             text-overflow: ellipsis;
+            white-space: wrap;
         }
     }
 
