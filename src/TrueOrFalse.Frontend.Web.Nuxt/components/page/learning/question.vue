@@ -10,10 +10,12 @@ import { KnowledgeStatus } from '~~/components/question/knowledgeStatusEnum'
 import { useDeleteQuestionStore } from '~~/components/question/edit/delete/deleteQuestionStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { useAlertStore, messages, AlertType } from '~/components/alert/alertStore'
+import { usePublishQuestionStore } from '~/components/question/edit/publish/publishQuestionStore'
 
 const alertStore = useAlertStore()
 const commentsStore = useCommentsStore()
 const deleteQuestionStore = useDeleteQuestionStore()
+const publishQuestionStore = usePublishQuestionStore()
 
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
@@ -271,6 +273,15 @@ function hasContent(str: string) {
 }
 const ariaId = useId()
 
+publishQuestionStore.$onAction(({ name, after }) => {
+    if (name === 'confirmPublish') {
+        after((id) => {
+            if (id && id === props.question.id)
+                showLock.value = false
+        })
+    }
+})
+
 </script>
 
 <template>
@@ -288,8 +299,9 @@ const ariaId = useId()
                                 <div v-html="questionTitleHtml" v-if="questionTitleHtml != null" class="questionTitle">
 
                                 </div>
-                                <div v-if="showLock" class="privateQuestionIcon question-lock">
+                                <div v-if="showLock" class="privateQuestionIcon question-lock" @click.stop="publishQuestionStore.openModal(props.question.id)">
                                     <font-awesome-icon :icon="['fa-solid', 'lock']" />
+                                    <font-awesome-icon :icon="['fa-solid', 'unlock']" />
                                 </div>
                             </div>
                             <div class="questionHeaderIcons col-xs-3" @click.self="expandQuestionContainer()">
@@ -842,6 +854,7 @@ const ariaId = useId()
     height: 20px;
     justify-content: center;
     border-radius: 15px;
+    cursor: pointer;
 
     .fa-unlock {
         display: none !important;
@@ -851,24 +864,24 @@ const ariaId = useId()
         display: unset !important;
     }
 
-    // &:hover {
+    &:hover {
 
-    //     .fa-lock {
-    //         display: none !important;
-    //         color: @memo-blue;
-    //     }
+        .fa-lock {
+            display: none !important;
+            color: @memo-blue;
+        }
 
-    //     .fa-unlock {
-    //         display: unset !important;
-    //         color: @memo-blue;
-    //     }
+        .fa-unlock {
+            display: unset !important;
+            color: @memo-blue;
+        }
 
-    //     filter: brightness(0.95)
-    // }
+        filter: brightness(0.95)
+    }
 
-    // &:active {
-    //     filter: brightness(0.85)
-    // }
+    &:active {
+        filter: brightness(0.85)
+    }
 
 }
 

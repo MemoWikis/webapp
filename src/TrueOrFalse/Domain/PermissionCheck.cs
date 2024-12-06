@@ -159,7 +159,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             return false;
 
         if (question.IsCreator(_userId) || _isInstallationAdmin)
-            return false;
+            return true;
 
         return false;
     }
