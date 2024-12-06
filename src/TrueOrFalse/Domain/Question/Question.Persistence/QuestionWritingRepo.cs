@@ -147,4 +147,39 @@ public class QuestionWritingRepo(
         questionCacheItem.References = ReferenceCacheItem.ToReferenceCacheItems(question.References).ToList();
         EntityCache.AddOrUpdate(questionCacheItem, affectedPageIds: pagesToUpdateIds);
     }
+
+    public void Update(QuestionCacheItem questionCacheItem)
+    {
+        var question = GetById(questionCacheItem.Id);
+        if (question == null)
+        {
+            throw new Exception("Question not found");
+        }
+
+        question.CorrectnessProbability = questionCacheItem.CorrectnessProbability;
+        question.CorrectnessProbabilityAnswerCount = questionCacheItem.CorrectnessProbabilityAnswerCount;
+        question.Description = questionCacheItem.Description;
+        question.DescriptionHtml = questionCacheItem.DescriptionHtml;
+        question.IsWorkInProgress = questionCacheItem.IsWorkInProgress;
+        question.LicenseId = questionCacheItem.LicenseId;
+        question.SkipMigration = questionCacheItem.SkipMigration;
+        question.Solution = questionCacheItem.Solution;
+        question.SolutionMetadataJson = questionCacheItem.SolutionMetadataJson;
+        question.SolutionType = questionCacheItem.SolutionType;
+        question.Text = questionCacheItem.Text;
+        question.TextExtended = questionCacheItem.TextExtended;
+        question.TextExtendedHtml = questionCacheItem.TextExtendedHtml;
+        question.TextHtml = questionCacheItem.TextHtml;
+        question.TotalFalseAnswers = questionCacheItem.TotalFalseAnswers;
+        question.TotalQualityAvg = questionCacheItem.TotalQualityAvg;
+        question.TotalQualityEntries = questionCacheItem.TotalQualityEntries;
+        question.TotalRelevanceForAllAvg = questionCacheItem.TotalRelevanceForAllAvg;
+        question.TotalRelevanceForAllEntries = questionCacheItem.TotalRelevanceForAllEntries;
+        question.TotalRelevancePersonalAvg = questionCacheItem.TotalRelevancePersonalAvg;
+        question.TotalRelevancePersonalEntries = questionCacheItem.TotalRelevancePersonalEntries;
+        question.TotalTrueAnswers = questionCacheItem.TotalTrueAnswers;
+        question.Visibility = questionCacheItem.Visibility;
+
+        Update(question);
+    }
 }

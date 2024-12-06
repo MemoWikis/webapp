@@ -14,7 +14,8 @@ export const messages: any = {
         question: {
             created: "Deine Frage wurde erfolgreich erstellt.",
             saved: "Deine Frage wurde erfolgreich gespeichert.",
-            delete: "Deine Frage wurde erfolgreich gelöscht."
+            delete: "Deine Frage wurde erfolgreich gelöscht.",
+            published: (name: string) => `Die Frage '${name}' wurde erfolgreich veröffentlicht.`,
         },
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",

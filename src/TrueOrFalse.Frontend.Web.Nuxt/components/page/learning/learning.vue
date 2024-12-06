@@ -178,6 +178,10 @@ function stepForward() {
         <div class="col-xs-12" id="QuestionListContainer">
             <PageLearningQuestionsSection />
         </div>
+
+        <ClientOnly>
+            <QuestionEditPublishModal />
+        </ClientOnly>
     </div>
 </template>
 

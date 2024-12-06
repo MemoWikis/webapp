@@ -225,7 +225,7 @@ onMounted(() => {
 	<HeaderMain :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 
 	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
-	<div class="nuxt-page">
+	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
 
 		<NuxtErrorBoundary @error="logError">
 			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
@@ -242,7 +242,7 @@ onMounted(() => {
 		</NuxtErrorBoundary>
 	</div>
 
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
@@ -272,6 +272,10 @@ onMounted(() => {
 	}
 
 	min-height: 86vh;
+
+	&.modal-is-open {
+		min-height: unset;
+	}
 }
 
 .mobile-headings {

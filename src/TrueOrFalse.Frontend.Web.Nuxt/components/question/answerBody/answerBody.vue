@@ -8,6 +8,7 @@ import { Activity, useActivityPointsStore } from '~~/components/activityPoints/a
 import { AnswerBodyModel, SolutionData } from '~~/components/question/answerBody/answerBodyInterfaces'
 import { usePageStore } from '~/components/page/pageStore'
 import { useCommentsStore } from '~/components/comment/commentsStore'
+import { usePublishQuestionStore } from '../edit/publish/publishQuestionStore'
 
 const learningSessionStore = useLearningSessionStore()
 const activityPointsStore = useActivityPointsStore()
@@ -15,6 +16,8 @@ const pageStore = usePageStore()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const commentsStore = useCommentsStore()
+const publishQuestionStore = usePublishQuestionStore()
+
 commentsStore.loadComments()
 
 const answerIsCorrect = ref(false)
@@ -361,6 +364,14 @@ const allMultipleChoiceCombinationTried = computed(() => {
 
 watch(() => pageStore.id, () => learningSessionStore.showResult = false)
 
+publishQuestionStore.$onAction(({ name, after }) => {
+    if (name === 'confirmPublish') {
+        after((id) => {
+            if (id && id === answerBodyModel.value?.id)
+                answerBodyModel.value!.isPrivate = false
+        })
+    }
+})
 </script>
 
 <template>
@@ -375,8 +386,9 @@ watch(() => pageStore.id, () => learningSessionStore.showResult = false)
 
             <div class="AnswerQuestionBodyMenu">
                 <div class="answerbody-btn visibility" v-if="answerBodyModel.isPrivate">
-                    <div class="answerbody-btn-inner no-btn">
-                        <font-awesome-icon :icon="['fas', 'lock']" />
+                    <div class="answerbody-btn-inner" @click="publishQuestionStore.openModal(answerBodyModel.id)">
+                        <font-awesome-icon :icon="['fas', 'lock']" class="no-hover" />
+                        <font-awesome-icon :icon="['fas', 'unlock']" class="hover" />
                     </div>
                 </div>
                 <div class="Pin answerbody-btn" :data-question-id="answerBodyModel.id">
@@ -639,25 +651,31 @@ watch(() => pageStore.id, () => learningSessionStore.showResult = false)
                 color: @memo-grey-dark;
             }
 
+            .hover {
+                display: none;
+            }
+
+            .no-hover {
+                display: block;
+            }
+
             &:hover {
-                filter: brightness(0.95)
+                filter: brightness(0.95);
+
+                .hover {
+                    display: block;
+                }
+
+                .no-hover {
+                    display: none;
+                }
             }
 
             &:active {
-                filter: brightness(0.85)
+                filter: brightness(0.85);
             }
 
-            &.no-btn {
-                cursor: default;
 
-                &:hover {
-                    filter: brightness(1)
-                }
-
-                &:active {
-                    filter: brightness(1)
-                }
-            }
         }
     }
 }
