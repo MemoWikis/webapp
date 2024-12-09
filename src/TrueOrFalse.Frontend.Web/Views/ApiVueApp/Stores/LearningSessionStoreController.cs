@@ -146,7 +146,7 @@ public class LearningSessionStoreController(
         var index = id;
         if (_learningSessionCreator == null)
         {
-            var ex = new Exception("_learningSessionCreator is null");
+            var ex = new Exception($"_learningSessionCreator is null. Call stack: {Environment.StackTrace}");
             Logg.Error(ex);
             throw ex;
         }

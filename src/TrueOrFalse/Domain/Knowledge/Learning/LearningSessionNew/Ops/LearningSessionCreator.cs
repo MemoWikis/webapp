@@ -174,7 +174,7 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
     {
         var result = new LearningSessionResult();
         var learningSession = _learningSessionCache.GetLearningSession();
-        learningSession.LoadSpecificQuestion(index);
+        learningSession?.LoadSpecificQuestion(index);
 
         return FillLearningSessionResult(learningSession, result);
     }
