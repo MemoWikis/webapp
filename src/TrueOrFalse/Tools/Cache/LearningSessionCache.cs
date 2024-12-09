@@ -2,14 +2,10 @@
 using System.Collections.Concurrent;
 using TrueOrFalse.Web.Context;
 
-public class LearningSessionCache : IRegisterAsInstancePerLifetime
+public class LearningSessionCache(IHttpContextAccessor httpContextAccessor, SessionUser _sessionUser) : IRegisterAsInstancePerLifetime
 {
-    private readonly HttpContext _httpContext;
+    private readonly HttpContext _httpContext = httpContextAccessor.HttpContext!;
     private static readonly ConcurrentDictionary<string, LearningSession> _learningSessions = new();
-    public LearningSessionCache(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContext = httpContextAccessor.HttpContext!;
-    }
 
     public void AddOrUpdate(LearningSession learningSession)
     {
@@ -35,6 +31,12 @@ public class LearningSessionCache : IRegisterAsInstancePerLifetime
         {
             AddOrUpdate(learningSession);
             return learningSession;
+        }
+
+        if (learningSession == null)
+        {
+            var stackException = new Exception();
+            Logg.Error(stackException);
         }
         return null;
     }
