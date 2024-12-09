@@ -5,7 +5,8 @@ using System.Linq;
 public class LearningSessionStoreController(
     LearningSessionCreator _learningSessionCreator,
     LearningSessionCache _learningSessionCache,
-    PermissionCheck _permissionCheck) : Controller
+    PermissionCheck _permissionCheck,
+    SessionUser _sessionUser) : Controller()
 {
     public record struct LearningSessionResponse()
     {
@@ -139,13 +140,17 @@ public class LearningSessionStoreController(
         };
     }
 
-    public readonly record struct LoadSpecificQuestionJson(int index);
-
     [HttpPost]
-    public LearningSessionResponse LoadSpecificQuestion(
-        [FromBody] LoadSpecificQuestionJson json)
+    public LearningSessionResponse LoadSpecificQuestion([FromRoute] int id)
     {
-        var data = _learningSessionCreator.GetStep(json.index);
+        var index = id;
+        if (_learningSessionCreator == null)
+        {
+            var ex = new Exception("_learningSessionCreator is null");
+            Logg.Error(ex);
+            throw ex;
+        }
+        var data = _learningSessionCreator.GetStep(index);
         return new LearningSessionResponse
         {
             MessageKey = data.MessageKey,
@@ -158,14 +163,14 @@ public class LearningSessionStoreController(
         };
     }
 
-    public readonly record struct SkipStepJson(int index);
     public record struct StepResult(AnswerState State, int Id, int Index, bool IsLastStep);
 
     [HttpPost]
-    public StepResult? SkipStep([FromBody] SkipStepJson json)
+    public StepResult? SkipStep([FromRoute] int id)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        if (learningSession.CurrentIndex == json.index)
+        var index = id;
+        if (learningSession?.CurrentIndex == index)
         {
             learningSession.SkipStep();
             return new StepResult
@@ -184,7 +189,7 @@ public class LearningSessionStoreController(
     public StepResult[] LoadSteps()
     {
         var learningSession = _learningSessionCache.GetLearningSession();
-        var result = learningSession.Steps.Select((s, index) => new StepResult
+        var result = learningSession?.Steps.Select((s, index) => new StepResult
         {
             Id = s.Question.Id,
             State = s.AnswerState,

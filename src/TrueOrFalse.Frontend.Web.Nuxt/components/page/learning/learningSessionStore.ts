@@ -130,9 +130,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.steps = result
         },
         async changeActiveQuestion(index: number) {
-            const result = await $api<LearningSessionResult>('/apiVue/LearningSessionStore/LoadSpecificQuestion/', {
+            const result = await $api<LearningSessionResult>(`/apiVue/LearningSessionStore/LoadSpecificQuestion/${index}`, {
                 method: 'POST',
-                body: { index: index },
                 mode: 'cors',
                 credentials: 'include'
             })
@@ -147,13 +146,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.changeActiveQuestion(this.currentIndex + 1)
         },
         async skipStep() {
-            const data = {
-                index: this.currentIndex
-            }
-            const result = await $api<Step>(`/apiVue/LearningSessionStore/SkipStep/`,
+            const result = await $api<Step>(`/apiVue/LearningSessionStore/SkipStep/${this.currentIndex}`,
                 {
                     method: 'POST',
-                    body: data,
                     credentials: 'include',
                     mode: 'cors',
                 })
