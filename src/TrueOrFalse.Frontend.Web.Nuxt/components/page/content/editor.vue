@@ -266,6 +266,8 @@ const initEditor = () => {
 
             if (pageStore.contentHasChanged)
                 autoSave()
+
+            pageStore.text = editor.getText()
         },
         editorProps: {
             handlePaste: (view, pos, event) => {
