@@ -75,6 +75,7 @@
 		<PackageReference Include="MySql.Data" Version="8.1.0" />
 		<PackageReference Include="NHibernate" Version="5.4.5" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="OpenAI" Version="2.1.0" />
 		<PackageReference Include="Quartz" Version="3.7.0" />
 		<PackageReference Include="Remotion.Linq" Version="2.2.0" />
 		<PackageReference Include="Remotion.Linq.EagerFetching" Version="2.2.0" />

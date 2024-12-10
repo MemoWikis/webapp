@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OpenAI.Chat;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -287,5 +288,34 @@ public class PageStoreController(
     {
         var questions = page.GetAggregatedQuestionsFromMemoryCache(_sessionUser.UserId, onlyVisible: true, fullList: true, pageId: page.Id);
         return GetQuestionViews(questions);
+    }
+
+    public readonly record struct GenerateFlashCardRequest(int pageId, string text, int? count = 3);
+
+    [HttpPost]
+    public string GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
+    {
+        if (!_permissionCheck.CanViewPage(req.pageId))
+            return "";
+
+        ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
+
+        ChatCompletion chatCompletion = client.CompleteChat("Generate " + req.count + " Flashcards for:" + req.text);
+
+        return chatCompletion.Content.ToString() ?? "No response from AI";
+    }
+
+    public readonly record struct TranslateRequest(int pageId, string text);
+    [HttpPost]
+    public string Translate([FromBody] TranslateRequest req)
+    {
+        if (!_permissionCheck.CanEditPage(req.pageId))
+            return "";
+
+        ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
+
+        ChatCompletion chatCompletion = client.CompleteChat("translate this html page to English:" + req.text);
+
+        return chatCompletion.Content.ToString() ?? "No response from AI";
     }
 }

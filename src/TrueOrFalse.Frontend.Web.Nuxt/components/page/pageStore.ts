@@ -126,6 +126,7 @@ export const usePageStore = defineStore('pageStore', {
 			analyticsLoaded: false,
 			saveTrackingArray: [] as string[],
 			currentWiki: null as TinyPageModel | null,
+			text: ''
 		}
 	},
 	actions: {
@@ -170,6 +171,7 @@ export const usePageStore = defineStore('pageStore', {
 				this.viewsPast90DaysPage = []
 				this.viewsPast90DaysAggregatedQuestions = []
 				this.viewsPast90DaysDirectQuestions = []
+				this.text = ''
 			}
 		},
 		async saveContent() {
@@ -412,6 +414,19 @@ export const usePageStore = defineStore('pageStore', {
 				this.analyticsLoaded = true
 			}
 		},
+		async translate() {
+			const data = {
+				pageId: this.id,
+				text: this.text
+			}
+			const result = await $api<void>(`/apiVue/PageStore/Translate/`, {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			console.log(result)
+		}
 	},
 	getters: {
 		getPageName(): string {

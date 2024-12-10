@@ -131,16 +131,35 @@ const ariaId = useId()
                             Wiki in Seite konvertieren
                         </div>
                     </div>
-                    <div v-if="pageStore.canBeDeleted" class="dropdown-row"
-                        @click="deletePageStore.openModal(pageStore.id, true); hide()">
+                    <template v-if="pageStore.canBeDeleted">
+                        <div class="dropdown-divider"></div>
 
-                        <div class="dropdown-icon">
-                            <font-awesome-icon icon="fa-solid fa-trash" />
+                        <div class="dropdown-row"
+                            @click="deletePageStore.openModal(pageStore.id, true); hide()">
+
+                            <div class="dropdown-icon">
+                                <font-awesome-icon icon="fa-solid fa-trash" />
+                            </div>
+                            <div class="dropdown-label">
+                                Seite löschen
+                            </div>
                         </div>
-                        <div class="dropdown-label">
-                            Seite löschen
+                    </template>
+
+                    <DevOnly>
+                        <div class="dropdown-divider"></div>
+
+                        <div class="dropdown-row" @click="pageStore.translate(); hide()">
+
+                            <div class="dropdown-icon">
+                                <font-awesome-icon :icon="['fas', 'language']" />
+                            </div>
+                            <div class="dropdown-label">
+                                Seite übersetzen
+                            </div>
                         </div>
-                    </div>
+                    </DevOnly>
+
                 </template>
             </VDropdown>
         </div>

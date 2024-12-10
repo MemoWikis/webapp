@@ -81,4 +81,6 @@ public class Settings
     private static string _trackersToIgnoreString => _configuration["General:TrackersToIgnore"];
     public static List<string> TrackersToIgnore => _trackersToIgnoreString.Split(',').ToList();
 
+    public static string OpenAIApiKey => _configuration["OpenAI:ApiKey"];
+
 }
