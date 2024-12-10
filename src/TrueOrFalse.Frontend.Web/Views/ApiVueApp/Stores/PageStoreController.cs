@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OpenAI.Chat;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace VueApp;
 
@@ -293,29 +295,30 @@ public class PageStoreController(
     public readonly record struct GenerateFlashCardRequest(int pageId, string text, int? count = 3);
 
     [HttpPost]
-    public string GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
+    [ItemCanBeNull]
+    public async Task<string> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
     {
         if (!_permissionCheck.CanViewPage(req.pageId))
             return "";
 
         ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
 
-        ChatCompletion chatCompletion = client.CompleteChat("Generate " + req.count + " Flashcards for:" + req.text);
+        ChatCompletion chatCompletion = await client.CompleteChatAsync("Generate " + req.count + " Flashcards for:" + req.text);
 
-        return chatCompletion.Content.ToString() ?? "No response from AI";
+        return chatCompletion.Content[0].Text ?? "No response from AI";
     }
 
     public readonly record struct TranslateRequest(int pageId, string text);
     [HttpPost]
-    public string Translate([FromBody] TranslateRequest req)
+    public async Task<string> Translate([FromBody] TranslateRequest req)
     {
         if (!_permissionCheck.CanEditPage(req.pageId))
             return "";
 
         ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
 
-        ChatCompletion chatCompletion = client.CompleteChat("translate this html page to English:" + req.text);
+        ChatCompletion chatCompletion = await client.CompleteChatAsync("translate this page:" + req.text);
 
-        return chatCompletion.Content.ToString() ?? "No response from AI";
+        return chatCompletion.Content[0].Text ?? "No response from AI";
     }
 }

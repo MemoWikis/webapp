@@ -419,7 +419,20 @@ export const usePageStore = defineStore('pageStore', {
 				pageId: this.id,
 				text: this.text
 			}
-			const result = await $api<void>(`/apiVue/PageStore/Translate/`, {
+			const result = await $api<string>(`/apiVue/PageStore/Translate/`, {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+			console.log(result)
+		},
+		async generateFlashCards(selectedText?: string) {
+			const data = {
+				pageId: this.id,
+				text: selectedText ? selectedText : this.text
+			}
+			const result = await $api<string>(`/apiVue/PageStore/GenerateFlashCard/`, {
 				body: data,
 				method: 'POST',
 				mode: 'cors',

@@ -415,11 +415,36 @@ const autoSave = () => {
 }
 
 const { isMobile } = useDevice()
+const createFlashCard = () => {
+    if (editor.value == null)
+        return
+
+    const { state, view } = editor.value
+    const { selection } = state
+    if (selection.empty)
+        pageStore.generateFlashCards()
+    else {
+        const { from, to } = selection
+        const text = state.doc.textBetween(from, to)
+        pageStore.generateFlashCards(text)
+    }
+
+}
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" />
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
+            <template v-slot:end>
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
+
+                <button class="menubar__button last-btn" @mousedown="createFlashCard">
+                    <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                </button>
+            </template>
+        </LazyEditorMenuBar>
         <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
 
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />

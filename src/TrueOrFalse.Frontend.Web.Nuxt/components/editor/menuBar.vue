@@ -130,7 +130,7 @@ props.editor.on('blur', () => {
 })
 
 const { isMobile } = useDevice()
-
+const slots = useSlots()
 </script>
 <template>
     <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
@@ -244,9 +244,11 @@ const { isMobile } = useDevice()
                     <font-awesome-icon icon="fa-solid fa-rotate-left" />
                 </button>
 
-                <button class="menubar__button last-btn" @mousedown="command('redo', $event)">
+                <button class="menubar__button" :class="{ 'last-btn': !slots.end }" @mousedown="command('redo', $event)">
                     <font-awesome-icon icon="fa-solid fa-rotate-right" />
                 </button>
+
+                <slot name="end"></slot>
             </div>
         </perfect-scrollbar>
 
@@ -257,7 +259,7 @@ const { isMobile } = useDevice()
 @import (reference) '~~/assets/includes/imports.less';
 
 .ps__rail-x {
-    cursor:pointer;
+    cursor: pointer;
     height: 0px;
 
     &.ps--clicking {
@@ -266,6 +268,7 @@ const { isMobile } = useDevice()
             opacity: 0.5;
         }
     }
+
     .ps__thumb-x {
         transition: opacity 0.2s ease-in;
         transition: height 0.1s ease-in;
@@ -406,6 +409,7 @@ const { isMobile } = useDevice()
     }
 }
 
+:slotted(.menubar__divider__container),
 .menubar__divider__container {
     background: white;
     padding: 6px;
@@ -418,6 +422,7 @@ const { isMobile } = useDevice()
     }
 }
 
+:slotted(.menubar__button),
 .menubar__button {
     background: white;
     border: hidden;
