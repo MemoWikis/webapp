@@ -58,11 +58,11 @@ export const useConvertStore = defineStore('convertStore', () => {
         showModal.value = false
     }
     
-    const confirmConversion = () => {
+    const confirmConversion = async () => {
         if (conversionTarget.value === ConversionTarget.Wiki) {
-            convertPageToWiki()
+            await convertPageToWiki()
         } else {
-            convertWikiToPage()
+            await convertWikiToPage()
         }
         closeModal()
     }
