@@ -161,7 +161,7 @@ const initEditor = () => {
             Link.configure({
                 HTMLAttributes: {
                     rel: 'noreferrer nofollow',
-                    target: null,
+                    target: "_self",
                 },
                 openOnClick: true
             }),
