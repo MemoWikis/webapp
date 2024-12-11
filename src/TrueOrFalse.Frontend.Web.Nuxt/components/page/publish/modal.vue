@@ -57,8 +57,7 @@ async function publish() {
                     BY 4.0, <NuxtLink :external="true" to="https://creativecommons.org/licenses/by/4.0/legalcode.de"
                         target="_blank">Lizenztext, deutsche Zusammenfassung</NuxtLink>).
                     Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte
-                    und ggf.
-                    Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert.
+                    und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert.
                 </div>
             </div>
         </template>

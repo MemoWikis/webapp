@@ -2,7 +2,6 @@
 import { Editor, EditorContent, JSONContent } from '@tiptap/vue-3'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
 import StarterKit from '@tiptap/starter-kit'
-import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
@@ -22,6 +21,8 @@ import { messages } from '~~/components/alert/alertStore'
 import { getRandomColor } from '~/components/shared/utils'
 
 import { CustomHeading } from '~/components/shared/headingExtension'
+import { CustomLink } from '~/components/shared/linkExtension'
+
 import { useOutlineStore } from '~/components/sidebar/outlineStore'
 import { slugify } from '~/components/shared/utils'
 import { nanoid } from 'nanoid'
@@ -158,10 +159,10 @@ const initEditor = () => {
                     class: 'heading',
                 },
             }),
-            Link.configure({
+            CustomLink.configure({
                 HTMLAttributes: {
                     rel: 'noreferrer nofollow',
-                    target: null,
+                    target: "_self",
                 },
                 openOnClick: true
             }),
