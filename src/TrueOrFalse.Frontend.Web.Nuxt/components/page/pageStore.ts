@@ -8,6 +8,7 @@ import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
 import { ErrorCode } from '../error/errorCodeEnum'
 import { nanoid } from 'nanoid'
+import { useSpinnerStore } from '../spinner/spinnerStore'
 
 export class Page {
 	canAccess: boolean = false
@@ -76,6 +77,11 @@ export interface TinyPageModel {
 	imgUrl: string
 }
 
+export interface GeneratedFlashCard {
+	front: string
+	back: string
+}
+
 interface GetPageAnalyticsResponse {
 	viewsPast90DaysAggregatedPages: ViewSummary[]
 	viewsPast90DaysPage: ViewSummary[]
@@ -126,7 +132,8 @@ export const usePageStore = defineStore('pageStore', {
 			analyticsLoaded: false,
 			saveTrackingArray: [] as string[],
 			currentWiki: null as TinyPageModel | null,
-			text: ''
+			text: '',
+			selectedText: ''
 		}
 	},
 	actions: {
@@ -172,6 +179,7 @@ export const usePageStore = defineStore('pageStore', {
 				this.viewsPast90DaysAggregatedQuestions = []
 				this.viewsPast90DaysDirectQuestions = []
 				this.text = ''
+				this.selectedText = ''
 			}
 		},
 		async saveContent() {
@@ -414,31 +422,29 @@ export const usePageStore = defineStore('pageStore', {
 				this.analyticsLoaded = true
 			}
 		},
-		async translate() {
+		async generateFlashCard(selectedText?: string) {
+			const spinnerStore = useSpinnerStore()
+			spinnerStore.showSpinner()
 			const data = {
 				pageId: this.id,
-				text: this.text
+				text: (selectedText ?? '').length > 10 ? selectedText : this.text
 			}
-			const result = await $api<string>(`/apiVue/PageStore/Translate/`, {
+			const result = await $api<GeneratedFlashCard[]>(`/apiVue/PageStore/GenerateFlashCard/`, {
 				body: data,
 				method: 'POST',
 				mode: 'cors',
 				credentials: 'include',
 			})
-			console.log(result)
+
+			if (selectedText != null && selectedText.length > 0) 
+				this.selectedText = selectedText
+
+			spinnerStore.hideSpinner()
+
+			return result
 		},
-		async generateFlashCards(selectedText?: string) {
-			const data = {
-				pageId: this.id,
-				text: selectedText ? selectedText : this.text
-			}
-			const result = await $api<string>(`/apiVue/PageStore/GenerateFlashCard/`, {
-				body: data,
-				method: 'POST',
-				mode: 'cors',
-				credentials: 'include',
-			})
-			console.log(result)
+		async reGenerateFlashCard() {
+			return await this.generateFlashCard(this.selectedText)
 		}
 	},
 	getters: {

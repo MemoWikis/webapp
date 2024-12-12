@@ -423,11 +423,11 @@ const createFlashCard = () => {
     const { state, view } = editor.value
     const { selection } = state
     if (selection.empty)
-        pageStore.generateFlashCards()
+        pageStore.generateFlashCard()
     else {
         const { from, to } = selection
         const text = state.doc.textBetween(from, to)
-        pageStore.generateFlashCards(text)
+        pageStore.generateFlashCard(text)
     }
 
 }
@@ -624,5 +624,13 @@ const createFlashCard = () => {
 
 .private-page {
     margin-bottom: -30px;
+}
+
+.menubar__button {
+    color: @memo-blue-link;
+
+    .fa-wand-magic-sparkles {
+        color: @memo-blue-link;
+    }
 }
 </style>

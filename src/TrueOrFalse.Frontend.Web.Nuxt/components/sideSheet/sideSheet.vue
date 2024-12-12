@@ -182,7 +182,9 @@ const addToFavorites = async (name: string, id: number) => {
         messageKey?: string
     }
     const result = await $api<Result>(`/apiVue/SideSheet/AddToFavorites/${id}`, {
-        method: 'POST'
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
     })
 
     if (result.success) {
@@ -201,7 +203,9 @@ const removeFromFavorites = async (id: number) => {
         messageKey?: string
     }
     const result = await $api<Result>(`/apiVue/SideSheet/RemoveFromFavorites/${id}`, {
-        method: 'POST'
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
     })
 
     if (result.success) {

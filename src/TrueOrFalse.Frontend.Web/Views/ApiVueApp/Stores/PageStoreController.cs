@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace VueApp;
@@ -293,32 +294,35 @@ public class PageStoreController(
     }
 
     public readonly record struct GenerateFlashCardRequest(int pageId, string text, int? count = 3);
-
     [HttpPost]
     [ItemCanBeNull]
-    public async Task<string> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
+    public async Task<FlashCard[]> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
     {
         if (!_permissionCheck.CanViewPage(req.pageId))
-            return "";
+            return null;
 
         ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
 
-        ChatCompletion chatCompletion = await client.CompleteChatAsync("Generate " + req.count + " Flashcards for:" + req.text);
+        var defaultPrompt = "Respond with flashcards as JSON array containing two properties: \"Front\" and \"Back\". " +
+                            "The \"front\" must be an HTML string containing only a single question, word, term, or phrase, " +
+                            "and may include bold or italic formatting. The \"back\" must be an HTML string containing its answer. " +
+                            "Do not wrap the response in code formatting and do not add explanations.";
 
-        return chatCompletion.Content[0].Text ?? "No response from AI";
+        ChatCompletion chatCompletion = await client.CompleteChatAsync(defaultPrompt + " For:" + req.text);
+
+        if (chatCompletion.Content.Count == 0 || string.IsNullOrEmpty(chatCompletion.Content[0].Text))
+            return null;
+
+        try
+        {
+            var flashCard = JsonSerializer.Deserialize<FlashCard[]>(chatCompletion.Content[0].Text);
+            return flashCard;
+        }
+        catch (JsonException)
+        {
+            return null;
+        }
     }
 
-    public readonly record struct TranslateRequest(int pageId, string text);
-    [HttpPost]
-    public async Task<string> Translate([FromBody] TranslateRequest req)
-    {
-        if (!_permissionCheck.CanEditPage(req.pageId))
-            return "";
-
-        ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
-
-        ChatCompletion chatCompletion = await client.CompleteChatAsync("translate this page:" + req.text);
-
-        return chatCompletion.Content[0].Text ?? "No response from AI";
-    }
+    public record struct FlashCard(string Front, string Back);
 }

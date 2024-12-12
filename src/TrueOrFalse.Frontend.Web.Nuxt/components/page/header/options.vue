@@ -146,20 +146,6 @@ const ariaId = useId()
                         </div>
                     </template>
 
-                    <DevOnly>
-                        <div class="dropdown-divider"></div>
-
-                        <div class="dropdown-row" @click="pageStore.translate(); hide()">
-
-                            <div class="dropdown-icon">
-                                <font-awesome-icon :icon="['fas', 'language']" />
-                            </div>
-                            <div class="dropdown-label">
-                                Seite übersetzen
-                            </div>
-                        </div>
-                    </DevOnly>
-
                 </template>
             </VDropdown>
         </div>
