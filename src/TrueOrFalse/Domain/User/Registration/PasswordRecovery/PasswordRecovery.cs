@@ -1,6 +1,6 @@
-﻿using System.Net.Mail;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using System.Net.Mail;
 
 public class PasswordRecovery : IRegisterAsInstancePerLifetime
 {
@@ -11,7 +11,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
     private readonly IWebHostEnvironment _webHostEnvironment;
 
     public PasswordRecovery(PasswordRecoveryTokenRepository tokenRepository,
-        JobQueueRepo jobQueueRepo, 
+        JobQueueRepo jobQueueRepo,
         UserReadingRepo userReadingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment)
@@ -36,7 +36,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
             SendEmail.Run(GetMailMessage(email, passwortResetUrl), _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             Logg.r.Error(e, $"Error while trying to reset password for email: {email}");
             return new PasswordRecoveryResult { Success = false };
@@ -67,10 +67,10 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         return new PasswordRecoveryResult { Success = true };
     }
 
-    private MailMessage GetMailMessage(string emailAdresse, string passwortResetUrl)
+    private MailMessage GetMailMessage(string email, string passwordResetUrl)
     {
         var mailMessage = new MailMessage();
-        mailMessage.To.Add(new MailAddress(emailAdresse));
+        mailMessage.To.Add(new MailAddress(email));
         mailMessage.From = new MailAddress(Settings.EmailFrom);
         mailMessage.Subject =
             "Dein neues Passwort für memucho";
@@ -81,7 +81,7 @@ Der Link ist 72 Stunden lang gültig.
 
 Viele Grüße
 Dein memucho-Team
-".Replace("{0}", passwortResetUrl);
+".Replace("{0}", passwordResetUrl);
 
         return mailMessage;
     }

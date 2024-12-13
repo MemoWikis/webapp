@@ -155,7 +155,7 @@ async function register() {
 <template>
     <div class="container">
         <div class="register-container row main-page">
-            <div class="col-lg-9 col-md-12 container main-content">
+            <div class="col-xs-12 container main-content">
                 <div class="row login-register">
                     <div class="form-horizontal col-md-12">
                         <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
@@ -291,7 +291,6 @@ async function register() {
                     </div>
                 </div>
             </div>
-            <Sidebar :site="props.site" />
         </div>
 
     </div>
