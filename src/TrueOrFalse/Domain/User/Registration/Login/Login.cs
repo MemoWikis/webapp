@@ -12,11 +12,11 @@ namespace TrueOrFalse.Domain.User
         PageViewRepo _pageViewRepo)
         : IRegisterAsInstancePerLifetime
     {
-        public bool UserLogin(LoginParam param)
+        public bool UserLogin(LoginRequest request)
         {
-            if (_credentialsAreValid.Yes(param.EmailAddress, param.Password))
+            if (_credentialsAreValid.Yes(request.EmailAddress, request.Password))
             {
-                if (param.PersistentLogin)
+                if (request.PersistentLogin)
                 {
                     WritePersistentLoginToCookie.Run(_credentialsAreValid.User.Id,
                         _persistentLoginRepo,

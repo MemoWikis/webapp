@@ -21,28 +21,28 @@ public class UserStoreController(
     QuestionReadingRepo _questionReadingRepo,
     JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
 {
-    public readonly record struct LoginResult(
+    public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,
         string MessageKey,
         bool Success);
 
     [HttpPost]
-    public LoginResult Login([FromBody] LoginParam param)
+    public LoginResponse Login([FromBody] LoginRequest request)
     {
-        var loginIsSuccessful = _login.UserLogin(param);
+        var loginIsSuccessful = _login.UserLogin(request);
 
         if (loginIsSuccessful)
         {
             RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
 
-            return new LoginResult
+            return new LoginResponse
             {
                 Success = true,
                 Data = _frontEndUserData.Get()
             };
         }
 
-        return new LoginResult
+        return new LoginResponse
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.User.LoginFailed
@@ -51,19 +51,19 @@ public class UserStoreController(
 
     [HttpPost]
     [AccessOnlyAsLoggedIn]
-    public LoginResult LogOut()
+    public LoginResponse LogOut()
     {
         RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
         RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
         _sessionUser.Logout();
 
         if (!_sessionUser.IsLoggedIn)
-            return new LoginResult
+            return new LoginResponse
             {
                 Success = true,
             };
 
-        return new LoginResult
+        return new LoginResponse
         {
             Success = false,
             MessageKey = FrontendMessageKeys.Error.Default
@@ -77,12 +77,13 @@ public class UserStoreController(
         return _getUnreadMessageCount.Run(_sessionUser.UserId);
     }
 
+    public readonly record struct ResetPasswordRequest(string Email);
     [HttpPost]
-    public LoginResult ResetPassword(string email)
+    public LoginResponse ResetPassword([FromBody] ResetPasswordRequest req)
     {
-        var result = _passwordRecovery.RunForNuxt(email);
+        var result = _passwordRecovery.RunForNuxt(req.Email);
         //Don't reveal if email exists 
-        return new LoginResult { Success = result.Success || result.EmailDoesNotExist };
+        return new LoginResponse { Success = result.Success || result.EmailDoesNotExist };
     }
 
     public readonly record struct RegisterResult(
