@@ -133,7 +133,6 @@ const rootPageChipStore = useRootPageChipStore()
             }
         }
 
-
         .row {
             height: 60px;
         }

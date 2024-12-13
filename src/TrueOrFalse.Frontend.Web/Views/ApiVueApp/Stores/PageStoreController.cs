@@ -1,12 +1,10 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OpenAI.Chat;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace VueApp;
@@ -19,7 +17,7 @@ public class PageStoreController(
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    PageUpdater pageUpdater,
+    PageUpdater _pageUpdater,
     ImageStore _imageStore) : Controller
 {
     public readonly record struct SaveContentRequest(
@@ -153,7 +151,7 @@ public class PageStoreController(
 
     [HttpPost]
     public bool HideOrShowText([FromBody] HideOrShowItem hideOrShowItem) =>
-        pageUpdater.HideOrShowPageText(hideOrShowItem.hideText, hideOrShowItem.pageId);
+        _pageUpdater.HideOrShowPageText(hideOrShowItem.hideText, hideOrShowItem.pageId);
 
     [HttpGet]
     public GridPageItem[] GetGridPageItems([FromRoute] int id)
@@ -293,36 +291,23 @@ public class PageStoreController(
         return GetQuestionViews(questions);
     }
 
-    public readonly record struct GenerateFlashCardRequest(int pageId, string text, int? count = 3);
+    public readonly record struct GenerateFlashCardRequest(int PageId, string Text, int? Count = 3);
     [HttpPost]
     [ItemCanBeNull]
-    public async Task<FlashCard[]> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
+    public async Task<List<GenerateFlashCardResponse>> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
     {
-        if (!_permissionCheck.CanViewPage(req.pageId))
+        if (!_permissionCheck.CanViewPage(req.PageId))
             return null;
 
-        ChatClient client = new(model: "gpt-4o-mini", apiKey: Settings.OpenAIApiKey);
-
-        var defaultPrompt = "Respond with flashcards as JSON array containing two properties: \"Front\" and \"Back\". " +
-                            "The \"front\" must be an HTML string containing only a single question, word, term, or phrase, " +
-                            "and may include bold or italic formatting. The \"back\" must be an HTML string containing its answer. " +
-                            "Do not wrap the response in code formatting and do not add explanations.";
-
-        ChatCompletion chatCompletion = await client.CompleteChatAsync(defaultPrompt + " For:" + req.text);
-
-        if (chatCompletion.Content.Count == 0 || string.IsNullOrEmpty(chatCompletion.Content[0].Text))
+        if (!_sessionUser.IsInstallationAdmin)
             return null;
 
-        try
-        {
-            var flashCard = JsonSerializer.Deserialize<FlashCard[]>(chatCompletion.Content[0].Text);
-            return flashCard;
-        }
-        catch (JsonException)
-        {
-            return null;
-        }
+        var flashcards = await AiFlashCard.Generate(req.Text, req.PageId, _permissionCheck);
+
+        var response = flashcards.Select(f => new GenerateFlashCardResponse(f.Front, f.Back)).ToList();
+
+        return response;
     }
 
-    public record struct FlashCard(string Front, string Back);
+    public record struct GenerateFlashCardResponse(string Front, string Back);
 }

@@ -5,13 +5,16 @@ interface Props {
     escToClose?: boolean
     disabled?: boolean
     showCancelBtn?: boolean
-    id?: number
+    id?: string
     showCloseButton?: boolean
     adminContent?: boolean
     iconClasses?: string
     primaryBtnLabel?: string
     secondaryBtnLabel?: string
     isFullSizeButtons?: boolean
+    contentClass?: string
+    fullscreen?: boolean
+    containerClass?: string
 }
 
 const props = defineProps<Props>()
@@ -31,13 +34,13 @@ watch(() => props.show, (val) => {
 
 
 <template>
-    <VueFinalModal v-model="openModal" class="modal-container" content-class="modal-content" :z-index-auto="false">
+    <VueFinalModal v-model="openModal" class="modal-container" :content-class="`modal-content ${props.contentClass}`" :z-index-auto="false" :id="props.id">
 
         <div class="modal-default">
             <div class="modal-default-mask" @click="emit('close')">
                 <div class="modal-default-wrapper">
                     <div class="modal-default-container" v-on:click.stop
-                        :class="{ 'no-close-button': !props.showCloseButton, 'has-header': hasHeader }">
+                        :class="[props.containerClass, { 'no-close-button': !props.showCloseButton, 'has-header': hasHeader, 'fullscreen': props.fullscreen }]">
                         <div>
                             <font-awesome-icon v-if="props.showCloseButton" icon="fa-solid fa-xmark"
                                 class="pull-right pointer modal-close-button" @click="emit('close')" />
@@ -110,7 +113,7 @@ watch(() => props.show, (val) => {
 </style>
 
 <style lang="less">
-.modal-default-container  {
+.modal-default-container {
     &.has-header {
         h2 {
             margin-bottom: 36px;

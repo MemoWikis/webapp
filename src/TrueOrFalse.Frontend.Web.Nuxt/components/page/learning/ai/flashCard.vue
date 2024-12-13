@@ -5,7 +5,8 @@ import { GeneratedFlashCard, usePageStore } from '../../pageStore'
 import { isEmpty } from 'underscore'
 
 interface Props {
-    flashCard: GeneratedFlashCard
+    flashCard: GeneratedFlashCard,
+    index: number
 }
 
 const props = defineProps<Props>()
@@ -90,17 +91,26 @@ const questionHtml = ref('')
 const answerJson = ref(null as null | JSONContent)
 const answerHtml = ref('')
 
+const emit = defineEmits(['delete-flashcard'])
 </script>
 
 <template>
-    <div class="flashcard-container" v-if="frontEditor && backEditor">
-        <div class="flashcard-content">
-            <EditorMenuBar :editor="frontEditor" />
-            <editor-content :editor="frontEditor" />
+    <div class="flashcard-section">
+        <div class="delete-flashcard-container" @click="emit('delete-flashcard', props.index)">
+            <div class="delete-flashcard">
+                <font-awesome-icon :icon="['fas', 'trash']" />
+
+            </div>
         </div>
-        <div class="flashcard-content">
-            <EditorMenuBar :editor="backEditor" />
-            <editor-content :editor="backEditor" />
+        <div class="flashcard-container" v-if="frontEditor && backEditor">
+            <div class="flashcard-content">
+                <EditorMenuBar :editor="frontEditor" />
+                <editor-content :editor="frontEditor" />
+            </div>
+            <div class="flashcard-content">
+                <EditorMenuBar :editor="backEditor" />
+                <editor-content :editor="backEditor" />
+            </div>
         </div>
     </div>
 
@@ -109,17 +119,52 @@ const answerHtml = ref('')
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
-.flashcard-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.flashcard-section {
+    margin-top: 24px;
+    margin-bottom: 48px;
 
-    .flashcard-content {
-        padding: 0 12px;
-        margin-bottom: 48px;
-        margin-top: 24px;
-        width: 50%;
-        max-width: 600px;
+    .flashcard-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+
+        @media (max-width: 700px) {
+            flex-direction: column;
+        }
+
+        .flashcard-content {
+            padding: 0 12px;
+            width: 50%;
+            max-width: 430px;
+            min-width: 300px;
+
+            @media (max-width: 700px) {
+                margin-bottom: 16px;
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+    }
+
+    .delete-flashcard-container {
+        width: 100%;
+        position: relative;
+
+        .delete-flashcard {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 8px;
+            cursor: pointer;
+            color: @memo-grey-light;
+            transition: color 0.3s ease-in-out;
+            font-size: 18px;
+
+            &:hover {
+                color: @memo-grey;
+            }
+        }
     }
 }
 </style>

@@ -14,48 +14,62 @@ public class AiCreateFlashCardController(
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo) : Controller
 {
+    public readonly record struct FlashCardJson(string front, string back);
+
     public readonly record struct CreateRequest(
         int PageId,
-        string Front,
-        string Back
-    );
+        FlashCardJson[] flashcards
+        );
 
-    public readonly record struct CreateResponse(bool Success, int? Id = null, string? MessageKey = null);
+    public readonly record struct CreateResponse(bool Success, int[]? Ids = null, string? MessageKey = null);
 
     [AccessOnlyAsLoggedIn]
     [HttpPost]
     public CreateResponse Create([FromBody] CreateRequest request)
     {
-        var safeText = GetSafeText(request.Front);
+        if (!_sessionUser.IsLoggedIn)
+            return new CreateResponse(false);
+
+        var ids = new List<int>();
+
+        foreach (var flashcardJson in request.flashcards)
+        {
+            var id = CreateFlashCard(flashcardJson, request.PageId);
+            if (id != null && id > 0)
+                ids.Add((int)id);
+        }
+
+        return new CreateResponse
+        {
+            Success = true,
+            Ids = ids.ToArray()
+        };
+    }
+
+    private int? CreateFlashCard(FlashCardJson json, int pageId)
+    {
+        var safeText = GetSafeText(json.front);
 
         if (string.IsNullOrEmpty(safeText))
         {
-            return new CreateResponse
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Question.MissingText
-            };
+            return null;
         }
 
         var question = new Question
         {
-            TextHtml = request.Front,
+            TextHtml = json.front,
             Text = safeText,
             SolutionType = SolutionType.FlashCard
         };
 
         var solutionModelFlashCard = new QuestionSolutionFlashCard
         {
-            Text = request.Back
+            Text = json.back
         };
 
         if (string.IsNullOrEmpty(solutionModelFlashCard.Text))
         {
-            return new CreateResponse
-            {
-                Success = false,
-                MessageKey = FrontendMessageKeys.Error.Question.MissingAnswer
-            };
+            return null;
         }
 
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
@@ -64,7 +78,7 @@ public class AiCreateFlashCardController(
 
         question.Pages = new List<Page>
         {
-            pageRepository.GetById(request.PageId)
+            pageRepository.GetById(pageId)
         };
 
         question.Visibility = QuestionVisibility.Owner;
@@ -73,11 +87,7 @@ public class AiCreateFlashCardController(
         _questionWritingRepo.Create(question, pageRepository);
         _questionInKnowledge.Pin(Convert.ToInt32(question.Id), _sessionUser.UserId);
 
-        return new CreateResponse
-        {
-            Success = true,
-            Id = question.Id,
-        };
+        return question.Id;
     }
 
     private string GetSafeText(string text)

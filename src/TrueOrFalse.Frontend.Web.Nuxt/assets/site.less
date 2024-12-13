@@ -2267,6 +2267,29 @@ textarea, input {
     &.has-header {
         padding-top: 0;
     }
+
+    &.fullscreen {
+        width: 100%;
+        height: 100%;
+        bottom: 0;
+        top: 0;
+        max-height: 100%;
+    }
+
+    &.wide-modal {
+        @media (max-width: 1200px) {
+		    width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            max-height: 100%;
+	    }
+
+	    @media (min-width: 1201px) {
+		    width: 1200px;
+	    }
+    }
 }
 
 @keyframes open-default-modal {

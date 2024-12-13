@@ -1,46 +1,33 @@
 <script lang="ts" setup>
-import { useEditor, EditorContent, JSONContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
 import { GeneratedFlashCard, usePageStore } from '../../pageStore'
-import { isEmpty } from 'underscore'
 const pageStore = usePageStore()
 
 const show = ref(false)
 
+const acceptFlashCards = async () => {
+    interface Result {
+        success: boolean
+        ids?: number[]
+        messageKey?: string
+    }
+    const result = await $api<Result>(`/apiVue/AiCreateFlashCard/Create/`, {
+        method: 'POST',
+        body: {
+            pageId: pageStore.id,
+            flashCards: flashcards.value,
+        },
+        mode: 'cors',
+        credentials: 'include',
+    })
 
+    if (result.success && result.ids) {
+        console.log(result.ids)
+    } else if (result.messageKey) {
+        console.log(result.messageKey)
+    }
 
-// const acceptFlashCard = async () => {
-//     interface Result {
-//         success: boolean
-//         id?: number
-//         messageKey?: string
-//     }
-//     const result = await $api<Result>(`/apiVue/AiCreateFlashCard/Create/`, {
-//         method: 'POST',
-//         body: {
-//             pageId: pageStore.id,
-//             front: questionHtml.value,
-//             back: answerHtml.value,
-//         },
-//         mode: 'cors',
-//         credentials: 'include',
-//     })
-
-//     if (result.success && result.id) {
-//         console.log(result.id)
-//     } else if (result.messageKey) {
-//         console.log(result.messageKey)
-//     }
-
-//     show.value = false
-// }
-
-// const regenerateFlashCard = async () => {
-//     const result = await pageStore.generateFlashCard()
-//     if (result.front && result.back) {
-//         setFlashCardData(result)
-//     }
-// }
+    show.value = false
+}
 
 const flashcards = ref<GeneratedFlashCard[]>([])
 
@@ -62,18 +49,22 @@ pageStore.$onAction(({ name, after }) => {
     }
 })
 
+const deleteFlashcard = (index: number) => {
+    flashcards.value.splice(index, 1)
+}
+
 </script>
 
 
 <template>
-    <Modal :show="show" @close="show = false" @primary-btn="null" :show-cancel-btn="true" :primary-btn-label="'Karteikarte erstellen'" content-class="wide-modal">
+    <Modal :show="show" @close="show = false" @primary-btn="acceptFlashCards" :show-cancel-btn="true" :primary-btn-label="'Karteikarte erstellen'" content-class="wide-modal" :fullscreen="false" container-class="wide-modal"
+        :show-close-button="true">
         <!-- <template #header>
             <h3>Vorschau</h3>
         </template> -->
         <template #body>
             <div id="AiFlashCard">
-                <PageLearningAiFlashCard v-for="flashcard in flashcards" :flash-card="flashcard" />
-
+                <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i" @delete-flashcard="deleteFlashcard" />
             </div>
 
             <!-- <button @click="regenerateFlashCard">Neu generieren</button> -->
@@ -93,6 +84,7 @@ pageStore.$onAction(({ name, after }) => {
 
 #AiFlashCard {
     margin-top: 36px;
+    padding: 0 24px;
 
     .ProseMirror {
         text-align: center;
@@ -114,9 +106,5 @@ pageStore.$onAction(({ name, after }) => {
         }
     }
 
-}
-
-.wide-modal {
-    width: clamp(100%, 100%, 1400px);
 }
 </style>

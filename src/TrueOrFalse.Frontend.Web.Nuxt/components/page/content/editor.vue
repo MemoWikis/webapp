@@ -436,7 +436,7 @@ const createFlashCard = () => {
 <template>
     <template v-if="editor && providerLoaded">
         <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
-            <template v-slot:end>
+            <template v-slot:end v-if="userStore.isAdmin">
                 <div class="menubar__divider__container">
                     <div class="menubar__divider"></div>
                 </div>
