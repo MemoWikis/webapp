@@ -21,7 +21,7 @@ const acceptFlashCards = async () => {
     })
 
     if (result.success && result.ids) {
-        console.log(result.ids)
+        pageStore.updateQuestionCount()
     } else if (result.messageKey) {
         console.log(result.messageKey)
     }

@@ -445,6 +445,19 @@ export const usePageStore = defineStore('pageStore', {
 		},
 		async reGenerateFlashCard() {
 			return await this.generateFlashCard(this.selectedText)
+		},
+		async updateQuestionCount() {
+			const result = await $api<number>(`/apiVue/PageStore/GetQuestionCount/${this.id}`, {
+				method: 'GET',
+				mode: 'cors',
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
+
+			this.questionCount = result
 		}
 	},
 	getters: {

@@ -36,7 +36,7 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
                @"
             Prüfe auf Duplikate. Die erstellten Karteikarten sollten keine Duplikate enthalten.
             Mache keine Erklärung, wrappe die Antwort nicht in einem Code-Block.
-            Erstelle Karteikarten basierend auf diesen Text (nur fachlich passend):" +
+            Erstelle Karteikarten basierend auf diesen Text (nur fachlich passend) und erstelle keine inhaltichen Duplikate zu den existierenden Karteikarten:" +
                sourceText;
     }
 
@@ -101,7 +101,7 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
         var requestBody = new
         {
             model = "claude-3-5-haiku-20241022",  // e.g., "claude-3-5-sonnet-20241022"
-            max_tokens = 1024,
+            max_tokens = 8192,
             messages = new[]
             {
                 new {
@@ -123,24 +123,6 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
         try
         {
             var responseJson = JsonSerializer.Deserialize<AnthropicApiResponse>(responseBody);
-            if (responseJson == null)
-            {
-                Console.WriteLine("Deserialization returned null.");
-            }
-            else
-            {
-                Console.WriteLine("Deserialization succeeded.");
-                Console.WriteLine("Id: " + responseJson.Id);
-                Console.WriteLine("Type: " + responseJson.Type);
-                Console.WriteLine("Role: " + responseJson.Role);
-                Console.WriteLine("Model: " + responseJson.Model);
-                Console.WriteLine("Content Count: " + responseJson.Content?.Count);
-                if (responseJson.Content != null && responseJson.Content.Count > 0)
-                {
-                    Console.WriteLine("First Content Text: " + responseJson.Content[0].Text);
-                }
-            }
-
 
             if (responseJson != null && responseJson.Content?.Count > 0 && !string.IsNullOrWhiteSpace(responseJson.Content[0].Text) && responseJson.Role == "assistant")
             {

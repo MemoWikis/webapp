@@ -311,4 +311,13 @@ public class PageStoreController(
     }
 
     public record struct GenerateFlashCardResponse(string Front, string Back);
+
+    [HttpGet]
+    public int GetQuestionCount([FromRoute] int id)
+    {
+        var page = EntityCache.GetPage(id);
+        if (page != null)
+            return page.GetCountQuestionsAggregated(_sessionUser.UserId);
+        return 0;
+    }
 }
