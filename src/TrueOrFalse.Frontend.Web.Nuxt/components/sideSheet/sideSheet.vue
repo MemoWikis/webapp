@@ -311,7 +311,7 @@ onMounted(() => {
                                         </div>
                                     </NuxtLink>
 
-                                    <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0" @hover="console.log('hover')">
+                                    <VDropdown :aria-id="`${ariaId}-w-${wiki.id}`" :distance="0">
                                         <div class="content-item-options">
                                             <font-awesome-icon :icon="['fas', 'ellipsis']" />
                                         </div>

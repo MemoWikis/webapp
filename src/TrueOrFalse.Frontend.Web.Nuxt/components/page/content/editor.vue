@@ -126,7 +126,6 @@ const initProvider = () => {
         },
         onClose(c) {
             isSynced.value = false
-            console.log(c)
             if (c.event.code === 1006 || c.event.code === 1005 || !providerLoaded.value) {
                 providerLoaded.value = true
 

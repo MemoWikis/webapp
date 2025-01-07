@@ -50,7 +50,6 @@ pageStore.$onAction(({ name, after }) => {
 })
 
 const deleteFlashcard = (index: number) => {
-    console.log(index)
     flashcards.value.splice(index, 1)
 }
 
@@ -67,7 +66,7 @@ const deleteFlashcard = (index: number) => {
             <div id="AiFlashCard">
                 <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i" @delete-flashcard="deleteFlashcard" />
                 <div v-if="flashcards.length === 0" class="no-flashcards">
-                    <p>Oops! Es gibt keine Karteikarten</p>
+                    <p>Oops! Du hast keine Karteikarten.</p>
                 </div>
             </div>
 
