@@ -126,7 +126,7 @@ const initProvider = () => {
         },
         onClose(c) {
             isSynced.value = false
-
+            console.log(c)
             if (c.event.code === 1006 || c.event.code === 1005 || !providerLoaded.value) {
                 providerLoaded.value = true
 
@@ -447,7 +447,6 @@ const createFlashCard = () => {
             </template>
         </LazyEditorMenuBar>
         <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
-
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
     </template>
     <template v-else>

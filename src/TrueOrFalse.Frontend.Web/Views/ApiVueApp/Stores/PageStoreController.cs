@@ -302,7 +302,8 @@ public class PageStoreController(
         if (!_sessionUser.IsInstallationAdmin)
             return null;
 
-        var flashcards = await AiFlashCard.Generate(req.Text, req.PageId, _permissionCheck);
+        //var flashcards = await AiFlashCard.GenerateWithChatGPT(req.Text, req.PageId, _permissionCheck);
+        var flashcards = await AiFlashCard.GenerateWithClaude(req.Text, req.PageId, _permissionCheck);
 
         var response = flashcards.Select(f => new GenerateFlashCardResponse(f.Front, f.Back)).ToList();
 

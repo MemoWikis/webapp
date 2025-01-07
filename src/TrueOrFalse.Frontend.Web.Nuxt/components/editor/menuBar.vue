@@ -135,9 +135,7 @@ const slots = useSlots()
 <template>
     <div class="menubar-container col-xs-12" :class="{ 'is-focused': focused, 'is-mobile': isMobile }">
 
-        <perfect-scrollbar :options="{
-            scrollYMarginOffset: 30
-        }" :class="{ 'ps--scrolling-x': showScrollbar }">
+        <perfect-scrollbar :options="{ scrollYMarginOffset: 30 }" :class="{ 'ps--scrolling-x': showScrollbar }">
             <div class="menubar is-hidden" :class="{ 'is-focused': focused }" v-if="props.editor">
 
                 <button class="menubar__button" :class="{ 'is-active': props.editor.isActive('bold') }"

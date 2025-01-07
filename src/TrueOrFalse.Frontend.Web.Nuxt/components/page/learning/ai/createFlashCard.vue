@@ -50,6 +50,7 @@ pageStore.$onAction(({ name, after }) => {
 })
 
 const deleteFlashcard = (index: number) => {
+    console.log(index)
     flashcards.value.splice(index, 1)
 }
 
@@ -58,13 +59,16 @@ const deleteFlashcard = (index: number) => {
 
 <template>
     <Modal :show="show" @close="show = false" @primary-btn="acceptFlashCards" :show-cancel-btn="true" :primary-btn-label="'Karteikarte erstellen'" content-class="wide-modal" :fullscreen="false" container-class="wide-modal"
-        :show-close-button="true">
+        :show-close-button="true" :disabled="flashcards.length === 0">
         <!-- <template #header>
             <h3>Vorschau</h3>
         </template> -->
         <template #body>
             <div id="AiFlashCard">
                 <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i" @delete-flashcard="deleteFlashcard" />
+                <div v-if="flashcards.length === 0" class="no-flashcards">
+                    <p>Oops! Es gibt keine Karteikarten</p>
+                </div>
             </div>
 
             <!-- <button @click="regenerateFlashCard">Neu generieren</button> -->
@@ -104,6 +108,12 @@ const deleteFlashcard = (index: number) => {
         ul {
             width: 100%;
         }
+    }
+
+    .no-flashcards {
+        text-align: center;
+        padding: 24px;
+        color: @memo-grey;
     }
 
 }

@@ -92,14 +92,17 @@ const answerJson = ref(null as null | JSONContent)
 const answerHtml = ref('')
 
 const emit = defineEmits(['delete-flashcard'])
+const hover = ref(false)
+const deleteFlashCard = () => {
+    emit('delete-flashcard', props.index)
+}
 </script>
 
 <template>
-    <div class="flashcard-section">
-        <div class="delete-flashcard-container" @click="emit('delete-flashcard', props.index)">
+    <div class="flashcard-section" :class="{ 'hover': hover }" @mouseenter="hover = true" @mouseleave="hover = false">
+        <div class="delete-flashcard-container" @click="deleteFlashCard">
             <div class="delete-flashcard">
                 <font-awesome-icon :icon="['fas', 'trash']" />
-
             </div>
         </div>
         <div class="flashcard-container" v-if="frontEditor && backEditor">
@@ -107,7 +110,7 @@ const emit = defineEmits(['delete-flashcard'])
                 <EditorMenuBar :editor="frontEditor" />
                 <editor-content :editor="frontEditor" />
             </div>
-            <div class="flashcard-content">
+            <div class="flashcard-content back">
                 <EditorMenuBar :editor="backEditor" />
                 <editor-content :editor="backEditor" />
             </div>
@@ -120,29 +123,37 @@ const emit = defineEmits(['delete-flashcard'])
 @import (reference) '~~/assets/includes/imports.less';
 
 .flashcard-section {
-    margin-top: 24px;
-    margin-bottom: 48px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
 
     .flashcard-container {
         display: flex;
         justify-content: center;
         align-items: center;
 
-
         @media (max-width: 700px) {
             flex-direction: column;
+            margin-left: -64px;
+            margin-right: -64px;
+            padding-left: 64px;
+            padding-right: 64px;
         }
 
         .flashcard-content {
             padding: 0 12px;
             width: 50%;
-            max-width: 430px;
+            // max-width: 430px;
             min-width: 300px;
 
             @media (max-width: 700px) {
                 margin-bottom: 16px;
                 width: 100%;
                 max-width: 100%;
+
+                &.back {
+                    margin-bottom: 0;
+                }
             }
         }
     }
@@ -154,16 +165,36 @@ const emit = defineEmits(['delete-flashcard'])
         .delete-flashcard {
             position: absolute;
             top: 0;
-            right: 0;
+            right: -48px;
             padding: 8px;
             cursor: pointer;
             color: @memo-grey-light;
             transition: color 0.3s ease-in-out;
             font-size: 18px;
+            z-index: 2000;
 
             &:hover {
                 color: @memo-grey;
             }
+        }
+    }
+
+
+    &.hover {
+        background-color: @memo-grey-lightest;
+        margin-left: -64px;
+        margin-right: -64px;
+        padding-left: 64px;
+        padding-right: 64px;
+    }
+}
+</style>
+
+<style lang="less">
+#AiFlashCard {
+    .flashcard-content {
+        .ProseMirror {
+            background-color: white;
         }
     }
 }

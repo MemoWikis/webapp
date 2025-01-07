@@ -82,5 +82,9 @@ public class Settings
     public static List<string> TrackersToIgnore => _trackersToIgnoreString.Split(',').ToList();
 
     public static string OpenAIApiKey => _configuration["OpenAI:ApiKey"];
+    public static string OpenAIModel => _configuration["OpenAI:Model"];
+    public static string AnthropicApiKey => _configuration["Anthropic:ApiKey"];
+    public static string AnthropicModel => _configuration["Anthropic:Model"];
+    public static string AnthropicVersion => _configuration["Anthropic:Version"];
 
 }
