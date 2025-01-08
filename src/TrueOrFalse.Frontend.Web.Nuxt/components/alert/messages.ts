@@ -66,6 +66,7 @@ export const messages: any = {
                 `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
+            couldNotAddFlashcards: "Die Karteikarten konnten nicht hinzugefügt werden.",
         },
         user: {
             notLoggedIn: "Bitte logge dich ein.",
@@ -104,6 +105,9 @@ export const messages: any = {
             couldNotConnect: "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
             authenticationFailed: "Die Authentifizierung ist fehlgeschlagen.",
             connectionLost: "Die Verbindung zur Live-Version wurde unterbrochen.",
+        },
+        ai: {
+            couldNotCreateFlashcards: "Es konnten keine Karteikarten erstellt werden.",
         }
     },
     info: {

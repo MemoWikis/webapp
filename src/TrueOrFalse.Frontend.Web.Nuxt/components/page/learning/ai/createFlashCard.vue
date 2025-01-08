@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { messages } from '~/components/alert/messages'
 import { GeneratedFlashCard, usePageStore } from '../../pageStore'
-const pageStore = usePageStore()
 
+const pageStore = usePageStore()
+const snackbar = useSnackbar()
 const show = ref(false)
 
 const acceptFlashCards = async () => {
@@ -23,7 +25,11 @@ const acceptFlashCards = async () => {
     if (result.success && result.ids) {
         pageStore.updateQuestionCount()
     } else if (result.messageKey) {
-        console.log(result.messageKey)
+        snackbar.add({
+            type: 'error',
+            text: { html: messages.getByCompositeKey(result.messageKey) },
+            dismissible: true
+        })
     }
 
     show.value = false
@@ -34,16 +40,28 @@ const flashcards = ref<GeneratedFlashCard[]>([])
 pageStore.$onAction(({ name, after }) => {
     if (name === 'generateFlashCard') {
         after((result) => {
-            if (result) {
+            if (result.length > 0) {
                 show.value = true
                 flashcards.value = result
+            } else {
+                snackbar.add({
+                    type: 'error',
+                    text: { html: messages.error.ai.couldNotCreateFlashcards },
+                    dismissible: true
+                })
             }
         })
     }
     if (name === 'reGenerateFlashCard') {
         after((result) => {
-            if (result) {
+            if (result.length > 0) {
                 flashcards.value = result
+            } else {
+                snackbar.add({
+                    type: 'error',
+                    text: { html: messages.error.ai.couldNotCreateFlashcards },
+                    dismissible: true
+                })
             }
         })
     }

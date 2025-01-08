@@ -7,11 +7,8 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
 
     public record struct BackJson(string Text);
 
-    public static string GetPrompt(string sourceText, int pageId, PermissionCheck permissionCheck)
+    public static string GetPromptO1(string sourceText, string flashcards)
     {
-        var existingFlashCards = GetFlashCardsOnPage(pageId, permissionCheck);
-        var flashcards = JsonSerializer.Serialize(existingFlashCards);
-
         return @"
             Antworte mit Karteikarten als JSON-Array, das zwei Eigenschaften enthält: 'Front' und 'Back'. 
             Beispiel für JSON-Array:
@@ -38,11 +35,8 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
             Gib nur die neuen Karteikarten als JSON-Array aus, ohne jede weitere Erklärung oder Codeblöcke.";
     }
 
-    public static string GetPromptOpus(string sourceText, int pageId, PermissionCheck permissionCheck)
+    public static string GetPromptOpus(string sourceText, string flashcards)
     {
-        var existingFlashCards = GetFlashCardsOnPage(pageId, permissionCheck);
-        var flashcards = JsonSerializer.Serialize(existingFlashCards);
-
         return @"
             Antworte mit Karteikarten als JSON-Array, das zwei Eigenschaften enthält: 'Front' und 'Back'. 
             Beispiel für JSON-Array: 
@@ -108,10 +102,22 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
         PermissionCheck permissionCheck,
         AiModel model = AiModel.Claude)
     {
+        var existingFlashCards = GetFlashCardsOnPage(pageId, permissionCheck);
+        var flashcards = JsonSerializer.Serialize(existingFlashCards);
+
+        string promptContent = GetPromptOpus(text, flashcards);
+        if (string.IsNullOrWhiteSpace(promptContent))
+            return new List<FlashCard>();
+
+        return await Generate(promptContent, model);
+    }
+
+    public static async Task<List<FlashCard>> Generate(string promptContent, AiModel model)
+    {
         return model switch
         {
-            AiModel.ChatGPT => await ChatGPTService.GenerateFlashcardsAsync(text, pageId, permissionCheck),
-            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(text, pageId, permissionCheck),
+            AiModel.ChatGPT => await ChatGPTService.GenerateFlashcardsAsync(promptContent),
+            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(promptContent),
             _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
         };
     }

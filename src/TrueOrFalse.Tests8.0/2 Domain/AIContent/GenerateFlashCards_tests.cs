@@ -1,196 +1,195 @@
-﻿
-//using FakeItEasy;
-//using OpenAI.Chat;
-//using System.Text.Json;
-//using TrueOrFalse;
-//class GenerateFlashCards_tests : BaseTest
-//{
+﻿using System.Text.Json;
+class GenerateFlashCards_tests : BaseTest
+{
+    private const int PageId = 1;
+    private const string ShortSourceText = SourceTexts.ShortSourceText;
+    //private const string MediumSourceText = SourceTexts.MediumSourceText;
+    private const string LongSourceText = SourceTexts.LongSourceText;
 
-//    private const int PageId = 1;
-//    private const string SourceText = "Sample source text for generating flashcards.";
-//    private const string LongSourceText = ""
+    [Test]
+    public async Task Should_generate_flashcards_for_shortSourceText()
+    {
+        // Arrange
+        var context = ContextPage.New();
 
-//    [Test]
-//    public async Task Generate
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
 
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
 
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
 
+        // Act
+        var flashCards = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        Console.WriteLine("Should_generate_flashcards_for_shortSourceText");
 
-//    [Test]
-//    public async Task Generate_Returns_CorrectFlashCards_When_AiResponseIsValid()
-//    {
-//        // Arrange
-//        // Add existing flashcards to EntityCache
-//        var existingQuestions = new List<Question>
-//            {
-//                new Question
-//                {
-//                    TextHtml = "Existing Front 1",
-//                    Solution = JsonSerializer.Serialize(new AiFlashCard.BackJson("Existing Back 1")),
-//                    SolutionType = SolutionType.FlashCard
-//                },
-//                new Question
-//                {
-//                    TextHtml = "Existing Front 2",
-//                    Solution = JsonSerializer.Serialize(new AiFlashCard.BackJson("Existing Back 2")),
-//                    SolutionType = SolutionType.FlashCard
-//                }
-//            };
-//        EntityCache.AddQuestionsForPage(PageId, existingQuestions);
+        // Assert
+        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
+        Assert.That(flashCards.Count, Is.GreaterThan(0), "Flashcards should be generated.");
 
-//        // Mock ChatClient behavior
-//        var fakeChatCompletion = new ChatCompletion
-//        {
-//            Content = new List<ChatContent>
-//                {
-//                    new ChatContent { Text = JsonSerializer.Serialize(new List<AiFlashCard.FlashCard>
-//                    {
-//                        new AiFlashCard.FlashCard("New Front 1", "New Back 1"),
-//                        new AiFlashCard.FlashCard("New Front 2", "New Back 2")
-//                    })}
-//                }
-//        };
+        foreach (var flashCard in flashCards)
+        {
+            Assert.That(flashCard.Front, Is.Not.Null.Or.Empty, "Flashcard 'Front' should not be null or empty.");
+            Assert.That(flashCard.Back, Is.Not.Null.Or.Empty, "Flashcard 'Back' should not be null or empty.");
+        }
+    }
 
-//        // Fake the ChatClient's CompleteChatAsync method
-//        A.CallTo(() => ChatClientWrapper.CompleteChatAsync(A<string>.Ignored))
-//            .Returns(Task.FromResult(fakeChatCompletion));
+    [Test]
+    public async Task Should_generate_sensible_amount_of_flashcards_for_shortSourceText()
+    {
+        // Arrange
+        var context = ContextPage.New();
 
-//        // Act
-//        var result = await _aiFlashCard.Generate(SourceText, PageId, _permissionCheck);
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
 
-//        // Assert
-//        Assert.NotNull(result);
-//        Assert.AreEqual(2, result.Count);
-//        Assert.IsTrue(result.Exists(fc => fc.Front == "New Front 1" && fc.Back == "New Back 1"));
-//        Assert.IsTrue(result.Exists(fc => fc.Front == "New Front 2" && fc.Back == "New Back 2"));
-//    }
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
 
-//    [Test]
-//    public async Task Generate_DoesNotInclude_DuplicateFlashCards()
-//    {
-//        // Arrange
-//        // Add existing flashcards to EntityCache
-//        var existingQuestions = new List<Question>
-//            {
-//                new Question
-//                {
-//                    TextHtml = "Existing Front",
-//                    Solution = JsonSerializer.Serialize(new AiFlashCard.BackJson("Existing Back")),
-//                    SolutionType = SolutionType.FlashCard
-//                }
-//            };
-//        EntityCache.AddQuestionsForPage(PageId, existingQuestions);
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
 
-//        // Mock ChatClient behavior with a duplicate flashcard
-//        var fakeChatCompletion = new ChatCompletion
-//        {
-//            Content = new List<ChatContent>
-//                {
-//                    new ChatContent { Text = JsonSerializer.Serialize(new List<AiFlashCard.FlashCard>
-//                    {
-//                        new AiFlashCard.FlashCard("Existing Front", "Existing Back"), // Duplicate
-//                        new AiFlashCard.FlashCard("Unique Front", "Unique Back")
-//                    })}
-//                }
-//        };
+        // Act
+        var flashCards = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
 
-//        // Fake the ChatClient's CompleteChatAsync method
-//        A.CallTo(() => ChatClientWrapper.CompleteChatAsync(A<string>.Ignored))
-//            .Returns(Task.FromResult(fakeChatCompletion));
+        // Assert
+        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
+        Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(2), "Flashcard count should pass min threshold.");
+        Assert.That(flashCards.Count, Is.LessThan(9), "Flashcard count should not pass sensible threshold.");
+    }
 
-//        // Act
-//        var result = await _aiFlashCard.Generate(SourceText, PageId, _permissionCheck);
+    [Test]
+    public async Task Should_not_generate_duplicates_for_shortSourceText()
+    {
+        // Arrange
+        var context = ContextPage.New();
 
-//        // Assert
-//        Assert.NotNull(result);
-//        Assert.AreEqual(1, result.Count);
-//        Assert.IsTrue(result.Exists(fc => fc.Front == "Unique Front" && fc.Back == "Unique Back"));
-//        Assert.IsFalse(result.Exists(fc => fc.Front == "Existing Front" && fc.Back == "Existing Back"));
-//    }
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
 
-//    [Test]
-//    public async Task Generate_Returns_EmptyList_When_AiReturns_NoFlashCards()
-//    {
-//        // Arrange
-//        // No existing flashcards
-//        EntityCache.AddQuestionsForPage(PageId, new List<Question>());
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
 
-//        // Mock ChatClient behavior with empty flashcards
-//        var fakeChatCompletion = new ChatCompletion
-//        {
-//            Content = new List<ChatContent>
-//                {
-//                    new ChatContent { Text = JsonSerializer.Serialize(new List<AiFlashCard.FlashCard>()) }
-//                }
-//        };
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
 
-//        // Fake the ChatClient's CompleteChatAsync method
-//        A.CallTo(() => ChatClientWrapper.CompleteChatAsync(A<string>.Ignored))
-//            .Returns(Task.FromResult(fakeChatCompletion));
+        // Act
+        var flashCardsBase = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
-//        // Act
-//        var result = await _aiFlashCard.Generate(SourceText, PageId, _permissionCheck);
+        var newFlashCards = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
-//        // Assert
-//        Assert.NotNull(result);
-//        Assert.IsEmpty(result);
-//    }
+        //Assert
+        var assertPrompt = $@"Hier sind zwei Listen die Karteikarten mit den Eigenschaften \""Front\"" und \""Back\"". 
+            Liste A: {flashCardsBaseJson} und Liste B: {newFlashCardsJson}.
+            Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
+            Falls es Duplikate gibt antworte mit true.
+            Falls es keine Duplikate gibt antworte mit false.";
 
-//    [Test]
-//    public async Task Generate_Returns_EmptyList_When_AiReturns_InvalidJson()
-//    {
-//        // Arrange
-//        // No existing flashcards
-//        EntityCache.AddQuestionsForPage(PageId, new List<Question>());
+        var response = ClaudeService.GetJsonData(assertPrompt);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(response);
 
-//        // Mock ChatClient behavior with invalid JSON
-//        var invalidJson = "This is not a valid JSON string.";
+        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"));
+    }
 
-//        var fakeChatCompletion = new ChatCompletion
-//        {
-//            Content = new List<ChatContent>
-//                {
-//                    new ChatContent { Text = invalidJson }
-//                }
-//        };
+    [Test]
+    public async Task Should_generate_flashcards_for_longSourceText()
+    {
+        // Arrange
+        var context = ContextPage.New();
 
-//        // Fake the ChatClient's CompleteChatAsync method
-//        A.CallTo(() => ChatClientWrapper.CompleteChatAsync(A<string>.Ignored))
-//            .Returns(Task.FromResult(fakeChatCompletion));
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
 
-//        // Act
-//        var result = await _aiFlashCard.Generate(SourceText, PageId, _permissionCheck);
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
 
-//        // Assert
-//        Assert.NotNull(result);
-//        Assert.IsEmpty(result);
-//    }
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
 
-//    [Test]
-//    public async Task Generate_Returns_EmptyList_When_AiResponseIsEmpty()
-//    {
-//        // Arrange
-//        // No existing flashcards
-//        EntityCache.AddQuestionsForPage(PageId, new List<Question>());
+        // Act
+        var flashCards = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        Console.WriteLine("Should_generate_flashcards_for_longSourceText");
 
-//        // Mock ChatClient behavior with empty content
-//        var fakeChatCompletion = new ChatCompletion
-//        {
-//            Content = new List<ChatContent>() // No content returned
-//        };
+        // Assert
+        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
+        Assert.That(flashCards.Count, Is.GreaterThan(0), "Flashcards should be generated.");
 
-//        // Fake the ChatClient's CompleteChatAsync method
-//        A.CallTo(() => ChatClientWrapper.CompleteChatAsync(A<string>.Ignored))
-//            .Returns(Task.FromResult(fakeChatCompletion));
+        foreach (var flashCard in flashCards)
+        {
+            Assert.That(flashCard.Front, Is.Not.Null.Or.Empty, "Flashcard 'Front' should not be null or empty.");
+            Assert.That(flashCard.Back, Is.Not.Null.Or.Empty, "Flashcard 'Back' should not be null or empty.");
+        }
+    }
 
-//        // Act
-//        var result = await _aiFlashCard.Generate(SourceText, PageId, _permissionCheck);
+    [Test]
+    public async Task Should_generate_sensible_amount_of_flashcards_for_longSourceText()
+    {
+        // Arrange
+        var context = ContextPage.New();
 
-//        // Assert
-//        Assert.NotNull(result);
-//        Assert.IsEmpty(result);
-//    }
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
 
-//    // Additional tests can be added here to cover more scenarios
-//}
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
+
+        // Act
+        var flashCards = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+
+        // Assert
+        Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
+        Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(5), "Flashcard count should pass min threshold.");
+        Assert.That(flashCards.Count, Is.LessThan(20), "Flashcard count should not pass sensible threshold.");
+    }
+
+    [Test]
+    public async Task Should_not_generate_duplicates_for_longSourceText()
+    {
+        // Arrange
+        var context = ContextPage.New();
+
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
+
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
+
+        // Act
+        var flashCardsBase = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
+
+        var newFlashCards = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
+
+        //Assert
+        var assertPrompt = $@"Hier sind zwei Listen die Karteikarten mit den Eigenschaften \""Front\"" und \""Back\"". 
+            Liste A: {flashCardsBaseJson} und Liste B: {newFlashCardsJson}.
+            Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
+            Falls es Duplikate gibt antworte mit true.
+            Falls es keine Duplikate gibt antworte mit false.";
+
+        var response = ClaudeService.GetJsonData(assertPrompt);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(response);
+
+        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"));
+    }
+}
 

@@ -422,7 +422,7 @@ export const usePageStore = defineStore('pageStore', {
 				this.analyticsLoaded = true
 			}
 		},
-		async generateFlashCard(selectedText?: string) {
+		async generateFlashCard(selectedText?: string): Promise<GeneratedFlashCard[]> {
 			const spinnerStore = useSpinnerStore()
 			spinnerStore.showSpinner()
 			const data = {
@@ -443,7 +443,7 @@ export const usePageStore = defineStore('pageStore', {
 
 			return result
 		},
-		async reGenerateFlashCard() {
+		async reGenerateFlashCard():Promise<GeneratedFlashCard[]>  {
 			return await this.generateFlashCard(this.selectedText)
 		},
 		async updateQuestionCount() {
