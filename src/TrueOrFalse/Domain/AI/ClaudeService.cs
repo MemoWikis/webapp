@@ -33,11 +33,14 @@ public static class ClaudeService
         }
     }
 
-    public static string GetJsonData(string promptContent)
+    public static string GetRequestJson(string promptContent, string model = "")
     {
+        if (string.IsNullOrWhiteSpace(model))
+            model = Settings.AnthropicModel;
+
         var request = new
         {
-            model = Settings.AnthropicModel,
+            model,
             max_tokens = 8192,
             messages = new[]
             {
@@ -54,11 +57,11 @@ public static class ClaudeService
 
     public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string promptContent)
     {
-        var jsonData = GetJsonData(promptContent);
+        var jsonData = GetRequestJson(promptContent);
         using var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
         try
         {
-            var response = await httpClient.PostAsync("/v1/messages", content);
+            var response = await httpClient.PostAsync("https://api.anthropic.com/v1/messages", content);
 
             response.EnsureSuccessStatusCode();
 

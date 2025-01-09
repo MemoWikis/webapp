@@ -31,44 +31,55 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
               Wenn ja, erstelle KEINE Duplikate oder leicht umformulierte Varianten. 
             - Erstelle nur Karteikarten, die inhaltlich zum folgenden Text passen und sich nicht inhaltlich wiederholen:
             " + sourceText + @"
-            
-            Gib nur die neuen Karteikarten als JSON-Array aus, ohne jede weitere Erklärung oder Codeblöcke.";
+            Gib nur die neuen Karteikarten als JSON-Array aus, ohne jede weitere Erklärung oder Codeblöcke. Überprüfe nochmal ob es inhaltiche Duplikate gibt, falls ja entferne diese, und gebe mir nur die neuen Karteikarten.";
     }
 
     public static string GetPromptOpus(string sourceText, string flashcards)
     {
         return @"
-            Antworte mit Karteikarten als JSON-Array, das zwei Eigenschaften enthält: 'Front' und 'Back'. 
-            Beispiel für JSON-Array: 
-            [
-                { 'Front': 'Was ist die Hauptstadt von Deutschland?', 'Back': 'Berlin' },
-                { 'Front': 'Was ist die Hauptstadt von Frankreich?', 'Back': 'Paris' }
-            ]
-            Formatierung: Wichtige Worte können kursiv mit <em>, fett mit <strong> oder mit einem Unterstrich mit <u> per HTML-Tags formatiert werden. Listen sind auch möglich. Formatiere mit HTML-Tags.
-
-            'Front':  
-                - ist die Vorderseite der Karteikarte,
-                - soll nur eine einzige Frage, ein Wort, einen Begriff, einen Satz oder eine Phrase enthalten,
-
-            'Back'
-               - ist die Rückseite der Karteikarte,
+            Antworte ausschließlich mit einem JSON-Array von Karteikarten.
+            Jede Karteikarte hat zwei Eigenschaften: 'Front' und 'Back'.
             
-            Folgende Karteikarten existieren bereits: " +
-                   flashcards +
-                   @"
-            Prüfe sorgfältig auf Duplikate, indem du den Inhalt der Vorder- und Rückseite vergleichst. Die erstellten Karteikarten dürfen keine Duplikate enthalten, weder untereinander noch zu den bereits existierenden Karten.
-
-            Gehe wie folgt vor:
-            1. Extrahiere die relevanten Informationen aus dem Quelltext.
-            2. Formuliere daraus potenzielle Karteikarten. 
-            3. Vergleiche jede potenzielle Karteikarte mit den bereits existierenden Karten und den zuvor erstellten potenziellen Karten.
-            4. Wenn es ein Duplikat gibt, verwirf die Karte. Wenn es kein Duplikat ist, füge die Karte zum Ergebnis-Array hinzu.
-            5. Wiederhole die Schritte 3-4 für jede potenzielle Karteikarte.
-
-            Mache keine Erklärung, wrappe die Antwort nicht in einem Code-Block. 
-            Erstelle Karteikarten basierend auf diesem Text (nur fachlich passend) und erstelle keine inhaltlichen Duplikate zu den existierenden Karteikarten:" +
-               sourceText;
+            Beispiel für ein JSON-Array:
+            [
+              { 'Front': 'Was ist die Hauptstadt von Deutschland?', 'Back': 'Berlin' },
+              { 'Front': 'Was ist die Hauptstadt von Frankreich?', 'Back': 'Paris' }
+            ]
+            
+            Formatierungshinweise:
+            - Verwende nur HTML-Tags für Hervorhebungen (<em>, <strong>, <u>) oder Listen.
+            - Mache keine zusätzlichen Erläuterungen.
+            - Gib keinerlei Ausgabe in Code-Blöcken zurück.
+            
+            'Front':
+            - Enthält nur eine einzige Frage, einen Begriff, einen Satz oder eine Phrase.
+            'Back':
+            - Enthält die passende Antwort oder Erklärung.
+            
+            Berücksichtige vorhandene Karteikarten:
+            " + flashcards + @"
+            
+            Achte unbedingt darauf:
+            - Die Sprache der erstellten Karteikarten muss exakt mit der des Quelltextes übereinstimmen.
+            - Sollte der Quelltext gemischte Sprachen enthalten, verwende die dominante Sprache.
+            
+            Deine Aufgabe:
+            1. Lies den folgenden Quelltext aufmerksam:
+               """ + sourceText + @"""
+            2. Extrahiere daraus relevante Konzepte und formuliere neue potenzielle Karteikarten in derselben Sprache wie der Quelltext.
+            3. Prüfe jede potenzielle Karte gründlich gegen die vorhandenen Karten und untereinander:
+               - Vergleiche sowohl 'Front' als auch 'Back' (ignoriere Groß- und Kleinschreibung, Satzzeichen und kleinere Abweichungen).
+               - Stelle sicher, dass sich keine Duplikate einschleichen.
+            4. Verwirf jede potenzielle Karte, die inhaltlich bereits existiert (Duplikate von vorhandenen oder bereits erstellten Karten).
+            5. Gib ausschließlich die neuen, eindeutigen Karteikarten als JSON-Array zurück.
+            
+            Denke daran:
+            - Keine Erklärungen, keine Einleitungen oder Zusammenfassungen.
+            - Antworte nur mit dem JSON-Array (ohne Code-Blöcke).
+            ";
     }
+
+
 
     public static List<FlashCard> GetFlashCardsOnPage(int id, PermissionCheck permissionCheck)
     {

@@ -2,9 +2,7 @@
 class GenerateFlashCards_tests : BaseTest
 {
     private const int PageId = 1;
-    private const string ShortSourceText = SourceTexts.ShortSourceText;
-    //private const string MediumSourceText = SourceTexts.MediumSourceText;
-    private const string LongSourceText = SourceTexts.LongSourceText;
+    private const string ClaudeSonnetModel = "claude-3-5-sonnet-20241022";
 
     [Test]
     public async Task Should_generate_flashcards_for_shortSourceText()
@@ -23,7 +21,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
         Console.WriteLine("Should_generate_flashcards_for_shortSourceText");
 
         // Assert
@@ -54,7 +52,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -79,21 +77,23 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCardsBase = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, permissionCheck, AiModel.ChatGPT);
         var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
-        var newFlashCards = await AiFlashCard.Generate(ShortSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
+        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.ChatGPT);
         var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
         //Assert
         var assertPrompt = $@"Hier sind zwei Listen die Karteikarten mit den Eigenschaften \""Front\"" und \""Back\"". 
             Liste A: {flashCardsBaseJson} und Liste B: {newFlashCardsJson}.
             Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
-            Falls es Duplikate gibt antworte mit true.
-            Falls es keine Duplikate gibt antworte mit false.";
+            Teilweisende/Partiell überlappende Inhalte sind okay und sollten nicht als Duplikate gewertet werden.
+            Falls es Duplikate gibt antworte NUR mit true.
+            Falls es keine Duplikate gibt antworte NUR mit false.";
 
-        var response = ClaudeService.GetJsonData(assertPrompt);
-        var claudeResponse = await ClaudeService.GetClaudeResponse(response);
+        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
 
         Assert.NotNull(claudeResponse);
         Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"));
@@ -116,7 +116,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
         Console.WriteLine("Should_generate_flashcards_for_longSourceText");
 
         // Assert
@@ -147,7 +147,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -172,24 +172,84 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCardsBase = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.ChatGPT);
         var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
-        var newFlashCards = await AiFlashCard.Generate(LongSourceText, page.Id, permissionCheck, AiModel.Claude);
+        var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
+        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.ChatGPT);
         var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
         //Assert
         var assertPrompt = $@"Hier sind zwei Listen die Karteikarten mit den Eigenschaften \""Front\"" und \""Back\"". 
             Liste A: {flashCardsBaseJson} und Liste B: {newFlashCardsJson}.
             Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
-            Falls es Duplikate gibt antworte mit true.
-            Falls es keine Duplikate gibt antworte mit false.";
+            Falls es Duplikate gibt antworte NUR mit true oder fall es keine Duplikate gibt antworte NUR mit false. Keine Erklärung.";
 
-        var response = ClaudeService.GetJsonData(assertPrompt);
-        var claudeResponse = await ClaudeService.GetClaudeResponse(response);
+        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
 
         Assert.NotNull(claudeResponse);
         Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"));
+    }
+
+    [Test]
+    public async Task Should_generate_flashcards_in_same_language_Long_EN()
+    {
+        // Arrange
+        var context = ContextPage.New();
+
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
+
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
+
+        // Act
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.ChatGPT);
+        var flashCardsJson = JsonSerializer.Serialize(flashCards);
+
+        //Assert
+        var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextEN} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
+
+        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
+
+        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("true"));
+    }
+
+    [Test]
+    public async Task Should_generate_flashcards_in_same_language_Long_DE()
+    {
+        // Arrange
+        var context = ContextPage.New();
+
+        // Assuming the test page needs to exist
+        context.Add("TestPage").Persist();
+        var page = context.All.ByName("TestPage");
+        context.AddToEntityCache(page);
+
+        var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+
+        // Optionally, initialize entity cache or other dependencies
+        RecycleContainerAndEntityCache();
+
+        // Act
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, permissionCheck, AiModel.ChatGPT);
+        var flashCardsJson = JsonSerializer.Serialize(flashCards);
+
+        //Assert
+        var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextDE} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
+
+        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
+
+        Assert.NotNull(claudeResponse);
+        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("true"));
     }
 }
 
