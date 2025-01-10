@@ -3,6 +3,7 @@ class GenerateFlashCards_tests : BaseTest
 {
     private const int PageId = 1;
     private const string ClaudeSonnetModel = "claude-3-5-sonnet-20241022";
+    private const int DefaultUserId = 1;
 
     [Test]
     public async Task Should_generate_flashcards_for_shortSourceText()
@@ -21,8 +22,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
-        Console.WriteLine("Should_generate_flashcards_for_shortSourceText");
+        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -52,7 +52,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -77,11 +77,11 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, permissionCheck, AiModel.ChatGPT);
+        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
         var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
         var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
-        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.ChatGPT);
+        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
         var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
         //Assert
@@ -116,7 +116,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
         Console.WriteLine("Should_generate_flashcards_for_longSourceText");
 
         // Assert
@@ -147,13 +147,14 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.Claude);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
         Assert.That(flashCards.Count, Is.GreaterThanOrEqualTo(5), "Flashcard count should pass min threshold.");
         Assert.That(flashCards.Count, Is.LessThan(20), "Flashcard count should not pass sensible threshold.");
     }
+
 
     [Test]
     public async Task Should_not_generate_duplicates_for_longSourceText()
@@ -172,11 +173,11 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.ChatGPT);
+        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
         var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
         var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
-        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.ChatGPT);
+        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
         var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
         //Assert
@@ -209,7 +210,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, permissionCheck, AiModel.ChatGPT);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
         var flashCardsJson = JsonSerializer.Serialize(flashCards);
 
         //Assert
@@ -239,7 +240,7 @@ class GenerateFlashCards_tests : BaseTest
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, permissionCheck, AiModel.ChatGPT);
+        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
         var flashCardsJson = JsonSerializer.Serialize(flashCards);
 
         //Assert

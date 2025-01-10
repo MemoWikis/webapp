@@ -110,6 +110,7 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
     public static async Task<List<FlashCard>> Generate(
         string text,
         int pageId,
+        int userId,
         PermissionCheck permissionCheck,
         AiModel model = AiModel.Claude)
     {
@@ -120,15 +121,15 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
         if (string.IsNullOrWhiteSpace(promptContent))
             return new List<FlashCard>();
 
-        return await Generate(promptContent, model);
+        return await Generate(promptContent, model, userId, pageId);
     }
 
-    public static async Task<List<FlashCard>> Generate(string promptContent, AiModel model)
+    public static async Task<List<FlashCard>> Generate(string promptContent, AiModel model, int userId, int pageId)
     {
         return model switch
         {
             AiModel.ChatGPT => await ChatGPTService.GenerateFlashcardsAsync(promptContent),
-            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(promptContent),
+            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(promptContent, userId, pageId),
             _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
         };
     }

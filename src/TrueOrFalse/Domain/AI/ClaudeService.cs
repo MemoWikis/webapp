@@ -25,10 +25,15 @@ public static class ClaudeService
             response.EnsureSuccessStatusCode();
             var responseBody = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<AnthropicApiResponse>(responseBody);
-
         }
         catch (HttpRequestException ex)
         {
+            Logg.r.Error(ex, "Error while calling Claude API");
+            return null;
+        }
+        catch (JsonException)
+        {
+            Logg.r.Error("Error while deserializing Claude API response");
             return null;
         }
     }
@@ -55,38 +60,18 @@ public static class ClaudeService
         return JsonSerializer.Serialize(request);
     }
 
-    public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string promptContent)
+    public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string promptContent, int userId, int pageId)
     {
         var jsonData = GetRequestJson(promptContent);
-        using var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-        try
+        var response = await GetClaudeResponse(jsonData);
+
+        if (response is { Role: "assistant", Content.Count: > 0 }
+            && !string.IsNullOrWhiteSpace(response.Content[0].Text))
         {
-            var response = await httpClient.PostAsync("https://api.anthropic.com/v1/messages", content);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-
-            var responseJson = JsonSerializer.Deserialize<AnthropicApiResponse>(responseBody);
-            Console.WriteLine(responseBody);
-
-            if (responseJson?.Role == "assistant"
-                && responseJson.Content?.Count > 0
-                && !string.IsNullOrWhiteSpace(responseJson.Content[0].Text))
-            {
-                var flashCards = JsonSerializer.Deserialize<List<FlashCard>>(responseJson.Content[0].Text);
-                return flashCards ?? new List<FlashCard>();
-            }
-
-            return new List<FlashCard>();
+            var flashCards = JsonSerializer.Deserialize<List<FlashCard>>(response.Content[0].Text);
+            return flashCards ?? new List<FlashCard>();
         }
-        catch (HttpRequestException ex)
-        {
-            return new List<FlashCard>();
-        }
-        catch (JsonException)
-        {
-            return new List<FlashCard>();
-        }
+
+        return new List<FlashCard>();
     }
 }

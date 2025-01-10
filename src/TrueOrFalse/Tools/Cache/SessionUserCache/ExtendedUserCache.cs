@@ -235,4 +235,12 @@ public class ExtendedUserCache(
             TimeSpan.FromMinutes(ExpirationSpanInMinutes),
             slidingExpiration: true);
     }
+
+    private void PopulateTokenUsage(ExtendedUserCacheItem cacheItem, AiUsageLogRepo _aiUsageLogRepo)
+    {
+        if (cacheItem.MonthlyTokenUsage == null)
+        {
+            cacheItem.MonthlyTokenUsage = new MonthlyTokenUsage(cacheItem.Id, _aiUsageLogRepo);
+        }
+    }
 }

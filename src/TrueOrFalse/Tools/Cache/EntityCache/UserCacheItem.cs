@@ -51,6 +51,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public List<int> FavoriteIds { get; set; } = new List<int>();
     public List<PageCacheItem?> Favorites => EntityCache.GetPages(FavoriteIds);
     public RecentPages? RecentPages { get; set; }
+    public MonthlyTokenUsage? MonthlyTokenUsage { get; set; }
 
     public void Populate(User user)
     {
