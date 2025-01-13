@@ -19,11 +19,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCards = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
@@ -50,12 +50,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCards = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
@@ -77,12 +76,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCardsBase = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
@@ -118,12 +116,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
@@ -151,12 +148,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
@@ -179,12 +175,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCardsBase = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
@@ -218,12 +213,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
@@ -250,12 +244,11 @@ class GenerateFlashCards_tests : BaseTest
         var page = context.All.ByName("TestPage");
         context.AddToEntityCache(page);
 
+        RecycleContainerAndEntityCache();
+
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
         var aiUsageLogRepo = R<AiUsageLogRepo>();
         var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
-
-        // Optionally, initialize entity cache or other dependencies
-        RecycleContainerAndEntityCache();
 
         // Act
         var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
