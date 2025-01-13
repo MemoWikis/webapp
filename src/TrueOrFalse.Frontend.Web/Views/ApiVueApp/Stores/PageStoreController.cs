@@ -13,12 +13,14 @@ public class PageStoreController(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    PageRepository pageRepository,
+    PageRepository _pageRepository,
     IHttpContextAccessor _httpContextAccessor,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
     PageUpdater _pageUpdater,
-    ImageStore _imageStore) : Controller
+    ImageStore _imageStore,
+    Logg _logg,
+    AiUsageLogRepo _aiUsageLogRepo) : Controller
 {
     public readonly record struct SaveContentRequest(
         int Id,
@@ -45,14 +47,14 @@ public class PageStoreController(
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var page = pageRepository.GetByIdEager(req.Id);
+        var page = _pageRepository.GetByIdEager(req.Id);
 
         if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         pageCacheItem.Content = req.Content;
         page.Content = req.Content;
-        pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
+        _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
         EntityCache.AddOrUpdate(pageCacheItem);
 
@@ -85,14 +87,14 @@ public class PageStoreController(
                 MessageKey = FrontendMessageKeys.Error.Page.MissingRights
             };
 
-        var page = pageRepository.GetByIdEager(req.Id);
+        var page = _pageRepository.GetByIdEager(req.Id);
 
         if (page == null)
             return new SaveResult { Success = false, MessageKey = FrontendMessageKeys.Error.Default };
 
         pageCacheItem.Name = req.Name.Trim();
         page.Name = req.Name.Trim();
-        pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
+        _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
 
         EntityCache.AddOrUpdate(pageCacheItem);
 
@@ -292,24 +294,32 @@ public class PageStoreController(
     }
 
     public readonly record struct GenerateFlashCardRequest(int PageId, string Text, int? Count = 3);
+
     [HttpPost]
     [ItemCanBeNull]
-    public async Task<List<GenerateFlashCardResponse>> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
+    public async Task<GenerateFlashCardResponse?> GenerateFlashCard([FromBody] GenerateFlashCardRequest req)
     {
-        if (!_permissionCheck.CanViewPage(req.PageId))
+        if (!_permissionCheck.CanViewPage(req.PageId) || !_sessionUser.IsLoggedIn)
             return null;
 
-        if (!_sessionUser.IsInstallationAdmin)
-            return null;
+        var aiFlashCard = new AiFlashCard(_aiUsageLogRepo);
+        var flashcards = await aiFlashCard.Generate(req.Text, req.PageId, _sessionUser.UserId, _permissionCheck);
+        string? messageKey = null;
 
-        var flashcards = await AiFlashCard.Generate(req.Text, req.PageId, _sessionUser.UserId, _permissionCheck);
+        if (flashcards.Count == 0)
+            messageKey = FrontendMessageKeys.Error.Ai.NoFlashCardsGenerated;
 
-        var response = flashcards.Select(f => new GenerateFlashCardResponse(f.Front, f.Back)).ToList();
+        if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion())
+            messageKey = FrontendMessageKeys.Info.Ai.FlashcardsCreatedWillBePublicCauseLimit;
+        else if (new LimitCheck(_logg, _sessionUser).NewPrivateQuestionsWillExceedLimit(flashcards.Count))
+            messageKey = FrontendMessageKeys.Info.Ai.SomeFlashcardsCreatedWillBePublicCauseLimit;
+
+        var response = new GenerateFlashCardResponse(flashcards, messageKey);
 
         return response;
     }
 
-    public record struct GenerateFlashCardResponse(string Front, string Back);
+    public record struct GenerateFlashCardResponse(List<AiFlashCard.FlashCard> Flashcards, string? MessageKey);
 
     [HttpGet]
     public int GetQuestionCount([FromRoute] int id)

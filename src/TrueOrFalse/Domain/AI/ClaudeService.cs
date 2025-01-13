@@ -60,10 +60,15 @@ public static class ClaudeService
         return JsonSerializer.Serialize(request);
     }
 
-    public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string promptContent, int userId, int pageId)
+    public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string promptContent, int userId, int pageId, AiUsageLogRepo aiUsageLogRepo)
     {
         var jsonData = GetRequestJson(promptContent);
         var response = await GetClaudeResponse(jsonData);
+
+        if (response != null)
+        {
+            aiUsageLogRepo.AddUsage(response, userId, pageId);
+        }
 
         if (response is { Role: "assistant", Content.Count: > 0 }
             && !string.IsNullOrWhiteSpace(response.Content[0].Text))

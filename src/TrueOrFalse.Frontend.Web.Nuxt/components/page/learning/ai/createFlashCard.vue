@@ -36,17 +36,18 @@ const acceptFlashCards = async () => {
 }
 
 const flashcards = ref<GeneratedFlashCard[]>([])
+const message = ref('')
 
 pageStore.$onAction(({ name, after }) => {
     if (name === 'generateFlashCard') {
         after((result) => {
-            if (result.length > 0) {
+            if (result.flashcards.length > 0) {
                 show.value = true
-                flashcards.value = result
-            } else {
+                flashcards.value = result.flashcards
+            } else if (result.messageKey) {
                 snackbar.add({
                     type: 'error',
-                    text: { html: messages.error.ai.couldNotCreateFlashcards },
+                    text: { html: result.messageKey },
                     dismissible: true
                 })
             }
@@ -54,12 +55,12 @@ pageStore.$onAction(({ name, after }) => {
     }
     if (name === 'reGenerateFlashCard') {
         after((result) => {
-            if (result.length > 0) {
-                flashcards.value = result
-            } else {
+            if (result.flashcards.length > 0) {
+                flashcards.value = result.flashcards
+            } else if (result.messageKey) {
                 snackbar.add({
                     type: 'error',
-                    text: { html: messages.error.ai.couldNotCreateFlashcards },
+                    text: { html: result.messageKey },
                     dismissible: true
                 })
             }
@@ -81,6 +82,8 @@ const deleteFlashcard = (index: number) => {
             <h3>Vorschau</h3>
         </template> -->
         <template #body>
+            <!-- add info div with message -->
+            <div v-if="message" class="alert alert-info" v-html="message"></div>
             <div id="AiFlashCard">
                 <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i" @delete-flashcard="deleteFlashcard" />
                 <div v-if="flashcards.length === 0" class="no-flashcards">

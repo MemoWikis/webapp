@@ -12,7 +12,8 @@ public class AiCreateFlashCardController(
     QuestionInKnowledge _questionInKnowledge,
     PageRepository pageRepository,
     UserReadingRepo _userReadingRepo,
-    QuestionWritingRepo _questionWritingRepo) : Controller
+    QuestionWritingRepo _questionWritingRepo,
+    Logg _logg) : Controller
 {
     public readonly record struct FlashCardJson(string front, string back);
 
@@ -81,7 +82,8 @@ public class AiCreateFlashCardController(
             pageRepository.GetById(pageId)
         };
 
-        question.Visibility = QuestionVisibility.Owner;
+        question.Visibility = new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion() ? QuestionVisibility.Owner : QuestionVisibility.All;
+
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         _questionWritingRepo.Create(question, pageRepository);

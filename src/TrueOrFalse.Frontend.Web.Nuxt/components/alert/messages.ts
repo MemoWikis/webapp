@@ -126,6 +126,10 @@ export const messages: any = {
         joinNow: 'Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!',
         feed: {
             private: 'Nur Du kannst diesen Eintrag sehen'
+        },
+        ai: {
+            flashcardsCreatedWillBePublicCauseLimit: "Die folgenden Karteikarten werden öffentlich erstellt, da Du die maximale Anzahl an privaten Fragen erreicht hast.",
+            someFlashcardsCreatedWillBePublicCauseLimit: "Einige der folgenden Karteikarten werden öffentlich erstellt, da Du die maximale Anzahl an privaten Fragen erreicht hast."
         }
     },
     getByCompositeKey(messageKey: string): string | undefined {

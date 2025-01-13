@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using Microsoft.AspNetCore.Http;
+using System.Text.Json;
+using VueApp;
+
 class GenerateFlashCards_tests : BaseTest
 {
     private const int PageId = 1;
@@ -17,12 +20,13 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
-
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+        var flashCards = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -47,12 +51,14 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+        var flashCards = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -72,16 +78,18 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+        var flashCardsBase = await aiFlashCard.Generate(SourceTexts.ShortSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
         var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
         var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
-        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
+        var newFlashCards = await aiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
         var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
         //Assert
@@ -111,12 +119,14 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
         Console.WriteLine("Should_generate_flashcards_for_longSourceText");
 
         // Assert
@@ -142,12 +152,14 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
 
         // Assert
         Assert.That(flashCards, Is.Not.Null, "Flashcards should not be null.");
@@ -168,16 +180,18 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCardsBase = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
+        var flashCardsBase = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.Claude);
         var flashCardsBaseJson = JsonSerializer.Serialize(flashCardsBase);
 
         var newPrompt = AiFlashCard.GetPromptOpus(SourceTexts.ShortSourceTextEN, flashCardsBaseJson);
-        var newFlashCards = await AiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
+        var newFlashCards = await aiFlashCard.Generate(newPrompt, AiModel.Claude, DefaultUserId, PageId);
         var newFlashCardsJson = JsonSerializer.Serialize(newFlashCards);
 
         //Assert
@@ -205,12 +219,14 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
+        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextEN, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
         var flashCardsJson = JsonSerializer.Serialize(flashCards);
 
         //Assert
@@ -235,12 +251,14 @@ class GenerateFlashCards_tests : BaseTest
         context.AddToEntityCache(page);
 
         var permissionCheck = new PermissionCheck(-1); // Default user ID for tests
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+        var aiFlashCard = new AiFlashCard(aiUsageLogRepo);
 
         // Optionally, initialize entity cache or other dependencies
         RecycleContainerAndEntityCache();
 
         // Act
-        var flashCards = await AiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
+        var flashCards = await aiFlashCard.Generate(SourceTexts.LongSourceTextDE, page.Id, DefaultUserId, permissionCheck, AiModel.ChatGPT);
         var flashCardsJson = JsonSerializer.Serialize(flashCards);
 
         //Assert
@@ -251,6 +269,93 @@ class GenerateFlashCards_tests : BaseTest
 
         Assert.NotNull(claudeResponse);
         Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("true"));
+    }
+
+    [Test]
+    public async Task Should_Return_Null_When_Request_Text_Is_Null()
+    {
+        // Arrange
+        var controller = CreatePageStoreController();
+        var request = new PageStoreController.GenerateFlashCardRequest(PageId, null);
+
+        // Act
+        var result = await controller.GenerateFlashCard(request);
+
+        // Assert
+        Assert.IsNull(result, "Result should be null when request text is null.");
+    }
+
+    [Test]
+    public async Task Should_Return_Null_When_Request_PageId_Is_Invalid()
+    {
+        // Arrange
+        var controller = CreatePageStoreController();
+        var request = new PageStoreController.GenerateFlashCardRequest(-1, "Sample Text");
+
+        // Act
+        var result = await controller.GenerateFlashCard(request);
+
+        // Assert
+        Assert.IsNull(result, "Result should be null when request PageId is invalid.");
+    }
+
+    //[Test]
+    //public async Task Should_Return_Message_When_PrivateQuestion_Limit_Exceeded()
+    //{
+    //    // Arrange
+    //    var context = ContextPage.New();
+    //    context.Add("TestPage").Persist();
+    //    var page = context.All.ByName("TestPage");
+    //    context.AddToEntityCache(page);
+    //    var sessionUser = R<SessionUser>();
+    //    var logg = R<Logg>();
+
+    //    // Simulate user hitting the private question limit
+    //    var limitCheckMock = new Mock<LimitCheck>(logg, sessionUser)
+    //    {
+    //        CallBase = true
+    //    };
+    //    limitCheckMock.Setup(lc => lc.CanSavePrivateQuestion()).Returns(false);
+
+    //    var controller = CreatePageStoreController(limitCheckMock.Object);
+    //    var request = new PageStoreController.GenerateFlashCardRequest(page.Id, "Sample Text");
+
+    //    // Act
+    //    var result = await controller.GenerateFlashCard(request);
+
+    //    // Assert
+    //    Assert.IsNotNull(result, "Result should not be null when limit is exceeded.");
+    //    Assert.AreEqual(FrontendMessageKeys.Info.Ai.FlashcardsCreatedWillBePublicCauseLimit, result?.MessageKey, "Incorrect message key when private question limit is exceeded.");
+    //}
+
+    // Helper method to create the controller with necessary dependencies
+    private PageStoreController CreatePageStoreController(LimitCheck limitCheck = null)
+    {
+        var sessionUser = R<SessionUser>();
+
+        var permissionCheck = new PermissionCheck(sessionUser.UserId);
+        var knowledgeSummaryLoader = R<KnowledgeSummaryLoader>();
+        var pageRepository = R<PageRepository>();
+        var httpContextAccessor = R<IHttpContextAccessor>();
+        var imageMetaDataReadingRepo = R<ImageMetaDataReadingRepo>();
+        var questionReadingRepo = R<QuestionReadingRepo>();
+        var pageUpdater = R<PageUpdater>();
+        var imageStore = R<ImageStore>();
+        var logg = R<Logg>();
+        var aiUsageLogRepo = R<AiUsageLogRepo>();
+
+        return new PageStoreController(
+            sessionUser,
+            permissionCheck,
+            knowledgeSummaryLoader,
+            pageRepository,
+            httpContextAccessor,
+            imageMetaDataReadingRepo,
+            questionReadingRepo,
+            pageUpdater,
+            imageStore,
+            logg,
+            aiUsageLogRepo);
     }
 }
 

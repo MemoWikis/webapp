@@ -116,6 +116,11 @@
         {
             public static readonly string NoQuestionsAvailableWithCurrentConfig = "error_learningSession_noQuestionsAvailableWithCurrentConfig";
         }
+
+        public static class Ai
+        {
+            public static readonly string NoFlashCardsGenerated = "error_ai_noFlashCardsGenerated";
+        }
     }
 
     public static class Info
@@ -137,5 +142,11 @@
         public static readonly string QuestionNotInFilter = "info_questionNotInFilter";
 
         public static readonly string PasswordResetRequested = "info_passwordResetRequested";
+
+        public static class Ai
+        {
+            public static readonly string FlashcardsCreatedWillBePublicCauseLimit = "info_ai_flashcardsCreatedWillBePublicCauseLimit";
+            public static readonly string SomeFlashcardsCreatedWillBePublicCauseLimit = "info_ai_someFlashcardsCreatedWillBePublicCauseLimit";
+        }
     }
 }

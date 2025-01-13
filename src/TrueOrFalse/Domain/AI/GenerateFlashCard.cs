@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.RegularExpressions;
 using TrueOrFalse;
-public class AiFlashCard : IRegisterAsInstancePerLifetime
+public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePerLifetime
 {
     public record struct FlashCard(string Front, string Back);
 
@@ -107,7 +107,7 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
     }
 
 
-    public static async Task<List<FlashCard>> Generate(
+    public async Task<List<FlashCard>> Generate(
         string text,
         int pageId,
         int userId,
@@ -124,12 +124,12 @@ public class AiFlashCard : IRegisterAsInstancePerLifetime
         return await Generate(promptContent, model, userId, pageId);
     }
 
-    public static async Task<List<FlashCard>> Generate(string promptContent, AiModel model, int userId, int pageId)
+    public async Task<List<FlashCard>> Generate(string promptContent, AiModel model, int userId, int pageId)
     {
         return model switch
         {
             AiModel.ChatGPT => await ChatGPTService.GenerateFlashcardsAsync(promptContent),
-            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(promptContent, userId, pageId),
+            AiModel.Claude => await ClaudeService.GenerateFlashcardsAsync(promptContent, userId, pageId, _aiUsageLogRepo),
             _ => throw new ArgumentOutOfRangeException(nameof(model), model, null)
         };
     }

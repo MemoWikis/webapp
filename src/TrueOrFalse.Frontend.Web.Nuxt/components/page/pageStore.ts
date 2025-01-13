@@ -89,7 +89,10 @@ interface GetPageAnalyticsResponse {
 	viewsPast90DaysDirectQuestions: ViewSummary[]
 }
 
-
+export interface GenerateFlashCardResponse {
+	flashcards: GeneratedFlashCard[]
+	messageKey: string
+}
 
 export const usePageStore = defineStore('pageStore', {
 	state: () => {
@@ -422,14 +425,14 @@ export const usePageStore = defineStore('pageStore', {
 				this.analyticsLoaded = true
 			}
 		},
-		async generateFlashCard(selectedText?: string): Promise<GeneratedFlashCard[]> {
+		async generateFlashCard(selectedText?: string): Promise<GenerateFlashCardResponse> {
 			const spinnerStore = useSpinnerStore()
 			spinnerStore.showSpinner()
 			const data = {
 				pageId: this.id,
 				text: (selectedText ?? '').length > 10 ? selectedText : this.text
 			}
-			const result = await $api<GeneratedFlashCard[]>(`/apiVue/PageStore/GenerateFlashCard/`, {
+			const result = await $api<GenerateFlashCardResponse>(`/apiVue/PageStore/GenerateFlashCard/`, {
 				body: data,
 				method: 'POST',
 				mode: 'cors',
@@ -443,7 +446,7 @@ export const usePageStore = defineStore('pageStore', {
 
 			return result
 		},
-		async reGenerateFlashCard():Promise<GeneratedFlashCard[]>  {
+		async reGenerateFlashCard():Promise<GenerateFlashCardResponse>  {
 			return await this.generateFlashCard(this.selectedText)
 		},
 		async updateQuestionCount() {

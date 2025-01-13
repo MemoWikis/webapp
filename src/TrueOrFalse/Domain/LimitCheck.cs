@@ -77,6 +77,11 @@
         return withinLimit;
     }
 
+    public bool NewPrivateQuestionsWillExceedLimit(int count)
+    {
+        return EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() + count > _privateQuestionsQuantity;
+    }
+
     public bool CanCreatePrivateWiki(bool logExceedance = false) => CanSavePrivatePage(logExceedance);
 
     private bool HasActiveSubscriptionPlan()
