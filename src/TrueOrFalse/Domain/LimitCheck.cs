@@ -63,7 +63,6 @@
     public bool CanSavePrivatePage(bool logExceedance = false)
     {
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
-
             return true;
 
         var withinLimit = EntityCache.GetPrivatePageIdsFromUser(_sessionUser.UserId).Count() < _privatePagesQuantity;
@@ -78,6 +77,9 @@
 
     public bool NewPrivateQuestionsWillExceedLimit(int count)
     {
+        if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
+            return false;
+
         return EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() + count > _privateQuestionsQuantity;
     }
 

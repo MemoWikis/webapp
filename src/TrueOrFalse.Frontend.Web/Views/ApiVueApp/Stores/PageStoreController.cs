@@ -302,15 +302,24 @@ public class PageStoreController(
         if (!_permissionCheck.CanViewPage(req.PageId) || !_sessionUser.IsLoggedIn)
             return null;
 
+        var limitCheck = new LimitCheck(_logg, _sessionUser);
+
+        string? messageKey = null;
+
+        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(req.PageId).Visibility != PageVisibility.All)
+        {
+            messageKey = FrontendMessageKeys.Error.Ai.NoFlashcardsCreatedCauseLimitAndPageIsPrivate;
+            return new GenerateFlashCardResponse(new List<AiFlashCard.FlashCard>(), messageKey);
+        }
+
         var aiFlashCard = new AiFlashCard(_aiUsageLogRepo);
         var flashcards = await aiFlashCard.Generate(req.Text, req.PageId, _sessionUser.UserId, _permissionCheck);
-        string? messageKey = null;
 
         if (flashcards.Count == 0)
             messageKey = FrontendMessageKeys.Error.Ai.GenerateFlashcards;
-        else if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion())
+        else if (!limitCheck.CanSavePrivateQuestion())
             messageKey = FrontendMessageKeys.Info.Ai.FlashcardsCreatedWillBePublicCauseLimit;
-        else if (new LimitCheck(_logg, _sessionUser).NewPrivateQuestionsWillExceedLimit(flashcards.Count))
+        else if (limitCheck.NewPrivateQuestionsWillExceedLimit(flashcards.Count))
             messageKey = FrontendMessageKeys.Info.Ai.SomeFlashcardsCreatedWillBePublicCauseLimit;
 
         var response = new GenerateFlashCardResponse(flashcards, messageKey);

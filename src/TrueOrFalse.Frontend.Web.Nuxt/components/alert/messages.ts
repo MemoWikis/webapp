@@ -109,6 +109,7 @@ export const messages: any = {
         },
         ai: {
             generateFlashcards: "Es konnten keine Karteikarten erstellt werden.",
+            noFlashcardsCreatedCauseLimitAndPageIsPrivate: "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt.",
         }
     },
     info: {
