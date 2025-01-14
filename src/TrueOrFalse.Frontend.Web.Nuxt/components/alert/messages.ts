@@ -16,6 +16,7 @@ export const messages: any = {
             saved: "Deine Frage wurde erfolgreich gespeichert.",
             delete: "Deine Frage wurde erfolgreich gelöscht.",
             published: (name: string) => `Die Frage '${name}' wurde erfolgreich veröffentlicht.`,
+            flashcardsAdded: (count: number | string) => `${count} Karteikarten wurden erfolgreich hinzugefügt.`,
         },
         user: {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
@@ -66,6 +67,7 @@ export const messages: any = {
                 `Die Frage kann nicht gelöscht werden, sie ist ${count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.`,
             rights: "Dir fehlt die Berechtigung dazu.",
             errorOnDelete: "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
+            couldNotAddFlashcards: "Die Karteikarten konnten nicht hinzugefügt werden.",
         },
         user: {
             notLoggedIn: "Bitte logge dich ein.",
@@ -104,6 +106,9 @@ export const messages: any = {
             couldNotConnect: "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
             authenticationFailed: "Die Authentifizierung ist fehlgeschlagen.",
             connectionLost: "Die Verbindung zur Live-Version wurde unterbrochen.",
+        },
+        ai: {
+            generateFlashcards: "Es konnten keine Karteikarten erstellt werden.",
         }
     },
     info: {
@@ -122,6 +127,10 @@ export const messages: any = {
         joinNow: 'Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!',
         feed: {
             private: 'Nur Du kannst diesen Eintrag sehen'
+        },
+        ai: {
+            flashcardsCreatedWillBePublicCauseLimit: "Limit für private Karteikarten erreicht. Neue Karten werden öffentlich erstellt.",
+            someFlashcardsCreatedWillBePublicCauseLimit: "Limit für private Karteikarten erreicht. Einige neue Karten werden öffentlich erstellt."
         }
     },
     getByCompositeKey(messageKey: string): string | undefined {

@@ -126,7 +126,6 @@ const initProvider = () => {
         },
         onClose(c) {
             isSynced.value = false
-
             if (c.event.code === 1006 || c.event.code === 1005 || !providerLoaded.value) {
                 providerLoaded.value = true
 
@@ -267,6 +266,8 @@ const initEditor = () => {
 
             if (pageStore.contentHasChanged)
                 autoSave()
+
+            pageStore.text = editor.getText()
         },
         editorProps: {
             handlePaste: (view, pos, event) => {
@@ -414,13 +415,37 @@ const autoSave = () => {
 }
 
 const { isMobile } = useDevice()
+const createFlashCard = () => {
+    if (editor.value == null)
+        return
+
+    const { state, view } = editor.value
+    const { selection } = state
+    if (selection.empty)
+        pageStore.generateFlashCard()
+    else {
+        const { from, to } = selection
+        const text = state.doc.textBetween(from, to)
+        pageStore.generateFlashCard(text)
+    }
+
+}
 </script>
 
 <template>
     <template v-if="editor && providerLoaded">
-        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages" />
-        <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
+        <LazyEditorMenuBar v-if="loadCollab && userStore.isLoggedIn" :editor="editor" :heading="true" :is-page-content="true" @handle-undo-redo="checkContentImages">
+            <template v-slot:end v-if="userStore.isAdmin">
+                <div class="menubar__divider__container">
+                    <div class="menubar__divider"></div>
+                </div>
 
+                <button class="menubar__button last-btn" @mousedown="createFlashCard">
+                    <font-awesome-icon :icon="['fas', 'wand-magic-sparkles']" />
+                </button>
+            </template>
+        </LazyEditorMenuBar>
+        <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
         <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
     </template>
     <template v-else>
@@ -597,5 +622,13 @@ const { isMobile } = useDevice()
 
 .private-page {
     margin-bottom: -30px;
+}
+
+.menubar__button {
+    color: @memo-blue-link;
+
+    .fa-wand-magic-sparkles {
+        color: @memo-blue-link;
+    }
 }
 </style>

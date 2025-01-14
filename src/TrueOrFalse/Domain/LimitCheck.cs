@@ -32,7 +32,6 @@
     public bool CanAddNewKnowledge(bool logExceedance = false)
     {
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
-
             return true;
 
         var withinLimit = _sessionUser.User.WishCountQuestions < _wishCountKnowledge;
@@ -75,6 +74,11 @@
         }
 
         return withinLimit;
+    }
+
+    public bool NewPrivateQuestionsWillExceedLimit(int count)
+    {
+        return EntityCache.GetPrivateQuestionIdsFromUser(_sessionUser.UserId).Count() + count > _privateQuestionsQuantity;
     }
 
     public bool CanCreatePrivateWiki(bool logExceedance = false) => CanSavePrivatePage(logExceedance);

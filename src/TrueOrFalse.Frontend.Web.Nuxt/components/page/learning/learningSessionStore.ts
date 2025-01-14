@@ -171,6 +171,9 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         addNewQuestionToList(index: number) {
             return index
         },
+        addNewQuestionsToList(startIndex: number, endIndex: number) {
+            return {startIndex: startIndex, endIndex: endIndex} 
+        },
         updateQuestionList(question: QuestionListItem) {
             return question
         },

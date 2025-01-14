@@ -8,6 +8,7 @@ import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
 import { ErrorCode } from '../error/errorCodeEnum'
 import { nanoid } from 'nanoid'
+import { useSpinnerStore } from '../spinner/spinnerStore'
 
 export class Page {
 	canAccess: boolean = false
@@ -76,6 +77,11 @@ export interface TinyPageModel {
 	imgUrl: string
 }
 
+export interface GeneratedFlashCard {
+	front: string
+	back: string
+}
+
 interface GetPageAnalyticsResponse {
 	viewsPast90DaysAggregatedPages: ViewSummary[]
 	viewsPast90DaysPage: ViewSummary[]
@@ -83,7 +89,10 @@ interface GetPageAnalyticsResponse {
 	viewsPast90DaysDirectQuestions: ViewSummary[]
 }
 
-
+export interface GenerateFlashCardResponse {
+	flashcards: GeneratedFlashCard[]
+	messageKey: string
+}
 
 export const usePageStore = defineStore('pageStore', {
 	state: () => {
@@ -126,6 +135,8 @@ export const usePageStore = defineStore('pageStore', {
 			analyticsLoaded: false,
 			saveTrackingArray: [] as string[],
 			currentWiki: null as TinyPageModel | null,
+			text: '',
+			selectedText: ''
 		}
 	},
 	actions: {
@@ -170,6 +181,8 @@ export const usePageStore = defineStore('pageStore', {
 				this.viewsPast90DaysPage = []
 				this.viewsPast90DaysAggregatedQuestions = []
 				this.viewsPast90DaysDirectQuestions = []
+				this.text = ''
+				this.selectedText = ''
 			}
 		},
 		async saveContent() {
@@ -412,6 +425,43 @@ export const usePageStore = defineStore('pageStore', {
 				this.analyticsLoaded = true
 			}
 		},
+		async generateFlashCard(selectedText?: string): Promise<GenerateFlashCardResponse> {
+			const spinnerStore = useSpinnerStore()
+			spinnerStore.showSpinner()
+			const data = {
+				pageId: this.id,
+				text: (selectedText ?? '').length > 0 ? selectedText : this.text
+			}
+			const result = await $api<GenerateFlashCardResponse>(`/apiVue/PageStore/GenerateFlashCard/`, {
+				body: data,
+				method: 'POST',
+				mode: 'cors',
+				credentials: 'include',
+			})
+
+			if (selectedText != null && selectedText.length > 0) 
+				this.selectedText = selectedText
+
+			spinnerStore.hideSpinner()
+
+			return result
+		},
+		async reGenerateFlashCard():Promise<GenerateFlashCardResponse>  {
+			return await this.generateFlashCard(this.selectedText)
+		},
+		async updateQuestionCount() {
+			const result = await $api<number>(`/apiVue/PageStore/GetQuestionCount/${this.id}`, {
+				method: 'GET',
+				mode: 'cors',
+				credentials: 'include',
+				onResponseError(context) {
+					const { $logger } = useNuxtApp()
+					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, req: context.request }])
+				}
+			})
+
+			this.questionCount = result
+		}
 	},
 	getters: {
 		getPageName(): string {

@@ -44,6 +44,11 @@ services:
       - Google__ClientId=${GOOGLE_CLIENT_ID:-error}
       - Collaboration__TokenSecretKey=${COLLABORATION_TOKEN_SECRET_KEY:-error}
       - Collaboration__HocuspocusSecretKey=${COLLABORATION_HOCUSPOCUS_SECRET_KEY:-error}
+      - OpenAI__ApiKey=${OPENAI_API_KEY:-error}
+      - OpenAI__Model=${OPENAI_MODEL:-error}
+      - Anthropic__ApiKey=${ANTHROPIC_API_KEY:-error}
+      - Anthropic__Model=${ANTHROPIC_MODEL:-error}
+      - Anthropic__Version=${ANTHROPIC_VERSION:-error}
     restart: always
     
 networks:
