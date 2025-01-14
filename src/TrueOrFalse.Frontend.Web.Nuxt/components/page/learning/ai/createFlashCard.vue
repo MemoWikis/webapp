@@ -36,10 +36,8 @@ const acceptFlashCards = async () => {
     if (result.success && result.ids) {
         pageStore.updateQuestionCount()
         if (result.lastIndex) {
-            console.log(learningSessionStore.steps)
             if (learningSessionStore.steps == null || learningSessionStore.steps.length === 0) {
-                const startIndex = 0
-                handleLearningSession(startIndex, result.lastIndex - 1)
+                handleLearningSession(0, result.lastIndex)
             } else {
                 const startIndex = learningSessionStore.lastIndexInQuestionList + 1
                 handleLearningSession(startIndex, result.lastIndex)
