@@ -36,18 +36,14 @@ const acceptFlashCards = async () => {
     if (result.success && result.ids) {
         pageStore.updateQuestionCount()
         if (result.lastIndex) {
-
-            const startIndex = learningSessionStore.lastIndexInQuestionList + 1
-            learningSessionStore.lastIndexInQuestionList = result.lastIndex
-            learningSessionStore.getLastStepInQuestionList()
-            learningSessionStore.addNewQuestionsToList(startIndex, learningSessionStore.lastIndexInQuestionList)
-
-            const data: SnackbarData = {
-                type: 'success',
-                text: messages.success.question.flashcardsAdded(result.lastIndex - startIndex + 1),
-                dismissible: true
+            console.log(learningSessionStore.steps)
+            if (learningSessionStore.steps == null || learningSessionStore.steps.length === 0) {
+                const startIndex = 0
+                handleLearningSession(startIndex, result.lastIndex - 1)
+            } else {
+                const startIndex = learningSessionStore.lastIndexInQuestionList + 1
+                handleLearningSession(startIndex, result.lastIndex)
             }
-            snackbarStore.showSnackbar(data)
         }
     } else if (result.messageKey) {
         const data: SnackbarData = {
@@ -59,6 +55,19 @@ const acceptFlashCards = async () => {
     }
 
     show.value = false
+}
+
+const handleLearningSession = (startIndex: number, lastIndex: number) => {
+    learningSessionStore.lastIndexInQuestionList = lastIndex
+    learningSessionStore.getLastStepInQuestionList()
+    learningSessionStore.addNewQuestionsToList(startIndex, learningSessionStore.lastIndexInQuestionList)
+
+    const data: SnackbarData = {
+        type: 'success',
+        text: messages.success.question.flashcardsAdded(lastIndex - startIndex + 1),
+        dismissible: true
+    }
+    snackbarStore.showSnackbar(data)
 }
 
 const flashcards = ref<GeneratedFlashCard[]>([])
