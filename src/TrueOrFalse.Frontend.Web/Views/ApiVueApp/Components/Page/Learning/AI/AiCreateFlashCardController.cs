@@ -14,7 +14,8 @@ public class AiCreateFlashCardController(
     UserReadingRepo _userReadingRepo,
     QuestionWritingRepo _questionWritingRepo,
     Logg _logg,
-    LearningSessionCreator _learningSessionCreator) : Controller
+    LearningSessionCreator _learningSessionCreator,
+    LearningSessionCache _learningSessionCache) : Controller
 {
     public readonly record struct FlashCardJson(string front, string back);
 
@@ -34,8 +35,8 @@ public class AiCreateFlashCardController(
             return new CreateResponse(false);
 
         var ids = new List<int>();
+        int? lastQuestionId = null;
         var lastIndex = request.LastIndex;
-
         foreach (var flashcardJson in request.flashcards)
         {
             var id = CreateFlashCard(flashcardJson, request.PageId);
@@ -47,11 +48,18 @@ public class AiCreateFlashCardController(
 
                 _learningSessionCreator.InsertNewQuestionToLearningSession(
                     questionCacheItem,
-                    request.LastIndex,
+                    lastIndex,
                     request.SessionConfig);
-
                 lastIndex++;
+                lastQuestionId = id;
             }
+        }
+
+        if (lastQuestionId != null)
+        {
+            var learningSession = _learningSessionCache.GetLearningSession();
+            if (learningSession != null)
+                lastIndex = learningSession.Steps.IndexOf(s => s.Question.Id == lastQuestionId);
         }
 
         return new CreateResponse
