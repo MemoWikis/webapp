@@ -119,7 +119,7 @@
 
         public static class Ai
         {
-            public static readonly string NoFlashCardsGenerated = "error_ai_noFlashCardsGenerated";
+            public static readonly string GenerateFlashcards = "error_ai_generateFlashcards";
         }
     }
 

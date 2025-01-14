@@ -107,7 +107,7 @@ export const messages: any = {
             connectionLost: "Die Verbindung zur Live-Version wurde unterbrochen.",
         },
         ai: {
-            couldNotCreateFlashcards: "Es konnten keine Karteikarten erstellt werden.",
+            generateFlashcards: "Es konnten keine Karteikarten erstellt werden.",
         }
     },
     info: {
@@ -128,8 +128,8 @@ export const messages: any = {
             private: 'Nur Du kannst diesen Eintrag sehen'
         },
         ai: {
-            flashcardsCreatedWillBePublicCauseLimit: "Die folgenden Karteikarten werden öffentlich erstellt, da Du die maximale Anzahl an privaten Fragen erreicht hast.",
-            someFlashcardsCreatedWillBePublicCauseLimit: "Einige der folgenden Karteikarten werden öffentlich erstellt, da Du die maximale Anzahl an privaten Fragen erreicht hast."
+            flashcardsCreatedWillBePublicCauseLimit: "Limit für private Karteikarten erreicht. Neue Karten werden öffentlich erstellt.",
+            someFlashcardsCreatedWillBePublicCauseLimit: "Limit für private Karteikarten erreicht. Einige neue Karten werden öffentlich erstellt."
         }
     },
     getByCompositeKey(messageKey: string): string | undefined {

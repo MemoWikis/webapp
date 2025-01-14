@@ -307,9 +307,8 @@ public class PageStoreController(
         string? messageKey = null;
 
         if (flashcards.Count == 0)
-            messageKey = FrontendMessageKeys.Error.Ai.NoFlashCardsGenerated;
-
-        if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion())
+            messageKey = FrontendMessageKeys.Error.Ai.GenerateFlashcards;
+        else if (!new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion())
             messageKey = FrontendMessageKeys.Info.Ai.FlashcardsCreatedWillBePublicCauseLimit;
         else if (new LimitCheck(_logg, _sessionUser).NewPrivateQuestionsWillExceedLimit(flashcards.Count))
             messageKey = FrontendMessageKeys.Info.Ai.SomeFlashcardsCreatedWillBePublicCauseLimit;
