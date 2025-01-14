@@ -120,6 +120,7 @@
         public static class Ai
         {
             public static readonly string GenerateFlashcards = "error_ai_generateFlashcards";
+            public static readonly string NoFlashcardsCreatedCauseLimitAndPageIsPrivate = "error_ai_noFlashcardsCreatedCauseLimitAndPageIsPrivate";
         }
     }
 

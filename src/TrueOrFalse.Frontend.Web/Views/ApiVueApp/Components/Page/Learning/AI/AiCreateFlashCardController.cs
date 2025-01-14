@@ -34,7 +34,6 @@ public class AiCreateFlashCardController(
             return new CreateResponse(false);
 
         var ids = new List<int>();
-
         var lastIndex = request.LastIndex;
 
         foreach (var flashcardJson in request.flashcards)
@@ -67,10 +66,13 @@ public class AiCreateFlashCardController(
     {
         var safeText = GetSafeText(json.front);
 
-        if (string.IsNullOrEmpty(safeText))
-        {
+        if (string.IsNullOrEmpty(safeText) || string.IsNullOrEmpty(json.back))
             return null;
-        }
+
+        var limitCheck = new LimitCheck(_logg, _sessionUser);
+
+        if (!limitCheck.CanSavePrivateQuestion() && EntityCache.GetPage(pageId).Visibility != PageVisibility.All)
+            return null;
 
         var question = new Question
         {
@@ -84,22 +86,13 @@ public class AiCreateFlashCardController(
             Text = json.back
         };
 
-        if (string.IsNullOrEmpty(solutionModelFlashCard.Text))
-        {
-            return null;
-        }
-
         question.Solution = JsonConvert.SerializeObject(solutionModelFlashCard);
-
         question.Creator = _userReadingRepo.GetById(_sessionUser.UserId)!;
-
         question.Pages = new List<Page>
         {
             pageRepository.GetById(pageId)
         };
-
-        question.Visibility = new LimitCheck(_logg, _sessionUser).CanSavePrivateQuestion() ? QuestionVisibility.Owner : QuestionVisibility.All;
-
+        question.Visibility = limitCheck.CanSavePrivateQuestion() ? QuestionVisibility.Owner : QuestionVisibility.All;
         question.License = LicenseQuestionRepo.GetDefaultLicense();
 
         _questionWritingRepo.Create(question, pageRepository);
