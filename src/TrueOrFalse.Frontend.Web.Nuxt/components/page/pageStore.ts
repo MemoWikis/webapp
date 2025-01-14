@@ -430,7 +430,7 @@ export const usePageStore = defineStore('pageStore', {
 			spinnerStore.showSpinner()
 			const data = {
 				pageId: this.id,
-				text: (selectedText ?? '').length > 10 ? selectedText : this.text
+				text: (selectedText ?? '').length > 0 ? selectedText : this.text
 			}
 			const result = await $api<GenerateFlashCardResponse>(`/apiVue/PageStore/GenerateFlashCard/`, {
 				body: data,

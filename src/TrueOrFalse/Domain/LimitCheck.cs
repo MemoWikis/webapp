@@ -32,7 +32,6 @@
     public bool CanAddNewKnowledge(bool logExceedance = false)
     {
         if (_sessionUser.IsInstallationAdmin || HasActiveSubscriptionPlan())
-
             return true;
 
         var withinLimit = _sessionUser.User.WishCountQuestions < _wishCountKnowledge;

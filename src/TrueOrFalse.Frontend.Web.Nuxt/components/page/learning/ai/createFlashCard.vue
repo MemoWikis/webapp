@@ -1,22 +1,33 @@
 <script lang="ts" setup>
 import { messages } from '~/components/alert/messages'
 import { GeneratedFlashCard, usePageStore } from '../../pageStore'
+import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
+import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
+import { SnackbarData, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 
 const pageStore = usePageStore()
-const snackbar = useSnackbar()
-const show = ref(false)
+const learningSessionStore = useLearningSessionStore()
+const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+const snackbarStore = useSnackbarStore()
 
+const show = ref(false)
 const acceptFlashCards = async () => {
     interface Result {
         success: boolean
         ids?: number[]
         messageKey?: string
+        lastIndex?: number
     }
+
+    var sessionConfig = learningSessionConfigurationStore.buildSessionConfigJson(pageStore.id)
+
     const result = await $api<Result>(`/apiVue/AiCreateFlashCard/Create/`, {
         method: 'POST',
         body: {
             pageId: pageStore.id,
             flashCards: flashcards.value,
+            lastIndex: learningSessionStore.lastIndexInQuestionList,
+            sessionConfig: sessionConfig
         },
         mode: 'cors',
         credentials: 'include',
@@ -24,12 +35,27 @@ const acceptFlashCards = async () => {
 
     if (result.success && result.ids) {
         pageStore.updateQuestionCount()
+        if (result.lastIndex) {
+
+            const startIndex = learningSessionStore.lastIndexInQuestionList + 1
+            learningSessionStore.lastIndexInQuestionList = result.lastIndex
+            learningSessionStore.getLastStepInQuestionList()
+            learningSessionStore.addNewQuestionsToList(startIndex, learningSessionStore.lastIndexInQuestionList)
+
+            const data: SnackbarData = {
+                type: 'success',
+                text: messages.success.question.flashcardsAdded(result.lastIndex - startIndex + 1),
+                dismissible: true
+            }
+            snackbarStore.showSnackbar(data)
+        }
     } else if (result.messageKey) {
-        snackbar.add({
+        const data: SnackbarData = {
             type: 'error',
-            text: { html: messages.getByCompositeKey(result.messageKey) },
+            text: messages.getByCompositeKey(result.messageKey),
             dismissible: true
-        })
+        }
+        snackbarStore.showSnackbar(data)
     }
 
     show.value = false
@@ -44,12 +70,16 @@ pageStore.$onAction(({ name, after }) => {
             if (result.flashcards.length > 0) {
                 show.value = true
                 flashcards.value = result.flashcards
+                if (result.messageKey) {
+                    message.value = messages.getByCompositeKey(result.messageKey)
+                }
             } else if (result.messageKey) {
-                snackbar.add({
+                const data: SnackbarData = {
                     type: 'error',
-                    text: { html: result.messageKey },
+                    text: messages.getByCompositeKey(result.messageKey),
                     dismissible: true
-                })
+                }
+                snackbarStore.showSnackbar(data)
             }
         })
     }
@@ -57,12 +87,16 @@ pageStore.$onAction(({ name, after }) => {
         after((result) => {
             if (result.flashcards.length > 0) {
                 flashcards.value = result.flashcards
+                if (result.messageKey) {
+                    message.value = messages.getByCompositeKey(result.messageKey)
+                }
             } else if (result.messageKey) {
-                snackbar.add({
+                const data: SnackbarData = {
                     type: 'error',
-                    text: { html: result.messageKey },
+                    text: messages.getByCompositeKey(result.messageKey),
                     dismissible: true
-                })
+                }
+                snackbarStore.showSnackbar(data)
             }
         })
     }
@@ -78,21 +112,14 @@ const deleteFlashcard = (index: number) => {
 <template>
     <Modal :show="show" @close="show = false" @primary-btn="acceptFlashCards" :show-cancel-btn="true" :primary-btn-label="'Karteikarte erstellen'" content-class="wide-modal" :fullscreen="false" container-class="wide-modal"
         :show-close-button="true" :disabled="flashcards.length === 0">
-        <!-- <template #header>
-            <h3>Vorschau</h3>
-        </template> -->
         <template #body>
-            <!-- add info div with message -->
-            <div v-if="message" class="alert alert-info" v-html="message"></div>
+            <div v-if="message" class="alert alert-info">{{ message }}</div>
             <div id="AiFlashCard">
                 <PageLearningAiFlashCard v-for="(flashcard, i) in flashcards" :flash-card="flashcard" :index="i" @delete-flashcard="deleteFlashcard" />
                 <div v-if="flashcards.length === 0" class="no-flashcards">
                     <p>Oops! Du hast keine Karteikarten.</p>
                 </div>
             </div>
-
-            <!-- <button @click="regenerateFlashCard">Neu generieren</button> -->
-
         </template>
     </Modal>
 </template>

@@ -78,6 +78,11 @@ learningSessionStore.$onAction(({ name, after }) => {
             loadNewQuestion(result)
         })
 
+    if (name == 'addNewQuestionsToList')
+        after((result) => {
+            loadNewQuestions(result.startIndex, result.endIndex)
+        })
+
     if (name == 'updateQuestionList')
         after((updatedQuestion) => {
             questions.value.forEach((q) => {
@@ -113,6 +118,35 @@ async function loadNewQuestion(index: number) {
     if (result.success == true) {
         questions.value.push(result.data)
         learningSessionStore.lastIndexInQuestionList = index + 1
+    } else {
+        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+    }
+}
+
+async function loadNewQuestions(startIndex: number, endIndex: number) {
+
+    if (startIndex === endIndex) {
+        return loadNewQuestion(startIndex)
+    }
+    spinnerStore.showSpinner()
+
+    const result = await $api<FetchResult<QuestionListItem[]>>(`/apiVue/PageLearningQuestionList/LoadNewQuestions/`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        body: {
+            startIndex: startIndex,
+            endIndex: endIndex
+        },
+        onResponseError(context) {
+            $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
+        },
+    })
+    spinnerStore.hideSpinner()
+
+    if (result.success == true) {
+        questions.value.push(...result.data)
+        learningSessionStore.lastIndexInQuestionList = endIndex + 1
     } else {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
     }

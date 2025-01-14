@@ -72,6 +72,7 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
                - Stelle sicher, dass sich keine Duplikate einschleichen.
             4. Verwirf jede potenzielle Karte, die inhaltlich bereits existiert (Duplikate von vorhandenen oder bereits erstellten Karten).
             5. Gib ausschließlich die neuen, eindeutigen Karteikarten als JSON-Array zurück.
+            6. Falls der Quelltext zu kurz und unklar ist oder keinen Sinn macht, gib ein leeres JSON-Array zurück.
             
             Denke daran:
             - Keine Erklärungen, keine Einleitungen oder Zusammenfassungen.
