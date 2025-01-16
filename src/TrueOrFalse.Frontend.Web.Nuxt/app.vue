@@ -68,8 +68,8 @@ const site = ref(Site.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: Site | null = null) {
-	if (type != null) {
+function setPage(type: Site | undefined | null = null) {
+	if (type != null && type != undefined) {
 		site.value = type
 		if (type != Site.Page) {
 			pageStore.setPage(new Page())

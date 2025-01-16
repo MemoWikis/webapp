@@ -101,8 +101,10 @@ function setPage() {
 }
 
 setPage()
-const emit = defineEmits(['setPage'])
-emit('setPage', Site.Page)
+onBeforeMount(() => {
+    const emit = defineEmits(['setPage'])
+    emit('setPage', Site.Page)
+})
 
 function setTab() {
     if (tabsStore != null) {
