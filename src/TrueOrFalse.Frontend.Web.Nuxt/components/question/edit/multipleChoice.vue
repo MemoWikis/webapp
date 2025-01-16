@@ -15,7 +15,7 @@ const emit = defineEmits(['setMultipleChoiceJson'])
 
 function validateSolution() {
     var hasEmptyAnswer = choices.value.some((c) => {
-        return c.Text.trim() == ''
+        return c.Text.trim() === ''
     })
     return !hasEmptyAnswer
 }
@@ -73,7 +73,7 @@ function toggleCorrectness(index: number) {
                     <font-awesome-icon icon="fa-solid fa-check" />
                 </div>
                 <div @click="toggleCorrectness(index)" class="input-group-addon toggle-correctness btn is-wrong grey-bg"
-                    :class="{ active: choice.IsCorrect == false }">
+                    :class="{ active: choice.IsCorrect === false }">
                     <font-awesome-icon icon="fa-solid fa-xmark" />
                 </div>
                 <input type="text" class="form-control multiplechoice-input" :id="'SolutionInput-' + index" placeholder=""

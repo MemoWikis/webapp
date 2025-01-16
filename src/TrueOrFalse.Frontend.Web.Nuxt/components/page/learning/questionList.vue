@@ -24,7 +24,7 @@ const questions = ref<QuestionListItem[]>([])
 const itemCountPerPage = ref(25)
 const { $logger } = useNuxtApp()
 async function loadQuestions(page: number) {
-    if (tabsStore.activeTab == Tab.Learning)
+    if (tabsStore.activeTab === Tab.Learning)
         spinnerStore.showSpinner()
 
     const result = await $api<any>('/apiVue/PageLearningQuestionList/LoadQuestions/', {
@@ -51,17 +51,17 @@ function loadPageWithSpecificQuestion() {
     const page = Math.ceil((learningSessionStore.currentIndex + 1) / itemsPerPage.value)
     currentPage.value = page
 
-    if (page == 1 || learningSessionStore.currentIndex == 0)
+    if (page === 1 || learningSessionStore.currentIndex === 0)
         loadQuestions(1)
 }
 
 onBeforeMount(() => {
     learningSessionStore.$onAction(({ after, name }) => {
-        if (name == 'startNewSession') {
+        if (name === 'startNewSession') {
             after(() => {
                 loadQuestions(1)
             })
-        } else if (name == 'startNewSessionWithJumpToQuestion') {
+        } else if (name === 'startNewSessionWithJumpToQuestion') {
             after(() => {
                 loadPageWithSpecificQuestion()
             })
@@ -73,20 +73,20 @@ const currentPage = ref(1)
 watch(currentPage, (p) => loadQuestions(p))
 
 learningSessionStore.$onAction(({ name, after }) => {
-    if (name == 'addNewQuestionToList')
+    if (name === 'addNewQuestionToList')
         after((result) => {
             loadNewQuestion(result)
         })
 
-    if (name == 'addNewQuestionsToList')
+    if (name === 'addNewQuestionsToList')
         after((result) => {
             loadNewQuestions(result.startIndex, result.endIndex)
         })
 
-    if (name == 'updateQuestionList')
+    if (name === 'updateQuestionList')
         after((updatedQuestion) => {
             questions.value.forEach((q) => {
-                if (q.id == updatedQuestion.id) {
+                if (q.id === updatedQuestion.id) {
                     q = updatedQuestion
                 }
             })
@@ -94,7 +94,7 @@ learningSessionStore.$onAction(({ name, after }) => {
 })
 
 deleteQuestionStore.$onAction(({ name, after }) => {
-    if (name == 'questionDeleted') {
+    if (name === 'questionDeleted') {
         after((id) => {
             questions.value = questions.value.filter((q) => {
                 return q.id != id
@@ -115,7 +115,7 @@ async function loadNewQuestion(index: number) {
     })
     spinnerStore.hideSpinner()
 
-    if (result.success == true) {
+    if (result.success === true) {
         questions.value.push(result.data)
         learningSessionStore.lastIndexInQuestionList = index + 1
     } else {
@@ -144,7 +144,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
     })
     spinnerStore.hideSpinner()
 
-    if (result.success == true) {
+    if (result.success === true) {
         questions.value.push(...result.data)
         learningSessionStore.lastIndexInQuestionList = endIndex + 1
     } else {
@@ -160,7 +160,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
         <div class="col-xs-12" id="QuestionListComponent" v-show="!learningSessionStore.showResult">
 
             <PageLearningQuestion v-for="(q, index) in questions" :question="q"
-                :is-last-item="index == (questions.length - 1)" :session-index="q.sessionIndex"
+                :is-last-item="index === (questions.length - 1)" :session-index="q.sessionIndex"
                 :expand-question="props.expandQuestion" :key="`${index}-${q.id}`" />
 
             <PageLearningQuickCreateQuestion @new-question-created="loadNewQuestion" />

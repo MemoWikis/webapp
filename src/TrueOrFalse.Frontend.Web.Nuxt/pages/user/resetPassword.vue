@@ -29,7 +29,7 @@ const { data: tokenValidationResult } = await useFetch<FetchResult<any>>(`/apiVu
 })
 const errorMessage = ref<string>('')
 
-if (tokenValidationResult.value?.success == false) {
+if (tokenValidationResult.value?.success === false) {
     errorMessage.value = messages.getByCompositeKey(tokenValidationResult.value?.messageKey)
 }
 
@@ -101,10 +101,10 @@ async function saveNewPassword() {
                                         width="100%" class="password-inputs" v-model="newPassword"
                                         @keydown.enter="saveNewPassword()" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="newPasswordInputType == 'password'"
+                                        v-if="newPasswordInputType === 'password'"
                                         @click="newPasswordInputType = 'text'" />
                                     <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="newPasswordInputType == 'text'"
+                                        v-if="newPasswordInputType === 'text'"
                                         @click="newPasswordInputType = 'password'" />
                                 </div>
                             </div>
@@ -119,10 +119,10 @@ async function saveNewPassword() {
                                         class="password-inputs" v-model="repeatedPassword"
                                         @keydown.enter="saveNewPassword()" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="repeatedPasswordInputType == 'password'"
+                                        v-if="repeatedPasswordInputType === 'password'"
                                         @click="repeatedPasswordInputType = 'text'" />
                                     <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="repeatedPasswordInputType == 'text'"
+                                        v-if="repeatedPasswordInputType === 'text'"
                                         @click="repeatedPasswordInputType = 'password'" />
                                 </div>
                             </div>

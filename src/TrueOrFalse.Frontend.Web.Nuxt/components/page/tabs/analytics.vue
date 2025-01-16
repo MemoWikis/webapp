@@ -66,7 +66,7 @@ onMounted(() => {
             }
         })
 
-        if (tabsStore.activeTab == Tab.Analytics) {
+        if (tabsStore.activeTab === Tab.Analytics) {
             pageStore.getAnalyticsData()
         }
     }

@@ -2,7 +2,7 @@
 import { usePinStore, PinState } from './pinStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { PinData } from '~~/components/question/pin/pinStore'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore';
+import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
 
 const pinStore = usePinStore()
 const userStore = useUserStore()
@@ -11,7 +11,7 @@ interface Props {
     questionId: number,
 }
 
-const isActivePin = ref(false);
+const isActivePin = ref(false)
 
 const props = defineProps<Props>()
 
@@ -34,22 +34,22 @@ const emit = defineEmits(['set-wuwi-state'])
 onMounted(() => {
     pinStore.$onAction(({ after }) => {
         after((result: FetchResult<PinData>) => {
-                    // const alertStore = useAlertStore()
-                    // alertStore.openAlert(AlertType.Success, { text: "Success" })
-                    // alertStore.openAlert(AlertType.Error, { text: "Error" })
-            if(result.data?.id != props.questionId) return
+            // const alertStore = useAlertStore()
+            // alertStore.openAlert(AlertType.Success, { text: "Success" })
+            // alertStore.openAlert(AlertType.Error, { text: "Error" })
+            if (result.data?.id != props.questionId) return
             if (result.success) {
                 pinState.value = result.data?.state
-                ;(function emitToParentQuestionRow(){
-                    emit('set-wuwi-state', result.data?.state)
-                })()
+                    ; (function emitToParentQuestionRow() {
+                        emit('set-wuwi-state', result.data?.state)
+                    })()
             } else {
-                if(isActivePin.value){
+                if (isActivePin.value) {
                     const alertStore = useAlertStore()
                     alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
-                    ;(function resetToInitialPinState(){
-                        pinState.value = props.isInWishknowledge ? PinState.Added : PinState.NotAdded;
-                    })()
+                        ; (function resetToInitialPinState() {
+                            pinState.value = props.isInWishknowledge ? PinState.Added : PinState.NotAdded
+                        })()
                 }
 
             }
@@ -83,10 +83,10 @@ function unpin() {
 <template>
     <div>
 
-        <span v-if="pinState == PinState.Added" @click="unpin()" v-tooltip="'Aus deinem Wunschwissen entfernen'">
+        <span v-if="pinState === PinState.Added" @click="unpin()" v-tooltip="'Aus deinem Wunschwissen entfernen'">
             <font-awesome-icon icon="fa-solid fa-heart" class="pin-icon" />
         </span>
-        <span v-else-if="pinState == PinState.Loading">
+        <span v-else-if="pinState === PinState.Loading">
             <font-awesome-icon icon="fa-solid fa-spinner fa-spin" class="pin-icon" />
         </span>
         <span v-else v-tooltip="'Zu deinem Wunschwissen hinzuzufügen'" @click="pin()">

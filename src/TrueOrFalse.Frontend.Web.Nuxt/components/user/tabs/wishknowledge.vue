@@ -73,7 +73,7 @@ const { $urlHelper } = useNuxtApp()
                     {{ q.title }}
                 </NuxtLink>
             </div>
-            <div v-if="filteredQuestions?.length == 0 && searchQuestion.length > 0" class="search-error">
+            <div v-if="filteredQuestions?.length === 0 && searchQuestion.length > 0" class="search-error">
                 Hmmm..., leider gibt es keine Frage mit "{{ searchQuestion }}"
             </div>
         </div>
@@ -112,7 +112,7 @@ const { $urlHelper } = useNuxtApp()
                 </NuxtLink>
                 <span> mit {{ t.questionCount }} Fragen</span>
             </div>
-            <div v-if="filteredPages?.length == 0 && searchPage.length > 0" class="search-error">
+            <div v-if="filteredPages?.length === 0 && searchPage.length > 0" class="search-error">
                 Huch! Wir haben keine Seite "{{ searchPage }}" gefunden.
             </div>
         </div>

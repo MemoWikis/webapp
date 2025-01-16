@@ -294,7 +294,6 @@ async function loadSolution(answered: boolean = true) {
             credentials: 'include',
             onResponseError(context) {
                 $logger.error(`fetch Error: ${context.response?.statusText} `, [{ response: context.response, host: context.request }])
-
             }
         })
     if (solutionResult != null) {

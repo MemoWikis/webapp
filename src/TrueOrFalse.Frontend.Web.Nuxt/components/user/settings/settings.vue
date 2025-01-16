@@ -69,7 +69,7 @@ if (props.imageUrl) {
     currentImageUrl.value = props.imageUrl
 }
 onBeforeMount(() => {
-    if (props.content == Content.Membership) {
+    if (props.content === Content.Membership) {
         activeContent.value = Content.Membership
     }
     calculatePostingDate()
@@ -356,26 +356,26 @@ const ariaId2 = useId()
         <div class="col-lg-3 col-sm-3 hidden-xs navigation">
             <div class="overline-s no-line">Profil Informationen</div>
             <button @click="activeContent = Content.EditProfile"
-                :class="{ 'active': activeContent == Content.EditProfile }">Profil bearbeiten</button>
+                :class="{ 'active': activeContent === Content.EditProfile }">Profil bearbeiten</button>
             <button @click="activeContent = Content.Password"
-                :class="{ 'active': activeContent == Content.Password }">Passwort</button>
+                :class="{ 'active': activeContent === Content.Password }">Passwort</button>
             <button @click="activeContent = Content.DeleteProfile"
-                :class="{ 'active': activeContent == Content.DeleteProfile }">Profil löschen</button>
+                :class="{ 'active': activeContent === Content.DeleteProfile }">Profil löschen</button>
 
             <div class="divider"></div>
             <div class="overline-s no-line">Einstellungen</div>
             <button @click="activeContent = Content.ShowWuwi"
-                :class="{ 'active': activeContent == Content.ShowWuwi }">Wunschwissen anzeigen</button>
+                :class="{ 'active': activeContent === Content.ShowWuwi }">Wunschwissen anzeigen</button>
             <button @click="activeContent = Content.SupportLogin"
-                :class="{ 'active': activeContent == Content.SupportLogin }">Support Login</button>
+                :class="{ 'active': activeContent === Content.SupportLogin }">Support Login</button>
             <button @click="activeContent = Content.Membership"
-                :class="{ 'active': activeContent == Content.Membership }">Mitgliedschaft</button>
+                :class="{ 'active': activeContent === Content.Membership }">Mitgliedschaft</button>
 
             <div class="divider"></div>
             <div class="overline-s no-line">Benachrichtigungen</div>
             <!-- <button @click="activeContent = Content.General">Allgemein</button> -->
             <button @click="activeContent = Content.KnowledgeReport"
-                :class="{ 'active': activeContent == Content.KnowledgeReport }">Wissensbericht</button>
+                :class="{ 'active': activeContent === Content.KnowledgeReport }">Wissensbericht</button>
 
             <div class="divider"></div>
         </div>
@@ -395,19 +395,19 @@ const ariaId2 = useId()
                                 Profil Informationen
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; hide()"
-                                :class="{ 'active': activeContent == Content.EditProfile }">
+                                :class="{ 'active': activeContent === Content.EditProfile }">
                                 <div class="dropdown-label select-option">
                                     Profil bearbeiten
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.Password; hide()"
-                                :class="{ 'active': activeContent == Content.Password }">
+                                :class="{ 'active': activeContent === Content.Password }">
                                 <div class="dropdown-label select-option">
                                     Passwort
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; hide()"
-                                :class="{ 'active': activeContent == Content.DeleteProfile }">
+                                :class="{ 'active': activeContent === Content.DeleteProfile }">
                                 <div class="dropdown-label select-option">
                                     Profil löschen
                                 </div>
@@ -417,19 +417,19 @@ const ariaId2 = useId()
                                 Einstellungen
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; hide()"
-                                :class="{ 'active': activeContent == Content.ShowWuwi }">
+                                :class="{ 'active': activeContent === Content.ShowWuwi }">
                                 <div class="dropdown-label select-option">
                                     Wunschwissen anzeigen
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
-                                :class="{ 'active': activeContent == Content.SupportLogin }">
+                                :class="{ 'active': activeContent === Content.SupportLogin }">
                                 <div class="dropdown-label select-option">
                                     Support Login
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.Membership; hide()"
-                                :class="{ 'active': activeContent == Content.Membership }">
+                                :class="{ 'active': activeContent === Content.Membership }">
                                 <div class="dropdown-label select-option">
                                     Mitgliedschaft
                                 </div>
@@ -440,7 +440,7 @@ const ariaId2 = useId()
                             </div>
                             <div class="dropdown-row select-row"
                                 @click="activeContent = Content.KnowledgeReport; hide()"
-                                :class="{ 'active': activeContent == Content.KnowledgeReport }">
+                                :class="{ 'active': activeContent === Content.KnowledgeReport }">
                                 <div class="dropdown-label select-option">
                                     Wissensbericht
                                 </div>
@@ -454,7 +454,7 @@ const ariaId2 = useId()
         </div>
         <div class="col-lg-9 col-sm-9 col-xs-12 settings-content">
             <Transition>
-                <div v-if="activeContent == Content.EditProfile" class="content">
+                <div v-if="activeContent === Content.EditProfile" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
@@ -535,7 +535,7 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent == Content.Password" class="content">
+                <div v-else-if="activeContent === Content.Password" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
@@ -587,7 +587,7 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent == Content.DeleteProfile" class="content">
+                <div v-else-if="activeContent === Content.DeleteProfile" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
@@ -602,7 +602,7 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent == Content.ShowWuwi" class="content">
+                <div v-else-if="activeContent === Content.ShowWuwi" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
@@ -635,7 +635,7 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent == Content.SupportLogin" class="content">
+                <div v-else-if="activeContent === Content.SupportLogin" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success">{{ msg }}</div>
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
@@ -670,13 +670,13 @@ const ariaId2 = useId()
                         </button>
                     </div>
                 </div>
-                <div v-else-if="activeContent == Content.Membership" class="content">
+                <div v-else-if="activeContent === Content.Membership" class="content">
                     <div class="settings-section" v-if="userStore.subscriptionType != Subscription.Type.Basic">
-                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled == false" @click="cancelPlan()">
+                        <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled === false" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo verwalten oder kündigen
                         </button>
-                        <button class="memo-button btn btn-primary" v-else-if="userStore.isSubscriptionCanceled == true && userStore.subscriptionType == Subscription.Type.Plus" @click="cancelPlan()">
+                        <button class="memo-button btn btn-primary" v-else-if="userStore.isSubscriptionCanceled === true && userStore.subscriptionType === Subscription.Type.Plus" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                             Abo wiederaufnehmen
                         </button>
@@ -687,9 +687,9 @@ const ariaId2 = useId()
                     </div>
                 </div>
 
-                <div v-else-if="activeContent == Content.General" class="content"></div>
+                <div v-else-if="activeContent === Content.General" class="content"></div>
 
-                <div v-else-if="activeContent == Content.KnowledgeReport" class="content">
+                <div v-else-if="activeContent === Content.KnowledgeReport" class="content">
                     <div class="settings-section" v-if="showAlert">
                         <div class="alert alert-success" v-if="success" v-html="notificationIntervalChangeMsg"></div>
                         <div class="alert alert-danger" v-else v-html="notificationIntervalChangeMsg"></div>
@@ -710,35 +710,35 @@ const ariaId2 = useId()
                                 <template #popper="{ hide }">
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
-                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Quarterly }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Quarterly }">
                                         <div class="dropdown-label select-option">
                                             Vierteljährlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
-                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Monthly }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Monthly }">
                                         <div class="dropdown-label select-option">
                                             Monatlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
-                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Weekly }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Weekly }">
                                         <div class="dropdown-label select-option">
                                             Wöchentlich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
-                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Daily }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Daily }">
                                         <div class="dropdown-label select-option">
                                             Täglich
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
-                                        :class="{ 'active': selectedNotificationInterval == NotifcationInterval.Never }">
+                                        :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Never }">
                                         <div class="dropdown-label select-option">
                                             Nie
                                         </div>

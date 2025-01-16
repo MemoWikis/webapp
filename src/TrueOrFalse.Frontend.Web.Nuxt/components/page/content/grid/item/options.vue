@@ -44,7 +44,7 @@ async function removeParent() {
         body: data
     })
     if (result) {
-        if (result.success == true) {
+        if (result.success === true) {
             alertStore.openAlert(AlertType.Success, {
                 text: messages.getByCompositeKey(result.messageKey)
             })
@@ -202,10 +202,10 @@ const ariaId2 = useId()
                         </div>
                     </div>
 
-                    <template v-if="userStore.id == props.page.creatorId || userStore.isAdmin">
+                    <template v-if="userStore.id === props.page.creatorId || userStore.isAdmin">
                         <div class="divider"></div>
 
-                        <div v-if="props.page.visibility == Visibility.All"
+                        <div v-if="props.page.visibility === Visibility.All"
                             @click="pageToPrivateStore.openModal(props.page.id); hide()" class="dropdown-row">
                             <div class="dropdown-icon">
                                 <font-awesome-icon :icon="['fa-solid', 'lock']" />

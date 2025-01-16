@@ -313,12 +313,12 @@ function drawCounterArcs() {
     overallCounterSvg.value
         .append('svg:foreignObject')
         .attr('height', '16px')
-        .attr('width', props.model.visibility == Visibility.Owner ? '14px' : '20px')
-        .attr('x', props.model.visibility == Visibility.Owner ? -7 : -10)
+        .attr('width', props.model.visibility === Visibility.Owner ? '14px' : '20px')
+        .attr('x', props.model.visibility === Visibility.Owner ? -7 : -10)
         .attr('y', -8)
         .html(() => {
             var fontColor = props.model.overallAnswerCount > 0 ? "#999999" : "#DDDDDD"
-            if (props.model.visibility == Visibility.Owner)
+            if (props.model.visibility === Visibility.Owner)
                 return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
                 return "<i class='fa-solid fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"
@@ -372,7 +372,7 @@ function drawProbabilityLabel() {
         .attr("font-size", "10")
         .attr("font-weight", "medium")
         .attr("class", "personalProbabilityText")
-        .style("fill", () => props.model.personalColor == "#999999" ? "white" : "#555555")
+        .style("fill", () => props.model.personalColor === "#999999" ? "white" : "#555555")
         .attr("transform", "translate(0,0)")
         .text(personalProbabilityText.value)
         .each(function (this: any) {
@@ -425,7 +425,7 @@ function setAvgLabelPos() {
             dxAvgLabel.value = (props.model.avgProbability - 80) * 6 / 100
         avgLabelAnchor.value = "end"
     }
-    else if (props.model.avgProbability == 50) {
+    else if (props.model.avgProbability === 50) {
         avgLabelAnchor.value = "middle"
     }
 }
@@ -585,7 +585,7 @@ const ariaId2 = useId()
                                     <strong>{{ abbreviateNumberToM(model.overallAnsweredWrongly) }}</strong> falsch
                                 </div>
                                 <div v-else class="counterLabel">
-                                    <template v-if="model.visibility == 1">
+                                    <template v-if="model.visibility === 1">
                                         Diese Frage ist <br />
                                         privat und nur für <br />
                                         dich sichtbar

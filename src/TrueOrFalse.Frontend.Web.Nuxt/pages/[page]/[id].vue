@@ -75,19 +75,19 @@ function setPage() {
                 tabSwitched.value = true
                 if (page.value == null)
                     return
-                if (t == Tab.Text)
+                if (t === Tab.Text)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id))
 
-                else if (t == Tab.Learning && route.params.questionId != null)
+                else if (t === Tab.Learning && route.params.questionId != null)
                     router.push($urlHelper.getPageUrlWithQuestionId(page.value.name, page.value.id, route.params.questionId.toString()))
 
-                else if (t == Tab.Learning)
+                else if (t === Tab.Learning)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id, Tab.Learning))
 
-                else if (t == Tab.Analytics)
+                else if (t === Tab.Analytics)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id, Tab.Analytics))
 
-                else if (t == Tab.Feed)
+                else if (t === Tab.Feed)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id, Tab.Feed))
             })
 
@@ -126,7 +126,7 @@ onMounted(() => setTab())
 const loginStateHasChanged = ref<boolean>(false)
 watch(() => userStore.isLoggedIn, () => loginStateHasChanged.value = true)
 watch(page, async (oldPage, newPage) => {
-    if (oldPage?.id == newPage?.id && loginStateHasChanged.value && import.meta.client) {
+    if (oldPage?.id === newPage?.id && loginStateHasChanged.value && import.meta.client) {
         await nextTick()
         setPage()
     }
@@ -173,7 +173,7 @@ watch(() => props.tab, (t) => {
 }, { immediate: true })
 
 convertStore.$onAction(({ name, after }) => {
-    if (name == 'confirmConversion') {
+    if (name === 'confirmConversion') {
         after(async () => {
             await refresh()
             await setPage()
@@ -192,13 +192,13 @@ convertStore.$onAction(({ name, after }) => {
                     <template v-if="pageStore?.id != 0">
                         <ClientOnly>
                             <PageTabsContent
-                                v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)"
+                                v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)"
                                 :text-is-hidden="pageStore.textIsHidden" />
                             <template #fallback>
                                 <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'no-grid-items': pageStore.gridItems.length === 0 }"
                                     v-if="!pageStore.textIsHidden"
-                                    v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)">
-                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
+                                    v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)">
+                                    <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
                                         <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                                             id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
                                         </div>
@@ -208,16 +208,16 @@ convertStore.$onAction(({ name, after }) => {
                         </ClientOnly>
                         <div id="EditBarAnchor"></div>
 
-                        <PageContentGrid v-show="tabsStore.activeTab == Tab.Text || (props.tab == Tab.Text && !tabSwitched)" :children="pageStore.gridItems" />
+                        <PageContentGrid v-show="tabsStore.activeTab === Tab.Text || (props.tab === Tab.Text && !tabSwitched)" :children="pageStore.gridItems" />
 
                         <ClientOnly>
-                            <PageTabsQuestions v-show="tabsStore.activeTab == Tab.Learning || (props.tab == Tab.Learning && !tabSwitched)" />
+                            <PageTabsQuestions v-show="tabsStore.activeTab === Tab.Learning || (props.tab === Tab.Learning && !tabSwitched)" />
                             <template #fallback>
                                 <div class="row">
                                 </div>
                             </template>
-                            <PageTabsAnalytics v-show="tabsStore.activeTab == Tab.Analytics || (props.tab == Tab.Analytics && !tabSwitched)" />
-                            <LazyPageTabsFeed v-show="tabsStore.activeTab == Tab.Feed || (props.tab == Tab.Feed && !tabSwitched)" />
+                            <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
+                            <LazyPageTabsFeed v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
                         </ClientOnly>
 
                         <ClientOnly>

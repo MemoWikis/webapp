@@ -380,7 +380,7 @@ function updateArc() {
         .transition()
         .delay(200)
         .duration(200)
-        .style("fill", () => personalColor.value == color.memoGrey ? "white" : color.memoGreyDarker)
+        .style("fill", () => personalColor.value === color.memoGrey ? "white" : color.memoGreyDarker)
 
     if (probabilityTextWidth != null)
         arcSvg.value.selectAll(".personalProbabilityChip")
@@ -466,12 +466,12 @@ function drawCounterArcs() {
     overallCounterSvg.value
         .append('svg:foreignObject')
         .attr('height', '16px')
-        .attr('width', visibility.value == Visibility.Owner ? '14px' : '20px')
-        .attr('x', visibility.value == Visibility.Owner ? -7 : -10)
+        .attr('width', visibility.value === Visibility.Owner ? '14px' : '20px')
+        .attr('x', visibility.value === Visibility.Owner ? -7 : -10)
         .attr('y', -8)
         .html(() => {
             var fontColor = overallAnswerCount.value > 0 ? color.memoGrey : color.memoGreyLight
-            if (visibility.value == Visibility.Owner)
+            if (visibility.value === Visibility.Owner)
                 return "<i class='fa-solid fa-lock' style='font-size:16px; color:" + fontColor + "'> </i>"
             else
                 return "<i class='fa-solid fa-users' style='font-size:16px; color:" + fontColor + "'> </i>"
@@ -605,7 +605,7 @@ function drawProbabilityLabel() {
         .attr("font-size", "10")
         .attr("font-weight", "medium")
         .attr("class", "personalProbabilityText")
-        .style("fill", () => personalColor.value == color.memoGrey ? "white" : color.memoGreyDarker)
+        .style("fill", () => personalColor.value === color.memoGrey ? "white" : color.memoGreyDarker)
         .attr("transform", "translate(0,0)")
         .text(personalProbabilityText.value)
         .each(function (this: any) {
@@ -658,7 +658,7 @@ function setAvgLabelPos() {
             dxAvgLabel.value = (avgProbability.value - 80) * 6 / 100
         avgLabelAnchor.value = "end"
     }
-    else if (avgProbability.value == 50) {
+    else if (avgProbability.value === 50) {
         avgLabelAnchor.value = "middle"
     }
 }
@@ -780,7 +780,7 @@ const loadDataResult = ref<AnswerQuestionDetailsResult>()
 async function loadData() {
     await nextTick()
 
-    if (props.id == deleteQuestionStore.deletedQuestionId)
+    if (props.id === deleteQuestionStore.deletedQuestionId)
         return
     const result = await $api<AnswerQuestionDetailsResult>(`/apiVue/AnswerQuestionDetails/Get/${props.id}`, {
         credentials: 'include',
@@ -857,14 +857,14 @@ function openCommentModal() {
 
 onMounted(() => {
     learningSessionStore.$onAction(({ after, name }) => {
-        if (name == 'markCurrentStep') {
+        if (name === 'markCurrentStep') {
             after(() => {
                 loadData()
             })
         }
     })
     watch(() => tabsStore.activeTab, (val) => {
-        if (val == Tab.Learning)
+        if (val === Tab.Learning)
             loadData()
     })
 })
@@ -1031,7 +1031,7 @@ const activityPointsStore = useActivityPointsStore()
                                     <strong>{{ allWrongAnswers }}</strong> falsch
                                 </div>
                                 <div v-else class="counterLabel">
-                                    <template v-if="visibility == 1">
+                                    <template v-if="visibility === 1">
                                         Diese Frage ist <br />
                                         privat und nur für <br />
                                         dich sichtbar

@@ -67,9 +67,9 @@ watch(wikimediaUrl, (url) => {
 })
 
 watch(wikiMediaPreviewUrl, (url) => {
-    if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && url?.length > 0)
+    if (selectedImageUploadMode.value === ImageUploadMode.Wikimedia && url?.length > 0)
         imageLoaded.value = true
-    else if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && (url == null || url?.length <= 0))
+    else if (selectedImageUploadMode.value === ImageUploadMode.Wikimedia && (url == null || url?.length <= 0))
         imageLoaded.value = false
 })
 
@@ -81,7 +81,7 @@ const imageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/svg', 'image/
 function handleImageChange(e: any) {
     const files = e.target.files || e.dataTransfer.files
 
-    if (files.length > 0 && imageTypes.some(end => files[0].type == end)) {
+    if (files.length > 0 && imageTypes.some(end => files[0].type === end)) {
         showTypeError.value = false
         createImage(files[0])
     }
@@ -96,14 +96,14 @@ function createImage(file: File) {
 }
 
 watch(customImgUrl, (url) => {
-    if (selectedImageUploadMode.value == ImageUploadMode.Custom && url?.length > 0)
+    if (selectedImageUploadMode.value === ImageUploadMode.Custom && url?.length > 0)
         imageLoaded.value = true
-    else if (selectedImageUploadMode.value == ImageUploadMode.Custom && (url == null || url?.length <= 0))
+    else if (selectedImageUploadMode.value === ImageUploadMode.Custom && (url == null || url?.length <= 0))
         imageLoaded.value = false
 })
 
 watch(selectedImageUploadMode, (mode) => {
-    if ((selectedImageUploadMode.value == ImageUploadMode.Wikimedia && wikiMediaPreviewUrl.value.length > 0) || (selectedImageUploadMode.value == ImageUploadMode.Custom && customImgUrl.value.length > 0))
+    if ((selectedImageUploadMode.value === ImageUploadMode.Wikimedia && wikiMediaPreviewUrl.value.length > 0) || (selectedImageUploadMode.value === ImageUploadMode.Custom && customImgUrl.value.length > 0))
         imageLoaded.value = true
     else imageLoaded.value = false
 })
@@ -114,7 +114,7 @@ const isPersonalCreation = ref<boolean>()
 async function upload() {
     let url
     let data
-    if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia) {
+    if (selectedImageUploadMode.value === ImageUploadMode.Wikimedia) {
         url = '/apiVue/ImageUploadModal/SaveWikimediaImage'
         data = {
             pageId: pageStore.id,
@@ -153,9 +153,9 @@ async function upload() {
 }
 
 const disablePrimaryButton = computed(() => {
-    if (selectedImageUploadMode.value == ImageUploadMode.Wikimedia && imageLoaded.value)
+    if (selectedImageUploadMode.value === ImageUploadMode.Wikimedia && imageLoaded.value)
         return false
-    else if (selectedImageUploadMode.value == ImageUploadMode.Custom && imageLoaded.value && isPersonalCreation.value && licenseGiverName.value.length >= 3)
+    else if (selectedImageUploadMode.value === ImageUploadMode.Custom && imageLoaded.value && isPersonalCreation.value && licenseGiverName.value.length >= 3)
         return false
     else return true
 })
@@ -189,20 +189,20 @@ function resetModal() {
             <div class="imagetype-select-container">
                 <div @click="selectedImageUploadMode = ImageUploadMode.Wikimedia" class="imagetype-select">
                     <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
-                        v-if="selectedImageUploadMode == ImageUploadMode.Wikimedia" />
+                        v-if="selectedImageUploadMode === ImageUploadMode.Wikimedia" />
                     <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
                     Bilder von Wikimedia verwenden.
                 </div>
 
                 <div @click="selectedImageUploadMode = ImageUploadMode.Custom" class="imagetype-select">
                     <font-awesome-icon icon="fa-solid fa-circle-dot" class="imagetype-select-radio active"
-                        v-if="selectedImageUploadMode == ImageUploadMode.Custom" />
+                        v-if="selectedImageUploadMode === ImageUploadMode.Custom" />
                     <font-awesome-icon icon="fa-regular fa-circle" class="imagetype-select-radio" v-else />
                     Eigene Bilder
                 </div>
             </div>
             <Transition name="fade">
-                <div v-if="selectedImageUploadMode == ImageUploadMode.Wikimedia" class="content">
+                <div v-if="selectedImageUploadMode === ImageUploadMode.Wikimedia" class="content">
                     <p>
                         Bei Wikipedia/ Wikimedia sind viele Millionen Bilder zu finden, die frei genutzt werden können.
                         Auf
@@ -237,7 +237,7 @@ function resetModal() {
                             :square="true" />
                     </div>
                 </div>
-                <div v-else-if="selectedImageUploadMode == ImageUploadMode.Custom"
+                <div v-else-if="selectedImageUploadMode === ImageUploadMode.Custom"
                     class="imageupload-dropzone-container">
                     <label for="imageUpload" class="imageupload-dropzone" @drop.prevent="handleImageChange"
                         :class="{ 'active': onDragOver }" @dragover.prevent="onDragOver = true"
@@ -279,11 +279,11 @@ function resetModal() {
                         <div>
                             <div @click="isPersonalCreation = true" class="license-select">
                                 <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
-                                    v-if="isPersonalCreation == true" />
+                                    v-if="isPersonalCreation === true" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
                                 Dieses Bild ist meine eigene Arbeit.
                             </div>
-                            <p v-if="isPersonalCreation == true" class="license-info">
+                            <p v-if="isPersonalCreation === true" class="license-info">
                                 Ich, <input v-model="licenseGiverName" type="text" placeholder="Name"
                                     class="creator-name-input" />, der Rechteinhaber
                                 dieses Werks gewähre unwiderruflich jedem das Recht, es gemäß der
@@ -295,11 +295,11 @@ function resetModal() {
 
                             <div @click="isPersonalCreation = false" class="license-select">
                                 <font-awesome-icon icon="fa-solid fa-circle-dot" class="license-select-radio active"
-                                    v-if="isPersonalCreation == false" />
+                                    v-if="isPersonalCreation === false" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="license-select-radio" v-else />
                                 Dieses Bild ist nicht meine eigene Arbeit.
                             </div>
-                            <p v-if="isPersonalCreation == false" class="license-info">
+                            <p v-if="isPersonalCreation === false" class="license-info">
                                 Wir bitten dich das Bild auf <NuxtLink to="https://commons.wikimedia.org/wiki/Main_Page"
                                     :external="true">Wikimedia </NuxtLink> hochzuladen und so einzubinden.
                             </p>

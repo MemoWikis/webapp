@@ -69,9 +69,9 @@ const ariaId = useId()
                     <div class="user-dropdown-label">Schriftgröße</div>
                     <div class="user-dropdown-container">
                         <div class="font-size-selector">
-                            <div @click="userStore.setFontSize(FontSize.Small)" class="font-size-selector-btn small" :class="{ 'is-active': userStore.fontSize == FontSize.Small }">Aa</div>
-                            <div @click="userStore.setFontSize(FontSize.Medium)" class="font-size-selector-btn medium" :class="{ 'is-active': userStore.fontSize == FontSize.Medium }">Aa</div>
-                            <div @click="userStore.setFontSize(FontSize.Large)" class="font-size-selector-btn large" :class="{ 'is-active': userStore.fontSize == FontSize.Large }">Aa</div>
+                            <div @click="userStore.setFontSize(FontSize.Small)" class="font-size-selector-btn small" :class="{ 'is-active': userStore.fontSize === FontSize.Small }">Aa</div>
+                            <div @click="userStore.setFontSize(FontSize.Medium)" class="font-size-selector-btn medium" :class="{ 'is-active': userStore.fontSize === FontSize.Medium }">Aa</div>
+                            <div @click="userStore.setFontSize(FontSize.Large)" class="font-size-selector-btn large" :class="{ 'is-active': userStore.fontSize === FontSize.Large }">Aa</div>
                         </div>
                     </div>
                 </div>

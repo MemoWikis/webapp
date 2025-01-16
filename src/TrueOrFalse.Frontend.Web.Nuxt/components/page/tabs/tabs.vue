@@ -61,16 +61,16 @@ const ariaId2 = useId()
 
 						<div class="tab" @click="tabsStore.activeTab = Tab.Text">
 
-							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Text"
+							<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text"
 								:style="getWidth(pageLabelEl)">
 								Text
 							</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Text }"
+							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }"
 								ref="pageLabelEl">
 								Text
 							</div>
 
-							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Text"></div>
+							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Text"></div>
 							<div class="inactive-tab" v-else>
 								<div class="tab-border"></div>
 							</div>
@@ -78,7 +78,7 @@ const ariaId2 = useId()
 
 						<div class="tab" @click="tabsStore.activeTab = Tab.Learning">
 
-							<div class="tab-label chip-tab active" v-if="tabsStore.activeTab == Tab.Learning"
+							<div class="tab-label chip-tab active" v-if="tabsStore.activeTab === Tab.Learning"
 								:style="getWidth(learningLabelEl)">
 								Fragen
 								<div class="chip" v-if="pageStore.questionCount > 0">
@@ -86,14 +86,14 @@ const ariaId2 = useId()
 								</div>
 							</div>
 							<div class="tab-label chip-tab"
-								:class="{ 'invisible-tab': tabsStore.activeTab == Tab.Learning }" ref="learningLabelEl">
+								:class="{ 'invisible-tab': tabsStore.activeTab === Tab.Learning }" ref="learningLabelEl">
 								Fragen
 								<div class="chip" v-if="pageStore.questionCount > 0">
 									{{ pageStore.questionCount }}
 								</div>
 							</div>
 
-							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
+							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Learning"></div>
 							<div class="inactive-tab" v-else>
 								<div class="tab-border"></div>
 							</div>
@@ -101,16 +101,16 @@ const ariaId2 = useId()
 
 						<div class="tab" @click="tabsStore.activeTab = Tab.Feed">
 
-							<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed"
+							<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed"
 								:style="getWidth(feedLabelEl)">
 								Feed
 							</div>
-							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }"
+							<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
 								ref="feedLabelEl">
 								Feed
 							</div>
 
-							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
+							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Feed"></div>
 							<div class="inactive-tab" v-else>
 								<div class="tab-border"></div>
 							</div>
@@ -118,7 +118,7 @@ const ariaId2 = useId()
 
 						<div class="tab" @click="tabsStore.activeTab = Tab.Analytics">
 
-							<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab == Tab.Analytics"
+							<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
 								:style="getWidth(analyticsLabelEl)">
 								<template v-if="!isMobile">
 									Analytics
@@ -140,7 +140,7 @@ const ariaId2 = useId()
 									</template>
 								</VTooltip>
 							</div>
-							<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+							<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
 								<template v-if="!isMobile">
 									Analytics
 								</template>
@@ -164,7 +164,7 @@ const ariaId2 = useId()
 								</VTooltip>
 							</div>
 
-							<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
+							<div class="active-tab" v-if="tabsStore.activeTab === Tab.Analytics"></div>
 							<div class="inactive-tab" v-else>
 								<div class="tab-border"></div>
 							</div>
@@ -187,20 +187,20 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Text && isMobile" style="width:60px"
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text && isMobile" style="width:60px"
 						:style="getWidth(pageLabelEl)">
 						Text
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab == Tab.Text" style="width:68px"
+					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Text" style="width:68px"
 						:style="getWidth(pageLabelEl)">
 						Text
 					</div>
-					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Text }"
+					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }"
 						ref="pageLabelEl">
 						Text
 					</div>
 
-					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Text"></div>
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Text"></div>
 					<div class="inactive-tab" v-else>
 						<div class="tab-border"></div>
 					</div>
@@ -208,14 +208,14 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label chip-tab active learning-tab" v-if="tabsStore.activeTab == Tab.Learning"
+					<div class="tab-label chip-tab active learning-tab" v-if="tabsStore.activeTab === Tab.Learning"
 						:style="getWidth(learningLabelEl)">
 						Fragen
 						<div class="chip" v-if="pageStore.questionCount > 0">
 							{{ pageStore.questionCount }}
 						</div>
 					</div>
-					<div class="tab-label chip-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Learning }"
+					<div class="tab-label chip-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Learning }"
 						ref="learningLabelEl">
 						Fragen
 						<div class="chip" v-if="pageStore.questionCount > 0">
@@ -223,7 +223,7 @@ const ariaId2 = useId()
 						</div>
 					</div>
 
-					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Learning"></div>
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Learning"></div>
 					<div class="inactive-tab" v-else>
 						<div class="tab-border"></div>
 					</div>
@@ -232,20 +232,20 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active" v-if="tabsStore.activeTab == Tab.Feed && isMobile" style="width:65px"
+					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed && isMobile" style="width:65px"
 						:style="getWidth(pageLabelEl)">
 						Feed
 					</div>
-					<div class="tab-label active" v-else-if="tabsStore.activeTab == Tab.Feed" style="width:73px"
+					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Feed" style="width:73px"
 						:style="getWidth(pageLabelEl)">
 						Feed
 					</div>
-					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Feed }"
+					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
 						ref="feedLabelEl">
 						Feed
 					</div>
 
-					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Feed"></div>
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Feed"></div>
 					<div class="inactive-tab" v-else>
 						<div class="tab-border"></div>
 					</div>
@@ -253,20 +253,20 @@ const ariaId2 = useId()
 
 				<div class="tab">
 
-					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab == Tab.Analytics"
+					<div class="tab-label active analytics-tab" v-if="tabsStore.activeTab === Tab.Analytics"
 						:style="getWidth(analyticsLabelEl)">
 
 						<template v-if="!isMobile">
 							Analytics
 						</template>
 					</div>
-					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab == Tab.Analytics }" ref="analyticsLabelEl">
+					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
 							Analytics
 						</template>
 					</div>
 
-					<div class="active-tab" v-if="tabsStore.activeTab == Tab.Analytics"></div>
+					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Analytics"></div>
 					<div class="inactive-tab" v-else>
 						<div class="tab-border"></div>
 					</div>

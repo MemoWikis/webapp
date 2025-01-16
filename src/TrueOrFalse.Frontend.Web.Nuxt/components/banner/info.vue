@@ -14,7 +14,7 @@ const skipAnimation = ref(false)
 const showBanner = ref(false)
 
 function loadInfoBanner() {
-    if (cookie.value == 'notFirstTime')
+    if (cookie.value === 'notFirstTime')
         skipAnimation.value = true
     if (cookie.value != 'hide') {
         showBanner.value = true

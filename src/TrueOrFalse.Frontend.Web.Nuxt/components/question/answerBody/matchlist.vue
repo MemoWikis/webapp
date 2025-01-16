@@ -9,8 +9,8 @@ interface Props {
 const props = defineProps<Props>()
 
 interface Pair {
-    ElementLeft: Element;
-    ElementRight: Element;
+    ElementLeft: Element
+    ElementRight: Element
 }
 interface Element {
     Text: string
@@ -46,7 +46,7 @@ function onDragLeave() {
 }
 function onDrop(event: any) {
     const index: number = event.target.getAttribute('data-index')
-    if (index != null && typeof dragStore.transferData == 'string') {
+    if (index != null && typeof dragStore.transferData === 'string') {
         pairs.value[index].ElementRight.Text = dragStore.transferData
         temp.value = null
     }
@@ -64,7 +64,7 @@ function dropClass(i: number) {
     let classes = ''
     if (pairs.value[i].ElementRight.Text != '')
         classes = 'has-input'
-    if (isDroppableItemActive.value && hover.value == i && dragStarted)
+    if (isDroppableItemActive.value && hover.value === i && dragStarted)
         return classes + ' active'
     else if (dragStarted.value)
         return classes + 'draggable'
@@ -97,14 +97,14 @@ function dragStart(e: any) {
 }
 const movingAnswerIndex = ref<number | null>()
 function dragPlacedAnswer(i: number) {
-    if (pairs.value[i].ElementRight.Text == '')
+    if (pairs.value[i].ElementRight.Text === '')
         return
     movingAnswerIndex.value = i
     dragStarted.value = true
     temp.value = pairs.value[i].ElementRight.Text
 }
 function handleDragEnd(i: number) {
-    if (movingAnswerIndex.value == i)
+    if (movingAnswerIndex.value === i)
         pairs.value[i].ElementRight.Text = ''
     movingAnswerIndex.value = null
     dragStarted.value = false
@@ -140,11 +140,11 @@ init()
                         <font-awesome-icon icon="fa-solid fa-arrow-right" class="pair-divider" />
                         <SharedDroppable v-bind="{ onDragOver, onDragLeave, onDrop }" class="drop-section">
                             <SharedDraggable @dragstart="dragPlacedAnswer(i)" :transferData="pairs[i].ElementRight.Text"
-                                :disabled="pairs[i].ElementRight.Text == ''" @drag-ended="handleDragEnd(i)">
+                                :disabled="pairs[i].ElementRight.Text === ''" @drag-ended="handleDragEnd(i)">
                                 <div class="drop-container" :class="dropClass(i)" :data-index="i"
                                     @dragenter="dragEnter(i, $event)" @dragleave="dragLeave(i)">
 
-                                    <font-awesome-icon v-if="pairs[i].ElementRight.Text == ''"
+                                    <font-awesome-icon v-if="pairs[i].ElementRight.Text === ''"
                                         icon="fa-solid fa-arrow-right-to-bracket" class="drop-icon" rotation="90" />
                                     <template v-else>{{ pairs[i].ElementRight.Text }}</template>
                                 </div>
@@ -155,8 +155,7 @@ init()
                 <div class="col-sm-12">
                     <div class="row">
                         <div id="matchlist-rightelements">
-                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text" class="draggable-element"
-                                @dragstart="dragStart(e.Text)">
+                            <SharedDraggable v-for="e in rightElements" :transferData="e.Text" class="draggable-element" @dragstart="dragStart(e.Text)">
                                 <div class="drag">
                                     {{ e.Text }}
                                 </div>

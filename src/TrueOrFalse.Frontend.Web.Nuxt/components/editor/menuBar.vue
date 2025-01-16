@@ -60,7 +60,7 @@ async function command(commandString: string, e: Event) {
             var previousUrl = props.editor.getAttributes('link').href
             var linkUrl = window.prompt('URL', previousUrl)
 
-            if (linkUrl === null)
+            if (linkUrl == null)
                 return
 
             if (linkUrl === '') {

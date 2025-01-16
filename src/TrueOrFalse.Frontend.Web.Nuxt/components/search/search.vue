@@ -84,8 +84,8 @@ async function search() {
     let data: BodyType = {
         term: searchTerm.value,
     }
-    if ((props.searchType == SearchType.page ||
-        props.searchType == SearchType.pageInWiki))
+    if ((props.searchType === SearchType.page ||
+        props.searchType === SearchType.pageInWiki))
         data = { ...data, pageIdsToFilter: props.pageIdsToFilter }
 
     if (props.publicOnly)

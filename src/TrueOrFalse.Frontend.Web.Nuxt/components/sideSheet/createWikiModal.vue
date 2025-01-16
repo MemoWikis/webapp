@@ -35,7 +35,7 @@ const validateName = async () => {
 
     if (result.success)
         return true
-    else if (result.success == false) {
+    else if (result.success === false) {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         forbiddenWikiName.value = result.data.name
         if (result.data.url)
@@ -76,7 +76,7 @@ const createWiki = async () => {
         emit('closeWikiModal')
         await nextTick()
         navigateTo(`/${result.data.name}/${result.data.id}`)
-    } else if (result.success == false) {
+    } else if (result.success === false) {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
 

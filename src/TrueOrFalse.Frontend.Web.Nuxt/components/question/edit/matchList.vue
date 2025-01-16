@@ -114,17 +114,15 @@ function addRightElement() {
             <div class="matchlist-right">
                 <div v-for="(element, i) in rightElements" :key="i" class="form-group">
                     <div class="d-flex">
-                        <input type="text" class="form-control col-sm-10 matchlist-input" :id="i.toString()"
-                            v-model="element.Text" placeholder="" v-on:change="solutionBuilder()"
-                            :class="{ 'is-empty': i == 0 && element.Text.length <= 0 && props.highlightEmptyFields }">
+                        <input type="text" class="form-control col-sm-10 matchlist-input" :id="i.toString()" v-model="element.Text" placeholder="" v-on:change="solutionBuilder()"
+                            :class="{ 'is-empty': i === 0 && element.Text.length <= 0 && props.highlightEmptyFields }">
                         <div @click="deleteRightElement(i)" class="btn grey-bg col-sm-2 col-spacer delete-btn">
                             <font-awesome-icon icon="fa-solid fa-trash" />
                         </div>
                     </div>
                 </div>
                 <div class="d-flex">
-                    <div @click="addRightElement()" class="btn col-sm-10 form-control grey-bg"
-                        :class="{ 'is-empty': rightElements.length <= 0 && props.highlightEmptyFields }">Rechtes
+                    <div @click="addRightElement()" class="btn col-sm-10 form-control grey-bg" :class="{ 'is-empty': rightElements.length <= 0 && props.highlightEmptyFields }">Rechtes
                         Element
                         erstellen</div>
                     <div class="col-sm-2 col-spacer xs-hide"></div>

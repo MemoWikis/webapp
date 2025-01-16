@@ -17,7 +17,7 @@ function setKnowledgebarData() {
 
     knowledgebarTooltipData.value = []
     for (const [key, value] of Object.entries(props.knowledgebarData)) {
-        if (key == 'solid' || key == 'needsConsolidation' || key == 'needsLearning' || key == 'notLearned')
+        if (key === 'solid' || key === 'needsConsolidation' || key === 'needsLearning' || key === 'notLearned')
             knowledgebarTooltipData.value.push({
                 value: value,
                 class: key,

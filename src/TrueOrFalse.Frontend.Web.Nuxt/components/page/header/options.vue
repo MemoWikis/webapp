@@ -94,7 +94,7 @@ const ariaId = useId()
                         </div>
                     </div>
 
-                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility == Visibility.All"
+                    <div v-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.All"
                         class="dropdown-row" @click="pageToPrivateStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-lock" />
@@ -103,7 +103,7 @@ const ariaId = useId()
                             Seite auf privat setzen
                         </div>
                     </div>
-                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility == Visibility.Owner"
+                    <div v-else-if="pageStore.isOwnerOrAdmin() && pageStore.visibility === Visibility.Owner"
                         class="dropdown-row" @click="publishPageStore.openModal(pageStore.id); hide()">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-unlock" />
@@ -149,7 +149,7 @@ const ariaId = useId()
                 </template>
             </VDropdown>
         </div>
-        <div class="lock-btn" v-if="pageStore.visibility == Visibility.Owner" @mouseover="hoverLock = true" @mouseleave="hoverLock = false" @click="publishPageStore.openModal(pageStore.id)">
+        <div class="lock-btn" v-if="pageStore.visibility === Visibility.Owner" @mouseover="hoverLock = true" @mouseleave="hoverLock = false" @click="publishPageStore.openModal(pageStore.id)">
             <font-awesome-icon icon="fa-solid fa-lock" v-show="!hoverLock" />
             <font-awesome-icon icon="fa-solid fa-unlock" v-show="hoverLock" />
         </div>

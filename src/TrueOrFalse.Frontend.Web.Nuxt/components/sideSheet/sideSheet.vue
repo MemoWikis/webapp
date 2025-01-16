@@ -209,7 +209,7 @@ const removeFromFavorites = async (id: number) => {
     })
 
     if (result.success) {
-        const name = sideSheetStore.favorites.find(f => f.id == id)?.name
+        const name = sideSheetStore.favorites.find(f => f.id === id)?.name
         sideSheetStore.removeFromFavoritePages(id)
         snackbar.add({
             message: `'${name}' wurde aus den Favoriten entfernt`,
@@ -242,9 +242,9 @@ const handleWikiCreated = async () => {
 }
 
 deletePageStore.$onAction(({ after, name }) => {
-    if (name == 'deletePage') {
+    if (name === 'deletePage') {
         after((result) => {
-            if (result && result.id && (sideSheetStore.wikis.some(w => w.id == result.id) || sideSheetStore.favorites.some(f => f.id == result.id))) {
+            if (result && result.id && (sideSheetStore.wikis.some(w => w.id === result.id) || sideSheetStore.favorites.some(f => f.id === result.id))) {
                 init()
             }
         })
@@ -252,7 +252,7 @@ deletePageStore.$onAction(({ after, name }) => {
 })
 
 convertStore.$onAction(({ after, name }) => {
-    if (name == 'confirmConversion') {
+    if (name === 'confirmConversion') {
         after(() => {
             init()
         })
@@ -264,7 +264,7 @@ const cancelMouseLeave = () => {
 }
 
 pageStore.$onAction(({ after, name }) => {
-    if (name == 'saveName') {
+    if (name === 'saveName') {
         after(() => {
             init()
         })

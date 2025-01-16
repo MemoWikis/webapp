@@ -43,7 +43,7 @@ const { $urlHelper } = useNuxtApp()
                     <div class="page-chip-label" v-if="!props.hideLabel">
                         {{ name }}
                     </div>
-                    <font-awesome-icon v-if="page.visibility == 1" icon="fa-solid fa-lock" class="lock" />
+                    <font-awesome-icon v-if="page.visibility === 1" icon="fa-solid fa-lock" class="lock" />
                 </div>
             </NuxtLink>
             <div class="page-chip spoiler" v-else @click="showName = true">

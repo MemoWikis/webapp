@@ -54,9 +54,9 @@ onMounted(() => {
 const filterOpened = useCookie('show-top-dropdown')
 
 onBeforeMount(() => {
-    if (filterOpened.value?.toString() == 'true')
+    if (filterOpened.value?.toString() === 'true')
         openFilter.value = true
-    else if (filterOpened.value?.toString() == 'false' || filterOpened.value == undefined)
+    else if (filterOpened.value?.toString() === 'false' || filterOpened.value == undefined)
         openFilter.value = false
 })
 const oldId = ref()
@@ -136,7 +136,7 @@ function stepForward() {
                         <div class="session-progress">
                             <!-- <DevOnly>
                                 <div v-for="step in learningSessionStore.steps" class="step"
-                                    :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state == AnswerState.Skipped, 'false': step.state == AnswerState.False }">
+                                    :class="{ 'answered': step.state != AnswerState.Unanswered, 'skipped': step.state === AnswerState.Skipped, 'false': step.state === AnswerState.False }">
                                 </div>
                             </DevOnly> -->
                             <div class="pager-container"></div>

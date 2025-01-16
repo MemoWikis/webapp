@@ -142,13 +142,13 @@ watch(() => route.params, () => {
 		getBreadcrumb()
 })
 watch(() => pageStore.id, (newId, oldId) => {
-	if (newId > 0 && newId != oldId && props.site == Site.Page) {
+	if (newId > 0 && newId != oldId && props.site === Site.Page) {
 		getBreadcrumb()
 	}
 }, { immediate: true })
 
 watch(() => props.site, (newPage, oldPage) => {
-	if (oldPage != newPage && (newPage == Site.Page && pageStore.id > 0))
+	if (oldPage != newPage && (newPage === Site.Page && pageStore.id > 0))
 		getBreadcrumb()
 })
 
@@ -171,7 +171,7 @@ async function getBreadcrumb() {
 		wikiId: !isNaN(sessionWikiId) ? sessionWikiId : 0,
 		currentPageId: pageStore.id,
 	}
-	if (props.site == Site.Page && pageStore.id > 0) {
+	if (props.site === Site.Page && pageStore.id > 0) {
 		const result = await $api<Breadcrumb>(`/apiVue/Breadcrumb/GetBreadcrumb/`,
 			{
 				method: 'POST',
@@ -311,7 +311,7 @@ const ariaId = useId()
 const ariaId2 = useId()
 
 convertStore.$onAction(({ name, after }) => {
-	if (name == 'confirmConversion') {
+	if (name === 'confirmConversion') {
 		after(async () => {
 			await getBreadcrumb()
 		})
@@ -320,7 +320,7 @@ convertStore.$onAction(({ name, after }) => {
 </script>
 
 <template>
-	<div v-if="breadcrumb != null && props.site == Site.Page" id="BreadCrumb" ref="breadcrumbEl"
+	<div v-if="breadcrumb != null && props.site === Site.Page" id="BreadCrumb" ref="breadcrumbEl"
 		:style="breadcrumbWidth"
 		:class="{ 'search-is-open': props.showSearch && windowInnerWidth < 768, 'pseudo-white': whiteOut }"
 		v-show="!shrinkBreadcrumb">

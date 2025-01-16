@@ -46,7 +46,7 @@ async function onDrop() {
 
     const targetId = dragStore.dropZoneData.id
 
-    if (transferData.page.id == targetId)
+    if (transferData.page.id === targetId)
         return
 
     const position = dragStore.dropZoneData.position
@@ -104,7 +104,7 @@ async function prepareDragStart() {
         return
     }
 
-    if (props.parentVisibility == Visibility.All && !userStore.gridInfoShown) {
+    if (props.parentVisibility === Visibility.All && !userStore.gridInfoShown) {
         snackbar.add({
             type: 'warning',
             title: '',
@@ -252,7 +252,7 @@ function getDropZoneData(position: TargetPosition): string {
 }
 
 watch(() => dragStore.dropZoneData, (data) => {
-    if (data?.type == DragAndDropType.GridItem && data.id == props.page.id && data.parentId == props.parentId) {
+    if (data?.type === DragAndDropType.GridItem && data.id === props.page.id && data.parentId === props.parentId) {
         isDroppableItemActive.value = true
         currentPosition.value = data.position
     }
@@ -264,11 +264,11 @@ watch(() => dragStore.dropZoneData, (data) => {
 
 watch(currentPosition, (val) => {
     if (isDroppableItemActive.value) {
-        if (val == TargetPosition.Before) {
+        if (val === TargetPosition.Before) {
             hoverTopHalf.value = true
             hoverBottomHalf.value = false
         }
-        else if (val == TargetPosition.After || val == TargetPosition.Inner) {
+        else if (val === TargetPosition.After || val === TargetPosition.Inner) {
             hoverTopHalf.value = false
             hoverBottomHalf.value = true
         }
@@ -313,7 +313,7 @@ watch([() => dragStore.touchX, () => dragStore.touchY], ([x, y]) => {
         }
 
         if (touchNotMovedTimer.value == null) {
-            if (currentPosition.value == TargetPosition.After)
+            if (currentPosition.value === TargetPosition.After)
                 setTimeout(() => {
                     currentPosition.value = TargetPosition.Inner
                     dropIn.value = true

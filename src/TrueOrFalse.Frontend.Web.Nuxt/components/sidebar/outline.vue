@@ -51,17 +51,17 @@ function getCurrentHeadingId() {
 }
 
 function sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
 const cancelToken = ref<number>(0)
 async function traverseIds(startIndex: number, endId: string | null) {
     const token = ++cancelToken.value
     const headings = outlineStore.headings
     const initialEndIndex = headings.findIndex(h => h.id === endId)
-    if (startIndex == initialEndIndex) return
+    if (startIndex === initialEndIndex) return
     if (startIndex === -1) startIndex = 0
     let endIndex = initialEndIndex
-    if (endIndex === -1 || endIndex === null) endIndex = 0
+    if (endIndex === -1 || endIndex == null) endIndex = 0
 
     if (startIndex <= endIndex) {
         for (let i = startIndex; i <= endIndex; i++) {
@@ -76,7 +76,7 @@ async function traverseIds(startIndex: number, endId: string | null) {
             await sleep(50)
         }
     }
-    if (initialEndIndex === -1 || initialEndIndex === null) currentHeadingId.value = null
+    if (initialEndIndex === -1 || initialEndIndex == null) currentHeadingId.value = null
 }
 
 function findCurrentSectionId(): string | null {
@@ -126,7 +126,7 @@ function headingClass(level: number, index: number) {
             return `level-${level - 1} preceeding-section-is-empty`
     }
 
-    return `level-${level - 1}${index == 0 ? ' first-outline' : ''}`
+    return `level-${level - 1}${index === 0 ? ' first-outline' : ''}`
 }
 
 </script>

@@ -124,7 +124,7 @@ const tabsStore = useTabsStore()
                             style="padding-right: 10px">
                             Weiterlernen
                         </button>
-                        <button v-if="tabsStore.activeTab == Tab.Learning" @click="tabsStore.activeTab = Tab.Text"
+                        <button v-if="tabsStore.activeTab === Tab.Learning" @click="tabsStore.activeTab = Tab.Text"
                             class="memo-button btn btn-link">
                             Zur Seite
                         </button>

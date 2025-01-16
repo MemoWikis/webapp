@@ -35,7 +35,7 @@ async function validateName() {
 
     if (result.success)
         return true
-    else if (result.success == false) {
+    else if (result.success === false) {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         forbbidenPageName.value = result.data.name
         if (result.data.url)
@@ -86,7 +86,7 @@ async function addPage() {
         if (editPageRelationStore.redirect)
             await navigateTo($urlHelper.getPageUrl(result.data.name, result.data.id))
 
-    } else if (result.success == false) {
+    } else if (result.success === false) {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
 
@@ -108,7 +108,7 @@ watch(name, (val) => {
 
 const selectedPageId = ref(0)
 watch(selectedPageId, (id) => {
-    if (id > 0 && editPageRelationStore.type != EditPageRelationType.Create || editPageRelationStore.type == EditPageRelationType.Create)
+    if (id > 0 && editPageRelationStore.type != EditPageRelationType.Create || editPageRelationStore.type === EditPageRelationType.Create)
         disableAddButton.value = false
 })
 
@@ -138,7 +138,7 @@ const forbiddenPageName = ref('')
 async function movePageToNewParent() {
     spinnerStore.showSpinner()
 
-    if (selectedPageId.value == editPageRelationStore.parentId) {
+    if (selectedPageId.value === editPageRelationStore.parentId) {
         errorMsg.value = messages.error.page.loopLink
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
@@ -159,14 +159,14 @@ async function movePageToNewParent() {
         },
     })
 
-    if (result.success == true) {
+    if (result.success === true) {
         editPageRelationStore.parentId = selectedPage.value?.id!
         editPageRelationStore.addPage(editPageRelationStore.childId)
         editPageRelationStore.removePage(editPageRelationStore.childId, editPageRelationStore.pageIdToRemove)
         editPageRelationStore.showModal = false
-        if (editPageRelationStore.parentId == pageStore.id)
+        if (editPageRelationStore.parentId === pageStore.id)
             pageStore.childPageCount++
-        if (editPageRelationStore.pageIdToRemove == pageStore.id)
+        if (editPageRelationStore.pageIdToRemove === pageStore.id)
             pageStore.childPageCount--
 
         spinnerStore.hideSpinner()
@@ -180,23 +180,23 @@ async function movePageToNewParent() {
 const { $urlHelper } = useNuxtApp()
 
 watch(() => editPageRelationStore.type, (val) => {
-    if (val == EditPageRelationType.AddToPersonalWiki && editPageRelationStore.personalWiki) {
+    if (val === EditPageRelationType.AddToPersonalWiki && editPageRelationStore.personalWiki) {
         selectedPageId.value = editPageRelationStore.personalWiki.id
     }
 })
 
 watch(() => editPageRelationStore.personalWiki, (val) => {
-    if (val && editPageRelationStore.type == EditPageRelationType.AddToPersonalWiki) {
+    if (val && editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki) {
         selectedPageId.value = editPageRelationStore.personalWiki!.id
     }
 })
 
 function getAddChildPayload() {
 
-    if (editPageRelationStore.type == EditPageRelationType.AddChild)
+    if (editPageRelationStore.type === EditPageRelationType.AddChild)
         editPageRelationStore.childId = selectedPageId.value
 
-    else if (editPageRelationStore.type == EditPageRelationType.AddParent || editPageRelationStore.type == EditPageRelationType.AddToPersonalWiki)
+    else if (editPageRelationStore.type === EditPageRelationType.AddParent || editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki)
         editPageRelationStore.parentId = selectedPageId.value
 
     return {
@@ -208,7 +208,7 @@ async function addExistingPage() {
     spinnerStore.showSpinner()
     const data = getAddChildPayload()
 
-    if (data.childId == data.parentId) {
+    if (data.childId === data.parentId) {
         errorMsg.value = messages.error.page.loopLink
         showErrorMsg.value = true
         spinnerStore.hideSpinner()
@@ -239,7 +239,7 @@ async function addExistingPage() {
 
 
 watch(searchTerm, (term) => {
-    if (term.length > 0 && lockDropdown.value == false) {
+    if (term.length > 0 && lockDropdown.value === false) {
         showDropdown.value = true
         debounceSearch()
     }
@@ -258,7 +258,7 @@ async function search() {
         pagesIdToFilter: editPageRelationStore.pagesToFilter
     }
 
-    const url = editPageRelationStore.type == EditPageRelationType.AddToPersonalWiki
+    const url = editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki
         ? '/apiVue/PageRelationEdit/SearchPageInPersonalWiki'
         : '/apiVue/PageRelationEdit/SearchPage'
 
@@ -280,7 +280,7 @@ async function search() {
 
 editPageRelationStore.$onAction(({ name, after }) => {
     after(() => {
-        if (name == 'initWikiData' && editPageRelationStore.personalWiki) {
+        if (name === 'initWikiData' && editPageRelationStore.personalWiki) {
             selectedParentInWikiId.value = editPageRelationStore.personalWiki.id
         }
     })
@@ -323,7 +323,7 @@ function handleMainBtn() {
 }
 
 watch(() => editPageRelationStore.showModal, (val) => {
-    if (val == false) {
+    if (val === false) {
         name.value = ''
         showErrorMsg.value = false
         privatePageLimitReached.value = false
@@ -338,23 +338,23 @@ watch(() => editPageRelationStore.showModal, (val) => {
         :show-cancel-btn="true">
 
         <template v-slot:header>
-            <h4 v-if="editPageRelationStore.type == EditPageRelationType.Create" class="modal-title">
+            <h4 v-if="editPageRelationStore.type === EditPageRelationType.Create" class="modal-title">
                 Neue Seite erstellen
             </h4>
-            <h4 v-else-if="editPageRelationStore.type == EditPageRelationType.Move" class="modal-title">
+            <h4 v-else-if="editPageRelationStore.type === EditPageRelationType.Move" class="modal-title">
                 Seite verschieben nach
             </h4>
-            <h4 v-else-if="editPageRelationStore.type == EditPageRelationType.AddChild" class="modal-title">
+            <h4 v-else-if="editPageRelationStore.type === EditPageRelationType.AddChild" class="modal-title">
                 Bestehende Seite verknüpfen
             </h4>
-            <h4 v-else-if="editPageRelationStore.type == EditPageRelationType.AddParent || editPageRelationStore.type == EditPageRelationType.AddToPersonalWiki"
+            <h4 v-else-if="editPageRelationStore.type === EditPageRelationType.AddParent || editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki"
                 class="modal-title">
                 Neue Übergeordnete Seite verknüpfen
             </h4>
         </template>
 
         <template v-slot:body>
-            <template v-if="editPageRelationStore.type == EditPageRelationType.Create">
+            <template v-if="editPageRelationStore.type === EditPageRelationType.Create">
                 <form v-on:submit.prevent="addPage">
                     <div class="form-group">
                         <input class="form-control create-input" v-model="name"
@@ -379,7 +379,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
             </template>
 
 
-            <template v-else-if="editPageRelationStore.type == EditPageRelationType.AddToPersonalWiki">
+            <template v-else-if="editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki">
                 <div class="mb-250">
                     <p>Wo soll die Seite hinzugefügt werden?</p>
                 </div>
@@ -387,7 +387,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                     <div class="pageSearchAutocomplete mb-250" v-if="editPageRelationStore.personalWiki != null"
                         @click="selectedParentInWikiId = userStore.personalWiki?.id ?? 0">
                         <div class="searchResultItem"
-                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId == editPageRelationStore.personalWiki.id }">
+                            :class="{ 'selectedSearchResultItem': selectedParentInWikiId === editPageRelationStore.personalWiki.id }">
                             <img :src="editPageRelationStore.personalWiki.miniImageUrl" />
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ editPageRelationStore.personalWiki.name }}
@@ -397,7 +397,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                     Frage${editPageRelationStore.personalWiki.questionCount != 1 ? 'n' : ''}` }}
                                 </div>
                             </div>
-                            <div v-show="selectedParentInWikiId == editPageRelationStore.personalWiki.id"
+                            <div v-show="selectedParentInWikiId === editPageRelationStore.personalWiki.id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
@@ -412,7 +412,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                         <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Seiten</div>
                         <template v-for="previousPage in editPageRelationStore.recentlyUsedRelationTargetPages">
                             <div class="searchResultItem"
-                                :class="{ 'selectedSearchResultItem': selectedParentInWikiId == previousPage.id }"
+                                :class="{ 'selectedSearchResultItem': selectedParentInWikiId === previousPage.id }"
                                 @click="selectedParentInWikiId = previousPage.id">
                                 <img :src="previousPage.imageUrl" />
                                 <div class="searchResultBody">
@@ -421,7 +421,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                         Frage<template v-if="previousPage.questionCount != 1">n</template>
                                     </div>
                                 </div>
-                                <div v-show="selectedParentInWikiId == previousPage.id" class="selectedSearchResultItemContainer">
+                                <div v-show="selectedParentInWikiId === previousPage.id" class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
                                         Ausgewählt
                                         <font-awesome-icon icon="fa-solid fa-check" />
@@ -434,7 +434,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                         <p>Andere Seite auswählen</p>
                     </div>
                     <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
-                        <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId == selectedPage.id }"
+                        <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId === selectedPage.id }"
                             @click="selectedParentInWikiId = selectedPage?.id ?? 0"
                             data-toggle="tooltip" data-placement="top" :title="selectedPage?.name">
                             <img :src="selectedPage?.imageUrl" />
@@ -443,7 +443,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
                                     Frage<template v-if="selectedPage?.questionCount != 1">n</template></div>
                             </div>
-                            <div v-show="selectedParentInWikiId == selectedPage.id" class="selectedSearchResultItemContainer">
+                            <div v-show="selectedParentInWikiId === selectedPage.id" class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
                                     Ausgewählt
                                     <font-awesome-icon icon="fa-solid fa-check" />
@@ -476,7 +476,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                     {{ errorMsg }}
                 </div>
             </template>
-            <template v-else-if="editPageRelationStore.type == EditPageRelationType.AddParent">
+            <template v-else-if="editPageRelationStore.type === EditPageRelationType.AddParent">
                 <div class="mb-250">
                     <p>Wo soll die Seite hinzugefügt werden?</p>
                 </div>

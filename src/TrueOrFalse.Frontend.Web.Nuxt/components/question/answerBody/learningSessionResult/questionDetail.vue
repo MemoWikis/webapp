@@ -36,19 +36,19 @@ onBeforeMount(() => {
 
                     <div>
                         <font-awesome-icon icon="fa-solid fa-circle-check"
-                            v-if="question.steps[0].answerState == AnswerState.Correct && question.steps.length == 1"
+                            v-if="question.steps[0].answerState === AnswerState.Correct && question.steps.length === 1"
                             v-tooltip="'Beim 1. Versuch richtig beantwortet'" />
 
                         <font-awesome-icon icon="fa-solid fa-circle-check"
-                            v-else-if="question.steps[0].answerState != AnswerState.Unanswered && question.steps.length > 1 && question.steps[question.steps.length - 1].answerState == AnswerState.Correct"
+                            v-else-if="question.steps[0].answerState != AnswerState.Unanswered && question.steps.length > 1 && question.steps[question.steps.length - 1].answerState === AnswerState.Correct"
                             v-tooltip="'Beim 2. oder 3. Versuch richtig beantwortet'" />
 
                         <font-awesome-icon icon="fa-solid fa-circle"
-                            v-else-if="question.steps.every(s => s.answerState == AnswerState.Unanswered)"
+                            v-else-if="question.steps.every(s => s.answerState === AnswerState.Unanswered)"
                             v-tooltip="'Nicht beantwortet'" />
 
                         <font-awesome-icon icon="fa-solid fa-circle-minus"
-                            v-else-if="question.steps.some(s => s.answerState == AnswerState.False) && question.steps.every(s => s.answerState != AnswerState.Correct)"
+                            v-else-if="question.steps.some(s => s.answerState === AnswerState.False) && question.steps.every(s => s.answerState != AnswerState.Correct)"
                             v-tooltip="'Falsch beantwortet'" />
 
                         {{ question.title }}
@@ -76,10 +76,10 @@ onBeforeMount(() => {
                                 <br />
                                 <p class="answerTry" v-for="(step, index) in question.steps">
                                     Dein {{ index + 1 }}. Versuch:
-                                    <template v-if="step.answerState == AnswerState.Skipped">
+                                    <template v-if="step.answerState === AnswerState.Skipped">
                                         (übersprungen)
                                     </template>
-                                    <template v-else-if="step.answerState == AnswerState.Unanswered">
+                                    <template v-else-if="step.answerState === AnswerState.Unanswered">
                                         (noch nicht gesehen)
                                     </template>
                                     <template v-else>

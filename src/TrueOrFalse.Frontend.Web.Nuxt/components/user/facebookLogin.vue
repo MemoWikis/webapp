@@ -16,7 +16,7 @@ function loadPlugin(toLogin = false) {
                 autoLogAppEvents: true,
                 xfbml: true,
                 version: 'v17.0'
-            });
+            })
         };
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0]
@@ -30,7 +30,7 @@ function loadPlugin(toLogin = false) {
         if (toLogin) {
             setTimeout(() => {
                 FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false)
-            }, 500);
+            }, 500)
         }
     }
 }
@@ -50,8 +50,8 @@ function loadFbSdk(toLogin = false) {
                     autoLogAppEvents: true,
                     xfbml: true,
                     version: 'v17.0'
-                });
-            };
+                })
+            }
             if (toLogin) {
                 login()
             }
