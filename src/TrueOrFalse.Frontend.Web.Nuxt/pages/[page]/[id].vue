@@ -101,8 +101,9 @@ function setPage() {
 }
 
 setPage()
+const emit = defineEmits(['setPage'])
+
 onBeforeMount(() => {
-    const emit = defineEmits(['setPage'])
     emit('setPage', Site.Page)
 })
 
