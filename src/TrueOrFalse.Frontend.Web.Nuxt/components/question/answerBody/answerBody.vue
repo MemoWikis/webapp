@@ -469,7 +469,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
 
                                     </template>
 
-                                    <template v-else-if="showAnswerButtons">
+                                    <template v-else-if="showAnswerButtons && answerBodyModel.solutionType != SolutionType.FlashCard">
                                         <div id="buttons-first-try" class="ButtonGroup">
                                             <button class="btn btn-primary memo-button" @click="answer()">
                                                 Antworten

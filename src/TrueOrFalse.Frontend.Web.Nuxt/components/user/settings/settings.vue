@@ -35,7 +35,7 @@ function calculatePostingDate() {
         return
 
     if (userStore.subscriptionStartDate !== null) {
-        let postingDateInner = new Date()
+        const postingDateInner = new Date()
         if (userStore.subscriptionStartDate.getDay() < new Date().getDay()) {
             postingDateInner.setMonth(postingDateInner.getMonth() + 1)
             postingDateInner.setDate(userStore.subscriptionStartDate.getDay())

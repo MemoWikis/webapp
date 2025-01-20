@@ -43,10 +43,10 @@ const hasImage = computed(() => {
     return alertStore.msg?.customImg || alertStore.type === AlertType.Error || alertStore.type === AlertType.Success
 })
 
-function copyToClipboard() {
+async function copyToClipboard() {
     if (alertStore.msg?.customDetails) {
         const text = alertStore.msg.customDetails
-        navigator.clipboard.writeText(text)
+        await navigator.clipboard.writeText(text)
     }
 }
 

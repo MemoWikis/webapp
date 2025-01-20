@@ -38,8 +38,16 @@ export default defineNuxtPlugin((nuxtApp) => {
                 stack: error.stack ?? "no stack"
             }
             const errorObject = { ...baseErrorObject, ...additionalData };
+            let logMethod: 'info' | 'warn' | 'error' = 'error';
 
-            logger.error(`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
+            if (
+                error.name === "TypeError" &&
+                error.message.includes("Cannot read properties of undefined")
+            ) {
+                logMethod = 'warn';
+            } 
+
+            logger[logMethod](`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
         } else {
             logger.error(`NUXT ERROR`, [{ error: 'An unknown error occured', route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
 
