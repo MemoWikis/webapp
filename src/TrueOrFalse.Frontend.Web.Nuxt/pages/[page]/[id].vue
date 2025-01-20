@@ -234,7 +234,9 @@ convertStore.$onAction(({ name, after }) => {
                         </ClientOnly>
                     </template>
                 </div>
-                <Sidebar class="is-page" :show-outline="true" :site="props.site" />
+                <ClientOnly>
+                    <Sidebar class="is-page" :show-outline="true" :site="props.site" />
+                </ClientOnly>
             </template>
         </div>
     </div>
