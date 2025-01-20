@@ -36,7 +36,7 @@ watch(text, (e) => {
     let metadataJson = { IsText: true }
     emit('setSolution', { textSolution: text.value, solutionMetadataJson: metadataJson })
 
-    isEmpty.value = e.length == 0 ? 'is-empty' : ''
+    isEmpty.value = e.length === 0 ? 'is-empty' : ''
 })
 
 

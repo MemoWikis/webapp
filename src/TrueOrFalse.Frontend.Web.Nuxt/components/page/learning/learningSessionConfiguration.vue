@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useUserStore } from '~~/components/user/userStore';
+import { useUserStore } from '~~/components/user/userStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 
 const userStore = useUserStore()
@@ -38,9 +38,9 @@ watch(() => props.openFilter, (val) => {
         showFilterDropdown.value = true
 })
 watch(showFilterDropdown, (val) => {
-    const cookieOptions = props.expiryDate ? { expires: props.expiryDate } : {};
-    const cookie = useCookie(props.cookieName, cookieOptions);
-    cookie.value = val.toString();
+    const cookieOptions = props.expiryDate ? { expires: props.expiryDate } : {}
+    const cookie = useCookie(props.cookieName, cookieOptions)
+    cookie.value = val.toString()
 })
 
 const { isMobile } = useDevice()
@@ -70,22 +70,17 @@ const { isMobile } = useDevice()
         </div>
 
         <div v-show="showFilterDropdown" class="session-config-dropdown row">
-            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeQuestionFilterDropdown"
-                @click.self="closeQuestionFilterDropdown">
+            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeQuestionFilterDropdown" @click.self="closeQuestionFilterDropdown">
                 <div class="sub-header" @click="closeQuestionFilterDropdown">Fragen</div>
-                <div class="question-filter-options-button selectable-item"
-                    @click="showQuestionFilterOptionsDropdown = !showQuestionFilterOptionsDropdown"
-                    :class="{ 'is-open': showQuestionFilterOptionsDropdown }">
+                <div class="question-filter-options-button selectable-item" @click="showQuestionFilterOptionsDropdown = !showQuestionFilterOptionsDropdown" :class="{ 'is-open': showQuestionFilterOptionsDropdown }">
                     <div v-if="learningSessionConfigurationStore.allQuestionFilterOptionsAreSelected">Alle Fragen</div>
-                    <div v-else-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay.length == 0"
-                        class="button-placeholder">
+                    <div v-else-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay.length === 0" class="button-placeholder">
                         Wähle deine Fragen aus</div>
                     <div v-else class="question-filter-options-icon-container">
                         <template v-for="o in learningSessionConfigurationStore.selectedQuestionFilterOptionsDisplay">
                             <font-awesome-icon v-if="o.isSelected" :icon="o.icon" class="filter-icon" />
                         </template>
-                        <div class="icon-counter"
-                            v-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount >= 2">
+                        <div class="icon-counter" v-if="learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount >= 2">
                             +{{ learningSessionConfigurationStore.selectedQuestionFilterOptionsExtraCount }}</div>
                     </div>
 
@@ -94,27 +89,22 @@ const { isMobile } = useDevice()
 
                 </div>
                 <div v-if="showQuestionFilterOptionsDropdown" class="question-filter-options-dropdown">
-                    <div @click="learningSessionConfigurationStore.selectAllQuestionFilter()"
-                        class="selectable-item dropdown-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
+                    <div @click="learningSessionConfigurationStore.selectAllQuestionFilter()" class="selectable-item dropdown-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
 
-                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
-                            v-if="learningSessionConfigurationStore.allQuestionFilterOptionsAreSelected" />
+                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="learningSessionConfigurationStore.allQuestionFilterOptionsAreSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <div class="selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">Alles auswählen
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
 
-                    <div v-for="q in learningSessionConfigurationStore.questionFilterOptions"
-                        @click="learningSessionConfigurationStore.selectQuestionFilter(q)"
-                        class="dropdown-item selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
-                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
-                            v-if="q.isSelected" />
+                    <div v-for="q in learningSessionConfigurationStore.questionFilterOptions" @click="learningSessionConfigurationStore.selectQuestionFilter(q)" class="dropdown-item selectable-item"
+                        :class="{ 'item-disabled': !userStore.isLoggedIn }">
+                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="q.isSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <font-awesome-icon class="dropdown-filter-icon" :icon="q.icon" />
 
-                        <div class="selectable-item dropdown-item-label"
-                            :class="{ 'item-disabled': !userStore.isLoggedIn }">
+                        <div class="selectable-item dropdown-item-label" :class="{ 'item-disabled': !userStore.isLoggedIn }">
                             {{ q.label }} ({{ q.count }})
                         </div>
                     </div>
@@ -126,43 +116,35 @@ const { isMobile } = useDevice()
                 <div class="sub-header">Max. Fragen</div>
                 <div class="question-counter"
                     :class="{ 'input-is-active': learningSessionConfigurationStore.questionCountInputFocused, 'input-error': learningSessionConfigurationStore.selectedQuestionCount < 1 && learningSessionConfigurationStore.userHasChangedMaxCount }">
-                    <input type="number" min="0" v-model="learningSessionConfigurationStore.selectedQuestionCount"
-                        @input="(event: any) => learningSessionConfigurationStore.setSelectedQuestionCount(event.target.value)"
-                        @focus="learningSessionConfigurationStore.questionCountInputFocused = true"
-                        @blur="learningSessionConfigurationStore.questionCountInputFocused = false" />
+                    <input type="number" min="0" v-model="learningSessionConfigurationStore.selectedQuestionCount" @input="(event: any) => learningSessionConfigurationStore.setSelectedQuestionCount(event.target.value)"
+                        @focus="learningSessionConfigurationStore.questionCountInputFocused = true" @blur="learningSessionConfigurationStore.questionCountInputFocused = false" />
                     <div class="question-counter-selector-container">
-                        <div class="question-counter-selector selectable-item"
-                            @click="learningSessionConfigurationStore.selectQuestionCount(1)">
+                        <div class="question-counter-selector selectable-item" @click="learningSessionConfigurationStore.selectQuestionCount(1)">
                             <font-awesome-icon icon="fa-solid fa-chevron-up" />
                         </div>
-                        <div class="question-counter-selector  selectable-item"
-                            @click="learningSessionConfigurationStore.selectQuestionCount(-1)">
+                        <div class="question-counter-selector  selectable-item" @click="learningSessionConfigurationStore.selectQuestionCount(-1)">
                             <font-awesome-icon icon="fa-solid fa-chevron-down" />
                         </div>
                     </div>
 
                 </div>
-                <div v-if="learningSessionConfigurationStore.selectedQuestionCount < 1 && learningSessionConfigurationStore.userHasChangedMaxCount"
-                    class="input-error-label">
+                <div v-if="learningSessionConfigurationStore.selectedQuestionCount < 1 && learningSessionConfigurationStore.userHasChangedMaxCount" class="input-error-label">
                     Wähle mindestens 1 Frage
                 </div>
             </div>
 
-            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeKnowledgeSummaryDropdown"
-                @click.self="closeKnowledgeSummaryDropdown">
+            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeKnowledgeSummaryDropdown" @click.self="closeKnowledgeSummaryDropdown">
                 <div class="sub-header" @click="closeKnowledgeSummaryDropdown">
                     Wissenstand</div>
 
-                <div class="knowledge-summary-button selectable-item"
-                    @click="showKnowledgeSummaryDropdown = !showKnowledgeSummaryDropdown"
-                    :class="{ 'is-open': showKnowledgeSummaryDropdown }">
-                    <div v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 0" class="button-placeholder">
+                <div class="knowledge-summary-button selectable-item" @click="showKnowledgeSummaryDropdown = !showKnowledgeSummaryDropdown" :class="{ 'is-open': showKnowledgeSummaryDropdown }">
+                    <div v-if="learningSessionConfigurationStore.knowledgeSummaryCount === 0" class="button-placeholder">
                         Wähle einen Wissensstand
                     </div>
                     <div class="knowledge-summary-chip-container">
                         <template v-for="s in learningSessionConfigurationStore.knowledgeSummary">
                             <div v-if="s.isSelected" class="knowledge-summary-chip" :class="s.colorClass">
-                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount == 1">
+                                <template v-if="learningSessionConfigurationStore.knowledgeSummaryCount === 1">
                                     {{ s.label }}
                                 </template>
                             </div>
@@ -173,22 +155,17 @@ const { isMobile } = useDevice()
                     <font-awesome-icon v-else icon="fa-solid fa-chevron-down" />
                 </div>
                 <div v-if="showKnowledgeSummaryDropdown" class="knowledge-summary-dropdown">
-                    <div class="selectable-item dropdown-item"
-                        @click="learningSessionConfigurationStore.selectAllKnowledgeSummary()"
-                        :class="{ 'item-disabled': !userStore.isLoggedIn }">
-                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
-                            v-if="learningSessionConfigurationStore.allKnowledgeSummaryOptionsAreSelected" />
+                    <div class="selectable-item dropdown-item" @click="learningSessionConfigurationStore.selectAllKnowledgeSummary()" :class="{ 'item-disabled': !userStore.isLoggedIn }">
+                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="learningSessionConfigurationStore.allKnowledgeSummaryOptionsAreSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <div class="selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }">
                             Alles auswählen
                         </div>
                     </div>
                     <div class="dropdown-divider"></div>
-                    <div v-for="k in learningSessionConfigurationStore.knowledgeSummary"
-                        class="dropdown-item selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }"
+                    <div v-for="k in learningSessionConfigurationStore.knowledgeSummary" class="dropdown-item selectable-item" :class="{ 'item-disabled': !userStore.isLoggedIn }"
                         @click="learningSessionConfigurationStore.selectKnowledgeSummary(k)">
-                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active"
-                            v-if="k.isSelected" />
+                        <font-awesome-icon icon="fa-solid fa-square-check" class="session-select active" v-if="k.isSelected" />
                         <font-awesome-icon icon="fa-regular fa-square" class="session-select" v-else />
                         <div :class="k.colorClass" class="knowledge-summary-chip">
                             {{ k.label }} ({{ k.count }})
@@ -198,13 +175,10 @@ const { isMobile } = useDevice()
                 </div>
             </div>
 
-            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeModeSelectionDropdown"
-                @click.self="closeModeSelectionDropdown">
+            <div class="dropdown-container col-xs-12 col-sm-6" v-click-outside="closeModeSelectionDropdown" @click.self="closeModeSelectionDropdown">
                 <div class="sub-header" @click="closeModeSelectionDropdown">Modus</div>
 
-                <div class="mode-change-button selectable-item"
-                    @click="showModeSelectionDropdown = !showModeSelectionDropdown"
-                    :class="{ 'is-open': showModeSelectionDropdown }">
+                <div class="mode-change-button selectable-item" @click="showModeSelectionDropdown = !showModeSelectionDropdown" :class="{ 'is-open': showModeSelectionDropdown }">
                     <div v-if="learningSessionConfigurationStore.isTestMode">
                         <font-awesome-icon icon="fa-solid fa-graduation-cap" class="dropdown-filter-icon" /> Prüfung
                     </div>
@@ -219,12 +193,9 @@ const { isMobile } = useDevice()
                     <div>
                         <div class="mode-group-container" @click="learningSessionConfigurationStore.selectPracticeMode"
                             :class="{ 'selectable-item': !learningSessionConfigurationStore.isPracticeMode, 'no-pointer': learningSessionConfigurationStore.isPracticeMode }">
-                            <div class="dropdown-item mode-change-header"
-                                :class="{ 'no-pointer': learningSessionConfigurationStore.isPracticeMode }">
-                                <div class="dropdown-item"
-                                    :class="{ 'no-pointer': learningSessionConfigurationStore.isPracticeMode }">
-                                    <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-select active"
-                                        v-if="learningSessionConfigurationStore.isPracticeMode" />
+                            <div class="dropdown-item mode-change-header" :class="{ 'no-pointer': learningSessionConfigurationStore.isPracticeMode }">
+                                <div class="dropdown-item" :class="{ 'no-pointer': learningSessionConfigurationStore.isPracticeMode }">
+                                    <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-select active" v-if="learningSessionConfigurationStore.isPracticeMode" />
                                     <font-awesome-icon icon="fa-regular fa-circle" class="session-select" v-else />
 
                                     <div>
@@ -232,8 +203,7 @@ const { isMobile } = useDevice()
                                         Lernen
                                     </div>
                                 </div>
-                                <font-awesome-icon v-if="learningSessionConfigurationStore.isPracticeMode"
-                                    icon="fa-solid fa-chevron-up" />
+                                <font-awesome-icon v-if="learningSessionConfigurationStore.isPracticeMode" icon="fa-solid fa-chevron-up" />
                                 <font-awesome-icon v-else icon="fa-solid fa-chevron-down" />
                             </div>
                             <div class="mode-item-container">
@@ -245,70 +215,56 @@ const { isMobile } = useDevice()
                         </div>
                         <div v-if="learningSessionConfigurationStore.isPracticeMode" class="mode-group-container">
 
-                            <div class="mode-item-container selectable-item"
-                                @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 0)">
+                            <div class="mode-item-container selectable-item" @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 0)">
                                 <div class="mode-sub-label">
                                     Einfache Fragen zuerst
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.questionOrder == 0" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.questionOrder === 0" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container selectable-item"
-                                @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 1)">
+                            <div class="mode-item-container selectable-item" @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 1)">
                                 <div class="mode-sub-label">
                                     Schwere Fragen zuerst
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.questionOrder == 1" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.questionOrder === 1" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container selectable-item"
-                                @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 2)"
-                                :class="{ 'item-disabled': !userStore.isLoggedIn }">
+                            <div class="mode-item-container selectable-item" @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 2)" :class="{ 'item-disabled': !userStore.isLoggedIn }">
                                 <div class="mode-sub-label">
                                     Nicht gewusste Fragen zuerst
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.questionOrder == 2" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.questionOrder === 2" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container selectable-item"
-                                @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 3)">
+                            <div class="mode-item-container selectable-item" @click="learningSessionConfigurationStore.selectPracticeOption('questionOrder', 3)">
                                 <div class="mode-sub-label">
                                     Zufällige Fragen
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.questionOrder == 3" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.questionOrder === 3" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
 
                             <div class="dropdown-spacer"></div>
 
-                            <div class="mode-item-container selectable-item"
-                                @click="learningSessionConfigurationStore.selectPracticeOption('repetition', 0)">
+                            <div class="mode-item-container selectable-item" @click="learningSessionConfigurationStore.selectPracticeOption('repetition', 0)">
                                 <div class="mode-sub-label">
                                     Keine Wiederholung
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.repetition == 0" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.repetition === 0" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container selectable-item"
-                                @click="learningSessionConfigurationStore.selectPracticeOption('repetition', 1)">
+                            <div class="mode-item-container selectable-item" @click="learningSessionConfigurationStore.selectPracticeOption('repetition', 1)">
                                 <div class="mode-sub-label">
                                     Falsch beantwortete Fragen wiederholen
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.repetition == 1" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.repetition === 1" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
                             <div class="mode-item-container item-disabled selectable-item">
                                 <div class="mode-sub-label">
                                     Wiederholung nach Leitner <i>(kommt bald)</i>
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.practiceOptions.repetition == 2" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.practiceOptions.repetition === 2" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
 
@@ -321,21 +277,16 @@ const { isMobile } = useDevice()
                     <div>
                         <div class="mode-group-container" @click="learningSessionConfigurationStore.selectTestMode"
                             :class="{ 'selectable-item': !learningSessionConfigurationStore.isTestMode, 'no-pointer': learningSessionConfigurationStore.isTestMode }">
-                            <div class="dropdown-item mode-change-header"
-                                :class="{ 'no-pointer': learningSessionConfigurationStore.isTestMode }">
-                                <div class="dropdown-item"
-                                    :class="{ 'no-pointer': learningSessionConfigurationStore.isTestMode }">
-                                    <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-select active"
-                                        v-if="learningSessionConfigurationStore.isTestMode" />
+                            <div class="dropdown-item mode-change-header" :class="{ 'no-pointer': learningSessionConfigurationStore.isTestMode }">
+                                <div class="dropdown-item" :class="{ 'no-pointer': learningSessionConfigurationStore.isTestMode }">
+                                    <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-select active" v-if="learningSessionConfigurationStore.isTestMode" />
                                     <font-awesome-icon icon="fa-regular fa-circle" class="session-select" v-else />
                                     <div>
-                                        <font-awesome-icon icon="fa-solid fa-graduation-cap"
-                                            class="dropdown-filter-icon" />
+                                        <font-awesome-icon icon="fa-solid fa-graduation-cap" class="dropdown-filter-icon" />
                                         Prüfung
                                     </div>
                                 </div>
-                                <font-awesome-icon v-if="learningSessionConfigurationStore.isTestMode"
-                                    icon="fa-solid fa-chevron-up" />
+                                <font-awesome-icon v-if="learningSessionConfigurationStore.isTestMode" icon="fa-solid fa-chevron-up" />
                                 <font-awesome-icon v-else icon="fa-solid fa-chevron-down" />
                             </div>
                             <div class="mode-item-container">
@@ -347,40 +298,32 @@ const { isMobile } = useDevice()
                         </div>
 
                         <div v-if="learningSessionConfigurationStore.isTestMode" class="mode-group-container">
-                            <div class="mode-item-container  selectable-item"
-                                @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 3)">
+                            <div class="mode-item-container  selectable-item" @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 3)">
                                 <div class="mode-sub-label">
                                     Zufällige Fragen
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.testOptions.questionOrder == 3" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.testOptions.questionOrder === 3" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container  selectable-item"
-                                @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 0)">
+                            <div class="mode-item-container  selectable-item" @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 0)">
                                 <div class="mode-sub-label">
                                     Einfache Fragen zuerst
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.testOptions.questionOrder == 0" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.testOptions.questionOrder === 0" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container  selectable-item"
-                                @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 1)">
+                            <div class="mode-item-container  selectable-item" @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 1)">
                                 <div class="mode-sub-label">
                                     Schwere Fragen zuerst
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.testOptions.questionOrder == 1" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.testOptions.questionOrder === 1" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
-                            <div class="mode-item-container  selectable-item"
-                                @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 2)">
+                            <div class="mode-item-container  selectable-item" @click="learningSessionConfigurationStore.selectTestOption('questionOrder', 2)">
                                 <div class="mode-sub-label">
                                     Nicht gewusste Fragen zuerst
                                 </div>
-                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active"
-                                    v-if="learningSessionConfigurationStore.testOptions.questionOrder == 2" />
+                                <font-awesome-icon icon="fa-solid fa-circle-dot" class="session-mini-select active" v-if="learningSessionConfigurationStore.testOptions.questionOrder === 2" />
                                 <font-awesome-icon icon="fa-regular fa-circle" class="session-mini-select" v-else />
                             </div>
                             <div class="dropdown-spacer"></div>
@@ -390,8 +333,7 @@ const { isMobile } = useDevice()
             </div>
 
             <div class="col-xs-12 reset-session-button-container">
-                <div class="reset-session-button" @click="learningSessionConfigurationStore.reset"
-                    :class="{ 'disabled': !learningSessionConfigurationStore.activeCustomSettings }">
+                <div class="reset-session-button" @click="learningSessionConfigurationStore.reset" :class="{ 'disabled': !learningSessionConfigurationStore.activeCustomSettings }">
                     <font-awesome-icon icon="fa-solid fa-xmark" class="reset-icon" />
                     <div>
                         Alle Filter zurücksetzen
@@ -399,8 +341,7 @@ const { isMobile } = useDevice()
                 </div>
 
             </div>
-            <div v-if="learningSessionConfigurationStore.showSelectionError"
-                class="session-config-error fade in col-xs-12">
+            <div v-if="learningSessionConfigurationStore.showSelectionError" class="session-config-error fade in col-xs-12">
                 <div>
                     Für diese Einstellungen sind keine Fragen verfügbar.
                     Bitte ändere den Wissensstand oder wähle alle Fragen aus.

@@ -17,10 +17,10 @@ function handleResponseError(response:FetchResponse<any> & FetchResponse<Respons
         alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: response._data}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
 
         alertStore.$onAction(({ name, after }) => {
-            if (name == 'closeAlert') {
+            if (name === 'closeAlert') {
 
                 after((result) => {
-                    if (result.cancelled == false && result.id == 'reloadPage')
+                    if (result.cancelled === false && result.id == 'reloadPage')
                         window.location.reload()
                 })
             }

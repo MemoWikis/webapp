@@ -94,7 +94,7 @@ function loadFacebookPlugin(toRegister = false) {
 
 onMounted(() => {
     alertStore.$onAction(({ name, after }) => {
-        if (name == 'closeAlert')
+        if (name === 'closeAlert')
             after((result) => {
                 handleAlertClosing(result.cancelled)
             })
@@ -103,20 +103,20 @@ onMounted(() => {
 
 function handleAlertClosing(cancelled: boolean) {
     if (!cancelled) {
-        if (awaitingConsent.value == 'google')
+        if (awaitingConsent.value === 'google')
             loadGooglePlugin(true)
-        else if (awaitingConsent.value == 'facebook')
+        else if (awaitingConsent.value === 'facebook')
             loadFacebookPlugin(true)
     }
 }
 
 onBeforeMount(() => {
     var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
-    if (googleCookie == "true")
+    if (googleCookie === "true")
         loadGooglePlugin()
 
     var facebookCookie = document.cookie.match('(^|;)\\s*' + "allowFacebookPlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
-    if (facebookCookie == "true")
+    if (facebookCookie === "true")
         loadFacebookPlugin()
 })
 
@@ -144,7 +144,7 @@ async function register() {
     }
     const result = await userStore.register(registerData)
     spinnerStore.hideSpinner()
-    if (result == 'success' && userStore.personalWiki)
+    if (result === 'success' && userStore.personalWiki)
         return navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
     else if (result)
         errorMessage.value = result
@@ -244,9 +244,9 @@ async function register() {
                                         class="login-inputs" v-model="password" @keydown.enter="register()"
                                         @click="errorMessage = ''" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'" />
+                                        v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
                                     <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" />
+                                        v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
                                 </div>
                             </div>
 

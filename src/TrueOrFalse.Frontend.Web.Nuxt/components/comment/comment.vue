@@ -122,7 +122,7 @@ async function saveAnswer() {
                         <span v-html="props.comment.title"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp;
+                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
                                 {{ props.comment.answers.length }} Beitrag</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
                                 Beiträge</span>
@@ -133,7 +133,7 @@ async function saveAnswer() {
 
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp;
+                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
                                 {{ props.comment.answers.length }} Beitrag</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
                                 Beiträge</span>
@@ -143,7 +143,7 @@ async function saveAnswer() {
                         <span v-html="props.comment.text"></span>
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
-                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length == 1">&nbsp;
+                            <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
                                 {{ props.comment.answers.length }} Beitrag</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
                                 Beiträge</span>
@@ -167,7 +167,7 @@ async function saveAnswer() {
                     <div class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers" :class="{ 'clickable': props.comment.answers.length > 0 }">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                         <div class="commentSpeechBubbleText">
-                            {{ props.comment.answers.length == 1 ? '1 Antwort' : props.comment.answers.length + ' Antworten' }}
+                            {{ props.comment.answers.length === 1 ? '1 Antwort' : props.comment.answers.length + ' Antworten' }}
                             <template v-if="props.comment.answers.length > 0 && !showCommentAnswers">
                                 anzeigen
                             </template>
@@ -194,7 +194,7 @@ async function saveAnswer() {
 
         <div class="commentAnswersContainer" v-if="showAnswers">
 
-            <CommentAnswer v-if="showCommentAnswers" v-for="(answer, index) in props.comment.answers" :answer="answer" :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 == index"
+            <CommentAnswer v-if="showCommentAnswers" v-for="(answer, index) in props.comment.answers" :answer="answer" :comment-id="props.comment.id" :last-answer="props.comment.answers.length - 1 === index"
                 :highlight-id="props.highlightId" />
 
             <CommentAnswerAdd v-if="userStore.isLoggedIn && !props.comment.isSettled" :parentCommentId="props.comment.id" :highlight-empty-fields="highlightEmptyAnswer" @set-answer="setAnswer" :content="answerText" />
@@ -207,7 +207,7 @@ async function saveAnswer() {
                         </button>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-5">
-                        <button v-if="userStore.isAdmin && !props.comment.isSettled || props.creatorId == userStore.id && !props.comment.isSettled" @click="markAsSettled()" class="btn btn-lg btn-link memo-button col-xs-12">
+                        <button v-if="userStore.isAdmin && !props.comment.isSettled || props.creatorId === userStore.id && !props.comment.isSettled" @click="markAsSettled()" class="btn btn-lg btn-link memo-button col-xs-12">
                             Diskussion schliessen
                         </button>
                         <button v-if="userStore.isAdmin && props.comment.isSettled" @click.stop="markAsUnsettled()" class="btn btn-lg btn-link memo-button col-xs-12">

@@ -3,7 +3,7 @@ import { SnackbarData, useSnackbarStore } from './snackBarStore'
 const snackbarStore = useSnackbarStore()
 
 async function customFunction(id: number, dismiss?: any) {
-	const index = snackbarStore.customActions.findIndex(c => c.id == id)
+	const index = snackbarStore.customActions.findIndex(c => c.id === id)
 	if (index >= 0) {
 		snackbarStore.customActions[index].action()
 		await nextTick()
@@ -13,7 +13,7 @@ async function customFunction(id: number, dismiss?: any) {
 }
 const snackbar = useSnackbar()
 snackbarStore.$onAction(({ name, after }) => {
-	if (name == 'showSnackbar') {
+	if (name === 'showSnackbar') {
 
 		after((data: SnackbarData) => {
 			snackbar.add({

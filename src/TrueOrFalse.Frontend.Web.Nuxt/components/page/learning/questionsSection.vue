@@ -15,9 +15,9 @@ const editQuestionStore = useEditQuestionStore()
 const openFilter = ref(false)
 const filterOpened = useCookie('show-bottom-dropdown')
 onBeforeMount(() => {
-    if (filterOpened.value?.toString() == 'false' || filterOpened.value == undefined)
+    if (filterOpened.value?.toString() === 'false' || filterOpened.value == undefined)
         openFilter.value = false
-    else if (filterOpened.value?.toString() == 'true')
+    else if (filterOpened.value?.toString() === 'true')
         openFilter.value = true
 
     if (pageStore.questionCount > 0)
@@ -58,13 +58,13 @@ const ariaId = useId()
                         <div class="drop-down-question-sort col-xs-12">
                             <div class="session-config-header">
                                 <span class="hidden-xs">Du lernst </span>
-                                <template v-if="learningSessionStore.steps.length == pageStore.questionCount">
+                                <template v-if="learningSessionStore.steps.length === pageStore.questionCount">
                                     <b> alle </b>
                                 </template>
                                 <template v-else>
                                     <b> {{ learningSessionStore.steps.length }} </b>
                                 </template>
-                                <template v-if="learningSessionStore.steps.length == 1"> Frage </template>
+                                <template v-if="learningSessionStore.steps.length === 1"> Frage </template>
                                 <template v-else> Fragen </template>
                                 <span class="hidden-xs">auf dieser Seite</span>
                                 ({{ pageStore.questionCount }})

@@ -92,11 +92,11 @@ watch(() => userStore.showLoginModal, () => {
 
 onMounted(() => {
     var googleCookie = document.cookie.match('(^|;)\\s*' + "allowGooglePlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
-    if (googleCookie == "true")
+    if (googleCookie === "true")
         loadGooglePlugin()
 
     var facebookCookie = document.cookie.match('(^|;)\\s*' + "allowFacebookPlugin" + '\\s*=\\s*([^;]+)')?.pop() || ''
-    if (facebookCookie == "true")
+    if (facebookCookie === "true")
         loadFacebookPlugin()
 })
 
@@ -239,9 +239,9 @@ onMounted(() => {
                                         class="login-inputs" v-model="password" @keydown.enter="primaryAction"
                                         @click="errorMessage = ''" />
                                     <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="passwordInputType == 'password'" @click="passwordInputType = 'text'" />
+                                        v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
                                     <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="passwordInputType == 'text'" @click="passwordInputType = 'password'" />
+                                        v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
                                 </div>
                             </div>
                             <div class="infoContainer col-sm-12 noPadding">

@@ -69,7 +69,7 @@ watch(pageData, (e) => {
 watch(searchTerm, (e) => currentPage.value = 1)
 
 watch(status, (s) => {
-    if (s == 'pending')
+    if (s === 'pending')
         spinnerStore.showSpinner()
     else spinnerStore.hideSpinner()
 })
@@ -173,14 +173,14 @@ const ariaId = useId()
                                     <template #popper="{ hide }">
                                         <div class="dropdown-row select-row"
                                             @click="orderBy = SearchUsersOrderBy.Rank; hide()"
-                                            :class="{ 'active': orderBy == SearchUsersOrderBy.Rank }">
+                                            :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
                                             <div class="dropdown-label select-option">
                                                 Rang
                                             </div>
                                         </div>
                                         <div class="dropdown-row"
                                             @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
-                                            :class="{ 'active': orderBy == SearchUsersOrderBy.WishCount }">
+                                            :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
                                             <div class="dropdown-label select-option">
                                                 Wunschwissen
                                             </div>

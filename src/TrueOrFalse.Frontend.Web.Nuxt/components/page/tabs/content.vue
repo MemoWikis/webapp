@@ -14,7 +14,7 @@ const props = defineProps<{
     <div id="PageContent" class="row" :class="{ 'is-mobile': isMobile, 'hideText': props.textIsHidden, 'no-grid-items': pageStore.gridItems.length === 0 }">
         <template v-if="!props.textIsHidden">
             <PageContentEditor />
-            <PageContentEditBar v-if="pageStore.visibility == Visibility.All" />
+            <PageContentEditBar v-if="pageStore.visibility === Visibility.All" />
         </template>
     </div>
 </template>

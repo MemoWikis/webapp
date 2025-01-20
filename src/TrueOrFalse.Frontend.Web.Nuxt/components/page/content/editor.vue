@@ -272,7 +272,7 @@ const initEditor = () => {
         editorProps: {
             handlePaste: (view, pos, event) => {
                 const firstNode = event.content.firstChild
-                if (firstNode != null && firstNode.type.name == 'image') {
+                if (firstNode != null && firstNode.type.name === 'image') {
                     if (!isEmpty(firstNode.attrs)) {
                         const src = firstNode.attrs.src
                         if (src.startsWith('data:image')) {
@@ -313,7 +313,7 @@ function setHeadings() {
 
 pageStore.$onAction(({ name, after }) => {
     after(async () => {
-        if (name == 'reset') {
+        if (name === 'reset') {
             editor.value?.commands.setContent(pageStore.content)
             setHeadings()
         }
@@ -446,10 +446,10 @@ const createFlashCard = () => {
             </template>
         </LazyEditorMenuBar>
         <LazyEditorMenuBar v-else :editor="editor" :heading="true" :is-page-content="true" />
-        <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }" />
+        <editor-content :editor="editor" class="col-xs-12" :class="{ 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }" />
     </template>
     <template v-else>
-        <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize == FontSize.Small, 'large-font': userStore.fontSize == FontSize.Large }">
+        <div class="col-xs-12" :class="{ 'private-page': pageStore.visibility === Visibility.Owner, 'small-font': userStore.fontSize === FontSize.Small, 'large-font': userStore.fontSize === FontSize.Large }">
             <div class="ProseMirror content-placeholder" v-html="pageStore.content"
                 id="PageContentPlaceholder" :class="{ 'is-mobile': isMobile }">
             </div>

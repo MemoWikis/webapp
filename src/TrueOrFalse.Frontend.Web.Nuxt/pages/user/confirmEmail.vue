@@ -27,7 +27,7 @@ const { data: verificationResult, status, error } = useFetch<boolean>(`/apiVue/C
         $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
     }
 })
-const success = computed(() => verificationResult.value == true && !error.value)
+const success = computed(() => verificationResult.value === true && !error.value)
 
 watch(success, async (val) => {
     if (val)
@@ -60,7 +60,7 @@ async function requestVerificationMail() {
 
                 <div class="row content">
                     <div class="form-horizontal col-md-12">
-                        <template v-if="status == 'pending'">
+                        <template v-if="status === 'pending'">
                             <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                                 <h1 class="col-sm-offset-2 col-sm-8 reset-title">
                                     Bestätigung läuft

@@ -55,14 +55,14 @@ const forceShow = ref(false)
                     <div id="messagesWrapper">
                         <UserMessagesRow v-if="model.messages != null" v-for="message in model.messages"
                             :message="message" :force-show="forceShow" :key="message.id" />
-                        <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length == 0">
+                        <div class="alert alert-info" v-if="model.messages?.filter((m: any) => !m.read).length === 0">
                             Du hast aktuell keine ungelesenen Nachrichten.
                         </div>
 
                         <p v-if="model.readCount > 0">
                             Du hast {{ model.readCount }} gelesene Nachricht
                             {{
-                                (model.readCount == 0 || model.readCount > 1) ? 'en' : ''
+                                (model.readCount === 0 || model.readCount > 1) ? 'en' : ''
                             }}.
                             <span v-if="!forceShow" @click="forceShow = true" class="click">Alle anzeigen</span>.
                         </p>

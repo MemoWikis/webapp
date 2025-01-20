@@ -34,7 +34,7 @@ function shuffleChoices(choices: Choice[]) {
 function init() {
     selected.value = []
     const json: { Choices: Choice[], isSolutionOrdered: boolean } = JSON.parse(props.solution)
-    localChoices.value = json.isSolutionOrdered == true ? json.Choices : shuffleChoices(json.Choices)
+    localChoices.value = json.isSolutionOrdered === true ? json.Choices : shuffleChoices(json.Choices)
 }
 
 watch(() => props.solution, () => init())
@@ -43,7 +43,7 @@ const localChoices = ref<Choice[]>([])
 const selected = ref<string[]>([])
 
 async function getAnswerDataString(): Promise<string> {
-    await nextTick();
+    await nextTick()
     return selected.value.join("%seperate&xyz%")
 }
 

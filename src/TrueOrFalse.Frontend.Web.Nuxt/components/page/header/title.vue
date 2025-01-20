@@ -47,7 +47,7 @@ onMounted(() => {
 })
 watch(() => tabsStore.activeTab, (val: any) => {
 
-    if (val == Tab.Text)
+    if (val === Tab.Text)
         readonly.value = false
     else {
         readonly.value = true
@@ -72,7 +72,7 @@ onBeforeMount(() => {
 
     watch(() => pageStore.name, (newName) => {
         if (pageStore.initialName != newName) {
-            if (pageStore.visibility == Visibility.Owner)
+            if (pageStore.visibility === Visibility.Owner)
                 autoSave()
             else
                 pageStore.nameHasChanged = true
@@ -198,7 +198,7 @@ const ariaId2 = useId()
             </template>
 
             <VDropdown :aria-id="ariaId2" :distance="6">
-                <div v-if="isMobile && groupedAuthors.length == 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0" :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)" class="header-author-icon-link">
+                <div v-if="isMobile && groupedAuthors.length === 1 && mobileFirstAuthor && mobileFirstAuthor.id > 0" :to="$urlHelper.getUserUrl(mobileFirstAuthor.name, mobileFirstAuthor.id)" class="header-author-icon-link">
                     <Image :src="mobileFirstAuthor.imgUrl" :format="ImageFormat.Author" class="header-author-icon" :alt="`${mobileFirstAuthor.name}'s profile picture'`" />
                 </div>
                 <div v-else-if="groupedAuthors.length > 1" class="additional-authors-btn" :class="{ 'long': groupedAuthors.length > 9 }">

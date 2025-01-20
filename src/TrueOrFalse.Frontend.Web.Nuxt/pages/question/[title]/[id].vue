@@ -151,27 +151,27 @@ useHead(() => ({
 							<div id="AnswerAndSolutionCol">
 								<div id="AnswerAndSolution">
 									<div class="row"
-										:class="{ 'hasFlashCard': question.answerBodyModel.solutionType == SolutionType.FlashCard }">
+										:class="{ 'hasFlashCard': question.answerBodyModel.solutionType === SolutionType.FlashCard }">
 										<div id="AnswerInputSection">
 
 											<QuestionAnswerBodyFlashcard
 												:key="question.answerBodyModel.id + 'flashcard'"
-												v-if="question.answerBodyModel.solutionType == SolutionType.FlashCard"
+												v-if="question.answerBodyModel.solutionType === SolutionType.FlashCard"
 												ref="flashcard" :solution="question.answerBodyModel.solution"
 												:front-content="question.answerBodyModel.textHtml"
 												:marked-as-correct="true" />
 											<QuestionAnswerBodyMatchlist
 												:key="question.answerBodyModel.id + 'matchlist'"
-												v-else-if="question.answerBodyModel.solutionType == SolutionType.MatchList"
+												v-else-if="question.answerBodyModel.solutionType === SolutionType.MatchList"
 												ref="matchList" :solution="question.answerBodyModel.solution"
 												:show-answer="true" />
 											<QuestionAnswerBodyMultipleChoice
 												:key="question.answerBodyModel.id + 'multiplechoice'"
-												v-else-if="question.answerBodyModel.solutionType == SolutionType.MultipleChoice"
+												v-else-if="question.answerBodyModel.solutionType === SolutionType.MultipleChoice"
 												:solution="question.answerBodyModel.solution" :show-answer="true"
 												ref="multipleChoice" />
 											<QuestionAnswerBodyText :key="question.answerBodyModel.id + 'text'"
-												v-else-if="question.answerBodyModel.solutionType == SolutionType.Text"
+												v-else-if="question.answerBodyModel.solutionType === SolutionType.Text"
 												ref="text" :show-answer="true" />
 
 										</div>

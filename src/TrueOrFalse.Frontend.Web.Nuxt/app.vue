@@ -45,7 +45,7 @@ if (currentUser.value != null) {
 			const fontSize = cookieValues[0]
 			const userId = cookieValues[1]
 
-			if (parseInt(userId) == userStore.id)
+			if (parseInt(userId) === userStore.id)
 				userStore.setFontSize(parseInt(fontSize))
 		}
 	}
@@ -68,8 +68,8 @@ const site = ref(Site.Default)
 
 const pageStore = usePageStore()
 
-function setPage(type: Site | null = null) {
-	if (type != null) {
+function setPage(type: Site | undefined | null = null) {
+	if (type != null && type != undefined) {
 		site.value = type
 		if (type != Site.Page) {
 			pageStore.setPage(new Page())
@@ -94,7 +94,7 @@ function setBreadcrumb(e: BreadcrumbItem[]) {
 }
 const route = useRoute()
 userStore.$onAction(({ name, after }) => {
-	if (name == 'logout') {
+	if (name === 'logout') {
 
 		after(async (loggedOut) => {
 			if (loggedOut) {
@@ -105,23 +105,23 @@ userStore.$onAction(({ name, after }) => {
 					await refreshNuxtData()
 				} finally {
 					spinnerStore.hideSpinner()
-					if (site.value == Site.Page && pageStore.visibility != Visibility.All)
+					if (site.value === Site.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
 			}
 		})
 	}
-	if (name == 'login') {
+	if (name === 'login') {
 		after(async (loginResult) => {
-			if (loginResult.success == true) {
+			if (loginResult.success === true) {
 				await nextTick()
 				handleLogin()
 			}
 		})
 	}
-	if (name == 'apiLogin') {
+	if (name === 'apiLogin') {
 		after(async (loggedIn) => {
-			if (loggedIn == true) {
+			if (loggedIn === true) {
 				await nextTick()
 				handleLogin()
 			}
@@ -131,9 +131,9 @@ userStore.$onAction(({ name, after }) => {
 })
 
 async function handleLogin() {
-	if (site.value == Site.Error)
+	if (site.value === Site.Error)
 		return
-	if ((site.value == Site.Page || site.value == Site.Register) && route.params.id == rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
+	if ((site.value === Site.Page || site.value === Site.Register) && route.params.id === rootPageChipStore.id.toString() && userStore.personalWiki && userStore.personalWiki.id != rootPageChipStore.id)
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
@@ -188,10 +188,10 @@ function logError(e: any) {
 		alertStore.openAlert(AlertType.Error, { text: null, customHtml: messages.error.api.body, customDetails: e }, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
 
 		alertStore.$onAction(({ name, after }) => {
-			if (name == 'closeAlert') {
+			if (name === 'closeAlert') {
 
 				after((result) => {
-					if (result.cancelled == false && result.id == 'reloadPage')
+					if (result.cancelled === false && result.id === 'reloadPage')
 						window.location.reload()
 					else clearErr()
 				})
@@ -231,7 +231,6 @@ onMounted(() => {
 			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
 				:site="site" :class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile, 'window-loading': !windowLoaded }" />
 
-
 			<template #error="{ error }">
 				<ErrorContent v-if="statusCode === ErrorCode.NotFound || statusCode === ErrorCode.Unauthorized"
 					:error="error" :in-error-boundary="true" @clear-error="clearErr" />
@@ -242,6 +241,7 @@ onMounted(() => {
 		</NuxtErrorBoundary>
 	</div>
 
+	<FooterGlobalLicense :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
 
 	<ClientOnly>

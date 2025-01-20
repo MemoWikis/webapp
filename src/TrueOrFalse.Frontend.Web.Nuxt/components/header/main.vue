@@ -427,8 +427,87 @@ const hidePartial = computed(() => {
     }
 }
 
-:global(#StickySearch,
-    #HeaderSearch) {
+:global(#HeaderSearch) {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+    align-items: center;
+
+    .StickySearchContainer,
+    .SearchContainer {
+        width: 100%;
+
+        :deep(&input) {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        input {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        :deep(&.showSearch) {
+            input {
+                border: 1px solid #ccc;
+                width: 100%;
+                padding: 6px 40px 6px 12px;
+                background: white;
+            }
+        }
+
+        &.showSearch {
+            input {
+                border: 1px solid #ccc;
+                width: 100%;
+                padding: 6px 40px 6px 12px;
+                background: white;
+            }
+        }
+    }
+
+    .search-button {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s;
+        font-size: 20px;
+        position: absolute;
+        z-index: 1050;
+        width: 34px;
+        transform: translateZ(0);
+
+        svg.fa-magnifying-glass {
+            color: white;
+        }
+
+        svg.fa-xmark,
+        svg.fa-magnifying-glass {
+            transition: all 0.1s;
+        }
+
+        &:hover {
+            cursor: pointer;
+
+            svg.fa-xmark,
+            svg.fa-magnifying-glass {
+                color: @memo-green;
+            }
+        }
+    }
+}
+
+:global(#StickySearch) {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;

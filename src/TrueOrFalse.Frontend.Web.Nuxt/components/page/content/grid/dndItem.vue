@@ -61,7 +61,7 @@ async function onDrop() {
 
     const transferData = dragStore.transferData as MovePageTransferData
     const targetId = props.page.id
-    if (transferData.page.id == targetId)
+    if (transferData.page.id === targetId)
         return
 
     const position = currentPosition.value
@@ -131,7 +131,7 @@ function handleDragStart(e: DragEvent) {
         return
     }
 
-    if (props.parentVisibility == Visibility.All && !userStore.gridInfoShown) {
+    if (props.parentVisibility === Visibility.All && !userStore.gridInfoShown) {
         snackbar.add({
             type: 'warning',
             title: '',

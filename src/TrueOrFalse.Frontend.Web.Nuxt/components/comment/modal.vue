@@ -3,12 +3,12 @@ import { useCommentsStore, CommentModel } from './commentsStore'
 
 const commentsStore = useCommentsStore()
 function addAnswerToUnsettledComments(e: { commentId: number, answer: CommentModel }) {
-    commentsStore.unsettledComments.find(c => c.id == e.commentId)?.answers.push(e.answer)
+    commentsStore.unsettledComments.find(c => c.id === e.commentId)?.answers.push(e.answer)
 }
 
 const showSettledComments = ref(false)
 function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel }) {
-    commentsStore.settledComments.find(c => c.id == e.commentId)?.answers.push(e.answer)
+    commentsStore.settledComments.find(c => c.id === e.commentId)?.answers.push(e.answer)
 }
 </script>
 
@@ -29,7 +29,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
                         <div v-if="commentsStore.settledComments?.length > 0">
                             <div class="commentSettledInfo">
                                 Die Frage hat {{ commentsStore.settledComments.length }} geschlossene {{
-                                    commentsStore.settledComments.length == 1 ? 'Diskussion' : 'Diskussionen' }}
+                                    commentsStore.settledComments.length === 1 ? 'Diskussion' : 'Diskussionen' }}
                                 <button class="cursor-hand btn-link" @click="showSettledComments = !showSettledComments">
                                     ({{ showSettledComments ? 'ausblenden' : 'einblenden' }})
                                 </button>
@@ -54,9 +54,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
 </template>
 
 <style lang="less" scoped>
-
 h2 {
     margin-bottom: 36px;
 }
-
 </style>

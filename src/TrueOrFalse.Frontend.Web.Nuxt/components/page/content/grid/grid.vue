@@ -51,25 +51,25 @@ function addPage(newPage: boolean) {
 }
 
 editPageRelationStore.$onAction(({ after, name }) => {
-    if (name == 'addPage') {
+    if (name === 'addPage') {
         after((result) => {
-            if (result.parentId == pageStore.id) {
+            if (result.parentId === pageStore.id) {
                 addGridItem(result.childId)
-            } else if (pageStore.gridItems.some(c => c.id == result.parentId)) {
+            } else if (pageStore.gridItems.some(c => c.id === result.parentId)) {
                 reloadGridItem(result.parentId)
-            } else if (pageStore.gridItems.some(c => c.id == result.childId))
+            } else if (pageStore.gridItems.some(c => c.id === result.childId))
                 reloadGridItem(result.childId)
 
         })
     }
-    if (name == 'removePage') {
+    if (name === 'removePage') {
         after((result) => {
-            if (result.parentId == pageStore.id) {
+            if (result.parentId === pageStore.id) {
                 removeGridItem(result.childId)
             }
         })
     }
-    if (name == 'addToPersonalWiki' || name == 'removeFromPersonalWiki') {
+    if (name === 'addToPersonalWiki' || name === 'removeFromPersonalWiki') {
         after((result) => {
             if (result) {
                 reloadGridItem(result.id)
@@ -79,27 +79,27 @@ editPageRelationStore.$onAction(({ after, name }) => {
 })
 
 publishPageStore.$onAction(({ after, name }) => {
-    if (name == 'publish') {
+    if (name === 'publish') {
         after((result) => {
-            if (result?.success && result.id && pageStore.gridItems.some(c => c.id == result.id))
+            if (result?.success && result.id && pageStore.gridItems.some(c => c.id === result.id))
                 reloadGridItem(result.id)
         })
     }
 })
 
 pageToPrivateStore.$onAction(({ after, name }) => {
-    if (name == 'setToPrivate') {
+    if (name === 'setToPrivate') {
         after((result) => {
-            if (result?.success && result.id && pageStore.gridItems.some(c => c.id == result.id))
+            if (result?.success && result.id && pageStore.gridItems.some(c => c.id === result.id))
                 reloadGridItem(result.id)
         })
     }
 })
 
 deletePageStore.$onAction(({ after, name }) => {
-    if (name == 'deletePage') {
+    if (name === 'deletePage') {
         after((result) => {
-            if (result && result.id && pageStore.gridItems.some(c => c.id == result.id)) {
+            if (result && result.id && pageStore.gridItems.some(c => c.id === result.id)) {
                 removeGridItem(result.id)
             }
         })
@@ -109,9 +109,9 @@ deletePageStore.$onAction(({ after, name }) => {
 async function addGridItem(id: number) {
     const result = await loadGridItem(id)
 
-    if (result.success == true) {
+    if (result.success === true) {
         pageStore.gridItems.push(result.data)
-    } else if (result.success == false)
+    } else if (result.success === false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
@@ -126,9 +126,9 @@ async function loadGridItem(id: number) {
 
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
-    if (result.success == true) {
+    if (result.success === true) {
         pageStore.gridItems = pageStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
-    } else if (result.success == false)
+    } else if (result.success === false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
@@ -140,40 +140,40 @@ function removeGridItem(id: number) {
 const { isMobile, isDesktop } = useDevice()
 
 editPageRelationStore.$onAction(({ name, after }) => {
-    if (name == 'movePage' || name == 'cancelMovePage') {
+    if (name === 'movePage' || name === 'cancelMovePage') {
 
         after(async (result) => {
             if (result) {
-                if (result?.oldParentId == pageStore.id || result?.newParentId == pageStore.id)
+                if (result?.oldParentId === pageStore.id || result?.newParentId === pageStore.id)
                     await pageStore.reloadGridItems()
 
                 const parentHasChanged = result.oldParentId != result.newParentId
 
-                if (props.children.find(c => c.id == result.oldParentId))
+                if (props.children.find(c => c.id === result.oldParentId))
                     await reloadGridItem(result.oldParentId)
-                if (props.children.find(c => c.id == result.newParentId) && parentHasChanged)
+                if (props.children.find(c => c.id === result.newParentId) && parentHasChanged)
                     await reloadGridItem(result.newParentId)
             }
         })
     }
 
-    if (name == 'tempInsert') {
+    if (name === 'tempInsert') {
         after((result) => {
 
-            if (result.oldParentId == pageStore.id) {
+            if (result.oldParentId === pageStore.id) {
                 const index = pageStore.gridItems.findIndex(c => c.id === result.movePage.id)
                 if (index !== -1) {
                     pageStore.gridItems.splice(index, 1)
                 }
             }
 
-            if (result.newParentId == pageStore.id) {
-                const index = pageStore.gridItems.findIndex(c => c.id == result.targetId)
-                if (result.position == TargetPosition.Before)
+            if (result.newParentId === pageStore.id) {
+                const index = pageStore.gridItems.findIndex(c => c.id === result.targetId)
+                if (result.position === TargetPosition.Before)
                     pageStore.gridItems.splice(index, 0, result.movePage)
-                else if (result.position == TargetPosition.After)
+                else if (result.position === TargetPosition.After)
                     pageStore.gridItems.splice(index + 1, 0, result.movePage)
-                else if (result.position == TargetPosition.Inner)
+                else if (result.position === TargetPosition.Inner)
                     pageStore.gridItems.push(result.movePage)
             }
         })

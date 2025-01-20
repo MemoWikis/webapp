@@ -72,11 +72,11 @@ watch(() => pageStore.id, () => {
 
 const isExtended = ref(false)
 function handleScroll() {
-    if (window.scrollY == 0)
+    if (window.scrollY === 0)
         isExtended.value = true
     else isExtended.value = false
 
-    if (tabsStore.activeTab == Tab.Text)
+    if (tabsStore.activeTab === Tab.Text)
         footerCheck()
 }
 
@@ -98,9 +98,9 @@ const { isMobile } = useDevice()
 
 <template>
     <div id="EditBar" class="col-xs-12"
-        :class="{ 'is-shown': (pageStore.contentHasChanged || pageStore.nameHasChanged) && tabsStore.activeTab == Tab.Text }">
+        :class="{ 'is-shown': (pageStore.contentHasChanged || pageStore.nameHasChanged) && tabsStore.activeTab === Tab.Text }">
         <div class="fab-container">
-            <template v-if="tabsStore.activeTab == Tab.Text">
+            <template v-if="tabsStore.activeTab === Tab.Text">
                 <div class="edit-mode-bar-container" v-if="pageStore.contentHasChanged || pageStore.nameHasChanged">
                     <div class="toolbar"
                         :class="{ 'stuck': footerIsVisible, 'is-hidden': (!pageStore.contentHasChanged && !pageStore.nameHasChanged), 'shrink': shrink, 'expand': expand, 'not-logged-in': !userStore.isLoggedIn }">

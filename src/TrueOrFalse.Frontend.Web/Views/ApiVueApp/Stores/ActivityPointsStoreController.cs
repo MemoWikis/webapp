@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 
 public class ActivityPointsStoreController(
     SessionUser _sessionUser,
@@ -18,8 +18,7 @@ public class ActivityPointsStoreController(
     [HttpPost]
     public AddResult Add([FromBody] AddJson activityPointsData)
     {
-        var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType),
-            activityPointsData.ActivityTypeString);
+        var activityType = (ActivityPointsType)Enum.Parse(typeof(ActivityPointsType), activityPointsData.ActivityTypeString);
         var activityPoints = new ActivityPoints
         {
             Amount = activityPointsData.Points,

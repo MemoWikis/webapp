@@ -103,7 +103,7 @@ const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/U
 
 const tab = ref<Tab>(props.tab)
 const isCurrentUser = computed(() => {
-    if (profile.value?.isCurrentUser && userStore.id == profile.value?.user.id)
+    if (profile.value?.isCurrentUser && userStore.id === profile.value?.user.id)
         return true
     else return false
 })
@@ -116,7 +116,7 @@ const router = useRouter()
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
 function handleBreadcrumb(t: Tab) {
-    if (t == Tab.Settings) {
+    if (t === Tab.Settings) {
         router.push({ path: '/Nutzer/Einstellungen' })
 
         const breadcrumbItem: BreadcrumbItem = {
@@ -125,7 +125,7 @@ function handleBreadcrumb(t: Tab) {
         }
         emit('setBreadcrumb', [breadcrumbItem])
 
-    } else if (profile.value && profile.value.user.id > 0 && t == Tab.Wishknowledge) {
+    } else if (profile.value && profile.value.user.id > 0 && t === Tab.Wishknowledge) {
         const newPath = `${$urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)}/Wunschwissen`
         router.push({ path: newPath })
 
@@ -140,7 +140,7 @@ function handleBreadcrumb(t: Tab) {
             }]
         emit('setBreadcrumb', breadcrumbItems)
     }
-    else if (profile.value?.user.id && profile.value.user.id > 0 && t == Tab.Overview) {
+    else if (profile.value?.user.id && profile.value.user.id > 0 && t === Tab.Overview) {
         const newPath = $urlHelper.getUserUrl(profile.value.user.name, profile.value.user.id)
         router.push({ path: newPath })
 
@@ -189,10 +189,10 @@ useHead(() => ({
 }))
 
 userStore.$onAction(({ name, after }) => {
-    if (name == 'logout') {
+    if (name === 'logout') {
 
         after(async (loggedOut) => {
-            if (loggedOut && tab.value == Tab.Settings) {
+            if (loggedOut && tab.value === Tab.Settings) {
                 tab.value = Tab.Overview
             }
         })
@@ -241,7 +241,7 @@ userStore.$onAction(({ name, after }) => {
                 </div>
 
                 <Transition>
-                    <div v-show="tab == Tab.Overview" class="row content">
+                    <div v-show="tab === Tab.Overview" class="row content">
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
@@ -356,7 +356,7 @@ userStore.$onAction(({ name, after }) => {
                     </div>
                 </Transition>
                 <Transition>
-                    <div v-show="tab == Tab.Wishknowledge">
+                    <div v-show="tab === Tab.Wishknowledge">
                         <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
                             <template v-if="profile.isCurrentUser">
                                 Dein Wunschwissen ist nicht öffentlich. <span @click="tab = Tab.Settings"
@@ -374,7 +374,7 @@ userStore.$onAction(({ name, after }) => {
                     </div>
                 </Transition>
                 <Transition v-if="userStore.isLoggedIn && profile.isCurrentUser">
-                    <UserSettings v-show="tab == Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content" @update-profile="refreshProfile" />
+                    <UserSettings v-show="tab === Tab.Settings" :image-url="profile.user.imageUrl" :content="props.content" @update-profile="refreshProfile" />
                 </Transition>
 
             </div>

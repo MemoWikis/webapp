@@ -43,11 +43,11 @@ const { $urlHelper } = useNuxtApp()
             </div>
             <template v-if="props.showOutline && pageStore.id && pageStore.name">
 
-                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab == Tab.Text && props.site === Site.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
+                <div class="sidebarcard-divider-container" v-show="tabsStore?.activeTab === Tab.Text && props.site === Site.Page && pageStore.currentWiki && pageStore.id !== pageStore.currentWiki.id">
                     <div class="sidebarcard-divider"></div>
                 </div>
 
-                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab == Tab.Text">
+                <SidebarCard id="PageOutline" v-show="tabsStore?.activeTab === Tab.Text">
                     <template v-slot:body>
                         <SidebarOutline />
                     </template>

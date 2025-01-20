@@ -65,10 +65,10 @@ const pageIds = ref<number[]>([])
 const selectedPages = ref<PageItem[]>([])
 function removePage(t: PageItem) {
     if (selectedPages.value.length > 1) {
-        var index = selectedPages.value.findIndex(s => s == t)
+        var index = selectedPages.value.findIndex(s => s === t)
         selectedPages.value.splice(index, 1)
 
-        var pageIdIndex = pageIds.value.findIndex(i => i == t.id)
+        var pageIdIndex = pageIds.value.findIndex(i => i === t.id)
         pageIds.value.splice(pageIdIndex, 1)
     }
 }
@@ -106,7 +106,7 @@ const searchTerm = ref('')
 const lockDropdown = ref(false)
 
 watch(searchTerm, (term) => {
-    if (term.length > 0 && lockDropdown.value == false) {
+    if (term.length > 0 && lockDropdown.value === false) {
         showDropdown.value = true
         debounceSearch()
     }
@@ -166,7 +166,7 @@ function getData() {
     if (solution == null) {
         return
     }
-    if (solutionType.value == SolutionType.Numeric || solutionType.value == SolutionType.Date)
+    if (solutionType.value === SolutionType.Numeric || solutionType.value === SolutionType.Date)
         solutionType.value = SolutionType.Text
 
     const editData = {
@@ -186,9 +186,9 @@ function getData() {
         SolutionType: solutionType.value,
         Visibility: visibility,
         SolutionMetadataJson: solutionMetadataJson.value,
-        LicenseId: licenseId.value == 0 ? 1 : licenseId.value,
+        LicenseId: licenseId.value === 0 ? 1 : licenseId.value,
         SessionIndex: learningSessionStore.lastIndexInQuestionList,
-        IsLearningTab: tabsStore.activeTab == Tab.Learning,
+        IsLearningTab: tabsStore.activeTab === Tab.Learning,
         SessionConfig: learningSessionConfigurationStore.buildSessionConfigJson(),
         uploadedImagesMarkedForDeletion: editQuestionStore.uploadedImagesMarkedForDeletion,
         uploadedImagesInContent: editQuestionStore.uploadedImagesInContent
@@ -272,7 +272,7 @@ async function save() {
         lockSaveButton.value = false
         updateQuestionCount()
         editQuestionStore.questionEdited(result.data.id)
-    } else if (result?.success == false) {
+    } else if (result?.success === false) {
         highlightEmptyFields.value = false
         spinnerStore.hideSpinner()
         editQuestionStore.showModal = false
@@ -289,9 +289,9 @@ async function save() {
 
 onMounted(() => {
     alertStore.$onAction(({ name, after }) => {
-        if (name == 'closeAlert')
+        if (name === 'closeAlert')
             after((result) => {
-                if (result.customKey == 'resetLearningSession')
+                if (result.customKey === 'resetLearningSession')
                     learningSessionConfigurationStore.reset()
             })
     })
@@ -353,7 +353,7 @@ async function getQuestionData(id: number) {
         selectedPages.value = result.pages
         licenseId.value = result.licenseId
         solutionMetadataJson.value = result.solutionMetadataJson
-        if (result.visibility == 1)
+        if (result.visibility === 1)
             isPrivate.value = true
         else {
             isPrivate.value = false
@@ -371,7 +371,7 @@ watch(() => editQuestionStore.showModal, (showModal) => {
             getQuestionData(editQuestionStore.id)
         }
         else {
-            if (editQuestionStore.pageId == pageStore.id)
+            if (editQuestionStore.pageId === pageStore.id)
                 selectedPages.value = [pageStore.searchPageItem!]
 
             pageIds.value = [editQuestionStore.pageId]
@@ -416,7 +416,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     <div class="main-header">
                         <div class="add-inline-question-label main-label">
                             {{ editQuestionStore.edit ? 'Frage bearbeiten' : 'Frage erstellen' }}
-                            <font-awesome-icon v-if="visibility == Visibility.All" icon="fa-solid fa-lock" />
+                            <font-awesome-icon v-if="visibility === Visibility.All" icon="fa-solid fa-lock" />
                         </div>
 
                         <div class="solutionType-selector">
@@ -441,7 +441,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="input-container">
                         <div class="overline-s no-line">Frage</div>
-                        <QuestionEditFlashcardFront v-if="solutionType == SolutionType.FlashCard"
+                        <QuestionEditFlashcardFront v-if="solutionType === SolutionType.FlashCard"
                             :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
                             ref="questionEditor" :content="questionHtml" :is-init="isInit" />
                         <QuestionEditEditor v-else :highlight-empty-fields="highlightEmptyFields"
@@ -453,14 +453,14 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                             @setQuestionExtensionData="setQuestionExtensionData" ref="questionExtensionEditor"
                             :content="questionExtensionHtml" :is-init="isInit" />
                     </div>
-                    <QuestionEditText v-if="solutionType == SolutionType.Text" :solution="textSolution"
+                    <QuestionEditText v-if="solutionType === SolutionType.Text" :solution="textSolution"
                         :highlightEmptyFields="highlightEmptyFields" @set-solution="setTextSolution" />
-                    <QuestionEditMultipleChoice v-if="solutionType == SolutionType.MultipleChoice"
+                    <QuestionEditMultipleChoice v-if="solutionType === SolutionType.MultipleChoice"
                         :solution="multipleChoiceJson" :highlightEmptyFields="highlightEmptyFields"
                         @set-multiple-choice-json="setMultipleChoiceContent" />
-                    <QuestionEditMatchList v-if="solutionType == SolutionType.MatchList" :solution="matchListJson"
+                    <QuestionEditMatchList v-if="solutionType === SolutionType.MatchList" :solution="matchListJson"
                         :highlightEmptyFields="highlightEmptyFields" @set-matchlist-json="setMatchlistContent" />
-                    <QuestionEditFlashCard v-if="solutionType == SolutionType.FlashCard" :solution="flashCardAnswer"
+                    <QuestionEditFlashCard v-if="solutionType === SolutionType.FlashCard" :solution="flashCardAnswer"
                         :highlightEmptyFields="highlightEmptyFields" @set-flash-card-content="setFlashCardContent"
                         ref="flashCardComponent" :is-init="isInit" />
 

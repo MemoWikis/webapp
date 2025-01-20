@@ -38,9 +38,9 @@ watch(() => props.page.id, async () => {
 })
 
 watch(() => props.toggleState, (state) => {
-    if (state == ToggleState.Collapsed)
+    if (state === ToggleState.Collapsed)
         expanded.value = false
-    else if (state == ToggleState.Expanded)
+    else if (state === ToggleState.Expanded)
         expanded.value = true
 })
 
@@ -51,7 +51,7 @@ watch(expanded, async (val) => {
 })
 
 watch(() => props.dropExpand, val => {
-    if (val && expanded.value == false)
+    if (val && expanded.value === false)
         expanded.value = true
 })
 
@@ -70,9 +70,9 @@ async function loadChildren(force: boolean = false) {
         credentials: 'include'
     })
 
-    if (result.success == true) {
+    if (result.success === true) {
         children.value = result.data
-    } else if (result.success == false) {
+    } else if (result.success === false) {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
     }
 
@@ -127,55 +127,55 @@ async function addPage(newPage: boolean) {
 }
 
 editPageRelationStore.$onAction(({ after, name }) => {
-    if (name == 'addPage') {
+    if (name === 'addPage') {
         after((result) => {
 
-            if (result.parentId == props.page.id) {
-                if (children.value.some(c => c.id == result.childId))
+            if (result.parentId === props.page.id) {
+                if (children.value.some(c => c.id === result.childId))
                     reloadGridItem(result.childId)
                 else
                     addGridItem(result.childId)
-            } else if (children.value.some(c => c.id == result.childId))
+            } else if (children.value.some(c => c.id === result.childId))
                 reloadGridItem(result.childId)
         })
     }
-    if (name == 'removePage') {
+    if (name === 'removePage') {
         after((result) => {
-            if (result.parentId == props.page.id) {
+            if (result.parentId === props.page.id) {
                 removeGridItem(result.childId)
             }
         })
     }
-    if (name == 'addToPersonalWiki' || name == 'removeFromPersonalWiki') {
+    if (name === 'addToPersonalWiki' || name === 'removeFromPersonalWiki') {
         after((result) => {
-            if (result?.success && result.id && children.value.some(c => c.id == result.id))
+            if (result?.success && result.id && children.value.some(c => c.id === result.id))
                 reloadGridItem(result.id)
         })
     }
 })
 
 publishPageStore.$onAction(({ after, name }) => {
-    if (name == 'publish') {
+    if (name === 'publish') {
         after((result) => {
-            if (result?.success && result.id && children.value.some(c => c.id == result.id))
+            if (result?.success && result.id && children.value.some(c => c.id === result.id))
                 reloadGridItem(result.id)
         })
     }
 })
 
 pageToPrivateStore.$onAction(({ after, name }) => {
-    if (name == 'setToPrivate') {
+    if (name === 'setToPrivate') {
         after((result) => {
-            if (result?.success && result.id && children.value.some(c => c.id == result.id))
+            if (result?.success && result.id && children.value.some(c => c.id === result.id))
                 reloadGridItem(result.id)
         })
     }
 })
 
 deletePageStore.$onAction(({ after, name }) => {
-    if (name == 'deletePage') {
+    if (name === 'deletePage') {
         after((result) => {
-            if (result && result.id && children.value.some(c => c.id == result.id)) {
+            if (result && result.id && children.value.some(c => c.id === result.id)) {
                 removeGridItem(result.id)
             }
         })
@@ -193,17 +193,17 @@ async function addGridItem(id: number) {
         await loadChildren()
     }
     await nextTick()
-    if (children.value.findIndex(c => c.id == id) > 0)
+    if (children.value.findIndex(c => c.id === id) > 0)
         return
 
     const result = await loadGridItem(id)
 
-    if (result.success == true) {
-        if (children.value.some(c => c.id == result.data.id))
+    if (result.success === true) {
+        if (children.value.some(c => c.id === result.data.id))
             reloadGridItem(result.data.id)
         else
             children.value.push(result.data)
-    } else if (result.success == false)
+    } else if (result.success === false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
@@ -218,9 +218,9 @@ async function loadGridItem(id: number) {
 async function reloadGridItem(id: number) {
     const result = await loadGridItem(id)
 
-    if (result.success == true) {
+    if (result.success === true) {
         children.value = children.value.map(i => i.id === result.data.id ? result.data : i)
-    } else if (result.success == false)
+    } else if (result.success === false)
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
 }
 
@@ -230,40 +230,40 @@ watch(() => props.isDragging, (val) => {
 }, { immediate: true })
 
 editPageRelationStore.$onAction(({ name, after }) => {
-    if (name == 'movePage' || name == 'cancelMovePage') {
+    if (name === 'movePage' || name === 'cancelMovePage') {
 
         after(async (result) => {
             if (result) {
-                if (result.oldParentId == props.page.id || result.newParentId == props.page.id)
+                if (result.oldParentId === props.page.id || result.newParentId === props.page.id)
                     await loadChildren(true)
 
                 const parentHasChanged = result.oldParentId != result.newParentId
 
-                if (children.value.find(c => c.id == result.oldParentId))
+                if (children.value.find(c => c.id === result.oldParentId))
                     await reloadGridItem(result.oldParentId)
-                if (children.value.find(c => c.id == result.newParentId) && parentHasChanged)
+                if (children.value.find(c => c.id === result.newParentId) && parentHasChanged)
                     await reloadGridItem(result.newParentId)
             }
         })
     }
 
-    if (name == 'tempInsert') {
+    if (name === 'tempInsert') {
         after((result) => {
 
-            if (result.oldParentId == props.page.id) {
+            if (result.oldParentId === props.page.id) {
                 const index = children.value.findIndex(c => c.id === result.movePage.id)
                 if (index !== -1) {
                     children.value.splice(index, 1)
                 }
             }
 
-            if (result.newParentId == props.page.id) {
-                const index = children.value.findIndex(c => c.id == result.targetId)
-                if (result.position == TargetPosition.Before)
+            if (result.newParentId === props.page.id) {
+                const index = children.value.findIndex(c => c.id === result.targetId)
+                if (result.position === TargetPosition.Before)
                     children.value.splice(index, 0, result.movePage)
-                else if (result.position == TargetPosition.After)
+                else if (result.position === TargetPosition.After)
                     children.value.splice(index + 1, 0, result.movePage)
-                else if (result.position == TargetPosition.Inner)
+                else if (result.position === TargetPosition.Inner)
                     children.value.push(result.movePage)
             }
         })
@@ -278,7 +278,7 @@ const { isDesktop } = useDevice()
 
         <slot name="topdropzone"></slot>
         <slot name="bottomdropzone"
-            v-if="!expanded || ((children.length == 0 && childrenLoaded) || props.page.childrenCount == 0)"></slot>
+            v-if="!expanded || ((children.length === 0 && childrenLoaded) || props.page.childrenCount === 0)"></slot>
         <slot name="dropinzone"></slot>
 
         <div class="grid-item-caret-container">
@@ -318,13 +318,13 @@ const { isDesktop } = useDevice()
         <template v-if="isDesktop">
             <PageContentGridDndItem v-for="child in children" :page="child" :toggle-state="props.toggleState"
                 :parent-id="props.page.id" :parent-name="props.page.name"
-                :user-is-creator-of-parent="props.page.creatorId == userStore.id"
+                :user-is-creator-of-parent="props.page.creatorId === userStore.id"
                 :parent-visibility="props.page.visibility" />
         </template>
         <template v-else>
             <PageContentGridTouchDndItem v-for="child in children" :page="child" :toggle-state="props.toggleState"
                 :parent-id="props.page.id" :parent-name="props.page.name"
-                :user-is-creator-of-parent="props.page.creatorId == userStore.id"
+                :user-is-creator-of-parent="props.page.creatorId === userStore.id"
                 :parent-visibility="props.page.visibility" />
         </template>
     </div>

@@ -40,13 +40,13 @@ function shuffleSuccessImage(): void {
 
 const showDetails = ref(false)
 const hasImage = computed(() => {
-    return alertStore.msg?.customImg || alertStore.type == AlertType.Error || alertStore.type == AlertType.Success
+    return alertStore.msg?.customImg || alertStore.type === AlertType.Error || alertStore.type === AlertType.Success
 })
 
-function copyToClipboard() {
+async function copyToClipboard() {
     if (alertStore.msg?.customDetails) {
         const text = alertStore.msg.customDetails
-        navigator.clipboard.writeText(text)
+        await navigator.clipboard.writeText(text)
     }
 }
 
@@ -67,16 +67,16 @@ watch(() => alertStore.show, (show) => {
                     <div class="alert-body">
                         <div class="alert-img-container" v-if="hasImage">
                             <img v-if="alertStore.msg?.customImg" width="200" :src="alertStore.msg?.customImg" />
-                            <img v-else-if="alertStore.type == AlertType.Error" width="200" :src="errorImage" />
-                            <img v-else-if="alertStore.type == AlertType.Success" width="200"
+                            <img v-else-if="alertStore.type === AlertType.Error" width="200" :src="errorImage" />
+                            <img v-else-if="alertStore.type === AlertType.Success" width="200"
                                 :src="randomImageSuccess" />
                         </div>
                         <div>
                             <h3 v-if="alertStore.title != null && alertStore.title.length > 0"
                                 :class="{ 'has-image': hasImage }">
-                                <font-awesome-icon v-if="alertStore.type == AlertType.Success"
+                                <font-awesome-icon v-if="alertStore.type === AlertType.Success"
                                     icon="fa-solid fa-circle-check" class="success" />
-                                <font-awesome-icon v-else-if="alertStore.type == AlertType.Error"
+                                <font-awesome-icon v-else-if="alertStore.type === AlertType.Error"
                                     icon="fa-solid fa-circle-xmark" class="error" />
                                 {{ alertStore.title }}
                             </h3>
@@ -106,9 +106,9 @@ watch(() => alertStore.show, (show) => {
 
                 <div class="modal-footer">
                     <button class="btn memo-button pull-right" :class="{
-                        'btn-success': alertStore.type == AlertType.Success,
-                        'btn-error': alertStore.type == AlertType.Error,
-                        'btn-primary': alertStore.type == AlertType.Default
+                        'btn-success': alertStore.type === AlertType.Success,
+                        'btn-error': alertStore.type === AlertType.Error,
+                        'btn-primary': alertStore.type === AlertType.Default
                     }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
                     <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
                         @click="alertStore.closeAlert(true)">

@@ -34,7 +34,7 @@ const ariaId = useId()
         <VDropdown :aria-id="ariaId" :distance="0" :shown="showDropdown">
             <template #popper="{ hide }">
 
-                <div class="dropdown-row" v-if="tabsStore.activeTab == Tab.Learning && props.canEdit"
+                <div class="dropdown-row" v-if="tabsStore.activeTab === Tab.Learning && props.canEdit"
                     @click="editQuestionStore.editQuestion(props.id); hide()">
                     <div class="dropdown-icon">
                         <font-awesome-icon icon="fa-solid fa-pen" />
@@ -44,7 +44,7 @@ const ariaId = useId()
                 </div>
 
                 <LazyNuxtLink :to="$urlHelper.getQuestionUrl(props.title, props.id)"
-                    v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
+                    v-if="tabsStore.activeTab === Tab.Learning && userStore.isAdmin">
                     <div class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-file" />
@@ -54,7 +54,7 @@ const ariaId = useId()
                 </LazyNuxtLink>
 
                 <LazyNuxtLink :to="`/QuestionHistory/${props.title}/${props.id}`"
-                    v-if="tabsStore.activeTab == Tab.Learning && userStore.isAdmin">
+                    v-if="tabsStore.activeTab === Tab.Learning && userStore.isAdmin">
                     <div class="dropdown-row">
                         <div class="dropdown-icon">
                             <font-awesome-icon icon="fa-solid fa-code-fork" />

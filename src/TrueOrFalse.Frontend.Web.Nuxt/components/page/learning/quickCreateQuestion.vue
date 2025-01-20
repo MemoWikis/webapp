@@ -185,7 +185,7 @@ async function addFlashcard() {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
-    if (result.success == true) {
+    if (result.success === true) {
         pageStore.questionCount++
         if (result.data < 0) {
             alertStore.openAlert(AlertType.Success, {
@@ -196,10 +196,10 @@ async function addFlashcard() {
             })
 
             alertStore.$onAction(({ name, after }) => {
-                if (name == 'closeAlert') {
+                if (name === 'closeAlert') {
 
                     after((result) => {
-                        if (result.cancelled == false && result.customKey == 'resetLearningSessionConfiguration')
+                        if (result.cancelled === false && result.customKey === 'resetLearningSessionConfiguration')
                             learningSessionConfigurationStore.reset()
                     })
                 }

@@ -118,7 +118,7 @@ async function loadQuestionData() {
         canBeEdited.value = result.data.canBeEdited
         setTitle(result.data.title)
         showLock.value = result.data.visibility != Visibility.All
-    } else if (result?.success == false) {
+    } else if (result?.success === false) {
         alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) ?? messages.error.default })
     }
 
@@ -126,7 +126,7 @@ async function loadQuestionData() {
 
 function expandQuestionContainer() {
     showFullQuestion.value = !showFullQuestion.value
-    if (allDataLoaded.value == false) {
+    if (allDataLoaded.value === false) {
         loadQuestionData()
     }
 }
@@ -208,9 +208,9 @@ function setKnowledgebarData() {
 }
 
 function setWuwiState(state: PinState) {
-    if (state == PinState.Added)
+    if (state === PinState.Added)
         isInWishknowledge.value = true
-    else if (state == PinState.NotAdded)
+    else if (state === PinState.NotAdded)
         isInWishknowledge.value = false
 }
 watch(currentKnowledgeStatus, () => {
@@ -241,18 +241,18 @@ async function getNewKnowledgeStatus() {
     })
 }
 learningSessionStore.$onAction(({ name, after }) => {
-    if (name == 'knowledgeStatusChanged')
+    if (name === 'knowledgeStatusChanged')
         after((result) => {
-            if (result == props.question.id) {
+            if (result === props.question.id) {
                 getNewKnowledgeStatus()
             }
         })
 })
 
 editQuestionStore.$onAction(({ name, after }) => {
-    if (name == 'questionEdited')
+    if (name === 'questionEdited')
         after((result) => {
-            if (result == props.question.id) {
+            if (result === props.question.id) {
                 loadQuestionData()
             }
         })
@@ -313,7 +313,7 @@ publishQuestionStore.$onAction(({ name, after }) => {
                                     class="iconContainer" @set-wuwi-state="setWuwiState" />
                                 <div class="go-to-question iconContainer">
                                     <font-awesome-icon icon="fa-solid fa-play"
-                                        :class="{ 'activeQ': props.question.id == learningSessionStore.currentStep?.id }"
+                                        :class="{ 'activeQ': props.question.id === learningSessionStore.currentStep?.id }"
                                         @click="loadSpecificQuestion()" />
                                 </div>
                             </div>

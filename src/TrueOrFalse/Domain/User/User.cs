@@ -65,25 +65,9 @@ public class User : DomainEntity, IUserTinyModel
     public virtual string? WikiIds { get; set; }
     public virtual string? FavoriteIds { get; set; }
 
-    public virtual IList<int> FollowerIds()
-    {
-        return Followers.Select(f => f.Follower.Id).ToList();
-    }
-
-    public virtual IList<int> FollowingIds()
-    {
-        return Following.Select(f => f.User.Id).ToList();
-    }
-
     public virtual bool IsStartPagePageId(int pageId)
     {
         return pageId == StartPageId;
-    }
-
-    /// <summary>Joined list of FollowerIds and FollowingIds</summary>
-    public virtual IList<int> NetworkIds()
-    {
-        return FollowerIds().Union(FollowingIds()).ToList();
     }
 
     public virtual IList<string> WidgetHosts()

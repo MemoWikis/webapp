@@ -17,11 +17,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public int CorrectnessProbability { get; set; }
     public DateTime? EndDate { get; set; }
     public DateTime DateCreated { get; set; }
-    public IList<int> FollowerIds { get; set; }
-
-    /// <summary>Users I follow</summary>
-    public IList<int> FollowingIds { get; set; }
-
     public int ActivityPoints { get; set; }
     public int ActivityLevel { get; set; }
 
@@ -74,8 +69,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
-        FollowerIds = user.Followers.Select(f => f.Follower.Id).ToList();
-        FollowingIds = user.Following.Select(f => f.User.Id).ToList();
         StripeId = user.StripeId;
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;
@@ -112,8 +105,6 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         WidgetHostsSpaceSeparated = user.WidgetHostsSpaceSeparated;
         CorrectnessProbability = user.CorrectnessProbability;
         TotalInOthersWishknowledge = user.TotalInOthersWishknowledge;
-        FollowerIds = user.FollowerIds;
-        FollowingIds = FollowingIds;
         StripeId = user.StripeId;
         EndDate = user.EndDate;
         SubscriptionStartDate = user.SubscriptionStartDate;
