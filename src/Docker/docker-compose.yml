@@ -1,0 +1,158 @@
+version: "3.9"
+
+services:
+  # ------------------------------------------
+  # .NET Backend
+  # ------------------------------------------
+  mem-backend:
+    image: ghcr.io/memowikis/mem-backend:${BUILD_NUMBER:-error}
+    container_name: mem-backend
+    ports:
+      - "${BACKEND_PORT:-7000}:5069"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-stage}
+      - BACKEND_PORT=${BACKEND_PORT:-7000}
+      - BACKEND_BASE_URL=${BACKEND_BASE_URL:-http://host.docker.internal:7000}
+      - CONNECTION_STRING=${CONNECTION_STRING:-error}
+      - ENVIRONMENT=${ENVIRONMENT:-stage}
+      - MEMUCHO_USER_ID=${MEMUCHO_USER_ID:-error}
+      - SALT_COOKIE=${SALT_COOKIE:-error}
+      - UPDATE_USER_SETTINGS_KEY=${UPDATE_USER_SETTINGS_KEY:-error}
+      - WITH_NHIBERNATE_STATISTICS=${WITH_NHIBERNATE_STATISTICS:-error}
+      - DISABLE_ALL_JOBS=${DISABLE_ALL_JOBS:-error}
+      - FACEBOOK_APP_ID=${FACEBOOK_APP_ID:-error}
+      - FACEBOOK_APP_SECRET=${FACEBOOK_APP_SECRET:-error}
+      - WEBHOOK_KEY_STRIPE=${WEBHOOK_KEY_STRIPE:-error}
+      - STRIPE_BASE_URL=${STRIPE_BASE_URL:-error}
+      - STRIPE_SECURITY_KEY=${STRIPE_SECRET_KEY:-error}
+      - MEILISEARCH_URL=${MEILISEARCH_URL:-error}
+      - MEILISEARCH_MASTER_KEY=${MEILISEARCH_MASTER_KEY:-error}
+      - EMAIL_FROM=${EMAIL_FROM:-error}
+      - EMAIL_TO_MEMUCHO=${EMAIL_TO_MEMUCHO:-error}
+      - SEQ_URL=${SEQ_SERVER_URL:-http://host.docker.internal:5341}
+      - SEQ_API_KEY=${SEQ_APISERVER_API_KEY:-error}
+      - REDIS_URL=${REDIS_URL:-error}
+      - GOOGLE_CLIENT_ID=${GSI_CLIENT_KEY:-error}
+      - COLLABORATION_TOKEN_SECRET_KEY=${COLLABORATION_TOKEN_SECRET_KEY:-error}
+      - COLLABORATION_HOCUSPOCUS_SECRET_KEY=${HOCUSPOCUS_SECRET_KEY:-error}
+      - TRACKERS_TO_IGNORE=${TRACKERS_TO_IGNORE:-error}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-error}
+      - OPENAI_MODEL=${OPENAI_MODEL:-error}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-error}
+      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL:-error}
+      - ANTHROPIC_VERSION=${ANTHROPIC_VERSION:-error}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "${HOST_IMAGE_PATH:-error}:${ABSOLUTE_IMAGE_PATH:-error}"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Nuxt Frontend
+  # ------------------------------------------
+  mem-nuxt:
+    image: ghcr.io/memowikis/mem-nuxt:${BUILD_NUMBER:-error}
+    container_name: mem-nuxt
+    ports:
+      - "${NUXT_PORT:-3000}:3000"
+    environment:
+      - NUXT_PUBLIC_SERVER_BASE=${BACKEND_BASE_URL:-http://host.docker.internal:7000}
+      - NUXT_PUBLIC_GSI_CLIENT_KEY=${GSI_CLIENT_KEY:-error}
+      - NUXT_PUBLIC_SEQ_SERVER_PORT=${SEQ_SERVER_PORT:-5341}
+      - NUXT_PUBLIC_SEQ_SERVER_URL=${SEQ_SERVER_URL:-http://host.docker.internal:5341}
+      - NUXT_SEQ_RAW_URL=${SEQ_RAW_URL:-error}
+      - NUXT_SEQ_SERVER_API_KEY=${SEQ_SERVER_API_KEY:-error}
+      - NUXT_PUBLIC_SEQ_CLIENT_API_KEY=${SEQ_CLIENT_API_KEY:-error}
+      - NUXT_PUBLIC_STRIPE_PLUS_PRICE_ID=${STRIPE_PLUS_PRICE_ID:-error}
+      - NUXT_PUBLIC_STRIPE_KEY=${STRIPE_PUBLIC_KEY:-error}
+      - NUXT_PUBLIC_FACEBOOK_APP_ID=${FACEBOOK_APP_ID:-error}
+      - NUXT_PUBLIC_HOCUSPOCUS_WEBSOCKET_URL=${HOCUSPOCUS_URL:-http://host.docker.internal:3010}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Nginx (reverse proxy)
+  # ------------------------------------------
+  mem-nginx-reverse:
+    build:
+      context: ./nginx-nuxt
+      dockerfile: Dockerfile  # if it's named Dockerfile
+    container_name: mem-nginx-reverse
+    ports:
+      - "${SERVER_PORT:-8080}:${SERVER_PORT:-8080}"
+    environment:
+      - SERVER_PORT=${SERVER_PORT:-8080}
+      - HOST_VAR=${BACKEND_BASE_URL:-http://host.docker.internal:7000}
+      - PORT_NUXT=${NUXT_PORT:-3000}
+      - PORT_HOCUSPOCUS=${HOCUSPOCUS_PORT:-3010}
+    command: >
+      /bin/sh -c 
+      "envsubst < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/nginx.conf &&
+       /usr/sbin/nginx -g 'daemon off;'"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Meilisearch
+  # ------------------------------------------
+  meilisearch:
+    image: getmeili/meilisearch:v0.30
+    container_name: mem-meilisearch
+    command: ["meilisearch", "--master-key=${MEILI_MASTER_KEY}"]
+    ports:
+      - "${MEILI_PORT:-7700}:7700"
+    volumes:
+      - "C:/Meilisearch/${ENVIRONMENT}:/meili_data"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Redis
+  # ------------------------------------------
+  redis:
+    image: redis:7.2.4
+    container_name: mem-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - "C:/redis-data/${ENVIRONMENT}:/data"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Hocuspocus
+  # ------------------------------------------
+  hocuspocus:
+    image: ghcr.io/memowikis/mem-hocuspocus:${BUILD_NUMBER:-error}
+    container_name: mem-hocuspocus
+    ports:
+      - "${HOCUSPOCUS_PORT:-3010}:3010"
+    environment:
+      - BACKEND_BASE_URL=${BACKEND_BASE_URL:-http://host.docker.internal:7000}
+      - HOCUSPOCUS_SECRET_KEY=${HOCUSPOCUS_SECRET_KEY:-error}
+      - REDIS_HOST=host.docker.internal
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - ENVIRONMENT=${ENVIRONMENT:-stage}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - environment-specific-network
+    restart: always
+
+# ------------------------------------------
+# Shared network (external, if you already created it manually)
+# ------------------------------------------
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-stage}
+    external: true
