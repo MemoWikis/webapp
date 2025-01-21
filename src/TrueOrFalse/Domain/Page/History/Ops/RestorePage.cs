@@ -56,7 +56,7 @@ public class RestorePage(
                    $"Zurückgesetzt auf Revision: vom {pageChange.DateCreated} (Id {pageChange.Id})\n" +
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
-        SendEmail(Constants.MemuchoAdminUserId, subject, body);
+        SendEmail(Constants.MemoWikisAdminUserId, subject, body);
         if (page.Creator != null && currentUser.Id != page.Creator.Id)
             SendEmail(page.Creator.Id, subject, body);
     }

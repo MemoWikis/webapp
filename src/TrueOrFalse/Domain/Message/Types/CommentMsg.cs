@@ -6,8 +6,8 @@ using TrueOrFalse.Frontend.Web.Code;
 public class CommentMsg
 {
     public static void Send(Comment comment,
-        QuestionReadingRepo questionReadingRepo, 
-        MessageRepo messageRepo, 
+        QuestionReadingRepo questionReadingRepo,
+        MessageRepo messageRepo,
         IHttpContextAccessor httpContextAccessor,
         IActionContextAccessor actionContextAccessor)
     {
@@ -17,7 +17,7 @@ public class CommentMsg
         var question = questionReadingRepo.GetById(comment.TypeId);
 
         var questionUrl = "";
-        if(httpContextAccessor.HttpContext != null)
+        if (httpContextAccessor.HttpContext != null)
             questionUrl = new Links(actionContextAccessor, httpContextAccessor).AnswerQuestion(question);
 
         string shouldImproveOrRemove = "";
@@ -33,7 +33,7 @@ public class CommentMsg
                 </div>",
                 ShouldReasons
                     .ByKeys(comment.ShouldKeys)
-                    .Select(x => "<li>" + x +"</li>")
+                    .Select(x => "<li>" + x + "</li>")
                     .Aggregate((a, b) => a + b));
         }
 
@@ -50,7 +50,7 @@ public class CommentMsg
                 ShouldReasons
                     .ByKeys(comment.ShouldKeys)
                     .Select(x => "<li>" + x + "</li>")
-                    .Aggregate((a, b) => a + b));                
+                    .Aggregate((a, b) => a + b));
         }
 
         string body = string.Format(@"
@@ -60,10 +60,10 @@ public class CommentMsg
 
         Send_CommentToYourQuestion(body, receiverUserId: question.Creator.Id, messageRepo);
 
-        if(comment.AnswerTo != null && comment.AnswerTo.Creator.Id != question.Creator.Id)
+        if (comment.AnswerTo != null && comment.AnswerTo.Creator.Id != question.Creator.Id)
             Send_AnswerToYourComment(body, comment.AnswerTo.Creator.Id, messageRepo);
 
-        Send_InfoToMemucho(body, Constants.MemuchoAdminUserId, messageRepo);
+        Send_InfoToMemoWikis(body, Constants.MemoWikisAdminUserId, messageRepo);
 
     }
 
@@ -78,7 +78,7 @@ public class CommentMsg
         });
     }
 
-    private static void Send_AnswerToYourComment(string body, int receiverUserId, MessageRepo messageRepo )
+    private static void Send_AnswerToYourComment(string body, int receiverUserId, MessageRepo messageRepo)
     {
         messageRepo.Create(new Message
         {
@@ -89,7 +89,7 @@ public class CommentMsg
         });
     }
 
-    private static void Send_InfoToMemucho(string body, int receiverUserId, MessageRepo messageRepo)
+    private static void Send_InfoToMemoWikis(string body, int receiverUserId, MessageRepo messageRepo)
     {
         Send_CommentToYourQuestion(body, receiverUserId, messageRepo);
     }

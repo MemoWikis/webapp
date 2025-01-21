@@ -34,7 +34,7 @@ public class UserTinyModel : IUserTinyModel
     [JsonIgnore]
     public UserCacheItem User => _user;
 
-    public bool IsMemuchoUser { get; }
+    public bool IsMemoWikisUser { get; }
 
     public bool IsKnown => !IsUnknown;
     public bool IsUnknown { get; }
@@ -61,7 +61,7 @@ public class UserTinyModel : IUserTinyModel
         Id = _user == null ? -1 : _user.Id;
         FacebookId = _user == null ? "null" : _user.FacebookId;
         GoogleId = _user == null ? "null" : _user.GoogleId;
-        IsMemuchoUser = _user != null && _user.IsMemuchoUser;
+        IsMemoWikisUser = _user != null && _user.IsMemoWikisUser;
         Reputation = _user != null ? _user.Reputation : 0;
         ReputationPos = _user != null ? _user.ReputationPos : 0;
         IsMember = _user != null && _user.IsMember;

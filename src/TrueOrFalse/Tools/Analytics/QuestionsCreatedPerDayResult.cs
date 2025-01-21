@@ -2,7 +2,7 @@
 {
     public DateTime DateTime;
 
-    public int CountByMemucho;
+    public int CountByMemoWikis;
     public int CountByOthers;
 
     public static List<QuestionsCreatedPerDayResult> FillUpListWithZeros(
@@ -20,7 +20,7 @@
                 {
                     DateTime = curDay,
                     CountByOthers = 0,
-                    CountByMemucho = 0
+                    CountByMemoWikis = 0
                 });
             curDay = curDay.AddDays(1);
         }

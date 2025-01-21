@@ -28,7 +28,7 @@ public class Settings
     // General properties
     public static string CanonicalHost => _configuration["General:CanonicalHost"];
     public static string SaltCookie => _configuration["General:SaltCookie"];
-    public static int MemuchoUserId => int.Parse(_configuration["General:MemuchoUserId"]);
+    public static int MemoWikisUserId => int.Parse(_configuration["General:MemoWikisUserId"]);
     public static string Environment => _configuration["General:Environment"];
     public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
 
@@ -46,7 +46,7 @@ public class Settings
 
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
-    public static string EmailToMemucho => _configuration["Email:EmailToMemucho"];
+    public static string EmailToMemoWikis => _configuration["Email:EmailToMemoWikis"];
 
     // Paths properties
     public static string LomExportPath => _configuration["Paths:LomExportPath"];
