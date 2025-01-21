@@ -25,7 +25,7 @@ services:
       - General__CanonicalHost=${CANONICAL_HOST:-error}
       - General__ConnectionString=${CONNECTION_STRING:-error}
       - General__Environment=${ENVIRONMENT:-error}
-      - General__MemuchoUserId=${MEMUCHO_USER_ID:-error}
+      - General__MemoWikisUserId=${MEMOWIKIS_USER_ID:-error}
       - General__SaltCookie=${SALT_COOKIE:-error}
       - General__UpdateUserSettingsKey=${UPDATE_USER_SETTINGS_KEY:-error}
       - General__TrackersToIgnore=${TRACKERS_TO_IGNORE:-error}
@@ -39,7 +39,7 @@ services:
       - Meilisearch__MeiliSearchUrl=${MEILISEARCH_URL:-error}
       - Meilisearch__MeiliSearchMasterKey=${MEILISEARCH_MASTER_KEY:-error}
       - Email__EmailFrom=${EMAIL_FROM:-error}
-      - Email__EmailToMemucho=${EMAIL_TO_MEMUCHO:-error}
+      - Email__EmailToMemoWikis=${EMAIL_TO_MEMOWIKIS:-error}
       - Redis__Url=${REDIS_URL:-error}
       - Google__ClientId=${GOOGLE_CLIENT_ID:-error}
       - Collaboration__TokenSecretKey=${COLLABORATION_TOKEN_SECRET_KEY:-error}
