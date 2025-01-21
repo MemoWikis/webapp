@@ -11,7 +11,7 @@ export default defineNuxtConfig({
         public: {
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",
-            officialBase: "https://memucho.de",
+            officialBase: "https://memowikis.net",
             gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
             discord: "https://discord.com/invite/nXKwGrN",
             stripePlusPriceId: "price_1NI9weCrH8zPItlldHVfhAKI",
@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
         '~/assets/bootstrap/bootstrap.less',
-        // '~/assets/bootstrap/memucho_overrides.less',
+        // '~/assets/bootstrap/memoWikis_overrides.less',
         '~/assets/bootstrap/variables_custom.less',
         '~/assets/includes/shared.less',
         '~/assets/memo-bundle.less',

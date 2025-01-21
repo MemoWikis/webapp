@@ -273,7 +273,7 @@ function resetModal() {
                         <p>
                             Wir benötigen Urheberrechtsinformationen für dieses Bild, damit wir sicherstellen können,
                             dass
-                            Inhalte auf memucho frei weiterverwendet werden können. memucho folgt dem Wikipedia Prinzip.
+                            Inhalte auf memoWikis frei weiterverwendet werden können. memoWikis folgt dem Wikipedia Prinzip.
                         </p>
 
                         <div>

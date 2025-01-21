@@ -56,10 +56,10 @@ const rootPageChipStore = useRootPageChipStore()
                         :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id)"
                         alt="homepage">
                         <div id="Logo">
-                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />
+                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memoWikis logo" />
                             <Image src="/Images/Logo/LogoSmall.svg"
                                 class="hidden-sm hidden-md hidden-lg hidden-xl small" :height="40"
-                                alt="small memucho logo" />
+                                alt="small memoWikis logo" />
                         </div>
                     </NuxtLink>
                 </div>

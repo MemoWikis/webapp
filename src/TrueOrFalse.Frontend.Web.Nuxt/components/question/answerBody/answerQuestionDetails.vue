@@ -984,7 +984,7 @@ const activityPointsStore = useActivityPointsStore()
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
                                     <strong>{{ personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass du
-                                    die Frage richtig beantwortest. Durchschnitt aller memucho-Nutzer:
+                                    die Frage richtig beantwortest. Durchschnitt aller memoWikis-Nutzer:
                                     <strong>{{ avgProbability }}%</strong>
                                 </div>
                                 <div v-else style="">

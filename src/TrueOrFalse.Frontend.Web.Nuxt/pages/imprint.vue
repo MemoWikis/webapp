@@ -6,7 +6,7 @@ onBeforeMount(() => {
 })
 
 function openEmail() {
-	window.location.href = "mailto:team@memucho.de"
+	window.location.href = "mailto:team@memowikis.net"
 }
 
 const config = useRuntimeConfig()
@@ -21,11 +21,11 @@ useHead(() => ({
 	meta: [
 		{
 			name: 'description',
-			content: 'Legal information and company details for memucho.'
+			content: 'Legal information and company details for memoWikis.'
 		},
 		{
 			property: 'og:title',
-			content: 'Imprint | memucho'
+			content: 'Imprint | memoWikis'
 		},
 		{
 			property: 'og:url',
@@ -49,7 +49,7 @@ useHead(() => ({
 				<h2>1. Impressum</h2>
 
 				<h3>Angaben gemäß § 5 TMG:</h3>
-				memucho GmbH<br />
+				memoWikis GmbH<br />
 				Am Moorhof <br />
 				Nettgendorfer Str. 7 <br />
 				14947 Nuthe-Urstromtal<br />
@@ -65,7 +65,7 @@ useHead(() => ({
 				Telefon:
 				<br />
 				+49-178 186 68 48<br />
-				<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
+				<span class="mailme btn-link" @click="openEmail">team@memowikis.net</span>
 
 				<h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
 				<p>Robert Mischke<br />
@@ -128,13 +128,13 @@ useHead(() => ({
 
 				<p id="under16"><strong>Nutzer unter 16 Jahren</strong></p>
 				<p>
-					Wenn Du unter 16 Jahren alt bist, darfst Du dich bei memucho nur mit Zustimmung Deiner Eltern
+					Wenn Du unter 16 Jahren alt bist, darfst Du dich bei memoWikis nur mit Zustimmung Deiner Eltern
 					registieren.
 				</p>
 				<p>
 					Die Zustimmung durch Deine Eltern kann per Email oder Telefon erfolgen.
 					Hier können Deine Eltern mit uns in Kontakt treten: <span class="mailme btn-link"
-						@click="openEmail">team@memucho.de</span>
+						@click="openEmail">team@memowikis.net</span>
 
 				</p>
 				<p>
@@ -1527,7 +1527,7 @@ useHead(() => ({
 
 				<hr />
 				<p style="padding-top: 20px">
-					memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie
+					memoWikis wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie
 					und
 					den
 					Europäischen Sozialfonds gefördert.

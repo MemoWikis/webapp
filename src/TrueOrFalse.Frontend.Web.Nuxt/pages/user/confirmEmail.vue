@@ -120,7 +120,7 @@ async function requestVerificationMail() {
                                         Es könnte sein, dass der Bestätigungslink nicht korrekt oder abgelaufen ist.
                                         <br />
 
-                                        Versuche es bitte noch einmal oder wende dich an <b>team@memucho.de</b>,
+                                        Versuche es bitte noch einmal oder wende dich an <b>team@memowikis.net</b>,
                                         falls das Problem weiterhin besteht.
 
                                         <br />

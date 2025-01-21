@@ -38,7 +38,7 @@ onMounted(() => {
                     </div>
                 </div>
 
-                <div class="row footer-links-memucho col-xs-12">
+                <div class="row footer-links-memoWikis col-xs-12">
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div id="MasterFooterLogoContainer">
@@ -46,7 +46,7 @@ onMounted(() => {
                                 :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(footerPages.rootWiki.name, footerPages.rootWiki.id)"
                                 id="MasterFooterLogo">
 
-                                <Image src="/Images/Logo/LogoGreyDarker.svg" class="master-footer-logo-img" alt="memucho logo" />
+                                <Image src="/Images/Logo/LogoGreyDarker.svg" class="master-footer-logo-img" alt="memoWikis logo" />
 
                             </NuxtLink>
 
@@ -89,7 +89,7 @@ onMounted(() => {
                                 <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
                             </NuxtLink>
                             <br />
-                            <NuxtLink @click="handleError()" to="http://teamcity.memucho.de:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="http://teamcity.memowikis.net:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
                             </NuxtLink>
                             <br />
@@ -112,7 +112,7 @@ onMounted(() => {
                             <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
                             </NuxtLink><br />
-                            <NuxtLink @click="handleError()" to="https://twitter.com/memuchoWissen" target="_blank" :external="true">
+                            <NuxtLink @click="handleError()" to="https://twitter.com/memoWikisWissen" target="_blank" :external="true">
                                 <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
                             </NuxtLink>
                             <br />

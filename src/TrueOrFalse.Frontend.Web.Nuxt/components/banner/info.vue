@@ -18,12 +18,12 @@ function loadInfoBanner() {
         skipAnimation.value = true
     if (cookie.value != 'hide') {
         showBanner.value = true
-        document.cookie = "memuchoInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
+        document.cookie = "memoWikisInfoBanner=notFirstTime; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
     }
 }
 
 onBeforeMount(() => {
-    cookie.value = document.cookie.match('(^|;)\\s*' + "memuchoInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || ''
+    cookie.value = document.cookie.match('(^|;)\\s*' + "memoWikisInfoBanner" + '\\s*=\\s*([^;]+)')?.pop() || ''
 })
 
 onMounted(() => {
@@ -31,7 +31,7 @@ onMounted(() => {
 })
 
 function hideInfoBanner() {
-    document.cookie = "memuchoInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
+    document.cookie = "memoWikisInfoBanner=hide; expires=Fri, 31 Dec 9999 23:59:59 GMT;path=/"
     skipAnimation.value = false
     showBanner.value = false
 }
@@ -44,11 +44,11 @@ watch(showBanner, (val) => {
 </script>
 
 <template>
-    <div id="MemuchoInfoBanner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }"
+    <div id="MemoWikisInfoBanner" :class="{ 'skip-animation': skipAnimation, 'show-banner': showBanner }"
         v-if="!userStore.isLoggedIn && props.documentation">
         <div id="InfoBannerContainer" class="container">
             <div id="BannerContainer" class="row">
-                <div id="BannerText" class="col-xs-12 col-sm-7 memucho-info-partial">
+                <div id="BannerText" class="col-xs-12 col-sm-7 memoWikis-info-partial">
                     <font-awesome-icon :icon="['fas', 'xmark']" @click="hideInfoBanner()"
                         class="visible-xs close-banner mobile-close" />
                     <div class="row fullWidth">
@@ -60,7 +60,7 @@ watch(showBanner, (val) => {
                         </div>
                     </div>
                 </div>
-                <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memucho-info-partial">
+                <div id="BannerRedirectBtn" class="col-xs-12 col-sm-5 memoWikis-info-partial">
                     <NuxtLink class="memo-button btn btn-primary"
                         :to="$urlHelper.getPageUrl(props.documentation.name, props.documentation.id)">
                         Zur Dokumentation

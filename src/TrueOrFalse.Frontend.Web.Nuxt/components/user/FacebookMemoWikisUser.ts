@@ -3,7 +3,7 @@ import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
 import { useUserStore, CurrentUser } from '../user/userStore'
 
-export class FacebookMemuchoUser {
+export class FacebookMemoWikisUser {
 
     static async Exists(facebookId: string): Promise<boolean> {
 
@@ -57,7 +57,7 @@ export class FacebookMemuchoUser {
     static async Login(facebookId: string, facebookAccessToken: string, stayOnPage: boolean = true) {
         const spinnerStore = useSpinnerStore()
 
-        FacebookMemuchoUser.Throw_if_not_exists(facebookId);
+        FacebookMemoWikisUser.Throw_if_not_exists(facebookId);
         spinnerStore.showSpinner();
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/Login', {
@@ -95,7 +95,7 @@ export class FacebookMemuchoUser {
         stayOnPage = false,
         disallowRegistration = false) {
         if (response.status === 'connected') {
-            FacebookMemuchoUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
+            FacebookMemoWikisUser.Login(response.authResponse!.userID, response.authResponse!.accessToken, stayOnPage);
         } else if (response.status === 'not_authorized' || response.status === 'unknown') {
 
             FB.login((response) => {
@@ -118,14 +118,14 @@ export class FacebookMemuchoUser {
     }
 
     private static async handleResponse(facebookId: string, facebookAccessToken: string, stayOnPage: boolean) {
-        if (await FacebookMemuchoUser.Exists(facebookId)) {
-            FacebookMemuchoUser.Login(facebookId, facebookAccessToken, stayOnPage)
+        if (await FacebookMemoWikisUser.Exists(facebookId)) {
+            FacebookMemoWikisUser.Login(facebookId, facebookAccessToken, stayOnPage)
             return
         } else {
             Facebook.GetUser(facebookId,
                 facebookAccessToken,
                 (user: FacebookUserFields) => {
-                    FacebookMemuchoUser.CreateAndLogin(user, facebookAccessToken)
+                    FacebookMemoWikisUser.CreateAndLogin(user, facebookAccessToken)
                 })
         }
     }

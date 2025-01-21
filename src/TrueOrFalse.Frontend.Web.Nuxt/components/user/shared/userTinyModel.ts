@@ -8,7 +8,7 @@ export class UserTinyModel {
     reputationPos: number = 0
     showWishKnowledge: boolean = false
     isMember: boolean = false
-    isMemuchoUser: boolean = false
+    isMemoWikisUser: boolean = false
     isUnknown: boolean = false
     followerCount: number = 0
 }

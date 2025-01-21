@@ -103,7 +103,7 @@ async function cancelPlan() {
         await navigateTo(data.value, { external: true })
     } else {
         const alertStore = useAlertStore()
-        alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memucho.de." })
+        alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memowikis.net." })
     }
 }
 
@@ -595,7 +595,7 @@ const ariaId2 = useId()
                     <div class="settings-section">
                         <div class="">
                             <p>
-                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
+                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink to="mailto:team@memowikis.net" :external="true">team@memowikis.net</NuxtLink>
                             </p>
                         </div>
 
@@ -652,9 +652,9 @@ const ariaId2 = useId()
                                     Support-Login zulassen
                                 </div>
                                 <p>
-                                    Achtung: Das ist nur nach Rücksprache mit dem memucho-Team nötig! Wenn du den
+                                    Achtung: Das ist nur nach Rücksprache mit dem memoWikis-Team nötig! Wenn du den
                                     Support-Login
-                                    aktivierst, können sich Mitarbeiter von memucho zur Fehlerbehebung oder zu deiner
+                                    aktivierst, können sich Mitarbeiter von memoWikis zur Fehlerbehebung oder zu deiner
                                     Unterstützung in deinem Nutzerkonto einloggen, selbstverständlich ohne dein Passwort
                                     zu
                                     benötigen oder sehen zu können.
@@ -751,7 +751,7 @@ const ariaId2 = useId()
                         <p>
                             Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem
                             <font-awesome-icon icon="fa-solid fa-heart" class="wuwi-icon" />
-                            Wunschwissen und über neue Inhalte bei memucho. Er wird nur
+                            Wunschwissen und über neue Inhalte bei memoWikis. Er wird nur
                             verschickt, wenn du Wunschwissen hast.
                         </p>
                     </div>

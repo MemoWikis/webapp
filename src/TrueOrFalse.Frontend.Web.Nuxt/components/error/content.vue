@@ -61,11 +61,11 @@ function handleError() {
                         Zurück zur Startseite
                     </button>
                     <h2 class="error-message">{{ description }}</h2>
-                    <p class="email">Oder schicke eine E-Mail an team@memucho.de.</p>
+                    <p class="email">Oder schicke eine E-Mail an team@memowikis.net.</p>
                     <ul>
                         <li>Wir wurden per E-Mail informiert.</li>
                         <li>Bei dringenden Fragen kannst du Robert unter 0178-1866848 erreichen.</li>
-                        <li>Oder schicke eine E-Mail an team@memucho.de.</li>
+                        <li>Oder schicke eine E-Mail an team@memowikis.net.</li>
                     </ul>
                 </div>
             </div>
