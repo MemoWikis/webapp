@@ -1,24 +1,24 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 public class PageNameValidator
 {
     private static readonly HashSet<string> ForbiddenWords = new(StringComparer.OrdinalIgnoreCase)
     {
-        "wissenszentrale", 
-        "kategorien", 
-        "fragen", 
-        "widgets", 
-        "ueber-memucho", 
+        "wissenszentrale",
+        "kategorien",
+        "fragen",
+        "widgets",
+        "ueber-memowikis",
         "fuer-lehrer",
-        "widget-beispiele", 
+        "widget-beispiele",
         "widget-angebote-preislisten",
-        "hilfe", 
-        "impressum", 
-        "imprint", 
-        "agb", 
-        "agbs", 
-        "jobs", 
-        "gemeinwohloekonomie", 
+        "hilfe",
+        "impressum",
+        "imprint",
+        "agb",
+        "agbs",
+        "jobs",
+        "gemeinwohloekonomie",
         "team"
     };
 

@@ -21,11 +21,11 @@ useHead(() => ({
 	meta: [
 		{
 			name: 'description',
-			content: 'Legal information and company details for memucho.'
+			content: 'Legal information and company details for memoWikis.'
 		},
 		{
 			property: 'og:title',
-			content: 'Imprint | memucho'
+			content: 'Imprint | memoWikis'
 		},
 		{
 			property: 'og:url',
@@ -49,7 +49,7 @@ useHead(() => ({
 				<h2>1. Impressum</h2>
 
 				<h3>Angaben gemäß § 5 TMG:</h3>
-				memucho GmbH<br />
+				memoWikis GmbH<br />
 				Am Moorhof <br />
 				Nettgendorfer Str. 7 <br />
 				14947 Nuthe-Urstromtal<br />
@@ -128,7 +128,7 @@ useHead(() => ({
 
 				<p id="under16"><strong>Nutzer unter 16 Jahren</strong></p>
 				<p>
-					Wenn Du unter 16 Jahren alt bist, darfst Du dich bei memucho nur mit Zustimmung Deiner Eltern
+					Wenn Du unter 16 Jahren alt bist, darfst Du dich bei memoWikis nur mit Zustimmung Deiner Eltern
 					registieren.
 				</p>
 				<p>
@@ -1527,7 +1527,7 @@ useHead(() => ({
 
 				<hr />
 				<p style="padding-top: 20px">
-					memucho wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie
+					memoWikis wird im Rahmen des EXIST-Programms durch das Bundesministerium für Wirtschaft und Energie
 					und
 					den
 					Europäischen Sozialfonds gefördert.

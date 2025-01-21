@@ -652,9 +652,9 @@ const ariaId2 = useId()
                                     Support-Login zulassen
                                 </div>
                                 <p>
-                                    Achtung: Das ist nur nach Rücksprache mit dem memucho-Team nötig! Wenn du den
+                                    Achtung: Das ist nur nach Rücksprache mit dem memoWikis-Team nötig! Wenn du den
                                     Support-Login
-                                    aktivierst, können sich Mitarbeiter von memucho zur Fehlerbehebung oder zu deiner
+                                    aktivierst, können sich Mitarbeiter von memoWikis zur Fehlerbehebung oder zu deiner
                                     Unterstützung in deinem Nutzerkonto einloggen, selbstverständlich ohne dein Passwort
                                     zu
                                     benötigen oder sehen zu können.
@@ -751,7 +751,7 @@ const ariaId2 = useId()
                         <p>
                             Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem
                             <font-awesome-icon icon="fa-solid fa-heart" class="wuwi-icon" />
-                            Wunschwissen und über neue Inhalte bei memucho. Er wird nur
+                            Wunschwissen und über neue Inhalte bei memoWikis. Er wird nur
                             verschickt, wenn du Wunschwissen hast.
                         </p>
                     </div>

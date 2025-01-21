@@ -43,7 +43,7 @@ public class RestoreQuestion : IRegisterAsInstancePerLifetime
                    $"Zurückgesetzt auf Revision: vom {questionChange.DateCreated} (Id {questionChange.Id})\n" +
                    $"Von Benutzer: {currentUser.Name} (Id {currentUser.Id})";
 
-        SendEmail(Constants.MemuchoAdminUserId, subject, body);
+        SendEmail(Constants.MemoWikisAdminUserId, subject, body);
         if (question.Creator != null && currentUser.Id != question.Creator.Id)
             SendEmail(question.Creator.Id, subject, body);
     }

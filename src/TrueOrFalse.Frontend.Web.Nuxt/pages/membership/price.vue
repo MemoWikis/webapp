@@ -44,9 +44,9 @@ onBeforeMount(() => {
                     <div class="title">Mitgliedschaft</div>
                     <!-- <div class="title">Öffentlich ist kostenlos – für immer und alle!</div> -->
                     <div class="bottom-label">
-                        Öffentliche Inhalte sind auf memucho uneingeschränkt nutzbar. Freie Daten –
+                        Öffentliche Inhalte sind auf memoWikis uneingeschränkt nutzbar. Freie Daten –
                         freie Software (open data open access)! <br /><br />
-                        Du möchtest memucho für private Inhalte nutzen? Hier findest unsere Preise:
+                        Du möchtest memoWikis für private Inhalte nutzen? Hier findest unsere Preise:
                     </div>
                 </div>
                 <div class="col-xs-12">
@@ -68,7 +68,7 @@ onBeforeMount(() => {
 
             <div id="NotFound">
                 <div class="not-found-header">Deine Frage nicht gefunden?</div>
-                <a class="memucho-contact" href="mailto:abc@example.com">memucho kontaktieren</a>
+                <a class="memoWikis-contact" href="mailto:abc@example.com">memoWikis kontaktieren</a>
                 <div class="email">team@memucho.de</div>
             </div>
         </div>
@@ -157,7 +157,7 @@ onBeforeMount(() => {
 
     }
 
-    .memucho-contact {
+    .memoWikis-contact {
         margin-top: 26px;
         color: @memo-blue-link;
         font-size: 16px;
@@ -172,5 +172,4 @@ onBeforeMount(() => {
     }
 
 }
-</style> 
-
+</style>

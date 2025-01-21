@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { FacebookMemuchoUser } from './FacebookMemuchoUser'
+import { FacebookMemoWikisUser } from './FacebookMemoWikisUser'
 
 function login() {
-    FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false)
+    FacebookMemoWikisUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false)
 }
 const config = useRuntimeConfig()
 
@@ -29,7 +29,7 @@ function loadPlugin(toLogin = false) {
 
         if (toLogin) {
             setTimeout(() => {
-                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false)
+                FacebookMemoWikisUser.LoginOrRegister(/*stayOnPage*/true, /*dissalowRegistration*/ false)
             }, 500)
         }
     }

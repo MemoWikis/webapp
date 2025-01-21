@@ -176,7 +176,7 @@ const hidePartial = computed(() => {
 .nav-options-container {
     position: fixed;
     top: 0;
-    height: 45px;
+    height: 47px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -220,6 +220,10 @@ const hidePartial = computed(() => {
         margin-right: 2px;
         color: @memo-grey-dark;
 
+        &.showSearch {
+            background: @memo-grey-lighter;
+        }
+
         &:hover {
             filter: brightness(0.95)
         }
@@ -238,16 +242,15 @@ const hidePartial = computed(() => {
         background: transparent;
     }
 
-    &.showSearch {
-        :deep(input) {
-            border: 1px solid #ccc;
+    :deep(&.showSearch) {
+        padding-left: 8px;
+
+        input {
+            border: none;
             width: 100%;
             padding: 6px 40px 6px 12px;
-            background: white;
-            box-shadow: -10px 0px 10px 0px rgba(255, 255, 255, 1);
+            background: @memo-grey-lighter;
         }
-
-        padding-left: 8px;
     }
 }
 
@@ -427,7 +430,7 @@ const hidePartial = computed(() => {
     }
 }
 
-:global(#HeaderSearch) {
+#StickySearch {
     width: 100%;
     display: flex;
     flex-direction: row-reverse;
@@ -455,24 +458,6 @@ const hidePartial = computed(() => {
             transition: all 0.3s;
             background: transparent;
         }
-
-        :deep(&.showSearch) {
-            input {
-                border: 1px solid #ccc;
-                width: 100%;
-                padding: 6px 40px 6px 12px;
-                background: white;
-            }
-        }
-
-        &.showSearch {
-            input {
-                border: 1px solid #ccc;
-                width: 100%;
-                padding: 6px 40px 6px 12px;
-                background: white;
-            }
-        }
     }
 
     .search-button {
@@ -498,91 +483,6 @@ const hidePartial = computed(() => {
 
         &:hover {
             cursor: pointer;
-
-            svg.fa-xmark,
-            svg.fa-magnifying-glass {
-                color: @memo-green;
-            }
-        }
-    }
-}
-
-:global(#StickySearch) {
-    width: 100%;
-    display: flex;
-    flex-direction: row-reverse;
-    height: 100%;
-    align-items: center;
-
-    .StickySearchContainer,
-    .SearchContainer {
-        width: 100%;
-
-        :deep(&input) {
-            min-width: 0px;
-            width: 0px;
-            border: none;
-            padding: 0;
-            transition: all 0.3s;
-            background: transparent;
-        }
-
-        input {
-            min-width: 0px;
-            width: 0px;
-            border: none;
-            padding: 0;
-            transition: all 0.3s;
-            background: transparent;
-        }
-
-        :deep(&.showSearch) {
-            input {
-                border: 1px solid #ccc;
-                width: 100%;
-                padding: 6px 40px 6px 12px;
-                background: white;
-            }
-        }
-
-        &.showSearch {
-            input {
-                border: 1px solid #ccc;
-                width: 100%;
-                padding: 6px 40px 6px 12px;
-                background: white;
-            }
-        }
-    }
-
-    .search-button {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.3s;
-        font-size: 20px;
-        position: absolute;
-        z-index: 1050;
-        width: 34px;
-        transform: translateZ(0);
-
-        svg.fa-magnifying-glass {
-            color: white;
-        }
-
-        svg.fa-xmark,
-        svg.fa-magnifying-glass {
-            transition: all 0.1s;
-        }
-
-        &:hover {
-            cursor: pointer;
-
-            svg.fa-xmark,
-            svg.fa-magnifying-glass {
-                color: @memo-green;
-            }
         }
     }
 }

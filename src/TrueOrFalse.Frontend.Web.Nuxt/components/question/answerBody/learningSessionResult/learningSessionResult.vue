@@ -174,7 +174,7 @@ const tabsStore = useTabsStore()
     }
 }
 
-.claimsMemucho {
+.claimsMemoWikis {
     i {
         color: @memo-green;
         margin-bottom: 10px;

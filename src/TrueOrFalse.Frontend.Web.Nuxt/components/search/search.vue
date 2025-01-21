@@ -391,6 +391,10 @@ const ariaId = useId()
 input,
 .form-control {
     border-radius: 24px;
+
+    &::placeholder {
+        color: @memo-grey-darker;
+    }
 }
 
 .noResult {

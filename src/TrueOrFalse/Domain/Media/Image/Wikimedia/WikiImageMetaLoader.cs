@@ -78,7 +78,7 @@ namespace TrueOrFalse
         public static void SetUserAgent(HttpWebRequest webRequest)
         {
             webRequest.UserAgent =
-                "MemuchoBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemuchoImageLoaderLib/1.1";
+                "MemoWikisBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemoWikisImageLoaderLib/1.1";
             webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
         }
     }

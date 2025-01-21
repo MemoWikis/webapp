@@ -12,11 +12,11 @@ useHead(() => ({
     meta: [
         {
             name: 'description',
-            content: 'Read the Terms and Conditions for memucho.'
+            content: 'Read the Terms and Conditions for memoWikis.'
         },
         {
             property: 'og:title',
-            content: 'Terms and Conditions | memucho'
+            content: 'Terms and Conditions | memoWikis'
         },
         {
             property: 'og:url',
@@ -41,17 +41,17 @@ useHead(() => ({
                     Unser Ziel ist es, dass Lernen einfacher wird und mehr Spaß macht. Eine Grundlage dafür ist die
                     Förderung von offenen Bildungsinhalten,
                     damit das Wissen dieser Welt für alle zugänglich ist. <strong>Wir freuen uns daher, dass du bei
-                        memucho mitmachst</strong> und wünschen dir,
+                        memoWikis mitmachst</strong> und wünschen dir,
                     dass du viele spannende Inhalte entdeckst und dein eigenes Wissen mit anderen teilst. Die wenigen
                     Dinge, die du dabei beachten musst,
-                    sind in diesen Nutzungsbedingungen gesammelt. Du musst sie akzeptieren, um dich bei memucho zu
+                    sind in diesen Nutzungsbedingungen gesammelt. Du musst sie akzeptieren, um dich bei memoWikis zu
                     registrieren.
                 </p>
 
                 <div class="alert alert-info" role="alert" style="margin: 25px 0;">
                     <h4>Das Wichtigste in Kürze:</h4>
                     <ul>
-                        <li>Sei nett zu anderen memucho-Nutzern!</li>
+                        <li>Sei nett zu anderen memoWikis-Nutzern!</li>
                         <li>Wenn du Inhalte (z.B. Fragen) selber einstellst, stelle sicher, dass du keine Urheberrechte
                             verletzt.</li>
                         <li>Wenn du Inhalte einstellst, achte auf Richtigkeit und Rechtschreibung. Stelle keine Inhalte
@@ -64,7 +64,7 @@ useHead(() => ({
 
                 <h3>1) Verhaltensregeln</h3>
                 <p>
-                    memucho ist eine soziale Wissensplattform. Sie lebt davon, dass viele Menschen sich zusammentun, ihr
+                    memoWikis ist eine soziale Wissensplattform. Sie lebt davon, dass viele Menschen sich zusammentun, ihr
                     Wissen bereitstellen,
                     zusammen lernen und sich gegenseitig unterstützen. Wo viele Menschen aufeinandertreffen, kann es
                     aber auch zu Konflikten kommen,
@@ -80,15 +80,15 @@ useHead(() => ({
                 <p>
                     Urheberrecht und geistiges Eigentum sind sensible Seiten im Internet. <strong>Du bist als Nutzer
                         selbst verantwortlich für die Inhalte</strong>,
-                    die du erstellst. memucho ist nicht für die Inhalte verantwortlich, die du oder andere Nutzer
+                    die du erstellst. memoWikis ist nicht für die Inhalte verantwortlich, die du oder andere Nutzer
                     erstellt haben, sondern stellt diese lediglich bereit.
                 </p>
                 <p>
-                    Wenn du Texte oder Bilder bei memucho einstellst, musst du sicher sein, dass diese nicht
+                    Wenn du Texte oder Bilder bei memoWikis einstellst, musst du sicher sein, dass diese nicht
                     urheberrechtlich geschützt sind.
                     Dies bestätigst du jedesmal, wenn du eine Frage erstellst oder änderst, es gilt aber auch bei allen
                     anderen Bereichen
-                    (Seiten, Lernsets etc.). Denke daran, dass Inhalte bei memucho generell unter der Creative
+                    (Seiten, Lernsets etc.). Denke daran, dass Inhalte bei memoWikis generell unter der Creative
                     Commons-Lizenz “CC BY 4.0” stehen.
                     Wenn du sie einmal eingestellt hast, können sie von allen anderen (unter bestimmten Bedingungen)
                     frei verwendet werden. Besondere
@@ -107,7 +107,7 @@ useHead(() => ({
                     Wikipedia und Wikicommons
                     stehen fast alle Texte und Bilder unter offen Lizenzen (z.B. einer Creative Commons-Lizenz oder
                     einer GNU-Lizenz) oder
-                    sind sogar gemeinfrei (sie gehören also niemandem), so dass du sie sehr gut bei memucho nutzen
+                    sind sogar gemeinfrei (sie gehören also niemandem), so dass du sie sehr gut bei memoWikis nutzen
                     kannst.
                 </p>
 
@@ -120,7 +120,7 @@ useHead(() => ({
                     Lieblingskuchen ist).
                 </p>
                 <p>
-                    Denke daran, dass alle anderen Inhalte von dir von allen memucho-Nutzern gesehen und genutzt werden
+                    Denke daran, dass alle anderen Inhalte von dir von allen memoWikis-Nutzern gesehen und genutzt werden
                     können! <strong>Achte deshalb auf</strong>
                 <ul>
                     <li>Richtigkeit und Eindeutigkeit deiner Fragen und Antworten,</li>
@@ -130,7 +130,7 @@ useHead(() => ({
                 </ul>
                 </p>
                 <p>
-                    memucho ist eine offene Wissensplattform. Alles Wissen der Welt soll hier Platz haben! Allerdings
+                    memoWikis ist eine offene Wissensplattform. Alles Wissen der Welt soll hier Platz haben! Allerdings
                     darf die Plattform
                     nicht für andere Zwecke missbraucht werden. Daher darfst du <strong>keine Inhalte einstellen,
                         die</strong>

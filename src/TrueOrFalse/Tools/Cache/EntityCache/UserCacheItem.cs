@@ -6,7 +6,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public int ReputationPos;
     public int StartPageId;
     public int WishCountQuestions;
-    public bool IsMemuchoUser => Settings.MemuchoUserId == Id;
+    public bool IsMemoWikisUser => Settings.MemoWikisUserId == Id;
 
     public virtual List<int> RecentlyUsedRelationTargetPageIds => RecentlyUsedRelationTargetPages?
         .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)

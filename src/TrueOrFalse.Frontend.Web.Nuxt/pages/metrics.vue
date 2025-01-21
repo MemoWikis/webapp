@@ -315,7 +315,7 @@ emit('setBreadcrumb', [{ name: 'Metriken', url: '/Metriken' }])
             <div class="col-xs-12 container">
 
                 <div class="metrics-header">
-                    <h1>Gesamtdaten Memucho</h1>
+                    <h1>Gesamtdaten MemoWikis</h1>
                 </div>
 
                 <div class="row content" v-if="overviewData">

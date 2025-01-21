@@ -539,7 +539,7 @@ const ariaId2 = useId()
                                 <div v-if="userStore.isLoggedIn" style="">
                                     <strong>{{ model.personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass
                                     du
-                                    die Frage richtig beantwortest. Durchschnitt aller memucho-Nutzer:
+                                    die Frage richtig beantwortest. Durchschnitt aller memoWikis-Nutzer:
                                     <strong>{{ model.avgProbability }}%</strong>
                                 </div>
                                 <div v-else style="">

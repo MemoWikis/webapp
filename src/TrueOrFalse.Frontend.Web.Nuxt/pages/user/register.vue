@@ -2,7 +2,7 @@
 import { Site } from '~/components/shared/siteEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Google } from '~~/components/user/Google'
-import { FacebookMemuchoUser } from '~~/components/user/FacebookMemuchoUser'
+import { FacebookMemoWikisUser } from '~~/components/user/FacebookMemoWikisUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
 import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
 import { isValidEmail } from '~/components/shared/utils'
@@ -51,7 +51,7 @@ function loadGooglePlugin(toLogin = false) {
 const allowFacebookPlugin = ref(false)
 function facebookRegister() {
     if (allowFacebookPlugin.value)
-        FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
+        FacebookMemoWikisUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
     else {
         awaitingConsent.value = 'facebook'
         alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.facebookLogin }, 'Einverstanden', true, 'Registrierung mit Facebook')
@@ -86,7 +86,7 @@ function loadFacebookPlugin(toRegister = false) {
 
         if (toRegister) {
             setTimeout(() => {
-                FacebookMemuchoUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
+                FacebookMemoWikisUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
             }, 500)
         }
     }

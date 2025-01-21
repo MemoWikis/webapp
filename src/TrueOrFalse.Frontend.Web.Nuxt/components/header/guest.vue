@@ -56,10 +56,10 @@ const rootPageChipStore = useRootPageChipStore()
                         :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(rootPageChipStore.name, rootPageChipStore.id)"
                         alt="homepage">
                         <div id="Logo">
-                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memucho logo" />
-                            <Image src="/Images/Logo/LogoSmall.png"
+                            <Image src="/Images/Logo/Logo.svg" class="hidden-xs" alt="memoWikis logo" />
+                            <Image src="/Images/Logo/LogoSmall.svg"
                                 class="hidden-sm hidden-md hidden-lg hidden-xl small" :height="40"
-                                alt="small memucho logo" />
+                                alt="small memoWikis logo" />
                         </div>
                     </NuxtLink>
                 </div>
@@ -111,8 +111,9 @@ const rootPageChipStore = useRootPageChipStore()
     margin: 0;
     width: 100%;
     z-index: 100;
-    background-color: @memo-blue;
+    background-color: white;
     min-height: 60px;
+    border-bottom: 1px solid @memo-grey-light;
 
     @media (min-width: 900px) and (max-width: 1650px) {
         padding-left: clamp(100px, 10vw, 320px);
@@ -229,6 +230,8 @@ const rootPageChipStore = useRootPageChipStore()
                     }
 
                     .register-btn {
+                        border-radius: 24px;
+
                         a {
                             color: @memo-blue;
                         }
@@ -273,9 +276,6 @@ const rootPageChipStore = useRootPageChipStore()
         }
     }
 
-
-
-
     .col-Logo {
         height: 100%;
     }
@@ -290,13 +290,15 @@ const rootPageChipStore = useRootPageChipStore()
             margin-right: 6px;
 
             &.small {
-                height: 40px;
+                width: 59px;
+                height: 24px;
             }
         }
     }
 
     .login-btn {
         font-size: 20px;
+        color: @memo-grey-dark;
 
         .login-btn-label {
             padding-left: 6px;
@@ -307,5 +309,84 @@ const rootPageChipStore = useRootPageChipStore()
 
 #HeaderSearch {
     padding-left: 8px;
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+    align-items: center;
+
+    .StickySearchContainer,
+    .SearchContainer {
+        width: 100%;
+
+        :deep(&input) {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        input {
+            min-width: 0px;
+            width: 0px;
+            border: none;
+            padding: 0;
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        :deep(&.showSearch) {
+            input {
+                border: none;
+                width: 100%;
+                padding: 6px 40px 6px 12px;
+                background: @memo-grey-lighter;
+            }
+        }
+    }
+
+    :deep(.search-button) {
+        align-items: center;
+        display: flex;
+        font-size: 20px;
+        height: 100%;
+        justify-content: center;
+        position: absolute;
+        transform: translateZ(0);
+        transition: all .3s;
+        width: 30px;
+        z-index: 1050;
+        cursor: pointer;
+        background: white;
+        border-radius: 15px;
+        height: 30px;
+        margin-right: 2px;
+        color: @memo-grey-dark;
+
+        svg.fa-magnifying-glass {
+            color: @memo-grey-dark;
+        }
+
+        svg.fa-xmark,
+        svg.fa-magnifying-glass {
+            transition: all 0.1s;
+            color: @memo-grey-dark;
+        }
+
+        &.showSearch {
+            background: @memo-grey-lighter;
+        }
+
+        &:hover {
+            filter: brightness(0.95)
+        }
+
+        &:active {
+            filter: brightness(0.85)
+        }
+
+    }
 }
 </style>
