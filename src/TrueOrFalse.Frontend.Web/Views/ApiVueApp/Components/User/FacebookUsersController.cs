@@ -126,7 +126,7 @@ public class FacebookUsersController(
 
         var mailMessage = new MailMessage(
             Settings.EmailFrom,
-            Settings.EmailToMemucho,
+            Settings.EmailToMemoWikis,
             "Facebook Data Deletion Callback",
             $"The user with the Facebook Id {userData["user_id"]} has made a Facebook data deletion callback. Please delete the Account. Confirmation Code for this Ticket is {confirmationCode}.");
 

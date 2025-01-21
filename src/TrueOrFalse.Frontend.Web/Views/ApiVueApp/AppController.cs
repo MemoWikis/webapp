@@ -102,14 +102,14 @@ public class AppController(
             )).ToArray(),
             MemoWiki: new TinyPageItem
             (
-                Id: RootPage.MemuchoWikiId,
-                Name: EntityCache.GetPage(RootPage.MemuchoWikiId).Name
+                Id: RootPage.MemoWikisWikiId,
+                Name: EntityCache.GetPage(RootPage.MemoWikisWikiId).Name
             ),
-            MemoPages: RootPage.MemuchoPageIds.Select(id => new TinyPageItem(
+            MemoPages: RootPage.MemoWikisPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            HelpPages: RootPage.MemuchoHelpIds.Select(id => new TinyPageItem(
+            HelpPages: RootPage.MemoWikisHelpIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
