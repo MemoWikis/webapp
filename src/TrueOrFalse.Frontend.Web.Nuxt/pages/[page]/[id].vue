@@ -234,8 +234,14 @@ convertStore.$onAction(({ name, after }) => {
                         </ClientOnly>
                     </template>
                 </div>
+
+
                 <ClientOnly>
-                    <Sidebar class="is-page" :show-outline="true" :site="props.site" />
+                    <Sidebar class="is-page" :show-outline="true" :site="props.site" v-if="pageStore?.id != 0" />
+
+                    <template #fallback>
+                        <SidebarFallback class="is-page" />
+                    </template>
                 </ClientOnly>
             </template>
         </div>
