@@ -103,7 +103,7 @@ async function cancelPlan() {
         await navigateTo(data.value, { external: true })
     } else {
         const alertStore = useAlertStore()
-        alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memowikis.net." })
+        alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memucho.de." })
     }
 }
 
@@ -595,7 +595,7 @@ const ariaId2 = useId()
                     <div class="settings-section">
                         <div class="">
                             <p>
-                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink to="mailto:team@memowikis.net" :external="true">team@memowikis.net</NuxtLink>
+                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
                             </p>
                         </div>
 

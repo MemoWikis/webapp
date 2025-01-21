@@ -100,7 +100,7 @@ const initStripeCheckout = (type: Subscription.Type) => {
 }
 
 function contact() {
-    window.location.href = "mailto:team@memowikis.net"
+    window.location.href = "mailto:team@memucho.de"
 }
 
 const plans = ref()

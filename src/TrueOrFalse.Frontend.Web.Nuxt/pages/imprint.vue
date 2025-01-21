@@ -6,7 +6,7 @@ onBeforeMount(() => {
 })
 
 function openEmail() {
-	window.location.href = "mailto:team@memowikis.net"
+	window.location.href = "mailto:team@memucho.de"
 }
 
 const config = useRuntimeConfig()
@@ -65,7 +65,7 @@ useHead(() => ({
 				Telefon:
 				<br />
 				+49-178 186 68 48<br />
-				<span class="mailme btn-link" @click="openEmail">team@memowikis.net</span>
+				<span class="mailme btn-link" @click="openEmail">team@memucho.de</span>
 
 				<h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
 				<p>Robert Mischke<br />
@@ -134,7 +134,7 @@ useHead(() => ({
 				<p>
 					Die Zustimmung durch Deine Eltern kann per Email oder Telefon erfolgen.
 					Hier können Deine Eltern mit uns in Kontakt treten: <span class="mailme btn-link"
-						@click="openEmail">team@memowikis.net</span>
+						@click="openEmail">team@memucho.de</span>
 
 				</p>
 				<p>

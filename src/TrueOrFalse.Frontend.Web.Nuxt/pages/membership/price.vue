@@ -69,7 +69,7 @@ onBeforeMount(() => {
             <div id="NotFound">
                 <div class="not-found-header">Deine Frage nicht gefunden?</div>
                 <a class="memoWikis-contact" href="mailto:abc@example.com">memoWikis kontaktieren</a>
-                <div class="email">team@memowikis.net</div>
+                <div class="email">team@memucho.de</div>
             </div>
         </div>
     </div>
