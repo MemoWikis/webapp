@@ -2,6 +2,7 @@
 import { FooterPages } from '../page/pageStore'
 import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
+import { color } from '../shared/colors'
 
 interface Props {
     footerPages: FooterPages,
@@ -44,8 +45,9 @@ onMounted(() => {
                             <NuxtLink
                                 :to="userStore.isLoggedIn ? $urlHelper.getPageUrl(userStore.personalWiki?.name!, userStore.personalWiki?.id!) : $urlHelper.getPageUrl(footerPages.rootWiki.name, footerPages.rootWiki.id)"
                                 id="MasterFooterLogo">
-                                <Image src="/Images/Logo/LogoIconText.svg" class="master-footer-logo-img"
-                                    alt="memucho logo" />
+
+                                <Image src="/Images/Logo/LogoGreyDarker.svg" class="master-footer-logo-img" alt="memucho logo" />
+
                             </NuxtLink>
 
                             <div class="overline-s no-line">
@@ -170,7 +172,8 @@ onMounted(() => {
 .master-footer-logo-img {
     margin-bottom: 20px;
     padding-right: 20px;
-    filter: brightness(0.36);
+    fill: @memo-grey-dark;
+    opacity: 1;
 }
 
 .bitwerke-logo {

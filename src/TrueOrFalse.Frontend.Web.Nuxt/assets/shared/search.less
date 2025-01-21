@@ -28,51 +28,6 @@
             }
         }
     }
-
-    .search-button {
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.3s;
-        font-size: 20px;
-        position: absolute;
-        z-index: 1050;
-        width: 34px;
-        transform: translateZ(0);
-
-        svg.fa-magnifying-glass {
-            color: white;
-        }
-
-        svg.fa-xmark, svg.fa-magnifying-glass {
-            transition: all 0.1s;
-        }
-
-        &:hover {
-            cursor: pointer;
-
-            svg.fa-xmark, svg.fa-magnifying-glass {
-                color: @memo-green;
-            }
-        }
-    }
-}
-
-#StickySearch {
-    .search-button {
-
-        svg.fa-xmark, svg.fa-magnifying-glass {
-            color: @memo-grey-dark;
-        }
-
-        &:hover {
-
-            svg.fa-xmark, svg.fa-magnifying-glass {
-                color: @memo-blue;
-            }
-        }
-    }
 }
 
 #HeaderSearch {
