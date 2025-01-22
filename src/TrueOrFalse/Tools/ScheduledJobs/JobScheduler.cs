@@ -9,15 +9,13 @@ public static class JobScheduler
 {
     static readonly IScheduler _scheduler;
 
-    static JobScheduler()
-    {
-        _scheduler = new Lazy<Task<IScheduler>>(InitializeAsync()).Value.Result;
-    }
 
     public static void Clear() => _scheduler.Clear();
 
     public static async Task<IScheduler> InitializeAsync()
     {
+        Logg.r.Information("JobScheduler.InitializeAsync");
+
         var container = AutofacWebInitializer.Run();
         var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
         scheduler.JobFactory = new AutofacJobFactory(container);

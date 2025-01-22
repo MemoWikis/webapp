@@ -16,6 +16,7 @@ using TrueOrFalse.Environment;
 using TrueOrFalse.Frontend.Web.Middlewares;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using static System.Int32;
 
 Console.WriteLine("Builder: Started");
@@ -158,3 +159,4 @@ Console.WriteLine("App: Run");
 
 app.Run();
 
+await JobScheduler.InitializeAsync();
