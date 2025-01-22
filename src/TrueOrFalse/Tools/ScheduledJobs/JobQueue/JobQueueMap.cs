@@ -8,5 +8,6 @@ public class JobQueueMap : ClassMap<JobQueue>
         Map(x => x.JobQueueType).CustomType<JobQueueType>();
         Map(x => x.JobContent);
         Map(x => x.Priority);
+        Map(x => x.DateCreated);
     }
 }

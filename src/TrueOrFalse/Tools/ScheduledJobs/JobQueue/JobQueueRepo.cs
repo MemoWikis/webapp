@@ -15,7 +15,8 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
         {
             JobQueueType = jobQueueType,
             JobContent = jobContent,
-            Priority = priority
+            Priority = priority,
+            DateCreated = DateTime.Now
         });
         Session.Flush();
     }
@@ -61,31 +62,37 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInPageFromWishKnowledge)
                 .List();
     }
+
     public JobQueue GetTopPriorityMailMessage()
     {
         var result = _session
             .CreateSQLQuery(
                 @"SELECT 
-                    Id, JobQueueType, JobContent
-                FROM
-                    jobqueue
-                WHERE
-                    Priority = (SELECT 
-                    MAX(Priority)
-                FROM
-                    jobqueue)
-                LIMIT 1;"
-                );
+                Id, 
+                JobQueueType, 
+                JobContent
+            FROM
+                jobqueue
+            WHERE
+                JobQueueType = 5
+                AND Priority = (
+                    SELECT MAX(Priority)
+                    FROM jobqueue
+                    WHERE JobQueueType = 5
+                )
+            LIMIT 1;"
+            );
 
         var mailJobs = result?
             .SetResultTransformer(Transformers.AliasToBean(typeof(JobQueue)))
-            .List();
+            .List<JobQueue>();
 
         if (mailJobs?.Any() == true)
         {
-            return (JobQueue)mailJobs[0];
+            return mailJobs[0];
         }
 
         return null;
     }
+
 }

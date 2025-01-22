@@ -1,21 +1,8 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Seedworks.Lib.Persistence;
 using ISession = NHibernate.ISession;
 
-public class RunningJobRepo : RepositoryDb<RunningJob>
+public class RunningJobRepo(ISession session) : RepositoryDb<RunningJob>(session)
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public RunningJobRepo(ISession session,
-        IHttpContextAccessor httpContextAccessor,
-        IWebHostEnvironment webHostEnvironment) : base(session)
-    {
-        _httpContextAccessor = httpContextAccessor;
-        _webHostEnvironment = webHostEnvironment;
-    }
-
     public bool IsJobRunning(string jobName)
     {
         try
@@ -58,13 +45,13 @@ public class RunningJobRepo : RepositoryDb<RunningJob>
             .Where(x => x.Name == jobName)
             .List();
 
-        if(jobs.Count == 0)
+        if (jobs.Count == 0)
             Logg.r.Error("No job for removal found {Jobname}", jobName);
 
-        else if(jobs.Count > 1)
+        else if (jobs.Count > 1)
             Logg.r.Error("More than one job for remove found: {Jobname} {JobCount}", jobName, jobs.Count);
 
-        foreach(var job in jobs)
+        foreach (var job in jobs)
             Delete(job);
 
         Session.Flush();
