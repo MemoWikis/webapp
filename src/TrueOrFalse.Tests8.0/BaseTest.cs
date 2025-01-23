@@ -28,7 +28,7 @@ public class BaseTest
     }
 
     [SetUp]
-    public async void SetUp()
+    public async Task SetUp()
     {
         SessionFactory.BuildTestConfiguration();
         // CleanEmailsFromPickupDirectory.Run();
