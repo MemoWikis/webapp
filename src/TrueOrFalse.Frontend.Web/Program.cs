@@ -155,8 +155,10 @@ app.Urls.Add("http://*:5069");
 
 var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitializer.Init();
+
+var runningJobRepo = app.Services.GetRequiredService<RunningJobRepo>();
+await JobScheduler.Start(runningJobRepo);
+
 Console.WriteLine("App: Run");
 
 app.Run();
-
-await JobScheduler.InitializeAsync();

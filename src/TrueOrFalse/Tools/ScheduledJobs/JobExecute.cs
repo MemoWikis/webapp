@@ -25,8 +25,7 @@ public class JobExecute
                 CodeIsRunningInsideAJob = true;
                 Settings.UseWebConfig = true;
 
-                if (IsJobRunning(jobName,
-                        scope))
+                if (IsJobRunning(jobName, scope))
                     return;
 
                 try
@@ -73,8 +72,7 @@ public class JobExecute
         }
     }
 
-    private static bool IsJobRunning(string jobName,
-        ILifetimeScope scope)
+    private static bool IsJobRunning(string jobName, ILifetimeScope scope)
     {
         using (new MutexX(5000, "IsRunning"))
         {

@@ -7,44 +7,36 @@ namespace TrueOrFalse.Utilities.ScheduledJobs;
 
 public static class JobScheduler
 {
-    static readonly IScheduler _scheduler;
-
+    private static IScheduler _scheduler = null!;
 
     public static void Clear() => _scheduler.Clear();
 
-    public static async Task<IScheduler> InitializeAsync()
+    public static async Task InitializeAsync()
     {
         Logg.r.Information("JobScheduler.InitializeAsync");
 
         var container = AutofacWebInitializer.Run();
-        var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-        scheduler.JobFactory = new AutofacJobFactory(container);
-        scheduler.Start();
-        return scheduler;
+        _scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+        _scheduler.JobFactory = new AutofacJobFactory(container);
+        await _scheduler.Start();
     }
 
-    public static void Start(RunningJobRepo runningJobRepo)
+    public static async Task Start(RunningJobRepo runningJobRepo)
     {
+        await InitializeAsync();
+
         runningJobRepo.TruncateTable();
 
-        Schedule_CleanupWorkInProgressQuestions();
         Schedule_RecalcKnowledgeStati();
         Schedule_RecalcKnowledgeSummariesForPage();
         Schedule_RecalcReputation();
         Schedule_RecalcReputationForAll();
-        Schedule_EditPageInWishKnowledge();
-        Schedule_KnowledgeReportCheck();
+        // Schedule_EditPageInWishKnowledge();
+        // Schedule_KnowledgeReportCheck();
         Schedule_RecalcTotalWishInOthersPeople();
-        Schedule_MailTransmitter();
+        Schedule_MailSender();
     }
 
-    private static void Schedule_CleanupWorkInProgressQuestions()
-    {
-        _scheduler.ScheduleJob(JobBuilder.Create<CleanUpWorkInProgressQuestions>().Build(),
-            TriggerBuilder.Create()
-                .WithSimpleSchedule(x => x.WithIntervalInHours(6)
-                    .RepeatForever()).Build());
-    }
 
     private static void Schedule_RecalcKnowledgeStati()
     {
@@ -65,7 +57,7 @@ public static class JobScheduler
                     .RepeatForever()).Build());
     }
 
-    private static void Schedule_MailTransmitter()
+    private static void Schedule_MailSender()
     {
         _scheduler.ScheduleJob(JobBuilder.Create<ScheduledMailSender>().Build(),
             TriggerBuilder.Create()

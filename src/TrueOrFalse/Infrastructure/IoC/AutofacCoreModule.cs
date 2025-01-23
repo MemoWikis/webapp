@@ -1,12 +1,13 @@
-﻿using System.Reflection;
-using Autofac;
+﻿using Autofac;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using NHibernate;
 using Quartz;
-using TrueOrFalse.Infrastructure.Persistence;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Reflection;
 using System.Text;
+using TrueOrFalse.Infrastructure.Persistence;
 
 namespace TrueOrFalse.Infrastructure
 {
@@ -32,9 +33,17 @@ namespace TrueOrFalse.Infrastructure
 
             builder.RegisterType<ActionContextAccessor>().As<IActionContextAccessor>().InstancePerLifetimeScope();
 
-            
+
 
             builder.Register(context => context.Resolve<SessionManager>().Session).ExternallyOwned();
+
+            builder.Register(c => Options.Create(new MemoryCacheOptions()))
+                .As<IOptions<MemoryCacheOptions>>()
+                .SingleInstance();
+
+            // Register MemoryCache
+            builder.RegisterType<MemoryCache>()
+                .As<IMemoryCache>();
             try
             {
 #if DEBUG
