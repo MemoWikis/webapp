@@ -1,9 +1,7 @@
-﻿using System.Data;
-using System.Diagnostics;
-using Autofac;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+﻿using Autofac;
 using NHibernate;
+using System.Data;
+using System.Diagnostics;
 
 public class JobExecute
 {
@@ -17,74 +15,64 @@ public class JobExecute
 
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
     {
-        using (var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName))
+        using var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName);
+        try
         {
-            var httpContextAccessor = scope.Resolve<IHttpContextAccessor>();
-            var webHostEnvironment = scope.Resolve<IWebHostEnvironment>();
             try
             {
+                ServiceLocator.AddScopeForCurrentThread(scope);
+
+                CodeIsRunningInsideAJob = true;
+                Settings.UseWebConfig = true;
+
+                if (IsJobRunning(jobName, scope))
+                    return;
+
                 try
                 {
-                    ServiceLocator.AddScopeForCurrentThread(scope);
+                    var stopwatch = Stopwatch.StartNew();
 
-                    CodeIsRunningInsideAJob = true;
-                    Settings.UseWebConfig = true;
+                    var threadId = Thread.CurrentThread.ManagedThreadId;
+                    var appDomainName = AppDomain.CurrentDomain.FriendlyName;
 
-                    if (IsJobRunning(jobName,
-                            scope, 
-                            httpContextAccessor, 
-                            webHostEnvironment))
-                        return;
+                    if (writeLog)
+                        Logg.r.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
+                            jobName,
+                            appDomainName.GetHashCode().ToString("x"),
+                            threadId
+                        );
 
-                    try
-                    {
-                        var stopwatch = Stopwatch.StartNew();
+                    action(scope);
 
-                        var threadId = Thread.CurrentThread.ManagedThreadId;
-                        var appDomainName = AppDomain.CurrentDomain.FriendlyName;
+                    if (writeLog)
+                        Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
+                            jobName,
+                            appDomainName.GetHashCode().ToString("x"),
+                            threadId,
+                            stopwatch.Elapsed
+                        );
 
-                        if (writeLog)
-                            Logg.r.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}", 
-                                jobName,
-                                appDomainName.GetHashCode().ToString("x"),
-                                threadId
-                            );
-
-                        action(scope);
-
-                        if (writeLog)
-                            Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}", 
-                                jobName,
-                                appDomainName.GetHashCode().ToString("x"),
-                                threadId,
-                                stopwatch.Elapsed
-                            );
-
-                        stopwatch.Stop();
-                    }
-                    finally
-                    {
-                        CloseJob(jobName, scope, httpContextAccessor, webHostEnvironment);
-                    }
+                    stopwatch.Stop();
                 }
                 finally
                 {
-                    CodeIsRunningInsideAJob = false;
-                    ServiceLocator.RemoveScopeForCurrentThread();
+                    CloseJob(jobName, scope);
                 }
-
             }
-            catch (Exception e)
+            finally
             {
-                Logg.r.Error(e, "Job error on {JobName}", jobName);
+                CodeIsRunningInsideAJob = false;
+                ServiceLocator.RemoveScopeForCurrentThread();
             }
+
+        }
+        catch (Exception e)
+        {
+            Logg.r.Error(e, "Job error on {JobName}", jobName);
         }
     }
 
-    private static bool IsJobRunning(string jobName, 
-        ILifetimeScope scope, 
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+    private static bool IsJobRunning(string jobName, ILifetimeScope scope)
     {
         using (new MutexX(5000, "IsRunning"))
         {
@@ -92,10 +80,10 @@ public class JobExecute
             using (var transaction = session.BeginTransaction(IsolationLevel.Serializable))
             {
                 transaction.Begin();
-                var runningJobRepo = new RunningJobRepo(session, httpContextAccessor, webHostEnvironment);
+                var runningJobRepo = new RunningJobRepo(session);
                 if (runningJobRepo.IsJobRunning(jobName))
                 {
-                    Logg.r.Information("Job is already running: {jobName}, {Environment}", 
+                    Logg.r.Information("Job is already running: {jobName}, {Environment}",
                         jobName,
                         Settings.Environment);
 
@@ -111,13 +99,11 @@ public class JobExecute
     }
 
     private static void CloseJob(string jobName,
-        ILifetimeScope scope, 
-        IHttpContextAccessor httpContextAccessor, 
-        IWebHostEnvironment webHostEnvironment)
+        ILifetimeScope scope)
     {
         using (var session = scope.Resolve<ISessionBuilder>().OpenSession())
         {
-            new RunningJobRepo(session, httpContextAccessor, webHostEnvironment).Remove(jobName);
+            new RunningJobRepo(session).Remove(jobName);
         }
     }
 }

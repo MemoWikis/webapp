@@ -16,6 +16,7 @@ using TrueOrFalse.Environment;
 using TrueOrFalse.Frontend.Web.Middlewares;
 using TrueOrFalse.Infrastructure;
 using TrueOrFalse.Updates;
+using TrueOrFalse.Utilities.ScheduledJobs;
 using static System.Int32;
 
 Console.WriteLine("Builder: Started");
@@ -154,7 +155,10 @@ app.Urls.Add("http://*:5069");
 
 var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
 entityCacheInitializer.Init();
+
+var runningJobRepo = app.Services.GetRequiredService<RunningJobRepo>();
+await JobScheduler.Start(runningJobRepo);
+
 Console.WriteLine("App: Run");
 
 app.Run();
-

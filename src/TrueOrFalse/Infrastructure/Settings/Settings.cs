@@ -32,12 +32,6 @@ public class Settings
     public static string Environment => _configuration["General:Environment"];
     public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
 
-    // Settings properties
-    public static bool WithNHibernateStatistics =>
-        bool.Parse(_configuration["Settings:WithNHibernateStatistics"]);
-
-    public static bool DisableAllJobs => bool.Parse(_configuration["Settings:DisableAllJobs"]);
-
     public static int SessionStateTimeoutInMin =>
         Convert.ToInt32(_configuration["Settings:SessionStateTimeoutInMin"]);
 
@@ -47,9 +41,6 @@ public class Settings
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
     public static string EmailToMemoWikis => _configuration["Email:EmailToMemoWikis"];
-
-    // Paths properties
-    public static string LomExportPath => _configuration["Paths:LomExportPath"];
 
     public static string ImagePath =>
         string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])

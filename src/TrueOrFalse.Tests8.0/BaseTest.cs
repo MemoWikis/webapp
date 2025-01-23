@@ -28,7 +28,7 @@ public class BaseTest
     }
 
     [SetUp]
-    public void SetUp()
+    public async void SetUp()
     {
         SessionFactory.BuildTestConfiguration();
         // CleanEmailsFromPickupDirectory.Run();
@@ -48,6 +48,8 @@ public class BaseTest
         initializer.Init(" (started in unit test) ");
         DateTimeX.ResetOffset();
         SetSessionUserInDatabase();
+
+        await JobScheduler.InitializeAsync();
     }
 
     [TearDown]
