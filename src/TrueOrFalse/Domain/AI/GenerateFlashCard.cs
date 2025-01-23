@@ -60,19 +60,22 @@ public class AiFlashCard(AiUsageLogRepo _aiUsageLogRepo) : IRegisterAsInstancePe
             " + flashcards + @"
             
             Achte unbedingt darauf:
-            - Die Sprache der erstellten Karteikarten muss exakt mit der des Quelltextes übereinstimmen.
-            - Sollte der Quelltext gemischte Sprachen enthalten, verwende die dominante Sprache.
+            - Die Sprache der erstellten Karteikarten muss exakt mit der des gegebenen Textes übereinstimmen.
+            - Sollte der gegebene Text gemischte Sprachen enthalten, verwende die dominante Sprache.
             
             Deine Aufgabe:
-            1. Lies den folgenden Quelltext aufmerksam:
+            1. Lies den folgenden gegebenen Text aufmerksam:
                """ + sourceText + @"""
-            2. Extrahiere daraus relevante Konzepte und formuliere neue potenzielle Karteikarten in derselben Sprache wie der Quelltext.
+            2. Extrahiere daraus relevante Konzepte und formuliere neue potenzielle Karteikarten in derselben Sprache wie der gegebene Text. 
+               - Es ist sehr, sehr wichtig, dass es keine Duplikate gibt. 
+               - Duplikate zu vermeiden hat oberste Priorität.
             3. Prüfe jede potenzielle Karte gründlich gegen die vorhandenen Karten und untereinander:
                - Vergleiche sowohl 'Front' als auch 'Back' (ignoriere Groß- und Kleinschreibung, Satzzeichen und kleinere Abweichungen).
                - Stelle sicher, dass sich keine Duplikate einschleichen.
             4. Verwirf jede potenzielle Karte, die inhaltlich bereits existiert (Duplikate von vorhandenen oder bereits erstellten Karten).
             5. Gib ausschließlich die neuen, eindeutigen Karteikarten als JSON-Array zurück.
-            6. Falls der Quelltext zu kurz und unklar ist oder keinen Sinn macht, gib ein leeres JSON-Array zurück.
+            6. Falls der gegebene Text zu kurz und unklar ist oder keinen Sinn macht, gib ein leeres JSON-Array zurück.
+            7. Prüfe das Ergebnis auf Duplikate und entferne diese.
             
             Denke daran:
             - Keine Erklärungen, keine Einleitungen oder Zusammenfassungen.
