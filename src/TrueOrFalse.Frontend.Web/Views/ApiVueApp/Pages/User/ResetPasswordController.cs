@@ -40,9 +40,9 @@ public class ResetPasswordController(
     public readonly record struct ValidateResult(bool Success, string MessageKey);
 
     [HttpGet]
-    public ValidateResult Validate([FromRoute] string token)
+    public ValidateResult Validate([FromRoute] string id)
     {
-        var validateToken = ValidateToken(token);
+        var validateToken = ValidateToken(id);
         return new ValidateResult
         { Success = validateToken.Success, MessageKey = validateToken.MessageKey };
     }
