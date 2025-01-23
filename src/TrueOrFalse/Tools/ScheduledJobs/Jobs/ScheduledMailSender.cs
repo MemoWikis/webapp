@@ -1,10 +1,10 @@
-﻿using System.Net.Mail;
-using Autofac;
+﻿using Autofac;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using Rollbar;
+using System.Net.Mail;
 
 namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
 {
@@ -35,7 +35,7 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                     if (context.Trigger.GetFireTimeAfter(context.Trigger.GetPreviousFireTimeUtc()) ==
                         context.Trigger.GetPreviousFireTimeUtc() + TimeSpan.FromMilliseconds(1000))
                     {
-                       await SetJobInterval(1000, context);
+                        await SetJobInterval(1000, context);
                     }
 
                     return;
@@ -51,9 +51,14 @@ namespace TrueOrFalse.Tools.ScheduledJobs.Jobs
                 try
                 {
                     var currentMailMessageJson = JsonConvert.DeserializeObject<MailMessageJson>(job.JobContent);
-                    var currentMailMessage = new MailMessage(currentMailMessageJson.From, currentMailMessageJson.To,
-                        currentMailMessageJson.Subject, currentMailMessageJson.Body);
-                    var smtpClient = new SmtpClient();
+                    var currentMailMessage = new MailMessage(
+                        currentMailMessageJson.From,
+                        currentMailMessageJson.To,
+                        currentMailMessageJson.Subject,
+                        currentMailMessageJson.Body);
+
+                    var smtpClient = new SmtpClient("host.docker.internal");
+
                     if (!successfulJobIds.Contains(job.Id))
                     {
                         smtpClient.Send(currentMailMessage);

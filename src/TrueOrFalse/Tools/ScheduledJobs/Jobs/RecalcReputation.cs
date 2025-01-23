@@ -6,13 +6,13 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 {
     public class RecalcReputation : IJob
     {
-        public const int IntervalInSeconds = 2;
+        public const int IntervalInSeconds = 10;
 
         public Task Execute(IJobExecutionContext context)
         {
             JobExecute.Run(scope =>
             {
-                List<int> successfullJobIds = new List<int>();
+                List<int> successfulJobIds = new List<int>();
                 var jobs = scope.Resolve<JobQueueRepo>().GetReputationUpdateUsers();
                 var jobsByUserId = jobs.GroupBy(j => j.JobContent);
 
@@ -20,14 +20,14 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 {
                     if (Convert.ToInt32(userJobs.Key) == -1)
                     {
-                        successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
+                        successfulJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
                         continue;
                     }
 
                     try
                     {
                         scope.Resolve<UserWritingRepo>().ReputationUpdate(scope.Resolve<UserReadingRepo>().GetById(Convert.ToInt32(userJobs.Key)));
-                        successfullJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
+                        successfulJobIds.AddRange(userJobs.Select(j => j.Id).ToList<int>());
                     }
                     catch (Exception e)
                     {
@@ -37,16 +37,16 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 }
 
                 //Delete jobs that have been executed successfully
-                if (successfullJobIds.Count > 0)
+                if (successfulJobIds.Count > 0)
                 {
-                    scope.Resolve<JobQueueRepo>().DeleteById(successfullJobIds);
-                    Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfullJobIds.Count + " jobs.");
-                    successfullJobIds.Clear();
+                    scope.Resolve<JobQueueRepo>().DeleteById(successfulJobIds);
+                    Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfulJobIds.Count + " jobs.");
+                    successfulJobIds.Clear();
                 }
 
             }, "RecalcReputation");
 
-            return Task.CompletedTask; 
+            return Task.CompletedTask;
         }
     }
 }
