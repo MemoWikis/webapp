@@ -9,10 +9,10 @@ class Mail_persistence : BaseTest
     public void MailSendingTest()
     {
         CleanEmailsFromPickupDirectory.Run();
-        var userReadingRepo = R<UserReadingRepo>(); 
+        var userReadingRepo = R<UserReadingRepo>();
         var user = ContextUser.New(R<UserWritingRepo>()).AddWithEmail("ab@c.de").Persist().All.Last();
-        var jqr = R<JobQueueRepo>(); 
-        SendEmail.Run(CreateLowPriorityMails(user),jqr, userReadingRepo);
+        var jqr = R<JobQueueRepo>();
+        SendEmail.Run(CreateLowPriorityMails(user), jqr, userReadingRepo);
         SendEmail.Run(GetHighPriorityMail(user), jqr, userReadingRepo, MailMessagePriority.High);
 
         JobScheduler.Start(R<RunningJobRepo>());
