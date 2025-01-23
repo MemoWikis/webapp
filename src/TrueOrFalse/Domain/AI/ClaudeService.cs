@@ -4,6 +4,8 @@ using static AiFlashCard;
 
 public static class ClaudeService
 {
+    private const string ClaudeSonnetModel = "claude-3-5-sonnet-20241022";
+
     private static readonly HttpClient httpClient = new HttpClient
     {
         BaseAddress = new Uri("https://api.anthropic.com")
@@ -16,9 +18,11 @@ public static class ClaudeService
         httpClient.DefaultRequestHeaders.Add("anthropic-version", Settings.AnthropicVersion);
     }
 
-    public static async Task<AnthropicApiResponse?> GetClaudeResponse(string jsonData)
+    public static async Task<AnthropicApiResponse?> GetClaudeResponse(string prompt)
     {
-        using var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+        var requestJson = GetRequestJson(prompt, ClaudeSonnetModel);
+
+        using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
         try
         {
             var response = await httpClient.PostAsync("/v1/messages", content);
@@ -38,7 +42,7 @@ public static class ClaudeService
         }
     }
 
-    public static string GetRequestJson(string promptContent, string model = "")
+    private static string GetRequestJson(string promptContent, string model = "")
     {
         if (string.IsNullOrWhiteSpace(model))
             model = Settings.AnthropicModel;
@@ -62,8 +66,7 @@ public static class ClaudeService
 
     public static async Task<List<FlashCard>> GenerateFlashcardsAsync(string promptContent, int userId, int pageId, AiUsageLogRepo aiUsageLogRepo)
     {
-        var jsonData = GetRequestJson(promptContent);
-        var response = await GetClaudeResponse(jsonData);
+        var response = await GetClaudeResponse(promptContent);
 
         if (response != null)
         {

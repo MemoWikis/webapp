@@ -5,7 +5,6 @@ using VueApp;
 class GenerateFlashCards_tests : BaseTest
 {
     private const int PageId = 1;
-    private const string ClaudeSonnetModel = "claude-3-5-sonnet-20241022";
     private const int DefaultUserId = 1;
 
     [Test]
@@ -98,11 +97,15 @@ class GenerateFlashCards_tests : BaseTest
             Falls es Duplikate gibt antworte NUR mit true.
             Falls es keine Duplikate gibt antworte NUR mit false.";
 
-        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
-        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
         Assert.NotNull(claudeResponse);
-        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"));
+        Assert.That(
+            claudeResponse!.Content[0].Text,
+            Is.EqualTo("false"),
+            $"ClaudeAssertResult: {claudeResponse.Content[0].Text} " + Environment.NewLine +
+            $"FlashCardsBaseJson: {flashCardsBaseJson}" + Environment.NewLine +
+            $"NewFlashCardsJson: {newFlashCardsJson}");
     }
 
     [Test]
@@ -195,11 +198,10 @@ class GenerateFlashCards_tests : BaseTest
             Vergleiche beide Listen ob es inhaltlich/fachliche Duplikate gibt.
             Falls es Duplikate gibt antworte NUR mit true oder fall es keine Duplikate gibt antworte NUR mit false. Keine Erklärung.";
 
-        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
-        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
         Assert.NotNull(claudeResponse);
-        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"));
+        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("false"), "The content - according to claude - does contain duplicates");
     }
 
     [Test]
@@ -225,12 +227,14 @@ class GenerateFlashCards_tests : BaseTest
 
         //Assert
         var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextEN} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
-
-        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
-        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
         Assert.NotNull(claudeResponse);
-        Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("true"));
+        Assert.That(
+            claudeResponse!.Content[0].Text,
+            Is.EqualTo("true"),
+            $"ClaudeAssertResult: {claudeResponse.Content[0].Text}"
+        );
     }
 
     [Test]
@@ -256,9 +260,7 @@ class GenerateFlashCards_tests : BaseTest
 
         //Assert
         var assertPrompt = $@"Überprüfe ob die Sprache dieses Textes: {SourceTexts.LongSourceTextDE} und diese Karteikarten: {flashCardsJson} übereinstimmen. Antworte nur mit true oder false, füge keine Erklärung hinzu.";
-
-        var requestJson = ClaudeService.GetRequestJson(assertPrompt, ClaudeSonnetModel);
-        var claudeResponse = await ClaudeService.GetClaudeResponse(requestJson);
+        var claudeResponse = await ClaudeService.GetClaudeResponse(assertPrompt);
 
         Assert.NotNull(claudeResponse);
         Assert.That(claudeResponse!.Content[0].Text, Is.EqualTo("true"));

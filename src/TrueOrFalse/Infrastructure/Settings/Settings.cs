@@ -41,6 +41,8 @@ public class Settings
     // Email properties
     public static string EmailFrom => _configuration["Email:EmailFrom"];
     public static string EmailToMemoWikis => _configuration["Email:EmailToMemoWikis"];
+    public static string EmailSmtpUserName => _configuration["Email:SmtpUsername"];
+    public static string EmailSmtpPassword => _configuration["Email:SmtpPassword"];
 
     public static string ImagePath =>
         string.IsNullOrEmpty(_configuration["Paths:AbsoluteImagePath"])
