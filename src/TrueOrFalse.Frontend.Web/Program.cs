@@ -12,6 +12,7 @@ using Stripe;
 using System;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using TrueOrFalse.Environment;
 using TrueOrFalse.Frontend.Web.Middlewares;
 using TrueOrFalse.Infrastructure;
@@ -153,12 +154,23 @@ app.UseEndpoints(endpoints =>
 
 app.Urls.Add("http://*:5069");
 
-var entityCacheInitializer = app.Services.GetRequiredService<EntityCacheInitializer>();
-entityCacheInitializer.Init();
-
-var runningJobRepo = app.Services.GetRequiredService<RunningJobRepo>();
-await JobScheduler.Start(runningJobRepo);
+await InitCache();
+await InitJobScheduler();
 
 Console.WriteLine("App: Run");
 
 app.Run();
+
+async Task InitCache()
+{
+    await using var scope = app.Services.CreateAsyncScope();
+    var entityCacheInitializer = scope.ServiceProvider.GetRequiredService<EntityCacheInitializer>();
+    entityCacheInitializer.Init();
+}
+
+async Task InitJobScheduler()
+{
+    await using var scope = app.Services.CreateAsyncScope();
+    var runningJobRepo = scope.ServiceProvider.GetRequiredService<RunningJobRepo>();
+    await JobScheduler.Start(runningJobRepo);
+}

@@ -12,6 +12,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 scope.Resolve<JobQueueRepo>().DeleteAllJobs(JobQueueType.UpdateReputationForUser);
                 scope.Resolve<UserWritingRepo>().ReputationUpdateForAll();
+
+                return Task.CompletedTask;
             }, "RecalcReputationForAll");
 
             return Task.CompletedTask;

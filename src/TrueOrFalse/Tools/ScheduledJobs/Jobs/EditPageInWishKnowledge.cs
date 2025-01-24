@@ -33,6 +33,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                             break;
                     }
                 }
+
+                return Task.CompletedTask;
             }, "EditPageInWishKnowledge");
         }
 

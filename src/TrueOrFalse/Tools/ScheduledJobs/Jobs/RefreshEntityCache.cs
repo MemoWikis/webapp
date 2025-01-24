@@ -12,9 +12,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            JobExecute.Run(scope => 
+            JobExecute.Run(scope =>
             {
                 _entityCacheInitializer.Init(" (in JobScheduler) ");
+
+                return Task.CompletedTask;
             }, "RefreshEntityCache");
 
             return Task.CompletedTask;

@@ -50,6 +50,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                         _pageValuationWritingRepo,
                         _knowledgeSummaryLoader);
                 }
+                return Task.CompletedTask;
             }, "RecalcKnowledgeStati");
 
             return Task.CompletedTask;

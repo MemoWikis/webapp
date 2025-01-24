@@ -110,9 +110,13 @@ public class UserWritingRepo
         _repo.Session
             .CreateSQLQuery("Update questionview  Set UserId = null Where UserId = :userId")
             .SetParameter("userId", userId).ExecuteUpdate();
-        _repo.Session.CreateSQLQuery("UPDATE paegchange c " +
-                                     "JOIN user u ON u.id = c.author_id Set c.author_id = null " +
-                                     "WHERE u.id =  :userid;")
+        _repo.Session
+            .CreateSQLQuery(@"
+                UPDATE pagechange AS c
+                JOIN user AS u
+                    ON u.id = c.author_id
+                    AND u.id = :userid
+                SET c.author_id = NULL")
             .SetParameter("userid", userId)
             .ExecuteUpdate();
 

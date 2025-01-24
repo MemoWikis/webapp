@@ -1,6 +1,6 @@
-﻿using System.Net.Mail;
-using NHibernate;
+﻿using NHibernate;
 using Quartz;
+using System.Net.Mail;
 
 namespace TrueOrFalse.Utilities.ScheduledJobs
 {
@@ -38,9 +38,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                 var end = DateTime.Now;
                 report += (end - start) + " Sekunden.";
 
-                SendMail("daniel.majunke@googlemail.com", "Daniel", report);
-                SendMail("robert@robert - m.de", "Robert", report);
+                SendMail("team@memowikis.net", "Team MemoWikis", report);
 
+                return Task.CompletedTask;
             }, "RecalcTotalWishInOthersPeople");
 
             return Task.CompletedTask;
@@ -66,9 +66,9 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     AND qv.UserId <> :userId; ")
                     .SetParameter("userId", userId)
                     .UniqueResult<long>();
-               
+
                 if (userTotalWishKnowledgeInOtherPoeple != joinTotalWishKnowledgeInOtherPoeple)
-                        counter++;
+                    counter++;
             }
 
             return counter +

@@ -43,7 +43,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     Logg.r.Information("Job RecalcReputation recalculated reputation for " + successfulJobIds.Count + " jobs.");
                     successfulJobIds.Clear();
                 }
-
+                return Task.CompletedTask;
             }, "RecalcReputation");
 
             return Task.CompletedTask;

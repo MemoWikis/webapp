@@ -18,6 +18,8 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 Thread.Sleep(1);
                 Logg.r.Information("HttpContext {0}", _httpContextAccessor.HttpContext);
+
+                return Task.CompletedTask;
             }, "TestJob1");
 
             return Task.CompletedTask;
@@ -35,7 +37,11 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
 
         public Task Execute(IJobExecutionContext context)
         {
-            JobExecute.Run(scope => { _entityCacheInitializer.Init(" (in JobScheduler) "); },
+            JobExecute.Run(scope =>
+                {
+                    _entityCacheInitializer.Init(" (in JobScheduler) ");
+                    return Task.CompletedTask;
+                },
                 "RefreshEntityCache");
 
             return Task.CompletedTask;
@@ -57,6 +63,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
             {
                 Thread.Sleep(1);
                 Logg.r.Information("HttpContext {0}", _httpContextAccessor);
+                return Task.CompletedTask;
             }, "TestJob2");
 
             return Task.CompletedTask;

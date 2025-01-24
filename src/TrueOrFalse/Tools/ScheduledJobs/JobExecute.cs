@@ -8,14 +8,9 @@ public class JobExecute
     [ThreadStatic]
     public static bool CodeIsRunningInsideAJob;
 
-    public static void RunAsTask(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
+    public static async Task Run(Func<ILifetimeScope, Task> func, string jobName, bool writeLog = true)
     {
-        Task.Run(() => { Run(action, jobName, writeLog); });
-    }
-
-    public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
-    {
-        using var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName);
+        await using var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName);
         try
         {
             try
@@ -42,7 +37,7 @@ public class JobExecute
                             threadId
                         );
 
-                    action(scope);
+                    await func(scope);
 
                     if (writeLog)
                         Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",

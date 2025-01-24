@@ -51,6 +51,7 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     Logg.r.Information("Job RecalcKnowledgeSummariesForPage recalculated knowledge summary for " + successfullJobIds.Count + " jobs.");
                     successfullJobIds.Clear();
                 }
+                return Task.CompletedTask;
             }, "RecalcKnowledgeSummariesForPage");
             return Task.CompletedTask;
         }

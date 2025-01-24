@@ -50,19 +50,19 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
                     {
                         Logg.r.Information("Sending Knowledge-Report to user " + user.Name + " (" + user.Id + ")...");
                         KnowledgeReportMsg.SendHtmlMail(user,
-                            _jobQueueRepo, 
-                            _messageEmailRepo, 
-                            _getAnswerStatsInPeriod, 
-                            _getStreaksDays, 
-                            _userReadingRepo, 
-                            _getUnreadMessageCount, 
+                            _jobQueueRepo,
+                            _messageEmailRepo,
+                            _getAnswerStatsInPeriod,
+                            _getStreaksDays,
+                            _userReadingRepo,
+                            _getUnreadMessageCount,
                             _knowledgeSummaryLoader,
                             _questionReadingRepo,
                             _httpContextAccessor,
                             _webHostEnvironment);
                     }
                 }
-
+                return Task.CompletedTask;
             }, "KnowledgeReportCheck");
 
             return Task.CompletedTask;
