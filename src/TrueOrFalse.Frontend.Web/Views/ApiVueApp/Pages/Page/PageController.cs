@@ -26,7 +26,6 @@ public class PageController(
                 _sessionUser,
                 _permissionCheck,
                 _knowledgeSummaryLoader,
-                pageViewRepo,
                 _imageMetaDataReadingRepo,
                 _httpContextAccessor,
                 _questionReadingRepo)
