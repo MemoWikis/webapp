@@ -27,13 +27,13 @@ public static class JobScheduler
 
         runningJobRepo.TruncateTable();
 
-        Schedule_RecalcKnowledgeStati();
-        Schedule_RecalcKnowledgeSummariesForPage();
-        Schedule_RecalcReputation();
-        Schedule_RecalcReputationForAll();
-        // Schedule_EditPageInWishKnowledge();
-        // Schedule_KnowledgeReportCheck();
-        Schedule_RecalcTotalWishInOthersPeople();
+        //Schedule_RecalcKnowledgeStati();
+        //Schedule_RecalcKnowledgeSummariesForPage();
+        //Schedule_RecalcReputation();
+        //Schedule_RecalcReputationForAll();
+        //Schedule_EditPageInWishKnowledge();
+        //Schedule_KnowledgeReportCheck();
+        //Schedule_RecalcTotalWishInOthersPeople();
         Schedule_MailSender();
     }
 

@@ -32,17 +32,22 @@ namespace TrueOrFalse.Utilities.ScheduledJobs
         }
         public Task Execute(IJobExecutionContext context)
         {
-            JobExecute.Run(scope => 
+            JobExecute.Run(scope =>
             {
                 foreach (var user in scope.Resolve<UserReadingRepo>().GetAll())
                 {
-                    new ProbabilityUpdate_Valuation(_nhibernateSession,
+                    new ProbabilityUpdate_Valuation(
+                        _nhibernateSession,
                         _questionValuationReadingRepo,
                         _probabilityCalcSimple1,
-                        _answerRepo).Run(user.Id);
-                    KnowledgeSummaryUpdate.RunForUser(user.Id,
+                        _answerRepo
+                        )
+                        .Run(user.Id);
+
+                    KnowledgeSummaryUpdate.RunForUser(
+                        user.Id,
                         _pageValuationReadingRepository,
-                        _pageValuationWritingRepo, 
+                        _pageValuationWritingRepo,
                         _knowledgeSummaryLoader);
                 }
             }, "RecalcKnowledgeStati");
