@@ -149,7 +149,6 @@ public class UserStoreController(
                 PersonalWiki = new PageDataManager(_sessionUser,
                         _permissionCheck,
                         _knowledgeSummaryLoader,
-                        pageViewRepo,
                         _imageMetaDataReadingRepo,
                         _httpContextAccessor,
                         _questionReadingRepo)

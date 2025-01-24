@@ -78,7 +78,6 @@ public class FrontEndUserData(
                 PersonalWiki = new PageDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
-                    pageViewRepo,
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo).GetPageData(user.StartPageId),
@@ -126,7 +125,6 @@ public class FrontEndUserData(
             PersonalWiki = new PageDataManager(_sessionUser,
                     _permissionCheck,
                     _knowledgeSummaryLoader,
-                    pageViewRepo,
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
