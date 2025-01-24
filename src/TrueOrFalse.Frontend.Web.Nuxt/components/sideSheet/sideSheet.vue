@@ -132,15 +132,6 @@ const showFavorites = ref(true)
 const showRecents = ref(true)
 const { $urlHelper } = useNuxtApp()
 
-const animate = ref(false)
-
-watch(collapsed, () => {
-    animate.value = true
-    setTimeout(() => {
-        animate.value = false
-    }, 300)
-})
-
 watch(() => sideSheetStore.showSideSheet, (show) => {
     if (show) {
         hidden.value = false
@@ -282,7 +273,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'animate-header': animate, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
+    <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
         :style="`height: ${windowHeight}px`">
         <perfect-scrollbar :suppress-scroll-x="true" @ps-scroll-y.stop>
 
@@ -530,13 +521,6 @@ onMounted(() => {
 
     @media (max-width: 900px) {
         box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    }
-
-    &.animate-header {
-        .header-container {
-            transform-origin: left;
-            animation: grow 0.3s ease-in-out;
-        }
     }
 
     .no-b-padding {

@@ -15,7 +15,6 @@ public class UserStoreController(
     IHttpContextAccessor _httpContextAccessor,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
