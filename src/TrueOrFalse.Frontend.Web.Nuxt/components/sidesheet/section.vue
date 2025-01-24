@@ -276,13 +276,6 @@
 
 
     }
-
-    &.animate-header {
-        .header-container {
-            transform-origin: left;
-            animation: grow 0.3s ease-in-out;
-        }
-    }
 }
 
 @keyframes grow {
