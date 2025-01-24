@@ -73,7 +73,7 @@ function setPage() {
             })
             watch(() => tabsStore.activeTab, (t) => {
                 tabSwitched.value = true
-                if (page.value == null)
+                if (page.value == null || parseInt(route.params.id.toString()) != page.value.id)
                     return
                 if (t === Tab.Text)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id))
@@ -237,7 +237,7 @@ convertStore.$onAction(({ name, after }) => {
 
 
                 <ClientOnly>
-                    <Sidebar class="is-page" :show-outline="true" :site="props.site" v-if="pageStore?.id != 0" />
+                    <Sidebar class="is-page" :show-outline="true" :site="Site.Page" v-if="pageStore?.id != 0" />
 
                     <template #fallback>
                         <SidebarFallback class="is-page" />

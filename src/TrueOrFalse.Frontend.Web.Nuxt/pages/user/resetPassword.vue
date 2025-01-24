@@ -154,8 +154,6 @@ async function saveNewPassword() {
                     </div>
                 </div>
             </div>
-            <Sidebar :site="props.site" />
-
         </div>
     </div>
 </template>
