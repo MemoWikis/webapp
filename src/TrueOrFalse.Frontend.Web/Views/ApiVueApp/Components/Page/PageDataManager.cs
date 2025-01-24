@@ -7,7 +7,6 @@ public class PageDataManager(
     SessionUser _sessionUser,
     PermissionCheck _permissionCheck,
     KnowledgeSummaryLoader _knowledgeSummaryLoader,
-    PageViewRepo pageViewRepo,
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     IHttpContextAccessor _httpContextAccessor,
     QuestionReadingRepo _questionReadingRepo)
@@ -101,7 +100,7 @@ public class PageDataManager(
                 .VisibleDescendants(page.Id, _permissionCheck, _sessionUser.UserId).Count,
             DirectVisibleChildPageCount = GraphService
                 .VisibleChildren(page.Id, _permissionCheck, _sessionUser.UserId).Count,
-            Views = pageViewRepo.GetViewCount(id),
+            Views = page.TotalViews,
             Visibility = page.Visibility,
             AuthorIds = authorIds.ToArray(),
             Authors = authorIds.Select(authorId =>
