@@ -61,7 +61,7 @@ public static class JobScheduler
     {
         _scheduler.ScheduleJob(JobBuilder.Create<ScheduledMailSender>().Build(),
             TriggerBuilder.Create()
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(1)
+                .WithSimpleSchedule(x => x.WithIntervalInSeconds(5)
                     .RepeatForever()).Build());
     }
 

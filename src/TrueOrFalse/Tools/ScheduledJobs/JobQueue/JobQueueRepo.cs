@@ -63,7 +63,7 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 .List();
     }
 
-    public JobQueue GetTopPriorityMailMessage()
+    public JobQueue? GetTopPriorityMailMessage()
     {
         var result = _session
             .CreateSQLQuery(
