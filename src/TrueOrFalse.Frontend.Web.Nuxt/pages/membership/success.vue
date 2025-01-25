@@ -15,7 +15,8 @@
         </div>
     </div>
 </template>
-<style>
+
+<style lang="less" scoped>
 h1 {
     margin-bottom: 50px;
 

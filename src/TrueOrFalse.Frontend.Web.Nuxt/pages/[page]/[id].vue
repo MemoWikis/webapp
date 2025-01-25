@@ -467,6 +467,12 @@ h4 {
 
     &.is-mobile {
         max-width: 100vw;
+
+        .small-font {
+            p {
+                font-size: 12px;
+            }
+        }
     }
 }
 

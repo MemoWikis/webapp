@@ -45,7 +45,7 @@ const { $urlHelper } = useNuxtApp()
         </div>
     </div>
 </template>
-<style lang="less">
+<style lang="less" scoped>
 .helper-links {
     display: flex;
     flex-direction: column;
