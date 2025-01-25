@@ -594,7 +594,9 @@ const createFlashCard = () => {
         .media-below-sm({
             font-size: 12px;
 
-        })
+        });
+
+
 }
 
 .large-font {
@@ -617,6 +619,41 @@ const createFlashCard = () => {
     .media-below-sm({
         font-size: 16px;
     })
+}
+
+&.is-mobile {
+    h3 {
+        font-size: 2.15rem;
+    }
+
+    h2 {
+        font-size: 2.4rem;
+    }
+
+    .small-font {
+        p {
+            font-size: 14px;
+        }
+
+        h3 {
+            font-size: 2rem;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+        }
+    }
+
+    .large-font {
+        h3 {
+            font-size: 2.3rem;
+        }
+
+        h2 {
+            font-size: 2.6rem;
+        }
+    }
+
 }
 }
 
