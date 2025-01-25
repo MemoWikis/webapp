@@ -8,9 +8,59 @@ public class JobExecute
     [ThreadStatic]
     public static bool CodeIsRunningInsideAJob;
 
-    public static void RunAsTask(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
+    public static async Task RunAsync(Func<ILifetimeScope, Task> func, string jobName, bool writeLog = true)
     {
-        Task.Run(() => { Run(action, jobName, writeLog); });
+        using var scope = ServiceLocator.GetContainer().BeginLifetimeScope(jobName);
+        try
+        {
+            ServiceLocator.AddScopeForCurrentThread(scope);
+
+            CodeIsRunningInsideAJob = true;
+            Settings.UseWebConfig = true;
+
+            if (IsJobRunning(jobName, scope))
+                return;
+
+            try
+            {
+                var stopwatch = Stopwatch.StartNew();
+
+                var threadId = Thread.CurrentThread.ManagedThreadId;
+                var appDomainName = AppDomain.CurrentDomain.FriendlyName;
+
+                if (writeLog)
+                    Logg.r.Information("JOB START: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}",
+                        jobName,
+                        appDomainName.GetHashCode().ToString("x"),
+                        threadId
+                    );
+
+                await func(scope);
+
+                if (writeLog)
+                    Logg.r.Information("JOB END: {Job}, AppDomain(Hash): {AppDomain}, Thread: {ThreadId}, {timeNeeded}",
+                        jobName,
+                        appDomainName.GetHashCode().ToString("x"),
+                        threadId,
+                        stopwatch.Elapsed
+                    );
+
+                stopwatch.Stop();
+            }
+            finally
+            {
+                CloseJob(jobName, scope);
+            }
+        }
+        catch (Exception e)
+        {
+            Logg.r.Error(e, "Job error on {JobName}", jobName);
+        }
+        finally
+        {
+            CodeIsRunningInsideAJob = false;
+            ServiceLocator.RemoveScopeForCurrentThread();
+        }
     }
 
     public static void Run(Action<ILifetimeScope> action, string jobName, bool writeLog = true)
@@ -98,12 +148,9 @@ public class JobExecute
         }
     }
 
-    private static void CloseJob(string jobName,
-        ILifetimeScope scope)
+    private static void CloseJob(string jobName, ILifetimeScope scope)
     {
-        using (var session = scope.Resolve<ISessionBuilder>().OpenSession())
-        {
-            new RunningJobRepo(session).Remove(jobName);
-        }
+        using var session = scope.Resolve<ISessionBuilder>().OpenSession();
+        new RunningJobRepo(session).Remove(jobName);
     }
 }
