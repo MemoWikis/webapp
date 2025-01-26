@@ -25,7 +25,7 @@ public static class JobScheduler
     {
         await InitializeAsync();
 
-        runningJobRepo.TruncateTable();
+        //runningJobRepo.TruncateTable();
 
         //Schedule_RecalcKnowledgeStati();
         //Schedule_RecalcKnowledgeSummariesForPage();
@@ -34,7 +34,7 @@ public static class JobScheduler
         //Schedule_EditPageInWishKnowledge();
         //Schedule_KnowledgeReportCheck();
         //Schedule_RecalcTotalWishInOthersPeople();
-        Schedule_MailSender();
+        //Schedule_MailSender();
     }
 
 
