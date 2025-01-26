@@ -1,5 +1,6 @@
-﻿using System.Net.Mail;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Net.Mail;
+using TrueOrFalse.Utilities.ScheduledJobs;
 
 public class SendEmail
 {
@@ -32,7 +33,9 @@ public class SendEmail
         var mailMessageForJob = new MailMessageJson(mailMessage.From.Address,
             mailMessage.To[0].Address, mailMessage.Subject, mailMessage.Body);
 
-        jobQueueRepo.Add(JobQueueType.MailMessage, JsonConvert.SerializeObject(mailMessageForJob),
-            (int)priority);
+        JobScheduler.StartImmediately_SendEmail(JsonConvert.SerializeObject(mailMessageForJob));
+
+        //jobQueueRepo.Add(JobQueueType.MailMessage, JsonConvert.SerializeObject(mailMessageForJob),
+        //    (int)priority);
     }
 }

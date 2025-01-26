@@ -157,4 +157,13 @@ public static class JobScheduler
                 .Build(),
             TriggerBuilder.Create().StartNow().Build());
     }
+
+    public static void StartImmediately_SendEmail(string mailJsonString)
+    {
+        _scheduler.ScheduleJob(
+            JobBuilder.Create<ImmediatelySendEmail>()
+                .UsingJobData("mailJsonString", mailJsonString)
+                .Build(),
+            TriggerBuilder.Create().StartNow().Build());
+    }
 }
