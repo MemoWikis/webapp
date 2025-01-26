@@ -63,7 +63,7 @@ class ScheduledMailSender(IMemoryCache cache) : IJob
                 else
                 {
                     var e = new Exception(job.JobContent + job.Id);
-                    Logg.r.Error(e, "Error in job ScheduledMailSender. MailMessage was null.");
+                    Logg.r.Error(e, "Error in job ScheduledMailSender.");
                     RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
                 }
             }
@@ -73,10 +73,8 @@ class ScheduledMailSender(IMemoryCache cache) : IJob
                 RollbarLocator.RollbarInstance.Error(new Rollbar.DTOs.Body(e));
             }
 
-            var currentJobId = new List<int>(job.Id);
-
             //Delete job that has been executed
-            scope.Resolve<JobQueueRepo>().DeleteById(currentJobId);
+            scope.Resolve<JobQueueRepo>().DeleteById(job.Id);
         }, "ScheduledMailSender");
     }
 

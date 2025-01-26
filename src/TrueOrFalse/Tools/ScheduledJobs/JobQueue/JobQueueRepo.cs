@@ -27,6 +27,18 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
         _session.CreateSQLQuery(query).ExecuteUpdate();
     }
 
+    public void DeleteById(int jobId)
+    {
+        if (jobId < 0)
+            return;
+
+        var query = _session
+            .CreateSQLQuery("DELETE FROM jobqueue WHERE Id = :jobId")
+            .SetParameter("jobId", jobId);
+
+        query.ExecuteUpdate();
+    }
+
     public void DeleteAllJobs(JobQueueType jobQueueType)
     {
         var query = @"DELETE FROM jobqueue WHERE jobqueue.JobQueueType = :jobqueueType";
