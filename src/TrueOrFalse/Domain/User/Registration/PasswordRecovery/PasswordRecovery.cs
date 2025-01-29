@@ -31,7 +31,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         try
         {
             var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-            var passwortResetUrl = "https://memucho.de/Welcome/PasswordReset/" + token;
+            var passwortResetUrl = Settings.BaseUrl + "/Welcome/PasswordReset/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
             SendEmail.Run(GetMailMessage(email, passwortResetUrl), _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
@@ -53,7 +53,7 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         try
         {
             var token = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 15);
-            var passwordResetUrl = "https://memucho.de/NeuesPasswort/" + token;
+            var passwordResetUrl = Settings.BaseUrl + "/NeuesPasswort/" + token;
 
             _tokenRepository.Create(new PasswordRecoveryToken { Email = email, Token = token });
             SendEmail.Run(GetMailMessage(email, passwordResetUrl), _jobQueueRepo, _userReadingRepo, MailMessagePriority.High);
@@ -73,14 +73,14 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         mailMessage.To.Add(new MailAddress(email));
         mailMessage.From = new MailAddress(Settings.EmailFrom);
         mailMessage.Subject =
-            "Dein neues Passwort für memucho";
+            "Dein neues Passwort für MemoWikis";
         mailMessage.Body = @"
 Um ein neues Passwort zu setzen, folge diesem Link: {0}
 
 Der Link ist 72 Stunden lang gültig.
 
 Viele Grüße
-Dein memucho-Team
+Dein MemoWikis-Team
 ".Replace("{0}", passwordResetUrl);
 
         return mailMessage;

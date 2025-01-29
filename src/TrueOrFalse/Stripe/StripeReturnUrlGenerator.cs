@@ -24,13 +24,9 @@ public class StripeReturnUrlGenerator
         {
             url = $"http://localhost:3000/{targetPath}";
         }
-        else if (environment.Equals("stage"))
-        {
-            url = $"https://stage.memucho.de/{targetPath}";
-        }
         else
         {
-            url = $"https://memucho.de/{targetPath}";
+            url = $"{Settings.BaseUrl}/{targetPath}";
         }
 
         return url;

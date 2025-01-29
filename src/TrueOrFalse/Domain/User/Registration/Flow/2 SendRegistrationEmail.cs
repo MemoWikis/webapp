@@ -12,14 +12,14 @@ public class SendRegistrationEmail
         var emailBody = new StringBuilder();
         emailBody.AppendLine("Hallo " + user.Name + ",");
         emailBody.AppendLine("");
-        emailBody.AppendLine("du hast dich gerade bei memucho registriert, wir freuen uns, dass du dabei bist!");
+        emailBody.AppendLine("du hast dich gerade bei MemoWikis registriert, wir freuen uns, dass du dabei bist!");
         emailBody.AppendLine("");
         emailBody.AppendLine("Um dein Benutzerkonto zu bestätigen, folge bitte diesem Link:");
         emailBody.AppendLine(CreateEmailConfirmationLink.Run(user));
 
-        mail.Subject = "Willkommen bei memucho";
+        mail.Subject = "Willkommen bei MemoWikis";
         mail.Body = emailBody.ToString();
-            
+
         SendEmail.Run(mail, jobQueueRepo, userReadingRepo, MailMessagePriority.High);
     }
 }

@@ -1,12 +1,12 @@
 ﻿public class PathTo
 {
-    public static string Crawlers() => 
+    public static string Crawlers() =>
         GetPath("/Web/Crawlers/list-of-crawlers.json");
 
-    public static string EmailTemplate() => 
-        GetPath("/Domain/Message/HtmlMessage/HtmlMessageStylesInlined.html");
+    public static string EmailTemplate() =>
+        GetPath("/Domain/Message/HtmlMessage/HtmlMessageStylesInlined.cshtml");
 
-    public static string EmailTemplate_KnowledgeReport() => 
+    public static string EmailTemplate_KnowledgeReport() =>
         GetPath("/Domain/Message/HtmlMessage/KnowledgeReportMsgStylesInlined.cshtml");
 
     public static string Log_Ignore()

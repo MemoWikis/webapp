@@ -31,6 +31,7 @@ public class Settings
     public static int MemoWikisUserId => int.Parse(_configuration["General:MemoWikisUserId"]);
     public static string Environment => _configuration["General:Environment"];
     public static string UpdateUserSettingsKey => _configuration["General:UpdateUserSettingsKey"];
+    public static string BaseUrl => _configuration["General:BaseUrl"];
 
     public static int SessionStateTimeoutInMin =>
         Convert.ToInt32(_configuration["Settings:SessionStateTimeoutInMin"]);
@@ -79,5 +80,4 @@ public class Settings
     public static string AnthropicApiKey => _configuration["Anthropic:ApiKey"];
     public static string AnthropicModel => _configuration["Anthropic:Model"];
     public static string AnthropicVersion => _configuration["Anthropic:Version"];
-
 }
