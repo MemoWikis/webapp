@@ -15,7 +15,7 @@ public class EmailConfirmationServiceTests : BaseTest
     public void CreateEmailConfirmationToken_ReturnsExpectedFormat()
     {
         var user = new User
-            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
 
         // Split the token and make sure there are two parts
@@ -30,7 +30,7 @@ public class EmailConfirmationServiceTests : BaseTest
     public void TryConfirmEmailTest_ReturnsTrue_WhenTokenIsValid()
     {
         var user = new User
-            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
         var token = EmailConfirmationService.CreateEmailConfirmationToken(user);
 
         var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
@@ -42,7 +42,7 @@ public class EmailConfirmationServiceTests : BaseTest
     public void TryConfirmEmailTest_ReturnsFalse_WhenTokenIsInvalid()
     {
         var user = new User
-            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
         var token = "invalid-token";
 
         var result = _emailConfirmationService.TryConfirmEmailTest(token, user);
@@ -54,9 +54,8 @@ public class EmailConfirmationServiceTests : BaseTest
     public void Run_ReturnsExpectedUrl()
     {
         var user = new User
-            { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
-        var expectedUrl = "https://memucho.de/EmailBestaetigen/" +
-                          EmailConfirmationService.CreateEmailConfirmationToken(user);
+        { Id = 1, DateCreated = DateTime.UtcNow, PasswordHashedAndSalted = "1231adhb24" };
+        var expectedUrl = $"{Settings.BaseUrl}/EmailBestaetigen/{EmailConfirmationService.CreateEmailConfirmationToken(user)}";
 
         var result = CreateEmailConfirmationLink.Run(user);
 
