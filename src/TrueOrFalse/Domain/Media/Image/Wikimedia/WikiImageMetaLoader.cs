@@ -78,7 +78,7 @@ namespace TrueOrFalse
         public static void SetUserAgent(HttpWebRequest webRequest)
         {
             webRequest.UserAgent =
-                $"MemoWikisBot/1.1 ({Settings.BaseUrl}; {Settings.EmailToMemoWikis})/MemoWikisImageLoaderLib/1.1";
+                $"memoWikisBot/1.1 ({Settings.BaseUrl}; {Settings.EmailToMemoWikis})/MemoWikisImageLoaderLib/1.1";
             webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
         }
     }

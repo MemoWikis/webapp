@@ -10,9 +10,9 @@
     {
         string body = String.Format(@"
             <p>Hallo {0}, </p>
-            <p>wir begrüßen dich herzlich bei MemoWikis!</p>
+            <p>wir begrüßen dich herzlich bei memoWikis!</p>
 
-            <p>MemoWikis ist in der Beta-Phase, es gibt noch viel zu tun und wir haben viel vor. Du kannst uns unterstützen, indem du deinen Freunden von uns erzählst und Fehler und Verbesserungsvorschläge an uns weiterleitest. Solltest du irgendwelche Fragen haben, helfen wir Dir gerne.</p>
+            <p>memoWikis ist in der Beta-Phase, es gibt noch viel zu tun und wir haben viel vor. Du kannst uns unterstützen, indem du deinen Freunden von uns erzählst und Fehler und Verbesserungsvorschläge an uns weiterleitest. Solltest du irgendwelche Fragen haben, helfen wir Dir gerne.</p>
 
             <p>Viele Grüße,<br>
             Robert</p>
@@ -22,7 +22,7 @@
         messageRepo.Create(new Message
         {
             ReceiverId = user.Id,
-            Subject = "Willkommen bei MemoWikis",
+            Subject = "Willkommen bei memoWikis",
             Body = body,
             MessageType = MessageTypes.Welcome
         });

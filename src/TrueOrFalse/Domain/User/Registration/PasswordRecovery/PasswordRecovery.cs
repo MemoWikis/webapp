@@ -73,14 +73,14 @@ public class PasswordRecovery : IRegisterAsInstancePerLifetime
         mailMessage.To.Add(new MailAddress(email));
         mailMessage.From = new MailAddress(Settings.EmailFrom);
         mailMessage.Subject =
-            "Dein neues Passwort für MemoWikis";
+            "Dein neues Passwort für MmemoWikis";
         mailMessage.Body = @"
 Um ein neues Passwort zu setzen, folge diesem Link: {0}
 
 Der Link ist 72 Stunden lang gültig.
 
 Viele Grüße
-Dein MemoWikis-Team
+Dein memoWikis-Team
 ".Replace("{0}", passwordResetUrl);
 
         return mailMessage;
