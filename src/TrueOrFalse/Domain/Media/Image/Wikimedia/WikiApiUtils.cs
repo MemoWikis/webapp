@@ -7,7 +7,7 @@ namespace TrueOrFalse
         public static string GetWebpage(string url)
         {
             var webRequest = (HttpWebRequest)HttpWebRequest.Create(new Uri(url));
-            webRequest.UserAgent = "TrueOrFalseBot/1.0 (http://www.memucho.de/)";
+            webRequest.UserAgent = $"TrueOrFalseBot/1.0 ({Settings.BaseUrl})";
 
             string resultString;
             using (var response = webRequest.GetResponse())

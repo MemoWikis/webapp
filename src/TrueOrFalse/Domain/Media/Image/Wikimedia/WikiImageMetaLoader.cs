@@ -1,7 +1,7 @@
-﻿using System.Globalization;
+﻿using Newtonsoft.Json.Linq;
+using System.Globalization;
 using System.Net;
 using System.Web;
-using Newtonsoft.Json.Linq;
 
 namespace TrueOrFalse
 {
@@ -78,7 +78,7 @@ namespace TrueOrFalse
         public static void SetUserAgent(HttpWebRequest webRequest)
         {
             webRequest.UserAgent =
-                "MemoWikisBot/1.1 (http://www.memucho.de/; team@memucho.de)/MemoWikisImageLoaderLib/1.1";
+                $"MemoWikisBot/1.1 ({Settings.BaseUrl}; {Settings.EmailToMemoWikis})/MemoWikisImageLoaderLib/1.1";
             webRequest.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
         }
     }

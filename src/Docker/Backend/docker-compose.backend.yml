@@ -29,6 +29,7 @@ services:
       - General__SaltCookie=${SALT_COOKIE:-error}
       - General__UpdateUserSettingsKey=${UPDATE_USER_SETTINGS_KEY:-error}
       - General__TrackersToIgnore=${TRACKERS_TO_IGNORE:-error}
+      - General__BaseUrl=${BASE_URL:-error}
       - Settings__WithNHibernateStatistics=${WITH_NHIBERNATE_STATISTICS:-error}
       - Settings__DisableAllJobs=${DISABLE_ALL_JOBS:-error}
       - LoginProvider__FacebookAppId=${FACEBOOK_APP_ID:-error}

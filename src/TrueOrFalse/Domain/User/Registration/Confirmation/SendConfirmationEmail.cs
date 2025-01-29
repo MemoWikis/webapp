@@ -26,7 +26,7 @@ public class SendConfirmationEmail
         emailBody.AppendLine("");
         emailBody.AppendLine("Klicke einfach darauf, um Deine E-Mail-Adresse zu bestätigen. Falls Du weitere Fragen hast, lass es uns wissen!");
 
-        mail.Subject = "memucho - Bestätigungslink für deine E-Mail-Adresse";
+        mail.Subject = "MemoWikis - Bestätigungslink für deine E-Mail-Adresse";
         mail.Body = emailBody.ToString();
 
         SendEmail.Run(mail, jobQueueRepo, userReadingRepo, MailMessagePriority.High);
