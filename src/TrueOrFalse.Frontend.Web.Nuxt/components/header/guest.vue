@@ -225,9 +225,9 @@ const rootPageChipStore = useRootPageChipStore()
                 }
 
                 .register-btn-container {
-                    @media(min-width: 1200px) {
-                        margin-right: 33px;
-                    }
+                    // @media(min-width: 1200px) {
+                    //     margin-right: 33px;
+                    // }
 
                     .register-btn {
                         border-radius: 24px;

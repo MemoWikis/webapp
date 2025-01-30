@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Mvc;
 
 public class MiddlewareStartpageController(SessionUser _sessionUser) : Controller
 {
-    public readonly record struct TinyPage(int Id, string Name);
+    public readonly record struct GetResult(int? Id, [CanBeNull] string Name, bool IsLoggedIn = false);
 
     [HttpGet]
-    public TinyPage Get()
+    public GetResult Get()
     {
-        var page = _sessionUser.IsLoggedIn
-            ? EntityCache.GetPage(_sessionUser.User.StartPageId)
-            : RootPage.Get;
-        return new TinyPage { Name = page.Name, Id = page.Id };
+        if (_sessionUser.IsLoggedIn)
+        {
+            var page = EntityCache.GetPage(_sessionUser.User.StartPageId);
+            return new GetResult(page.Id, page.Name, true);
+        }
+
+        return new GetResult();
     }
 }

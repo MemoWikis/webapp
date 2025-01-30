@@ -3,8 +3,9 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
     const headers = useRequestHeaders(['cookie']) as HeadersInit
     interface Result {
-        name: string
-        id: number
+        name?: string
+        id?: number
+        isLoggedIn: boolean
     }
 
     const {$config, $urlHelper} = useNuxtApp()
@@ -22,6 +23,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 throw createError({ statusCode: 404, statusMessage: 'Seite nicht gefunden' })
             },
         })
-    return navigateTo($urlHelper.getPageUrl(result.name, result.id))
 
+    if (result.isLoggedIn && result.name && result.id)
+        return navigateTo($urlHelper.getPageUrl(result.name, result.id))
+    return
 })

@@ -10,8 +10,23 @@ export default <RouterConfig>{
         {
             name: 'welcomePage',
             path: '/',
-            component: () => import('~/pages/[page]/[id].vue'),
-            props: { tab: PageTab.Text },
+            component: () => import('~/pages/welcome/index.vue'),
+            meta: {
+                middleware: ['startpage'],
+            },
+        },
+        {
+            name: 'wikisWelcomePage',
+            path: '/wikis',
+            component: () => import('~/pages/welcome/wikis.vue'),
+            meta: {
+                middleware: ['startpage'],
+            },
+        },
+        {
+            name: 'learningWelcomePage',
+            path: '/learning',
+            component: () => import('~/pages/welcome/learning.vue'),
             meta: {
                 middleware: ['startpage'],
             },

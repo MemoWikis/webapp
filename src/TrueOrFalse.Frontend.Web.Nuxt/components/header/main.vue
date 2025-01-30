@@ -113,6 +113,7 @@ const hidePartial = computed(() => {
                                 :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                         </div>
                         <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
+
                             <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
                                 :class="{ 'showSearch': showSearch }">
                                 <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -131,6 +132,13 @@ const hidePartial = computed(() => {
 
                             <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
                                 :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
+
+                                <div v-if="props.site === Site.Welcome" class="button test">
+                                    <NuxtLink>
+                                        OpenSource <font-awesome-icon :icon="['fab', 'github']" />
+                                    </NuxtLink>
+                                </div>
+
                                 <div class="StickySearchContainer"
                                     :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
                                     <div class="search-button" :class="{ 'showSearch': showSearch }"
@@ -144,9 +152,11 @@ const hidePartial = computed(() => {
                                             placement="bottom-end" />
                                     </div>
                                 </div>
+
                                 <div class="login-btn" @click="userStore.openLoginModal()">
                                     <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
                                 </div>
+
                                 <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                     <div navigate class="btn memo-button register-btn">
                                         <NuxtLink to="/Registrieren">
@@ -388,9 +398,9 @@ const hidePartial = computed(() => {
                 line-height: unset !important;
             }
 
-            @media (min-width: 1200px) {
-                margin-right: 33px;
-            }
+            // @media (min-width: 1200px) {
+            //     margin-right: 33px;
+            // }
         }
 
 

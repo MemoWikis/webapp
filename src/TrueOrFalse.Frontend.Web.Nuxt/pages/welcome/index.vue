@@ -1,0 +1,242 @@
+<script lang="ts" setup>
+import { Site } from '~/components/shared/siteEnum'
+import { color } from '~/components/shared/colors'
+
+const emit = defineEmits(['setPage'])
+onBeforeMount(() => {
+    emit('setPage', Site.Welcome)
+})
+</script>
+
+<template>
+
+    <div id="Welcome">
+        <WelcomeHeroBlock :align="'center'">
+
+            <template #header>
+                <h1>Wissensmanagement</h1>
+            </template>
+            <template #text>
+                <p>memoWikis denkt Wissensmanagement neu</p>
+
+            </template>
+            <template #buttons>
+                <!-- <button navigate class="btn memo-button cta-btn">
+                    <NuxtLink to="/Registrieren" class="">
+                        Kostenlos registrieren!
+                    </NuxtLink>
+                </button> -->
+                <!-- <button navigate class="btn memo-button toWiki-btn">
+                    <NuxtLink to="/Gl/1" class="">
+                        Secondary Button / Wiki
+                    </NuxtLink>
+                </button> -->
+            </template>
+        </WelcomeHeroBlock>
+
+        <WelcomeHeroBlock>
+            <template #image>
+                <img src="~/assets/images/WelcomePage/1t.png" alt="Welcome Hero" />
+            </template>
+            <template #text>
+                <!-- <p>memoWikis denkt Wissensmanagement neu</p> -->
+                <div class="hero-content-text">
+                    <h2> Inhalt: </h2>
+                    <ul class="feature-list">
+                        <li>
+                            <NuxtLink to="#Feature-1">
+                                Sammeln & Organisieren
+                            </NuxtLink>
+                        </li>
+                        <!-- <li>
+                            <NuxtLink to="#Feature-2">
+                                Organisieren
+                            </NuxtLink>
+                        </li> -->
+                        <li>Teilen</li>
+                        <li>Veröffentlichen</li>
+                        <li>Durchsuchen</li>
+                        <li>Verknüpfen</li>
+                        <li>Wissensstandanzeige</li>
+                        <li>Lernen</li>
+                        <li>Karteikarten</li>
+                        <li>Analytics</li>
+                        <li>Feed</li>
+                        <li>AI-generierte Karteikarten</li>
+                    </ul>
+                </div>
+            </template>
+        </WelcomeHeroBlock>
+
+        <div class="spacer"></div>
+
+        <WelcomeFeatureSectionImageLeft id="Feature-1">
+            <template #image>
+                <img src="~/assets/images/WelcomePage/3.png" />
+            </template>
+
+            <div class="feature-content">
+                <h2>Sammeln & Organisieren</h2>
+                <ul class="feature-list">
+                    <li><strong>Sammle</strong> deine Wikis, <strong>erstelle</strong> Dokumente und halte alle Notizen an einem zentralen Ort bereit.</li>
+                    <li>Bringe <strong>Struktur</strong> in deine Inhalte, indem du sie thematisch oder projektbezogen gruppierst.</li>
+                </ul>
+            </div>
+        </WelcomeFeatureSectionImageLeft>
+
+        <WelcomeFeatureSectionImageLeft id="Feature-2">
+            <template #image>
+                <img src="~/assets/images/WelcomePage/3.png" />
+            </template>
+
+            <div class="feature-content">
+                <h2>Organisieren</h2>
+                <ul class="feature-list">
+                    <li><strong>Sammle</strong> deine Wikis, <strong>erstelle</strong> Dokumente und halte alle Notizen an einem zentralen Ort bereit.</li>
+                    <li>Bringe <strong>Struktur</strong> in deine Inhalte, indem du sie thematisch oder projektbezogen gruppierst.</li>
+                </ul>
+            </div>
+        </WelcomeFeatureSectionImageLeft>
+
+        <WelcomeFeatureSectionImageRight>
+            <template #image>
+                <img src="~/assets/images/WelcomePage/2.png" />
+            </template>
+            <div class="feature-content">
+                <h2>Wissen ist Teamwork</h2>
+                <ul class="feature-list">
+                    <li>Gewinne Einblicke in deine Lerngewohnheiten und decke Potenziale für Verbesserungen auf. </li>
+                    <li>Bleib durch den <strong>Feed</strong> über neue Inhalte und Diskussionen auf dem Laufenden.</li>
+                    <li><strong>Kollaboriere</strong> in Echtzeit an Dokumenten, Wikis und Notizen - bleib stets auf demselben Stand wie dein Team.</li>
+                </ul>
+            </div>
+        </WelcomeFeatureSectionImageRight>
+
+        <WelcomeFeatureSectionImageRight>
+            <template #image>
+                <img src="~/assets/images/WelcomePage/2.png" />
+            </template>
+            <div class="feature-content">
+                <h4>Ladada</h4>
+                <h2>Lorem Ipsum tada undso</h2>
+                <p>
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
+                    College in Virginia,
+                </p>
+            </div>
+        </WelcomeFeatureSectionImageRight>
+
+        <WelcomeFeatureSectionImageTop>
+            <template #image>
+                <img src="~/assets/images/WelcomePage/1.png" />
+            </template>
+            <div class="feature-content">
+                <h2>Lernen leicht gemacht</h2>
+                <p>Gewinne Einblicke in deine Lerngewohnheiten und decke Potenziale für Verbesserungen auf.
+                    Bleib durch den Feed über neue Inhalte und Diskussionen auf dem Laufenden.
+                    Kollaboriere in Echtzeit an Dokumenten, Wikis und Notizen - bleib stets auf demselben Stand wie dein Team.</p>
+                <!-- <ul class="feature-list">
+                    <li> Probiere <strong>Multiple Choice</strong>, <strong>Drag & Drop</strong> oder klassische <strong>Karteikarten</strong> aus - so lernst du ganz nach deinem Geschmack. </li>
+                    <li> Lass dir <strong>KI-unterstützt</strong> maßgeschneiderte Fragen und Aufgaben erstellen, um den Stoff noch schneller zu verinnerlichen.</li>
+                    <li> Verfolge deinen <strong>Lernfortschritt</strong> und setze dir persönliche Ziele, um motiviert zu bleiben.</li>
+                </ul> -->
+            </div>
+        </WelcomeFeatureSectionImageTop>
+
+
+        <WelcomeFeatureSectionImageBottom>
+            <template #image>
+                <img src="~/assets/images/WelcomePage/2.png" />
+            </template>
+            <div class="feature-content">
+                <h4>Ladada</h4>
+                <h2>Lorem Ipsum tada undso</h2>
+                <p>
+                    Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney
+                    College in Virginia,
+                </p>
+            </div>
+        </WelcomeFeatureSectionImageBottom>
+
+        <WelcomeHeroBlock :align="'center'">
+            <template #text>
+                <p>Blahblah catchphrase ding</p>
+            </template>
+            <template #buttons>
+                <button navigate class="btn memo-button cta-btn">
+                    <NuxtLink to="/Registrieren" class="">
+                        Kostenlos registrieren!
+                    </NuxtLink>
+                </button>
+            </template>
+        </WelcomeHeroBlock>
+    </div>
+
+</template>
+
+<style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
+#Welcome {
+    margin-bottom: 4em;
+
+    .spacer {
+        height: 6rem;
+        width: 100vw;
+    }
+
+    .border-small {
+        max-width: 1160px;
+
+        .border-inner {
+            border-bottom: 1px solid @memo-grey-light;
+            width: 100%;
+        }
+    }
+}
+
+.cta-btn {
+    background: @memo-green;
+    border-radius: 24px;
+    font-size: 1.75rem;
+    height: 48px !important;
+    padding: 0 2rem !important;
+
+    :deep(a) {
+        color: @memo-blue;
+    }
+}
+
+.toWiki-btn {
+    background: white;
+    border-radius: 24px;
+    border: solid 2px @memo-grey-light;
+    font-size: 1.75rem;
+    height: 48px !important;
+    padding: 0 2rem !important;
+
+    :deep(a) {
+        color: @memo-blue;
+    }
+}
+
+ul.feature-list {
+    font-size: 1.6rem;
+    list-style: none;
+    padding-left: 0;
+
+    li {
+        padding-bottom: 1rem;
+        position: relative;
+        padding-left: 3rem;
+
+        &:before {
+            content: "✦";
+            color: @memo-green;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+}
+</style>

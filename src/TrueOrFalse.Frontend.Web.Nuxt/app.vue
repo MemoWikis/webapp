@@ -221,11 +221,12 @@ onMounted(() => {
 	<Html lang="de">
 
 	</Html>
-	<HeaderGuest v-if="!userStore.isLoggedIn" />
-	<HeaderMain :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
+	<HeaderGuest v-if="!userStore.isLoggedIn" :class="{ 'no-sidesheet': !footerPages || site === Site.Welcome || site === Site.Register }" />
+	<HeaderLandingPage v-if="site === Site.Welcome" />
+	<HeaderMain v-else :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 
-	<SideSheet v-if="footerPages" :footer-pages="footerPages" />
-	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen }">
+	<SideSheet v-if="footerPages && site != Site.Welcome && site != Site.Register" :footer-pages="footerPages" />
+	<div class="nuxt-page" :class="{ 'modal-is-open': modalIsOpen, 'no-sidesheet': !footerPages || site === Site.Welcome || site === Site.Register }">
 
 		<NuxtErrorBoundary @error="logError">
 			<NuxtPage @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb" @set-breadcrumb="setBreadcrumb"
@@ -275,6 +276,10 @@ onMounted(() => {
 
 	&.modal-is-open {
 		min-height: unset;
+	}
+
+	&.no-sidesheet {
+		padding-left: 0px;
 	}
 }
 

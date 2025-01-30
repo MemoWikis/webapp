@@ -72,7 +72,7 @@ namespace TrueOrFalse
                 WHERE table_schema = DATABASE();
 
                 SET FOREIGN_KEY_CHECKS = 1;
-";
+            ";
 
             using (var session = _configuration.BuildSessionFactory().OpenSession())
             {
