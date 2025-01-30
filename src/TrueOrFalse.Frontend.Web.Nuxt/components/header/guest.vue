@@ -123,6 +123,10 @@ const rootPageChipStore = useRootPageChipStore()
         padding-left: clamp(100px, 20vw, 320px);
     }
 
+    &.no-sidesheet {
+        padding-left: 0px;
+    }
+
     .HeaderMainRow {
         min-height: 60px;
         height: 100%;
