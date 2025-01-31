@@ -31,7 +31,7 @@ public class BreadcrumbController(
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : FeaturedPage.Get;
+        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : FeaturedPage.GetRootPage;
         return new BreadcrumbItem
         {
             Name = page.Name,

@@ -129,7 +129,7 @@
                 return newWiki;
         }
 
-        return parents.FirstOrDefault(p => p.IsWikiType()) ?? FeaturedPage.Get;
+        return parents.FirstOrDefault(p => p.IsWikiType()) ?? FeaturedPage.GetRootPage;
     }
 
     private PageCacheItem? GetUserWiki(SessionUser sessionUser, IList<PageCacheItem> parents)

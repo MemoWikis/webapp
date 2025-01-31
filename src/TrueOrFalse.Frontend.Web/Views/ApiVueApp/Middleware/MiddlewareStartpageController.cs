@@ -9,7 +9,7 @@ public class MiddlewareStartpageController(SessionUser _sessionUser) : Controlle
     {
         var page = _sessionUser.IsLoggedIn
             ? EntityCache.GetPage(_sessionUser.User.StartPageId)
-            : FeaturedPage.Get;
+            : FeaturedPage.GetRootPage;
         return new TinyPage { Name = page.Name, Id = page.Id };
     }
 }

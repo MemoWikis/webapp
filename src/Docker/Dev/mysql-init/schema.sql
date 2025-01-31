@@ -742,3 +742,9 @@ CREATE TABLE `widgetview` (
 
 INSERT INTO `setting` (`Id`, `AppVersion`, `DateCreated`, `DateModified`)
 VALUES (1, 279, NOW(), NOW());
+
+INSERT INTO `page` (`Id`, `Name`, `Content`, `DateCreated`, `DateModified`, `Visibility`, `IsWiki`)
+VALUES (1, 'Root', '<p>Hello World!</p>', NOW(), NOW(), 0, 1);
+
+INSERT INTO `pagechange` (`Id`, `Data`, `Type`, `DataVersion`, `ShowInSidebar`, `DateCreated`, `Page_id`)
+VALUES (1, '{"CategoryRelations":[],"ImageWasUpdated":false,"Name":"Root","Description":null,"TopicMardkown":null,"Content":"<p>Hello World!</p>","CustomSegments":null,"WikipediaURL":null,"DisableLearningFunctions":false,"Visibility":1}', 0, 2, 1, NOW(), 1);
