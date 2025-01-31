@@ -56,7 +56,7 @@ public class StripeSubscriptionManger(
             PaymentMethodTypes = new List<string>
             {
                 "card",
-                "paypal"
+                //"paypal"
                 //, "sofort"
             },
             Mode = "subscription",
