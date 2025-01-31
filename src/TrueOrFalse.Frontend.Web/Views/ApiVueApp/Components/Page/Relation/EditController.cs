@@ -109,9 +109,9 @@ public class PageRelationEditController(
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
 
-        if (parentIdToRemove == RootPage.RootPageId &&
+        if (parentIdToRemove == FeaturedPage.RootPageId &&
             !_sessionUser.IsInstallationAdmin ||
-            parentIdToAdd == RootPage.RootPageId &&
+            parentIdToAdd == FeaturedPage.RootPageId &&
             !_sessionUser.IsInstallationAdmin)
             return new MoveChildResult
             {

@@ -31,7 +31,7 @@ public class ChildModifier(
                 Success = false,
                 MessageKey = FrontendMessageKeys.Error.Page.LoopLink
             };
-        if (parentId == RootPage.RootPageId && !_sessionUser.IsInstallationAdmin)
+        if (parentId == FeaturedPage.RootPageId && !_sessionUser.IsInstallationAdmin)
             return new AddChildResult
             {
                 Success = false,

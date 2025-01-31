@@ -50,7 +50,7 @@ public class PageToPrivateStoreController(
         var pinCount = pageCacheItem.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
-            if (id == RootPage.RootPageId)
+            if (id == FeaturedPage.RootPageId)
                 return new GetResult
                 {
                     Success = false,
@@ -140,7 +140,7 @@ public class PageToPrivateStoreController(
         var pinCount = page.TotalRelevancePersonalEntries;
         if (!_sessionUser.IsInstallationAdmin)
         {
-            if (id == RootPage.RootPageId)
+            if (id == FeaturedPage.RootPageId)
                 return new SetResult
                 {
                     Success = false,

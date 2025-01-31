@@ -233,7 +233,7 @@ public class PageCacheItem : IPersistable
         if (IsWiki)
             return true;
 
-        if (Id == RootPage.RootPageId)
+        if (Id == FeaturedPage.RootPageId)
             return true;
 
         if (Parents().Count == 0)

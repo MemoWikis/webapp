@@ -72,7 +72,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (page == null)
             return false;
 
-        if (RootPage.Lockedpage(page.Id) && !_isInstallationAdmin)
+        if (FeaturedPage.Lockedpage(page.Id) && !_isInstallationAdmin)
             return false;
 
         if (!CanView(page))
@@ -105,7 +105,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
         if (_userId == default || page == null || page.Id == 0)
             return false;
 
-        if (page.Id == RootPage.RootPageId || page.Id == page.Creator.StartPageId)
+        if (page.Id == FeaturedPage.RootPageId || page.Id == page.Creator.StartPageId)
             return false;
 
         if (page.Creator.Id == _userId || _isInstallationAdmin)
@@ -126,7 +126,7 @@ public class PermissionCheck : IRegisterAsInstancePerLifetime
             || oldParent.Id == 0)
             return false;
 
-        if (RootPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
+        if (FeaturedPage.RootPageId == newParentId && !_isInstallationAdmin && movingPage.Visibility == PageVisibility.All)
             return false;
 
         return _isInstallationAdmin || movingPage.CreatorId == _userId || oldParent.CreatorId == _userId;

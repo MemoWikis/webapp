@@ -31,7 +31,7 @@ public class BreadcrumbController(
     [HttpGet]
     public BreadcrumbItem GetPersonalWiki()
     {
-        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : RootPage.Get;
+        var page = _sessionUser.IsLoggedIn ? EntityCache.GetPage(_sessionUser.User.StartPageId) : FeaturedPage.Get;
         return new BreadcrumbItem
         {
             Name = page.Name,
@@ -71,8 +71,8 @@ public class BreadcrumbController(
                 Name = breadcrumb.Current.Text,
                 Id = breadcrumb.Current.Page.Id
             },
-            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == RootPage.RootPageId),
-            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId == breadcrumb.Root.Page.Id : RootPage.RootPageId == breadcrumb.Root.Page.Id
+            BreadcrumbHasGlobalWiki = breadcrumb.Items.Any(c => c.Page.Id == FeaturedPage.RootPageId),
+            IsInPersonalWiki = _sessionUser.IsLoggedIn ? _sessionUser.User.StartPageId == breadcrumb.Root.Page.Id : FeaturedPage.RootPageId == breadcrumb.Root.Page.Id
         };
     }
 

@@ -1,0 +1,80 @@
+
+services:
+  # ------------------------------------------
+  # mysql
+  # ------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: mem-mysql
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-error}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-error}
+      MYSQL_USER: ${MYSQL_USER:-error}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-error}
+    volumes:
+      - "C:/mysql-data/${ENVIRONMENT}:/var/lib/mysql"
+      - ./mysql-init:/docker-entrypoint-initdb.d # 👈 Mounts your init scripts
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Meilisearch
+  # ------------------------------------------
+  meilisearch:
+    image: getmeili/meilisearch:v0.30
+    container_name: mem-meilisearch
+    command: ["meilisearch", "--master-key=${MEILI_MASTER_KEY}"]
+    ports:
+      - "${MEILI_PORT:-7700}:7700"
+    volumes:
+      - "C:/Meilisearch/${ENVIRONMENT}:/meili_data"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Redis
+  # ------------------------------------------
+  redis:
+    image: redis:7.2.4
+    container_name: mem-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - "C:/redis-data/${ENVIRONMENT}:/data"
+    networks:
+      - environment-specific-network
+    restart: always
+
+  # ------------------------------------------
+  # Hocuspocus
+  # ------------------------------------------
+  hocuspocus:
+    build:
+      context: ../../hocuspocus
+      dockerfile: Dockerfile_local
+    container_name: mem-hocuspocus
+    ports:
+      - "${HOCUSPOCUS_PORT:-3010}:3010"
+    environment:
+      - BACKEND_BASE_URL=${BACKEND_BASE_URL:-http://host.docker.internal:7000}
+      - HOCUSPOCUS_SECRET_KEY=${HOCUSPOCUS_SECRET_KEY:-error}
+      - REDIS_HOST=host.docker.internal
+      - REDIS_PORT=${REDIS_PORT:-6379}
+      - ENVIRONMENT=${ENVIRONMENT:-stage}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - environment-specific-network
+    restart: always
+
+# ------------------------------------------
+# Shared network (external, if you already created it manually)
+# ------------------------------------------
+networks:
+  environment-specific-network:
+    name: mem-${MEM_ENVIRONMENT:-stage}
+    driver: bridge
