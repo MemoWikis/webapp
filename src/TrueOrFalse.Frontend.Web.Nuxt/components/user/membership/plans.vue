@@ -57,7 +57,6 @@ const redirectToCheckout = async (): Promise<void> => {
 
     const stripe = await loadStripe(config.public.stripeKey)
 
-    const { $logger } = useNuxtApp()
 
     if (stripe) {
         const { error } = await stripe.redirectToCheckout({

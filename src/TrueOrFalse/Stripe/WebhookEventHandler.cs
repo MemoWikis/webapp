@@ -1,8 +1,8 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using System.Net;
 using TrueOrFalse.Infrastructure.Logging;
 
 public class WebhookEventHandler : IRegisterAsInstancePerLifetime
@@ -15,7 +15,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
     private readonly DateTime MaxValueMysql = new(9999, 12, 31, 23, 59, 59);
 
     public WebhookEventHandler(UserReadingRepo userReadingRepo,
-        UserWritingRepo userWritingRepo, 
+        UserWritingRepo userWritingRepo,
         IHttpContextAccessor httpContextAccessor,
         IWebHostEnvironment webHostEnvironment,
         Logg logg)
@@ -31,8 +31,6 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
     {
         var eventAndStatus = await GetEvent(_httpContextAccessor.HttpContext.Request);
         var stripeEvent = eventAndStatus.stripeEvent;
-
-        var c = eventAndStatus.httpResult;
         return Evaluate(stripeEvent, eventAndStatus.httpResult);
     }
     public IActionResult Evaluate(Event stripeEvent, IActionResult status)
@@ -87,7 +85,6 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
         LogErrorWhenUserNull(paymentDeleted.paymentObject.CustomerId, user);
     }
 
-  
     public async Task<(Event stripeEvent, IActionResult httpResult)> GetEvent(HttpRequest request)
     {
         using var reader = new StreamReader(request.Body);
@@ -138,7 +135,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
             var currentSubscriptionDate = user.EndDate;
             var newSubscriptionDate = DateTime.Now;
 
-            var log = $"Invoice payment for user with userId: {user.Id} failed. BillingReason: {paymentFailed.paymentObject.BillingReason }. Old SubscriptionEndDate was: {currentSubscriptionDate}, New SubscriptionEndDate is {newSubscriptionDate}.";
+            var log = $"Invoice payment for user with userId: {user.Id} failed. BillingReason: {paymentFailed.paymentObject.BillingReason}. Old SubscriptionEndDate was: {currentSubscriptionDate}, New SubscriptionEndDate is {newSubscriptionDate}.";
             SetNewSubscriptionDate(user, newSubscriptionDate, log);
         }
 
@@ -200,6 +197,6 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
         user.EndDate = date;
         _userWritingRepo.Update(user);
-        Logg.r.Information(log);
+        Logg.r.Information("SetNewSubscriptionDate", log);
     }
 }

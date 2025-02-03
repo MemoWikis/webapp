@@ -41,16 +41,14 @@ public class StripeSubscriptionManger(
         string customerId;
         if (user.StripeId == null)
         {
-            customerId = await CreateStripeCustomer(user.Name, user.EmailAddress,
-                user.Id);
+            customerId = await CreateStripeCustomer(user.Name, user.EmailAddress, user.Id);
         }
         else
         {
             customerId = user.StripeId;
         }
 
-        var stripeReturnUrlGenerator =
-            new StripeReturnUrlGenerator(httpContextAccessor, webHostEnvironment);
+        var stripeReturnUrlGenerator = new StripeReturnUrlGenerator(httpContextAccessor, webHostEnvironment);
         var options = new SessionCreateOptions
         {
             PaymentMethodTypes = new List<string>
