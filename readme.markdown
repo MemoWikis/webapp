@@ -1,4 +1,18 @@
-# memoWikis - Getting Started (WIP)
+## Table of Contents
+
+- [memoWikis - Local Development (WIP)](#memowikis---local-development-wip)
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+    - [1. Clone the Repository](#1-clone-the-repository)
+    - [2. Configure Environment Files & Start Docker Services](#2-configure-environment-files--start-docker-services)
+    - [3. Set Up Your Anthropc API Key](#3-set-up-your-anthropc-api-key)
+    - [4. Run the Nuxt Frontend (Nuxt 3)](#4-run-the-nuxt-frontend-nuxt-3)
+    - [5. Launch the .NET Backend Debug Session](#5-launch-the-net-backend-debug-session)
+- [Work in Progress](#work-in-progress)
+- [⚖️ License](#️-license)
+
+
+# memoWikis - Local Development (WIP)
 
 This project is a web application that includes several services (Dockerized MySQL, Redis, Meilisearch, and Hocuspocus for Tiptap), a Nuxt 3 frontend, and a .NET backend. **Note:** This documentation is a work in progress (WIP), and a `Contributing.md` file is not available yet.
 
@@ -40,7 +54,7 @@ cp ./Docker/Dev/.env.example ./Docker/Dev/.env
 cd ./Docker/Dev
 docker-compose up -d
 ```
-
+> [!NOTE] 
 > #### What This Does:
 > 
 > - **Copies the example config files:**
@@ -62,7 +76,8 @@ To enable the AI functions within the application, you must supply a valid Anthr
   }
 }
 ```
-> **Note: Without a valid API key, the AI functions in the application will not work.**
+> [!WARNING]  
+> **Without a valid API key, the AI functions in the application will not work.**
 
 ### 4. Run the Nuxt Frontend (Nuxt 3)
 The Nuxt frontend project is located in the `TrueOrFalse.Frontend.Web.Nuxt` folder (inside the `src` folder). To start the Nuxt 3 development server, run:
@@ -72,6 +87,7 @@ cd ./TrueOrFalse.Frontend.Web.Nuxt
 npm install  # Run this if dependencies are not yet installed
 npm run dev
 ```
+> [!NOTE]  
 > Note: Make sure your Node.js version meets Nuxt 3 requirements.
 
 ### 5. Launch the .NET Backend Debug Session
@@ -97,4 +113,5 @@ docker-compose logs [service-name]`
 ## Work in Progress
 This documentation is a work in progress (WIP), and additional instructions or a Contributing.md file are not available yet.
 
-Licence: https://github.com/MemoWikis/webapp/blob/master/licence.txt
+## ⚖️ License
+https://github.com/MemoWikis/webapp/blob/master/licence.txt
