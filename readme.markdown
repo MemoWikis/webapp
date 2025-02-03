@@ -91,11 +91,11 @@ npm run dev
 > Note: Make sure your Node.js version meets Nuxt 3 requirements.
 
 ### 5. Launch the .NET Backend Debug Session
-The backend solution file is located at the root of the `src` folder as `TrueOrFalse.sln`. To run and debug the backend:
+The backend solution file is located at the root of the `src` folder as `memoWikis.sln`. To run and debug the backend:
 
-1. Open TrueOrFalse.sln in Visual Studio.
+1. Open memoWikis.sln in Visual Studio.
 2. Select your preferred debug configuration.
-3. Start the debug session.
+3. Start the TrueOrFalse.Frontend.Web debug session.
 
 #### Additional Tips
 - Anthropic API Key for AI Functions: Ensure your valid Anthropc API key is inserted in the appsettings.Development.json file. Without this key, the AI features will not work.
