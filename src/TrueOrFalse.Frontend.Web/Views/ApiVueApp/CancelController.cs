@@ -12,11 +12,11 @@ public class CancelController(IActionContextAccessor actionContextAccessor, IHtt
     [HttpGet]
     public List<TinyPage> GetHelperPages()
     {
-        var count = RootPage.MemoWikisHelpIds.Count;
+        var count = FeaturedPage.MemoWikisHelpIds.Count;
         var list = new List<TinyPage>();
         for (var i = 0; i < count; i++)
         {
-            var page = EntityCache.GetPage(RootPage.MemoWikisHelpIds[i]);
+            var page = EntityCache.GetPage(FeaturedPage.MemoWikisHelpIds[i]);
 
             list.Add(new TinyPage
             (

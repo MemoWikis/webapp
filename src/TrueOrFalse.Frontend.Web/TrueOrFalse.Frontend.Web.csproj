@@ -38,6 +38,7 @@
 	</PropertyGroup>
 	<ItemGroup>
   		<None Remove="appsettings.*.json" />
+  		<None Remove="appsettings.Development.json.example" />
   		<None Remove="appsettings.json" />
 	</ItemGroup>
 	<ItemGroup>

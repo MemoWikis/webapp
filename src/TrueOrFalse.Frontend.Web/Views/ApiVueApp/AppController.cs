@@ -93,33 +93,33 @@ public class AppController(
         (
             RootWiki: new TinyPageItem
             (
-                Id: RootPage.RootPageId,
-                Name: EntityCache.GetPage(RootPage.RootPageId)?.Name
+                Id: FeaturedPage.RootPageId,
+                Name: EntityCache.GetPage(FeaturedPage.RootPageId)?.Name
             ),
-            MainPages: RootPage.MainPageIds.Select(id => new TinyPageItem(
+            MainPages: FeaturedPage.MainPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             MemoWiki: new TinyPageItem
             (
-                Id: RootPage.MemoWikisWikiId,
-                Name: EntityCache.GetPage(RootPage.MemoWikisWikiId).Name
+                Id: FeaturedPage.MemoWikisWikiId,
+                Name: EntityCache.GetPage(FeaturedPage.MemoWikisWikiId).Name
             ),
-            MemoPages: RootPage.MemoWikisPageIds.Select(id => new TinyPageItem(
+            MemoPages: FeaturedPage.MemoWikisPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            HelpPages: RootPage.MemoWikisHelpIds.Select(id => new TinyPageItem(
+            HelpPages: FeaturedPage.MemoWikisHelpIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
-            PopularPages: RootPage.PopularPageIds.Select(id => new TinyPageItem(
+            PopularPages: FeaturedPage.PopularPageIds.Select(id => new TinyPageItem(
                 Id: id,
                 Name: EntityCache.GetPage(id).Name
             )).ToArray(),
             Documentation: new TinyPageItem(
-                Id: RootPage.IntroPageId,
-                Name: EntityCache.GetPage(RootPage.IntroPageId).Name
+                Id: FeaturedPage.IntroPageId,
+                Name: EntityCache.GetPage(FeaturedPage.IntroPageId).Name
             )
         );
         return footerPages;

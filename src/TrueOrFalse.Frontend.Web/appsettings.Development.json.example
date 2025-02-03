@@ -1,0 +1,58 @@
+{
+  "Paths": {
+    "LomExportPath": "",
+    "AbsoluteImagePath": "D:\\repo\\memucho\\webapp\\src\\TrueOrFalse.Frontend.Web\\Images"
+  },
+  "General": {
+    "ConnectionString": "Server=localhost;Port=3306;Database=memoWikis_dev;uid=admin;pwd=admin",
+    "SeqApiKey": "",
+    "Environment": "develop",
+    "MemuchoUserId": "26",
+    "SaltCookie": "someSalt",
+    "UpdateUserSettingsKey": "",
+    "BaseUrl": "localhost"
+  },
+  "Settings": {
+    "SessionStateTimeoutInMin": 1440
+  },
+  "LoginProvider": {
+    "FacebookAppId": "",
+    "FacebookAppSecret": ""
+  },
+  "Stripe": {
+    "WebhookKeyStripe": "",
+    "StripeBaseUrl": ""
+  },
+  "Meilisearch": {
+    "MeiliSearchUrl": "http://localhost:7700/",
+    "MeiliSearchMasterKey": "your_meili_master_key"
+  },
+
+  "Email": {
+    "EmailFrom": "",
+    "EmailToMemucho": ""
+  },
+  "Redis": {
+    "Use": true,
+    "Url": "localhost:6379"
+  },
+  "Collaboration": {
+    "TokenSecretKey": "supadupasecretKey",
+    "HocuspocusSecretKey": "abrakadabrakey"
+  },
+  "OpenAI": {
+    "ApiKey": ""
+  },
+  "Anthropic": {
+    "ApiKey": ""
+  },
+  "FeaturedPage": {
+    "RootId": "1",
+    "IntroId": "1",
+    "MemoWikisWikiId": "1",
+    "MainPageIds": "1",
+    "PopularPageIds": "1",
+    "MemoWikisPageIds": "1",
+    "MemoWikisHelpIds": "1"
+  }
+}

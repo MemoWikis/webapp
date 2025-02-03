@@ -80,4 +80,16 @@ public class Settings
     public static string AnthropicApiKey => _configuration["Anthropic:ApiKey"];
     public static string AnthropicModel => _configuration["Anthropic:Model"];
     public static string AnthropicVersion => _configuration["Anthropic:Version"];
+
+    public static int FeaturedPageRootId => int.Parse(_configuration["FeaturedPage:RootId"]);
+    public static int FeaturedPageIntroId => int.Parse(_configuration["FeaturedPage:IntroId"]);
+    public static int FeaturedPageMemoWikisWikiId => int.Parse(_configuration["FeaturedPage:MemoWikisWikiId"]);
+    private static string _featuredMainPageIdsString => _configuration["FeaturedPage:MainPageIds"];
+    public static List<int> FeaturedMainPageIds => _featuredMainPageIdsString.Split(',').Select(id => int.Parse(id.Trim())).ToList();
+    private static string _featuredPopularPageIdsString => _configuration["FeaturedPage:PopularPageIds"];
+    public static List<int> FeaturedPopularPageIds => _featuredPopularPageIdsString.Split(',').Select(id => int.Parse(id.Trim())).ToList();
+    private static string _featuredMemoWikisPageIdsString => _configuration["FeaturedPage:MemoWikisPageIds"];
+    public static List<int> FeaturedMemoWikisPageIds => _featuredMemoWikisPageIdsString.Split(',').Select(id => int.Parse(id.Trim())).ToList();
+    private static string _featuredMemoWikisHelpIdsString => _configuration["FeaturedPage:MemoWikisHelpIds"];
+    public static List<int> FeaturedMemoWikisHelpIds => _featuredMemoWikisHelpIdsString.Split(',').Select(id => int.Parse(id.Trim())).ToList();
 }
