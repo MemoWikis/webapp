@@ -64,7 +64,7 @@ const { data: footerPages } = await useFetch<FooterPages>(`/apiVue/App/GetFooter
 	},
 })
 
-const site = ref(Site.Default)
+const site = ref(Site.Welcome)
 
 const pageStore = usePageStore()
 
@@ -243,7 +243,8 @@ onMounted(() => {
 	</div>
 
 	<FooterGlobalLicense :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
-	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen" />
+	<Footer :footer-pages="footerPages" v-if="footerPages" :site="site" :question-page-is-private="questionPageData?.isPrivate" v-show="!modalIsOpen"
+		:class="{ 'no-sidesheet': !footerPages || site === Site.Welcome || site === Site.Register }" />
 
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />

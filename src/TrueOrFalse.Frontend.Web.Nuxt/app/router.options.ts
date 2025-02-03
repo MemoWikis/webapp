@@ -3,6 +3,7 @@ import { Content } from '~/components/user/settings/contentEnum'
 import { Tab as PageTab } from '~/components/page/tabs/tabsStore'
 import { Tab as UsersTab } from '~~/components/users/tabsEnum'
 import { Tab as UserTab } from '~~/components/user/tabs/tabsEnum'
+import { Site } from '~/components/shared/siteEnum'
 
 // https://router.vuejs.org/api/interfaces/routeroptions.html
 export default <RouterConfig>{
@@ -11,6 +12,7 @@ export default <RouterConfig>{
             name: 'welcomePage',
             path: '/',
             component: () => import('~/pages/welcome/index.vue'),
+            props: { site: Site.Welcome },
             meta: {
                 middleware: ['startpage'],
             },

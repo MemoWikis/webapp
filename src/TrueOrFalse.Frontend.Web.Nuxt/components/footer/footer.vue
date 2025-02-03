@@ -2,7 +2,6 @@
 import { FooterPages } from '../page/pageStore'
 import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
-import { color } from '../shared/colors'
 
 interface Props {
     footerPages: FooterPages,
@@ -202,6 +201,10 @@ onMounted(() => {
         &.window-loading {
             padding-left: 0px;
         }
+    }
+
+    &.no-sidesheet {
+        padding-left: 0px;
     }
 }
 </style>

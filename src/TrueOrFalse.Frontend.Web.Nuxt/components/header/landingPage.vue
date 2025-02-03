@@ -22,33 +22,37 @@ watch(() => route.path, () => {
             break
     }
 })
-
+const { isMobile } = useDevice()
 </script>
 
 <template>
     <div id="WelcomeHeader">
         <div class="container">
             <div class="welcome-nav">
+
                 <div class="nav-item" :class="{ active: currentPage === PagePath.Main }">
                     <NuxtLink to="/">
                         Wissensmanagement
                     </NuxtLink>
                 </div>
+
                 <div class="nav-item" :class="{ active: currentPage === PagePath.Wikis }">
                     <NuxtLink to="/wikis">
                         Wikis
                     </NuxtLink>
                 </div>
+
                 <div class="nav-item" :class="{ active: currentPage === PagePath.Learning }">
                     <NuxtLink to="/learning">
                         Lernen
                     </NuxtLink>
                 </div>
+
             </div>
             <div class="nav-item">
 
                 <NuxtLink to="https://github.com/MemoWikis/webapp" external>
-                    OpenSource
+                    <template v-if="!isMobile">OpenSource</template>
                     <font-awesome-icon :icon="['fab', 'github']" class="icon" />
                 </NuxtLink>
 
@@ -67,6 +71,9 @@ watch(() => route.path, () => {
     height: 48px;
     background-color: white;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 
     .container {
         display: flex;

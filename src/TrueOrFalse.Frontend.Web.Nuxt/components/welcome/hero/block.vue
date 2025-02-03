@@ -1,25 +1,27 @@
 <script setup lang="ts">
-const slots = useSlots()
-const props = defineProps({
-    align: {
-        type: String,
-        default: 'left'
-    },
-    imagePos: {
-        type: String,
-        default: 'left'
-    }
+import { HeroContentAlignEnum, HeroImgPosEnum } from './HeroBlockEnums'
 
+const slots = useSlots()
+
+interface Props {
+    align?: HeroContentAlignEnum,
+    imagePos?: HeroImgPosEnum
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    align: HeroContentAlignEnum.Left,
+    imagePos: HeroImgPosEnum.Left
 })
+
 </script>
 
 <template>
     <section>
-        <div class="hero-container" :class="{ 'center': align === 'center' }">
-            <div class="hero-image" v-if="slots.image && imagePos === 'left'">
+        <div class="hero-container" :class="{ 'center': align === HeroContentAlignEnum.Center }">
+            <div class="hero-image" v-if="slots.image && imagePos === HeroImgPosEnum.Left">
                 <slot name="image" />
             </div>
-            <div class="hero-content" :class="{ 'no-image': !slots.image }">
+            <div class="hero-content" :class="{ 'no-image': !slots.image, 'left': imagePos === HeroImgPosEnum.Left && slots.image, 'right': imagePos === HeroImgPosEnum.Right && slots.image }">
                 <div class="hero-header" v-if="slots.header">
                     <slot name="header" />
                 </div>
@@ -30,7 +32,7 @@ const props = defineProps({
                     <slot name="buttons" />
                 </div>
             </div>
-            <div class="hero-image" v-if="slots.image && imagePos === 'right'">
+            <div class="hero-image" v-if="slots.image && imagePos === HeroImgPosEnum.Right">
                 <slot name="image" />
             </div>
 
@@ -84,6 +86,15 @@ section {
 
     &.no-image {
         width: 100%;
+        padding: 0;
+    }
+
+    &.left {
+        padding-left: 10rem;
+    }
+
+    &.right {
+        padding-right: 10rem;
     }
 }
 
@@ -115,6 +126,34 @@ section {
 
     :slotted(p) {
         font-size: 3rem;
+    }
+
+    :slotted(a) {
+        text-decoration: none;
+
+        &:hover {
+            color: @memo-blue;
+        }
+    }
+
+    :slotted(ul) {
+        font-size: 1.6rem;
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            padding-bottom: 1rem;
+            position: relative;
+            padding-left: 3rem;
+
+            &:before {
+                content: "✦";
+                color: @memo-green;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
     }
 }
 </style>
