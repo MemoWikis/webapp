@@ -48,11 +48,11 @@
   },
   "FeaturedPage": {
     "RootId": "1",
-    "IntroId": "2",
-    "MemoWikisWikiId": "3",
-    "MainPageIds": "4,5",
-    "PopularPageIds": "6,7",
-    "MemoWikisPageIds": "8,9",
-    "MemoWikisHelpIds": "10,11"
+    "IntroId": "1",
+    "MemoWikisWikiId": "1",
+    "MainPageIds": "1",
+    "PopularPageIds": "1",
+    "MemoWikisPageIds": "1",
+    "MemoWikisHelpIds": "1"
   }
 }
