@@ -38,13 +38,11 @@
 	</PropertyGroup>
 	<ItemGroup>
   		<None Remove="appsettings.*.json" />
+  		<None Remove="appsettings.Development.json.example" />
   		<None Remove="appsettings.json" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-		<Content Include="appsettings.Development.json.example">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
   		<Content Include="appsettings.json" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 	<ItemGroup>
