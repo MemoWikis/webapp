@@ -116,7 +116,7 @@ public class FrontEndUserData(
             Id = -1,
             Name = "",
             IsAdmin = false,
-            PersonalWikiId = RootPage.RootPageId,
+            PersonalWikiId = FeaturedPage.RootPageId,
             Type = type,
             ImgUrl = "",
             Reputation = 0,
@@ -127,7 +127,7 @@ public class FrontEndUserData(
                     _imageMetaDataReadingRepo,
                     _httpContextAccessor,
                     _questionReadingRepo)
-                .GetPageData(RootPage.RootPageId),
+                .GetPageData(FeaturedPage.RootPageId),
             ActivityPoints = new ActivityPoints
             {
                 Points = _sessionUser.GetTotalActivityPoints(),
