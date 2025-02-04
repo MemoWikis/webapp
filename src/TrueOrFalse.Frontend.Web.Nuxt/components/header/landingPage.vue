@@ -28,35 +28,40 @@ const { isMobile } = useDevice()
 <template>
     <div id="WelcomeHeader">
         <div class="container">
-            <div class="welcome-nav">
+            <perfect-scrollbar>
 
-                <div class="nav-item" :class="{ active: currentPage === PagePath.Main }">
+                <div class="welcome-nav">
+
                     <NuxtLink to="/">
-                        Wissensmanagement
+                        <div class="nav-item km" :class="{ active: currentPage === PagePath.Main }">
+                            Wissensmanagement
+                        </div>
                     </NuxtLink>
-                </div>
-
-                <div class="nav-item" :class="{ active: currentPage === PagePath.Wikis }">
                     <NuxtLink to="/wikis">
-                        Wikis
+                        <div class="nav-item w" :class="{ active: currentPage === PagePath.Wikis }">
+                            Wikis
+                        </div>
                     </NuxtLink>
-                </div>
-
-                <div class="nav-item" :class="{ active: currentPage === PagePath.Learning }">
                     <NuxtLink to="/learning">
-                        Lernen
+
+                        <div class="nav-item l" :class="{ active: currentPage === PagePath.Learning }">
+                            Lernen
+                        </div>
                     </NuxtLink>
+
                 </div>
+            </perfect-scrollbar>
 
-            </div>
-            <div class="nav-item">
+            <NuxtLink to="https://github.com/MemoWikis/webapp" external>
 
-                <NuxtLink to="https://github.com/MemoWikis/webapp" external>
-                    <template v-if="!isMobile">OpenSource</template>
+                <div class="nav-item">
+
+                    <div v-if="!isMobile" class="opensource-label">OpenSource</div>
                     <font-awesome-icon :icon="['fab', 'github']" class="icon" />
-                </NuxtLink>
 
-            </div>
+                </div>
+            </NuxtLink>
+
         </div>
     </div>
 </template>
@@ -86,50 +91,82 @@ const { isMobile } = useDevice()
 
             display: flex;
             justify-content: start;
-        }
-    }
 
-    .nav-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 1rem;
-        font-size: 1.5rem;
-        font-weight: 500;
-        color: @memo-grey-darker;
-        cursor: pointer;
-
-        &.active {
-            color: @memo-blue;
-            font-weight: 600;
+            max-width: calc(100% - 50px);
         }
 
         a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-
-
-        .icon {
-            margin-left: 0.5rem;
-        }
-
-        &:hover {
-            // color: @memo-grey-darker;
-            filter: brightness(0.95);
-        }
-
-        &:active {
             color: @memo-grey-darker;
-            // border: solid 2px @memo-grey-dark;
-            filter: brightness(0.85);
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .nav-item {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0.6rem 1.2rem;
+                font-size: 1.6rem;
+                font-weight: 500;
+                color: @memo-grey-darker;
+                cursor: pointer;
+                background: white;
+                border-radius: 4rem;
+                text-decoration: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                &.km {
+                    width: 18rem;
+                    max-width: 18rem;
+                }
+
+                &.w {
+                    width: 6.4rem;
+                    max-width: 6.4rem;
+                }
+
+                &.l {
+                    width: 6.8rem;
+                    max-width: 6.8rem;
+                }
+
+                &.active {
+                    color: @memo-blue;
+                    font-weight: 600;
+                }
+
+                .icon {
+                    margin-left: 0.5rem;
+                }
+
+                &:hover {
+                    // color: @memo-grey-darker;
+                    filter: brightness(0.95);
+                }
+
+                &:active {
+                    color: @memo-grey-darker;
+                    // border: solid 2px @memo-grey-dark;
+                    filter: brightness(0.85);
+                }
+
+                .opensource-label {
+                    @media screen and (max-width: 500) {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        @media screen and (max-width: 1091px) {
+            width: 100%;
+            margin: 0;
         }
     }
-}
 
-div {
-    display: flex;
-    justify-content: space-around;
+
 }
 </style>

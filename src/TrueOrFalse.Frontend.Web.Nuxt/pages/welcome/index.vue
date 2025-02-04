@@ -41,31 +41,29 @@ onBeforeMount(() => {
             </template>
             <template #text>
                 <!-- <p>memoWikis denkt Wissensmanagement neu</p> -->
-                <div class="hero-content-text">
-                    <h2> Inhalt: </h2>
-                    <ul class="feature-list">
-                        <li>
-                            <NuxtLink to="#Sammeln & Organisieren">
-                                Sammeln & Organisieren
-                            </NuxtLink>
-                        </li>
-                        <!-- <li>
+                <h2> Inhalt: </h2>
+                <ul class="feature-list">
+                    <li>
+                        <NuxtLink to="#Sammeln & Organisieren">
+                            Sammeln & Organisieren
+                        </NuxtLink>
+                    </li>
+                    <!-- <li>
                             <NuxtLink to="#Feature-2">
                                 Organisieren
                             </NuxtLink>
                         </li> -->
-                        <li>Teilen</li>
-                        <li>Veröffentlichen</li>
-                        <li>Durchsuchen</li>
-                        <li>Verknüpfen</li>
-                        <li>Wissensstandanzeige</li>
-                        <li>Lernen</li>
-                        <li>Karteikarten</li>
-                        <li>Analytics</li>
-                        <li>Feed</li>
-                        <li>AI-generierte Karteikarten</li>
-                    </ul>
-                </div>
+                    <li>Teilen</li>
+                    <li>Veröffentlichen</li>
+                    <li>Durchsuchen</li>
+                    <li>Verknüpfen</li>
+                    <li>Wissensstandanzeige</li>
+                    <li>Lernen</li>
+                    <li>Karteikarten</li>
+                    <li>Analytics</li>
+                    <li>Feed</li>
+                    <li>AI-generierte Karteikarten</li>
+                </ul>
             </template>
         </WelcomeHeroBlock>
 
@@ -136,6 +134,27 @@ onBeforeMount(() => {
                 College in Virginia,
             </template>
         </WelcomeFeatureSection>
+
+        <WelcomeHeroBlock :image-pos="HeroImgPosEnum.Right" :align="HeroContentAlignEnum.Right">
+            <template #image>
+                <img src="~/assets/images/WelcomePage/1t.png" alt="Welcome Hero" />
+            </template>
+            <template #text>
+                <h2>
+                    Wikis
+                </h2>
+                <p>
+                    Blahblah Wikis
+                </p>
+            </template>
+            <template #buttons>
+                <button navigate class="btn memo-button toWiki-btn">
+                    <NuxtLink to="/wikis" class="">
+                        Wikis
+                    </NuxtLink>
+                </button>
+            </template>
+        </WelcomeHeroBlock>
 
         <WelcomeFeatureSection :image-position="FeatureImgPosEnum.Top">
             <template #image>

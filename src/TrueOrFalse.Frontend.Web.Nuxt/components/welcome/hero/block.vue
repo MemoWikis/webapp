@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 <template>
     <section>
-        <div class="hero-container" :class="{ 'center': align === HeroContentAlignEnum.Center }">
+        <div class="hero-container" :class="`${align}`">
             <div class="hero-image" v-if="slots.image && imagePos === HeroImgPosEnum.Left">
                 <slot name="image" />
             </div>
@@ -57,12 +57,12 @@ section {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    width: 100vw;
     // max-width: 1160px;
     max-width: 860px;
     margin: auto;
 
     &.center {
+        text-align: center;
         justify-content: center;
 
         .hero-content {
@@ -70,10 +70,40 @@ section {
             padding-left: 0;
         }
     }
+
+    &.left {
+        text-align: left;
+        justify-content: flex-start;
+
+        .hero-content {
+            align-items: flex-start;
+        }
+    }
+
+    &.right {
+        text-align: right;
+        justify-content: flex-end;
+
+        .hero-content {
+            align-items: flex-end;
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
 }
 
 .hero-image {
     width: 50%;
+
+    @media (max-width: 768px) {
+        width: 100%;
+
+        :slotted(img) {
+            width: 100%;
+        }
+    }
 }
 
 .hero-content {
@@ -85,6 +115,11 @@ section {
     width: 50%;
 
     &.no-image {
+        width: 100%;
+        padding: 0;
+    }
+
+    @media (max-width: 768px) {
         width: 100%;
         padding: 0;
     }
@@ -110,6 +145,7 @@ section {
 }
 
 .hero-text {
+
     :slotted(h3) {
         font-size: 3rem;
         font-weight: 400;
@@ -137,7 +173,7 @@ section {
     }
 
     :slotted(ul) {
-        font-size: 1.6rem;
+        font-size: 2rem;
         list-style: none;
         padding-left: 0;
 
