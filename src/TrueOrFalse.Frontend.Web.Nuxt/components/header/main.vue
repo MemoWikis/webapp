@@ -386,10 +386,12 @@ const hidePartial = computed(() => {
                 height: 100% !important;
                 align-items: center;
                 line-height: unset !important;
+
+
             }
 
-            @media (min-width: 1200px) {
-                margin-right: 33px;
+            @media (min-width: 1300px) {
+                margin-right: -22px;
             }
         }
 
