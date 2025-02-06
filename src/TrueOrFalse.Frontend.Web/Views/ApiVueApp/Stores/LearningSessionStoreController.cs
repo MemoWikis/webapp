@@ -93,7 +93,7 @@ public class LearningSessionStoreController(
     public LastStepInQuestionListResult GetLastStepInQuestionList([FromRoute] int id)
     {
         var index = id;
-        var learningSession = _learningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession(log: false);
 
         if (learningSession != null)
         {
@@ -188,7 +188,7 @@ public class LearningSessionStoreController(
     [HttpGet]
     public StepResult[] LoadSteps()
     {
-        var learningSession = _learningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession(log: false);
         var result = learningSession?.Steps.Select((s, index) => new StepResult
         {
             Id = s.Question.Id,

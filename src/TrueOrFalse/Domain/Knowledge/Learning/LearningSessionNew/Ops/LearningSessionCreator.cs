@@ -179,14 +179,16 @@ public class LearningSessionCreator : IRegisterAsInstancePerLifetime
         return FillLearningSessionResult(learningSession, result);
     }
 
-    public void LoadDefaultSessionIntoCache(int pageId, int userId = default)
+    public LearningSession LoadDefaultSessionIntoCache(int pageId, int userId = default)
     {
         var config = new LearningSessionConfig
         {
             PageId = pageId,
             CurrentUserId = userId
         };
-        _learningSessionCache.AddOrUpdate(BuildLearningSession(config));
+        var learningSession = BuildLearningSession(config);
+        _learningSessionCache.AddOrUpdate(learningSession);
+        return _learningSessionCache.GetLearningSession()!;
     }
 
     public LearningSession GetLearningSession(LearningSessionConfig config)

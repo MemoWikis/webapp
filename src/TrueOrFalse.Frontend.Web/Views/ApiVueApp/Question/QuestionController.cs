@@ -256,7 +256,7 @@ public class QuestionController(
         question.Visibility = q.Visibility;
         question.CreatorId = q.CreatorId;
 
-        var learningSession = _learningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession(log: false);
         if (learningSession != null)
         {
             var steps = learningSession.Steps;
