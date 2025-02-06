@@ -45,24 +45,22 @@ public class PageLearningQuestionListController(
     {
         if (_permissionCheck.CanViewPage(json.PageId))
         {
-            if (_learningSessionCache.GetLearningSession() == null ||
-                json.PageId != _learningSessionCache.GetLearningSession()?.Config.PageId)
+            var learningSession = _learningSessionCache.GetLearningSession(log: false);
+            if (learningSession == null || json.PageId != learningSession.Config.PageId)
             {
-                _learningSessionCreator.LoadDefaultSessionIntoCache(
+                learningSession = _learningSessionCreator.LoadDefaultSessionIntoCache(
                     json.PageId,
                     _sessionUser.UserId);
             }
 
-            return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage);
+            return PopulateQuestionsOnPage(json.PageNumber, json.ItemCountPerPage, learningSession);
         }
 
         return new List<LoadQuestionsResult>();
     }
 
-    private List<LoadQuestionsResult> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage)
+    private List<LoadQuestionsResult> PopulateQuestionsOnPage(int currentPage, int itemCountPerPage, LearningSession learningSession)
     {
-        var learningSession = _learningSessionCache.GetLearningSession();
-
         var userQuestionValuation = _sessionUser.IsLoggedIn
             ? _extendedUserCache.GetItem(_sessionUser.UserId)?.QuestionValuations
             : new ConcurrentDictionary<int, QuestionValuationCacheItem>();

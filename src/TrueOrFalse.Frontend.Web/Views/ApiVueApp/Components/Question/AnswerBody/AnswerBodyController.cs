@@ -71,7 +71,7 @@ public class AnswerBodyController(
     private LearningBody? GetLearningBody(int id)
     {
         var index = id;
-        var learningSession = _learningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession(log: false);
         if (learningSession == null || learningSession.Steps.Count == 0)
             return null;
         var step = learningSession.Steps[index];
@@ -110,6 +110,11 @@ public class AnswerBodyController(
         bool isTestMode)
     {
         var learningSession = _learningSessionCache.GetLearningSession();
+        if (learningSession == null || learningSession.CurrentStep == null)
+        {
+            throw new Exception(FrontendMessageKeys.Error.Default);
+        }
+
         learningSession.CurrentStep.Answer = answer;
 
         var result = _answerQuestion.Run(

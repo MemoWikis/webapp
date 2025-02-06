@@ -36,7 +36,7 @@ public class QuestionLoader(
         question.CorrectnessProbability = q.CorrectnessProbability;
         question.Visibility = q.Visibility;
 
-        var learningSession = _learningSessionCache.GetLearningSession();
+        var learningSession = _learningSessionCache.GetLearningSession(log: false);
         if (learningSession != null)
         {
             var steps = learningSession.Steps;

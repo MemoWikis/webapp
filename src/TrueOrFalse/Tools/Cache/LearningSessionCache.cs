@@ -23,7 +23,7 @@ public class LearningSessionCache(IHttpContextAccessor httpContextAccessor, Sess
         _learningSessions.TryRemove(_httpContext.Session.Id, out _);
     }
 
-    public LearningSession? GetLearningSession()
+    public LearningSession? GetLearningSession(bool log = true)
     {
         _learningSessions.TryGetValue(_httpContext.Session.Id, out var learningSession);
 
@@ -33,17 +33,17 @@ public class LearningSessionCache(IHttpContextAccessor httpContextAccessor, Sess
             return learningSession;
         }
 
-        if (learningSession == null)
+        if (learningSession == null && log)
         {
             var stackException = new Exception($"learningSession is null. Call stack: {Environment.StackTrace}");
-            Logg.Error(stackException);
+            Logg.Error(stackException, _httpContext);
         }
         return null;
     }
 
     public void EditQuestionInLearningSession(QuestionCacheItem question)
     {
-        var learningSession = GetLearningSession();
+        var learningSession = GetLearningSession(log: false);
 
         if (learningSession != null)
             foreach (var step in learningSession.Steps)
@@ -70,6 +70,9 @@ public class LearningSessionCache(IHttpContextAccessor httpContextAccessor, Sess
     public RemovalResult RemoveQuestionFromLearningSession(int questionId)
     {
         var learningSession = GetLearningSession();
+        if (learningSession == null || learningSession.CurrentStep == null)
+            throw new Exception("learningSession is null or currentStep is null");
+
         var reloadAnswerBody = learningSession.CurrentStep.Question.Id == questionId;
 
         learningSession.Steps = learningSession.Steps.Where(s => s.Question.Id != questionId).ToList();
