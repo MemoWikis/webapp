@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -147,6 +148,9 @@ public class PageRelationEditController(
     [HttpPost]
     public AddChildResult AddChild([FromBody] AddChildParam param)
     {
+        if (param.ChildId <= 0)
+            throw new Exception("No ChildId");
+
         var result =
             new ChildModifier(_permissionCheck,
                     _sessionUser,

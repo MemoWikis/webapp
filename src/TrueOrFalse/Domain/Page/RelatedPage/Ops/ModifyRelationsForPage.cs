@@ -62,8 +62,7 @@
         }
 
         ModifyRelationsEntityCache.AddChild(relation);
-        pageRepository.Update(child, authorId, type: PageChangeType.Relations);
-        pageRepository.Update(parent, authorId, type: PageChangeType.Relations);
+        pageRepository.UpdateChildAndParentForRelations(child, parent, authorId);
     }
 
     public int CreateNewRelationAndGetId(int parentId, int childId, int? nextId, int? previousId)

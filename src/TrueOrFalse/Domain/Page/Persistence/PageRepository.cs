@@ -195,6 +195,41 @@ public class PageRepository(
         });
     }
 
+    public void UpdateChildAndParentForRelations(Page child, Page parent, int authorId)
+    {
+        base.Update(child);
+
+        if (authorId != 0)
+        {
+            pageChangeRepo.AddUpdateEntry(this, child, authorId, imageWasUpdated: false, type: PageChangeType.Relations);
+        }
+
+        Flush();
+
+        base.Update(parent);
+
+        if (authorId != 0)
+        {
+            pageChangeRepo.AddUpdateEntry(this, parent, authorId, imageWasUpdated: false, type: PageChangeType.Relations);
+        }
+
+        Flush();
+
+        updateQuestionCountForPage.RunForJob(child, authorId);
+        updateQuestionCountForPage.RunForJob(parent, authorId);
+
+        Task.Run(async () =>
+        {
+            await new MeiliSearchPagesDatabaseOperations()
+                .UpdateAsync(child)
+                .ConfigureAwait(false);
+
+            await new MeiliSearchPagesDatabaseOperations()
+                .UpdateAsync(parent)
+                .ConfigureAwait(false);
+        });
+    }
+
     public void CreateOnlyDb(Page page)
     {
         base.Create(page);
