@@ -66,15 +66,6 @@ public class JobQueueRepo : RepositoryDb<JobQueue>
                 .List();
     }
 
-    public IList<JobQueue> GetRemoveQuestionsInPageFromWishKnowledge()
-    {
-        return
-            _session
-                .QueryOver<JobQueue>()
-                .Where(j => j.JobQueueType == JobQueueType.RemoveQuestionsInPageFromWishKnowledge)
-                .List();
-    }
-
     public JobQueue? GetTopPriorityMailMessage()
     {
         var result = _session

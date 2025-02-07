@@ -45,7 +45,6 @@ public class QuestionMap : ClassMap<Question>
             .ChildKeyColumn("Page_id")
             .Cascade.SaveUpdate();
 
-        Map(x => x.IsWorkInProgress);
         Map(x => x.DateCreated);
         Map(x => x.DateModified);
         Map(x => x.SkipMigration);

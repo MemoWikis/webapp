@@ -160,7 +160,6 @@ public class QuestionWritingRepo(
         question.CorrectnessProbabilityAnswerCount = questionCacheItem.CorrectnessProbabilityAnswerCount;
         question.Description = questionCacheItem.Description;
         question.DescriptionHtml = questionCacheItem.DescriptionHtml;
-        question.IsWorkInProgress = questionCacheItem.IsWorkInProgress;
         question.LicenseId = questionCacheItem.LicenseId;
         question.SkipMigration = questionCacheItem.SkipMigration;
         question.Solution = questionCacheItem.Solution;
