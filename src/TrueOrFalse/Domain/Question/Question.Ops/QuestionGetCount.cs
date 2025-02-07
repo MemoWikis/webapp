@@ -5,11 +5,13 @@ public class QuestionGetCount : IRegisterAsInstancePerLifetime
 {
     private readonly ISession _session;
 
-    public QuestionGetCount(ISession session){
+    public QuestionGetCount(ISession session)
+    {
         _session = session;
     }
 
-    public int Run(){
+    public int Run()
+    {
         return (int)_session.CreateQuery(
             "SELECT Count(Id) " +
             "FROM Question " +
@@ -22,8 +24,7 @@ public class QuestionGetCount : IRegisterAsInstancePerLifetime
         return _session.QueryOver<Question>()
             .Where(s =>
                 s.Creator != null &&
-                s.Creator.Id == creatorId && 
-                s.IsWorkInProgress == false)
+                s.Creator.Id == creatorId)
             .Select(Projections.RowCount())
             .FutureValue<int>()
             .Value;
@@ -34,8 +35,7 @@ public class QuestionGetCount : IRegisterAsInstancePerLifetime
         return _session.QueryOver<Question>()
             .Where(q =>
                 q.Creator != null &&
-                q.Creator.Id == creatorId &&
-                q.IsWorkInProgress == false)
+                q.Creator.Id == creatorId)
                 .AndRestrictionOn(q => q.Visibility).IsIn(visibility)
             .JoinQueryOver<Page>(q => q.Pages)
             .Where(c => c.Id == pageId)
