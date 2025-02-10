@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { delay } from '../shared/utils'
 
 export const useLoadingStore = defineStore('loadingStore', () => {
   const isLoading = ref(false)
@@ -27,8 +28,10 @@ export const useLoadingStore = defineStore('loadingStore', () => {
     longLoading.value = false
   }
 
-  const finishLoading = () => {
+  const finishLoading = async () => {
     isDone.value = true
+    await delay(800)
+    return
   }
 
   return { isLoading, startLoading, stopLoading, loadingDuration, longLoading, isDone, finishLoading  }

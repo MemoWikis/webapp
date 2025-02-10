@@ -37,5 +37,10 @@ watch(() => loadingStore.isLoading, async (active) => {
     left: calc(50% - 100px);
     text-align: center;
     z-index: 99999;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 42px;
+    width: 320px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
 }
 </style>

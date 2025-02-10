@@ -5,36 +5,62 @@ import { useLoadingStore } from './loadingStore'
 const loadingStore = useLoadingStore()
 
 const wavePath = ref<SVGPathElement | null>(null)
-let pathLength = 0
+const pathLength = ref(0)
 
 const PARTIAL_FILL_RATIO = 0.1
 
-const PARTIAL_FILL_DURATION = 3000
-const FINAL_FILL_DURATION = 1000
+const FINAL_FILL_DURATION = 200
+
+const dots = ref('')
+let interval: ReturnType<typeof setInterval>
+
+
 
 onMounted(() => {
     if (!wavePath.value) return
 
-    pathLength = wavePath.value.getTotalLength()
-    wavePath.value.style.strokeDasharray = String(pathLength)
-    wavePath.value.style.strokeDashoffset = String(pathLength)
+    pathLength.value = wavePath.value.getTotalLength()
+    wavePath.value.style.strokeDasharray = String(pathLength.value)
 
+    if (loadingStore.isDone) {
+        wavePath.value.style.strokeDashoffset = String(pathLength.value)
+        void wavePath.value.getBoundingClientRect()
+
+        wavePath.value.style.transition = 'stroke-dashoffset 500ms ease-out'
+        wavePath.value.style.strokeDashoffset = '0'
+
+        wavePath.value.addEventListener('transitionend', handleFinalTransitionEnd, { once: true })
+        return
+    }
+
+    wavePath.value.style.strokeDashoffset = String(pathLength.value)
     startPartialFill()
 })
+
 
 onBeforeUnmount(() => {
     resetBar()
 })
 
-function startPartialFill() {
-    if (!wavePath.value) return
+const startDotsInterval = () => {
+    interval = setInterval(() => {
+        dots.value = dots.value.length < 3 ? dots.value + '.' : ''
+    }, 500)
+}
 
+const startPartialFill = () => {
+    if (!wavePath.value) return
+    resetToEmpty()
+    startDotsInterval()
     wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength}`
+    wavePath.value.style.strokeDashoffset = `${pathLength.value}`
     void wavePath.value.getBoundingClientRect()
 
-    wavePath.value.style.transition = `stroke-dashoffset ${PARTIAL_FILL_DURATION}ms ease-out`
-    wavePath.value.style.strokeDashoffset = `${pathLength * PARTIAL_FILL_RATIO}`
+    wavePath.value.style.transition = `stroke-dashoffset ${loadingStore.loadingDuration}ms ease-out`
+    wavePath.value.style.strokeDashoffset = `${pathLength.value * PARTIAL_FILL_RATIO}`
+
+    const startTime = performance.now()
+    const partialFinishTime = startTime + loadingStore.loadingDuration
 
     wavePath.value.addEventListener('transitionend', onPartialFillEnd, { once: true })
 
@@ -42,15 +68,26 @@ function startPartialFill() {
         () => loadingStore.isDone,
         (done) => {
             if (done) {
-                wavePath.value?.removeEventListener('transitionend', onPartialFillEnd)
-                doFinalFill()
-                unwatch()
+                const now = performance.now()
+                const timeRemaining = partialFinishTime - now
+                if (timeRemaining > 0) {
+                    setTimeout(() => {
+                        wavePath.value?.removeEventListener('transitionend', onPartialFillEnd)
+                        doFinalFill()
+                        unwatch()
+                    }, timeRemaining)
+                } else {
+                    wavePath.value?.removeEventListener('transitionend', onPartialFillEnd)
+                    doFinalFill()
+                    unwatch()
+                }
             }
         }
     )
 }
 
-function onPartialFillEnd() {
+
+const onPartialFillEnd = () => {
     if (loadingStore.isDone) {
         doFinalFill()
     } else {
@@ -58,11 +95,11 @@ function onPartialFillEnd() {
     }
 }
 
-function holdAtPartialFill() {
+const holdAtPartialFill = () => {
     if (!wavePath.value) return
 
     wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength * PARTIAL_FILL_RATIO}`
+    wavePath.value.style.strokeDashoffset = `${pathLength.value * PARTIAL_FILL_RATIO}`
 
     const unwatch = watch(
         () => loadingStore.isDone,
@@ -75,29 +112,36 @@ function holdAtPartialFill() {
     )
 }
 
-function doFinalFill() {
+const doFinalFill = () => {
     if (!wavePath.value) return
 
     wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength * PARTIAL_FILL_RATIO}`
+    wavePath.value.style.strokeDashoffset = `${pathLength.value * PARTIAL_FILL_RATIO}`
     void wavePath.value.getBoundingClientRect()
 
     wavePath.value.style.transition = `stroke-dashoffset ${FINAL_FILL_DURATION}ms ease-out`
     wavePath.value.style.strokeDashoffset = '0'
     wavePath.value.addEventListener('transitionend', handleFinalTransitionEnd, { once: true })
+    clearInterval(interval)
 }
 
-function handleFinalTransitionEnd() {
+const handleFinalTransitionEnd = () => {
     loadingStore.stopLoading()
 }
-function resetBar() {
+const resetBar = () => {
     if (!wavePath.value) return
 
     wavePath.value.removeEventListener('transitionend', onPartialFillEnd)
     wavePath.value.removeEventListener('transitionend', handleFinalTransitionEnd)
     wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength}`
+    wavePath.value.style.strokeDashoffset = `${pathLength.value}`
 }
+const resetToEmpty = () => {
+    wavePath.value!.style.transition = 'none'
+    wavePath.value!.style.strokeDashoffset = `${pathLength.value}`
+    void wavePath.value!.getBoundingClientRect()
+}
+
 </script>
 
 <template>
@@ -140,17 +184,32 @@ function resetBar() {
                 </linearGradient>
             </defs>
         </svg>
+        <div class="progress-label">
+            Karteikarten werden generiert{{ dots }}
+        </div>
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="less">
+@import (reference) '~~/assets/includes/imports.less';
+
 .progress-container {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+    flex-direction: column;
+    width: 300px;
 
-.progress-svg {
-    width: 200px;
+    .progress-svg {
+        width: 200px;
+    }
+
+    .progress-label {
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        width: 270px;
+        color: @memo-grey-darker;
+        text-align: left;
+    }
 }
 </style>
