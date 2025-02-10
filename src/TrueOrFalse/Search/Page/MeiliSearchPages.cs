@@ -25,14 +25,14 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public async Task<ISearchPagesResult> RunAsync(
-            string searchTerm)
+        public async Task<ISearchPagesResult> RunAsync(string searchTerm)
         {
             var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
             var index = client.Index(MeiliSearchConstants.Pages);
             _result = new MeiliSearchPagesResult();
 
-            _result.PageIds.AddRange(await LoadSearchResults(searchTerm, index)
+            _result.PageIds
+                .AddRange(await LoadSearchResults(searchTerm, index)
                 .ConfigureAwait(false));
 
             return _result;
@@ -55,9 +55,7 @@ namespace TrueOrFalse.Search
             {
                 _count += 20;
                 await LoadSearchResults(searchTerm, index);
-            }
-
-            ;
+            };
 
             return _pages
                 .Select(c => c.Id)
