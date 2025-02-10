@@ -4,7 +4,7 @@ import { Page, usePageStore, FooterPages } from '~/components/page/pageStore'
 import { Site } from './components/shared/siteEnum'
 import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
-import { useSpinnerStore } from './components/spinner/spinnerStore'
+import { useLoadingStore } from './components/loading/loadingStore'
 import { useRootPageChipStore } from '~/components/header/rootPageChipStore'
 import { AlertType, messages, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
@@ -12,7 +12,7 @@ import { NuxtError } from '#app'
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const rootPageChipStore = useRootPageChipStore()
 
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
@@ -99,12 +99,12 @@ userStore.$onAction(({ name, after }) => {
 		after(async (loggedOut) => {
 			if (loggedOut) {
 				userStore.reset()
-				spinnerStore.showSpinner()
+				loadingStore.startLoading()
 
 				try {
 					await refreshNuxtData()
 				} finally {
-					spinnerStore.hideSpinner()
+					loadingStore.stopLoading()
 					if (site.value === Site.Page && pageStore.visibility != Visibility.All)
 						await navigateTo('/')
 				}
@@ -246,7 +246,7 @@ onMounted(() => {
 
 	<ClientOnly>
 		<LazyUserLogin v-if="!userStore.isLoggedIn" />
-		<LazySpinner />
+		<LazyLoading />
 		<LazyAlert />
 		<LazyActivityPointsLevelPopUp />
 		<LazyImageLicenseDetailModal />

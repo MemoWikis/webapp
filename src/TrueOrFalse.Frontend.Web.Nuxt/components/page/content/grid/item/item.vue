@@ -5,7 +5,7 @@ import { ToggleState } from '../toggleStateEnum'
 import { GridPageItem } from './gridPageItem'
 import { useUserStore } from '~/components/user/userStore'
 import { EditRelationData, EditPageRelationType, useEditPageRelationStore } from '~/components/page/relation/editPageRelationStore'
-import { useSpinnerStore } from '~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { usePublishPageStore } from '~/components/page/publish/publishPageStore'
 import { usePageToPrivateStore } from '~/components/page/toPrivate/pageToPrivateStore'
 import { useDeletePageStore } from '~/components/page/delete/deletePageStore'
@@ -14,7 +14,7 @@ import { TargetPosition } from '~/components/shared/dragStore'
 const userStore = useUserStore()
 const alertStore = useAlertStore()
 const editPageRelationStore = useEditPageRelationStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const publishPageStore = usePublishPageStore()
 const pageToPrivateStore = usePageToPrivateStore()
 const deletePageStore = useDeletePageStore()
@@ -63,7 +63,7 @@ async function loadChildren(force: boolean = false) {
     if (childrenLoaded.value && !force)
         return
 
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
     const result = await $api<FetchResult<GridPageItem[]>>(`/apiVue/GridItem/GetChildren/${props.page.id}`, {
         method: 'GET',
         mode: 'cors',
@@ -77,7 +77,7 @@ async function loadChildren(force: boolean = false) {
     }
 
     childrenLoaded.value = true
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 }
 
 const { $urlHelper } = useNuxtApp()

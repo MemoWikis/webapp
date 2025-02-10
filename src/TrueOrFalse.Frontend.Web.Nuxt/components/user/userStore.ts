@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { UserType } from './userTypeEnum'
-import { useSpinnerStore } from '../spinner/spinnerStore'
+import { useLoadingStore } from '../loading/loadingStore'
 import { Page } from '../page/pageStore'
 import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
 import * as Subscription from '~~/components/user/membership/subscription'
@@ -123,14 +123,14 @@ export const useUserStore = defineStore('userStore', {
             this.showLoginModal = true
         },
         async logout() {
-            const spinnerStore = useSpinnerStore()
+            const loadingStore = useLoadingStore()
 
-            spinnerStore.showSpinner()
+            loadingStore.startLoading()
 
             const result = await $api<FetchResult<any>>('/apiVue/UserStore/Logout', {
                 method: 'POST', mode: 'cors', credentials: 'include'
             })
-            spinnerStore.hideSpinner()
+            loadingStore.stopLoading()
 
             if (result?.success) {
                 return true

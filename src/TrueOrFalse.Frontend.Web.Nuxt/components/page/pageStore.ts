@@ -8,7 +8,7 @@ import { AlertType, messages, useAlertStore } from '../alert/alertStore'
 import { useSnackbarStore, SnackbarData } from '../snackBar/snackBarStore'
 import { ErrorCode } from '../error/errorCodeEnum'
 import { nanoid } from 'nanoid'
-import { useSpinnerStore } from '../spinner/spinnerStore'
+import { useLoadingStore } from '../loading/loadingStore'
 
 export class Page {
 	canAccess: boolean = false
@@ -426,8 +426,8 @@ export const usePageStore = defineStore('pageStore', {
 			}
 		},
 		async generateFlashCard(selectedText?: string): Promise<GenerateFlashCardResponse> {
-			const spinnerStore = useSpinnerStore()
-			spinnerStore.showSpinner()
+			const loadingStore = useLoadingStore()
+			loadingStore.startLoading(8000)
 			const data = {
 				pageId: this.id,
 				text: (selectedText ?? '').length > 0 ? selectedText : this.text
@@ -442,7 +442,7 @@ export const usePageStore = defineStore('pageStore', {
 			if (selectedText != null && selectedText.length > 0) 
 				this.selectedText = selectedText
 
-			spinnerStore.hideSpinner()
+			loadingStore.finishLoading()
 
 			return result
 		},

@@ -1,4 +1,4 @@
-﻿import { useSpinnerStore } from '../spinner/spinnerStore'
+﻿import { useLoadingStore } from '../loading/loadingStore'
 import { useAlertStore, AlertType, messages } from '../alert/alertStore'
 import { Facebook, FacebookUserFields } from './Facebook'
 import { useUserStore, CurrentUser } from '../user/userStore'
@@ -23,9 +23,9 @@ export class FacebookMemoWikisUser {
     }
 
     static async CreateAndLogin(user: FacebookUserFields, facebookAccessToken: string) {
-        const spinnerStore = useSpinnerStore()
+        const loadingStore = useLoadingStore()
 
-        spinnerStore.showSpinner();
+        loadingStore.startLoading();
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/CreateAndLogin', {
             method: 'POST',
@@ -34,11 +34,11 @@ export class FacebookMemoWikisUser {
             cache: 'no-cache'
         })
             .catch((error) => {
-                spinnerStore.hideSpinner()
+                loadingStore.stopLoading()
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
 
         if (result && 'success' in result && result?.success == true) {
             const userStore = useUserStore()
@@ -55,10 +55,10 @@ export class FacebookMemoWikisUser {
     }
 
     static async Login(facebookId: string, facebookAccessToken: string, stayOnPage: boolean = true) {
-        const spinnerStore = useSpinnerStore()
+        const loadingStore = useLoadingStore()
 
         FacebookMemoWikisUser.Throw_if_not_exists(facebookId);
-        spinnerStore.showSpinner();
+        loadingStore.startLoading();
 
         const result = await $api<FetchResult<CurrentUser>>('/apiVue/FacebookUsers/Login', {
             method: 'POST',
@@ -67,11 +67,11 @@ export class FacebookMemoWikisUser {
             cache: 'no-cache'
         })
             .catch((error) => {
-                spinnerStore.hideSpinner()
+                loadingStore.stopLoading()
                 // Rollbar.error("Something went wrong", error.data)
             })
 
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         if (result && 'success' in result && result?.success == true) {
             const userStore = useUserStore()
             userStore.initUser(result.data)

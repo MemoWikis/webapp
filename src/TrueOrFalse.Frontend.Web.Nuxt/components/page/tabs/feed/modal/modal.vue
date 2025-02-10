@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { CommentModel, useCommentsStore } from '~/components/comment/commentsStore'
 import { ContentChange, FeedItem, FeedType, getPageChangeTypeName, QuestionChangeType, PageChangeType } from '../feedHelper'
-import { useSpinnerStore } from '~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 
 interface Props {
     show: boolean,
@@ -10,14 +10,14 @@ interface Props {
 
 const props = defineProps<Props>()
 const commentsStore = useCommentsStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const emit = defineEmits(['close', 'get-feed-items'])
 
 const isPage = ref(false)
 const isQuestion = ref(false)
 
 function initModal() {
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 
     isPage.value = props.feedItem.type === FeedType.Page
     isQuestion.value = props.feedItem.type === FeedType.Question
@@ -36,7 +36,7 @@ onBeforeMount(() => {
 })
 
 watch(() => props.show, (val) => {
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 
     if (val) {
         initModal()
@@ -47,7 +47,7 @@ const contentChange = ref<ContentChange>()
 
 const getContentChange = async () => {
     if (isPage.value && props.feedItem.pageFeedItem?.type === PageChangeType.Text) {
-        spinnerStore.showSpinner()
+        loadingStore.startLoading()
         const data = {
             pageId: props.feedItem.pageFeedItem.pageId,
             changeId: props.feedItem.pageFeedItem.pageChangeId,
@@ -64,7 +64,7 @@ const getContentChange = async () => {
             }
         })
         contentChange.value = response
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
 
     }
 }
@@ -73,10 +73,10 @@ const comment = ref<CommentModel>()
 
 const getComment = async () => {
     if (isQuestion.value && props.feedItem.questionFeedItem?.type === QuestionChangeType.AddComment && props.feedItem.questionFeedItem.comment) {
-        spinnerStore.showSpinner()
+        loadingStore.startLoading()
         const response: CommentModel = await commentsStore.loadComment(props.feedItem.questionFeedItem.comment.id)
         comment.value = response
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
 
     }
 }

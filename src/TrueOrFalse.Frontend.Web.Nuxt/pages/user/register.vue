@@ -4,12 +4,12 @@ import { useUserStore } from '~~/components/user/userStore'
 import { Google } from '~~/components/user/Google'
 import { FacebookMemoWikisUser } from '~~/components/user/FacebookMemoWikisUser'
 import { AlertType, useAlertStore, messages } from '~~/components/alert/alertStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isValidEmail } from '~/components/shared/utils'
 
 const userStore = useUserStore()
 const alertStore = useAlertStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 interface Props {
     site: Site
 }
@@ -135,7 +135,7 @@ async function register() {
         return
     }
 
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     const registerData = {
         Name: userName.value,
@@ -143,7 +143,7 @@ async function register() {
         Password: password.value
     }
     const result = await userStore.register(registerData)
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
     if (result === 'success' && userStore.personalWiki)
         return navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
     else if (result)

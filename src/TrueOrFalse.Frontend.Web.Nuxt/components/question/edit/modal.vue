@@ -6,7 +6,7 @@ import { useEditQuestionStore } from './editQuestionStore'
 import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
 import { PageResult, PageItem } from '../../search/searchHelper'
 import { debounce } from 'underscore'
-import { useSpinnerStore } from '../../spinner/spinnerStore'
+import { useLoadingStore } from '../../loading/loadingStore'
 import { useTabsStore, Tab } from '../../page/tabs/tabsStore'
 import { usePageStore } from '../../page/pageStore'
 import { Editor } from '@tiptap/vue-3'
@@ -18,7 +18,7 @@ import { QuestionListItem } from '~/components/page/learning/questionListItem'
 const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
 const learningSessionStore = useLearningSessionStore()
 const userStore = useUserStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const editQuestionStore = useEditQuestionStore()
 const pageStore = usePageStore()
 const visibility = ref(Visibility.All)
@@ -224,7 +224,7 @@ async function save() {
     }
 
     lockSaveButton.value = true
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     await editQuestionStore.waitUntilAllUploadsComplete()
 
@@ -240,7 +240,7 @@ async function save() {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     }).catch(error => {
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         alertStore.openAlert(AlertType.Error, { text: editQuestionStore.edit ? messages.error.question.save : messages.error.question.creation })
         lockSaveButton.value = false
     })
@@ -267,14 +267,14 @@ async function save() {
                 customBtnKey: 'resetLearningSession'
             }, 'Ok')
         highlightEmptyFields.value = false
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         editQuestionStore.showModal = false
         lockSaveButton.value = false
         updateQuestionCount()
         editQuestionStore.questionEdited(result.data.id)
     } else if (result?.success === false) {
         highlightEmptyFields.value = false
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         editQuestionStore.showModal = false
         lockSaveButton.value = false
 

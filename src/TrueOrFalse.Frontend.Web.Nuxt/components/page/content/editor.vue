@@ -14,7 +14,7 @@ import { Indent } from '../../editor/indent'
 import UploadImage from '~/components/shared/imageUploadExtension'
 
 import { usePageStore } from '~/components/page/pageStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
 import { messages } from '~~/components/alert/alertStore'
 
@@ -353,12 +353,12 @@ const checkContentImages = () => {
     pageStore.refreshDeleteImageList()
 }
 
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 
 onMounted(() => {
     recreate()
 
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
     setHeadings()
 
     if (editor.value) {

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useSpinnerStore } from './spinnerStore'
-const spinnerStore = useSpinnerStore()
+import { useLoadingStore } from '../loading/loadingStore'
+const loadingStore = useLoadingStore()
 </script>
 
 <template>
-    <div v-if="spinnerStore.active">
+    <div v-if="loadingStore.isLoading">
         <Teleport to="body">
             <div class="spinner">
                 <div class="double-bounce1"></div>
