@@ -1,6 +1,6 @@
 ## Table of Contents
 
-- [memoWikis - Local Development (WIP)](#memowikis---local-development-wip)
+- [memoWikis - Local Development](#memowikis---local-development)
   - [Prerequisites](#prerequisites)
   - [Setup](#setup)
     - [1. Clone the Repository](#1-clone-the-repository)
@@ -8,13 +8,11 @@
     - [3. Set Up Your Anthropc API Key](#3-set-up-your-anthropc-api-key)
     - [4. Run the Nuxt Frontend (Nuxt 3)](#4-run-the-nuxt-frontend-nuxt-3)
     - [5. Launch the .NET Backend Debug Session](#5-launch-the-net-backend-debug-session)
-- [Work in Progress](#work-in-progress)
 - [⚖️ License](#️-license)
 
+# memoWikis - Local Development
 
-# memoWikis - Local Development (WIP)
-
-This project is a web application that includes several services (Dockerized MySQL, Redis, Meilisearch, and Hocuspocus for Tiptap), a Nuxt 3 frontend, and a .NET backend. **Note:** This documentation is a work in progress (WIP), and a `Contributing.md` file is not available yet.
+This web application is built around a Nuxt 3 frontend and a .NET backend, complemented by additional services including Dockerized MySQL, Redis, Meilisearch, and Hocuspocus for Tiptap.
 
 ## Prerequisites
 
@@ -31,7 +29,7 @@ This project is a web application that includes several services (Dockerized MyS
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/MemoWikis/webapp.git
+git clone https://github.com/memoWikis/webapp.git
 cd webapp
 ```
 
@@ -110,8 +108,6 @@ docker-compose ps
 docker-compose logs [service-name]`
 - Nuxt Configuration: For frontend customizations, review the `nuxt.config.ts` file in the `TrueOrFalse.Frontend.Web.Nuxt` folder.
 
-## Work in Progress
-This documentation is a work in progress (WIP), and additional instructions or a Contributing.md file are not available yet.
-
 ## ⚖️ License
-https://github.com/MemoWikis/webapp/blob/master/licence.txt
+
+This software is free for non-commercial use; if you wish to use it commercially, please contact us for a license. See the full license details here: https://github.com/memoWikis/webapp/blob/master/licence.txt.
