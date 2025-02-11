@@ -89,6 +89,13 @@ const hidePartial = computed(() => {
     else return true
 })
 
+
+onMounted(() => {
+    if (import.meta.client) {
+        handleScroll()
+    }
+})
+
 </script>
 
 <template>
@@ -112,27 +119,10 @@ const hidePartial = computed(() => {
                                 :question-page-data="props.questionPageData"
                                 :custom-breadcrumb-items="props.breadcrumbItems" :partial-left="partialLeft" />
                         </div>
-                        <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
-                            <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
-                                :class="{ 'showSearch': showSearch }">
-                                <div class="search-button" :class="{ 'showSearch': showSearch }"
-                                    @click="showSearch = !showSearch">
-                                    <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
-                                    <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
-                                </div>
-                                <div class="StickySearch">
-                                    <Search :search-type="SearchType.all" :show-search="showSearch"
-                                        v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
-                                        :distance="distance" />
-                                </div>
-                            </div>
-
-                            <HeaderUserDropdown v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
-
-                            <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
-                                :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
-                                <div class="StickySearchContainer"
-                                    :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
+                        <ClientOnly>
+                            <div class="partial end" ref="headerExtras" :class="{ 'hide-partial': hidePartial }">
+                                <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
+                                    :class="{ 'showSearch': showSearch }">
                                     <div class="search-button" :class="{ 'showSearch': showSearch }"
                                         @click="showSearch = !showSearch">
                                         <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
@@ -140,23 +130,89 @@ const hidePartial = computed(() => {
                                     </div>
                                     <div class="StickySearch">
                                         <Search :search-type="SearchType.all" :show-search="showSearch"
-                                            v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
-                                            placement="bottom-end" />
-                                    </div>
-                                </div>
-                                <div class="login-btn" @click="userStore.openLoginModal()">
-                                    <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
-                                </div>
-                                <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
-                                    <div navigate class="btn memo-button register-btn">
-                                        <NuxtLink to="/Registrieren">
-                                            Registrieren
-                                        </NuxtLink>
+                                            v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
+                                            :distance="distance" />
                                     </div>
                                 </div>
 
+                                <HeaderUserDropdown v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
+
+                                <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
+                                    :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
+                                    <div class="StickySearchContainer"
+                                        :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
+                                        <div class="search-button" :class="{ 'showSearch': showSearch }"
+                                            @click="showSearch = !showSearch">
+                                            <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                            <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                                        </div>
+                                        <div class="StickySearch">
+                                            <Search :search-type="SearchType.all" :show-search="showSearch"
+                                                v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
+                                                placement="bottom-end" />
+                                        </div>
+                                    </div>
+                                    <div class="login-btn" @click="userStore.openLoginModal()">
+                                        <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
+                                    </div>
+                                    <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
+                                        <div navigate class="btn memo-button register-btn">
+                                            <NuxtLink to="/Registrieren">
+                                                Registrieren
+                                            </NuxtLink>
+                                        </div>
+                                    </div>
+
+                                </div>
                             </div>
-                        </div>
+                            <template #fallback>
+                                <div class="partial end" ref="headerExtras">
+                                    <div class="StickySearchContainer" v-if="userStore.isLoggedIn"
+                                        :class="{ 'showSearch': showSearch }">
+                                        <div class="search-button" :class="{ 'showSearch': showSearch }"
+                                            @click="showSearch = !showSearch">
+                                            <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                            <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                                        </div>
+                                        <div class="StickySearch">
+                                            <Search :search-type="SearchType.all" :show-search="showSearch"
+                                                v-on:select-item="openUrl" placement="bottom-end" :main-search="true"
+                                                :distance="distance" />
+                                        </div>
+                                    </div>
+
+                                    <HeaderUserDropdown v-if="userStore.isLoggedIn && (isDesktopOrTablet || isMobile && !showSearch)" />
+
+                                    <div v-if="!userStore.isLoggedIn" class="nav-options-container" ref="navOptions"
+                                        :class="{ 'hide-nav': !showRegisterButton, 'login-modal-is-open': modalIsOpen }">
+                                        <div class="StickySearchContainer"
+                                            :class="{ 'showSearch': showSearch, 'has-register-btn': isDesktopOrTablet }">
+                                            <div class="search-button" :class="{ 'showSearch': showSearch }"
+                                                @click="showSearch = !showSearch">
+                                                <font-awesome-icon v-if="showSearch" icon="fa-solid fa-xmark" />
+                                                <font-awesome-icon v-else icon="fa-solid fa-magnifying-glass" />
+                                            </div>
+                                            <div class="StickySearch">
+                                                <Search :search-type="SearchType.all" :show-search="showSearch"
+                                                    v-on:select-item="openUrl" v-on:navigate-to-url="openUrl"
+                                                    placement="bottom-end" />
+                                            </div>
+                                        </div>
+                                        <div class="login-btn" @click="userStore.openLoginModal()">
+                                            <font-awesome-icon icon="fa-solid fa-right-to-bracket" />
+                                        </div>
+                                        <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
+                                            <div navigate class="btn memo-button register-btn">
+                                                <NuxtLink to="/Registrieren">
+                                                    Registrieren
+                                                </NuxtLink>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </template>
+                        </ClientOnly>
 
                     </div>
                 </div>
@@ -281,7 +337,10 @@ const hidePartial = computed(() => {
         align-items: center;
         min-height: 47px;
         transition: all 0.3s ease-in-out;
-        width: calc(100% - 50px);
+
+        @media (max-width: 900px) {
+            width: calc(100% - 50px);
+        }
 
         @media (min-width: 900px) and (max-width: 1650px) {
             padding-left: clamp(100px, 10vw, 320px);
@@ -290,7 +349,6 @@ const hidePartial = computed(() => {
         @media (min-width: 1651px) {
             padding-left: clamp(100px, 20vw, 320px);
         }
-
     }
 
     .container {
@@ -316,7 +374,7 @@ const hidePartial = computed(() => {
         height: 100%;
         overflow: hidden;
 
-        @media (min-width: 1300px) {
+        @media (min-width: 1301px) {
             width: 100%;
         }
 
@@ -373,7 +431,7 @@ const hidePartial = computed(() => {
             align-items: center;
 
             @media (min-width: 1300px) {
-                width: 220px;
+                width: 270px;
             }
 
             &:hover {

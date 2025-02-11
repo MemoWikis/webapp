@@ -348,11 +348,6 @@ pre {
 
     @media(min-width: 992px) {
         display: flex;
-
-    }
-
-    .page {
-        width: 100%;
     }
 }
 
@@ -464,6 +459,11 @@ h4 {
 #PageContent {
     padding-top: 36px;
     max-width: calc(100vw - 20px);
+
+    @media (min-width:1301px) {
+        max-width: 800px;
+        width: calc(100vw - 20px);
+    }
 
     &.is-mobile {
         max-width: 100vw;
