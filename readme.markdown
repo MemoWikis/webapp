@@ -1,25 +1,46 @@
-## Table of Contents
+# memoWikis <!-- omit from toc -->
 
-- [memoWikis - Local Development](#memowikis---local-development)
-  - [Prerequisites](#prerequisites)
+We love **wikis**, and we believe that **knowledge management** is fundamental to achieving countless goals. Now, we’re reimagining both. If you’d like to use memoWikis, visit https://memoWikis.net. If you’re interested in hosting or improving it, check out the sections below.
+
+
+## Knowledge management <!-- omit from toc -->
+We view wikis as excellent knowledge-management tools, yet we’ve always believed there’s more to knowledge management than simply organizing documents. While document organization remains at its core, it’s equally important to understand—and visualize—what you already know. Providing the right tools and training to facilitate learning is core aspect of memoWikis.
+
+# Table of Contents <!-- omit from toc -->
+
+
+- [Hosting](#hosting)
+- [Local Development](#local-development)
+  - [Prerequisites / TechStack](#prerequisites--techstack)
   - [Setup](#setup)
     - [1. Clone the Repository](#1-clone-the-repository)
-    - [2. Configure Environment Files & Start Docker Services](#2-configure-environment-files--start-docker-services)
+    - [2. Configure Environment Files \& Start Docker Services](#2-configure-environment-files--start-docker-services)
+      - [On Linux / macOS (Bash):](#on-linux--macos-bash)
+      - [On Windows (PowerShell):](#on-windows-powershell)
     - [3. Set Up Your Anthropc API Key](#3-set-up-your-anthropc-api-key)
     - [4. Run the Nuxt Frontend (Nuxt 3)](#4-run-the-nuxt-frontend-nuxt-3)
     - [5. Launch the .NET Backend Debug Session](#5-launch-the-net-backend-debug-session)
+      - [Additional Tips](#additional-tips)
 - [⚖️ License](#️-license)
 
-# memoWikis - Local Development
+# Hosting
+We provide Docker images for the backend and frontend.
+
+- https://github.com/MemoWikis/webapp/pkgs/container/mem-backend
+- https://github.com/MemoWikis/webapp/pkgs/container/mem-nuxt
+
+For configuration, see "Local development" for instructions. It is best to adjust the Docker Compose files to suit your needs. If you need further help, just get in contact 🙂.
+
+# Local Development
 
 This web application is built around a Nuxt 3 frontend and a .NET backend, complemented by additional services including Dockerized MySQL, Redis, Meilisearch, and Hocuspocus for Tiptap.
 
-## Prerequisites
+## Prerequisites / TechStack
 
 - **Git** – for cloning the repository  
 - **Docker & docker-compose** – to run the backend services  
 - **Node.js & npm** – for the Nuxt 3 frontend  
-- **Visual Studio** – for debugging the .NET backend  
+- **Rider / Visual Studio** – for debugging the .NET backend  
 - A terminal of your choice (e.g., PowerShell on Windows or Bash on Linux)
 
 ## Setup
@@ -36,14 +57,6 @@ cd webapp
 
 ### 2. Configure Environment Files & Start Docker Services
 The project uses example configuration files that need to be copied to their corresponding development files.
-
-#### On Windows (PowerShell):
-```ppwershell
-cp ./TrueOrFalse.Frontend.Web/appsettings.Development.json.example ./TrueOrFalse.Frontend.Web/appsettings.Development.json -Force; `
-cp ./Docker/Dev/.env.example ./Docker/Dev/.env -Force; `
-cd ./Docker/Dev; `
-docker-compose up -d
-```
 
 #### On Linux / macOS (Bash):
 ```bash
@@ -63,6 +76,14 @@ docker-compose up -d
 >     - Redis (for state management for Tiptap Hocuspocus)
 >     - MySQL (running in Docker)
 >     - Meilisearch (to power the search functionality)
+
+#### On Windows (PowerShell):
+```ppwershell
+cp ./TrueOrFalse.Frontend.Web/appsettings.Development.json.example ./TrueOrFalse.Frontend.Web/appsettings.Development.json -Force; `
+cp ./Docker/Dev/.env.example ./Docker/Dev/.env -Force; `
+cd ./Docker/Dev; `
+docker-compose up -d
+```
 
 ### 3. Set Up Your Anthropc API Key
 To enable the AI functions within the application, you must supply a valid Anthropc API key. Open the file `TrueOrFalse.Frontend.Web/appsettings.Development.json` and update the **Anthropic** section with your API key as follows:
@@ -107,7 +128,8 @@ docker-compose ps
      `bash
 docker-compose logs [service-name]`
 - Nuxt Configuration: For frontend customizations, review the `nuxt.config.ts` file in the `TrueOrFalse.Frontend.Web.Nuxt` folder.
+  
 
-## ⚖️ License
+# ⚖️ License
 
 This software is free for non-commercial use; if you wish to use it commercially, please contact us for a license. See the full license details here: https://github.com/memoWikis/webapp/blob/master/licence.txt.
