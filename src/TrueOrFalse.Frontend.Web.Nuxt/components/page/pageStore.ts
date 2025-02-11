@@ -441,9 +441,9 @@ export const usePageStore = defineStore('pageStore', {
 
 			if (selectedText != null && selectedText.length > 0) 
 				this.selectedText = selectedText
-			console.log('beforeFinishLoading')
+
 			await loadingStore.finishLoading()
-			console.log('afterFinishLoading')
+
 			return result
 		},
 		async reGenerateFlashCard():Promise<GenerateFlashCardResponse>  {
