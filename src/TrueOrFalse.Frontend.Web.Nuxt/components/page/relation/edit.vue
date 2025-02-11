@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useEditPageRelationStore, EditPageRelationType } from './editPageRelationStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { usePageStore } from '../pageStore'
 import { debounce } from 'underscore'
 import { FullSearch, PageItem, SearchType } from '~~/components/search/searchHelper'
 import { messages } from '~~/components/alert/alertStore'
 
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const userStore = useUserStore()
 const editPageRelationStore = useEditPageRelationStore()
 const pageStore = usePageStore()
@@ -41,7 +41,7 @@ async function validateName() {
         if (result.data.url)
             existingPageUrl.value = result.data.url
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         return false
     }
 }
@@ -52,7 +52,7 @@ async function addPage() {
         userStore.showLoginModal = true
         return
     }
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     const nameIsValid = await validateName()
 
@@ -77,7 +77,7 @@ async function addPage() {
         },
     })
     if (result.success) {
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         pageStore.childPageCount++
         editPageRelationStore.showModal = false
         editPageRelationStore.addPage(result.data.id)
@@ -93,7 +93,7 @@ async function addPage() {
         if (result.data.cantSavePrivatePage) {
             privatePageLimitReached.value = true
         }
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
     }
 }
 
@@ -136,12 +136,12 @@ const totalCount = ref(0)
 const forbiddenPageName = ref('')
 
 async function movePageToNewParent() {
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     if (selectedPageId.value === editPageRelationStore.parentId) {
         errorMsg.value = messages.error.page.loopLink
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         return
     }
 
@@ -169,11 +169,11 @@ async function movePageToNewParent() {
         if (editPageRelationStore.pageIdToRemove === pageStore.id)
             pageStore.childPageCount--
 
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
     } else {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
     }
 }
 
@@ -205,20 +205,20 @@ function getAddChildPayload() {
     }
 }
 async function addExistingPage() {
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
     const data = getAddChildPayload()
 
     if (data.childId === data.parentId) {
         errorMsg.value = messages.error.page.loopLink
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         return
     }
 
     if (data.childId <= 0) {
         errorMsg.value = messages.error.page.noChildSelected
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         return
     }
 
@@ -236,11 +236,11 @@ async function addExistingPage() {
             await navigateTo($urlHelper.getPageUrl(result.data.name, result.data.id))
         editPageRelationStore.showModal = false
         editPageRelationStore.addPage(editPageRelationStore.childId)
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
     } else {
         errorMsg.value = messages.getByCompositeKey(result.messageKey)
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
     }
 }
 

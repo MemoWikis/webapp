@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { Site } from '~/components/shared/siteEnum'
 import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { UserResult } from '~~/components/users/userResult'
 
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 
 const userCount = ref(200)
 const currentPage = ref(1)
@@ -70,8 +70,8 @@ watch(searchTerm, (e) => currentPage.value = 1)
 
 watch(status, (s) => {
     if (s === 'pending')
-        spinnerStore.showSpinner()
-    else spinnerStore.hideSpinner()
+        loadingStore.startLoading()
+    else loadingStore.stopLoading()
 })
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])

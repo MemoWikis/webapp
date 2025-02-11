@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { QuestionListItem } from './questionListItem'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { usePageStore } from '../pageStore'
 import { useLearningSessionStore } from './learningSessionStore'
@@ -9,7 +9,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const pageStore = usePageStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const alertStore = useAlertStore()
@@ -25,7 +25,7 @@ const itemCountPerPage = ref(25)
 const { $logger } = useNuxtApp()
 async function loadQuestions(page: number) {
     if (tabsStore.activeTab === Tab.Learning)
-        spinnerStore.showSpinner()
+        loadingStore.startLoading()
 
     const result = await $api<any>('/apiVue/PageLearningQuestionList/LoadQuestions/', {
         method: 'POST',
@@ -44,7 +44,7 @@ async function loadQuestions(page: number) {
         questions.value = result
         learningSessionStore.lastIndexInQuestionList = result.length > 0 ? questions.value[questions.value.length - 1].sessionIndex : 0
     }
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 }
 const itemsPerPage = ref(25)
 function loadPageWithSpecificQuestion() {
@@ -104,7 +104,7 @@ deleteQuestionStore.$onAction(({ name, after }) => {
 })
 
 async function loadNewQuestion(index: number) {
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     const result = await $api<FetchResult<QuestionListItem>>(`/apiVue/PageLearningQuestionList/LoadNewQuestion/${index}`, {
         mode: 'cors',
@@ -113,7 +113,7 @@ async function loadNewQuestion(index: number) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 
     if (result.success === true) {
         questions.value.push(result.data)
@@ -128,7 +128,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
     if (startIndex === endIndex) {
         return loadNewQuestion(startIndex)
     }
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     const result = await $api<FetchResult<QuestionListItem[]>>(`/apiVue/PageLearningQuestionList/LoadNewQuestions/`, {
         method: 'POST',
@@ -142,7 +142,7 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         },
     })
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 
     if (result.success === true) {
         questions.value.push(...result.data)

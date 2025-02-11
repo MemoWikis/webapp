@@ -186,5 +186,10 @@ export default <RouterConfig>{
                 middleware: ['admin-auth'],
             },
         },
+        {
+            name: 'testPage',
+            path: '/Test',
+            component: () => import('~/pages/testPage.vue'),
+        }
     ],
 }   
