@@ -1,30 +1,13 @@
 <script lang="ts" setup>
 import { useLoadingStore } from './loadingStore'
-
-const wavePath = ref<SVGPathElement>()
 const loadingStore = useLoadingStore()
-
-watch(() => loadingStore.isLoading, async (active) => {
-    if (active && wavePath.value) {
-        const length = wavePath.value.getTotalLength()
-        nextTick()
-
-        wavePath.value.style.strokeDasharray = String(length)
-        wavePath.value.style.strokeDashoffset = String(length)
-
-        wavePath.value.classList.add('animate-wave')
-    } else if (wavePath.value) {
-        wavePath.value.classList.remove('animate-wave')
-
-    }
-})
-
 </script>
 
 <template>
     <Teleport to="body" v-if="loadingStore.isLoading">
         <LoadingLogoProgress v-if="loadingStore.longLoading && loadingStore.loadingDuration > 2000" class="loading-logo" />
-        <LoadingLogo v-else class="loading-logo" />
+        <!-- <LoadingLogo v-else class="loading-logo" /> -->
+        <LoadingSpinner v-else class="loading-logo" />
     </Teleport>
 
 

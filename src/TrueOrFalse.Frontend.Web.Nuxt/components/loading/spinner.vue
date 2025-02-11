@@ -1,16 +1,10 @@
 <script lang="ts" setup>
-import { useLoadingStore } from '../loading/loadingStore'
-const loadingStore = useLoadingStore()
 </script>
 
 <template>
-    <div v-if="loadingStore.isLoading">
-        <Teleport to="body">
-            <div class="spinner">
-                <div class="double-bounce1"></div>
-                <div class="double-bounce2"></div>
-            </div>
-        </Teleport>
+    <div class="spinner">
+        <div class="double-bounce1"></div>
+        <div class="double-bounce2"></div>
     </div>
 </template>
 
@@ -18,11 +12,7 @@ const loadingStore = useLoadingStore()
 .spinner {
     width: 75px;
     height: 75px;
-    position: fixed;
-    margin-top: 300px;
     left: calc(50% - 37.5px);
-    text-align: center;
-    z-index: 99999;
 }
 
 .double-bounce1,
