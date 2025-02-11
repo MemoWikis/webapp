@@ -427,7 +427,7 @@ export const usePageStore = defineStore('pageStore', {
 		},
 		async generateFlashCard(selectedText?: string): Promise<GenerateFlashCardResponse> {
 			const loadingStore = useLoadingStore()
-			loadingStore.startLoading(8000)
+			loadingStore.startLoading(9000, 'Karteikarten werden generiert')
 			const data = {
 				pageId: this.id,
 				text: (selectedText ?? '').length > 0 ? selectedText : this.text
@@ -443,7 +443,7 @@ export const usePageStore = defineStore('pageStore', {
 				this.selectedText = selectedText
 
 			await loadingStore.finishLoading()
-
+			
 			return result
 		},
 		async reGenerateFlashCard():Promise<GenerateFlashCardResponse>  {

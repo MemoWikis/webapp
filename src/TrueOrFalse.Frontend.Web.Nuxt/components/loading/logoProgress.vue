@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { useLoadingStore } from './loadingStore'
 
 const loadingStore = useLoadingStore()
@@ -7,141 +6,144 @@ const loadingStore = useLoadingStore()
 const wavePath = ref<SVGPathElement | null>(null)
 const pathLength = ref(0)
 
-const PARTIAL_FILL_RATIO = 0.1
-
-const FINAL_FILL_DURATION = 200
+const partialFillRatio = ref(0.1)
 
 const dots = ref('')
-let interval: ReturnType<typeof setInterval>
-
-
+let interval: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
     if (!wavePath.value) return
-
     pathLength.value = wavePath.value.getTotalLength()
-    wavePath.value.style.strokeDasharray = String(pathLength.value)
+    wavePath.value.style.strokeDasharray = `${pathLength.value}`
 
     if (loadingStore.isDone) {
-        wavePath.value.style.strokeDashoffset = String(pathLength.value)
-        void wavePath.value.getBoundingClientRect()
-
-        wavePath.value.style.transition = 'stroke-dashoffset 500ms ease-out'
-        wavePath.value.style.strokeDashoffset = '0'
-
-        wavePath.value.addEventListener('transitionend', handleFinalTransitionEnd, { once: true })
+        doInstantFinalFill()
         return
     }
 
-    wavePath.value.style.strokeDashoffset = String(pathLength.value)
+    wavePath.value.style.strokeDashoffset = `${pathLength.value}`
     startPartialFill()
 })
 
-
 onBeforeUnmount(() => {
-    resetBar()
+    cleanup()
 })
 
 const startDotsInterval = () => {
+    dots.value = ''
     interval = setInterval(() => {
         dots.value = dots.value.length < 3 ? dots.value + '.' : ''
     }, 500)
 }
 
+const cleanup = () => {
+    if (!wavePath.value) return
+    wavePath.value.removeEventListener('transitionend', onPartialFillEnd)
+    wavePath.value.removeEventListener('transitionend', onFinalTransitionEnd)
+    wavePath.value.style.transition = 'none'
+    wavePath.value.style.strokeDashoffset = `${pathLength.value}`
+
+    if (interval) {
+        clearInterval(interval)
+        interval = null
+    }
+}
+
 const startPartialFill = () => {
     if (!wavePath.value) return
-    resetToEmpty()
-    startDotsInterval()
     wavePath.value.style.transition = 'none'
     wavePath.value.style.strokeDashoffset = `${pathLength.value}`
     void wavePath.value.getBoundingClientRect()
-
-    wavePath.value.style.transition = `stroke-dashoffset ${loadingStore.loadingDuration}ms ease-out`
-    wavePath.value.style.strokeDashoffset = `${pathLength.value * PARTIAL_FILL_RATIO}`
-
-    const startTime = performance.now()
-    const partialFinishTime = startTime + loadingStore.loadingDuration
-
+    startDotsInterval()
+    wavePath.value.style.transition = `stroke-dashoffset ${loadingStore.loadingDuration}ms cubic-bezier(0.2, 0, 0, 1)`
+    wavePath.value.style.strokeDashoffset = `${pathLength.value * partialFillRatio.value}`
     wavePath.value.addEventListener('transitionend', onPartialFillEnd, { once: true })
 
     const unwatch = watch(
         () => loadingStore.isDone,
         (done) => {
             if (done) {
-                const now = performance.now()
-                const timeRemaining = partialFinishTime - now
-                if (timeRemaining > 0) {
-                    setTimeout(() => {
-                        wavePath.value?.removeEventListener('transitionend', onPartialFillEnd)
-                        doFinalFill()
-                        unwatch()
-                    }, timeRemaining)
-                } else {
-                    wavePath.value?.removeEventListener('transitionend', onPartialFillEnd)
-                    doFinalFill()
-                    unwatch()
-                }
-            }
-        }
-    )
-}
-
-
-const onPartialFillEnd = () => {
-    if (loadingStore.isDone) {
-        doFinalFill()
-    } else {
-        holdAtPartialFill()
-    }
-}
-
-const holdAtPartialFill = () => {
-    if (!wavePath.value) return
-
-    wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength.value * PARTIAL_FILL_RATIO}`
-
-    const unwatch = watch(
-        () => loadingStore.isDone,
-        (done) => {
-            if (done) {
-                doFinalFill()
+                wavePath.value?.removeEventListener('transitionend', onPartialFillEnd)
+                doFinalFillEarly()
                 unwatch()
             }
         }
     )
 }
 
-const doFinalFill = () => {
+const onPartialFillEnd = () => {
     if (!wavePath.value) return
+    const computedOffset = parseFloat(
+        window.getComputedStyle(wavePath.value).getPropertyValue('stroke-dashoffset')
+    )
 
-    wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength.value * PARTIAL_FILL_RATIO}`
-    void wavePath.value.getBoundingClientRect()
-
-    wavePath.value.style.transition = `stroke-dashoffset ${FINAL_FILL_DURATION}ms ease-out`
-    wavePath.value.style.strokeDashoffset = '0'
-    wavePath.value.addEventListener('transitionend', handleFinalTransitionEnd, { once: true })
-    clearInterval(interval)
+    if (loadingStore.isDone) {
+        doFinalFill(computedOffset)
+    } else {
+        holdAtPartialFill(computedOffset)
+    }
 }
 
-const handleFinalTransitionEnd = () => {
+const holdAtPartialFill = (offset: number) => {
+    if (!wavePath.value) return
+    wavePath.value.style.transition = 'none'
+    wavePath.value.style.strokeDashoffset = `${offset}`
+
+    const unwatch = watch(
+        () => loadingStore.isDone,
+        (done) => {
+            if (done) {
+                doFinalFill(offset)
+                unwatch()
+            }
+        }
+    )
+}
+
+const doFinalFillEarly = () => {
+    if (!wavePath.value) return
+    const computedOffset = parseFloat(
+        window.getComputedStyle(wavePath.value).getPropertyValue('stroke-dashoffset')
+    )
+    wavePath.value.style.transition = 'none'
+    wavePath.value.style.strokeDashoffset = `${computedOffset}`
+    void wavePath.value.getBoundingClientRect()
+    wavePath.value.style.transition = `stroke-dashoffset ${loadingStore.finalFillDuration}ms ease-out`
+    wavePath.value.style.strokeDashoffset = '0'
+    wavePath.value.addEventListener('transitionend', onFinalTransitionEnd, { once: true })
+    stopDotsInterval()
+}
+
+const doFinalFill = (offset: number) => {
+    if (!wavePath.value) return
+    wavePath.value.style.transition = 'none'
+    wavePath.value.style.strokeDashoffset = `${offset}`
+    void wavePath.value.getBoundingClientRect()
+    wavePath.value.style.transition = `stroke-dashoffset ${loadingStore.finalFillDuration}ms ease-out`
+    wavePath.value.style.strokeDashoffset = '0'
+    wavePath.value.addEventListener('transitionend', onFinalTransitionEnd, { once: true })
+    stopDotsInterval()
+}
+
+const doInstantFinalFill = () => {
+    if (!wavePath.value) return
+    wavePath.value.style.strokeDashoffset = `${pathLength.value}`
+    void wavePath.value.getBoundingClientRect()
+    wavePath.value.style.transition = `stroke-dashoffset 500ms ease-out`
+    wavePath.value.style.strokeDashoffset = '0'
+    wavePath.value.addEventListener('transitionend', onFinalTransitionEnd, { once: true })
+}
+
+const onFinalTransitionEnd = () => {
     loadingStore.stopLoading()
 }
-const resetBar = () => {
-    if (!wavePath.value) return
 
-    wavePath.value.removeEventListener('transitionend', onPartialFillEnd)
-    wavePath.value.removeEventListener('transitionend', handleFinalTransitionEnd)
-    wavePath.value.style.transition = 'none'
-    wavePath.value.style.strokeDashoffset = `${pathLength.value}`
+const stopDotsInterval = () => {
+    if (interval) {
+        clearInterval(interval)
+        interval = null
+    }
 }
-const resetToEmpty = () => {
-    wavePath.value!.style.transition = 'none'
-    wavePath.value!.style.strokeDashoffset = `${pathLength.value}`
-    void wavePath.value!.getBoundingClientRect()
-}
-
 </script>
 
 <template>
@@ -156,13 +158,13 @@ const resetToEmpty = () => {
             <path
                 ref="wavePath"
                 d="M24 41.9995
-           L42.1188 14.9375
-           L52.1188 56.9994
-           L80.5346 15.4323
-           L89.1485 55.5148
-           L116.871 14.9375
-           L126.871 56.5045
-           L145 29.9995"
+                    L42.1188 14.9375
+                    L52.1188 56.9994
+                    L80.5346 15.4323
+                    L89.1485 55.5148
+                    L116.871 14.9375
+                    L126.871 56.5045
+                    L145 29.9995"
                 stroke="url(#paint0_linear)"
                 stroke-width="19"
                 stroke-linecap="round"
@@ -184,9 +186,7 @@ const resetToEmpty = () => {
                 </linearGradient>
             </defs>
         </svg>
-        <div class="progress-label">
-            Karteikarten werden generiert{{ dots }}
-        </div>
+        <div class="progress-label">Karteikarten werden generiert<span class="trailing-dots">{{ dots }}</span></div>
     </div>
 </template>
 
@@ -198,18 +198,22 @@ const resetToEmpty = () => {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 300px;
+    width: 260px;
 
     .progress-svg {
         width: 200px;
     }
 
     .progress-label {
-        font-size: 1.8rem;
-        margin-top: 2rem;
-        width: 270px;
+        font-size: 1.4rem;
+        margin-top: 3rem;
+        width: 220px;
         color: @memo-grey-darker;
-        text-align: left;
+        text-align: center;
+
+        span.trailing-dots {
+            position: fixed;
+        }
     }
 }
 </style>

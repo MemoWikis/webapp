@@ -6,12 +6,17 @@ export const useLoadingStore = defineStore('loadingStore', () => {
   const loadingDuration = ref(0)
   const longLoading = ref(false)
   const isDone = ref(false)
+  const loadingBarThreshold = ref(3000)
+  const loadingLabel = ref('')
+  const finalFillDuration = ref(500)
 
-  const startLoading = (durationMs?: number) =>  {
+  const startLoading = (durationMs?: number, label: string = '') =>  {
     isDone.value = false
-    if (typeof durationMs === 'number' && durationMs > 2000) {
+    loadingLabel.value = ''
+    if (typeof durationMs === 'number' && durationMs > loadingBarThreshold.value) {
       loadingDuration.value = durationMs
       longLoading.value = true
+      loadingLabel.value = label
     } 
     else {
       loadingDuration.value = 0
@@ -26,13 +31,14 @@ export const useLoadingStore = defineStore('loadingStore', () => {
     isLoading.value = false
     loadingDuration.value = 0
     longLoading.value = false
+    isDone.value = false
   }
 
   const finishLoading = async () => {
     isDone.value = true
-    await delay(800)
+    await delay(finalFillDuration.value)
     return
   }
 
-  return { isLoading, startLoading, stopLoading, loadingDuration, longLoading, isDone, finishLoading  }
+  return { isLoading, startLoading, stopLoading, loadingDuration, longLoading, isDone, finishLoading, loadingBarThreshold, loadingLabel, finalFillDuration } 
 })

@@ -5,7 +5,7 @@ const loadingStore = useLoadingStore()
 
 <template>
     <Teleport to="body" v-if="loadingStore.isLoading">
-        <LoadingLogoProgress v-if="loadingStore.longLoading && loadingStore.loadingDuration > 2000" class="loading-logo" />
+        <LoadingLogoProgress v-if="loadingStore.longLoading && loadingStore.loadingDuration > loadingStore.loadingBarThreshold" class="loading-logo bg-w" />
         <!-- <LoadingLogo v-else class="loading-logo" /> -->
         <LoadingSpinner v-else class="loading-logo" />
     </Teleport>
@@ -21,9 +21,12 @@ const loadingStore = useLoadingStore()
     text-align: center;
     z-index: 99999;
     padding: 4rem 2rem;
-    background: white;
     border-radius: 42px;
-    width: 320px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.16);
+    width: 260px;
+
+    &.bg-w {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+        background: rgba(255, 255, 255, 0.95);
+    }
 }
 </style>
