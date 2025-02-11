@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useAlertStore, messages, AlertType } from '~~/components/alert/alertStore'
 import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { useDeleteQuestionStore } from './deleteQuestionStore'
 import { usePageStore } from '~/components/page/pageStore'
 
@@ -56,14 +56,14 @@ async function getDeleteDetails(id: number) {
 
 const deletionInProgress = ref(false)
 const learningSessionStore = useLearningSessionStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const pageStore = usePageStore()
 
 async function deleteQuestion() {
     deletionInProgress.value = true
     showDeleteBtn.value = false
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
     showDeleteInfo.value = false
 
     const result = await $api<{ id: number, sessionIndex: number, reloadAnswerBody: boolean }>(`/apiVue/QuestionEditDelete/Delete/${deleteQuestionStore.id}`, {
@@ -71,11 +71,11 @@ async function deleteQuestion() {
         credentials: 'include',
         mode: 'cors',
         onResponseError(context) {
-            spinnerStore.hideSpinner()
+            loadingStore.stopLoading()
             $logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
         }
     })
-    spinnerStore.hideSpinner()
+    loadingStore.stopLoading()
 
     if (result) {
         deletionInProgress.value = false

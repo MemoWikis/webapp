@@ -181,3 +181,7 @@ export function resizeBase64Img(base64: string, maxWidth: number): Promise<strin
         img.src = base64
     })
 }
+
+export const delay = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

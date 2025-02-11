@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { messages } from '../alert/messages'
-import { useSpinnerStore } from '../spinner/spinnerStore'
+import { useLoadingStore } from '../loading/loadingStore'
 import { useUserStore } from '../user/userStore'
 const userStore = useUserStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 interface Props {
     showModal: boolean
 }
@@ -41,7 +41,7 @@ const validateName = async () => {
         if (result.data.url)
             existingPageUrl.value = result.data.url
         showErrorMsg.value = true
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         return false
     }
 }
@@ -51,7 +51,7 @@ const createWiki = async () => {
         userStore.showLoginModal = true
         return
     }
-    spinnerStore.showSpinner()
+    loadingStore.startLoading()
 
     const nameIsValid = await validateName()
 
@@ -72,7 +72,7 @@ const createWiki = async () => {
     })
 
     if (result.success) {
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
         emit('closeWikiModal')
         await nextTick()
         navigateTo(`/${result.data.name}/${result.data.id}`)
@@ -83,7 +83,7 @@ const createWiki = async () => {
         if (result.data.cantSavePrivateWiki) {
             privatePageLimitReached.value = true
         }
-        spinnerStore.hideSpinner()
+        loadingStore.stopLoading()
     }
 }
 

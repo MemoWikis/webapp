@@ -86,7 +86,7 @@ const rootPageChipStore = useRootPageChipStore()
                             <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                 <button navigate class="btn memo-button register-btn">
                                     <NuxtLink to="/Registrieren" class="" @click="handleError">
-                                        Kostenlos registrieren!
+                                        Registrieren
                                     </NuxtLink>
 
                                 </button>
@@ -229,6 +229,9 @@ const rootPageChipStore = useRootPageChipStore()
                 }
 
                 .register-btn-container {
+                    @media (min-width: 1300px) {
+                        width: 270px;
+                    }
 
                     .register-btn {
                         border-radius: 24px;
@@ -236,10 +239,6 @@ const rootPageChipStore = useRootPageChipStore()
                         a {
                             color: @memo-blue;
                         }
-                    }
-
-                    @media (min-width: 1300px) {
-                        margin-right: -22px;
                     }
                 }
 

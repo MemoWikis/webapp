@@ -1,5 +1,3 @@
-
-
 <script setup lang="ts">
 import { Google } from './Google'
 
@@ -16,3 +14,7 @@ defineExpose({
     login
 })
 </script>
+
+<template>
+    <div></div>
+</template>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { Page, usePageStore } from '~/components/page/pageStore'
-import { useSpinnerStore } from '~~/components/spinner/spinnerStore'
+import { useLoadingStore } from '~/components/loading/loadingStore'
 import { Site } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
 import { messages } from '~/components/alert/messages'
@@ -12,7 +12,7 @@ const { $logger, $urlHelper } = useNuxtApp()
 const userStore = useUserStore()
 const tabsStore = useTabsStore()
 const pageStore = usePageStore()
-const spinnerStore = useSpinnerStore()
+const loadingStore = useLoadingStore()
 const convertStore = useConvertStore()
 
 interface Props {
@@ -65,7 +65,7 @@ function setPage() {
 
             watch(() => pageStore.id, (val) => {
                 if (val != 0)
-                    spinnerStore.showSpinner()
+                    loadingStore.startLoading()
             })
 
             useHead({
@@ -348,11 +348,6 @@ pre {
 
     @media(min-width: 992px) {
         display: flex;
-
-    }
-
-    .page {
-        width: 100%;
     }
 }
 
@@ -464,6 +459,11 @@ h4 {
 #PageContent {
     padding-top: 36px;
     max-width: calc(100vw - 20px);
+
+    @media (min-width:1301px) {
+        max-width: 100%;
+        width: 100%;
+    }
 
     &.is-mobile {
         max-width: 100vw;
