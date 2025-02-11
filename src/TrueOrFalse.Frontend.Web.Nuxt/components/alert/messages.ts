@@ -57,6 +57,7 @@ export const messages: any = {
             pageNotSelected: "Du hast keine Seite ausgewählt",
             newPageIdIsPageIdToBeDeleted: "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
             noChange: "Es wurden keine Änderungen vorgenommen.",
+            noChildSelected: "Du hast keine Unterseite ausgewählt.",
         },
         question: {
             missingText: "Der Fragetext fehlt.",

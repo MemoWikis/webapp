@@ -29,8 +29,6 @@ public class QuestionCacheItem
     public virtual string DescriptionHtml { get; set; }
     public virtual int Id { get; set; }
 
-    public virtual bool IsWorkInProgress { get; set; }
-
     public virtual LicenseQuestion License
     {
         get => LicenseQuestionRepo.GetById(LicenseId);
@@ -164,7 +162,6 @@ public class QuestionCacheItem
             DescriptionHtml = question.DescriptionHtml,
             TotalQualityAvg = question.TotalQualityAvg,
             TotalQualityEntries = question.TotalQualityEntries,
-            IsWorkInProgress = question.IsWorkInProgress,
             TextExtended = question.TextExtended,
             TextExtendedHtml = question.TextExtendedHtml,
             TotalRelevanceForAllEntries = question.TotalRelevanceForAllEntries,

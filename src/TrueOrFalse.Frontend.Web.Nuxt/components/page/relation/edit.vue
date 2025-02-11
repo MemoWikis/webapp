@@ -215,6 +215,13 @@ async function addExistingPage() {
         return
     }
 
+    if (data.childId <= 0) {
+        errorMsg.value = messages.error.page.noChildSelected
+        showErrorMsg.value = true
+        spinnerStore.hideSpinner()
+        return
+    }
+
     const result = await $api<FetchResult<{ name: string, id: number }>>('/apiVue/PageRelationEdit/AddChild', {
         mode: 'cors',
         method: 'POST',

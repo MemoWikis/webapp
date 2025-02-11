@@ -31,7 +31,6 @@ public static class JobScheduler
         //Schedule_RecalcKnowledgeSummariesForPage();
         //Schedule_RecalcReputation();
         //Schedule_RecalcReputationForAll();
-        //Schedule_EditPageInWishKnowledge();
         //Schedule_KnowledgeReportCheck();
         //Schedule_RecalcTotalWishInOthersPeople();
         //Schedule_MailSender();
@@ -115,14 +114,6 @@ public static class JobScheduler
     //                x.StartingDailyAt(new TimeOfDay(3, 30))
     //                    .OnEveryDay()
     //                    .EndingDailyAfterCount(1)).Build());
-    //}
-
-    //private static void Schedule_EditPageInWishKnowledge()
-    //{
-    //    _scheduler.ScheduleJob(JobBuilder.Create<EditPageInWishKnowledge>().Build(),
-    //        TriggerBuilder.Create().WithSimpleSchedule(x => x
-    //            .WithIntervalInSeconds(EditPageInWishKnowledge.IntervalInSeconds)
-    //            .RepeatForever()).Build());
     //}
 
     public static void StartImmediately<TypeToStart>() where TypeToStart : IJob

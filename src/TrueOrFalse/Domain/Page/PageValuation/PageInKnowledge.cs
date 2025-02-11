@@ -36,25 +36,4 @@ public class PageInKnowledge(
 
         return questionsInValuatedPages;
     }
-
-    public void UnpinQuestionsInPageInDatabase(int pageId, int userId)
-    {
-        var user = _userReadingRepo.GetByIds(userId).First();
-        var questionsInPage = EntityCache.GetPage(pageId)
-            .GetAggregatedQuestionsFromMemoryCache(userId);
-        var questionIds = questionsInPage.GetIds();
-
-        var questionsInValuatedPages = QuestionsInValuatedPages(user.Id, questionIds, exceptPageId: pageId);
-
-        var questionInOtherPinnedEntities = questionsInValuatedPages;
-        var questionsToUnpin = questionsInPage
-            .Where(question => questionInOtherPinnedEntities.All(id => id != question.Id))
-            .ToList();
-
-        foreach (var question in questionsToUnpin)
-            _questionInKnowledge.Unpin(question.Id, user.Id);
-
-        _questionInKnowledge.UpdateTotalRelevancePersonalInCache(questionsToUnpin);
-        _questionInKnowledge.SetUserWishCountQuestions(user.Id);
-    }
 }

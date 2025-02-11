@@ -57,6 +57,9 @@ public class AnswerQuestion(
         if (countLastAnswerAsCorrect || countUnansweredAsCorrect)
         {
             var learningSession = _learningSessionCache.GetLearningSession();
+            if (learningSession == null)
+                throw new Exception("learningSession is null");
+
             learningSession.SetCurrentStepAsCorrect();
 
             var answer = _answerRepo.GetByQuestionViewGuid(questionViewGuid).OrderByDescending(a => a.Id).First();

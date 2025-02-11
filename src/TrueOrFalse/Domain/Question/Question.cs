@@ -19,8 +19,6 @@ public class Question : DomainEntity, ICreator
     public virtual string Description { get; set; }
     public virtual string DescriptionHtml { get; set; }
 
-    public virtual bool IsWorkInProgress { get; set; }
-
     public virtual LicenseQuestion License
     {
         get => LicenseQuestionRepo.GetById(LicenseId);

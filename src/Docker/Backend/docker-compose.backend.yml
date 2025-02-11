@@ -50,6 +50,13 @@ services:
       - Anthropic__ApiKey=${ANTHROPIC_API_KEY:-error}
       - Anthropic__Model=${ANTHROPIC_MODEL:-error}
       - Anthropic__Version=${ANTHROPIC_VERSION:-error}
+      - FeaturedPage__RootId=${FEATUREDPAGE_ROOT_ID:-error}
+      - FeaturedPage__IntroId=${FEATUREDPAGE_INTRO_ID:-error}
+      - FeaturedPage__MemoWikisWikiId=${FEATUREDPAGE_MEMOWIKIS_WIKI_ID:-error}
+      - FeaturedPage__MainPageIds=${FEATUREDPAGE_MAINPAGE_IDS:-error}
+      - FeaturedPage__PopularPageIds=${FEATUREDPAGE_POPULARPAGE_IDS:-error}
+      - FeaturedPage__MemoWikisPageIds=${FEATUREDPAGE_MEMOWIKIS_PAGE_IDS:-error}
+      - FeaturedPage__MemoWikisHelpIds=${FEATUREDPAGE_MEMOWIKIS_HELP_IDS:-error}
     restart: always
     
 networks:

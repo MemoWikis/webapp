@@ -24,7 +24,7 @@ namespace TrueOrFalse.Search
             var taskId = (await _client.DeleteIndexAsync(MeiliSearchConstants.Questions)).TaskUid;
             await _client.WaitForTaskAsync(taskId);
 
-            var allQuestionsFromDb = _questionReadingRepo.GetAll().Where(q => !q.IsWorkInProgress);
+            var allQuestionsFromDb = _questionReadingRepo.GetAll();
             var allValuations = _questionValuationReadingRepo.GetAll();
             var meiliSearchQuestions = new List<MeiliSearchQuestionMap>();
 
