@@ -226,7 +226,7 @@ const rootPageChipStore = useRootPageChipStore()
 
                 .register-btn-container {
                     @media (min-width: 1300px) {
-                        width: 220px;
+                        width: 270px;
                     }
 
                     .register-btn {

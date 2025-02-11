@@ -67,3 +67,7 @@ defineExpose({
 })
 
 </script>
+
+<template>
+    <div></div>
+</template>
