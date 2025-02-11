@@ -150,7 +150,7 @@ const hidePartial = computed(() => {
                                 <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                     <div navigate class="btn memo-button register-btn">
                                         <NuxtLink to="/Registrieren">
-                                            Kostenlos registrieren!
+                                            Registrieren
                                         </NuxtLink>
                                     </div>
                                 </div>
@@ -368,10 +368,13 @@ const hidePartial = computed(() => {
         }
 
         .register-btn-container {
-            background: @memo-green;
             height: 100%;
             display: flex;
             align-items: center;
+
+            @media (min-width: 1300px) {
+                width: 220px;
+            }
 
             &:hover {
                 filter: brightness(0.85)
@@ -386,12 +389,7 @@ const hidePartial = computed(() => {
                 height: 100% !important;
                 align-items: center;
                 line-height: unset !important;
-
-
-            }
-
-            @media (min-width: 1300px) {
-                margin-right: -22px;
+                background: @memo-green;
             }
         }
 
