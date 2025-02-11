@@ -461,8 +461,8 @@ h4 {
     max-width: calc(100vw - 20px);
 
     @media (min-width:1301px) {
-        max-width: 800px;
-        width: calc(100vw - 20px);
+        max-width: 100%;
+        width: 100%;
     }
 
     &.is-mobile {

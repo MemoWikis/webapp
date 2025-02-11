@@ -448,6 +448,13 @@ onMounted(() => {
                 align-items: center;
                 line-height: unset !important;
                 background: @memo-green;
+
+                @media (min-width: 1300px) {
+                    width: 270px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
             }
         }
 
