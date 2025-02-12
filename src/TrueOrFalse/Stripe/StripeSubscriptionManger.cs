@@ -41,7 +41,9 @@ public class StripeSubscriptionManger(
         string customerId;
         if (user.StripeId == null)
         {
-            customerId = await CreateStripeCustomer(user.Name, user.EmailAddress,
+            customerId = await CreateStripeCustomer(
+                user.Name,
+                user.EmailAddress,
                 user.Id);
         }
         else

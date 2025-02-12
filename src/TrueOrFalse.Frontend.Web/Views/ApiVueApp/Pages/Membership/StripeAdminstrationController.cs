@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace VueApp;
 
@@ -22,8 +22,7 @@ public class StripeAdminstrationController(StripeSubscriptionManger _stripeSubsc
     public async Task<SubscriptionResult> CompletedSubscription(
         [FromBody] CompletedSubscriptionJson json)
     {
-        var sessionId =
-            await _stripeSubscriptionManger.CreateStripeSubscriptionSession(json.priceId);
+        var sessionId = await _stripeSubscriptionManger.CreateStripeSubscriptionSession(json.priceId);
         if (sessionId.Equals("-1"))
         {
             return new SubscriptionResult { Success = false };

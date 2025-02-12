@@ -55,8 +55,7 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
             case Events.PaymentMethodAttached:
                 var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
-                Logg.r.Error(
-                    $"The user paid with an incorrect payment method, the CustomerId is {paymentMethod.CustomerId}.");
+                Logg.r.Error($"The user paid with an incorrect payment method, the CustomerId is {paymentMethod.CustomerId}.");
                 break;
         }
 
