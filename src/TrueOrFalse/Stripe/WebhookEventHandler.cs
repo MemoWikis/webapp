@@ -36,26 +36,29 @@ public class WebhookEventHandler : IRegisterAsInstancePerLifetime
 
         switch (stripeEvent.Type)
         {
-            // We use this event instead of CustomerSubscriptionCreated to register the user as member:
-            case Events.PaymentIntentSucceeded:
+            case "payment_intent.succeeded":
                 PaymentIntentSucceeded(stripeEvent);
                 break;
 
-            case Events.CustomerSubscriptionUpdated:
+            case "customer.subscription.updated":
                 PaymentUpdate(stripeEvent);
                 break;
 
-            case Events.CustomerSubscriptionDeleted:
+            case "customer.subscription.deleted":
                 CustomerSubscriptionDeleted(stripeEvent);
                 break;
 
-            case Events.InvoicePaymentFailed:
+            case "invoice.payment_failed":
                 InvoicePaymentFailed(stripeEvent);
                 break;
 
-            case Events.PaymentMethodAttached:
+            case "payment_method.attached":
                 var paymentMethod = stripeEvent.Data.Object as PaymentMethod;
                 Logg.r.Error($"The user paid with an incorrect payment method, the CustomerId is {paymentMethod.CustomerId}.");
+                break;
+
+            default:
+                Logg.r.Warning($"Unhandled Stripe event type: {stripeEvent.Type}");
                 break;
         }
 
