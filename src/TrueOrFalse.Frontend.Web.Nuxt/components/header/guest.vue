@@ -30,12 +30,15 @@ function handleResize() {
         showSearch.value = true
 }
 
+const windowIsAvailable = ref(false)
+
 onMounted(() => {
     if (isMobile || window?.innerWidth < 480)
         showSearch.value = false
 
     if (typeof window != "undefined") {
         window.addEventListener('resize', handleResize)
+        windowIsAvailable.value = true
     }
 })
 
@@ -65,7 +68,7 @@ const rootPageChipStore = useRootPageChipStore()
                 </div>
                 <div id="HeaderBodyContainer" class="col-LoginAndHelp col-sm-8 col-md-8 col-xs-8 row">
                     <div id="HeaderSearch" class="" v-if="!props.isError">
-                        <div class="search-button" :class="{ 'showSearch': showSearch }"
+                        <div class="search-button" :class="{ 'showSearch': showSearch }" v-if="windowIsAvailable"
                             @click="showSearch = !showSearch">
                             <font-awesome-icon v-if="showSearch" :icon="['fa-solid', 'xmark']" />
                             <font-awesome-icon v-else :icon="['fa-solid', 'magnifying-glass']" />
@@ -78,7 +81,7 @@ const rootPageChipStore = useRootPageChipStore()
                     <div id="loginAndHelp">
                         <div class="login-register-container" v-if="!props.isError">
                             <button class="btn memo-button link-btn login-btn" @click="userStore.openLoginModal()">
-                                <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" />
+                                <font-awesome-icon :icon="['fa-solid', 'right-to-bracket']" class="login-icon" />
                                 <div class="login-btn-label hidden-xxs">
                                     Anmelden
                                 </div>
@@ -88,16 +91,12 @@ const rootPageChipStore = useRootPageChipStore()
                                     <NuxtLink to="/Registrieren" class="" @click="handleError">
                                         Registrieren
                                     </NuxtLink>
-
                                 </button>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -303,6 +302,11 @@ const rootPageChipStore = useRootPageChipStore()
         .login-btn-label {
             padding-left: 6px;
             font-size: 14px;
+        }
+
+        .login-icon {
+            font-size: 20px;
+            color: @memo-grey-dark;
         }
     }
 }
