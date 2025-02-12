@@ -58,7 +58,7 @@
 		<PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
 		<PackageReference Include="Serilog.Sinks.PeriodicBatching" Version="3.1.0" />
 		<PackageReference Include="Serilog.Sinks.Seq" Version="5.2.2" />
-		<PackageReference Include="Stripe.net" Version="42.1.0" />
+		<PackageReference Include="Stripe.net" Version="47.3.0" />
 		<PackageReference Include="System.Buffers" Version="4.5.1" />
 		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
