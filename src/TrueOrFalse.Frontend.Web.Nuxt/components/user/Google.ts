@@ -68,7 +68,7 @@ const handleErrorResponse = (errorMessage: string) => {
     log.error('Google Login Error', [{errorMessage}])
 
     const alertStore = useAlertStore()
-    alertStore.openAlert(AlertType.Error, { text: null, customHtml:  messages.error.api.body, customDetails: errorMessage}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+    alertStore.openAlert(AlertType.Error, { text: null, texts:  messages.error.api.body, customDetails: errorMessage}, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
 
     alertStore.$onAction(({ name, after }) => {
         if (name == 'closeAlert') {

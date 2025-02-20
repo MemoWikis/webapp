@@ -13,6 +13,8 @@ const loadingStore = useLoadingStore()
 interface Props {
     site: Site
 }
+const { t } = useI18n()
+
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
@@ -32,12 +34,17 @@ const awaitingConsent = ref(null as null | string)
 
 const allowGooglePlugin = ref(false)
 
+const renderLoginText = (text: string) => {
+    const privacyPolicyLink = `<a href="/Impressum">${t('label.privacyPolicy')}</a>`
+    return `<p>${text}${privacyPolicyLink}</p>`
+}
+
 function googleRegister() {
     if (allowGooglePlugin.value)
         Google.SignIn()
     else {
         awaitingConsent.value = 'google'
-        alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.googleLogin }, 'Einverstanden', true, 'Registrierung mit Google')
+        alertStore.openAlert(AlertType.Default, { text: '', customHtml: renderLoginText(t('info.googleLogin')) }, 'Einverstanden', true, 'Registrierung mit Google')
     }
 }
 
@@ -54,7 +61,7 @@ function facebookRegister() {
         FacebookMemoWikisUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
     else {
         awaitingConsent.value = 'facebook'
-        alertStore.openAlert(AlertType.Default, { text: '', customHtml: messages.info.facebookLogin }, 'Einverstanden', true, 'Registrierung mit Facebook')
+        alertStore.openAlert(AlertType.Default, { text: '', customHtml: renderLoginText(t('info.facebookLogin')) }, 'Einverstanden', true, 'Registrierung mit Facebook')
     }
 }
 
@@ -150,6 +157,9 @@ async function register() {
         errorMessage.value = result
 }
 
+const { locale, locales } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
 </script>
 
 <template>
@@ -158,31 +168,43 @@ async function register() {
             <div class="col-xs-12 container main-content">
                 <div class="row login-register">
                     <div class="form-horizontal col-md-12">
+
+                        <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
+                            <div v-for="l in locales" style="margin-right:20px;">
+                                <NuxtLink :key="l.code" :to="switchLocalePath(l.code)">
+                                    <b v-if="l.code === locale" style="color: #007bff;">
+                                        {{ l.name }}
+                                    </b>
+                                    <template v-else>
+                                        {{ l.name }}
+                                    </template>
+                                </NuxtLink>
+                            </div>
+
+                        </div>
+
+
                         <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                             <h1 class="col-sm-offset-2 col-sm-8 register-title">
-                                Registrieren
+                                {{ t('register.title') }}
                             </h1>
                             <div class="col-sm-offset-2 col-sm-8">
-                                Dein Wiki ist noch einen Klick entfernt.
+                                {{ t('register.description') }}
                             </div>
                         </div>
 
                         <div class="form-group omb_login row">
                             <div class="col-sm-offset-2 col-sm-8 omb_socialButtons">
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister"
-                                        @click="googleRegister()">
-                                        <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg"
-                                            alt="GoogleRegister" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">weiter mit Google</div>
+                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="GoogleRegister" @click="googleRegister()">
+                                        <img src="~/assets/images/SocialMediaIcons/Google__G__Logo.svg" alt="GoogleRegister" class="socialMediaLogo">
+                                        <div class="socialMediaLabel">{{ t('button.continueWithGoogle') }}</div>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 socialMediaBtnContainer">
-                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister"
-                                        @click="facebookRegister()">
-                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg"
-                                            alt="FacebookLogin" class="socialMediaLogo">
-                                        <div class="socialMediaLabel">weiter mit Facebook</div>
+                                    <div class="btn btn-block cursor-hand socialMediaBtn" id="FacebookRegister" @click="facebookRegister()">
+                                        <img src="~/assets/images/SocialMediaIcons/Facebook_logo_F.svg" alt="FacebookLogin" class="socialMediaLogo">
+                                        <div class="socialMediaLabel">{{ t('button.continueWithFacebook') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +220,7 @@ async function register() {
                                         </div>
                                         <div class="register-divider-label-container">
                                             <div class="register-divider-label">
-                                                oder
+                                                {{ t('register.orDivider') }}
                                             </div>
                                         </div>
                                     </div>
@@ -216,9 +238,7 @@ async function register() {
                                             <div class="overline-s no-line">Benutzername</div>
                                         </div>
                                         <div class="col-sm-offset-2 col-sm-8">
-                                            <input name="login" placeholder="" type="text" width="100%"
-                                                class="login-inputs" v-model="userName" @keydown.enter="register()"
-                                                @click="errorMessage = ''" />
+                                            <input name="login" placeholder="" type="text" width="100%" class="login-inputs" v-model="userName" @keydown.enter="register()" @click="errorMessage = ''" />
                                         </div>
                                     </div>
                                 </form>
@@ -229,8 +249,7 @@ async function register() {
                                     <div class="overline-s no-line">E-Mail</div>
                                 </div>
                                 <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="login" placeholder="" type="email" width="100%" class="login-inputs"
-                                        v-model="eMail" @keydown.enter="register()" @click="errorMessage = ''" />
+                                    <input name="login" placeholder="" type="email" width="100%" class="login-inputs" v-model="eMail" @keydown.enter="register()" @click="errorMessage = ''" />
                                 </div>
                             </div>
 
@@ -240,38 +259,34 @@ async function register() {
                                 </div>
 
                                 <div class="col-sm-offset-2 col-sm-8">
-                                    <input name="password" placeholder="" :type="passwordInputType" width="100%"
-                                        class="login-inputs" v-model="password" @keydown.enter="register()"
-                                        @click="errorMessage = ''" />
-                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon"
-                                        v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
-                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon"
-                                        v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
+                                    <input name="password" placeholder="" :type="passwordInputType" width="100%" class="login-inputs" v-model="password" @keydown.enter="register()" @click="errorMessage = ''" />
+                                    <font-awesome-icon icon="fa-solid fa-eye" class="eyeIcon" v-if="passwordInputType === 'password'" @click="passwordInputType = 'text'" />
+                                    <font-awesome-icon icon="fa-solid fa-eye-slash" class="eyeIcon" v-if="passwordInputType === 'text'" @click="passwordInputType = 'password'" />
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
-                                    <button @click="register()"
-                                        class="btn btn-primary memo-button col-sm-12">Registrieren</button>
+                                    <button @click="register()" class="btn btn-primary memo-button col-sm-12">
+                                        {{ t('button.register') }}
+                                    </button>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-8" style="border-top: 0px; margin-top: 10px;">
                                     <p href="#" style="text-align: center;">
-                                        Ich bin schon Nutzer!
+                                        {{ t('register.alreadyRegistered') }}
                                         <br />
-                                        <button style="text-align: center;" class="btn btn-link"
-                                            @click="userStore.openLoginModal()">
-                                            Anmelden</button>
+                                        <button style="text-align: center;" class="btn btn-link" @click="userStore.openLoginModal()">
+                                            {{ t('button.login') }}
+                                        </button>
                                     </p>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-8"
-                                    style="font-size: 12px; padding-top: 20px; text-align: center;">
+                                <div class="col-sm-offset-2 col-sm-8" style="font-size: 12px; padding-top: 20px; text-align: center;">
                                     Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren
                                     <NuxtLink to="/AGB">
                                         Nutzungsbedingungen

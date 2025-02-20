@@ -10,6 +10,8 @@ import { AlertType, messages, useAlertStore } from './components/alert/alertStor
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
 
+const { t } = useI18n()
+
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 const loadingStore = useLoadingStore()
@@ -185,7 +187,7 @@ function logError(e: any) {
 
 	if (import.meta.client) {
 		const alertStore = useAlertStore()
-		alertStore.openAlert(AlertType.Error, { text: null, customHtml: messages.error.api.body, customDetails: e }, "Seite neu laden", true, messages.error.api.title, 'reloadPage', 'Zurück')
+		alertStore.openAlert(AlertType.Error, { text: null, customDetails: e, texts: messages.error.api.body }, "Seite neu laden", true, t('error.api.title'), 'reloadPage', 'Zurück')
 
 		alertStore.$onAction(({ name, after }) => {
 			if (name === 'closeAlert') {

@@ -80,9 +80,15 @@ watch(() => alertStore.show, (show) => {
                                     icon="fa-solid fa-circle-xmark" class="error" />
                                 {{ alertStore.title }}
                             </h3>
-                            <div class="alert-msg-container" v-if="alertStore.text">
+                            <div class="alert-msg-container" v-if="alertStore.text || alertStore.texts">
                                 <div class="alert-msg">
-                                    {{ alertStore.text }}
+                                    <template v-if="alertStore.texts.length > 0" v-for="(text, i) in alertStore.texts">
+                                        {{ text }}
+                                        <br v-if="i + 1 < alertStore.texts.length" />
+                                    </template>
+                                    <template v-else-if="alertStore.text">
+                                        {{ alertStore.text }}
+                                    </template>
                                 </div>
                             </div>
                             <div v-if="alertStore.msg != null" v-html="alertStore.msg.customHtml"></div>
@@ -110,12 +116,10 @@ watch(() => alertStore.show, (show) => {
                         'btn-error': alertStore.type === AlertType.Error,
                         'btn-primary': alertStore.type === AlertType.Default
                     }" @click="alertStore.closeAlert()">{{ alertStore.label }}</button>
-                    <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert"
-                        @click="alertStore.closeAlert(true)">
+                    <button v-if="alertStore.showCancelButton" class="btn memo-button btn-link pull-right cancel-alert" @click="alertStore.closeAlert(true)">
                         {{ alertStore.cancelLabel }}
                     </button>
-                    <div v-if="alertStore.msg != null && alertStore.msg.customBtn" v-html="alertStore.msg.customBtn"
-                        @click="alertStore.closeAlert(false, alertStore.msg!.customBtnKey)">
+                    <div v-if="alertStore.msg != null && alertStore.msg.customBtn" v-html="alertStore.msg.customBtn" @click="alertStore.closeAlert(false, alertStore.msg!.customBtnKey)">
                     </div>
                 </div>
 

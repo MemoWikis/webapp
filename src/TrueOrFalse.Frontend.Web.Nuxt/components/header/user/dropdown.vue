@@ -8,6 +8,13 @@ const activityPointsStore = useActivityPointsStore()
 
 const { isMobile } = useDevice()
 const ariaId = useId()
+
+const { locale, locales } = useI18n()
+const switchLocalePath = useSwitchLocalePath()
+
+const availableLocales = computed(() => {
+    return locales.value.filter(i => i.code !== locale.value)
+})
 </script>
 
 <template>
@@ -99,6 +106,13 @@ const ariaId = useId()
                     <div class="user-dropdown-label" @click="userStore.logout(), hide()">
                         Ausloggen
                     </div>
+                </div>
+
+                <div class="divider"></div>
+                <div>
+                    <NuxtLink v-for="locale in availableLocales" :key="locale.code" :to="switchLocalePath(locale.code)">
+                        {{ locale.name }}
+                    </NuxtLink>
                 </div>
             </div>
         </template>

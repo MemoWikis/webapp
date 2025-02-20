@@ -119,7 +119,6 @@ function resetAlert() {
 
 watch(activeContent, () => resetAlert())
 
-
 interface ChangeProfileInformationResult {
     name: string
     email: string

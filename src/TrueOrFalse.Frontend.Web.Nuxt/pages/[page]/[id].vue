@@ -22,6 +22,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { t } = useI18n()
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie', 'user-agent']) as HeadersInit
@@ -46,7 +48,7 @@ const { data: page, refresh } = await useFetch<Page>(`/apiVue/Page/GetPage/${rou
 
 if (page.value?.errorCode && page.value?.messageKey) {
     $logger.warn(`Page: ${page.value.messageKey} route ${route.fullPath}`)
-    throw createError({ statusCode: page.value.errorCode, statusMessage: messages.getByCompositeKey(page.value.messageKey) })
+    throw createError({ statusCode: page.value.errorCode, statusMessage: t(page.value.messageKey) })
 }
 
 const tabSwitched = ref(false)
@@ -58,7 +60,7 @@ function setPage() {
 
         if (page.value?.errorCode && page.value?.messageKey) {
             $logger.warn(`Page: ${page.value.messageKey} route ${route.fullPath}`)
-            throw createError({ statusCode: page.value.errorCode, statusMessage: messages.getByCompositeKey(page.value.messageKey) })
+            throw createError({ statusCode: page.value.errorCode, statusMessage: t(page.value.messageKey) })
         } else {
 
             pageStore.setPage(page.value)

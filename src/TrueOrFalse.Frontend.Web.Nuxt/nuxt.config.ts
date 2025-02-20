@@ -1,4 +1,3 @@
-
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     nitro: {
@@ -26,12 +25,7 @@ export default defineNuxtConfig({
         },
     },
     ssr: true,
-    modules: [
-        '@pinia/nuxt',
-        '@nuxtjs/device',
-        '@nuxtjs/eslint-module',
-        'nuxt-snackbar'
-    ],
+    modules: ['@pinia/nuxt', '@nuxtjs/device', '@nuxtjs/eslint-module', 'nuxt-snackbar', '@nuxtjs/i18n'],
     css: [
         '@fortawesome/fontawesome-svg-core/styles.css',
         '~/assets/bootstrap/bootstrap.less',
@@ -96,7 +90,24 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
             ]   
         }
-    }
+    },
+    i18n: {
+        locales: [
+            {
+                name: 'Deutsch',
+                code: 'de',
+                iso: 'de-DE',
+                file: 'de.json'
+            },
+            {
+                name: 'English',
+                code: 'en',
+                iso: 'en-US',
+                file: 'en.json'
+            },
+        ],
+        defaultLocale: 'de',
+    },
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {
     //     server: true,

@@ -17,6 +17,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const { t } = useI18n()
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
@@ -44,10 +46,10 @@ const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage
 		},
 	})
 
-if (question.value && question.value?.messageKey != "" && question.value?.errorCode != null) {
+if (question.value && question.value.messageKey && question.value.messageKey.length > 0 && question.value.errorCode != null) {
 	$logger.warn(`Question: ${question.value.messageKey} route ${route.fullPath}`)
 
-	throw createError({ statusCode: question.value.errorCode, statusMessage: messages.getByCompositeKey(question.value.messageKey) })
+	throw createError({ statusCode: question.value.errorCode, statusMessage: t(question.value.messageKey) })
 }
 
 function highlightCode(id: string) {

@@ -9,6 +9,7 @@ export interface AlertMsg {
 	customBtnKey?: string
 	customImg?: string
 	customDetails?: string
+	texts?: string[]
 }
 
 export enum AlertType {
@@ -58,5 +59,8 @@ export const useAlertStore = defineStore('alertStore', {
 			}
 			return text;
 		},
+		texts(): string[] {
+			return this.msg?.texts ?? []
+		}
 	}
 })

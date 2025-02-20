@@ -1,0 +1,154 @@
+{
+  "success": {
+    "page": {
+      "publish": "Your page has been published successfully.",
+      "setToPrivate": "The page was successfully set to 'Private'.",
+      "unlinked": "The linkage has been successfully removed.",
+      "addedToPersonalWiki": "The page was successfully added to your wiki.",
+      "saveImage": "The new image has been saved.",
+      "saved": "The page has been saved successfully.",
+      "convertedToWiki": "The page '{name}' has been successfully converted into a wiki.",
+      "convertedToPage": "The wiki '{name}' has been successfully converted into a page."
+    },
+    "question": {
+      "created": "Your question was created successfully.",
+      "saved": "Your question was saved successfully.",
+      "delete": "Your question was deleted successfully.",
+      "published": "The question '{name}' has been published successfully.",
+      "flashcardsAdded": "One flashcard was added | {count} flashcards were added."
+    },
+    "user": {
+      "profileUpdate": "Your new profile data has been saved successfully.",
+      "passwordChanged": "Your password has been changed successfully.",
+      "passwordReset": "Your password has been reset.",
+      "passwordVerificationMailSent": "Verification email sent! Please check your inbox."
+    },
+    "collaboration": {
+      "connected": "You are viewing the live version of this page."
+    }
+  },
+  "error": {
+    "subscription": {
+      "cantAddKnowledge": "You cannot add any more desired knowledge in the free version. Subscribe to Plus membership to get unlimited desired knowledge.",
+      "cantSavePrivateQuestion": "In the free version, you cannot add any more private questions. Subscribe to a Plus membership to create unlimited private questions.",
+      "cantSavePrivatePage": "In the free version, you cannot add any more private pages. Subscribe to a Plus membership to create unlimited private pages."
+    },
+    "page": {
+      "parentIsPrivate": "Publishing is not possible. The parent page is private.",
+      "publicChildPages": "This page has public child pages.",
+      "publicQuestions": "This page has public questions.",
+      "notLastChild": "This page cannot be deleted because it has child pages. Please remove all child pages and try again.",
+      "noRemainingParents": "The page cannot be unlinked because it must belong to at least one public parent page.",
+      "parentIsRoot": "Under 'Global Wiki', you can only add private pages.",
+      "loopLink": "Pages cannot be linked to themselves as children.",
+      "isAlreadyLinkedAsChild": "This page is already linked as a child.",
+      "isNotAChild": "This page is no longer a child page.",
+      "isLinkedInNonWuwi": "You have already linked this page outside your Wunschwissen. Please disable 'Show only your Wunschwissen' and add this page to your Wunschwissen.",
+      "childIsParent": "Parent pages cannot be assigned as child pages.",
+      "nameIsTaken": " is already taken, please choose another name!",
+      "nameIsForbidden": " is forbidden, please choose another name!",
+      "rootPageMustBePublic": "The root page cannot be set to private.",
+      "missingRights": "You do not have the necessary rights.",
+      "tooPopular": "This page appears too often in other users' Wunschwissen.",
+      "saveImageError": "The image could not be saved.",
+      "pinnedQuestions": "",
+      "circularReference": "The parent page cannot be assigned as a child page.",
+      "pageNotSelected": "No page has been selected.",
+      "newPageIdIsPageIdToBeDeleted": "The selected page cannot be the one to be deleted.",
+      "noChange": "No changes were made.",
+      "noChildSelected": "No child page has been selected."
+    },
+    "question": {
+      "missingText": "The question text is missing.",
+      "missingAnswer": "The answer for the question is missing.",
+      "save": "Your question could not be saved.",
+      "creation": "Your question could not be created.",
+      "isInWuwi": "The question cannot be deleted, it is included {count} time(s) in other users' Wunschwissen. Please contact us if you believe this question should still be deleted.",
+      "rights": "You do not have the necessary permissions.",
+      "errorOnDelete": "An error occurred! Possibly some references to the question (learning sessions, appointments, Wunschwissen entries...) have been partially deleted.",
+      "couldNotAddFlashcards": "The flashcards could not be added."
+    },
+    "user": {
+      "notLoggedIn": "Please log in.",
+      "emailInUse": "The email address is already in use.",
+      "falseEmailFormat": "The email address format is invalid.",
+      "userNameInUse": "This username is already taken.",
+      "passwordIsWrong": "Incorrect password. Please re-enter your password.",
+      "samePassword": "The new password is the same as the old one. Please enter a new password.",
+      "passwordNotCorrectlyRepeated": "The repeated password does not match your new password.",
+      "inputError": "Please check your inputs.",
+      "passwordResetTokenIsInvalid": "The link is invalid. If you’re having trouble, just send us an email at team(at)memucho.de.",
+      "passwordResetTokenIsExpired": "The link has expired.",
+      "doesNotExist": "The specified user could not be found. Please check if your login details are correct.",
+      "invalidFBToken": "Hey! It looks like the Facebook token you entered isn’t valid. Please try logging in with Facebook again. If it still doesn’t work, just contact us. We’ll be happy to help you!",
+      "emailIsInvalid": "{email} is not a valid email address.",
+      "passwordTooShort": "The password should be at least 5 characters long.",
+      "loginFailed": "You could not be logged in. Please check your email address and password."
+    },
+    "default": "Unfortunately, an unexpected error occurred. Please try again later.",
+    "route": {
+      "notFound": "Oh no! This page does not exist.",
+      "noRights": "This page is private. You do not have permission to view it.",
+      "unauthorized": "You are not logged in. You might not have access to this page."
+    },
+    "image": {
+      "tooBig": "The image is too big. The file size must not exceed 1MB."
+    },
+    "learningSession": {
+      "noQuestionsAvailableWithCurrentConfig": "There are no questions available for these settings. Please change the knowledge level or select all questions."
+    },
+    "api": {
+      "title": "Oops!",
+      "body": [
+        "An unexpected error occurred.",
+        "Reloading the website might resolve the issue."
+      ]
+    },
+    "collaboration": {
+      "couldNotConnect": "The connection to the live version could not be established.",
+      "authenticationFailed": "Authentication failed.",
+      "connectionLost": "The connection to the live version was interrupted."
+    },
+    "ai": {
+      "generateFlashcards": "No flashcards could be generated.",
+      "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Oops, your limit has been reached! As the page is private, no flashcards have been created."
+    }
+  },
+  "info": {
+    "page": {
+      "toggleHideText": "Disable text input for a purely navigational page without text content. Only available for pages without text."
+    },
+    "question": {
+      "newQuestionNotInFilter": "Warning: The question will not be displayed after creation because the selected options do not match the filter settings. Adjust the learning filter to display the question.",
+      "notInFilter": "The question cannot be displayed with your question filter.",
+      "isPrivate": "The question is private. Please log in.",
+      "notInPage": "The question is not included on the page."
+    },
+    "googleLogin": "When logging in with Google, data is exchanged with Google's servers. This happens after a successful login/registration as well on subsequent visits. More in our ",
+    "facebookLogin": "When logging in with Facebook, data is exchanged with Facebook's servers. This happens after a successful login/registration as well on subsequent visits. More in our ",
+    "passwordResetRequested": "If the account exists in our system, we have sent an email with a link to reset your password to {email}.",
+    "joinNow": "Ready for unlimited access? - Become a Plus member!",
+    "feed": {
+      "private": "Only you can see this entry."
+    },
+    "ai": {
+      "flashcardsCreatedWillBePublicCauseLimit": "Limit for private flashcards reached. New cards will be created publicly.",
+      "someFlashcardsCreatedWillBePublicCauseLimit": "Limit for private flashcards reached. Some new cards will be created publicly."
+    }
+  },
+    "label": {
+        "privacyPolicy": "Privacy Policy"
+    },
+    "register": {
+        "title": "Register",
+        "description": "Your wiki is just one click away.",
+        "alreadyRegistered": "Already a user?",
+        "orDivider": "or"
+    },
+    "button": {
+        "register": "Register",
+        "login": "Login",
+        "continueWithGoogle": "Continue with Google",
+        "continueWithFacebook": "Continue with Facebook"
+    }
+}
