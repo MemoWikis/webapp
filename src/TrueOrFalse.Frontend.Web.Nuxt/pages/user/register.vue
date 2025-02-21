@@ -157,8 +157,7 @@ async function register() {
         errorMessage.value = result
 }
 
-const { locale, locales } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
+const { locale, locales, setLocale } = useI18n()
 
 </script>
 
@@ -171,14 +170,14 @@ const switchLocalePath = useSwitchLocalePath()
 
                         <div class="row" style="margin-bottom: 23px; margin-top: -13px;">
                             <div v-for="l in locales" style="margin-right:20px;">
-                                <NuxtLink :key="l.code" :to="switchLocalePath(l.code)">
+                                <button :key="l.code" @click.prevent.stop="setLocale(l.code)" class="btn btn-link" style="padding: 0px; margin: 0px; font-size: 14px;">
                                     <b v-if="l.code === locale" style="color: #007bff;">
                                         {{ l.name }}
                                     </b>
                                     <template v-else>
                                         {{ l.name }}
                                     </template>
-                                </NuxtLink>
+                                </button>
                             </div>
 
                         </div>
