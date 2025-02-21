@@ -17,6 +17,8 @@ interface Props {
 }
 const props = defineProps<Props>()
 
+const { t } = useI18n()
+
 const userStore = useUserStore()
 const sideSheetStore = useSideSheetStore()
 
@@ -158,7 +160,7 @@ onMounted(() => {
                                     <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                         <div navigate class="btn memo-button register-btn">
                                             <NuxtLink to="/Registrieren">
-                                                Registrieren
+                                                {{ t('label.register') }}
                                             </NuxtLink>
                                         </div>
                                     </div>
@@ -204,7 +206,7 @@ onMounted(() => {
                                         <div class="register-btn-container hidden-xs hidden-sm" v-if="isDesktopOrTablet">
                                             <div navigate class="btn memo-button register-btn">
                                                 <NuxtLink to="/Registrieren">
-                                                    Registrieren
+                                                    {{ t('label.register') }}
                                                 </NuxtLink>
                                             </div>
                                         </div>

@@ -107,8 +107,8 @@ export const useUserStore = defineStore('userStore', {
         async register(registerData: {
             Name: string,
             Email: string,
-            Password: string
-        }) {
+            Password: string }) {
+
             const result = await $api<FetchResult<CurrentUser>>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
 
             if (!!result && result.success) {
@@ -116,8 +116,10 @@ export const useUserStore = defineStore('userStore', {
                 this.initUser(result.data)
                 await refreshNuxtData()
                 return 'success'
-            } else if (!!result && !result.success)
-                return messages.getByCompositeKey(result.messageKey)
+            } else if (!!result && !result.success) {
+                
+                return result.messageKey
+            }
         },
         openLoginModal() {
             this.showLoginModal = true

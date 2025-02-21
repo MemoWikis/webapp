@@ -17,9 +17,14 @@ export default <RouterConfig>{
             },
         },
         {
-            name: 'termsPage',
+            name: 'termsDePage',
             path: '/AGB',
-            component: () => import('~/pages/terms.vue')
+            component: () => import('~/pages/localised/terms-de.vue')
+        },
+        {
+            name: 'termsEnPage',
+            path: '/TermsOfUse',
+            component: () => import('~/pages/localised/terms-en.vue')
         },
         {
             name: 'userSettingsSubscription',
@@ -28,13 +33,23 @@ export default <RouterConfig>{
             props: { isSettingsPage: true, activeContentProp: "Subscription" }
         },
         {
-            name: 'imprintPage',
+            name: 'legalNoticeDePage',
             path: '/Impressum',
-            component: () => import('~/pages/imprint.vue')
+            component: () => import('~/pages/localised/legalNotice-de.vue')
         },
         {
-            name: 'pricePage',
+            name: 'legalNoticeEnPage',
+            path: '/LegalNotice',
+            component: () => import('~/pages/localised/legalNotice-en.vue')
+        },
+        {
+            name: 'priceDePage',
             path: '/Preise',
+            component: () => import('~/pages/membership/price.vue')
+        },
+        {
+            name: 'priceEnPage',
+            path: '/Prices',
             component: () => import('~/pages/membership/price.vue')
         },
         {

@@ -106,7 +106,8 @@ export default defineNuxtConfig({
                 file: 'en.json'
             },
         ],
-        defaultLocale: 'de',
+        defaultLocale: 'en',
+        strategy: 'no_prefix',
     },
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {

@@ -2,7 +2,6 @@
 import { FooterPages } from '../page/pageStore'
 import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
-import { color } from '../shared/colors'
 
 interface Props {
     footerPages: FooterPages,
@@ -27,6 +26,7 @@ onMounted(() => {
         windowLoaded.value = true
 })
 
+const { t, setLocale, locale, locales } = useI18n()
 </script>
 
 <template>
@@ -51,27 +51,38 @@ onMounted(() => {
                             </NuxtLink>
 
                             <div class="overline-s no-line">
-                                Alles an einem Ort –
+                                {{ t('footer.subLabelOne') }}
                                 <br />
-                                Wiki und Lernwerkzeug vereint!
+                                {{ t('footer.subLabelTwo') }}
                             </div>
                         </div>
                         <div class="footer-group">
-                            <NuxtLink @click="handleError()" to="/AGB">Nutzungsbedingungen (AGBs)</NuxtLink>
+                            <NuxtLink @click="handleError()" :to="`/${t('url.termsOfUse')}`">{{ t('label.termsOfUse') }}</NuxtLink>
                             <br />
-                            <NuxtLink @click="handleError()" to="/Impressum">Impressum & Datenschutz</NuxtLink>
+                            <NuxtLink @click="handleError()" :to="`/${t('url.legalNotice')}`">{{ t('label.legalNotice') }}</NuxtLink>
                             <br />
-                            <NuxtLink @click="handleError()" to="/Nutzer">Alle Nutzer</NuxtLink>
+                            <NuxtLink @click="handleError()" :to="`/${t('url.users')}`">{{ t('footer.allUsers') }}</NuxtLink>
                             <br />
+                        </div>
+
+                        <div class="language-switcher">
+                            <div v-for="l in locales" style="margin-right:20px;">
+                                <button :key="l.code" @click.prevent.stop="setLocale(l.code)" class="btn btn-link" style="padding: 0px; margin: 0px; font-size: 14px;">
+                                    <b v-if="l.code === locale" style="color: #007bff;">
+                                        {{ l.name }}
+                                    </b>
+                                    <template v-else>
+                                        {{ l.name }}
+                                    </template>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
                             <div class="overline-m no-line">
-                                <NuxtLink @click="handleError()"
-                                    :to="$urlHelper.getPageUrl(props.footerPages.memoWiki.name, props.footerPages.memoWiki.id)"
-                                    v-if="props.footerPages?.memoWiki">
+                                <NuxtLink @click="handleError()" :to="$urlHelper.getPageUrl(props.footerPages.memoWiki.name, props.footerPages.memoWiki.id)" v-if="props.footerPages?.memoWiki">
                                     {{ props.footerPages.memoWiki.name }}
                                 </NuxtLink>
                             </div>
@@ -86,11 +97,11 @@ onMounted(() => {
                         <div class="footer-group">
                             <div class="overline-m no-line">Software</div>
                             <NuxtLink @click="handleError()" to="https://github.com/TrueOrFalse/TrueOrFalse" target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-brands', 'github']" />&nbsp;Github
+                                <font-awesome-icon :icon="['fa-brands', 'github']" /> {{ t('footer.github') }}
                             </NuxtLink>
                             <br />
                             <NuxtLink @click="handleError()" to="http://teamcity.memowikis.net:8080/project.html?projectId=TrueOrFalse&guest=1" target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> Teamcity
+                                <font-awesome-icon :icon="['fa-solid', 'gears']" /> {{ t('footer.teamcity') }}
                             </NuxtLink>
                             <br />
                         </div>
@@ -99,7 +110,7 @@ onMounted(() => {
 
                     <div class="FooterCol xxs-stack col-xs-12 col-sm-6 col-md-3">
                         <div class="footer-group">
-                            <div class="overline-m no-line">Hilfe & Kontakt</div>
+                            <div class="overline-m no-line">{{ t('footer.helpAndContact') }}</div>
 
                             <template v-for="(t, i) in props.footerPages.helpPages" v-if="props.footerPages?.helpPages">
                                 <NuxtLink @click="handleError()" :to="$urlHelper.getPageUrl(t.name, t.id)">
@@ -110,16 +121,16 @@ onMounted(() => {
                             <br />
 
                             <NuxtLink @click="handleError()" :to="config.public.discord" target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-brands', 'discord']" />&nbsp;Discord
+                                <font-awesome-icon :icon="['fa-brands', 'discord']" /> {{ t('label.discord') }}
                             </NuxtLink><br />
                             <NuxtLink @click="handleError()" to="https://twitter.com/memoWikisWissen" target="_blank" :external="true">
-                                <font-awesome-icon :icon="['fa-brands', 'twitter']" />&nbsp;auf Twitter
+                                <font-awesome-icon :icon="['fa-brands', 'twitter']" /> {{ t('label.twitter') }}
                             </NuxtLink>
                             <br />
                         </div>
                         <div class="footer-group">
-                            <div class="overline-m no-line">Mitgliedschaft</div>
-                            <LazyNuxtLink to="/Preise">Preise</LazyNuxtLink>
+                            <div class="overline-m no-line">{{ t('footer.membership') }}</div>
+                            <LazyNuxtLink :to="`/${t('url.prices')}`">{{ t('url.prices') }}</LazyNuxtLink>
                             <br />
                         </div>
                     </div>
@@ -141,7 +152,7 @@ onMounted(() => {
                         </div>
 
                         <div class="footer-group">
-                            <div class="overline-m no-line">Beliebte Seiten</div>
+                            <div class="overline-m no-line">{{ t('footer.popularPages') }}</div>
                             <template v-for="(t, i) in props.footerPages.popularPages" v-if="props.footerPages?.popularPages">
                                 <NuxtLink @click="handleError()" :to="$urlHelper.getPageUrl(t.name, t.id)">
                                     {{ t.name }}

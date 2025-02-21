@@ -19,9 +19,17 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     showSearchIcon: true,
     placement: 'bottom-start',
-    placeholderLabel: 'Suche',
     pageIdsToFilter: () => [],
     distance: 6
+})
+
+const { t } = useI18n()
+const placeHolderText = ref(t('label.search'))
+
+onBeforeMount(() => {
+    if (props.placeholderLabel)
+        placeHolderText.value = props.placeholderLabel
+    else placeHolderText.value = t('label.search')
 })
 
 const emit = defineEmits(['selectItem', 'navigateToUrl'])
@@ -166,7 +174,7 @@ const ariaId = useId()
                     <div class="searchInputContainer">
                         <input class="form-control search" :class="{ 'hasSearchIcon': props.showSearchIcon }"
                             type="text" v-bind:value="searchTerm" @input="event => inputValue(event)" autocomplete="off"
-                            :placeholder="props.placeholderLabel" ref="searchInput" />
+                            :placeholder="placeHolderText" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
 
@@ -179,20 +187,19 @@ const ariaId = useId()
                 <template #popper>
                     <div class="searchDropdown">
                         <div v-if="pages.length > 0" class="searchBanner">
-                            <div>Seiten </div>
-                            <div>{{ pageCount }} Treffer</div>
+                            <div>{{ t('search.pages') }} </div>
+                            <div>{{ t('search.results', pageCount) }}</div>
                         </div>
-                        <div class="searchResultItem" v-for="t in pages" @click="selectItem(t)" v-tooltip="t.name">
-                            <Image :src="t.imageUrl" :format="ImageFormat.Page" />
+                        <div class="searchResultItem" v-for="p in pages" @click="selectItem(p)" v-tooltip="p.name">
+                            <Image :src="p.imageUrl" :format="ImageFormat.Page" />
                             <div class="searchResultLabelContainer">
-                                <div class="searchResultLabel body-m">{{ t.name }}</div>
-                                <div class="searchResultSubLabel body-s">{{ t.questionCount }} Frage<template
-                                        v-if="t.questionCount != 1">n</template></div>
+                                <div class="searchResultLabel body-m">{{ p.name }}</div>
+                                <div class="searchResultSubLabel body-s">{{ t('search.countedQuestions', p.questionCount) }}</div>
                             </div>
                         </div>
                         <div v-if="questions.length > 0" class="searchBanner">
-                            <div>Fragen </div>
-                            <div>{{ questionCount }} Treffer</div>
+                            <div>{{ t('search.questions') }} </div>
+                            <div>{{ t('search.results', questionCount) }}</div>
                         </div>
                         <div class="searchResultItem" v-for="q in questions" @click="selectItem(q)" v-tooltip="q.name">
                             <Image :src="q.imageUrl" />
@@ -202,8 +209,8 @@ const ariaId = useId()
                             </div>
                         </div>
                         <div v-if="users.length > 0" class="searchBanner">
-                            <div>Nutzer </div>
-                            <div class="link" @click="openUsers()">zeige {{ userCount }} Treffer</div>
+                            <div>{{ t('search.users') }}</div>
+                            <div class="link" @click="openUsers()">{{ t('search.showUserResults', userCount) }}</div>
                         </div>
                         <div class="searchResultItem" v-for="u in users" @click="selectItem(u)" v-tooltip="u.name">
                             <Image :src="u.imageUrl" :format="ImageFormat.Author" />
@@ -213,7 +220,7 @@ const ariaId = useId()
                             </div>
                         </div>
                         <div v-if="noResults" class="noResult">
-                            <div>Kein Treffer</div>
+                            <div>{{ t('search.noResults') }}</div>
                         </div>
                     </div>
 

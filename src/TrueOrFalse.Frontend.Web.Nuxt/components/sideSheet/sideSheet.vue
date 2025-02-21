@@ -271,6 +271,8 @@ onMounted(() => {
         })
     }
 })
+
+const { t } = useI18n()
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"
@@ -287,7 +289,7 @@ onMounted(() => {
                             </template>
                             <font-awesome-icon :icon="['fas', 'folder']" />
                             <div v-show="!hidden" class="header-title">
-                                Meine Wikis
+                                {{ t('sideSheet.myWikis') }}
                             </div>
                         </div>
                     </template>
@@ -309,10 +311,10 @@ onMounted(() => {
                                         <template #popper="{ hide }">
                                             <div class="sidesheet-wikioptions" @mouseenter="cancelMouseLeave">
                                                 <p class="breadcrumb-dropdown dropdown-row" @click="deletePageStore.openModal(wiki.id, false); hide()">
-                                                    Wiki löschen
+                                                    {{ t('sideSheet.deleteWiki') }}
                                                 </p>
                                                 <p v-if="wiki.hasParents" class="breadcrumb-dropdown dropdown-row" @click="convertStore.openModal(wiki.id)">
-                                                    In Seite umwandeln
+                                                    {{ t('sideSheet.convertToPage') }}
                                                 </p>
                                             </div>
                                         </template>
@@ -326,7 +328,7 @@ onMounted(() => {
                         <Transition name="collapse">
                             <div v-if="showWikis" class="sidesheet-button" @click="openCreateWikiModal">
                                 <font-awesome-icon :icon="['fas', 'folder-plus']" />
-                                {{ collapsed ? '' : 'Wiki erstellen' }}
+                                {{ collapsed ? '' : t('label.createWiki') }}
                             </div>
                         </Transition>
                     </template>
@@ -342,7 +344,7 @@ onMounted(() => {
                             </template>
                             <font-awesome-icon :icon="['fas', 'star']" />
                             <div v-show="!hidden" class="header-title">
-                                Favoriten
+                                {{ t('sideSheet.favourites') }}
                             </div>
                         </div>
                     </template>
@@ -373,7 +375,7 @@ onMounted(() => {
                         <Transition name="collapse">
                             <div v-if="showFavorites" class="sidesheet-button" @click="addToFavorites(pageStore.name, pageStore.id)" :class="{ 'disabled': isFavorite }">
                                 <font-awesome-icon :icon="['fas', 'plus']" />
-                                {{ isFavorite ? 'Als Favorit hinzugefügt' : 'Zu Favoriten hinzufügen' }}
+                                {{ isFavorite ? t('label.addedAsFavorite') : t('label.addToFavorites') }}
                             </div>
                         </Transition>
                     </template>
@@ -389,7 +391,7 @@ onMounted(() => {
                             </template>
                             <font-awesome-icon :icon="['fas', 'clock-rotate-left']" />
                             <div v-show="!hidden" class="header-title">
-                                Zuletzt besucht
+                                {{ t('sideSheet.lastVisited') }}
                             </div>
                         </div>
                     </template>
@@ -421,7 +423,7 @@ onMounted(() => {
 
                             <font-awesome-icon :icon="['fas', 'circle-question']" />
                             <div v-show="!hidden" class="header-title">
-                                Hilfe
+                                {{ t('sideSheet.help') }}
                             </div>
                         </div>
                     </template>
@@ -431,14 +433,14 @@ onMounted(() => {
                             <NuxtLink
                                 :to="$urlHelper.getPageUrl(props.footerPages.documentation.name, props.footerPages.documentation.id)"
                                 class="sidebar-link">
-                                Dokumentation
+                                {{ t('sideSheet.documentation') }}
                             </NuxtLink>
                             <div class="link-divider-container">
                                 <div class="link-divider"></div>
                             </div>
                             <NuxtLink :to="config.public.discord" class="sidebar-link" @mouseover="discordBounce = true"
                                 @mouseleave="discordBounce = false">
-                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> Discord
+                                <font-awesome-icon :icon="['fab', 'discord']" :bounce="discordBounce" /> {{ t('label.discord') }}
                             </NuxtLink>
                         </div>
                     </template>

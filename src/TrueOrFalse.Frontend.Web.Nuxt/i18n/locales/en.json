@@ -136,19 +136,70 @@
       "someFlashcardsCreatedWillBePublicCauseLimit": "Limit for private flashcards reached. Some new cards will be created publicly."
     }
   },
-    "label": {
-        "privacyPolicy": "Privacy Policy"
+  "label": {
+    "privacyPolicy": "Privacy Policy",
+    "termsOfUse": "Terms of Use",
+    "search": "Search",
+    "register": "Register",
+    "login": "Login",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithFacebook": "Continue with Facebook",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "legalNotice": "Legal Notice & Privacy Policy",
+    "discord": "Discord",
+    "twitter": "Twitter",
+    "createWiki": "Create Wiki",
+    "addToFavorites": "Add to Favorites",
+    "addedAsFavorite": "Added as Favorite"
+  },
+  "register": {
+    "title": "Register",
+    "description": "Your wiki is just one click away.",
+    "alreadyRegistered": "Already a user?",
+    "orDivider": "or",
+    "registerNote": {
+      "partOne": "By registering with Google or Facebook, you agree to our ",
+      "partTwo": " and our ",
+      "partThree": ".",
+      "partFour": "You must be at least 16 years old, "
     },
-    "register": {
-        "title": "Register",
-        "description": "Your wiki is just one click away.",
-        "alreadyRegistered": "Already a user?",
-        "orDivider": "or"
-    },
-    "button": {
-        "register": "Register",
-        "login": "Login",
-        "continueWithGoogle": "Continue with Google",
-        "continueWithFacebook": "Continue with Facebook"
-    }
+    "hereMoreInfos": "learn more here!"
+  },
+  "url": {
+    "termsOfUse": "TermsOfUse",
+    "legalNotice": "LegalNotice",
+    "users": "Users",
+    "prices": "Prices"
+  },
+  "search": {
+    "results": "One result | {count} results",
+    "pages": "Pages",
+    "questions": "Questions",
+    "countedQuestions": "No question | One question | {count} questions",
+    "users": "Users",
+    "showUserResults": "show one result | show {count} results",
+    "noResults": "No results found"
+  },
+  "sideSheet": {
+    "myWikis": "My Wikis",
+    "deleteWiki": "Delete Wiki",
+    "convertToPage": "Convert to Page",
+    "favourites": "Favorites",
+    "lastVisited": "Last Visited",
+    "help": "Help",
+    "documentation": "Documentation"
+  },
+  "footer": {
+    "subLabelOne": "Everything in one place -",
+    "subLabelTwo": "Wiki and learning tool combined!",
+    "allUsers": "All Users",
+    "software": "Software",
+    "github": "GitHub",
+    "teamcity": "TeamCity",
+    "helpAndContact": "Help & Contact",
+    "membership": "Membership",
+    "popularPages": "Popular Pages"
+  }
 }
