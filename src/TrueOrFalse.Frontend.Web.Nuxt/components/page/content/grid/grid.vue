@@ -105,6 +105,7 @@ deletePageStore.$onAction(({ after, name }) => {
         })
     }
 })
+const { t } = useI18n()
 
 async function addGridItem(id: number) {
     const result = await loadGridItem(id)
@@ -112,7 +113,7 @@ async function addGridItem(id: number) {
     if (result.success === true) {
         pageStore.gridItems.push(result.data)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 async function loadGridItem(id: number) {
@@ -129,7 +130,7 @@ async function reloadGridItem(id: number) {
     if (result.success === true) {
         pageStore.gridItems = pageStore.gridItems.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 function removeGridItem(id: number) {

@@ -99,10 +99,10 @@
     },
     "api": {
       "title": "Oops!",
-      "body": [
-        "An unexpected error occurred.",
-        "Reloading the website might resolve the issue."
-      ]
+      "body": {
+        "title": "An unexpected error occurred.",
+        "suggestion": "Reloading the website might resolve the issue."
+      }
     },
     "collaboration": {
       "couldNotConnect": "The connection to the live version could not be established.",
@@ -201,5 +201,15 @@
     "helpAndContact": "Help & Contact",
     "membership": "Membership",
     "popularPages": "Popular Pages"
+  },
+  "alert": {
+    "showDetails": "Show Details"
+  },
+  "globalLicense": {
+    "text": {
+      "partOne": "Unless otherwise indicated, all content on this page is licensed under",
+      "partTwo": "Individual elements (such as questions, images, videos, text excerpts, etc. taken from other sources) may be subject to different licenses and are marked accordingly."
+    },
+    "creativeCommonsLabel": "Creative Commons Namensnennung 4.0 (CC-BY-4.0)"
   }
 }

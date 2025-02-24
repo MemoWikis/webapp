@@ -19,12 +19,12 @@ export default <RouterConfig>{
         {
             name: 'termsDePage',
             path: '/AGB',
-            component: () => import('~/pages/localised/terms-de.vue')
+            component: () => import('~/pages/terms/terms-de.vue')
         },
         {
             name: 'termsEnPage',
             path: '/TermsOfUse',
-            component: () => import('~/pages/localised/terms-en.vue')
+            component: () => import('~/pages/terms/terms-en.vue')
         },
         {
             name: 'userSettingsSubscription',
@@ -35,12 +35,12 @@ export default <RouterConfig>{
         {
             name: 'legalNoticeDePage',
             path: '/Impressum',
-            component: () => import('~/pages/localised/legalNotice-de.vue')
+            component: () => import('~/pages/legalNotice/legalNotice-de.vue')
         },
         {
             name: 'legalNoticeEnPage',
             path: '/LegalNotice',
-            component: () => import('~/pages/localised/legalNotice-en.vue')
+            component: () => import('~/pages/legalNotice/legalNotice-en.vue')
         },
         {
             name: 'priceDePage',

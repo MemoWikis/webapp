@@ -55,7 +55,8 @@ export const useAlertStore = defineStore('alertStore', {
 		text(): string | null {
 			const text = this.msg?.text ?? null
 			if ((text == null || !text && this.type == AlertType.Error) && this.msg?.customHtml == null) {
-				return messages.error.default
+				const { t } = useI18n()
+				return t('error.default')
 			}
 			return text;
 		},

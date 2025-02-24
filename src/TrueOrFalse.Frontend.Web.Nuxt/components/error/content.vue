@@ -44,7 +44,8 @@ function setErrorImage(statusCode: number) {
 }
 
 const errorImgSrc = ref<string>('/Images/Error/memo-500_german_600.png')
-const description = ref<string>(messages.error.route.notFound)
+const { t } = useI18n()
+const description = ref<string>(t('error.route.notFound'))
 
 function handleError() {
     clearError({ redirect: '/' })

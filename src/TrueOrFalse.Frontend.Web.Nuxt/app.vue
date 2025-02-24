@@ -187,7 +187,7 @@ function logError(e: any) {
 
 	if (import.meta.client) {
 		const alertStore = useAlertStore()
-		alertStore.openAlert(AlertType.Error, { text: null, customDetails: e, texts: messages.error.api.body }, "Seite neu laden", true, t('error.api.title'), 'reloadPage', 'Zurück')
+		alertStore.openAlert(AlertType.Error, { text: null, customDetails: e, texts: [t('error.api.body.title'), t('error.api.body.suggestion')] }, "Seite neu laden", true, t('error.api.title'), 'reloadPage', 'Zurück')
 
 		alertStore.$onAction(({ name, after }) => {
 			if (name === 'closeAlert') {

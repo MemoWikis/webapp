@@ -57,6 +57,7 @@ watch(() => props.dropExpand, val => {
 
 const children = ref<GridPageItem[]>([])
 const childrenLoaded = ref<boolean>(false)
+const { t } = useI18n()
 
 async function loadChildren(force: boolean = false) {
 
@@ -73,7 +74,7 @@ async function loadChildren(force: boolean = false) {
     if (result.success === true) {
         children.value = result.data
     } else if (result.success === false) {
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
     }
 
     childrenLoaded.value = true
@@ -204,7 +205,7 @@ async function addGridItem(id: number) {
         else
             children.value.push(result.data)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 async function loadGridItem(id: number) {
@@ -221,7 +222,7 @@ async function reloadGridItem(id: number) {
     if (result.success === true) {
         children.value = children.value.map(i => i.id === result.data.id ? result.data : i)
     } else if (result.success === false)
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
 }
 
 const dragActive = ref(false)

@@ -102,7 +102,10 @@ export const useUserStore = defineStore('userStore', {
                 this.showLoginModal = false
                 this.initUser(result.data)
                 return { success: true }
-            } else return { success: false, msg: messages.getByCompositeKey(result.messageKey) }
+            } else  {
+                const { t } = useI18n()
+                return { success: false, msg: t(result.messageKey) }
+            }
         },
         async register(registerData: {
             Name: string,

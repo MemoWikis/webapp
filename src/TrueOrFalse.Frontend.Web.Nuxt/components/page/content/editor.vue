@@ -61,7 +61,7 @@ const handleConnectionLost = () => {
 
     const data: SnackbarData = {
         type: 'error',
-        text: messages.error.collaboration.connectionLost,
+        text: { message: t('error.collaboration.connectionLost') },
         duration: 8000
     }
     snackbarStore.showSnackbar(data)
@@ -143,6 +143,8 @@ const initProvider = () => {
 
 const deleteImageSrc = ref()
 
+const { t } = useI18n()
+
 const initEditor = () => {
     editor.value = new Editor({
         content: provider.value?.isConnected ? null : pageStore.initialContent,
@@ -168,7 +170,7 @@ const initEditor = () => {
             Placeholder.configure({
                 emptyEditorClass: 'is-editor-empty',
                 emptyNodeClass: 'is-empty',
-                placeholder: 'Klicke hier um zu tippen ...',
+                placeholder: t('editor.placeholder'),
                 showOnlyWhenEditable: true,
                 showOnlyCurrent: true,
             }),

@@ -9,12 +9,13 @@ const activityPointsStore = useActivityPointsStore()
 const { isMobile } = useDevice()
 const ariaId = useId()
 
-const { locale, locales } = useI18n()
-const switchLocalePath = useSwitchLocalePath()
+const { locale, locales, setLocale } = useI18n()
 
 const availableLocales = computed(() => {
     return locales.value.filter(i => i.code !== locale.value)
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -43,12 +44,28 @@ const availableLocales = computed(() => {
                 </template>
 
                 <div class="user-dropdown-info">
-                    <div class="user-dropdown-label">Deine Lernpunkte</div>
+                    <div class="user-dropdown-label">{{ t('userDropdown.activitySection.title') }}</div>
 
                     <div class="user-dropdown-container level-info">
                         <div class="primary-info">
-                            Mit {{ activityPointsStore.points }} <b>Lernpunkten</b> <br />
-                            bist du in <b>Level {{ activityPointsStore.level }}</b>.
+                            <i18n-t keypath="userDropdown.activitySection.text" tag="p">
+                                <template #points>
+                                    {{ t('userDropdown.activitySection.learningPoints', activityPointsStore.points) }}
+                                </template>
+                                <template #learningPoiints>
+                                    <b>
+                                        {{ t('label.learningPoints') }}
+                                    </b>
+                                </template>
+                                <template #breakpoint>
+                                    <br />
+                                </template>
+                                <template #level>
+                                    <b>
+                                        {{ t('userDropdown.activitySection.level', activityPointsStore.level) }}
+                                    </b>
+                                </template>
+                            </i18n-t>
                         </div>
                         <div class="progress-bar-container">
                             <div class="p-bar">
@@ -64,8 +81,19 @@ const availableLocales = computed(() => {
                             </div>
                         </div>
                         <div class="secondary-info">
-                            Noch {{ activityPointsStore.activityPointsTillNextLevel }} Punkte <br />
-                            bis Level {{ activityPointsStore.level + 1 }}
+                            <i18n-t keypath="userDropdown.activitySection.nextLevelText" tag="p">
+                                <template #pointsToNextLevel>
+                                    <b> {{ activityPointsStore.activityPointsTillNextLevel }} </b>
+                                </template>
+                                <template #breakpoint>
+                                    <br />
+                                </template>
+                                <template #nextLevel>
+                                    <b>
+                                        {{ activityPointsStore.level + 1 }}
+                                    </b>
+                                </template>
+                            </i18n-t>
                         </div>
                     </div>
                 </div>
@@ -73,12 +101,26 @@ const availableLocales = computed(() => {
                 <div class="divider"></div>
 
                 <div class="user-dropdown-font-size-selector">
-                    <div class="user-dropdown-label">Schriftgröße</div>
+                    <div class="user-dropdown-label">{{ t('label.fontSize') }}</div>
                     <div class="user-dropdown-container">
                         <div class="font-size-selector">
-                            <div @click="userStore.setFontSize(FontSize.Small)" class="font-size-selector-btn small" :class="{ 'is-active': userStore.fontSize === FontSize.Small }">Aa</div>
-                            <div @click="userStore.setFontSize(FontSize.Medium)" class="font-size-selector-btn medium" :class="{ 'is-active': userStore.fontSize === FontSize.Medium }">Aa</div>
-                            <div @click="userStore.setFontSize(FontSize.Large)" class="font-size-selector-btn large" :class="{ 'is-active': userStore.fontSize === FontSize.Large }">Aa</div>
+                            <div @click="userStore.setFontSize(FontSize.Small)" class="font-size-selector-btn small" :class="{ 'is-active': userStore.fontSize === FontSize.Small }">{{ t('label.fontSizeSample') }}</div>
+                            <div @click="userStore.setFontSize(FontSize.Medium)" class="font-size-selector-btn medium" :class="{ 'is-active': userStore.fontSize === FontSize.Medium }">{{ t('label.fontSizeSample') }}</div>
+                            <div @click="userStore.setFontSize(FontSize.Large)" class="font-size-selector-btn large" :class="{ 'is-active': userStore.fontSize === FontSize.Large }">{{ t('label.fontSizeSample') }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="user-dropdown-font-size-selector">
+                    <div class="user-dropdown-label">{{ t('label.fontSize') }}</div>
+                    <div class="user-dropdown-container">
+                        <div class="font-size-selector">
+                            <div v-for="l in locales" style="margin-right:20px;">
+                                <div @click.prevent.stop="setLocale(l.code)" class="font-size-selector-btn" :class="{ 'is-active': l.code === locale }">
+                                    <Image :src="l.flag" />
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -87,7 +129,7 @@ const availableLocales = computed(() => {
 
                 <div class="user-dropdown-social">
                     <NuxtLink :to="`/Nutzer/${encodeURI(userStore.name)}/${userStore.id}`" @click="hide()">
-                        <div class="user-dropdown-label">Deine Profilseite</div>
+                        <div class="user-dropdown-label">{{ t('label.yourProfilePage') }}</div>
                     </NuxtLink>
                 </div>
 
@@ -95,25 +137,23 @@ const availableLocales = computed(() => {
 
                 <div class="user-dropdown-managment">
                     <NuxtLink @click="hide()" :to="`/Nutzer/Einstellungen`">
-                        <div class="user-dropdown-label">Konto-Einstellungen</div>
+                        <div class="user-dropdown-label">
+                            {{ t('label.accountSettings') }}
+                        </div>
                     </NuxtLink>
 
                     <LazyNuxtLink to="/Maintenance" @click="hide()" v-if="userStore.isAdmin">
                         <div class="user-dropdown-label" @click="hide()">
-                            Administrativ
+                            {{ t('label.administrative') }}
                         </div>
                     </LazyNuxtLink>
+
                     <div class="user-dropdown-label" @click="userStore.logout(), hide()">
-                        Ausloggen
+                        {{ t('label.logout') }}
                     </div>
                 </div>
 
                 <div class="divider"></div>
-                <div>
-                    <NuxtLink v-for="locale in availableLocales" :key="locale.code" :to="switchLocalePath(locale.code)">
-                        {{ locale.name }}
-                    </NuxtLink>
-                </div>
             </div>
         </template>
     </VDropdown>

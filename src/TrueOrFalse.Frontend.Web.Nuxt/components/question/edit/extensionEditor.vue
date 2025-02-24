@@ -18,12 +18,11 @@ interface Props {
     isInit: boolean
 }
 const props = defineProps<Props>()
-const alertStore = useAlertStore()
 const editQuestionStore = useEditQuestionStore()
 
 const emit = defineEmits(['setQuestionExtensionData'])
 const lowlight = createLowlight(all)
-
+const { t } = useI18n()
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -42,7 +41,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+            placeholder: t('editor.placeholderDescription'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({

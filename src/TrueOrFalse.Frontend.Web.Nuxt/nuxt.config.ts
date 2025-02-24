@@ -1,7 +1,7 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
     nitro: {
-        preset: 'node-cluster'
+        preset: "node-cluster",
     },
     runtimeConfig: {
         seqServerApiKey: "",
@@ -11,11 +11,13 @@ export default defineNuxtConfig({
             clientBase: "http://localhost:3000",
             serverBase: "http://localhost",
             officialBase: "https://memowikis.net",
-            gsiClientKey: "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
+            gsiClientKey:
+                "290065015753-gftdec8p1rl8v6ojlk4kr13l4ldpabc8.apps.googleusercontent.com",
             discord: "https://discord.com/invite/nXKwGrN",
             stripePlusPriceId: "price_1NI9weCrH8zPItlldHVfhAKI",
             stripeTeamPriceId: "",
-            stripeKey: "pk_test_51NFyR9CrH8zPItllWP8mWb9Atsp0NfnFsthj0JPzFWsbfj7VXKKj2kcPoTQLnacJv6ODEVAWf7g0OS6spaGuZYz400m7JmdUZW",
+            stripeKey:
+                "pk_test_51NFyR9CrH8zPItllWP8mWb9Atsp0NfnFsthj0JPzFWsbfj7VXKKj2kcPoTQLnacJv6ODEVAWf7g0OS6spaGuZYz400m7JmdUZW",
             seqServerPort: undefined,
             seqServerUrl: undefined,
             seqClientApiKey: "",
@@ -25,19 +27,25 @@ export default defineNuxtConfig({
         },
     },
     ssr: true,
-    modules: ['@pinia/nuxt', '@nuxtjs/device', '@nuxtjs/eslint-module', 'nuxt-snackbar', '@nuxtjs/i18n'],
+    modules: [
+        "@pinia/nuxt",
+        "@nuxtjs/device",
+        "@nuxtjs/eslint-module",
+        "nuxt-snackbar",
+        "@nuxtjs/i18n",
+    ],
     css: [
-        '@fortawesome/fontawesome-svg-core/styles.css',
-        '~/assets/bootstrap/bootstrap.less',
+        "@fortawesome/fontawesome-svg-core/styles.css",
+        "~/assets/bootstrap/bootstrap.less",
         // '~/assets/bootstrap/memoWikis_overrides.less',
-        '~/assets/bootstrap/variables_custom.less',
-        '~/assets/includes/shared.less',
-        '~/assets/memo-bundle.less',
-        '~/assets/fonts/googleFonts.less',
-        '~/assets/shared/dropdown.less',
-        'vue-final-modal/style.css',
-        '~/assets/vue-transitions.less',
-        '~/assets/shared/pagination.less',
+        "~/assets/bootstrap/variables_custom.less",
+        "~/assets/includes/shared.less",
+        "~/assets/memo-bundle.less",
+        "~/assets/fonts/googleFonts.less",
+        "~/assets/shared/dropdown.less",
+        "vue-final-modal/style.css",
+        "~/assets/vue-transitions.less",
+        "~/assets/shared/pagination.less",
     ],
     typescript: {
         shim: false,
@@ -45,69 +53,89 @@ export default defineNuxtConfig({
         // strict: false
         tsConfig: {
             compilerOptions: {
-                verbatimModuleSyntax: false
+                verbatimModuleSyntax: false,
+            },
+            exclude: ["**/*.less"],
         },
-        exclude:["**/*.less"]
-    }
     },
     build: {
         transpile: [
-            '@fortawesome/fontawesome-svg-core',
-            '@fortawesome/free-solid-svg-icons',
-            '@fortawesome/free-regular-svg-icons',
-            '@fortawesome/free-brands-svg-icons',
-            '@fortawesome/vue-fontawesome',
-            '@fortawesome',
-            'underscore',
-        ]
+            "@fortawesome/fontawesome-svg-core",
+            "@fortawesome/free-solid-svg-icons",
+            "@fortawesome/free-regular-svg-icons",
+            "@fortawesome/free-brands-svg-icons",
+            "@fortawesome/vue-fontawesome",
+            "@fortawesome",
+            "underscore",
+        ],
     },
     components: [
         {
-            path: '~/components',
-            extensions: ['.vue'],
-        }
+            path: "~/components",
+            extensions: [".vue"],
+        },
     ],
     snackbar: {
         bottom: true,
         duration: 5000,
         groups: false,
-        success: '#AFD534',
-        error: '#FF001F',
-        warning: '#FDD648',
-        info: '#555555'
-      },
+        success: "#AFD534",
+        error: "#FF001F",
+        warning: "#FDD648",
+        info: "#555555",
+    },
     router: {
-    options: {
-        scrollBehaviorType: 'smooth'
-        }
+        options: {
+            scrollBehaviorType: "smooth",
+        },
     },
     app: {
         head: {
             link: [
-                { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-                { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-                { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-                { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-            ]   
-        }
+                { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+                {
+                    rel: "apple-touch-icon",
+                    sizes: "180x180",
+                    href: "/apple-touch-icon.png",
+                },
+                {
+                    rel: "icon",
+                    type: "image/png",
+                    sizes: "32x32",
+                    href: "/favicon-32x32.png",
+                },
+                {
+                    rel: "icon",
+                    type: "image/png",
+                    sizes: "16x16",
+                    href: "/favicon-16x16.png",
+                },
+            ],
+        },
     },
     i18n: {
         locales: [
             {
-                name: 'Deutsch',
-                code: 'de',
-                iso: 'de-DE',
-                file: 'de.json'
+                name: "Deutsch",
+                code: "de",
+                iso: "de-DE",
+                file: "de.json",
+                flag: "/Images/Flags/de.svg",
             },
             {
-                name: 'English',
-                code: 'en',
-                iso: 'en-US',
-                file: 'en.json'
+                name: "English",
+                code: "en",
+                iso: "en-US",
+                file: "en.json",
+                flag: "/Images/Flags/en.svg",
             },
         ],
-        defaultLocale: 'en',
-        strategy: 'no_prefix',
+        defaultLocale: "en",
+        strategy: "no_prefix",
+        compilation: {
+            strictMessage: false,
+            escapeHtml: false,
+        },
     },
     // Einkommentieren, wenn Sourcemaps im ProdBuild benötigt:
     // sourcemap: {
@@ -115,7 +143,6 @@ export default defineNuxtConfig({
     //     client: true
     // },
     // debug: true,
-
 
     // devServer: {
     //     host: 'localhost:5069'
@@ -126,5 +153,4 @@ export default defineNuxtConfig({
     //         cert: 'localhost.pem'
     //     }
     // },
-
 })

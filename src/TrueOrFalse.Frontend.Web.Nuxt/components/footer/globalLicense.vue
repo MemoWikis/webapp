@@ -17,6 +17,8 @@ function handleError() {
         clearError()
 }
 
+const { t } = useI18n()
+
 </script>
 
 <template>
@@ -30,12 +32,12 @@ function handleError() {
                             <Image src="/Images/Licenses/cc-by 88x31.png" alt="Creative Commons Lizenzvertrag" />
                         </NuxtLink>
                         <div class="Text cc-license-text">
-                            Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz <NuxtLink
-                                rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">Creative
-                                Commons Namensnennung
-                                4.0 (CC-BY-4.0)</NuxtLink>. Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder,
-                            Videos,
-                            Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet.
+                            {{ t('globalLicense.text.partOne') }}
+                            <NuxtLink rel="license" to="https://creativecommons.org/licenses/by/4.0/" :external="true">
+                                {{ t('globalLicense.creativeCommonsLabel') }}
+                            </NuxtLink>.
+                            <br />
+                            {{ t('globalLicense.text.partTwo') }}
                         </div>
                     </div>
                 </div>

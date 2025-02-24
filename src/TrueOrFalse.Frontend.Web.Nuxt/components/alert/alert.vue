@@ -55,6 +55,8 @@ watch(() => alertStore.show, (show) => {
         showDetails.value = false
     }
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -96,7 +98,8 @@ watch(() => alertStore.show, (show) => {
                     </div>
                     <div v-if="alertStore.msg?.customDetails" class="alert-details">
                         <div class="alert-details-label" @click="showDetails = !showDetails" v-if="!showDetails">
-                            Details anzeigen</div>
+                            {{ t('alert.showDetails') }}
+                        </div>
                         <div v-if="showDetails" class="alert-details-code">
                             <div class="code-container">
                                 <code> {{ alertStore.msg.customDetails }} </code>

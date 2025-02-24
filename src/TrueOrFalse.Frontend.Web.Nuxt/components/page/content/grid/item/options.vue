@@ -28,6 +28,8 @@ const props = defineProps<Props>()
 
 const { $urlHelper } = useNuxtApp()
 
+const { t } = useI18n()
+
 async function removeParent() {
     const userStore = useUserStore()
     if (!userStore.isLoggedIn) {
@@ -46,14 +48,14 @@ async function removeParent() {
     if (result) {
         if (result.success === true) {
             alertStore.openAlert(AlertType.Success, {
-                text: messages.getByCompositeKey(result.messageKey)
+                text: t(result.messageKey)
             })
 
             editPageRelationStore.removePage(data.childId, data.parentIdToRemove)
         }
         else {
             alertStore.openAlert(AlertType.Error, {
-                text: messages.getByCompositeKey(result.messageKey)
+                text: t(result.messageKey)
             })
         }
     }

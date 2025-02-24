@@ -275,20 +275,23 @@ const { locale, locales, setLocale } = useI18n()
 
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-8" style="font-size: 12px; padding-top: 20px; text-align: center;">
-                                    {{ t('register.registerNote.partOne') }}
-                                    <NuxtLink :to="`/${t('url.termsOfUse')}`">
-                                        {{ t('label.termsOfUse') }}
-                                    </NuxtLink>
-                                    {{ t('register.registerNote.partTwo') }}
-                                    <NuxtLink :to="`/${t('url.legalNotice')}`">
-                                        {{ t('label.privacyPolicy') }}
-                                    </NuxtLink>
-                                    {{ t('register.registerNote.partThree') }}
-                                    <br />
-                                    {{ t('register.registerNote.partFour') }}
-                                    <NuxtLink :to="`/${t('url.legalNotice')}#under16`">
-                                        {{ t('register.hereMoreInfos') }}
-                                    </NuxtLink>
+                                    <i18n-t keypath="register.registerNote">
+                                        <template #termsOfUse>
+                                            <NuxtLink :to="`/${t('url.termsOfUse')}`">
+                                                {{ t('label.termsOfUse') }}
+                                            </NuxtLink>
+                                        </template>
+                                        <template #privacyPolicy>
+                                            <NuxtLink :to="`/${t('url.legalNotice')}`">
+                                                {{ t('label.privacyPolicy') }}
+                                            </NuxtLink>
+                                        </template>
+                                        <template #hereMoreInfos>
+                                            <NuxtLink :to="`/${t('url.legalNotice')}#under16`">
+                                                {{ t('register.hereMoreInfos') }}
+                                            </NuxtLink>
+                                        </template>
+                                    </i18n-t>
                                 </div>
                             </div>
 

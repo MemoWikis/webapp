@@ -23,7 +23,7 @@ const props = defineProps<Props>()
 const emit = defineEmits(['setQuestionData'])
 const lowlight = createLowlight(all)
 const deleteImageSrc = ref<string | null>(null)
-
+const { t } = useI18n()
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -42,7 +42,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Gib den Fragetext ein',
+            placeholder: t('editor.placeholderQuestion'),
             showOnlyCurrent: true,
         }),
         Indent,

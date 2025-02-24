@@ -1,205 +1,233 @@
 {
-  "success": {
-    "page": {
-      "publish": "Deine Seite wurde erfolgreich veröffentlicht.",
-      "setToPrivate": "Die Seite wurde erfolgreich auf 'Privat' gesetzt.",
-      "unlinked": "Die Verknüpfung wurde erfolgreich gelöst.",
-      "addedToPersonalWiki": "Die Seite wurde erfolgreich zu deinem Wiki hinzugefügt.",
-      "saveImage": "Das neue Bild wurde gespeichert",
-      "saved": "Die Seite wurde erfolgreich gespeichert.",
-      "convertedToWiki": "Die Seite '{name}' wurde erfolgreich in ein Wiki umgewandelt.",
-      "convertedToPage": "Das Wiki '{name}' wurde erfolgreich in eine Seite umgewandelt."
+    "success": {
+        "page": {
+            "publish": "Deine Seite wurde erfolgreich veröffentlicht.",
+            "setToPrivate": "Die Seite wurde erfolgreich auf 'Privat' gesetzt.",
+            "unlinked": "Die Verknüpfung wurde erfolgreich gelöst.",
+            "addedToPersonalWiki": "Die Seite wurde erfolgreich zu deinem Wiki hinzugefügt.",
+            "saveImage": "Das neue Bild wurde gespeichert",
+            "saved": "Die Seite wurde erfolgreich gespeichert.",
+            "convertedToWiki": "Die Seite '{name}' wurde erfolgreich in ein Wiki umgewandelt.",
+            "convertedToPage": "Das Wiki '{name}' wurde erfolgreich in eine Seite umgewandelt."
+        },
+        "question": {
+            "created": "Deine Frage wurde erfolgreich erstellt.",
+            "saved": "Deine Frage wurde erfolgreich gespeichert.",
+            "delete": "Deine Frage wurde erfolgreich gelöscht.",
+            "published": "Die Frage '{name}' wurde erfolgreich veröffentlicht.",
+            "flashcardsAdded": "Eine Karteikarte wurde hinzugefügt | {count} Karteikarten wurden hinzugefügt."
+        },
+        "user": {
+            "profileUpdate": "Deine neuen Profildaten wurde erfolgreich gespeichert",
+            "passwordChanged": "Dein Passwort wurde erfolgreich geändert.",
+            "passwordReset": "Dein Passwort wurde zurückgesetzt.",
+            "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
+        },
+        "collaboration": {
+            "connected": "Blahblah du siehst die Live Version von dieser Seite"
+        }
     },
-    "question": {
-      "created": "Deine Frage wurde erfolgreich erstellt.",
-      "saved": "Deine Frage wurde erfolgreich gespeichert.",
-      "delete": "Deine Frage wurde erfolgreich gelöscht.",
-      "published": "Die Frage '{name}' wurde erfolgreich veröffentlicht.",
-      "flashcardsAdded": "Eine Karteikarte wurde hinzugefügt | {count} Karteikarten wurden hinzugefügt."
+    "error": {
+        "subscription": {
+            "cantAddKnowledge": "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
+            "cantSavePrivateQuestion": "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
+            "cantSavePrivatePage": "Du kannst in der kostenlosen Version keine privaten Seiten mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Seiten zu erstellen."
+        },
+        "page": {
+            "parentIsPrivate": "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
+            "publicChildPages": "Diese Seite hat öffentliche untergeordnete Seiten.",
+            "publicQuestions": "Diese Seite hat öffentliche Fragen.",
+            "notLastChild": "Diese Seite kann nicht gelöscht werden, da weitere Seiten untergeordnet sind. Bitte entferne alle Unterseiten und versuche es erneut.",
+            "noRemainingParents": "Die Verknüpfung der Seite kann nicht gelöst werden. Diese Seite muss mindestens einer öffentlichen übergeordneten Seite zugeordnet sein.",
+            "parentIsRoot": "Unter 'Globales Wiki', darfst du nur private Seite hinzufügen",
+            "loopLink": "Seiten können sich nicht selbst untergeordnet werden",
+            "isAlreadyLinkedAsChild": "Diese Seite ist schon untergeordnet.",
+            "isNotAChild": "Diese Seite ist bereits keine Unterseite",
+            "isLinkedInNonWuwi": "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
+            "childIsParent": "Übergeordnete Seiten können nicht untergeordnet werden.",
+            "nameIsTaken": " ist bereits vergeben, bitte wähle einen anderen Namen!",
+            "nameIsForbidden": " ist verboten, bitte wähle einen anderen Namen!",
+            "rootPageMustBePublic": "Die Ursprungsseite kann nicht auf privat gesetzt werden.",
+            "missingRights": "Dir fehlen die notwendigen Rechte.",
+            "tooPopular": "Diese Seite ist zu oft im Wunschwissen anderer User",
+            "saveImageError": "Das Bild konnte nicht gespeichert werden.",
+            "pinnedQuestions": "",
+            "circularReference": "Die übergeordnete Seite kann nicht als Unterseite eingeordnet werden",
+            "pageNotSelected": "Du hast keine Seite ausgewählt",
+            "newPageIdIsPageIdToBeDeleted": "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
+            "noChange": "Es wurden keine Änderungen vorgenommen.",
+            "noChildSelected": "Du hast keine Unterseite ausgewählt."
+        },
+        "question": {
+            "missingText": "Der Fragetext fehlt.",
+            "missingAnswer": "Die Antwort zur Frage fehlt.",
+            "save": "Deine Frage konnte nicht gespeichert werden.",
+            "creation": "Deine Frage konnte nicht erstellt werden.",
+            "isInWuwi": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
+            "rights": "Dir fehlt die Berechtigung dazu.",
+            "errorOnDelete": "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
+            "couldNotAddFlashcards": "Die Karteikarten konnten nicht hinzugefügt werden."
+        },
+        "user": {
+            "notLoggedIn": "Bitte logge dich ein.",
+            "emailInUse": "Die Email-Adresse ist bereits in Verwendung.",
+            "falseEmailFormat": "Das Format der Emaildresse ist ungültig",
+            "userNameInUse": "Dieser Benutzername ist bereits vergeben.",
+            "passwordIsWrong": "Falsches Passwort. Gib das Passwort erneut ein.",
+            "samePassword": "Das neue Passwort entspricht dem alten Passwort. Bitte gebe ein neues Passwort ein.",
+            "passwordNotCorrectlyRepeated": "Das wiederholte Passwort gleicht nicht deiner neuen Passworteingabe.",
+            "inputError": "Bitte überprüfe deine Eingaben.",
+            "passwordResetTokenIsInvalid": "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team(at)memucho.de.",
+            "passwordResetTokenIsExpired": "Der Link ist abgelaufen.",
+            "doesNotExist": "Der angegebene Nutzer wurde nicht gefunden. Bitte überprüfe, ob deine Anmeldedaten korrekt sind.",
+            "invalidFBToken": "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
+            "emailIsInvalid": "{email} ist keine gültige E-Mail-Adresse.",
+            "passwordTooShort": "Das Passwort sollte mindestens 5 Zeichen lang sein.",
+            "loginFailed": "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
+        },
+        "default": "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
+        "route": {
+            "notFound": "Oh nein! Diese Seite existiert nicht.",
+            "noRights": "Diese Seite ist privat. Du hast keine Berechtigung, sie anzusehen.",
+            "unauthorized": "Du bist nicht angemeldet. Möglicherweise hast du deshalb keinen Zugriuff auf diese Seite."
+        },
+        "image": {
+            "tooBig": "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
+        },
+        "learningSession": {
+            "noQuestionsAvailableWithCurrentConfig": "Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus."
+        },
+        "api": {
+            "title": "Oops!",
+            "body": {
+                "title": "Ein unerwarteter Fehler ist aufgetreten.",
+                "suggestion": "Das Neuladen der Website könnte das Problem lösen."
+            }
+        },
+        "collaboration": {
+            "couldNotConnect": "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
+            "authenticationFailed": "Die Authentifizierung ist fehlgeschlagen.",
+            "connectionLost": "Die Verbindung zur Live-Version wurde unterbrochen."
+        },
+        "ai": {
+            "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",
+            "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt."
+        }
     },
-    "user": {
-      "profileUpdate": "Deine neuen Profildaten wurde erfolgreich gespeichert",
-      "passwordChanged": "Dein Passwort wurde erfolgreich geändert.",
-      "passwordReset": "Dein Passwort wurde zurückgesetzt.",
-      "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
+    "info": {
+        "page": {
+            "toggleHideText": "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Seiten ohne Textinhalt."
+        },
+        "question": {
+            "newQuestionNotInFilter": "Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt, da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.",
+            "notInFilter": "Die Frage kann mit deinem Fragefilter nicht angezeigt werden.",
+            "isPrivate": "Die Frage ist privat. Bitte logge Dich ein.",
+            "notInPage": "Die Frage ist nicht auf der Seite enthalten."
+        },
+        "googleLogin": "Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer ",
+        "facebookLogin": "Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer ",
+        "passwordResetRequested": "Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an {email} geschickt.",
+        "joinNow": "Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!",
+        "feed": {
+            "private": "Nur Du kannst diesen Eintrag sehen"
+        },
+        "ai": {
+            "flashcardsCreatedWillBePublicCauseLimit": "Limit für private Karteikarten erreicht. Neue Karten werden öffentlich erstellt.",
+            "someFlashcardsCreatedWillBePublicCauseLimit": "Limit für private Karteikarten erreicht. Einige neue Karten werden öffentlich erstellt."
+        }
     },
-    "collaboration": {
-      "connected": "Blahblah du siehst die Live Version von dieser Seite"
+    "label": {
+        "privacyPolicy": "Datenschutzerklärung",
+        "termsOfUse": "Nutzungsbedingungen",
+        "search": "Suche",
+        "register": "Registrieren",
+        "login": "Anmelden",
+        "continueWithGoogle": "Weiter mit Google",
+        "continueWithFacebook": "Weiter mit Facebook",
+        "username": "Benutzername",
+        "email": "E-Mail",
+        "password": "Passwort",
+        "legalNotice": "Impressum & Datenschutz",
+        "discord": "Discord",
+        "twitter": "Twitter",
+        "createWiki": "Wiki erstellen",
+        "addToFavorites": "Zu Favoriten hinzufügen",
+        "addedAsFavorite": "Als Favorit hinzugefügt",
+        "logout": "Abmelden",
+        "fontSize": "Schriftgröße",
+        "fontSizeSample": "Aa",
+        "yourProfilePage": "Deine Profilseite",
+        "accountSettings": "Kontoeinstellungen",
+        "administrative": "Administrativ"
+    },
+    "register": {
+        "title": "Registrieren",
+        "description": "Dein Wiki ist noch einen Klick entfernt.",
+        "alreadyRegistered": "Bist Du schon Nutzer?",
+        "orDivider": "oder",
+        "registerNote": "Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren {termsOfUse}und unserer {privacyPolicy} einverstanden. Du musst mind. 16 Jahre alt sein, {hereMoreInfos}",
+        "hereMoreInfos": "hier mehr Infos!"
+    },
+    "url": {
+        "termsOfUse": "AGB",
+        "legalNotice": "Impressum",
+        "users": "Nutzer",
+        "prices": "Preise"
+    },
+    "search": {
+        "results": "{count} Treffer",
+        "pages": "Seiten",
+        "questions": "Fragen",
+        "countedQuestions": "Keine Frage | Eine Frage | {count} Fragen",
+        "users": "Nutzer",
+        "showUserResults": "zeige {count} Treffer",
+        "noResults": "Keine Ergebnisse gefunden"
+    },
+    "sideSheet": {
+        "myWikis": "Meine Wikis",
+        "deleteWiki": "Wiki löschen",
+        "convertToPage": "In Seite umwandeln",
+        "favourites": "Favoriten",
+        "lastVisited": "Zuletzt besucht",
+        "help": "Hilfe",
+        "documentation": "Dokumentation"
+    },
+    "footer": {
+        "subLabelOne": "Alles an einem Ort -",
+        "subLabelTwo": "Wiki und Lernwerkzeug vereint!",
+        "allUsers": "Alle Nutzer",
+        "software": "Software",
+        "github": "GitHub",
+        "teamcity": "TeamCity",
+        "helpAndContact": "Hilfe & Kontakt",
+        "membership": "Mitgliedschaft",
+        "popularPages": "Beliebte Seiten"
+    },
+    "alert": {
+        "showDetails": "Details anzeigen"
+    },
+    "globalLicense": {
+        "text": {
+            "partOne": "Alle Inhalte auf dieser Seite stehen, soweit nicht anders angegeben, unter der Lizenz",
+            "partTwo": "Einzelne Elemente (aus anderen Quellen übernommene Fragen, Bilder, Videos, Textabschnitte etc.) können anderen Lizenzen unterliegen und sind entsprechend gekennzeichnet."
+        },
+        "creativeCommonsLabel": "Creative Commons Namensnennung 4.0 (CC-BY-4.0)"
+    },
+    "userDropdown": {
+        "activitySection": {
+            "title": "Deine Lernpunkte",
+            "text": "Mit {points} {learningPoints}{breakpoint} bist du in {level}.",
+            "learningPoints": "{count} Lernpunkten",
+            "level": "Level {count}",
+            "nextLevelText": "Noch {pointsToNextLevel} Punkte{breakpoint} bis Level {nextLevel}"
+        }
+    },
+    "editor": {
+        "placeholderComment": "Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...",
+        "placholderQuestion": "Gib den Fragetext ein",
+        "placeholderFlashcardFront": "Vorderseite der Karteikarte",
+        "placeholderFlashcardBack": "Rückseite der Karteikarte",
+        "placeholderDescription": "Ergänzungen zur Frage, zB. Bilder, Code usw.",
+        "placeholder": "Klicke hier um zu tippen..."
     }
-  },
-  "error": {
-    "subscription": {
-      "cantAddKnowledge": "Du kannst in der kostenlosen Version kein Wunschwissen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenztes Wunschwissen zu erhalten.",
-      "cantSavePrivateQuestion": "Du kannst in der kostenlosen Version keine privaten Fragen mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Fragen zu erstellen.",
-      "cantSavePrivatePage": "Du kannst in der kostenlosen Version keine privaten Seiten mehr hinzufügen. Schließe eine Plus-Mitgliedschaft ab, um unbegrenzt private Seiten zu erstellen."
-    },
-    "page": {
-      "parentIsPrivate": "Veröffentlichung ist nicht möglich. Die übergeordnete Seite ist privat.",
-      "publicChildPages": "Diese Seite hat öffentliche untergeordnete Seiten.",
-      "publicQuestions": "Diese Seite hat öffentliche Fragen.",
-      "notLastChild": "Diese Seite kann nicht gelöscht werden, da weitere Seiten untergeordnet sind. Bitte entferne alle Unterseiten und versuche es erneut.",
-      "noRemainingParents": "Die Verknüpfung der Seite kann nicht gelöst werden. Diese Seite muss mindestens einer öffentlichen übergeordneten Seite zugeordnet sein.",
-      "parentIsRoot": "Unter 'Globales Wiki', darfst du nur private Seite hinzufügen",
-      "loopLink": "Seiten können sich nicht selbst untergeordnet werden",
-      "isAlreadyLinkedAsChild": "Diese Seite ist schon untergeordnet.",
-      "isNotAChild": "Diese Seite ist bereits keine Unterseite",
-      "isLinkedInNonWuwi": "Du hast die Seite bereits außerhalb deines Wunschwissens untergeordnet. Bitte schalte 'Zeige nur dein Wunschwissen' aus und füge diese Seite deinem Wunschwissen hinzu.",
-      "childIsParent": "Übergeordnete Seiten können nicht untergeordnet werden.",
-      "nameIsTaken": " ist bereits vergeben, bitte wähle einen anderen Namen!",
-      "nameIsForbidden": " ist verboten, bitte wähle einen anderen Namen!",
-      "rootPageMustBePublic": "Die Ursprungsseite kann nicht auf privat gesetzt werden.",
-      "missingRights": "Dir fehlen die notwendigen Rechte.",
-      "tooPopular": "Diese Seite ist zu oft im Wunschwissen anderer User",
-      "saveImageError": "Das Bild konnte nicht gespeichert werden.",
-      "pinnedQuestions": "",
-      "circularReference": "Die übergeordnete Seite kann nicht als Unterseite eingeordnet werden",
-      "pageNotSelected": "Du hast keine Seite ausgewählt",
-      "newPageIdIsPageIdToBeDeleted": "Die ausgewählte Seite kann nicht die Seite sein, die gelöscht werden soll.",
-      "noChange": "Es wurden keine Änderungen vorgenommen.",
-      "noChildSelected": "Du hast keine Unterseite ausgewählt."
-    },
-    "question": {
-      "missingText": "Der Fragetext fehlt.",
-      "missingAnswer": "Die Antwort zur Frage fehlt.",
-      "save": "Deine Frage konnte nicht gespeichert werden.",
-      "creation": "Deine Frage konnte nicht erstellt werden.",
-      "isInWuwi": "Die Frage kann nicht gelöscht werden, sie ist {count}x Teil des Wunschwissens anderer Nutzer. Bitte melde dich bei uns, wenn du meinst, die Frage sollte dennoch gelöscht werden.",
-      "rights": "Dir fehlt die Berechtigung dazu.",
-      "errorOnDelete": "Es ist ein Fehler aufgetreten! Möglicherweise sind Referenzen auf die Frage (Lernsitzungen, Termine, Wunschwissen-Einträge...) teilweise gelöscht.",
-      "couldNotAddFlashcards": "Die Karteikarten konnten nicht hinzugefügt werden."
-    },
-    "user": {
-      "notLoggedIn": "Bitte logge dich ein.",
-      "emailInUse": "Die Email-Adresse ist bereits in Verwendung.",
-      "falseEmailFormat": "Das Format der Emaildresse ist ungültig",
-      "userNameInUse": "Dieser Benutzername ist bereits vergeben.",
-      "passwordIsWrong": "Falsches Passwort. Gib das Passwort erneut ein.",
-      "samePassword": "Das neue Passwort entspricht dem alten Passwort. Bitte gebe ein neues Passwort ein.",
-      "passwordNotCorrectlyRepeated": "Das wiederholte Passwort gleicht nicht deiner neuen Passworteingabe.",
-      "inputError": "Bitte überprüfe deine Eingaben.",
-      "passwordResetTokenIsInvalid": "Der Link ist leider ungültig. Wenn du Probleme hast, schreibe uns einfach eine E-Mail an team(at)memucho.de.",
-      "passwordResetTokenIsExpired": "Der Link ist abgelaufen.",
-      "doesNotExist": "Der angegebene Nutzer wurde nicht gefunden. Bitte überprüfe, ob deine Anmeldedaten korrekt sind.",
-      "invalidFBToken": "Hey! Sieht so aus, als wäre das Facebook-Token, das Du eingegeben hast, nicht richtig. Probier's nochmal mit einer neuen Anmeldung über Facebook. Wenn's immer noch nicht klappt, meld Dich einfach bei uns. Wir helfen Dir gerne weiter!",
-      "emailIsInvalid": "{email} ist keine gültige E-Mail-Adresse.",
-      "passwordTooShort": "Das Passwort sollte mindestens 5 Zeichen lang sein.",
-      "loginFailed": "Du konntest nicht eingeloggt werden. Bitte überprüfe deine E-Mail-Adresse und das Passwort."
-    },
-    "default": "Leider ist ein unerwarteter Fehler aufgetreten. Wiederhole den Vorgang bitte zu einem späteren Zeitpunkt.",
-    "route": {
-      "notFound": "Oh nein! Diese Seite existiert nicht.",
-      "noRights": "Diese Seite ist privat. Du hast keine Berechtigung, sie anzusehen.",
-      "unauthorized": "Du bist nicht angemeldet. Möglicherweise hast du deshalb keinen Zugriuff auf diese Seite."
-    },
-    "image": {
-      "tooBig": "Das Bild ist zu groß. Die Dateigröße darf maximal 1MB betragen."
-    },
-    "learningSession": {
-      "noQuestionsAvailableWithCurrentConfig": "Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus."
-    },
-    "api": {
-      "title": "Oops!",
-      "body": [
-        "Ein unerwarteter Fehler ist aufgetreten.",
-        "Das Neuladen der Website könnte das Problem lösen."
-      ]
-    },
-    "collaboration": {
-      "couldNotConnect": "Die Verbindung zur Live-Version konnte nicht hergestellt werden.",
-      "authenticationFailed": "Die Authentifizierung ist fehlgeschlagen.",
-      "connectionLost": "Die Verbindung zur Live-Version wurde unterbrochen."
-    },
-    "ai": {
-      "generateFlashcards": "Es konnten keine Karteikarten erstellt werden.",
-      "noFlashcardsCreatedCauseLimitAndPageIsPrivate": "Ups, dein Limit ist erreicht! Da die Seite privat ist, wurden keine Karteikarten erstellt."
-    }
-  },
-  "info": {
-    "page": {
-      "toggleHideText": "Deaktiviere die Texteingabe für eine reine Navigationsseite ohne Textinhalt. Nur verfügbar für Seiten ohne Textinhalt."
-    },
-    "question": {
-      "newQuestionNotInFilter": "Achtung: Die Frage wird dir nach dem Erstellen nicht angezeigt, da die gewählten Optionen nicht mit den Filtereinstellungen übereinstimmen, Passe den lernfilter an, um die Frage anzuzeigen.",
-      "notInFilter": "Die Frage kann mit deinem Fragefilter nicht angezeigt werden.",
-      "isPrivate": "Die Frage ist privat. Bitte logge Dich ein.",
-      "notInPage": "Die Frage ist nicht auf der Seite enthalten."
-    },
-    "googleLogin": "Beim Login mit Google werden Daten mit den Servern von Google ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer ",
-    "facebookLogin": "Beim Login mit Facebook werden Daten mit den Servern von Facebook ausgetauscht. Dies geschieht nach erfolgreicher Anmeldung / Registrierung auch bei folgenden Besuchen. Mehr in unserer ",
-    "passwordResetRequested": "Sollte das Konto in unserem System vorhanden sein, haben wir eine E-Mail mit einem Link zum Zurücksetzen des Passwortes an {email} geschickt.",
-    "joinNow": "Bereit für unbegrenzten Zugriff? - Werde Plus-Mitglied!",
-    "feed": {
-      "private": "Nur Du kannst diesen Eintrag sehen"
-    },
-    "ai": {
-      "flashcardsCreatedWillBePublicCauseLimit": "Limit für private Karteikarten erreicht. Neue Karten werden öffentlich erstellt.",
-      "someFlashcardsCreatedWillBePublicCauseLimit": "Limit für private Karteikarten erreicht. Einige neue Karten werden öffentlich erstellt."
-    }
-  },
-  "label": {
-    "privacyPolicy": "Datenschutzerklärung",
-    "termsOfUse": "Nutzungsbedingungen",
-    "search": "Suche",
-    "register": "Registrieren",
-    "login": "Anmelden",
-    "continueWithGoogle": "Weiter mit Google",
-    "continueWithFacebook": "Weiter mit Facebook",
-    "username": "Benutzername",
-    "email": "E-Mail",
-    "password": "Passwort",
-    "legalNotice": "Impressum & Datenschutz",
-    "discord": "Discord",
-    "twitter": "Twitter",
-    "createWiki": "Wiki erstellen",
-    "addToFavorites": "Zu Favoriten hinzufügen",
-    "addedAsFavorite": "Als Favorit hinzugefügt"
-  },
-  "register": {
-    "title": "Registrieren",
-    "description": "Dein Wiki ist noch einen Klick entfernt.",
-    "alreadyRegistered": "Bist Du schon Nutzer?",
-    "orDivider": "oder",
-    "registerNote": {
-      "partOne": "Durch die Registrierung mit Google oder Facebook erklärst du dich mit unseren ",
-      "partTwo": " und unserer ",
-      "partThree": " einverstanden. ",
-      "partFour": "Du musst mind. 16 Jahre alt sein, "
-    },
-    "hereMoreInfos": "hier mehr Infos!"
-  },
-  "url": {
-    "termsOfUse": "AGB",
-    "legalNotice": "Impressum",
-    "users": "Nutzer",
-    "prices": "Preise"
-  },
-  "search": {
-    "results": "{count} Treffer",
-    "pages": "Seiten",
-    "questions": "Fragen",
-    "countedQuestions": "Keine Frage | Eine Frage | {count} Fragen",
-    "users": "Nutzer",
-    "showUserResults": "zeige {count} Treffer",
-    "noResults": "Keine Ergebnisse gefunden"
-  },
-  "sideSheet": {
-    "myWikis": "Meine Wikis",
-    "deleteWiki": "Wiki löschen",
-    "convertToPage": "In Seite umwandeln",
-    "favourites": "Favoriten",
-    "lastVisited": "Zuletzt besucht",
-    "help": "Hilfe",
-    "documentation": "Dokumentation"
-  },
-  "footer": {
-    "subLabelOne": "Alles an einem Ort -",
-    "subLabelTwo": "Wiki und Lernwerkzeug vereint!",
-    "allUsers": "Alle Nutzer",
-    "software": "Software",
-    "github": "GitHub",
-    "teamcity": "TeamCity",
-    "helpAndContact": "Hilfe & Kontakt",
-    "membership": "Mitgliedschaft",
-    "popularPages": "Beliebte Seiten"
-  }
 }

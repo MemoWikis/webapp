@@ -217,19 +217,20 @@ export const usePageStore = defineStore('pageStore', {
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
+			const { t } = useI18n()
 
 			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',
-                    text: messages.success.page.saved
+                    text: { message: t('success.page.saved') }
                 }
                 snackbarStore.showSnackbar(data)
 				this.initialContent = this.content
 				this.contentHasChanged = false
-			} else if (result.success == false && result.messageKey != null ) {
-				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.page.noChange && this.visibility == Visibility.Owner)) {
+			} else if (result.success === false && result.messageKey != null ) {
+				if (!(result.messageKey === 'error.page.noChange' && this.visibility == Visibility.Owner)) {
 					const alertStore = useAlertStore()
-					alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+					alertStore.openAlert(AlertType.Error, { text: t('result.messageKey') })
 				}
 			}
 
@@ -267,19 +268,19 @@ export const usePageStore = defineStore('pageStore', {
 					$logger.error(`fetch Error: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
 				}
 			})
+			const { t } = useI18n()
 
 			if (result.success == true && this.visibility != Visibility.Owner) {
 				const data: SnackbarData = {
                     type: 'success',
-                    text: messages.success.page.saved
+                    text: { message: t('success.page.saved') }
                 }
                 snackbarStore.showSnackbar(data)
 				this.initialName = this.name
 				this.nameHasChanged = false
 			} else if (result.success == false && result.messageKey != null ) {
-				if (!(messages.getByCompositeKey(result.messageKey) == messages.error.page.noChange && this.visibility == Visibility.Owner)) {
-					const alertStore = useAlertStore()
-					alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+				if (!(result.messageKey === 'error.page.noChange' && this.visibility == Visibility.Owner)) {					const alertStore = useAlertStore()
+					alertStore.openAlert(AlertType.Error, { text: t('result.messageKey') })
 				}
 			}
 

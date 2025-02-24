@@ -7,7 +7,6 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { useAlertStore } from '../../alert/alertStore'
 import { useEditQuestionStore } from './editQuestionStore'
 import UploadImage from '~/components/shared/imageUploadExtension'
 import ImageResize from '~~/components/shared/imageResizeExtension'
@@ -23,7 +22,7 @@ const editQuestionStore = useEditQuestionStore()
 const emit = defineEmits(['setDescriptionData'])
 const showDescription = ref(false)
 const lowlight = createLowlight(all)
-
+const { t } = useI18n()
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -42,7 +41,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Ergänzungen zur Frage zB. Bilder, Code usw.',
+            placeholder: t('editor.placeholderDescription'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({

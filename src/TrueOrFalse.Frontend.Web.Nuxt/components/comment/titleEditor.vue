@@ -17,6 +17,7 @@ const props = defineProps<Props>()
 const alertStore = useAlertStore()
 
 const emit = defineEmits(['setTitle'])
+const { t } = useI18n()
 
 const lowlight = createLowlight(all)
 const editor = useEditor({
@@ -37,7 +38,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Gib den Fragetext ein',
+            placeholder: t('editor.placeholderQuestion'),
             showOnlyCurrent: true,
         })
     ],
@@ -48,9 +49,9 @@ const editor = useEditor({
             let eventContent = event.content as any
             let content = eventContent.content
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
-                let src = content[0].attrs.src;
+                let src = content[0].attrs.src
                 if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                    alertStore.openAlert(AlertType.Error, { text: t('error.image.tooBig') })
                     return true
                 }
             }

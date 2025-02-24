@@ -19,6 +19,7 @@ const alertStore = useAlertStore()
 
 const emit = defineEmits(['setAnswer'])
 
+const { t } = useI18n()
 const lowlight = createLowlight(all)
 const editor = useEditor({
     extensions: [
@@ -38,7 +39,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Beschreibe hier dein Anliegen. Bitte höflich, freundlich und sachlich schreiben...',
+            placeholder: t('editor.placeholderComment'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -55,7 +56,7 @@ const editor = useEditor({
             if (content.length >= 1 && !isEmpty(content[0].attrs)) {
                 let src = content[0].attrs.src
                 if (src.length > 1048576 && src.startsWith('data:image')) {
-                    alertStore.openAlert(AlertType.Error, { text: messages.error.image.tooBig })
+                    alertStore.openAlert(AlertType.Error, { text: t('error.image.tooBig') })
                     return true
                 }
             }
@@ -101,6 +102,7 @@ watch(() => props.content, (c) => {
 .commentAnswersContainer {
     padding-top: 0px;
 }
+
 .commentAnswerAddContainer {
     padding-top: 24px;
 }

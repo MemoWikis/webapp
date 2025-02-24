@@ -46,6 +46,7 @@ const alertStore = useAlertStore()
 
 const lowlight = createLowlight(all)
 const deleteImageSrc = ref<string | null>(null)
+const { t } = useI18n()
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -64,7 +65,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: 'Vorderseite der Karteikarte',
+            placeholder: t('editor.placeholderFlashcardFront'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({

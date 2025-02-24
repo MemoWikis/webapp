@@ -111,6 +111,8 @@ watch(selectedImageUploadMode, (mode) => {
 const licenseGiverName = ref('')
 const isPersonalCreation = ref<boolean>()
 
+const { t } = useI18n()
+
 async function upload() {
     let url
     let data
@@ -144,11 +146,11 @@ async function upload() {
 
     if (result) {
         emit('close')
-        alertStore.openAlert(AlertType.Success, { text: messages.success.page.saveImage })
+        alertStore.openAlert(AlertType.Success, { text: t('success.page.saveImage') })
         pageStore.refreshPageImage()
         resetModal()
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.error.page.saveImageError })
+        alertStore.openAlert(AlertType.Error, { text: t('error.page.saveImageError ') })
     }
 }
 
