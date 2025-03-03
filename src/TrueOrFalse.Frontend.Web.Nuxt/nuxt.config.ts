@@ -127,7 +127,7 @@ export default defineNuxtConfig({
                 code: "en",
                 iso: "en-US",
                 file: "en.json",
-                flag: "/Images/Flags/en.svg",
+                flag: "/Images/Flags/uk.svg",
             },
         ],
         defaultLocale: "en",

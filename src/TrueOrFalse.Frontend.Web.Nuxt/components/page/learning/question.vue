@@ -282,6 +282,8 @@ publishQuestionStore.$onAction(({ name, after }) => {
     }
 })
 
+const { $urlHelper } = useNuxtApp()
+
 </script>
 
 <template>

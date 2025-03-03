@@ -155,10 +155,13 @@
         "addedAsFavorite": "Als Favorit hinzugefügt",
         "logout": "Abmelden",
         "fontSize": "Schriftgröße",
+        "language": "Sprache",
         "fontSizeSample": "Aa",
         "yourProfilePage": "Deine Profilseite",
         "accountSettings": "Kontoeinstellungen",
-        "administrative": "Administrativ"
+        "administrative": "Administrativ",
+        "questionCount": "0 Fragen | 1 Frage | {count} Fragen",
+        "questionCountText": "Keine Frage | Eine Frage | {count} Fragen"
     },
     "register": {
         "title": "Registrieren",
@@ -178,7 +181,7 @@
         "results": "{count} Treffer",
         "pages": "Seiten",
         "questions": "Fragen",
-        "countedQuestions": "Keine Frage | Eine Frage | {count} Fragen",
+        "countedQuestions": "@:label.questionCount",
         "users": "Nutzer",
         "showUserResults": "zeige {count} Treffer",
         "noResults": "Keine Ergebnisse gefunden"
@@ -229,5 +232,40 @@
         "placeholderFlashcardBack": "Rückseite der Karteikarte",
         "placeholderDescription": "Ergänzungen zur Frage, zB. Bilder, Code usw.",
         "placeholder": "Klicke hier um zu tippen..."
+    },
+    "page": {
+        "header": {
+            "changeImage": "Bild ändern",
+            "titlePlaceholder": "Gib deiner Seite einen Titel",
+            "noTextInput": "Keine Texteingabe",
+            "addQuestion": "Frage hinzufügen",
+            "createPage": "Seite erstellen",
+            "addParentPage": "Übergeordnete Seite verknüpfen",
+            "addChildPage": "Unterseite verknüpfen",
+            "addToPersonalWiki": "Zu meinem Wiki hinzufügen",
+            "setToPrivate": "Seite auf privat setzen",
+            "publishPage": "Seite veröffentlichen",
+            "convertToWiki": "Seite in Wiki konvertieren",
+            "convertToPage": "Wiki in Seite konvertieren",
+            "deletePage": "Seite löschen"
+        },
+        "tabs": {
+            "text": "Text",
+            "questions": "Fragen",
+            "feed": "Feed",
+            "analytics": "Analytics",
+            "yourKnowledgeStatus": "Dein Wissensstand",
+            "noQuestionAnswered": "Du hast noch keine Fragen in auf dieser Seite beantwortet."
+        }
+    },
+    "knowledgeStatus": {
+        "solid": "Sicheres Wissen",
+        "solidCount": "@:knowledgeStatus.solid : @:label.questionCount",
+        "needsConsolidation": "Solltest du festigen",
+        "n2:": "Solltest du festigen: @:label.questionCount",
+        "needsLearning": "Solltest du lernen",
+        "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
+        "notLearned": "Noch nicht gelernt",
+        "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
     }
 }

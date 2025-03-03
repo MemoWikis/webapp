@@ -26,16 +26,18 @@ function setKnowledgebarData() {
     knowledgebarTooltipData.value = knowledgebarTooltipData.value.slice().reverse()
 }
 
+const { t } = useI18n()
+
 function getTooltipLabel(key: string, count: number) {
     switch (key) {
         case 'solid':
-            return `Sicheres Wissen: ${count} Fragen`
+            return t('knowledgeStatus.solidCount', count)
         case 'needsConsolidation':
-            return `Solltest du festigen: ${count} Fragen`
+            return t('knowledgeStatus.needsConsolidationCount', count)
         case 'needsLearning':
-            return `Solltest du lernen: ${count} Fragen`
+            return t('knowledgeStatus.needsLearningCount', count)
         case 'notLearned':
-            return `Noch nicht gelernt: ${count} Fragen`
+            return t('knowledgeStatus.notLearnedCount', count)
     }
 }
 

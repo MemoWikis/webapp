@@ -909,6 +909,8 @@ watch(showExtendedDetails, () => {
 })
 
 const activityPointsStore = useActivityPointsStore()
+
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>

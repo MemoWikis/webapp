@@ -132,13 +132,14 @@ const showParents = computed(() => {
 })
 const ariaId = useId()
 const ariaId2 = useId()
-
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 </script>
 
 <template>
     <div id="PageHeaderContainer">
         <h1 id="PageTitle" ref="pageTitle">
-            <textarea placeholder="Gib deiner Seite einen Titel" @input="resize()" ref="textArea"
+            <textarea :placeholder="t('page.header.titlePlaceholder')" @input="resize()" ref="textArea"
                 v-model="pageStore.name" v-if="pageStore" :readonly="readonly" @focus="focus" @blur="blur"></textarea>
             <template v-else-if="page">
                 {{ page.name }}

@@ -111,13 +111,13 @@ const { t } = useI18n()
                     </div>
                 </div>
 
-                <div class="user-dropdown-font-size-selector">
-                    <div class="user-dropdown-label">{{ t('label.fontSize') }}</div>
+                <div class="user-dropdown-language-selector">
+                    <div class="user-dropdown-label">{{ t('label.language') }}</div>
                     <div class="user-dropdown-container">
-                        <div class="font-size-selector">
-                            <div v-for="l in locales" style="margin-right:20px;">
-                                <div @click.prevent.stop="setLocale(l.code)" class="font-size-selector-btn" :class="{ 'is-active': l.code === locale }">
-                                    <Image :src="l.flag" />
+                        <div class="language-selector">
+                            <div v-for="l in locales">
+                                <div @click.prevent.stop="setLocale(l.code)" class="language-selector-btn" :class="{ 'is-active': l.code === locale }">
+                                    <Image :src="l.flag" class="language-flag" />
                                 </div>
                             </div>
 
@@ -405,6 +405,59 @@ const { t } = useI18n()
 
             &.large {
                 font-size: 20px;
+            }
+        }
+    }
+}
+
+.user-dropdown-language-selector {
+    .user-dropdown-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        padding-bottom: 0px;
+
+        &:hover {
+            background-color: unset;
+            cursor: default;
+        }
+
+        &:hover {
+            background-color: unset;
+            cursor: unset;
+        }
+    }
+
+    .language-selector {
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+
+        .is-active {
+            background-color: @memo-grey-lighter;
+        }
+
+        .language-selector-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 24px;
+            padding: 4px 12px;
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+
+            &:active {
+                background-color: @memo-grey-light;
+            }
+
+            .language-flag {
+                height: 4rem;
+                width: 4rem;
+                border-radius: 4rem;
             }
         }
     }

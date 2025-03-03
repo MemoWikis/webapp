@@ -14,16 +14,19 @@ function close() {
         :primary-btn-label="userStore.isLoggedIn ? undefined : 'Registrieren'" :secondary-btn="'Weiterlernen'"
         @secondary-btn="close()" @primary-btn="navigateTo('/Registrieren')" @close="close()" @keydown.esc="close()">
         <template v-slot:header>
-            <img class="happy-memo-svg" width="120" src="/Images/memoWikis_MEMO_happy_blau.svg">
-            <span class="title-text"><b>Fortschritt:</b> Du bist jetzt Level </span>
-            <span class="level-display">
-                <svg>
-                    <circle cx="50%" cy="50%" r="15" />
-                    <text class="level-count" x="50%" y="50%" dy=".34em">{{
-                        activityPointsStore.level
-                        }}</text>
-                </svg>
-            </span>
+            <div class="levelpopup-header">
+                <img class="happy-memo-svg" width="120" src="/Images/memoWikis_MEMO_happy_blau.svg">
+                <span class="title-text"><b>Fortschritt:</b> Du bist jetzt Level </span>
+                <span class="level-display">
+                    <svg>
+                        <circle cx="50%" cy="50%" r="15" />
+                        <text class="level-count" x="50%" y="50%" dy=".34em">{{
+                            activityPointsStore.level
+                            }}</text>
+                    </svg>
+                </span>
+            </div>
+
             <div class="title-text" v-if="userStore.isLoggedIn">
                 Super! Du wirst immer schlauer.
             </div>
@@ -43,3 +46,10 @@ function close() {
         </template>
     </Modal>
 </template>
+
+<style lang="less" scoped>
+.levelpopup-header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+</style>
