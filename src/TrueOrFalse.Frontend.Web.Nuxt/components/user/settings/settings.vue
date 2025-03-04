@@ -657,10 +657,10 @@ const ariaId2 = useId()
                             </button>
                             <div v-else class="alert alert-warning">
                                 <p>
-                                    Die Voraussetzungen zum Löschen deines Profils sind leider nicht erfüllt.
-                                    Bitte schreib uns eine E-Mail an
+                                    Leider ist es nicht möglich, Dein Profil eigenständig zu löschen.
+                                    Schreib uns deshalb bitte eine kurze E-Mail an
                                     <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>,
-                                    damit wir uns um dein Anliegen kümmern können.
+                                    damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können.
                                 </p>
                             </div>
                         </div>
