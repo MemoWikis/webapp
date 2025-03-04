@@ -269,18 +269,21 @@ public class VueUserSettingsController(
     [HttpPost]
     public bool DeleteProfile()
     {
-        Logg.r.Information("Try Delete User: {0}", _sessionUser.UserId);
+        Logg.r.Information("Delete User - Try: {0}", _sessionUser.UserId);
 
-        if (_sessionUser.IsLoggedIn && _deleteUser.CanDelete(_sessionUser.UserId))
+        if (_sessionUser.IsLoggedIn && _deleteUser.CanDelete(_sessionUser.UserId) && _sessionUser.UserId > 0)
         {
+            var userId = _sessionUser.UserId;
             RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
             RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
-            _deleteUser.Run(_sessionUser.UserId);
+            _deleteUser.Run(userId);
             _sessionUser.Logout();
+            Logg.r.Information("Delete User - Done: {0}", userId);
 
             return true;
         }
 
+        Logg.r.Warning("Delete User - Fail: {0}", _sessionUser.UserId);
         return false;
     }
 }
