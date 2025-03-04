@@ -132,6 +132,7 @@ const showParents = computed(() => {
 })
 const ariaId = useId()
 const ariaId2 = useId()
+const { $urlHelper } = useNuxtApp()
 
 </script>
 

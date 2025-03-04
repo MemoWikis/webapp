@@ -22,7 +22,8 @@ export const messages: any = {
             profileUpdate: "Deine neuen Profildaten wurde erfolgreich gespeichert",
             passwordChanged: "Dein Passwort wurde erfolgreich geändert.",
             passwordReset: "Dein Passwort wurde zurückgesetzt.",
-            passwordVerificationMailSent: "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
+            passwordVerificationMailSent: "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
+            deleted: "Dein Profil wurde erfolgreich gelöscht. Beim Schließen dieses Fensters wirst Du zur Startseite weitergeleitet.",
         },
         collaboration: {
             connected: "Blahblah du siehst die Live Version von dieser Seite",
