@@ -28,8 +28,6 @@
                 break;
         }
 
-        //return false;
-
         return _viewLimit >= pageViews + questionViews && !hasOrphan;
     }
 
