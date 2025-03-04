@@ -16,6 +16,8 @@ const availableLocales = computed(() => {
 })
 
 const { t } = useI18n()
+
+const showLanguages = ref(false)
 </script>
 
 <template>
@@ -112,16 +114,25 @@ const { t } = useI18n()
                 </div>
 
                 <div class="user-dropdown-language-selector">
-                    <div class="user-dropdown-label">{{ t('label.language') }}</div>
+                    <div class="user-dropdown-label language-header" @click.prevent="showLanguages = !showLanguages">
+                        {{ t('label.language') }}
+                        <font-awesome-icon :icon="['fas', 'chevron-up']" v-if="showLanguages" />
+                        <font-awesome-icon :icon="['fas', 'chevron-down']" v-else />
+                    </div>
                     <div class="user-dropdown-container">
-                        <div class="language-selector">
-                            <div v-for="l in locales">
-                                <div @click.prevent.stop="setLocale(l.code)" class="language-selector-btn" :class="{ 'is-active': l.code === locale }">
-                                    <Image :src="l.flag" class="language-flag" />
-                                </div>
-                            </div>
 
-                        </div>
+                        <Transition name="collapse">
+                            <div class="language-selector" v-if="showLanguages">
+                                <div v-for="l in locales">
+                                    <div @click.prevent.stop="setLocale(l.code)" class="language-selector-btn" :class="{ 'is-active': l.code === locale }">
+                                        {{ l.name }}
+                                        <!-- <Image :src="l.flag" class="language-flag" /> -->
+                                    </div>
+                                </div>
+
+                            </div>
+                        </Transition>
+
                     </div>
                 </div>
 
@@ -418,20 +429,30 @@ const { t } = useI18n()
         font-weight: 600;
         padding-bottom: 0px;
 
-        &:hover {
-            background-color: unset;
-            cursor: default;
+        &.language-header {
+            background: white;
+            user-select: none;
+            padding-bottom: 10px;
+
+            &:hover {
+                background-color: @memo-grey-lighter;
+            }
+
+            &:active {
+                background-color: @memo-grey-light;
+            }
         }
 
-        &:hover {
-            background-color: unset;
-            cursor: unset;
+        .user-dropdown-container {
+            padding-top: none;
         }
+
     }
 
     .language-selector {
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+        flex-direction: column;
         padding: 10px 0;
 
         .is-active {
@@ -444,7 +465,8 @@ const { t } = useI18n()
             align-items: center;
             cursor: pointer;
             border-radius: 24px;
-            padding: 4px 12px;
+            padding: 3px 12px;
+            margin: 1px 0;
 
             &:hover {
                 background-color: @memo-grey-lighter;
