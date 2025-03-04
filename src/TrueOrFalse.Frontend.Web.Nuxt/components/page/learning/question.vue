@@ -283,8 +283,6 @@ publishQuestionStore.$onAction(({ name, after }) => {
 })
 const { $urlHelper } = useNuxtApp()
 
-const { $urlHelper } = useNuxtApp()
-
 </script>
 
 <template>
