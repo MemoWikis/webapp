@@ -17,7 +17,9 @@ public class VueUserSettingsController(
     IWebHostEnvironment _webHostEnvironment,
     Logg _logg,
     QuestionReadingRepo _questionReadingRepo,
-    JobQueueRepo _jobQueueRepo) : Controller
+    JobQueueRepo _jobQueueRepo,
+    DeleteUser _deleteUser,
+    PersistentLoginRepo _persistentLoginRepo) : Controller
 {
     public record struct ChangeNotificationIntervalPreferencesResult(
         UIMessage Message,
@@ -254,5 +256,31 @@ public class VueUserSettingsController(
     {
         var passwordRecoveryResult = _passwordRecovery.RunForNuxt(_sessionUser.User.EmailAddress);
         return passwordRecoveryResult.Success;
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpGet]
+    public bool CanDeleteUser()
+    {
+        return _deleteUser.CanDelete(_sessionUser.UserId);
+    }
+
+    [AccessOnlyAsLoggedIn]
+    [HttpPost]
+    public bool DeleteProfile()
+    {
+        Logg.r.Information("Try Delete User: {0}", _sessionUser.UserId);
+
+        if (_sessionUser.IsLoggedIn && _deleteUser.CanDelete(_sessionUser.UserId))
+        {
+            RemovePersistentLoginFromCookie.Run(_persistentLoginRepo, _httpContextAccessor.HttpContext);
+            RemovePersistentLoginFromCookie.RunForGoogle(_httpContextAccessor.HttpContext);
+            _deleteUser.Run(_sessionUser.UserId);
+            _sessionUser.Logout();
+
+            return true;
+        }
+
+        return false;
     }
 }

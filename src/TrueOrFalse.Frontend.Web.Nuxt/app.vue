@@ -16,6 +16,7 @@ const userStore = useUserStore()
 const config = useRuntimeConfig()
 const loadingStore = useLoadingStore()
 const rootPageChipStore = useRootPageChipStore()
+const alertStore = useAlertStore()
 
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
@@ -113,6 +114,7 @@ userStore.$onAction(({ name, after }) => {
 			}
 		})
 	}
+
 	if (name === 'login') {
 		after(async (loginResult) => {
 			if (loginResult.success === true) {
@@ -121,6 +123,7 @@ userStore.$onAction(({ name, after }) => {
 			}
 		})
 	}
+
 	if (name === 'apiLogin') {
 		after(async (loggedIn) => {
 			if (loggedIn === true) {
@@ -128,6 +131,20 @@ userStore.$onAction(({ name, after }) => {
 				handleLogin()
 			}
 
+		})
+	}
+
+	if (name === 'deleteUser') {
+		after(async () => {
+			userStore.reset()
+			loadingStore.startLoading()
+
+			try {
+				await refreshNuxtData()
+			} finally {
+				loadingStore.stopLoading()
+				await navigateTo('/')
+			}
 		})
 	}
 })

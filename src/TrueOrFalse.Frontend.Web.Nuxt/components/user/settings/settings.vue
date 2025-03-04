@@ -7,6 +7,7 @@ import { AlertType, messages, useAlertStore } from '~/components/alert/alertStor
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
+const alertStore = useAlertStore()
 
 interface Props {
     imageUrl?: string
@@ -102,7 +103,6 @@ async function cancelPlan() {
         // Führen Sie die Umleitung im Browser durch.
         await navigateTo(data.value, { external: true })
     } else {
-        const alertStore = useAlertStore()
         alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memucho.de." })
     }
 }
@@ -218,6 +218,50 @@ async function resetPassword() {
     if (result) {
         msg.value = messages.success.user['passwordReset']
         success.value = true
+        showAlert.value = true
+    }
+}
+
+const canDeleteProfile = ref(false)
+
+const checkIfProfileCanBeDeleted = async () => {
+    const result = await $api<boolean>('/apiVue/VueUserSettings/CanDeleteUser', {
+        mode: 'cors',
+        method: 'GET',
+        credentials: 'include'
+    })
+
+    canDeleteProfile.value = result
+}
+
+watch(activeContent, (content) => {
+    if (content === Content.DeleteProfile) {
+        checkIfProfileCanBeDeleted()
+    }
+})
+
+async function deleteProfile() {
+
+    const result = await $api<boolean>('/apiVue/VueUserSettings/DeleteProfile', {
+        mode: 'cors',
+        method: 'POST',
+        credentials: 'include'
+    })
+
+    if (result) {
+        userStore.reset()
+        alertStore.openAlert(AlertType.Success, { text: messages.success.user.deleted })
+
+        alertStore.$onAction(({ name, after }) => {
+            if (name === 'closeAlert') {
+                after(() => {
+                    userStore.deleteUser()
+                })
+            }
+        })
+    } else {
+        msg.value = messages.error.default
+        success.value = false
         showAlert.value = true
     }
 }
@@ -347,6 +391,8 @@ async function requestVerificationMail() {
 }
 const ariaId = useId()
 const ariaId2 = useId()
+
+
 
 </script>
 
@@ -593,9 +639,29 @@ const ariaId2 = useId()
                     </div>
                     <div class="settings-section">
                         <div class="">
-                            <p>
-                                Um dein Konto zu löschen sende eine E-Mail an die Adresse: <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>
-                            </p>
+                            <div class="alert alert-info">
+                                <p>
+                                    <b>Achtung:</b> Du kannst dein Profil nur löschen, wenn:
+                                <ul>
+                                    <li>die Summe aller öffentlichen Aufrufe unter 2000 liegt,</li>
+                                    <li>und danach keine Seiten oder Fragen übrigbleiben, die irgendwie nicht mehr richtig zugeordnet werden können.</li>
+                                </ul>
+
+                                </p>
+                            </div>
+
+
+                            <button @click.prevent="deleteProfile()" class="memo-button btn btn-danger" v-if="canDeleteProfile">
+                                Konto löschen
+                            </button>
+                            <div v-else class="alert alert-warning">
+                                <p>
+                                    Leider ist es nicht möglich, Dein Profil eigenständig zu löschen.
+                                    Schreib uns deshalb bitte eine kurze E-Mail an
+                                    <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>,
+                                    damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können.
+                                </p>
+                            </div>
                         </div>
 
                     </div>

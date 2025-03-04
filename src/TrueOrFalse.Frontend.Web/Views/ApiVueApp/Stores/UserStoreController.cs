@@ -101,7 +101,8 @@ public class UserStoreController(
         int Reputation,
         int ReputationPos,
         PageDataManager.PageDataResult PersonalWiki,
-        FrontEndUserData.ActivityPoints ActivityPoints);
+        FrontEndUserData.ActivityPoints ActivityPoints,
+        string CollaborationToken);
 
 
     [HttpPost]
@@ -163,7 +164,8 @@ public class UserStoreController(
                         ? 0
                         : 100 * activityPoints /
                           UserLevelCalculator.GetUpperLevelBound(activityLevel)
-                }
+                },
+                CollaborationToken = new CollaborationToken().Get(_sessionUser.UserId)
             }
         };
     }
