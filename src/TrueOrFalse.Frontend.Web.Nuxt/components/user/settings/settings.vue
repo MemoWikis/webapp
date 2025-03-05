@@ -652,7 +652,7 @@ const ariaId2 = useId()
 
 
                             <button @click.prevent="deleteProfile()" class="memo-button btn btn-danger" v-if="canDeleteProfile">
-                                Konto löschen
+                                Profil löschen
                             </button>
                             <div v-else class="alert alert-warning">
                                 <p>
