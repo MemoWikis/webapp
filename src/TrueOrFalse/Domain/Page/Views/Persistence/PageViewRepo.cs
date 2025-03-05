@@ -142,7 +142,7 @@ public class PageViewRepo(
         var query = _session.CreateSQLQuery(@"
             SELECT Page_id
             FROM pageview
-            WHERE user_id = :userId
+            WHERE user_id = :userId AND Page_id IS NOT NULL
             GROUP BY Page_id
             ORDER BY MAX(DateCreated) DESC
             LIMIT 5");
