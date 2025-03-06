@@ -13,6 +13,7 @@ const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const userStore = useUserStore()
 const { $logger, $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 
 interface Props {
     content?: Content,
@@ -215,11 +216,11 @@ userStore.$onAction(({ name, after }) => {
                         <div class="profile-header-info">
                             <h1>{{ profile.user.name }}</h1>
                             <div class="sub-info">
-                                <b>{{ profile.user.reputationPoints }}</b> Reputationspunkte
+                                <b>{{ profile.user.reputationPoints }}</b> {{ t('user.profile.reputationPoints') }}
                                 <font-awesome-icon icon="fa-solid fa-circle-info" class="info-icon" />
-                                (Rang {{ profile.user.rank }})
+                                ({{ t('user.profile.rank') }} {{ profile.user.rank }})
                                 <NuxtLink class="link-to-all-users" to="/Nutzer">
-                                    Zur Übersicht aller Nutzer
+                                    {{ t('user.profile.viewAllUsers') }}
                                 </NuxtLink>
                             </div>
                             <div class="profile-btn-container">
@@ -227,7 +228,7 @@ userStore.$onAction(({ name, after }) => {
                                     <NuxtLink :to="profile.user.wikiUrl">
                                         <font-awesome-icon icon="fa-solid fa-house-user" v-if="isCurrentUser" />
                                         <font-awesome-icon icon="fa-solid fa-house" v-else />
-                                        Zu {{ isCurrentUser ? 'meinem' : `${profile.user.name}s` }} Wiki
+                                        {{ t(isCurrentUser ? 'user.profile.toMyWiki' : 'user.profile.toUserWiki', { name: profile.user.name }) }}
                                     </NuxtLink>
                                 </button>
 
@@ -245,7 +246,7 @@ userStore.$onAction(({ name, after }) => {
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
-                                Reputationspunkte
+                                {{ t('user.overview.reputation.title') }}
                             </div>
 
                             <div class="main-counter-container">
@@ -253,7 +254,7 @@ userStore.$onAction(({ name, after }) => {
                                     <h1>{{ profile.overview.activityPoints.total }}</h1>
                                 </div>
                                 <div class="count-label">
-                                    <div>gesamt</div>
+                                    <div>{{ t('user.overview.reputation.total') }}</div>
                                 </div>
                             </div>
 
@@ -263,29 +264,29 @@ userStore.$onAction(({ name, after }) => {
                                 <div class="count">
                                     {{ profile.overview.activityPoints.questionsInOtherWishknowledges }} P
                                 </div>
-                                <div class="count-label">Eigene Fragen im Wunschwissen anderer</div>
+                                <div class="count-label">{{ t('user.overview.reputation.questionsInOtherWishknowledges') }}</div>
                             </div>
                             <div class="sub-counter-container">
                                 <div class="count">
                                     {{ profile.overview.activityPoints.questionsCreated }} P
                                 </div>
-                                <div class="count-label">Erstellte Fragen</div>
+                                <div class="count-label">{{ t('user.overview.reputation.questionsCreated') }}</div>
                             </div>
                             <div class="sub-counter-container">
                                 <div class="count">
                                     {{ profile.overview.activityPoints.publicWishknowledges }} P
                                 </div>
-                                <div class="count-label">Veröffentlichung des eigenes Wunschwissen</div>
+                                <div class="count-label">{{ t('user.overview.reputation.publicWishknowledges') }}</div>
                             </div>
 
                             <div class="divider"></div>
 
-                            <NuxtLink to="/Globales-Wiki/1">Erfahre mehr über Reputationspunkte</NuxtLink>
+                            <NuxtLink to="/Globales-Wiki/1">{{ t('user.overview.reputation.learnMore') }}</NuxtLink>
                         </div>
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
-                                Erstellte Inhalte
+                                {{ t('user.overview.content.title') }}
                             </div>
 
                             <div class="main-counter-container">
@@ -294,7 +295,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Öffentliche Fragen
+                                        {{ t('user.overview.content.publicQuestions') }}
                                     </div>
                                 </div>
                             </div>
@@ -306,7 +307,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Öffentliche Seiten
+                                        {{ t('user.overview.content.publicPages') }}
                                     </div>
                                 </div>
                             </div>
@@ -317,7 +318,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Private Fragen <font-awesome-icon icon="fa-solid fa-lock" />
+                                        {{ t('user.overview.content.privateQuestions') }} <font-awesome-icon icon="fa-solid fa-lock" />
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +330,7 @@ userStore.$onAction(({ name, after }) => {
                                 </div>
                                 <div class="count-label">
                                     <div>
-                                        Private Seiten <font-awesome-icon icon="fa-solid fa-lock" />
+                                        {{ t('user.overview.content.privatePages') }} <font-awesome-icon icon="fa-solid fa-lock" />
                                     </div>
                                 </div>
                             </div>
@@ -338,7 +339,7 @@ userStore.$onAction(({ name, after }) => {
                         <div class="col-lg-4 col-sm-6 col-xs-12 overview-partial">
 
                             <div class="overline-s">
-                                Im Wunschwissen
+                                {{ t('user.overview.wishknowledge.title') }}
                             </div>
 
                             <div class="main-counter-container">
@@ -346,7 +347,7 @@ userStore.$onAction(({ name, after }) => {
                                     <h1>{{ profile.overview.wuwiCount }}</h1>
                                 </div>
                                 <div class="count-label">
-                                    <div>Fragen</div>
+                                    <div>{{ t('user.overview.wishknowledge.questions') }}</div>
                                 </div>
 
                             </div>
@@ -359,12 +360,11 @@ userStore.$onAction(({ name, after }) => {
                     <div v-show="tab === Tab.Wishknowledge">
                         <div v-if="!profile.user.showWuwi" class="wuwi-is-hidden">
                             <template v-if="profile.isCurrentUser">
-                                Dein Wunschwissen ist nicht öffentlich. <span @click="tab = Tab.Settings"
-                                    class="btn-link">Ändern</span>
+                                {{ t('user.wishknowledge.private.own') }} <span @click="tab = Tab.Settings"
+                                    class="btn-link">{{ t('user.wishknowledge.private.change') }}</span>
                             </template>
                             <template v-else>
-                                <b>Nicht öffentlich</b> {{ profile.user.name }} hat ihr / sein Wunschwissen nicht
-                                veröffentlicht.
+                                <b>{{ t('user.wishknowledge.private.notPublic') }}</b> {{ t('user.wishknowledge.private.userNotPublished', { name: profile.user.name }) }}
                             </template>
                         </div>
                         <div v-if="wuwi && (profile.user.showWuwi || profile.isCurrentUser)">

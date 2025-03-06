@@ -631,7 +631,6 @@
             "maxQuestionsShown": "Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt"
         }
     },
-
     "question": {
         "editModal": {
             "title": {
@@ -835,6 +834,49 @@
         },
         "messages": {
             "discussionClosed": "Leider wurde die Diskussion in der Zwischenzeit geschlossen"
+        }
+    },
+    "user": {
+        "profile": {
+            "reputationPoints": "Reputationspunkte",
+            "rank": "Rang",
+            "viewAllUsers": "Zur Übersicht aller Nutzer",
+            "toMyWiki": "Zu meinem Wiki",
+            "toUserWiki": "Zu {name}s Wiki"
+        },
+        "overview": {
+            "reputation": {
+                "title": "Reputationspunkte",
+                "total": "gesamt",
+                "questionsInOtherWishknowledges": "Eigene Fragen im Wunschwissen anderer",
+                "questionsCreated": "Erstellte Fragen",
+                "publicWishknowledges": "Veröffentlichung des eigenes Wunschwissen",
+                "learnMore": "Erfahre mehr über Reputationspunkte"
+            },
+            "content": {
+                "title": "Erstellte Inhalte",
+                "publicQuestions": "Öffentliche Fragen",
+                "publicPages": "Öffentliche Seiten",
+                "privateQuestions": "Private Fragen",
+                "privatePages": "Private Seiten"
+            },
+            "wishknowledge": {
+                "title": "Im Wunschwissen",
+                "questions": "Fragen"
+            }
+        },
+        "wishknowledge": {
+            "private": {
+                "own": "Dein Wunschwissen ist nicht öffentlich.",
+                "change": "Ändern",
+                "notPublic": "Nicht öffentlich",
+                "userNotPublished": "{name} hat ihr / sein Wunschwissen nicht veröffentlicht."
+            }
+        },
+        "tabs": {
+            "overview": "Übersicht",
+            "wishknowledge": "Wunschwissen",
+            "settings": "Einstellungen"
         }
     }
 }

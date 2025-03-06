@@ -9,11 +9,7 @@ const activityPointsStore = useActivityPointsStore()
 const { isMobile } = useDevice()
 const ariaId = useId()
 
-const { locale, locales, setLocale } = useI18n()
-
-const availableLocales = computed(() => {
-    return locales.value.filter(i => i.code !== locale.value)
-})
+const { locale, locales, setLocale, localeProperties } = useI18n()
 
 const { t } = useI18n()
 
@@ -116,8 +112,7 @@ const showLanguages = ref(false)
                 <div class="user-dropdown-language-selector">
                     <div class="user-dropdown-label language-header" @click.prevent="showLanguages = !showLanguages">
                         {{ t('label.language') }}
-                        <font-awesome-icon :icon="['fas', 'chevron-up']" v-if="showLanguages" />
-                        <font-awesome-icon :icon="['fas', 'chevron-down']" v-else />
+                        <Image :src="localeProperties.flag" class="language-flag" />
                     </div>
                     <div class="user-dropdown-container">
 
@@ -126,7 +121,6 @@ const showLanguages = ref(false)
                                 <div v-for="l in locales">
                                     <div @click.prevent.stop="setLocale(l.code)" class="language-selector-btn" :class="{ 'is-active': l.code === locale }">
                                         {{ l.name }}
-                                        <Image :src="l.flag" class="language-flag" />
                                     </div>
                                 </div>
                             </div>
@@ -448,6 +442,13 @@ const showLanguages = ref(false)
 
     }
 
+    .language-flag {
+        height: 3rem;
+        width: 3rem;
+        border-radius: 4rem;
+        margin: 0 0.5rem;
+    }
+
     .language-selector {
         display: flex;
         justify-content: center;
@@ -475,11 +476,7 @@ const showLanguages = ref(false)
                 background-color: @memo-grey-light;
             }
 
-            .language-flag {
-                height: 4rem;
-                width: 4rem;
-                border-radius: 4rem;
-            }
+
         }
     }
 }
