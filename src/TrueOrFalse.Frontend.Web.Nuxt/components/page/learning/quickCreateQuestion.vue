@@ -331,7 +331,6 @@ const ariaId = useId()
     </div>
 </template>
 
-
 <style lang="less" scoped>
 @import (reference) '~~/assets/includes/imports.less';
 
