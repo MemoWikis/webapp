@@ -2,6 +2,8 @@
 import { useCommentsStore, CommentModel } from './commentsStore'
 
 const commentsStore = useCommentsStore()
+const { t } = useI18n()
+
 function addAnswerToUnsettledComments(e: { commentId: number, answer: CommentModel }) {
     commentsStore.unsettledComments.find(c => c.id === e.commentId)?.answers.push(e.answer)
 }
@@ -16,7 +18,7 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
     <Modal :show="commentsStore.show" @close="commentsStore.show = false" :show-close-button="true"
         @keydown.esc="commentsStore.show = false">
         <template v-slot:header>
-            <h2>Diskussion</h2>
+            <h2>{{ t('comment.modal.title') }}</h2>
         </template>
         <template v-slot:body>
             <div id="CommentsSection">
@@ -28,12 +30,12 @@ function addAnswerToSettledComments(e: { commentId: number, answer: CommentModel
                         </div>
                         <div v-if="commentsStore.settledComments?.length > 0">
                             <div class="commentSettledInfo">
-                                Die Frage hat {{ commentsStore.settledComments.length }} geschlossene {{
-                                    commentsStore.settledComments.length === 1 ? 'Diskussion' : 'Diskussionen' }}
+                                {{ t('comment.modal.settledDiscussions', commentsStore.settledComments.length) }}
                                 <button class="cursor-hand btn-link" @click="showSettledComments = !showSettledComments">
-                                    ({{ showSettledComments ? 'ausblenden' : 'einblenden' }})
+                                    ({{ showSettledComments
+                                        ? t('comment.modal.hide')
+                                        : t('comment.modal.show') }})
                                 </button>
-
                             </div>
 
                             <div v-if="showSettledComments">

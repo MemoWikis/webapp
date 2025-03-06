@@ -4,12 +4,12 @@ import * as d3 from 'd3'
 import { Visibility } from '~~/components/shared/visibilityEnum'
 import { dom } from '@fortawesome/fontawesome-svg-core'
 import { KnowledgeStatus } from '../knowledgeStatusEnum'
-import { useCommentsStore } from '~~/components/comment/commentsStore'
 import { AnswerQuestionDetailsResult } from './answerQuestionDetailsResult'
 import { abbreviateNumberToM } from '~~/components/shared/utils'
 
 const userStore = useUserStore()
-// const commentsStore = useCommentsStore()
+const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 
 interface Props {
     model: AnswerQuestionDetailsResult
@@ -21,7 +21,7 @@ onMounted(() => {
     dom.watch()
     initData(props.model)
 })
-const personalProbabilityText = ref('Nicht im Wunschwissen')
+const personalProbabilityText = ref(t('questionLandingPage.probability.status.notInWishknowledge'))
 
 const arcSvg = ref<any>({})
 const personalCounterSvg = ref<any>({})
@@ -119,16 +119,16 @@ const overallCorrectAnswerCountData = ref<ArcData>({
 function setPersonalProbability() {
     switch (props.model.knowledgeStatus) {
         case KnowledgeStatus.Solid:
-            personalProbabilityText.value = "Sicheres Wissen"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.solid')
             break
         case KnowledgeStatus.NeedsConsolidation:
-            personalProbabilityText.value = "Zu festigen"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.needsConsolidation')
             break
         case KnowledgeStatus.NeedsLearning:
-            personalProbabilityText.value = "Zu lernen"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.needsLearning')
             break
         default:
-            personalProbabilityText.value = "Nicht gelernt"
+            personalProbabilityText.value = t('questionLandingPage.probability.status.notLearned')
     }
 }
 
@@ -517,10 +517,9 @@ const ariaId2 = useId()
 
             <div id="questionDetailsContainer" class="row" style="min-height:265px">
                 <div id="pageList" class="col-sm-5" :class="{ isLandingPage: 'isLandingPage' }">
-                    <div class="overline-s no-line">Seiten</div>
+                    <div class="overline-s no-line">{{ t('questionLandingPage.pages') }}</div>
                     <div class="pageListChips">
                         <div style="display: flex; flex-wrap: wrap;">
-
                             <PageChip v-for="(t, index) in model.pages" :key="t.id + index" :page="t" :index="index"
                                 :is-spoiler="false" />
                         </div>
@@ -528,7 +527,7 @@ const ariaId2 = useId()
                 </div>
                 <div id="questionStatistics" class="col-sm-7">
                     <div id="probabilityContainer" class="" ref="probabilityContainer">
-                        <div class="overline-s no-line">Antwortwahrscheinlichkeit</div>
+                        <div class="overline-s no-line">{{ t('questionLandingPage.probability.title') }}</div>
                         <div id="semiPieSection">
                             <div id="semiPieChart" style="min-height:130px">
                                 <svg class="semiPieSvgContainer" ref="semiPie" width="200" height="130"
@@ -537,61 +536,52 @@ const ariaId2 = useId()
                             </div>
                             <div id="probabilityText">
                                 <div v-if="userStore.isLoggedIn" style="">
-                                    <strong>{{ model.personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass
-                                    du
-                                    die Frage richtig beantwortest. Durchschnitt aller memoWikis-Nutzer:
+                                    <strong>{{ model.personalProbability }}%</strong> {{ t('questionLandingPage.probability.description.loggedIn') }}
                                     <strong>{{ model.avgProbability }}%</strong>
                                 </div>
                                 <div v-else style="">
-                                    <strong>{{ model.personalProbability }}%</strong> beträgt die Wahrscheinlichkeit, dass
-                                    du
-                                    die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle
-                                    Wahrscheinlichkeit berechnen können.
+                                    <strong>{{ model.personalProbability }}%</strong> {{ t('questionLandingPage.probability.description.notLoggedIn') }}
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div id="counterContainer" class="" style="font-size:12px">
-                        <div class="overline-s no-line">Antworten</div>
+                        <div class="overline-s no-line">{{ t('questionLandingPage.answers.title') }}</div>
 
                         <div class="counterBody">
                             <div class="counterHalf">
                                 <svg ref="personalCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="model.personalAnswerCount > 0" class="counterLabel">
-                                    Von Dir: <br />
-                                    <strong>{{ abbreviateNumberToM(model.personalAnswerCount) }}</strong> mal beantwortet
+                                    {{ t('questionLandingPage.answers.personal.title') }} <br />
+                                    <strong>{{ abbreviateNumberToM(model.personalAnswerCount) }}</strong> {{ t('questionLandingPage.answers.personal.answered') }}
                                     <br />
-                                    <strong>{{ abbreviateNumberToM(model.personalAnsweredCorrectly) }}</strong> richtig /
-                                    <strong>{{
-                                        abbreviateNumberToM(model.personalAnsweredWrongly) }}</strong>
-                                    falsch
+                                    <strong>{{ abbreviateNumberToM(model.personalAnsweredCorrectly) }}</strong> {{ t('questionLandingPage.answers.personal.correct') }} /
+                                    <strong>{{ abbreviateNumberToM(model.personalAnsweredWrongly) }}</strong>
+                                    {{ t('questionLandingPage.answers.personal.wrong') }}
                                 </div>
                                 <div v-else-if="userStore.isLoggedIn" class="counterLabel">
-                                    Du hast diese Frage noch nie beantwortet.
+                                    {{ t('questionLandingPage.answers.personal.noAnswers') }}
                                 </div>
                                 <div v-else class="counterLabel">
-                                    Du bist nicht angemeldet. Wir haben keine Daten. <button class="btn-link"
-                                        @click="userStore.openLoginModal()">Anmelden</button>
+                                    {{ t('questionLandingPage.answers.personal.notLoggedIn') }} <button class="btn-link"
+                                        @click="userStore.openLoginModal()">{{ t('questionLandingPage.answers.personal.login') }}</button>
                                 </div>
                             </div>
                             <div class="counterHalf">
                                 <svg ref="overallCounter" style="min-width:50px" width="50" height="50"></svg>
                                 <div v-if="model.overallAnswerCount > 0" class="counterLabel">
-                                    Von allen Nutzern: <br />
-                                    <strong>{{ abbreviateNumberToM(model.overallAnswerCount) }}</strong> mal beantwortet
+                                    {{ t('questionLandingPage.answers.overall.title') }} <br />
+                                    <strong>{{ abbreviateNumberToM(model.overallAnswerCount) }}</strong> {{ t('questionLandingPage.answers.overall.answered') }}
                                     <br />
-                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredCorrectly) }}</strong> richtig /
-                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredWrongly) }}</strong> falsch
+                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredCorrectly) }}</strong> {{ t('questionLandingPage.answers.overall.correct') }} /
+                                    <strong>{{ abbreviateNumberToM(model.overallAnsweredWrongly) }}</strong> {{ t('questionLandingPage.answers.overall.wrong') }}
                                 </div>
                                 <div v-else class="counterLabel">
                                     <template v-if="model.visibility === 1">
-                                        Diese Frage ist <br />
-                                        privat und nur für <br />
-                                        dich sichtbar
+                                        {{ t('questionLandingPage.answers.overall.privateQuestion') }}
                                     </template>
                                     <template v-else>
-                                        Diese Frage wurde noch nie beantwortet.
+                                        {{ t('questionLandingPage.answers.overall.noAnswers') }}
                                     </template>
                                 </div>
                             </div>
@@ -603,7 +593,6 @@ const ariaId2 = useId()
         </div>
         <div id="QuestionDetailsFooter">
             <div class="questionDetailsFooterPartialLeft">
-
                 <div id="LicenseQuestion">
                     <VTooltip :aria-id="ariaId" v-if="model.license.isDefault">
                         <div class="TextLinkWithIcon">
@@ -615,12 +604,11 @@ const ariaId2 = useId()
                             </div>
                         </div>
 
-
                         <template #popper>
                             <div class="tooltip-header">
-                                Infos zur Lizenz: {{ model.license.shortText }}
+                                {{ t('questionLandingPage.license.info') }} {{ model.license.shortText }}
                             </div>
-                            Autor: <NuxtLink v-if="model.creator.id > 0"
+                            {{ t('questionLandingPage.license.author') }} <NuxtLink v-if="model.creator.id > 0"
                                 :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
                                 {{ model.creator.name }} </NuxtLink>
                             <div v-html="model.license.fullText"></div>
@@ -642,16 +630,15 @@ const ariaId2 = useId()
                         </template>
                     </VTooltip>
                 </div>
-                <div class="created"> Erstellt von:
+                <div class="created"> {{ t('questionLandingPage.creation.by') }}
                     <NuxtLink v-if="model.creator.id > 0" :to="$urlHelper.getUserUrl(model.creator.name, model.creator.id)">
                         &nbsp;{{ model.creator.name }}&nbsp;
                     </NuxtLink>
-                    vor {{ model.creationDate }}
+                    {{ t('questionLandingPage.creation.time') }} {{ model.creationDate }}
                 </div>
             </div>
 
             <div class="questionDetailsFooterPartialRight">
-
                 <div class="wishknowledgeCount">
                     <font-awesome-icon icon="fa-solid fa-heart" />
                     <span class="detail-label">
@@ -665,12 +652,6 @@ const ariaId2 = useId()
                         {{ model.totalViewCount }}
                     </span>
                 </div>
-                <!-- <div class="commentCount pointer" @click="openCommentModal()">
-                    <font-awesome-icon icon="fa-solid fa-comment" />
-                    <span id="commentCountAnswerBody" class="detail-label">
-                        {{ unsettledCommentCount }}
-                    </span>
-                </div> -->
             </div>
         </div>
     </div>

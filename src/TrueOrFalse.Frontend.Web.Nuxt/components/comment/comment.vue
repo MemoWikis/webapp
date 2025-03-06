@@ -5,6 +5,8 @@ import { useCommentsStore, CommentModel } from './commentsStore'
 
 const userStore = useUserStore()
 const commentsStore = useCommentsStore()
+const { t } = useI18n()
+
 interface Props {
     comment: CommentModel
     questionId: number
@@ -92,7 +94,6 @@ async function saveAnswer() {
         showIsSettled.value = true
     }
 }
-
 </script>
 
 <template>
@@ -112,7 +113,7 @@ async function saveAnswer() {
 
                 <div v-else class="pointer" @click="foldOut = !foldOut">
                     <div class="pull-right">
-                        <span class="commentSettledBox">geschlossen</span>
+                        <span class="commentSettledBox">{{ t('comment.status.closed') }}</span>
                         <span>
                             <font-awesome-icon icon="fa-sharp fa-solid fa-chevron-up" v-if="foldOut" class="pointer" />
                             <font-awesome-icon icon="fa-sharp fa-solid fa-chevron-down" v-else class="pointer" />
@@ -123,9 +124,9 @@ async function saveAnswer() {
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
-                                {{ props.comment.answers.length }} Beitrag</span>
+                                {{ props.comment.answers.length }} {{ t('comment.posts.singular') }}</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
-                                Beiträge</span>
+                                {{ t('comment.posts.plural') }}</span>
                         </span>
                     </div>
                     <div class="commentTitle" v-else-if="props.comment.text.length > 25">
@@ -134,9 +135,9 @@ async function saveAnswer() {
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
-                                {{ props.comment.answers.length }} Beitrag</span>
+                                {{ props.comment.answers.length }} {{ t('comment.posts.singular') }}</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
-                                Beiträge</span>
+                                {{ t('comment.posts.plural') }}</span>
                         </span>
                     </div>
                     <div class="commentTitle" v-else>
@@ -144,9 +145,9 @@ async function saveAnswer() {
                         <span class="commentSpeechBubbleIcon">
                             <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                             <span class="commentSpeechBubbleText" v-if="props.comment.answers.length === 1">&nbsp;
-                                {{ props.comment.answers.length }} Beitrag</span>
+                                {{ props.comment.answers.length }} {{ t('comment.posts.singular') }}</span>
                             <span class="commentSpeechBubbleText" v-else>&nbsp; {{ props.comment.answers.length }}
-                                Beiträge</span>
+                                {{ t('comment.posts.plural') }}</span>
                         </span>
                     </div>
                 </div>
@@ -160,19 +161,21 @@ async function saveAnswer() {
                             <span v-else v-html="props.comment.text.slice(0, 360) + '...'">
                             </span>
                             <button @click="readMore = !readMore" class="btn-link">
-                                {{ readMore ? 'Weniger' : 'Mehr' }}
+                                {{ readMore ? t('comment.readMore.less') : t('comment.readMore.more') }}
                             </button>
                         </span>
                     </div>
                     <div class="commentSpeechBubbleIcon" @click="showCommentAnswers = !showCommentAnswers" :class="{ 'clickable': props.comment.answers.length > 0 }">
                         <font-awesome-icon icon="fa-solid fa-comments" class="commentAnswersCount" />
                         <div class="commentSpeechBubbleText">
-                            {{ props.comment.answers.length === 1 ? '1 Antwort' : props.comment.answers.length + ' Antworten' }}
+                            {{ props.comment.answers.length === 1 ?
+                                '1 ' + t('comment.answers.singular') :
+                                props.comment.answers.length + ' ' + t('comment.answers.plural') }}
                             <template v-if="props.comment.answers.length > 0 && !showCommentAnswers">
-                                anzeigen
+                                {{ t('comment.answers.show') }}
                             </template>
                             <template v-else-if="props.comment.answers.length > 0 && showCommentAnswers">
-                                verbergen
+                                {{ t('comment.answers.hide') }}
                             </template>
                         </div>
                     </div>
@@ -180,7 +183,7 @@ async function saveAnswer() {
                     <div class="commentUserDetails">
 
                         <span class="greyed commentDate">
-                            vor <span class="show-tooltip">{{ props.comment.creationDateNiceText }}</span> von:
+                            {{ t('comment.time.ago') }} <span class="show-tooltip">{{ props.comment.creationDateNiceText }}</span> {{ t('comment.time.by') }}:
                         </span>
                         <NuxtLink class="pointer comment-header" v-if="props.comment.creatorId > 0" :to="$urlHelper.getUserUrl(props.comment.creatorName, props.comment.creatorId)">
                             <img class="commentUserImg" :src="props.comment.creatorImgUrl">
@@ -203,22 +206,21 @@ async function saveAnswer() {
                 <div class="col-xs-12 col-sm-12">
                     <div v-if="!props.comment.isSettled" class="pull-right col-xs-12 col-sm-4">
                         <button @click="saveAnswer()" class="btn btn-primary memo-button col-xs-12 answerBtn">
-                            Antworten
+                            {{ t('comment.buttons.reply') }}
                         </button>
                     </div>
                     <div class="pull-right col-xs-12 col-sm-5">
                         <button v-if="userStore.isAdmin && !props.comment.isSettled || props.creatorId === userStore.id && !props.comment.isSettled" @click="markAsSettled()" class="btn btn-lg btn-link memo-button col-xs-12">
-                            Diskussion schliessen
+                            {{ t('comment.buttons.closeDiscussion') }}
                         </button>
                         <button v-if="userStore.isAdmin && props.comment.isSettled" @click.stop="markAsUnsettled()" class="btn btn-lg btn-link memo-button col-xs-12">
-                            Diskussion wieder eröffnen
+                            {{ t('comment.buttons.reopenDiscussion') }}
                         </button>
                     </div>
                 </div>
             </div>
-            <div v-if="showIsSettled" class="discurs-is-settled col-xs-12 col-sm-12">Leider wurde die Diskussion in der
-                Zwischenzeit
-                geschlossen
+            <div v-if="showIsSettled" class="discurs-is-settled col-xs-12 col-sm-12">
+                {{ t('comment.messages.discussionClosed') }}
             </div>
         </div>
     </div>

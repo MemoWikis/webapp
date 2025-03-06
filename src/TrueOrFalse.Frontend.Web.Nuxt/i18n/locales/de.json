@@ -753,5 +753,88 @@
             "description": "Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem",
             "additionalInfo": "Wunschwissen und über neue Inhalte bei memoWikis. Er wird nur verschickt, wenn du Wunschwissen hast."
         }
+    },
+    "questionLandingPage": {
+        "pages": "Seiten",
+        "probability": {
+            "title": "Antwortwahrscheinlichkeit",
+            "description": {
+                "loggedIn": "beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Durchschnitt aller memoWikis-Nutzer:",
+                "notLoggedIn": "beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle Wahrscheinlichkeit berechnen können."
+            },
+            "status": {
+                "notInWishknowledge": "Nicht im Wunschwissen",
+                "solid": "Sicheres Wissen",
+                "needsConsolidation": "Zu festigen",
+                "needsLearning": "Zu lernen",
+                "notLearned": "Nicht gelernt"
+            }
+        },
+        "answers": {
+            "title": "Antworten",
+            "personal": {
+                "title": "Von Dir:",
+                "answered": "mal beantwortet",
+                "correct": "richtig",
+                "wrong": "falsch",
+                "noAnswers": "Du hast diese Frage noch nie beantwortet.",
+                "notLoggedIn": "Du bist nicht angemeldet. Wir haben keine Daten.",
+                "login": "Anmelden"
+            },
+            "overall": {
+                "title": "Von allen Nutzern:",
+                "answered": "mal beantwortet",
+                "correct": "richtig",
+                "wrong": "falsch",
+                "privateQuestion": "Diese Frage ist privat und nur für dich sichtbar",
+                "noAnswers": "Diese Frage wurde noch nie beantwortet."
+            }
+        },
+        "license": {
+            "info": "Infos zur Lizenz:",
+            "author": "Autor:"
+        },
+        "creation": {
+            "by": "Erstellt von:",
+            "time": "vor"
+        }
+    },
+    "comment": {
+        "modal": {
+            "title": "Diskussion",
+            "settledDiscussions": "Die Frage hat {count} geschlossene @:comment.modal.discussion",
+            "discussion": "Diskussionen | Diskussion | Diskussionen",
+            "show": "einblenden",
+            "hide": "ausblenden"
+        },
+        "status": {
+            "closed": "geschlossen"
+        },
+        "posts": {
+            "singular": "Beitrag",
+            "plural": "Beiträge"
+        },
+        "readMore": {
+            "more": "Mehr",
+            "less": "Weniger"
+        },
+        "answers": {
+            "singular": "Antwort",
+            "plural": "Antworten",
+            "show": "anzeigen",
+            "hide": "verbergen"
+        },
+        "time": {
+            "ago": "vor",
+            "by": "von"
+        },
+        "buttons": {
+            "reply": "Antworten",
+            "closeDiscussion": "Diskussion schliessen",
+            "reopenDiscussion": "Diskussion wieder eröffnen"
+        },
+        "messages": {
+            "discussionClosed": "Leider wurde die Diskussion in der Zwischenzeit geschlossen"
+        }
     }
 }
