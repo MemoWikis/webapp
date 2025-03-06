@@ -1,36 +1,36 @@
 <script lang="ts" setup>
 import { usePublishQuestionStore } from './publishQuestionStore'
 const publishQuestionStore = usePublishQuestionStore()
+const { t } = useI18n()
 </script>
 
 <template>
     <LazyModal
         :show="publishQuestionStore.showModal"
-        :primary-btn-label="'Bestätigen'"
+        :primary-btn-label="t('page.publishQuestionModal.confirmButton')"
         @primary-btn="publishQuestionStore.confirmPublish"
         @close="publishQuestionStore.closeModal"
         :show-cancel-btn="true">
         <template v-slot:header>
             <h4 class="modal-title">
-                Veröffentlichung bestätigen
+                {{ t('page.publishQuestionModal.title') }}
             </h4>
         </template>
         <template v-slot:body>
             <p>
-                Möchtest du wirklich die Frage "{{ publishQuestionStore.text }}" veröffentlichen?
+                {{ t('page.publishQuestionModal.confirmMessage', { text: publishQuestionStore.text }) }}
             </p>
             <div class="license-info">
-                <b>Achtung!</b>
+                <b>{{ t('page.publishQuestionModal.warning') }}</b>
                 <br />
-                Du stellst diesen Eintrag unter die Lizenz "Creative Commons - Namensnennung 4.0 International" (CC BY 4.0,
+                {{ t('page.publishQuestionModal.licenseInfo') }}
                 <NuxtLink :external="true" to="https://creativecommons.org/licenses/by/4.0/legalcode.de"
-                    target="_blank">Lizenztext, deutsche Zusammenfassung
+                    target="_blank">{{ t('page.publishQuestionModal.licenseLink') }}
                 </NuxtLink>).
                 <br />
-                Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden.
+                {{ t('page.publishQuestionModal.licenseUsage') }}
                 <br />
-                Du bestätigst, dass die Texte und gegebenenfalls auch Bilder Deine eigene Arbeit sind und nicht aus urheberrechtlich geschützten
-                Quellen kopiert wurden.
+                {{ t('page.publishQuestionModal.licenseConfirmation') }}
             </div>
 
             <div class="alert alert-warning" role="alert" v-if="publishQuestionStore.showErrorMsg">

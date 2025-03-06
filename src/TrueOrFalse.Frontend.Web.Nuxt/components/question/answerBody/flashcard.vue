@@ -51,6 +51,8 @@ function getMinHeight() {
 const emit = defineEmits((['flipped']))
 
 init()
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -61,14 +63,15 @@ init()
                 </div>
                 <div class="flip-label">
                     <font-awesome-icon icon="fa-solid fa-rotate" />
-                    Zum Umdrehen klicken
+                    {{ t('answerbody.flipFlashcard') }}
                 </div>
             </div>
             <div class="flashcard-back" :style="getMinHeight()">
                 <div v-show="solutionHtml.length > 0" v-html="handleNewLine(solutionHtml)" ref="back"></div>
                 <div class="flip-label">
                     <font-awesome-icon icon="fa-solid fa-rotate" />
-                    Zum Umdrehen klicken
+                    {{ t('answerbody.flipFlashcard') }}
+
                 </div>
             </div>
         </div>

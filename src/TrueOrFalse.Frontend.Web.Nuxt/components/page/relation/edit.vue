@@ -336,7 +336,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
         privatePageLimitReached.value = false
     }
 })
-
+const { t } = useI18n()
 </script>
 
 <template>
@@ -346,17 +346,17 @@ watch(() => editPageRelationStore.showModal, (val) => {
 
         <template v-slot:header>
             <h4 v-if="editPageRelationStore.type === EditPageRelationType.Create" class="modal-title">
-                Neue Seite erstellen
+                {{ t('page.relationEdit.modal.createPage') }}
             </h4>
             <h4 v-else-if="editPageRelationStore.type === EditPageRelationType.Move" class="modal-title">
-                Seite verschieben nach
+                {{ t('page.relationEdit.modal.movePage') }}
             </h4>
             <h4 v-else-if="editPageRelationStore.type === EditPageRelationType.AddChild" class="modal-title">
-                Bestehende Seite verknüpfen
+                {{ t('page.relationEdit.modal.linkExistingPage') }}
             </h4>
             <h4 v-else-if="editPageRelationStore.type === EditPageRelationType.AddParent || editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki"
                 class="modal-title">
-                Neue Übergeordnete Seite verknüpfen
+                {{ t('page.relationEdit.modal.linkParentPage') }}
             </h4>
         </template>
 
@@ -365,7 +365,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                 <form v-on:submit.prevent="addPage">
                     <div class="form-group">
                         <input class="form-control create-input" v-model="name"
-                            placeholder="Bitte gib den Namen des Themas ein" />
+                            :placeholder="t('page.relationEdit.form.namePlaceholder')" />
                         <small class="form-text text-muted"></small>
                     </div>
                 </form>
@@ -376,11 +376,9 @@ watch(() => editPageRelationStore.showModal, (val) => {
                 <div class="link-to-sub-container" v-if="privatePageLimitReached">
                     <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
                 </div>
-                <div class="pageIsPrivate
-                " v-else>
+                <div class="pageIsPrivate" v-else>
                     <p>
-                        <b>Diese Seite ist privat.</b> Du kannst sie später im Dreipunkt-Menü oder direkt über das
-                        Schloss-Icon veröffentlichen.
+                        <b>{{ t('page.relationEdit.text.pageIsPrivate') }}</b>
                     </p>
                 </div>
             </template>
@@ -388,7 +386,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
 
             <template v-else-if="editPageRelationStore.type === EditPageRelationType.AddToPersonalWiki">
                 <div class="mb-250">
-                    <p>Wo soll die Seite hinzugefügt werden?</p>
+                    <p>{{ t('page.relationEdit.text.whereToAdd') }}</p>
                 </div>
                 <div>
                     <div class="pageSearchAutocomplete mb-250" v-if="editPageRelationStore.personalWiki != null"
@@ -400,14 +398,14 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                 <div class="searchResultLabel body-m">{{ editPageRelationStore.personalWiki.name }}
                                 </div>
                                 <div class="searchResultQuestionCount body-s">
-                                    {{ editPageRelationStore.personalWiki.questionCount + `
-                                    Frage${editPageRelationStore.personalWiki.questionCount != 1 ? 'n' : ''}` }}
+                                    {{ editPageRelationStore.personalWiki.questionCount }}
+                                    {{ editPageRelationStore.personalWiki.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}
                                 </div>
                             </div>
                             <div v-show="selectedParentInWikiId === editPageRelationStore.personalWiki.id"
                                 class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
-                                    Ausgewählt
+                                    {{ t('page.relationEdit.text.selected') }}
                                     <font-awesome-icon icon="fa-solid fa-check" />
                                 </div>
                             </div>
@@ -416,7 +414,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
 
                     <div class="pageSearchAutocomplete mb-250"
                         v-if="editPageRelationStore.recentlyUsedRelationTargetPages != null && editPageRelationStore.recentlyUsedRelationTargetPages.length > 0">
-                        <div class="overline-s mb-125 no-line">Zuletzt ausgewählte Seiten</div>
+                        <div class="overline-s mb-125 no-line">{{ t('page.relationEdit.text.recentlySelectedPages') }}</div>
                         <template v-for="previousPage in editPageRelationStore.recentlyUsedRelationTargetPages">
                             <div class="searchResultItem"
                                 :class="{ 'selectedSearchResultItem': selectedParentInWikiId === previousPage.id }"
@@ -425,12 +423,12 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                 <div class="searchResultBody">
                                     <div class="searchResultLabel body-m">{{ previousPage.name }}</div>
                                     <div class="searchResultQuestionCount body-s">{{ previousPage.questionCount }}
-                                        Frage<template v-if="previousPage.questionCount != 1">n</template>
+                                        {{ previousPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}
                                     </div>
                                 </div>
                                 <div v-show="selectedParentInWikiId === previousPage.id" class="selectedSearchResultItemContainer">
                                     <div class="selectedSearchResultItem">
-                                        Ausgewählt
+                                        {{ t('page.relationEdit.text.selected') }}
                                         <font-awesome-icon icon="fa-solid fa-check" />
                                     </div>
                                 </div>
@@ -438,7 +436,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                         </template>
                     </div>
                     <div class="mb-125">
-                        <p>Andere Seite auswählen</p>
+                        <p>{{ t('page.relationEdit.text.selectOtherPage') }}</p>
                     </div>
                     <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
                         <div v-if="showSelectedPage && selectedPage != null" class="searchResultItem mb-125" :class="{ 'selectedSearchResultItem': selectedParentInWikiId === selectedPage.id }"
@@ -448,11 +446,11 @@ watch(() => editPageRelationStore.showModal, (val) => {
                             <div class="searchResultBody">
                                 <div class="searchResultLabel body-m">{{ selectedPage?.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
-                                    Frage<template v-if="selectedPage?.questionCount != 1">n</template></div>
+                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}</div>
                             </div>
                             <div v-show="selectedParentInWikiId === selectedPage.id" class="selectedSearchResultItemContainer">
                                 <div class="selectedSearchResultItem">
-                                    Ausgewählt
+                                    {{ t('page.relationEdit.text.selected') }}
                                     <font-awesome-icon icon="fa-solid fa-check" />
                                 </div>
                             </div>
@@ -466,7 +464,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                         <input type="checkbox" name="addToParent" class="hidden" />
                                         <font-awesome-icon icon="fa-solid fa-square-check" class="checkbox-icon active" />
                                         <span class="checkbox-label">
-                                            Nur im eigenen Wiki suchen
+                                            {{ t('page.relationEdit.text.searchOnlyInWiki') }}
                                         </span>
                                     </div>
                                 </label>
@@ -485,7 +483,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
             </template>
             <template v-else-if="editPageRelationStore.type === EditPageRelationType.AddParent">
                 <div class="mb-250">
-                    <p>Wo soll die Seite hinzugefügt werden?</p>
+                    <p>{{ t('page.relationEdit.text.whereToAdd') }}</p>
                 </div>
                 <div>
                     <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
@@ -495,7 +493,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                             <div>
                                 <div class="searchResultLabel body-m">{{ selectedPage.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
-                                    Frage<template v-if="selectedPage.questionCount != 1">n</template></div>
+                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}</div>
                             </div>
                         </div>
                         <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />
@@ -507,7 +505,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                                         <input type="checkbox" name="addToWiki" class="hidden" />
                                         <font-awesome-icon icon="fa-regular fa-square" class="checkbox-icon" />
                                         <span class="checkbox-label">
-                                            Nur im eigenen Wiki suchen
+                                            {{ t('page.relationEdit.text.searchOnlyInWiki') }}
                                         </span>
                                     </div>
                                 </label>
@@ -530,7 +528,7 @@ watch(() => editPageRelationStore.showModal, (val) => {
                             <div>
                                 <div class="searchResultLabel body-m">{{ selectedPage.name }}</div>
                                 <div class="searchResultQuestionCount body-s">{{ selectedPage.questionCount }}
-                                    Frage<template v-if="selectedPage.questionCount != 1">n</template></div>
+                                    {{ selectedPage.questionCount != 1 ? t('page.relationEdit.text.questions') : t('page.relationEdit.text.question') }}</div>
                             </div>
                         </div>
                         <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectPage" :page-ids-to-filter="editPageRelationStore.pagesToFilter" />

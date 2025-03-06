@@ -98,30 +98,33 @@ watch(() => deleteQuestionStore.showModal, (val) => {
         getDeleteDetails(deleteQuestionStore.id)
     }
 })
+
+const { t } = useI18n()
 </script>
 
 <template>
     <LazyModal :show-close-button="true"
-        :primary-btn-label="!deletionInProgress && showDeleteBtn ? 'Frage löschen' : ''" :is-full-size-buttons="false"
+        :primary-btn-label="!deletionInProgress && showDeleteBtn ? t('question.deleteModal.button.delete') : ''" :is-full-size-buttons="false"
         :show-cancel-btn="!deletionInProgress" @close="deleteQuestionStore.showModal = false"
         @primary-btn="deleteQuestion()" :show="deleteQuestionStore.showModal">
         <template v-slot:header>
-            <h2 class="modal-title">Frage löschen</h2>
+            <h2 class="modal-title">{{ t('question.deleteModal.title') }}</h2>
         </template>
         <template v-slot:body>
-
             <div class="cardModalContent">
                 <div class="modalBody">
                     <div class="body-m" v-if="showDeleteInfo">
-                        Möchtest Du "<b>{{ name }}</b>" unwiederbringlich löschen?
-                        Alle damit verknüpften Daten werden entfernt!
+                        <i18n-t keypath="question.deleteModal.confirmation" tag="p">
+                            <template #name>
+                                <b>{{ name }}</b>
+                            </template>
+                        </i18n-t>
                     </div>
                     <div class="alert alert-danger" v-if="showErrorMsg">
                         {{ errorMsg }}
                     </div>
                     <div class="alert alert-info" v-if="deletionInProgress">
-                        Die Frage wird gelöscht...
-                        Bitte habe einen Moment Geduld.
+                        {{ t('question.deleteModal.progress') }}
                     </div>
                 </div>
             </div>

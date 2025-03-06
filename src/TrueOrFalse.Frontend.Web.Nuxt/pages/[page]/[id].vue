@@ -4,7 +4,6 @@ import { Page, usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { Site } from '~~/components/shared/siteEnum'
 import { useUserStore, FontSize } from '~~/components/user/userStore'
-import { messages } from '~/components/alert/messages'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { useConvertStore } from '~/components/page/convert/convertStore'
 
@@ -77,6 +76,7 @@ function setPage() {
                 tabSwitched.value = true
                 if (page.value == null || parseInt(route.params.id.toString()) != page.value.id)
                     return
+
                 if (t === Tab.Text)
                     router.push($urlHelper.getPageUrl(page.value.name, page.value.id))
 
@@ -185,6 +185,7 @@ convertStore.$onAction(({ name, after }) => {
         })
     }
 })
+
 </script>
 
 <template>
@@ -221,8 +222,8 @@ convertStore.$onAction(({ name, after }) => {
                                 <div class="row">
                                 </div>
                             </template>
-                            <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
                             <LazyPageTabsFeed v-show="tabsStore.activeTab === Tab.Feed || (props.tab === Tab.Feed && !tabSwitched)" />
+                            <PageTabsAnalytics v-show="tabsStore.activeTab === Tab.Analytics || (props.tab === Tab.Analytics && !tabSwitched)" />
                         </ClientOnly>
 
                         <ClientOnly>
@@ -236,7 +237,6 @@ convertStore.$onAction(({ name, after }) => {
                         </ClientOnly>
                     </template>
                 </div>
-
 
                 <ClientOnly>
                     <Sidebar class="is-page" :show-outline="true" :site="Site.Page" v-if="pageStore?.id != 0" />

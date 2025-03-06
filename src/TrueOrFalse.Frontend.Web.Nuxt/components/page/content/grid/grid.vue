@@ -189,7 +189,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
             <div class="grid-container">
                 <div class="grid-header ">
                     <div class="grid-title no-line" :class="{ 'overline-m': !isMobile, 'overline-s': isMobile }">
-                        {{ isMobile ? 'UnterSeiten' : 'Untergeordnete Seiten' }} ({{ pageStore.childPageCount }})
+                        {{ isMobile ? t('page.grid.childPagesMobile') : t('page.grid.childPages') }} ({{ pageStore.childPageCount }})
                     </div>
 
                     <div class="grid-options">
@@ -227,7 +227,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                         <button @click="addPage(true)">
                             <font-awesome-icon :icon="['fas', 'plus']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? 'Seite erstellen' : 'Unterseite erstellen' }}
+                                {{ isMobile ? t('page.grid.createChildPageMobile') : t('page.grid.createChildPage') }}
                             </span>
                         </button>
                     </div>
@@ -236,7 +236,7 @@ editPageRelationStore.$onAction(({ name, after }) => {
                         <button @click="addPage(false)">
                             <font-awesome-icon :icon="['fas', 'link']" />
                             <span class="button-label" :class="{ 'is-mobile': isMobile }">
-                                {{ isMobile ? 'Seite verknüpfen' : 'Unterseite verknüpfen' }}
+                                {{ isMobile ? t('page.grid.linkChildPageMobile') : t('page.grid.linkChildPage') }}
                             </span>
                         </button>
                     </div>

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useTabsStore, Tab } from './tabsStore'
 import { usePageStore } from '../pageStore'
-import { VueElement } from 'vue'
 import { ChartData } from '~~/components/chart/chartData'
 
 const tabsStore = useTabsStore()
@@ -56,7 +55,7 @@ function getTooltipLabel(key: string, count: number) {
 		case 'solid':
 			return t('knowledgeStatus.solidCount', count)
 		case 'needsConsolidation':
-			return t('knowledgeStatus.n2', count)
+			return t('knowledgeStatus.needsConsolidationCount', count)
 		case 'needsLearning':
 			return t('knowledgeStatus.needsLearningCount', count)
 		case 'notLearned':
@@ -145,7 +144,7 @@ const ariaId2 = useId()
 										<LazyChartPie class="pie-chart" :data="chartData" :height="24" :width="24" />
 									</div>
 									<template #popper>
-										<b>{{ t('knowledgeStatus.tabs.yourKnowledgeStatus') }}:</b>
+										<b>{{ t('page.tabs.yourKnowledgeStatus') }}:</b>
 										<div v-for="d in chartData" v-if="chartData.some(d => d.value > 0)"
 											class="knowledgesummary-info">
 											<div class="color-container" :class="`color-${d.class}`"></div>
@@ -204,15 +203,15 @@ const ariaId2 = useId()
 
 					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Text && isMobile" style="width:60px"
 						:style="pageLabelWidth">
-						Text
+						{{ t('page.tabs.text') }}
 					</div>
 					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Text" style="width:68px"
 						:style="pageLabelWidth">
-						Text
+						{{ t('page.tabs.text') }}
 					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Text }"
 						ref="pageLabelEl">
-						Text
+						{{ t('page.tabs.text') }}
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Text"></div>
@@ -225,14 +224,14 @@ const ariaId2 = useId()
 
 					<div class="tab-label chip-tab active learning-tab" v-if="tabsStore.activeTab === Tab.Learning"
 						:style="learningLabelWidth">
-						Fragen
+						{{ t('page.tabs.questions') }}
 						<div class="chip" v-if="pageStore.questionCount > 0">
 							{{ pageStore.questionCount }}
 						</div>
 					</div>
 					<div class="tab-label chip-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Learning }"
 						ref="learningLabelEl">
-						Fragen
+						{{ t('page.tabs.questions') }}
 						<div class="chip" v-if="pageStore.questionCount > 0">
 							{{ pageStore.questionCount }}
 						</div>
@@ -249,15 +248,15 @@ const ariaId2 = useId()
 
 					<div class="tab-label active" v-if="tabsStore.activeTab === Tab.Feed && isMobile" style="width:65px"
 						:style="feedLabelWidth">
-						Feed
+						{{ t('page.tabs.feed') }}
 					</div>
 					<div class="tab-label active" v-else-if="tabsStore.activeTab === Tab.Feed" style="width:73px"
 						:style="feedLabelWidth">
-						Feed
+						{{ t('page.tabs.feed') }}
 					</div>
 					<div class="tab-label" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Feed }"
 						ref="feedLabelEl">
-						Feed
+						{{ t('page.tabs.feed') }}
 					</div>
 
 					<div class="active-tab" v-if="tabsStore.activeTab === Tab.Feed"></div>
@@ -272,12 +271,12 @@ const ariaId2 = useId()
 						:style="analyticsLabelWidth">
 
 						<template v-if="!isMobile">
-							Analytics
+							{{ t('page.tabs.analytics') }}
 						</template>
 					</div>
 					<div class="tab-label analytics-tab" :class="{ 'invisible-tab': tabsStore.activeTab === Tab.Analytics }" ref="analyticsLabelEl">
 						<template v-if="!isMobile">
-							Analytics
+							{{ t('page.tabs.analytics') }}
 						</template>
 					</div>
 

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Visibility } from '~/components/shared/visibilityEnum'
-import { PageFeedItem, PageChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getPageChangeTypeName, getQuestionChangeTypeName } from './feedHelper'
+import { PageFeedItem, PageChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getPageChangeTypeKey, getQuestionChangeTypeKey } from './feedHelper'
 import { color } from '~/components/shared/colors'
 import { messages } from '~/components/alert/messages'
 import { usePageStore } from '../../pageStore'
@@ -12,6 +12,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const pageStore = usePageStore()
+const { t } = useI18n()
 
 enum FeedType {
     Page,
@@ -49,7 +50,7 @@ const setFeedItem = (item: PageFeedItem | QuestionFeedItem) => {
         const questionItem = item as QuestionFeedItem
         feedItem.value = {
             date: questionItem.date,
-            params: { label: getQuestionChangeTypeName(questionItem.type), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
+            params: { label: t(getQuestionChangeTypeKey(questionItem.type)), color: getQuestionChangeColor(questionItem.type), id: questionItem.questionChangeId, type: questionItem.type },
             feedType: FeedType.Question,
             id: questionItem.questionId,
             visibility: questionItem.visibility,
@@ -65,7 +66,7 @@ const setFeedItem = (item: PageFeedItem | QuestionFeedItem) => {
         const pageItem = item as PageFeedItem
         feedItem.value = {
             date: pageItem.date,
-            params: { label: getPageChangeTypeName(pageItem.type), color: getPageChangeColor(pageItem.type), id: pageItem.pageChangeId, type: pageItem.type },
+            params: { label: t(getPageChangeTypeKey(pageItem.type)), color: getPageChangeColor(pageItem.type), id: pageItem.pageChangeId, type: pageItem.type },
             feedType: FeedType.Page,
             id: pageItem.pageId,
             visibility: pageItem.visibility,

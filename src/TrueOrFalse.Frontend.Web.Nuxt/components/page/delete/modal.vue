@@ -3,14 +3,19 @@ import { useDeletePageStore } from './deletePageStore'
 import { SearchType, PageItem } from '~~/components/search/searchHelper'
 
 const deletePageStore = useDeletePageStore()
+const { t } = useI18n()
 
-const primaryBtnLabel = ref('Seite löschen')
-const newParentForQuestions = ref<PageItem>()
-watch(() => deletePageStore.pageDeleted, (val) => {
-    if (val)
-        primaryBtnLabel.value = 'Weiter'
-    else primaryBtnLabel.value = deletePageStore.isWiki ? 'Wiki löschen' : 'Seite löschen'
+const primaryBtnLabel = computed(() => {
+    if (deletePageStore.pageDeleted) {
+        return t('page.deleteModal.button.continue')
+    } else {
+        return deletePageStore.isWiki
+            ? t('page.deleteModal.button.deleteWiki')
+            : t('page.deleteModal.button.deletePage')
+    }
 })
+
+const newParentForQuestions = ref<PageItem>()
 
 watch(() => deletePageStore.suggestedNewParent, (val) => {
     if (val)
@@ -41,6 +46,7 @@ watch(newParentForQuestions, (val) => {
 })
 
 const showDropdown = ref(true)
+const { $urlHelper } = useNuxtApp()
 </script>
 
 <template>
@@ -51,10 +57,15 @@ const showDropdown = ref(true)
         <template v-slot:header>
             <h4 class="modal-title">
                 <template v-if="deletePageStore.pageDeleted">
-                    {{ deletePageStore.isWiki ? 'Wiki' : 'Seite' }} gelöscht
+                    {{ t(deletePageStore.isWiki
+                        ? 'page.deleteModal.title.deleted.wiki'
+                        : 'page.deleteModal.title.deleted.page') }}
                 </template>
                 <template v-else>
-                    {{ deletePageStore.isWiki ? 'Wiki' : 'Seite' }} '{{ deletePageStore.name }}' löschen
+                    {{ t(deletePageStore.isWiki
+                        ? 'page.deleteModal.title.delete.wiki'
+                        : 'page.deleteModal.title.delete.page',
+                        { name: deletePageStore.name }) }}
                 </template>
             </h4>
         </template>
@@ -62,40 +73,50 @@ const showDropdown = ref(true)
         <template v-slot:body>
             <div class="delete-modal">
                 <template v-if="deletePageStore.pageDeleted && deletePageStore.redirect">
-                    Beim Schließen dieses Fensters wirst Du zur
-                    {{ deletePageStore.isWiki ? ' Hauptseite ' : ' nächsten übergeordneten Seite ' }}
-                    weitergeleitet.
+                    {{ t(deletePageStore.isWiki
+                        ? 'page.deleteModal.message.redirect.wiki'
+                        : 'page.deleteModal.message.redirect.page') }}
                 </template>
                 <template v-else-if="deletePageStore.pageDeleted && !deletePageStore.redirect">
-                    {{ deletePageStore.isWiki ? 'Das Wiki ' : 'Die Seite' }}'<strong>{{ deletePageStore.name }}</strong>' wurde erfolgreich gelöscht.
+                    <i18n-t :keypath="deletePageStore.isWiki
+                        ? 'page.deleteModal.message.deleted.wiki'
+                        : 'page.deleteModal.message.deleted.page'" tag="span">
+                        <template #name>
+                            <strong>{{ deletePageStore.name }}</strong>
+                        </template>
+                    </i18n-t>
                 </template>
                 <template v-else>
                     <div>
                         <div class="body-m">
-                            Möchtest Du
-                            '<strong>
-                                <NuxtLink :to="$urlHelper.getPageUrl(deletePageStore.name, deletePageStore.id)">
-                                    {{ deletePageStore.name }}
-                                </NuxtLink>
-                            </strong>'
-                            unwiderruflich löschen?
+                            <i18n-t keypath="page.deleteModal.message.confirm" tag="span">
+                                <template #name>
+                                    <strong>
+                                        <NuxtLink :to="$urlHelper.getPageUrl(deletePageStore.name, deletePageStore.id)">
+                                            {{ deletePageStore.name }}
+                                        </NuxtLink>
+                                    </strong>
+                                </template>
+                            </i18n-t>
                         </div>
                         <div v-if="deletePageStore.hasQuestion" class="new-parent-page-selection-container">
                             <div class="body-s">
-                                <strong> Fragen werden nicht gelöscht. </strong>
-                                Verschiebe die Fragen auf eine andere Seite.
+                                <strong>{{ t('page.deleteModal.message.questions.notDeleted') }}</strong>
+                                {{ t('page.deleteModal.message.questions.moveToAnotherPage') }}
                                 <br />
                                 <template v-if="!deletePageStore.hasPublicQuestion">
-                                    Es gibt öffentliche Fragen auf dieser Seite.
-                                    Du kannst nur öffentliche Seiten auswählen.
+                                    {{ t('page.deleteModal.message.questions.publicQuestions') }}
                                     <br />
                                 </template>
                             </div>
                             <div class="body-s" v-if="newParentForQuestions">
-                                Wie wäre es mit
-                                <NuxtLink :to="$urlHelper.getPageUrl(newParentForQuestions.name, newParentForQuestions.id)">
-                                    {{ newParentForQuestions.name }}
-                                </NuxtLink>?
+                                <i18n-t keypath="page.deleteModal.message.questions.suggestion" tag="span">
+                                    <template #name>
+                                        <NuxtLink :to="$urlHelper.getPageUrl(newParentForQuestions.name, newParentForQuestions.id)">
+                                            {{ newParentForQuestions.name }}
+                                        </NuxtLink>
+                                    </template>
+                                </i18n-t>
                             </div>
                             <div class="form-group dropdown pageSearchAutocomplete" :class="{ 'open': showDropdown }">
                                 <div v-if="showSelectedPage && newParentForQuestions != null" class="searchResultItem mb-125" data-toggle="tooltip" data-placement="top" :title="newParentForQuestions.name">
@@ -103,11 +124,12 @@ const showDropdown = ref(true)
                                     <div class="searchResultBody">
                                         <div class="searchResultLabel body-m">{{ newParentForQuestions.name }}</div>
                                         <div class="searchResultQuestionCount body-s">
-                                            {{ newParentForQuestions.questionCount }} Frage<template v-if="newParentForQuestions.questionCount != 1">n</template>
+                                            {{ newParentForQuestions.questionCount }}
+                                            {{ t('page.deleteModal.question', newParentForQuestions.questionCount) }}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="body-s">Oder suche eine andere Seite oder Wiki aus.</div>
+                                <div class="body-s">{{ t('page.deleteModal.message.questions.searchOther') }}</div>
                                 <Search :search-type="SearchType.page" :show-search="true" v-on:select-item="selectNewParentForQuestions" :page-ids-to-filter="[deletePageStore.id]" :public-only="deletePageStore.hasPublicQuestion" />
                             </div>
                         </div>
@@ -120,6 +142,7 @@ const showDropdown = ref(true)
         </template>
     </LazyModal>
 </template>
+
 <style scoped lang="less">
 @import '~~/assets/shared/search.less';
 @import (reference) '~~/assets/includes/imports.less';

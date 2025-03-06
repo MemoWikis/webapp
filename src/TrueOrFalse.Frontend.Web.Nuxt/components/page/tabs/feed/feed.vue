@@ -2,8 +2,9 @@
 import { useUserStore } from '~/components/user/userStore'
 import { usePageStore } from '../../pageStore'
 import { Tab, useTabsStore } from '../tabsStore'
-import { Author, FeedItem, FeedItemGroupByAuthor, FeedType, PageChangeType } from './feedHelper'
+import { Author, FeedItem, FeedItemGroupByAuthor, FeedType } from './feedHelper'
 
+const { t, localeProperties } = useI18n()
 const pageStore = usePageStore()
 const tabsStore = useTabsStore()
 const userStore = useUserStore()
@@ -37,15 +38,16 @@ const groupedFeedItemsByAuthor = computed(() => {
 function getDateLabel(dateString: string) {
     const date = new Date(dateString)
     if (date.toDateString() === new Date().toDateString()) {
-        return 'Heute'
+        return t('page.feed.today')
     }
 
     if (date.toDateString() === new Date(new Date().setDate(new Date().getDate() - 1)).toDateString()) {
-        return 'Gestern'
+        return t('page.feed.yesterday')
     }
 
     const options = { year: 'numeric', month: 'long', day: 'numeric' } as Intl.DateTimeFormatOptions
-    return date.toLocaleDateString('de-DE', options)
+    const iso = localeProperties.value.iso
+    return date.toLocaleDateString(iso, options)
 }
 
 const getDescendants = ref(true)
@@ -131,7 +133,7 @@ const ariaId = useId()
                     </div>
                     <template #popper>
                         <div class="checkbox-container dropdown-row" @click="getDescendants = !getDescendants">
-                            <label>UnterSeiten einschließen</label>
+                            <label>{{ t('page.feed.includeSubpages') }}</label>
                             <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getDescendants" class="active" />
 
                             <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
@@ -139,14 +141,14 @@ const ariaId = useId()
 
                         <template v-if="userStore.isAdmin">
                             <div class="checkbox-container dropdown-row" @click="getGroups = !getGroups">
-                                <label>Gruppieren</label>
+                                <label>{{ t('page.feed.groupItems') }}</label>
                                 <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getGroups" class="active" />
 
                                 <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />
                             </div>
 
                             <div class="checkbox-container dropdown-row" @click="getQuestions = !getQuestions">
-                                <label>Fragen einschließen</label>
+                                <label>{{ t('page.feed.includeQuestions') }}</label>
                                 <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="getQuestions" class="active" />
 
                                 <font-awesome-icon :icon="['fas', 'toggle-off']" v-else class="not-active" />

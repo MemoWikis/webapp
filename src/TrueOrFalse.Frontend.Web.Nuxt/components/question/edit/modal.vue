@@ -399,11 +399,13 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
     solutionIsValid.value = e.solutionIsValid
 }
 
+const { t } = useI18n()
+
 </script>
 
 <template>
-    <LazyModal :primary-btn-label="editQuestionStore.edit ? ' Speichern' : 'Hinzufügen'" :is-full-size-buttons="false"
-        v-if="editQuestionStore.showModal" secondary-btn="Abbrechen" @close="editQuestionStore.showModal = false"
+    <LazyModal :primary-btn-label="editQuestionStore.edit ? t('question.editModal.button.save') : t('question.editModal.button.add')" :is-full-size-buttons="false"
+        v-if="editQuestionStore.showModal" :secondary-btn="t('question.editModal.button.cancel')" @close="editQuestionStore.showModal = false"
         @primary-btn="save()" :show="editQuestionStore.showModal" :disabled="disabled" :show-cancel-btn="true">
         <template v-slot:header>
 
@@ -415,16 +417,16 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
 
                     <div class="main-header">
                         <div class="add-inline-question-label main-label">
-                            {{ editQuestionStore.edit ? 'Frage bearbeiten' : 'Frage erstellen' }}
+                            {{ editQuestionStore.edit ? t('question.editModal.title.edit') : t('question.editModal.title.create') }}
                             <font-awesome-icon v-if="visibility === Visibility.All" icon="fa-solid fa-lock" />
                         </div>
 
                         <div class="solutionType-selector">
                             <select v-if="!editQuestionStore.edit" v-model="solutionType">
-                                <option :value="SolutionType.Text">Text</option>
-                                <option :value="SolutionType.MultipleChoice">MultipleChoice</option>
-                                <option :value="SolutionType.MatchList">Zuordnung (Liste)</option>
-                                <option :value="SolutionType.FlashCard">Karteikarte</option>
+                                <option :value="SolutionType.Text">{{ t('question.editModal.solutionType.text') }}</option>
+                                <option :value="SolutionType.MultipleChoice">{{ t('question.editModal.solutionType.multipleChoice') }}</option>
+                                <option :value="SolutionType.MatchList">{{ t('question.editModal.solutionType.matchList') }}</option>
+                                <option :value="SolutionType.FlashCard">{{ t('question.editModal.solutionType.flashCard') }}</option>
                             </select>
                         </div>
                     </div>
@@ -440,7 +442,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                 <div class="inline-question-editor">
 
                     <div class="input-container">
-                        <div class="overline-s no-line">Frage</div>
+                        <div class="overline-s no-line">{{ t('question.editModal.label.question') }}</div>
                         <QuestionEditFlashcardFront v-if="solutionType === SolutionType.FlashCard"
                             :highlight-empty-fields="highlightEmptyFields" @set-question-data="setQuestionData"
                             ref="questionEditor" :content="questionHtml" :is-init="isInit" />
@@ -465,12 +467,12 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                         ref="flashCardComponent" :is-init="isInit" />
 
                     <div class="input-container description-container">
-                        <div class="overline-s no-line">Ergänzungen zur Antwort</div>
+                        <div class="overline-s no-line">{{ t('question.editModal.label.description') }}</div>
                         <QuestionEditDescriptionEditor :highlightEmptyFields="highlightEmptyFields"
                             :content="descriptionHtml" @set-description-data="setDescriptionData" :is-init="isInit" />
                     </div>
                     <div class="input-container">
-                        <div class="overline-s no-line">Seitenzuordnung</div>
+                        <div class="overline-s no-line">{{ t('question.editModal.label.pageAssignment') }}</div>
                         <form class="" v-on:submit.prevent>
                             <div class="form-group dropdown pageSearchAutocomplete"
                                 :class="{ 'open': showDropdown }">
@@ -482,7 +484,7 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                 </div>
                                 <Search :search-type="SearchType.page" :show-search-icon="false" :show-search="true"
                                     :page-ids-to-filter="pageIds" placement="bottom" :auto-hide="true"
-                                    placeholder-label="Bitte gib den Namen der Seite ein"
+                                    :placeholder-label="t('question.editModal.placeholder.pageSearch')"
                                     :show-default-search-icon="true" @select-item="selectPage" />
                             </div>
 
@@ -490,20 +492,17 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                     </div>
                     <div class="input-container">
                         <div class="overline-s no-line">
-                            Sichtbarkeit
+                            {{ t('question.editModal.label.visibility') }}
                         </div>
                         <div class="privacy-selector"
                             :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
                             <div class="checkbox-container">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage <i
+                                        <input type="checkbox" v-model="isPrivate" :value="1"> {{ t('question.editModal.visibility.private') }} <i
                                             class="fas fa-lock show-tooltip tooltip-min-200" title=""
-                                            data-placement="top" data-html="true" data-original-title="
-                                            <ul class='show-tooltip-ul'>
-                                                <li>Die Frage kann nur von dir genutzt werden.</li>
-                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
-                                            </ul>">
+                                            data-placement="top" data-html="true"
+                                            :data-original-title="t('question.editModal.visibility.privateTooltip')">
                                         </i>
                                     </label>
                                 </div>
@@ -512,18 +511,12 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                                 <div class="checkbox">
                                     <label>
                                         <input type="checkbox" v-model="licenseConfirmation" value="false">
-                                        Dieser Eintrag wird veröffentlicht unter CC BY 4.0. <span class="btn-link"
-                                            @click.prevent="showMore = !showMore">mehr</span>
+                                        {{ t('question.editModal.license.ccBy') }} <span class="btn-link"
+                                            @click.prevent="showMore = !showMore">{{ t('question.editModal.button.more') }}</span>
                                         <template v-if="showMore">
                                             <br />
                                             <br />
-                                            Ich stelle diesen Eintrag unter die Lizenz "Creative Commons -
-                                            Namensnennung 4.0 International" (CC BY 4.0, Lizenztext, deutsche
-                                            Zusammenfassung).
-                                            Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter
-                                            genutzt werden.
-                                            Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus
-                                            urheberrechtlich geschützten Quellen kopiert.
+                                            {{ t('question.editModal.license.fullText') }}
                                         </template>
 
                                     </label>
@@ -535,11 +528,11 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
                 </div>
                 <div v-if="userStore.isAdmin">
                     <select v-model="licenseId">
-                        <option value="0">Keine Lizenz</option>
-                        <option value="1">CC BY 4.0</option>
-                        <option value="2">Amtliches Werk BAMF</option>
-                        <option value="3">ELWIS</option>
-                        <option value="4">BLAC</option>
+                        <option value="0">{{ t('question.editModal.license.none') }}</option>
+                        <option value="1">{{ t('question.editModal.license.ccBy40') }}</option>
+                        <option value="2">{{ t('question.editModal.license.bamf') }}</option>
+                        <option value="3">{{ t('question.editModal.license.elwis') }}</option>
+                        <option value="4">{{ t('question.editModal.license.blac') }}</option>
                     </select>
                 </div>
             </div>

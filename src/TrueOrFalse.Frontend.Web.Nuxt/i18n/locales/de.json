@@ -256,16 +256,347 @@
             "analytics": "Analytics",
             "yourKnowledgeStatus": "Dein Wissensstand",
             "noQuestionAnswered": "Du hast noch keine Fragen in auf dieser Seite beantwortet."
+        },
+        "grid": {
+            "childPages": "Untergeordnete Seiten",
+            "childPagesMobile": "Unterseiten",
+            "createChildPage": "Unterseite erstellen",
+            "createChildPageMobile": "Seite erstellen",
+            "linkChildPage": "Unterseite verknüpfen",
+            "linkChildPageMobile": "Seite verknüpfen"
+        },
+        "learningSessionConfiguration": {
+            "filter": "Filter",
+            "questions": "Fragen",
+            "allQuestions": "Alle Fragen",
+            "chooseYourQuestions": "Wähle deine Fragen",
+            "maxQuestionsLabel": "Max. Fragen",
+            "chooseAtLeastOne": "Wähle mindestens eine Frage",
+            "knowledgeStatus": "Wissensstand",
+            "chooseKnowledgeStatus": "Wähle einen Wissensstand",
+            "chooseAll": "Alle auswählen",
+            "test": "Prüfung",
+            "learn": "Lernen",
+            "learnDescription": "erne schwere Fragen zuerst und lass dir falsch oder nicht beantwortete Fragen wiedervorlegen.",
+            "sortByEasy": "Leichteste Fragen zuerst",
+            "sortByHard": "Schwerste Fragen zuerst",
+            "sortByNotKnown": "Nicht gewusste Fragen zuerst",
+            "sortByRandom": "Zufällige Reihenfolge",
+            "noRepeat": "Keine Wiederholung",
+            "repeatWrong": "Falsch beantwortete wiederholen",
+            "repeatByLeitner": "Wiederholung nach Leitner",
+            "comingSoon": "kommt bald",
+            "testDescription": "Wissen realistisch testen: Zufällige Fragen ohne Antworthilfe und Wiederholungen.",
+            "goodLuck": "Viel Erfolg!",
+            "resetAllFilters": "Alle Filter zurücksetzen",
+            "noQuestionsFoundChangeFilters": "Für diese Einstellungen sind keine Fragen verfügbar. Bitte ändere den Wissensstand oder wähle alle Fragen aus."
+        },
+        "questionsSection": {
+            "youAreLearning": "Du lernst",
+            "all": "alle",
+            "question": "Frage",
+            "questions": "Fragen",
+            "onThisPage": "auf dieser Seite",
+            "addQuestion": "Frage hinzufügen",
+            "collapseAllQuestions": "Alle Fragen zuklappen",
+            "expandAllQuestions": "Alle Fragen erweitern",
+            "learnQuestionsNow": "Fragen jetzt lernen",
+            "noQuestionsYet": "Leider hat diese Seite noch keine Fragen, erstelle oder füge eine Frage hinzu."
+        },
+        "publishQuestionModal": {
+            "confirmButton": "Bestätigen",
+            "title": "Veröffentlichung bestätigen",
+            "confirmMessage": "Möchtest du wirklich die Frage \"{text}\" veröffentlichen?",
+            "warning": "Achtung!",
+            "licenseInfo": "Du stellst diesen Eintrag unter die Lizenz \"Creative Commons - Namensnennung 4.0 International\" (CC BY 4.0,",
+            "licenseLink": "Lizenztext, deutsche Zusammenfassung",
+            "licenseUsage": "Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden.",
+            "licenseConfirmation": "Du bestätigst, dass die Texte und gegebenenfalls auch Bilder Deine eigene Arbeit sind und nicht aus urheberrechtlich geschützten Quellen kopiert wurden."
+        },
+        "feed": {
+            "includeSubpages": "UnterSeiten einschließen",
+            "groupItems": "Gruppieren",
+            "includeQuestions": "Fragen einschließen",
+            "today": "Heute",
+            "yesterday": "Gestern",
+            "helper": {
+                "pageChangeType": {
+                    "created": "Erstellt",
+                    "updated": "Aktualisiert",
+                    "deleted": "Gelöscht",
+                    "published": "Veröffentlicht",
+                    "privatized": "Privatisiert",
+                    "renamed": "Umbenannt",
+                    "text": "Textinhalt",
+                    "relations": "Verknüpfungen",
+                    "image": "Bild",
+                    "restored": "Wiederhergestellt",
+                    "moved": "Verschoben",
+                    "childPageDeleted": "Gelöscht",
+                    "questionDeleted": "Gelöscht"
+                },
+                "questionChangeType": {
+                    "created": "Erstellt",
+                    "updated": "Aktualisiert",
+                    "deleted": "Gelöscht",
+                    "comment": "Kommentar"
+                }
+            },
+            "modal": {
+                "newComment": "Neuer Kommentar",
+                "by": "von"
+            },
+            "userCard": {
+                "by": "von",
+                "collapseExpand": "Ein-/ausklappen"
+            },
+            "relationEdit": {
+                "modal": {
+                    "createPage": "Neue Seite erstellen",
+                    "movePage": "Seite verschieben nach",
+                    "linkExistingPage": "Bestehende Seite verknüpfen",
+                    "linkParentPage": "Neue Übergeordnete Seite verknüpfen"
+                },
+                "button": {
+                    "createPage": "Seite erstellen",
+                    "movePage": "Seite verschieben",
+                    "linkPage": "Seite verknüpfen"
+                },
+                "form": {
+                    "namePlaceholder": "Bitte gib den Namen des Themas ein"
+                },
+                "text": {
+                    "pageIsPrivate": "Diese Seite ist privat. Du kannst sie später im Dreipunkt-Menü oder direkt über das Schloss-Icon veröffentlichen.",
+                    "whereToAdd": "Wo soll die Seite hinzugefügt werden?",
+                    "recentlySelectedPages": "Zuletzt ausgewählte Seiten",
+                    "selectOtherPage": "Andere Seite auswählen",
+                    "selected": "Ausgewählt",
+                    "searchOnlyInWiki": "Nur im eigenen Wiki suchen",
+                    "question": "Frage",
+                    "questions": "Fragen"
+                }
+            }
+        },
+        "analytics": {
+            "yourKnowledgeStatus": "Dein Wissenstand",
+            "questionsGroupedByStatus": "Fragen nach Status gruppiert",
+            "noQuestionsAnswered": "Du hast noch keine Fragen auf dieser Seite beantwortet.",
+            "pageData": "Daten zu dieser Seite",
+            "questionsLabel": "Fragen:",
+            "includedQuestions": "eingeschlossene Fragen",
+            "directlyLinkedQuestions": "direkt verknüpfte Fragen",
+            "pagesLabel": "Seiten:",
+            "includedPages": "eingeschlossene Seiten",
+            "directlyLinkedChildPages": "direkt verknüpfte Unterseiten",
+            "parentPages": "übergeordnete Seiten",
+            "statistics": "Statistiken",
+            "pageViewsLast90Days": "Seitenaufrufe der letzten 90 Tage",
+            "withoutChildPages": "Ohne Unterseiten",
+            "withChildPages": "Inkl. 0 Unterseiten | Inkl. 1 Unterseiten | Inkl. {count} Unterseiten",
+            "questionViewsLast90Days": "Fragenaufrufe der letzten 90 Tage",
+            "directlyLinkedQuestionsTitle": "Direkt verknüpfte Fragen",
+            "includedQuestions90Days": "Eingeschlossene Fragen (0 Unterseiten) | Eingeschlossene Fragen (1 Unterseite) | Eingeschlossene Fragen ({count} Unterseiten)",
+            "solidKnowledge": "@:knowledgeStatus.solid",
+            "needsConsolidation": "@:knowledgeStatus.needsConsolidation",
+            "needsLearning": "@:knowledgeStatus.needsLearning",
+            "notLearned": "@:knowledgeStatus.notLearned"
+        },
+        "publishModal": {
+            "title": "{name} veröffentlichen",
+            "button": {
+                "publish": "Veröffentlichen"
+            },
+            "intro": {
+                "public": "Öffentliche Inhalte sind für alle auffindbar und können frei weiterverwendet werden.",
+                "license": "Du veröffentlichst unter Creative-Commons-Lizenz."
+            },
+            "questions": {
+                "publish": "Möchtest Du {count} private Fragen veröffentlichen?"
+            },
+            "license": {
+                "confirmation": "Ich stelle diesen Eintrag unter die Lizenz \"Creative Commons - Namensnennung 4.0 International\" (CC BY 4.0, {0}).",
+                "linkText": "Lizenztext, deutsche Zusammenfassung",
+                "usage": "Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert."
+            }
+        },
+        "toPrivateModal": {
+            "title": "{name} auf privat setzen",
+            "button": "Seite auf Privat setzen",
+            "description": "Der Inhalt kann nur von Dir genutzt werden. Niemand sonst kann ihn sehen oder nutzen.",
+            "questions": {
+                "personal": "Möchtest Du {count} von {totalCount} öffentliche {question} ebenfalls auf privat stellen? (Du kannst nur deine eigenen Fragen auf privat stellen.)",
+                "admin": "Möchtest Du {count} öffentliche {question} ebenfalls auf privat stellen? (Admin)",
+                "question": "Frage | Fragen"
+            }
+        },
+        "deleteModal": {
+            "title": {
+                "deleted": {
+                    "wiki": "Wiki gelöscht",
+                    "page": "Seite gelöscht"
+                },
+                "delete": {
+                    "wiki": "Wiki '{name}' löschen",
+                    "page": "Seite '{name}' löschen"
+                }
+            },
+            "button": {
+                "continue": "Weiter",
+                "deletePage": "Seite löschen",
+                "deleteWiki": "Wiki löschen"
+            },
+            "message": {
+                "redirect": {
+                    "wiki": "Beim Schließen dieses Fensters wirst Du zur Hauptseite weitergeleitet.",
+                    "page": "Beim Schließen dieses Fensters wirst Du zur nächsten übergeordneten Seite weitergeleitet."
+                },
+                "deleted": {
+                    "wiki": "Das Wiki '{name}' wurde erfolgreich gelöscht.",
+                    "page": "Die Seite '{name}' wurde erfolgreich gelöscht."
+                },
+                "confirm": "Möchtest Du '{name}' unwiderruflich löschen?",
+                "questions": {
+                    "notDeleted": "Fragen werden nicht gelöscht.",
+                    "moveToAnotherPage": "Verschiebe die Fragen auf eine andere Seite.",
+                    "publicQuestions": "Es gibt öffentliche Fragen auf dieser Seite. Du kannst nur öffentliche Seiten auswählen.",
+                    "suggestion": "Wie wäre es mit {name}?",
+                    "searchOther": "Oder suche eine andere Seite oder Wiki aus."
+                }
+            },
+            "question": "Frage | Fragen"
         }
     },
     "knowledgeStatus": {
         "solid": "Sicheres Wissen",
         "solidCount": "@:knowledgeStatus.solid : @:label.questionCount",
         "needsConsolidation": "Solltest du festigen",
-        "n2:": "Solltest du festigen: @:label.questionCount",
+        "needsConsolidationCount": "@:knowledgeStatus.needsConsolidation : @:label.questionCount",
         "needsLearning": "Solltest du lernen",
         "needsLearningCount": "@:knowledgeStatus.needsLearning : @:label.questionCount",
         "notLearned": "Noch nicht gelernt",
         "notLearnedCount": "@:knowledgeStatus.notLearned : @:label.questionCount"
+    },
+    "answerbody": {
+        "feedbackCorrectPopUp": "Richtig!",
+        "feedbackWrongPopUp": "Leider falsch",
+        "flashcardFlip": "Umdrehen",
+        "flashcardKnew": "Wusste ich!",
+        "flashcardDidNotKnow": "Wusste ich nicht!",
+        "flashcardDontCount": "Nicht werten!",
+        "answer": "Antworten",
+        "showSolution": "Lösung anzeigen",
+        "skipQuestion": "Frage überspringen",
+        "nextQuestion": "Nächste Frage",
+        "markAsKnown": "Hab ich gewusst!",
+        "toResult": "Zum Ergebnis",
+        "answerAgain": "Nochmal Antworten",
+        "correctAnswerLabel": "Richtig! ",
+        "wrongAnswerLabel": "Falsch beantwortet ",
+        "yourAnswersHeadingSingular": "Deine Antwort:",
+        "yourAnswersHeadingPlural": "Deine Antworten:",
+        "rightAnswerHeading": "Richtige Antwort:",
+        "answerAdditionsHeading": "Ergänzungen zur Antwort:",
+        "options": {
+            "editQuestion": "Frage bearbeiten",
+            "showQuestionPage": "Frageseite anzeigen",
+            "showEditHistory": "Bearbeitungshistorie anzeigen",
+            "comment": "Frage kommentieren",
+            "delete": "Frage löschen"
+        },
+        "flipFlashcard": "Zum Umdrehen klicken",
+        "multipleChoiceInfo": "Es können keine oder mehrere Antworten richtig sein!",
+        "textPlaceholderAddAnswer": "Gib hier bitte deine Antwort ein...",
+        "details": {
+            "answerProbability": "Antwortwahrscheinlichkeit",
+            "answeredXTimes": "mal beantwortet",
+            "correct": "richtig",
+            "wrong": "falsch",
+            "showDetails": "Details anzeigen",
+            "hideDetails": "Details ausblenden",
+            "yourScore": "Dein Punktestand",
+            "tooltipLearningPoints": "Du bekommst Lernpunkte für das Beantworten von Fragen",
+            "pages": "Seiten",
+            "loggedInProbabilityText": "beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Durchschnitt aller memoWikis-Nutzer:",
+            "notLoggedInProbabilityText": "beträgt die Wahrscheinlichkeit, dass du die Frage richtig beantwortest. Melde dich an, damit wir deine individuelle Wahrscheinlichkeit berechnen können.",
+            "answers": "Antworten",
+            "fromYou": "Von Dir:",
+            "fromUnregistered": "Von unangemeldeten Nutzern:",
+            "neverAnswered": "Du hast diese Frage noch nie beantwortet.",
+            "youAreNotLoggedInNoData": "Du bist nicht angemeldet. Wir haben keine Daten.",
+            "login": "Anmelden",
+            "fromAllUsers": "Von allen Nutzern:",
+            "privateQuestionForYou": "Diese Frage ist privat und nur für dich sichtbar",
+            "neverAnsweredAll": "Diese Frage wurde noch nie beantwortet.",
+            "licenseInfoHeader": "Infos zur Lizenz",
+            "author": "Autor",
+            "createdBy": "Erstellt von:",
+            "ago": "vor"
+        },
+        "learningSessionResult": {
+            "heading": "Ergebnis",
+            "correctAnswers": "Fragen richtig beantwortet:",
+            "correctAfterRepetition": "Fragen beim Wiederholen richtig beantwortet:",
+            "wrongAnswers": "Fragen falsch beantwortet:",
+            "skippedQuestions": "Fragen übersprungen:",
+            "continueStudying": "Weiterlernen",
+            "toPage": "Zur Seite",
+            "newSession": "Neue Lernsitzung",
+            "maxQuestionsShown": "Es werden nicht mehr als 300 Fragen in der Auswertung angezeigt"
+        }
+    },
+
+    "question": {
+        "editModal": {
+            "title": {
+                "edit": "Frage bearbeiten",
+                "create": "Frage erstellen"
+            },
+            "solutionType": {
+                "text": "Text",
+                "multipleChoice": "MultipleChoice",
+                "matchList": "Zuordnung (Liste)",
+                "flashCard": "Karteikarte"
+            },
+            "button": {
+                "save": "Speichern",
+                "add": "Hinzufügen",
+                "cancel": "Abbrechen",
+                "more": "mehr"
+            },
+            "label": {
+                "question": "Frage",
+                "description": "Ergänzungen zur Antwort",
+                "pageAssignment": "Seitenzuordnung",
+                "visibility": "Sichtbarkeit"
+            },
+            "placeholder": {
+                "pageSearch": "Bitte gib den Namen der Seite ein"
+            },
+            "visibility": {
+                "private": "Private Frage",
+                "privateTooltip": "<ul class='show-tooltip-ul'><li>Die Frage kann nur von dir genutzt werden.</li><li>Niemand sonst kann die Frage sehen oder nutzen.</li></ul>"
+            },
+            "license": {
+                "ccBy": "Dieser Eintrag wird veröffentlicht unter CC BY 4.0.",
+                "fullText": "Ich stelle diesen Eintrag unter die Lizenz \"Creative Commons - Namensnennung 4.0 International\" (CC BY 4.0, Lizenztext, deutsche Zusammenfassung). Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert.",
+                "none": "Keine Lizenz",
+                "ccBy40": "CC BY 4.0",
+                "bamf": "Amtliches Werk BAMF",
+                "elwis": "ELWIS",
+                "blac": "BLAC"
+            },
+            "count": {
+                "question": "Frage",
+                "questions": "Fragen"
+            }
+        },
+        "deleteModal": {
+            "title": "Frage löschen",
+            "button": {
+                "delete": "Frage löschen"
+            },
+            "confirmation": "Möchtest Du \"{name}\" unwiederbringlich löschen? Alle damit verknüpften Daten werden entfernt!",
+            "progress": "Die Frage wird gelöscht... Bitte habe einen Moment Geduld."
+        }
     }
 }

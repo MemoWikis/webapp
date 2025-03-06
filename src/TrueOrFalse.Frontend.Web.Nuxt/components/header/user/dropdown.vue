@@ -126,10 +126,9 @@ const showLanguages = ref(false)
                                 <div v-for="l in locales">
                                     <div @click.prevent.stop="setLocale(l.code)" class="language-selector-btn" :class="{ 'is-active': l.code === locale }">
                                         {{ l.name }}
-                                        <!-- <Image :src="l.flag" class="language-flag" /> -->
+                                        <Image :src="l.flag" class="language-flag" />
                                     </div>
                                 </div>
-
                             </div>
                         </Transition>
 
