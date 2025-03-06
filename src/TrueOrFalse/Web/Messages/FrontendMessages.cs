@@ -24,6 +24,8 @@
             public static readonly string PasswordChanged = "success.user.passwordChanged";
             public static readonly string PasswordReset = "success.user.passwordReset";
             public static readonly string VerificationMailRequestSent = "success.user.passwordVerificationMailSent";
+            public static readonly string SupportLoginUpdated = "success.user.supportLoginUpdated";
+            public static readonly string WuwiVisibilityUpdated = "success.user.wuwiVisibilityUpdated";
         }
     }
 
