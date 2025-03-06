@@ -16,6 +16,7 @@ const alertStore = useAlertStore()
 const commentsStore = useCommentsStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const publishQuestionStore = usePublishQuestionStore()
+const { t } = useI18n()
 
 const showFullQuestion = ref(false)
 const backgroundColor = ref('')
@@ -99,7 +100,7 @@ async function loadQuestionData() {
             if (result.data.extendedAnswer && result.data.extendedAnswer.length > 0)
                 answer.value = `<div>${result.data.extendedAnswer}</div>`
             else
-                answer.value = "<div> Fehler: Keine Antwort! </div>"
+                answer.value = `<div>${t('page.questionsSection.list.question.error.noAnswer')}</div>`
         } else {
             answer.value = `<div>${result.data.answer}</div>`
             if (result.data.extendedAnswer != null)
@@ -190,19 +191,19 @@ function setKnowledgebarData() {
     switch (currentKnowledgeStatus.value) {
         case KnowledgeStatus.Solid:
             backgroundColor.value = "solid"
-            correctnessProbabilityLabel.value = "Sicheres Wissen"
+            correctnessProbabilityLabel.value = t('page.questionsSection.list.question.knowledgeStatus.solid')
             break
         case KnowledgeStatus.NeedsConsolidation:
             backgroundColor.value = "needsConsolidation"
-            correctnessProbabilityLabel.value = "Zu festigen"
+            correctnessProbabilityLabel.value = t('page.questionsSection.list.question.knowledgeStatus.needsConsolidation')
             break
         case KnowledgeStatus.NeedsLearning:
             backgroundColor.value = "needsLearning"
-            correctnessProbabilityLabel.value = "Zu lernen"
+            correctnessProbabilityLabel.value = t('page.questionsSection.list.question.knowledgeStatus.needsLearning')
             break
         default:
             backgroundColor.value = "notLearned"
-            correctnessProbabilityLabel.value = "Nicht gelernt"
+            correctnessProbabilityLabel.value = t('page.questionsSection.list.question.knowledgeStatus.notLearned')
             break
     }
 }
@@ -326,12 +327,12 @@ const { $urlHelper } = useNuxtApp()
                                     </div>
                                 </div>
                                 <div class="answer body-m" :id="answerId">
-                                    Richtige Antwort:
+                                    {{ t('page.questionsSection.list.question.answer.correct') }}
                                     <div v-html="answer"></div>
                                 </div>
                                 <div class="extendedAnswer body-m" v-if="hasContent(extendedAnswer)"
                                     :id="extendedAnswerId">
-                                    <strong>Ergänzungen zur Antwort:</strong><br />
+                                    <strong>{{ t('page.questionsSection.list.question.answer.additionalInfo') }}</strong><br />
                                     <div v-html="extendedAnswer"></div>
                                 </div>
                             </div>
@@ -345,12 +346,14 @@ const { $urlHelper } = useNuxtApp()
                             <span class="chip" :class="backgroundColor">{{ correctnessProbabilityLabel }}</span>
                         </div>
                         <div class="answerDetails">
-                            <div>{{ answerCount }} mal beantwortet</div>
+                            <div>{{ answerCount }} {{ t('page.questionsSection.list.question.stats.answered') }}</div>
                             <div class="spacercontainer">
                                 <div class="spacer"></div>
-
                             </div>
-                            <div>{{ correctAnswers }} richtig / {{ wrongAnswers }} falsch</div>
+                            <div>
+                                {{ t('page.questionsSection.list.question.stats.correct', correctAnswers) }}
+                                {{ t('page.questionsSection.list.question.stats.wrong', wrongAnswers) }}
+                            </div>
                         </div>
                     </div>
                     <div id="QuestionFooterIcons" class="questionFooterIcons">
@@ -370,7 +373,7 @@ const { $urlHelper } = useNuxtApp()
                                         <div class="dropdown-icon">
                                             <font-awesome-icon icon="fa-solid fa-pen" />
                                         </div>
-                                        <div class="dropdown-label">Frage bearbeiten</div>
+                                        <div class="dropdown-label">{{ t('page.questionsSection.list.question.actions.edit') }}</div>
                                     </div>
 
                                     <NuxtLink v-if="userStore.isAdmin"
@@ -380,7 +383,7 @@ const { $urlHelper } = useNuxtApp()
                                                 <font-awesome-icon icon="fa-solid fa-file" />
                                             </div>
                                             <div class="dropdown-label">
-                                                Frageseite anzeigen
+                                                {{ t('page.questionsSection.list.question.actions.viewPage') }}
                                             </div>
                                         </div>
                                     </NuxtLink>
@@ -391,7 +394,7 @@ const { $urlHelper } = useNuxtApp()
                                                 <font-awesome-icon icon="fa-solid fa-code-fork" />
                                             </div>
                                             <div class="dropdown-label">
-                                                Bearbeitungshistorie der Frage
+                                                {{ t('page.questionsSection.list.question.actions.history') }}
                                             </div>
                                         </div>
                                     </NuxtLink>
@@ -401,7 +404,7 @@ const { $urlHelper } = useNuxtApp()
                                             <font-awesome-icon :icon="['fas', 'comment']" />
                                         </div>
                                         <div class="dropdown-label">
-                                            Frage kommentieren
+                                            {{ t('page.questionsSection.list.question.actions.comment') }}
                                         </div>
                                     </div>
 
@@ -411,7 +414,7 @@ const { $urlHelper } = useNuxtApp()
                                             <font-awesome-icon icon="fa-solid fa-trash" />
                                         </div>
                                         <div class="dropdown-label">
-                                            Frage löschen
+                                            {{ t('page.questionsSection.list.question.actions.delete') }}
                                         </div>
                                     </div>
 

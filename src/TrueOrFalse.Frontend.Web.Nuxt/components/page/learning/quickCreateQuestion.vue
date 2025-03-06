@@ -10,7 +10,7 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, AlertMsg, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore, } from '../../alert/alertStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
 import { ReplaceStep, ReplaceAroundStep } from 'prosemirror-transform'
@@ -18,7 +18,7 @@ import UploadImage from '~/components/shared/imageUploadExtension'
 import ImageResize from '~~/components/shared/imageResizeExtension'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 
-
+const { t } = useI18n()
 const highlightEmptyFields = ref(false)
 
 const userStore = useUserStore()
@@ -46,7 +46,7 @@ const alertStore = useAlertStore()
 
 const lowlight = createLowlight(all)
 const deleteImageSrc = ref<string | null>(null)
-const { t } = useI18n()
+
 const editor = useEditor({
     extensions: [
         StarterKit.configure({
@@ -65,7 +65,7 @@ const editor = useEditor({
         Placeholder.configure({
             emptyEditorClass: 'is-editor-empty',
             emptyNodeClass: 'is-empty',
-            placeholder: t('editor.placeholderFlashcardFront'),
+            placeholder: t('page.questionsSection.quickCreateQuestion.placeholders.question'),
             showOnlyCurrent: true,
         }),
         ImageResize.configure({
@@ -190,15 +190,14 @@ async function addFlashcard() {
         pageStore.questionCount++
         if (result.data < 0) {
             alertStore.openAlert(AlertType.Success, {
-                text: messages.success.question.created,
-                customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
-                customBtn: '<div class="btn memo-button col-xs-4 btn-link">Filter zurücksetzen</div>',
+                text: t('success.question.created'),
+                customHtml: `<div class="session-config-error fade in col-xs-12"><span><b>${t('page.questionsSection.quickCreateQuestion.filterAlert.active')}</b> ${t('page.questionsSection.quickCreateQuestion.filterAlert.notShown')} ${t('page.questionsSection.quickCreateQuestion.filterAlert.resetToShow')}</span></div>`,
+                customBtn: `<div class="btn memo-button col-xs-4 btn-link">${t('page.questionsSection.quickCreateQuestion.filterAlert.resetButton')}</div>`,
                 customBtnKey: 'resetLearningSessionConfiguration'
             })
 
             alertStore.$onAction(({ name, after }) => {
                 if (name === 'closeAlert') {
-
                     after((result) => {
                         if (result.cancelled === false && result.customKey === 'resetLearningSessionConfiguration')
                             learningSessionConfigurationStore.reset()
@@ -243,16 +242,14 @@ const checkContentImages = () => {
     editQuestionStore.refreshDeleteImageList()
 }
 const ariaId = useId()
-
 </script>
 
 <template>
     <div id="AddInlineQuestionContainer">
-
         <div id="AddQuestionHeader" class="">
             <div class="add-inline-question-label main-label">
-                Frage hinzufügen
-                <span>(Karteikarte)</span>
+                {{ t('page.questionsSection.quickCreateQuestion.title') }}
+                <span>({{ t('page.questionsSection.quickCreateQuestion.flashcard') }})</span>
             </div>
             <div class="heart-container wuwi-red" @click="addToWishknowledge = !addToWishknowledge">
                 <div>
@@ -260,8 +257,8 @@ const ariaId = useId()
                     <font-awesome-icon icon="fa-regular fa-heart" v-else />
                 </div>
                 <div class="Text">
-                    <span v-if="addToWishknowledge">Hinzugefügt</span>
-                    <span v-else class="wuwi-grey">Hinzufügen</span>
+                    <span v-if="addToWishknowledge">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.added') }}</span>
+                    <span v-else class="wuwi-grey">{{ t('page.questionsSection.quickCreateQuestion.wishKnowledge.add') }}</span>
                 </div>
             </div>
         </div>
@@ -269,12 +266,12 @@ const ariaId = useId()
         <div id="AddQuestionBody">
             <div id="AddQuestionFormContainer" class="inline-question-editor">
                 <div v-if="editor">
-                    <div class="overline-s no-line">Frage</div>
+                    <div class="overline-s no-line">{{ t('page.questionsSection.quickCreateQuestion.form.question') }}</div>
                     <EditorMenuBar :editor="editor" @handle-undo-redo="checkContentImages" />
                     <editor-content :editor="editor"
                         :class="{ 'is-empty': highlightEmptyFields && editor.state.doc.textContent.length <= 0 }" />
                     <div v-if="highlightEmptyFields && editor.state.doc.textContent.length <= 0" class="field-error">
-                        Bitte formuliere eine Frage.
+                        {{ t('page.questionsSection.quickCreateQuestion.validation.questionRequired') }}
                     </div>
                 </div>
                 <div>
@@ -283,19 +280,20 @@ const ariaId = useId()
                 </div>
                 <div class="input-container">
                     <div class="overline-s no-line">
-                        Sichtbarkeit
+                        {{ t('page.questionsSection.quickCreateQuestion.form.visibility') }}
                     </div>
                     <div class="privacy-selector" :class="{ 'not-selected': !licenseIsValid && highlightEmptyFields }">
                         <div class="checkbox-container">
                             <div class="checkbox">
                                 <label>
                                     <VTooltip :aria-id="ariaId">
-                                        <input type="checkbox" v-model="isPrivate" :value="1"> Private Frage
+                                        <input type="checkbox" v-model="isPrivate" :value="1">
+                                        {{ t('page.questionsSection.quickCreateQuestion.visibility.private') }}
                                         <font-awesome-icon icon="fa-solid fa-lock" />
                                         <template #popper>
                                             <ul>
-                                                <li>Die Frage kann nur von dir genutzt werden.</li>
-                                                <li>Niemand sonst kann die Frage sehen oder nutzen.</li>
+                                                <li>{{ t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.onlyYou') }}</li>
+                                                <li>{{ t('page.questionsSection.quickCreateQuestion.visibility.privateTooltip.noOneElse') }}</li>
                                             </ul>
                                         </template>
                                     </VTooltip>
@@ -306,30 +304,29 @@ const ariaId = useId()
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" v-model="licenseConfirmation" value="false">
-                                    Dieser Eintrag wird veröffentlicht unter CC BY 4.0. <span class="btn-link" @click.prevent="showMore = !showMore">mehr</span>
+                                    {{ t('page.questionsSection.quickCreateQuestion.license.short') }}
+                                    <span class="btn-link" @click.prevent="showMore = !showMore">
+                                        {{ t('page.questionsSection.quickCreateQuestion.license.more') }}
+                                    </span>
                                     <template v-if="showMore">
                                         <br />
                                         <br />
-                                        Ich stelle diesen Eintrag unter die Lizenz "Creative Commons -
-                                        Namensnennung 4.0 International" (CC BY 4.0, Lizenztext, deutsche
-                                        Zusammenfassung).
-                                        Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter
-                                        genutzt werden.
-                                        Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus
-                                        urheberrechtlich geschützten Quellen kopiert.
+                                        {{ t('page.questionsSection.quickCreateQuestion.license.full') }}
                                     </template>
-
                                 </label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="btn-container">
-                    <div class="btn btn-lg btn-link memo-button" @click="createQuestion()">erweiterte Optionen</div>
-                    <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">Hinzufügen</div>
+                    <div class="btn btn-lg btn-link memo-button" @click="createQuestion()">
+                        {{ t('page.questionsSection.quickCreateQuestion.buttons.advancedOptions') }}
+                    </div>
+                    <div class="btn btn-lg btn-primary memo-button" @click="addFlashcard()">
+                        {{ t('page.questionsSection.quickCreateQuestion.buttons.add') }}
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>

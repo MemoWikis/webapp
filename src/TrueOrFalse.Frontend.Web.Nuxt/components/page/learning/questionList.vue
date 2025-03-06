@@ -5,7 +5,7 @@ import { Tab, useTabsStore } from '../tabs/tabsStore'
 import { usePageStore } from '../pageStore'
 import { useLearningSessionStore } from './learningSessionStore'
 import { useDeleteQuestionStore } from '~/components/question/edit/delete/deleteQuestionStore'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { AlertType, useAlertStore } from '~/components/alert/alertStore'
 
 const learningSessionStore = useLearningSessionStore()
 const tabsStore = useTabsStore()
@@ -13,6 +13,7 @@ const loadingStore = useLoadingStore()
 const pageStore = usePageStore()
 const deleteQuestionStore = useDeleteQuestionStore()
 const alertStore = useAlertStore()
+const { t } = useI18n()
 
 interface Props {
     expandQuestion: boolean
@@ -119,7 +120,7 @@ async function loadNewQuestion(index: number) {
         questions.value.push(result.data)
         learningSessionStore.lastIndexInQuestionList = index + 1
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
     }
 }
 
@@ -148,11 +149,9 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
         questions.value.push(...result.data)
         learningSessionStore.lastIndexInQuestionList = endIndex + 1
     } else {
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
     }
 }
-
-
 </script>
 
 <template>
@@ -169,8 +168,11 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
 
                 <vue-awesome-paginate v-if="currentPage > 0" :total-items="learningSessionStore?.activeQuestionCount"
                     :items-per-page="itemsPerPage" :max-pages-shown="5" v-model="currentPage" :show-ending-buttons="false"
-                    :show-breakpoint-buttons="false" prev-button-content="Vorherige" next-button-content="Nächste"
-                    first-page-content="Erste" last-page-content="Letzte" />
+                    :show-breakpoint-buttons="false"
+                    :prev-button-content="t('page.questionsSection.list.pagination.previous')"
+                    :next-button-content="t('page.questionsSection.list.pagination.next')"
+                    :first-page-content="t('page.questionsSection.list.pagination.first')"
+                    :last-page-content="t('page.questionsSection.list.pagination.last')" />
             </div>
 
             <CommentModal />
@@ -233,13 +235,6 @@ async function loadNewQuestions(startIndex: number, endIndex: number) {
             }
         }
     }
-
-    // @media(max-width: @screen-xxs-max) {
-    //     padding-left: 0;
-    //     padding-right: 0;
-    //     margin-right: -10px;
-    //     margin-left: -10px;
-    // }
 
     #QuestionFooterIcons {
         .btn-link {

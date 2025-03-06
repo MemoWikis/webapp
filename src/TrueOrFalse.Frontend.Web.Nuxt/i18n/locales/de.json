@@ -21,7 +21,9 @@
             "profileUpdate": "Deine neuen Profildaten wurde erfolgreich gespeichert",
             "passwordChanged": "Dein Passwort wurde erfolgreich geändert.",
             "passwordReset": "Dein Passwort wurde zurückgesetzt.",
-            "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang."
+            "passwordVerificationMailSent": "Verifizierungs-E-Mail gesendet! Bitte überprüfe Deinen Posteingang.",
+            "supportLoginUpdated": "Deine Support-Login-Daten wurden erfolgreich aktualisiert.",
+            "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert."
         },
         "collaboration": {
             "connected": "Blahblah du siehst die Live Version von dieser Seite"
@@ -301,7 +303,82 @@
             "collapseAllQuestions": "Alle Fragen zuklappen",
             "expandAllQuestions": "Alle Fragen erweitern",
             "learnQuestionsNow": "Fragen jetzt lernen",
-            "noQuestionsYet": "Leider hat diese Seite noch keine Fragen, erstelle oder füge eine Frage hinzu."
+            "noQuestionsYet": "Leider hat diese Seite noch keine Fragen, erstelle oder füge eine Frage hinzu.",
+            "list": {
+                "pagination": {
+                    "previous": "Vorherige",
+                    "next": "Nächste",
+                    "first": "Erste",
+                    "last": "Letzte"
+                },
+                "question": {
+                    "error": {
+                        "noAnswer": "Fehler: Keine Antwort!"
+                    },
+                    "answer": {
+                        "correct": "Richtige Antwort:",
+                        "additionalInfo": "Ergänzungen zur Antwort:"
+                    },
+                    "stats": {
+                        "answered": "mal beantwortet",
+                        "correct": "{count} richtig",
+                        "wrong": "{count} falsch"
+                    },
+                    "knowledgeStatus": {
+                        "solid": "Sicheres Wissen",
+                        "needsConsolidation": "Zu festigen",
+                        "needsLearning": "Zu lernen",
+                        "notLearned": "Nicht gelernt"
+                    },
+                    "actions": {
+                        "edit": "Frage bearbeiten",
+                        "viewPage": "Frageseite anzeigen",
+                        "history": "Bearbeitungshistorie der Frage",
+                        "comment": "Frage kommentieren",
+                        "delete": "Frage löschen"
+                    }
+                }
+            },
+            "quickCreateQuestion": {
+                "title": "Frage hinzufügen",
+                "flashcard": "Karteikarte",
+                "wishKnowledge": {
+                    "added": "Hinzugefügt",
+                    "add": "Hinzufügen"
+                },
+                "form": {
+                    "question": "Frage",
+                    "visibility": "Sichtbarkeit"
+                },
+                "validation": {
+                    "questionRequired": "Bitte formuliere eine Frage."
+                },
+                "visibility": {
+                    "private": "Private Frage",
+                    "privateTooltip": {
+                        "onlyYou": "Die Frage kann nur von dir genutzt werden.",
+                        "noOneElse": "Niemand sonst kann die Frage sehen oder nutzen."
+                    }
+                },
+                "license": {
+                    "short": "Dieser Eintrag wird veröffentlicht unter CC BY 4.0.",
+                    "more": "mehr",
+                    "full": "Ich stelle diesen Eintrag unter die Lizenz \"Creative Commons - Namensnennung 4.0 International\" (CC BY 4.0, Lizenztext, deutsche Zusammenfassung). Der Eintrag kann bei angemessener Namensnennung ohne Einschränkung weiter genutzt werden. Die Texte und ggf. Bilder sind meine eigene Arbeit und nicht aus urheberrechtlich geschützten Quellen kopiert."
+                },
+                "buttons": {
+                    "advancedOptions": "erweiterte Optionen",
+                    "add": "Hinzufügen"
+                },
+                "placeholders": {
+                    "question": "Frage formulieren..."
+                },
+                "filterAlert": {
+                    "active": "Der Fragenfilter ist aktiv.",
+                    "notShown": "Die Frage wird dir nicht angezeigt.",
+                    "resetToShow": "Setze den Filter zurück, um alle Fragen anzuzeigen.",
+                    "resetButton": "Filter zurücksetzen"
+                }
+            }
         },
         "publishQuestionModal": {
             "confirmButton": "Bestätigen",
@@ -464,6 +541,16 @@
                 }
             },
             "question": "Frage | Fragen"
+        },
+        "ai": {
+            "flashcard": {
+                "button": {
+                    "create": "Karteikarte erstellen"
+                },
+                "message": {
+                    "noFlashcards": "Oops! Du hast keine Karteikarten."
+                }
+            }
         }
     },
     "knowledgeStatus": {
@@ -597,6 +684,74 @@
             },
             "confirmation": "Möchtest Du \"{name}\" unwiederbringlich löschen? Alle damit verknüpften Daten werden entfernt!",
             "progress": "Die Frage wird gelöscht... Bitte habe einen Moment Geduld."
+        }
+    },
+    "settings": {
+        "navigation": {
+            "profileInfo": "Profil Informationen",
+            "editProfile": "Profil bearbeiten",
+            "password": "Passwort",
+            "deleteProfile": "Profil löschen",
+            "settings": "Einstellungen",
+            "showWuwi": "Wunschwissen anzeigen",
+            "supportLogin": "Support Login",
+            "membership": "Mitgliedschaft",
+            "notifications": "Benachrichtigungen",
+            "general": "Allgemein",
+            "knowledgeReport": "Wissensbericht"
+        },
+        "profile": {
+            "profilePicture": "Profilbild",
+            "uploadImage": "Bild hochladen",
+            "removeProfilePicture": "Profilbild entfernen",
+            "username": "Nutzername",
+            "email": "E-Mail",
+            "verified": "Verifiziert",
+            "notVerified": "Nicht verifiziert",
+            "sendVerificationEmail": "Verifizierungs-E-Mail senden"
+        },
+        "button": {
+            "save": "Speichern"
+        },
+        "password": {
+            "currentPassword": "Altes Passwort",
+            "newPassword": "Neues Passwort",
+            "repeatNewPassword": "Neues Passwort wiederholen",
+            "changePassword": "Passwort ändern",
+            "forgotPassword": "Passwort vergessen"
+        },
+        "deleteProfile": {
+            "warning": "Achtung:",
+            "onlyIf": "Du kannst dein Profil nur löschen, wenn:",
+            "condition1": "die Summe aller öffentlichen Aufrufe unter 2000 liegt,",
+            "condition2": "und danach keine Seiten oder Fragen übrigbleiben, die irgendwie nicht mehr richtig zugeordnet werden können.",
+            "deleteButton": "Profil löschen",
+            "notPossible": "Leider ist es nicht möglich, Dein Profil eigenständig zu löschen. Schreib uns deshalb bitte eine kurze E-Mail an",
+            "contactReason": "damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können."
+        },
+        "wuwi": {
+            "showWuwi": "Wunschwissen zeigen",
+            "explanation": "Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind (außer private Fragen). Antwortstatistiken werden nicht angezeigt."
+        },
+        "supportLogin": {
+            "allow": "Support-Login zulassen",
+            "explanation": "Achtung: Das ist nur nach Rücksprache mit dem memoWikis-Team nötig! Wenn du den Support-Login aktivierst, können sich Mitarbeiter von memoWikis zur Fehlerbehebung oder zu deiner Unterstützung in deinem Nutzerkonto einloggen, selbstverständlich ohne dein Passwort zu benötigen oder sehen zu können."
+        },
+        "membership": {
+            "manageOrCancel": "Abo verwalten oder kündigen",
+            "resume": "Abo wiederaufnehmen"
+        },
+        "knowledgeReport": {
+            "emailReport": "Wissensbericht per E-Mail:",
+            "interval": {
+                "quarterly": "Vierteljährlich",
+                "monthly": "Monatlich",
+                "weekly": "Wöchentlich",
+                "daily": "Täglich",
+                "never": "Nie"
+            },
+            "description": "Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem",
+            "additionalInfo": "Wunschwissen und über neue Inhalte bei memoWikis. Er wird nur verschickt, wenn du Wunschwissen hast."
         }
     }
 }

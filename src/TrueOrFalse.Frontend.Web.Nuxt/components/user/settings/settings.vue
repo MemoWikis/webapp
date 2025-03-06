@@ -3,11 +3,12 @@ import { useUserStore } from '../userStore'
 import { ImageFormat } from '~~/components/image/imageFormatEnum'
 import * as Subscription from '~~/components/user/membership/subscription'
 import { Content } from './contentEnum'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { AlertType, useAlertStore } from '~/components/alert/alertStore'
 
 const config = useRuntimeConfig()
 const headers = useRequestHeaders(['cookie']) as HeadersInit
 const alertStore = useAlertStore()
+const { t } = useI18n()
 
 interface Props {
     imageUrl?: string
@@ -103,7 +104,7 @@ async function cancelPlan() {
         // Führen Sie die Umleitung im Browser durch.
         await navigateTo(data.value, { external: true })
     } else {
-        alertStore.openAlert(AlertType.Error, { text: "Du konntest nicht zum Zahlungsdienstleister weitergeleitet werden. Bitte melde dich bei uns, falls das Problem weiterhin besteht: team@memucho.de." })
+        alertStore.openAlert(AlertType.Error, { text: t('settings.error.redirectFailed') })
     }
 }
 
@@ -153,11 +154,11 @@ async function saveProfileInformation() {
         userStore.imgUrl = result.data.tinyImgUrl
         emit('updateProfile')
 
-        msg.value = messages.getByCompositeKey(result.messageKey)
+        msg.value = t(result.messageKey)
         success.value = true
         showAlert.value = true
     } else {
-        msg.value = messages.getByCompositeKey(result.messageKey)
+        msg.value = t(result.messageKey)
         success.value = false
         showAlert.value = true
     }
@@ -173,14 +174,14 @@ interface DefaultResult {
 async function saveNewPassword() {
 
     if (currentPassword.value.length <= 0 || newPassword.value.length <= 0 || repeatedPassword.value.length <= 0) {
-        msg.value = messages.error.user['inputError']
+        msg.value = t('error.user.inputError')
         success.value = false
         showAlert.value = true
         return
     }
 
     if (newPassword.value != repeatedPassword.value) {
-        msg.value = messages.error.user['passwordNotCorrectlyRepeated']
+        msg.value = t('error.user.passwordNotCorrectlyRepeated')
         success.value = false
         showAlert.value = true
         return
@@ -197,11 +198,11 @@ async function saveNewPassword() {
     })
 
     if (result.success) {
-        msg.value = messages.success.user[result.message]
+        msg.value = t(result.message)
         success.value = true
         showAlert.value = true
     } else {
-        msg.value = messages.error.user[result.message]
+        msg.value = t(result.message)
         success.value = false
         showAlert.value = true
     }
@@ -216,7 +217,7 @@ async function resetPassword() {
     })
 
     if (result) {
-        msg.value = messages.success.user['passwordReset']
+        msg.value = t('success.user.passwordReset')
         success.value = true
         showAlert.value = true
     }
@@ -250,7 +251,7 @@ async function deleteProfile() {
 
     if (result) {
         userStore.reset()
-        alertStore.openAlert(AlertType.Success, { text: messages.success.user.deleted })
+        alertStore.openAlert(AlertType.Success, { text: t('success.user.deleted') })
 
         alertStore.$onAction(({ name, after }) => {
             if (name === 'closeAlert') {
@@ -260,7 +261,7 @@ async function deleteProfile() {
             }
         })
     } else {
-        msg.value = messages.error.default
+        msg.value = t('error.default')
         success.value = false
         showAlert.value = true
     }
@@ -278,11 +279,11 @@ async function saveWuwiVisibility() {
     })
 
     if (result.success) {
-        msg.value = messages.success.user[result.message]
+        msg.value = t(result.message)
         success.value = true
         showAlert.value = true
     } else {
-        msg.value = messages.error.user[result.message]
+        msg.value = t(result.message)
         success.value = false
         showAlert.value = true
     }
@@ -300,11 +301,11 @@ async function saveSupportLoginRights() {
     })
 
     if (result.success) {
-        msg.value = messages.success.user[result.message]
+        msg.value = t(result.message)
         success.value = true
         showAlert.value = true
     } else {
-        msg.value = messages.error.user[result.message]
+        msg.value = t(result.message)
         success.value = false
         showAlert.value = true
     }
@@ -323,19 +324,18 @@ const selectedNotificationInterval = ref<NotifcationInterval>(NotifcationInterva
 
 const getNotificationIntervalText = computed(() => {
     switch (selectedNotificationInterval.value) {
-
         case NotifcationInterval.Never:
-            return 'Nie'
+            return t('settings.knowledgeReport.interval.never')
         case NotifcationInterval.Daily:
-            return 'Täglich'
+            return t('settings.knowledgeReport.interval.daily')
         case NotifcationInterval.Weekly:
-            return 'Wöchentlich'
+            return t('settings.knowledgeReport.interval.weekly')
         case NotifcationInterval.Monthly:
-            return 'Monatlich'
+            return t('settings.knowledgeReport.interval.monthly')
         case NotifcationInterval.Quarterly:
-            return 'Vierteljährlich'
+            return t('settings.knowledgeReport.interval.quarterly')
         default:
-            return 'Nicht ausgewählt'
+            return t('settings.knowledgeReport.interval.notSelected')
     }
 })
 
@@ -356,7 +356,7 @@ async function saveNotificationIntervalPreferences() {
         success.value = true
         showAlert.value = true
     } else {
-        notificationIntervalChangeMsg.value = messages.error.default
+        notificationIntervalChangeMsg.value = t('error.default')
         success.value = false
         showAlert.value = true
     }
@@ -364,63 +364,60 @@ async function saveNotificationIntervalPreferences() {
 
 const getSelectedSettingsPageLabel = computed(() => {
     switch (activeContent.value) {
-
         case Content.EditProfile:
-            return 'Profil bearbeiten'
+            return t('settings.navigation.editProfile')
         case Content.Password:
-            return 'Passwort'
+            return t('settings.navigation.password')
         case Content.DeleteProfile:
-            return 'Profil löschen'
+            return t('settings.navigation.deleteProfile')
         case Content.ShowWuwi:
-            return 'Wunschwissen anzeigen'
+            return t('settings.navigation.showWuwi')
         case Content.SupportLogin:
-            return 'Support Login'
+            return t('settings.navigation.supportLogin')
         case Content.Membership:
-            return 'Mitgliedschaft'
+            return t('settings.navigation.membership')
         case Content.General:
-            return 'Allgemein'
+            return t('settings.navigation.general')
         case Content.KnowledgeReport:
-            return 'Wissensbericht'
+            return t('settings.navigation.knowledgeReport')
     }
 })
+
 async function requestVerificationMail() {
     const result = await userStore.requestVerificationMail()
-    msg.value = messages.getByCompositeKey(result.messageKey)
+    msg.value = t(result.messageKey)
     success.value = true
     showAlert.value = true
 }
 const ariaId = useId()
 const ariaId2 = useId()
-
-
-
 </script>
 
 <template>
     <div class="row">
         <div class="col-lg-3 col-sm-3 hidden-xs navigation">
-            <div class="overline-s no-line">Profil Informationen</div>
+            <div class="overline-s no-line">{{ t('settings.navigation.profileInfo') }}</div>
             <button @click="activeContent = Content.EditProfile"
-                :class="{ 'active': activeContent === Content.EditProfile }">Profil bearbeiten</button>
+                :class="{ 'active': activeContent === Content.EditProfile }">{{ t('settings.navigation.editProfile') }}</button>
             <button @click="activeContent = Content.Password"
-                :class="{ 'active': activeContent === Content.Password }">Passwort</button>
+                :class="{ 'active': activeContent === Content.Password }">{{ t('settings.navigation.password') }}</button>
             <button @click="activeContent = Content.DeleteProfile"
-                :class="{ 'active': activeContent === Content.DeleteProfile }">Profil löschen</button>
+                :class="{ 'active': activeContent === Content.DeleteProfile }">{{ t('settings.navigation.deleteProfile') }}</button>
 
             <div class="divider"></div>
-            <div class="overline-s no-line">Einstellungen</div>
+            <div class="overline-s no-line">{{ t('settings.navigation.settings') }}</div>
             <button @click="activeContent = Content.ShowWuwi"
-                :class="{ 'active': activeContent === Content.ShowWuwi }">Wunschwissen anzeigen</button>
+                :class="{ 'active': activeContent === Content.ShowWuwi }">{{ t('settings.navigation.showWuwi') }}</button>
             <button @click="activeContent = Content.SupportLogin"
-                :class="{ 'active': activeContent === Content.SupportLogin }">Support Login</button>
+                :class="{ 'active': activeContent === Content.SupportLogin }">{{ t('settings.navigation.supportLogin') }}</button>
             <button @click="activeContent = Content.Membership"
-                :class="{ 'active': activeContent === Content.Membership }">Mitgliedschaft</button>
+                :class="{ 'active': activeContent === Content.Membership }">{{ t('settings.navigation.membership') }}</button>
 
             <div class="divider"></div>
-            <div class="overline-s no-line">Benachrichtigungen</div>
-            <!-- <button @click="activeContent = Content.General">Allgemein</button> -->
+            <div class="overline-s no-line">{{ t('settings.navigation.notifications') }}</div>
+            <!-- <button @click="activeContent = Content.General">{{ t('settings.navigation.general') }}</button> -->
             <button @click="activeContent = Content.KnowledgeReport"
-                :class="{ 'active': activeContent === Content.KnowledgeReport }">Wissensbericht</button>
+                :class="{ 'active': activeContent === Content.KnowledgeReport }">{{ t('settings.navigation.knowledgeReport') }}</button>
 
             <div class="divider"></div>
         </div>
@@ -436,66 +433,64 @@ const ariaId2 = useId()
 
                     <template #popper="{ hide }">
                         <div class="mobile-dropdown">
-                            <div class="dropdown-row  group-label">
-                                Profil Informationen
+                            <div class="dropdown-row group-label">
+                                {{ t('settings.navigation.profileInfo') }}
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.EditProfile; hide()"
                                 :class="{ 'active': activeContent === Content.EditProfile }">
                                 <div class="dropdown-label select-option">
-                                    Profil bearbeiten
+                                    {{ t('settings.navigation.editProfile') }}
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.Password; hide()"
                                 :class="{ 'active': activeContent === Content.Password }">
                                 <div class="dropdown-label select-option">
-                                    Passwort
+                                    {{ t('settings.navigation.password') }}
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.DeleteProfile; hide()"
                                 :class="{ 'active': activeContent === Content.DeleteProfile }">
                                 <div class="dropdown-label select-option">
-                                    Profil löschen
+                                    {{ t('settings.navigation.deleteProfile') }}
                                 </div>
                             </div>
                             <div class="divider"></div>
                             <div class="dropdown-row group-label">
-                                Einstellungen
+                                {{ t('settings.navigation.settings') }}
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.ShowWuwi; hide()"
                                 :class="{ 'active': activeContent === Content.ShowWuwi }">
                                 <div class="dropdown-label select-option">
-                                    Wunschwissen anzeigen
+                                    {{ t('settings.navigation.showWuwi') }}
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.SupportLogin; hide()"
                                 :class="{ 'active': activeContent === Content.SupportLogin }">
                                 <div class="dropdown-label select-option">
-                                    Support Login
+                                    {{ t('settings.navigation.supportLogin') }}
                                 </div>
                             </div>
                             <div class="dropdown-row select-row" @click="activeContent = Content.Membership; hide()"
                                 :class="{ 'active': activeContent === Content.Membership }">
                                 <div class="dropdown-label select-option">
-                                    Mitgliedschaft
+                                    {{ t('settings.navigation.membership') }}
                                 </div>
                             </div>
                             <div class="divider"></div>
-                            <div class="dropdown-row  group-label">
-                                Benachrichtigungen
+                            <div class="dropdown-row group-label">
+                                {{ t('settings.navigation.notifications') }}
                             </div>
                             <div class="dropdown-row select-row"
                                 @click="activeContent = Content.KnowledgeReport; hide()"
                                 :class="{ 'active': activeContent === Content.KnowledgeReport }">
                                 <div class="dropdown-label select-option">
-                                    Wissensbericht
+                                    {{ t('settings.navigation.knowledgeReport') }}
                                 </div>
                             </div>
                         </div>
-
                     </template>
                 </VDropdown>
             </div>
-
         </div>
         <div class="col-lg-9 col-sm-9 col-xs-12 settings-content">
             <Transition>
@@ -505,30 +500,27 @@ const ariaId2 = useId()
                         <div class="alert alert-danger" v-else>{{ msg }}</div>
                     </div>
                     <div class="settings-section">
-                        <div class="overline-s no-line">Profilbild</div>
+                        <div class="overline-s no-line">{{ t('settings.profile.profilePicture') }}</div>
                         <Image :src="currentImageUrl" :format="ImageFormat.Author" class="profile-picture" :custom-style="'object-fit: cover;'" />
                         <div class="img-settings-btns">
-
                             <div>
                                 <label class="img-upload-btn" for="imageUpload">
                                     <input type="file" accept="image/*" name="file" id="imageUpload" v-on:change="onFileChange" />
                                     <font-awesome-icon icon="fa-solid fa-upload" />
-                                    Bild hochladen
+                                    {{ t('settings.profile.uploadImage') }}
                                 </label>
                                 <span>{{ imgFile?.name }}</span>
                             </div>
-
                             <div>
                                 <button class="img-delete-btn" @click="removeImage()">
-                                    <font-awesome-icon icon="fa-solid fa-trash" /> Profilbild entfernen
+                                    <font-awesome-icon icon="fa-solid fa-trash" /> {{ t('settings.profile.removeProfilePicture') }}
                                 </button>
                             </div>
-
                         </div>
                     </div>
                     <div class="settings-section">
                         <div class="input-container">
-                            <div class="overline-s no-line">Nutzername</div>
+                            <div class="overline-s no-line">{{ t('settings.profile.username') }}</div>
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
@@ -539,7 +531,7 @@ const ariaId2 = useId()
                         </div>
 
                         <div class="input-container">
-                            <div class="overline-s no-line">E-Mail</div>
+                            <div class="overline-s no-line">{{ t('settings.profile.email') }}</div>
                             <div class="col-xs-12"></div>
                             <form class="form-horizontal">
                                 <div class="form-group">
@@ -550,32 +542,27 @@ const ariaId2 = useId()
                                     <div class="col-sm-12 col-lg-6 ">
                                         <div class="email-confirmation-container">
                                             <div v-if="userStore.isEmailConfirmed" class="email-verification-label verified overline-s no-line">
-                                                <font-awesome-icon :icon="['fas', 'check']" /> Verifiziert
+                                                <font-awesome-icon :icon="['fas', 'check']" /> {{ t('settings.profile.verified') }}
                                             </div>
                                             <template v-else>
                                                 <div class="email-verification-label not-verified overline-s no-line">
-                                                    <font-awesome-icon :icon="['fas', 'xmark']" /> Nicht verifiziert
+                                                    <font-awesome-icon :icon="['fas', 'xmark']" /> {{ t('settings.profile.notVerified') }}
                                                 </div>
                                                 <button class="btn-link generic-btn-link"
                                                     @click.prevent="requestVerificationMail()">
-                                                    <font-awesome-icon
-                                                        :icon="['fas', 'envelope-circle-check']" />Verifizierungs-E-Mail
-                                                    senden
+                                                    <font-awesome-icon :icon="['fas', 'envelope-circle-check']" />{{ t('settings.profile.sendVerificationEmail') }}
                                                 </button>
                                             </template>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-
                         </div>
-
-
                     </div>
                     <div class="settings-section">
                         <button class="memo-button btn btn-primary" @click="saveProfileInformation()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Speichern
+                            {{ t('settings.button.save') }}
                         </button>
                     </div>
                 </div>
@@ -587,7 +574,7 @@ const ariaId2 = useId()
                     </div>
                     <div class="settings-section">
                         <div class="input-container">
-                            <div class="overline-s no-line">Altes Passwort</div>
+                            <div class="overline-s no-line">{{ t('settings.password.currentPassword') }}</div>
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
@@ -598,7 +585,7 @@ const ariaId2 = useId()
                         </div>
 
                         <div class="input-container">
-                            <div class="overline-s no-line">Neues Passwort</div>
+                            <div class="overline-s no-line">{{ t('settings.password.newPassword') }}</div>
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
@@ -609,7 +596,7 @@ const ariaId2 = useId()
                         </div>
 
                         <div class="input-container">
-                            <div class="overline-s no-line">Neues Passwort wiederholen</div>
+                            <div class="overline-s no-line">{{ t('settings.password.repeatNewPassword') }}</div>
                             <form class="form-horizontal">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-lg-6">
@@ -623,11 +610,11 @@ const ariaId2 = useId()
                     <div class="settings-section password-section">
                         <button class="memo-button btn btn-primary" @click="saveNewPassword()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Passwort ändern
+                            {{ t('settings.password.changePassword') }}
                         </button>
 
                         <button class="memo-button btn btn-link" @click="resetPassword()">
-                            Passwort vergessen
+                            {{ t('settings.password.forgotPassword') }}
                         </button>
                     </div>
                 </div>
@@ -641,29 +628,25 @@ const ariaId2 = useId()
                         <div class="">
                             <div class="alert alert-info">
                                 <p>
-                                    <b>Achtung:</b> Du kannst dein Profil nur löschen, wenn:
+                                    <b>{{ t('settings.deleteProfile.warning') }}</b> {{ t('settings.deleteProfile.onlyIf') }}
                                 <ul>
-                                    <li>die Summe aller öffentlichen Aufrufe unter 2000 liegt,</li>
-                                    <li>und danach keine Seiten oder Fragen übrigbleiben, die irgendwie nicht mehr richtig zugeordnet werden können.</li>
+                                    <li>{{ t('settings.deleteProfile.condition1') }}</li>
+                                    <li>{{ t('settings.deleteProfile.condition2') }}</li>
                                 </ul>
-
                                 </p>
                             </div>
 
-
                             <button @click.prevent="deleteProfile()" class="memo-button btn btn-danger" v-if="canDeleteProfile">
-                                Profil löschen
+                                {{ t('settings.deleteProfile.deleteButton') }}
                             </button>
                             <div v-else class="alert alert-warning">
                                 <p>
-                                    Leider ist es nicht möglich, Dein Profil eigenständig zu löschen.
-                                    Schreib uns deshalb bitte eine kurze E-Mail an
+                                    {{ t('settings.deleteProfile.notPossible') }}
                                     <NuxtLink to="mailto:team@memucho.de" :external="true">team@memucho.de</NuxtLink>,
-                                    damit wir Dein wertvolles Wissen sichern und Dein Profil für Dich entfernen können.
+                                    {{ t('settings.deleteProfile.contactReason') }}
                                 </p>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
@@ -681,12 +664,10 @@ const ariaId2 = useId()
                             </div>
                             <div class="checkbox-label">
                                 <div class="overline-s no-line">
-                                    Wunschwissen zeigen
+                                    {{ t('settings.wuwi.showWuwi') }}
                                 </div>
                                 <p>
-                                    Wenn ausgewählt, ist öffentlich sichtbar, welche Fragen in deinem Wunschwissen sind
-                                    (außer
-                                    private Fragen). Antwortstatistiken werden nicht angezeigt.
+                                    {{ t('settings.wuwi.explanation') }}
                                 </p>
                             </div>
                         </label>
@@ -695,7 +676,7 @@ const ariaId2 = useId()
                     <div class="settings-section">
                         <button class="memo-button btn btn-primary" @click="saveWuwiVisibility()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Speichern
+                            {{ t('settings.button.save') }}
                         </button>
                     </div>
                 </div>
@@ -714,36 +695,31 @@ const ariaId2 = useId()
                             </div>
                             <div class="checkbox-label">
                                 <div class="overline-s no-line">
-                                    Support-Login zulassen
+                                    {{ t('settings.supportLogin.allow') }}
                                 </div>
                                 <p>
-                                    Achtung: Das ist nur nach Rücksprache mit dem memoWikis-Team nötig! Wenn du den
-                                    Support-Login
-                                    aktivierst, können sich Mitarbeiter von memoWikis zur Fehlerbehebung oder zu deiner
-                                    Unterstützung in deinem Nutzerkonto einloggen, selbstverständlich ohne dein Passwort
-                                    zu
-                                    benötigen oder sehen zu können.
+                                    {{ t('settings.supportLogin.explanation') }}
                                 </p>
                             </div>
                         </label>
-
                     </div>
                     <div class="settings-section">
                         <button class="memo-button btn btn-primary" @click="saveSupportLoginRights()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Speichern
+                            {{ t('settings.button.save') }}
                         </button>
                     </div>
                 </div>
+
                 <div v-else-if="activeContent === Content.Membership" class="content">
                     <div class="settings-section" v-if="userStore.subscriptionType != Subscription.Type.Basic">
                         <button class="memo-button btn btn-primary" v-if="userStore.isSubscriptionCanceled === false" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Abo verwalten oder kündigen
+                            {{ t('settings.membership.manageOrCancel') }}
                         </button>
                         <button class="memo-button btn btn-primary" v-else-if="userStore.isSubscriptionCanceled === true && userStore.subscriptionType === Subscription.Type.Plus" @click="cancelPlan()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Abo wiederaufnehmen
+                            {{ t('settings.membership.resume') }}
                         </button>
                     </div>
 
@@ -761,7 +737,7 @@ const ariaId2 = useId()
                     </div>
                     <div class="settings-section">
                         <div class="overline-s no-line">
-                            Wissensbericht per E-Mail:
+                            {{ t('settings.knowledgeReport.emailReport') }}
                         </div>
                         <div class="interval-dropdown">
                             <VDropdown :aria-id="ariaId2" :distance="0">
@@ -777,57 +753,54 @@ const ariaId2 = useId()
                                         @click="selectedNotificationInterval = NotifcationInterval.Quarterly; hide()"
                                         :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Quarterly }">
                                         <div class="dropdown-label select-option">
-                                            Vierteljährlich
+                                            {{ t('settings.knowledgeReport.interval.quarterly') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Monthly; hide()"
                                         :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Monthly }">
                                         <div class="dropdown-label select-option">
-                                            Monatlich
+                                            {{ t('settings.knowledgeReport.interval.monthly') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Weekly; hide()"
                                         :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Weekly }">
                                         <div class="dropdown-label select-option">
-                                            Wöchentlich
+                                            {{ t('settings.knowledgeReport.interval.weekly') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Daily; hide()"
                                         :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Daily }">
                                         <div class="dropdown-label select-option">
-                                            Täglich
+                                            {{ t('settings.knowledgeReport.interval.daily') }}
                                         </div>
                                     </div>
                                     <div class="dropdown-row select-row"
                                         @click="selectedNotificationInterval = NotifcationInterval.Never; hide()"
                                         :class="{ 'active': selectedNotificationInterval === NotifcationInterval.Never }">
                                         <div class="dropdown-label select-option">
-                                            Nie
+                                            {{ t('settings.knowledgeReport.interval.never') }}
                                         </div>
                                     </div>
-
                                 </template>
                             </VDropdown>
                         </div>
 
                         <p>
-                            Der Wissensreport informiert dich über deinen aktuellen Wissensstand von deinem
+                            {{ t('settings.knowledgeReport.description') }}
                             <font-awesome-icon icon="fa-solid fa-heart" class="wuwi-icon" />
-                            Wunschwissen und über neue Inhalte bei memoWikis. Er wird nur
-                            verschickt, wenn du Wunschwissen hast.
+                            {{ t('settings.knowledgeReport.additionalInfo') }}
                         </p>
                     </div>
 
                     <div class="settings-section">
                         <button class="memo-button btn btn-primary" @click="saveNotificationIntervalPreferences()">
                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
-                            Speichern
+                            {{ t('settings.button.save') }}
                         </button>
                     </div>
-
                 </div>
             </Transition>
         </div>
