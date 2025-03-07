@@ -19,7 +19,7 @@ snackbarStore.$onAction(({ name, after }) => {
 			snackbar.add({
 				type: data.type,
 				title: data.title ? data.title : '',
-				text: { html: data.text ? data.text : '' },
+				text: { html: data.text?.message ? data.text.message : '' },
 				duration: data.duration ? data.duration : 4000,
 				dismissible: data.dismissible != null ? data.dismissible : true,
 			})

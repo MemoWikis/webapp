@@ -153,8 +153,6 @@ const showLanguages = ref(false)
                         {{ t('label.logout') }}
                     </div>
                 </div>
-
-                <div class="divider"></div>
             </div>
         </template>
     </VDropdown>
