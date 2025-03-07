@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { AlertType, useAlertStore } from '../alert/alertStore'
 import { useUserStore } from '../user/userStore'
 
 const alertStore = useAlertStore()
 const userStore = useUserStore()
+const { t } = useI18n()
 
 const eMail = ref('')
 const password = ref('')
@@ -78,9 +78,11 @@ async function primaryAction() {
         const result = await userStore.resetPassword(eMail.value)
         userStore.showLoginModal = false
         if (result.success) {
-            alertStore.openAlert(AlertType.Default, { text: messages.info.passwordResetRequested(eMail.value) })
+            alertStore.openAlert(AlertType.Default, {
+                text: t('info.passwordResetRequested', { email: eMail.value })
+            })
         } else {
-            alertStore.openAlert(AlertType.Error, { text: messages.error.default })
+            alertStore.openAlert(AlertType.Error, { text: t('error.default') })
         }
     }
     else login()

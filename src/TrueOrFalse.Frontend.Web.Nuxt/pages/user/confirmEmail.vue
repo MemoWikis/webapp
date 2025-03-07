@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { messages } from '~/components/alert/alertStore'
 import { Site } from '~/components/shared/siteEnum'
 import { useUserStore } from '~/components/user/userStore'
 
@@ -8,6 +7,7 @@ interface Props {
     site: Site
 }
 const props = defineProps<Props>()
+const { t } = useI18n()
 
 const emit = defineEmits(['setPage'])
 onBeforeMount(() => {
@@ -48,7 +48,7 @@ async function requestVerificationMail() {
     }
     const result = await userStore.requestVerificationMail()
     newVerificationMailSent.value = true
-    msg.value = messages.getByCompositeKey(result.messageKey)
+    msg.value = t(result.messageKey)
 }
 </script>
 

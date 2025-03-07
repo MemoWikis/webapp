@@ -2,7 +2,7 @@
 import { EditRelationData, EditPageRelationType, useEditPageRelationStore } from '~/components/page/relation/editPageRelationStore'
 import { useUserStore } from '~/components/user/userStore'
 import { usePublishPageStore } from '~/components/page/publish/publishPageStore'
-import { useAlertStore, AlertType, messages } from '~/components/alert/alertStore'
+import { useAlertStore, AlertType } from '~/components/alert/alertStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { GridPageItem } from './gridPageItem'
 import { ImageFormat } from '~/components/image/imageFormatEnum'

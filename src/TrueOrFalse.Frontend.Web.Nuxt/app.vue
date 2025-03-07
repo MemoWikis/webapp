@@ -6,7 +6,7 @@ import { BreadcrumbItem } from './components/header/breadcrumbItems'
 import { Visibility } from './components/shared/visibilityEnum'
 import { useLoadingStore } from './components/loading/loadingStore'
 import { useRootPageChipStore } from '~/components/header/rootPageChipStore'
-import { AlertType, messages, useAlertStore } from './components/alert/alertStore'
+import { AlertType, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
 
@@ -204,7 +204,7 @@ function logError(e: any) {
 
 	if (import.meta.client) {
 		const alertStore = useAlertStore()
-		alertStore.openAlert(AlertType.Error, { text: null, customDetails: e, texts: [t('error.api.body.title'), t('error.api.body.suggestion')] }, "Seite neu laden", true, t('error.api.title'), 'reloadPage', 'Zurück')
+		alertStore.openAlert(AlertType.Error, { text: null, customDetails: e, texts: [t('error.api.body.title'), t('error.api.body.suggestion')] }, t('label.reloadPage'), true, t('error.api.title'), 'reloadPage', t('label.back'))
 
 		alertStore.$onAction(({ name, after }) => {
 			if (name === 'closeAlert') {
@@ -255,7 +255,7 @@ onMounted(() => {
 					:error="error" :in-error-boundary="true" @clear-error="clearErr" />
 				<NuxtPage v-else @set-page="setPage" @set-question-page-data="setQuestionpageBreadcrumb"
 					@set-breadcrumb="setBreadcrumb" :footer-pages="footerPages"
-					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" />
+					:class="{ 'open-modal': modalIsOpen, 'mobile-headings': isMobile }" :site="Site.Error" />
 			</template>
 		</NuxtErrorBoundary>
 	</div>

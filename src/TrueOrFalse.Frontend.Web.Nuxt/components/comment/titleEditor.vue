@@ -7,7 +7,7 @@ import Underline from '@tiptap/extension-underline'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { all, createLowlight } from 'lowlight'
 import { isEmpty } from 'underscore'
-import { AlertType, useAlertStore, messages } from '../alert/alertStore'
+import { AlertType, useAlertStore } from '../alert/alertStore'
 
 interface Props {
     highlightEmptyFields: boolean

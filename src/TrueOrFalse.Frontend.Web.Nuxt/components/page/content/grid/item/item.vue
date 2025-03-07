@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAlertStore, AlertType, messages } from '~/components/alert/alertStore'
+import { useAlertStore, AlertType } from '~/components/alert/alertStore'
 import { ImageFormat } from '~/components/image/imageFormatEnum'
 import { ToggleState } from '../toggleStateEnum'
 import { GridPageItem } from './gridPageItem'

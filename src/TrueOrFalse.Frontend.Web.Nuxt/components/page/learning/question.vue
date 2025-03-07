@@ -9,7 +9,7 @@ import { useCommentsStore } from '~~/components/comment/commentsStore'
 import { KnowledgeStatus } from '~~/components/question/knowledgeStatusEnum'
 import { useDeleteQuestionStore } from '~~/components/question/edit/delete/deleteQuestionStore'
 import { Visibility } from '~~/components/shared/visibilityEnum'
-import { useAlertStore, messages, AlertType } from '~/components/alert/alertStore'
+import { useAlertStore, AlertType } from '~/components/alert/alertStore'
 import { usePublishQuestionStore } from '~/components/question/edit/publish/publishQuestionStore'
 
 const alertStore = useAlertStore()
@@ -120,7 +120,7 @@ async function loadQuestionData() {
         setTitle(result.data.title)
         showLock.value = result.data.visibility != Visibility.All
     } else if (result?.success === false) {
-        alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) ?? messages.error.default })
+        alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) ?? t('error.default') })
     }
 
 }

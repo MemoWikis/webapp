@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { AlertType, useAlertStore } from '../alert/alertStore'
 import { usePageStore } from '../page/pageStore'
 import { ImageFormat } from './imageFormatEnum'
 

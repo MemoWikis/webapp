@@ -48,7 +48,7 @@ function setChartData() {
 
 const { t, locale } = useI18n()
 
-watch(() => locale.value, () => setWidths())
+watch(locale, () => setWidths())
 
 function getTooltipLabel(key: string, count: number) {
 	switch (key) {

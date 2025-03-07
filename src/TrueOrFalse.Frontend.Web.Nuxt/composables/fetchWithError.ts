@@ -27,11 +27,11 @@ function handleResponseError(
                 ],
                 customDetails: response._data,
             },
-            "Seite neu laden",
+            $i18n.t("label.reloadPage"),
             true,
             $i18n.t("error.api.title"),
             "reloadPage",
-            "Zurück"
+            $i18n.t("label.back")
         )
 
         alertStore.$onAction(({ name, after }) => {

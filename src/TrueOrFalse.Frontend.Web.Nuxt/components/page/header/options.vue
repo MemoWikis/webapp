@@ -7,7 +7,7 @@ import { useEditPageRelationStore } from '../relation/editPageRelationStore'
 import { usePageToPrivateStore } from '../toPrivate/pageToPrivateStore'
 import { usePublishPageStore } from '../publish/publishPageStore'
 import { useDeletePageStore } from '../delete/deletePageStore'
-import { messages } from '~/components/alert/messages'
+
 import { useConvertStore } from '../convert/convertStore'
 
 const userStore = useUserStore()
@@ -39,7 +39,7 @@ const { t } = useI18n()
                         :class="{ 'page-has-content': pageStore.content?.length > 0 || pageStore.contentHasChanged }">
                         <div class="dropdown-label">
                             {{ t('page.header.noTextInput') }} <font-awesome-icon :icon="['fas', 'circle-info']" class="toggle-info"
-                                v-tooltip="messages.info.page.toggleHideText" />
+                                v-tooltip="t('info.page.toggleHideText')" />
                         </div>
                         <div class="toggle-icon-container">
                             <font-awesome-icon :icon="['fas', 'toggle-on']" v-if="pageStore.textIsHidden"

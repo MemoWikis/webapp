@@ -4,6 +4,7 @@ import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { UserResult } from '~~/components/users/userResult'
 
+const { t } = useI18n()
 const loadingStore = useLoadingStore()
 
 const userCount = ref(200)
@@ -76,23 +77,23 @@ watch(status, (s) => {
 
 const emit = defineEmits(['setBreadcrumb', 'setPage'])
 
-
 onMounted(() => {
     emit('setPage', Site.Default)
     const breadcrumbItem: BreadcrumbItem = {
-        name: 'Alle Nutzer',
-        url: '/Nutzer'
+        name: t('usersOverview.title'),
+        url: t('url.users')
     }
     emit('setBreadcrumb', [breadcrumbItem])
 })
+
 const getSelectedOrderLabel = computed(() => {
     switch (orderBy.value) {
         case SearchUsersOrderBy.Rank:
-            return 'Rang'
+            return t('usersOverview.sort.options.rank')
         case SearchUsersOrderBy.WishCount:
-            return 'Wunschwissen'
+            return t('usersOverview.sort.options.wishknowledge')
         default:
-            return 'Nicht ausgewählt'
+            return t('usersOverview.sort.options.notSelected')
     }
 })
 
@@ -106,11 +107,11 @@ useHead(() => ({
     meta: [
         {
             name: 'description',
-            content: 'List of all users'
+            content: t('usersOverview.meta.description')
         },
         {
             property: 'og:title',
-            content: 'Users'
+            content: t('usersOverview.meta.title')
         },
         {
             property: 'og:url',
@@ -120,7 +121,6 @@ useHead(() => ({
 }))
 
 const ariaId = useId()
-
 </script>
 
 <template>
@@ -128,26 +128,26 @@ const ariaId = useId()
         <div class="row main-page">
             <div class="col-xs-12 container">
                 <div class="users-header">
-                    <h1>Alle Nutzer</h1>
+                    <h1>{{ t('usersOverview.title') }}</h1>
                 </div>
 
                 <div class="row content" v-if="pageData">
                     <div class="col-xs-12 col-sm-12">
-
                         <div class="overline-s no-line" v-if="pageData.totalItems <= 0 && searchTerm.length > 0">
-                            Kein Nutzer mit dem Namen "{{ searchTerm }}"
+                            {{ t('usersOverview.search.noResults', { term: searchTerm }) }}
                         </div>
                         <div class="overline-s no-line" v-else-if="pageData.totalItems > 0 && searchTerm.length > 0">
-                            Ergebnisse für "{{ searchTerm }}" ({{ pageData.totalItems }})
+                            {{ t('usersOverview.search.results', { term: searchTerm, count: pageData.totalItems }) }}
                         </div>
                         <div class="overline-s no-line" v-else>
-                            Alle Nutzer <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
+                            {{ t('usersOverview.search.allUsers') }}
+                            <template v-if="totalUserCount != null"> ({{ totalUserCount }})</template>
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 users-options">
                         <div class="search-section">
                             <div class="search-container">
-                                <input type="text" v-model="searchTerm" class="search-input" placeholder="Suche" />
+                                <input type="text" v-model="searchTerm" class="search-input" :placeholder="t('usersOverview.search.placeholder')" />
                                 <div class="search-icon reset-icon" v-if="searchTerm.length > 0" @click="searchTerm = ''">
                                     <font-awesome-icon icon="fa-solid fa-xmark" />
                                 </div>
@@ -158,9 +158,8 @@ const ariaId = useId()
                         </div>
 
                         <div class="sort-section">
-
                             <font-awesome-icon icon="fa-solid fa-sort" />
-                            <div class="sort-label">Sortieren nach: </div>
+                            <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>
                             <div class="orderby-dropdown">
                                 <VDropdown :aria-id="ariaId" :distance="0">
                                     <div class="orderby-select">
@@ -175,14 +174,14 @@ const ariaId = useId()
                                             @click="orderBy = SearchUsersOrderBy.Rank; hide()"
                                             :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
                                             <div class="dropdown-label select-option">
-                                                Rang
+                                                {{ t('usersOverview.sort.options.rank') }}
                                             </div>
                                         </div>
                                         <div class="dropdown-row"
                                             @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
                                             :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
                                             <div class="dropdown-label select-option">
-                                                Wunschwissen
+                                                {{ t('usersOverview.sort.options.wishknowledge') }}
                                             </div>
                                         </div>
                                     </template>
@@ -199,7 +198,7 @@ const ariaId = useId()
 
                     <div class="col-xs-12 empty-page-container" v-if="pageData.users.length <= 0 && searchTerm.length > 0">
                         <div class="empty-page">
-                            Leider gibt es keinen Nutzer mit "{{ searchTerm }}"
+                            {{ t('usersOverview.search.noUserWithName', { term: searchTerm }) }}
                         </div>
                     </div>
 
@@ -225,7 +224,6 @@ const ariaId = useId()
                                     </font-awesome-layers>
                                 </template>
                             </vue-awesome-paginate>
-
                         </div>
                         <div class="pagination hidden-sm hidden-md hidden-lg">
                             <vue-awesome-paginate v-if="currentPage > 0" :total-items="userCount" :items-per-page="20" :max-pages-shown="3" v-model="currentPage" :show-ending-buttons="true" :show-breakpoint-buttons="false">
@@ -251,8 +249,7 @@ const ariaId = useId()
                         </div>
                     </div>
                     <div class="info-bar" v-else-if="pageData.users.length < pageData.totalItems">
-                        Wir zeigen nur die
-                        ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche
+                        {{ t('usersOverview.search.limitedResults') }}
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 import { Visibility } from '~/components/shared/visibilityEnum'
 import { PageFeedItem, PageChangeType, QuestionChangeType, QuestionFeedItem, getTime, Author, getPageChangeTypeKey, getQuestionChangeTypeKey } from './feedHelper'
 import { color } from '~/components/shared/colors'
-import { messages } from '~/components/alert/messages'
+
 import { usePageStore } from '../../pageStore'
 
 interface Props {
@@ -178,7 +178,7 @@ const { $urlHelper } = useNuxtApp()
             </div>
 
             <div v-if="!isDesktop" class="feed-item-info-visibility" @click.stop>
-                <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
+                <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="t('info.feed.private')" class="feed-item-visibility-icon" />
             </div>
         </div>
         <div class="feed-item-label">
@@ -234,7 +234,7 @@ const { $urlHelper } = useNuxtApp()
         </div>
 
         <div class="feed-item-visibility" v-if="isDesktop">
-            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="messages.info.feed.private" class="feed-item-visibility-icon" />
+            <font-awesome-icon :icon="['fas', 'lock']" v-if="feedItem.visibility === Visibility.Owner" v-tooltip="t('info.feed.private')" class="feed-item-visibility-icon" />
         </div>
     </div>
 </template>

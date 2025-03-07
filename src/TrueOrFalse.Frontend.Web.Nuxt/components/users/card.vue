@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import urlHelper from '~/plugins/urlHelper'
 import { ImageFormat } from '../image/imageFormatEnum'
 import { UserResult } from './userResult'
 
@@ -8,6 +7,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 const { $urlHelper } = useNuxtApp()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -25,28 +25,35 @@ const { $urlHelper } = useNuxtApp()
                 <div class="user-body">
                     <div class="">
                         <b>
-                            Reputation: {{ props.user.reputationPoints }} (Rang {{ props.user.rank }})
+                            {{ t('usersOverview.card.reputation', {
+                                points: props.user.reputationPoints,
+                                rank: props.user.rank
+                            }) }}
                         </b>
                     </div>
 
                     <div>
-                        Erstellt: {{ props.user.createdQuestionsCount }} Fragen / {{ props.user.createdPagesCount }} Seiten
+                        {{ t('usersOverview.card.created', {
+                            questions: props.user.createdQuestionsCount,
+                            pages: props.user.createdPagesCount
+                        }) }}
                     </div>
                     <div v-if="props.user.showWuwi" class="mb-8">
-                        Wunschwissen: {{ props.user.wuwiQuestionsCount }} Fragen / {{ props.user.wuwiPagesCount }} Seiten
+                        {{ t('usersOverview.card.wishknowledge', {
+                            questions: props.user.wuwiQuestionsCount,
+                            pages: props.user.wuwiPagesCount
+                        }) }}
                     </div>
                     <div v-else class="inactive mb-8"><font-awesome-icon icon="fa-solid fa-lock" />
-                        {{ props.user.name }}s Wunschwissen ist privat
+                        {{ t('usersOverview.card.privateWishknowledge', { name: props.user.name }) }}
                     </div>
 
                     <div v-if="props.user.wikiId != -1">
                         <NuxtLink :to="$urlHelper.getPageUrl(`${props.user.name}s-Wiki`, props.user.wikiId)">
-                            Zu {{ props.user.name }}s Wiki
+                            {{ t('usersOverview.card.toWiki', { name: props.user.name }) }}
                         </NuxtLink>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

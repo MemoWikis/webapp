@@ -3,7 +3,7 @@ import { Visibility } from '../../shared/visibilityEnum'
 import { useUserStore } from '../../user/userStore'
 import { SolutionType } from '../solutionTypeEnum'
 import { useEditQuestionStore } from './editQuestionStore'
-import { AlertType, useAlertStore, messages } from '../../alert/alertStore'
+import { AlertType, useAlertStore } from '../../alert/alertStore'
 import { PageResult, PageItem } from '../../search/searchHelper'
 import { debounce } from 'underscore'
 import { useLoadingStore } from '../../loading/loadingStore'
@@ -25,6 +25,7 @@ const visibility = ref(Visibility.All)
 const solutionType = ref(SolutionType.Text)
 const addToWuwi = ref(true)
 const alertStore = useAlertStore()
+const { t } = useI18n()
 
 const highlightEmptyFields = ref(false)
 
@@ -241,7 +242,7 @@ async function save() {
         }
     }).catch(error => {
         loadingStore.stopLoading()
-        alertStore.openAlert(AlertType.Error, { text: editQuestionStore.edit ? messages.error.question.save : messages.error.question.creation })
+        alertStore.openAlert(AlertType.Error, { text: editQuestionStore.edit ? t('error.question.save ') : t('error.question.creation') })
         lockSaveButton.value = false
     })
 
@@ -257,13 +258,13 @@ async function save() {
 
         if (result.data.sessionIndex > 0 || tabsStore.activeTab != Tab.Learning || editQuestionStore.edit)
             alertStore.openAlert(AlertType.Success, {
-                text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created
+                text: editQuestionStore.edit ? t('success.question.saved') : t('success.question.created')
             })
         else
             alertStore.openAlert(AlertType.Success, {
-                text: editQuestionStore.edit ? messages.success.question.saved : messages.success.question.created,
-                customHtml: '<div class="session-config-error fade in col-xs-12"><span><b>Der Fragenfilter ist aktiv.</b> Die Frage wird dir nicht angezeigt. Setze den Filter zurück, um alle Fragen anzuzeigen.</span></div>',
-                customBtn: `<button class="btn memo-button btn-link pull-right cancel-alert">Filter zurücksetzen</button>`,
+                text: editQuestionStore.edit ? t('success.question.saved') : t('success.question.created'),
+                customHtml: `<div class="session-config-error fade in col-xs-12"><span><b>${t('question.editModal.filterAlert.active')}</b> ${t('question.editModal.filterAlert.notShown')} ${t('question.editModal.filterAlert.resetToShow')}</span></div>`,
+                customBtn: `<button class="btn memo-button btn-link pull-right cancel-alert">${t('question.editModal.filterAlert.resetButton')}</button>`,
                 customBtnKey: 'resetLearningSession'
             }, 'Ok')
         highlightEmptyFields.value = false
@@ -279,7 +280,7 @@ async function save() {
         lockSaveButton.value = false
 
         alertStore.openAlert(AlertType.Error, {
-            text: messages.getByCompositeKey(result.messageKey)
+            text: t(result.messageKey)
         })
     }
 
@@ -398,8 +399,6 @@ function setMatchlistContent(e: { solution: string, solutionIsValid: boolean }) 
     matchListJson.value = e.solution
     solutionIsValid.value = e.solutionIsValid
 }
-
-const { t } = useI18n()
 
 </script>
 

@@ -16,7 +16,7 @@ import UploadImage from '~/components/shared/imageUploadExtension'
 import { usePageStore } from '~/components/page/pageStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { isEmpty } from 'underscore'
-import { messages } from '~~/components/alert/alertStore'
+'~~/components/alert/alertStore'
 
 import { getRandomColor } from '~/components/shared/utils'
 
@@ -135,7 +135,6 @@ const initProvider = () => {
                     loadCollab.value = false
                     recreate()
                 }
-
             }
         }
     })
@@ -143,7 +142,7 @@ const initProvider = () => {
 
 const deleteImageSrc = ref()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const initEditor = () => {
     editor.value = new Editor({
@@ -291,6 +290,10 @@ const initEditor = () => {
     })
 }
 
+watch(locale, () => {
+    if (editor.value && editor.value.isEmpty)
+        recreate()
+})
 
 const recreate = (login: boolean = false) => {
     provider.value?.destroy()

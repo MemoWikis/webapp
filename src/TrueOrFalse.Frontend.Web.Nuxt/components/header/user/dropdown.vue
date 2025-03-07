@@ -5,13 +5,13 @@ import { ImageFormat } from '~/components/image/imageFormatEnum'
 
 const userStore = useUserStore()
 const activityPointsStore = useActivityPointsStore()
+const { t } = useI18n()
 
 const { isMobile } = useDevice()
 const ariaId = useId()
 
 const { locale, locales, setLocale, localeProperties } = useI18n()
 
-const { t } = useI18n()
 
 const showLanguages = ref(false)
 </script>
@@ -47,12 +47,9 @@ const showLanguages = ref(false)
                     <div class="user-dropdown-container level-info">
                         <div class="primary-info">
                             <i18n-t keypath="userDropdown.activitySection.text" tag="p">
-                                <template #points>
-                                    {{ t('userDropdown.activitySection.learningPoints', activityPointsStore.points) }}
-                                </template>
-                                <template #learningPoiints>
+                                <template #learningPoints>
                                     <b>
-                                        {{ t('label.learningPoints') }}
+                                        {{ t('userDropdown.activitySection.learningPoints', activityPointsStore.points) }}
                                     </b>
                                 </template>
                                 <template #breakpoint>
@@ -112,7 +109,7 @@ const showLanguages = ref(false)
                 <div class="user-dropdown-language-selector">
                     <div class="user-dropdown-label language-header" @click.prevent="showLanguages = !showLanguages">
                         {{ t('label.language') }}
-                        <Image :src="localeProperties.flag" class="language-flag" />
+                        <CircleFlags :country="localeProperties.flag" class="country-flag" />
                     </div>
                     <div class="user-dropdown-container">
 
@@ -434,19 +431,18 @@ const showLanguages = ref(false)
             &:active {
                 background-color: @memo-grey-light;
             }
+
+            .country-flag {
+                height: 2rem;
+                width: 2rem;
+                margin-left: 8px;
+            }
         }
 
         .user-dropdown-container {
             padding-top: none;
         }
 
-    }
-
-    .language-flag {
-        height: 3rem;
-        width: 3rem;
-        border-radius: 4rem;
-        margin: 0 0.5rem;
     }
 
     .language-selector {

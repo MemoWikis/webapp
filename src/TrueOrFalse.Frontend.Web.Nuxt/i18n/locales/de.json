@@ -26,7 +26,7 @@
             "wuwiVisibilityUpdated": "Deine Wunschwissen-Einstellungen wurden erfolgreich aktualisiert."
         },
         "collaboration": {
-            "connected": "Blahblah du siehst die Live Version von dieser Seite"
+            "connected": "Du siehst die Live Version von dieser Seite"
         }
     },
     "error": {
@@ -163,7 +163,9 @@
         "accountSettings": "Kontoeinstellungen",
         "administrative": "Administrativ",
         "questionCount": "0 Fragen | 1 Frage | {count} Fragen",
-        "questionCountText": "Keine Frage | Eine Frage | {count} Fragen"
+        "questionCountText": "Keine Frage | Eine Frage | {count} Fragen",
+        "reloadPage": "Seite neu laden",
+        "back": "Zurück"
     },
     "register": {
         "title": "Registrieren",
@@ -176,6 +178,7 @@
     "url": {
         "termsOfUse": "AGB",
         "legalNotice": "Impressum",
+        "user": "Nutzer",
         "users": "Nutzer",
         "prices": "Preise"
     },
@@ -221,7 +224,7 @@
     "userDropdown": {
         "activitySection": {
             "title": "Deine Lernpunkte",
-            "text": "Mit {points} {learningPoints}{breakpoint} bist du in {level}.",
+            "text": "Mit {learningPoints},{breakpoint} bist du in {level}.",
             "learningPoints": "{count} Lernpunkten",
             "level": "Level {count}",
             "nextLevelText": "Noch {pointsToNextLevel} Punkte{breakpoint} bis Level {nextLevel}"
@@ -551,6 +554,13 @@
                     "noFlashcards": "Oops! Du hast keine Karteikarten."
                 }
             }
+        },
+        "relationEdit": {
+            "button": {
+                "createPage": "Seite erstellen",
+                "movePage": "Seite verschieben",
+                "linkPage": "Seite verknüpfen"
+            }
         }
     },
     "knowledgeStatus": {
@@ -674,6 +684,12 @@
             "count": {
                 "question": "Frage",
                 "questions": "Fragen"
+            },
+            "filterAlert": {
+                "active": "Der Fragenfilter ist aktiv.",
+                "notShown": "Die Frage wird dir nicht angezeigt.",
+                "resetToShow": "Setze den Filter zurück, um alle Fragen anzuzeigen.",
+                "resetButton": "Filter zurücksetzen"
             }
         },
         "deleteModal": {
@@ -878,5 +894,39 @@
             "wishknowledge": "Wunschwissen",
             "settings": "Einstellungen"
         }
+    },
+    "usersOverview": {
+        "title": "Alle Nutzer",
+        "search": {
+            "noResults": "Kein Nutzer mit dem Namen \"{term}\"",
+            "results": "Ergebnisse für \"{term}\" ({count})",
+            "allUsers": "Alle Nutzer",
+            "placeholder": "Suche",
+            "noUserWithName": "Leider gibt es keinen Nutzer mit \"{term}\"",
+            "limitedResults": "Wir zeigen nur die ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche"
+        },
+        "sort": {
+            "label": "Sortieren nach:",
+            "options": {
+                "rank": "Rang",
+                "wishknowledge": "Wunschwissen",
+                "notSelected": "Nicht ausgewählt"
+            }
+        },
+        "meta": {
+            "description": "List of all users",
+            "title": "Users"
+        },
+        "card": {
+            "reputation": "Reputation: {points} (Rang {rank})",
+            "created": "Erstellt: {questions} Fragen / {pages} Seiten",
+            "wishknowledge": "Wunschwissen: {questions} Fragen / {pages} Seiten",
+            "privateWishknowledge": "{name}s Wunschwissen ist privat",
+            "toWiki": "Zu {name}s Wiki"
+        }
+    },
+    "deletePageStore": {
+        "confirm": "verstanden",
+        "cantDeleteInfo": "Die Seite: \"{name}\" kann nicht gelöscht werden"
     }
 }

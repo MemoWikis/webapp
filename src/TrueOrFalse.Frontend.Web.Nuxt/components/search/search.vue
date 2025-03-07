@@ -23,13 +23,21 @@ const props = withDefaults(defineProps<Props>(), {
     distance: 6
 })
 
-const { t } = useI18n()
-const placeHolderText = ref(t('label.search'))
+const { t, locale } = useI18n()
+const placeHolderText = ref()
 
-onBeforeMount(() => {
+const setPlaceholderText = () => {
     if (props.placeholderLabel)
         placeHolderText.value = props.placeholderLabel
     else placeHolderText.value = t('label.search')
+}
+
+onBeforeMount(() => {
+    setPlaceholderText()
+})
+
+watch(locale, () => {
+    setPlaceholderText()
 })
 
 const emit = defineEmits(['selectItem', 'navigateToUrl'])

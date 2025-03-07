@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { useAlertStore, messages, AlertType } from '~~/components/alert/alertStore'
+import { useAlertStore, AlertType } from '~~/components/alert/alertStore'
 import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { useDeleteQuestionStore } from './deleteQuestionStore'
 import { usePageStore } from '~/components/page/pageStore'
+
+const { t } = useI18n()
 
 const showDeleteInfo = ref(false)
 
@@ -40,9 +42,9 @@ async function getDeleteDetails(id: number) {
         name.value = result.questionTitle
         if (result.canNotBeDeleted) {
             if (result.wuwiCount > 0)
-                errorMsg.value = messages.error.question.isInWuwi(result.wuwiCount)
+                errorMsg.value = t('error.question.isInWuwi', result.wuwiCount)
             else
-                errorMsg.value = messages.error.question.rights
+                errorMsg.value = t('error.question.rights')
             showErrorMsg.value = true
         } else {
             showDeleteInfo.value = true
@@ -83,13 +85,13 @@ async function deleteQuestion() {
         if (result.reloadAnswerBody)
             learningSessionStore.changeActiveQuestion(result.sessionIndex)
         pageStore.questionCount--
-        alertStore.openAlert(AlertType.Success, { text: messages.success.question.delete })
+        alertStore.openAlert(AlertType.Success, { text: t('success.question.delete') })
         deleteQuestionStore.showModal = false
     } else {
         deletionInProgress.value = false
         showDeleteBtn.value = false
         showErrorMsg.value = true
-        errorMsg.value = messages.error.question.errorOnDelete
+        errorMsg.value = t('error.question.errorOnDelete')
     }
 }
 
@@ -99,7 +101,6 @@ watch(() => deleteQuestionStore.showModal, (val) => {
     }
 })
 
-const { t } = useI18n()
 </script>
 
 <template>

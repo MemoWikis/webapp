@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia'
-import { UserType } from './userTypeEnum'
-import { useLoadingStore } from '../loading/loadingStore'
-import { Page } from '../page/pageStore'
-import { useActivityPointsStore } from '../activityPoints/activityPointsStore'
-import * as Subscription from '~~/components/user/membership/subscription'
-import { AlertType, messages, useAlertStore } from '../alert/alertStore'
+import { defineStore } from "pinia"
+import { UserType } from "./userTypeEnum"
+import { useLoadingStore } from "../loading/loadingStore"
+import { Page } from "../page/pageStore"
+import { useActivityPointsStore } from "../activityPoints/activityPointsStore"
+import * as Subscription from "~~/components/user/membership/subscription"
+import { AlertType, useAlertStore } from "../alert/alertStore"
 
 export interface CurrentUser {
     isLoggedIn: boolean
@@ -38,10 +38,10 @@ export interface CurrentUser {
 export enum FontSize {
     Small = 0,
     Medium = 1,
-    Large = 2
+    Large = 2,
 }
 
-export const useUserStore = defineStore('userStore', {
+export const useUserStore = defineStore("userStore", {
     state: () => {
         return {
             isLoggedIn: false,
@@ -49,12 +49,12 @@ export const useUserStore = defineStore('userStore', {
             type: UserType.Anonymous,
             showLoginModal: false,
             isAdmin: false,
-            name: '',
+            name: "",
             personalWiki: null as Page | null,
-            imgUrl: '',
+            imgUrl: "",
             reputation: 0,
             reputationPos: 0,
-            email: '',
+            email: "",
             unreadMessagesCount: 0,
             subscriptionType: null as Subscription.Type | null,
             hasStripeCustomerId: false,
@@ -65,7 +65,7 @@ export const useUserStore = defineStore('userStore', {
             showBanner: false,
             gridInfoShown: false,
             collaborationToken: undefined as string | undefined,
-            fontSize: FontSize.Medium
+            fontSize: FontSize.Medium,
         }
     },
     actions: {
@@ -79,13 +79,24 @@ export const useUserStore = defineStore('userStore', {
             this.reputation = currentUser.reputation
             this.reputationPos = currentUser.reputationPos
             this.personalWiki = currentUser.personalWiki
-            this.email = currentUser.email ? currentUser.email : ''
-            this.unreadMessagesCount = currentUser.unreadMessagesCount ? currentUser.unreadMessagesCount : 0
-            this.subscriptionType = currentUser.subscriptionType != null ? currentUser.subscriptionType : null
+            this.email = currentUser.email ? currentUser.email : ""
+            this.unreadMessagesCount = currentUser.unreadMessagesCount
+                ? currentUser.unreadMessagesCount
+                : 0
+            this.subscriptionType =
+                currentUser.subscriptionType != null
+                    ? currentUser.subscriptionType
+                    : null
             this.hasStripeCustomerId = currentUser.hasStripeCustomerId
-            this.EndDate = currentUser.endDate != null ? new Date(currentUser.endDate) : null
+            this.EndDate =
+                currentUser.endDate != null
+                    ? new Date(currentUser.endDate)
+                    : null
             this.isSubscriptionCanceled = currentUser.isSubscriptionCanceled
-            this.subscriptionStartDate = currentUser.subscriptionStartDate != null ? new Date(currentUser.subscriptionStartDate) : null
+            this.subscriptionStartDate =
+                currentUser.subscriptionStartDate != null
+                    ? new Date(currentUser.subscriptionStartDate)
+                    : null
             const activityPointsStore = useActivityPointsStore()
             activityPointsStore.setData(currentUser.activityPoints)
             this.isEmailConfirmed = currentUser.isEmailConfirmed
@@ -93,34 +104,51 @@ export const useUserStore = defineStore('userStore', {
             return
         },
         async login(loginData: {
-            EmailAddress: string,
-            Password: string,
+            EmailAddress: string
+            Password: string
             PersistentLogin: boolean
         }) {
-            const result = await $api<FetchResult<CurrentUser>>('/apiVue/UserStore/Login', { method: 'POST', body: loginData, mode: 'cors', credentials: 'include' })
+            const result = await $api<FetchResult<CurrentUser>>(
+                "/apiVue/UserStore/Login",
+                {
+                    method: "POST",
+                    body: loginData,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
             if (!!result && result.success) {
                 this.showLoginModal = false
                 this.initUser(result.data)
                 return { success: true }
-            } else  {
-                const { t } = useI18n()
-                return { success: false, msg: t(result.messageKey) }
+            } else {
+                const nuxtApp = useNuxtApp()
+                const { $i18n } = nuxtApp
+
+                return { success: false, msg: $i18n.t(result.messageKey) }
             }
         },
         async register(registerData: {
-            Name: string,
-            Email: string,
-            Password: string }) {
-
-            const result = await $api<FetchResult<CurrentUser>>('/apiVue/UserStore/Register', { method: 'POST', body: registerData, mode: 'cors', credentials: 'include' })
+            Name: string
+            Email: string
+            Password: string
+        }) {
+            const result = await $api<FetchResult<CurrentUser>>(
+                "/apiVue/UserStore/Register",
+                {
+                    method: "POST",
+                    body: registerData,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
 
             if (!!result && result.success) {
                 this.isLoggedIn = true
                 this.initUser(result.data)
                 await refreshNuxtData()
-                return 'success'
+                return "success"
             } else if (!!result && !result.success) {
-                
                 return result.messageKey
             }
         },
@@ -132,16 +160,26 @@ export const useUserStore = defineStore('userStore', {
 
             loadingStore.startLoading()
 
-            const result = await $api<FetchResult<any>>('/apiVue/UserStore/Logout', {
-                method: 'POST', mode: 'cors', credentials: 'include'
-            })
+            const result = await $api<FetchResult<any>>(
+                "/apiVue/UserStore/Logout",
+                {
+                    method: "POST",
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
             loadingStore.stopLoading()
 
             if (result?.success) {
                 return true
             } else if (result?.success == false) {
                 const alertStore = useAlertStore()
-                alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey() })
+                const nuxtApp = useNuxtApp()
+                const { $i18n } = nuxtApp
+
+                alertStore.openAlert(AlertType.Error, {
+                    text: $i18n.t(result.messageKey),
+                })
                 return false
             }
             return false
@@ -149,37 +187,72 @@ export const useUserStore = defineStore('userStore', {
         async resetPassword(email: string): Promise<FetchResult<void>> {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
-            const result = await $api<FetchResult<void>>('/apiVue/UserStore/ResetPassword', {
-                mode: 'cors',
-                method: 'POST',
-                body: { email: email },
-                credentials: 'include',
-                onResponseError(context) {
-                    $logger.error(`resetpassword: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-                    alertStore.openAlert(AlertType.Error, messages.errror.default)
+            const result = await $api<FetchResult<void>>(
+                "/apiVue/UserStore/ResetPassword",
+                {
+                    mode: "cors",
+                    method: "POST",
+                    body: { email: email },
+                    credentials: "include",
+                    onResponseError(context) {
+                        $logger.error(
+                            `resetpassword: ${context.response?.statusText}`,
+                            [
+                                {
+                                    response: context.response,
+                                    host: context.request,
+                                },
+                            ]
+                        )
+                        const nuxtApp = useNuxtApp()
+                        const { $i18n } = nuxtApp
+
+                        alertStore.openAlert(AlertType.Error, {
+                            text: $i18n.t("error.default"),
+                        })
+                    },
                 }
-            })
+            )
             return result
         },
         async getUnreadMessagesCount() {
-            this.unreadMessagesCount = await $api<number>('/apiVue/UserStore/GetUnreadMessagesCount', {
-                method: 'GET',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            this.unreadMessagesCount = await $api<number>(
+                "/apiVue/UserStore/GetUnreadMessagesCount",
+                {
+                    method: "GET",
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
         },
         async requestVerificationMail() {
             const { $logger } = useNuxtApp()
             const alertStore = useAlertStore()
-            const result = await $api<FetchResult<void>>('/apiVue/UserStore/RequestVerificationMail', {
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'include',
-                onResponseError(context) {
-                    $logger.error(`requestVerificationMail: ${context.response?.statusText}`, [{ response: context.response, host: context.request }])
-                    alertStore.openAlert(AlertType.Error, messages.errror.default)
+            const result = await $api<FetchResult<void>>(
+                "/apiVue/UserStore/RequestVerificationMail",
+                {
+                    method: "POST",
+                    mode: "cors",
+                    credentials: "include",
+                    onResponseError(context) {
+                        $logger.error(
+                            `requestVerificationMail: ${context.response?.statusText}`,
+                            [
+                                {
+                                    response: context.response,
+                                    host: context.request,
+                                },
+                            ]
+                        )
+                        const nuxtApp = useNuxtApp()
+                        const { $i18n } = nuxtApp
+
+                        alertStore.openAlert(AlertType.Error, {
+                            text: $i18n.t("error.default"),
+                        })
+                    },
                 }
-            })
+            )
             return result
         },
         reset() {
@@ -195,6 +268,6 @@ export const useUserStore = defineStore('userStore', {
         },
         deleteUser() {
             this.$reset()
-        }
-    }
+        },
+    },
 })

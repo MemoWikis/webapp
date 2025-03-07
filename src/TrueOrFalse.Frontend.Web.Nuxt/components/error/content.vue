@@ -2,7 +2,7 @@
 import { Site } from '~/components/shared/siteEnum'
 import { ErrorCode } from '~~/components/error/errorCodeEnum'
 import type { NuxtError } from '#app'
-import { messages } from '../alert/messages'
+'../alert/messages'
 
 const props = defineProps({
     error: Object as () => NuxtError,

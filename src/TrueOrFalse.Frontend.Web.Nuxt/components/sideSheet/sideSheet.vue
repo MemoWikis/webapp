@@ -6,7 +6,7 @@ import { useSideSheetStore } from './sideSheetStore'
 import { useUserStore } from '../user/userStore'
 import { useDeletePageStore } from '../page/delete/deletePageStore'
 import { useConvertStore } from '../page/convert/convertStore'
-import { messages } from '../alert/messages'
+'../alert/messages'
 
 interface Props {
     footerPages: FooterPages
@@ -18,6 +18,7 @@ const sideSheetStore = useSideSheetStore()
 const userStore = useUserStore()
 const deletePageStore = useDeletePageStore()
 const convertStore = useConvertStore()
+const { t } = useI18n()
 
 const snackbar = useSnackbar()
 
@@ -182,7 +183,7 @@ const addToFavorites = async (name: string, id: number) => {
         sideSheetStore.addToFavoritePages(name, id)
     } else if (result.messageKey) {
         snackbar.add({
-            message: messages.getByCompositeKey(result.messageKey),
+            message: t(result.messageKey),
             type: 'error'
         })
     }
@@ -208,7 +209,7 @@ const removeFromFavorites = async (id: number) => {
         })
     } else if (result.messageKey) {
         snackbar.add({
-            message: messages.getByCompositeKey(result.messageKey),
+            message: t(result.messageKey),
             type: 'error'
         })
     }
@@ -272,7 +273,6 @@ onMounted(() => {
     }
 })
 
-const { t } = useI18n()
 </script>
 <template>
     <div v-if="windowWidth > 0" id="SideSheet" :class="{ 'collapsed': collapsed, 'hide': hidden, 'not-logged-in': !userStore.isLoggedIn }" @mouseover="handleMouseOver" @mouseleave="handleMouseLeave"

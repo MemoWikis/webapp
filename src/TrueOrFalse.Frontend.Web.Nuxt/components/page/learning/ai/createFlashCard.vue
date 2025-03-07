@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { messages } from '~/components/alert/messages'
+
 import { GeneratedFlashCard, usePageStore } from '../../pageStore'
 import { useLearningSessionStore } from '~/components/page/learning/learningSessionStore'
 import { useLearningSessionConfigurationStore } from '~/components/page/learning/learningSessionConfigurationStore'
@@ -47,7 +47,7 @@ const acceptFlashCards = async () => {
     } else if (result.messageKey) {
         const data: SnackbarData = {
             type: 'error',
-            text: messages.getByCompositeKey(result.messageKey),
+            text: { message: t(result.messageKey) },
             dismissible: true
         }
         snackbarStore.showSnackbar(data)
@@ -63,7 +63,7 @@ const handleLearningSession = (startIndex: number, lastIndex: number) => {
 
     const data: SnackbarData = {
         type: 'success',
-        text: messages.success.question.flashcardsAdded(lastIndex - startIndex + 1),
+        text: { message: t('success.question.flashcardsAdded', lastIndex - startIndex + 1) },
         dismissible: true
     }
     snackbarStore.showSnackbar(data)
@@ -79,12 +79,12 @@ pageStore.$onAction(({ name, after }) => {
                 show.value = true
                 flashcards.value = result.flashcards
                 if (result.messageKey) {
-                    message.value = messages.getByCompositeKey(result.messageKey)
+                    message.value = t(result.messageKey)
                 }
             } else if (result.messageKey) {
                 const data: SnackbarData = {
                     type: 'error',
-                    text: messages.getByCompositeKey(result.messageKey),
+                    text: { message: t(result.messageKey) },
                     dismissible: true
                 }
                 snackbarStore.showSnackbar(data)
@@ -96,12 +96,12 @@ pageStore.$onAction(({ name, after }) => {
             if (result.flashcards.length > 0) {
                 flashcards.value = result.flashcards
                 if (result.messageKey) {
-                    message.value = messages.getByCompositeKey(result.messageKey)
+                    message.value = t(result.messageKey)
                 }
             } else if (result.messageKey) {
                 const data: SnackbarData = {
                     type: 'error',
-                    text: messages.getByCompositeKey(result.messageKey),
+                    text: { message: t(result.messageKey) },
                     dismissible: true
                 }
                 snackbarStore.showSnackbar(data)

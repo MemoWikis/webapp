@@ -13,12 +13,14 @@ enum LifecycleHooks {
     RENDER_TRIGGERED = <any>"rtg",
     RENDER_TRACKED = <any>"rtc",
     ERROR_CAPTURED = <any>"ec",
-    SERVER_PREFETCH = <any>"sp"
+    SERVER_PREFETCH = <any>"sp",
 }
 
 function getKeyFromValue(value: string): string | undefined {
-    const keys = Object.keys(LifecycleHooks).filter(k => LifecycleHooks[k as any] === value);
-    return keys.length > 0 ? keys[0] : undefined;
+    const keys = Object.keys(LifecycleHooks).filter(
+        (k) => LifecycleHooks[k as any] === value
+    )
+    return keys.length > 0 ? keys[0] : undefined
 }
 
 export default defineNuxtPlugin((nuxtApp) => {
@@ -29,28 +31,41 @@ export default defineNuxtPlugin((nuxtApp) => {
             userAgent: navigator ? navigator.userAgent : "no navigator",
             url: window ? window.location.href : "no window",
         }
-        
-        if (error && error instanceof Error) {
+        const routePath = (context as any)?.$route?.path
 
+        if (error && error instanceof Error) {
             const additionalData = {
                 name: error.name ?? "unknown name",
                 message: error.message ?? "unknown message",
-                stack: error.stack ?? "no stack"
+                stack: error.stack ?? "no stack",
             }
-            const errorObject = { ...baseErrorObject, ...additionalData };
-            let logMethod: 'info' | 'warn' | 'error' = 'error';
+            const errorObject = { ...baseErrorObject, ...additionalData }
+            let logMethod: "info" | "warn" | "error" = "error"
 
             if (
                 error.name === "TypeError" &&
                 error.message.includes("Cannot read properties of undefined")
             ) {
-                logMethod = 'warn';
-            } 
+                logMethod = "warn"
+            }
 
-            logger[logMethod](`NUXT ERROR`, [{ error: errorObject, route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
+            logger[logMethod](`NUXT ERROR`, [
+                {
+                    error: errorObject,
+                    route: routePath,
+                    file: context?.$options.__file,
+                    lifeCycleHook: getKeyFromValue(info),
+                },
+            ])
         } else {
-            logger.error(`NUXT ERROR`, [{ error: 'An unknown error occured', route: context?.$route.path, file: context?.$options.__file, lifeCycleHook: getKeyFromValue(info) }])
-
+            logger.error(`NUXT ERROR`, [
+                {
+                    error: "An unknown error occured",
+                    route: routePath,
+                    file: context?.$options.__file,
+                    lifeCycleHook: getKeyFromValue(info),
+                },
+            ])
         }
     }
 })

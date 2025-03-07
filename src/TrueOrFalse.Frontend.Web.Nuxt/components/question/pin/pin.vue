@@ -2,10 +2,12 @@
 import { usePinStore, PinState } from './pinStore'
 import { useUserStore } from '~~/components/user/userStore'
 import { PinData } from '~~/components/question/pin/pinStore'
-import { AlertType, messages, useAlertStore } from '~/components/alert/alertStore'
+import { AlertType, useAlertStore } from '~/components/alert/alertStore'
 
 const pinStore = usePinStore()
 const userStore = useUserStore()
+const { t } = useI18n()
+
 interface Props {
     isInWishknowledge: boolean,
     questionId: number,
@@ -46,7 +48,7 @@ onMounted(() => {
             } else {
                 if (isActivePin.value) {
                     const alertStore = useAlertStore()
-                    alertStore.openAlert(AlertType.Error, { text: messages.getByCompositeKey(result.messageKey) })
+                    alertStore.openAlert(AlertType.Error, { text: t(result.messageKey) })
                         ; (function resetToInitialPinState() {
                             pinState.value = props.isInWishknowledge ? PinState.Added : PinState.NotAdded
                         })()

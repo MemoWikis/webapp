@@ -1,15 +1,14 @@
-import { defineStore } from 'pinia'
-import { useLearningSessionConfigurationStore } from './learningSessionConfigurationStore'
-import { AlertType, useAlertStore } from '~~/components/alert/alertStore'
-import { messages } from '~~/components/alert/messages'
-import { QuestionListItem } from './questionListItem'
+import { defineStore } from "pinia"
+import { useLearningSessionConfigurationStore } from "./learningSessionConfigurationStore"
+import { AlertType, useAlertStore } from "~~/components/alert/alertStore"
+import { QuestionListItem } from "./questionListItem"
 
 export enum AnswerState {
     Unanswered = 0,
     False = 1,
     Correct = 2,
     Skipped = 3,
-    ShowedSolutionOnly = 4
+    ShowedSolutionOnly = 4,
 }
 
 export interface Step {
@@ -29,7 +28,7 @@ interface LearningSessionResult {
     messageKey?: string
 }
 
-export const useLearningSessionStore = defineStore('learningSessionStore', {
+export const useLearningSessionStore = defineStore("learningSessionStore", {
     state: () => {
         return {
             isLearningSession: true,
@@ -50,14 +49,17 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         },
         async getLastStepInQuestionList() {
             const result = await $api<{
-                success: boolean,
-                steps: Step[],
-                activeQuestionCount: number,
+                success: boolean
+                steps: Step[]
+                activeQuestionCount: number
                 lastQuestionInList: Step
-            }>(`/apiVue/LearningSessionStore/GetLastStepInQuestionList/${this.lastIndexInQuestionList}`, {
-                mode: 'cors',
-                credentials: 'include'
-            })
+            }>(
+                `/apiVue/LearningSessionStore/GetLastStepInQuestionList/${this.lastIndexInQuestionList}`,
+                {
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
             if (result != null && result.success) {
                 this.steps = result.steps
                 this.activeQuestionCount = result.activeQuestionCount
@@ -66,13 +68,15 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             } else return false
         },
         async loadLearningSession(data: any, url: string) {
-
-            const result = await $api<LearningSessionResult>(`/apiVue/LearningSessionStore/${url}`, {
-                method: 'POST',
-                body: data,
-                mode: 'cors',
-                credentials: 'include'
-            })
+            const result = await $api<LearningSessionResult>(
+                `/apiVue/LearningSessionStore/${url}`,
+                {
+                    method: "POST",
+                    body: data,
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
 
             if (result.success && result.steps.length > 0) {
                 this.steps = result.steps
@@ -85,32 +89,52 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.currentStep = null
                 this.currentIndex = 0
             }
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
 
-            const errorMsg = result.messageKey ? messages.getByCompositeKey(result.messageKey) : null
+            const errorMsg = result.messageKey
+                ? $i18n.t(result.messageKey)
+                : null
             return errorMsg
         },
         async startNewSession() {
-            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
+            const learningSessionConfigurationStore =
+                useLearningSessionConfigurationStore()
+            const config =
+                learningSessionConfigurationStore.buildSessionConfigJson()
 
-            return await this.loadLearningSession(config, 'NewSession')
+            return await this.loadLearningSession(config, "NewSession")
         },
         async startNewSessionWithJumpToQuestion(id: number) {
-            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
-            const config = learningSessionConfigurationStore.buildSessionConfigJson()
+            const learningSessionConfigurationStore =
+                useLearningSessionConfigurationStore()
+            const config =
+                learningSessionConfigurationStore.buildSessionConfigJson()
             learningSessionConfigurationStore.getQuestionCount()
 
-            return await this.loadLearningSession({ config: config, id: id }, 'NewSessionWithJumpToQuestion')
+            return await this.loadLearningSession(
+                { config: config, id: id },
+                "NewSessionWithJumpToQuestion"
+            )
         },
         handleQuestionNotInSessionAlert(id: number, msg: string) {
             const alertStore = useAlertStore()
-            alertStore.openAlert(AlertType.Default, { text: msg, customBtnKey: 'reset-learning-session' }, 'Filter zurücksetzen', true)
-            const learningSessionConfigurationStore = useLearningSessionConfigurationStore()
+            alertStore.openAlert(
+                AlertType.Default,
+                { text: msg, customBtnKey: "reset-learning-session" },
+                "Filter zurücksetzen",
+                true
+            )
+            const learningSessionConfigurationStore =
+                useLearningSessionConfigurationStore()
 
             alertStore.$onAction(({ name, after }) => {
-                if (name == 'closeAlert')
+                if (name == "closeAlert")
                     after((result) => {
-                        if (!result.cancelled && result.customKey == 'reset-learning-session') {
+                        if (
+                            !result.cancelled &&
+                            result.customKey == "reset-learning-session"
+                        ) {
                             learningSessionConfigurationStore.resetData()
                             learningSessionConfigurationStore.saveSessionConfig()
                             learningSessionConfigurationStore.getQuestionCount()
@@ -122,19 +146,24 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             })
         },
         async loadSteps() {
-            const result = await $api<Step[]>('/apiVue/LearningSessionStore/LoadSteps/', {
-                mode: 'cors',
-                credentials: 'include'
-            })
-            if (result != null)
-                this.steps = result
+            const result = await $api<Step[]>(
+                "/apiVue/LearningSessionStore/LoadSteps/",
+                {
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
+            if (result != null) this.steps = result
         },
         async changeActiveQuestion(index: number) {
-            const result = await $api<LearningSessionResult>(`/apiVue/LearningSessionStore/LoadSpecificQuestion/${index}`, {
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'include'
-            })
+            const result = await $api<LearningSessionResult>(
+                `/apiVue/LearningSessionStore/LoadSpecificQuestion/${index}`,
+                {
+                    method: "POST",
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
 
             if (result) {
                 this.steps = result.steps
@@ -146,20 +175,21 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
                 this.changeActiveQuestion(this.currentIndex + 1)
         },
         async skipStep() {
-            const result = await $api<Step>(`/apiVue/LearningSessionStore/SkipStep/${this.currentIndex}`,
+            const result = await $api<Step>(
+                `/apiVue/LearningSessionStore/SkipStep/${this.currentIndex}`,
                 {
-                    method: 'POST',
-                    credentials: 'include',
-                    mode: 'cors',
-                })
+                    method: "POST",
+                    credentials: "include",
+                    mode: "cors",
+                }
+            )
             if (result) {
                 this.steps[this.currentIndex].state = AnswerState.Skipped
                 this.setCurrentStep(result)
             }
         },
         markCurrentStep(state: AnswerState) {
-            if (this.currentStep)
-                this.currentStep.state = state
+            if (this.currentStep) this.currentStep.state = state
             this.steps[this.currentIndex].state = state
         },
         markCurrentStepAsCorrect() {
@@ -172,7 +202,7 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
             return index
         },
         addNewQuestionsToList(startIndex: number, endIndex: number) {
-            return {startIndex: startIndex, endIndex: endIndex} 
+            return { startIndex: startIndex, endIndex: endIndex }
         },
         updateQuestionList(question: QuestionListItem) {
             return question
@@ -180,8 +210,8 @@ export const useLearningSessionStore = defineStore('learningSessionStore', {
         knowledgeStatusChanged(id: number) {
             return id
         },
-        reloadAnswerBody(id:number, index: number) {
-            return {id: id, index: index}
-        }
+        reloadAnswerBody(id: number, index: number) {
+            return { id: id, index: index }
+        },
     },
 })

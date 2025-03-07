@@ -5,7 +5,6 @@ import { Tab } from '~~/components/user/tabs/tabsEnum'
 import { useUserStore } from '~~/components/user/userStore'
 import { Content } from '~/components/user/settings/contentEnum'
 import { Site } from '~/components/shared/siteEnum'
-import { messages } from '~/components/alert/messages'
 import { ErrorCode } from '~/components/error/errorCodeEnum'
 
 const route = useRoute()
@@ -85,7 +84,7 @@ const { data: profile, refresh: refreshProfile } = await useFetch<ProfileData>(`
 if (profile.value && profile.value.messageKey && profile.value?.messageKey != "") {
 
     $logger.warn(`User: ${profile.value.messageKey} route ${route.fullPath}`)
-    throw createError({ statusCode: profile.value.errorCode, statusMessage: messages.getByCompositeKey(profile.value.messageKey) })
+    throw createError({ statusCode: profile.value.errorCode, statusMessage: t(profile.value.messageKey) })
 }
 
 const { data: wuwi, refresh: refreshWuwi } = await useLazyFetch<Wuwi>(`/apiVue/User/GetWuwi/${route.params.id ? route.params.id : userStore.id}`, {

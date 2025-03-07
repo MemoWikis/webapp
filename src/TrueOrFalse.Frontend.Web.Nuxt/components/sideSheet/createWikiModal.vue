@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-import { messages } from '../alert/messages'
+'../alert/messages'
 import { useLoadingStore } from '../loading/loadingStore'
 import { useUserStore } from '../user/userStore'
 const userStore = useUserStore()
 const loadingStore = useLoadingStore()
+const { t } = useI18n()
+
 interface Props {
     showModal: boolean
 }
@@ -36,7 +38,7 @@ const validateName = async () => {
     if (result.success)
         return true
     else if (result.success === false) {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         forbiddenWikiName.value = result.data.name
         if (result.data.url)
             existingPageUrl.value = result.data.url
@@ -77,7 +79,7 @@ const createWiki = async () => {
         await nextTick()
         navigateTo(`/${result.data.name}/${result.data.id}`)
     } else if (result.success === false) {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         showErrorMsg.value = true
 
         if (result.data.cantSavePrivateWiki) {
@@ -111,7 +113,7 @@ const emit = defineEmits(['closeWikiModal', 'wikiCreated'])
                 {{ errorMsg }}
             </div>
             <div class="link-to-sub-container" v-if="privatePageLimitReached">
-                <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
+                <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ t('info.joinNow') }}</b></NuxtLink>
             </div>
             <div class="pageIsPrivate" v-else>
                 <p>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { messages } from "~/components/alert/messages"
+;("~/components/alert/messages")
 import {
     useSnackbarStore,
     SnackbarData,
@@ -83,11 +83,13 @@ export const useConvertStore = defineStore("convertStore", () => {
         )
         if (result && result.success) {
             const snackbarStore = useSnackbarStore()
-            const { t } = useI18n()
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
+
             const data: SnackbarData = {
                 type: "success",
                 text: {
-                    message: t("success.page.convertedToPage", {
+                    message: $i18n.t("success.page.convertedToPage", {
                         name: name.value,
                     }),
                 },
@@ -114,11 +116,13 @@ export const useConvertStore = defineStore("convertStore", () => {
         )
         if (result && result.success) {
             const snackbarStore = useSnackbarStore()
-            const { t } = useI18n()
+            const nuxtApp = useNuxtApp()
+            const { $i18n } = nuxtApp
+
             const data: SnackbarData = {
                 type: "success",
                 text: {
-                    message: t("success.page.convertedToWiki", {
+                    message: $i18n.t("success.page.convertedToWiki", {
                         name: name.value,
                     }),
                 },

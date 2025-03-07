@@ -6,12 +6,13 @@ import { useUserStore } from '~~/components/user/userStore'
 import { usePageStore } from '../pageStore'
 import { debounce } from 'underscore'
 import { FullSearch, PageItem, SearchType } from '~~/components/search/searchHelper'
-import { messages } from '~~/components/alert/alertStore'
+'~~/components/alert/alertStore'
 
 const loadingStore = useLoadingStore()
 const userStore = useUserStore()
 const editPageRelationStore = useEditPageRelationStore()
 const pageStore = usePageStore()
+const { t, locale } = useI18n()
 
 const name = ref('')
 const showErrorMsg = ref(false)
@@ -36,7 +37,7 @@ async function validateName() {
     if (result.success)
         return true
     else if (result.success === false) {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         forbbidenPageName.value = result.data.name
         if (result.data.url)
             existingPageUrl.value = result.data.url
@@ -87,7 +88,7 @@ async function addPage() {
             await navigateTo($urlHelper.getPageUrl(result.data.name, result.data.id))
 
     } else if (result.success === false) {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         showErrorMsg.value = true
 
         if (result.data.cantSavePrivatePage) {
@@ -139,7 +140,7 @@ async function movePageToNewParent() {
     loadingStore.startLoading()
 
     if (selectedPageId.value === editPageRelationStore.parentId) {
-        errorMsg.value = messages.error.page.loopLink
+        errorMsg.value = t('error.page.loopLink')
         showErrorMsg.value = true
         loadingStore.stopLoading()
         return
@@ -171,7 +172,7 @@ async function movePageToNewParent() {
 
         loadingStore.stopLoading()
     } else {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         showErrorMsg.value = true
         loadingStore.stopLoading()
     }
@@ -209,14 +210,14 @@ async function addExistingPage() {
     const data = getAddChildPayload()
 
     if (data.childId === data.parentId) {
-        errorMsg.value = messages.error.page.loopLink
+        errorMsg.value = t('error.page.loopLink')
         showErrorMsg.value = true
         loadingStore.stopLoading()
         return
     }
 
     if (data.childId <= 0) {
-        errorMsg.value = messages.error.page.noChildSelected
+        errorMsg.value = t('error.page.noChildSelected')
         showErrorMsg.value = true
         loadingStore.stopLoading()
         return
@@ -238,7 +239,7 @@ async function addExistingPage() {
         editPageRelationStore.addPage(editPageRelationStore.childId)
         loadingStore.stopLoading()
     } else {
-        errorMsg.value = messages.getByCompositeKey(result.messageKey)
+        errorMsg.value = t(result.messageKey)
         showErrorMsg.value = true
         loadingStore.stopLoading()
     }
@@ -293,24 +294,32 @@ editPageRelationStore.$onAction(({ name, after }) => {
     })
 })
 
-const primaryBtnLabel = ref('Seite erstellen')
-watch(() => editPageRelationStore.type, (type) => {
+const primaryBtnLabel = ref(t('page.relationEdit.button.createPage'))
+const setLabel = () => {
+    const type = editPageRelationStore.type
     switch (type) {
         case EditPageRelationType.Create:
-            primaryBtnLabel.value = 'Seite erstellen'
+            primaryBtnLabel.value = t('page.relationEdit.button.createPage')
             break
         case EditPageRelationType.Move:
-            primaryBtnLabel.value = 'Seite verschieben'
+            primaryBtnLabel.value = t('page.relationEdit.button.movePage')
             break
         case EditPageRelationType.AddChild:
         case EditPageRelationType.AddParent:
-            primaryBtnLabel.value = 'Seite verknüpfen'
+            primaryBtnLabel.value = t('page.relationEdit.button.linkPage')
             break
         case EditPageRelationType.AddToPersonalWiki:
-            primaryBtnLabel.value = 'Seite verknüpfen'
+            primaryBtnLabel.value = t('page.relationEdit.button.linkPage')
             editPageRelationStore.initWikiData()
             break
     }
+}
+watch(() => editPageRelationStore.type, () => {
+    setLabel()
+})
+
+watch(locale, () => {
+    setLabel()
 })
 
 function handleMainBtn() {
@@ -336,7 +345,6 @@ watch(() => editPageRelationStore.showModal, (val) => {
         privatePageLimitReached.value = false
     }
 })
-const { t } = useI18n()
 </script>
 
 <template>
@@ -374,7 +382,7 @@ const { t } = useI18n()
                     {{ errorMsg }}
                 </div>
                 <div class="link-to-sub-container" v-if="privatePageLimitReached">
-                    <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ messages.info.joinNow }}</b></NuxtLink>
+                    <NuxtLink to="/Preise" class="btn-link link-to-sub"><b>{{ t('info.joinNow') }}</b></NuxtLink>
                 </div>
                 <div class="pageIsPrivate" v-else>
                     <p>

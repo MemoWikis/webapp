@@ -65,16 +65,13 @@ const { t, setLocale, locale, locales } = useI18n()
                             <br />
                         </div>
 
-                        <div class="language-switcher">
-                            <div v-for="l in locales" style="margin-right:20px;">
-                                <button :key="l.code" @click.prevent.stop="setLocale(l.code)" class="btn btn-link" style="padding: 0px; margin: 0px; font-size: 14px;">
-                                    <b v-if="l.code === locale" style="color: #007bff;">
-                                        {{ l.name }}
-                                    </b>
-                                    <template v-else>
-                                        {{ l.name }}
-                                    </template>
-                                </button>
+                        <div class="footer-group language-selector-container">
+                            <div class="overline-m no-line">
+                                {{ t('label.language') }}
+                            </div>
+                            <div v-for="l in locales" :key="l.code" @click.prevent.stop="setLocale(l.code)" class="language-selector" :class="{ 'active': l.code === locale }">
+                                <CircleFlags :country="l.flag" class="country-flag" />
+                                {{ l.name }}
                             </div>
                         </div>
                     </div>
@@ -209,9 +206,40 @@ const { t, setLocale, locale, locales } = useI18n()
 
     .footer-container {
 
-
         &.window-loading {
             padding-left: 0px;
+        }
+    }
+}
+
+.footer-group {
+    &.language-selector-container {
+        .language-selector {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4rem;
+            background: @memo-grey-lightest;
+
+            .country-flag {
+                height: 2rem;
+                width: 2rem;
+                margin-right: 8px;
+            }
+
+            &:hover {
+                filter: brightness(0.95)
+            }
+
+            &:active {
+                filter: brightness(0.85)
+            }
+
+            &.active {
+                filter: brightness(0.95);
+                font-weight: 600;
+            }
         }
     }
 }
