@@ -66,7 +66,7 @@ export const useUserStore = defineStore("userStore", {
             gridInfoShown: false,
             collaborationToken: undefined as string | undefined,
             fontSize: FontSize.Medium,
-            langauge: "en",
+            langauge: "en" as "de" | "en" | "fr" | "es",
         }
     },
     actions: {
@@ -270,7 +270,7 @@ export const useUserStore = defineStore("userStore", {
         deleteUser() {
             this.$reset()
         },
-        async updateLanguageSetting(language: string) {
+        async updateLanguageSetting(language: "de" | "en" | "fr" | "es") {
             if (this.langauge === language) return
 
             this.langauge = language

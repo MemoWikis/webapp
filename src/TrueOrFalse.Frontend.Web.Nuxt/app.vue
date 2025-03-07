@@ -10,7 +10,7 @@ import { AlertType, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
 
-const { t, locale } = useI18n()
+const { t, locale, setLocale } = useI18n()
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
@@ -155,6 +155,9 @@ async function handleLogin() {
 		await navigateTo($urlHelper.getPageUrl(userStore.personalWiki.name, userStore.personalWiki.id))
 	else
 		await refreshNuxtData()
+
+	if (locale.value != userStore.langauge)
+		setLocale(userStore.langauge)
 }
 
 const { openedModals } = $vfm
