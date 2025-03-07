@@ -66,6 +66,7 @@ export const useUserStore = defineStore("userStore", {
             gridInfoShown: false,
             collaborationToken: undefined as string | undefined,
             fontSize: FontSize.Medium,
+            langauge: "en",
         }
     },
     actions: {
@@ -268,6 +269,23 @@ export const useUserStore = defineStore("userStore", {
         },
         deleteUser() {
             this.$reset()
+        },
+        async updateLanguageSetting(language: string) {
+            if (this.langauge === language) return
+
+            this.langauge = language
+
+            if (!this.isLoggedIn) return
+
+            const result = await $api<FetchResult<void>>(
+                "/apiVue/UserStore/UpdateLanguageSetting",
+                {
+                    method: "POST",
+                    body: { language },
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
         },
     },
 })

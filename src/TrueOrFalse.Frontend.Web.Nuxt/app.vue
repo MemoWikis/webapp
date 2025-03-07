@@ -10,13 +10,12 @@ import { AlertType, useAlertStore } from './components/alert/alertStore'
 import { ErrorCode } from './components/error/errorCodeEnum'
 import { NuxtError } from '#app'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const userStore = useUserStore()
 const config = useRuntimeConfig()
 const loadingStore = useLoadingStore()
 const rootPageChipStore = useRootPageChipStore()
-const alertStore = useAlertStore()
 
 const { $urlHelper, $vfm, $logger } = useNuxtApp()
 
@@ -233,7 +232,9 @@ onMounted(() => {
 	if (window)
 		windowLoaded.value = true
 })
-
+watch(locale, () => {
+	userStore.updateLanguageSetting(locale.value)
+})
 </script>
 
 <template>
