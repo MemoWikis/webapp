@@ -277,15 +277,15 @@ export const useUserStore = defineStore("userStore", {
 
             if (!this.isLoggedIn) return
 
-            // const result = await $api<FetchResult<void>>(
-            //     "/apiVue/UserStore/UpdateLanguageSetting",
-            //     {
-            //         method: "POST",
-            //         body: { language },
-            //         mode: "cors",
-            //         credentials: "include",
-            //     }
-            // )
+            const result = await $api<FetchResult<void>>(
+                "/apiVue/UserStore/UpdateLanguageSetting",
+                {
+                    method: "POST",
+                    body: { language },
+                    mode: "cors",
+                    credentials: "include",
+                }
+            )
         },
     },
 })

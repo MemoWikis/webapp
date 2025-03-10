@@ -47,6 +47,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public List<PageCacheItem?> Favorites => EntityCache.GetPages(FavoriteIds);
     public RecentPages? RecentPages { get; set; }
     public MonthlyTokenUsage? MonthlyTokenUsage { get; set; }
+    public virtual string UiLanguage { get; set; } = "en";
 
     public void Populate(User user)
     {
@@ -77,6 +78,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
         ActivityPoints = user.ActivityPoints;
         Rank = user.ReputationPos;
         DateCreated = user.DateCreated;
+        UiLanguage = user.UiLanguage;
 
         if (!String.IsNullOrEmpty(user.WikiIds))
             WikiIds = user.WikiIds.Split(',').Select(int.Parse).ToList();
@@ -117,6 +119,8 @@ public class UserCacheItem : IUserTinyModel, IPersistable
 
         WikiIds = user.WikiIds;
         FavoriteIds = user.FavoriteIds;
+
+        UiLanguage = user.UiLanguage;
     }
 
     public static UserCacheItem ToCacheUser(User user)

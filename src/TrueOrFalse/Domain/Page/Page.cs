@@ -40,6 +40,7 @@ public class Page : DomainEntity, ICreator
     public virtual bool IsHistoric { get; set; }
     public virtual PageVisibility Visibility { get; set; }
     public virtual bool SkipMigration { get; set; }
+    public virtual string Language { get; set; } = "en";
 
     public Page()
     {

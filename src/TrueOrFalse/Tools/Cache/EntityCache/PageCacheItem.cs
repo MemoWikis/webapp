@@ -59,6 +59,7 @@ public class PageCacheItem : IPersistable
     public virtual int TotalViews { get; set; }
     public virtual List<DailyViews> ViewsOfPast90Days { get; set; }
     public virtual bool IsWiki { get; set; }
+    public virtual string Language { get; set; } = "en";
 
     public virtual List<DailyViews> GetViewsOfPast90Days()
     {
@@ -302,7 +303,8 @@ public class PageCacheItem : IPersistable
             DateCreated = page.DateCreated,
             AuthorIds = page.AuthorIdsInts ?? [creatorId],
             TextIsHidden = page.TextIsHidden,
-            IsWiki = page.IsWiki
+            IsWiki = page.IsWiki,
+            Language = page.Language
         };
 
         if (EntityCache.IsFirstStart)

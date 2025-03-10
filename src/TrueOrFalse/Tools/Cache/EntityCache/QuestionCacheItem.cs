@@ -81,6 +81,8 @@ public class QuestionCacheItem
 
     public virtual DateTime LastPublishDate { get; set; }
 
+    public virtual string Language { get; set; } = "de";
+
     public static string AnswersAsHtml(string answerText, SolutionType solutionType)
     {
         switch (solutionType)

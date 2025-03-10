@@ -30,5 +30,6 @@ public class PageMap : ClassMap<Page>
         Map(x => x.IsWiki);
         Map(x => x.TextIsHidden).CustomType<bool>();
         Map(x => x.AuthorIds);
+        Map(x => x.Language);
     }
 }
