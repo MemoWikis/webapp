@@ -429,32 +429,6 @@
             "userCard": {
                 "by": "by",
                 "collapseExpand": "Collapse/expand"
-            },
-            "relationEdit": {
-                "modal": {
-                    "createPage": "Create new page",
-                    "movePage": "Move page to",
-                    "linkExistingPage": "Link existing page",
-                    "linkParentPage": "Link a new parent page"
-                },
-                "button": {
-                    "createPage": "Create page",
-                    "movePage": "Move page",
-                    "linkPage": "Link page"
-                },
-                "form": {
-                    "namePlaceholder": "Please enter the name of the topic"
-                },
-                "text": {
-                    "pageIsPrivate": "This page is private. You can publish it later in the three-dot menu or directly via the lock icon.",
-                    "whereToAdd": "Where should the page be added?",
-                    "recentlySelectedPages": "Recently selected pages",
-                    "selectOtherPage": "Select another page",
-                    "selected": "Selected",
-                    "searchOnlyInWiki": "Search only in your own wiki",
-                    "question": "Question",
-                    "questions": "Questions"
-                }
             }
         },
         "analytics": {
@@ -556,10 +530,29 @@
             }
         },
         "relationEdit": {
+            "modal": {
+                "createPage": "Create new page",
+                "movePage": "Move page to",
+                "linkExistingPage": "Link existing page",
+                "linkParentPage": "Link a new parent page"
+            },
             "button": {
                 "createPage": "Create page",
                 "movePage": "Move page",
                 "linkPage": "Link page"
+            },
+            "form": {
+                "namePlaceholder": "Please enter the name of the topic"
+            },
+            "text": {
+                "pageIsPrivate": "This page is private. You can publish it later in the three-dot menu or directly via the lock icon.",
+                "whereToAdd": "Where should the page be added?",
+                "recentlySelectedPages": "Recently selected pages",
+                "selectOtherPage": "Select another page",
+                "selected": "Selected",
+                "searchOnlyInWiki": "Search only in your own wiki",
+                "question": "Question",
+                "questions": "Questions"
             }
         }
     },

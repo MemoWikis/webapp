@@ -429,32 +429,6 @@
             "userCard": {
                 "by": "por",
                 "collapseExpand": "Contraer/Expandir"
-            },
-            "relationEdit": {
-                "modal": {
-                    "createPage": "Crear nueva página",
-                    "movePage": "Mover página a",
-                    "linkExistingPage": "Vincular página existente",
-                    "linkParentPage": "Vincular nueva página padre"
-                },
-                "button": {
-                    "createPage": "Crear página",
-                    "movePage": "Mover página",
-                    "linkPage": "Vincular página"
-                },
-                "form": {
-                    "namePlaceholder": "Ingresa el nombre del tema"
-                },
-                "text": {
-                    "pageIsPrivate": "Esta página es privada. Puedes publicarla más tarde en el menú de tres puntos o directamente en el ícono de candado.",
-                    "whereToAdd": "¿Dónde quieres añadir la página?",
-                    "recentlySelectedPages": "Páginas seleccionadas recientemente",
-                    "selectOtherPage": "Seleccionar otra página",
-                    "selected": "Seleccionada",
-                    "searchOnlyInWiki": "Buscar solo en mi wiki",
-                    "question": "Pregunta",
-                    "questions": "Preguntas"
-                }
             }
         },
         "analytics": {
@@ -556,10 +530,29 @@
             }
         },
         "relationEdit": {
+            "modal": {
+                "createPage": "Crear nueva página",
+                "movePage": "Mover página a",
+                "linkExistingPage": "Vincular página existente",
+                "linkParentPage": "Vincular nueva página padre"
+            },
             "button": {
                 "createPage": "Crear página",
                 "movePage": "Mover página",
                 "linkPage": "Vincular página"
+            },
+            "form": {
+                "namePlaceholder": "Ingresa el nombre del tema"
+            },
+            "text": {
+                "pageIsPrivate": "Esta página es privada. Puedes publicarla más tarde en el menú de tres puntos o directamente en el ícono de candado.",
+                "whereToAdd": "¿Dónde quieres añadir la página?",
+                "recentlySelectedPages": "Páginas seleccionadas recientemente",
+                "selectOtherPage": "Seleccionar otra página",
+                "selected": "Seleccionada",
+                "searchOnlyInWiki": "Buscar solo en mi wiki",
+                "question": "Pregunta",
+                "questions": "Preguntas"
             }
         }
     },

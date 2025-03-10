@@ -429,32 +429,6 @@
             "userCard": {
                 "by": "par",
                 "collapseExpand": "Réduire/Agrandir"
-            },
-            "relationEdit": {
-                "modal": {
-                    "createPage": "Créer une nouvelle page",
-                    "movePage": "Déplacer la page vers",
-                    "linkExistingPage": "Lier une page existante",
-                    "linkParentPage": "Lier une nouvelle page parente"
-                },
-                "button": {
-                    "createPage": "Créer une page",
-                    "movePage": "Déplacer la page",
-                    "linkPage": "Lier la page"
-                },
-                "form": {
-                    "namePlaceholder": "Entre le nom du thème"
-                },
-                "text": {
-                    "pageIsPrivate": "Cette page est privée. Tu pourras la publier plus tard via le menu ou l’icône de verrou.",
-                    "whereToAdd": "Où veux-tu ajouter la page ?",
-                    "recentlySelectedPages": "Pages sélectionnées récemment",
-                    "selectOtherPage": "Sélectionner une autre page",
-                    "selected": "Sélectionnée",
-                    "searchOnlyInWiki": "Rechercher seulement dans mon wiki",
-                    "question": "Question",
-                    "questions": "Questions"
-                }
             }
         },
         "analytics": {
@@ -556,10 +530,29 @@
             }
         },
         "relationEdit": {
+            "modal": {
+                "createPage": "Créer une nouvelle page",
+                "movePage": "Déplacer la page vers",
+                "linkExistingPage": "Lier une page existante",
+                "linkParentPage": "Lier une nouvelle page parente"
+            },
             "button": {
                 "createPage": "Créer une page",
                 "movePage": "Déplacer la page",
                 "linkPage": "Lier la page"
+            },
+            "form": {
+                "namePlaceholder": "Entre le nom du thème"
+            },
+            "text": {
+                "pageIsPrivate": "Cette page est privée. Tu pourras la publier plus tard via le menu ou l’icône de verrou.",
+                "whereToAdd": "Où veux-tu ajouter la page ?",
+                "recentlySelectedPages": "Pages sélectionnées récemment",
+                "selectOtherPage": "Sélectionner une autre page",
+                "selected": "Sélectionnée",
+                "searchOnlyInWiki": "Rechercher seulement dans mon wiki",
+                "question": "Question",
+                "questions": "Questions"
             }
         }
     },

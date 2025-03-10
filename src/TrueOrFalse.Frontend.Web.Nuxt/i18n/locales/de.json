@@ -429,32 +429,6 @@
             "userCard": {
                 "by": "von",
                 "collapseExpand": "Ein-/ausklappen"
-            },
-            "relationEdit": {
-                "modal": {
-                    "createPage": "Neue Seite erstellen",
-                    "movePage": "Seite verschieben nach",
-                    "linkExistingPage": "Bestehende Seite verknüpfen",
-                    "linkParentPage": "Neue Übergeordnete Seite verknüpfen"
-                },
-                "button": {
-                    "createPage": "Seite erstellen",
-                    "movePage": "Seite verschieben",
-                    "linkPage": "Seite verknüpfen"
-                },
-                "form": {
-                    "namePlaceholder": "Bitte gib den Namen des Themas ein"
-                },
-                "text": {
-                    "pageIsPrivate": "Diese Seite ist privat. Du kannst sie später im Dreipunkt-Menü oder direkt über das Schloss-Icon veröffentlichen.",
-                    "whereToAdd": "Wo soll die Seite hinzugefügt werden?",
-                    "recentlySelectedPages": "Zuletzt ausgewählte Seiten",
-                    "selectOtherPage": "Andere Seite auswählen",
-                    "selected": "Ausgewählt",
-                    "searchOnlyInWiki": "Nur im eigenen Wiki suchen",
-                    "question": "Frage",
-                    "questions": "Fragen"
-                }
             }
         },
         "analytics": {
@@ -556,10 +530,29 @@
             }
         },
         "relationEdit": {
+            "modal": {
+                "createPage": "Neue Seite erstellen",
+                "movePage": "Seite verschieben nach",
+                "linkExistingPage": "Bestehende Seite verknüpfen",
+                "linkParentPage": "Neue Übergeordnete Seite verknüpfen"
+            },
             "button": {
                 "createPage": "Seite erstellen",
                 "movePage": "Seite verschieben",
                 "linkPage": "Seite verknüpfen"
+            },
+            "form": {
+                "namePlaceholder": "Bitte gib den Namen des Themas ein"
+            },
+            "text": {
+                "pageIsPrivate": "Diese Seite ist privat. Du kannst sie später im Dreipunkt-Menü oder direkt über das Schloss-Icon veröffentlichen.",
+                "whereToAdd": "Wo soll die Seite hinzugefügt werden?",
+                "recentlySelectedPages": "Zuletzt ausgewählte Seiten",
+                "selectOtherPage": "Andere Seite auswählen",
+                "selected": "Ausgewählt",
+                "searchOnlyInWiki": "Nur im eigenen Wiki suchen",
+                "question": "Frage",
+                "questions": "Fragen"
             }
         }
     },
