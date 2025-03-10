@@ -28,6 +28,7 @@ public class MeiliSearchReIndexPages : IRegisterAsInstancePerLifetime
             DateCreated = c.DateCreated,
             Description = c.Description,
             Content = c.Content,
+            Language = c.Language
         });
 
         var index = _client.Index(MeiliSearchConstants.Pages);

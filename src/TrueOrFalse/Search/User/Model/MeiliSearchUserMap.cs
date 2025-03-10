@@ -8,5 +8,6 @@ namespace TrueOrFalse.Search
         public int WishCountQuestions { get; set; }
         public int Rank { get; set; }
         public int Id { get; set; }
+        public string[]? ContentLanguages { get; set; }
     }
 }
