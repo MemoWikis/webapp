@@ -165,7 +165,8 @@
         "questionCount": "0 Fragen | 1 Frage | {count} Fragen",
         "questionCountText": "Keine Frage | Eine Frage | {count} Fragen",
         "reloadPage": "Seite neu laden",
-        "back": "Zurück"
+        "back": "Zurück",
+        "continueLearning": "Weiterlernen"
     },
     "register": {
         "title": "Registrieren",
@@ -763,6 +764,14 @@
         }
     },
     "questionLandingPage": {
+        "title": "Frageseite zu '{title}'",
+        "rightAnswer": "Richtige Antwort:",
+        "answerAdditions": "Ergänzungen zur Antwort:",
+        "continueLearning": "Weiterlernen",
+        "tooltip": {
+            "learnAllQuestions": "Lerne alle Fragen auf dieser Seite",
+            "learnRandomQuestions": "Lerne 5 zufällig ausgewählte Fragen von {pageName}"
+        },
         "pages": "Seiten",
         "probability": {
             "title": "Antwortwahrscheinlichkeit",

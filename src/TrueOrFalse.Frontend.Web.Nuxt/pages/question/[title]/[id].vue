@@ -26,9 +26,10 @@ const headers = useRequestHeaders(['cookie']) as HeadersInit
 interface Question {
 	answerBodyModel?: AnswerBodyModel
 	solutionData?: SolutionData
-	answerQuestionDetailsModel?: AnswerQuestionDetailsResult,
+	answerQuestionDetailsModel?: AnswerQuestionDetailsResult
 	messageKey?: string
 	errorCode?: ErrorCode
+	language: "de" | "en" | "fr" | "es"
 }
 
 const { data: question } = await useFetch<Question>(`/apiVue/QuestionLandingPage/GetQuestionPage/${route.params.id}`,
@@ -88,6 +89,9 @@ onBeforeMount(() => {
 })
 const { $urlHelper } = useNuxtApp()
 useHead(() => ({
+	htmlAttrs: {
+		lang: question.value?.language ?? 'en'
+	},
 	link: [
 		{
 			rel: 'canonical',
@@ -116,12 +120,12 @@ useHead(() => ({
 			content: question.value?.answerBodyModel?.imgUrl
 		}
 	]
-}))
+}))	
 </script>
 
 <template>
 	<title v-if="question && question?.answerBodyModel != null">
-		Frageseite zu '{{ question.answerBodyModel.title }}'
+		{{ t('questionLandingPage.title', { title: question.answerBodyModel.title }) }}
 	</title>
 	<div class="container page-container">
 		<div class="question-page-container row main-page">
@@ -186,8 +190,8 @@ useHead(() => ({
 															:to="$urlHelper.getPageUrlWithQuestionId(question.answerBodyModel.primaryPageName, question.answerBodyModel.primaryPageId, question.answerBodyModel.id)"
 															id="btnStartTestSession"
 															class="btn btn-primary show-tooltip" rel="nofollow"
-															v-tooltip="userStore.isLoggedIn ? 'Lerne alle Fragen auf dieser Seite' : 'Lerne 5 zufällig ausgewählte Fragen von ' + question.answerBodyModel.primaryPageName">
-															<b>Weiterlernen</b>
+															v-tooltip="userStore.isLoggedIn ? t('questionLandingPage.tooltip.learnAllQuestions') : t('questionLandingPage.tooltip.learnRandomQuestions', { pageName: question.answerBodyModel.primaryPageName })">
+															<b>{{ t('questionLandingPage.continueLearning') }}</b>
 														</NuxtLink>
 													</div>
 												</div>
@@ -198,7 +202,7 @@ useHead(() => ({
 
 														<div id="Solution">
 															<div class="solution-label">
-																Richtige Antwort:
+																{{ t('questionLandingPage.rightAnswer') }}
 															</div>
 
 															<div class="Content body-m" id="SolutionContent"
@@ -212,7 +216,7 @@ useHead(() => ({
 														v-if="question.solutionData != null && question.solutionData.answerDescription.trim().length > 0">
 														<div id="Description">
 															<div class="solution-label">
-																Ergänzungen zur Antwort:
+																{{ t('questionLandingPage.answerAdditions') }}
 															</div>
 
 															<div class="Content body-m" id="ExtendedSolutionContent"

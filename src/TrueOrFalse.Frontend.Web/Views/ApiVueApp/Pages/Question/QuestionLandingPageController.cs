@@ -38,7 +38,8 @@ public class QuestionLandingPageController(
         AnswerBodyModel AnswerBodyModel,
         SolutionData SolutionData,
         AnswerQuestionDetailsResult? AnswerQuestionDetailsModel,
-        string MessageKey);
+        string MessageKey,
+        string Language);
 
     public readonly record struct AnswerBodyModel(
         int Id,
@@ -103,7 +104,9 @@ public class QuestionLandingPageController(
             };
         }
 
-        var primaryPage = question.Pages.LastOrDefault();
+        var pages = question.Pages;
+        CheckParentLanguageConsistency(pages, question.Id);
+        var primaryPage = pages.LastOrDefault();
         var solution = GetQuestionSolution.Run(question);
         var title = Regex.Replace(question.Text, "<.*?>", string.Empty);
         EscapeReferencesText(question.References);
@@ -157,8 +160,23 @@ public class QuestionLandingPageController(
             },
             AnswerQuestionDetailsModel =
                 GetData(id),
-            MessageKey = ""
+            MessageKey = "",
+            Language = primaryPage?.Language
         };
+    }
+
+    private void CheckParentLanguageConsistency(IList<PageCacheItem> pages, int questionId)
+    {
+        var parentLangs = pages
+            .Where(p => p != null)
+            .Select(p => p.Language)
+            .Distinct()
+            .ToList();
+
+        if (parentLangs.Count > 1)
+        {
+            Logg.r.Error($"DistinctParentLanguage: QuestionId = {questionId} has multiple parents with different languages: {string.Join(", ", parentLangs)}");
+        }
     }
 
     private AnswerQuestionDetailsResult? GetData(int id)

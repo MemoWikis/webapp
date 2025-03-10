@@ -165,7 +165,8 @@
         "questionCount": "0 questions | 1 question | {count} questions",
         "questionCountText": "Aucune question | Une question | {count} questions",
         "reloadPage": "Recharger la page",
-        "back": "Retour"
+        "back": "Retour",
+        "continueLearning": "Continuer"
     },
     "register": {
         "title": "Inscription",
@@ -525,7 +526,7 @@
                     "create": "Créer une fiche"
                 },
                 "message": {
-                    "noFlashcards": "Oups ! Tu n’as aucune fiche."
+                    "noFlashcards": "Oups! Tu n’as aucune fiche."
                 }
             }
         },
@@ -546,7 +547,7 @@
             },
             "text": {
                 "pageIsPrivate": "Cette page est privée. Tu pourras la publier plus tard via le menu ou l’icône de verrou.",
-                "whereToAdd": "Où veux-tu ajouter la page ?",
+                "whereToAdd": "Où veux-tu ajouter la page?",
                 "recentlySelectedPages": "Pages sélectionnées récemment",
                 "selectOtherPage": "Sélectionner une autre page",
                 "selected": "Sélectionnée",
@@ -763,6 +764,14 @@
         }
     },
     "questionLandingPage": {
+        "title": "Page de questions sur '{title}'",
+        "rightAnswer": "Réponse correcte :",
+        "answerAdditions": "Ajouts à la réponse :",
+        "continueLearning": "Continuer à apprendre",
+        "tooltip": {
+            "learnAllQuestions": "Apprenez toutes les questions sur cette page",
+            "learnRandomQuestions": "Apprenez 5 questions choisies au hasard de {pageName}"
+        },
         "pages": "Pages",
         "probability": {
             "title": "Probabilité de réponse",
