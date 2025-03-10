@@ -218,6 +218,7 @@ public class UserWritingRepo
             user.ShowWishKnowledge = userCacheItem.ShowWishKnowledge;
             user.WikiIds = string.Join(",", userCacheItem.WikiIds.Distinct());
             user.FavoriteIds = string.Join(",", userCacheItem.FavoriteIds.Distinct());
+            user.UiLanguage = userCacheItem.UiLanguage;
 
             Update(user);
         }
