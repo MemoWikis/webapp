@@ -44,6 +44,7 @@
         page.Creator = _userReadingRepo.GetById(sessionUser.UserId);
         page.Type = PageType.Standard;
         page.Visibility = PageVisibility.Owner;
+        page.Language = sessionUser.User.UiLanguage;
         _pageRepository.Create(page);
 
         var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);

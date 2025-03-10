@@ -156,8 +156,8 @@ async function handleLogin() {
 	else
 		await refreshNuxtData()
 
-	if (locale.value != userStore.langauge)
-		setLocale(userStore.langauge)
+	if (locale.value != userStore.uiLanguage)
+		setLocale(userStore.uiLanguage)
 }
 
 const { openedModals } = $vfm
@@ -241,9 +241,6 @@ watch(locale, () => {
 </script>
 
 <template>
-	<Html lang="de">
-
-	</Html>
 	<HeaderGuest v-if="!userStore.isLoggedIn" />
 	<HeaderMain :site="site" :question-page-data="questionPageData" :breadcrumb-items="breadcrumbItems" />
 

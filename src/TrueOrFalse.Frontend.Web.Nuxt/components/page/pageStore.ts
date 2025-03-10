@@ -48,7 +48,9 @@ export class Page {
     viewsLast30DaysPage: ViewSummary[] | null = null
     viewsLast30DaysAggregatedQuestions: ViewSummary[] | null = null
     viewsLast30DaysQuestions: ViewSummary[] | null = null
+    language: "de" | "en" | "fr" | "es" = "en"
 }
+
 export interface ViewSummary {
     count: number
     date: string

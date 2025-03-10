@@ -33,6 +33,7 @@ export interface CurrentUser {
     isSubscriptionCanceled: boolean
     isEmailConfirmed: boolean
     collaborationToken?: string
+    uiLanguage: "de" | "en" | "fr" | "es"
 }
 
 export enum FontSize {
@@ -66,7 +67,7 @@ export const useUserStore = defineStore("userStore", {
             gridInfoShown: false,
             collaborationToken: undefined as string | undefined,
             fontSize: FontSize.Medium,
-            langauge: "en" as "de" | "en" | "fr" | "es",
+            uiLanguage: "en" as "de" | "en" | "fr" | "es",
         }
     },
     actions: {
@@ -102,6 +103,7 @@ export const useUserStore = defineStore("userStore", {
             activityPointsStore.setData(currentUser.activityPoints)
             this.isEmailConfirmed = currentUser.isEmailConfirmed
             this.collaborationToken = currentUser.collaborationToken
+            this.uiLanguage = currentUser.uiLanguage
             return
         },
         async login(loginData: {
@@ -271,9 +273,9 @@ export const useUserStore = defineStore("userStore", {
             this.$reset()
         },
         async updateLanguageSetting(language: "de" | "en" | "fr" | "es") {
-            if (this.langauge === language) return
+            if (this.uiLanguage === language) return
 
-            this.langauge = language
+            this.uiLanguage = language
 
             if (!this.isLoggedIn) return
 

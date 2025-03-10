@@ -145,7 +145,8 @@ public class PageDataManager(
                 .ChildRelations
                 .Any(r => r.ChildId == page.Id),
             TextIsHidden = page.TextIsHidden,
-            MessageKey = ""
+            MessageKey = "",
+            Language = page.Language
         };
     }
 
@@ -204,6 +205,7 @@ public class PageDataManager(
         List<DailyViews> ViewsLast30DaysAggregatedPage,
         List<DailyViews> ViewsLast30DaysPage,
         List<DailyViews> ViewsLast30DaysAggregatedQuestions,
-        List<DailyViews> viewsLast30DaysQuestions
+        List<DailyViews> viewsLast30DaysQuestions,
+        string Language
     );
 }

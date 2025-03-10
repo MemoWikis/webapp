@@ -18,7 +18,8 @@ public class UserStoreController(
     ImageMetaDataReadingRepo _imageMetaDataReadingRepo,
     UserReadingRepo _userReadingRepo,
     QuestionReadingRepo _questionReadingRepo,
-    JobQueueRepo _jobQueueRepo) : BaseController(_sessionUser)
+    JobQueueRepo _jobQueueRepo,
+    UserUiLanguage _userUiLanguage) : BaseController(_sessionUser)
 {
     public readonly record struct LoginResponse(
         FrontEndUserData.CurrentUserData Data,
@@ -185,4 +186,18 @@ public class UserStoreController(
             MessageKey = FrontendMessageKeys.Success.User.VerificationMailRequestSent
         };
     }
+
+    public readonly record struct UpdateLanguageSettingRequest(string Language);
+    public readonly record struct UpdateLanguageSettingResponse(string Language);
+
+
+    [HttpPost]
+    [AccessOnlyAsLoggedIn]
+    public UpdateLanguageSettingResponse UpdateLanguageSetting([FromBody] UpdateLanguageSettingRequest req)
+    {
+        _userUiLanguage.SetUiLanguage(_sessionUser.UserId, req.Language);
+
+        return new UpdateLanguageSettingResponse();
+    }
+
 }

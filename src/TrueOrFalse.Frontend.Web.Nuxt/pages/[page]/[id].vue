@@ -139,6 +139,9 @@ watch(page, async (oldPage, newPage) => {
 }, { deep: true, immediate: true })
 
 useHead(() => ({
+    htmlAttrs: {
+        lang: page.value?.language ?? 'en'
+    },
     link: [
         {
             rel: 'canonical',
