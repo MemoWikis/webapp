@@ -48,7 +48,7 @@ public class UserCacheItem : IUserTinyModel, IPersistable
     public RecentPages? RecentPages { get; set; }
     public MonthlyTokenUsage? MonthlyTokenUsage { get; set; }
     public virtual string UiLanguage { get; set; } = "en";
-    public virtual List<string> ContentLanguages { get; set; } = new List<string>();
+    public virtual List<Language> ContentLanguages { get; set; } = new List<Language>();
 
     public void Populate(User user)
     {

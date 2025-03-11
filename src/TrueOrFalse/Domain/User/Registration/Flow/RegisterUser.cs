@@ -64,7 +64,7 @@ public class RegisterUser(
         };
     }
 
-    public RegisterResult SetFacebookUser(FacebookUserCreateParameter facebookUser)
+    public RegisterResult SetFacebookUser(FacebookUserCreateParameter facebookUser, string language)
     {
         var user = new User
         {
@@ -73,10 +73,13 @@ public class RegisterUser(
             FacebookId = facebookUser.id,
         };
 
+        if (LanguageExtensions.CodeExists(language))
+            user.UiLanguage = language;
+
         return RegisterAndLogin(user);
     }
 
-    public RegisterResult SetGoogleUser(GoogleUserCreateParameter googleUser)
+    public RegisterResult SetGoogleUser(GoogleUserCreateParameter googleUser, string language)
     {
         var user = new User
         {
@@ -84,6 +87,9 @@ public class RegisterUser(
             Name = googleUser.UserName,
             GoogleId = googleUser.GoogleId,
         };
+
+        if (LanguageExtensions.CodeExists(language))
+            user.UiLanguage = language;
 
         return RegisterAndLogin(user);
     }
@@ -122,9 +128,9 @@ public class RegisterUser(
         bool Success,
         string MessageKey);
 
-    public CreateAndLoginResult CreateAndLogin(GoogleUserCreateParameter googleUser)
+    public CreateAndLoginResult CreateAndLogin(GoogleUserCreateParameter googleUser, string language)
     {
-        var registerResult = SetGoogleUser(googleUser);
+        var registerResult = SetGoogleUser(googleUser, language);
 
         if (registerResult.Success)
 

@@ -2,7 +2,7 @@
 {
     public void SetUiLanguage(int userId, string uiLanguage)
     {
-        if (Settings.LanguageCodes.Contains(uiLanguage) && userId > 0)
+        if (LanguageExtensions.CodeExists(uiLanguage) && userId > 0)
         {
             var user = EntityCache.GetUserByIdNullable(userId);
 

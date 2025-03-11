@@ -35,11 +35,18 @@ export class FacebookMemoWikisUser {
 
         loadingStore.startLoading()
 
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
+
         const result = await $api<FetchResult<CurrentUser>>(
             "/apiVue/FacebookUsers/CreateAndLogin",
             {
                 method: "POST",
-                body: { facebookUser: user, facebookAccessToken },
+                body: {
+                    facebookUser: user,
+                    facebookAccessToken,
+                    language: $i18n.locale.value,
+                },
                 credentials: "include",
                 cache: "no-cache",
             }

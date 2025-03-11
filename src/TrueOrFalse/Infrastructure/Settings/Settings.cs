@@ -65,9 +65,6 @@ public class Settings
     public static string SeqUrl => _configuration["General:SeqUrl"];
     public static string SeqApiKey => _configuration["General:SeqApiKey"];
 
-    private static string _languageCodesString => _configuration["General:LanguageCodes"];
-    public static List<string> LanguageCodes => _languageCodesString.Split(',').Select(code => code.Trim()).ToList();
-
     public static string GoogleClientId => _configuration["Google:ClientId"];
     public static string GoogleApplicationName => _configuration["Google:ApplicationName"];
 

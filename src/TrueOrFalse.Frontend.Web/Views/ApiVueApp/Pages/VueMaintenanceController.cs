@@ -21,7 +21,7 @@ public class VueMaintenanceController(
     UpdateQuestionAnswerCounts _updateQuestionAnswerCounts,
     UpdateWishcount _updateWishcount,
     MeiliSearchReIndexPages meiliSearchReIndexPages,
-    MeiliSearchReIndexAllUsers _meiliSearchReIndexAllUsers,
+    MeiliSearchReIndexUser meiliSearchReIndexUser,
     PageRepository pageRepository,
     AnswerRepo _answerRepo,
     UserReadingRepo _userReadingRepo,
@@ -136,50 +136,6 @@ public class VueMaintenanceController(
         };
     }
 
-    //todo: Remove when Meilisearch is active
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<VueMaintenanceResult> ReIndexAllQuestions()
-    {
-        await _meiliSearchReIndexAllQuestions.Run();
-
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Fragen wurden neu indiziert."
-        };
-    }
-
-    //todo: Remove when Meilisearch is active
-    [AccessOnlyAsAdmin]
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<VueMaintenanceResult> ReIndexAllPages()
-    {
-        await meiliSearchReIndexPages.Run();
-
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Themen wurden neu indiziert."
-        };
-    }
-
-    //todo: Remove when Meilisearch is active
-    [ValidateAntiForgeryToken]
-    [HttpPost]
-    public async Task<VueMaintenanceResult> ReIndexAllUsers()
-    {
-        await _meiliSearchReIndexAllUsers.Run();
-
-        return new VueMaintenanceResult
-        {
-            Success = true,
-            Data = "Nutzer wurden neu indiziert."
-        };
-    }
-
     [AccessOnlyAsAdmin]
     [ValidateAntiForgeryToken]
     [HttpPost]
@@ -213,7 +169,21 @@ public class VueMaintenanceController(
     [HttpPost]
     public async Task<VueMaintenanceResult> MeiliReIndexAllUsers()
     {
-        await _meiliSearchReIndexAllUsers.Run();
+        await meiliSearchReIndexUser.RunAll();
+
+        return new VueMaintenanceResult
+        {
+            Success = true,
+            Data = "Nutzer wurden neu indiziert."
+        };
+    }
+
+    [AccessOnlyAsAdmin]
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<VueMaintenanceResult> MeiliReIndexAllUsersCache()
+    {
+        await meiliSearchReIndexUser.RunAllCache();
 
         return new VueMaintenanceResult
         {

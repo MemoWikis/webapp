@@ -95,10 +95,12 @@ async function search() {
         term: string
         pageIdsToFilter?: number[]
         includePrivatePages?: boolean
+        languages: string[]
     }
 
     let data: BodyType = {
         term: searchTerm.value,
+        languages: [locale.value]
     }
     if ((props.searchType === SearchType.page ||
         props.searchType === SearchType.pageInWiki))
@@ -204,6 +206,9 @@ const ariaId = useId()
                                 <div class="searchResultLabel body-m">{{ p.name }}</div>
                                 <div class="searchResultSubLabel body-s">{{ t('search.countedQuestions', p.questionCount) }}</div>
                             </div>
+                        </div>
+                        <div v-if="pages.length != pageCount">
+                            {{ pages.length }} in deiner Sprache.
                         </div>
                         <div v-if="questions.length > 0" class="searchBanner">
                             <div>{{ t('search.questions') }} </div>

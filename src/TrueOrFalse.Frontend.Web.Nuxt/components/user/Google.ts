@@ -56,11 +56,18 @@ export class Google {
         e: any | null = null,
         accessToken: string | null = null
     ) {
+        const nuxtApp = useNuxtApp()
+        const { $i18n } = nuxtApp
+
         const result = await $api<FetchResult<CurrentUser>>(
             "/apiVue/Google/Login",
             {
                 method: "POST",
-                body: { credential: e.credential, accessToken: accessToken },
+                body: {
+                    credential: e.credential,
+                    accessToken: accessToken,
+                    language: $i18n.locale.value,
+                },
                 mode: "cors",
                 credentials: "include",
                 cache: "no-cache",

@@ -4,7 +4,7 @@ import { BreadcrumbItem } from '~~/components/header/breadcrumbItems'
 import { useLoadingStore } from '~/components/loading/loadingStore'
 import { UserResult } from '~~/components/users/userResult'
 
-const { t } = useI18n()
+const { t, locales, locale } = useI18n()
 const loadingStore = useLoadingStore()
 
 const userCount = ref(200)
@@ -39,11 +39,13 @@ const { data: totalUserCount } = await useLazyFetch<number>('/apiVue/Users/GetTo
     default: () => null
 })
 const { $logger } = useNuxtApp()
+const selectedLanguages = ref<string[]>([locale.value])
 
-const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Get', {
+const { data: pageData, status, refresh } = await useFetch<GetResponse>('/apiVue/Users/Get', {
     query: {
         page: currentPage,
         pageSize: usersPerPageCount,
+        languages: selectedLanguages,
         searchTerm: searchTerm,
         orderBy: orderBy
     },
@@ -60,6 +62,8 @@ const { data: pageData, status } = await useFetch<GetResponse>('/apiVue/Users/Ge
     },
     immediate: true
 })
+
+watch(selectedLanguages, () => refresh)
 
 watch(pageData, (e) => {
     if (e != null) {
@@ -156,7 +160,20 @@ const ariaId = useId()
                                 </div>
                             </div>
                         </div>
-
+                        <div>
+                            <font-awesome-icon icon="fa-solid fa-language" />
+                            Sprachen:
+                            <div class="languages-section">
+                                <div class="language-options">
+                                    <div v-for="locale in locales" :key="locale.code" class="language-checkbox">
+                                        <label :for="`lang-${locale.code}`" class="language-label">
+                                            <input type="checkbox" :id="`lang-${locale.code}`" :value="locale.code" v-model="selectedLanguages" @change="currentPage = 1">
+                                            <span class="checkbox-text">{{ locale.name }}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="sort-section">
                             <font-awesome-icon icon="fa-solid fa-sort" />
                             <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>

@@ -77,13 +77,14 @@ namespace TrueOrFalse.Search
         }
 
         public async Task<(List<MeiliSearchUserMap> searchResultUser, Pager pager)>
-            GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy)
+            GetUsersByPagerAsync(string searchTerm, Pager pager, SearchUsersOrderBy orderBy, string[] languageCodes)
         {
             var userMaps = new List<MeiliSearchUserMap>();
             var count = 0;
+            var languages = LanguageExtensions.GetLanguages(languageCodes);
             if (string.IsNullOrEmpty(searchTerm))
             {
-                userMaps = EntityCache.GetAllUsers().Select(ConvertToUserMap).ToList();
+                userMaps = EntityCache.GetAllUsers().Where(u => LanguageExtensions.AnyLanguageIsInList(languages, u.ContentLanguages)).Select(ConvertToUserMap).ToList();
                 count = userMaps.Count;
             }
             else
@@ -143,7 +144,8 @@ namespace TrueOrFalse.Search
                 Id = user.Id,
                 Name = user.Name,
                 Rank = user.ReputationPos,
-                WishCountQuestions = user.WishCountQuestions
+                WishCountQuestions = user.WishCountQuestions,
+                ContentLanguages = user.ContentLanguages
             };
             return result;
         }

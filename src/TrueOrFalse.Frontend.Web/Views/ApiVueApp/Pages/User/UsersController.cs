@@ -38,11 +38,17 @@ public class UsersController(
     public async Task<UsersResult> Get(
         int page,
         int pageSize,
+        string[] languages,
         string searchTerm = "",
         SearchUsersOrderBy orderBy = SearchUsersOrderBy.Rank)
     {
-        var result = await _meiliSearchUsers.GetUsersByPagerAsync(searchTerm,
-            new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page }, orderBy);
+        var pager = new Pager { PageSize = pageSize, IgnorePageCount = true, CurrentPage = page };
+
+        var result = await _meiliSearchUsers.GetUsersByPagerAsync(
+            searchTerm,
+            pager,
+            orderBy,
+            languages);
 
         var users = EntityCache.GetUsersByIds(result.searchResultUser.Select(u => u.Id));
         var usersResult = users.Select(GetUserResult);

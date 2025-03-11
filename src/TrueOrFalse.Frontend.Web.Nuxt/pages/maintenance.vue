@@ -45,7 +45,9 @@ const pageMethods = ref<MethodData[]>([
 const meiliSearchMethods = ref<MethodData[]>([
     { url: 'MeiliReIndexAllQuestions', label: 'Fragen' },
     { url: 'MeiliReIndexAllPages', label: 'Seiten' },
-    { url: 'MeiliReIndexAllUsers', label: 'Nutzer' }
+    { url: 'MeiliReIndexAllUsers', label: 'Nutzer' },
+    { url: 'MeiliReIndexAllUsersCache', label: 'Nutzer (Cache)' }
+
 ])
 const userMethods = ref<MethodData[]>([
     { url: 'UpdateUserReputationAndRankings', label: 'Rankings und Reputation + Aggregates' },

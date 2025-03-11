@@ -397,6 +397,9 @@ public class PageCacheItem : IPersistable
                     .ToList();
             }
         }
+
+        LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem);
+
         return pageCacheItem;
     }
 

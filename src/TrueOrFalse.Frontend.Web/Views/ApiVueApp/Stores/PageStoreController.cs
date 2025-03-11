@@ -57,6 +57,7 @@ public class PageStoreController(
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Text);
 
         EntityCache.AddOrUpdate(pageCacheItem);
+        LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
 
         return new SaveResult
         {
@@ -97,6 +98,7 @@ public class PageStoreController(
         _pageRepository.Update(page, _sessionUser.UserId, type: PageChangeType.Renamed);
 
         EntityCache.AddOrUpdate(pageCacheItem);
+        LanguageExtensions.SetContentLanguageOnAuthors(pageCacheItem.Id);
 
         return new SaveResult
         {

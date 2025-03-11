@@ -135,6 +135,7 @@ export const useUserStore = defineStore("userStore", {
             Name: string
             Email: string
             Password: string
+            Language: string
         }) {
             const result = await $api<FetchResult<CurrentUser>>(
                 "/apiVue/UserStore/Register",

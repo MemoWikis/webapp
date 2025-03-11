@@ -31,6 +31,19 @@ public class SearchHelper
                 .Select(c => FillSearchPageItem(c, userId))
             );
 
+    public void AddPageItems(
+        List<SearchPageItem> items,
+        GlobalSearchResult elements,
+        PermissionCheck permissionCheck,
+        int userId,
+        List<Language> languages,
+        int[] pageIdsToFilter = null) => items.AddRange(
+        elements.Pages
+            .Where(c => permissionCheck.CanView(c) &&
+                        (pageIdsToFilter == null || !pageIdsToFilter.Contains(c.Id)) && LanguageExtensions.LanguageIsInList(languages, c.Language))
+            .Select(c => FillSearchPageItem(c, userId))
+    );
+
     public void AddPublicPageItems(
         List<SearchPageItem> items,
         GlobalSearchResult elements,

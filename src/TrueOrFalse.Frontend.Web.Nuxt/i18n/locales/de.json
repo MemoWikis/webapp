@@ -166,7 +166,10 @@
         "questionCountText": "Keine Frage | Eine Frage | {count} Fragen",
         "reloadPage": "Seite neu laden",
         "back": "Zurück",
-        "continueLearning": "Weiterlernen"
+        "continueLearning": "Weiterlernen",
+        "accept": "Einverstanden",
+        "registerWithGoogle": "Registrierung mit Google",
+        "registerWithFacebook": "Registrierung mit Facebook"
     },
     "register": {
         "title": "Registrieren",

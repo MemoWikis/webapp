@@ -13,7 +13,7 @@ const loadingStore = useLoadingStore()
 interface Props {
     site: Site
 }
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = defineProps<Props>()
 const emit = defineEmits(['setPage'])
@@ -44,7 +44,7 @@ function googleRegister() {
         Google.SignIn()
     else {
         awaitingConsent.value = 'google'
-        alertStore.openAlert(AlertType.Default, { text: '', customHtml: renderLoginText(t('info.googleLogin')) }, 'Einverstanden', true, 'Registrierung mit Google')
+        alertStore.openAlert(AlertType.Default, { text: '', customHtml: renderLoginText(t('info.googleLogin')) }, t('label.accept'), true, t('label.registerWithGoogle'))
     }
 }
 
@@ -61,7 +61,7 @@ function facebookRegister() {
         FacebookMemoWikisUser.LoginOrRegister(/*stayOnPage*/false, /*dissalowRegistration*/ false)
     else {
         awaitingConsent.value = 'facebook'
-        alertStore.openAlert(AlertType.Default, { text: '', customHtml: renderLoginText(t('info.facebookLogin')) }, 'Einverstanden', true, 'Registrierung mit Facebook')
+        alertStore.openAlert(AlertType.Default, { text: '', customHtml: renderLoginText(t('info.facebookLogin')) }, t('label.accept'), true, t('label.registerWithFacebook'))
     }
 }
 
@@ -147,7 +147,8 @@ async function register() {
     const registerData = {
         Name: userName.value,
         Email: eMail.value,
-        Password: password.value
+        Password: password.value,
+        Language: locale.value
     }
     const result = await userStore.register(registerData)
     loadingStore.stopLoading()
@@ -156,8 +157,6 @@ async function register() {
     else if (result)
         errorMessage.value = t(result)
 }
-
-const { locale, locales, setLocale } = useI18n()
 
 </script>
 

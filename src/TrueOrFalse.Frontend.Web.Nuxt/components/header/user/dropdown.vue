@@ -111,7 +111,7 @@ const showLanguages = ref(false)
                         {{ t('label.language') }}
                         <CircleFlags :country="localeProperties.flag" class="country-flag" />
                     </div>
-                    <div class="user-dropdown-container">
+                    <div class="user-dropdown-container" :class="{ 'hidden': !showLanguages }">
 
                         <Transition name="collapse">
                             <div class="language-selector" v-if="showLanguages">
@@ -262,6 +262,10 @@ const showLanguages = ref(false)
 
     .user-dropdown-container {
         padding: 10px 25px;
+
+        &.hidden {
+            padding: 0px;
+        }
     }
 
     a {
