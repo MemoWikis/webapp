@@ -31,6 +31,8 @@ We provide Docker images for the backend and frontend.
 
 For configuration, see "Local development" for instructions. It is best to adjust the Docker Compose files to suit your needs. If you need further help, just get in contact 🙂.
 
+If you have a publicly accessible memoWikis instance, we’d be happy to link your page here. We’re also curious to hear about your experiences, so please drop us a note!
+
 # Local Development
 
 This web application is built around a Nuxt 3 frontend and a .NET backend, complemented by additional services including Dockerized MySQL, Redis, Meilisearch, and Hocuspocus for Tiptap.
