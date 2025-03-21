@@ -10,7 +10,7 @@
                 Name = user.Name,
                 DateCreated = user.DateCreated,
                 Rank = user.ReputationPos,
-                WishCountQuestions = user.WishCountQuestions
+                WishCountQuestions = user.WishCountQuestions,
             };
             return result;
         }
@@ -23,7 +23,7 @@
                 Name = user.Name,
                 Rank = user.ReputationPos,
                 WishCountQuestions = user.WishCountQuestions,
-                ContentLanguages = user.ContentLanguages
+                ContentLanguages = user.ContentLanguages.Select(l => l.GetCode()).ToList()
             };
             return result;
         }

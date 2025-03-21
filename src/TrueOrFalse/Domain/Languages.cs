@@ -46,13 +46,28 @@ public static class LanguageExtensions
             if (author == null)
                 continue;
 
-            var pageLanguage = LanguageExtensions.GetLanguage(page.Language);
-
-            if (pageLanguage != null && author.ContentLanguages.All(language => language != pageLanguage))
-                author.ContentLanguages.Add((Language)pageLanguage);
-            else
-                Logg.r.Error($"Could not set content language {page.Language} on author {authorId}");
+            AddContentLanguageToUser(author, page.Language);
         }
+    }
+
+    public static void AddContentLanguageToUser(UserCacheItem user, string code)
+    {
+        var pageLanguage = GetLanguage(code);
+
+        if (pageLanguage != null && user.ContentLanguages.All(language => language != pageLanguage))
+            user.ContentLanguages.Add((Language)pageLanguage);
+        else
+            Logg.r.Error($"Could not set content language {code} on author {user.Id}");
+    }
+
+    public static void RemoveContentLanguageFromUser(UserCacheItem user, string code)
+    {
+        var pageLanguage = GetLanguage(code);
+
+        if (pageLanguage != null && user.ContentLanguages.Any(language => language == pageLanguage))
+            user.ContentLanguages.Remove((Language)pageLanguage);
+        else
+            Logg.r.Error($"Could not set content language {code} on author {user.Id}");
     }
 
     public static List<Language> GetLanguages()

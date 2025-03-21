@@ -25,22 +25,32 @@ namespace TrueOrFalse.Search
         /// </summary>
         /// <param name="searchTerm"></param>
         /// <returns></returns>
-        public async Task<ISearchPagesResult> RunAsync(
-            string searchTerm)
+        public async Task<ISearchPagesResult> RunAsync(string searchTerm, List<Language>? languages = null)
         {
             var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
             var index = client.Index(MeiliSearchConstants.Pages);
             _result = new MeiliSearchPagesResult();
 
-            _result.PageIds.AddRange(await LoadSearchResults(searchTerm, index)
+            _result.PageIds
+                .AddRange(await LoadSearchResults(searchTerm, index)
                 .ConfigureAwait(false));
 
             return _result;
         }
 
-        private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
+        private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
         {
             var sq = new SearchQuery { Limit = _count };
+            if (languages != null && languages.Any())
+            {
+                var clauses = languages
+                    .Select(lang => lang.GetCode())
+                    .Select(code => $"Language = \"{code}\"")
+                    .ToList();
+
+                sq.Filter = string.Join(" OR ", clauses);
+            }
+
             var maps = (await index.SearchAsync<MeiliSearchPageMap>(searchTerm, sq)).Hits;
 
             _result.Count = maps.Count;
@@ -54,10 +64,8 @@ namespace TrueOrFalse.Search
             if (IsReloadRequired(maps.Count, _pages.Count()))
             {
                 _count += 20;
-                await LoadSearchResults(searchTerm, index);
+                await LoadSearchResults(searchTerm, index, languages);
             }
-
-            ;
 
             return _pages
                 .Select(c => c.Id)

@@ -47,6 +47,10 @@
         page.Language = sessionUser.User.UiLanguage;
         _pageRepository.Create(page);
 
+        var user = EntityCache.GetUserById(sessionUser.UserId);
+
+        LanguageExtensions.AddContentLanguageToUser(user, page.Language);
+
         var modifyRelationsForPage = new ModifyRelationsForPage(_pageRepository, _pageRelationRepo);
         modifyRelationsForPage.AddChild(parentPageId, page.Id, sessionUser.UserId);
 

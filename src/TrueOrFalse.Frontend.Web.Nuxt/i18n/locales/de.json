@@ -256,7 +256,8 @@
             "publishPage": "Seite veröffentlichen",
             "convertToWiki": "Seite in Wiki konvertieren",
             "convertToPage": "Wiki in Seite konvertieren",
-            "deletePage": "Seite löschen"
+            "deletePage": "Seite löschen",
+            "contentLanguage": "Inhaltssprache"
         },
         "tabs": {
             "text": "Text",
@@ -910,6 +911,7 @@
             "noUserWithName": "Leider gibt es keinen Nutzer mit \"{term}\"",
             "limitedResults": "Wir zeigen nur die ersten 100, für mehr/andere Ergebnisse verfeinern Sie die Suche"
         },
+        "contentLanguageLabel": "Inhaltssprache",
         "sort": {
             "label": "Sortieren nach:",
             "options": {

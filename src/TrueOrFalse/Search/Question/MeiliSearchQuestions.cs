@@ -13,25 +13,33 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
         _permissionCheck = permissionCheck;
     }
 
-    public async Task<ISearchQuestionsResult> RunAsync(
-        string searchTerm)
+    public async Task<ISearchQuestionsResult> RunAsync(string searchTerm, List<Language>? languages = null)
     {
-        var client =
-            new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
+        var client = new MeilisearchClient(MeiliSearchConstants.Url, MeiliSearchConstants.MasterKey);
         var index = client.Index(MeiliSearchConstants.Questions);
         _result = new MeiliSearchQuestionsResult();
 
-        _result.QuestionIds.AddRange(await LoadSearchResults(searchTerm, index));
+        _result.QuestionIds.AddRange(await LoadSearchResults(searchTerm, index, languages));
 
         return _result;
     }
 
-    private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index)
+    private async Task<List<int>> LoadSearchResults(string searchTerm, Meilisearch.Index index, List<Language>? languages = null)
     {
         var sq = new SearchQuery
         {
             Limit = _count
         };
+
+        if (languages != null && languages.Any())
+        {
+            var clauses = languages
+                .Select(lang => lang.GetCode())
+                .Select(code => $"Language = \"{code}\"")
+                .ToList();
+
+            sq.Filter = string.Join(" OR ", clauses);
+        }
 
         var questionMaps =
             (await index.SearchAsync<MeiliSearchQuestionMap>(searchTerm, sq))
@@ -46,7 +54,7 @@ public class MeiliSearchQuestions : MeiliSearchHelper, IRegisterAsInstancePerLif
         if (IsReloadRequired(questionMaps.Count, _questions.Count()))
         {
             _count += 20;
-            await LoadSearchResults(searchTerm, index);
+            await LoadSearchResults(searchTerm, index, languages);
         }
 
         ;

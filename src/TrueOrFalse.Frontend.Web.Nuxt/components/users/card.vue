@@ -8,6 +8,13 @@ interface Props {
 const props = defineProps<Props>()
 const { $urlHelper } = useNuxtApp()
 const { t } = useI18n()
+
+const getCountryCode = (language: string) => {
+    if (language === "en")
+        return "gb"
+    else return language
+
+}
 </script>
 
 <template>
@@ -52,6 +59,10 @@ const { t } = useI18n()
                         <NuxtLink :to="$urlHelper.getPageUrl(`${props.user.name}s-Wiki`, props.user.wikiId)">
                             {{ t('usersOverview.card.toWiki', { name: props.user.name }) }}
                         </NuxtLink>
+                    </div>
+
+                    <div class="content-languages-container">
+                        <CircleFlags v-for="language in props.user.contentLanguages" :country="getCountryCode(language)" class="country-flag" />
                     </div>
                 </div>
             </div>
@@ -121,6 +132,17 @@ const { t } = useI18n()
 
                 .inactive {
                     color: @memo-grey-dark;
+                }
+
+                .content-languages-container {
+                    display: flex;
+                    align-items: center;
+
+                    .country-flag {
+                        height: 2rem;
+                        width: 2rem;
+                        margin-right: 1rem;
+                    }
                 }
 
             }

@@ -125,6 +125,7 @@ useHead(() => ({
 }))
 
 const ariaId = useId()
+const ariaId2 = useId()
 </script>
 
 <template>
@@ -160,49 +161,59 @@ const ariaId = useId()
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <font-awesome-icon icon="fa-solid fa-language" />
-                            Sprachen:
-                            <div class="languages-section">
-                                <div class="language-options">
-                                    <div v-for="locale in locales" :key="locale.code" class="language-checkbox">
-                                        <label :for="`lang-${locale.code}`" class="language-label">
-                                            <input type="checkbox" :id="`lang-${locale.code}`" :value="locale.code" v-model="selectedLanguages" @change="currentPage = 1">
-                                            <span class="checkbox-text">{{ locale.name }}</span>
-                                        </label>
-                                    </div>
+                        <div class="filter-options">
+                            <div class="language-section">
+
+                                <div class="language-dropdown">
+                                    <VDropdown :aria-id="ariaId" :distance="0">
+                                        <div class="language-select">
+                                            <font-awesome-icon icon="fa-solid fa-language" />
+                                            <div class="language-label">{{ t('usersOverview.contentLanguageLabel') }}</div>
+                                        </div>
+
+                                        <template #popper>
+                                            <div class="dropdown-row" v-for="locale in locales" :key="locale.code">
+                                                <div class="language-checkbox ">
+                                                    <label :for="`lang-${locale.code}`" class="language-label">
+                                                        <input type="checkbox" :id="`lang-${locale.code}`" :value="locale.code" v-model="selectedLanguages" @change="currentPage = 1">
+                                                        <span class="checkbox-text">{{ locale.name }}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </VDropdown>
                                 </div>
                             </div>
-                        </div>
-                        <div class="sort-section">
-                            <font-awesome-icon icon="fa-solid fa-sort" />
-                            <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>
-                            <div class="orderby-dropdown">
-                                <VDropdown :aria-id="ariaId" :distance="0">
-                                    <div class="orderby-select">
-                                        <div>
-                                            {{ getSelectedOrderLabel }}
+                            <div class="sort-section">
+                                <font-awesome-icon icon="fa-solid fa-sort" />
+                                <div class="sort-label">{{ t('usersOverview.sort.label') }}</div>
+                                <div class="orderby-dropdown">
+                                    <VDropdown :aria-id="ariaId2" :distance="0">
+                                        <div class="orderby-select">
+                                            <div>
+                                                {{ getSelectedOrderLabel }}
+                                            </div>
+                                            <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
                                         </div>
-                                        <font-awesome-icon icon="fa-solid fa-chevron-down" class="chevron" />
-                                    </div>
 
-                                    <template #popper="{ hide }">
-                                        <div class="dropdown-row select-row"
-                                            @click="orderBy = SearchUsersOrderBy.Rank; hide()"
-                                            :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
-                                            <div class="dropdown-label select-option">
-                                                {{ t('usersOverview.sort.options.rank') }}
+                                        <template #popper="{ hide }">
+                                            <div class="dropdown-row select-row"
+                                                @click="orderBy = SearchUsersOrderBy.Rank; hide()"
+                                                :class="{ 'active': orderBy === SearchUsersOrderBy.Rank }">
+                                                <div class="dropdown-label select-option">
+                                                    {{ t('usersOverview.sort.options.rank') }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="dropdown-row"
-                                            @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
-                                            :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
-                                            <div class="dropdown-label select-option">
-                                                {{ t('usersOverview.sort.options.wishknowledge') }}
+                                            <div class="dropdown-row"
+                                                @click="orderBy = SearchUsersOrderBy.WishCount; hide()"
+                                                :class="{ 'active': orderBy === SearchUsersOrderBy.WishCount }">
+                                                <div class="dropdown-label select-option">
+                                                    {{ t('usersOverview.sort.options.wishknowledge') }}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </template>
-                                </VDropdown>
+                                        </template>
+                                    </VDropdown>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -309,12 +320,11 @@ const ariaId = useId()
 
 .users-options {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
     z-index: 2;
     flex-wrap: wrap;
-
 
     .search-section {
         @media (max-width: 630px) {
@@ -378,15 +388,28 @@ const ariaId = useId()
         }
     }
 
-    .sort-section {
+    .filter-options {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+    }
+
+    .sort-section,
+    .language-section {
         display: flex;
         align-items: center;
         // margin: auto;
         margin-left: auto;
 
-        .sort-label {
+        .sort-label,
+        .language-label {
             margin: 0 8px;
         }
+    }
+
+    .language-section {
+        margin-right: 1rem;
     }
 }
 
@@ -400,6 +423,9 @@ const ariaId = useId()
     width: 150px;
 }
 
+.language-dropdown {
+    width: auto;
+}
 
 .v-popper--shown {
 
@@ -408,6 +434,13 @@ const ariaId = useId()
         .chevron {
             transform: rotate(180deg)
         }
+    }
+}
+
+.v-popper--shown {
+
+    .language-select {
+        display: flex;
     }
 }
 
@@ -423,7 +456,8 @@ const ariaId = useId()
     }
 }
 
-.orderby-select {
+.orderby-select,
+.language-select {
     padding: 6px 12px;
     height: 34px;
     cursor: pointer;
@@ -443,5 +477,9 @@ const ariaId = useId()
     &:active {
         filter: brightness(0.85)
     }
+}
+
+.language-select {
+    width: auto;
 }
 </style>

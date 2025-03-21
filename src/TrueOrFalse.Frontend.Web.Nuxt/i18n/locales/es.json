@@ -253,7 +253,8 @@
             "publishPage": "Publicar página",
             "convertToWiki": "Convertir la página en wiki",
             "convertToPage": "Convertir el wiki en página",
-            "deletePage": "Eliminar página"
+            "deletePage": "Eliminar página",
+            "contentLanguage": "Idioma del contenido"
         },
         "tabs": {
             "text": "Texto",
@@ -907,6 +908,7 @@
             "noUserWithName": "Lamentablemente, no hay ningún usuario llamado \"{term}\"",
             "limitedResults": "Mostramos solo los primeros 100 resultados. Refina la búsqueda para ver más/diferentes resultados"
         },
+        "contentLanguageLabel": "Idioma del contenido",
         "sort": {
             "label": "Ordenar por:",
             "options": {

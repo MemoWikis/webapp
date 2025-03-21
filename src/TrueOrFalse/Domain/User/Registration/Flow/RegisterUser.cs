@@ -1,6 +1,7 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
 using System.Data;
+using TrueOrFalse.Search;
 
 public class RegisterUser(
     ISession _session,
@@ -10,7 +11,8 @@ public class RegisterUser(
     UserWritingRepo _userWritingRepo,
     SessionUser _sessionUser,
     PageRepository _pageRepository,
-    PageViewRepo _pageViewRepo)
+    PageViewRepo _pageViewRepo,
+    MeiliSearchReIndexUser _meiliSearchReIndexUser)
     : IRegisterAsInstancePerLifetime
 {
     public readonly record struct RegisterResult(bool Success, string MessageKey);
@@ -58,6 +60,9 @@ public class RegisterUser(
         user.StartPageId = page.Id;
         user.DateCreated = DateTime.Now;
         _userWritingRepo.Update(user);
+        var userCacheItem = EntityCache.GetUserById(user.Id);
+        LanguageExtensions.AddContentLanguageToUser(userCacheItem, user.UiLanguage);
+
         return new RegisterResult
         {
             Success = true,
@@ -112,16 +117,10 @@ public class RegisterUser(
         user.Name = json.Name.TrimAndReplaceWhitespacesWithSingleSpace();
         SetUserPassword.Run(json.Password.Trim(), user);
 
+        if (LanguageExtensions.CodeExists(json.Language))
+            user.UiLanguage = json.Language;
+
         return RegisterAndLogin(user);
-    }
-
-    public void SendWelcomeAndRegistrationEmails(User user)
-    {
-        _userReadingRepo.Flush();
-        _userReadingRepo.Refresh(user);
-
-        SendRegistrationEmail.Run(user, _jobQueueRepo, _userReadingRepo);
-        WelcomeMsg.Send(user.Id, _userReadingRepo, _messageRepo);
     }
 
     public readonly record struct CreateAndLoginResult(
@@ -154,4 +153,5 @@ public class RegisterJson
     public string Name { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
+    public string Language { get; set; }
 }

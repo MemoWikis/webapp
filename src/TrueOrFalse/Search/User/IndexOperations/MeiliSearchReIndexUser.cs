@@ -28,6 +28,8 @@ namespace TrueOrFalse.Search
 
             await _client.CreateIndexAsync(MeiliSearchConstants.Users);
             var index = _client.Index(MeiliSearchConstants.Users);
+            await index.UpdateFilterableAttributesAsync(new[] { "ContentLanguages" });
+
             await index.AddDocumentsAsync(meiliSearchUserList);
         }
 
@@ -44,10 +46,19 @@ namespace TrueOrFalse.Search
 
             await _client.CreateIndexAsync(MeiliSearchConstants.Users);
             var index = _client.Index(MeiliSearchConstants.Users);
+            await index.UpdateFilterableAttributesAsync(new[] { "ContentLanguages" });
+
             await index.AddDocumentsAsync(meiliSearchUserList);
         }
 
         public async Task Run(UserCacheItem user)
+        {
+            var meiliSearchUser = MeiliSearchToUserMap.Run(user);
+            var index = _client.Index(MeiliSearchConstants.Users);
+            await index.AddDocumentsAsync(new List<MeiliSearchUserMap> { meiliSearchUser });
+        }
+
+        public async Task Run(User user)
         {
             var meiliSearchUser = MeiliSearchToUserMap.Run(user);
             var index = _client.Index(MeiliSearchConstants.Users);

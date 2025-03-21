@@ -139,6 +139,7 @@ export const usePageStore = defineStore("pageStore", {
             currentWiki: null as TinyPageModel | null,
             text: "",
             selectedText: "",
+            contentLanguage: "en" as "en" | "de" | "fr" | "es",
         }
     },
     actions: {
@@ -186,6 +187,8 @@ export const usePageStore = defineStore("pageStore", {
                 this.viewsPast90DaysDirectQuestions = []
                 this.text = ""
                 this.selectedText = ""
+
+                this.contentLanguage = page.language
             }
         },
         async saveContent() {

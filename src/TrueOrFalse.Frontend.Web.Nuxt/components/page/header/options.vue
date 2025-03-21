@@ -22,7 +22,7 @@ const convertStore = useConvertStore()
 const hoverLock = ref(false)
 const ariaId = useId()
 
-const { t } = useI18n()
+const { t, localeProperties } = useI18n()
 
 </script>
 
@@ -130,7 +130,7 @@ const { t } = useI18n()
                             <font-awesome-icon :icon="['fas', 'file']" />
                         </div>
                         <div class="dropdown-label">
-                            {{ t('page.header.convertTopage') }}
+                            {{ t('page.header.convertToPage') }}
                         </div>
                     </div>
                     <template v-if="pageStore.canBeDeleted">
@@ -147,6 +147,15 @@ const { t } = useI18n()
                             </div>
                         </div>
                     </template>
+
+                    <div class="dropdown-row">
+                        <div class="dropdown-label content-language-info">
+                            {{ t('page.header.contentLanguage') }}:
+                            <div>
+                                {{ localeProperties.name }} ({{ localeProperties.code }})
+                            </div>
+                        </div>
+                    </div>
 
                 </template>
             </VDropdown>
@@ -281,5 +290,11 @@ li {
     height: 1px;
     background: @memo-grey-lighter;
     margin: 10px 0px;
+}
+
+.content-language-info {
+    font-size: 1.25rem;
+    color: @memo-grey;
+
 }
 </style>

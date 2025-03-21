@@ -253,7 +253,8 @@
             "publishPage": "Publish page",
             "convertToWiki": "Convert page to wiki",
             "convertToPage": "Convert wiki to page",
-            "deletePage": "Delete page"
+            "deletePage": "Delete page",
+            "contentLanguage": "Content language"
         },
         "tabs": {
             "text": "Text",
@@ -907,6 +908,7 @@
             "noUserWithName": "Unfortunately, there is no user with \"{term}\"",
             "limitedResults": "We only display the first 100 results. Refine your search for more/different results"
         },
+        "contentLanguageLabel": "Content language",
         "sort": {
             "label": "Sort by:",
             "options": {

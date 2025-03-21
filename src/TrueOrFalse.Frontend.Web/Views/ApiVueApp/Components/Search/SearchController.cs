@@ -33,13 +33,14 @@ public class SearchController(
         var pageItems = new List<SearchPageItem>();
         var questionItems = new List<SearchQuestionItem>();
         var userItems = new List<SearchUserItem>();
-        var elements = await _search.Go(request.term);
+
+        var languages = request.languages?.Length > 0 ? LanguageExtensions.GetLanguages(request.languages) : LanguageExtensions.GetLanguages();
+        var elements = await _search.Go(request.term, languages);
 
         var searchHelper = new SearchHelper(_imageMetaDataReadingRepo,
             _httpContextAccessor,
             _questionReadingRepo);
 
-        var languages = request.languages?.Length > 0 ? LanguageExtensions.GetLanguages(request.languages) : LanguageExtensions.GetLanguages();
 
         if (elements.Pages.Any())
             searchHelper.AddPageItems(

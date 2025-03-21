@@ -18,22 +18,21 @@ public class MeiliGlobalSearch : IGlobalSearch
         _webHostEnvironment = webHostEnvironment;
     }
 
-    public async Task<GlobalSearchResult> Go(string term)
+    public async Task<GlobalSearchResult> Go(string term, List<Language> languages)
     {
         var result = new GlobalSearchResult();
-        result.PagesResult = await new MeiliSearchPages(_permissionCheck).RunAsync(term);
-        result.QuestionsResult = await new MeiliSearchQuestions(_permissionCheck).RunAsync(term);
-        result.UsersResult = await new MeiliSearchUsers(_httpContextAccessor, _webHostEnvironment)
-            .RunAsync(term);
+        result.PagesResult = await new MeiliSearchPages(_permissionCheck).RunAsync(term, languages);
+        result.QuestionsResult = await new MeiliSearchQuestions(_permissionCheck).RunAsync(term, languages);
+        result.UsersResult = await new MeiliSearchUsers(_httpContextAccessor, _webHostEnvironment).RunAsync(term, languages);
         return result;
     }
 
-    public async Task<GlobalSearchResult> GoAllPagesAsync(
-        string term)
+    public async Task<GlobalSearchResult> GoAllPagesAsync(string term)
     {
         var result = new GlobalSearchResult();
         result.PagesResult =
-            await new MeiliSearchPages(_permissionCheck, 10).RunAsync(term)
+            await new MeiliSearchPages(_permissionCheck, 10)
+                .RunAsync(term)
                 .ConfigureAwait(false);
         return result;
     }

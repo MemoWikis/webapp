@@ -2,7 +2,7 @@
 
 public interface IGlobalSearch
 {
-    Task<GlobalSearchResult> Go(string term);
+    Task<GlobalSearchResult> Go(string term, List<Language> languages);
 
     Task<GlobalSearchResult> GoAllPagesAsync(string term);
 

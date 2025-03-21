@@ -29,8 +29,8 @@ public class UsersController(
         bool ShowWuwi,
         int WikiId,
         int WuwiQuestionsCount,
-        int WuwiPagesCount
-    );
+        int WuwiPagesCount,
+        List<string> ContentLanguages);
 
     public readonly record struct UsersResult(IEnumerable<UserResult> Users, int TotalItems);
 
@@ -96,7 +96,8 @@ public class UsersController(
             ImgUrl = new UserImageSettings(user.Id, _httpContextAccessor)
                 .GetUrl_128px_square(user)
                 .Url,
-            WikiId = _permissionCheck.CanViewPage(user.StartPageId) ? user.StartPageId : -1
+            WikiId = _permissionCheck.CanViewPage(user.StartPageId) ? user.StartPageId : -1,
+            ContentLanguages = user.ContentLanguages.Select(l => l.GetCode()).ToList()
         };
     }
 }
