@@ -4,6 +4,7 @@ import { RelatedPage, RelationChanges } from './feedHelper'
 interface Props {
     relationChanges: RelationChanges
 }
+const { $urlHelper } = useNuxtApp()
 const props = defineProps<Props>()
 const setRelatedPages = () => {
 

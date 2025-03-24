@@ -2,6 +2,7 @@
 import { handleNewLine } from '../shared/utils'
 import { useImageLicenseStore } from './imageLicenseStore'
 const imageLicenseStore = useImageLicenseStore()
+const { t } = useI18n()
 </script>
 
 <template>
@@ -9,7 +10,7 @@ const imageLicenseStore = useImageLicenseStore()
         @keydown.esc="imageLicenseStore.show = false">
         <template v-slot:header>
             <h2>
-                Bilddetails
+                {{ t('image.license.modal.title') }}
             </h2>
         </template>
         <template v-slot:body>
@@ -20,7 +21,7 @@ const imageLicenseStore = useImageLicenseStore()
                         v-html="handleNewLine(imageLicenseStore.attributionHtmlString)">
                     </div>
                     <p class="description" v-if="imageLicenseStore.description.length > 0">
-                        <span class="InfoLabel">Beschreibung:</span>
+                        <span class="InfoLabel">{{ t('image.license.modal.description') }}</span>
                         {{ imageLicenseStore.description }}
                     </p>
                 </div>

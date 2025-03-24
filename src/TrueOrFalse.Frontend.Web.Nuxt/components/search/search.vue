@@ -187,7 +187,6 @@ const ariaId = useId()
                             :placeholder="placeHolderText" ref="searchInput" />
                         <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="default-search-icon"
                             v-if="props.showDefaultSearchIcon" />
-
                     </div>
                 </div>
             </form>
@@ -208,7 +207,7 @@ const ariaId = useId()
                             </div>
                         </div>
                         <div v-if="pages.length != pageCount">
-                            {{ pages.length }} in deiner Sprache.
+                            {{ pages.length }} {{ t('search.inYourLanguage') }}
                         </div>
                         <div v-if="questions.length > 0" class="searchBanner">
                             <div>{{ t('search.questions') }} </div>
@@ -236,11 +235,9 @@ const ariaId = useId()
                             <div>{{ t('search.noResults') }}</div>
                         </div>
                     </div>
-
                 </template>
             </VDropdown>
         </div>
-
     </LazyClientOnly>
 </template>
 

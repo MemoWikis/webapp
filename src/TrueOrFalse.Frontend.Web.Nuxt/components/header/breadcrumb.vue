@@ -5,6 +5,7 @@ import { Site } from '../shared/siteEnum'
 import { useUserStore } from '../user/userStore'
 import { BreadcrumbItem as CustomBreadcrumbItem } from './breadcrumbItems'
 import { useConvertStore } from '../page/convert/convertStore'
+import { useI18n } from 'vue-i18n'
 
 interface Props {
 	site: Site
@@ -23,6 +24,7 @@ const props = defineProps<Props>()
 const userStore = useUserStore()
 const pageStore = usePageStore()
 const convertStore = useConvertStore()
+const { t } = useI18n()
 
 interface BreadcrumbItem {
 	name: string
@@ -204,7 +206,7 @@ function setPageTitle() {
 	pageTitle.value = ''
 	switch (props.site) {
 		case Site.Welcome:
-			pageTitle.value = 'Willkommen'
+			pageTitle.value = t('breadcrumb.titles.welcome')
 			break
 		case Site.Page:
 			pageTitle.value = pageStore.name
@@ -212,31 +214,31 @@ function setPageTitle() {
 		// case Page.Question custom breadcrumb item set in the question/[id].vue
 		// case Page.Question custom breadcrumb item set in the user/[id].vue
 		case Site.Imprint:
-			pageTitle.value = 'Impressum'
+			pageTitle.value = t('breadcrumb.titles.imprint')
 			break
 		case Site.Terms:
-			pageTitle.value = 'Geschäftsbedingungen'
+			pageTitle.value = t('breadcrumb.titles.terms')
 			break
 		case Site.Register:
-			pageTitle.value = 'Registrieren'
+			pageTitle.value = t('breadcrumb.titles.register')
 			break
 		case Site.Messages:
-			pageTitle.value = 'Nachrichten'
+			pageTitle.value = t('breadcrumb.titles.messages')
 			break
 		// case Page.Default:
 		// 	pageTitle.value = ''
 		// 	break
 		case Site.Error:
-			pageTitle.value = 'Fehler'
+			pageTitle.value = t('breadcrumb.titles.error')
 			break
 		case Site.ResetPassword:
-			pageTitle.value = 'Passwort zurücksetzen'
+			pageTitle.value = t('breadcrumb.titles.resetPassword')
 			break
 		case Site.ConfirmEmail:
-			pageTitle.value = 'E-Mail Bestätigung'
+			pageTitle.value = t('breadcrumb.titles.confirmEmail')
 			break
 		case Site.Metrics:
-			pageTitle.value = 'Metriken'
+			pageTitle.value = t('breadcrumb.titles.metrics')
 			break
 	}
 }
@@ -328,7 +330,7 @@ convertStore.$onAction(({ name, after }) => {
 		<template v-if="breadcrumb.currentWiki">
 			<template v-if="pageStore.id != breadcrumb.currentWiki.id && !rootWikiIsStacked">
 				<NuxtLink :to="$urlHelper.getPageUrl(breadcrumb.currentWiki.name, breadcrumb.currentWiki.id)"
-					class="breadcrumb-item current-wiki" v-tooltip="breadcrumb.currentWiki.name" :aria-label="'root page button'">
+					class="breadcrumb-item current-wiki" v-tooltip="breadcrumb.currentWiki.name" :aria-label="t('breadcrumb.aria.rootPageButton')">
 					{{ breadcrumb.currentWiki.name }}
 				</NuxtLink>
 				<div>
@@ -345,7 +347,7 @@ convertStore.$onAction(({ name, after }) => {
 
 			<template #popper="{ hide }">
 				<NuxtLink v-for="s in stackedBreadcrumbItems" :to="$urlHelper.getPageUrl(s.name, s.id)" :key="s.id"
-					@click="hide" v-tooltip="s.name" :aria-label="s.name">
+					@click="hide" v-tooltip="s.name" :aria-label="t('breadcrumb.aria.pageLink', { pageName: s.name })">
 					<div class="dropdown-row">
 						{{ s.name }}
 					</div>
@@ -356,7 +358,7 @@ convertStore.$onAction(({ name, after }) => {
 
 		<template v-for="(b, i) in breadcrumbItems" :key="`breadcrumb-${i}`">
 			<NuxtLink :to="$urlHelper.getPageUrl(b.name, b.id)" class="breadcrumb-item" v-tooltip="b.name"
-				:aria-label="b.name">
+				:aria-label="t('breadcrumb.aria.pageLink', { pageName: b.name })">
 				{{ b.name }}
 			</NuxtLink>
 			<div>

@@ -197,7 +197,8 @@
         "countedQuestions": "@:label.questionCount",
         "users": "Nutzer",
         "showUserResults": "zeige {count} Treffer",
-        "noResults": "Keine Ergebnisse gefunden"
+        "noResults": "Keine Ergebnisse gefunden",
+        "inYourLanguage": "in deiner Sprache."
     },
     "sideSheet": {
         "myWikis": "Meine Wikis",
@@ -206,7 +207,13 @@
         "favourites": "Favoriten",
         "lastVisited": "Zuletzt besucht",
         "help": "Hilfe",
-        "documentation": "Dokumentation"
+        "documentation": "Dokumentation",
+        "createWikiModal": {
+            "title": "Wiki erstellen",
+            "createButton": "Wiki erstellen",
+            "inputPlaceholder": "Bitte gib den Namen des Themas ein",
+            "privateWikiMessage": "Dieses Wiki ist privat. Du kannst sie später im Dreipunkt-Menü oder direkt über das Schloss-Icon veröffentlichen."
+        }
     },
     "footer": {
         "subLabelOne": "Alles an einem Ort -",
@@ -249,7 +256,6 @@
     "page": {
         "header": {
             "changeImage": "Bild ändern",
-            "titlePlaceholder": "Gib deiner Seite einen Titel",
             "noTextInput": "Keine Texteingabe",
             "addQuestion": "Frage hinzufügen",
             "createPage": "Seite erstellen",
@@ -261,7 +267,14 @@
             "convertToWiki": "Seite in Wiki konvertieren",
             "convertToPage": "Wiki in Seite konvertieren",
             "deletePage": "Seite löschen",
-            "contentLanguage": "Inhaltssprache"
+            "contentLanguage": "Inhaltssprache",
+            "titlePlaceholder": "Titel eingeben...",
+            "childPages": "Alle Unterseiten",
+            "views": {
+                "one": "1 Aufruf",
+                "other": "{count} Aufrufe"
+            },
+            "authorProfilePicture": "{name}s Profilbild"
         },
         "tabs": {
             "text": "Text",
@@ -277,7 +290,56 @@
             "createChildPage": "Unterseite erstellen",
             "createChildPageMobile": "Seite erstellen",
             "linkChildPage": "Unterseite verknüpfen",
-            "linkChildPageMobile": "Seite verknüpfen"
+            "linkChildPageMobile": "Seite verknüpfen",
+            "item": {
+                "childPage": {
+                    "one": "Unterseite",
+                    "other": "UnterSeiten"
+                },
+                "question": {
+                    "one": "Frage",
+                    "other": "Fragen"
+                },
+                "and": "und"
+            },
+            "options": {
+                "parentPages": "Übergeordnete Seiten",
+                "createSubpage": "Unterseite erstellen",
+                "editLinks": "Verknüpfungen bearbeiten",
+                "linkParentPage": "Übergeordnete Seite verknüpfen",
+                "linkSubpage": "Unterseite verknüpfen",
+                "removeParentPage": "als Übergeordnete Seite entfernen",
+                "movePage": "Seite verschieben",
+                "addToPersonalWiki": "Zu deinem Wiki hinzufügen",
+                "makePrivate": "Seite privat stellen",
+                "publish": "Seite veröffentlichen",
+                "convertToWiki": "Seite in Wiki konvertieren",
+                "delete": "Seite löschen"
+            },
+            "knowledgeStatus": {
+                "title": "Dein Wissenstand:",
+                "noQuestions": "Du hast noch keine Fragen auf dieser Seite",
+                "solidCount": "{count} solides Wissen",
+                "needsConsolidationCount": "{count} zur Festigung",
+                "needsLearningCount": "{count} zum Lernen",
+                "notLearnedCount": "{count} unbeantwortet"
+            },
+            "dnd": {
+                "errors": {
+                    "noPermission": "Leider hast du keine Rechte um {pageName} zu verschieben"
+                },
+                "buttons": {
+                    "login": "Anmelden",
+                    "reset": "Zurücksetzen"
+                },
+                "messages": {
+                    "moved": "wurde verschoben",
+                    "visibleToAll": "Änderung auf der Seite {parentName} sind für alle sichtbar"
+                },
+                "labels": {
+                    "subordinatePage": "Seite unterordnen"
+                }
+            }
         },
         "learningSessionConfiguration": {
             "filter": "Filter",
@@ -444,6 +506,14 @@
             "userCard": {
                 "by": "von",
                 "collapseExpand": "Ein-/ausklappen"
+            },
+            "create": {
+                "parentPage": "Übergeordnete Seite:"
+            },
+            "item": {
+                "childPageDeleted": "Unterseite gelöscht",
+                "questionDeleted": "Frage gelöscht",
+                "private": "Privat"
             }
         },
         "analytics": {
@@ -568,6 +638,31 @@
                 "searchOnlyInWiki": "Nur im eigenen Wiki suchen",
                 "question": "Frage",
                 "questions": "Fragen"
+            }
+        },
+        "editBar": {
+            "loginRequired": {
+                "desktop": "Um zu speichern, musst du {login} sein.",
+                "mobile": "Um zu speichern, musst du angemeldet sein."
+            },
+            "loginLink": "angemeldet",
+            "buttons": {
+                "publish": "Veröffentlichen",
+                "discard": "Verwerfen"
+            }
+        },
+        "convert": {
+            "modal": {
+                "confirm": "Bestätigen",
+                "title": {
+                    "toWiki": "Konvertierung in Wiki bestätigen",
+                    "toPage": "Konvertierung in Seite bestätigen"
+                },
+                "body": {
+                    "toWiki": "Möchtest Du wirklich die Seite \"{name}\" in ein Wiki umwandeln?",
+                    "toPage": "Möchtest Du wirklich das Wiki \"{name}\" in eine Seite umwandeln?"
+                },
+                "keepParents": "Verknüpfungen zu Übergeordneten Wikis/Seiten beibehalten (optional)"
             }
         }
     },
@@ -925,6 +1020,80 @@
             "overview": "Übersicht",
             "wishknowledge": "Wunschwissen",
             "settings": "Einstellungen"
+        },
+        "membership": {
+            "plans": {
+                "downgrade": "Downgrade",
+                "yourMembership": "Deine Mitgliedschaft",
+                "registerFree": "Kostenlos registrieren",
+                "select": "Auswählen",
+                "inPlanning": "In Planung",
+                "contact": "Kontaktieren",
+                "stripe": {
+                    "redirectDialog": {
+                        "title": "Weiterleitung zu Stripe",
+                        "message": "Du wirst nun zu unserem Zahlungsdienstleister Stripe weitergeleitet, der auch deine Emailadresse bei sich hinterlegen wird.",
+                        "confirm": "Einverstanden"
+                    },
+                    "error": "Es konnte leider keine Verbindung zum Zahlungsdienstleister Stripe hergestellt werden."
+                },
+                "basic": {
+                    "name": "Kostenlos",
+                    "priceLabel": "Kostenlos für immer!",
+                    "description": "Du kannst alles machen. Nur die Anzahl der privaten Inhalte ist begrenzt.",
+                    "list": {
+                        "publicContent": "Unbeschränkt öffentliche Inhalte (ansehen, erstellen und lernen)",
+                        "privatePages": "{count} private Seiten",
+                        "privateQuestions": "{count} private Fragen",
+                        "wishknowledge": "max {count} Fragen im Wunschwissen"
+                    }
+                },
+                "plus": {
+                    "name": "Plus",
+                    "priceLabel": "pro Monat",
+                    "description": "Du unterstützt die Weiterentwicklung! Uneingeschränkt private Inhalte!",
+                    "list": {
+                        "support": "Du unterstützt uns :-)",
+                        "unlimitedPages": "Unbeschränkt private Seiten",
+                        "unlimitedQuestions": "Unbeschränkt private Fragen",
+                        "unlimitedWishknowledge": "Unbeschränktes Wunschwissen"
+                    }
+                },
+                "team": {
+                    "name": "Team",
+                    "priceLabel": "pro Monat & Nutzer",
+                    "description": "Für Teams, die eine zentrale Addministration und private Inhalte benötigen.",
+                    "listLabel": "Alles aus Plus und zusätzlich:",
+                    "list": {
+                        "teamPrivateContent": "Private Inhalte im Team bearbeiten",
+                        "manageTeams": "Teams verwalten"
+                    }
+                },
+                "organisation": {
+                    "name": "Organisation",
+                    "price": "Auf Anfrage",
+                    "priceLabel": "Individuelle Preise. Bitte kontaktiert uns für mehr Informationen.",
+                    "description": {
+                        "support": "Für Unternehmen und Institutionen, die zusätzliche Unterstützung benötigen.",
+                        "team": "Bringen Sie Ihr Team auf den neuesten Stand."
+                    },
+                    "listLabel": "Alles aus Team, plus:",
+                    "list": {
+                        "sso": "SSO / AD-Integration",
+                        "hosting": "Eigener Server / Hosting in Eurem Rechenzentrium",
+                        "customizing": "Customizing"
+                    }
+                }
+            }
+        },
+        "row": {
+            "markAsRead": "als gelesen markieren",
+            "markAsUnread": "als ungelesen markieren",
+            "tooltip": {
+                "isRead": "Die Nachricht ist gelesen",
+                "isUnread": "Die Nachricht ist ungelesen"
+            },
+            "ago": "vor"
         }
     },
     "usersOverview": {
@@ -1040,6 +1209,10 @@
         "license": {
             "info": "Lizenzinfos"
         },
+        "modal": {
+            "title": "Bilddetails",
+            "description": "Beschreibung:"
+        },
         "upload": {
             "header": "Seitenbild hochladen",
             "buttons": {
@@ -1077,6 +1250,23 @@
                 "namePlaceholder": "Name",
                 "useWikimedia": "Wir bitten dich das Bild auf Wikimedia hochzuladen und so einzubinden."
             }
+        }
+    },
+    "breadcrumb": {
+        "titles": {
+            "welcome": "Willkommen",
+            "imprint": "Impressum",
+            "terms": "Geschäftsbedingungen",
+            "register": "Registrieren",
+            "messages": "Nachrichten",
+            "error": "Fehler",
+            "resetPassword": "Passwort zurücksetzen",
+            "confirmEmail": "E-Mail Bestätigung",
+            "metrics": "Metriken"
+        },
+        "aria": {
+            "rootPageButton": "Zur Startseite",
+            "pageLink": "Gehe zu {pageName}"
         }
     }
 }

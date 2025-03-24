@@ -7,7 +7,8 @@ const userStore = useUserStore()
 const config = useRuntimeConfig()
 const alertStore = useAlertStore()
 const selectedPriceId = ref<string>('')
-const redirectingDialogTitle = 'Weiterleitung zu Stripe'
+const { t } = useI18n()
+const redirectingDialogTitle = t('user.membership.plans.stripe.redirectDialog.title')
 
 interface CheckoutSessionResult {
     success: boolean
@@ -49,7 +50,7 @@ const redirectToCheckout = async (): Promise<void> => {
     const sessionId = await getStripeSessionId(selectedPriceId.value)
 
     if (!sessionId || sessionId === '') {
-        alertStore.openAlert(AlertType.Error, { text: "Es konnte leider keine Verbindung zum Zahlungsdienstleister Stripe hergestellt werden." })
+        alertStore.openAlert(AlertType.Error, { text: t('user.membership.plans.stripe.error') })
         return
     }
 
@@ -90,8 +91,8 @@ const initStripeCheckout = (type: Subscription.Type) => {
         //Is handled as close event:
         alertStore.openAlert(
             AlertType.Default,
-            { text: 'Du wirst nun zu unserem Zahlungsdienstleister Stripe weitergeleitet, der auch deine Emailadresse bei sich hinterlegen wird.' },
-            'Einverstanden',
+            { text: t('user.membership.plans.stripe.redirectDialog.message') },
+            t('user.membership.plans.stripe.redirectDialog.confirm'),
             true,
             redirectingDialogTitle,
             redirectingDialogTitle
@@ -134,18 +135,18 @@ onBeforeMount(() => {
                     <button class="memo-button btn-primary btn"
                         v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Basic">
                         <NuxtLink to="/Nutzer/Einstellungen/Mitgliedschaft">
-                            Downgrade
+                            {{ t('user.membership.plans.downgrade') }}
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-success btn"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Basic">
                         <NuxtLink to="/Nutzer/Einstellungen/Mitgliedschaft">
-                            Deine Mitgliedschaft
+                            {{ t('user.membership.plans.yourMembership') }}
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-primary btn" v-else>
                         <NuxtLink to="/Registrieren">
-                            Kostenlos registrieren
+                            {{ t('user.membership.plans.registerFree') }}
                         </NuxtLink>
                     </button>
 
@@ -157,18 +158,18 @@ onBeforeMount(() => {
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" v-if="userStore.isLoggedIn === false">
                         <NuxtLink to="/Registrieren">
-                            Kostenlos registrieren
+                            {{ t('user.membership.plans.registerFree') }}
                         </NuxtLink>
                     </button>
                     <button class="memo-button btn-primary btn"
                         v-if="userStore.isLoggedIn && userStore.subscriptionType != Subscription.Type.Plus"
                         @click="initStripeCheckout(Subscription.Type.Plus)">
-                        Auswählen
+                        {{ t('user.membership.plans.select') }}
                     </button>
                     <button class="memo-button btn-success"
                         v-else-if="userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Plus">
                         <NuxtLink to="/Nutzer/Einstellungen/Mitgliedschaft">
-                            Deine Mitgliedschaft
+                            {{ t('user.membership.plans.yourMembership') }}
                         </NuxtLink>
                     </button>
                 </template>
@@ -177,14 +178,14 @@ onBeforeMount(() => {
             <UserMembershipPriceCard :plan="plans.team" :selected="false" :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Team }">
                 <template v-slot:button>
                     <button class="memo-button btn-primary btn" disabled>
-                        In Planung
+                        {{ t('user.membership.plans.inPlanning') }}
                     </button>
                 </template>
             </UserMembershipPriceCard>
 
             <UserMembershipPriceCard :plan="plans.organisation" :selected="false" :class="{ 'selected': userStore.isLoggedIn && userStore.subscriptionType === Subscription.Type.Organisation }">
                 <template v-slot:button>
-                    <button @click="contact" class="memo-button btn-link">Kontaktieren</button>
+                    <button @click="contact" class="memo-button btn-link">{{ t('user.membership.plans.contact') }}</button>
                 </template>
             </UserMembershipPriceCard>
         </div>

@@ -4,6 +4,8 @@ import { useTabsStore, Tab } from '~/components/page/tabs/tabsStore'
 import { usePageStore } from '~/components/page/pageStore'
 import { useUserStore } from '~~/components/user/userStore'
 
+const { t } = useI18n()
+
 const tabsStore = useTabsStore()
 const pageStore = usePageStore()
 
@@ -107,8 +109,7 @@ const { isMobile } = useDevice()
                         <div class="toolbar-btn-container">
                             <div class="centerText mobile" v-if="isMobile && !userStore.isLoggedIn">
                                 <div @click="userStore.openLoginModal()">
-                                    Um zu speichern, <br />
-                                    musst du angemeldet sein.
+                                    {{ t('page.editBar.loginRequired.mobile') }}
                                 </div>
                             </div>
                             <template v-else>
@@ -116,9 +117,11 @@ const { isMobile } = useDevice()
                                 </div>
                                 <div class="centerText" v-show="!userStore.isLoggedIn">
                                     <div>
-                                        Um zu speichern, musst du&nbsp;
-                                        <span @click="userStore.openLoginModal()">angemeldet</span>&nbsp;
-                                        sein.
+                                        <i18n-t keypath="page.editBar.loginRequired.desktop" tag="span">
+                                            <template #login>
+                                                <span @click="userStore.openLoginModal()">{{ t('page.editBar.loginLink') }}</span>
+                                            </template>
+                                        </i18n-t>
                                     </div>
                                 </div>
                             </template>
@@ -137,7 +140,7 @@ const { isMobile } = useDevice()
                                             <font-awesome-icon icon="fa-solid fa-floppy-disk" />
                                         </div>
                                         <div class="btn-label">
-                                            Veröffentlichen
+                                            {{ t('page.editBar.buttons.publish') }}
                                         </div>
                                     </div>
 
@@ -146,14 +149,12 @@ const { isMobile } = useDevice()
                                             <font-awesome-icon icon="fa-solid fa-xmark" />
                                         </div>
                                         <div class="btn-label">
-                                            Verwerfen
+                                            {{ t('page.editBar.buttons.discard') }}
                                         </div>
                                     </div>
                                 </div>
-
                             </template>
                             <div class="btn-right" v-else-if="!isMobile"></div>
-
                         </div>
                     </div>
                 </div>

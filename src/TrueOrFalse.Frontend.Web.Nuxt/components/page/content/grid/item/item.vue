@@ -86,11 +86,11 @@ const { $urlHelper } = useNuxtApp()
 const detailLabel = computed(() => {
     const { questionCount, childrenCount } = props.page
 
-    const childrenLabel = `${childrenCount} ${childrenCount === 1 ? 'Unterseite' : 'UnterSeiten'}`
-    const questionLabel = `${questionCount} ${questionCount === 1 ? 'Frage' : 'Fragen'}`
+    const childrenLabel = `${childrenCount} ${t(`page.grid.item.childPage.${childrenCount === 1 ? 'one' : 'other'}`)}`
+    const questionLabel = `${questionCount} ${t(`page.grid.item.question.${questionCount === 1 ? 'one' : 'other'}`)}`
 
     if (childrenCount > 0 && questionCount > 0)
-        return `${childrenLabel} und ${questionLabel}`
+        return `${childrenLabel} ${t('page.grid.item.and')} ${questionLabel}`
 
     if (childrenCount > 0)
         return childrenLabel

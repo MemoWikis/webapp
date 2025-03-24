@@ -6,11 +6,13 @@ import { useDragStore, TargetPosition, MovePageTransferData } from '~~/component
 import { SnackbarCustomAction, useSnackbarStore } from '~/components/snackBar/snackBarStore'
 import { useUserStore } from '~/components/user/userStore'
 import { Visibility } from '~/components/shared/visibilityEnum'
+import { useI18n } from 'vue-i18n'
 
 const editPageRelationStore = useEditPageRelationStore()
 const dragStore = useDragStore()
 const snackbarStore = useSnackbarStore()
 const userStore = useUserStore()
+const { t } = useI18n()
 
 interface Props {
     page: GridPageItem
@@ -72,7 +74,7 @@ async function onDrop() {
 
     if (result) {
         const snackbarCustomAction: SnackbarCustomAction = {
-            label: 'Zurücksetzen',
+            label: t('page.grid.dnd.buttons.reset'),
             action: () => {
                 editPageRelationStore.undoMovePage()
             },
@@ -82,7 +84,12 @@ async function onDrop() {
         snackbar.add({
             type: 'info',
             title: { text: transferData.page.name, url: `/${transferData.page.name}/${transferData.page.id}` },
-            text: { html: `wurde verschoben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon },
+            text: {
+                html: t('page.grid.dnd.messages.moved'),
+                buttonLabel: snackbarCustomAction.label,
+                buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
+                buttonIcon: snackbarCustomAction.icon
+            },
             dismissible: true
         })
     }
@@ -107,12 +114,14 @@ function handleDragStart(e: DragEvent) {
             snackbar.add({
                 type: 'error',
                 title: '',
-                text: { html: `Leider hast du keine Rechte um <b>${props.page.name}</b> zu verschieben` },
+                text: {
+                    html: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` })
+                },
                 dismissible: true
             })
         else {
             const snackbarCustomAction: SnackbarCustomAction = {
-                label: 'Anmelden',
+                label: t('page.grid.dnd.buttons.login'),
                 action: () => {
                     editPageRelationStore.undoMovePage()
                 },
@@ -123,7 +132,10 @@ function handleDragStart(e: DragEvent) {
                 type: 'error',
                 title: '',
                 text: {
-                    html: `Leider hast du keine Rechte um <b>${props.page.name}</b> zu verschieben`, buttonLabel: snackbarCustomAction.label, buttonId: snackbarStore.addCustomAction(snackbarCustomAction), buttonIcon: snackbarCustomAction.icon
+                    html: t('page.grid.dnd.errors.noPermission', { pageName: `<b>${props.page.name}</b>` }),
+                    buttonLabel: snackbarCustomAction.label,
+                    buttonId: snackbarStore.addCustomAction(snackbarCustomAction),
+                    buttonIcon: snackbarCustomAction.icon
                 },
                 dismissible: true
             })
@@ -135,7 +147,9 @@ function handleDragStart(e: DragEvent) {
         snackbar.add({
             type: 'warning',
             title: '',
-            text: { html: `Änderung auf der Seite <b>${props.parentName}</b> sind für alle sichtbar` },
+            text: {
+                html: t('page.grid.dnd.messages.visibleToAll', { parentName: `<b>${props.parentName}</b>` })
+            },
             dismissible: true
         })
 
@@ -246,7 +260,7 @@ watch(() => dragStore.transferData, (t) => {
                         <div v-if="dragStore.active && !dragging && !props.disabled && dropIn" class="dropzone inner"
                             :class="{ 'hover': hoverBottomHalf && !dragging }" @dragover="hoverBottomHalf = true"
                             @dragleave="hoverBottomHalf = false">
-                            <div class="dropzone-label">Seite unterordnen</div>
+                            <div class="dropzone-label">{{ t('page.grid.dnd.labels.subordinatePage') }}</div>
                         </div>
                     </template>
 

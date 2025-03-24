@@ -13,7 +13,7 @@ const props = defineProps<Props>()
 
 const { $logger } = useNuxtApp()
 
-const primaryBtnLabel = ref('Wiki erstellen')
+const primaryBtnLabel = computed(() => t('sideSheet.createWikiModal.createButton'))
 
 const name = ref('')
 const showErrorMsg = ref(false)
@@ -97,14 +97,14 @@ const emit = defineEmits(['closeWikiModal', 'wikiCreated'])
     <LazyModal :show="props.showModal" :primary-btn-label="primaryBtnLabel" @primary-btn="createWiki" @close="emit('closeWikiModal')" :show-cancel-btn="true">
         <template v-slot:header>
             <h4 class="modal-title">
-                Wiki erstellen
+                {{ t('sideSheet.createWikiModal.title') }}
             </h4>
         </template>
         <template v-slot:body>
             <form v-on:submit.prevent="createWiki">
                 <div class="form-group">
                     <input class="form-control create-input" v-model="name"
-                        placeholder="Bitte gib den Namen des Themas ein" />
+                        :placeholder="t('sideSheet.createWikiModal.inputPlaceholder')" />
                     <small class="form-text text-muted"></small>
                 </div>
             </form>
@@ -117,8 +117,7 @@ const emit = defineEmits(['closeWikiModal', 'wikiCreated'])
             </div>
             <div class="pageIsPrivate" v-else>
                 <p>
-                    <b>Dieses Wiki ist privat.</b> Du kannst sie später im Dreipunkt-Menü oder direkt über das
-                    Schloss-Icon veröffentlichen.
+                    <b>{{ t('sideSheet.createWikiModal.privateWikiMessage') }}</b>
                 </p>
             </div>
         </template>
